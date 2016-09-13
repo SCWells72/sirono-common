@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AutoResponseRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <autoResponseRule>
+        <fullName>Internal Case</fullName>
+        <active>true</active>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Internal Case</value>
+            </criteriaItems>
+            <replyToEmail>sironoproject@cloudcoop.io</replyToEmail>
+            <senderEmail>david@cloudcoop.io</senderEmail>
+            <senderName>David Franklin</senderName>
+            <template>unfiled$public/Internal_Case_Comment_Update</template>
+        </ruleEntry>
+    </autoResponseRule>
+</AutoResponseRules>

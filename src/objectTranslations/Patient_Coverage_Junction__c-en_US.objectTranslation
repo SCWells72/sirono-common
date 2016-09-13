@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Patient Coverage Junction</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Patient Coverage Junctions</value>
+    </caseValues>
+    <fields>
+        <label><!-- Coverage --></label>
+        <name>Coverage__c</name>
+        <relationshipLabel><!-- Patient Coverage Juntions --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- ID --></label>
+        <name>ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Patient --></label>
+        <name>Patient__c</name>
+        <relationshipLabel><!-- Patient Coverage Juntions --></relationshipLabel>
+    </fields>
+    <layouts>
+        <layout>Patient Coverage Junction Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>true</doesSendEmailToMembers>
+    <email>sironoproject@cloudcoop.io</email>
+    <name>Sirono Partner Queue</name>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+    <queueSobject>
+        <sobjectType>Coverage__c</sobjectType>
+    </queueSobject>
+    <queueSobject>
+        <sobjectType>Payment_Adjustments__c</sobjectType>
+    </queueSobject>
+    <queueSobject>
+        <sobjectType>Payment_Method__c</sobjectType>
+    </queueSobject>
+</Queue>

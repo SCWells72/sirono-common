@@ -1,0 +1,39 @@
+<apex:page standardController="test__c" Extensions="AddNote">
+    <apex:sectionHeader title="Add Note"/>
+    <apex:form >
+    	<apex:pageMessages />
+        <apex:pageBlock mode="edit">
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton action="{!doSubmit}" value="Submit"/>
+                <apex:commandButton action="{!cancel}" value="Cancel"/>
+            </apex:pageBlockButtons>
+            <apex:PageBlockSection columns="1" >
+            	<!-- <apex:pageBlockSectionItem >
+		            <apex:outputLabel value="Guarantor Id" for="guarantorId"/>
+		            <apex:outputText value="{!guarantorId}" id="guarantorId"/>
+	            </apex:pageBlockSectionItem>
+	             -->
+	            <apex:pageBlockSectionItem >
+		            <apex:outputLabel value="Charge Group Id" for="chargegroupId"/>
+		            <apex:inputText value="{!chargegroupId}" id="chargegroupId"/>
+	            </apex:pageBlockSectionItem>
+	            
+	            <apex:pageBlockSectionItem >
+		            <apex:outputLabel value="Username" for="usernameId"/>
+		            <apex:inputText value="{!username}" id="usernameId"/>
+	            </apex:pageBlockSectionItem>
+	            
+	            <apex:pageBlockSectionItem >
+		            <apex:outputLabel value="Password" for="passwordId"/>
+		            <apex:inputText value="{!password}" id="passwordId"/>
+	            </apex:pageBlockSectionItem>
+	            
+	            <apex:pageBlockSectionItem >
+		            <apex:outputLabel value="Note" for="noteId"/>
+		            <apex:inputText value="{!noteText}" id="noteId"/>
+	            </apex:pageBlockSectionItem>
+            </apex:PageBlockSection>
+            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

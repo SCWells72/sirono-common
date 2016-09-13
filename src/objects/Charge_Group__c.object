@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Charge Group details</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableEnhancedLookup>true</enableEnhancedLookup>
+    <enableFeeds>true</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Account_Number__c</fullName>
+        <description>Account Number</description>
+        <externalId>true</externalId>
+        <label>Account Number</label>
+        <length>30</length>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Account_Status__c</fullName>
+        <description>ChargeGroupStatus.preinvoiced</description>
+        <externalId>false</externalId>
+        <label>Account Status</label>
+        <length>30</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Account_Sub_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Account Sub Status</label>
+        <length>30</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Account_Type__c</fullName>
+        <description>Account Type</description>
+        <externalId>false</externalId>
+        <label>Account Type</label>
+        <length>254</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Check if active account</description>
+        <externalId>false</externalId>
+        <label>Active</label>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Balance_Mismatch__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>balance did not match selfpay balance in inv/rcl/atb import</description>
+        <externalId>false</externalId>
+        <label>Balance Mismatch</label>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Balance__c</fullName>
+        <description>Chargegroup balance calculated from sum of it&apos;s transactions</description>
+        <externalId>false</externalId>
+        <label>Balance</label>
+        <summarizedField>Transaction__c.Amount__c</summarizedField>
+        <summaryForeignKey>Transaction__c.Charge_Group__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Charge_Group_External_ID__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>used for integration</description>
+        <externalId>false</externalId>
+        <label>Charge Group External ID</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Charge_Group_ID__c</fullName>
+        <description>This is the external Charge Group iD</description>
+        <externalId>true</externalId>
+        <label>Sirono ID</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Date_Of_Service_End_Date__c</fullName>
+        <description>Date Of Service End Date</description>
+        <externalId>false</externalId>
+        <label>Date Of Service End</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Date_Of_Service_Start_Date__c</fullName>
+        <description>Date Of Service Start Date</description>
+        <externalId>false</externalId>
+        <label>Date Of Service Start</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>External_Guarantor_ID__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>External Guarantor</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>Contact.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>External Guarantor</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Charge Groups (External Guarantor ID)</relationshipLabel>
+        <relationshipName>Charge_Groups2_del</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Financial_Class__c</fullName>
+        <description>Financial Class</description>
+        <externalId>false</externalId>
+        <label>Financial Class</label>
+        <length>254</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Guarantor_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Guarantor</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>Contact.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Guarantor</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Charge Group (Guarantor)</relationshipLabel>
+        <relationshipName>Charge_Groups</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Has_Bad_Debt_Balance__c</fullName>
+        <externalId>false</externalId>
+        <formula>AND(Account_Status__c = &quot;Billed&quot;, Account_Sub_Status__c = &quot;Bad Debt&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Has Bad Debt Balance</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Has_Delinquent_Balance__c</fullName>
+        <externalId>false</externalId>
+        <formula>AND(Account_Status__c = &quot;Billed&quot;, Account_Sub_Status__c = &quot;Delinquent&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Has Delinquent Balance</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Has_Due_Balance__c</fullName>
+        <externalId>false</externalId>
+        <formula>AND(Account_Status__c = &quot;Billed&quot;,
+  IF (CASE(Account_Sub_Status__c,
+    &quot;Due&quot;, 1,
+    &quot;Payment Plan&quot;, 1,
+    0) == 1, TRUE, FALSE))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Has Due Balance</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Has_Invoiced_Balance__c</fullName>
+        <description>This function returns TRUE if this Charge Group balance is viewed as &quot;Invoiced.&quot;</description>
+        <externalId>false</externalId>
+        <formula>AND(Account_Status__c = &quot;Billed&quot;,
+  IF (CASE(Account_Sub_Status__c,
+    &quot;Due&quot;, 1,
+    &quot;Payment Plan&quot;, 1,
+    &quot;Overdue&quot;, 1,
+    &quot;Delinquent&quot;, 1,
+    0) == 1, TRUE, FALSE))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Has Invoiced Balance</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Has_Overdue_Balance__c</fullName>
+        <externalId>false</externalId>
+        <formula>AND(Account_Status__c = &quot;Billed&quot;, Account_Sub_Status__c = &quot;Overdue&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Has Overdue Balance</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Has_Pre_Invoiced_Balance__c</fullName>
+        <externalId>false</externalId>
+        <formula>AND(Account_Status__c = &quot;Billed&quot;, Account_Sub_Status__c = &quot;Pre-Invoiced&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Has Pre-Invoiced Balance</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>In_Inventory__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>whether the account is present in the inventory file</description>
+        <externalId>false</externalId>
+        <label>In Inventory</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Inactivation_Date__c</fullName>
+        <description>Inactivation Date</description>
+        <externalId>false</externalId>
+        <label>Inactivation Date</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Inactivation_Flags__c</fullName>
+        <description>Flags for inactivation of account</description>
+        <externalId>false</externalId>
+        <label>Inactivation Flags</label>
+        <length>254</length>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Invoice_Age__c</fullName>
+        <externalId>false</externalId>
+        <formula>If(ISBLANK(Invoice__c),-1,Invoice__r.Invoice_Age__c)</formula>
+        <label>Invoice Age</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Invoice__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Invoice</label>
+        <referenceTo>Invoice__c</referenceTo>
+        <relationshipLabel>Charge Groups</relationshipLabel>
+        <relationshipName>Charge_Groups</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Location__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Location</label>
+        <referenceTo>Location__c</referenceTo>
+        <relationshipLabel>Charge Groups</relationshipLabel>
+        <relationshipName>Charge_Groups</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Newly_Imported__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Newly Imported</description>
+        <externalId>false</externalId>
+        <label>Newly Imported</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Notes__c</fullName>
+        <description>cannot delete</description>
+        <externalId>false</externalId>
+        <label>Notes</label>
+        <length>131072</length>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>OG_Balance__c</fullName>
+        <description>Chargegroup balance at time chargegroup becomes Billed</description>
+        <externalId>false</externalId>
+        <label>OG Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Origin_Code__c</fullName>
+        <description>Origin Code of the source hospital</description>
+        <externalId>false</externalId>
+        <label>Origin Code</label>
+        <length>20</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Origin_Subcode__c</fullName>
+        <description>PAS Specifc OriginCode</description>
+        <externalId>false</externalId>
+        <label>Origin Subcode</label>
+        <length>20</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Patient_Name__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Patient</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>Contact.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Patient</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Charge Groups (Patient)</relationshipLabel>
+        <relationshipName>Charge_Groups_Patient</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Payment_Plan__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Paymentplan ID</description>
+        <externalId>false</externalId>
+        <label>Payment Plan</label>
+        <referenceTo>test__c</referenceTo>
+        <relationshipLabel>Charge Groups</relationshipLabel>
+        <relationshipName>Charge_Groups</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Pre_Collection_History__c</fullName>
+        <externalId>false</externalId>
+        <label>Pre Collection History</label>
+        <length>254</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Pre_Collection_Sent__c</fullName>
+        <description>Date pre-collections notice was sent (if applicable).</description>
+        <externalId>false</externalId>
+        <label>Pre Collection Sent</label>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ProcessRollupBatch__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Process Rollup Batch</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Provider__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Provider</label>
+        <referenceTo>Provider__c</referenceTo>
+        <relationshipLabel>Charge Groups</relationshipLabel>
+        <relationshipName>Charge_Groups</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>ReCalculate_Fields__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Re-Calculate Fields?</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Reported_Bad_Debt__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Reported Bad Debt</description>
+        <externalId>false</externalId>
+        <label>Reported Bad Debt</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Reported_Insurance_Balance__c</fullName>
+        <description>Reported Insurance Balance</description>
+        <externalId>false</externalId>
+        <label>Reported Insurance Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Reported_Prebill_Balance__c</fullName>
+        <description>Reported Prebill Balance</description>
+        <externalId>false</externalId>
+        <label>Reported Prebill Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Reported_Selfpay_Balance__c</fullName>
+        <externalId>false</externalId>
+        <label>Reported Selfpay Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>SelfPay_Bucket__c</fullName>
+        <description>SelfPay Bucket</description>
+        <externalId>false</externalId>
+        <label>SelfPay Bucket</label>
+        <length>254</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sirono_Assigned_Date__c</fullName>
+        <description>Date assigned to Sirono</description>
+        <externalId>false</externalId>
+        <label>Sirono Assigned Date</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <label>Charge Group</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Active__c</columns>
+        <columns>Invoice__c</columns>
+        <columns>Guarantor_Name__c</columns>
+        <columns>Patient_Name__c</columns>
+        <columns>Date_Of_Service_Start_Date__c</columns>
+        <columns>Date_Of_Service_End_Date__c</columns>
+        <columns>Location__c</columns>
+        <columns>Payment_Plan__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Name</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Charge Groups</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Active__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Guarantor_Name__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Date_Of_Service_Start_Date__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Date_Of_Service_End_Date__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Location__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Invoice__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Payment_Plan__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Origin_Subcode__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields xsi:nil="true"/>
+        <searchResultsAdditionalFields>Account_Number__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Patient_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields xsi:nil="true"/>
+        <searchResultsAdditionalFields>Account_Status__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Account_Sub_Status__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Active__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Sirono_Assigned_Date__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

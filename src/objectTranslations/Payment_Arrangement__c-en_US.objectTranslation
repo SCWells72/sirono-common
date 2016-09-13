@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Payment Arrangement</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Payment Arrangements</value>
+    </caseValues>
+    <fields>
+        <label><!-- Amount --></label>
+        <name>Amount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Arrangement Type --></label>
+        <name>Arrangement_Type__c</name>
+        <picklistValues>
+            <masterLabel>One-Time</masterLabel>
+            <translation><!-- One-Time --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Recurring</masterLabel>
+            <translation><!-- Recurring --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Billed Date --></label>
+        <name>Billed_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Date --></label>
+        <name>Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Encounter --></label>
+        <name>Encounter__c</name>
+        <relationshipLabel><!-- Payment Arrangements --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Installment Amount --></label>
+        <name>Installment_Amount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Max Amount --></label>
+        <name>Max_Amount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Number of Installments --></label>
+        <name>Number_of_Installments__c</name>
+    </fields>
+    <fields>
+        <label><!-- Payment Method --></label>
+        <name>Payment_Method__c</name>
+        <relationshipLabel><!-- Payment Arrangements --></relationshipLabel>
+    </fields>
+    <layouts>
+        <layout>Payment Arrangement Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Details --></label>
+            <section>Details</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Payment Arrangements</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <label><!-- Deposit --></label>
+        <name>Deposit</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Payment Plan --></label>
+        <name>Payment_Plan</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Encounter</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Encounters</value>
+    </caseValues>
+    <fields>
+        <label><!-- Allowed Amount --></label>
+        <name>Allowed_Amount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Cancelled --></label>
+        <name>Cancelled__c</name>
+    </fields>
+    <fields>
+        <label><!-- Co-Insurance Percent --></label>
+        <name>Co_Insurance_Percent__c</name>
+    </fields>
+    <fields>
+        <label><!-- Co-Insurance --></label>
+        <name>Co_Insurance__c</name>
+    </fields>
+    <fields>
+        <label><!-- Co-Pay --></label>
+        <name>Co_Pay__c</name>
+    </fields>
+    <fields>
+        <label><!-- Date of Service --></label>
+        <name>Date_of_Service__c</name>
+    </fields>
+    <fields>
+        <label><!-- Deductible --></label>
+        <name>Deductible__c</name>
+    </fields>
+    <fields>
+        <label><!-- Department --></label>
+        <name>Department__c</name>
+    </fields>
+    <fields>
+        <label><!-- Diagnosis --></label>
+        <name>Diagnosis__c</name>
+    </fields>
+    <fields>
+        <help><!-- Expected Procedure Duration --></help>
+        <label><!-- Duration (Minutes) --></label>
+        <name>Duration_Minutes__c</name>
+    </fields>
+    <fields>
+        <label><!-- Encounter ID --></label>
+        <name>Encounter_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Estimate ID --></label>
+        <name>Estimate_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Family Deductible Remaining --></label>
+        <name>Family_Deductible_Remaining__c</name>
+    </fields>
+    <fields>
+        <label><!-- Family Deductible Used --></label>
+        <name>Family_Deductible_Used__c</name>
+    </fields>
+    <fields>
+        <label><!-- Family Deductible --></label>
+        <name>Family_Deductible__c</name>
+    </fields>
+    <fields>
+        <label><!-- Family Out of Pocket Max --></label>
+        <name>Family_Out_of_Pocket_MAX__c</name>
+    </fields>
+    <fields>
+        <label><!-- Family Out of Pocket Remaining --></label>
+        <name>Family_Out_of_Pocket_Remaining__c</name>
+    </fields>
+    <fields>
+        <label><!-- Family Out of Pocket Used --></label>
+        <name>Family_Out_of_Pocket_Used__c</name>
+    </fields>
+    <fields>
+        <label><!-- Guarantor Name --></label>
+        <name>Guarantor_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Guarantor --></label>
+        <name>Guarantor__c</name>
+        <relationshipLabel><!-- Encounters (Guarantor) --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Individual Deductible Remaining --></label>
+        <name>Individual_Deductible_Remaining__c</name>
+    </fields>
+    <fields>
+        <label><!-- Individual Deductible Used --></label>
+        <name>Individual_Deductible_Used__c</name>
+    </fields>
+    <fields>
+        <label><!-- Individual Deductible --></label>
+        <name>Individual_Deductible__c</name>
+    </fields>
+    <fields>
+        <label><!-- Individual Out of Pocket Max --></label>
+        <name>Individual_Out_of_Pocket_Max__c</name>
+    </fields>
+    <fields>
+        <label><!-- Individual Out of Pocket Remaining --></label>
+        <name>Individual_Out_of_Pocket_Remaining__c</name>
+    </fields>
+    <fields>
+        <label><!-- Individual Out of Pocket Used --></label>
+        <name>Individual_Out_of_Pocket_Used__c</name>
+    </fields>
+    <fields>
+        <label><!-- Insurance Discount --></label>
+        <name>Insurance_Discount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Insurance Portion --></label>
+        <name>Insurance_Portion__c</name>
+    </fields>
+    <fields>
+        <label><!-- Liability --></label>
+        <name>Liability__c</name>
+    </fields>
+    <fields>
+        <label><!-- Location Phone Number --></label>
+        <name>Location_Phone_Number__c</name>
+    </fields>
+    <fields>
+        <label><!-- Location --></label>
+        <name>Location__c</name>
+    </fields>
+    <fields>
+        <label><!-- Ordering Physician --></label>
+        <name>Ordering_Physician__c</name>
+    </fields>
+    <fields>
+        <label><!-- Patient Portion --></label>
+        <name>Patient_Portion__c</name>
+    </fields>
+    <fields>
+        <label><!-- Patient --></label>
+        <name>Patient__c</name>
+        <relationshipLabel><!-- Encounters (Patient) --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Procedure --></label>
+        <name>Procedure__c</name>
+    </fields>
+    <fields>
+        <label><!-- Scheduler --></label>
+        <name>Scheduler__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Charges --></label>
+        <name>Total_Charges__c</name>
+    </fields>
+    <fields>
+        <label><!-- Type --></label>
+        <name>Type__c</name>
+        <picklistValues>
+            <masterLabel>HB</masterLabel>
+            <translation><!-- HB --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>PB</masterLabel>
+            <translation><!-- PB --></translation>
+        </picklistValues>
+    </fields>
+    <layouts>
+        <layout>Encounters</layout>
+        <sections>
+            <label><!-- Benefits Group --></label>
+            <section>Benefits Group</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Estimates --></label>
+            <section>Estimates</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- New Payment Arrangement --></label>
+        <name>New_Payment_Arrangement</name>
+    </quickActions>
+    <startsWith>Vowel</startsWith>
+    <webLinks>
+        <label><!-- New_Payment_Arrangement --></label>
+        <name>New_Payment_Arrangement</name>
+    </webLinks>
+</CustomObjectTranslation>

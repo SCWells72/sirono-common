@@ -1,0 +1,63 @@
+<project name="Retrieve and Deploy SFDC metadata" default="deployEmptyCheckOnly"
+    basedir=".." xmlns:sf="antlib:com.salesforce">
+
+    <taskdef uri="antlib:com.salesforce"
+        resource="com/salesforce/antlib.xml"
+        classpath="${basedir}/build/ant-salesforce.jar"/>
+
+    <property file="${basedir}/build/build.properties"/>
+    <property environment="env"/>
+    <property name="retrieve_target" value="${basedir}/sf_temp"/>
+
+    <!-- Setting default value for username, password and session id properties to empty string
+         so unset values are treated as empty. Without this, ant expressions such as ${sf.username}
+         will be treated literally.
+    -->
+    <condition property="sf.username" value=""> <not> <isset property="sf.username"/> </not> </condition>
+    <condition property="sf.password" value=""> <not> <isset property="sf.password"/> </not> </condition>
+
+    <target name="retrieve">
+      <echo level="info">Retrieving from: ${sf.source.username}</echo>
+      <mkdir dir="${retrieve_target}"/>
+      <sf:retrieve
+        retrieveTarget="${retrieve_target}"
+        username="${sf.source.username}"
+        password="${sf.source.password}"
+        serverurl="${sf.source.serverurl}"
+        unpackaged="${basedir}/src/package.xml"/>
+      <move file="${retrieve_target}" tofile="${basedir}/src"/>
+    </target>
+
+    <target name="deploy">
+      <echo level="info">Deploying to: ${sf.target.username}</echo>
+      <sf:deploy
+        username="${sf.target.username}"
+        password="${sf.target.password}"
+        serverurl="${sf.target.serverurl}"
+        deployRoot="${basedir}/src"
+        pollWaitMillis="${sf.pollWaitMillis}"
+        maxPoll="${sf.maxPoll}"
+        testLevel="RunLocalTests"
+        logType="Debugonly"/>
+    </target>
+
+    <!-- Check only; don't save to the server -->
+    <target name="deployCheckOnly">
+    <echo level="info">Validating in: ${sf.target.username}</echo>
+      <sf:deploy
+        username="${sf.target.username}"
+        password="${sf.target.password}"
+        serverurl="${sf.target.serverurl}"
+        maxPoll="${sf.maxPoll}"
+        deployRoot="${basedir}/src"
+        pollWaitMillis="${sf.pollWaitMillis}"
+        maxPoll="${sf.maxPoll}"
+        testLevel="RunLocalTests"
+        logType="Debugonly"
+        checkOnly="true"/>
+    </target>
+
+    <target name="test_environment">
+      <echoproperties prefix="sf."/>
+    </target>
+</project>

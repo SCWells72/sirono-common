@@ -1,0 +1,45 @@
+<apex:page controller="SkipPaymentPlan" id="pg" >
+	<apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
+	<apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>
+    <apex:sectionHeader title="Skip Payment Plan"/>
+    <apex:form >
+    	<apex:pageMessages />
+    	<apex:outputPanel rendered="{!isAutomatic}">
+            <div class="pay-staff-full-width pay-staff-clear-both">
+	            <table class="pay-staff-tabale-left">
+	            	<tr>
+	            		<td>
+	            			<apex:outputLabel styleClass="pay-staff-message" value="{!messageToShow}"/>
+	            		</td>
+	            	</tr>
+	            	<tr>
+	            		<td>
+	            			&nbsp;
+	            		</td>
+	            	</tr>
+	            </table>
+            </div>
+            <br/><div class="pay-staff-clear-both pay-staff-bottom-line"></div><br/>
+            <div class="pay-staff-clear-both">
+	            <table class="pay-staff-tabale-left">
+	            	<tr>
+		            	<td><apex:commandButton action="{!cancel}" value="Close" styleClass="pay-staff-button pay-staff-cancel-button"/></td>
+		            	<td><apex:commandButton action="{!doSubmit}" value="Skip Payment Installment" styleClass="pay-staff-button" 
+		            		style="background-color: #ec5152 !important;border-color: #FF5722 !important;"/></td>
+		            </tr>
+	            </table>
+            </div>
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!!isAutomatic}">
+            <br/><div class="pay-staff-clear-both pay-staff-bottom-line"></div><br/>
+            <div class="pay-staff-clear-both">
+	            <table class="pay-staff-tabale-left">
+	            	<tr>
+		            	<td><apex:commandButton action="{!cancel}" value="Cancel" styleClass="pay-staff-button pay-staff-cancel-button"/></td>
+		            	<td></td>
+		            </tr>
+	            </table>
+            </div>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

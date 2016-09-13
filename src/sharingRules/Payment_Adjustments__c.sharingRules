@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>PaymentAdj_Sirono_Internal</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>PaymentAdj: Sirono Internal</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>CEO</roleAndSubordinatesInternal>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinatesInternal>CEO</roleAndSubordinatesInternal>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

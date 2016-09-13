@@ -1,0 +1,87 @@
+<apex:page standardController="Contact" Extensions="AddDiscount" id="pg">
+	<apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
+	<apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>
+    <apex:sectionHeader title="Add Discount"/>
+    <apex:form id="frm">
+    	<apex:outputPanel id="errorPanel">
+        	<apex:pageMessages />
+        </apex:outputPanel>
+        <apex:outputPanel id="statusPanel" styleClass="pay-staff-outer_block" style="display:none;">
+        	<div class="pay-staff-inner_block">
+        		<apex:image value="{!$Resource.ajax_loader}" height="36px" width="36px"/><br/>
+        		<span class="pay-staff-custom_message">Refreshing...</span><br/>
+        		<br/><br/><br/>
+        	</div>
+        </apex:outputPanel>
+    	<apex:actionFunction name="refreshJS" action="{!doNext}"/>
+    	<apex:pageBlock title="{!guarantorName}">
+            <apex:outputPanel styleClass="pay-staff-table-wrap" rendered="{!chrageGroupList.size != 0}">
+			    <table class="list">
+			        <tr class="headerRow">
+			            <td class="headerRow">
+			            	<apex:outputPanel styleClass="selectAllHeader">
+                            	<apex:inputCheckbox title="Select All" selected="false" styleClass="selectAllCBK" 
+                            		onclick="selectAllCheckboxes(this,'inputId');startAjaxLoader('pg:frm:statusPanel');refreshJS();"/>
+                            	<apex:outputLabel value="Select All" />
+                        	</apex:outputPanel>
+                        </td>
+			            <td class="headerRow">Account</td>
+			            <td class="headerRow">Type</td>
+           				<td class="headerRow">Service Dates</td>
+           				<td class="headerRow">Provider or Location</td>
+           				<td class="headerRow">Balance</td>
+           				<td class="headerRow">Invoice Date</td>
+           				<td class="headerRow">Status</td>
+			        </tr>
+			    </table>
+			    <div class="pay-staff-inner-table">
+			        <table class="list">
+				        <apex:repeat value="{!chrageGroupList}" var="cgw">
+		            		<tr class="dataRow">
+		            			<td class="dataCell">
+		            				<apex:inputCheckbox value="{!cgw.isSelected}" id="inputId" styleClass="selectCBK" 
+	                    				onclick="checkBoxStatus();startAjaxLoader('pg:frm:statusPanel');refreshJS();"/>
+		            			</td>
+		            			<td class="dataCell"><apex:outputField value="{!cgw.cg.Account_Number__c}"/></td>
+		            			<td class="dataCell"><apex:outputField value="{!cgw.cg.Account_Type__c}"/></td>
+		            			<td class="dataCell">
+		            				<apex:outputField value="{!cgw.cg.Date_Of_Service_Start_Date__c}"/>-
+		            				<apex:outputField value="{!cgw.cg.Date_Of_Service_End_Date__c}"/>
+		            			</td>
+		            			<td class="dataCell">
+		            				<apex:outputField value="{!cgw.cg.Provider__r.Name}" rendered="{!cgw.cg.Account_Type__c == 'PB'}"/>
+		            				<apex:outputField value="{!cgw.cg.Location__r.Name}" rendered="{!cgw.cg.Account_Type__c == 'HB'}"/>
+		            			</td>
+                                <td class="dataCell"><apex:outputField value="{!cgw.cg.Balance__c}"/></td>
+                                <td class="dataCell"><apex:outputField value="{!cgw.cg.Invoice__r.Invoice_Date__c}"/></td>
+		            			<td class="dataCell"><apex:outputField value="{!cgw.cg.Account_Status__c}"/></td>
+		            		</tr>
+            			</apex:repeat>
+			    	</table>
+			    </div>
+			</apex:outputPanel>
+			<apex:outputLabel value="There are no charge groups" rendered="{!chrageGroupList.size == 0}"/>
+		</apex:pageBlock>
+	    <br/>
+	    <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
+	    <br/>
+        <apex:outputPanel id="op">
+            <div class="pay-staff-full-width pay-staff-clear-both">
+	            <table class="pay-staff-tabale-left">
+	            	<tr>
+	            		<td> <apex:outputLabel styleClass="pay-staff-message" value="{!messageToShow}"/> </td>
+	            	</tr>
+	            </table>
+            </div>
+            <br/><div class="pay-staff-clear-both pay-staff-bottom-line"></div><br/>
+            <div class="pay-staff-clear-both">
+	            <table class="pay-staff-tabale-left">
+	            	<tr>
+		            	<td><apex:commandButton action="{!cancel}" value="Cancel" styleClass="pay-staff-button pay-staff-cancel-button"/></td>
+		            	<td><apex:commandButton action="{!submit}" value="Add Discount" styleClass="pay-staff-button" rendered="{!chargeGroupsSelected}"/></td>
+		            </tr>
+	            </table>
+            </div>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

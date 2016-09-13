@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Normalized Geocode Accuracy</value>
+        </caseValues>
+        <name>mailing_accuracy_geocode_contact</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Normalized Address</value>
+        </caseValues>
+        <name>mailing_address_contact</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Normalized City</value>
+        </caseValues>
+        <name>mailing_city_contact</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Normalized Country Code</value>
+        </caseValues>
+        <name>mailing_country_code_contact</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Normalized Country</value>
+        </caseValues>
+        <name>mailing_country_contact</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Normalized Latitude</value>
+        </caseValues>
+        <name>mailing_latitude_contact</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Normalized Longitude</value>
+        </caseValues>
+        <name>mailing_longitude_contact</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Normalized State/Province Code</value>
+        </caseValues>
+        <name>mailing_state_code_contact</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Normalized State/Province</value>
+        </caseValues>
+        <name>mailing_state_contact</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Normalized Street</value>
+        </caseValues>
+        <name>mailing_street_contact</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Normalized Zip/Postal Code</value>
+        </caseValues>
+        <name>mailing_zip_contact</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Mobile Phone</value>
+        </caseValues>
+        <name>mobile_contact</name>
+        <startsWith>Consonant</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Unnormalized Geocode Accuracy</value>
+        </caseValues>
+        <name>other_accuracy_geocode_contact</name>
+        <startsWith>Vowel</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Unnormalized Address</value>
+        </caseValues>
+        <name>other_address_contact</name>
+        <startsWith>Vowel</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Unnormalized City</value>
+        </caseValues>
+        <name>other_city_contact</name>
+        <startsWith>Vowel</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Unnormalized Country Code</value>
+        </caseValues>
+        <name>other_country_code_contact</name>
+        <startsWith>Vowel</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Unnormalized Country</value>
+        </caseValues>
+        <name>other_country_contact</name>
+        <startsWith>Vowel</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Unnormalized Latitude</value>
+        </caseValues>
+        <name>other_latitude_contact</name>
+        <startsWith>Vowel</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Unnormalized Longitude</value>
+        </caseValues>
+        <name>other_longitude_contact</name>
+        <startsWith>Vowel</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Work Phone</value>
+        </caseValues>
+        <name>other_phone_contact</name>
+        <startsWith>Vowel</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Unnormalized State/Province Code</value>
+        </caseValues>
+        <name>other_state_code_contact</name>
+        <startsWith>Vowel</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Unnormalized State/Province</value>
+        </caseValues>
+        <name>other_state_contact</name>
+        <startsWith>Vowel</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Unnormalized Street</value>
+        </caseValues>
+        <name>other_street_contact</name>
+        <startsWith>Vowel</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Unnormalized Zip/Postal Code</value>
+        </caseValues>
+        <name>other_zip_contact</name>
+        <startsWith>Vowel</startsWith>
+    </fields>
+    <fields>
+        <caseValues>
+            <plural>false</plural>
+            <value>Home Phone</value>
+        </caseValues>
+        <name>phone_contact</name>
+        <startsWith>Vowel</startsWith>
+    </fields>
+    <fields>
+        <label><!-- Age --></label>
+        <name>Age__c</name>
+    </fields>
+    <fields>
+        <label><!-- Bad Debt Balance --></label>
+        <name>Bad_Debt_Balance__c</name>
+    </fields>
+    <fields>
+        <label><!-- Campaign --></label>
+        <name>Campaign__c</name>
+        <relationshipLabel><!-- Contacts --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Deleted --></label>
+        <name>Deleted__c</name>
+    </fields>
+    <fields>
+        <label><!-- Delinquent Balance --></label>
+        <name>Delinquent_Balance__c</name>
+    </fields>
+    <fields>
+        <label><!-- Due Balance --></label>
+        <name>Due_Balance__c</name>
+    </fields>
+    <fields>
+        <label><!-- External Guarantor ID --></label>
+        <name>External_Guarantor_Id__c</name>
+    </fields>
+    <fields>
+        <label><!-- External ID --></label>
+        <name>External_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Full Name --></label>
+        <name>Full_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sex --></label>
+        <name>Gender__c</name>
+        <picklistValues>
+            <masterLabel>Female</masterLabel>
+            <translation><!-- Female --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Male</masterLabel>
+            <translation><!-- Male --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <help><!-- Master Guarantor for External Guarantor record --></help>
+        <label><!-- Guarantor --></label>
+        <name>Guarantor__c</name>
+        <relationshipLabel><!-- Guarantor --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Invoice  Offset Day --></label>
+        <name>Invoice_Offset_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Invoiced Balance --></label>
+        <name>Invoiced_Balance__c</name>
+    </fields>
+    <fields>
+        <name>LeadSource</name>
+        <picklistValues>
+            <masterLabel>Advertisement</masterLabel>
+            <translation><!-- Advertisement --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Customer Event</masterLabel>
+            <translation><!-- Customer Event --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Employee Referral</masterLabel>
+            <translation><!-- Employee Referral --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Google AdWords</masterLabel>
+            <translation><!-- Google AdWords --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Other</masterLabel>
+            <translation><!-- Other --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Partner</masterLabel>
+            <translation><!-- Partner --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Purchased List</masterLabel>
+            <translation><!-- Purchased List --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Trade Show</masterLabel>
+            <translation><!-- Trade Show --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Webinar</masterLabel>
+            <translation><!-- Webinar --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Website</masterLabel>
+            <translation><!-- Website --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Medical Record Number --></label>
+        <name>Medical_Record_Number__c</name>
+    </fields>
+    <fields>
+        <label><!-- Notes --></label>
+        <name>Notes__c</name>
+    </fields>
+    <fields>
+        <label><!-- Origin Code --></label>
+        <name>Origin_Code__c</name>
+    </fields>
+    <fields>
+        <label><!-- Overdue Balance --></label>
+        <name>Overdue_Balance__c</name>
+    </fields>
+    <fields>
+        <label><!-- Patient ID --></label>
+        <name>Patient_Id__c</name>
+    </fields>
+    <fields>
+        <label><!-- Pre-Invoiced Balance --></label>
+        <name>Pre_Invoiced_Balance__c</name>
+    </fields>
+    <fields>
+        <label><!-- Preferred Contact --></label>
+        <name>Preferred_Contact__c</name>
+    </fields>
+    <fields>
+        <label><!-- Guarantor ID --></label>
+        <name>Profile_Pointer_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Skip Invoice Stmt Until --></label>
+        <name>Skip_Invoice_Stmt_Until__c</name>
+    </fields>
+    <fields>
+        <label><!-- Social Security Number --></label>
+        <name>Social_Security_Number__c</name>
+    </fields>
+    <fields>
+        <label><!-- Statement Preference --></label>
+        <name>Statement_Preference__c</name>
+    </fields>
+    <fields>
+        <label><!-- Test ID --></label>
+        <name>Test_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Balance --></label>
+        <name>Total_Balance__c</name>
+    </fields>
+    <fields>
+        <label><!-- Verified Email --></label>
+        <name>Verified_Email__c</name>
+    </fields>
+    <fields>
+        <label><!-- Vital Status --></label>
+        <name>Vital_Status__c</name>
+    </fields>
+    <fields>
+        <label><!-- 18 Digit ID --></label>
+        <name>X18_Digit_ID__c</name>
+    </fields>
+    <layouts>
+        <layout>External Guarantors</layout>
+        <sections>
+            <label><!-- Address --></label>
+            <section>Address</section>
+        </sections>
+        <sections>
+            <label><!-- Identification --></label>
+            <section>Identification</section>
+        </sections>
+        <sections>
+            <label><!-- Information --></label>
+            <section>Information</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>External Patients</layout>
+        <sections>
+            <label><!-- Identification --></label>
+            <section>Identification</section>
+        </sections>
+        <sections>
+            <label><!-- Information --></label>
+            <section>Information</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Guarantors</layout>
+        <sections>
+            <label><!-- Address --></label>
+            <section>Address</section>
+        </sections>
+        <sections>
+            <label><!-- Identification --></label>
+            <section>Identification</section>
+        </sections>
+        <sections>
+            <label><!-- System --></label>
+            <section>System</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Patients</layout>
+        <sections>
+            <label><!-- Address --></label>
+            <section>Address</section>
+        </sections>
+        <sections>
+            <label><!-- Identification --></label>
+            <section>Identification</section>
+        </sections>
+        <sections>
+            <label><!-- Information --></label>
+            <section>Information</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <label><!-- External Guarantor --></label>
+        <name>External_Guarantor</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- External Patient --></label>
+        <name>External_Patient</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- General --></label>
+        <name>General</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Guarantor --></label>
+        <name>Guarantor</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Patient --></label>
+        <name>Patient</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Staff --></label>
+        <name>Staff</name>
+    </recordTypes>
+    <webLinks>
+        <label><!-- Add_Adjustment --></label>
+        <name>Add_Adjustment</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Add_Case --></label>
+        <name>Add_Case</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Add_Discount --></label>
+        <name>Add_Discount</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Add_to_Payment_Plan --></label>
+        <name>Add_to_Payment_Plan</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Create_Payment_Plan --></label>
+        <name>Create_Payment_Plan</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- GoogleMaps --></label>
+        <name>GoogleMaps</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- GoogleSearch --></label>
+        <name>GoogleSearch</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Process_Payment --></label>
+        <name>Process_Payment</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- View_On_Portal --></label>
+        <name>View_On_Portal</name>
+    </webLinks>
+</CustomObjectTranslation>

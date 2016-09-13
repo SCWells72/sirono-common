@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EscalationRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <escalationRule>
+        <fullName>Administration Escalation Rules</fullName>
+        <active>false</active>
+    </escalationRule>
+    <escalationRule>
+        <fullName>Pre%2FPost-Service Escalation Rules</fullName>
+        <active>false</active>
+    </escalationRule>
+</EscalationRules>

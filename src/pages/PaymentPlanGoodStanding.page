@@ -1,0 +1,28 @@
+<apex:page controller="PaymentPlanGoodStanding" id="pg" >
+	<apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
+	<apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>
+    <apex:sectionHeader title="Payment Plan Good Standing"/>
+    <apex:form >
+    	<apex:pageMessages />
+    	<apex:outputPanel >
+            <div class="pay-staff-full-width pay-staff-clear-both">
+	            <table class="pay-staff-tabale-left">
+	            	<tr>
+	            		<td>
+	            			<apex:outputLabel styleClass="pay-staff-message" value="Clicking mark in good standing will clear the payment plan delinquency. Guarantors will no longer receive dunning messages and the plan will execute as usual next month."/>
+	            		</td>
+	            	</tr>
+	            </table>
+            </div>
+            <br/><div class="pay-staff-clear-both pay-staff-bottom-line"></div><br/>
+            <div class="pay-staff-clear-both">
+	            <table class="pay-staff-tabale-left">
+	            	<tr>
+		            	<td><apex:commandButton action="{!cancel}" value="Cancel" styleClass="pay-staff-button pay-staff-cancel-button"/></td>
+		            	<td><apex:commandButton action="{!doSubmit}" value="Mark in Good Standing" styleClass="pay-staff-button"/></td>
+		            </tr>
+	            </table>
+            </div>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

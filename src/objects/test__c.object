@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Guarantor Payment Plan details</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableEnhancedLookup>true</enableEnhancedLookup>
+    <enableFeeds>true</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Activates plan</description>
+        <externalId>false</externalId>
+        <label>Active</label>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Cancellation_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Cancellation Date</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Collected_By__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Collected By</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Payment_Plans</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Credit_Card__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Payment Method</label>
+        <referenceTo>Payment_Method__c</referenceTo>
+        <relationshipLabel>Payment Plans</relationshipLabel>
+        <relationshipName>Payment_Plans</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Delinquent_Date__c</fullName>
+        <description>Date of deliquency</description>
+        <externalId>false</externalId>
+        <label>Delinquent Date</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Delinquent__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>If Participant is past due</description>
+        <externalId>false</externalId>
+        <label>Delinquent</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Error_Date__c</fullName>
+        <description>Date of the Error</description>
+        <externalId>false</externalId>
+        <label>Error Date</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Execute_on_Day__c</fullName>
+        <externalId>false</externalId>
+        <label>Execute on Day</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Guarantor_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Guarantor</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>Contact.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Guarantor</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Payment Plans</relationshipLabel>
+        <relationshipName>Payment_Plans</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Has_Error__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Error in plan</description>
+        <externalId>false</externalId>
+        <label>Has Error</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Installment_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Installment Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>NextPaymentDate__c</fullName>
+        <externalId>false</externalId>
+        <label>Next Payment Date</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Next_Payment_Date__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISBLANK(Skip_Payment_Until__c),
+IF(Plan_Type__c = &quot;Automatic&quot;,
+  IF(Execute_on_Day__c &gt;= DAY(Today()),
+    Today() + MIN(DATE(YEAR(Today()), MONTH(Today()), 1) + Execute_on_Day__c - Today(), IF(MONTH(Today()) = 12, DATE(YEAR(Today()) + 1, 1, 1), DATE(YEAR(Today()), MONTH(Today()) + 1, 1)) - Today()),
+    IF(MONTH(Today()) = 12,
+      DATE(YEAR(Today()) + 1, 1, 1) + Execute_on_Day__c,
+      Today() + MIN(DATE(YEAR(Today()), MONTH(Today()) + 1, 1) + Execute_on_Day__c - Today(), DATE(YEAR(Today()), MONTH(Today()) + 2, 1) - Today()))) - 1,
+  IF(DAY(Today()) &gt; Execute_on_Day__c + 21,
+    IF(MONTH(Today()) = 12, DATE(YEAR(Today()) + 1, 1, 1), DATE(YEAR(Today()), MONTH(Today()) + 1, 1)),
+    IF(MONTH(Today()) = 1,
+      IF(DATE(YEAR(Today()) - 1, 12, Execute_on_Day__c) + 21 &gt; Today(),
+        DATE(YEAR(Today()) - 1, 12, 1),
+        DATE(YEAR(Today()), MONTH(Today()), 1)),
+      IF(DATE(YEAR(Today()), MONTH(Today()) - 1, Execute_on_Day__c) + 21 &gt; Today(),
+        DATE(YEAR(Today()), MONTH(Today()) - 1, 1),
+        DATE(YEAR(Today()), MONTH(Today()), 1)))) + Execute_on_Day__c + 20),
+  Skip_Payment_Until__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Next Payment Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Number_of_Installments__c</fullName>
+        <description>payment installment months</description>
+        <externalId>false</externalId>
+        <label>Original Installments</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Payable_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Remaining Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Plan_Origin__c</fullName>
+        <externalId>false</externalId>
+        <label>Plan Origin</label>
+        <length>254</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Plan_Type__c</fullName>
+        <description>Plan Number type small int</description>
+        <externalId>false</externalId>
+        <label>Plan Type</label>
+        <length>254</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Plan_Value_Modified_at_Timestamp__c</fullName>
+        <description>time stamp of plan modification</description>
+        <externalId>false</externalId>
+        <label>Plan Value Modified Date</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Plan_Value__c</fullName>
+        <description>Type of plan</description>
+        <externalId>false</externalId>
+        <label>Plan Value</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Remaining_Number_of_Installments__c</fullName>
+        <externalId>false</externalId>
+        <formula>ABS(CEILING(Payable_Amount__c / Installment_Amount__c))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Remaining Installments</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sirono_ID__c</fullName>
+        <externalId>true</externalId>
+        <label>Sirono ID</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Skip_Payment_Until__c</fullName>
+        <description>Defines making payment until date</description>
+        <externalId>false</externalId>
+        <label>Skip Payment Until</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Status</label>
+        <length>10</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Time_to_Delinquency__c</fullName>
+        <externalId>false</externalId>
+        <formula>Delinquent_Date__c -   DATEVALUE( CreatedDate )</formula>
+        <label>Time to Delinquency</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Payment Plan</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Guarantor_Name__c</columns>
+        <columns>Active__c</columns>
+        <columns>Plan_Type__c</columns>
+        <columns>Execute_on_Day__c</columns>
+        <columns>Next_Payment_Date__c</columns>
+        <columns>Skip_Payment_Until__c</columns>
+        <columns>Delinquent__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Name</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Payment Plans</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Guarantor_Name__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Active__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Plan_Type__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Execute_on_Day__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Next_Payment_Date__c</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>Plan_Value__c</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Plan_Value__c</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>Delinquent_Date__c</searchFilterFields>
+        <searchFilterFields>Guarantor_Name__c</searchFilterFields>
+        <searchFilterFields>Plan_Type__c</searchFilterFields>
+        <searchFilterFields>Plan_Value__c</searchFilterFields>
+        <searchResultsAdditionalFields>Plan_Value__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+    <webLinks>
+        <fullName>Add_to_Payment_Plan</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <linkType>url</linkType>
+        <masterLabel>Add to Payment Plan</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <url>/apex/AddToPaymentPlan?guarantorId={!test__c.Guarantor_NameId__c}&amp;paymentPlanId={!test__c.Id}&amp;paymentPlanExtId={!test__c.Sirono_ID__c}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Canecl_Payment_Plan</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <linkType>url</linkType>
+        <masterLabel>Cancel Payment Plan</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <url>/apex/DeletePaymentPlan?guarantorId={!test__c.Guarantor_NameId__c}&amp;paymentPlanId={!test__c.Id}&amp;paymentPlanExtId={!test__c.Sirono_ID__c}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Edit_Payment_Plan</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <linkType>url</linkType>
+        <masterLabel>Edit Payment Plan</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <url>/apex/EditPaymentPlan?guarantorId={!test__c.Guarantor_NameId__c}&amp;paymentPlanId={!test__c.Id}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Payment_Plan_Good_Standing</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <linkType>url</linkType>
+        <masterLabel>Payment Plan Good Standing</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <url>/apex/PaymentPlanGoodStanding?guarantorId={!test__c.Guarantor_NameId__c}&amp;paymentPlanId={!test__c.Id}&amp;paymentPlanExtId={!test__c.Sirono_ID__c}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Skip_Payment</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <linkType>url</linkType>
+        <masterLabel>Skip Payment</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <url>/apex/SkipPaymentPlan?guarantorId={!test__c.Guarantor_NameId__c}&amp;paymentPlanId={!test__c.Id}&amp;paymentPlanExtId={!test__c.Sirono_ID__c}</url>
+    </webLinks>
+</CustomObject>

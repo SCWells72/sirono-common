@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Coverage</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Coverages</value>
+    </caseValues>
+    <fields>
+        <label><!-- Date Effective --></label>
+        <name>Date_Effective__c</name>
+    </fields>
+    <fields>
+        <label><!-- Date Termination --></label>
+        <name>Date_Termination__c</name>
+    </fields>
+    <fields>
+        <label><!-- External ID --></label>
+        <name>External_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- External Last Update --></label>
+        <name>External_Last_Update__c</name>
+    </fields>
+    <fields>
+        <label><!-- Financial Class --></label>
+        <name>Financial_Class__c</name>
+    </fields>
+    <fields>
+        <label><!-- Group Name --></label>
+        <name>Group_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Group Number --></label>
+        <name>Group_Number__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sirono ID --></label>
+        <name>ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Is Effective --></label>
+        <name>Is_Effective__c</name>
+    </fields>
+    <fields>
+        <label><!-- Member ID --></label>
+        <name>Member_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Member Name --></label>
+        <name>Member_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Member Relationship --></label>
+        <name>Member_Relationship__c</name>
+    </fields>
+    <fields>
+        <label><!-- Origin Code --></label>
+        <name>Origin_Code__c</name>
+    </fields>
+    <fields>
+        <label><!-- Payor --></label>
+        <name>Payor__c</name>
+        <relationshipLabel><!-- Coverages --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Plan Name --></label>
+        <name>Plan_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Priority --></label>
+        <name>Priority__c</name>
+    </fields>
+    <fields>
+        <label><!-- Subscriber DOB --></label>
+        <name>Subscriber_DOB__c</name>
+    </fields>
+    <fields>
+        <label><!-- Subscriber ID --></label>
+        <name>Subscriber_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Subscriber Name --></label>
+        <name>Subscriber_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Subscriber SSN --></label>
+        <name>Subscriber_SSN__c</name>
+    </fields>
+    <fields>
+        <label><!-- Subscriber Sex --></label>
+        <name>Subscriber_Sex__c</name>
+    </fields>
+    <fields>
+        <label><!-- Verification Status --></label>
+        <name>Verification_Status__c</name>
+    </fields>
+    <layouts>
+        <layout>Coverage Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Identification --></label>
+            <section>Identification</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Coverages</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Identification --></label>
+            <section>Identification</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

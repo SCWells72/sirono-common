@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Campaign Member History</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Campaign Member Histories</value>
+    </caseValues>
+    <fields>
+        <label><!-- Campaign --></label>
+        <name>Campaign__c</name>
+        <relationshipLabel><!-- Campaign Member Histories --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Contact --></label>
+        <name>Contact__c</name>
+        <relationshipLabel><!-- Campaign Member Histories --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Date Added --></label>
+        <name>Date_Added__c</name>
+    </fields>
+    <fields>
+        <label><!-- Date Removed --></label>
+        <name>Date_Removed__c</name>
+    </fields>
+    <fields>
+        <label><!-- Days Since Added --></label>
+        <name>Days_Since_Added__c</name>
+    </fields>
+    <layouts>
+        <layout>Campaign Member History Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Campaign Members History</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

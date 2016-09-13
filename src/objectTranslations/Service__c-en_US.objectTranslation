@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Service</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Services</value>
+    </caseValues>
+    <fields>
+        <label><!-- Account Type --></label>
+        <name>Account_Type__c</name>
+        <picklistValues>
+            <masterLabel>HB</masterLabel>
+            <translation><!-- HB --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>PB</masterLabel>
+            <translation><!-- PB --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Amount --></label>
+        <name>Amount__c</name>
+    </fields>
+    <fields>
+        <label><!-- CPT Code Mods --></label>
+        <name>CPT_Code_Mods__c</name>
+    </fields>
+    <fields>
+        <label><!-- CPT Code Override --></label>
+        <name>CPT_Code_Override__c</name>
+    </fields>
+    <fields>
+        <label><!-- CPT Code --></label>
+        <name>CPT_Code__c</name>
+    </fields>
+    <fields>
+        <label><!-- Category --></label>
+        <name>Category__c</name>
+    </fields>
+    <fields>
+        <label><!-- Charge Group --></label>
+        <name>Charge_Group__c</name>
+        <relationshipLabel><!-- Services --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Code Description --></label>
+        <name>Code_Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- Code --></label>
+        <name>Code__c</name>
+    </fields>
+    <fields>
+        <label><!-- Deleted --></label>
+        <name>Deleted__c</name>
+    </fields>
+    <fields>
+        <label><!-- External ID --></label>
+        <name>External_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- ID --></label>
+        <name>ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Imported --></label>
+        <name>Imported__c</name>
+    </fields>
+    <fields>
+        <label><!-- Post Date --></label>
+        <name>Post_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Provider --></label>
+        <name>Provider__c</name>
+        <relationshipLabel><!-- Services --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Quantity --></label>
+        <name>Quantity__c</name>
+    </fields>
+    <fields>
+        <label><!-- Service Date --></label>
+        <name>Service_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Revenue Code --></label>
+        <name>Service_Rollup__c</name>
+        <relationshipLabel><!-- Services --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Transaction --></label>
+        <name>Transaction__c</name>
+        <relationshipLabel><!-- Transactions --></relationshipLabel>
+    </fields>
+    <layouts>
+        <layout>Service Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Services Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

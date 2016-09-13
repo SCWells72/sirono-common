@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Payment</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Payments</value>
+    </caseValues>
+    <fields>
+        <label><!-- Amount --></label>
+        <name>Amount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Cancelled --></label>
+        <name>Cancelled__c</name>
+    </fields>
+    <fields>
+        <label><!-- Card Holder Name --></label>
+        <name>Card_Holder_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Card Type --></label>
+        <name>Card_Type__c</name>
+        <picklistValues>
+            <masterLabel>American Express</masterLabel>
+            <translation><!-- American Express --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Discover</masterLabel>
+            <translation><!-- Discover --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>MasterCard</masterLabel>
+            <translation><!-- MasterCard --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Visa</masterLabel>
+            <translation><!-- Visa --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Charge Date --></label>
+        <name>Charge_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Check Number --></label>
+        <name>Check_Number__c</name>
+    </fields>
+    <fields>
+        <label><!-- Collected By --></label>
+        <name>Collected_by_ID__c</name>
+        <relationshipLabel><!-- Payments --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Payment Method --></label>
+        <name>Credit_Card__c</name>
+        <relationshipLabel><!-- Payments --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Deposit Date --></label>
+        <name>Deposit_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Expiration Date --></label>
+        <name>Expiration_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Guarantor --></label>
+        <name>Guarantor_Name__c</name>
+        <relationshipLabel><!-- Payments --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Sirono ID --></label>
+        <name>ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Last 4 --></label>
+        <name>Last_4__c</name>
+    </fields>
+    <fields>
+        <label><!-- Method --></label>
+        <name>Method__c</name>
+        <picklistValues>
+            <masterLabel>Amex</masterLabel>
+            <translation><!-- Amex --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Check</masterLabel>
+            <translation><!-- Check --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Discover</masterLabel>
+            <translation><!-- Discover --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Mastercard</masterLabel>
+            <translation><!-- Mastercard --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Visa</masterLabel>
+            <translation><!-- Visa --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Payment Plan --></label>
+        <name>Payment_Plan__c</name>
+        <relationshipLabel><!-- Payments --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Processor Transaction ID --></label>
+        <name>Processor_Transaction_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Scheduled Date --></label>
+        <name>Scheduled_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Statement --></label>
+        <name>Statements__c</name>
+        <relationshipLabel><!-- Payments --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Successful --></label>
+        <name>Successful__c</name>
+    </fields>
+    <layouts>
+        <layout>Payment Plan Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Details --></label>
+            <section>Details</section>
+        </sections>
+        <sections>
+            <label><!-- Methods --></label>
+            <section>Methods</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Payment Plans</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Details --></label>
+            <section>Details</section>
+        </sections>
+        <sections>
+            <label><!-- Methods --></label>
+            <section>Methods</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <label><!-- Payment Plans --></label>
+        <name>Payment_Plans</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Payment / Adjustment</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Payments / Adjustments</value>
+    </caseValues>
+    <fields>
+        <label><!-- Amount --></label>
+        <name>Amount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Charge Group --></label>
+        <name>Charge_Group_Name__c</name>
+        <relationshipLabel><!-- Payments / Adjustments --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Custom Name --></label>
+        <name>Custom_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Deleted --></label>
+        <name>Deleted__c</name>
+    </fields>
+    <fields>
+        <label><!-- Description --></label>
+        <name>Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- Export Date --></label>
+        <name>Export_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- External ID --></label>
+        <name>External_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sirono ID --></label>
+        <name>ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Imported --></label>
+        <name>Imported__c</name>
+    </fields>
+    <fields>
+        <label><!-- Origin Code --></label>
+        <name>Origin_Code__c</name>
+    </fields>
+    <fields>
+        <label><!-- Payment --></label>
+        <name>Payment__c</name>
+        <relationshipLabel><!-- Payments / Adjustments --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Payor ID --></label>
+        <name>Payor_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Payor --></label>
+        <name>Payor__c</name>
+        <relationshipLabel><!-- Payments / Adjustments --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Post Date --></label>
+        <name>Post_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Code --></label>
+        <name>Transaction_Type__c</name>
+        <relationshipLabel><!-- Payments / Adjustments --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Transaction --></label>
+        <name>Transaction__c</name>
+        <relationshipLabel><!-- Payments / Adjustments --></relationshipLabel>
+    </fields>
+    <layouts>
+        <layout>Payment Adjustment Layout</layout>
+        <sections>
+            <label><!-- Comments --></label>
+            <section>Comments</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Payment Adjustments</layout>
+        <sections>
+            <label><!-- Comments --></label>
+            <section>Comments</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

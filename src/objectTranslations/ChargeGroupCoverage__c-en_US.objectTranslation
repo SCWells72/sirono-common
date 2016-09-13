@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Charge Group Coverage Junction</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Charge Group Coverage Junctions</value>
+    </caseValues>
+    <fields>
+        <label><!-- Sirono ID --></label>
+        <name>Charge_Group_Coverage_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Charge Group --></label>
+        <name>Charge_Group__c</name>
+        <relationshipLabel><!-- Charge Group Coverage Junctions --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Coverage --></label>
+        <name>Coverage__c</name>
+        <relationshipLabel><!-- Charge Group Coverage Junctions --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Insured? --></label>
+        <name>Insured__c</name>
+    </fields>
+    <layouts>
+        <layout>Charge Group Coverage Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Charge Group Coverages</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

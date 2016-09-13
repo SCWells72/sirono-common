@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Provider</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Providers</value>
+    </caseValues>
+    <fields>
+        <label><!-- Code --></label>
+        <name>Code__c</name>
+    </fields>
+    <fields>
+        <label><!-- Description --></label>
+        <name>Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- External Description --></label>
+        <name>External_Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sirono ID --></label>
+        <name>ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Origin Code --></label>
+        <name>Origin_Code__c</name>
+    </fields>
+    <fields>
+        <label><!-- Unmapped --></label>
+        <name>Unmapped__c</name>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

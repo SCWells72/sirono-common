@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CallCenter xmlns="http://soap.sforce.com/2006/04/metadata">
+    <adapterUrl>https://webstatic.five9.com/integrations/sfopencti.toolbar3.html</adapterUrl>
+    <customSettings>{&quot;reqSoftphoneHeight&quot;:&quot;470&quot;,&quot;reqUseApi&quot;:&quot;true&quot;,&quot;reqSoftphoneWidth&quot;:&quot;200&quot;}</customSettings>
+    <displayName>Sirono Secure</displayName>
+    <displayNameLabel>Display Name</displayNameLabel>
+    <internalNameLabel>Five9 Domain Name</internalNameLabel>
+    <sections>
+        <items>
+            <label>Description</label>
+            <name>reqDescription</name>
+            <value>Five9 is the leading global provider of on-demand call center software for telemarketing, customer service, and business continuity. The award-winning Five9 Virtual Call Center and Predictive Dialer serve customers of all sizes on five continents. Customers profit from Five9&apos;s reliable, robust functionality that is fast, easy, and affordable to deploy. For more information, visit www.five9.com.</value>
+        </items>
+        <items>
+            <label>CTI Adapter URL</label>
+            <name>reqAdapterUrl</name>
+            <value>https://webstatic.five9.com/integrations/sfopencti.toolbar3.html</value>
+        </items>
+        <items>
+            <label>Use CTI API</label>
+            <name>reqUseApi</name>
+            <value>true</value>
+        </items>
+        <items>
+            <label>Softphone Height</label>
+            <name>reqSoftphoneHeight</name>
+            <value>470</value>
+        </items>
+        <items>
+            <label>Softphone Width</label>
+            <name>reqSoftphoneWidth</name>
+            <value>200</value>
+        </items>
+        <label>General Info</label>
+        <name>reqGeneralInfo</name>
+    </sections>
+    <sections>
+        <items>
+            <label>Outside Prefix</label>
+            <name>reqOutsidePrefix</name>
+            <value>9</value>
+        </items>
+        <items>
+            <label>Long Distance Prefix</label>
+            <name>reqLongDistPrefix</name>
+            <value>1</value>
+        </items>
+        <items>
+            <label>International Prefix</label>
+            <name>reqInternationalPrefix</name>
+            <value>01</value>
+        </items>
+        <label>Dialing Options</label>
+        <name>reqDialingOptions</name>
+    </sections>
+    <sections>
+        <items>
+            <label>Created By Five9 User</label>
+            <name>createdByFive9User</name>
+            <value>tony.thomas@cloudcoop.io</value>
+        </items>
+        <items>
+            <label>Created On</label>
+            <name>createdOn</name>
+            <value>Wed May 04 18:04:13 EDT 2016</value>
+        </items>
+        <label>Five9 Info</label>
+        <name>Five9Info</name>
+    </sections>
+</CallCenter>

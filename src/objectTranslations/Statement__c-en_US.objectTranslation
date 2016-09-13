@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Statement</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Statements</value>
+    </caseValues>
+    <fields>
+        <label><!-- Guarantor --></label>
+        <name>Guarantor__c</name>
+        <relationshipLabel><!-- Statements --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Hex Code --></label>
+        <name>Hex_Code__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sirono ID --></label>
+        <name>ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Large Statement ID --></label>
+        <name>Large_Statement_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Original Balance --></label>
+        <name>Original_Balance__c</name>
+    </fields>
+    <fields>
+        <label><!-- Original Charge Groups --></label>
+        <name>Original_Charge_Groups__c</name>
+    </fields>
+    <fields>
+        <label><!-- PDF --></label>
+        <name>PdfUrl__c</name>
+    </fields>
+    <fields>
+        <label><!-- S3 Key --></label>
+        <name>S3_Key__c</name>
+    </fields>
+    <fields>
+        <label><!-- Small Statement ID --></label>
+        <name>Small_Statement_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Statement Date --></label>
+        <name>Statement_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Statement ID --></label>
+        <name>Statement_ID__c</name>
+    </fields>
+    <layouts>
+        <layout>Statement Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Statements</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>
