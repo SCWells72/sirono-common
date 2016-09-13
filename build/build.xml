@@ -48,7 +48,6 @@
         username="${sf.target.username}"
         password="${sf.target.password}"
         serverurl="${sf.target.serverurl}"
-        maxPoll="${sf.maxPoll}"
         deployRoot="${basedir}/src"
         pollWaitMillis="${sf.pollWaitMillis}"
         maxPoll="${sf.maxPoll}"
