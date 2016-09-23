@@ -15,6 +15,7 @@ public with sharing class SironoSettingsUtil {
     private static Map<String, String> SANDBOX_URLS;
     static {
         SANDBOX_URLS = new Map<String, String>();
+        SANDBOX_URLS.put('dev', 'https://toledo.stage.sirono.com');
         SANDBOX_URLS.put('sandboxmm', 'https://toledo.stage.sirono.com');
         SANDBOX_URLS.put('cloudcoop', 'https://toledo.stage.sirono.com');
         SANDBOX_URLS.put('qa', 'https://training.sirono.com');
