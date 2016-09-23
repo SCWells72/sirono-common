@@ -10,7 +10,7 @@ public class TestPaymentPlanTriggerBalanceCalc {
 
         g = TestUtility.GenerateGuarantorContact();
         insert g;
-        System.debug('G id: '+g.Id);
+        System.debug('G id: ' + g.Id);
 
         cg1 = TestUtility.generateChargeGroup(g.Id, null, 1214);
         insert cg1;
@@ -24,7 +24,7 @@ public class TestPaymentPlanTriggerBalanceCalc {
 
         init();
 
-        System.debug('G id: '+g.Id);
+        System.debug('G id: ' + g.Id);
         //Create a payment plan
         test__c pp = TestUtility.generatePaymentPlan(g);
         insert pp;
@@ -36,8 +36,8 @@ public class TestPaymentPlanTriggerBalanceCalc {
         Test.stopTest();
 
         pp = [SELECT Id, Payable_Amount__c FROM test__c WHERE Id = :pp.Id];
-        System.debug('pp.Payable_Amount__c: '+pp.Payable_Amount__c);
-        System.debug('txnAmount: '+txn.Amount__c);
+        System.debug('pp.Payable_Amount__c: ' + pp.Payable_Amount__c);
+        System.debug('txnAmount: ' + txn.Amount__c);
         //confirm the payable amount is what we expect
         System.assert(pp.Payable_Amount__c == txn.Amount__c, 'PaymentPlan value is incorrect');
     }
@@ -50,7 +50,7 @@ public class TestPaymentPlanTriggerBalanceCalc {
         test__c pp = TestUtility.generatePaymentPlan(g);
         insert pp;
 
-        cg1.Payment_Plan__c=pp.Id;
+        cg1.Payment_Plan__c = pp.Id;
         update cg1;
 
         //Start Test Context, to reset all Governor limits
@@ -62,10 +62,12 @@ public class TestPaymentPlanTriggerBalanceCalc {
         Test.stopTest();
 
         //Get the db values to compare
-        Transaction__c[] txns = new Transaction__c[]{txn, txn2};
+        Transaction__c[] txns = new Transaction__c[]{
+                txn, txn2
+        };
         AggregateResult[] sums = [SELECT SUM(Amount__c)tot FROM Transaction__c WHERE Id IN :txns];
         pp = [SELECT Id, Payable_Amount__c FROM test__c WHERE Id = :pp.Id];
-        Decimal txnTotal = (Decimal)sums[0].get('tot');
+        Decimal txnTotal = (Decimal) sums[0].get('tot');
 
         System.assert(pp.Payable_Amount__c == txnTotal, 'PaymentPlan value is incorrect');
     }

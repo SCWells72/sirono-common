@@ -4,8 +4,11 @@
  */
 @IsTest public with sharing class MyProfilePageControllerTest {
     @IsTest(SeeAllData=true) static void testSetContactFields() {
-        User u = [select title, firstname, lastname, email, phone, mobilephone, fax, street, city, state, postalcode, country
-                           FROM User WHERE id =: UserInfo.getUserId()];
+        User u = [
+                select title, firstname, lastname, email, phone, mobilephone, fax, street, city, state, postalcode, country
+                FROM User
+                WHERE id = :UserInfo.getUserId()
+        ];
 
         Contact c = new Contact();
 
@@ -16,11 +19,14 @@
 
     @IsTest(SeeAllData=true) static void testSave() {
         // Modify the test to query for a portal user that exists in your org
-        List<User> existingPortalUsers = [SELECT id, profileId, userRoleId FROM User WHERE UserRoleId <> null AND UserType='CustomerSuccess'];
+        List<User> existingPortalUsers = [SELECT id, profileId, userRoleId FROM User WHERE UserRoleId <> null AND UserType = 'CustomerSuccess'];
 
         if (existingPortalUsers.isEmpty()) {
-            User currentUser = [select id, title, firstname, lastname, email, phone, mobilephone, fax, street, city, state, postalcode, country
-                                FROM User WHERE id =: UserInfo.getUserId()];
+            User currentUser = [
+                    select id, title, firstname, lastname, email, phone, mobilephone, fax, street, city, state, postalcode, country
+                    FROM User
+                    WHERE id = :UserInfo.getUserId()
+            ];
             MyProfilePageController controller = new MyProfilePageController();
             System.assertEquals(currentUser.Id, controller.getUser().Id, 'Did not successfully load the current user');
             System.assert(controller.getIsEdit() == false, 'isEdit should default to false');
@@ -67,7 +73,7 @@
             }
 
             // verify that the user and contact were updated
-            existingPortalUser = [Select id, fax, Contact.Fax from User where id =: existingPortalUser.Id];
+            existingPortalUser = [Select id, fax, Contact.Fax from User where id = :existingPortalUser.Id];
             System.assert(existingPortalUser.fax == randFax);
             System.assert(existingPortalUser.Contact.fax == randFax);
         }

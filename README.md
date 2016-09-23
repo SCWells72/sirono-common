@@ -2,8 +2,8 @@
 
 ## Getting set up
 #### Get the Code
-You'll need to checkout the git repository from github. Feel free to use the client of your choice.
-You can familiarize yourself with using git/github from the command line [here](https://help.github.com/articles/set-up-git)
+You'll need to checkout the git repository from github. Feel free to use the client of your choice (you
+can familiarize yourself with using git/github from the command line [here](https://help.github.com/articles/set-up-git))
 
 Create a directory for the repo:  
 ```
@@ -36,4 +36,4 @@ If you are using SSH keys (to avoid locally caching your password):
     `git push origin new_feature_branch`
 
 1. [Create a pull request](https://help.github.com/articles/creating-a-pull-request), summarizing the changes made. Reference the tracker # driving the work
-_UNDER NO CIRCUMSTANCES SHOULD YOU FORCE PUSH THE BRANCH ONCE A PULL REQUEST HAS BEEN MADE_
+_Under no circumstances should you force push the branch once a pull request has been made_

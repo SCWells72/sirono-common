@@ -1,7 +1,7 @@
 @isTest
-Public Class TestUtility{
+Public Class TestUtility {
 
-    public static Contact generateGuarantorContact(){
+    public static Contact generateGuarantorContact() {
         Contact g = new Contact();
         g.RecordTypeId = RecordTypeUtil.Guarantor_RT;
         g.LastName = 'G Test';
@@ -10,8 +10,8 @@ Public Class TestUtility{
         g.MobilePhone = '111';
         return g;
     }
-    
-    public static Contact generatePatientContact(){
+
+    public static Contact generatePatientContact() {
         Contact g = new Contact();
         g.RecordTypeId = RecordTypeUtil.Patient_RT;
         g.LastName = 'G Test';
@@ -20,8 +20,8 @@ Public Class TestUtility{
         g.MobilePhone = '111';
         return g;
     }
-    
-    public static Charge_Group__c generateChargeGroup(String guarantorContactId, String patientContactId, Decimal chargeGroupExternalId){
+
+    public static Charge_Group__c generateChargeGroup(String guarantorContactId, String patientContactId, Decimal chargeGroupExternalId) {
         Charge_Group__c cg = new Charge_Group__c();
         cg.Guarantor_Name__c = guarantorContactId;
         cg.Charge_Group_ID__c = chargeGroupExternalId;
@@ -30,11 +30,11 @@ Public Class TestUtility{
         //cg.Balance__c = -100; //can't set amount now that balance is a rollup
         cg.Reported_Selfpay_Balance__c = 10;
         cg.Account_Status__c = 'Billed';
-        cg.Account_Sub_Status__c= 'Overdue';
+        cg.Account_Sub_Status__c = 'Overdue';
         cg.Active__c = true;
         cg.Account_Status__c = 'Billed';
-        cg.Account_Sub_Status__c = 'Preinvoiced';        
-                        
+        cg.Account_Sub_Status__c = 'Preinvoiced';
+
         return cg;
     }
 
@@ -53,27 +53,27 @@ Public Class TestUtility{
     }
 
     public static Encounter__c createEncounter(String gId, Decimal patientPortion, Date serviceDate) {
-		Encounter__c e = new Encounter__c(Guarantor__c = gId, Patient_Portion__c = patientPortion, Date_of_Service__c = serviceDate);
-		return e;
-	}
-	
-	public static Payment_Arrangement__c createPaymentArrangement(String eId) {
-		Payment_Arrangement__c pa = new Payment_Arrangement__c(Encounter__c = eId);
-		return pa;
-	}
-	
-	public static Case createCase(String rTypeId, String cType, String gId) {
-		Case c = new Case();
-    	c.RecordTypeId = rTypeId;
-    	c.Status = 'New';
-    	c.Priority = 'Medium';
-    	c.Type = cType;
-    	c.Origin = 'Email';
-    	c.Subject = cType;
-    	c.Description = 'Test';
-    	c.Guarantor_Information__c = gId;
-    	return c;
-	}
+        Encounter__c e = new Encounter__c(Guarantor__c = gId, Patient_Portion__c = patientPortion, Date_of_Service__c = serviceDate);
+        return e;
+    }
+
+    public static Payment_Arrangement__c createPaymentArrangement(String eId) {
+        Payment_Arrangement__c pa = new Payment_Arrangement__c(Encounter__c = eId);
+        return pa;
+    }
+
+    public static Case createCase(String rTypeId, String cType, String gId) {
+        Case c = new Case();
+        c.RecordTypeId = rTypeId;
+        c.Status = 'New';
+        c.Priority = 'Medium';
+        c.Type = cType;
+        c.Origin = 'Email';
+        c.Subject = cType;
+        c.Description = 'Test';
+        c.Guarantor_Information__c = gId;
+        return c;
+    }
 
     public static test__c GeneratePaymentPlan(Contact guarantor) {
         test__c pp = new test__c();

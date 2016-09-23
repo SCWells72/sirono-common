@@ -12,10 +12,12 @@ public with sharing class MyProfilePageController {
     }
 
     public MyProfilePageController() {
-        user = [SELECT id, email, username, usertype, communitynickname, timezonesidkey, languagelocalekey, firstname, lastname, phone, title,
-                street, city, country, postalcode, state, localesidkey, mobilephone, extension, fax, contact.email
+        user = [
+                SELECT id, email, username, usertype, communitynickname, timezonesidkey, languagelocalekey, firstname, lastname, phone, title,
+                        street, city, country, postalcode, state, localesidkey, mobilephone, extension, fax, contact.email
                 FROM User
-                WHERE id = :UserInfo.getUserId()];
+                WHERE id = :UserInfo.getUserId()
+        ];
         // guest users should never be able to access this page
         if (user.usertype == 'GUEST') {
             throw new NoAccessException();
@@ -27,7 +29,7 @@ public with sharing class MyProfilePageController {
     }
 
     public void edit() {
-        isEdit=true;
+        isEdit = true;
     }
 
     public void save() {
@@ -40,8 +42,8 @@ public with sharing class MyProfilePageController {
             if (user.contact != null) {
                 update user.contact;
             }
-            isEdit=false;
-        } catch(DmlException e) {
+            isEdit = false;
+        } catch (DmlException e) {
             ApexPages.addMessages(e);
         }
     }
@@ -51,11 +53,13 @@ public with sharing class MyProfilePageController {
     }
 
     public void cancel() {
-        isEdit=false;
-        user = [SELECT id, email, username, communitynickname, timezonesidkey, languagelocalekey, firstname, lastname, phone, title,
-                street, city, country, postalcode, state, localesidkey, mobilephone, extension, fax, contact.email
+        isEdit = false;
+        user = [
+                SELECT id, email, username, communitynickname, timezonesidkey, languagelocalekey, firstname, lastname, phone, title,
+                        street, city, country, postalcode, state, localesidkey, mobilephone, extension, fax, contact.email
                 FROM User
-                WHERE id = :UserInfo.getUserId()];
+                WHERE id = :UserInfo.getUserId()
+        ];
     }
 
     public static void setContactFields(Contact c, User u) {

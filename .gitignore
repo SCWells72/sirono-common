@@ -36,6 +36,7 @@ mm.log
 sf_temp/
 
 # Illuminated Cloud / Intellij
+IlluminatedCloud/
 .idea/
 *.iml
 *.iws

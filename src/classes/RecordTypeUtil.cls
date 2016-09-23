@@ -3,7 +3,7 @@
  */
 
 public with sharing class RecordTypeUtil {
-    Public Static Map<String, Id> rtMap= null;
+    Public Static Map<String, Id> rtMap = null;
 
     public static Id Guarantor_RT;
     public static Id Patient_RT;

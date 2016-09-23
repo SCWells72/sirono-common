@@ -6,29 +6,30 @@ public class CommunitiesSelfRegController {
     public String firstName {get; set;}
     public String lastName {get; set;}
     public String email {get; set;}
-    public String password {get; set {password = value == null ? value : value.trim(); } }
-    public String confirmPassword {get; set { confirmPassword = value == null ? value : value.trim(); } }
-    public String communityNickname {get; set { communityNickname = value == null ? value : value.trim(); } }
-    
-    public CommunitiesSelfRegController() {}
-    
+    public String password {get; set {password = value == null ? value : value.trim();}}
+    public String confirmPassword {get; set {confirmPassword = value == null ? value : value.trim();}}
+    public String communityNickname {get; set {communityNickname = value == null ? value : value.trim();}}
+
+    public CommunitiesSelfRegController() {
+    }
+
     private boolean isValidPassword() {
         return password == confirmPassword;
     }
 
     public PageReference registerUser() {
-    
-           // it's okay if password is null - we'll send the user a random password in that case
+
+        // it's okay if password is null - we'll send the user a random password in that case
         if (!isValidPassword()) {
             ApexPages.Message msg = new ApexPages.Message(ApexPages.Severity.ERROR, Label.site.passwords_dont_match);
             ApexPages.addMessage(msg);
             return null;
-        }    
+        }
 
         String profileId = null; // To be filled in by customer.
         String roleEnum = null; // To be filled in by customer.
         String accountId = ''; // To be filled in by customer.
-        
+
         String userName = email;
 
         User u = new User();
@@ -37,28 +38,27 @@ public class CommunitiesSelfRegController {
         u.FirstName = firstName;
         u.LastName = lastName;
         u.CommunityNickname = communityNickname;
-		u.ProfileId = profileId;
-		
+        u.ProfileId = profileId;
+
         String userId;
 
         try {
             userId = Site.createExternalUser(u, accountId, password);
-        } catch(Site.ExternalUserCreateException ex) {
+        } catch (Site.ExternalUserCreateException ex) {
             List<String> errors = ex.getDisplayMessages();
-            for (String error : errors)  {
+            for (String error : errors) {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, error));
             }
-            
+
             // This message is used for debugging. Do not display this in the UI to the end user.
             // It has the information around why the user creation failed.
             System.debug(ex.getMessage());
         }
-        
-        if (userId != null) { 
+
+        if (userId != null) {
             if (password != null && password.length() > 1) {
                 return Site.login(userName, password, ApexPages.currentPage().getParameters().get('startURL'));
-            }
-            else {
+            } else {
                 PageReference page = System.Page.CommunitiesSelfRegConfirm;
                 page.setRedirect(true);
                 return page;
