@@ -37,12 +37,8 @@
         <name>Group_Number__c</name>
     </fields>
     <fields>
-        <label><!-- Sirono ID --></label>
+        <label><!-- ID --></label>
         <name>ID__c</name>
-    </fields>
-    <fields>
-        <label><!-- Is Effective --></label>
-        <name>Is_Effective__c</name>
     </fields>
     <fields>
         <label><!-- Member ID --></label>
@@ -68,6 +64,11 @@
     <fields>
         <label><!-- Plan Name --></label>
         <name>Plan_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Encounter --></label>
+        <name>Preservice__c</name>
+        <relationshipLabel><!-- Coverages --></relationshipLabel>
     </fields>
     <fields>
         <label><!-- Priority --></label>

@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Adjustment_for_Admin</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Adjustment for Admin</shortDescription>
+        <value>Only Administrator Users can add Adjustments.</value>
+    </labels>
+    <labels>
         <fullName>Case_Type_Require</fullName>
         <categories>CreateCaseManual</categories>
         <language>en_US</language>

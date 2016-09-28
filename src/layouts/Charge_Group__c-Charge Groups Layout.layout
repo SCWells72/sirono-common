@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Layout xmlns="http://soap.sforce.com/2006/04/metadata">
+<Layout xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <customConsoleComponents>
         <subtabComponents>
             <containers>
@@ -28,6 +28,14 @@
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>
                         <name>Payment_Adjustments__c.Charge_Group_Name__c</name>
+                    </relatedLists>
+                </sidebarComponents>
+                <sidebarComponents>
+                    <componentType>RelatedList</componentType>
+                    <label>Cases</label>
+                    <relatedLists>
+                        <hideOnDetail>true</hideOnDetail>
+                        <name>Case.Charge_Group_for_Discount__c</name>
                     </relatedLists>
                 </sidebarComponents>
                 <style>Tabs</style>
@@ -167,6 +175,18 @@
                 <behavior>Readonly</behavior>
                 <field>Has_Bad_Debt_Balance__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Balance__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Balance_Discrepancy__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Has_Payment_Plan_Balance__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -222,10 +242,6 @@
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Balance__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -313,7 +329,7 @@
         <fields>Payment_ID__c</fields>
         <fields>Amount__c</fields>
         <fields>Method__c</fields>
-        <fields>CREATED_DATE</fields>
+        <fields>Post_Date__c</fields>
         <relatedList>Transaction__c.Charge_Group__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -322,6 +338,7 @@
         <fields>Payor_ID__c</fields>
         <fields>Payor__c</fields>
         <fields>Payment__c</fields>
+        <fields>Post_Date__c</fields>
         <relatedList>Payment_Adjustments__c.Charge_Group_Name__c</relatedList>
     </relatedLists>
     <relatedLists>

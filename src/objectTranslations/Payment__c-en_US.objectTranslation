@@ -41,6 +41,10 @@
         </picklistValues>
     </fields>
     <fields>
+        <label><!-- Charge Date Test --></label>
+        <name>Charge_Date_Test__c</name>
+    </fields>
+    <fields>
         <label><!-- Charge Date --></label>
         <name>Charge_Date__c</name>
     </fields>
@@ -61,6 +65,10 @@
     <fields>
         <label><!-- Deposit Date --></label>
         <name>Deposit_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Display Name --></label>
+        <name>Display_Name__c</name>
     </fields>
     <fields>
         <label><!-- Expiration Date --></label>

@@ -30,7 +30,7 @@
         <name>Invoice_Date__c</name>
     </fields>
     <fields>
-        <label><!-- Sirono ID --></label>
+        <label><!-- Invoice ID --></label>
         <name>Invoice_ID__c</name>
     </fields>
     <fields>

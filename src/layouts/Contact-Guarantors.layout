@@ -6,7 +6,6 @@
     <customButtons>Process_Payment</customButtons>
     <customButtons>Add_Case</customButtons>
     <customButtons>Add_to_Payment_Plan</customButtons>
-    <customButtons>View_On_Portal</customButtons>
     <customConsoleComponents>
         <primaryTabComponents>
             <containers>
@@ -14,10 +13,38 @@
                 <region>Right</region>
                 <sidebarComponents>
                     <componentType>RelatedList</componentType>
-                    <label>CASES</label>
+                    <label>Payments+</label>
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>
-                        <name>Case.Guarantor_Information__c</name>
+                        <name>Payment__c.Guarantor_Name__c</name>
+                    </relatedLists>
+                    <relatedLists>
+                        <hideOnDetail>true</hideOnDetail>
+                        <name>RelatedHistoryList</name>
+                    </relatedLists>
+                    <relatedLists>
+                        <hideOnDetail>true</hideOnDetail>
+                        <name>Payment_Method__c.Guarantor__c</name>
+                    </relatedLists>
+                    <relatedLists>
+                        <hideOnDetail>true</hideOnDetail>
+                        <name>Campaign_Member_History__c.Contact__c</name>
+                    </relatedLists>
+                </sidebarComponents>
+                <sidebarComponents>
+                    <componentType>RelatedList</componentType>
+                    <label>Payment Plans</label>
+                    <relatedLists>
+                        <hideOnDetail>true</hideOnDetail>
+                        <name>test__c.Guarantor_Name__c</name>
+                    </relatedLists>
+                </sidebarComponents>
+                <sidebarComponents>
+                    <componentType>RelatedList</componentType>
+                    <label>Statements</label>
+                    <relatedLists>
+                        <hideOnDetail>true</hideOnDetail>
+                        <name>Statement__c.Guarantor__c</name>
                     </relatedLists>
                 </sidebarComponents>
                 <style>Tabs</style>
@@ -28,8 +55,9 @@
                 <isContainerAutoSizeEnabled>true</isContainerAutoSizeEnabled>
                 <region>Left</region>
                 <sidebarComponents>
-                    <componentType>Lookup</componentType>
-                    <lookup>Campaign__c</lookup>
+                    <componentType>VisualForcePage</componentType>
+                    <height>100</height>
+                    <page>Five9__Five9ACDPage</page>
                     <unit>Percentage</unit>
                 </sidebarComponents>
                 <style>Stack</style>
@@ -44,7 +72,7 @@
                 <region>Bottom</region>
                 <sidebarComponents>
                     <componentType>RelatedList</componentType>
-                    <label>CHARGE GROUPS</label>
+                    <label>Charge Group</label>
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>
                         <name>Charge_Group__c.Guarantor_Name__c</name>
@@ -52,34 +80,18 @@
                 </sidebarComponents>
                 <sidebarComponents>
                     <componentType>RelatedList</componentType>
-                    <label>ENCOUNTERS</label>
+                    <label>Cases</label>
                     <relatedLists>
-                        <hideOnDetail>true</hideOnDetail>
-                        <name>Encounter__c.Guarantor__c</name>
+                        <hideOnDetail>false</hideOnDetail>
+                        <name>Case.Guarantor_Information__c</name>
                     </relatedLists>
                 </sidebarComponents>
                 <sidebarComponents>
                     <componentType>RelatedList</componentType>
-                    <label>PAYMENT PLANS</label>
+                    <label>Invoices</label>
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>
-                        <name>test__c.Guarantor_Name__c</name>
-                    </relatedLists>
-                </sidebarComponents>
-                <sidebarComponents>
-                    <componentType>RelatedList</componentType>
-                    <label>PAYMENTS</label>
-                    <relatedLists>
-                        <hideOnDetail>true</hideOnDetail>
-                        <name>Payment__c.Guarantor_Name__c</name>
-                    </relatedLists>
-                </sidebarComponents>
-                <sidebarComponents>
-                    <componentType>RelatedList</componentType>
-                    <label>STATEMENTS</label>
-                    <relatedLists>
-                        <hideOnDetail>true</hideOnDetail>
-                        <name>Statement__c.Guarantor__c</name>
+                        <name>Invoice__c.Guarantor_Name__c</name>
                     </relatedLists>
                 </sidebarComponents>
                 <style>Tabs</style>
@@ -87,13 +99,11 @@
             </containers>
         </subtabComponents>
     </customConsoleComponents>
-    <excludeButtons>Clone</excludeButtons>
     <excludeButtons>DisableCustomerPortal</excludeButtons>
     <excludeButtons>DisablePrmSuperUser</excludeButtons>
     <excludeButtons>EnablePrmSuperUser</excludeButtons>
     <excludeButtons>RequestUpdate</excludeButtons>
     <excludeButtons>SendEmail</excludeButtons>
-    <excludeButtons>Share</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <excludeButtons>ViewPartnerPortalUser</excludeButtons>
     <excludeButtons>XClean</excludeButtons>
@@ -119,6 +129,14 @@
         </rightComponents>
         <useInlineFiltersInConsole>true</useInlineFiltersInConsole>
     </feedLayout>
+    <layoutSections>
+        <customLabel>true</customLabel>
+        <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>Timeline</label>
+        <layoutColumns/>
+        <style>OneColumn</style>
+    </layoutSections>
     <layoutSections>
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
@@ -160,6 +178,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Skip_Invoice_Stmt_Until__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Invoice_Offset_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -204,10 +226,6 @@
                 <field>Department</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Invoice_Offset_Date__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Due_Balance__c</field>
             </layoutItems>
@@ -222,6 +240,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Bad_Debt_Balance__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Payment_Plan_Balance__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -243,6 +265,20 @@
                 <field>OtherAddress</field>
             </layoutItems>
         </layoutColumns>
+        <style>TwoColumnsLeftToRight</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>true</customLabel>
+        <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>Balance</label>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Total_Balance__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
@@ -316,23 +352,8 @@
         </relatedContentItems>
     </relatedContent>
     <relatedLists>
-        <fields>CASES.CASE_NUMBER</fields>
-        <fields>CASES.PRIORITY</fields>
-        <fields>CASES.STATUS</fields>
-        <fields>CASES.SUBJECT</fields>
-        <fields>CASES.REASON</fields>
-        <fields>NAME</fields>
-        <fields>Assigned_To__c</fields>
-        <fields>Last_Modified_Date__c</fields>
-        <relatedList>Case.Patient__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <relatedList>RelatedContentNoteList</relatedList>
-    </relatedLists>
-    <relatedLists>
         <excludeButtons>NewEvent</excludeButtons>
         <excludeButtons>NewProposeMeeting</excludeButtons>
-        <excludeButtons>NewTask</excludeButtons>
         <fields>TASK.SUBJECT</fields>
         <fields>TASK.WHAT_NAME</fields>
         <fields>ACTIVITY.TASK</fields>
@@ -350,31 +371,30 @@
         <fields>Procedure__c</fields>
         <fields>Total_Charges__c</fields>
         <fields>Allowed_Amount__c</fields>
-        <fields>Patient_Portion__c</fields>
         <relatedList>Encounter__c.Guarantor__c</relatedList>
     </relatedLists>
     <relatedLists>
         <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
         <fields>Account_Number__c</fields>
-        <fields>Patient_Name__c</fields>
         <fields>Balance__c</fields>
+        <fields>Patient_Name__c</fields>
         <fields>Active__c</fields>
         <fields>Account_Status__c</fields>
         <fields>Account_Sub_Status__c</fields>
         <fields>CREATED_DATE</fields>
         <relatedList>Charge_Group__c.Guarantor_Name__c</relatedList>
-        <sortField>Balance__c</sortField>
+        <sortField>Active__c</sortField>
         <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
         <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
         <fields>Active__c</fields>
+        <fields>Payable_Amount__c</fields>
         <fields>Plan_Type__c</fields>
-        <fields>Installment_Amount__c</fields>
-        <fields>Next_Payment_Date__c</fields>
         <fields>Execute_on_Day__c</fields>
+        <fields>Next_Payment_Date__c</fields>
         <relatedList>test__c.Guarantor_Name__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -382,18 +402,32 @@
         <fields>NAME</fields>
         <fields>Original_Balance__c</fields>
         <fields>Statement_Date__c</fields>
+        <fields>Large_Statement_ID__c</fields>
+        <fields>Small_Statement_ID__c</fields>
         <fields>PdfUrl__c</fields>
         <relatedList>Statement__c.Guarantor__c</relatedList>
     </relatedLists>
     <relatedLists>
+        <excludeButtons>NewCase</excludeButtons>
         <fields>CASES.CASE_NUMBER</fields>
+        <fields>CASES.PRIORITY</fields>
         <fields>CASES.STATUS</fields>
         <fields>CASES.SUBJECT</fields>
-        <fields>CASES.PRIORITY</fields>
         <fields>CASES.REASON</fields>
+        <fields>NAME</fields>
         <fields>Assigned_To__c</fields>
         <fields>Last_Modified_Date__c</fields>
+        <fields>Created_Date__c</fields>
         <relatedList>Case.Guarantor_Information__c</relatedList>
+        <sortField>Created_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
+        <fields>Invoice_Date__c</fields>
+        <fields>Due_Date__c</fields>
+        <relatedList>Invoice__c.Guarantor_Name__c</relatedList>
     </relatedLists>
     <relatedLists>
         <excludeButtons>New</excludeButtons>
@@ -411,7 +445,7 @@
         <excludeButtons>SendEmail</excludeButtons>
         <excludeButtons>ViewAll</excludeButtons>
         <fields>TASK.SUBJECT</fields>
-        <fields>Call_ID__c</fields>
+        <fields>TASK.WHAT_NAME</fields>
         <fields>Five9__Five9Campaign__c</fields>
         <fields>Five9__Five9DNIS__c</fields>
         <fields>TASK.CALLDISPOSITION</fields>
@@ -433,6 +467,20 @@
         <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
         <relatedList>Campaign_Member_History__c.Contact__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Patient_Coverage_Junction__c.Patient__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>Owner.CASE_OWNER_NAME</fields>
+        <fields>Case.CASE_SUBJECT</fields>
+        <fields>Case.CASE_TYPE</fields>
+        <fields>Case.CASE_REASON</fields>
+        <fields>Case.CASE_STATUS</fields>
+        <relatedList>Case_Contact_Junction__c.Contact__c</relatedList>
+        <sortField>Case.CASE_STATUS</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

@@ -1,14 +1,18 @@
-/**
+/*
+ * @author Sirono
+ * @version 1.0.1
+ * @Date: 05-03-2016
+ *
  * An apex class that keeps updates of a portal user in sync with its corresponding contact.
    Guest users are never able to access this page.
+
+ * 14/09/2016 commented the code since it is not used into community/site for any business requirement
  */
 @IsTest public with sharing class MyProfilePageControllerTest {
-    @IsTest(SeeAllData=true) static void testSetContactFields() {
-        User u = [
-                select title, firstname, lastname, email, phone, mobilephone, fax, street, city, state, postalcode, country
-                FROM User
-                WHERE id = :UserInfo.getUserId()
-        ];
+/* @IsTest(SeeAllData=true) static void testSetContactFields() {
+        User u = [select title, firstname, lastname, email, phone, mobilephone,
+                    fax, street, city, state, postalcode, country
+                   FROM User WHERE id =: UserInfo.getUserId()];
 
         Contact c = new Contact();
 
@@ -16,17 +20,20 @@
         System.assertEquals(c.firstname, u.firstname, 'firstname should have been set as the firstname of the user for the contact');
         System.assertEquals(c.lastname, u.lastname, 'lastname should have been set as the lastname of the user for the contact');
     }
-
+*/
     @IsTest(SeeAllData=true) static void testSave() {
+
+        MyProfilePageController controller = new MyProfilePageController();    //Delete this line when the above code is uncommented.
+
         // Modify the test to query for a portal user that exists in your org
-        List<User> existingPortalUsers = [SELECT id, profileId, userRoleId FROM User WHERE UserRoleId <> null AND UserType = 'CustomerSuccess'];
+      /*  List<User> existingPortalUsers = [SELECT id, profileId, userRoleId 
+                                            FROM User WHERE UserRoleId <> null 
+                                            AND UserType='CustomerSuccess'];
 
         if (existingPortalUsers.isEmpty()) {
-            User currentUser = [
-                    select id, title, firstname, lastname, email, phone, mobilephone, fax, street, city, state, postalcode, country
-                    FROM User
-                    WHERE id = :UserInfo.getUserId()
-            ];
+            User currentUser = [select id, title, firstname, lastname, email,
+                                phone, mobilephone, fax, street, city, state, postalcode, country
+                                FROM User WHERE id =: UserInfo.getUserId()];
             MyProfilePageController controller = new MyProfilePageController();
             System.assertEquals(currentUser.Id, controller.getUser().Id, 'Did not successfully load the current user');
             System.assert(controller.getIsEdit() == false, 'isEdit should default to false');
@@ -73,9 +80,11 @@
             }
 
             // verify that the user and contact were updated
-            existingPortalUser = [Select id, fax, Contact.Fax from User where id = :existingPortalUser.Id];
+            existingPortalUser = [Select id, fax, Contact.Fax from User where id =: existingPortalUser.Id];
             System.assert(existingPortalUser.fax == randFax);
             System.assert(existingPortalUser.Contact.fax == randFax);
         }
+    }
+ */
     }
 }

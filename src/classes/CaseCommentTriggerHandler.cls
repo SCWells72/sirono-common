@@ -1,5 +1,13 @@
+/*
+* @author: Sirono
+* @version  1.0.1
+* @date: 05-05-2016
+* @description Handler class for CaseCommentTrigger
+* 23/09/2016 Tracker # 130687155  Get the Charge Groups from Case Charge Group object.
+*/
+
 public with sharing class CaseCommentTriggerHandler {
-    // PUBLIC METHOD CALLED FROM TRIGGER
+    //PUBLIC METHOD CALLED FROM TRIGGER
     public static void afterInsert(List<CaseComment> newList) {
         //ONLY DOING CALLOUT WHEN BATCH SIZE IS ONE (It's Created from UI)
         if (newList.size() == 1) {
@@ -7,21 +15,28 @@ public with sharing class CaseCommentTriggerHandler {
         }
     }
 
-    // PRIVATE METHOD TO VALIDATE AND CALL ADD NOTE FUTURE METHOD
+    //PRIVATE METHOD TO VALIDATE AND CALL ADD NOTE FUTURE METHOD
     private static void checkAndDoAddNoteCallout(CaseComment cc) {
-        // CHECK IF COMMENT BODY IS NOT NULL
+        //CHECK IF COMMENT BODY IS NOT NULL
         if (cc.CommentBody != null) {
-            // CHECK IF CASE OF NOES RECORD TYPE AND DID NOT CREATED BY SIRONO INTEGRATION USER
-            // AND HAVE Charge_Group_Id__c ON ASSOCIATED CHARGE GROUP RECORD
-            for (CaseComment ob : [
-                    Select Id, CommentBody, Parent.Charge_Group_IDs__c
-                    From CaseComment
-                    Where Id = :cc.Id AND CreatedBy.Name != 'Sirono Integration'
-                    AND Parent.RecordType.Name = 'Internal Case' AND Parent.Charge_Group_IDs__c != null
-            ]) {
-                // CALL FUTURE METHOD FOR ADD NOTE CALLOUT
-                PayStaffWSUtill.addNoteFuture(ob.Parent.Charge_Group_IDs__c, ob.CommentBody);
+            //CHECK IF CASE OF NOES RECORD TYPE AND DID NOT CREATED BY SIRONO INTEGRATION USER
+            //AND Have ChargeGroups ASSOCIATED with Case
+            Id caseId;
+            string caseCommentBody = '';
+            //Removed Internal Case record type check in the query 
+            for (CaseComment ob : [Select Id, CommentBody, ParentId From CaseComment Where Id = :cc.Id AND CreatedBy.Name != 'Sirono Integration']) {
+                caseId = ob.ParentId;
+                caseCommentBody = ob.CommentBody;
             }
+            List<String> chargeGroupIds = new List<String>();
+            //Tracker # 130687155  Query to get the Charge Groups from Case Charge Group object.
+            for (Charge_Group__c cg : [Select Id, Charge_Group_ID__c From Charge_Group__c Where Id IN (Select Charge_Group__c from Case_Charge_Group__c Where Case__c = :caseId)]) {
+                if (cg != null) {
+                    chargeGroupIds.add(cg.Charge_Group_ID__c + '');
+                }
+            }
+            //CALL FUTURE METHOD FOR ADD NOTE CALLOUT
+            PayStaffWSUtill.addNoteFuture(chargeGroupIds, caseCommentBody);
         }
     }
 }

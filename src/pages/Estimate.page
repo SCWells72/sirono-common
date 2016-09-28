@@ -1,60 +1,66 @@
+<!--
+* @author: Sirono
+* @version 1.0.1
+* @Date: 06-22-2016
+-->
+
 <apex:page standardController="Encounter__c">
 
-  <p><b>
-  <apex:outputlabel value="Total Charges: " style="font-size: 14px; color: orange;"></apex:outputlabel>
-  <apex:outputText value="{0, Number, Currency}" style="font-size: 14px;">
-    <apex:param value="{!Encounter__c.Total_Charges__c}"/>
-  </apex:outputText>
-  </b></p>
-  
-  <p><b>
-  <apex:outputlabel value="Insurance Portion: " style="font-size: 14px; color: blue;"></apex:outputlabel>
-  <apex:outputText value="{0, Number, Currency}" style="font-size: 14px;">
-    <apex:param value="{!Encounter__c.Insurance_Portion__c}"/>
-  </apex:outputText>
-  </b></p>
- 
-  <p>
-  <apex:outputlabel value="Negotiated Discount: " style="font-size: 11px;"></apex:outputlabel>
-  <apex:outputText value="{0, Number, Currency}" style="font-size: 11px;">
-    <apex:param value="{!Encounter__c.Insurance_Discount__c}"/>
-  </apex:outputText>
-  </p>
+    <p><b>
+        <apex:outputlabel value="Total Charges: " style="font-size: 14px; color: orange;"></apex:outputlabel>
+        <apex:outputText value="{0, Number, Currency}" style="font-size: 14px;">
+            <apex:param value="{!Encounter__c.Total_Charges__c}"/>
+        </apex:outputText>
+    </b></p>
 
-  <p><b>
-  <apex:outputlabel value="Patient Portion: " style="font-size: 14px; color: green;"></apex:outputlabel>
-  <apex:outputText value="{0, Number, Currency}" style="font-size: 14px;">
-    <apex:param value="{!Encounter__c.Patient_Portion__c}"/>
-  </apex:outputText>
-  </b></p>
-  
-  <p>
-  <apex:outputlabel value="Co-payment: " style="font-size: 11px;"></apex:outputlabel>
-  <apex:outputText value="{0, Number, Currency}" style="font-size: 11px;">
-    <apex:param value="{!Encounter__c.Co_Pay__c}"/>
-  </apex:outputText>
-  </p>
-  
-  <p>
-  <apex:outputlabel value="Deductible: " style="font-size: 11px;"></apex:outputlabel>
-  <apex:outputText value="{0, Number, Currency}" style="font-size: 11px;">
-    <apex:param value="{!Encounter__c.Deductible__c}"/>
-  </apex:outputText>
-  </p>
-  
-  <p>
-  <apex:outputlabel value="Co-insurance: " style="font-size: 11px;"></apex:outputlabel>
-  <apex:outputText value="{0, Number, Currency}" style="font-size: 11px;">
-    <apex:param value="{!Encounter__c.Co_Insurance__c}"/>
-  </apex:outputText>
-  </p>
-  
-  <p><b>
-  <apex:outputlabel value="Estimated Amount: " style="font-size: 16px; color: red;"></apex:outputlabel>
-  <apex:outputText value="{0, Number, Currency}" style="font-size: 16px;">
-    <apex:param value="{!Encounter__c.Patient_Portion__c}"/>
-  </apex:outputText>
-  </b></p>
-  
+    <p><b>
+        <apex:outputlabel value="Insurance Portion: " style="font-size: 14px; color: blue;"></apex:outputlabel>
+        <apex:outputText value="{0, Number, Currency}" style="font-size: 14px;">
+            <apex:param value="{!Encounter__c.Insurance_Portion__c}"/>
+        </apex:outputText>
+    </b></p>
+
+    <p>
+        <apex:outputlabel value="Negotiated Discount: " style="font-size: 11px;"></apex:outputlabel>
+        <apex:outputText value="{0, Number, Currency}" style="font-size: 11px;">
+            <apex:param value="{!Encounter__c.Insurance_Discount__c}"/>
+        </apex:outputText>
+    </p>
+
+    <p><b>
+        <apex:outputlabel value="Patient Portion: " style="font-size: 14px; color: green;"></apex:outputlabel>
+        <apex:outputText value="{0, Number, Currency}" style="font-size: 14px;">
+            <apex:param value="{!Encounter__c.Patient_Portion__c}"/>
+        </apex:outputText>
+    </b></p>
+
+    <p>
+        <apex:outputlabel value="Co-payment: " style="font-size: 11px;"></apex:outputlabel>
+        <apex:outputText value="{0, Number, Currency}" style="font-size: 11px;">
+            <apex:param value="{!Encounter__c.Co_Pay__c}"/>
+        </apex:outputText>
+    </p>
+
+    <p>
+        <apex:outputlabel value="Deductible: " style="font-size: 11px;"></apex:outputlabel>
+        <apex:outputText value="{0, Number, Currency}" style="font-size: 11px;">
+            <apex:param value="{!Encounter__c.Deductible__c}"/>
+        </apex:outputText>
+    </p>
+
+    <p>
+        <apex:outputlabel value="Co-insurance: " style="font-size: 11px;"></apex:outputlabel>
+        <apex:outputText value="{0, Number, Currency}" style="font-size: 11px;">
+            <apex:param value="{!Encounter__c.Co_Insurance__c}"/>
+        </apex:outputText>
+    </p>
+
+    <p><b>
+        <apex:outputlabel value="Estimated Amount: " style="font-size: 16px; color: red;"></apex:outputlabel>
+        <apex:outputText value="{0, Number, Currency}" style="font-size: 16px;">
+            <apex:param value="{!Encounter__c.Patient_Portion__c}"/>
+        </apex:outputText>
+    </b></p>
+
 
 </apex:page>

@@ -1,12 +1,27 @@
+/*
+* @author: Sirono
+* @version 1.0.1
+* @Date: 06-06-2016
+*
+* Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
+*/
+
+
 public with sharing class CallListUtilities {
 
-    public static void PreCollectionCallListRemoval(Set<Id> contactIds) {
+    //Remove the Campaign Members for the pre collection
+    public static void preCollectionCallListRemoval(Set<Id> contactIds) {
         Set<Id> membersToremove = new Set<Id>();
         for (Contact c : [
-                Select Id, Overdue_Balance__c, Delinquent_Balance__c, (Select Id, Pre_Collection_Sent__c From Charge_Groups__r Where Pre_Collection_Sent__c != null)
+                Select Id, Overdue_Balance__c, Delinquent_Balance__c, (
+                        Select Id, Pre_Collection_Sent__c
+                        From Charge_Groups__r
+                        Where Pre_Collection_Sent__c != null
+                )
                 From Contact
                 Where Id IN :contactIds
         ]) {
+
             Decimal balToCheck = 0;
             if (c.Overdue_Balance__c != null) balToCheck += c.Overdue_Balance__c;
             if (c.Delinquent_Balance__c != null) balToCheck += c.Delinquent_Balance__c;
@@ -17,17 +32,25 @@ public with sharing class CallListUtilities {
             }
         }
 
-        List<CampaignMember> cmListToRemove = new List<CampaignMember>([
+        //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+                'PreCollections'
+        });
+        string preCollection = mapCampaignMapping.get('PreCollections');
+
+        List<CampaignMember> cmListToRemove = new List<CampaignMember>(
+        [
                 Select Id, ContactId, CampaignId
                 From CampaignMember
-                Where ContactId = :membersToremove AND Campaign.Name = 'Pre-collections'
-        ]);
-        if (cmListToRemove.size() > 0) {
-            delete cmListToRemove;
-        }
+                Where ContactId = :membersToremove
+                AND Campaign.Name = :preCollection
+        ]
+        );
+        if (cmListToRemove.size() > 0) delete cmListToRemove;
     }
 
-    public static void EarlyOutCallListRemoval(List<Contact> contacts) {
+    //Remove the Campaign Members for the Early Out case.
+    public static void earlyOutCallListRemoval(List<Contact> contacts) {
         Set<Id> membersToremove = new Set<Id>();
         for (Contact c : contacts) {
             Decimal balToCheck = 0;
@@ -40,17 +63,25 @@ public with sharing class CallListUtilities {
             }
         }
 
-        List<CampaignMember> cmListToRemove = new List<CampaignMember>([
+        //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+                'Early-out'
+        });
+        string earlyOut = mapCampaignMapping.get('Early-out');
+
+        List<CampaignMember> cmListToRemove = new List<CampaignMember>(
+        [
                 Select Id, ContactId, CampaignId
                 From CampaignMember
-                Where ContactId = :membersToremove AND Campaign.Name = 'Early Out'
-        ]);
-        if (cmListToRemove.size() > 0) {
-            delete cmListToRemove;
-        }
+                Where ContactId = :membersToremove
+                AND Campaign.Name = :earlyOut
+        ]
+        );
+        if (cmListToRemove.size() > 0) delete cmListToRemove;
     }
 
-    public static void DelinquentPaymentPlanCallListRemoval(Set<Id> contactIds) {
+    //Remove the Campaign Members for the Delinquent case.
+    public static void delinquentPaymentPlanCallListRemoval(Set<Id> contactIds) {
         Set<Id> membersToremove = new Set<Id>();
         for (Contact c : [
                 Select Id, (
@@ -66,17 +97,22 @@ public with sharing class CallListUtilities {
             }
         }
 
+        //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+                'Delinquent Payment Plans'
+        });
+        string delinquent = mapCampaignMapping.get('Delinquent Payment Plans');
+
         List<CampaignMember> cmListToRemove = new List<CampaignMember>([
                 Select Id, ContactId, CampaignId
                 From CampaignMember
-                Where ContactId = :membersToremove AND Campaign.Name = 'Delinquent Payment Plans'
+                Where ContactId = :membersToremove AND Campaign.Name = :delinquent
         ]);
-        if (cmListToRemove.size() > 0) {
-            delete cmListToRemove;
-        }
+        if (cmListToRemove.size() > 0) delete cmListToRemove;
     }
 
-    public static void PreServiceCallListRemoval(Set<Id> contactIds) {
+    //Remove the Campaign Members for the Pre-Service case.
+    public static void preServiceCallListRemoval(Set<Id> contactIds) {
         Set<Id> membersToremove = new Set<Id>();
         for (Contact c : [
                 Select Id, (
@@ -92,13 +128,20 @@ public with sharing class CallListUtilities {
             }
         }
 
-        List<CampaignMember> cmListToRemove = new List<CampaignMember>([
+        //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+                'PreService'
+        });
+        string preService = mapCampaignMapping.get('PreService');
+
+        List<CampaignMember> cmListToRemove = new List<CampaignMember>(
+        [
                 Select Id, ContactId, CampaignId
                 From CampaignMember
-                Where ContactId = :membersToremove AND Campaign.Name = 'Pre-service'
-        ]);
-        if (cmListToRemove.size() > 0) {
-            delete cmListToRemove;
-        }
+                Where ContactId = :membersToremove
+                AND Campaign.Name = :preService
+        ]
+        );
+        if (cmListToRemove.size() > 0) delete cmListToRemove;
     }
 }

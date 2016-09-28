@@ -70,7 +70,7 @@
             <name>Internal_Case_Assignment</name>
             <type>Alert</type>
         </actions>
-        <active>false</active>
+        <active>true</active>
         <criteriaItems>
             <field>Case.Notify_Assign_To__c</field>
             <operation>equals</operation>
@@ -84,7 +84,7 @@
             <name>Internal_Case_Status_Update</name>
             <type>Alert</type>
         </actions>
-        <active>false</active>
+        <active>true</active>
         <criteriaItems>
             <field>Case.Status</field>
             <operation>equals</operation>
@@ -98,7 +98,7 @@
             <name>Internal_Case_Notification</name>
             <type>Alert</type>
         </actions>
-        <active>false</active>
+        <active>true</active>
         <criteriaItems>
             <field>Case.RecordTypeId</field>
             <operation>equals</operation>

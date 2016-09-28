@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Layout xmlns="http://soap.sforce.com/2006/04/metadata">
+<Layout xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <customButtons>Add_Case</customButtons>
     <customConsoleComponents>
+        <primaryTabComponents>
+            <containers>
+                <isContainerAutoSizeEnabled>true</isContainerAutoSizeEnabled>
+                <region>Right</region>
+                <sidebarComponents>
+                    <componentType>RelatedList</componentType>
+                    <label>Charge Group</label>
+                    <relatedLists>
+                        <hideOnDetail>true</hideOnDetail>
+                        <name>Charge_Group__c.Patient_Name__c</name>
+                    </relatedLists>
+                </sidebarComponents>
+                <style>Tabs</style>
+                <unit>Percentage</unit>
+                <width>30</width>
+            </containers>
+        </primaryTabComponents>
         <subtabComponents>
             <containers>
                 <height>30</height>
@@ -20,13 +38,11 @@
         </subtabComponents>
     </customConsoleComponents>
     <excludeButtons>Clone</excludeButtons>
-    <excludeButtons>DataDotComClean</excludeButtons>
     <excludeButtons>DisableCustomerPortal</excludeButtons>
     <excludeButtons>DisablePartnerPortal</excludeButtons>
     <excludeButtons>DisablePrmSuperUser</excludeButtons>
     <excludeButtons>EnablePrmSuperUser</excludeButtons>
     <excludeButtons>RequestUpdate</excludeButtons>
-    <excludeButtons>RequestUseSfdc</excludeButtons>
     <excludeButtons>SendEmail</excludeButtons>
     <excludeButtons>Share</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
@@ -121,14 +137,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Email</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Deleted__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Verified_Email__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

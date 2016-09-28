@@ -1,5 +1,14 @@
-<apex:page id="communitiesSelfRegConfirmPage" controller="CommunitiesSelfRegConfirmController" showHeader="true" cache="false" title="{!$Label.site.registration_confirmation}" >
-    <apex:define name="body">  
+<!--
+* @author: Sirono
+* @version 1.0.1
+* @Date: 05-03-2016
+
+* 14/09/2016 commented the code since it is not used into community/site for any business requirement
+-->
+
+<apex:page id="communitiesSelfRegConfirmPage" controller="CommunitiesSelfRegConfirmController" showHeader="true"
+           cache="false" title="{!$Label.site.registration_confirmation}">
+    <!--<apex:define name="body">
       <center>
         <apex:panelGrid bgcolor="white" columns="1" style="align: center;"> 
           <br/>
@@ -24,5 +33,5 @@
        </apex:panelGrid>
       </center>
       <br/>
-    </apex:define>
+    </apex:define>-->
 </apex:page>

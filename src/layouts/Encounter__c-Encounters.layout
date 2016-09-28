@@ -9,7 +9,15 @@
                 <region>Bottom</region>
                 <sidebarComponents>
                     <componentType>RelatedList</componentType>
-                    <label>PAYMENT ARRANGEMENTS</label>
+                    <label>Coverages</label>
+                    <relatedLists>
+                        <hideOnDetail>true</hideOnDetail>
+                        <name>Coverage__c.Preservice__c</name>
+                    </relatedLists>
+                </sidebarComponents>
+                <sidebarComponents>
+                    <componentType>RelatedList</componentType>
+                    <label>Payment Arrangements</label>
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>
                         <name>Payment_Arrangement__c.Encounter__c</name>
@@ -277,15 +285,21 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Amount__c</fields>
-        <fields>Installment_Amount__c</fields>
-        <fields>Number_of_Installments__c</fields>
-        <fields>Billed_Date__c</fields>
         <fields>CREATED_DATE</fields>
         <relatedList>Payment_Arrangement__c.Encounter__c</relatedList>
     </relatedLists>
     <relatedLists>
+        <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
-        <relatedList>Encounter_Coverage_Junction__c.Encounter__c</relatedList>
+        <fields>Member_Name__c</fields>
+        <fields>Subscriber_ID__c</fields>
+        <fields>Group_Number__c</fields>
+        <fields>ID__c</fields>
+        <fields>External_Last_Update__c</fields>
+        <fields>Verification_Status__c</fields>
+        <relatedList>Coverage__c.Preservice__c</relatedList>
+        <sortField>External_Last_Update__c</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
         <fields>CASES.CASE_NUMBER</fields>

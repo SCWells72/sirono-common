@@ -60,7 +60,9 @@
     <fields>
         <fullName>Day_of_Week__c</fullName>
         <externalId>false</externalId>
-        <formula>CASE(
+        <formula>IF(
+ISBLANK(ActivityDate), NULL,
+CASE(
   MOD( ActivityDate  - DATE(1900, 1, 8), 7 ),
   0, &quot;1 Monday&quot;,
   1, &quot;2 Tuesday&quot;,
@@ -69,6 +71,7 @@
   4, &quot;5 Friday&quot;,
   5, &quot;6 Saturday&quot;, 
   &quot;7 Sunday&quot;
+)
 )</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Day of Week</label>
@@ -83,6 +86,31 @@
         <length>254</length>
         <required>false</required>
         <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Five9_Call_Time_mins__c</fullName>
+        <externalId>false</externalId>
+        <formula>/* Get total seconds for the Handle Time */
+
+(
+VALUE(RIGHT(Five9__Five9HandleTime__c,2)) + 
+(VALUE(MID(Five9__Five9HandleTime__c, 4,2)) *60) + /* converts the minutes to seconds */
+(VALUE(LEFT(Five9__Five9HandleTime__c,2)) *3600) /* converts the hours to seconds */
+)
+- /* Subtract total seconds for Wrap (after call) Time */
+
+(
+VALUE(RIGHT(Five9__Five9WrapTime__c,2)) + 
+(VALUE(MID(Five9__Five9WrapTime__c, 4,2)) *60) + /* converts the minutes to seconds */
+(VALUE(LEFT(Five9__Five9WrapTime__c,2)) *3600) /* converts the hours to seconds */
+)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Five9 Call Time (mins)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
         <unique>false</unique>
     </fields>
     <fields>
@@ -247,6 +275,16 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Hours_of_Day__c</fullName>
+        <externalId>false</externalId>
+        <label>Hour of Day (New)</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Recording__c</fullName>
         <externalId>false</externalId>
         <label>Recording</label>
@@ -263,6 +301,13 @@
         <required>false</required>
         <type>Text</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>temp_delete__c</fullName>
+        <externalId>false</externalId>
+        <label>temp_delete</label>
+        <required>false</required>
+        <type>DateTime</type>
     </fields>
     <listViews>
         <fullName>All_Activities</fullName>

@@ -1,27 +1,90 @@
-@isTest
+/*
+ * @author Sirono
+ * @version 1.0.1
+ * @date 08-12-2016
+ * @ Utility class for the test class to create a records.
+ */
+
+
 Public Class TestUtility {
+    Public Static Map<String, Id> rtMap = new Map<String, Id>();
+    Public Static String body = '{"token":"bar"}';
+    Public Static String responsebody = '{"token":"bar"}';
+    Public Static Integer statusCode = 200;
+    Public Static Integer statusCode2 = 200;
+    Public Static Integer statusCode3 = 200;
+    Public Static Integer statusCode4 = 200;
+    Public Static String status = 'CREATED';
+    public static boolean isTest = false;
+    public static boolean setBlank = false;
+    public static String errorbody = '' ;
+    public static integer currentDay = 22;
+    public static integer currentMonth = 12;
+    public static integer currentYear = 2017;
+    public static boolean hasException = false;
+    public static string planType = 'auto';
+    public static string errorDate = '2016-05-13';
+    public static string delinquentDate = '2016-05-13';
 
-    public static Contact generateGuarantorContact() {
-        Contact g = new Contact();
-        g.RecordTypeId = RecordTypeUtil.Guarantor_RT;
-        g.LastName = 'G Test';
-        g.Profile_Pointer_Id__c = 12345;
-        g.HomePhone = '111';
-        g.MobilePhone = '111';
-        return g;
+    public static string url = 'http://127.0.0.1:8000/paystaff/api/paymentplan/2876/';
+    Public TestUtility() {
+        for (RecordType rt : [
+                Select Id, Name
+                From RecordType
+                Where sObjectType = 'Contact'
+        ]) {
+            rtMap.put(rt.Name, rt.Id);
+        }
     }
 
-    public static Contact generatePatientContact() {
-        Contact g = new Contact();
-        g.RecordTypeId = RecordTypeUtil.Patient_RT;
-        g.LastName = 'G Test';
-        g.Profile_Pointer_Id__c = 123455;
-        g.HomePhone = '111';
-        g.MobilePhone = '111';
-        return g;
+    // Return Guarantor Contact record        
+    Public Static contact generateGuarantorContact() {
+        Contact guarantorContact = new Contact();
+        guarantorContact.RecordTypeId = RecordTypeUtil.guarantorRt;
+        guarantorContact.LastName = 'G Test';
+        guarantorContact.Profile_Pointer_Id__c = 12345;
+        guarantorContact.HomePhone = '111';
+        guarantorContact.MobilePhone = '111';
+        return guarantorContact;
     }
 
-    public static Charge_Group__c generateChargeGroup(String guarantorContactId, String patientContactId, Decimal chargeGroupExternalId) {
+    // Return Patient Contact record
+    Public Static contact generatePatientContact() {
+        Contact patientContact = new Contact();
+        patientContact.RecordTypeId = RecordTypeUtil.patientRt;
+        patientContact.LastName = 'G Test';
+        patientContact.Profile_Pointer_Id__c = 123455;
+        patientContact.HomePhone = '111';
+        patientContact.MobilePhone = '111';
+        return patientContact;
+    }
+
+    // Return charge group record
+    Public Static Charge_Group__c generateChargeGroup(String guarantorContactId,
+            String patientContactId,
+            Decimal chargeGroupExternalId,
+            string paymentplanID) {
+        Charge_Group__c chargeGroup = new Charge_Group__c();
+        chargeGroup.Guarantor_Name__c = guarantorContactId;
+        chargeGroup.Charge_Group_ID__c = chargeGroupExternalId;
+        chargeGroup.Patient_Name__c = patientContactId;
+        chargeGroup.Charge_Group_External_ID__c = true;
+        //chargeGroup.Balance__c = -100; //can't set amount now that balance is a rollup
+        chargeGroup.Reported_Selfpay_Balance__c = 10;
+        chargeGroup.Account_Status__c = 'Billed';
+        chargeGroup.Account_Sub_Status__c = 'Overdue';
+        chargeGroup.Active__c = true;
+        chargeGroup.Account_Status__c = 'Billed';
+        chargeGroup.Account_Sub_Status__c = 'Preinvoiced';
+        chargeGroup.Name = 'Sirono';
+        chargeGroup.Payment_Plan__c = paymentplanID;
+        return chargeGroup;
+    }
+
+    // Return charge group record
+    Public Static Charge_Group__c generateChargeGroup(String guarantorContactId,
+            String patientContactId,
+            Decimal chargeGroupExternalId) {
         Charge_Group__c cg = new Charge_Group__c();
         cg.Guarantor_Name__c = guarantorContactId;
         cg.Charge_Group_ID__c = chargeGroupExternalId;
@@ -38,47 +101,144 @@ Public Class TestUtility {
         return cg;
     }
 
-    public static Transaction__c generateTransaction(Charge_Group__c cg, Decimal amount, String method) {
-
-        Transaction__c t = new Transaction__c();
-        t.Amount__c = amount == null ? 0 : amount;
-        t.Charge_Group__c = cg.Id;
-        t.Credit_Balance__c = amount < 0;
-        t.Fail_Date__c = null;
-        t.Id__c = System.currentTimeMillis();
-        t.Method__c = method;
-        t.Notes__c = 'Test txn';
-        t.Post_Date__c = System.today().addDays('Credit'.equals(method) ? 7 : -7);
-        return t;
+    // Return transaction record
+    public static Transaction__c generateTransaction(Charge_Group__c chargeGroup,
+            Decimal amount,
+            String method) {
+        Transaction__c objTransaction = new Transaction__c();
+        objTransaction.Amount__c = amount == null ? 0 : amount;
+        objTransaction.Charge_Group__c = chargeGroup.Id;
+        objTransaction.Credit_Balance__c = amount < 0;
+        objTransaction.Fail_Date__c = null;
+        objTransaction.Id__c = System.currentTimeMillis();
+        objTransaction.Method__c = method;
+        objTransaction.Notes__c = 'Test txn';
+        objTransaction.Post_Date__c = System.today().addDays('Credit'.equals(method) ? 7 : -7);
+        return objTransaction;
     }
 
-    public static Encounter__c createEncounter(String gId, Decimal patientPortion, Date serviceDate) {
-        Encounter__c e = new Encounter__c(Guarantor__c = gId, Patient_Portion__c = patientPortion, Date_of_Service__c = serviceDate);
-        return e;
+    // Return Encounter record
+    public static Encounter__c generateEncounter(String guarantorId,
+            Decimal patientPortion,
+            Date serviceDate) {
+        Encounter__c encounter = new Encounter__c(Guarantor__c = guarantorId,
+                Patient_Portion__c = patientPortion,
+                Date_of_Service__c = serviceDate);
+        return encounter;
     }
 
-    public static Payment_Arrangement__c createPaymentArrangement(String eId) {
-        Payment_Arrangement__c pa = new Payment_Arrangement__c(Encounter__c = eId);
-        return pa;
+    // Return Payment Arrangement record
+    public static Payment_Arrangement__c generatePaymentArrangement(String encounterId) {
+        Payment_Arrangement__c paymentArrangement = new Payment_Arrangement__c(Encounter__c = encounterId);
+        return paymentArrangement;
     }
 
-    public static Case createCase(String rTypeId, String cType, String gId) {
-        Case c = new Case();
-        c.RecordTypeId = rTypeId;
-        c.Status = 'New';
-        c.Priority = 'Medium';
-        c.Type = cType;
-        c.Origin = 'Email';
-        c.Subject = cType;
-        c.Description = 'Test';
-        c.Guarantor_Information__c = gId;
-        return c;
+    // Return a new case record    
+    public static Case generateCase(String rTypeId, String cType, String gId) {
+        Case objCase = new Case();
+        objCase.RecordTypeId = rTypeId;
+        objCase.Status = 'New';
+        objCase.Priority = 'Medium';
+        objCase.Type = cType;
+        objCase.Origin = 'Email';
+        objCase.Subject = cType;
+        objCase.Description = 'Test';
+        objCase.Guarantor_Information__c = gId;
+        return objCase;
     }
 
-    public static test__c GeneratePaymentPlan(Contact guarantor) {
-        test__c pp = new test__c();
-        pp.Guarantor_Name__c = guarantor.Id;
-        pp.Active__c = true;
-        return pp;
+    // Return a new Statement record    
+    public static Statement__c generateStatement(String contactId) {
+        Statement__c stmt = new Statement__c();
+        stmt.Statement_Date__c = System.Today();
+        stmt.Guarantor__c = contactId;
+        return stmt;
+    }
+
+    // Return a new campaign record    
+    public static Campaign generateCampaign(String name) {
+        Campaign objCampaign = New Campaign();
+        objCampaign.Name = name;
+        objCampaign.IsActive = True;
+        return objCampaign;
+    }
+
+    // Return a new payment plan record 
+    public static test__c generatePaymentPlan(String contactId) {
+        test__c paymentPlan = new test__c();
+        paymentPlan.Guarantor_Name__c = contactId;
+        return paymentPlan;
+    }
+
+    // Return a new Invoice record 
+    public static Invoice__c generateInvoice(String guarantorId, String patientId) {
+        Invoice__c invoice = new Invoice__c();
+        invoice.Guarantor_Name__c = guarantorId;
+        invoice.Due_Date__c = System.today();
+        invoice.Invoice_Date__c = System.today();
+        invoice.Invoice_ID__c = 123;
+        invoice.Patient__c = patientId;
+        return invoice;
+    }
+
+    // Return a new Case Comment 
+    public static CaseComment generateCaseComment(String parentId) {
+        CaseComment cc = new CaseComment();
+        cc.CommentBody = 'Test';
+        cc.ParentId = parentId;
+        return cc;
+    }
+
+    // Return test record
+    public static test__c generatePaymentPlan(Contact guarantor) {
+        test__c paymentPlan = new test__c();
+        paymentPlan.Guarantor_Name__c = guarantor.Id;
+        paymentPlan.Active__c = true;
+        return paymentPlan;
+    }
+
+    // Return payment method record 
+    public static Payment_Method__c generatePaymentMethod(String guarantorId, String recordTypeID) {
+        Payment_Method__c paymentMethod = new Payment_Method__c();
+        paymentMethod.Guarantor__c = guarantorId;
+        paymentMethod.RecordTypeID = recordTypeID;
+        return paymentMethod;
+    }
+
+    // return list of charge_group__c records
+    public static list<Charge_Group__c> generatechargeGroupList(ID contID) {
+        list<Charge_Group__c> lstChargeGroup = new list<Charge_Group__c>();
+        for (integer i = 0; i < 20; i++) {
+            Charge_Group__c chargeGroup = new Charge_Group__c();
+            chargeGroup.name = 'xyz' + i;
+            chargeGroup.Guarantor_Name__c = contID;
+            lstChargeGroup.add(chargeGroup);
+        }
+        return lstChargeGroup;
+    }
+
+    // return CampaignMember record
+    public static CampaignMember generateCampaignMember(ID campaignId, ID guarantorContactId) {
+        CampaignMember objcampaignMember = new CampaignMember();
+        objcampaignMember.CampaignId = campaignId;
+        objcampaignMember.ContactId = guarantorContactId;
+        objcampaignMember.Status = 'Sent';
+        return objcampaignMember;
+    }
+
+    // return Task record
+    public static Task generateTask(ID guarantorContactId) {
+        Task objTask = new Task();
+        objTask.WhoId = guarantorContactId;
+        objTask.Priority = 'Normal';
+        objTask.Status = 'New';
+        objTask.CallDisposition = 'Final';
+        objTask.Five9__Five9Campaign__c = 'Pre-collection';
+        return objTask;
+    }
+
+    // Generate Exception
+    public static integer generateException() {
+        return 1 / 0;
     }
 }

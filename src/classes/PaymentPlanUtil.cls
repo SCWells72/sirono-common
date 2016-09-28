@@ -1,3 +1,8 @@
+/* 
+ * @author Sirono
+ * @version 1.0.1
+ * @date: 09-01-2016
+*/
 public with sharing class PaymentPlanUtil {
 
     public static void updateBalances(Set<Id> planIds) {

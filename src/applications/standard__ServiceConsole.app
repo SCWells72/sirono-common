@@ -168,9 +168,7 @@
         </defaultShortcut>
     </keyboardShortcuts>
     <listPlacement>
-        <height>25</height>
-        <location>top</location>
-        <units>percent</units>
+        <location>full</location>
     </listPlacement>
     <listRefreshMethod>refreshList</listRefreshMethod>
     <saveUserSessions>true</saveUserSessions>

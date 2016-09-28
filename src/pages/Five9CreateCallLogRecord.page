@@ -1,29 +1,35 @@
-<apex:page controller="Five9CreateCallLogRecord" action="{!doAction}" 
-	cache="false" tabStyle="Contact" showHeader="false" sidebar="false">
-	<apex:form id="frm">
-    	<apex:pageMessages />
-    	<apex:pageBlock >
-    		<apex:pageBlockSection title="five9 ANI is : {!five9ANI}" collapsible="false">
-    		</apex:pageBlockSection>
-    		<apex:pageBlockSection title="five9 DNIS is : {!five9DNIS}" collapsible="false">
-    		</apex:pageBlockSection>
-    		<apex:pageBlockSection title="Salesforce Id is : {!salesforceId}" collapsible="false">
-    		</apex:pageBlockSection>
-    		<apex:pageBlockSection title="Disposition is : {!callDisposition}" collapsible="false">
-    		</apex:pageBlockSection>
-    		
-    		<apex:pageBlockSection title="Session Id is : {!five9Session_id}" collapsible="false">
-    		</apex:pageBlockSection>
-    		<apex:pageBlockSection title="End Timestamp is : {!end_timestamp}" collapsible="false">
-    		</apex:pageBlockSection>
-    		<apex:pageBlockSection title="Call Type Name is : {!call_type_name}" collapsible="false">
-    		</apex:pageBlockSection>
-    		<apex:pageBlockSection title="Campaign Name is : {!campaign_name}" collapsible="false">
-    		</apex:pageBlockSection>
-    		<apex:pageBlockSection title="Start Timestamp is : {!start_timestamp}" collapsible="false">
-    		</apex:pageBlockSection>
-    		<apex:pageBlockSection title="Full Name is : {!full_name}" collapsible="false">
-    		</apex:pageBlockSection>
-    	</apex:pageBlock>
-	</apex:form>
+<!--
+* @author: Sirono
+* @version 1.0.1
+* @Date: 06-14-2016
+-->
+
+<apex:page controller="Five9CreateCallLogRecord" action="{!doAction}"
+           cache="false" tabStyle="Contact" showHeader="false" sidebar="false">
+    <apex:form id="frm">
+        <apex:pageMessages/>
+        <apex:pageBlock>
+            <apex:pageBlockSection title="five9 ANI is : {!five9ANI}" collapsible="false">
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="five9 DNIS is : {!five9DNIS}" collapsible="false">
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Salesforce Id is : {!salesforceId}" collapsible="false">
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Disposition is : {!callDisposition}" collapsible="false">
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="Session Id is : {!five9SessionId}" collapsible="false">
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="End Timestamp is : {!endTimestamp}" collapsible="false">
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Call Type Name is : {!callTypeName}" collapsible="false">
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Campaign Name is : {!campaignName}" collapsible="false">
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Start Timestamp is : {!startTimestamp}" collapsible="false">
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Full Name is : {!fullName}" collapsible="false">
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
 </apex:page>

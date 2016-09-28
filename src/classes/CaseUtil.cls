@@ -1,47 +1,112 @@
+/*
+* @author: Sirono
+* @version 1.0.1
+* @Date: 08-10-2016
+* @Util Class for the All Auto Case Creation, Auto Case Closure, Add\Remove the guarantor to the campaign functionality.*
+*
+* 08-11-2016: Sirono - Tracker # 127398811 For Early-out Cases Creation
+* 08-11-2016: Sirono - Tracker # 128031249 For Add Guarantor to the Early-out Campaign
+* 08-11-2016: Sirono - Tracker # 127517097 For Automatic Early-out Case Closure
+* 08-11-2016: Sirono - Tracker # 128030957 For Removal from Early-out campaign
+
+* 08-12-2016: Sirono - Tracker # 127517035 For Precollections Case Creation
+* 08-12-2016: Sirono - Tracker # 128030543 For Add Guarantor to the Precollections Campaign
+* 08-12-2016: Sirono - Tracker # 127517133 For Automatic Precollections Case Closure
+* 08-12-2016: Sirono - Tracker # 127517133 For Removal from Precollections campaign
+
+* 08-18-2016: Sirono - Tracker # 127517087 For Encounter Case Creation
+* 08-18-2016: Sirono - Tracker # 127517147 For Automatic Encounter Case Closure
+* 08-18-2016: Sirono - Tracker # 128457157 For Encounter: Add/Remove Guarantor to the Preservice Call list
+
+* 08-22-2016: Sirono - Tracker # 127401841 For Delinquent Payment Plan Case Creation
+* 08-22-2016: Sirono - Tracker # 127517111 For Delinquent Payment Plan Case closure
+* 08-22-2016: Sirono - Tracker # 128197107 For Add/Remove Guarantor to the Delinquent Payment Plan Call list
+
+* 08-25-2016: Sirono - Tracker # 127517003 For Credit Card Error Case Creation
+* 08-25-2016: Sirono - Tracker # 127517003 For Automatic Credit Card Error Case Closure
+* 08-25-2016: Sirono - Tracker # 127517003 For Add/Remove Guarantor to the CC Error Call list
+*/
+
+
 Public Class CaseUtil {
-    Public static Boolean ExecuteCampaignMemberTrigger = True;
-    Public static Boolean ExecuteRemoveCampaignTrigger = True;
+    Public static Boolean executeCampaignMemberTrigger = True;
+    Public static Boolean executeRemoveCampaignTrigger = True;
 
     public CaseUtil() {
 
     }
 
-    Public Static void CallEarlyOutAutoCase() {
-        List<Statement__c> lstStatement = [Select id, Guarantor__c from Statement__c where Statement_Date__c = :System.today()];
-        CreateEarlyOutAutoCase(lstStatement);
+    /*
+    * 08-11-2016: Sirono - Tracker # 127398811
+      Method for getting the list of the statement and pass it into the method.
+    */
+    Public Static void callEarlyOutAutoCase() {
+        List<Statement__c> statement = [
+                Select id, Guarantor__c
+                From Statement__c
+                Where Statement_Date__c = :System.today()
+        ];
+        createEarlyOutAutoCase(statement);
     }
 
-    Public Static void CreateEarlyOutAutoCase(List<Statement__c> lstStatement) {
+    /*
+    * 08-11-2016: Sirono - Tracker # 127398811
+    * 08-11-2016: Sirono - Tracker # 128031249
+    * Method for Create Early Out Auto Case and Add the Campaign member to Campaign.
+    */
+    Public Static void createEarlyOutAutoCase(List<Statement__c> statement) {
         Set<String> setContact = new Set<String>();
 
-        for (Statement__c objStatement : lstStatement) {
+        for (Statement__c objStatement : statement) {
             setContact.add(objStatement.Guarantor__c);
         }
-        Map<Id, Contact> mapContact = new map<Id, Contact>([
-                Select id, Name, Statement_Preference__c, Overdue_Balance__c, Delinquent_Balance__c,
-                        RecordType.DeveloperName, HomePhone, MobilePhone, OtherPhone
-                from contact
-                where Id in :setContact and Overdue_Balance__c < 0
+        Map<Id, Contact> mapContact = new map<Id, Contact>(
+        [
+                Select id, Name, Statement_Preference__c,
+                        Overdue_Balance__c, Delinquent_Balance__c,
+                        RecordType.DeveloperName,
+                        HomePhone, MobilePhone, OtherPhone
+                From contact
+                Where Id in :setContact
+                and Overdue_Balance__c < 0
         ]);
 
         if (mapContact.size() > 0) {
             Map<Id, Id> mapComplianceContact = new Map<Id, Id>();
-            List<Group> lstGroup = [select Id from Group where Name = 'Automated Cases' and Type = 'Queue'];
+            List<Group> lstGroup = [
+                    Select Id
+                    From Group
+                    Where Name = 'Automated Cases'
+                    and Type = 'Queue'
+            ];
 
-            for (Case objCase : [Select id, Guarantor_Information__c from case where Reason = 'Compliance Issue' and Guarantor_Information__c In :mapContact.keyset()]) {
+            for (Case objCase : [
+                    Select id, Guarantor_Information__c
+                    From case
+                    Where Reason = 'Compliance Issue' and
+                    Guarantor_Information__c In :mapContact.keyset()
+                    and IsClosed = false
+            ]) {
                 mapComplianceContact.Put(objCase.Guarantor_Information__c, objCase.id);
             }
 
             Map<Id, Case> mapContactCase = new Map<Id, Case>();
-
-
             Map<String, String> mapCampaignName = new Map<String, String>();
             Map<String, Set<String>> mapCampaignMembers = new Map<String, Set<String>>();
+            Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
+                    'Early-out', 'Early-out M'
+            });
+            string earlyOut = mapCampaignMapping.get('Early-out');
+            string earlyOutMobile = mapCampaignMapping.get('Early-out M');
 
             for (Campaign objCampaign : [
-                    Select id, Name, (Select id, ContactId from CampaignMembers where ContactId in :mapContact.keyset())
-                    from Campaign
-                    where Name = 'Early Out' or Name = 'Early Out - Mobile'
+                    Select id, Name, (
+                            Select id, ContactId
+                            From CampaignMembers
+                            Where ContactId in :mapContact.keyset()
+                    )
+                    From Campaign
+                    Where Name = :earlyOut or Name = :earlyOutMobile
             ]) {
                 mapCampaignName.Put(objCampaign.Name, objCampaign.Id);
                 mapCampaignMembers.Put(objCampaign.Name, New Set<String>());
@@ -50,17 +115,28 @@ Public Class CaseUtil {
                 }
             }
 
-
             List<CampaignMember> lstCampaignMember = new List<CampaignMember>();
-            List<RecordType> RT = [Select id from RecordType where SobjectType = 'Case' and DeveloperName = 'Automated_Cases'];
+            List<RecordType> rt = [
+                    Select id
+                    From RecordType
+                    Where SobjectType = 'Case'
+                    and DeveloperName = 'Automated_Cases'
+            ];
 
-            //Check Any Early Out Case is exist if exist the closed it and creted new one.            
-            List<Case> lstEarlyOutCases = [Select id, Type from case where Type = 'Early Out' and Guarantor_Information__c In :mapContact.keyset() and Guarantor_Information__c not In :mapComplianceContact.keyset()];
+            //Check Any Early Out Case is exist if exist the closed it and creted new one.
+            List<Case> lstEarlyOutCases = [
+                    Select id, Type
+                    From case
+                    Where Type = 'Early Out'
+                    and Guarantor_Information__c In :mapContact.keyset()
+                    and Guarantor_Information__c not In :mapComplianceContact.keyset()
+                    and IsClosed = false
+            ];
             for (Case objCase : lstEarlyOutCases) {
                 objCase.Status = 'Closed';
                 objCase.Reason = 'Closed - Automated';
             }
-            ExecuteRemoveCampaignTrigger = false;
+            executeRemoveCampaignTrigger = false;
             Update lstEarlyOutCases;
 
             //Create a new Case
@@ -73,7 +149,7 @@ Public Class CaseUtil {
                     objCase.Type = 'Early Out';
                     objCase.Status = 'New';
                     objCase.Subject = 'Early Out';
-                    objCase.RecordTypeID = RT[0].Id;
+                    objCase.RecordTypeID = rt[0].Id;
                     if (lstGroup.size() > 0) {
                         objCase.ownerId = lstGroup[0].Id;
                     }
@@ -81,17 +157,17 @@ Public Class CaseUtil {
 
                     //Add CampaignMember
                     if (objContact.HomePhone != null || objContact.OtherPhone != null) {
-                        if (mapCampaignName.Containskey('Early Out') && !mapCampaignMembers.get('Early Out').contains(objContact.Id)) {
+                        if (mapCampaignName.Containskey(earlyOut) && !mapCampaignMembers.get(earlyOut).contains(objContact.Id)) {
                             CampaignMember cm = New CampaignMember();
-                            cm.CampaignId = mapCampaignName.get('Early Out');
+                            cm.CampaignId = mapCampaignName.get(earlyOut);
                             cm.ContactId = objContact.Id;
                             lstCampaignMember.add(cm);
                         }
                     }
                     if (objContact.MobilePhone != null) {
-                        if (mapCampaignName.Containskey('Early Out - Mobile') && !mapCampaignMembers.get('Early Out - Mobile').contains(objContact.Id)) {
+                        if (mapCampaignName.Containskey(earlyOutMobile) && !mapCampaignMembers.get(earlyOutMobile).contains(objContact.Id)) {
                             CampaignMember cm = New CampaignMember();
-                            cm.CampaignId = mapCampaignName.get('Early Out - Mobile');
+                            cm.CampaignId = mapCampaignName.get(earlyOutMobile);
                             cm.ContactId = objContact.Id;
                             lstCampaignMember.add(cm);
                         }
@@ -99,22 +175,26 @@ Public Class CaseUtil {
                 }
             }
             if (lstCampaignMember.size() > 0) {
-                ExecuteCampaignMemberTrigger = false;
+                executeCampaignMemberTrigger = false;
                 insert lstCampaignMember;
-                ExecuteCampaignMemberTrigger = true;
+                executeCampaignMemberTrigger = true;
             }
             if (mapContactCase.size() > 0) {
                 Insert mapContactCase.values();
 
                 //Insert the Case Charge Group
                 List<Case_Charge_Group__c> lstCCG = new List<Case_Charge_Group__c >();
-                for (Charge_Group__c cg : [Select id, Guarantor_Name__c from Charge_Group__c where Account_Status__c = 'Billed' and Guarantor_Name__c = :mapContactCase.keyset()]) {
+                for (Charge_Group__c cg : [
+                        Select id, Guarantor_Name__c
+                        From Charge_Group__c
+                        Where Account_Status__c = 'Billed'
+                        and Guarantor_Name__c = :mapContactCase.keyset()
+                ]) {
                     if (mapContactCase.Containskey(cg.Guarantor_Name__c)) {
-                        Case ObjCase = mapContactCase.get(cg.Guarantor_Name__c);
+                        Case objCase = mapContactCase.get(cg.Guarantor_Name__c);
                         Case_Charge_Group__c ccg = new Case_Charge_Group__c();
-                        ccg.Case__c = ObjCase.Id;
+                        ccg.Case__c = objCase.Id;
                         ccg.Charge_Group__c = cg.Id;
-
                         lstCCG.add(ccg);
                     }
                 }
@@ -124,85 +204,152 @@ Public Class CaseUtil {
     }
 
 
-    Public Static void CallEarlyOutAutoCaseCloser() {
-
-        List<Statement__c> lstStatement = [Select id, Guarantor__c from Statement__c where Statement_Date__c = :System.today() and Day_only(CreatedDate) != : System.today()];
-        System.debug('lstStatement ' + lstStatement);
-        CallCloseEarlyOutAutoCase(lstStatement);
+    /*
+    * 08-11-2016: Sirono - Tracker # 127517097 For Automatic Early-out Case Closure
+    * Method for Close the Early Out Auto Case.
+    */
+    Public Static void callEarlyOutAutoCaseCloser() {
+        List<Statement__c> lstStatement = [
+                Select id, Guarantor__c
+                From Statement__c
+                Where Statement_Date__c = :System.today()
+                and Day_only(CreatedDate) != :System.today()
+        ];
+        callCloseEarlyOutAutoCase(lstStatement);
     }
 
-    //it will call EarlyOutAutoCase.
-    Public Static void CallCloseEarlyOutAutoCase(List<Statement__c> lstStatement) {
+    /*
+    * 08-11-2016: Sirono - Tracker # 127517097 For Automatic Early-out Case Closure
+    * Method for Close the Early Out Auto Case.
+    */
+    Public Static void callCloseEarlyOutAutoCase(List<Statement__c> lstStatement) {
         Set<String> setContact = new Set<String>();
         for (Statement__c objStatement : lstStatement) {
             setContact.add(objStatement.Guarantor__c);
         }
-        CloseEarlyOutAutoCase(setContact);
+        closeEarlyOutAutoCase(setContact);
     }
 
-    Public Static void CloseEarlyOutAutoCase(Set<String> SetContact) {
+    /*
+    * 08-11-2016: Sirono - Tracker # 127517097 For Automatic Early-out Case Closure
+    * Method for Close the Early Out Auto Case, Remove the Campaign member to Campaign.
+    */
+    Public Static void closeEarlyOutAutoCase(Set<String> setContact) {
 
-        Map<Id, Contact> mapContact = new map<Id, Contact>([
-                Select id, Name, Statement_Preference__c, Overdue_Balance__c, Delinquent_Balance__c,
-                        RecordType.DeveloperName, HomePhone, MobilePhone, OtherPhone
-                from contact
-                where Id in :setContact Or Overdue_Balance__c >= 0
-        ]);
+        Map<Id, Contact> mapContact = new map<Id, Contact>(
+        [
+                Select id, Name, Statement_Preference__c,
+                        Overdue_Balance__c, Delinquent_Balance__c,
+                        RecordType.DeveloperName,
+                        HomePhone, MobilePhone, OtherPhone
+                From contact
+                Where Id in :setContact
+                Or Overdue_Balance__c >= 0
+        ]
+        );
 
         if (mapContact.size() > 0) {
-            List<Case> EarlyOutCase = [Select id, Status, Reason, Guarantor_Information__c from case where Type = 'Early Out' and Guarantor_Information__c In :mapContact.keyset()];
-            Set<String> SetContactWithEarlyOutCase = new Set<String>();
-            for (Case objCase : EarlyOutCase) {
+            List<Case> earlyOutCase = [
+                    Select id, Status, Reason, Guarantor_Information__c
+                    From case
+                    Where Type = 'Early Out' and
+                    Guarantor_Information__c In :mapContact.keyset()
+                    and IsClosed = false
+            ];
+            Set<String> setContactWithEarlyOutCase = new Set<String>();
+            for (Case objCase : earlyOutCase) {
                 objCase.Status = 'Closed';
                 objCase.Reason = 'Closed - Automated';
-                SetContactWithEarlyOutCase.add(objCase.Guarantor_Information__c);
+                setContactWithEarlyOutCase.add(objCase.Guarantor_Information__c);
             }
-            ExecuteRemoveCampaignTrigger = false;
-            Update EarlyOutCase;
+            executeRemoveCampaignTrigger = false;
+            Update earlyOutCase;
 
-            Delete [Select id, ContactId from CampaignMember where (Campaign.Name = 'Early Out' or Campaign.Name = 'Early Out - Mobile') and ContactId in :SetContactWithEarlyOutCase];
+            Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
+                    'Early-out', 'Early-out M'
+            });
+            string earlyOut = mapCampaignMapping.get('Early-out');
+            string earlyOutMobile = mapCampaignMapping.get('Early-out M');
+
+            Delete [
+                    Select id, ContactId
+                    From CampaignMember
+                    Where (Campaign.Name = :earlyOut or Campaign.Name = :earlyOutMobile)
+                    and ContactId in :setContactWithEarlyOutCase
+            ];
         }
     }
 
-
-    //Call Method to generate a case for Pre-Collection
-    Public Static void CallPrecollectionsAutoCase() {
+    /*
+    * 08-12-2016: Sirono - Tracker # 127517035 For Precollections Case Creation
+    * Method for Create Pre-Collection Auto Case and Add the Campaign member to Campaign.
+    */
+    Public Static void callPrecollectionsAutoCase() {
         List<Statement__c> lstStatement = [Select id, Guarantor__c from Statement__c where Statement_Date__c = :System.today()];
-        CreatePrecollectionsAutoCase(lstStatement);
+        createPrecollectionsAutoCase(lstStatement);
     }
 
-    //Create a case for Pre-Collection
-    Public Static void CreatePrecollectionsAutoCase(List<Statement__c> lstStatement) {
+    /*
+    * 08-12-2016: Sirono - Tracker # 127517035 For Precollections Case Creation
+    * Method for Create Pre-Collection Auto Case and Add the Campaign member to Campaign.
+    */
+    Public Static void createPrecollectionsAutoCase(List<Statement__c> lstStatement) {
         Set<String> setContact = new Set<String>();
 
         for (Statement__c objStatement : lstStatement) {
             setContact.add(objStatement.Guarantor__c);
         }
-        Map<Id, Contact> mapContact = new map<Id, Contact>([
-                Select id, Name, Statement_Preference__c, Overdue_Balance__c, Delinquent_Balance__c,
-                        RecordType.DeveloperName, HomePhone, MobilePhone, OtherPhone
-                from contact
-                where Id in :setContact and Delinquent_Balance__c < 0
+
+        Map<Id, Contact> mapContact = new map<Id, Contact>(
+        [
+                Select id, Name, Statement_Preference__c,
+                        Overdue_Balance__c,
+                        Delinquent_Balance__c,
+                        RecordType.DeveloperName,
+                        HomePhone, MobilePhone,
+                        OtherPhone
+                From contact
+                Where Id in :setContact
+                and Delinquent_Balance__c < 0
         ]);
 
         if (mapContact.size() > 0) {
             Map<Id, Id> mapComplianceContact = new Map<Id, Id>();
-            List<Group> lstGroup = [select Id from Group where Name = 'Automated Cases' and Type = 'Queue'];
+            List<Group> lstGroup = [
+                    Select Id
+                    From Group
+                    Where Name = 'Automated Cases'
+                    and Type = 'Queue'
+            ];
 
-            for (Case objCase : [Select id, Guarantor_Information__c from case where Reason = 'Compliance Issue' and Guarantor_Information__c In :mapContact.keyset()]) {
+            for (Case objCase : [
+                    Select id, Guarantor_Information__c
+                    From case
+                    Where Reason = 'Compliance Issue'
+                    and Guarantor_Information__c In :mapContact.keyset()
+                    and IsClosed = false
+            ]) {
                 mapComplianceContact.Put(objCase.Guarantor_Information__c, objCase.id);
             }
 
             Map<Id, Case> mapContactCase = new Map<Id, Case>();
-
-
             Map<String, String> mapCampaignName = new Map<String, String>();
             Map<String, Set<String>> mapCampaignMembers = new Map<String, Set<String>>();
+            Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
+                    'PreCollections', 'PreCollections M'
+            });
+            string preCollection = mapCampaignMapping.get('PreCollections');
+            string preCollectionMobile = mapCampaignMapping.get('PreCollections M');
 
             for (Campaign objCampaign : [
-                    Select id, Name, (Select id, ContactId from CampaignMembers where ContactId in :mapContact.keyset())
-                    from Campaign
-                    where Name = 'Pre-collections' or Name = 'Pre-collections - Mobile'
+                    Select id, Name, (
+                            Select id, ContactId
+                            From CampaignMembers
+                            Where ContactId in :mapContact.keyset()
+                    )
+                    From Campaign
+                    Where Name = :preCollection
+                    or Name = :preCollectionMobile
             ]) {
                 mapCampaignName.Put(objCampaign.Name, objCampaign.Id);
                 mapCampaignMembers.Put(objCampaign.Name, New Set<String>());
@@ -212,15 +359,27 @@ Public Class CaseUtil {
             }
 
             List<CampaignMember> lstCampaignMember = new List<CampaignMember>();
-            List<RecordType> RT = [Select id from RecordType where SobjectType = 'Case' and DeveloperName = 'Automated_Cases'];
+            List<RecordType> rt = [
+                    Select id
+                    From RecordType
+                    Where SobjectType = 'Case'
+                    and DeveloperName = 'Automated_Cases'
+            ];
 
-            //Check Any Early Out Case is exist if exist the closed it and creted new one.            
-            List<Case> lstCloseCases = [Select id, Type from case where Type = 'Precollections' and Guarantor_Information__c In :mapContact.keyset() and Guarantor_Information__c not In :mapComplianceContact.keyset()];
+            //Check Any Early Out Case is exist if exist the closed it and creted new one.
+            List<Case> lstCloseCases = [
+                    Select id, Type
+                    From case
+                    Where Type = 'Precollections'
+                    and Guarantor_Information__c In :mapContact.keyset()
+                    and Guarantor_Information__c not In :mapComplianceContact.keyset()
+                    and IsClosed = false
+            ];
             for (Case objCase : lstCloseCases) {
                 objCase.Status = 'Closed';
                 objCase.Reason = 'Closed - Automated';
             }
-            ExecuteRemoveCampaignTrigger = false;
+            executeRemoveCampaignTrigger = false;
             Update lstCloseCases;
 
             //Create a new Case
@@ -233,7 +392,7 @@ Public Class CaseUtil {
                     objCase.Type = 'Precollections';
                     objCase.Status = 'New';
                     objCase.Subject = 'Precollections';
-                    objCase.RecordTypeID = RT[0].Id;
+                    objCase.RecordTypeID = rt[0].Id;
                     if (lstGroup.size() > 0) {
                         objCase.ownerId = lstGroup[0].Id;
                     }
@@ -241,17 +400,17 @@ Public Class CaseUtil {
 
                     //Add CampaignMember
                     if (objContact.HomePhone != null || objContact.OtherPhone != null) {
-                        if (mapCampaignName.Containskey('Pre-collections') && !mapCampaignMembers.get('Pre-collections').contains(objContact.Id)) {
+                        if (mapCampaignName.Containskey(preCollection) && !mapCampaignMembers.get(preCollection).contains(objContact.Id)) {
                             CampaignMember cm = New CampaignMember();
-                            cm.CampaignId = mapCampaignName.get('Pre-collections');
+                            cm.CampaignId = mapCampaignName.get(preCollection);
                             cm.ContactId = objContact.Id;
                             lstCampaignMember.add(cm);
                         }
                     }
                     if (objContact.MobilePhone != null) {
-                        if (mapCampaignName.Containskey('Pre-collections - Mobile') && !mapCampaignMembers.get('Pre-collections - Mobile').contains(objContact.Id)) {
+                        if (mapCampaignName.Containskey(preCollectionMobile) && !mapCampaignMembers.get(preCollectionMobile).contains(objContact.Id)) {
                             CampaignMember cm = New CampaignMember();
-                            cm.CampaignId = mapCampaignName.get('Pre-collections - Mobile');
+                            cm.CampaignId = mapCampaignName.get(preCollectionMobile);
                             cm.ContactId = objContact.Id;
                             lstCampaignMember.add(cm);
                         }
@@ -259,22 +418,26 @@ Public Class CaseUtil {
                 }
             }
             if (lstCampaignMember.size() > 0) {
-                ExecuteCampaignMemberTrigger = false;
+                executeCampaignMemberTrigger = false;
                 insert lstCampaignMember;
-                ExecuteCampaignMemberTrigger = true;
+                executeCampaignMemberTrigger = true;
             }
             if (mapContactCase.size() > 0) {
                 Insert mapContactCase.values();
 
                 //Insert the Case Charge Group
                 List<Case_Charge_Group__c> lstCCG = new List<Case_Charge_Group__c >();
-                for (Charge_Group__c cg : [Select id, Guarantor_Name__c from Charge_Group__c where Account_Status__c = 'Billed' and Guarantor_Name__c = :mapContactCase.keyset()]) {
+                for (Charge_Group__c cg : [
+                        Select id, Guarantor_Name__c
+                        From Charge_Group__c
+                        Where Account_Status__c = 'Billed'
+                        and Guarantor_Name__c = :mapContactCase.keyset()
+                ]) {
                     if (mapContactCase.Containskey(cg.Guarantor_Name__c)) {
-                        Case ObjCase = mapContactCase.get(cg.Guarantor_Name__c);
+                        Case objCase = mapContactCase.get(cg.Guarantor_Name__c);
                         Case_Charge_Group__c ccg = new Case_Charge_Group__c();
-                        ccg.Case__c = ObjCase.Id;
+                        ccg.Case__c = objCase.Id;
                         ccg.Charge_Group__c = cg.Id;
-
                         lstCCG.add(ccg);
                     }
                 }
@@ -283,90 +446,163 @@ Public Class CaseUtil {
         }
     }
 
-
-    Public Static void CallPrecollectionsAutoCaseCloser() {
-        List<Statement__c> lstStatement = [Select id, Guarantor__c from Statement__c where Statement_Date__c = :System.today() and Day_only(CreatedDate) != : System.today()];
-        CallClosePrecollectionsAutoCase(lstStatement);
+    /*
+    * 08-12-2016: Sirono - Tracker # 127517133 For Automatic Precollections Case Closure
+    * 08-12-2016: Sirono - Tracker # 127517133 For Removal from Precollections campaign.
+    * Method for Close Pre-Collection Auto Case and Remove the Campaign member from Campaign.
+    */
+    Public Static void callPrecollectionsAutoCaseCloser() {
+        List<Statement__c> lstStatement = [
+                Select id, Guarantor__c
+                From Statement__c
+                Where Statement_Date__c = :System.today()
+                and Day_only(CreatedDate) != :System.today()
+        ];
+        callClosePrecollectionsAutoCase(lstStatement);
     }
 
-    //it will call Pre-collectionsAutoCase close
-    Public Static void CallClosePrecollectionsAutoCase(List<Statement__c> lstStatement) {
+    /*
+    * 08-12-2016: Sirono - Tracker # 127517133 For Automatic Precollections Case Closure
+    * 08-12-2016: Sirono - Tracker # 127517133 For Removal from Precollections campaign.
+    * Method for Close Pre-Collection Auto Case and Remove the Campaign member from Campaign.
+    */
+    Public Static void callClosePrecollectionsAutoCase(List<Statement__c> lstStatement) {
         Set<String> setContact = new Set<String>();
         for (Statement__c objStatement : lstStatement) {
             setContact.add(objStatement.Guarantor__c);
         }
-        ClosePrecollectionsAutoCase(setContact);
+        closePrecollectionsAutoCase(setContact);
     }
 
-    //It will close the case of pre-collection
-    Public Static void ClosePrecollectionsAutoCase(Set<String> SetContact) {
-
-        Map<Id, Contact> mapContact = new map<Id, Contact>([
-                Select id, Name, Statement_Preference__c, Overdue_Balance__c, Delinquent_Balance__c,
-                        RecordType.DeveloperName, HomePhone, MobilePhone, OtherPhone
-                from contact
-                where Id in :setContact Or Delinquent_Balance__c >= 0
-        ]);
-
+    /*
+    * 08-12-2016: Sirono - Tracker # 127517133 For Automatic Precollections Case Closure
+    * 08-12-2016: Sirono - Tracker # 127517133 For Removal from Precollections campaign.
+    * Method for Close Pre-Collection Auto Case and Remove the Campaign member from Campaign.
+    */
+    Public Static void closePrecollectionsAutoCase(Set<String> setContact) {
+        Map<Id, Contact> mapContact = new map<Id, Contact>(
+        [
+                Select id, Name,
+                        Statement_Preference__c,
+                        Overdue_Balance__c,
+                        Delinquent_Balance__c,
+                        RecordType.DeveloperName, HomePhone,
+                        MobilePhone, OtherPhone
+                From contact
+                Where Id in :setContact
+                Or Delinquent_Balance__c >= 0
+        ]
+        );
         if (mapContact.size() > 0) {
-            List<Case> EarlyOutCase = [Select id, Status, Reason, Guarantor_Information__c from case where Type = 'Precollections' and Guarantor_Information__c In :mapContact.keyset()];
-            Set<String> SetContactWithEarlyOutCase = new Set<String>();
-            for (Case objCase : EarlyOutCase) {
+            List<Case> precollections = [
+                    Select id, Status, Reason, Guarantor_Information__c
+                    From case
+                    Where Type = 'Precollections'
+                    and Guarantor_Information__c In :mapContact.keyset()
+                    and IsClosed = false
+            ];
+            Set<String> setContactWithEarlyOutCase = new Set<String>();
+            for (Case objCase : precollections) {
                 objCase.Status = 'Closed';
                 objCase.Reason = 'Closed - Automated';
-                SetContactWithEarlyOutCase.add(objCase.Guarantor_Information__c);
+                setContactWithEarlyOutCase.add(objCase.Guarantor_Information__c);
             }
-            ExecuteRemoveCampaignTrigger = false;
-            Update EarlyOutCase;
+            executeRemoveCampaignTrigger = false;
+            Update precollections;
 
-            Delete [Select id, ContactId from CampaignMember where (Campaign.Name = 'Pre-collections' or Campaign.Name = 'Pre-collections - Mobile') and ContactId in :SetContactWithEarlyOutCase];
+            Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
+                    'PreCollections', 'PreCollections M'
+            });
+            string preCollection = mapCampaignMapping.get('PreCollections');
+            string preCollectionMobile = mapCampaignMapping.get('PreCollections M');
+
+            Delete [
+                    Select id, ContactId
+                    From CampaignMember
+                    Where (Campaign.Name = :preCollection or Campaign.Name = :preCollectionMobile)
+                    and ContactId in :setContactWithEarlyOutCase
+            ];
         }
     }
 
-    //Mohan Kumar 2016-08-18: create Encounter Cases
-    Public Static void CreateEncounterAutoCase(List<Encounter__c> lstEncounter) {
+    /*
+    * 08-18-2016: Sirono - Tracker # 127517035 For Precollections Case Creation
+    * Method for Create Encounter Auto Case and Add the Campaign member to Campaign.
+    */
+    Public Static void createEncounterAutoCase(List<Encounter__c> lstEncounter) {
         Set<String> setContact = new Set<String>();
 
         for (Encounter__c obj : lstEncounter) {
             if (obj.Patient_Portion__c < 0 && obj.Date_of_Service__c >= Date.today()) {
-                if (obj.Guarantor__c != null) setContact.add(obj.Guarantor__c);
+                if (obj.Guarantor__c != null) {
+                    setContact.add(obj.Guarantor__c);
+                }
             }
         }
-        Map<Id, Contact> mapContact = new map<Id, Contact>([
-                Select id, Name, Statement_Preference__c, Overdue_Balance__c, Delinquent_Balance__c,
-                        RecordType.DeveloperName, HomePhone, MobilePhone, OtherPhone
-                from contact
-                where Id in :setContact
-        ]);
-
+        Map<Id, Contact> mapContact = new map<Id, Contact>(
+        [
+                Select id, Name,
+                        Statement_Preference__c, Overdue_Balance__c,
+                        Delinquent_Balance__c,
+                        RecordType.DeveloperName, HomePhone,
+                        MobilePhone, OtherPhone
+                From contact
+                Where Id in :setContact
+        ]
+        );
         if (mapContact.size() > 0) {
             Map<Id, Id> mapComplianceContact = new Map<Id, Id>();
-            List<Group> lstGroup = [select Id from Group where Name = 'Automated Cases' and Type = 'Queue'];
+            List<Group> lstGroup = [
+                    Select Id
+                    From Group
+                    Where Name = 'Automated Cases'
+                    and Type = 'Queue'
+            ];
 
-            for (Case objCase : [Select id, Guarantor_Information__c from case where Reason = 'Compliance Issue' and Guarantor_Information__c In :mapContact.keyset()]) {
+            for (Case objCase : [
+                    Select id, Guarantor_Information__c
+                    From case
+                    Where Reason = 'Compliance Issue'
+                    and Guarantor_Information__c In :mapContact.keyset()
+                    and IsClosed = false
+            ]) {
                 mapComplianceContact.Put(objCase.Guarantor_Information__c, objCase.id);
             }
 
             Map<Id, Case> mapContactCase = new Map<Id, Case>();
-
             Map<String, String> mapCampaignName = new Map<String, String>();
             Map<String, Set<String>> mapCampaignMembers = new Map<String, Set<String>>();
+            Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
+                    'PreService', 'PreService M'
+            });
+            string preService = mapCampaignMapping.get('PreService');
+            string preServiceMobile = mapCampaignMapping.get('PreService M');
 
             for (Campaign objCampaign : [
-                    Select id, Name, (Select id, ContactId from CampaignMembers where ContactId in :mapContact.keyset())
-                    from Campaign
-                    where IsActive = true and (Name = 'Pre-Service' or Name = 'Pre-Service - Mobile')
+                    Select id, Name, (
+                            Select id, ContactId
+                            From CampaignMembers
+                            where ContactId in :mapContact.keyset()
+                    )
+                    From Campaign
+                    Where IsActive = true
+                    and (Name = :preService or Name = :preServiceMobile)
             ]) {
                 mapCampaignName.Put(objCampaign.Name, objCampaign.Id);
                 mapCampaignMembers.Put(objCampaign.Name, New Set<String>());
                 for (CampaignMember objCM : objCampaign.CampaignMembers) {
-                    mapCampaignMembers.get(objCampaign.Name).Add(objCM.ContactId);
+                    mapCampaignMembers.get(objCampaign.Name).add(objCM.ContactId);
                 }
             }
 
 
             List<CampaignMember> lstCampaignMember = new List<CampaignMember>();
-            List<RecordType> RT = [Select id from RecordType where SobjectType = 'Case' and DeveloperName = 'Automated_Cases'];
+            List<RecordType> rt = [
+                    Select id
+                    From RecordType
+                    Where SobjectType = 'Case'
+                    and DeveloperName = 'Automated_Cases'
+            ];
 
             //Create a new Case
             for (Encounter__c obj : lstEncounter) {
@@ -383,7 +619,7 @@ Public Class CaseUtil {
                     objCase.Type = 'Encounter';
                     objCase.Status = 'New';
                     objCase.Subject = 'Encounter';
-                    objCase.RecordTypeID = RT[0].Id;
+                    objCase.RecordTypeID = rt[0].Id;
                     if (lstGroup.size() > 0) {
                         objCase.ownerId = lstGroup[0].Id;
                     }
@@ -391,17 +627,17 @@ Public Class CaseUtil {
 
                     //Add CampaignMember
                     if (objContact.HomePhone != null || objContact.OtherPhone != null) {
-                        if (mapCampaignName.Containskey('Pre-Service') && !mapCampaignMembers.get('Pre-Service').contains(objContact.Id)) {
+                        if (mapCampaignName.Containskey(preService) && !mapCampaignMembers.get(preService).contains(objContact.Id)) {
                             CampaignMember cm = New CampaignMember();
-                            cm.CampaignId = mapCampaignName.get('Pre-Service');
+                            cm.CampaignId = mapCampaignName.get(preService);
                             cm.ContactId = objContact.Id;
                             lstCampaignMember.add(cm);
                         }
                     }
                     if (objContact.MobilePhone != null) {
-                        if (mapCampaignName.Containskey('Pre-Service - Mobile') && !mapCampaignMembers.get('Pre-Service - Mobile').contains(objContact.Id)) {
+                        if (mapCampaignName.Containskey(preServiceMobile) && !mapCampaignMembers.get(preServiceMobile).contains(objContact.Id)) {
                             CampaignMember cm = New CampaignMember();
-                            cm.CampaignId = mapCampaignName.get('Pre-Service - Mobile');
+                            cm.CampaignId = mapCampaignName.get(preServiceMobile);
                             cm.ContactId = objContact.Id;
                             lstCampaignMember.add(cm);
                         }
@@ -412,41 +648,53 @@ Public Class CaseUtil {
                 Insert mapContactCase.values();
             }
             if (lstCampaignMember.size() > 0) {
-                ExecuteCampaignMemberTrigger = false;
+                executeCampaignMemberTrigger = false;
                 insert lstCampaignMember;
-                ExecuteCampaignMemberTrigger = true;
+                executeCampaignMemberTrigger = true;
             }
         }
     }
-
-    Public Static void CallCloseEncounterAutoCase(List<Encounter__c> lstEncounter, Boolean fromPaymentMethod) {
+	
+	/*
+    * 08-18-2016: Sirono - Tracker # 127517147 For Automatic Encounter Case Closure
+    * 08-18-2016: Sirono - Tracker # 128457157 Add/Remove Guarantor to the Preservice Call list
+    * Method for Close Encounter Auto Case and Remove the Campaign member from Campaign.
+    */
+    Public Static void callCloseEncounterAutoCase(List<Encounter__c> lstEncounter, Boolean fromPaymentMethod) {
         Set<String> setContact = new Set<String>();
         Set<String> setEncounterIds = new Set<String>();
         for (Encounter__c obj : lstEncounter) {
-            if (obj.Cancelled__c || obj.Date_of_Service__c < Date.today() || obj.Patient_Portion__c == 0 || fromPaymentMethod) {
+            if (obj.Cancelled__c || obj.Date_of_Service__c < Date.today()
+                    || obj.Patient_Portion__c == 0 || fromPaymentMethod) {
                 if (obj.Guarantor__c != null) {
                     setContact.add(obj.Guarantor__c);
                     setEncounterIds.add(obj.Id);
                 }
             }
         }
-        CloseEncounterAutoCase(setEncounterIds, setContact, false);
+        closeEncounterAutoCase(setEncounterIds, setContact, false);
     }
 
-    //It will close the case of Encounter
-    Public Static void CloseEncounterAutoCase(Set<String> setEncounterIds, Set<String> SetContact, Boolean skipEncounterCaseUpdate) {
+    /*
+    * 08-18-2016: Sirono - Tracker # 127517147 For Automatic Encounter Case Closure
+    * 08-18-2016: Sirono - Tracker # 128457157 Add/Remove Guarantor to the Preservice Call list
+    * Method for Close Encounter Auto Case and Remove the Campaign member from Campaign.
+    */
+    Public Static void closeEncounterAutoCase(Set<String> setEncounterIds,
+            Set<String> setContact, Boolean skipEncounterCaseUpdate) {
         if (!skipEncounterCaseUpdate) {
             List<Case> encounterCase = [
                     Select id, Status, Reason, Guarantor_Information__c
-                    from case
-                    where Type = 'Encounter'
-                    and Guarantor_Information__c In :SetContact and Encounter__c IN :setEncounterIds
+                    From case
+                    Where Type = 'Encounter'
+                    and Guarantor_Information__c In :setContact
+                    and Encounter__c IN :setEncounterIds
             ];
             for (Case objCase : encounterCase) {
                 objCase.Status = 'Closed';
                 objCase.Reason = 'Closed - Automated';
             }
-            ExecuteRemoveCampaignTrigger = false;
+            executeRemoveCampaignTrigger = false;
             Update encounterCase;
         }
 
@@ -455,18 +703,339 @@ Public Class CaseUtil {
                 Select Id, Guarantor_Information__c
                 From Case
                 Where Type = 'Encounter' and IsClosed = false
-                and Guarantor_Information__c IN :SetContact
+                and Guarantor_Information__c IN :setContact
         ];
         for (Case c : openEncounterCases) {
             contactWithoutOpenEncounters.add(c.Guarantor_Information__c);
         }
 
+        Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
+                'PreService', 'PreService M'
+        });
+        string preService = mapCampaignMapping.get('PreService');
+        string preServiceMobile = mapCampaignMapping.get('PreService M');
+
         Delete [
                 Select id, ContactId
-                from CampaignMember
-                where Campaign.IsActive = true
-                and (Campaign.Name = 'Pre-Service' or Campaign.Name = 'Pre-Service - Mobile')
-                and ContactId in :SetContact and ContactId not in :contactWithoutOpenEncounters
+                From CampaignMember
+                Where Campaign.IsActive = true
+                and (Campaign.Name = :preService or Campaign.Name = :preServiceMobile)
+                and ContactId in :setContact and ContactId not in :contactWithoutOpenEncounters
         ];
+    }
+
+    /*
+    * 08-22-2016: Sirono - Tracker # 127401841 For Delinquent Payment Plan Case Creation
+    * 08-22-2016: Sirono - Tracker # 128197107 For Add Guarantor to the Delinquent Payment Plan Call list
+    * Method for Create Delinquent Auto Case and Add the Campaign member to Campaign.
+    */
+    Public static void createDelinquentPaymentCase(Set<Id> contactIds) {
+        List<Group> lstGroup = [select Id from Group where Name = 'Automated Cases' and Type = 'Queue'];
+        List<RecordType> rt = [Select id from RecordType where SobjectType = 'Case' and DeveloperName = 'Automated_Cases'];
+        Map<String, Case> mapContactCase = new Map<String, Case>();
+        Map<String, String> mapCampaignName = new Map<String, String>();
+        Map<String, Set<String>> mapCampaignMembers = new Map<String, Set<String>>();
+
+        for (Case objCase : [
+                Select id, Guarantor_Information__c
+                From Case
+                Where Guarantor_Information__c in :contactIds
+                and (Type = 'Delinquent Payment Plans' Or Reason = 'Compliance Issue')
+                and IsClosed = false
+        ]) {
+            contactIds.Remove(objCase.Guarantor_Information__c);
+        }
+
+        Map<Id, Contact> mapContact = new map<Id, Contact>(
+        [
+                Select id, Name,
+                        Statement_Preference__c, Overdue_Balance__c,
+                        Delinquent_Balance__c,
+                        RecordType.DeveloperName, HomePhone,
+                        MobilePhone, OtherPhone
+                From contact
+                where Id in :contactIds
+        ]
+        );
+
+        Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
+                'Delinquent', 'Delinquent M'
+        });
+        string delinquent = mapCampaignMapping.get('Delinquent');
+        string delinquentMobile = mapCampaignMapping.get('Delinquent M');
+
+        for (Campaign objCampaign : [
+                Select id, Name, (
+                        Select id, ContactId
+                        From CampaignMembers
+                        Where ContactId in :contactIds
+                )
+                From Campaign
+                Where Name = :delinquent
+                or Name = :delinquentMobile
+        ]) {
+            mapCampaignName.Put(objCampaign.Name, objCampaign.Id);
+            mapCampaignMembers.Put(objCampaign.Name, New Set<String>());
+            for (CampaignMember objCM : objCampaign.CampaignMembers) {
+                mapCampaignMembers.get(objCampaign.Name).Add(objCM.ContactId);
+            }
+        }
+
+        List<CampaignMember> lstCampaignMember = new List<CampaignMember>();
+        for (String strContactId : mapContact.keyset()) {
+            Contact objContact = mapContact.get(strContactId);
+
+            Case objCase = new Case();
+            objCase.Guarantor_Information__c = strContactId;
+            objCase.ContactId = strContactId;
+            objCase.Type = 'Delinquent Payment Plans';
+            objCase.Status = 'New';
+            objCase.Subject = 'Delinquent Payment Plans';
+            objCase.RecordTypeID = rt[0].Id;
+            if (lstGroup.size() > 0) {
+                objCase.ownerId = lstGroup[0].Id;
+            }
+            mapContactCase.Put(strContactId, objCase);
+
+            //Add CampaignMember
+            if (objContact.HomePhone != null || objContact.OtherPhone != null) {
+                if (mapCampaignName.Containskey(delinquent)
+                        && !mapCampaignMembers.get(delinquent).contains(objContact.Id)) {
+                    CampaignMember cm = New CampaignMember();
+                    cm.CampaignId = mapCampaignName.get(delinquent);
+                    cm.ContactId = objContact.Id;
+                    lstCampaignMember.add(cm);
+                }
+            }
+            if (objContact.MobilePhone != null) {
+                if (mapCampaignName.Containskey(delinquentMobile)
+                        && !mapCampaignMembers.get(delinquentMobile).contains(objContact.Id)) {
+                    CampaignMember cm = New CampaignMember();
+                    cm.CampaignId = mapCampaignName.get(delinquentMobile);
+                    cm.ContactId = objContact.Id;
+                    lstCampaignMember.add(cm);
+                }
+            }
+        }
+        if (lstCampaignMember.size() > 0) {
+            executeCampaignMemberTrigger = false;
+            insert lstCampaignMember;
+            executeCampaignMemberTrigger = true;
+        }
+
+        Insert mapContactCase.Values();
+    }
+
+    /*
+    * 08-22-2016: Sirono - Tracker # 127401841 For Close Delinquent Payment Plan Case
+    * 08-22-2016: Sirono - Tracker # 128197107 For Remove Guarantor to the Delinquent Payment Plan Call list
+    * Method for Create Delinquent Auto Case and Add the Campaign member to Campaign.
+    */
+    Public static void closeDelinquentPaymentCase(Set<Id> contactIds, Set<Id> paymentPlanID) {
+
+        if (!paymentPlanID.IsEmpty()) {
+            For (test__c test: [
+                    Select id, Guarantor_Name__c
+                    From test__c
+                    Where Id not in :paymentPlanID
+                    and Guarantor_Name__c in :contactIds
+                    and active__c = true
+                    and Delinquent__c = true
+            ]) {
+                contactIds.remove(test.Guarantor_Name__c);
+            }
+        }
+
+        List<Case> lstCase = [
+                Select id, Guarantor_Information__c
+                From Case
+                Where Guarantor_Information__c in :contactIds
+                and Type = 'Delinquent Payment Plans'
+                and IsClosed = false
+        ];
+        contactIds = new Set<Id>();
+        for (Case objCase : lstCase) {
+            objCase.Status = 'Closed';
+            objCase.Reason = 'Closed - Automated';
+            contactIds.add(objCase.Guarantor_Information__c);
+        }
+        Update lstCase;
+
+        Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
+                'Delinquent', 'Delinquent M'
+        });
+        string delinquent = mapCampaignMapping.get('Delinquent');
+        string delinquentMobile = mapCampaignMapping.get('Delinquent M');
+
+        Delete [
+                Select id, ContactId
+                From CampaignMember
+                Where (Campaign.Name = :delinquent or Campaign.Name = :delinquentMobile)
+                and ContactId in :contactIds
+        ];
+    }
+
+    /*
+    * 08-25-2016: Sirono - Tracker # 127517003 For Credit Card Error Case Creation
+    * 08-25-2016: Sirono - Tracker # 127517003 For Add Guarantor to the CC Error Call list
+    * Method for Create CC Error Auto Case and Add the Campaign member to Campaign.
+    */
+    Public static void createCCErrorCase(Set<Id> contactIds) {
+        Map<String, Case> mapContactCase = new Map<String, Case>();
+        Map<String, String> mapCampaignName = new Map<String, String>();
+        Map<String, Set<String>> mapCampaignMembers = new Map<String, Set<String>>();
+
+        for (Case objCase : [
+                Select id, Guarantor_Information__c
+                From Case
+                where Guarantor_Information__c in :contactIds
+                and (Type = 'CC Error' Or Reason = 'Compliance Issue')
+                and IsClosed = false
+        ]) {
+            contactIds.Remove(objCase.Guarantor_Information__c);
+        }
+
+        List<Group> lstGroup = [
+                Select Id
+                From Group
+                Where Name = 'Automated Cases' and Type = 'Queue'
+        ];
+        List<RecordType> rt = [
+                Select id
+                From RecordType
+                Where SobjectType = 'Case' and DeveloperName = 'Automated_Cases'
+        ];
+        Map<Id, Contact> mapContact = new map<Id, Contact>([
+                Select id, Name, RecordType.DeveloperName, HomePhone, MobilePhone, OtherPhone
+                from contact
+                where Id in :contactIds
+        ]);
+        Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
+                'CC Error', 'CC Error M'
+        });
+        string ccError = mapCampaignMapping.get('CC Error');
+        string ccErrorMobile = mapCampaignMapping.get('CC Error M');
+
+        for (Campaign objCampaign : [
+                Select id, Name, (
+                        Select id, ContactId
+                        From CampaignMembers
+                        Where ContactId in :contactIds
+                )
+                From Campaign
+                Where Name = :ccError
+                or Name = :ccErrorMobile
+        ]) {
+            mapCampaignName.Put(objCampaign.Name, objCampaign.Id);
+            mapCampaignMembers.Put(objCampaign.Name, New Set<String>());
+            for (CampaignMember objCM : objCampaign.CampaignMembers) {
+                mapCampaignMembers.get(objCampaign.Name).Add(objCM.ContactId);
+            }
+        }
+
+        List<CampaignMember> lstCampaignMember = new List<CampaignMember>();
+        for (String strContactId : mapContact.keyset()) {
+            Contact objContact = mapContact.get(strContactId);
+
+            Case objCase = new Case();
+            objCase.Guarantor_Information__c = strContactId;
+            objCase.ContactId = strContactId;
+            objCase.Type = 'CC Error';
+            objCase.Status = 'New';
+            objCase.Subject = 'CC Error';
+            objCase.RecordTypeID = rt[0].Id;
+            if (lstGroup.size() > 0) {
+                objCase.ownerId = lstGroup[0].Id;
+            }
+            mapContactCase.Put(strContactId, objCase);
+
+            //Add CampaignMember
+            if (objContact.HomePhone != null || objContact.OtherPhone != null) {
+                if (mapCampaignName.Containskey(ccError) && !mapCampaignMembers.get(ccError).contains(objContact.Id)) {
+                    CampaignMember cm = New CampaignMember();
+                    cm.CampaignId = mapCampaignName.get(ccError);
+                    cm.ContactId = objContact.Id;
+                    lstCampaignMember.add(cm);
+                }
+            }
+            if (objContact.MobilePhone != null) {
+                if (mapCampaignName.Containskey(ccErrorMobile) && !mapCampaignMembers.get(ccErrorMobile).contains(objContact.Id)) {
+                    CampaignMember cm = New CampaignMember();
+                    cm.CampaignId = mapCampaignName.get(ccErrorMobile);
+                    cm.ContactId = objContact.Id;
+                    lstCampaignMember.add(cm);
+                }
+            }
+
+        }
+        if (lstCampaignMember.size() > 0) {
+            executeCampaignMemberTrigger = false;
+            insert lstCampaignMember;
+            executeCampaignMemberTrigger = true;
+        }
+        Insert mapContactCase.Values();
+    }
+
+    /*
+    * 08-26-2016: Sirono - Tracker # 127517121 For Automatic Credit Card Error Case Closure
+    * 08-26-2016: Sirono - Tracker # 127517003 For Remove Guarantor to the CC Error Call list
+    * Method for Create CC Error Auto Case and Remove the Campaign member to Campaign.
+    */
+    Public static void closeCCErrorCase(Set<Id> contactIds, Set<Id> paymentPlanID) {
+
+        if (!paymentPlanID.IsEmpty()) {
+            for (test__c test: [
+                    Select id, Guarantor_Name__c
+                    From test__c
+                    Where Id not in :paymentPlanID
+                    and Guarantor_Name__c in :contactIds
+                    and active__c = true
+                    and Has_Error__c = true
+                    and Payable_Amount__c <= -100
+            ]) {
+                contactIds.remove(test.Guarantor_Name__c);
+            }
+        }
+
+        List<Case> lstCase = [
+                Select id, Guarantor_Information__c
+                From Case
+                Where Guarantor_Information__c in :contactIds
+                and Type = 'CC Error' and IsClosed = false
+        ];
+        contactIds = new Set<Id>();
+        for (Case objCase : lstCase) {
+            objCase.Status = 'Closed';
+            objCase.Reason = 'Closed - Automated';
+            contactIds.add(objCase.Guarantor_Information__c);
+        }
+        Update lstCase;
+
+        Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
+                'CC Error', 'CC Error M'
+        });
+        string ccError = mapCampaignMapping.get('CC Error');
+        string ccErrorMobile = mapCampaignMapping.get('CC Error M');
+
+        Delete [
+                Select id, ContactId
+                From CampaignMember
+                Where (Campaign.Name = :ccError or Campaign.Name = :ccErrorMobile )
+                and ContactId in :contactIds
+        ];
+    }
+
+    //Get the Campaign Mappings from the meta data.
+    public static Map<String, String> campaignMapping(Set<String> campaignName) {
+        Map<String, String> mapCampaignMapping = new Map<String, String>();
+
+        for (Campaign_Mapping__mdt objCM : [
+                Select MasterLabel, Salesforce_Campaign_Name__c
+                From Campaign_Mapping__mdt
+                Where MasterLabel in :campaignName
+        ]) {
+            mapCampaignMapping.put(objCM.MasterLabel, objCM.Salesforce_Campaign_Name__c);
+        }
+        return mapCampaignMapping;
     }
 }

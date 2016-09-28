@@ -1,53 +1,64 @@
-/**
- * Created by mmartin on 8/22/16.
+/*
+ * @author Sirono
+ * @version 1.0.1
+ * @Date: 09-01-2016
+ * Created by mmartin on 08-22-2016.
  */
 
 public with sharing class SironoSettingsUtil {
 
-    enum ORG_TYPE {
-        SANDBOX, PRODUCTION
+    enum orgType {
+        sandbox, production
     }
-    public static String SANDBOX = 'Sandbox';
-    public static String PRODUCTION = 'Production';
+    public static String sandbox = 'Sandbox';
+    public static String production = 'Production';
 
-    private static String ENDPOINT_URL;
+    private static String endpointUrl;
 
-    private static Map<String, String> SANDBOX_URLS;
+    private static Map<String, String> sandboxUrls;
     static {
-        SANDBOX_URLS = new Map<String, String>();
-        SANDBOX_URLS.put('dev', 'https://toledo.stage.sirono.com');
-        SANDBOX_URLS.put('sandboxmm', 'https://toledo.stage.sirono.com');
-        SANDBOX_URLS.put('cloudcoop', 'https://toledo.stage.sirono.com');
-        SANDBOX_URLS.put('qa', 'https://training.sirono.com');
-        SANDBOX_URLS.put('demo', 'https://training.sirono.com');
+        sandboxUrls = new Map<String, String>();
+        sandboxUrls.put('dev', 'https://toledo.stage.sirono.com');
+        sandboxUrls.put('sandboxmm', 'https://toledo.stage.sirono.com');
+        sandboxUrls.put('cloudcoop', 'https://toledo.stage.sirono.com');
+        sandboxUrls.put('qa', 'https://training.sirono.com');
+        sandboxUrls.put('demo', 'https://training.sirono.com');
     }
 
     public static Boolean isSandbox() {
+        if (TestUtility.isTest) {
+            return false;
+        }
         return [SELECT Id, IsSandbox FROM Organization LIMIT 1].IsSandbox;
     }
 
     public static String getServerEndpoint() {
         if (isSandbox()) {
-            if (ENDPOINT_URL == null) {
+            if (endpointUrl == null) {
                 String sandboxName = UserInfo.getUserName().substringAfterLast('.').toLowerCase();
-                ENDPOINT_URL = SANDBOX_URLS.get(sandboxName);
-                if (ENDPOINT_URL == null) {
+                endpointUrl = sandboxUrls.get(sandboxName);
+                if (TestUtility.setBlank) {
+                    endpointUrl = null;
+                }
+                if (endpointUrl == null) {
+
                     throw new CalloutException('Sirono server is not configured');
+
                 }
             }
-            return ENDPOINT_URL;
+            return endpointUrl;
         } else {
             return Label.PayStaffEndPointURL;
         }
     }
 
     public static SironoSettings__c getSettings() {
-        SironoSettings__c settings = SironoSettings__c.getInstance(isSandbox() ? SANDBOX : PRODUCTION);
+        SironoSettings__c settings = SironoSettings__c.getInstance(isSandbox() ? sandbox : production);
         if (settings == null) {
             settings = new SironoSettings__c();
-            settings.Name = isSandbox() ? SANDBOX : PRODUCTION;
+            settings.Name = isSandbox() ? sandbox : production;
             insert settings;
-            settings = SironoSettings__c.getInstance(isSandbox() ? SANDBOX : PRODUCTION);
+            settings = SironoSettings__c.getInstance(isSandbox() ? sandbox : production);
         }
 
         return settings;

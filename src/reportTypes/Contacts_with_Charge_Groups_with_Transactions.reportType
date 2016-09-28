@@ -341,12 +341,42 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Overdue_Balance__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Pre_Invoiced_Balance__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Invoiced_Balance__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>X18_Digit_ID__c</field>
             <table>Contact</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Due_Balance__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Verified_Email__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Delinquent_Balance__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Bad_Debt_Balance__c</field>
             <table>Contact</table>
         </columns>
         <columns>
@@ -397,6 +427,21 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Campaign__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Full_Name__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Address__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Guarantor_Patient_Id__c</field>
             <table>Contact</table>
         </columns>
         <masterLabel>Contacts</masterLabel>
@@ -612,7 +657,7 @@
             <field>Account_Status__c</field>
             <table>Contact.Charge_Groups__r</table>
         </columns>
-        <masterLabel>Charge Group (Guarantor)</masterLabel>
+        <masterLabel>Charge Groups (Guarantor)</masterLabel>
     </sections>
     <sections>
         <columns>

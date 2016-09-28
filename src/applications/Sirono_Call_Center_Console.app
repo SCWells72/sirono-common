@@ -173,20 +173,23 @@
         <location>full</location>
     </listPlacement>
     <listRefreshMethod>refreshList</listRefreshMethod>
-    <logo>SharedDocuments/Sirono_Image_file.jpg</logo>
     <primaryTabColor>#0070D2</primaryTabColor>
     <saveUserSessions>false</saveUserSessions>
     <tab>standard-Contact</tab>
     <tab>standard-Case</tab>
     <tab>Encounter__c</tab>
     <tab>standard-Dashboard</tab>
+    <tab>Charge_Group__c</tab>
     <tabLimitConfig>
         <maxNumberOfPrimaryTabs>20</maxNumberOfPrimaryTabs>
         <maxNumberOfSubTabs>10</maxNumberOfSubTabs>
     </tabLimitConfig>
     <workspaceMappings>
         <mapping>
-            <fieldName>Patient__c</fieldName>
+            <fieldName>Guarantor_Name__c</fieldName>
+            <tab>Charge_Group__c</tab>
+        </mapping>
+        <mapping>
             <tab>Encounter__c</tab>
         </mapping>
         <mapping>

@@ -84,6 +84,7 @@
         <members>Activity.Day_of_Week__c</members>
         <members>Activity.Disposition__c</members>
         <members>Activity.Hour_of_Day__c</members>
+        <members>Activity.Hours_of_Day__c</members>
         <members>Activity.Recording__c</members>
         <members>Activity.Salesforce_ID__c</members>
         <members>Case.Asset_ID__c</members>
@@ -181,6 +182,8 @@
         <members>Case.Time_Worked_Mins__c</members>
         <members>Case.Transaction_Amount__c</members>
         <members>Case.Transaction_Code__c</members>
+        <members>Case.Case_Claim__c</members>
+        <members>Case.Claim__c</members>
         <members>Contact.Age__c</members>
         <members>Contact.Bad_Debt_Balance__c</members>
         <members>Contact.Campaign__c</members>
@@ -199,6 +202,7 @@
         <members>Contact.Origin_Code__c</members>
         <members>Contact.Overdue_Balance__c</members>
         <members>Contact.Patient_Id__c</members>
+        <members>Contact.Payment_Plan_Balance__c</members>
         <members>Contact.Pre_Invoiced_Balance__c</members>
         <members>Contact.Preferred_Contact__c</members>
         <members>Contact.Profile_Pointer_ID__c</members>
@@ -210,10 +214,14 @@
         <members>Contact.Verified_Email__c</members>
         <members>Contact.Vital_Status__c</members>
         <members>Contact.X18_Digit_ID__c</members>
+        <members>Contact.Payment_Plan_Balance__c</members>
+        <members>Contact.Address__c</members>
+        <members>Contact.Guarantor_Patient_Id__c</members>
         <members>User.Legacy_User_Id__c</members>
         <name>CustomField</name>
     </types>
     <types>
+        <members>Adjustment_for_Admin</members>
         <members>Case_Type_Require</members>
         <members>Charge_Groups_Require</members>
         <members>PayStaffEndPointURL</members>
@@ -236,6 +244,7 @@
         <members>Case</members>
         <members>CaseContactRole</members>
         <members>Contact</members>
+        <members>Contract</members>
         <members>Discount_Type__mdt</members>
         <members>TransactionPayerType__mdt</members>
         <members>User</members>
@@ -311,10 +320,30 @@
         <name>EscalationRules</name>
     </types>
     <types>
+        <members>Case.Billing_Bankruptcy</members>
+        <members>Case.Billing_Deceased_Patient</members>
+        <members>Case.Billing_Move_Payment</members>
         <members>Case.Billing_Type</members>
+        <members>Case.General</members>
         <members>Case.New_Section</members>
-        <members>Contact.Guarantor</members>
-        <members>Contact.Patient</members>
+        <members>Case.Payor</members>
+        <members>Case.Payor_Insurance_Agent_Called</members>
+        <members>Case.Payor_Insurance_Error</members>
+        <members>Case.Payor_New_Insurance</members>
+        <members>Case.Quality_of_Care</members>
+        <members>Case.Sirono_Review</members>
+        <members>Case.Sirono_Review_Mailed_Form_Request_Charit</members>
+        <members>Case.Sirono_Review_Mailed_Form_Request_Receip</members>
+        <members>Case.Sirono_Review_Merge_Request</members>
+        <members>Case.Sirono_Review_Missing_Payment</members>
+        <members>Contact.Billing_Guarantor</members>
+        <members>Contact.Billing_Patient</members>
+        <members>Contact.Payer_Guarantor</members>
+        <members>Contact.Payer_Patient</members>
+        <members>Contact.Quality_of_Care_Guarantor</members>
+        <members>Contact.Quality_of_Care_Patient</members>
+        <members>Contact.Sirono_Review_Guarantor</members>
+        <members>Contact.Sirono_Review_Patient</members>
         <name>FieldSet</name>
     </types>
     <types>
@@ -447,7 +476,6 @@
         <members>Charge_Group__c.All</members>
         <members>Contact.AllContacts</members>
         <members>Contact.All_External_Guarantors</members>
-        <members>Contact.All_External_Patients</members>
         <members>Contact.All_Guarantors</members>
         <members>Contact.All_Patients</members>
         <members>Contact.All_Staff</members>
@@ -525,6 +553,7 @@
     <types>
         <members>Five9WebServices</members>
         <members>IPayX_Demo</members>
+        <members>PayStaffWS_Demo</members>
         <name>RemoteSiteSetting</name>
     </types>
     <types>
@@ -599,9 +628,6 @@
         <members>Case.Sirono_Internal</members>
         <members>Contact.Contact_Sirono_Internal</members>
         <members>Contact.Contact_Sirono_Partner</members>
-        <members>Contact.temp_agent_all_contacts</members>
-        <members>Contact.temp_partners_all_contacts</members>
-        <members>Contact.temp_partners_with_partners</members>
         <members>Coverage__c.Coverage_Sirono_Internal</members>
         <members>Payment_Adjustments__c.PaymentAdj_Sirono_Internal</members>
         <members>Payment_Method__c.Credit_Card_Sirono_Internal</members>
@@ -660,6 +686,7 @@
         <members>Charge_Group__c</members>
         <members>Coverage__c</members>
         <members>Invoice__c</members>
+        <members>Payment__c</members>
         <members>Payment_Adjustments__c</members>
         <members>Statement__c</members>
         <name>Workflow</name>
@@ -675,6 +702,7 @@
         <members>Charge_Group__c.OG_SelfPay_Balance</members>
         <members>Coverage__c.Coverage_Name</members>
         <members>Invoice__c.Invoice_Name</members>
+        <members>Payment__c.Payment_Name_Update</members>
         <members>Payment_Adjustments__c.UpdateName</members>
         <members>Service__c.Service_Name</members>
         <members>Statement__c.Statement_Name</members>
@@ -688,6 +716,7 @@
         <members>Charge_Group__c.OG SelfPay</members>
         <members>Coverage__c.Coverage Name</members>
         <members>Invoice__c.Invoice Name</members>
+        <members>Payment__c.Payment_Name_Update</members>
         <members>Payment_Adjustments__c.CustomizeName</members>
         <members>Service__c.Service Name</members>
         <members>Statement__c.Statement Name</members>

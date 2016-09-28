@@ -9,7 +9,7 @@
         <value>Charge Group Coverage Junctions</value>
     </caseValues>
     <fields>
-        <label><!-- Sirono ID --></label>
+        <label><!-- ID --></label>
         <name>Charge_Group_Coverage_ID__c</name>
     </fields>
     <fields>

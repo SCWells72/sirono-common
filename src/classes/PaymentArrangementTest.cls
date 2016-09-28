@@ -1,42 +1,55 @@
+/*
+ * @author Sirono
+ * @version 1.0.1
+ * @Date: 08-17-2016
+ * @description This is a test class for the PaymentArrangement class.
+ *
+ * 08-17-2016: Sirono - Tracker # 127398743
+ */
+
 @isTest
 public class PaymentArrangementTest {
-    @isTest public static void testPaymentArrangement() {
-        Map<String, Id> rtMap = new Map<String, Id>();
-        for (RecordType rt : [Select Id, Name From RecordType Where sObjectType = 'Contact']) {
-            rtMap.put(rt.Name, rt.Id);
+
+    //Unit test for the class PaymentArrangement
+    @isTest public static void paymentArrangementtest1() {
+
+        Contact patientContact = TestUtility.generatePatientContact();
+        insert patientContact;
+
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        guarantorContact.Profile_Pointer_Id__c = 1234;
+        insert guarantorContact;
+
+        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 100, System.Today());
+        encounter.Liability__c = 200;
+        encounter.Cancelled__c = true;
+        insert encounter;
+
+        Map<String, String> recordTypeMap = new Map<String, String>();
+        for (RecordType recordType : [
+                Select Id, Name
+                From RecordType
+                Where sObjectType = 'Payment_Method__c'
+        ]) {
+            recordTypeMap.put(recordType.Name, recordType.Id);
         }
-        Contact g = new Contact();
-        g.RecordTypeId = rtMap.get('Guarantor');
-        g.LastName = 'G Test';
-        g.Profile_Pointer_Id__c = 123;
-        insert g;
 
-        Contact p = new Contact();
-        p.RecordTypeId = rtMap.get('Patient');
-        p.LastName = 'P Test';
-        insert p;
+        Payment_Method__c paymentMethod = TestUtility.generatePaymentMethod(guarantorContact.Id, recordTypeMap.get('Credit Card'));
+        Insert paymentMethod;
 
-        Contact g2 = new Contact();
-        g2.RecordTypeId = rtMap.get('Guarantor');
-        g2.LastName = 'G Test';
-        g2.Profile_Pointer_Id__c = 1234;
-        g2.Guarantor__c = g.Id;
-        insert g2;
+        Apexpages.currentpage().getparameters().put('id', encounter.id);
+        ApexPages.StandardController sc = new ApexPages.StandardController(encounter);
+        PaymentArrangement objPaymentArrangement = new PaymentArrangement(sc);
 
+        objPaymentArrangement.createNewPaymentMethod();
+        objPaymentArrangement.saveNewPaymentMethod();
+        List<Payment_Method__c> paymentMetod = [Select id from Payment_Method__c];
+        System.assertEquals(2, paymentMetod.Size(), 'Payment Method record not inserted');
 
-        Encounter__c e = new Encounter__c();
-        e.Patient__c = p.Id;
-        e.Liability__c = 200;
-        e.Date_of_Service__c = System.Today();
-        e.Cancelled__c = true;
-        e.Patient_Portion__c = 100;
-        insert e;
+        objPaymentArrangement.cancelNewPaymentMethod();
+        System.assertEquals(False, objPaymentArrangement.createPaymentMethod, 'cancel method not call correctly.');
 
-        Apexpages.currentpage().getparameters().put('id', e.id);
-        ApexPages.StandardController sc = new ApexPages.StandardController(e);
-        PaymentArrangement clsPA = new PaymentArrangement(sc);
-        clsPA.createNewPaymentMethod();
-        clsPA.cancelNewPaymentMethod();
-        clsPA.submitPaymentArrangement();
+        objPaymentArrangement.submitPaymentArrangement();
+        objPaymentArrangement.paymentMethodType = '12';
     }
 }

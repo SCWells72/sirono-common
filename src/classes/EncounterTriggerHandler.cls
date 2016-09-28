@@ -1,34 +1,41 @@
+/*
+ * @author Sirono
+ * @version 1.0.1
+ * @Date: 06-06-2016
+ * @description Handler Class for EncounterTrigger
+*/
 public with sharing class EncounterTriggerHandler {
+    //static method invoked when a before insert operation is performed
     public static void beforeInsert(List<Encounter__c> newList) {
         prePopulateFields(newList, null);
     }
-
+    //static method invoked when a after insert operation is performed
     public static void afterInsert(List<Encounter__c> newList) {
         checkCallListRemove(newList, null);
         CaseUtil.CreateEncounterAutoCase(newList);
     }
-
+    //static method invoked when a before update operation is performed
     public static void beforeUpdate(List<Encounter__c> newList, Map<Id, Encounter__c> oldMap) {
         prePopulateFields(newList, oldMap);
     }
-
+    //static method invoked when a after update operation is performed
     public static void afterUpdate(List<Encounter__c> newList, Map<Id, Encounter__c> oldMap) {
         checkCallListRemove(newList, oldMap);
         CaseUtil.CallCloseEncounterAutoCase(newList, false);
     }
 
     private static void prePopulateFields(List<Encounter__c> newList, Map<Id, Encounter__c> oldMap) {
-        // IDENTIFY THE PATIENTS FOR WHICH WE NEED TO FIND GUARANTORS
+        //IDENTIFY THE PATIENTS FOR WHICH WE NEED TO FIND GUARANTORS
         Map<Id, Id> patientToGuarantorMap = new Map<Id, Id>();
         for (Encounter__c e : newList) {
-            if (e.Patient__c != null
-                    && (oldMap == null || (e.Patient__c != oldMap.get(e.Id).Patient__c) || e.Guarantor__c == null)) {
+            if (e.Patient__c != null && (oldMap == null || (e.Patient__c != oldMap.get(e.Id).Patient__c)
+                    || e.Guarantor__c == null)) {
                 patientToGuarantorMap.put(e.Patient__c, null);
             }
         }
 
         if (patientToGuarantorMap.size() > 0) {
-            // FIND THE MATCHED GUARANTOR THROUGH CHARGE GROUP
+            //FIND THE MATCHED GUARANTOR THROUGH CHARGE GROUP
             for (Charge_Group__c cg : [
                     Select Id, Patient_Name__c, Guarantor_Name__c, Date_Of_Service_Start_Date__c
                     From Charge_Group__c
@@ -38,7 +45,7 @@ public with sharing class EncounterTriggerHandler {
                 patientToGuarantorMap.put(cg.Patient_Name__c, cg.Guarantor_Name__c);
             }
 
-            //IDENTIFY HOW MANY PATIENTS DON"T HAVE ANY GUARANTORS
+            //IDENTIFY HOW MANY PATIENTS DON'T HAVE ANY GUARANTORS
             Map<Id, Contact> guarantorsToCreate = new Map<Id, Contact>();
             for (Id keyId : patientToGuarantorMap.keySet()) {
                 if (patientToGuarantorMap.get(keyId) == null) {
@@ -49,13 +56,18 @@ public with sharing class EncounterTriggerHandler {
             //FETCH PATIENT INFO AND CREATE A GUARANTOR
             if (guarantorsToCreate.keySet().size() > 0) {
                 Id guarantorRecordTypeId = null;
-                for (RecordType rt : [Select Id From RecordType Where sObjectType = 'Contact' AND DeveloperName = 'Guarantor']) {
+                for (RecordType rt : [
+                        Select Id
+                        From RecordType
+                        Where sObjectType = 'Contact' AND DeveloperName = 'Guarantor'
+                ]) {
                     guarantorRecordTypeId = rt.Id;
                 }
 
                 for (Contact pataient : [
-                        Select Id, FirstName, LastName, Birthdate, HomePhone, MobilePhone,
-                                Phone, Email, Gender__c, MailingStreet, MailingCity, MailingState, MailingPostalCode, MailingCountry,
+                        Select Id, FirstName, LastName, Birthdate, HomePhone,
+                                MobilePhone, Phone, Email, Gender__c, MailingStreet,
+                                MailingCity, MailingState, MailingPostalCode, MailingCountry,
                                 OtherStreet, OtherCity, OtherState, OtherPostalCode, OtherCountry
                         From Contact
                         Where Id IN :guarantorsToCreate.keySet()
@@ -99,6 +111,7 @@ public with sharing class EncounterTriggerHandler {
         }
     }
 
+    //METHOD THAT COLLECTS THE ID OF GUARANTOR 
     private static void checkCallListRemove(List<Encounter__c> newList, Map<Id, Encounter__c> oldMap) {
         Set<Id> contactIds = new Set<Id>();
         for (Encounter__c e : newList) {

@@ -1,7 +1,17 @@
-<apex:page id="communitiesSelfRegPage" showHeader="true" controller="CommunitiesSelfRegController" title="{!$Label.site.user_registration}">
-     <apex:define name="body">  
+<!--
+* @author: Sirono
+* @version 1.0.1
+* @Date: 05-03-2016
+
+* 14/09/2016 commented the code since it is not used into community/site for any business requirement
+-->
+
+
+<apex:page id="communitiesSelfRegPage" showHeader="true" controller="CommunitiesSelfRegController"
+           title="{!$Label.site.user_registration}">
+    <!--apex:define name="body">
       <center>
-<apex:form id="theForm" forceSSL="true">
+      <apex:form id="theForm" forceSSL="true">
                     <apex:pageMessages id="error"/>
                     <apex:panelGrid columns="2" style="margin-top:1em;">
                       <apex:outputLabel value="First Name" for="firstName"/>
@@ -20,9 +30,8 @@
                       <apex:commandButton action="{!registerUser}" value="{!$Label.site.submit}" id="submit"/>
                     </apex:panelGrid> 
                   <br/>
-</apex:form>
+     </apex:form>
      </center>
       <br/>
-    </apex:define>
-
+    </apex:define-->
 </apex:page>

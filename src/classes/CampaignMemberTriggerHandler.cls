@@ -1,28 +1,36 @@
-public with sharing class CampaignMemberTriggerHandler {
+/* @author: Sirono
+ * @Date: 05-30-2016
+ * @Description TriggerHandler class for CampaignMemberTrigger
+*/
 
+public with sharing class CampaignMemberTriggerHandler {
+    //static method that creates CampaignHistoryObject
     public static void afterInsert(List<CampaignMember> newList) {
         createCampaignHistoryObject(newList);
     }
-
+    //static method that updates CampaignHistoryObject
     public static void afterDelete(List<CampaignMember> oldList) {
         updateCampaignHistoryObject(oldList);
     }
-
+    // private static method inserts Campaignmemberhistory list and Case list
     private static void createCampaignHistoryObject(List<CampaignMember> newList) {
         Id callListCaseRtId = null;
-        for (RecordType rt : [Select Id, Name From RecordType Where sObjectType = 'Case' AND Name = 'Call List Case']) {
+        for (RecordType rt : [
+                Select Id, Name
+                From RecordType
+                Where sObjectType = 'Case'
+                AND Name = 'Call List Case'
+        ]) {
             callListCaseRtId = rt.Id;
         }
         List<Campaign_Member_History__c> historyList = new List<Campaign_Member_History__c>();
         List<Case> caseList = new List<Case>();
-
-        List<CampaignMember> newCMList = new List<CampaignMember>([
-                Select Id, CampaignId, Campaign.Name,
-                        ContactId, Contact.FirstName, Contact.LastName
+        List<CampaignMember> newCMList = [
+                Select Id, CampaignId, Campaign.Name, ContactId,
+                        Contact.FirstName, Contact.LastName
                 From CampaignMember
                 WHERE Id = :newList AND ContactId != null
-        ]);
-
+        ];
         for (CampaignMember cm : newCMList) {
             if (cm.ContactId != null) {
                 historyList.add(new Campaign_Member_History__c(Campaign__c = cm.CampaignId, Contact__c = cm.ContactId));
@@ -42,7 +50,7 @@ public with sharing class CampaignMemberTriggerHandler {
             insert caseList;
         }
     }
-
+    //private static method
     private static void updateCampaignHistoryObject(List<CampaignMember> oldList) {
         Set<Id> contactIds = new Set<Id>();
         Set<Id> campaignIds = new Set<Id>();
@@ -55,11 +63,14 @@ public with sharing class CampaignMemberTriggerHandler {
 
         Map<String, Campaign_Member_History__c> historyMap = new Map<String, Campaign_Member_History__c>();
         for (Campaign_Member_History__c cmh : [
-                Select Id, Name, Contact__c, Campaign__c, Date_Removed__c, CreatedDate
+                Select Id, Name, Contact__c, Campaign__c,
+                        Date_Removed__c, CreatedDate
                 From Campaign_Member_History__c
-                WHERE (Contact__c IN :contactIds OR Campaign__c IN :campaignIds) AND Date_Removed__c = null
+                WHERE (Contact__c IN :contactIds OR Campaign__c IN :campaignIds)
+                AND Date_Removed__c = null
                 ORDER BY Contact__c, Campaign__c, CreatedDate
         ]) {
+
             String keyStr = String.valueOf(cmh.Contact__c).substring(0, 15) + '-' + String.valueOf(cmh.Campaign__c).substring(0, 15);
             historyMap.put(keyStr, cmh);
         }

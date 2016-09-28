@@ -201,6 +201,10 @@
         <startsWith>Vowel</startsWith>
     </fields>
     <fields>
+        <label><!-- Address --></label>
+        <name>Address__c</name>
+    </fields>
+    <fields>
         <label><!-- Age --></label>
         <name>Age__c</name>
     </fields>
@@ -248,6 +252,10 @@
             <masterLabel>Male</masterLabel>
             <translation><!-- Male --></translation>
         </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Guarantor/Patient Id --></label>
+        <name>Guarantor_Patient_Id__c</name>
     </fields>
     <fields>
         <help><!-- Master Guarantor for External Guarantor record --></help>
@@ -327,6 +335,10 @@
         <name>Patient_Id__c</name>
     </fields>
     <fields>
+        <label><!-- Payment Plan Balance --></label>
+        <name>Payment_Plan_Balance__c</name>
+    </fields>
+    <fields>
         <label><!-- Pre-Invoiced Balance --></label>
         <name>Pre_Invoiced_Balance__c</name>
     </fields>
@@ -386,21 +398,14 @@
         </sections>
     </layouts>
     <layouts>
-        <layout>External Patients</layout>
-        <sections>
-            <label><!-- Identification --></label>
-            <section>Identification</section>
-        </sections>
-        <sections>
-            <label><!-- Information --></label>
-            <section>Information</section>
-        </sections>
-    </layouts>
-    <layouts>
         <layout>Guarantors</layout>
         <sections>
             <label><!-- Address --></label>
             <section>Address</section>
+        </sections>
+        <sections>
+            <label><!-- Balance --></label>
+            <section>Balance</section>
         </sections>
         <sections>
             <label><!-- Identification --></label>
@@ -409,6 +414,10 @@
         <sections>
             <label><!-- System --></label>
             <section>System</section>
+        </sections>
+        <sections>
+            <label><!-- Timeline --></label>
+            <section>Timeline</section>
         </sections>
     </layouts>
     <layouts>
@@ -429,14 +438,6 @@
     <recordTypes>
         <label><!-- External Guarantor --></label>
         <name>External_Guarantor</name>
-    </recordTypes>
-    <recordTypes>
-        <label><!-- External Patient --></label>
-        <name>External_Patient</name>
-    </recordTypes>
-    <recordTypes>
-        <label><!-- General --></label>
-        <name>General</name>
     </recordTypes>
     <recordTypes>
         <label><!-- Guarantor --></label>
@@ -481,9 +482,5 @@
     <webLinks>
         <label><!-- Process_Payment --></label>
         <name>Process_Payment</name>
-    </webLinks>
-    <webLinks>
-        <label><!-- View_On_Portal --></label>
-        <name>View_On_Portal</name>
     </webLinks>
 </CustomObjectTranslation>

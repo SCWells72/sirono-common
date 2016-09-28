@@ -18,7 +18,7 @@
         <name>Hex_Code__c</name>
     </fields>
     <fields>
-        <label><!-- Sirono ID --></label>
+        <label><!-- ID --></label>
         <name>ID__c</name>
     </fields>
     <fields>

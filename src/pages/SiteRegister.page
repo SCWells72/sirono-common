@@ -1,5 +1,13 @@
+<!--
+* @author: Sirono
+* @version 1.0.1
+* @Date: 05-03-2016
+
+* 14/09/2016 commented the code since it is not used into community/site for any business requirement
+-->
+
 <apex:page id="Registration" showHeader="false" controller="SiteRegisterController" title="{!$Label.site.register}">
-  <apex:composition template="{!$Site.Template}">
+    <!--<apex:composition template="{!$Site.Template}">
     <apex:define name="body">  
       <center>
         <apex:panelGrid bgcolor="white" columns="1"> 
@@ -41,5 +49,5 @@
       </center>
       <br/>
     </apex:define>
-  </apex:composition>
+  </apex:composition>-->
 </apex:page>

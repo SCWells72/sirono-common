@@ -1,0 +1,397 @@
+<!--
+* @author: Sirono
+* @version 1.0.1
+* @Date: 09-05-2016
+* 09-05-2016: Created By David Z. Page makes use of statis resources SLDS203,Jquery1,ALJS
+-->
+
+<apex:page standardController="Contact" showHeader="false" standardStylesheets="false" applyHtmlTag="false"
+           applyBodyTag="false" docType="html-5.0">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+    <head>
+        <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <apex:stylesheet
+                value="{!URLFOR($Resource.SLDS203, 'assets/styles/salesforce-lightning-design-system-vf.min.css')}"/>
+        <apex:includescript value="{!URLFOR($Resource.jquery_11_1)}"/>
+        <script src="{!URLFOR($Resource.aljs, '/jquery.aljs-all.min.js')}"></script>
+        <script src="{!URLFOR($Resource.aljs, '/jquery.aljs-tabs.min.js')}"></script>
+
+        <apex:includeScript value="/xdomain/xdomain.js"/>
+        <apex:includeScript value="/soap/ajax/37.0/connection.js"/>
+        <apex:includeScript value="/support/console/37.0/integration.js"/>
+        <style>
+
+        </style>
+        <script type="text/javascript">
+            function openSubTab(recId) {
+                var redirectUrl = recId;
+
+                // condition to check for Console
+                if (sforce.console.isInConsole()) {
+                    console.log('its a console hit');
+                    sforce.console.getEnclosingTabId(function (enclosingResult) {
+                        sforce.console.getEnclosingPrimaryTabId(function (primaryResult) {
+                            sforce.console.openSubtab(primaryResult.id, redirectUrl, true, '', null);
+                        });
+                    });
+                } else { // other than console
+                    // for inline Vf
+                    window.top.location.href = '/' + redirectUrl
+                    // for normal vf
+                    // window.location.href = '/'+redirectUrl
+                }
+            }
+        </script>
+        <script type="text/javascript">
+            function testSetTabTitle() {
+                //Set the current tab's title
+                sforce.console.setTabTitle('Contact: {!Contact.Name}');
+            }
+
+            var pageLoad = window.onload;
+            window.onload = function () {
+                if (pageLoad) {
+                    pageLoad();
+                }
+                testSetTabTitle();
+            };
+
+            if (sforce.console.isInConsole()) {
+                srcUp(url);
+            } else {
+                window.open(url, '_blank');
+            }
+        </script>
+        <script>
+            j$ = jQuery.noConflict();
+            j$(document).ready(function () {
+                // Standard initialization call
+                j$('[data-aljs="tabs"]').tabs();
+                j$('[data-aljs="tabsCases"]').tabs();
+
+                j$("div h3:contains('Timeline')").parent('div').hide();
+                j$('.btn').removeClass('btn').addClass('slds-button slds-button--neutral');
+                j$(".pbBottomButtons").appendTo("#pbBottomButtons_destination");
+
+            });
+        </script>
+        <style>
+            [hidden], template {
+                display: block !important;
+            }
+
+            body {
+                background: white;
+            }
+
+            .pbHeader {
+                display: none;
+                visibility: hidden;
+            }
+
+            .labelCol {
+                width: 20%;
+
+            }
+
+            .dataCol {
+
+                width: 30%;
+            }
+
+            .dataCell {
+                height: 25px;
+            }
+
+            .pbSubheader {
+                BORDER-bottom: 1px solid rgb(216, 221, 230);
+                color: #0070d2;
+            }
+
+            .slds-tabs--scoped__nav {
+                background-color: white;
+            }
+
+            .actionColumn {
+                display: none;
+                visibility: hidden;
+            }
+
+            .labelCol {
+                font-weight: bold;
+            }
+
+            #tab-1 {
+                background-color: white;
+            }
+        </style>
+
+
+    </head>
+    <body>
+    <div class="sirono">
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col">
+                    <div class="slds-media slds-media--top slds-no-space slds-grow">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-user">
+                                <svg aria-hidden="true" class="slds-icon slds-icon--large slds-icon-standard-contact">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         xlink:href="/resource/1472379321000/SLDS203/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <p class="slds-text-heading--label">{!Contact.RecordType.Name}</p>
+                            <h1 class="slds-page-header__title">{!Contact.Name}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid">
+            <!-- ---------------------------------------------------------MAIN CARD--------------------------------------------------- -->
+            <div class="slds-col slds-col-rule--right slds-size--8-of-12">
+                <div class="slds-m-left--small slds-m-top--xx-small slds-align--absolute-left"
+                     id="pbBottomButtons_destination"></div>
+                <!-- CARD BODY = TABLE -->
+                <section class="slds-card__body--inner slds-m-top--xx-small ">
+
+                    <!--- --------------------------------TAB START  --------------------------------------------------------------------------------------- -->
+                    <div class="slds-tabs--scoped" data-aljs="tabs">
+                        <ul class="slds-tabs--scoped__nav" role="tablist">
+                            <li class="slds-tabs--scoped__item slds-text-heading--label slds-active" title="DETAILS"
+                                role="presentation">
+                                <a class="slds-tabs--scoped__link" href="javascript:void(0);"
+                                   role="tab" tabindex="0" aria-selected="true" aria-controls="tab-1" id="tab-1__item"
+                                   data-aljs-show="tab-1">DETAILS</a>
+                            </li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" title="SUMMARY"
+                                role="presentation">
+                                <a class="slds-tabs--scoped__link" href="javascript:void(0);"
+                                   role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-2" id="tab-2__item"
+                                   data-aljs-show="tab-2">SUMMARY</a>
+                            </li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" title="CHARGE GROUP"
+                                role="presentation">
+                                <a class="slds-tabs--scoped__link" href="javascript:void(0);"
+                                   role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-3" id="tab-3__item"
+                                   data-aljs-show="tab-3">CHARGE GROUPS</a>
+                            </li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" title="ENCOUNTERS"
+                                role="presentation">
+                                <a class="slds-tabs--scoped__link" href="javascript:void(0);"
+                                   role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-4" id="tab-4__item"
+                                   data-aljs-show="tab-4">ENCOUNTERS</a>
+                            </li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" title="PAYMENTS"
+                                role="presentation">
+                                <a class="slds-tabs--scoped__link" href="javascript:void(0);"
+                                   role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-5" id="tab-5__item"
+                                   data-aljs-show="tab-5">PAYMENTS</a>
+                            </li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" title="STATEMENTS"
+                                role="presentation">
+                                <a class="slds-tabs--scoped__link" href="javascript:void(0);"
+                                   role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-6" id="tab-6__item"
+                                   data-aljs-show="tab-6">STATEMENTS</a>
+                            </li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" title="NOTES"
+                                role="presentation">
+                                <a class="slds-tabs--scoped__link" href="javascript:void(0);"
+                                   role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-7" id="tab-7__item"
+                                   data-aljs-show="tab-7">NOTES</a>
+                            </li>
+                        </ul>
+                        <!--- --------------------------------TAB PANEL 1 DETAILS START --------------------------------------------------------------- -->
+                        <div id="tab-1" class="slds-tabs--scoped__content slds-show" role="tabpanel"
+                             aria-labelledby="tab-1__item">
+                            <div class="slds-card__body--inner">
+                                <apex:pageBlock mode="maindetail">
+                                    <apex:detail subject="{!contact.Id}" relatedlisthover="true" relatedlist="false"
+                                                 title="false"/>
+                                </apex:pageBlock>
+                            </div>
+                        </div>
+                        <!--- --------------------------------TAB PANEL 1 DETAILS END ------------------------------------------------------------------ -->
+
+                        <!--- --------------------------------TAB PANEL 2 SUMMARY START ---------------------------------------------------------------- -->
+                        <div id="tab-2" class="slds-tabs--scoped__content slds-hide" role="tabpanel"
+                             aria-labelledby="tab-2__item">
+                            <div class="slds-grid slds-grid--pull-padded">
+                                <div class="slds-col--padded slds-size--6-of-12">
+                                    <c:ConsoleBalanceComponent cardName="Balance" sObjContact="{!Contact}"
+                                                               styleClass="slds-icon slds-icon-standard-contact"
+                                                               path="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"/>
+                                </div>
+                                <div class="slds-col--padded slds-size--6-of-12">
+                                    <c:ConsoleAutoDraftComponent cardName="Auto-Draft" sObjContact="{!Contact}"
+                                                                 styleClass="slds-icon slds-icon-standard-contact"
+                                                                 path="/assets/icons/standard-sprite/svg/symbols.svg#drafts"/>
+                                </div>
+                            </div>
+                        </div>
+                        <!--- --------------------------------TAB PANEL 2 SUMMARY END ---------------------------------------------------------------------- -->
+
+                        <!--- --------------------------------TAB PANEL 3 CHARGE GROUP START ---------------------------------------------------------------- -->
+                        <div id="tab-3" class="slds-tabs--scoped__content slds-hide" role="tabpanel"
+                             aria-labelledby="tab-3__item">
+                            <div class="slds-card__body--inner">
+                                <apex:pageBlock mode="maindetail">
+                                    <apex:relatedlist subject="{!contact.Id}" Id="ChargeGroupId" list="Charge_Groups__r"
+                                                      pageSize="16" title="Charge Group (Gurantor)"/>
+                                </apex:pageBlock>
+                            </div>
+                        </div>
+                        <!--- ------------------------------TAB PANEL 3 CHARGE GROUP END ------------------------------------------------------------------ -->
+
+                        <!--- --------------------------------TAB PANEL 4 ENCOUNTERS START ------------------------------------------------------------------ -->
+                        <div id="tab-4" class="slds-tabs--scoped__content slds-hide" role="tabpanel"
+                             aria-labelledby="tab-4__item">
+                            <div class="slds-card__body--inner">
+                                <apex:relatedlist subject="{!contact.Id}" list="Assets" title="Assets"/>
+                            </div>
+                        </div>
+                        <!--- --------------------------------TAB PANEL 4 ENCOUNTERS END -------------------------------------------------------------------- -->
+
+                        <!--- --------------------------------TAB PANEL 5 PAYMENTS START -------------------------------------------------------------------- -->
+                        <div id="tab-5" class="slds-tabs--scoped__content slds-hide" role="tabpanel"
+                             aria-labelledby="tab-5__item">
+                            <div class="slds-card__body--inner">
+                                <apex:pageBlock mode="edit">
+                                    <apex:relatedlist subject="{!contact.Id}" Id="Payment_PlansId"
+                                                      list="Payment_Plans__r" pageSize="16"
+                                                      title="Charge Group (Gurantor)"/>
+                                </apex:pageBlock>
+                            </div>
+                        </div>
+                        <!--- --------------------------------TAB PANEL 5 PAYMENTS END ---------------------------------------------------------------------- -->
+
+                        <!--- --------------------------------TAB PANEL 6 STATEMENTS START ------------------------------------------------------------------ -->
+                        <div id="tab-6" class="slds-tabs--scoped__content slds-hide" role="tabpanel"
+                             aria-labelledby="tab-6__item">
+                            <div class="slds-card__body--inner">
+                                <apex:pageBlock mode="edit">
+                                    <apex:relatedlist subject="{!contact.Id}" Id="Payment_PlansId" list="Statements__r"
+                                                      pageSize="16" title="Charge Group (Gurantor)"/>
+                                </apex:pageBlock>
+                            </div>
+                        </div>
+                        <!--- --------------------------------TAB PANEL 6 STATEMENTS END -------------------------------------------------------------------- -->
+
+                        <!--- --------------------------------TAB PANEL 7 NOTES START ----------------------------------------------------------------------- -->
+                        <div id="tab-7" class="slds-tabs--scoped__content slds-hide" role="tabpanel"
+                             aria-labelledby="tab-7__item">
+                        </div>
+                        <!--- --------------------------------TAB PANEL 7 NOTES END ------------------------------------------------------------------------- -->
+                    </div>
+                    <!--- --------------------------------TABS ENDS ----------------------------------------------------------------------------------------- -->
+                </section>
+            </div>
+            <!-- / MAIN CARD -->
+            <div class="slds-col slds-col-rule--left slds-size--4-of-12">
+                <div class="slds-card__body--inner">
+                    <section>
+                        <!--- --------------------------------CASE TAB START  --------------------------------------------------------------------------------------- -->
+                        <div class="slds-tabs--scoped" data-aljs="tabsCases">
+                            <ul class="slds-tabs--scoped__nav" role="tablist">
+                                <li class="slds-tabs--scoped__item slds-text-heading--label slds-active" title="Open"
+                                    role="presentation">
+                                    <a class="slds-tabs--scoped__link" href="javascript:void(0);"
+                                       role="tab" tabindex="0" aria-selected="true" aria-controls="tab-01"
+                                       id="tab-01__item" data-aljs-show="tab-01">Open Cases</a>
+                                </li>
+                                <li class="slds-tabs--scoped__item slds-text-heading--label" title="Closed"
+                                    role="presentation">
+                                    <a class="slds-tabs--scoped__link" href="javascript:void(0);"
+                                       role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-02"
+                                       id="tab-02__item" data-aljs-show="tab-02">Closed Cases</a>
+                                </li>
+                            </ul>
+                            <!--- --------------------------------CASE TAB PANEL 1 OPEN CASES START --------------------------------------------------------------- -->
+                            <div id="tab-01" class="slds-tabs--scoped__content slds-show" role="tabpanel"
+                                 aria-labelledby="tab-01__item">
+                                <div class="slds-card__body--inner slds-scrollable--y">
+                                    <apex:repeat value="{!contact.cases}" var="c">
+                                        <apex:variable value="{!c.Status}" var="varopen"/>
+                                        <apex:outputPanel layout="block"
+                                                          rendered="{!IF(varOpen != 'Closed',TRUE,FALSE)}">
+                                            <article
+                                                    class="slds-media slds-m-top--small slds-comment slds-hint-parent slds-scrollable--y">
+                                                <div class="slds-media__figure">
+                                       <span class="slds-icon_container">
+                                        <svg aria-hidden="true"
+                                             class="slds-icon slds-icon--x-small slds-icon-standard-contact">
+                                          <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                               xlink:href="/resource/1472379321000/SLDS203/assets/icons/utility-sprite/svg/symbols.svg#open_folder"></use>
+                                        </svg>
+                                      </span>
+                                                </div>
+                                                <div class="slds-media__body">
+                                                    <div class="slds-grid slds-grid--align-spread slds-has-flexi-truncate">
+                                                        <p class="slds-truncate"><a href="/{!c.Id}"
+                                                                                    title="Design Systems">{!c.CaseNumber}</a> {!c.Subject}
+                                                        </p><br/>
+                                                    </div>
+                                                    <div class="slds-grid slds-grid--align-spread slds-has-flexi-truncate">
+                                                        <p class="slds-truncate">{!c.Status} - {!c.CreatedDate}</p>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </apex:outputPanel>
+                                    </apex:repeat>
+                                </div>
+                            </div>
+                            <!--- --------------------------------TAB PANEL 1 DETAILS END ------------------------------------------------------------------ -->
+
+                            <!--- --------------------------------TAB PANEL 2 SUMMARY START ---------------------------------------------------------------- -->
+                            <div id="tab-02" class="slds-tabs--scoped__content slds-show" role="tabpanel"
+                                 aria-labelledby="tab-02__item">
+                                <div class="slds-card__body--inner slds-scrollable--y">
+                                    <apex:repeat value="{!contact.cases}" var="c">
+                                        <apex:variable value="{!c.Status}" var="varopen"/>
+                                        <apex:outputPanel layout="block" rendered="{!varOpen == 'Closed' }">
+                                            <article
+                                                    class="slds-media slds-m-top--small slds-comment slds-hint-parent slds-scrollable--y">
+                                                <div class="slds-media__figure">
+                                   <span class="slds-icon_container">
+                                    <svg aria-hidden="true"
+                                         class="slds-icon slds-icon--x-small slds-icon-standard-contact">
+                                      <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                           xlink:href="/resource/1472379321000/SLDS203/assets/icons/utility-sprite/svg/symbols.svg#open_folder"></use>
+                                    </svg>
+                                  </span>
+                                                </div>
+                                                <div class="slds-media__body">
+                                                    <div class="slds-grid slds-grid--align-spread slds-has-flexi-truncate">
+                                                        <p class="slds-truncate"><a href="/{!c.Id}"
+                                                                                    title="Design Systems">{!c.CaseNumber}</a> {!c.Subject}
+                                                        </p><br/>
+                                                    </div>
+                                                    <div class="slds-grid slds-grid--align-spread slds-has-flexi-truncate">
+                                                        <p class="slds-truncate">{!c.Status} - {!c.CreatedDate}</p>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </apex:outputPanel>
+                                    </apex:repeat>
+                                </div>
+                            </div>
+                            <!--- --------------------------------TAB PANEL 2 SUMMARY END ---------------------------------------------------------------------- -->
+
+                        </div>
+                        <!--- --------------------------------TABS ENDS ----------------------------------------------------------------------------------------- -->
+                    </section>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!--- --------------------------------TAB ENDS -------------------------------------------------------------------------------------------- -->
+    </body>
+    </html>
+</apex:page>

@@ -55,6 +55,10 @@
                 <behavior>Edit</behavior>
                 <field>Cancellation_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>NextPaymentDate__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -75,10 +79,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Installment_Amount__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Status__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -180,6 +180,8 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Account_Status__c</fields>
+        <fields>Account_Sub_Status__c</fields>
+        <fields>Balance__c</fields>
         <fields>Active__c</fields>
         <fields>CREATED_DATE</fields>
         <relatedList>Charge_Group__c.Payment_Plan__c</relatedList>

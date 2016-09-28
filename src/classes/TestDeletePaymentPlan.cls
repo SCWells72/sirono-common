@@ -1,12 +1,13 @@
+/*
+ * @author Sirono
+ * @version 1.0.1
+ * @Date: 05-20-2016
+ * @TestDeletePaymentPlan Class is Unit test class of DeletePaymentPlan class.
+ *
+ * Need to be Deleted
+ */
+
 @isTest
 private class TestDeletePaymentPlan {
 
-    static testMethod void myUnitTest() {
-        Apexpages.currentPage().getParameters().put('guarantorId', '123');
-        Apexpages.currentPage().getParameters().put('paymentPlanId', '123');
-
-        DeletePaymentPlan con = new DeletePaymentPlan();
-        con.doSubmit();
-        con.cancel();
-    }
 }

@@ -60,7 +60,7 @@
         <name>NextPaymentDate__c</name>
     </fields>
     <fields>
-        <label><!-- Next Payment Date --></label>
+        <label><!-- Next Payment Date_old --></label>
         <name>Next_Payment_Date__c</name>
     </fields>
     <fields>
@@ -92,16 +92,12 @@
         <name>Remaining_Number_of_Installments__c</name>
     </fields>
     <fields>
-        <label><!-- Sirono ID --></label>
+        <label><!-- ID --></label>
         <name>Sirono_ID__c</name>
     </fields>
     <fields>
         <label><!-- Skip Payment Until --></label>
         <name>Skip_Payment_Until__c</name>
-    </fields>
-    <fields>
-        <label><!-- Status --></label>
-        <name>Status__c</name>
     </fields>
     <fields>
         <label><!-- Time to Delinquency --></label>

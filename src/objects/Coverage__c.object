@@ -21,10 +21,6 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -57,6 +53,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>Private</externalSharingModel>
     <fields>
         <fullName>Date_Effective__c</fullName>
         <description>Effective date</description>
@@ -141,7 +138,7 @@
     <fields>
         <fullName>ID__c</fullName>
         <externalId>true</externalId>
-        <label>Sirono ID</label>
+        <label>ID</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -150,16 +147,6 @@
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>true</unique>
-    </fields>
-    <fields>
-        <fullName>Is_Effective__c</fullName>
-        <externalId>false</externalId>
-        <formula>IF(ISBLANK(Date_Effective__c), FALSE, IF(Date_Effective__c &gt; TODAY(), FALSE, IF(AND(NOT(ISBLANK(Date_Termination__c)), Date_Termination__c &lt;= TODAY()), FALSE, TRUE)))</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Is Effective</label>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>Member_ID__c</fullName>
@@ -234,6 +221,20 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Preservice__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Encounter</label>
+        <referenceTo>Encounter__c</referenceTo>
+        <relationshipLabel>Coverages</relationshipLabel>
+        <relationshipName>Coverages</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Priority__c</fullName>

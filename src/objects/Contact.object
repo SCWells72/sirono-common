@@ -41,10 +41,6 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -106,8 +102,9 @@
     <enableEnhancedLookup>true</enableEnhancedLookup>
     <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>
+    <externalSharingModel>Private</externalSharingModel>
     <fieldSets>
-        <fullName>Guarantor</fullName>
+        <fullName>Billing_Guarantor</fullName>
         <description>It will display in Create Manual Case</description>
         <displayedFields>
             <field>FirstName</field>
@@ -179,10 +176,10 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <label>Guarantor</label>
+        <label>Billing_Guarantor</label>
     </fieldSets>
     <fieldSets>
-        <fullName>Patient</fullName>
+        <fullName>Billing_Patient</fullName>
         <description>It will display in Create Manual Case</description>
         <displayedFields>
             <field>FirstName</field>
@@ -205,17 +202,263 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>Birthdate</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Medical_Record_Number__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <label>Patient</label>
+        <label>Billing_Patient</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Payer_Guarantor</fullName>
+        <description>It will display in Create Manual Case</description>
+        <displayedFields>
+            <field>LastName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>FirstName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MiddleName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Suffix</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Payer_Guarantor</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Payer_Patient</fullName>
+        <description>It will display in Create Manual Case</description>
+        <displayedFields>
+            <field>LastName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>FirstName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MiddleName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Suffix</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Birthdate</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Medical_Record_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Payer_Patient</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Quality_of_Care_Guarantor</fullName>
+        <description>It will display in Create Manual Case</description>
+        <displayedFields>
+            <field>LastName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>FirstName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MiddleName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Suffix</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Quality_of_Care_Guarantor</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Quality_of_Care_Patient</fullName>
+        <description>It will display in Create Manual Case</description>
+        <displayedFields>
+            <field>LastName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>FirstName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MiddleName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Suffix</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Birthdate</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Medical_Record_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Quality_of_Care_Patient</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Sirono_Review_Guarantor</fullName>
+        <description>It will display in Create Manual Case</description>
+        <displayedFields>
+            <field>LastName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>FirstName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MiddleName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Suffix</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Birthdate</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Social_Security_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>HomePhone</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MobilePhone</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>OtherPhone</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MailingStreet</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MailingCity</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MailingState</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MailingPostalCode</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MailingCountry</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Sirono_Review_Guarantor</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Sirono_Review_Patient</fullName>
+        <description>It will display in Create Manual Case</description>
+        <displayedFields>
+            <field>LastName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>FirstName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MiddleName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Suffix</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Birthdate</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Medical_Record_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Sirono_Review_Patient</label>
     </fieldSets>
     <fields>
         <fullName>AccountId</fullName>
         <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Address__c</fullName>
+        <externalId>false</externalId>
+        <formula>MailingStreet + BR() + MailingCity + &quot;, &quot; + MailingState + &quot; &quot; + MailingPostalCode + &quot; &quot; + MailingCountry</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Address</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Age__c</fullName>
@@ -388,9 +631,25 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Guarantor_Patient_Id__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(
+! ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ISBLANK(Patient_Id__c), TEXT(Profile_Pointer_ID__c),
+IF(
+ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient_Id__c), TEXT(Profile_Pointer_ID__c) + &quot; / &quot; + TEXT(Patient_Id__c)
+)
+)</formula>
+        <label>Guarantor/Patient Id</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Guarantor__c</fullName>
@@ -611,6 +870,21 @@
         <unique>true</unique>
     </fields>
     <fields>
+        <fullName>Payment_Plan_Balance__c</fullName>
+        <externalId>false</externalId>
+        <label>Payment Plan Balance</label>
+        <summarizedField>Charge_Group__c.Balance__c</summarizedField>
+        <summaryFilterItems>
+            <field>Charge_Group__c.Has_Payment_Plan_Balance__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Charge_Group__c.Guarantor_Name__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <type>Summary</type>
+    </fields>
+    <fields>
         <fullName>Phone</fullName>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
@@ -785,25 +1059,13 @@
         <label>All External Guarantors</label>
     </listViews>
     <listViews>
-        <fullName>All_External_Patients</fullName>
-        <columns>FULL_NAME</columns>
-        <columns>CONTACT.PHONE1</columns>
-        <columns>CONTACT.EMAIL</columns>
-        <filterScope>Everything</filterScope>
-        <filters>
-            <field>CONTACT.RECORDTYPE</field>
-            <operation>equals</operation>
-            <value>Contact.External_Patient</value>
-        </filters>
-        <label>All External Patients</label>
-    </listViews>
-    <listViews>
         <fullName>All_Guarantors</fullName>
         <columns>Profile_Pointer_ID__c</columns>
         <columns>FULL_NAME</columns>
         <columns>CONTACT.BIRTHDATE</columns>
         <columns>CONTACT.PHONE4</columns>
         <columns>CONTACT.PHONE3</columns>
+        <columns>CONTACT.PHONE5</columns>
         <columns>CONTACT.EMAIL</columns>
         <columns>Invoiced_Balance__c</columns>
         <columns>Pre_Invoiced_Balance__c</columns>
@@ -896,172 +1158,6 @@
         <active>true</active>
         <description>Created by Patient Accounting System</description>
         <label>External Guarantor</label>
-        <picklistValues>
-            <picklist>Gender__c</picklist>
-            <values>
-                <fullName>Female</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Male</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>LeadSource</picklist>
-            <values>
-                <fullName>Advertisement</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Customer Event</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Employee Referral</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Google AdWords</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Other</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Partner</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Purchased List</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Trade Show</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Webinar</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Website</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Name</picklist>
-            <values>
-                <fullName>Dr%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mr%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mrs%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Ms%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Prof%2E</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-    </recordTypes>
-    <recordTypes>
-        <fullName>External_Patient</fullName>
-        <active>true</active>
-        <description>Created by Patient Accounting System</description>
-        <label>External Patient</label>
-        <picklistValues>
-            <picklist>Gender__c</picklist>
-            <values>
-                <fullName>Female</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Male</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>LeadSource</picklist>
-            <values>
-                <fullName>Advertisement</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Customer Event</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Employee Referral</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Google AdWords</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Other</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Partner</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Purchased List</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Trade Show</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Webinar</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Website</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Name</picklist>
-            <values>
-                <fullName>Dr%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mr%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mrs%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Ms%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Prof%2E</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-    </recordTypes>
-    <recordTypes>
-        <fullName>General</fullName>
-        <active>true</active>
-        <description>Used to create a contact when they are not identified as a Guarantor, Patient or Staff Contact.</description>
-        <label>General</label>
         <picklistValues>
             <picklist>Gender__c</picklist>
             <values>

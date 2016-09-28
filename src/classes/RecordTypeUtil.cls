@@ -1,24 +1,27 @@
-/**
- * Created by mmartin on 8/18/16.
- */
+/*
+* @author Sirono
+* @version 1.0.1
+* @Date: 09-01-2016
+* Created by mmartin on 08-18-2016.
+*/
 
 public with sharing class RecordTypeUtil {
     Public Static Map<String, Id> rtMap = null;
 
-    public static Id Guarantor_RT;
-    public static Id Patient_RT;
-    public static Id Staff_RT;
+    public static Id guarantorRt;
+    public static Id patientRt;
+    public static Id staffRt;
 
     static {
         rtMap = new Map<String, Id>();
 
         for (RecordType rt : [SELECT Id, Name FROM RecordType WHERE sObjectType = 'Contact']) {
             if ('Guarantor'.equalsIgnoreCase(rt.Name)) {
-                Guarantor_RT = rt.id;
+                guarantorRt = rt.id;
             } else if ('Patient'.equalsIgnoreCase(rt.Name)) {
-                Patient_RT = rt.id;
+                patientRt = rt.id;
             } else if ('Staff'.equalsIgnoreCase(rt.Name)) {
-                Staff_RT = rt.id;
+                staffRt = rt.id;
             }
             rtMap.put(rt.Name, rt.Id);
         }

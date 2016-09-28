@@ -1,17 +1,23 @@
-<apex:page standardController="Encounter__c" extensions="PaymentArrangement" tabStyle="Payment_Arrangement__c" >  
+<!--
+* @author: Sirono
+* @version 1.0.1
+* @Date: 08-17-2016
+-->
+
+<apex:page standardController="Encounter__c" extensions="PaymentArrangement" tabStyle="Payment_Arrangement__c">
     <apex:includeScript value="{!URLFOR($Resource.Jquery, 'jquery-3.0.0.min.js')}"/>
     <Style>
-        .dateFormat{
+        .dateFormat {
             display: none;
         }
-        
-        .custPopup{
+
+        .custPopup {
             background-color: white;
             border-width: 3px;
             border-style: solid;
             z-index: 4;
             left: 40%;
-            padding:10px;
+            padding: 10px;
             position: absolute;
             /* These are the 3 css properties you will need to change so the popup 
             displays in the center of the screen. First set the width. Then set 
@@ -19,12 +25,13 @@
             the height property for a fixed size pop up if you want.*/
             width: 700px;
             margin-left: -250px;
-            top:100px;
+            top: 100px;
         }
-        .popupBackground{
-            background-color:black;
+
+        .popupBackground {
+            background-color: black;
             opacity: 0.20;
-            filter: alpha(opacity = 20);
+            filter: alpha(opacity=20);
             position: absolute;
             width: 100%;
             height: 100%;
@@ -32,16 +39,18 @@
             left: 0;
             z-index: 3;
         }
-    
+
     </Style>
-    
-    <apex:form >
+
+    <apex:form>
         <apex:sectionHeader subtitle="New Payment Arrangement" title="Payment Arrangement Edit"/>
         <apex:pageBlock id="pb" title="Payment Arrangement Edit">
             <apex:pageBlockButtons dir="Both">
                 <apex:commandButton value="Save" Id="Save" action="{!submitPaymentArrangement}" status="Processing"/>
-                <apex:commandButton value="Cancel" Id="Cancel" action="{!submitPaymentArrangement}" status="Processing"/>
-                <apex:commandButton value="Add New Payment Method" Id="PaymentMethod" action="{!createNewPaymentMethod}" reRender="CreatePaymentMethodPopup" status="Processing"/>
+                <apex:commandButton value="Cancel" Id="Cancel" action="{!submitPaymentArrangement}"
+                                    status="Processing"/>
+                <apex:commandButton value="Add New Payment Method" Id="PaymentMethod" action="{!createNewPaymentMethod}"
+                                    reRender="CreatePaymentMethodPopup" status="Processing"/>
             </apex:pageblockButtons>
             <apex:pageBlockSection title="Payment Method" columns="1">
                 <apex:outputPanel id="optPaymentMethod">
@@ -56,25 +65,36 @@
                                 <th class="headerRow">Card Type</th>
                                 <th class="headerRow">Expiration Date</th>
                             </tr>
-                        
+
                             <apex:repeat value="{!paymentMethodList}" var="PMobj">
                                 <tr class="dataRow">
                                     <td class="dataCell">
-                                        <apex:inputCheckbox value="{!PMobj.isSelected}" id="inputId" styleClass="selectCBK" />
+                                        <apex:inputCheckbox value="{!PMobj.isSelected}" id="inputId"
+                                                            styleClass="selectCBK"/>
                                     </td>
-                                    <td class="dataCell"><apex:outputField value="{!PMobj.pm.Name}"/></td>
-                                    <td class="dataCell"><apex:outputField value="{!PMobj.pm.Account_Number__c}"/></td>
-                                    <td class="dataCell"><apex:outputField value="{!PMobj.pm.Card_Holder_Name__c}"/></td>
-                                    <td class="dataCell"><apex:outputField value="{!PMobj.pm.Card_Type__c}"/></td>
-                                    <td class="dataCell"><apex:outputField value="{!PMobj.pm.Expiration_Date__c}"/></td>
+                                    <td class="dataCell">
+                                        <apex:outputField value="{!PMobj.pm.Name}"/>
+                                    </td>
+                                    <td class="dataCell">
+                                        <apex:outputField value="{!PMobj.pm.Account_Number__c}"/>
+                                    </td>
+                                    <td class="dataCell">
+                                        <apex:outputField value="{!PMobj.pm.Card_Holder_Name__c}"/>
+                                    </td>
+                                    <td class="dataCell">
+                                        <apex:outputField value="{!PMobj.pm.Card_Type__c}"/>
+                                    </td>
+                                    <td class="dataCell">
+                                        <apex:outputField value="{!PMobj.pm.Expiration_Date__c}"/>
+                                    </td>
                                 </tr>
                             </apex:repeat>
                         </table>
-                    </div>                    
+                    </div>
                 </apex:outputPanel>
             </apex:pageblockSection>
-            
-            
+
+
             <apex:pageBlockSection title="Details" columns="2">
                 <apex:outputField value="{!paymentArrangement.Encounter__c}"/>
                 <apex:inputField value="{!paymentArrangement.Arrangement_Type__c}"/>
@@ -85,8 +105,8 @@
                 <apex:inputField value="{!paymentArrangement.Date__c}"/>
             </apex:pageblockSection>
         </apex:pageblock>
-        
-        <apex:outputPanel id="CreatePaymentMethodPopup" styleclass="paymentMethod" >
+
+        <apex:outputPanel id="CreatePaymentMethodPopup" styleclass="paymentMethod">
             <apex:outputPanel styleClass="popupBackground" layout="block" rendered="{!createPaymentMethod}"/>
             <apex:outputPanel styleclass="custPopup" rendered="{!createPaymentMethod}">
                 <apex:pageBlock title="Payment Method Information">
@@ -102,62 +122,63 @@
                         <apex:inputField value="{!newPaymentMethod.Expiration_Date__c}"/>
                         <apex:inputField value="{!newPaymentMethod.Last_4__c}"/>
                     </apex:pageBlockSection>
-                    <apex:pageBlockButtons >
-                        <apex:commandButton Value="Save" action="{!saveNewPaymentMethod}" ReRender="optPaymentMethod,CreatePaymentMethodPopup" status="Processing"/>
-                        <apex:commandButton Value="Cancel" action="{!cancelNewPaymentMethod}" ReRender="optPaymentMethod,CreatePaymentMethodPopup" status="Processing"/>
+                    <apex:pageBlockButtons>
+                        <apex:commandButton Value="Save" action="{!saveNewPaymentMethod}"
+                                            ReRender="optPaymentMethod,CreatePaymentMethodPopup" status="Processing"/>
+                        <apex:commandButton Value="Cancel" action="{!cancelNewPaymentMethod}"
+                                            ReRender="optPaymentMethod,CreatePaymentMethodPopup" status="Processing"/>
                     </apex:pageBlockButtons>
                 </apex:pageBlock>
             </apex:outputPanel>
-        </apex:outputPanel>        
+        </apex:outputPanel>
     </apex:form>
-    
+
     <Script>
-        $(document).on('change','.selectCBK',function(e){
-            debugger;
-             e.preventDefault(); 
-             var thisid = $(this).attr('id'); 
-             $.map($('.selectCBK'),function(obj){
-                 if(thisid  != $(obj).attr('id')){
-                    obj.checked = false;                 
-                 }
-             });
-             
-             //$(this).prop('checked',$(this).is(':checked'));
+        $(document).on('change', '.selectCBK', function (e) {
+            e.preventDefault();
+            var thisid = $(this).attr('id');
+            $.map($('.selectCBK'), function (obj) {
+                if (thisid != $(obj).attr('id')) {
+                    obj.checked = false;
+                }
+            });
+
+            //$(this).prop('checked',$(this).is(':checked'));
         });
     </Script>
-    
-    
+
+
     <!------------- Start: Processing Div---------------------------------------->
-        <style>
-            .ProcessingBackground
-            {
-                background-color: black;
-                opacity: 0.50;
-                filter: alpha(opacity = 50);
-                width: 100%;
-                height: 100%;
-                position: fixed;
-                z-index: 8551;
-                top:0;
-                left:0;
-            }
-            .Processing
-            {
-                z-index: 8552;
-                left: 50%;
-                top: 50%;
-                text-align: center;
-                position: fixed;
-            }        
-        </style>
-        <div id="divProcessing" style="display:none;">
-            <div class="ProcessingBackground"></div>
-            <div class="Processing">
-                <apex:image alt="Processing" url="/img/loading32.gif" width="20" height="20"/>
-            </div>
-        </div>  
-        <apex:actionStatus id="Processing" onstart="document.getElementById('divProcessing').style.display = '';" onstop="document.getElementById('divProcessing').style.display = 'none';">                            
-        </apex:actionStatus>
-        <!------------- End: Processing Div---------------------------------------->
-        
+    <style>
+        .ProcessingBackground {
+            background-color: black;
+            opacity: 0.50;
+            filter: alpha(opacity=50);
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            z-index: 8551;
+            top: 0;
+            left: 0;
+        }
+
+        .Processing {
+            z-index: 8552;
+            left: 50%;
+            top: 50%;
+            text-align: center;
+            position: fixed;
+        }
+    </style>
+    <div id="divProcessing" style="display:none;">
+        <div class="ProcessingBackground"></div>
+        <div class="Processing">
+            <apex:image alt="Processing" url="/img/loading32.gif" width="20" height="20"/>
+        </div>
+    </div>
+    <apex:actionStatus id="Processing" onstart="document.getElementById('divProcessing').style.display = '';"
+                       onstop="document.getElementById('divProcessing').style.display = 'none';">
+    </apex:actionStatus>
+    <!------------- End: Processing Div---------------------------------------->
+
 </apex:page>

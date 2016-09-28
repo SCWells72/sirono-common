@@ -1,11 +1,17 @@
+/* 
+* @author Sirono
+* @version 1.0.1
+* @date   07-12-2016
+*/
 public with sharing class ViewStatementExtension {
-    public Id id {get; set;}
     public Statement__c stmt {get; set;}
-    public Date stmtDate {get; set;}
-    public String guarantor_id {get; set;}
-    public Map<String, String> stmt_url_map {get; set;}
     public String errorMsg {get; set;}
+    public Id id;
+    public Date stmtDate;
+    public String guarantorId;
+    public Map<String, String> stmtUrlMap;
 
+    //Constructor initializing the member variables
     public ViewStatementExtension(ApexPages.StandardController controller) {
         if (!Test.isRunningTest()) {
             controller.addFields(new List<String>{
@@ -15,32 +21,42 @@ public with sharing class ViewStatementExtension {
         stmt = (Statement__c) controller.getRecord();
         id = stmt.Id;
         stmtDate = stmt.Statement_Date__c;
-        guarantor_id = stmt.Guarantor__r.Profile_Pointer_ID__c.format();
-
-        stmt_url_map = new Map<String, String>();
+        guarantorId = stmt.Guarantor__r.Profile_Pointer_ID__c.format();
+        stmtUrlMap = new Map<String, String>();
     }
 
-    private class StatementURL {
-        public Date statement_date;
-        public String pdf_url;
+    //Method called from the Visual Force page action attribute
+    public PageReference viewPdf() {
+        stmtUrlMap = getStatementUrlMap(guarantorId);
+        PageReference pageRef = null;
+        if (stmtUrlMap.containsKey(stmtDate.format())) {
+            pageRef = new PageReference(stmtUrlMap.get(stmtDate.format()));
+            pageRef.setRedirect(true);
+        } else {
+            errorMsg = 'Statement PDF not found';
+        }
+
+        return pageRef;
     }
 
+    //Parsing the response from external Webservice callout
     private Map<String, String> getStatementUrlMap(String guarantorId) {
-
-        Map<String, String> stmt_url_map = new Map<String, String>();
+        Map<String, String> stmtUrlMmap = new Map<String, String>();
         try {
             HttpResponse res = PayStaffWSUtill.getStatementUrls(guarantorId);
 
             if (200 == res.getStatusCode()) {
                 // Parse JSON response to get all the statement date/url pairs
                 JSONParser parser = JSON.createParser(res.getBody());
+                System.debug('res' + res.getBody());
+
                 while (parser.nextToken() != null) {
                     if (parser.getCurrentToken() == JSONToken.START_OBJECT) {
                         // Get the value.
                         StatementURL inv = (StatementURL) parser.readValueAs(StatementURL.class);
                         if (inv.pdf_url != null) {
                             System.debug(inv.statement_date.format() + ' url: ' + inv.pdf_url);
-                            stmt_url_map.put(inv.statement_date.format(), inv.pdf_url);
+                            stmtUrlMmap.put(inv.statement_date.format(), inv.pdf_url);
                         }
                     }
                 }
@@ -56,22 +72,13 @@ public with sharing class ViewStatementExtension {
             }
         }
 
-        return stmt_url_map;
+        return stmtUrlMmap;
     }
 
-    //Method called from the Visual Force page action attribute
-    public PageReference viewPdf() {
+    //Inner Class 
 
-        stmt_url_map = getStatementUrlMap(guarantor_id);
-
-        PageReference pageRef = null;
-        if (stmt_url_map.containsKey(stmtDate.format())) {
-            pageRef = new PageReference(stmt_url_map.get(stmtDate.format()));
-            pageRef.setRedirect(true);
-        } else {
-            errorMsg = 'Statement PDF not found';
-        }
-
-        return pageRef;
+    private class StatementURL {
+        public Date statement_date;
+        public String pdf_url;
     }
 }

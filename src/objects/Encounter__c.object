@@ -21,10 +21,6 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -59,6 +55,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fields>
         <fullName>Allowed_Amount__c</fullName>
         <externalId>false</externalId>
@@ -504,6 +501,7 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
@@ -511,12 +509,6 @@
     <label>Encounter</label>
     <listViews>
         <fullName>All</fullName>
-        <columns>NAME</columns>
-        <columns>Patient__c</columns>
-        <columns>Date_of_Service__c</columns>
-        <columns>Procedure__c</columns>
-        <columns>Location__c</columns>
-        <columns>Patient_Portion__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>

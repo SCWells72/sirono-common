@@ -33,10 +33,6 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -167,12 +163,145 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>In Review</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>New</fullName>
             <default>true</default>
+        </values>
+        <values>
+            <fullName>Pending Update</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Resolved</fullName>
+            <default>false</default>
         </values>
     </businessProcesses>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <enableFeeds>true</enableFeeds>
+    <externalSharingModel>Private</externalSharingModel>
+    <fieldSets>
+        <fullName>Billing_Bankruptcy</fullName>
+        <description>Billing Bankruptcy required field.</description>
+        <displayedFields>
+            <field>Callers_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Fax__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_CaseClaim__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Transaction_Amount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Date_Of_Death__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Date_of_Bankruptcy_Filing__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <label>Billing Bankruptcy</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Billing_Deceased_Patient</fullName>
+        <description>Billing Deceased Patient required field.</description>
+        <displayedFields>
+            <field>Callers_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Contact_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Fax__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_CaseClaim__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Transaction_Amount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Date_Of_Death__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Date_of_Bankruptcy_Filing__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Billing Deceased Patient</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Billing_Move_Payment</fullName>
+        <description>Billing Move Payment required field.</description>
+        <displayedFields>
+            <field>Callers_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Fax__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_CaseClaim__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Transaction_Amount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Date_Of_Death__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Date_of_Bankruptcy_Filing__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Billing Move Payment</label>
+    </fieldSets>
     <fieldSets>
         <fullName>Billing_Type</fullName>
         <description>In CreateCaseManual Page when Case Type =  Billing</description>
@@ -212,6 +341,21 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <label>Billing Type</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>General</fullName>
+        <description>In CreateCaseManual Page when Case Type = General</description>
+        <displayedFields>
+            <field>Subject</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Description</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>General</label>
     </fieldSets>
     <fieldSets>
         <fullName>New_Section</fullName>
@@ -287,6 +431,581 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <label>New Section</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Payor</fullName>
+        <description>In Create Case Manual</description>
+        <displayedFields>
+            <field>Callers_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Fax__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_CaseClaim__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Carrier__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Plan_Type__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Effective_Date__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Subscriber_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Subscriber_ID__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>New_PayorInsurance__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <label>Payor</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Payor_Insurance_Agent_Called</fullName>
+        <description>Payor Insurance Agent Called required field.</description>
+        <displayedFields>
+            <field>Callers_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Fax__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_CaseClaim__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Carrier__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Plan_Type__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Effective_Date__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Subscriber_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Subscriber_ID__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>New_PayorInsurance__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <label>Payor Insurance Agent Called</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Payor_Insurance_Error</fullName>
+        <description>Payor Insurance Error required field.</description>
+        <displayedFields>
+            <field>Callers_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Fax__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_CaseClaim__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Carrier__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Plan_Type__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Effective_Date__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Subscriber_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Subscriber_ID__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>New_PayorInsurance__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <label>Payor Insurance Error</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Payor_New_Insurance</fullName>
+        <description>Payor New Insurance required field.</description>
+        <displayedFields>
+            <field>Callers_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Fax__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_CaseClaim__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Carrier__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Plan_Type__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Effective_Date__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Subscriber_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Subscriber_ID__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>New_PayorInsurance__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <label>Payor New Insurance</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Quality_of_Care</fullName>
+        <description>In Create Case Manual</description>
+        <label>Quality of Care</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Sirono_Review</fullName>
+        <description>In Create Case Manual</description>
+        <displayedFields>
+            <field>Callers_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Fax__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Transaction_Code__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Transaction_Amount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Number_of_people_in_household__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Est_income_measure_3_or_12_months__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Est_annual_gross_family_income__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Eligible_Discount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Payment_Delivered__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Payment_Method__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Cred_Card_last_4_Check_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Merge_with_Guarantor_ID__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Sirono Review</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Sirono_Review_Mailed_Form_Request_Charit</fullName>
+        <description>Sirono Review Mailed Form Request: Charity Application required field.</description>
+        <displayedFields>
+            <field>Callers_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Fax__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Transaction_Code__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Transaction_Amount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Number_of_people_in_household__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Est_income_measure_3_or_12_months__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Est_annual_gross_family_income__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Eligible_Discount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Payment_Delivered__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Payment_Method__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Cred_Card_last_4_Check_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Merge_with_Guarantor_ID__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Sirono Review Mailed Form Request: Charity Application</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Sirono_Review_Mailed_Form_Request_Receip</fullName>
+        <description>Sirono Review Mailed Form Request: Receipt required field.</description>
+        <displayedFields>
+            <field>Callers_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Fax__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Transaction_Code__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Transaction_Amount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Number_of_people_in_household__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Est_income_measure_3_or_12_months__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Est_annual_gross_family_income__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Eligible_Discount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Payment_Delivered__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Payment_Method__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Cred_Card_last_4_Check_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Merge_with_Guarantor_ID__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Sirono Review Mailed Form Request: Receipt</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Sirono_Review_Merge_Request</fullName>
+        <description>Sirono Review Merge Request required field.</description>
+        <displayedFields>
+            <field>Callers_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Fax__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Transaction_Code__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Transaction_Amount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Number_of_people_in_household__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Est_income_measure_3_or_12_months__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Est_annual_gross_family_income__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Eligible_Discount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Payment_Delivered__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Payment_Method__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Cred_Card_last_4_Check_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Merge_with_Guarantor_ID__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <label>Sirono Review Merge Request</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Sirono_Review_Missing_Payment</fullName>
+        <description>Sirono Review Missing Payment required field.</description>
+        <displayedFields>
+            <field>Callers_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Caller_Contact_Fax__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Transaction_Code__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Transaction_Amount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Number_of_people_in_household__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Est_income_measure_3_or_12_months__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Est_annual_gross_family_income__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Eligible_Discount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Payment_Delivered__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Payment_Method__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Cred_Card_last_4_Check_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Merge_with_Guarantor_ID__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Sirono Review Missing Payment</label>
     </fieldSets>
     <fields>
         <fullName>AccountId</fullName>
@@ -408,6 +1127,19 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Case_Claim__c</fullName>
+        <description>This is entered on Payor case types.  It is the external Case or Claim # that the guarantor has open.</description>
+        <externalId>false</externalId>
+        <label>Case #/Claim #</label>
+        <length>55</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Case_ETA__c</fullName>
         <externalId>false</externalId>
         <label>Due Date</label>
@@ -440,6 +1172,18 @@
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Claim__c</fullName>
+        <externalId>false</externalId>
+        <label>Claim #</label>
+        <length>20</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>ClosedDate</fullName>
@@ -488,6 +1232,7 @@
             <restrictedPicklist>true</restrictedPicklist>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -664,6 +1409,7 @@
             <restrictedPicklist>true</restrictedPicklist>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -733,6 +1479,7 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -753,6 +1500,7 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -797,6 +1545,7 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -832,6 +1581,7 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -881,7 +1631,7 @@
         <externalId>false</externalId>
         <label>Guarantor</label>
         <referenceTo>Contact</referenceTo>
-        <relationshipLabel>Cases (Guarantor)</relationshipLabel>
+        <relationshipLabel>Cases 2</relationshipLabel>
         <relationshipName>Cases</relationshipName>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
@@ -904,6 +1654,7 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -924,6 +1675,7 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -972,6 +1724,7 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -1005,6 +1758,7 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -1025,6 +1779,7 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -1330,96 +2085,120 @@
         <externalId>false</externalId>
         <label>Object</label>
         <picklist>
+            <controllingField>Reason</controllingField>
             <picklistValues>
                 <fullName>Campaigns</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Cases</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Charge Group Coverage Junctions</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Charge Groups</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Contacts</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Coverages</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Encounters</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Invoices</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Locations</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Patient Coverage Junctions</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Payment/Adjustments</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Payment Arrangements</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Payment Methods</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Payment Plans</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Payments</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Payors</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Providers</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Service Rollups</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Services</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Statements</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Transactions</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <picklistValues>
                 <fullName>Transaction Types</fullName>
                 <default>false</default>
+                <controllingFieldValues>Object</controllingFieldValues>
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -1470,6 +2249,7 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -1618,6 +2398,7 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -1655,16 +2436,6 @@
                 <cssExposed>false</cssExposed>
             </picklistValues>
             <picklistValues>
-                <fullName>Compliance Issue</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Deceased Patient</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
                 <fullName>Demographic Update</fullName>
                 <default>false</default>
                 <cssExposed>false</cssExposed>
@@ -1680,42 +2451,22 @@
                 <cssExposed>false</cssExposed>
             </picklistValues>
             <picklistValues>
+                <fullName>Guarantor Requests Itemized Statement</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
                 <fullName>Insurance Agent Called</fullName>
                 <default>false</default>
                 <cssExposed>false</cssExposed>
             </picklistValues>
             <picklistValues>
-                <fullName>Insurance Error</fullName>
+                <fullName>Insurance Follow-up</fullName>
                 <default>false</default>
                 <cssExposed>false</cssExposed>
             </picklistValues>
             <picklistValues>
                 <fullName>Liability Account</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Mailed Form Request: Charity Application</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Mailed Form Request: HIPAA Release</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Mailed Form Request: Itemized Statement</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Mailed Form Request: Receipt</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Merge Request</fullName>
                 <default>false</default>
                 <cssExposed>false</cssExposed>
             </picklistValues>
@@ -1730,7 +2481,7 @@
                 <cssExposed>false</cssExposed>
             </picklistValues>
             <picklistValues>
-                <fullName>New Insurance</fullName>
+                <fullName>Patient is Deceased</fullName>
                 <default>false</default>
                 <cssExposed>false</cssExposed>
             </picklistValues>
@@ -1750,7 +2501,137 @@
                 <cssExposed>false</cssExposed>
             </picklistValues>
             <picklistValues>
-                <fullName>Refund Request</fullName>
+                <fullName>Questions - Insurance</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Refund/Credit Request</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Special Discount</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Third Party Liability</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Update Insurance</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Workers Comp</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Charge Group</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Payment Plan</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CTI</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Feature Request</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Fields</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Formula</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Object</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Page Design</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Payment Processor</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Profile Access</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Reports/ListView</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Salesforce - Sirono</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Sirono - Salesforce</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Scheduler/Batch</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Security</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Training/UAT</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Trigger/Class</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Visual Force</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Workflows</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>New Insurance</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Insurance Error</fullName>
                 <default>false</default>
                 <cssExposed>false</cssExposed>
             </picklistValues>
@@ -1760,7 +2641,32 @@
                 <cssExposed>false</cssExposed>
             </picklistValues>
             <picklistValues>
-                <fullName>Workers Comp</fullName>
+                <fullName>Mailed Form Request: Itemized Statement</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Mailed Form Request: Charity Application</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Mailed Form Request: HIPAA Release</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Mailed Form Request: Receipt</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Merge Request</fullName>
+                <default>false</default>
+                <cssExposed>false</cssExposed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Compliance Issue</fullName>
                 <default>false</default>
                 <cssExposed>false</cssExposed>
             </picklistValues>
@@ -1803,6 +2709,7 @@
             <restrictedPicklist>true</restrictedPicklist>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -1859,7 +2766,17 @@
                 <closed>false</closed>
             </picklistValues>
             <picklistValues>
+                <fullName>In Review</fullName>
+                <default>false</default>
+                <closed>false</closed>
+            </picklistValues>
+            <picklistValues>
                 <fullName>Investigating</fullName>
+                <default>false</default>
+                <closed>false</closed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Pending Update</fullName>
                 <default>false</default>
                 <closed>false</closed>
             </picklistValues>
@@ -1867,6 +2784,11 @@
                 <fullName>Escalated</fullName>
                 <default>false</default>
                 <closed>false</closed>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Resolved</fullName>
+                <default>false</default>
+                <closed>true</closed>
             </picklistValues>
             <picklistValues>
                 <fullName>Closed</fullName>
@@ -2103,6 +3025,16 @@
     </fields>
     <listViews>
         <fullName>AllOpenCases</fullName>
+        <columns>CASES.CASE_NUMBER</columns>
+        <columns>NAME</columns>
+        <columns>CASES.SUBJECT</columns>
+        <columns>CASES.STATUS</columns>
+        <columns>CASES.TYPE</columns>
+        <columns>CASES.REASON</columns>
+        <columns>CASES.PRIORITY</columns>
+        <columns>CASES.CREATED_DATE</columns>
+        <columns>Guarantor_Information__c</columns>
+        <columns>CORE.USERS.ALIAS</columns>
         <filterScope>Everything</filterScope>
         <filters>
             <field>CASES.CLOSED</field>
@@ -2163,21 +3095,19 @@
     <listViews>
         <fullName>Hospital_Staff_Billing_Case</fullName>
         <filterScope>Queue</filterScope>
-        <label>Hospital Staff (Billing)</label>
+        <label>Queue: Hospital Staff (Billing)</label>
         <queue>Hospital_Staff_Billing</queue>
         <sharedTo>
             <allInternalUsers></allInternalUsers>
-            <allPartnerUsers></allPartnerUsers>
         </sharedTo>
     </listViews>
     <listViews>
         <fullName>Hospital_Staff_Case</fullName>
         <filterScope>Queue</filterScope>
-        <label>Hospital Staff</label>
+        <label>Queue: Hospital Staff</label>
         <queue>Hospital_Staff</queue>
         <sharedTo>
             <allInternalUsers></allInternalUsers>
-            <allPartnerUsers></allPartnerUsers>
         </sharedTo>
     </listViews>
     <listViews>
@@ -2241,7 +3171,7 @@
     <listViews>
         <fullName>Quality_of_Care_Case</fullName>
         <filterScope>Queue</filterScope>
-        <label>Quality of Care</label>
+        <label>Queue: Quality of Care</label>
         <queue>Quality_of_Care</queue>
         <sharedTo>
             <allInternalUsers></allInternalUsers>
@@ -2277,7 +3207,7 @@
     <listViews>
         <fullName>Sirono_Review_Case</fullName>
         <filterScope>Queue</filterScope>
-        <label>Sirono Review</label>
+        <label>Queue: Sirono Review</label>
         <queue>Sirono_Review</queue>
         <sharedTo>
             <allInternalUsers></allInternalUsers>
@@ -2291,6 +3221,52 @@
         <businessProcess>Administrative</businessProcess>
         <description>Administrative change request based on changed made to the Guarantor record that should be addressed within the Hospital</description>
         <label>Administrative Case Process</label>
+        <picklistValues>
+            <picklist>Closed_Reason__c</picklist>
+            <values>
+                <fullName>Chargegroup Bad Debt%2Finactive</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed %E2%80%93 Case not necessary</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed %E2%80%93 Success</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed %E2%80%93 Unsuccessful</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed - Automated</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Eligible_Discount__c</picklist>
+            <values>
+                <fullName>%28A%29 40%25</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>%28B%29 50%25</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>%28C%29 60%25</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>%28D%29 70%25</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>%28E%29 80%25</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
         <picklistValues>
             <picklist>Form_to_be_Mailed__c</picklist>
             <values>
@@ -2515,10 +3491,6 @@
                 <default>false</default>
             </values>
             <values>
-                <fullName>Deceased Patient</fullName>
-                <default>false</default>
-            </values>
-            <values>
                 <fullName>Demographic Update</fullName>
                 <default>false</default>
             </values>
@@ -2531,23 +3503,19 @@
                 <default>false</default>
             </values>
             <values>
+                <fullName>Guarantor Requests Itemized Statement</fullName>
+                <default>false</default>
+            </values>
+            <values>
                 <fullName>Insurance Agent Called</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>Insurance Error</fullName>
+                <fullName>Insurance Follow-up</fullName>
                 <default>false</default>
             </values>
             <values>
                 <fullName>Liability Account</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mailed Form Request%3A Charity Application</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mailed Form Request%3A Itemized Statement</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -2556,6 +3524,10 @@
             </values>
             <values>
                 <fullName>Move Payment</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Patient is Deceased</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -2571,11 +3543,23 @@
                 <default>false</default>
             </values>
             <values>
-                <fullName>Refund Request</fullName>
+                <fullName>Questions - Insurance</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>VIP Caller</fullName>
+                <fullName>Refund%2FCredit Request</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Special Discount</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Third Party Liability</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Update Insurance</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -2649,6 +3633,10 @@
                 <fullName>Closed %E2%80%93 Unsuccessful</fullName>
                 <default>false</default>
             </values>
+            <values>
+                <fullName>Closed - Automated</fullName>
+                <default>false</default>
+            </values>
         </picklistValues>
         <picklistValues>
             <picklist>Eligible_Discount__c</picklist>
@@ -2670,87 +3658,6 @@
             </values>
             <values>
                 <fullName>%28E%29 80%25</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Est_annual_gross_family_income__c</picklist>
-            <values>
-                <fullName>0-23%2C540</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>23%2C541-31%2C860</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>31%2C861-40%2C180</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>40%2C181-48%2C500</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>48%2C501-56%2C820</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>56%2C821-65%2C140</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>65%2C141-73%2C460</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>73%2C461-81%2C780</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Est_income_measure_3_or_12_months__c</picklist>
-            <values>
-                <fullName>12 months</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>3 months</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Est_monthly_gross_family_income__c</picklist>
-            <values>
-                <fullName>0-1%2C962</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>1%2C963-2%2C655</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>2%2C656-3%2C348</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>3%2C349-4%2C042</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>4%2C043-4%2C735</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>4%2C736-5%2C428</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>5%2C429-6%2C122</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>6%2C123-8%2C178</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -2978,11 +3885,11 @@
                 <default>false</default>
             </values>
             <values>
-                <fullName>Compliance Issue</fullName>
+                <fullName>Charge Group</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>Deceased Patient</fullName>
+                <fullName>Compliance Issue</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -2998,23 +3905,19 @@
                 <default>false</default>
             </values>
             <values>
+                <fullName>Guarantor Requests Itemized Statement</fullName>
+                <default>false</default>
+            </values>
+            <values>
                 <fullName>Insurance Agent Called</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>Insurance Error</fullName>
+                <fullName>Insurance Follow-up</fullName>
                 <default>false</default>
             </values>
             <values>
                 <fullName>Liability Account</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mailed Form Request%3A Charity Application</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mailed Form Request%3A Itemized Statement</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -3023,6 +3926,14 @@
             </values>
             <values>
                 <fullName>Move Payment</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Patient is Deceased</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Payment Plan</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -3038,11 +3949,23 @@
                 <default>false</default>
             </values>
             <values>
-                <fullName>Refund Request</fullName>
+                <fullName>Questions - Insurance</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>VIP Caller</fullName>
+                <fullName>Refund%2FCredit Request</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Special Discount</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Third Party Liability</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Update Insurance</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -3146,87 +4069,6 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_annual_gross_family_income__c</picklist>
-            <values>
-                <fullName>0-23%2C540</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>23%2C541-31%2C860</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>31%2C861-40%2C180</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>40%2C181-48%2C500</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>48%2C501-56%2C820</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>56%2C821-65%2C140</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>65%2C141-73%2C460</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>73%2C461-81%2C780</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Est_income_measure_3_or_12_months__c</picklist>
-            <values>
-                <fullName>12 months</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>3 months</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Est_monthly_gross_family_income__c</picklist>
-            <values>
-                <fullName>0-1%2C962</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>1%2C963-2%2C655</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>2%2C656-3%2C348</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>3%2C349-4%2C042</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>4%2C043-4%2C735</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>4%2C736-5%2C428</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>5%2C429-6%2C122</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>6%2C123-8%2C178</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
             <picklist>Form_to_be_Mailed__c</picklist>
             <values>
                 <fullName>Charity Application</fullName>
@@ -3450,10 +4292,6 @@
                 <default>false</default>
             </values>
             <values>
-                <fullName>Deceased Patient</fullName>
-                <default>false</default>
-            </values>
-            <values>
                 <fullName>Demographic Update</fullName>
                 <default>false</default>
             </values>
@@ -3470,11 +4308,15 @@
                 <default>false</default>
             </values>
             <values>
+                <fullName>Patient is Deceased</fullName>
+                <default>false</default>
+            </values>
+            <values>
                 <fullName>Payroll Deduction</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>Refund Request</fullName>
+                <fullName>Refund%2FCredit Request</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -3527,6 +4369,52 @@
         <businessProcess>General</businessProcess>
         <description>Cases auto created when a Guarantor is placed into a call list (Campaign)</description>
         <label>Call List Case</label>
+        <picklistValues>
+            <picklist>Closed_Reason__c</picklist>
+            <values>
+                <fullName>Chargegroup Bad Debt%2Finactive</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed %E2%80%93 Case not necessary</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed %E2%80%93 Success</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed %E2%80%93 Unsuccessful</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed - Automated</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Eligible_Discount__c</picklist>
+            <values>
+                <fullName>%28A%29 40%25</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>%28B%29 50%25</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>%28C%29 60%25</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>%28D%29 70%25</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>%28E%29 80%25</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
         <picklistValues>
             <picklist>Form_to_be_Mailed__c</picklist>
             <values>
@@ -3743,7 +4631,15 @@
         <picklistValues>
             <picklist>Reason</picklist>
             <values>
+                <fullName>Charge Group</fullName>
+                <default>false</default>
+            </values>
+            <values>
                 <fullName>Compliance Issue</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Payment Plan</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -3814,6 +4710,10 @@
                 <fullName>Closed %E2%80%93 Unsuccessful</fullName>
                 <default>false</default>
             </values>
+            <values>
+                <fullName>Closed - Automated</fullName>
+                <default>false</default>
+            </values>
         </picklistValues>
         <picklistValues>
             <picklist>Eligible_Discount__c</picklist>
@@ -3835,87 +4735,6 @@
             </values>
             <values>
                 <fullName>%28E%29 80%25</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Est_annual_gross_family_income__c</picklist>
-            <values>
-                <fullName>0-23%2C540</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>23%2C541-31%2C860</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>31%2C861-40%2C180</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>40%2C181-48%2C500</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>48%2C501-56%2C820</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>56%2C821-65%2C140</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>65%2C141-73%2C460</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>73%2C461-81%2C780</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Est_income_measure_3_or_12_months__c</picklist>
-            <values>
-                <fullName>12 months</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>3 months</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Est_monthly_gross_family_income__c</picklist>
-            <values>
-                <fullName>0-1%2C962</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>1%2C963-2%2C655</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>2%2C656-3%2C348</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>3%2C349-4%2C042</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>4%2C043-4%2C735</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>4%2C736-5%2C428</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>5%2C429-6%2C122</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>6%2C123-8%2C178</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -4143,11 +4962,11 @@
                 <default>false</default>
             </values>
             <values>
-                <fullName>Compliance Issue</fullName>
+                <fullName>Charge Group</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>Deceased Patient</fullName>
+                <fullName>Compliance Issue</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -4163,35 +4982,19 @@
                 <default>false</default>
             </values>
             <values>
+                <fullName>Guarantor Requests Itemized Statement</fullName>
+                <default>false</default>
+            </values>
+            <values>
                 <fullName>Insurance Agent Called</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>Insurance Error</fullName>
+                <fullName>Insurance Follow-up</fullName>
                 <default>false</default>
             </values>
             <values>
                 <fullName>Liability Account</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mailed Form Request%3A Charity Application</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mailed Form Request%3A HIPAA Release</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mailed Form Request%3A Itemized Statement</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mailed Form Request%3A Receipt</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Merge Request</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -4203,7 +5006,11 @@
                 <default>false</default>
             </values>
             <values>
-                <fullName>New Insurance</fullName>
+                <fullName>Patient is Deceased</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Payment Plan</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -4219,11 +5026,23 @@
                 <default>false</default>
             </values>
             <values>
-                <fullName>Refund Request</fullName>
+                <fullName>Questions - Insurance</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>VIP Caller</fullName>
+                <fullName>Refund%2FCredit Request</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Special Discount</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Third Party Liability</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Update Insurance</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -4280,6 +5099,52 @@
         <businessProcess>General</businessProcess>
         <description>used to log cases internal to Sirono for support, development or feature request</description>
         <label>Internal Case</label>
+        <picklistValues>
+            <picklist>Closed_Reason__c</picklist>
+            <values>
+                <fullName>Chargegroup Bad Debt%2Finactive</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed %E2%80%93 Case not necessary</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed %E2%80%93 Success</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed %E2%80%93 Unsuccessful</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed - Automated</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Eligible_Discount__c</picklist>
+            <values>
+                <fullName>%28A%29 40%25</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>%28B%29 50%25</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>%28C%29 60%25</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>%28D%29 70%25</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>%28E%29 80%25</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
         <picklistValues>
             <picklist>Form_to_be_Mailed__c</picklist>
             <values>
@@ -4500,7 +5365,75 @@
         <picklistValues>
             <picklist>Reason</picklist>
             <values>
+                <fullName>CTI</fullName>
+                <default>false</default>
+            </values>
+            <values>
                 <fullName>Compliance Issue</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Feature Request</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Fields</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Formula</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Object</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Page Design</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Payment Processor</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Profile Access</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Reports%2FListView</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Salesforce - Sirono</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Scheduler%2FBatch</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Security</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sirono - Salesforce</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Training%2FUAT</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Trigger%2FClass</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Visual Force</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Workflows</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -4571,6 +5504,10 @@
                 <fullName>Closed %E2%80%93 Unsuccessful</fullName>
                 <default>false</default>
             </values>
+            <values>
+                <fullName>Closed - Automated</fullName>
+                <default>false</default>
+            </values>
         </picklistValues>
         <picklistValues>
             <picklist>Eligible_Discount__c</picklist>
@@ -4592,87 +5529,6 @@
             </values>
             <values>
                 <fullName>%28E%29 80%25</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Est_annual_gross_family_income__c</picklist>
-            <values>
-                <fullName>0-23%2C540</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>23%2C541-31%2C860</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>31%2C861-40%2C180</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>40%2C181-48%2C500</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>48%2C501-56%2C820</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>56%2C821-65%2C140</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>65%2C141-73%2C460</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>73%2C461-81%2C780</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Est_income_measure_3_or_12_months__c</picklist>
-            <values>
-                <fullName>12 months</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>3 months</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Est_monthly_gross_family_income__c</picklist>
-            <values>
-                <fullName>0-1%2C962</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>1%2C963-2%2C655</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>2%2C656-3%2C348</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>3%2C349-4%2C042</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>4%2C043-4%2C735</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>4%2C736-5%2C428</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>5%2C429-6%2C122</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>6%2C123-8%2C178</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -4904,11 +5760,19 @@
                 <default>false</default>
             </values>
             <values>
+                <fullName>Insurance Follow-up</fullName>
+                <default>false</default>
+            </values>
+            <values>
                 <fullName>Liability Account</fullName>
                 <default>false</default>
             </values>
             <values>
                 <fullName>New Insurance</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Update Insurance</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -4983,6 +5847,10 @@
                 <fullName>Closed %E2%80%93 Unsuccessful</fullName>
                 <default>false</default>
             </values>
+            <values>
+                <fullName>Closed - Automated</fullName>
+                <default>false</default>
+            </values>
         </picklistValues>
         <picklistValues>
             <picklist>Eligible_Discount__c</picklist>
@@ -5004,87 +5872,6 @@
             </values>
             <values>
                 <fullName>%28E%29 80%25</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Est_annual_gross_family_income__c</picklist>
-            <values>
-                <fullName>0-23%2C540</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>23%2C541-31%2C860</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>31%2C861-40%2C180</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>40%2C181-48%2C500</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>48%2C501-56%2C820</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>56%2C821-65%2C140</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>65%2C141-73%2C460</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>73%2C461-81%2C780</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Est_income_measure_3_or_12_months__c</picklist>
-            <values>
-                <fullName>12 months</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>3 months</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Est_monthly_gross_family_income__c</picklist>
-            <values>
-                <fullName>0-1%2C962</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>1%2C963-2%2C655</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>2%2C656-3%2C348</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>3%2C349-4%2C042</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>4%2C043-4%2C735</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>4%2C736-5%2C428</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>5%2C429-6%2C122</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>6%2C123-8%2C178</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -5383,6 +6170,10 @@
                 <fullName>Closed %E2%80%93 Unsuccessful</fullName>
                 <default>false</default>
             </values>
+            <values>
+                <fullName>Closed - Automated</fullName>
+                <default>false</default>
+            </values>
         </picklistValues>
         <picklistValues>
             <picklist>Eligible_Discount__c</picklist>
@@ -5450,41 +6241,6 @@
             </values>
             <values>
                 <fullName>3 months</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Est_monthly_gross_family_income__c</picklist>
-            <values>
-                <fullName>0-1%2C962</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>1%2C963-2%2C655</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>2%2C656-3%2C348</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>3%2C349-4%2C042</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>4%2C043-4%2C735</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>4%2C736-5%2C428</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>5%2C429-6%2C122</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>6%2C123-8%2C178</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -5802,10 +6558,6 @@
         <lookupPhoneDialogsAdditionalFields>NAME</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>ACCOUNT.NAME</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>CASES.STATUS</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>00N3600000OzvF6</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>00N3600000OzvF7</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>00N3600000EcF1D</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>00N3600000D2jCG</lookupPhoneDialogsAdditionalFields>
         <searchResultsAdditionalFields>CASES.CASE_NUMBER</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CASES.SUBJECT</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CASES.STATUS</searchResultsAdditionalFields>
@@ -5813,4 +6565,14 @@
         <searchResultsAdditionalFields>CORE.USERS.ALIAS</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>Private</sharingModel>
+    <validationRules>
+        <fullName>Trans_Amt_Reqd_001</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(
+    ISBLANK(Transaction_Amount__c), 
+       ISPICKVAL(Reason, &quot;Move Payment&quot;)
+)</errorConditionFormula>
+        <errorDisplayField>Transaction_Amount__c</errorDisplayField>
+        <errorMessage>The Transaction Amount is required when the Case Reason is &quot;Move Payment&quot;.  [Error C-001]</errorMessage>
+    </validationRules>
 </CustomObject>

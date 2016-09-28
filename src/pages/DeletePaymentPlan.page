@@ -1,39 +1,76 @@
-<apex:page controller="DeletePaymentPlan" id="pg" >
-	<apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
-	<apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>
+<!--
+* @author: Sirono
+* @version 1.0.1
+* @Date: 08-29-2016
+*
+* Sirono 08-29-2016: 127326579 when Record Saved Successfully return to the PaymentPlan after few Sec.
+* 
+*-->
+
+<apex:page controller="DeletePaymentPlan" id="pg">
+    <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
+    <!--Sirono 08-29-2016:  Indclude JQuery-->
+    <apex:includeScript value="{!URLFOR($Resource.Jquery, 'jquery-3.0.0.min.js')}"/>
+
+    <apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>
     <apex:sectionHeader title="Delete Payment Plan"/>
-    <apex:form >
-    	<apex:pageMessages />
-    	<apex:outputPanel >
+    <apex:form>
+        <apex:pageMessages/>
+        <apex:outputPanel>
             <div class="pay-staff-full-width pay-staff-clear-both">
-	            <table class="pay-staff-tabale-left">
-	            	<tr>
-	            		<td>
-	            			<apex:outputLabel styleClass="pay-staff-message" value="Clicking cancel payment plan will cancel the current payment plan. This cannot be undone."/>
-	            		</td>
-	            	</tr>
-	            	<tr>
-	            		<td>
-	            			&nbsp;
-	            		</td>
-	            	</tr>
-	            	<tr>
-	            		<td>
-	            			<apex:outputLabel styleClass="pay-staff-message" value="Any unpaid invoices included in the payment plan must be paid in full or re-enrolled in a payment plan to avoid being sent to collections."/>
-	            		</td>
-	            	</tr>
-	            </table>
+                <table class="pay-staff-tabale-left">
+                    <tr>
+                        <td>
+                            <apex:outputLabel styleClass="pay-staff-message"
+                                              value="Clicking cancel payment plan will cancel the current payment plan. This cannot be undone."/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:outputLabel styleClass="pay-staff-message"
+                                              value="Any unpaid invoices included in the payment plan must be paid in full or re-enrolled in a payment plan to avoid being sent to collections."/>
+                        </td>
+                    </tr>
+                </table>
             </div>
-            <br/><div class="pay-staff-clear-both pay-staff-bottom-line"></div><br/>
+            <br/>
+            <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
+            <br/>
             <div class="pay-staff-clear-both">
-	            <table class="pay-staff-tabale-left">
-	            	<tr>
-		            	<td><apex:commandButton action="{!cancel}" value="Cancel" styleClass="pay-staff-button pay-staff-cancel-button"/></td>
-		            	<td><apex:commandButton action="{!doSubmit}" value="Cancel Payment Plan" styleClass="pay-staff-button" 
-		            		style="background-color: #ec5152 !important;border-color: #FF5722 !important;"/></td>
-		            </tr>
-	            </table>
+                <table class="pay-staff-tabale-left">
+                    <tr>
+                        <td>
+                            <apex:commandButton action="{!cancel}" value="Cancel"
+                                                styleClass="pay-staff-button pay-staff-cancel-button"/>
+                        </td>
+                        <td>
+                            <apex:commandButton action="{!doSubmit}" value="Cancel Payment Plan"
+                                                styleClass="pay-staff-button"
+                                                style="background-color: #ec5152 !important;border-color: #FF5722 !important;"/>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </apex:outputPanel>
     </apex:form>
+    <Script>
+        //Sirono 08-29-2016: 127326579 when Record Saved Successfully return to the PaymentPlan after few Sec.
+        var delaymessage = 2000;
+        $(document).ready(function () {
+            returnToContact();
+        });
+
+        function returnToContact() {
+            $('img[title="INFO"]').each(function () {
+                setTimeout(function () {
+                    window.location = '/{!paymentPlanId}';
+                }, delaymessage);
+            });
+        }
+    </script>
 </apex:page>

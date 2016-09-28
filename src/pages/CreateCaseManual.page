@@ -1,8 +1,14 @@
-<apex:page standardController="Contact" Extensions="CreateCaseManual" id="pg">
+<!--
+* @author: Sirono
+* @version 1.0.1
+* @Date: 08-05-2016
+-->
+
+<apex:page standardController="Contact" Extensions="CreateCaseManual" id="pg" docType="html-5.0">
     <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
     <apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>
     <apex:includeScript value="{!URLFOR($Resource.Jquery, 'jquery-3.0.0.min.js')}"/>
-    
+
     <apex:sectionHeader title="Add To Case"/>
     <style>
         .pay-staff-table-full-width {
@@ -11,85 +17,95 @@
             margin-bottom: 20px;
             width: 100%;
         }
-        
-        .requiredBlock{
+
+        .requiredBlock {
             height: 68% !important;
         }
-        .errorMsg{
-            display:none;
-        }
-        .dateFormat{
+
+        .errorMsg {
             display: none;
         }
- 
-.clsSelectChild select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    border-radius: 0;
-    background-color: #fff;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #999;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
-    color: rgba(0,0,0,0.75);
-    display: block;
-    font-family: inherit;
-    font-size: 0.875rem;
-    height: 2.3125rem;
-    margin: 0 0 1rem 0;
-    width: 100%;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    -webkit-transition: border-color 0.15s linear, background 0.15s linear;
-    -moz-transition: border-color 0.15s linear, background 0.15s linear;
-    -ms-transition: border-color 0.15s linear, background 0.15s linear;
-    -o-transition: border-color 0.15s linear, background 0.15s linear;
-    transition: border-color 0.15s linear, background 0.15s linear;
-}
-        .clsSelectChild       select {
-    font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
-    border-radius: 3px;
-    padding-left: 10px;
-    background-color: #FAFAFA;
-    width: 100%;
-}
 
-.customPopup{
-    background-color: white;
-    border: 2px solid #CCC;
-    left: 20%;
-    padding: 2px;
-    position: absolute;
-    z-index: 9999;
-    /* These are the 3 css properties you will need to tweak so the pop 
-                            up displays in the center of the screen. First set the width. Then set 
-                            margin-left to negative half of what the width is. You can also add 
-                            the height property for a fixed size pop up.*/
-    width: 600px;
-    top: 280px;
-}
+        .dateFormat {
+            display: none;
+        }
+
+        .clsSelectChild select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            border-radius: 0;
+            background-color: #fff;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #999;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+            color: rgba(0, 0, 0, 0.75);
+            display: block;
+            font-family: inherit;
+            font-size: 0.875rem;
+            height: 2.3125rem;
+            margin: 0 0 1rem 0;
+            width: 100%;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-transition: border-color 0.15s linear, background 0.15s linear;
+            -moz-transition: border-color 0.15s linear, background 0.15s linear;
+            -ms-transition: border-color 0.15s linear, background 0.15s linear;
+            -o-transition: border-color 0.15s linear, background 0.15s linear;
+            transition: border-color 0.15s linear, background 0.15s linear;
+        }
+
+        .clsSelectChild select {
+            font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+            border-radius: 3px;
+            padding-left: 10px;
+            background-color: #FAFAFA;
+            width: 100%;
+        }
+
+        .customPopup {
+            background-color: white;
+            border: 2px solid #CCC;
+            left: 20%;
+            padding: 2px;
+            position: absolute;
+            z-index: 9999;
+            /* These are the 3 css properties you will need to tweak so the pop
+                                    up displays in the center of the screen. First set the width. Then set
+                                    margin-left to negative half of what the width is. You can also add
+                                    the height property for a fixed size pop up.*/
+            width: 600px;
+            top: 280px;
+        }
     </style>
-    
-    
+
+
     <apex:form id="frm">
+        <apex:actionFunction name="refreshFieldSet" action="{!refresh}" status="Processing"
+                             immediate="true" reRender="caseBilling,scriptRefresh">
+            <apex:param value="" name="reason"/>
+        </apex:actionFunction>
         <apex:outputPanel id="errorPanel">
-            <apex:pageMessages />
+            <apex:pageMessages/>
         </apex:outputPanel>
         <apex:outputPanel id="statusPanel" styleClass="pay-staff-outer_block" style="display:none;">
             <div class="pay-staff-inner_block">
-                <apex:image value="{!$Resource.ajax_loader}" height="36px" width="36px"/><br/>
+                <apex:image value="{!$Resource.ajax_loader}" height="36px" width="36px"/>
+                <br/>
                 <span class="pay-staff-custom_message">Refreshing...</span><br/>
                 <br/><br/><br/>
             </div>
         </apex:outputPanel>
         <apex:actionFunction name="refreshJS" action="{!doNext}"/>
-        <apex:pageBlock title="{!guarantorName}" id="pbMain" >
+        <apex:pageBlock title="{!guarantorName}" id="pbMain">
             <apex:outputPanel id="opCaseType" rendered="{!Or(!chargeGroupsSelected, !caseTypeSelected)}">
                 <div class="pay-staff-full-width pay-staff-clear-both">
                     <table class="pay-staff-table-full-width">
                         <tr>
-                            <td > <apex:outputLabel styleClass="pay-staff-message" value="Select Case Type:"/> </td>
+                            <td>
+                                <apex:outputLabel styleClass="pay-staff-message" value="Select Case Type:"/>
+                            </td>
                         </tr>
                         <tr>
                             <td align="center">
@@ -102,7 +118,7 @@
                                 </apex:selectRadio>
                             </td>
                         </tr>
-                    </table>                
+                    </table>
                 </div>
             </apex:outputPanel>
             <apex:outputPanel rendered="{!!caseTypeSelected}">
@@ -114,7 +130,10 @@
                 <div class="pay-staff-full-width pay-staff-clear-both">
                     <table class="pay-staff-tabale-left">
                         <tr>
-                            <td> <apex:outputLabel styleClass="pay-staff-message" value="Please select Charge Groups(s) to add on Case."/> </td>
+                            <td>
+                                <apex:outputLabel styleClass="pay-staff-message"
+                                                  value="Please select Charge Groups(s) to add on Case."/>
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -128,14 +147,15 @@
                     </table>
                 </div>-->
             </apex:outputPanel>
-            <apex:outputPanel styleClass="pay-staff-table-wrap" rendered="{!AND(chrageGroupList.size != 0, !chargeGroupsSelected)}">
+            <apex:outputPanel styleClass="pay-staff-table-wrap"
+                              rendered="{!AND(chrageGroupList.size != 0, !chargeGroupsSelected)}">
                 <table class="list">
                     <tr class="headerRow">
                         <td class="headerRow">
                             <apex:outputPanel styleClass="selectAllHeader">
-                                <apex:inputCheckbox title="Select All" selected="false" styleClass="selectAllCBK" 
-                                    onclick="selectAllCheckboxes(this,'inputId');"/>
-                                <apex:outputLabel value="Select All" />
+                                <apex:inputCheckbox title="Select All" selected="false" styleClass="selectAllCBK"
+                                                    onclick="selectAllCheckboxes(this,'inputId');"/>
+                                <apex:outputLabel value="Select All"/>
                             </apex:outputPanel>
                         </td>
                         <td class="headerRow">Account</td>
@@ -153,29 +173,45 @@
                         <apex:repeat value="{!chrageGroupList}" var="cgw">
                             <tr class="dataRow">
                                 <td class="dataCell">
-                                    <apex:inputCheckbox value="{!cgw.isSelected}" id="inputId" styleClass="selectCBK" 
-                                        onclick="checkBoxStatus();"/>
+                                    <apex:inputCheckbox value="{!cgw.isSelected}" id="inputId" styleClass="selectCBK"
+                                                        onclick="checkBoxStatus();"/>
                                 </td>
-                                <td class="dataCell"><apex:outputField value="{!cgw.cg.Account_Number__c}"/></td>
-                                <td class="dataCell"><apex:outputField value="{!cgw.cg.Account_Type__c}"/></td>
                                 <td class="dataCell">
-                                    <apex:outputField value="{!cgw.cg.Date_Of_Service_Start_Date__c}"/>-
+                                    <apex:outputField value="{!cgw.cg.Account_Number__c}"/>
+                                </td>
+                                <td class="dataCell">
+                                    <apex:outputField value="{!cgw.cg.Account_Type__c}"/>
+                                </td>
+                                <td class="dataCell">
+                                    <apex:outputField value="{!cgw.cg.Date_Of_Service_Start_Date__c}"/>
+                                    -
                                     <apex:outputField value="{!cgw.cg.Date_Of_Service_End_Date__c}"/>
                                 </td>
                                 <td class="dataCell">
-                                    <apex:outputField value="{!cgw.cg.Provider__r.Name}" rendered="{!cgw.cg.Account_Type__c == 'PB'}"/>
-                                    <apex:outputField value="{!cgw.cg.Location__r.Name}" rendered="{!cgw.cg.Account_Type__c == 'HB'}"/>
+                                    <apex:outputField value="{!cgw.cg.Provider__r.Name}"
+                                                      rendered="{!cgw.cg.Account_Type__c == 'PB'}"/>
+                                    <apex:outputField value="{!cgw.cg.Location__r.Name}"
+                                                      rendered="{!cgw.cg.Account_Type__c == 'HB'}"/>
                                 </td>
-                                <td class="dataCell"><apex:outputField value="{!cgw.cg.Balance__c}"/></td>
-                                <td class="dataCell"><apex:outputField value="{!cgw.cg.Invoice__r.Invoice_Date__c}"/></td>
-                                <td class="dataCell"><apex:outputField value="{!cgw.cg.Account_Status__c}"/></td>
-                                <td class="dataCell"><apex:outputField value="{!cgw.cg.Account_Sub_Status__c}"/></td>
+                                <td class="dataCell">
+                                    <apex:outputField value="{!cgw.cg.Balance__c}"/>
+                                </td>
+                                <td class="dataCell">
+                                    <apex:outputField value="{!cgw.cg.Invoice__r.Invoice_Date__c}"/>
+                                </td>
+                                <td class="dataCell">
+                                    <apex:outputField value="{!cgw.cg.Account_Status__c}"/>
+                                </td>
+                                <td class="dataCell">
+                                    <apex:outputField value="{!cgw.cg.Account_Sub_Status__c}"/>
+                                </td>
                             </tr>
                         </apex:repeat>
                     </table>
                 </div>
             </apex:outputPanel>
-            <apex:outputLabel value="There are no charge groups" rendered="{!AND(chrageGroupList.size == 0, !caseTypeSelected)}"/>
+            <apex:outputLabel value="There are no charge groups"
+                              rendered="{!AND(chrageGroupList.size == 0, !caseTypeSelected)}"/>
             <apex:outputPanel rendered="{!!caseTypeSelected}">
                 <br/>
                 <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
@@ -186,17 +222,27 @@
                 <div class="pay-staff-clear-both">
                     <table class="pay-staff-tabale-left">
                         <tr>
-                            <td><apex:commandButton action="{!cancel}" value="Cancel" styleClass="pay-staff-button pay-staff-cancel-button"/></td>
-                            <td><apex:commandButton action="{!gotoCaseCreation}" value="Next" styleClass="pay-staff-button"/></td>
+                            <td>
+                                <apex:commandButton action="{!cancel}" immediate="true" value="Cancel"
+                                                    styleClass="pay-staff-button pay-staff-cancel-button"/>
+                            </td>
+                            <td>
+                                <apex:commandButton action="{!gotoCaseCreation}" value="Next"
+                                                    styleClass="pay-staff-button"/>
+                            </td>
                         </tr>
                     </table>
                 </div>
             </apex:outputPanel>
-            <apex:outputPanel id="opForCase" rendered="{!AND(chargeGroupsSelected, caseTypeSelected, caseType != 'General')}">
+            <apex:outputPanel id="opForCase"
+                              rendered="{!AND(chargeGroupsSelected, caseTypeSelected, caseType != 'General')}">
                 <div class="pay-staff-full-width pay-staff-clear-both">
                     <table class="pay-staff-tabale-left">
                         <tr>
-                            <td> <apex:outputLabel styleClass="pay-staff-message" value="The following HAR(s) will be added to the Case."/> </td>
+                            <td>
+                                <apex:outputLabel styleClass="pay-staff-message"
+                                                  value="The following HAR(s) will be added to the Case."/>
+                            </td>
                         </tr>
                     </table>
                     <br/><br/><br/>
@@ -209,12 +255,14 @@
                     </ul>
                 </div>
             </apex:outputPanel>
-            
-            <apex:outputPanel id="caseBilling" rendered="{!AND(chargeGroupsSelected,caseTypeSelected, caseType = 'Billing')}">
+
+            <apex:outputPanel id="caseBilling" rendered="{!AND(chargeGroupsSelected,caseTypeSelected)}">
                 <div class="pay-staff-full-width pay-staff-clear-both">
                     <table class="pay-staff-tabale-left">
                         <tr>
-                            <td> <apex:outputLabel styleClass="pay-staff-message" value="{!caseType} Case Information"/> </td>
+                            <td>
+                                <apex:outputLabel styleClass="pay-staff-message" value="{!caseType} Case Information"/>
+                            </td>
                         </tr>
                     </table>
                     <br/><br/><br/>
@@ -222,310 +270,302 @@
                 <div class="pay-staff-full-width pay-staff-clear-both">
                     <table class="pay-staff-table-full-width">
                         <tr>
-                            <td width="49%"><apex:outputLabel styleClass="pay-staff-lable" value="Guarantor" /> </td>
+                            <td width="49%">
+                                <apex:outputLabel styleClass="pay-staff-lable" value="Guarantor"/>
+                            </td>
                             <td width="2%"> &nbsp; </td>
-                            <td width="49%"> <apex:outputLabel styleClass="pay-staff-lable" value="Patient"/> </td>
+                            <td width="49%">
+                                <apex:outputLabel styleClass="pay-staff-lable" value="Patient"
+                                                  rendered="{!if(caseType != 'General',true,false)}"/>
+                            </td>
                         </tr>
                         <tr>
-                            <td> <apex:outputText styleClass="pay-staff-input clsGuarantor" value="{!guarantorContact.Name}" /> </td>
+                            <td>
+                                <apex:outputText styleClass="pay-staff-input clsGuarantor"
+                                                 value="{!guarantorContact.Name}"/>
+                            </td>
                             <td> &nbsp; </td>
-                            <td> <apex:outputText styleClass="pay-staff-input clsPatient" value="{!patientContact.Name}" /> </td>
+                            <td>
+                                <apex:outputText styleClass="pay-staff-input clsPatient" value="{!patientContact.Name}"
+                                                 rendered="{!if(caseType != 'General',true,false)}"/>
+                            </td>
                         </tr>
                         <tr>
-                            <td width="49%"><apex:outputLabel styleClass="pay-staff-lable" value="Case Reason" /> </td>
+                            <td width="49%">
+                                <apex:outputLabel styleClass="pay-staff-lable" value="Case Reason"/>
+                            </td>
                             <td width="2%"> &nbsp; </td>
-                            <td width="49%"> <apex:outputLabel styleClass="pay-staff-lable" /> </td>
+                            <td width="49%">
+                                <apex:outputLabel styleClass="pay-staff-lable"/>
+                            </td>
                         </tr>
                         <tr>
-                            <td> <apex:inputField styleClass="pay-staff-input" value="{!caseObj.Reason}" required="true"  /> </td>
-                            <td> &nbsp; </td>
+                            <td>
+                                <apex:inputField styleClass="pay-staff-input clsReason" value="{!caseObj.Reason}"
+                                                 required="true" onchange="refreshCaseDetails();">
+                                </apex:inputField>
+
+                            </td>
+                            <td> &nbsp;  </td>
                             <td></td>
                         </tr>
                         <apex:variable value="{!2}" var="counter"/>
-                        <apex:repeat value="{!$ObjectType.Case.FieldSets.Billing_Type}" var="f" >
-                              <apex:outputText rendered="{!mod(counter,2)=0}">
+
+                        <apex:repeat value="{!if(caseType == 'Billing',
+                                if(caseObj.Reason == 'Bankruptcy',$ObjectType.Case.FieldSets.Billing_Bankruptcy,
+                                        if(caseObj.Reason == 'Patient is Deceased',$ObjectType.Case.FieldSets.Billing_Deceased_Patient,
+                                                if(caseObj.Reason == 'Move Payment',$ObjectType.Case.FieldSets.Billing_Move_Payment,
+                                                        $ObjectType.Case.FieldSets.Billing_Type)
+                                                )
+                                        ),
+                                if(caseType == 'Payor',
+                                        if(caseObj.Reason == 'Insurance Agent Called',$ObjectType.Case.FieldSets.Payor_Insurance_Agent_Called,
+                                                if(caseObj.Reason == 'Insurance Error',$ObjectType.Case.FieldSets.Payor_Insurance_Error,
+                                                        if(caseObj.Reason == 'New Insurance',$ObjectType.Case.FieldSets.Payor_New_Insurance,
+                                                                $ObjectType.Case.FieldSets.Payor)
+                                                        )
+                                                ),
+                                        if(caseType == 'Quality of Care',$ObjectType.Case.FieldSets.Quality_of_Care,
+                                                if(caseType == 'General',$ObjectType.Case.FieldSets.General,
+                                                        if(caseType == 'Sirono Review',
+                                                                if(caseObj.Reason == 'Mailed Form Request: Charity Application',$ObjectType.Case.FieldSets.Sirono_Review_Mailed_Form_Request_Charit,
+                                                                        if(caseObj.Reason == 'Mailed Form Request: Receipt',$ObjectType.Case.FieldSets.Sirono_Review_Mailed_Form_Request_Receip,
+                                                                                if(caseObj.Reason == 'Merge Request',$ObjectType.Case.FieldSets.Sirono_Review_Merge_Request,
+                                                                                        if(caseObj.Reason == 'Missing Payment',$ObjectType.Case.FieldSets.Sirono_Review_Missing_Payment,
+                                                                                                $ObjectType.Case.FieldSets.Sirono_Review)
+                                                                                        )
+                                                                                )
+                                                                        ),$ObjectType.Case.FieldSets.General)
+                                                        )
+                                                )
+                                        )
+                                )
+                                }" var="f">
+                            <apex:outputText rendered="{!mod(counter,2)=0}">
                                 <apex:outputText escape="false" value="<tr>"/>
-                              </apex:outputText>
-                              <apex:outputText rendered="{!mod(counter,2)=1}">
+                            </apex:outputText>
+                            <apex:outputText rendered="{!mod(counter,2)=1}">
                                 <td width="2%"> &nbsp; </td>
-                              </apex:outputText>
-                              
-                              <td width ="49%">   
-                                  <apex:outputLabel styleClass="pay-staff-lable" value="{!$ObjectType.Case.Fields[f.fieldPath].label}"/>
-                                  <apex:inputField Style="width: 100%;" styleClass="pay-staff-input" value="{!caseObj[f.fieldPath]}"/>    
-                                  <!--<apex:inputField Style="width: 100%;" styleClass="pay-staff-input" rendered="{!if(f.fieldPath == 'Transaction_Amount__c' , false,true)}" html-disabled="disabled" value="{!caseObj[f.fieldPath]}"/>-->
-                              </td>
-                               
-                              <apex:outputText rendered="{!mod(counter,2)=1}">
+                            </apex:outputText>
+
+                            <td width="49%">
+                                <apex:outputLabel styleClass="pay-staff-lable"
+                                                  value="{!$ObjectType.Case.Fields[f.fieldPath].label}"/>
+                                <apex:inputField Style="width: 100%;" styleClass="pay-staff-input"
+                                                 value="{!caseObj[f.fieldPath]}"
+                                                 required="{!IF(f.required == true,True, False)}"/>
+
+                            </td>
+
+                            <apex:outputText rendered="{!mod(counter,2)=1}">
                                 <apex:outputText escape="false" value="</tr>"/>
-                              </apex:outputText>
-                              <apex:variable value="{!counter + 1}" var="counter"/> 
+                            </apex:outputText>
+                            <apex:variable value="{!counter + 1}" var="counter"/>
                         </apex:repeat>
+
+
                         <tr>
-                            <td colspan="3"> <apex:outputLabel styleClass="pay-staff-lable" value="Notes/Circumstance" /> </td>
+                            <td colspan="3">
+                                <apex:outputLabel styleClass="pay-staff-lable" value="Notes/Circumstance"/>
+                            </td>
                             <td> &nbsp; </td>
-                            <td>  </td>
+                            <td></td>
                         </tr>
                         <tr>
-                            <td colspan="3"> <apex:inputTextArea styleClass="pay-staff-input" value="{!caseNotes}"/> </td>
+                            <td colspan="3">
+                                <div class="requiredInput">
+                                    <div class="requiredBlock"></div>
+                                    <apex:inputTextArea required="true" styleClass="pay-staff-input"
+                                                        value="{!caseNotes}"/>
+                                </div>
+                            </td>
                         </tr>
-                        
-                              
                     </table>
-                    
-                    <apex:pageBlockSection id="pbs" collapsible="true" columns="1" title="New">                         
-                        <apex:outputPanel id="optNew" >
-                        <table class="pay-staff-table-full-width">
-                        <apex:variable value="{!2}" var="counter"/>
-                        <apex:repeat value="{!$ObjectType.Case.FieldSets.New_Section}" var="f" >
-                              <apex:outputText rendered="{!mod(counter,2)=0}">
-                                <apex:outputText escape="false" value="<tr>"/>
-                              </apex:outputText>
-                              <apex:outputText rendered="{!mod(counter,2)=1}">
-                                <td width="2%"> &nbsp; </td>
-                              </apex:outputText>
-                              
-                              <td width ="49%">
-                                  <apex:outputLabel styleClass="pay-staff-lable" value="{!$ObjectType.Case.Fields[f.fieldPath].label}"/>
-                                  <!--<apex:inputField Style="width: 100%;" styleClass="pay-staff-input" html-disabled="disabled" value="{!caseObj[f.fieldPath]}"/>-->
-                                  <apex:inputField Style="width: 100%;" styleClass="pay-staff-input" value="{!caseObj[f.fieldPath]}"/>
-                              </td>
-                               
-                              <apex:outputText rendered="{!mod(counter,2)=1}">
-                                <apex:outputText escape="false" value="</tr>"/>
-                              </apex:outputText>
-                              <apex:variable value="{!counter + 1}" var="counter"/> 
-                        </apex:repeat>
-                        </table>
-                        </apex:outputPanel>
-                    </apex:pageBlockSection>
+
+                    <apex:outputPanel id="idNewSection">
+                        <apex:pageBlockSection id="pbs" collapsible="true" columns="1" title="New"
+                                               rendered="{!if(caseType == 'Billing',true,false)}">
+                            <apex:outputPanel id="optNew">
+                                <table class="pay-staff-table-full-width">
+                                    <apex:variable value="{!2}" var="counter"/>
+                                    <apex:repeat value="{!$ObjectType.Case.FieldSets.New_Section}" var="f">
+                                        <apex:outputText rendered="{!mod(counter,2)=0}">
+                                            <apex:outputText escape="false" value="<tr>"/>
+                                        </apex:outputText>
+                                        <apex:outputText rendered="{!mod(counter,2)=1}">
+                                            <td width="2%"> &nbsp; </td>
+                                        </apex:outputText>
+
+                                        <td width="49%">
+                                            <apex:outputLabel styleClass="pay-staff-lable"
+                                                              value="{!$ObjectType.Case.Fields[f.fieldPath].label}"/>
+                                            <!--<apex:inputField Style="width: 100%;" styleClass="pay-staff-input" html-disabled="disabled" value="{!caseObj[f.fieldPath]}"/>-->
+                                            <apex:inputField Style="width: 100%;" styleClass="pay-staff-input"
+                                                             value="{!caseObj[f.fieldPath]}"/>
+                                        </td>
+
+                                        <apex:outputText rendered="{!mod(counter,2)=1}">
+                                            <apex:outputText escape="false" value="</tr>"/>
+                                        </apex:outputText>
+                                        <apex:variable value="{!counter + 1}" var="counter"/>
+                                    </apex:repeat>
+                                </table>
+                            </apex:outputPanel>
+                        </apex:pageBlockSection>
+                    </apex:outputPanel>
                     <Br/>
                 </div>
                 <div class="pay-staff-clear-both">
                     <table class="pay-staff-tabale-left">
                         <tr>
-                            <td><apex:commandButton action="{!cancel}" value="Cancel" styleClass="pay-staff-button pay-staff-cancel-button"/></td>
-                            <td><apex:commandButton action="{!submit}" value="Save" styleClass="pay-staff-button"/></td>
+                            <td>
+
+                                <apex:commandButton onclick="cancelPage();" immediate="true" value="Cancel"
+                                                    styleClass="pay-staff-button pay-staff-cancel-button"/>
+
+                            </td>
+                            <td>
+                                <apex:commandButton action="{!submit}" value="Save" styleClass="pay-staff-button"/>
+                            </td>
                         </tr>
                     </table>
                 </div>
             </apex:outputPanel>
-            
-            <apex:outputPanel id="caseOther" rendered="{!AND(chargeGroupsSelected,caseTypeSelected, OR(caseType = 'Quality of Care', caseType = 'Sirono Review', caseType = 'General'))}">
-                <div class="pay-staff-full-width pay-staff-clear-both">
-                    <table class="pay-staff-tabale-left">
-                        <tr>
-                            <td> <apex:outputLabel styleClass="pay-staff-message" value="{!caseType} Case Information"/> </td>
-                        </tr>
-                    </table>
-                    <br/><br/><br/>
-                </div>
-                <div class="pay-staff-full-width pay-staff-clear-both">
-                    <table class="pay-staff-table-full-width" >
-                        <tr>
-                            <td width="49%"> <apex:outputLabel styleClass="pay-staff-lable" value="Guarantor First Name" for="BillingGuarantorFirstName"/> </td>
-                            <td width="2%"> &nbsp; </td>
-                            <td width="49%"> <apex:outputLabel styleClass="pay-staff-lable" value="Guarantor Last Name" for="BillingGuarantorLastName"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputText styleClass="pay-staff-input" value="{!guarantorContact.FirstName}" id="BillingGuarantorFirstName"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:outputText styleClass="pay-staff-input" value="{!guarantorContact.LastName}" id="BillingGuarantorLastName"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="Guarantor MRN" for="BillingGuarantorMRN"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="Guarantor Sirono ID" for="BillingGuarantorSironoID"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputText styleClass="pay-staff-input" value="{!guarantorContact.Medical_Record_Number__c}" id="BillingGuarantorMRN"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:outputText styleClass="pay-staff-input" value="{!guarantorContact.Profile_Pointer_ID__c}" id="BillingGuarantorSironoID"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="Patient First Name" for="BillingPatientFirstName"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="Patient Last Name" for="BillingPatientLastName"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputText styleClass="pay-staff-input" value="{!patientContact.FirstName}" id="BillingPatientFirstName"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:outputText styleClass="pay-staff-input" value="{!patientContact.LastName}" id="BillingPatientLastName"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="Patient MRN" for="BillingPatientMRN"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="Case Reason" for="BillingCaseReason"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputText styleClass="pay-staff-input" value="{!patientContact.Medical_Record_Number__c}" id="BillingPatientMRN"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:inputField styleClass="pay-staff-input" value="{!caseObj.Reason}" id="BillingCaseReason"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="Notes/Circumstance" for="BillingNotesCircumstance"/> </td>
-                            <td> &nbsp; </td>
-                            <td>  </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:inputTextArea styleClass="pay-staff-input" value="{!caseNotes}" id="BillingNotesCircumstance"/> </td>
-                            <td> &nbsp; </td>
-                            <td>  </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="pay-staff-clear-both">
-                    <table class="pay-staff-tabale-left">
-                        <tr>
-                            <td><apex:commandButton action="{!cancel}" value="Cancel" styleClass="pay-staff-button pay-staff-cancel-button"/></td>
-                            <td><apex:commandButton action="{!submit}" value="Save" styleClass="pay-staff-button"/></td>
-                        </tr>
-                    </table>
-                </div>
-            </apex:outputPanel>
-            
-            <apex:outputPanel id="casePayor" rendered="{!AND(chargeGroupsSelected,caseTypeSelected , caseType = 'Payor')}">
-                <div class="pay-staff-full-width pay-staff-clear-both">
-                    <table class="pay-staff-tabale-left">
-                        <tr>
-                            <td> <apex:outputLabel styleClass="pay-staff-message" value="{!caseType} Case Information"/> </td>
-                        </tr>
-                    </table>
-                    <br/><br/><br/>
-                </div>
-                <div class="pay-staff-full-width pay-staff-clear-both">
-                    <table class="pay-staff-table-full-width" >
-                        <tr>
-                            <td width="49%"> <apex:outputLabel styleClass="pay-staff-lable" value="Guarantor First Name" for="PayorGuarantorFirstName"/> </td>
-                            <td width="2%"> &nbsp; </td>
-                            <td width="49%"> <apex:outputLabel styleClass="pay-staff-lable" value="Guarantor Last Name" for="PayorGuarantorLastName"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputText styleClass="pay-staff-input" value="{!guarantorContact.FirstName}" id="PayorGuarantorFirstName"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:outputText styleClass="pay-staff-input" value="{!guarantorContact.LastName}" id="PayorGuarantorLastName"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="Guarantor MRN" for="PayorGuarantorMRN"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="Guarantor Sirono ID" for="PayorGuarantorSironoID"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputText styleClass="pay-staff-input" value="{!guarantorContact.Medical_Record_Number__c}" id="PayorGuarantorMRN"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:outputText styleClass="pay-staff-input" value="{!guarantorContact.Profile_Pointer_ID__c}" id="PayorGuarantorSironoID"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="Patient First Name" for="PayorPatientFirstName"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="Patient Last Name" for="PayorPatientLastName"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputText styleClass="pay-staff-input" value="{!patientContact.FirstName}" id="PayorPatientFirstName"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:outputText styleClass="pay-staff-input" value="{!patientContact.LastName}" id="PayorPatientLastName"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="Patient MRN" for="PayorPatientMRN"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="New Payor/Insurance" for="PayorPayor"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputText styleClass="pay-staff-input" value="{!patientContact.Medical_Record_Number__c}" id="PayorPatientMRN"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:inputField styleClass="pay-staff-input" required="true" value="{!caseObj.Payor__c}" id="PayorPayor"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="Carrier" for="PayorCarrier"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="Case#/Claim#" for="PayorClaim"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:inputField styleClass="pay-staff-input" value="{!caseObj.Carrier__c}" id="PayorCarrier"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:inputField styleClass="pay-staff-input" value="{!caseObj.Caller_CaseClaim__c}" id="PayorClaim"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="Case Reason" for="PayorCaseReason"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:outputLabel styleClass="pay-staff-lable" value="Notes/Circumstance" for="PayorNotesCircumstance"/> </td>
-                        </tr>
-                        <tr>
-                            <td> <apex:inputField styleClass="pay-staff-input" value="{!caseObj.Reason}" id="PayorCaseReason"/> </td>
-                            <td> &nbsp; </td>
-                            <td> <apex:inputTextArea styleClass="pay-staff-input" value="{!caseNotes}" id="PayorNotesCircumstance"/> </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="pay-staff-clear-both">
-                    <table class="pay-staff-tabale-left">
-                        <tr>
-                            <td><apex:commandButton action="{!cancel}" value="Cancel" styleClass="pay-staff-button pay-staff-cancel-button"/></td>
-                            <td><apex:commandButton action="{!submit}" value="Save" styleClass="pay-staff-button"/></td>
-                        </tr>
-                    </table>
-                </div>
-            </apex:outputPanel>
-            
         </apex:pageBlock>
-        
-        
-        <apex:outputPanel styleclass="GuarantorPopup" style="display:none;">
-            <apex:outputPanel styleclass="customPopup" >
+        <apex:outputPanel id="guarantorPopup" styleclass="guarantorPopup" style="display:none;">
+            <apex:outputPanel styleclass="customPopup">
                 <apex:pageBlock title="Guarantor Information">
                     <apex:pageBlockSection columns="2">
-                        <apex:repeat value="{!$ObjectType.Contact.FieldSets.Guarantor}" var="f"> 
-                                <apex:outputField label="{!$ObjectType.Contact.Fields[f.fieldPath].label}" value="{!guarantorContact[f.fieldPath]}" />
+                        <apex:repeat value="{!if(caseType == 'Billing',$ObjectType.Contact.FieldSets.Billing_Guarantor,
+                                if(caseType == 'Payor',$ObjectType.Contact.FieldSets.Payer_Guarantor,
+                                        if(caseType == 'Quality of Care',$ObjectType.Contact.FieldSets.Quality_of_Care_Guarantor,
+                                                if(caseType == 'Sirono Review',$ObjectType.Contact.FieldSets.Sirono_Review_Guarantor,$ObjectType.Contact.FieldSets.Sirono_Review_Guarantor)
+                                                )
+                                        )
+                                )
+                                }"
+                                     var="f">
+                            <apex:outputField label="{!$ObjectType.Contact.Fields[f.fieldPath].label}"
+                                              value="{!guarantorContact[f.fieldPath]}"/>
                         </apex:repeat>
                     </apex:pageBlockSection>
                 </apex:pageBlock>
             </apex:outputPanel>
         </apex:outputPanel>
-        <apex:outputPanel styleclass="PatientPopup" style="display:none;">
-            <apex:outputPanel styleclass="customPopup" >
+        <apex:outputPanel id="patientPopup" styleclass="patientPopup" style="display:none;">
+            <apex:outputPanel styleclass="customPopup">
                 <apex:pageBlock title="Patient Information">
                     <apex:pageBlockSection columns="2">
-                        <apex:repeat value="{!$ObjectType.Contact.FieldSets.Patient}" var="f"> 
-                                <apex:outputField label="{!$ObjectType.Contact.Fields[f.fieldPath].label}" value="{!patientContact[f.fieldPath]}" />
+                        <apex:repeat value="{!if(caseType == 'Billing',$ObjectType.Contact.FieldSets.Billing_Patient,
+                                if(caseType == 'Payor',$ObjectType.Contact.FieldSets.Payer_Patient,
+                                        if(caseType == 'Quality of Care',$ObjectType.Contact.FieldSets.Quality_of_Care_Patient,
+                                                if(caseType == 'Sirono Review',$ObjectType.Contact.FieldSets.Sirono_Review_Patient,$ObjectType.Contact.FieldSets.Sirono_Review_Patient)
+                                                )
+                                        )
+                                )
+                                }"
+                                     var="f">
+                            <apex:outputField label="{!$ObjectType.Contact.Fields[f.fieldPath].label}"
+                                              value="{!patientContact[f.fieldPath]}"/>
                         </apex:repeat>
                     </apex:pageBlockSection>
                 </apex:pageBlock>
             </apex:outputPanel>
         </apex:outputPanel>
-            
-            
+        <apex:actionFunction immediate="true" action="{!cancel}" name="cancelcase"/>
     </apex:form>
-    
-    
-    <Script>
-        function fnCollapseNew(){
-            $(document.getElementById($('.hideListButton').attr('id'))).trigger('click');
+
+    <apex:outputPanel id="scriptRefresh">
+        <Script>
+            function fnCollapseNew() {
+                $(document.getElementById($('.hideListButton').attr('id'))).trigger('click');
+            }
+            fnCollapseNew();
+
+            $(".clsGuarantor, .guarantorPopup").hover(function (e) {
+                $('.guarantorPopup').show('slow');
+                if (!($('.guarantorPopup:hover').length > 0)) {
+
+                    $('.guarantorPopup').find('.customPopup').css({left: e.pageX});
+                }
+            }, function () {
+                setTimeout(function () {
+                    if (!($('.guarantorPopup:hover').length > 0))
+                        $('.guarantorPopup').hide();
+                }, 300);
+            });
+
+            $(".clsPatient, .patientPopup").hover(function (e) {
+                $('.patientPopup').show('slow');
+                if (!($('.patientPopup:hover').length > 0)) {
+                    $('.patientPopup').find('.customPopup').css({left: e.pageX});
+                }
+            }, function () {
+                setTimeout(function () {
+                    if (!($('.patientPopup:hover').length > 0))
+                        $('.patientPopup').hide();
+                }, 300);
+            });
+
+
+            //Sirono 08-22-2016: 127323475 when Record Saved Successfully return to the contact after few Sec.
+            var delaymessage = 2000;
+            $(document).ready(function () {
+                returnToContact();
+            });
+
+            function returnToContact() {
+                $('img[title="INFO"]').each(function () {
+                    setTimeout(function () {
+                        window.location.href = '/{!guarantorRecordId}';
+                    }, delaymessage);
+                });
+                return false;
+            }
+
+            function refreshCaseDetails() {
+                debugger;
+                var selectedReason = $('.clsReason').val();
+                refreshFieldSet(selectedReason);
+            }
+
+            function cancelPage() {
+                cancelcase();
+            }
+        </script>
+    </apex:outputPanel>
+
+
+    <!------------- Start: Processing Div---------------------------------------->
+    <style>
+        .ProcessingBackground {
+            background-color: black;
+            opacity: 0.50;
+            filter: alpha(opacity=50);
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            z-index: 8551;
+            top: 0;
+            left: 0;
         }
-        fnCollapseNew();
-        
-        $(".clsGuarantor, .GuarantorPopup").hover(function(e) {
-                $('.GuarantorPopup').show('slow');
-                if(!($('.GuarantorPopup:hover').length > 0)){
-                    
-                    $('.GuarantorPopup').find('.customPopup').css({left:e.pageX});
-                }
-         },function() {
-            setTimeout(function() {
-            if(!($('.GuarantorPopup:hover').length > 0))
-                $('.GuarantorPopup').hide();
-            }, 300);
-        });  
-        
-        $(".clsPatient, .PatientPopup").hover(function(e) {
-                $('.PatientPopup').show('slow');
-                 if(!($('.PatientPopup:hover').length > 0)){
-                    $('.PatientPopup').find('.customPopup').css({left:e.pageX});
-                }
-         },function() {
-            setTimeout(function() {
-            if(!($('.PatientPopup:hover').length > 0))
-                $('.PatientPopup').hide();
-            }, 300);
-        });
-    </script>
+
+        .Processing {
+            z-index: 8552;
+            left: 50%;
+            top: 50%;
+            text-align: center;
+            position: fixed;
+        }
+    </style>
+    <div id="divProcessing" style="display:none;">
+        <div class="ProcessingBackground"></div>
+        <div class="Processing">
+            <apex:image alt="Processing" url="/img/loading32.gif" width="20" height="20"/>
+        </div>
+    </div>
+    <apex:actionStatus id="Processing" onstart="document.getElementById('divProcessing').style.display = '';"
+                       onstop="document.getElementById('divProcessing').style.display = 'none';">
+    </apex:actionStatus>
+    <!------------- End: Processing Div---------------------------------------->
 </apex:page>

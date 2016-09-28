@@ -29,6 +29,10 @@
         <name>Active__c</name>
     </fields>
     <fields>
+        <label><!-- Balance Discrepancy --></label>
+        <name>Balance_Discrepancy__c</name>
+    </fields>
+    <fields>
         <label><!-- Balance Mismatch --></label>
         <name>Balance_Mismatch__c</name>
     </fields>
@@ -41,7 +45,7 @@
         <name>Charge_Group_External_ID__c</name>
     </fields>
     <fields>
-        <label><!-- Sirono ID --></label>
+        <label><!-- ID --></label>
         <name>Charge_Group_ID__c</name>
     </fields>
     <fields>
@@ -64,7 +68,7 @@
     <fields>
         <label><!-- Guarantor --></label>
         <name>Guarantor_Name__c</name>
-        <relationshipLabel><!-- Charge Group (Guarantor) --></relationshipLabel>
+        <relationshipLabel><!-- Charge Groups (Guarantor) --></relationshipLabel>
     </fields>
     <fields>
         <label><!-- Has Bad Debt Balance --></label>
@@ -85,6 +89,10 @@
     <fields>
         <label><!-- Has Overdue Balance --></label>
         <name>Has_Overdue_Balance__c</name>
+    </fields>
+    <fields>
+        <label><!-- Has Payment Plan Balance --></label>
+        <name>Has_Payment_Plan_Balance__c</name>
     </fields>
     <fields>
         <label><!-- Has Pre-Invoiced Balance --></label>

@@ -1,5 +1,26 @@
+/*
+* @author: Sirono
+* @version 1.0.1
+* @Date: 05-25-2016
+* @description  ChargeGroupTrigger Handler Clas  
+*/
 public with sharing class ChargeGroupTriggerHandler {
+    private static Boolean isTriggerProcessed;
 
+    //Static Method that returns a boolean member variable
+    public static Boolean getIsTriggerProcessed() {
+        if (isTriggerProcessed == null) {
+            isTriggerProcessed = false;
+        }
+        return isTriggerProcessed;
+    }
+
+    //Static Method that sets a boolean member variable
+    public static void setIsTriggerProcessed(Boolean flag) {
+        isTriggerProcessed = flag;
+    }
+
+    //Static Method that gets invoked after an insert event on Charge_Group__c records
     public static void afterInsert(List<Charge_Group__c> newList) {
         Set<Id> planIds = new Set<Id>();
 
@@ -15,6 +36,7 @@ public with sharing class ChargeGroupTriggerHandler {
         }
     }
 
+    //Static Method that gets invoked after an update event on Charge_Group__c records
     public static void afterUpdate(List<Charge_Group__c> newList, Map<Id, Charge_Group__c> oldMap) {
 
         //CODE FOR CALL LIST - REMOVE
@@ -47,6 +69,7 @@ public with sharing class ChargeGroupTriggerHandler {
         }
     }
 
+    //Static Method that gets invoked after a delete event on Charge_Group__c records
     public static void afterDelete(List<Charge_Group__c> oldList) {
         Set<ID> paymentPlanIds = new Set<ID>();
 

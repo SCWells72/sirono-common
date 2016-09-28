@@ -21,10 +21,6 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -57,6 +53,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <fields>
         <fullName>Active__c</fullName>
         <defaultValue>false</defaultValue>
@@ -229,7 +226,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         DATE(YEAR(Today()), MONTH(Today()), 1)))) + Execute_on_Day__c + 20),
   Skip_Payment_Until__c)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Next Payment Date</label>
+        <label>Next Payment Date_old</label>
         <required>false</required>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -327,7 +324,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
     <fields>
         <fullName>Sirono_ID__c</fullName>
         <externalId>true</externalId>
-        <label>Sirono ID</label>
+        <label>ID</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -347,18 +344,6 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
-    </fields>
-    <fields>
-        <fullName>Status__c</fullName>
-        <externalId>false</externalId>
-        <label>Status</label>
-        <length>10</length>
-        <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Time_to_Delinquency__c</fullName>
@@ -407,6 +392,11 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <searchFilterFields>Guarantor_Name__c</searchFilterFields>
         <searchFilterFields>Plan_Type__c</searchFilterFields>
         <searchFilterFields>Plan_Value__c</searchFilterFields>
+        <searchResultsAdditionalFields>Guarantor_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Active__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Plan_Type__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Execute_on_Day__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Next_Payment_Date__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Plan_Value__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>

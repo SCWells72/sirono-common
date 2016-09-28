@@ -12,12 +12,27 @@
         <fullName>Internal Case</fullName>
         <active>true</active>
         <ruleEntry>
+            <assignedTo>Cloud_CoOp_Case_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Internal Case</value>
+            </criteriaItems>
+            <template>unfiled$public/Internal_Case_Creation</template>
+        </ruleEntry>
+        <ruleEntry>
             <assignedTo>Hospital_Staff</assignedTo>
             <assignedToType>Queue</assignedToType>
             <criteriaItems>
                 <field>Case.RecordTypeId</field>
                 <operation>equals</operation>
                 <value>Payor</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Status</field>
+                <operation>notEqual</operation>
+                <value>Resolved,Closed</value>
             </criteriaItems>
         </ruleEntry>
         <ruleEntry>
@@ -28,6 +43,11 @@
                 <operation>equals</operation>
                 <value>Billing</value>
             </criteriaItems>
+            <criteriaItems>
+                <field>Case.Status</field>
+                <operation>notEqual</operation>
+                <value>Resolved,Closed</value>
+            </criteriaItems>
         </ruleEntry>
         <ruleEntry>
             <assignedTo>Quality_of_Care</assignedTo>
@@ -36,6 +56,11 @@
                 <field>Case.RecordTypeId</field>
                 <operation>equals</operation>
                 <value>Quality of Care</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Status</field>
+                <operation>notEqual</operation>
+                <value>Resolved,Closed</value>
             </criteriaItems>
         </ruleEntry>
         <ruleEntry>
@@ -46,8 +71,12 @@
                 <operation>equals</operation>
                 <value>Sirono Review</value>
             </criteriaItems>
+            <criteriaItems>
+                <field>Case.Status</field>
+                <operation>notEqual</operation>
+                <value>Resolved,Closed</value>
+            </criteriaItems>
         </ruleEntry>
-        <ruleEntry/>
     </assignmentRule>
     <assignmentRule>
         <fullName>Outbound Case Assignment</fullName>

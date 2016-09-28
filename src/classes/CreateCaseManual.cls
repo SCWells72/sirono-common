@@ -1,20 +1,32 @@
+/*
+* @author Sirono
+* @version 1.0.1
+* @Date: 08-05-2016
+* @description Create a Manual case based on the conditions*
+*
+* 08-05-2016: Sirono - Tracker # 127400857 For Manual Case Creation
+*/
+
+
 public with sharing class CreateCaseManual {
-    public String guarantorRecordId {get; set;}
-    public Boolean chargeGroupsSelected {get; set;}
+    public String guarantorRecordId { get; set; }
+    public Boolean chargeGroupsSelected { get; set; }
+    public String guarantorId { get; set; }
+    public String guarantorName { get; set; }
+    public String chargeGroupId { get; set; }
+    public List<ChargeGroupWrapper> chrageGroupList { get; set; }
+    public Case caseObj { get; set; }
+    public String caseType { get; set; }
+    public Boolean caseTypeSelected { get; set; }
+    public Contact gc { get; set; }
+    public String caseNotes { get; set; }
+    public Contact guarantorContact { get; set; }
+    public Contact patientContact { get; set; }
+    private Charge_Group__c chargeGroup = new Charge_Group__c();
 
-    public String guarantorId {get; set;}
-    public String guarantorName {get; set;}
-    public String chargegroupId {get; set;}
-    public List<ChargeGroupWrapper> chrageGroupList {get; set;}
-
-    public Case caseObj {get; set;}
-    public String caseType {get; set;}
-    public Boolean caseTypeSelected {get; set;}
-    public Contact gc {get; set;}
-    public String caseNotes {get; set;}
-    Public Contact guarantorContact {get; set;}
-    Public Contact patientContact {get; set;}
-    Private Charge_Group__c ChargeGroup = new Charge_Group__c();
+    /*
+     * Constructor to get the guarantor and charge group details.
+    */
     public CreateCaseManual(ApexPages.StandardController sc) {
         chargeGroupsSelected = false;
         chrageGroupList = new List<ChargeGroupWrapper>();
@@ -24,6 +36,7 @@ public with sharing class CreateCaseManual {
         patientContact = new contact();
         guarantorContact = new contact();
         guarantorRecordId = sc.getId();
+
         if (Apexpages.currentPage().getParameters().containsKey('guarantorId')) {
             guarantorRecordId = Apexpages.currentPage().getParameters().get('guarantorId');
         }
@@ -31,10 +44,10 @@ public with sharing class CreateCaseManual {
             Contact objContact = PayStaffWSUtill.fetchContact(guarantorRecordId);
             if (objContact != null) {
                 if (objContact.RecordType.DeveloperName == 'Guarantor') {
-                    gc = PayStaffWSUtill.fetchGuarantorContactWithCGConstraints(guarantorRecordId);
+                    gc = PayStaffWSUtill.fetchGuarantorContactWithCGConstraintsForCase(guarantorRecordId);
                     guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
                 } else if (objContact.RecordType.DeveloperName == 'Patient') {
-                    gc = PayStaffWSUtill.fetchPatientContactWithCGConstraints(guarantorRecordId);
+                    gc = PayStaffWSUtill.fetchPatientContactWithCGConstraintsForCase(guarantorRecordId);
                     guarantorId = PayStaffWSUtill.fetchPatientId(gc);
                 }
             }
@@ -44,14 +57,17 @@ public with sharing class CreateCaseManual {
             caseObj.ContactId = gc.Id;
 
             for (ChargeGroupWrapper cgw : PayStaffWSUtill.fetchChargeGroupList(gc, objContact.RecordType.DeveloperName)) {
-                if (cgw.cg.Active__c && cgw.cg.Reported_Selfpay_Balance__c != 0) {
+                if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
                     chrageGroupList.add(cgw);
                 }
             }
-            chargegroupId = '';
+            chargeGroupId = '';
         }
     }
 
+    /*
+    * Cancel the case creation and back to the guarantor record.
+    */
     public Pagereference cancel() {
         Pagereference pg = null;
         if (!isEmpty(guarantorRecordId)) {
@@ -63,12 +79,16 @@ public with sharing class CreateCaseManual {
         return pg;
     }
 
+    /*
+    * check charge group is selected or not and show the guarantor details.
+    */
     public Pagereference doNext() {
         chargeGroupsSelected = false;
-        //validate to see if user have selected Case Type
-        chargegroupId = PayStaffWSUtill.fetchChargeGroupIds(chrageGroupList);
 
-        if (!isEmpty(chargegroupId)) {
+        //validate to see if user have selected Case Type
+        chargeGroupId = PayStaffWSUtill.fetchChargeGroupIds(chrageGroupList);
+
+        if (!isEmpty(chargeGroupId)) {
             chargeGroupsSelected = true;
         } else {
             ApexPages.Message myMsg = new ApexPages.Message(ApexPages.Severity.ERROR, label.Charge_Groups_Require);
@@ -77,21 +97,23 @@ public with sharing class CreateCaseManual {
         return null;
     }
 
+    //get the case record type
     private String getCaseRecordTypeId(String rtName) {
         Schema.DescribeSObjectResult optySobj = Schema.SObjectType.Case;
         Map<String, Schema.RecordTypeInfo> rtMapByName = optySobj.getRecordTypeInfosByName();
         return rtMapByName.get(rtName).getRecordTypeId();
     }
 
+    //check pass string is empty or not
     private Boolean isEmpty(String str) {
         return (str == null || str.trim().equals(''));
     }
 
+    //get the Patient and Guarantor information
     public void gotoCaseCreation() {
         if (String.isNotBlank(caseType)) {
             caseTypeSelected = true;
             caseObj.RecordTypeId = getCaseRecordTypeId(caseType);
-
 
             //Check Charge Group is Selected
             if (caseType != 'General') {
@@ -100,32 +122,35 @@ public with sharing class CreateCaseManual {
                 chargeGroupsSelected = true;
             }
 
-
             Set<String> setChargeGroupId = new Set<String>();
             for (ChargeGroupWrapper cg : chrageGroupList) {
                 if (cg.isSelected) {
                     setChargeGroupId.add(cg.cg.id);
                 }
             }
-            List<Charge_Group__c> lstChargeGroup = [Select id, Guarantor_Name__c, Patient_Name__c from Charge_Group__c where Id in :setChargeGroupId order by CreatedDate desc];
+            List<Charge_Group__c> lstChargeGroup = [
+                    Select id, Guarantor_Name__c, Patient_Name__c
+                    From Charge_Group__c
+                    Where Id in :setChargeGroupId
+                    order by CreatedDate desc
+            ];
             if (lstChargeGroup.size() > 0) {
-                ChargeGroup = lstChargeGroup[0];
+                chargeGroup = lstChargeGroup[0];
             }
 
             if (gc.RecordType.DeveloperName == 'Patient') {
                 caseObj.Patient__c = gc.id;
-                if (ChargeGroup != null) {
-                    caseObj.Guarantor_Information__c = ChargeGroup.Guarantor_Name__c;
+                if (chargeGroup != null) {
+                    caseObj.Guarantor_Information__c = chargeGroup.Guarantor_Name__c;
                 }
                 guarantorContact = PayStaffWSUtill.fetchContact(caseObj.Guarantor_Information__c);
                 patientContact = gc;
             } else if (gc.RecordType.DeveloperName == 'Guarantor') {
                 caseObj.Guarantor_Information__c = gc.id;
-                if (ChargeGroup != null) {
-                    caseObj.Patient__c = ChargeGroup.Patient_Name__c;
+                if (chargeGroup != null) {
+                    caseObj.Patient__c = chargeGroup.Patient_Name__c;
                 }
                 patientContact = PayStaffWSUtill.fetchContact(caseObj.Patient__c);
-
                 guarantorContact = gc;
             }
 
@@ -133,18 +158,25 @@ public with sharing class CreateCaseManual {
             ApexPages.Message myMsg = new ApexPages.Message(ApexPages.Severity.ERROR, label.Case_Type_Require);
             ApexPages.addMessage(myMsg);
         }
-
     }
 
+    //Create a new case
     public PageReference submit() {
         try {
+
             //Creating the DMLOptions for "Assign using active assignment rules" checkbox
             if (guarantorContact != null) {
                 caseObj.ContactID = guarantorContact.id;
             }
             caseObj.Subject = caseObj.Reason;
-            AssignmentRule AR = new AssignmentRule();
-            AR = [select id from AssignmentRule where SobjectType = 'Case' and Active = true limit 1];
+            AssignmentRule ar = new AssignmentRule();
+            ar = [
+                    Select id
+                    From AssignmentRule
+                    Where SobjectType = 'Case' and Active = true
+                    limit 1
+            ];
+
             Database.DMLOptions dmlOpts = new Database.DMLOptions();
             dmlOpts.assignmentRuleHeader.assignmentRuleId = AR.id;
             caseObj.setOptions(dmlOpts);
@@ -169,7 +201,12 @@ public with sharing class CreateCaseManual {
                 }
             }
             upsert caseCGs;
-            return cancel();
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'Created Successfully!'));
+            if (test.isRunningTest()) {
+
+                TestUtility.generateException();
+            }
+
         } catch (Exception e) {
             // Debug error response
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'ERROR: ' + e.getMessage()));
@@ -177,4 +214,17 @@ public with sharing class CreateCaseManual {
         return null;
     }
 
+    public void refresh() {
+        if (Apexpages.currentPage().getParameters().containsKey('reason')) {
+            caseObj.Reason = Apexpages.currentPage().getParameters().get('reason');
+        }
+    }
+    
+    /*public PageReference redirect(){
+
+      //Write your logic here and redirect
+      PageReference retURL = new PageReference('/' + guarantorRecordId);
+      retURL.setRedirect(true);
+      return retURL;
+     }*/
 }

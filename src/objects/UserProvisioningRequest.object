@@ -24,6 +24,13 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>ParentId</fullName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>RetryCount</fullName>
+    </fields>
+    <fields>
         <fullName>SalesforceUserId</fullName>
         <type>Lookup</type>
     </fields>

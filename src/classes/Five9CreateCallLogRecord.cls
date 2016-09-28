@@ -1,27 +1,33 @@
+/*
+* @author Sirono
+* @version 1.0.1
+* @Date: 06-14-2016
+*/
 public without sharing class Five9CreateCallLogRecord {
 
     public String five9ANI {get; set;}
     public String five9DNIS {get; set;}
     public String salesforceId {get; set;}
     public String callDisposition {get; set;}
-    public String five9Session_id {get; set;}
-    public String end_timestamp {get; set;}
-    public String call_type_name {get; set;}
-    public String campaign_name {get; set;}
-    public String start_timestamp {get; set;}
-    public String full_name {get; set;}
+    public String five9SessionId {get; set;}
+    public String endTimestamp {get; set;}
+    public String callTypeName {get; set;}
+    public String campaignName {get; set;}
+    public String startTimestamp {get; set;}
+    public String fullName {get; set;}
 
+    //constructor initializing member variables
     public Five9CreateCallLogRecord() {
         five9ANI = null;
         five9DNIS = null;
         salesforceId = null;
         callDisposition = null;
-        five9Session_id = null;
-        end_timestamp = null;
-        call_type_name = null;
-        campaign_name = null;
-        start_timestamp = null;
-        full_name = null;
+        five9SessionId = null;
+        endTimestamp = null;
+        callTypeName = null;
+        campaignName = null;
+        startTimestamp = null;
+        fullName = null;
 
         if (Apexpages.currentPage().getParameters().containsKey('Five9_ANI')) {
             five9ANI = Apexpages.currentPage().getParameters().get('Five9_ANI');
@@ -36,25 +42,26 @@ public without sharing class Five9CreateCallLogRecord {
             callDisposition = Apexpages.currentPage().getParameters().get('Call_disposition');
         }
         if (Apexpages.currentPage().getParameters().containsKey('session_id')) {
-            five9Session_id = Apexpages.currentPage().getParameters().get('session_id');
+            five9SessionId = Apexpages.currentPage().getParameters().get('session_id');
         }
-        if (Apexpages.currentPage().getParameters().containsKey('end_timestamp')) {
-            end_timestamp = Apexpages.currentPage().getParameters().get('end_timestamp');
+        if (Apexpages.currentPage().getParameters().containsKey('endTimestamp')) {
+            endTimestamp = Apexpages.currentPage().getParameters().get('endTimestamp');
         }
-        if (Apexpages.currentPage().getParameters().containsKey('call_type_name')) {
-            call_type_name = Apexpages.currentPage().getParameters().get('call_type_name');
+        if (Apexpages.currentPage().getParameters().containsKey('callTypeName')) {
+            callTypeName = Apexpages.currentPage().getParameters().get('callTypeName');
         }
-        if (Apexpages.currentPage().getParameters().containsKey('campaign_name')) {
-            campaign_name = Apexpages.currentPage().getParameters().get('campaign_name');
+        if (Apexpages.currentPage().getParameters().containsKey('campaignName')) {
+            campaignName = Apexpages.currentPage().getParameters().get('campaignName');
         }
-        if (Apexpages.currentPage().getParameters().containsKey('start_timestamp')) {
-            start_timestamp = Apexpages.currentPage().getParameters().get('start_timestamp');
+        if (Apexpages.currentPage().getParameters().containsKey('startTimestamp')) {
+            startTimestamp = Apexpages.currentPage().getParameters().get('startTimestamp');
         }
-        if (Apexpages.currentPage().getParameters().containsKey('full_name')) {
-            full_name = Apexpages.currentPage().getParameters().get('full_name');
+        if (Apexpages.currentPage().getParameters().containsKey('fullName')) {
+            fullName = Apexpages.currentPage().getParameters().get('fullName');
         }
     }
 
+    //Controller Method that creates a task 
     public Pagereference doAction() {
         try {
             System.debug('======================= salesforceId: ' + salesforceId);
@@ -67,18 +74,21 @@ public without sharing class Five9CreateCallLogRecord {
                     t.Five9__Five9DNIS__c = five9DNIS;
                     t.whoId = salesforceId;
                     t.CallDisposition = callDisposition;
-                    t.Five9__Five9SessionId__c = five9Session_id;
-                    //t.Call_End_Time__c = end_timestamp;
-                    t.Five9__Five9CallType__c = call_type_name;
-                    t.Five9__Five9Campaign__c = campaign_name;
-                    //t.Call_Start_Time__c = start_timestamp;
-                    t.Five9__Five9AgentName__c = full_name;
+                    t.Five9__Five9SessionId__c = five9SessionId;
+                    //t.Call_End_Time__c = endTimestamp;
+                    t.Five9__Five9CallType__c = callTypeName;
+                    t.Five9__Five9Campaign__c = campaignName;
+                    //t.Call_Start_Time__c = startTimestamp;
+                    t.Five9__Five9AgentName__c = fullName;
                     t.ActivityDate = Date.today();
                     t.status = 'Completed';
                     insert t;
                     System.debug('======================= t: ' + t);
                 } else {
                     ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'Salesforce Id must be of Contact Type'));
+                    if (Test.IsRunningTest()) {
+                        TestUtility.generateException();
+                    }
                 }
             }
         } catch (Exception e) {
