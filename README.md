@@ -7,8 +7,8 @@ can familiarize yourself with using git/github from the command line [here](http
 
 Create a directory for the repo:  
 ```
-mkdir Development Development/sirono-salesforce
-cd Development/sirono-salesforce
+mkdir Development 
+cd Development
 ```
 If you're not using SSH keys and wish to cache your password locally:  
 `git clone https://github.com/blueprinthealth/sirono-salesforce.git`
