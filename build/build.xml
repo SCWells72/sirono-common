@@ -1,4 +1,4 @@
-<project name="Retrieve and Deploy SFDC metadata" default="deployEmptyCheckOnly"
+<project name="Retrieve and Deploy SFDC metadata" default="deployCheckOnly"
          basedir=".." xmlns:sf="antlib:com.salesforce">
 
     <taskdef uri="antlib:com.salesforce"
@@ -10,7 +10,7 @@
     <property name="retrieve_target" value="${basedir}/sf_temp"/>
 
     <!-- Setting default value for username & password properties to empty string
-         so unset values are treated as empty. Without this, ant expressions such as ${sf.username}
+         so unset values are treated as empty. Without this, ant expressions such as ${sf.blah.username}
          will be treated literally.
     -->
     <condition property="sf.target.username" value="">
@@ -59,7 +59,7 @@
                 logType="Debugonly"/>
     </target>
 
-    <target name="undeployCode">
+    <target name="undeployCode" depends="echo_environment">
         <echo level="info">Remove metadata from: ${sf.target.username}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -84,7 +84,8 @@
                 checkOnly="true"/>
     </target>
 
-    <target name="test_environment">
+    <target name="echo_environment">
         <echoproperties prefix="sf."/>
+        <echoproperties prefix="env."/>
     </target>
 </project>
