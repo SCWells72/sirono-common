@@ -157,7 +157,7 @@ private class DeletePaymentPlanTest {
         paymentPlan.Sirono_ID__c = 2876;
         insert paymentPlan;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1321212);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id,null,1321212);
         chargeGroup.Account_Sub_Status__c = 'Payment Plan';
         insert chargeGroup;
 
