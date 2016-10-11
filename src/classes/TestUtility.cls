@@ -42,7 +42,8 @@ Public Class TestUtility {
         Contact guarantorContact = new Contact();
         guarantorContact.RecordTypeId = RecordTypeUtil.guarantorRt;
         guarantorContact.LastName = 'G Test';
-        guarantorContact.Profile_Pointer_Id__c = 12345;
+	Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1000));
+        guarantorContact.Profile_Pointer_Id__c = Decimal.valueOf(randomInt);
         guarantorContact.HomePhone = '111';
         guarantorContact.MobilePhone = '111';
         return guarantorContact;
@@ -53,7 +54,8 @@ Public Class TestUtility {
         Contact patientContact = new Contact();
         patientContact.RecordTypeId = RecordTypeUtil.patientRt;
         patientContact.LastName = 'G Test';
-        patientContact.Profile_Pointer_Id__c = 123455;
+	Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1000));
+        patientContact.Profile_Pointer_Id__c = Decimal.valueOf(randomInt);
         patientContact.HomePhone = '111';
         patientContact.MobilePhone = '111';
         return patientContact;
@@ -66,7 +68,9 @@ Public Class TestUtility {
             string paymentplanID) {
         Charge_Group__c chargeGroup = new Charge_Group__c();
         chargeGroup.Guarantor_Name__c = guarantorContactId;
-        chargeGroup.Charge_Group_ID__c = chargeGroupExternalId;
+        //Ignore the external Id passed in the method parameter and set the dynamic value
+        Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1212));
+        chargeGroup.Charge_Group_ID__c = Decimal.valueOf(randomInt);
         chargeGroup.Patient_Name__c = patientContactId;
         chargeGroup.Charge_Group_External_ID__c = true;
         //chargeGroup.Balance__c = -100; //can't set amount now that balance is a rollup
@@ -82,7 +86,7 @@ Public Class TestUtility {
     }
 
     // Return charge group record
-    Public Static Charge_Group__c generateChargeGroup(String guarantorContactId,
+    Public Static Charge_Group__c  generateChargeGroupWithExternalId(String guarantorContactId,
             String patientContactId,
             Decimal chargeGroupExternalId) {
         Charge_Group__c cg = new Charge_Group__c();
@@ -100,7 +104,29 @@ Public Class TestUtility {
 
         return cg;
     }
+    
+    // Return charge group record with external Id from parameter
+    Public Static Charge_Group__c  generateChargeGroup(String guarantorContactId,
+                                                        String patientContactId,
+                                                        Decimal chargeGroupExternalId) {
+        Charge_Group__c cg = new Charge_Group__c();
+        cg.Guarantor_Name__c = guarantorContactId;
+        //Ignore the external Id passed in the method parameter and set the dynamic value
+        Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1212));
+        cg.Charge_Group_ID__c = Decimal.valueOf(randomInt);
+        cg.Patient_Name__c = patientContactId;
+        cg.Charge_Group_External_ID__c = true;
+        //cg.Balance__c = -100; //can't set amount now that balance is a rollup
+        cg.Reported_Selfpay_Balance__c = 10;
+        cg.Account_Status__c = 'Billed';
+        cg.Account_Sub_Status__c= 'Overdue';
+        cg.Active__c = true;
+        cg.Account_Status__c = 'Billed';
+        cg.Account_Sub_Status__c = 'Preinvoiced';        
 
+        return cg;
+    }
+    
     // Return transaction record
     public static Transaction__c generateTransaction(Charge_Group__c chargeGroup,
             Decimal amount,
@@ -176,7 +202,8 @@ Public Class TestUtility {
         invoice.Guarantor_Name__c = guarantorId;
         invoice.Due_Date__c = System.today();
         invoice.Invoice_Date__c = System.today();
-        invoice.Invoice_ID__c = 123;
+        Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1313));
+        invoice.Invoice_ID__c = Decimal.valueOf(randomInt);
         invoice.Patient__c = patientId;
         return invoice;
     }

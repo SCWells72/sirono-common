@@ -10,42 +10,60 @@
 
 @isTest
 private class ProcessPaymentTest {
-
-    static testMethod void myUnitTest() {
+    
+    /*Coverage the code for the Init the Global Veriables,Constructor, Call expYearOptions,expMonthOptions method,
+     * doNext Method,Submit Method,checkAmountValidation Method and checkCardValidation Method
+     */ 
+    static testMethod void submitElse() {
         TestUtility objTestUtility = new TestUtility();
-
+        
+        //Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
+        //Create Patient Contact record.
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
+        //Create Payment Plan record.
         test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
+        //Create object of ProcessPayment and call the Process Payment constructor & submit method.
         ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         List<SelectOption> expYearOptions = objProcessPayment.expYearOptions;
         List<SelectOption> expMonthOptions = objProcessPayment.expMonthOptions;
         objProcessPayment.submit();
-
-        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+        
+        //Create Invoice record.
+        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);       
         insert invoice;
-
+        
+        //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Invoice__c = invoice.id;
         insert chargeGroup;
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
         chargeGroup.Invoice__c = invoice.id;
         insert chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
+        
+        //Create Transaction record.
+        Transaction__c  objTransaction = TestUtility.generateTransaction(chargeGroup,100,'Automatic');
         insert objTransaction;
-
+        
+        //Call Process Payment constructor with Selected charge group records and also call doNext, submit methods.
         objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         for (ChargeGroupWrapper objChargeGroupWrapper : objProcessPayment.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
+        
+        /* Call doNext method.
+         * check any chargegroup is selected or not.
+         * We select all charge groups in above so this method is run successfully and will proceed next step. 
+         */ 
         objProcessPayment.doNext();
+        
+        //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '123';
         objProcessPayment.cardholderName = '123';
         objProcessPayment.expirationYear = '123';
@@ -56,187 +74,207 @@ private class ProcessPaymentTest {
         objProcessPayment.city = '123';
         objProcessPayment.state = '123';
         objProcessPayment.zip = '123';
+        
+        /* Call Submit method and It will give an error "Amount cannot exceed balance."
+         * It will cover code coverage of Else part in submit method.
+         */
         objProcessPayment.submit();
+        
+        //Check System Assert.        
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(6, msgList.size());
+        boolean isError = false;
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount cannot exceed balance.')) isError  = true;
+        }
+        System.assertEquals(isError,true);
     }
 
-    /*
+     /*
      * 08-19-2016: Sirono - Tracker # 127324171
      * Improve the code coverage
-     */
-    static testMethod void myCheckValidationTest() {
+     *
+     * Coverage the code for the Init the Global Veriables,Call DoNext method,
+     * Submit Method,checkAmountValidation Method and checkCardValidation Method.
+     */     
+    static testMethod void checkCardValidation() {
         TestUtility objTestUtility = new TestUtility();
-
+        
+        //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_Id__c = 123;
-        insert guarantorContact;
+        insert guarantorContact;        
 
+        //Create Patient Contact record.
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
+        //Create Payment Plan record.
         test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
+        //Call Process Payment constructor and submit method.
         ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         objProcessPayment.submit();
 
-        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+        //Create Invoice record.
+        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);       
         insert invoice;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
+        //Create Charge Group records.
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Invoice__c = invoice.id;
         insert chargeGroup;
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
+        chargeGroup= TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id, patientContact.Id, 124);
         chargeGroup.Invoice__c = invoice.id;
         insert chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
+        
+        //Create Transaction record.
+        Transaction__c  objTransaction = TestUtility.generateTransaction(chargeGroup,100,'Automatic');
         insert objTransaction;
 
+        //Call Process Payment constructor with Selected charge group records and also call doNext, submit methods.
         objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         for (ChargeGroupWrapper objChargeGroupWrapper : objProcessPayment.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
+        
+        /* Call doNext method.
+         * check any chargegroup is selected or not.
+         * We select all charge groups in above so this method is run successfully and will proceed next step. 
+         */
         objProcessPayment.doNext();
+        
+        //Set variables based on test criteria to cover code of creadit card validations.
         objProcessPayment.creditCardNumber = '';
         objProcessPayment.expirationYear = '2016';
         objProcessPayment.expirationMonth = '07';
-        objProcessPayment.zip = '07';
-
+        
+        /* Call Submit method and It will give an errors regarding creadit card.
+         * It will cover code coverage of Creadit card validation.
+         */
         objProcessPayment.submit();
+        
+        //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(10, msgList.size());
+        boolean isError = false;
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Credit card number must be 12-19 digits.')) isError  = true;
+        }
+        System.assertEquals(isError,true);
     }
     
-    /*
+     /*
      * 08-19-2016: Sirono - Tracker # 127324171
      * Improve the code coverage
-     */
-    static testMethod void myCheckAmountValidationTest() {
+     *
+     * Coverage the code for the Init the Global Veriables,Call DoNext method,
+     * Submit Method,checkAmountValidation Method and checkCardValidation Method
+     */        
+    static testMethod void checkAmountEmpty() {
         TestUtility objTestUtility = new TestUtility();
-
+        
+        //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_Id__c = 123;
         insert guarantorContact;
 
+        //Create Patient Contact record.
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
+        //Create Payment Plan record.
         test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
+        //Call Process Payment constructor and submit method.
         ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         objProcessPayment.submit();
 
-        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+        //Create Invoice record.
+        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);       
         insert invoice;
 
+        //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Invoice__c = invoice.id;
         insert chargeGroup;
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
         chargeGroup.Invoice__c = invoice.id;
         insert chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
+        
+        //Create Transaction record.
+        Transaction__c  objTransaction = TestUtility.generateTransaction(chargeGroup,100,'Automatic');
         insert objTransaction;
 
+        //Call Process Payment constructor with Selected charge group records.
         objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         for (ChargeGroupWrapper objChargeGroupWrapper : objProcessPayment.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
+        
+        //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
         objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
         objProcessPayment.expirationMonth = '07';
-        objProcessPayment.creditCardNumber = '1234567891113';
+        objProcessPayment.creditCardNumber= '1234567891113';
         objProcessPayment.zip = 'avcsc';
-        objProcessPayment.cvv = '07897';
+        objProcessPayment.cvv= '07897';
         objProcessPayment.cardHolderName = 'test';
 
+        /* Call doNext method.
+         * check any chargegroup is selected or not.
+         * We select all charge groups in above so this method is run successfully and will proceed next step. 
+         */
         objProcessPayment.doNext();
+        
+        /* Call Submit method and It will give an error "Amount must be greater than zero."
+         * It will cover code coverage of checkAmountValidation method.
+         */
         objProcessPayment.submit();
+        
+        //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(6, msgList.size());
+        boolean isError = false;
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount must be greater than zero.')) isError  = true;
+        }
+        System.assertEquals(isError,true);
     }
     
-    /*
-     * 09-05-2016: Sirono - Tracker # 127324171
-     * Improve the code coverage
-     */
-    static testMethod void myCheckAmountValidationTest4() {
-        TestUtility objTestUtility = new TestUtility();
+     
 
-        Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 123;
-        insert guarantorContact;
-
-        Contact patientContact = TestUtility.generatePatientContact();
-        insert patientContact;
-
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        insert paymentPlan;
-
-        ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
-
-        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
-        insert invoice;
-
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Invoice__c = invoice.id;
-        chargeGroup.Reported_Selfpay_Balance__c = 10;
-        insert chargeGroup;
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Invoice__c = invoice.id;
-        chargeGroup.Reported_Selfpay_Balance__c = 10;
-        insert chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
-        insert objTransaction;
-
-        objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
-        for (ChargeGroupWrapper objChargeGroupWrapper : objProcessPayment.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
-        }
-        objProcessPayment.creditCardNumber = '';
-        objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
-        objProcessPayment.expirationMonth = '07';
-        objProcessPayment.creditCardNumber = '1234567891113';
-        objProcessPayment.cardHolderName = '1234567891113';
-        objProcessPayment.amount = '0';
-        objProcessPayment.cvv = 'test';
-        objProcessPayment.state = 'test';
-        objProcessPayment.address = 'test';
-        objProcessPayment.city = 'test';
-
-        objProcessPayment.doNext();
-        objProcessPayment.submit();
-        List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(3, msgList.size());
-    }
-
-    /*
+     /*
      * 08-19-2016: Sirono - Tracker # 127324171
      * Improve the code coverage
+     *
+     * Coverage the code for the Init the Global Veriables,Submit Method,doNext Method,
+     * checkAmountValidation Method, checkCardValidation Method
      */
-    static testMethod void myCheckAmountValidationTest1() {
+    static testMethod void fillNameAndAddress() {
         TestUtility objTestUtility = new TestUtility();
-
+        
+        //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_Id__c = 123;
-        insert guarantorContact;
+        insert guarantorContact;        
 
+        //Create Patient Contact record.
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
+        //Create Payment Plan record.
         test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
+        //Create object of ProcessPayment and call the Process Payment constructor & fillNameAndAddress method.
         ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         objProcessPayment.fillNameAndAddress();
-        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+        
+        //Create Invoice record.
+        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);       
         insert invoice;
-
+        
+        //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
@@ -245,19 +283,23 @@ private class ProcessPaymentTest {
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
+        
+        //Create Transaction record.
+        Transaction__c  objTransaction = TestUtility.generateTransaction(chargeGroup,100,'Automatic');
         insert objTransaction;
 
+        //Call Process Payment constructor with Selected charge group records.
         objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         for (ChargeGroupWrapper objChargeGroupWrapper : objProcessPayment.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
+        
+        //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
         objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
         objProcessPayment.expirationMonth = '07';
-        objProcessPayment.creditCardNumber = '1234567891113';
-        objProcessPayment.cardHolderName = '1234567891113';
+        objProcessPayment.creditCardNumber= '1234567891113';
+        objProcessPayment.cardHolderName= '1234567891113';
         objProcessPayment.zip = '07897';
         objProcessPayment.amount = '0';
         objProcessPayment.cvv = 'test';
@@ -265,30 +307,51 @@ private class ProcessPaymentTest {
         objProcessPayment.address = 'test';
         objProcessPayment.city = 'test';
 
+        /* Call doNext method.
+         * check any chargegroup is selected or not.
+         * We select all charge groups in above so this method is run successfully and will proceed next step. 
+         */
         objProcessPayment.doNext();
+        
+        //Call Submit method and It will cover the code of fillNameAndAddress() method based on guarantor Id.
         objProcessPayment.submit();
+        
+        //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(2, msgList.size());
+        boolean isError = false;
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount must be greater than zero.')) isError  = true;
+        }
+        System.assertEquals(isError,true);
     }
-
-    static testMethod void myCheckAmountValidationTest3() {
+   
+    /* Coverage the code for the Init the Global Veriables,Submit Method,doNext Method,
+     * checkAmountValidation Method, checkCardValidation Method
+     */
+    static testMethod void checkExceedBalance() {
         TestUtility objTestUtility = new TestUtility();
-
+        
+        //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_Id__c = 123;
-        insert guarantorContact;
+        insert guarantorContact;        
 
+        //Create Patient Contact record.
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
+        //Create Payment Plan record.
         test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
+        //Call Process Payment constructor.
         ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
 
-        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+        //Create Invoice record.
+        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);       
         insert invoice;
-
+        
+        //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
@@ -297,116 +360,85 @@ private class ProcessPaymentTest {
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
+        
+        //Create Transaction record.
+        Transaction__c  objTransaction = TestUtility.generateTransaction(chargeGroup,100,'Automatic');
         insert objTransaction;
 
+        //Call Process Payment constructor with Selected charge group records.
         objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         for (ChargeGroupWrapper objChargeGroupWrapper : objProcessPayment.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
+        
+        //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
         objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
         objProcessPayment.expirationMonth = '07';
-        objProcessPayment.creditCardNumber = '1234567891113';
-        objProcessPayment.cardHolderName = '1234567891113';
+        objProcessPayment.creditCardNumber= '1234567891113';
+        objProcessPayment.cardHolderName= '1234567891113';
         objProcessPayment.zip = '07897';
         objProcessPayment.amount = '300';
         objProcessPayment.cvv = 'test';
         objProcessPayment.state = 'test';
         objProcessPayment.address = 'test';
         objProcessPayment.city = 'test';
-
+        
+        /* Call doNext method.
+         * check any chargegroup is selected or not.
+         * We select all charge groups in above so this method is run successfully and will proceed next step. 
+         */
         objProcessPayment.doNext();
-
+        
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
+        
+        /* Call Submit method and It will give an error "Amount cannot exceed balance."
+         * It will cover code coverage of checkAmountValidation method.
+         */
         objProcessPayment.submit();
+        
+        //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(2, msgList.size());
-        Test.stopTest();
-    }
-
-    static testMethod void myCheckAmountValidationTest5() {
-        TestUtility objTestUtility = new TestUtility();
-
-        Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 123;
-        insert guarantorContact;
-
-        Contact patientContact = TestUtility.generatePatientContact();
-        insert patientContact;
-
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        insert paymentPlan;
-
-        ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
-
-        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
-        insert invoice;
-
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Invoice__c = invoice.id;
-        chargeGroup.Reported_Selfpay_Balance__c = 10;
-        insert chargeGroup;
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Invoice__c = invoice.id;
-        chargeGroup.Reported_Selfpay_Balance__c = 10;
-        insert chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
-        insert objTransaction;
-
-        objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
-        for (ChargeGroupWrapper objChargeGroupWrapper : objProcessPayment.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        boolean isError = false;
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount cannot exceed balance')) isError  = true;
         }
-        objProcessPayment.creditCardNumber = '';
-        objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
-        objProcessPayment.expirationMonth = '07';
-        objProcessPayment.creditCardNumber = '1234567891113';
-        objProcessPayment.cardHolderName = '1234567891113';
-        objProcessPayment.zip = '07897';
-        objProcessPayment.amount = '0';
-        objProcessPayment.cvv = 'test';
-        objProcessPayment.state = 'test';
-        objProcessPayment.address = 'test';
-        objProcessPayment.city = 'test';
-
-        objProcessPayment.doNext();
-
-        Test.startTest();
-        TestUtility.status = 'CREATED';
-        TestUtility.statusCode = 201;
-        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objProcessPayment.submit();
-        List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(2, msgList.size());
+        System.assertEquals(isError,true);
         Test.stopTest();
     }
 
     /*
      * 08-19-2016: Sirono - Tracker # 127324171
      * Improve the code coverage
+     *
+     * Coverage the code for the Init the Global Veriables,Submit Method,doNext Method,
+     * checkAmountValidation Method, checkCardValidation Method
      */
-    static testMethod void myCheckAmountValidationTest2() {
+    static testMethod void checkAmountNegative() {
         TestUtility objTestUtility = new TestUtility();
-
+        
+        //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_Id__c = 123;
-        insert guarantorContact;
+        insert guarantorContact;        
 
+        //Create Patient Contact record.
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
+        //Create Payment Plan record.
         test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
+        //Call Process Payment constructor.
         ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
 
-        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+        //Create Invoice record.
+        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);       
         insert invoice;
 
+        //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
@@ -415,20 +447,24 @@ private class ProcessPaymentTest {
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
+        
+        //Create Transaction record.
+        Transaction__c  objTransaction = TestUtility.generateTransaction(chargeGroup,100,'Automatic');
         insert objTransaction;
 
+        //Call Process Payment constructor with Selected charge group records.
         objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         for (ChargeGroupWrapper objChargeGroupWrapper : objProcessPayment.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
+        
+        //Set variables based on criteria.
         objProcessPayment.guarantorRecordId = '';
         objProcessPayment.creditCardNumber = '';
         objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
         objProcessPayment.expirationMonth = '07';
-        objProcessPayment.creditCardNumber = '1234567891113';
-        objProcessPayment.cardHolderName = '1234567891113';
+        objProcessPayment.creditCardNumber= '1234567891113';
+        objProcessPayment.cardHolderName= '1234567891113';
         objProcessPayment.zip = '07897';
         objProcessPayment.amount = '-1';
         objProcessPayment.cvv = 'test';
@@ -436,30 +472,53 @@ private class ProcessPaymentTest {
         objProcessPayment.address = 'test';
         objProcessPayment.city = 'test';
 
+        /* Call doNext method.
+         * check any chargegroup is selected or not.
+         * We select all charge groups in above so this method is run successfully and will proceed next step. 
+         */
         objProcessPayment.doNext();
+        
+        /* Call Submit method and It will give an error "Amount must be greater than zero."
+         * It will cover code coverage of checkAmountValidation method.
+         */
         objProcessPayment.submit();
+        
+        //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(2, msgList.size());
+        boolean isError = false;
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount must be greater than zero.')) isError  = true;
+        }
+        System.assertEquals(isError,true);        
     }
-
-    static testMethod void myCheckAmountValidationTest6() {
+    
+    /* Coverage the code for the Init the Global Veriables,Submit Method,doNext Method,
+     * checkCardValidation Method,processPayment Method
+     */
+    static testMethod void submit() {
         TestUtility objTestUtility = new TestUtility();
-
+        
+        //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_Id__c = 123;
-        insert guarantorContact;
+        insert guarantorContact;        
 
+        //Create Patient Contact record.
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
+        //Create Payment Plan record.
         test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
+        //Call Process Payment constructor.
         ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
 
-        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+        //Create Invoice record.
+        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);       
         insert invoice;
-
+        
+        //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
@@ -468,19 +527,23 @@ private class ProcessPaymentTest {
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
+        
+        //Create Transaction record.
+        Transaction__c  objTransaction = TestUtility.generateTransaction(chargeGroup,100,'Automatic');
         insert objTransaction;
 
+        //Call Process Payment constructor with Selected charge group records.
         objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         for (ChargeGroupWrapper objChargeGroupWrapper : objProcessPayment.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
+        
+        //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
         objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
         objProcessPayment.expirationMonth = '07';
-        objProcessPayment.creditCardNumber = '1234567891113';
-        objProcessPayment.cardHolderName = '1234567891113';
+        objProcessPayment.creditCardNumber= '1234567891113';
+        objProcessPayment.cardHolderName= '1234567891113';
         objProcessPayment.zip = '07897';
         objProcessPayment.amount = '10';
         objProcessPayment.cvv = 'test';
@@ -488,37 +551,59 @@ private class ProcessPaymentTest {
         objProcessPayment.address = 'test';
         objProcessPayment.city = 'test';
 
+        /* Call doNext method.
+         * check any chargegroup is selected or not.
+         * We select all charge groups in above so this method is run successfully and will proceed next step. 
+         */
         objProcessPayment.doNext();
-
+              
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
+        
+        /* Call Submit method and It will successfully save the record.
+         * Set variables for call the Webservice.
+         * we get response message "Created Successfully!".
+         */
         objProcessPayment.submit();
+        
+        //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(2, msgList.size());
+        boolean isError = false;
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Created Successfully!')) isError  = true;
+        }
+        System.assertEquals(isError,true);
         Test.stopTest();
-
+         
     }
-
-    static testMethod void myCheckAmountValidationTest7() {
+    
+   /*Coverage the code for the Init the Global Veriables,checkCardValidation Method for chargeGroupId */ 
+  static testMethod void checkChargeGroupId() {
         TestUtility objTestUtility = new TestUtility();
-
+        
+        //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_Id__c = 123;
-        insert guarantorContact;
+        insert guarantorContact;        
 
+        //Create Patient Contact record.
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
+        //Create Payment Plan record.
         test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
+        //Call Process Payment constructor.
         ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
 
-        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+        //Create Invoice record.
+        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);       
         insert invoice;
-
+        
+        //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
@@ -527,47 +612,70 @@ private class ProcessPaymentTest {
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
+        
+        //Create Transaction record.
+        Transaction__c  objTransaction = TestUtility.generateTransaction(chargeGroup,100,'Automatic');
         insert objTransaction;
 
+        //Call Process Payment constructor with Selected charge group records.
         objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         for (ChargeGroupWrapper objChargeGroupWrapper : objProcessPayment.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
+        
+        //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
         objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
         objProcessPayment.expirationMonth = '07';
-        objProcessPayment.creditCardNumber = '1234567891113';
-        objProcessPayment.cardHolderName = '1234567891113';
+        objProcessPayment.creditCardNumber= '1234567891113';
+        objProcessPayment.cardHolderName= '1234567891113';
         objProcessPayment.zip = '77897';
         objProcessPayment.amount = '0';
         objProcessPayment.cvv = 'test';
         objProcessPayment.state = 'test';
         objProcessPayment.address = 'test';
         objProcessPayment.city = 'test';
+        
+        //Call checkCardValidation methods to validate the Charge Group.
         objProcessPayment.checkCardValidation();
-    }
-
-    //Unit Test for the response code.
-    static testMethod void CoverResponseCode() {
+        
+        //Check System Assert.
+        List<ApexPages.Message> msgList = ApexPages.getMessages();
+        boolean isError = false;
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Charge Group is a required field.')) isError  = true;
+        }
+        System.assertEquals(isError,true);
+  }
+  
+  /* Coverage the code for the Init the Global Veriables,Call DoNext method,
+   * Submit Method,checkAmountValidation Method and checkCardValidation Method,
+   * processPayment Method with get response
+   */
+  static testMethod void paymentException() {
         TestUtility objTestUtility = new TestUtility();
-
+        
+        //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_Id__c = 123;
-        insert guarantorContact;
+        insert guarantorContact;        
 
+        //Create Patient Contact record.
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
+        //Create Payment Plan record.
         test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
+        //Call Process Payment constructor.
         ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
 
-        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+        //Create Invoice record.
+        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);       
         insert invoice;
-
+        
+        //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
@@ -576,19 +684,23 @@ private class ProcessPaymentTest {
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
+        
+        //Create Transaction record.
+        Transaction__c  objTransaction = TestUtility.generateTransaction(chargeGroup,100,'Automatic');
         insert objTransaction;
 
+        //Call Process Payment constructor with Selected charge group records.
         objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         for (ChargeGroupWrapper objChargeGroupWrapper : objProcessPayment.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
+        
+        //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
         objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
         objProcessPayment.expirationMonth = '07';
-        objProcessPayment.creditCardNumber = '1234567891113';
-        objProcessPayment.cardHolderName = '1234567891113';
+        objProcessPayment.creditCardNumber= '1234567891113';
+        objProcessPayment.cardHolderName= '1234567891113';
         objProcessPayment.zip = '07897';
         objProcessPayment.amount = '10';
         objProcessPayment.cvv = 'test';
@@ -596,47 +708,64 @@ private class ProcessPaymentTest {
         objProcessPayment.address = 'test';
         objProcessPayment.city = 'test';
 
+        /* Call doNext method.
+         * check any chargegroup is selected or not.
+         * We select all charge groups in above so this method is run successfully and will proceed next step. 
+         */
         objProcessPayment.doNext();
-
+              
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 400;
         TestUtility.Errorbody = '{"kind":"Payments Exception","errors":{"non_field_errors":["Amount exceeds selected charge groups"]}}';
-
+        
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objProcessPayment.submit();
-
+        
+        /* Call Submit method and It will pass the record to web api.
+         * Set variables for call the Webservice.
+         * Generate Payments Exception throw web api.
+         */
+        objProcessPayment.submit(); 
+        
+        //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Amount exceeds selected charge groups')) isError = true;
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount exceeds selected charge groups')) isError  = true;
         }
-        System.assertEquals(isError, true);
-
+        System.assertEquals(isError,true); 
+        
         Test.stopTest();
-
     }
-
-
-    //Unit Test for the response code.
-    static testMethod void CoverResponseCode1() {
+    
+  /* Coverage the code for the Init the Global Veriables,Call DoNext method,
+   * Submit Method,checkAmountValidation Method and checkCardValidation Method,
+   * processPayment Method get response where 'kind' value doesnot exist in responseBody
+   */
+  static testMethod void wrapperListException() {
         TestUtility objTestUtility = new TestUtility();
-
+        
+        //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_Id__c = 123;
-        insert guarantorContact;
+        insert guarantorContact;        
 
+        //Create Patient Contact record.
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
+        //Create Payment Plan record.
         test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
+        //Call Process Payment constructor.
         ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
 
-        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+        //Create Invoice record.
+        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);       
         insert invoice;
-
+        
+        //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
@@ -645,19 +774,23 @@ private class ProcessPaymentTest {
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
+        
+        //Create Transaction record.
+        Transaction__c  objTransaction = TestUtility.generateTransaction(chargeGroup,100,'Automatic');
         insert objTransaction;
 
+        //Call Process Payment constructor with Selected charge group records.
         objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         for (ChargeGroupWrapper objChargeGroupWrapper : objProcessPayment.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
+        
+        //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
         objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
         objProcessPayment.expirationMonth = '07';
-        objProcessPayment.creditCardNumber = '1234567891113';
-        objProcessPayment.cardHolderName = '1234567891113';
+        objProcessPayment.creditCardNumber= '1234567891113';
+        objProcessPayment.cardHolderName= '1234567891113';
         objProcessPayment.zip = '07897';
         objProcessPayment.amount = '10';
         objProcessPayment.cvv = 'test';
@@ -665,46 +798,66 @@ private class ProcessPaymentTest {
         objProcessPayment.address = 'test';
         objProcessPayment.city = 'test';
 
+        /* Call doNext method.
+         * check any chargegroup is selected or not.
+         * We select all charge groups in above so this method is run successfully and will proceed next step. 
+         */
         objProcessPayment.doNext();
-
+              
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 400;
         TestUtility.Errorbody = '{"kind":"Payments Exception","errors":["Credit card number is invalid.","Merchant account does not support payment instrument."]}';
-
+        
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objProcessPayment.submit();
-
+        
+        /* Call Submit method and It will pass the record to web api.
+         * Set variables for call the Webservice.
+         * Generate wrapperList Exception throw web api.
+         */
+        objProcessPayment.submit(); 
+        
+        //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Credit card number is invalid')) isError = true;
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Credit card number is invalid')) isError  = true;
         }
-        System.assertEquals(isError, true);
-
-        Test.stopTest();
-
+        System.assertEquals(isError,true); 
+        
+        Test.stopTest();         
     }
-
-    //Unit Test for the response code.
-    static testMethod void CoverResponseCode2() {
+    
+    /* Unit Test for the response code.
+     * 
+     * Coverage the code for the Init the Global Veriables,Call DoNext method,
+     * Submit Method,checkAmountValidation Method and checkCardValidation Method,
+     * processPayment Method get response where 'kind' value doesnot exist in responseBody
+     */
+  static testMethod void chargeGroupException() {
         TestUtility objTestUtility = new TestUtility();
-
+        
+        //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_Id__c = 123;
-        insert guarantorContact;
+        insert guarantorContact;        
 
+        //Create Patient Contact record.
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
+        //Create Payment Plan record.
         test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
+        //Call Process Payment constructor.
         ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
 
-        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+        //Create Invoice record.
+        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);       
         insert invoice;
-
+        
+        //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
@@ -713,19 +866,23 @@ private class ProcessPaymentTest {
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
+        
+        //Create Transaction record.
+        Transaction__c  objTransaction = TestUtility.generateTransaction(chargeGroup,100,'Automatic');
         insert objTransaction;
 
+        //Call Process Payment constructor with Selected charge group records.
         objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         for (ChargeGroupWrapper objChargeGroupWrapper : objProcessPayment.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
+        
+        //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
         objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
         objProcessPayment.expirationMonth = '07';
-        objProcessPayment.creditCardNumber = '1234567891113';
-        objProcessPayment.cardHolderName = '1234567891113';
+        objProcessPayment.creditCardNumber= '1234567891113';
+        objProcessPayment.cardHolderName= '1234567891113';
         objProcessPayment.zip = '07897';
         objProcessPayment.amount = '10';
         objProcessPayment.cvv = 'test';
@@ -733,46 +890,66 @@ private class ProcessPaymentTest {
         objProcessPayment.address = 'test';
         objProcessPayment.city = 'test';
 
+        /* Call doNext method.
+         * check any chargegroup is selected or not.
+         * We select all charge groups in above so this method is run successfully and will proceed next step. 
+         */
         objProcessPayment.doNext();
-
+              
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 400;
         TestUtility.Errorbody = '{"kind":"Payments Exception","errors":{"chargegroups":["Invalid hyperlink - Object does not exist."],"guarantor":["Invalid hyperlink - Object does not exist."]}}';
-
+        
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objProcessPayment.submit();
-
+        
+        /* Call Submit method and It will pass the record to web api.
+         * Set variables for call the Webservice.
+         * Generate charge group Exception throw web api.
+         */
+        objProcessPayment.submit(); 
+        
+        //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Invalid hyperlink')) isError = true;
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Invalid hyperlink')) isError  = true;
         }
-        System.assertEquals(isError, true);
-
+        System.assertEquals(isError,true); 
+        
         Test.stopTest();
-
+         
     }
-
-    //Unit Test for the response code.
-    static testMethod void CoverResponseCode3() {
+    
+    /* Unit Test for the response code.
+     * Coverage the code for the Init the Global Veriables,Call DoNext method,
+     * Submit Method,checkAmountValidation Method and checkCardValidation Method,
+     * processPayment Method get response where 'kind' AND 'chargegroups' value doesnot exist in responseBody
+     */
+  static testMethod void ResponseElse() {
         TestUtility objTestUtility = new TestUtility();
-
+        
+        //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_Id__c = 123;
-        insert guarantorContact;
+        insert guarantorContact;        
 
+        //Create Patient Contact record.
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
+        //Create Payment Plan record.
         test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
+        //Call Process Payment constructor.
         ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
 
-        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+        //Create Invoice record.
+        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);       
         insert invoice;
-
+        
+        //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
@@ -781,19 +958,23 @@ private class ProcessPaymentTest {
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
+        
+        //Create Transaction record.
+        Transaction__c  objTransaction = TestUtility.generateTransaction(chargeGroup,100,'Automatic');
         insert objTransaction;
 
+        //Call Process Payment constructor with Selected charge group records.
         objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         for (ChargeGroupWrapper objChargeGroupWrapper : objProcessPayment.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
+        
+        //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
         objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
         objProcessPayment.expirationMonth = '07';
-        objProcessPayment.creditCardNumber = '1234567891113';
-        objProcessPayment.cardHolderName = '1234567891113';
+        objProcessPayment.creditCardNumber= '1234567891113';
+        objProcessPayment.cardHolderName= '1234567891113';
         objProcessPayment.zip = '07897';
         objProcessPayment.amount = '10';
         objProcessPayment.cvv = 'test';
@@ -801,70 +982,93 @@ private class ProcessPaymentTest {
         objProcessPayment.address = 'test';
         objProcessPayment.city = 'test';
 
+        /* Call doNext method.
+         * check any chargegroup is selected or not.
+         * We select all charge groups in above so this method is run successfully and will proceed next step. 
+         */
         objProcessPayment.doNext();
-
+              
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 400;
         TestUtility.Errorbody = 'Error';
-
+        
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objProcessPayment.submit();
-
+        
+        /* Call Submit method and It will pass the record to web api.
+         * Set variables for call the Webservice.
+         * Cover else part of process Payment Reponse.
+         */
+        objProcessPayment.submit(); 
+        
+        //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Error')) isError = true;
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Error')) isError  = true;
         }
-        System.assertEquals(isError, true);
-
-        Test.stopTest();
-
+        System.assertEquals(isError,true); 
+        
+        Test.stopTest();         
     }
-
-    //Unit Test for the response code.
-    static testMethod void CoverResponseCode4() {
+    
+    /* Unit Test for the response code.
+     * Coverage the code for the Init the Global Veriables,Call DoNext method,
+     * Submit Method,checkAmountValidation Method and checkCardValidation Method,
+     * processPayment Method get response where 'kind' AND 'chargegroups' value doesnot exist in responseBody
+     */
+    static testMethod void validationException() {
         TestUtility objTestUtility = new TestUtility();
-
+        
+        //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_Id__c = 123;
-        insert guarantorContact;
+        insert guarantorContact;        
 
+        //Create Patient Contact record.
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
+        //Create Payment Plan record.
         test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
+        //Call Process Payment constructor.
         ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
 
-        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+        //Create Invoice record.
+        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);       
         insert invoice;
-
+        
+        //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Sub_Status__c = 'Payment Plan';
         insert chargeGroup;
-
+        
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Sub_Status__c = 'Payment Plan';
         insert chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
+        
+        //Create Transaction record.
+        Transaction__c  objTransaction = TestUtility.generateTransaction(chargeGroup,100,'Automatic');
         insert objTransaction;
 
+        //Call Process Payment constructor with Selected charge group records.
         objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
         for (ChargeGroupWrapper objChargeGroupWrapper : objProcessPayment.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
+        
+        //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
         objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
         objProcessPayment.expirationMonth = '07';
-        objProcessPayment.creditCardNumber = '1234567891113';
-        objProcessPayment.cardHolderName = '1234567891113';
+        objProcessPayment.creditCardNumber= '1234567891113';
+        objProcessPayment.cardHolderName= '1234567891113';
         objProcessPayment.zip = '07897';
         objProcessPayment.amount = '10';
         objProcessPayment.cvv = 'test';
@@ -872,24 +1076,33 @@ private class ProcessPaymentTest {
         objProcessPayment.address = 'test';
         objProcessPayment.city = 'test';
 
+        /* Call doNext method.
+         * check any chargegroup is selected or not.
+         * We select all charge groups in above so this method is run successfully and will proceed next step. 
+         */
         objProcessPayment.doNext();
-
+              
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 400;
-        TestUtility.Errorbody = '{"kind":"Validation exception","errors":[{"non_field_errors":"Cannot directly change ChargeGroups on an existing plan"}]}';
-
+        TestUtility.Errorbody  = '{"kind":"Validation exception","errors":[{"non_field_errors":"Cannot directly change ChargeGroups on an existing plan"}]}';
+        
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objProcessPayment.submit();
-
+        
+        /* Call Submit method and It will pass the record to web api.
+         * Set variables for call the Webservice.
+         * Generate Validation Exception throw web api.
+         */
+        objProcessPayment.submit(); 
+        
+        //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Cannot directly change ChargeGroups on an existing plan')) isError = true;
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Cannot directly change ChargeGroups on an existing plan')) isError  = true;
         }
-        System.assertEquals(isError, true);
-
-        Test.stopTest();
-
+        System.assertEquals(isError,true); 
+        
+        Test.stopTest();         
     }
 }
