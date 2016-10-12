@@ -100,28 +100,44 @@
 
     <target name="stop_all_scheduled_jobs" description="Stops all scheduled jobs in the target org">
         <!-- stop all scheduled jobs -->
-        <executeAnonymous username="${sf.target.username}" password="${sf.target.password}"
-                          serverurl="${sf.target.serverurl}"><![CDATA[
-            for (SObject j : [SELECT Id FROM CronTrigger]) System.abortJob(j.Id);
-        ]]></executeAnonymous>
+        <executeAnonymous
+                username="${sf.target.username}"
+                password="${sf.target.password}"
+                serverurl="${sf.target.serverurl}">
+            <![CDATA[
+                for (SObject j : [SELECT Id FROM CronTrigger]) System.abortJob(j.Id);
+            ]]>
+        </executeAnonymous>
     </target>
 
     <target name="schedule_all_jobs">
         <!-- schedule all jobs -->
-        <executeAnonymous username="${sf.target.username}" password="${sf.target.password}"
-                          serverurl="${sf.target.serverurl}"><![CDATA[
-            System.schedule('PopulateNextPaymentDateBatch', '0 0 1 * * ?', new PopulateNextPaymentDateBatch());
-            System.schedule('CallEarlyOutAutoCase', '0 0 1 * * ?', new CallEarlyOutAutoCase());
-            System.schedule('CallPrecollectionsAutoCase', '0 0 2 * * ?', new CallPrecollectionsAutoCase());
-        ]]></executeAnonymous>
+        <executeAnonymous
+                username="${sf.target.username}"
+                password="${sf.target.password}"
+                serverurl="${sf.target.serverurl}">
+            <![CDATA[
+                System.schedule('PopulateNextPaymentDateBatch', '0 0 1 * * ?', new PopulateNextPaymentDateBatch());
+                System.schedule('CallEarlyOutAutoCase', '0 0 1 * * ?', new CallEarlyOutAutoCase());
+                System.schedule('CallPrecollectionsAutoCase', '0 0 2 * * ?', new CallPrecollectionsAutoCase());
+                System.schedule('EarlyOutSchedulerBatch', '0 0 3 * * ?', new EarlyOutSchedulerBatch());
+                System.schedule('DelinquentPaymentPlansSchedulerBatch', '0 0 4 * * ?', new DelinquentPaymentPlansSchedulerBatch());
+                System.schedule('PreCollectionSchedulerBatch', '0 0 1 * * ?', new PreCollectionSchedulerBatch());
+                System.schedule('PreServiceSchedulerBatch', '0 0 1 * * ?', new PreServiceSchedulerBatch());
+            ]]>
+        </executeAnonymous>
     </target>
 
     <target name="initialize_custom_settings">
         <!-- execute apex to initialize custom settings -->
-        <executeAnonymous username="${sf.target.username}" password="${sf.target.password}"
-                          serverurl="${sf.target.serverurl}"><![CDATA[
-            SironoSettingsUtil.getSettings();
-        ]]></executeAnonymous>
+        <executeAnonymous
+                username="${sf.target.username}"
+                password="${sf.target.password}"
+                serverurl="${sf.target.serverurl}">
+            <![CDATA[
+                SironoSettingsUtil.getSettings();
+            ]]>
+        </executeAnonymous>
     </target>
 
 
