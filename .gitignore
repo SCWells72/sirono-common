@@ -43,3 +43,4 @@ IlluminatedCloud/
 
 # Ant generated
 .ant-targets-build.xml
+lib/
