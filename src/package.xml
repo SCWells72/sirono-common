@@ -78,6 +78,7 @@
     </types>
     <types>
         <members>*</members>
+        <members>Account.External_Account_Name__c</members>
         <members>Activity.Call_End_Time__c</members>
         <members>Activity.Call_ID__c</members>
         <members>Activity.Call_Start_Time__c</members>
@@ -237,6 +238,7 @@
     </types>
     <types>
         <members>*</members>
+        <members>Account</members>
         <members>Activity</members>
         <members>Adjustment_Type__mdt</members>
         <members>Campaign</members>
