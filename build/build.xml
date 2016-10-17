@@ -13,7 +13,6 @@
     <property file="${basedir}/build/build.properties"/>
     <property environment="env"/>
     <property name="retrieve_target" value="${basedir}/sf_temp"/>
-    <property name="sf_version" value="v37.0"/>
 
     <!-- Setting default value for username & password properties to empty string
          so unset values are treated as empty. Without this, ant expressions such as ${sf.blah.username}
@@ -104,13 +103,13 @@
                 username="${sf.target.username}"
                 password="${sf.target.password}"
                 serverurl="${sf.target.serverurl}">
-            <![CDATA[
-                for (SObject j : [SELECT Id FROM CronTrigger]) System.abortJob(j.Id);
-            ]]>
+                <![CDATA[
+                    for (SObject j : [SELECT Id FROM CronTrigger]) System.abortJob(j.Id);
+                ]]>
         </executeAnonymous>
     </target>
 
-    <target name="schedule_all_jobs">
+    <target name="schedule_all_jobs" depends="stop_all_scheduled_jobs">
         <!-- schedule all jobs -->
         <executeAnonymous
                 username="${sf.target.username}"
@@ -140,7 +139,6 @@
         </executeAnonymous>
     </target>
 
-
     <macrodef name="executeAnonymous" description="Invoke executeAnonymous using Salesforce Tooling REST API">
         <attribute name="username" description="Salesforce user name."/>
         <attribute name="password" description="Salesforce password."/>
@@ -151,7 +149,7 @@
             <login username="@{username}" password="@{password}" serverurl="@{serverurl}"/>
 
             <!-- Execute using HTTP GET -->
-            <ml:http url="${instance}/services/data/${sf_version}/tooling/executeAnonymous"
+            <ml:http url="${instance}/services/data/v34.0/tooling/executeAnonymous"
                      method="GET" outfile="lib/executeAnonymousResult.json"
                      statusProperty="loginResponseStatus">
                 <headers>
