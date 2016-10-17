@@ -9,6 +9,18 @@
         <fields>OwnerId</fields>
         <label>Account Compact Layout</label>
     </compactLayouts>
+    <fields>
+        <fullName>External_Account_Name__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <defaultValue>&quot;Hospital&quot;</defaultValue>
+        <externalId>true</externalId>
+        <label>External Account Name</label>
+        <length>16</length>
+        <required>true</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
     <listViews>
         <fullName>AllAccounts</fullName>
         <columns>ACCOUNT.NAME</columns>
