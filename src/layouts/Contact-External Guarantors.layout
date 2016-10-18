@@ -37,11 +37,13 @@
         </subtabComponents>
     </customConsoleComponents>
     <excludeButtons>Clone</excludeButtons>
+    <excludeButtons>DataDotComClean</excludeButtons>
     <excludeButtons>DisableCustomerPortal</excludeButtons>
     <excludeButtons>DisablePartnerPortal</excludeButtons>
     <excludeButtons>DisablePrmSuperUser</excludeButtons>
     <excludeButtons>EnablePrmSuperUser</excludeButtons>
     <excludeButtons>RequestUpdate</excludeButtons>
+    <excludeButtons>RequestUseSfdc</excludeButtons>
     <excludeButtons>SendEmail</excludeButtons>
     <excludeButtons>Share</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
@@ -122,6 +124,14 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Age__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Payment_Proclivity_Score__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Patient_Satisfaction__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

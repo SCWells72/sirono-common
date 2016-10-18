@@ -113,8 +113,9 @@ public with sharing class PaymentPlanTriggerHandler {
                 // Keep adding months until the next payment date is past the reference date.
                 while (nextDt < refDt) {
                     nextDt = nextDt.addMonths(1);
+                    }
                 }
-            } else {
+                else {
                 //System.assert(guarantor.Invoice_Offset_Date__c != null);
                 if (guarantor.Invoice_Offset_Date__c == null) {
                     guarantor.Invoice_Offset_Date__c = 0;
@@ -122,11 +123,12 @@ public with sharing class PaymentPlanTriggerHandler {
 
                 // The next payment is due 21 days beyond the statement date.
                 // Start with last month's statement date.
-                nextDt = Date.newInstance(refDt.year(), refDt.month() - 1, integer.valueof(guarantor.Invoice_Offset_Date__c) + 21);
-
+                Date stmtDt = Date.newInstance(refDt.year(), refDt.month() - 1, integer.valueof(guarantor.Invoice_Offset_Date__c));
+		nextDt = stmtDt.addDays(21);
                 // Keep adding months until the next payment date is past the reference date.
                 while (nextDt < refDt) {
-                    nextDt = Date.newInstance(nextDt.year(), nextDt.month() + 1, integer.valueof(guarantor.Invoice_Offset_Date__c) + 21);
+                    stmtDt = stmtDt.addMonths(1);
+		    nextDt = stmtDt.addDays(21);
                 }
             }
             plan.NextPaymentDate__c = nextDt;

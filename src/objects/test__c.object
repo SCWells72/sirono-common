@@ -346,6 +346,18 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <type>Date</type>
     </fields>
     <fields>
+        <fullName>Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Status</label>
+        <length>10</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Time_to_Delinquency__c</fullName>
         <externalId>false</externalId>
         <formula>Delinquent_Date__c -   DATEVALUE( CreatedDate )</formula>
@@ -392,11 +404,6 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <searchFilterFields>Guarantor_Name__c</searchFilterFields>
         <searchFilterFields>Plan_Type__c</searchFilterFields>
         <searchFilterFields>Plan_Value__c</searchFilterFields>
-        <searchResultsAdditionalFields>Guarantor_Name__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Active__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Plan_Type__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Execute_on_Day__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Next_Payment_Date__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Plan_Value__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>

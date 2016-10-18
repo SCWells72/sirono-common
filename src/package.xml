@@ -373,6 +373,7 @@
         <name>InstalledPackage</name>
     </types>
     <types>
+        <members>Account-Account Layout</members>
         <members>Adjustment_Type__mdt-Adjustment Type Layout</members>
         <members>Campaign-Campaign Layout</members>
         <members>CampaignMember-Campaign Member Page Layout</members>
@@ -403,6 +404,7 @@
         <members>Discount_Type__mdt-Discount Layout</members>
         <members>Encounter_Coverage_Junction__c-Encounter Coverage Junction Layout</members>
         <members>Encounter__c-Encounters</members>
+        <members>Event-Event Layout</members>
         <members>Invoice__c-Invoice Layout</members>
         <members>Invoice__c-Invoices Layout</members>
         <members>Location__c-Location Layout</members>

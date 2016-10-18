@@ -108,10 +108,6 @@
                 <behavior>Edit</behavior>
                 <field>Date_Termination__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Preservice__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -158,6 +154,10 @@
     <relatedLists>
         <fields>NAME</fields>
         <relatedList>Patient_Coverage_Junction__c.Coverage__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Encounter_Coverage_Junction__c.Coverage__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
