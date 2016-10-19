@@ -870,6 +870,18 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
         <unique>true</unique>
     </fields>
     <fields>
+        <fullName>Patient_Satisfaction__c</fullName>
+        <externalId>false</externalId>
+        <label>Patient Satisfaction</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Payment_Plan_Balance__c</fullName>
         <externalId>false</externalId>
         <label>Payment Plan Balance</label>
@@ -883,6 +895,18 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
         <summaryOperation>sum</summaryOperation>
         <trackHistory>false</trackHistory>
         <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Payment_Proclivity_Score__c</fullName>
+        <externalId>false</externalId>
+        <label>Payment Proclivity Score</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Number</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Phone</fullName>

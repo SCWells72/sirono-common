@@ -59,12 +59,20 @@
                 <field>OwnerId</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>CaseNumber</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>RecordTypeId</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Status</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Closed_Reason__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -97,6 +105,14 @@
         <editHeading>true</editHeading>
         <label>New Fields</label>
         <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Guarantor_Information__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Patient__c</field>
+            </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Callers_Name__c</field>
@@ -189,11 +205,11 @@
                 <field>Origin</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Priority</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>ContactId</field>
             </layoutItems>
             <layoutItems>
@@ -267,7 +283,6 @@
         <relatedList>RelatedEntityHistoryList</relatedList>
     </relatedLists>
     <relatedObjects>ContactId</relatedObjects>
-    <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>true</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>

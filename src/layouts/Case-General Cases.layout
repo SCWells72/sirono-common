@@ -59,6 +59,10 @@
                 <field>OwnerId</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>CaseNumber</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>RecordTypeId</field>
             </layoutItems>
@@ -67,8 +71,16 @@
                 <field>Status</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Reason</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Closed_Reason__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Guarantor_Information__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>
@@ -128,11 +140,11 @@
                 <field>Origin</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Priority</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>ContactId</field>
             </layoutItems>
             <layoutItems>
@@ -206,7 +218,6 @@
         <relatedList>RelatedEntityHistoryList</relatedList>
     </relatedLists>
     <relatedObjects>ContactId</relatedObjects>
-    <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>true</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>

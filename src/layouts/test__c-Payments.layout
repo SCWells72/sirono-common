@@ -63,15 +63,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Execute_on_Day__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Payable_Amount__c</field>
+                <field>Number_of_Installments__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Remaining_Number_of_Installments__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Installment_Amount__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -80,10 +80,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Time_to_Delinquency__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Cancellation_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -99,8 +95,18 @@
                 <emptySpace>true</emptySpace>
             </layoutItems>
             <layoutItems>
+                <emptySpace>true</emptySpace>
+            </layoutItems>
+            <layoutItems>
+                <emptySpace>true</emptySpace>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Number_of_Installments__c</field>
+                <field>Status__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Execute_on_Day__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -108,7 +114,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Installment_Amount__c</field>
+                <field>Payable_Amount__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Cancellation_Date__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -210,8 +220,6 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Account_Status__c</fields>
-        <fields>Account_Sub_Status__c</fields>
-        <fields>Balance__c</fields>
         <fields>Active__c</fields>
         <fields>CREATED_DATE</fields>
         <relatedList>Charge_Group__c.Payment_Plan__c</relatedList>
