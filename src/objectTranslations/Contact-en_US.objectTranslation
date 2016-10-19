@@ -404,20 +404,12 @@
             <section>Address</section>
         </sections>
         <sections>
-            <label><!-- Balance --></label>
-            <section>Balance</section>
-        </sections>
-        <sections>
             <label><!-- Identification --></label>
             <section>Identification</section>
         </sections>
         <sections>
             <label><!-- System --></label>
             <section>System</section>
-        </sections>
-        <sections>
-            <label><!-- Timeline --></label>
-            <section>Timeline</section>
         </sections>
     </layouts>
     <layouts>
