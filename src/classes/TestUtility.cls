@@ -42,7 +42,10 @@ Public Class TestUtility {
         Contact guarantorContact = new Contact();
         guarantorContact.RecordTypeId = RecordTypeUtil.guarantorRt;
         guarantorContact.LastName = 'G Test';
-	Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1000));
+        Integer tempRandom = Integer.valueOf(math.rint(math.random()*1212));
+        Integer tempRandom2 = Integer.valueOf(math.rint(math.random()*12));
+        Integer randomInt = tempRandom * tempRandom2;
+        //Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1000));        
         guarantorContact.Profile_Pointer_Id__c = Decimal.valueOf(randomInt);
         guarantorContact.HomePhone = '111';
         guarantorContact.MobilePhone = '111';
@@ -54,7 +57,10 @@ Public Class TestUtility {
         Contact patientContact = new Contact();
         patientContact.RecordTypeId = RecordTypeUtil.patientRt;
         patientContact.LastName = 'G Test';
-	Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1000));
+        Integer tempRandom = Integer.valueOf(math.rint(math.random()*100));
+        Integer tempRandom2 = Integer.valueOf(math.rint(math.random()*123));
+        Integer randomInt = tempRandom * tempRandom2;
+        //Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*100));
         patientContact.Profile_Pointer_Id__c = Decimal.valueOf(randomInt);
         patientContact.HomePhone = '111';
         patientContact.MobilePhone = '111';
@@ -69,7 +75,10 @@ Public Class TestUtility {
         Charge_Group__c chargeGroup = new Charge_Group__c();
         chargeGroup.Guarantor_Name__c = guarantorContactId;
         //Ignore the external Id passed in the method parameter and set the dynamic value
-        Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1212));
+        Integer tempRandom = Integer.valueOf(math.rint(math.random()*150));
+        Integer tempRandom2 = Integer.valueOf(math.rint(math.random()*500));
+        Integer randomInt = tempRandom * tempRandom2;
+        //Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1212));
         chargeGroup.Charge_Group_ID__c = Decimal.valueOf(randomInt);
         chargeGroup.Patient_Name__c = patientContactId;
         chargeGroup.Charge_Group_External_ID__c = true;
@@ -112,7 +121,10 @@ Public Class TestUtility {
         Charge_Group__c cg = new Charge_Group__c();
         cg.Guarantor_Name__c = guarantorContactId;
         //Ignore the external Id passed in the method parameter and set the dynamic value
-        Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1212));
+        Integer tempRandom = Integer.valueOf(math.rint(math.random()*505));
+        Integer tempRandom2 = Integer.valueOf(math.rint(math.random()*120));
+        Integer randomInt = tempRandom * tempRandom2;
+        //Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*12));
         cg.Charge_Group_ID__c = Decimal.valueOf(randomInt);
         cg.Patient_Name__c = patientContactId;
         cg.Charge_Group_External_ID__c = true;
