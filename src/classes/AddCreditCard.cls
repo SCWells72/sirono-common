@@ -388,6 +388,14 @@ public with sharing class AddCreditCard {
             } else if (responseBody.Contains('kind') && responseBody.Contains('chargegroups')) {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
                         'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody));
+            } else if(responseBody.Contains('non_field_errors')){
+                JSONParser parser = JSON.createParser(responseBody);
+                WrapperNonFieldErrorArray wrpPaymentPlanobj  = (WrapperNonFieldErrorArray)parser.readValueAs(WrapperNonFieldErrorArray.class);
+                if(wrpPaymentPlanobj  != null && wrpPaymentPlanobj.non_field_errors.size() > 0){
+                    for(String strMessage : wrpPaymentPlanobj.non_field_errors){
+                        ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,String.valueof(strMessage)));
+                    }
+                }
             } else {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
                         'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody));
