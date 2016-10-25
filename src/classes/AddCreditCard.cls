@@ -5,6 +5,10 @@
 *
 * 08-19-2016: Sirono - Tracker # 127324171 CCard Validations check
 * 08-17-2016: Sirono - Tracker # 127940071  parse the Response and create a payment plan record.
+* 09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31.
+* 09-30-2016: Viraj Rana - Tracker #127404553: Validate PaymentPlan against custom settings to check Monthly Installment Amount
+* based on Minimum Installment Amount and Maximum number of Installments.
+* 10-12-2016: Viraj Rana - Tracker #131459561: Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
 * 
 */
 
@@ -35,6 +39,8 @@ public with sharing class AddCreditCard {
     public String responseBody = '';
     public decimal dctotalAmount = 0;
     public Contact gc;
+    public Sirono_Settings__c PaymentPlanSettings;
+    public Boolean isActivePaymentPlan {get;set;}
     //Adding values to the picklist 
     public List<SelectOption> paymentPlanTypeOptions {
         get {
@@ -80,6 +86,7 @@ public with sharing class AddCreditCard {
         chargeGroupList = new List<ChargeGroupWrapper>();
         guarantorName = '';
         planType = null;
+        isActivePaymentPlan = false;
         if (Apexpages.currentPage().getParameters().containsKey('guarantorId')) {
             guarantorRecordId = Apexpages.currentPage().getParameters().get('guarantorId');
             gc = PayStaffWSUtill.fetchGuarantorContact(guarantorRecordId);
@@ -92,6 +99,12 @@ public with sharing class AddCreditCard {
                 }
             }
             chargeGroupId = '';
+            
+            PaymentPlanSettings = new Sirono_Settings__c();
+            PaymentPlanSettings = SironoSettingsUtil.getPaymentPlanSettings();
+            
+            //10-12-2016: Viraj Rana - Tracker #131459561: Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
+            isActivePaymentPlan = checkPaymentPlanExist(guarantorRecordId);
         }
         planValue = '32772';
         /*guarantorId = '141623';
@@ -180,11 +193,26 @@ public with sharing class AddCreditCard {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'ERROR: ' + e.getMessage()));
         }
     }    
+    //10-12-2016: Viraj Rana - Tracker #131459561: Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
+    public boolean checkPaymentPlanExist(string guarantorRecordId) {
+        boolean blnIsError = false;
+        if (guarantorRecordId != null) {
+            List<test__c> lstPaymentPlan = [SELECT Id FROM test__c where Guarantor_Name__c =: guarantorRecordId and Active__c = true];
+            if (lstPaymentPlan.size() > 0) {
+                ApexPages.addMessage(new ApexPages.Message(apexpages.severity.warning,
+                    system.label.Payment_Plan_Error));
+                blnIsError = true;
+            }
+        }
+        return blnIsError;
+    }
        
     /*
     * 08-19-2016: Sirono - Tracker # 127324171
     * Method for check the amount validation.
-    */
+    * 09-30-2016: Viraj Rana - Tracker #127404553: Validate PaymentPlan against custom settings to check Monthly Installment Amount
+    * based on Minimum Installment Amount and Maximum number of Installments.
+    */    
     Public boolean checkAmountValidation() {
         boolean blnIsError = false;
         if ((planType.trim().equalsIgnoreCase('promise') &&
@@ -213,7 +241,35 @@ public with sharing class AddCreditCard {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'Amount cannot exceed balance.'));
                 blnIsError = true;
             }
-
+            
+            decimal tempAmount = decimal.valueof(planType.trim().equalsIgnoreCase('promise') ? promiseAmount : amount);
+            
+            if(tempAmount < PaymentPlanSettings.Min_Installment_Amount__c){
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+                    'Monthly amount must be equal to or greater than $' + PaymentPlanSettings.Min_Installment_Amount__c + '.'));
+                blnIsError = true;
+            }
+            
+            if(tempAmount >= PaymentPlanSettings.Min_Installment_Amount__c) {
+                integer totalInstallment = integer.valueof((dctotalAmount/tempAmount).round(System.RoundingMode.CEILING));
+                integer minimumInstallmentAmount = 0;
+                
+                system.debug('Min Installment Amount : ' + PaymentPlanSettings.Min_Installment_Amount__c);
+                system.debug('Max Installment : ' + PaymentPlanSettings.Max_Number_Plan_Installments__c);
+                system.debug('dctotalAmount : ' + dctotalAmount);
+                system.debug('tempAmount : ' + tempAmount);
+                
+                if (PaymentPlanSettings.Max_Number_Plan_Installments__c > 0) {
+                    minimumInstallmentAmount = integer.valueof((dctotalAmount/PaymentPlanSettings.Max_Number_Plan_Installments__c).round(System.RoundingMode.CEILING));
+                }
+                
+                if (totalInstallment > PaymentPlanSettings.Max_Number_Plan_Installments__c) {
+                    ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+                        'This monthly amount would exceed ' + PaymentPlanSettings.Max_Number_Plan_Installments__c + ' installments.' +
+                        ' The minimum allowed installment amount is $' + minimumInstallmentAmount + '.'));
+                    blnIsError = true;                
+                }
+            }
         }
         return blnIsError;
     }
@@ -222,6 +278,7 @@ public with sharing class AddCreditCard {
     * 08-19-2016: Sirono - Tracker # 127324171
     * Method for check the Card validation.
     * 09-13-2016: Viraj Rana - Tracker #130117819:   Credit Card Error Messaging Method to check the Card validation. 
+    * 09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31.
     */
     Public boolean checkCardValidation() {
         boolean blnIsError = false;
@@ -288,6 +345,11 @@ public with sharing class AddCreditCard {
             blnIsError = true;
         }
 
+        if (isEmpty(executeOnDay) || Integer.valueof(executeOnDay) < 1 || Integer.valueof(executeOnDay) > 31) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+                    'Date to Charge (each month) must be a number between 1 and 31.'));
+            blnIsError = true;
+        }
         return blnIsError;
     }
 

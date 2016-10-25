@@ -8,7 +8,8 @@
 @isTest
 private class PreServiceSchedulerBatchTest {
 
-    static @isTest void main() {
+    @isTest
+    static void main() {
     contact con = TestUtility.generateGuarantorContact();
     insert con;
 
@@ -72,7 +73,8 @@ System.assertEquals(0, msgList.size());
 }
 
 //Cover Existing map
-static @isTest void main1() {
+    @isTest 
+    static void main1() {
 contact con = TestUtility.generateGuarantorContact();
 insert con;
 
@@ -137,7 +139,8 @@ List<ApexPages.Message> msgList = ApexPages.getMessages();
 System.assertEquals(0, msgList.size());
 }
 
-static @isTest void executBatch() {
+    @isTest
+    static void executBatch() {
 Test.startTest();
 
 PreServiceSchedulerBatch dppc = new PreServiceSchedulerBatch();

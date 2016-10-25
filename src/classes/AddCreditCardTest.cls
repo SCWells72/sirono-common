@@ -44,6 +44,7 @@ private class AddCreditCardTest {
         insert patientContact;
 
         test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Active__c = true;
         insert paymentPlan;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -66,6 +67,116 @@ private class AddCreditCardTest {
         System.assertEquals(isError, true);
     }
 
+    static testMethod void myCheckAmountValidationTest() {
+        TestUtility objTestUtil = new TestUtility();
+        
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        insert guarantorContact;
+        
+        Contact patientContact = TestUtility.generatePatientContact();
+        insert patientContact;
+        
+        Charge_Group__c objCG = TestUtility.generateChargeGroup(guarantorContact.Id,null,121114);
+        insert objCG;
+        
+        Transaction__c  transactionObj = TestUtility.generateTransaction(objCG,100,'Automatic');
+        insert transactionObj ;
+        
+        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        insert paymentPlan;
+                
+        Sirono_Settings__c PaymentPlanSettings = new Sirono_Settings__c(SetupOwnerId = userinfo.getProfileId());
+        PaymentPlanSettings.Max_Number_Plan_Installments__c = 1;
+        PaymentPlanSettings.Min_Installment_Amount__c = 100;
+        PaymentPlanSettings.Min_Number_Plan_Installments__c = 1;
+        insert PaymentPlanSettings;
+        
+        Apexpages.currentPage().getParameters().put('guarantorId',guarantorContact.Id);
+        AddCreditCard objAddCreditCard = new AddCreditCard();
+         for (ChargeGroupWrapper cg : objAddCreditCard.chargeGroupList) {
+            cg.isSelected = true;
+        }
+        objAddCreditCard.creditCardNumber = '';
+        objAddCreditCard.expirationYear = String.valueof(System.today().Year() + 1);
+        objAddCreditCard.expirationMonth = '07';
+        objAddCreditCard.creditCardNumber= '1234567891113';
+        objAddCreditCard.cardHolderName= '1234567891113';
+        objAddCreditCard.zip = '07897';
+        objAddCreditCard.amount = '20';
+        objAddCreditCard.planType = 'auto';
+        objAddCreditCard.planValue= '301';
+        objAddCreditCard.executeOnDay = '10';
+        objAddCreditCard.cvv= 'test';
+        objAddCreditCard.state = 'test';
+        objAddCreditCard.address = 'test';
+        objAddCreditCard.city = 'test';
+        objAddCreditCard.doNext();
+        
+        objAddCreditCard.doSubmit();
+        
+        List<ApexPages.Message> msgList = ApexPages.getMessages();
+        boolean isError = false;
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Created Successfully')) isError  = true;
+        }
+        System.assertEquals(isError,false);
+    }
+    
+    static testMethod void myCheckAmountValidationTest1() {
+        TestUtility objTestUtil = new TestUtility();
+        
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        insert guarantorContact;
+        
+        Contact patientContact = TestUtility.generatePatientContact();
+        insert patientContact;
+        
+        Charge_Group__c   objCG = TestUtility.generateChargeGroup(guarantorContact.Id,null,121114);        
+        insert objCG;
+        
+        Transaction__c  transactionObj = TestUtility.generateTransaction(objCG,100,'Automatic');
+        insert transactionObj ;
+        
+        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        insert paymentPlan;
+        
+        Sirono_Settings__c PaymentPlanSettings = new Sirono_Settings__c(SetupOwnerId = userinfo.getProfileId());
+        PaymentPlanSettings.Max_Number_Plan_Installments__c = 2;
+        PaymentPlanSettings.Min_Installment_Amount__c = 30;
+        PaymentPlanSettings.Min_Number_Plan_Installments__c = 1;
+        insert PaymentPlanSettings;
+        
+        Apexpages.currentPage().getParameters().put('guarantorId',guarantorContact.Id);
+        AddCreditCard objAddCreditCard = new AddCreditCard();
+         for (ChargeGroupWrapper cg : objAddCreditCard.chargeGroupList) {
+            cg.isSelected = true;
+        }
+        objAddCreditCard.creditCardNumber = '';
+        objAddCreditCard.expirationYear = String.valueof(System.today().Year() + 1);
+        objAddCreditCard.expirationMonth = '07';
+        objAddCreditCard.creditCardNumber= '1234567891113';
+        objAddCreditCard.cardHolderName= '1234567891113';
+        objAddCreditCard.zip = '07897';
+        objAddCreditCard.amount = '30';
+        objAddCreditCard.planType = 'auto';
+        objAddCreditCard.planValue= '301';
+        objAddCreditCard.executeOnDay = '10';
+        objAddCreditCard.cvv= 'test';
+        objAddCreditCard.state = 'test';
+        objAddCreditCard.address = 'test';
+        objAddCreditCard.city = 'test';
+        objAddCreditCard.doNext();
+        
+        objAddCreditCard.doSubmit();
+        
+        List<ApexPages.Message> msgList = ApexPages.getMessages();
+        boolean isError = false;
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Created Successfully')) isError  = true;
+        }
+        System.assertEquals(isError,false);
+    }
+    
     static testMethod void myCheckAmountValidationTest2() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -621,8 +732,68 @@ private class AddCreditCardTest {
         for (Apexpages.Message msg : msgList) {
             if (msg.getDetail().contains('Cannot directly change ChargeGroups on an existing plan')) isError = true;
         }
-        System.assertEquals(isError, true);
+        System.assertEquals(isError,true);
+        
+        Test.stopTest(); 
+    }
+    
+    //Method used to cover code coverage of "non_field_errors" part.
+    static testMethod void myPassAllValidationFail5() {
+        TestUtility objTestUtil = new TestUtility();
+        
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        insert guarantorContact;
+        
+        Contact patientContact = TestUtility.generatePatientContact();
+        insert patientContact;
+        
+        Charge_Group__c   objCG = TestUtility.generateChargeGroup(guarantorContact.Id,null,121114);        
+        insert objCG;
+        
+        Transaction__c  transactionObj = TestUtility.generateTransaction(objCG,100,'Automatic');
+        insert transactionObj ;
+        
+        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        insert paymentPlan;        
+        
+        Apexpages.currentPage().getParameters().put('guarantorId',guarantorContact.Id);
+        AddCreditCard objAddCreditCard = new AddCreditCard();
+         for (ChargeGroupWrapper cg : objAddCreditCard.chargeGroupList) {
+            cg.isSelected = true;
+        }
+        objAddCreditCard.creditCardNumber = '';
+        objAddCreditCard.expirationYear = String.valueof(System.today().Year() + 1);
+        objAddCreditCard.expirationMonth = '07';
+        objAddCreditCard.creditCardNumber= '1234567891113';
+        objAddCreditCard.cardHolderName= '1234567891113';
+        objAddCreditCard.zip = '07897';
+        objAddCreditCard.amount = '100';
+        objAddCreditCard.planType = 'auto';
+        objAddCreditCard.planValue= '100';
+        objAddCreditCard.executeOnDay = '10';
+        objAddCreditCard.cvv= 'test';
+        objAddCreditCard.state = 'test';
+        objAddCreditCard.address = 'test';
+        objAddCreditCard.city = 'test';
+        objAddCreditCard.doNext();
+        
+        Test.startTest();        
+        
+        TestUtility.status = 'CREATED';
+        TestUtility.statusCode = 400;
+        TestUtility.Errorbody  = '{"non_field_errors":["Cannot directly change ChargeGroups on an existing plan"]}';
 
-        Test.stopTest();
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());                
+        objAddCreditCard.doSubmit();
+        
+        List<ApexPages.Message> msgList = ApexPages.getMessages();
+        boolean isError = false;
+        system.debug('msgList : ' + msgList);
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Cannot directly change ChargeGroups on an existing plan')) isError  = true;
+        }
+        System.assertEquals(isError,true);
+        
+        Test.stopTest(); 
     }
 }

@@ -5,6 +5,8 @@
 *
 * 08-19-2016: Sirono - Tracker # 127324171 CCard Validations check
 * 08-17-2016: Sirono - Tracker # 127940071  parse the Response and create a payment plan record.
+* 09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31.
+* 10-12-2016: Viraj Rana - Tracker #131459561: Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
 * 
 *-->
 
@@ -31,7 +33,7 @@
         <apex:actionFunction name="refreshJS" action="{!doNext}"/>
         <apex:actionFunction name="doNothingJS" action="{!doNothing}"/>
         <apex:pageBlock title="{!guarantorName}">
-            <apex:outputPanel styleClass="pay-staff-table-wrap" rendered="{!chargeGroupList.size != 0}">
+            <apex:outputPanel styleClass="pay-staff-table-wrap" rendered="{!if(chargeGroupList.size != 0 && isActivePaymentPlan == false, true, false)}">
                 <table class="list">
                     <tr class="headerRow">
                         <td class="headerRow">
@@ -94,7 +96,7 @@
         <br/>
         <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
         <br/>
-        <apex:outputPanel id="op">
+        <apex:outputPanel id="op" rendered="{!isActivePaymentPlan == false}">
             <apex:selectRadio value="{!planType}"
                               onChange="startAjaxLoader('pg:frm:statusPanel');doNothingJS();return false;">
                 <apex:selectOptions value="{!paymentPlanTypeOptions}"/>
@@ -180,8 +182,9 @@
                                                 value="{!amount}" id="amount"/>
                             </td>
                             <td> &nbsp; </td>
+			    <!--09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31-->
                             <td>
-                                <apex:inputText styleClass="pay-staff-input" value="{!executeOnDay}" id="executeOnDay"/>
+                                <apex:inputText styleClass="pay-staff-input" onkeypress="return isDecimalNumberKey(event)" value="{!executeOnDay}" id="executeOnDay"/>
                             </td>
                         </tr>
 

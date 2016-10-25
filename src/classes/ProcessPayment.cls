@@ -9,6 +9,8 @@
 * 08-19-2016: Sirono - Tracker # 127324171
 * Method for check the validation.
 * Date: 21/09/2016 Sirono - tracker # 130677929 ChargeGroupList based on Account sub status 
+*
+* 10-17-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
 */
 
 public with sharing class ProcessPayment {
@@ -31,6 +33,10 @@ public with sharing class ProcessPayment {
     public String chargeGroupId { get; set; }
     public List<ChargeGroupWrapper> chargeGroupList { get; set; }
     public Contact gc { get; set; }
+    private Payment__c objPayment = new Payment__c();
+    private List<Transaction__c> lsttransaction = new List<Transaction__c>();
+    private List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
+    private List<test__c> lstPaymentPlan = new List<test__c>();
 
     public List<SelectOption> expYearOptions {
         get {
@@ -286,10 +292,12 @@ public with sharing class ProcessPayment {
         req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paychargegroups/');
 
         req.setBody(requestData);
+        system.debug('requestData : ' + requestData);
 
         try {
             res = http.send(req);
             responseBody = res.getBody();
+            system.debug('responseBody : ' + responseBody);
             if (test.isRunningTest()) {
                 TestUtility.generateException();
             }
@@ -304,6 +312,9 @@ public with sharing class ProcessPayment {
                 && res.getStatusCode() != null && res.getStatusCode() == 201) {
             System.debug('RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody);
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'Created Successfully!'));
+
+            //Call Payment, Transaction, ChargeGroups, Payment Plan Request.
+            PayStaffWSUtill.parsePaymentReponse(csrfToken, jwtToken, responseBody, true, null);
         } else {
             if (test.isRunningTest()) {
                 responseBody = TestUtility.errorBody;

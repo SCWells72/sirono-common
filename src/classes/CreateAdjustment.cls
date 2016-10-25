@@ -9,6 +9,7 @@
  * The Add Adjustment button should only appear 
  * when the user has Admin profile. do the Query and set the flag isAdmin.
  * 
+ * 10-17-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
  */
 
 public with sharing class CreateAdjustment {
@@ -26,6 +27,10 @@ public with sharing class CreateAdjustment {
     //Mohan Kumar 2016-08-16: 127328707 to show the adjustment type from the metadata type which are only enabled
     public List<SelectOption> adjustmentTypeOptions {get; set;}
     public String adjustmentTypeSelected {get; set;}
+    private Payment__c objPayment = new Payment__c();
+    private List<Transaction__c> lsttransaction = new List<Transaction__c>();
+    private List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
+    private List<test__c> lstPaymentPlan = new List<test__c>();
 
     /*Constructor initializing variables ,check login user is admin or not.
      * Fetch Adjustment_Type__mdt records.
@@ -146,6 +151,9 @@ public with sharing class CreateAdjustment {
             res = http.send(req);
             responseBody = res.getBody();
             System.debug('RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody);
+            if(Test.IsRunningTest()){
+                TestUtility.generateException();
+            }
         } catch (Exception e) {
             // Debug error response
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
@@ -158,6 +166,8 @@ public with sharing class CreateAdjustment {
                 && res.getStatusCode() != null && res.getStatusCode() == 201) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
                     'Created Successfully!'));
+            //Call Payment, Transaction, ChargeGroups, Payment Plan Request.
+            PayStaffWSUtill.parsePaymentReponse(csrfToken, jwtToken, responseBody, false, guarantorRecordId);
         } else {
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'csrfToken : '+ csrfToken));
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'jwtToken : '+ jwtToken));

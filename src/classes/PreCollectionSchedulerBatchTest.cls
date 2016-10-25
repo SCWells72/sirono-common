@@ -8,7 +8,8 @@
 @isTest
 private class PreCollectionSchedulerBatchTest {
 
-    static @isTest void main() {
+    @isTest
+    static void main() {
     contact con = TestUtility.generateGuarantorContact();
     insert con;
 
@@ -62,7 +63,8 @@ List<ApexPages.Message> msgList = ApexPages.getMessages();
 System.assertEquals(0, msgList.size());
 }
 
-static @isTest void main1() {
+    @isTest
+    static void main1() {
 contact con = TestUtility.generateGuarantorContact();
 insert con;
 
@@ -130,8 +132,8 @@ List<ApexPages.Message> msgList = ApexPages.getMessages();
 System.assertEquals(0, msgList.size());
 }
 
-
-static @isTest void executBatch() {
+    @isTest
+    static void executBatch() {
 Test.startTest();
 PreCollectionSchedulerBatch dppc = new PreCollectionSchedulerBatch();
 Database.executeBatch(dppc);

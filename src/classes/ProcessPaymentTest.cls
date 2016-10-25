@@ -1105,4 +1105,98 @@ private class ProcessPaymentTest {
         
         Test.stopTest();         
     }
+    
+    /* Unit Test for the response code.
+     * Coverage the code for the Init the Global Veriables,Call DoNext method,
+     * Submit Method,checkAmountValidation Method and checkCardValidation Method,
+     * processPayment Method get response where only non_field_errors exist in responseBody
+     */
+    static testMethod void nonFieldException() {
+        TestUtility objTestUtility = new TestUtility();
+        
+        //Create Guarantor Contact record with different Profile_Pointer_Id.
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        guarantorContact.Profile_Pointer_Id__c = 123;
+        insert guarantorContact;        
+
+        //Create Patient Contact record.
+        Contact patientContact = TestUtility.generatePatientContact();
+        insert patientContact;
+
+        //Create Payment Plan record.
+        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        insert paymentPlan;
+
+        //Call Process Payment constructor.
+        ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
+
+        //Create Invoice record.
+        Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);       
+        insert invoice;
+        
+        //Create Charge Group records.
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
+        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Reported_Selfpay_Balance__c = 10;
+        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        insert chargeGroup;
+        
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
+        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Reported_Selfpay_Balance__c = 10;
+        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        insert chargeGroup;
+        
+        //Create Transaction record.
+        Transaction__c  objTransaction = TestUtility.generateTransaction(chargeGroup,100,'Automatic');
+        insert objTransaction;
+
+        //Call Process Payment constructor with Selected charge group records.
+        objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
+        for (ChargeGroupWrapper objChargeGroupWrapper : objProcessPayment.chargeGroupList) {
+            objChargeGroupWrapper.isSelected = true;
+        }
+        
+        //Set variables based on criteria.
+        objProcessPayment.creditCardNumber = '';
+        objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
+        objProcessPayment.expirationMonth = '07';
+        objProcessPayment.creditCardNumber= '1234567891113';
+        objProcessPayment.cardHolderName= '1234567891113';
+        objProcessPayment.zip = '07897';
+        objProcessPayment.amount = '10';
+        objProcessPayment.cvv = 'test';
+        objProcessPayment.state = 'test';
+        objProcessPayment.address = 'test';
+        objProcessPayment.city = 'test';
+
+        /* Call doNext method.
+         * check any chargegroup is selected or not.
+         * We select all charge groups in above so this method is run successfully and will proceed next step. 
+         */
+        objProcessPayment.doNext();
+              
+        Test.startTest();
+        TestUtility.status = 'CREATED';
+        TestUtility.statusCode = 400;
+        TestUtility.Errorbody  = '{"non_field_errors":["Cannot directly change ChargeGroups on an existing plan"]}';
+        
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
+        
+        /* Call Submit method and It will pass the record to web api.
+         * Set variables for call the Webservice.
+         * Generate Validation Exception throw web api.
+         */
+        objProcessPayment.submit(); 
+        
+        //Check System Assert.
+        List<ApexPages.Message> msgList = ApexPages.getMessages();
+        boolean isError = false;
+        for(Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Cannot directly change ChargeGroups on an existing plan')) isError  = true;
+        }
+        System.assertEquals(isError,true); 
+        
+        Test.stopTest();         
+    }
 }

@@ -34,6 +34,8 @@ public class ChargeGroupJSONParsing {
     public String processed_charges_details;
     public Patient_data patient_data;
     public Guarantor_data guarantor_data;
+    public string account_status;
+    public string account_sub_status;
 
     public class Guarantor_data {
         public String display_id;

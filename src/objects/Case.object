@@ -720,6 +720,11 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
+        <displayedFields>
+            <field>Merge_with_Guarantor_ID__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
         <label>Sirono Review</label>
     </fieldSets>
     <fieldSets>
@@ -782,6 +787,11 @@
         </displayedFields>
         <displayedFields>
             <field>Cred_Card_last_4_Check_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Merge_with_Guarantor_ID__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -850,6 +860,11 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
+        <displayedFields>
+            <field>Merge_with_Guarantor_ID__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
         <label>Sirono Review Mailed Form Request: Receipt</label>
     </fieldSets>
     <fieldSets>
@@ -915,6 +930,11 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
+        <displayedFields>
+            <field>Merge_with_Guarantor_ID__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
         <label>Sirono Review Merge Request</label>
     </fieldSets>
     <fieldSets>
@@ -979,6 +999,11 @@
             <field>Cred_Card_last_4_Check_Number__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Merge_with_Guarantor_ID__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
         </displayedFields>
         <label>Sirono Review Missing Payment</label>
     </fieldSets>
@@ -1805,15 +1830,17 @@
     </fields>
     <fields>
         <fullName>Merge_with_Guarantor_ID__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Merge with- Guarantor ID</label>
-        <length>255</length>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Cases (Merge with- Guarantor ID)</relationshipLabel>
+        <relationshipName>Guarantor_ID</relationshipName>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Modified_At__c</fullName>
@@ -1891,13 +1918,11 @@
         <fullName>New_Home_phone__c</fullName>
         <externalId>false</externalId>
         <label>New- Home phone</label>
-        <length>255</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
+        <type>Phone</type>
     </fields>
     <fields>
         <fullName>New_Last_Name__c</fullName>
@@ -1927,13 +1952,11 @@
         <fullName>New_Mobile_phone__c</fullName>
         <externalId>false</externalId>
         <label>New- Mobile phone</label>
-        <length>255</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
+        <type>Phone</type>
     </fields>
     <fields>
         <fullName>New_PayorInsurance__c</fullName>
@@ -1999,13 +2022,11 @@
         <fullName>New_Work_phone__c</fullName>
         <externalId>false</externalId>
         <label>New- Work phone</label>
-        <length>255</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
+        <type>Phone</type>
     </fields>
     <fields>
         <fullName>New_Zipcode__c</fullName>

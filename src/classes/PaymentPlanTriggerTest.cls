@@ -2,6 +2,7 @@
  * @author Sirono
  * @version 1.0.1
  * @Date: 08-02-2016
+ * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
  */
 
 @isTest
@@ -38,7 +39,8 @@ private class PaymentPlanTriggerTest {
         update paymentPlan;
     }
 
-    static @isTest void myUnitTest1() {
+    @isTest
+    static void myUnitTest1() {
 
     Contact guarantorContact = TestUtility.generateGuarantorContact();
     guarantorContact.RecordTypeId = Schema.SObjectType.Contact.getRecordTypeInfosByName().get('Guarantor').getRecordTypeId();
@@ -47,72 +49,80 @@ private class PaymentPlanTriggerTest {
     test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
     paymentPlan.active__c = false;
     paymentPlan.Plan_Type__c = 'Automatic';
-    paymentPlan.Payable_Amount__c = -100;
+    //10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
+    paymentPlan.Payable_Amount__c = 100;
     paymentPlan.Has_Error__c = false;
     paymentPlan.Delinquent__c = true;
     insert paymentPlan;
 
     paymentPlan.Active__c = true;
-    paymentPlan.Payable_Amount__c = -101;
+    //10-19-2016: Viraj - Tracker # 132105543-Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
+    paymentPlan.Payable_Amount__c = 101;
     paymentPlan.Plan_Type__c = 'Manual';
     update paymentPlan;
 
 }
 
-static @isTest void myUnitTest3() {
-Contact guarantorContact = TestUtility.generateGuarantorContact();
-guarantorContact.RecordTypeId = Schema.SObjectType.Contact.getRecordTypeInfosByName().get('Guarantor').getRecordTypeId();
-insert guarantorContact;
-
-test__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.Id);
-paymentPlan1.active__c = true;
-paymentPlan1.Plan_Type__c = 'Automatic';
-paymentPlan1.Payable_Amount__c = -100;
-paymentPlan1.Has_Error__c = false;
-paymentPlan1.Delinquent__c = true;
-insert paymentPlan1;
-
-paymentPlan1.active__c = false;
-paymentPlan1.Delinquent__c = false;
-update paymentPlan1;
-
-}
-
-static @isTest void myUnitTest2() {
-Contact guarantorContact = TestUtility.generateGuarantorContact();
-guarantorContact.RecordTypeId = Schema.SObjectType.Contact.getRecordTypeInfosByName().get('Guarantor').getRecordTypeId();
-insert guarantorContact;
-
-test__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.Id);
-paymentPlan1.active__c = false;
-paymentPlan1.Plan_Type__c = 'Manual';
-paymentPlan1.Payable_Amount__c = -200;
-paymentPlan1.Has_Error__c = false;
-//paymentPlan1.Delinquent__c = true;
-insert paymentPlan1;
-
-paymentPlan1.active__c = true;
-paymentPlan1.Plan_Type__c = 'Automatic';
-paymentPlan1.Payable_Amount__c = -501;
-paymentPlan1.Has_Error__c = true;
-update paymentPlan1;
-}
-
-static @isTest void myUnitTest5() {
-
-Contact guarantorContact = TestUtility.generateGuarantorContact();
-guarantorContact.RecordTypeId = Schema.SObjectType.Contact.getRecordTypeInfosByName().get('Guarantor').getRecordTypeId();
-insert guarantorContact;
-
-Date refDt = Date.newInstance(TestUtility.currentYear, TestUtility.currentMonth, TestUtility.currentDay);
-
-test__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.Id);
-paymentPlan1.active__c = true;
-paymentPlan1.Plan_Type__c = 'Automatic';
-paymentPlan1.Payable_Amount__c = -100;
-paymentPlan1.Has_Error__c = true;
-paymentPlan1.Skip_Payment_Until__c = refDt.adddays(10);
-insert paymentPlan1;
-
-}
+    @isTest 
+    static void myUnitTest3() { 
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        guarantorContact.RecordTypeId = Schema.SObjectType.Contact.getRecordTypeInfosByName().get('Guarantor').getRecordTypeId();
+        insert guarantorContact;
+        
+        test__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan1.active__c = true;
+        paymentPlan1.Plan_Type__c = 'Automatic';
+        //10-19-2016: Viraj - Tracker # 132105543-Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
+        paymentPlan1.Payable_Amount__c = 100;
+        paymentPlan1.Has_Error__c = false;
+        paymentPlan1.Delinquent__c = true;
+        insert paymentPlan1;
+        
+        paymentPlan1.active__c = false; 
+        paymentPlan1.Delinquent__c = false;
+        update paymentPlan1;
+            
+   }  
+    
+    @isTest
+    static void myUnitTest2() {
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        guarantorContact.RecordTypeId = Schema.SObjectType.Contact.getRecordTypeInfosByName().get('Guarantor').getRecordTypeId();
+        insert guarantorContact;
+        
+        test__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan1.active__c = false;
+        paymentPlan1.Plan_Type__c = 'Manual';
+        //10-19-2016: Viraj - Tracker # 132105543-Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
+        paymentPlan1.Payable_Amount__c = 200;
+        paymentPlan1.Has_Error__c = false;
+        //paymentPlan1.Delinquent__c = true;
+        insert paymentPlan1;
+        
+        paymentPlan1.active__c = true;
+        paymentPlan1.Plan_Type__c = 'Automatic';
+        //10-19-2016: Viraj - Tracker # 132105543-Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
+        paymentPlan1.Payable_Amount__c = 501;
+        paymentPlan1.Has_Error__c = true;
+        update paymentPlan1;
+    } 
+    
+    @isTest
+    static void myUnitTest5() {
+        
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        guarantorContact.RecordTypeId = Schema.SObjectType.Contact.getRecordTypeInfosByName().get('Guarantor').getRecordTypeId();
+        insert guarantorContact;
+        
+        Date refDt = Date.newInstance(TestUtility.currentYear, TestUtility.currentMonth, TestUtility.currentDay);
+        
+        test__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan1.active__c = true;
+        paymentPlan1.Plan_Type__c = 'Automatic';
+        //10-19-2016: Viraj - Tracker # 132105543-Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
+        paymentPlan1.Payable_Amount__c = 100;
+        paymentPlan1.Has_Error__c = true;
+        paymentPlan1.Skip_Payment_Until__c = refDt.adddays(10); 
+        insert paymentPlan1;        
+    } 
 }

@@ -5,6 +5,8 @@
 * @description Create a Manual case based on the conditions*
 *
 * 08-05-2016: Sirono - Tracker # 127400857 For Manual Case Creation
+*
+* 10-19-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
 */
 
 
@@ -22,7 +24,9 @@ public with sharing class CreateCaseManual {
     public String caseNotes { get; set; }
     public Contact guarantorContact { get; set; }
     public Contact patientContact { get; set; }
-    private Charge_Group__c chargeGroup = new Charge_Group__c();
+    public Charge_Group__c  chargeGroup = new Charge_Group__c();
+    public string coverageJson {get;set;}
+    public string transactionJson {get;set;}
 
     /*
      * Constructor to get the guarantor and charge group details.
@@ -217,6 +221,28 @@ public with sharing class CreateCaseManual {
     public void refresh() {
         if (Apexpages.currentPage().getParameters().containsKey('reason')) {
             caseObj.Reason = Apexpages.currentPage().getParameters().get('reason');
+            /* 10-19-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
+             * Get Coverage detail based on Selected Charge Group.
+            */            
+            List<ChargeGroupCoverage__c> coverageDetail = 
+                    [SELECT Coverage__c, Coverage__r.Payor__c, Coverage__r.Payor__r.Name, Coverage__r.Plan_Name__c,
+                        Coverage__r.Date_Effective__c, Coverage__r.Subscriber_Name__c, Coverage__r.Subscriber_ID__c
+                        FROM ChargeGroupCoverage__c
+                        where Charge_Group__c =: chargeGroup.Id
+                        order by LastModifiedDate desc limit 1];
+                        
+            if (coverageDetail.size() > 0) {
+                coverageJson = json.serialize(coverageDetail[0]);
+            }
+            
+            //Get Transaction detail based on Selected Charge Group.
+            List<Transaction__c> transactionDetail = 
+                    [SELECT ID__c, Amount__c FROM Transaction__c where Charge_Group__c =: chargeGroup.Id
+                    order by LastModifiedDate desc limit 1];
+                    
+            if (transactionDetail.size() > 0) {
+                transactionJson = json.serialize(transactionDetail[0]);
+            }
         }
     }
     

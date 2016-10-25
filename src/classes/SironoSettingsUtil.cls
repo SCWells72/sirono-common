@@ -3,6 +3,7 @@
  * @version 1.0.1
  * @Date: 09-01-2016
  * Created by mmartin on 08-22-2016.
+ * 10-03-2016: Viraj Rana - Tracker #127404553: Validate PaymentPlan against custom settings to get payment plan settings from Hierarchy custom settings.
  */
 
 public with sharing class SironoSettingsUtil {
@@ -58,4 +59,38 @@ public with sharing class SironoSettingsUtil {
 
         return settings;
     }
+    
+    //10-03-2016: Viraj Rana - Tracker #127404553: Validate PaymentPlan against custom settings to get payment plan settings from Hierarchy custom settings.
+    public static Sirono_Settings__c getPaymentPlanSettings(){
+        
+        Sirono_Settings__c sironoSettings = new Sirono_Settings__c();
+        Id profileId = userinfo.getProfileId();
+        
+        sironoSettings = Sirono_Settings__c.getValues(profileId);
+        
+        if (sironoSettings == null) {
+            //Check Profile Id for Operations Manager or System Administrator.
+            List<profile> lstProfile = [select Id, name from profile where name = 'System Administrator' or name = 'Operations Manager'];
+            set<Id> setProfileId = new set<Id>();
+            if (lstProfile.size() > 0) {
+                for (profile p : lstProfile) {
+                    setProfileId.add(p.Id);
+                }
+            }
+            if (!setProfileId.contains(profileId)) {
+                sironoSettings = Sirono_Settings__c.getOrgDefaults();
+            } else {
+                //Create Custom Setting record for Operations Manager or System Administrator profile.
+                Sirono_Settings__c PaymentPlanSettings = new Sirono_Settings__c(SetupOwnerId = profileId);
+                PaymentPlanSettings.Max_Number_Plan_Installments__c = null;
+                PaymentPlanSettings.Min_Installment_Amount__c = 1;
+                PaymentPlanSettings.Min_Number_Plan_Installments__c = null;
+                insert PaymentPlanSettings;
+                
+                sironoSettings = Sirono_Settings__c.getValues(profileId);
+            }
+        }
+        
+        return sironoSettings;
+    }    
 }

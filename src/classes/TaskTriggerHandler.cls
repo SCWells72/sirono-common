@@ -3,6 +3,7 @@
 * @version 1.0.1
 * @Date: 06-06-2016
 * @Handler class for TaskTrigger.
+* #130111863 Viraj Rana 09-29-2016: update the Hours_of_Day__c  field based on the timezone defined in the custom meta data. 
 */
 
 public with sharing class TaskTriggerHandler {
@@ -119,12 +120,15 @@ public with sharing class TaskTriggerHandler {
         }
     }
 
-
-    // Call callHoursOfDay method when the task is created to calculate the Hours Of Day
+    /*#130111863 : Viraj Rana :Call Activity Dates and Timestamps
+     * Call callHoursOfDay method when the task is created to calculate the Hours Of Day
+     */
     private static void callHoursOfDay(List<Task> newList, Boolean isUpdate) {
         if (isRecursive) return;
 
-        User_Timezone__c userTimeZone = User_Timezone__c.getOrgDefaults();
+        List<User_Timezone_Setting__mdt> lstUserSetting = [Select id, Timezone_Name__c
+                                                           From User_Timezone_Setting__mdt 
+                                                           where DeveloperName = 'Default' limit 1];
         List<Task> lstTask = new List<Task>();
 
         for (Task objTask : newList) {
@@ -132,9 +136,10 @@ public with sharing class TaskTriggerHandler {
             //string customerDateTimeString = objTask.Createddate;
             //DateTime customerDateTime = DateTime.valueofGmt(customerDateTimeString);
             //string customerTimeZoneSidId = 'America/Los_Angeles';
-            if (!String.isblank(userTimeZone.Timezone_Name__c)) {
-                String strConvertedDate = objTask.Createddate.format('MM/dd/yyyy HH:mm:ss', userTimeZone.Timezone_Name__c);
-                String strHours = objTask.Createddate.format('HH', userTimeZone.Timezone_Name__c);
+            if(!lstUserSetting.IsEmpty() && !String.isblank(lstUserSetting[0].Timezone_Name__c)){
+                String selectedTimeZone = lstUserSetting[0].Timezone_Name__c;
+                String strConvertedDate = objTask.Createddate.format('MM/dd/yyyy HH:mm:ss', selectedTimeZone );
+                String strHours = objTask.Createddate.format('HH', selectedTimeZone );
                 if (isUpdate) {
                     objTask.Hours_of_Day__c = Integer.Valueof(strHours);
                 } else {

@@ -3,6 +3,8 @@
  * @version 1.0.1
  * @date: 06-06-2016
  * @description Handler Class for PaymentPlantrigger
+ *
+ * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases
 */
 public with sharing class PaymentPlanTriggerHandler {
     //static method invoked after insert event
@@ -54,7 +56,8 @@ public with sharing class PaymentPlanTriggerHandler {
             } else {
                 Test__c oldValue = oldMap.get(pp.Id);
                 if (pp.Execute_on_Day__c != oldValue.Execute_on_Day__c || pp.Skip_Payment_Until__c != oldValue.Skip_Payment_Until__c
-                        || pp.Plan_Type__c != oldValue.Plan_Type__c || pp.NextPaymentDate__c != oldValue.NextPaymentDate__c) {
+                            || pp.Plan_Type__c != oldValue.Plan_Type__c) {
+                                // || pp.NextPaymentDate__c != oldValue.NextPaymentDate__c
                     newListToSetDate.add(pp);
                 }
             }
@@ -165,6 +168,7 @@ public with sharing class PaymentPlanTriggerHandler {
     }
 
     //Sirono 08-25-2016 : 127517003 Credit Card Error Case Creation and Closure.
+        //10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
     Private static void callCCErrorCaseCreation(List<test__c> newList, Map<Id, test__c> oldMap) {
         Set<Id> contactToCreateCaseIds = new Set<Id>();
         Set<Id> contactToCloseCase = new Set<Id>();
@@ -172,11 +176,11 @@ public with sharing class PaymentPlanTriggerHandler {
 
         for (test__c plan : newList) {
             if (trigger.isInsert && plan.Plan_Type__c == 'Automatic' && plan.Has_Error__c == true
-                    && plan.Active__c == true && plan.Payable_Amount__c <= -100) {
+                    && plan.Active__c == true && plan.Payable_Amount__c >= 100) {
                 contactToCreateCaseIds.add(plan.Guarantor_Name__c);
             } else if (trigger.IsUpdate && plan.Guarantor_Name__c != null
                     && (plan.active__c == true && plan.Has_Error__c == true
-                    && plan.Payable_Amount__c <= -100 && plan.Plan_Type__c == 'Automatic' &&
+                    && plan.Payable_Amount__c >= 100 && plan.Plan_Type__c == 'Automatic' && 
                     (oldMap.get(plan.id).active__c == false || oldMap.get(plan.id).Has_Error__c == false || plan.Payable_Amount__c != oldMap.get(plan.id).Payable_Amount__c || plan.Plan_Type__c != oldMap.get(plan.id).Plan_Type__c
                     ))) {
                 contactToCreateCaseIds.add(plan.Guarantor_Name__c);

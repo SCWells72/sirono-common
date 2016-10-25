@@ -8,7 +8,8 @@
 @isTest
 public class ChargeGroupTriggerTest {
 
-    public static @isTest void main() {
+    @isTest
+    public static void main() {
     Contact con = TestUtility.generatePatientContact();
     insert con;
     Contact cont = TestUtility.generateGuarantorContact();
@@ -34,7 +35,8 @@ List<ApexPages.Message> msgList = ApexPages.getMessages();
 System.assertEquals(0, msgList.size());
 }
 
-public static @isTest void afterUpdate() {
+    @isTest
+    public static void afterUpdate() {
 Contact con = TestUtility.generatePatientContact();
 insert con;
 
