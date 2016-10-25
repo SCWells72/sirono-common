@@ -90,10 +90,6 @@
                 <behavior>Edit</behavior>
                 <field>Cred_Card_last_4_Check_Number__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Merge_with_Guarantor_ID__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
