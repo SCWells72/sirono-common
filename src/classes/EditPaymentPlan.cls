@@ -5,6 +5,9 @@
 * @description
 * Mohan Kumar 08-12-2016: Convert the amount in cents before sending it to Sirono
 * 08-19-2016: Sirono - Tracker # 127324171 CCard Validations
+* 09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31.
+* 09-30-2016: Viraj Rana - Tracker #127404553: Validate PaymentPlan against custom settings to check Monthly Installment Amount
+* based on Minimum Installment Amount and Maximum number of Installments.
 * 
 */
 
@@ -43,6 +46,7 @@ public with sharing class EditPaymentPlan {
     public decimal totalAmount { get; set; }
     public String responseBody = '';
     public Contact gc;
+    public Sirono_Settings__c PaymentPlanSettings;
     //adding values to picklist
     public List<SelectOption> expYearOptions {
         get {
@@ -112,6 +116,9 @@ public with sharing class EditPaymentPlan {
                     planType = 'promise';
                 }
             }
+            
+            PaymentPlanSettings = new Sirono_Settings__c();
+            PaymentPlanSettings = SironoSettingsUtil.getPaymentPlanSettings();
         }
 
         if (Apexpages.currentPage().getParameters().containsKey('guarantorId')) {
@@ -201,6 +208,8 @@ public with sharing class EditPaymentPlan {
     /*
      * 08-19-2016: Sirono - Tracker # 127324171
      * Method for check the amount validation.
+     * 09-30-2016: Viraj Rana - Tracker #127404553: Validate PaymentPlan against custom settings to check Monthly Installment Amount
+     * based on Minimum Installment Amount and Maximum number of Installments.
      */
     Public boolean checkAmountValidation() {
         boolean blnIsError = false;
@@ -227,11 +236,37 @@ public with sharing class EditPaymentPlan {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'Amount cannot exceed balance.'));
                 blnIsError = true;
             }
+            
+            decimal tempAmount = decimal.valueof(planType.trim().equalsIgnoreCase('promise') ? promiseAmount : amount);
+            
+            if(tempAmount < PaymentPlanSettings.Min_Installment_Amount__c){
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+                    'Monthly amount must be equal to or greater than $' + PaymentPlanSettings.Min_Installment_Amount__c + '.'));
+                blnIsError = true;
+            }
+            
+            if(tempAmount >= PaymentPlanSettings.Min_Installment_Amount__c) {
+                integer totalInstallment = integer.valueof((decimal.valueof(payableAmount)/tempAmount).round(System.RoundingMode.CEILING));
+                integer minimumInstallmentAmount = 0;
+                
+                if (PaymentPlanSettings.Max_Number_Plan_Installments__c > 0) {
+                    minimumInstallmentAmount = integer.valueof((decimal.valueof(payableAmount)/PaymentPlanSettings.Max_Number_Plan_Installments__c).round(System.RoundingMode.CEILING));
+                }
+                
+                if (totalInstallment > PaymentPlanSettings.Max_Number_Plan_Installments__c) {
+                    ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+                        'This monthly amount would exceed ' + PaymentPlanSettings.Max_Number_Plan_Installments__c + ' installments.' +
+                        ' The minimum allowed installment amount is $' + minimumInstallmentAmount + '.'));
+                    blnIsError = true;                
+                }
+            }
         }
         return blnIsError;
     }
 
-    // 09-13-2016: Viraj Rana - Tracker #130117819:   Credit Card Error Messaging Method to check the Card validation. 
+    /* 09-13-2016: Viraj Rana - Tracker #130117819: Credit Card Error Messaging Method to check the Card validation.
+     * 09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31.
+     */
     Public boolean checkCardValidation() {
         boolean blnIsError = false;
         if (creditCardNumber.length() < 12 || creditCardNumber.Length() > 19) {
@@ -294,6 +329,12 @@ public with sharing class EditPaymentPlan {
         if (isEmpty(chargeGroupId)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
                     'Charge Group is a required field.'));
+            blnIsError = true;
+        }
+        
+        if (isEmpty(executeOnDay) || Integer.valueof(executeOnDay) < 1 || Integer.valueof(executeOnDay) > 31) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+                    'Date to Charge (each month) must be a number between 1 and 31.'));
             blnIsError = true;
         }
         return blnIsError;
@@ -396,7 +437,7 @@ public with sharing class EditPaymentPlan {
             if (test.isRunningTest()) {
                 responseBody = TestUtility.errorBody;
             }
-
+            system.debug('responseBody : ' + responseBody);
             if (responseBody.Contains('non_field_errors') && responseBody.Contains('Validation exception')) {
                 JSONParser parser = JSON.createParser(responseBody);
                 WrapperErrorArray wrpPaymentPlanobj = (WrapperErrorArray) parser.readValueAs(WrapperErrorArray .class);

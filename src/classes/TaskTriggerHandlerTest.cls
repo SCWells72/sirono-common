@@ -19,11 +19,7 @@ private class TaskTriggerHandlerTest {
 
         CampaignMember campaignMember = TestUtility.generateCampaignMember(campaign.Id, guarantorContact.Id);
         insert campaignMember;
-
-        User_Timezone__c cs = new User_Timezone__c();
-        cs.Timezone_Name__c = 'America/Los_Angeles';
-        insert cs;
-
+     
         List<Task> taskListToInsert = new List<Task>();
         Task objTask = TestUtility.generateTask(guarantorContact.Id);
         objTask.CallDisposition = 'Final';

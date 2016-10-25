@@ -4,6 +4,8 @@
  * @Date: 05-02-2016
  * @ PayStaffWSUtill class to contain all common methods for PayStaff Web service
  * @ Date: 21/09/2016 tracker # 130677929 method to filter Charge Groups based on Account sub status 
+ * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
+ * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF 
  */
 
 public with sharing class PayStaffWSUtill {
@@ -493,5 +495,263 @@ public with sharing class PayStaffWSUtill {
             }
         }
         return cgList;
+    }
+    
+     /*
+    * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
+    * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
+    * Parse Payment response and call Transaction Request.
+    */
+    public static void parsePaymentReponse(String csrfToken, String jwtToken, string jsonStr, boolean isPayment, string guarantorId){
+        Payment__c objPayment = new Payment__c();
+        if (isPayment) {
+            objPayment = PaymentJSONParsing.parse(jsonStr, null);
+        } else {
+            objPayment = PaymentJSONParsing.parse(jsonStr, guarantorId);
+        }
+
+        if (objPayment != null) {
+            callTransactionRequest(csrfToken, jwtToken, objPayment, isPayment);
+        }
+    }
+
+    /*
+    * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
+    * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
+    * call Transaction Request and get all Transactions based on Payment.
+    */
+    private static void callTransactionRequest(String csrfToken, String jwtToken, Payment__c objPayment, boolean isPayment){
+        string apiName;
+        if (isPayment) {
+            apiName = 'payments';
+        } else {
+            apiName = 'adjustments';
+        }
+        
+        HttpRequest req = new HttpRequest();
+        HttpResponse res = new HttpResponse();
+
+        Http http = new Http();
+        String responseBody;
+
+        req.setMethod('GET');
+        req.setHeader('Authorization', 'JWT ' + jwtToken);
+        req.setHeader('Content-type', 'application/json');
+        req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/' + apiName + '/'
+                        + string.valueof(objPayment.ID__c) +'/transactions/');
+        req.setTimeout(120000);
+        try {
+            res = http.send(req);
+            responseBody = res.getBody();
+            system.debug('StatusCode : ' + res.getStatusCode());
+            system.debug('Transaction Response : ' + responseBody);
+
+            if(Test.isRunningTest()){
+                res.setStatusCode(TestUtility.statusCode2);
+                TestUtility.generateException();
+            }
+        } catch (Exception e) {
+            // Debug error response
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+                    'TRANSACTION EXCEPTION RESPONSE : '+ res.toString() +
+                    '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage()));
+        }
+
+        if (res.getStatusCode() != null && res.getStatusCode() == 200) {
+            parseTransactionResponse(csrfToken, jwtToken, responseBody, objPayment);
+        }else {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+                                    'RESPONSE : '+ res.toString() +
+                                    '  RESPONSE BODY::' + responseBody));
+        }
+    }
+
+    /*
+    * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
+    * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
+    * Parse Transaction response and based on Charge group call Charge group request.
+    */
+    private static void parseTransactionResponse(String csrfToken, String jwtToken, string jsonStr, Payment__c objPayment){
+        TransactionJSONParsing.TransactionWrapper objTransactionWrapper;
+        objTransactionWrapper = TransactionJSONParsing.parse(jsonStr);
+                
+        List<Transaction__c> lstTransaction = new List<Transaction__c>();
+        List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
+        List<test__c> lstPaymentPlan = new List<test__c>();
+        
+        if (objTransactionWrapper != null) {
+            if (objTransactionWrapper.transactionRecords.size() > 0) {
+                system.debug('Transaction record size : ' + objTransactionWrapper.transactionRecords.size());
+                lstTransaction = objTransactionWrapper.transactionRecords;
+            }
+            if (objTransactionWrapper.chargeGroupRecords.size() > 0) {
+                system.debug('Charge Group record size : ' + objTransactionWrapper.chargeGroupRecords.size());
+                lstChargeGroup = objTransactionWrapper.chargeGroupRecords;
+
+                for (Charge_Group__c cg : lstChargeGroup) {
+                    Charge_Group__c chargeGroup = new Charge_Group__c();
+                    chargeGroup = callChargeGroupRequest(String.valueof(cg.Charge_Group_ID__c),jwtToken);
+                    
+                    if(cg.Account_Sub_Status__c == 'Payment Plan'){
+                        test__c objPaymentPlan = new test__c();
+                        objPaymentPlan = callPaymentPlanRequest(jwtToken, string.valueof(cg.Payment_Plan__r.Sirono_ID__c),
+                            cg.Payment_Plan__r.Guarantor_Name__c);
+                        
+                        lstPaymentPlan.add(objPaymentPlan);
+                    }
+                    
+                    cg.Account_Sub_Status__c = chargeGroup.Account_Sub_Status__c;
+                    cg.Account_Status__c = chargeGroup.Account_Status__c;
+                }
+            }
+        }
+        //Save all Records.
+        insert objPayment;
+        id paymentId = objPayment.Id;
+
+        if (lsttransaction.size() > 0) {
+            for (Transaction__c objTran : lsttransaction) {
+                objTran.Payment_ID__c = paymentId;
+            }
+            insert lsttransaction;
+        }
+
+        if (lstChargeGroup.size() > 0) {
+            update lstChargeGroup;
+        }
+
+        if (lstPaymentPlan.size() > 0) {
+            update lstPaymentPlan;
+        }
+    }
+
+     /*
+    * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
+    * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
+    * make a Charge group Reqeuest to get the chargeGroupInformation
+    */
+    private static Charge_Group__c callChargeGroupRequest(String chargeGroupId,String jwtToken) {
+        Charge_Group__c chargeGroup = new Charge_Group__c();
+        
+        HttpRequest req = new HttpRequest();
+        HttpResponse res = new HttpResponse();
+
+        Http http = new Http();
+        String responseBody;
+
+        req.setMethod('GET');
+        req.setHeader('Authorization', 'JWT ' + jwtToken);
+        req.setHeader('Content-type', 'application/json');
+        req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/chargegroups/'
+                        +PayStaffWSUtill.trimCommas(chargeGroupId)+'/');
+
+        req.setTimeout(120000);
+        try {
+            res = http.send(req);
+            responseBody = res.getBody();
+
+            if(Test.isRunningTest()){
+                res.setStatusCode(TestUtility.statusCode3);
+                TestUtility.generateException();
+            }
+        } catch(Exception e) {
+            // Debug error response
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+                    'ChargeGroup EXCEPTION RESPONSE : '+ res.toString() +
+                    '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage()));
+        }
+        if (res.getStatusCode() != null && res.getStatusCode() == 200) {
+            system.debug('Charge Group Response Body : ' + responseBody);
+            chargeGroup = parseChargeGroupResponse(responseBody, jwtToken);
+        } else {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+                                    'RESPONSE : '+ res.toString() +
+                                    '  RESPONSE BODY::' + responseBody));
+        }
+        return chargeGroup;
+    }
+
+    /*
+    * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
+    * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
+    * Update the Account_Sub_Status__c and Account_Status__c.
+    * if Account_Sub_Status__c = Payment Plan than call Payment Plan request.
+    */
+    private static Charge_Group__c parseChargeGroupResponse(String responseBody, String jwtToken){
+        ChargeGroupJSONParsing objChargeGroup = ChargeGroupJSONParsing.parse(responseBody);
+        Charge_Group__c cg = new Charge_Group__c();        
+        
+        cg.Account_Sub_Status__c = objChargeGroup.account_sub_status;
+        cg.Account_Status__c = objChargeGroup.account_status;
+        return cg;
+
+        /*if(objChargeGroup.account_sub_status == 'Payment Plan'){
+            Charge_Group__c objcg = new Charge_Group__c();
+            objcg = [select Payment_Plan__c, Payment_Plan__r.Sirono_ID__c, Payment_Plan__r.Guarantor_Name__c
+                    from Charge_Group__c where id =: cg.Id limit 1];
+
+            if(objcg != null){
+                callPaymentPlanRequest(jwtToken, objcg);
+            }
+        }*/
+    }
+
+     /*
+    * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
+    * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
+    *  Call the paymentplan Web Service to get the paymentplan information.
+    */
+    private static test__c callPaymentPlanRequest(String jwtToken, string paymentPlanExternalId, string guarantorId){
+        test__c objPaymentPlan = new test__c();
+        
+        HttpRequest req = new HttpRequest();
+        HttpResponse res = new HttpResponse();
+
+        Http http = new Http();
+        String responseBody;
+
+        req.setMethod('GET');
+        req.setHeader('Authorization', 'JWT ' + jwtToken);
+        req.setHeader('Content-type', 'application/json');
+        req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/paymentplan/'
+                        +PayStaffWSUtill.trimCommas(paymentPlanExternalId)+'/');
+        req.setTimeout(120000);
+        try {
+            res = http.send(req);
+            responseBody = res.getBody();
+
+            if(Test.isRunningTest()){
+                res.setStatusCode(TestUtility.statusCode2);
+                TestUtility.generateException();
+            }
+        } catch(Exception e) {
+
+        }
+        if (res.getStatusCode() != null && res.getStatusCode() == 200) {
+
+            objPaymentPlan = parsePaymentPlanResponse(responseBody, guarantorId);
+
+        }else {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+                                    'RESPONSE : '+ res.toString() +
+                                    '  RESPONSE BODY::' + responseBody));
+        }
+        return objPaymentPlan;
+    }
+
+    /*
+    * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
+    * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
+    * parse the Payment Plan JSON.
+    */
+    private static test__c parsePaymentPlanResponse(String jsonStr, string guarantorId) {
+
+        PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
+        objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr,guarantorId,null,null);
+
+        test__c paymentPlanObj = new test__c();
+        paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
+        
+        return paymentPlanObj;
     }
 }

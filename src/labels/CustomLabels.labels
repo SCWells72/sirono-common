@@ -30,4 +30,11 @@
         <shortDescription>PayStaffEndPointURL</shortDescription>
         <value>https://demo.stage.sirono.com</value>
     </labels>
+    <labels>
+        <fullName>Payment_Plan_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Payment Plan Error</shortDescription>
+        <value>This guarantor have already active Payment Plan.</value>
+    </labels>
 </CustomLabels>

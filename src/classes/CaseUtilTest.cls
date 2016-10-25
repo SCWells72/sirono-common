@@ -4,6 +4,7 @@
 * @Date: 08-23-2016
 * @ Unit class  for the CaseUtil class.     
 * Do the code coverage for the CaseUtil class
+* 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases.
 */
 
 @isTest
@@ -31,7 +32,9 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = 'Overdue';
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        //10-19-2016: Viraj - Tracker # 132105543-Change "Overdue_Balance__c = '< 0' to '> 0'" in condition.
+        //Change transaction amount -100 to 100.
+        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
         insert objTransaction;
 
         List<Statement__c> lstStatement = new List<Statement__c>();
@@ -102,7 +105,9 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = 'Overdue';
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        //10-19-2016: Viraj - Tracker # 132105543-Change "Overdue_Balance__c = '< 0' to '> 0'" in condition.
+        //Change transaction amount -100 to 100.
+        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
         insert objTransaction;
 
         List<Statement__c> lstStatement = new List<Statement__c>();
@@ -305,7 +310,9 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = 'Overdue';
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        //10-19-2016: Viraj - Tracker # 132105543-Change "Delinquent_Balance__c = '< 0' to '> 0'" in condition.
+        //Change transaction amount -100 to 100.
+        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
         insert objTransaction;
 
         List<Statement__c> lstStatement = new List<Statement__c>();
@@ -337,12 +344,14 @@ public class CaseUtilTest {
         insert chargeGroup;
 
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
-        chargeGroup.Reported_Selfpay_Balance__c = -10;
+        chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = 'Billed';
         chargeGroup.Account_Sub_Status__c = 'Delinquent';
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        //10-19-2016: Viraj - Tracker # 132105543-Change "Delinquent_Balance__c = '< 0' to '> 0'" in condition.
+        //Change transaction amount -100 to 100.
+        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
         insert objTransaction;
 
         List<Statement__c> lstStatement = new List<Statement__c>();
@@ -407,12 +416,14 @@ public class CaseUtilTest {
         insert chargeGroup;
 
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
-        chargeGroup.Reported_Selfpay_Balance__c = -10;
+        chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = 'Billed';
         chargeGroup.Account_Sub_Status__c = 'Delinquent';
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        //10-19-2016: Viraj - Tracker # 132105543-Change "Delinquent_Balance__c = '< 0' to '> 0'" in condition.
+        //Change transaction amount -100 to 100.
+        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
         insert objTransaction;
 
         List<Statement__c> lstStatement = new List<Statement__c>();
@@ -468,12 +479,14 @@ public class CaseUtilTest {
         insert chargeGroup;
 
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
-        chargeGroup.Reported_Selfpay_Balance__c = -10;
+        chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = 'Billed';
         chargeGroup.Account_Sub_Status__c = 'Delinquent';
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        //10-19-2016: Viraj - Tracker # 132105543-Change "Delinquent_Balance__c = '< 0' to '> 0'" in condition.
+        //Change transaction amount -100 to 100.
+        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
         insert objTransaction;
 
         List<Statement__c> lstStatement = new List<Statement__c>();
@@ -672,10 +685,14 @@ public class CaseUtilTest {
         insert objTransaction;
 
         List<Encounter__c> lstEncounter = new List<Encounter__c>();
-        Encounter__c encounter1 = TestUtility.generateEncounter(guarantorContact.Id, -10, Date.today());
+        //10-19-2016: Viraj - Tracker # 132105543-Change Patient_Portion__c = '< 0' to '> 0'" in condition.
+        //Change patient Portion amount -10 to 10.
+        Encounter__c encounter1 = TestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
         lstEncounter.add(encounter1);
 
-        Encounter__c encounter2 = TestUtility.generateEncounter(guarantorContact.Id, -10, Date.today());
+        //10-19-2016: Viraj - Tracker # 132105543-Change Patient_Portion__c = '< 0' to '> 0'" in condition.
+        //Change patient Portion amount -10 to 10.
+        Encounter__c encounter2 = TestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
         lstEncounter.add(encounter2);
 
         insert lstEncounter;
@@ -748,10 +765,14 @@ public class CaseUtilTest {
         insert objTransaction;
 
         List<Encounter__c> lstEncounter = new List<Encounter__c>();
-        Encounter__c encounter1 = TestUtility.generateEncounter(guarantorContact.Id, -10, Date.today());
+        //10-19-2016: Viraj - Tracker # 132105543-Change Patient_Portion__c = '< 0' to '> 0'" in condition.
+        //Change patient Portion amount -10 to 10.
+        Encounter__c encounter1 = TestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
         lstEncounter.add(encounter1);
 
-        Encounter__c encounter2 = TestUtility.generateEncounter(guarantorContact.Id, -10, Date.today());
+        //10-19-2016: Viraj - Tracker # 132105543-Change Patient_Portion__c = '< 0' to '> 0'" in condition.
+        //Change patient Portion amount -10 to 10.
+        Encounter__c encounter2 = TestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
         lstEncounter.add(encounter2);
 
         insert lstEncounter;

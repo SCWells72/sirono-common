@@ -62,7 +62,7 @@ public class CreateCaseManualTest {
         Charge_Group__c objCG = TestUtility.generateChargeGroup(objContactguarantor.Id, objContact .id, 121343);
         insert objCG;
 
-        Transaction__c txn = TestUtility.generateTransaction(objCG, -100, 'Credit');
+        Transaction__c txn = TestUtility.generateTransaction(objCG, 100, 'Credit');
         insert txn;
 
         Apexpages.currentpage().getparameters().put('guarantorId', objContact.id);
@@ -86,8 +86,24 @@ public class CreateCaseManualTest {
         objManual.caseNotes = 'wedwew';
         objManual.gotoCaseCreation();
 
-        List<Case> lstCase = [Select id from case];
-        System.assertEquals(0, lstCase.Size(), 'Case Exist.');
+        //10-19-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
+        //Get Coverage detail for selected charge group, so we insert Converage record.
+        Coverage__c objcoverage = new Coverage__c();
+        objcoverage.Name = 'Test';
+        insert objcoverage;
+        
+        //Get Coverage detail for selected charge group, so we insert ChargeGroupCoverage__c record.
+        //Set Charge Group Id and Coverage Id.
+        ChargeGroupCoverage__c objCGCoverage = new ChargeGroupCoverage__c();
+        objCGCoverage.Name = 'Test';
+        objCGCoverage.Charge_Group__c = objManual.chargeGroup.Id;
+        objCGCoverage.Coverage__c = objcoverage.Id;
+        insert objCGCoverage;
+        
+        objmanual.refresh();
+        
+        List<Case> lstCase = [Select id from case]; 
+        System.assertEquals(0,lstCase.Size() ,'Case Exist.');    
         objManual.submit();
         lstCase = [Select id from case];
         System.assertEquals(1, lstCase.Size(), 'One Case Created.');

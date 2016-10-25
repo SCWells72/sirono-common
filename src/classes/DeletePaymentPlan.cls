@@ -5,6 +5,8 @@
  * @description
  * Mohan Kumar 08-01-2016: Ticket # 06638016 - Updated the QueryString parameter value to fix the "URL No Longer Exists" error.
  * Mohan Kumar 08-02-2016: Ticket # 06638015 - Updated the request parameter value to send the Sirono External ID and NOT salesforce record Id.
+ * Viraj Rana 10-12-2016: Ticket # 129177479 - Cancel Payment Plan in SF: Get the response parameter account_status and account_sub_status
+ * and update it to the Charge group account_status and account_sub_status.
  */
 
 public with sharing class DeletePaymentPlan {
@@ -101,9 +103,10 @@ public with sharing class DeletePaymentPlan {
         try {
             res = http.send(req);
             responseBody = res.getBody();
-
-            if (Test.isRunningTest()) {
-                res.setStatusCode(TestUtility.statusCode2);
+            //system.debug('Payment Plan Response : ' + responseBody);
+            
+            if(Test.isRunningTest()){
+                res.setStatusCode(TestUtility.statusCode2); 
                 TestUtility.generateException();
             }
         } catch (Exception e) {
@@ -168,6 +171,7 @@ public with sharing class DeletePaymentPlan {
         try {
             res = http.send(req);
             responseBody = res.getBody();
+            //system.debug('Charge Group ResponseBody : ' + responseBody);
             if (Test.isRunningTest()) {
                 res.setStatusCode(TestUtility.statusCode3);
                 TestUtility.generateException();
@@ -191,10 +195,13 @@ public with sharing class DeletePaymentPlan {
     /*
     * 09-22-2016: Viraj Rana - Tracker # 129177479
     * parse the chargroup json and update the sub status
+    * 10-12-2016: Viraj Rana - Tracker # 129177479
+    * Update the Account_Sub_Status__c and Account_Status__c.
     */
     private void parseChargeGroupResponse(String responseBody, Charge_Group__c cg) {
         ChargeGroupJSONParsing objChargeGroup = ChargeGroupJSONParsing.parse(responseBody);
-        cg.Account_Sub_Status__c = objChargeGroup.extended_status.abbreviate(29);
+        cg.Account_Sub_Status__c = objChargeGroup.account_sub_status;
+        cg.Account_Status__c = objChargeGroup.account_status; 
         cg.Payment_Plan__c = null;
     }
     

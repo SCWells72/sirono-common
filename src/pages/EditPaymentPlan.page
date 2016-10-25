@@ -5,6 +5,7 @@
 * 
 * Sirono 08-29-2016: 127326579 when Record Saved Successfully return to the PaymentPlan after few Sec.
 * 08-19-2016: Sirono - Tracker # 127324171 CCard Validations
+* 09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31.
 -->
 
 
@@ -180,8 +181,9 @@
                             </span>
                                 </td>
                                 <td> &nbsp; </td>
+				<!--09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31-->
                                 <td>
-                                    <apex:inputText styleClass="pay-staff-input" value="{!executeOnDay}"
+                                    <apex:inputText styleClass="pay-staff-input" onkeypress="return isDecimalNumberKey(event)" value="{!executeOnDay}"
                                                     id="executeOnDay"/>
                                 </td>
                             </tr>

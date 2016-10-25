@@ -2,6 +2,7 @@
 * @author: Sirono
 * @version 1.0.1
 * @Date: 08-05-2016
+* 10-19-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
 -->
 
 <apex:page standardController="Contact" Extensions="CreateCaseManual" id="pg" docType="html-5.0">
@@ -11,6 +12,36 @@
 
     <apex:sectionHeader title="Add To Case"/>
     <style>
+        span.lookupInput input {
+            display: inline!important;
+        }
+        
+        span.lookupInput a {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            border-radius: 0;
+            background-color: #fff;
+            border-style: solid;
+            border-width: 0!important;
+            border-color: #999;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+            color: rgba(0,0,0,0.75);
+            display: inherit!important;
+            font-family: inherit;
+            font-size: 0.875rem;
+            height: 2.3125rem;
+            margin: 0 0 1rem 0;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-transition: border-color 0.15s linear, background 0.15s linear;
+            -moz-transition: border-color 0.15s linear, background 0.15s linear;
+            -ms-transition: border-color 0.15s linear, background 0.15s linear;
+            -o-transition: border-color 0.15s linear, background 0.15s linear;
+            transition: border-color 0.15s linear, background 0.15s linear;
+    
+        }
+
         .pay-staff-table-full-width {
             border: 0 none;
             float: left;
@@ -477,8 +508,158 @@
 
     <apex:outputPanel id="scriptRefresh">
         <Script>
+            var GSet = function () {
+                var setObj = {}, val = {};
+                this.count = 0;
+                this.add = function (str) {
+                    setObj[str] = val;
+                    return ++this.count
+                };
+            
+                this.contains = function (str) {
+                    return setObj[str] === val;
+                };
+            
+                this.remove = function (str) {
+                    delete setObj[str];
+                    return --this.count
+                };
+            
+                this.values = function () {
+                    var values = [];
+                    for (var i in setObj) {
+                        if (setObj[i] === val) {
+                            values.push(i);
+                        }
+                    }
+                    return values;
+                };
+            };
+            
+            function fnFieldSet() {
+                if('{!coverageJson}' != '') {
+                    var objcoverage = JSON.parse('{!coverageJson}');
+                }
+                if('{!transactionJson}' != '') {
+                    var objTransaction = JSON.parse('{!transactionJson}');
+                }
+                var caseType = '{!caseType}';
+                var reason = '{!caseObj.Reason}';                
+                
+                if (caseType == 'Billing') {
+                    if (reason == 'Refund/Credit Request') {
+                        var amount = objTransaction.Amount__c;
+                        
+                        if(amount != undefined){
+                            $.map($('label'),function(o, idx) {
+                                var str = $(o).text().toString().replace(/\r?\n|\r/g, '');
+                                if(str == 'Transaction Amount') {
+                                    $(o).closest('td').find('input').val(amount);
+                                }
+                            });
+                        }
+                    } else {
+                        $.map($('label'),function(o, idx) {
+                            var str = $(o).text().toString().replace(/\r?\n|\r/g, '');
+                            if(str == 'Transaction Amount') {
+                                $(o).closest('td').find('input').val('');
+                            }
+                        });
+                    }
+                } else if (caseType == 'Payor') {
+                    var payorReasons = new GSet();
+                    payorReasons.add('Insurance Agent Called');
+                    payorReasons.add('Insurance Follow-up');
+                    payorReasons.add('Liability Account');
+                    payorReasons.add('Update Insurance');
+                    payorReasons.add('Workers Comp');
+                    payorReasons.add('Insurance Error');
+                    
+                    if(payorReasons.contains(reason)) {
+                        var carrier = objcoverage.Coverage__r.Payor__c;
+                        if (carrier != undefined) {
+                            carrier = objcoverage.Coverage__r.Payor__r.Name;
+                        }
+                        var planType = objcoverage.Coverage__r.Plan_Name__c;
+                        var effectiveDate = objcoverage.Coverage__r.Date_Effective__c;
+                        if (effectiveDate != undefined) {
+                            var dt = new Date(effectiveDate);
+                            effectiveDate = (dt.getMonth() + 1) + '/' + dt.getDate() + '/' +  dt.getFullYear();
+                        }
+                        
+                        var subscriberName = objcoverage.Coverage__r.Subscriber_Name__c;
+                        var subscriberID = objcoverage.Coverage__r.Subscriber_ID__c;
+                        
+                        $.map($('label'),function(o, idx) {
+                            var str = $(o).text().toString().replace(/\r?\n|\r/g, '');
+                            if (str == 'Carrier') {
+                                if (carrier != undefined) {
+                                    $(o).closest('td').find('input').val(carrier);
+                                }
+                            } else if (str == 'Plan Type') {
+                                if (planType != undefined) {
+                                    $(o).closest('td').find('select').val(planType);                                    
+                                    if ($(o).closest('td').find('select').val() == null) {
+                                        $(o).closest('td').find('select').val('');
+                                    }
+                                }
+                            } else if (str == 'Effective Date') {
+                                if (effectiveDate != undefined) {
+                                    $(o).closest('td').find('input').val(effectiveDate);
+                                }
+                            } else if (str == 'Subscriber Name') {
+                                if (subscriberName != undefined) {
+                                    $(o).closest('td').find('input').val(subscriberName);
+                                }
+                            } else if (str == 'Subscriber ID') {
+                                if (subscriberID != undefined) {
+                                    $(o).closest('td').find('input').val(subscriberID);
+                                }
+                            }
+                        });
+                    } else {
+                        $.map($('label'),function(o, idx) {
+                            var str = $(o).text().toString().replace(/\r?\n|\r/g, '');
+                            if (str != 'Guarantor' || str != 'Patient' || str != 'Case Reason') {
+                                if (str == 'Plan Type') {
+                                    $(o).closest('td').find('select').val('');
+                                } else {
+                                    $(o).closest('td').find('input').val('');
+                                }
+                            }
+                        });
+                    }
+                } else if (caseType == 'Sirono Review') {
+                    if (reason == 'Mailed Form Request: Receipt') {
+                        var amount = objTransaction.Amount__c;
+                        var code = objTransaction.ID__c;
+                        
+                        $.map($('label'),function(o, idx) {
+                            var str = $(o).text().toString().replace(/\r?\n|\r/g, '');
+                            if(str == 'Transaction Amount'){
+                                if(amount != undefined){
+                                    $(o).closest('td').find('input').val(amount);
+                                }
+                            } else if (str == 'Transaction Code'){
+                                if(code != undefined) {
+                                    $(o).closest('td').find('input').val(code);
+                                }
+                            }
+                        });
+                    } else {
+                        $.map($('label'),function(o, idx) {
+                            var str = $(o).text().toString().replace(/\r?\n|\r/g, '');
+                            if(str == 'Transaction Amount' || str == 'Transaction Code'){
+                                $(o).closest('td').find('input').val('');
+                            }
+                        });
+                    }
+                }
+            };
+            
             function fnCollapseNew() {
                 $(document.getElementById($('.hideListButton').attr('id'))).trigger('click');
+                fnFieldSet();
             }
             fnCollapseNew();
 
@@ -524,7 +705,6 @@
             }
 
             function refreshCaseDetails() {
-                debugger;
                 var selectedReason = $('.clsReason').val();
                 refreshFieldSet(selectedReason);
             }

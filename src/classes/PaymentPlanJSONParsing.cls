@@ -29,6 +29,7 @@ public class PaymentPlanJSONParsing {
     public Date delinquent_date;
     public List<Encounters> encounters;
     public Integer authorized_amount;
+    public String skip_payment_until;
 
     public class Encounters {
     }
@@ -86,6 +87,9 @@ public class PaymentPlanJSONParsing {
         paymentPlanObj.Execute_on_Day__c = objJson.execute_on_day;
         if (!String.Isblank(objJson.next_payment_date)) {
             paymentPlanObj.NextPaymentDate__c = Date.valueof(objJson.next_payment_date);
+        }
+        if (!String.Isblank(objJson.skip_payment_until)) {
+            paymentPlanObj.Skip_Payment_Until__c = Date.valueof(objJson.skip_payment_until);
         }
         paymentPlanObj.Has_Error__c = objJson.has_error;
         if (!String.Isblank(String.valueof(objJson.error_date))) {
@@ -172,14 +176,53 @@ public class PaymentPlanJSONParsing {
                 '   },' +
                 '   "has_error": false,' +
                 '   "charges_added_since_start": null,' +
-                '   "error_date": "2016-05-13",' +
-                '   "chargegroups": ["http://127.0.0.1:8000/paystaff/api/chargegroups/1321212/", "http://127.0.0.1:8000/paystaff/api/chargegroups/10283475/"],' +
-                '   "delinquent": false,' +
-                '   "delinquent_date": "2016-05-13",' +
-                '   "encounters": [],' +
-                '   "authorized_amount": 0' +
-                '}';
-
+        '   "error_date": "' + TestUtility.errorDate + '",'+ 
+        '   "chargegroups": ["http://127.0.0.1:8000/paystaff/api/chargegroups/1321212/", "http://127.0.0.1:8000/paystaff/api/chargegroups/10283475/"],'+
+        '   "delinquent": false,'+
+        '   "delinquent_date": "' + TestUtility.delinquentDate + '",'+ 
+        '   "encounters": [],'+
+        '   "authorized_amount": 0,'+
+        '   "skip_payment_until":"2016-12-01"'+
+        '}';
+        
+        return responseBody;
+    }
+    
+    
+    /*
+    * 08-17-2016: Sirono - Tracker # 127940071
+    *  Test response for the test class and testing.
+    */
+    Public Static String  testResponse1() {
+    
+        String responseBody =        '{'+
+        '   "url": "' + TestUtility.url+ '",'+
+        '   "active": true,'+
+        '   "installment_amount": 5000,'+
+        '   "number_installments": 7,'+
+        '   "plan_value": 32772,'+
+        '   "plan_type": "' + TestUtility.planType + '",'+
+        '   "payable_amount": 32772,'+
+        '   "execute_on_day": 13,'+
+        '   "guarantor": "http://127.0.0.1:8000/paystaff/api/guarantors/23232323/",'+
+        '   "next_payment_date": "2016-05-13",'+
+        '   "installments_paid": 0,'+
+        '   "installments_total": 7,'+
+        '   "credit_card": {'+
+        '       "card_type": "Visa",'+
+        '       "last_4": "1881"'+
+        '   },'+
+        '   "has_error": false,'+
+        '   "charges_added_since_start": null,'+
+        '   "error_date": null, '+ 
+        '   "chargegroups": ["http://127.0.0.1:8000/paystaff/api/chargegroups/1321212/", "http://127.0.0.1:8000/paystaff/api/chargegroups/10283475/"],'+
+        '   "delinquent": false,'+
+        '   "delinquent_date": null, '+ 
+        '   "encounters": [],'+
+        '   "authorized_amount": 0,'+
+        '   "skip_payment_until":"2016-12-01"'+
+        '}';
+        
         return responseBody;
     }
 }

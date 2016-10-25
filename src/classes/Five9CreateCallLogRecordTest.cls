@@ -7,7 +7,8 @@
 @isTest
 public class Five9CreateCallLogRecordTest {
 
-    static @isTest void main() {
+    @isTest
+    static void main() {
     Contact guarantorContact = TestUtility.generateGuarantorContact();
     insert guarantorContact;
 
@@ -29,7 +30,8 @@ List<ApexPages.Message> msgList = ApexPages.getMessages();
 System.assertEquals(0, msgList.size());
 }
 
-static @isTest void main1() {
+    @isTest
+    static void main1() {
 Contact guarantorContact = TestUtility.generateGuarantorContact();
 insert guarantorContact;
 

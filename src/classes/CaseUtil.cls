@@ -25,6 +25,8 @@
 * 08-25-2016: Sirono - Tracker # 127517003 For Credit Card Error Case Creation
 * 08-25-2016: Sirono - Tracker # 127517003 For Automatic Credit Card Error Case Closure
 * 08-25-2016: Sirono - Tracker # 127517003 For Add/Remove Guarantor to the CC Error Call list
+*
+* 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases
 */
 
 
@@ -53,6 +55,7 @@ Public Class CaseUtil {
     * 08-11-2016: Sirono - Tracker # 127398811
     * 08-11-2016: Sirono - Tracker # 128031249
     * Method for Create Early Out Auto Case and Add the Campaign member to Campaign.
+    * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Overdue_Balance__c = '< 0' to '> 0'" in condition.
     */
     Public Static void createEarlyOutAutoCase(List<Statement__c> statement) {
         Set<String> setContact = new Set<String>();
@@ -68,7 +71,7 @@ Public Class CaseUtil {
                         HomePhone, MobilePhone, OtherPhone
                 From contact
                 Where Id in :setContact
-                and Overdue_Balance__c < 0
+                and Overdue_Balance__c > 0
         ]);
 
         if (mapContact.size() > 0) {
@@ -233,6 +236,7 @@ Public Class CaseUtil {
     /*
     * 08-11-2016: Sirono - Tracker # 127517097 For Automatic Early-out Case Closure
     * Method for Close the Early Out Auto Case, Remove the Campaign member to Campaign.
+    * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Overdue_Balance__c = '>= 0' to '<= 0'" in condition.
     */
     Public Static void closeEarlyOutAutoCase(Set<String> setContact) {
 
@@ -244,7 +248,7 @@ Public Class CaseUtil {
                         HomePhone, MobilePhone, OtherPhone
                 From contact
                 Where Id in :setContact
-                Or Overdue_Balance__c >= 0
+                Or Overdue_Balance__c <= 0
         ]
         );
 
@@ -292,6 +296,7 @@ Public Class CaseUtil {
     /*
     * 08-12-2016: Sirono - Tracker # 127517035 For Precollections Case Creation
     * Method for Create Pre-Collection Auto Case and Add the Campaign member to Campaign.
+    * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Delinquent_Balance__c = '< 0' to '> 0'" in condition.
     */
     Public Static void createPrecollectionsAutoCase(List<Statement__c> lstStatement) {
         Set<String> setContact = new Set<String>();
@@ -310,7 +315,7 @@ Public Class CaseUtil {
                         OtherPhone
                 From contact
                 Where Id in :setContact
-                and Delinquent_Balance__c < 0
+                and Delinquent_Balance__c > 0
         ]);
 
         if (mapContact.size() > 0) {
@@ -478,6 +483,7 @@ Public Class CaseUtil {
     * 08-12-2016: Sirono - Tracker # 127517133 For Automatic Precollections Case Closure
     * 08-12-2016: Sirono - Tracker # 127517133 For Removal from Precollections campaign.
     * Method for Close Pre-Collection Auto Case and Remove the Campaign member from Campaign.
+    * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Delinquent_Balance__c = '>= 0' to '< 0'" in condition.
     */
     Public Static void closePrecollectionsAutoCase(Set<String> setContact) {
         Map<Id, Contact> mapContact = new map<Id, Contact>(
@@ -490,7 +496,7 @@ Public Class CaseUtil {
                         MobilePhone, OtherPhone
                 From contact
                 Where Id in :setContact
-                Or Delinquent_Balance__c >= 0
+                Or Delinquent_Balance__c < 0
         ]
         );
         if (mapContact.size() > 0) {
@@ -528,12 +534,14 @@ Public Class CaseUtil {
     /*
     * 08-18-2016: Sirono - Tracker # 127517035 For Precollections Case Creation
     * Method for Create Encounter Auto Case and Add the Campaign member to Campaign.
+    * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Patient_Portion__c = '< 0' to '> 0'" in condition.
     */
     Public Static void createEncounterAutoCase(List<Encounter__c> lstEncounter) {
         Set<String> setContact = new Set<String>();
 
         for (Encounter__c obj : lstEncounter) {
-            if (obj.Patient_Portion__c < 0 && obj.Date_of_Service__c >= Date.today()) {
+            //10-19-2016: Viraj - Tracker # 132105543 Change "Patient_Portion__c = '< 0' to '> 0'" in condition.
+            if (obj.Patient_Portion__c > 0 && obj.Date_of_Service__c >= Date.today()) {
                 if (obj.Guarantor__c != null) {
                     setContact.add(obj.Guarantor__c);
                 }
@@ -607,7 +615,8 @@ Public Class CaseUtil {
             //Create a new Case
             for (Encounter__c obj : lstEncounter) {
                 String strContactId;
-                if (obj.Patient_Portion__c < 0 && obj.Date_of_Service__c >= Date.today()) {
+                //10-19-2016: Viraj - Tracker # 132105543 Change "Patient_Portion__c = '< 0' to '> 0'" in condition.
+                if (obj.Patient_Portion__c > 0 && obj.Date_of_Service__c >= Date.today()) {
                     if (obj.Guarantor__c != null) strContactId = obj.Guarantor__c;
                 }
                 if (strContactId != null && !mapComplianceContact.Containskey(strContactId)) {

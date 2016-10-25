@@ -228,6 +228,7 @@
         <members>Case_Type_Require</members>
         <members>Charge_Groups_Require</members>
         <members>PayStaffEndPointURL</members>
+        <members>Payment_Plan_Error</members>
         <name>CustomLabel</name>
     </types>
     <types>
@@ -250,9 +251,11 @@
         <members>Contact</members>
         <members>Contract</members>
         <members>Discount_Type__mdt</members>
+        <members>Sirono_Settings__c</members>
         <members>TransactionPayerType__mdt</members>
         <members>User</members>
         <members>UserProvisioningRequest</members>
+        <members>User_Timezone_Setting__mdt</members>
         <name>CustomObject</name>
     </types>
     <types>
