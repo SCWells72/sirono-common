@@ -7,39 +7,34 @@
 
 @IsTest
 private class SironoSettingsUtilTest {
-    static testMethod void testNotNullSironoSettings() {
+    
+    /* Coverage the code for the SironoSettingsUtil class and init the variable,
+     * call getSettings,isSandbox and getServerEndpoint Method
+     */
+    static testMethod void getSetting() {
+        //call getSettings method of Sirono Settings Util class.
         SironoSettings__c settings = SironoSettingsUtil.getSettings();
+        
+        //Check system assert.
         System.assert(settings != null, 'No settings created in this org');
     }
 
-    static testMethod void testValidOrgSironoSettings() {
+    /* Coverage the code for the AddNote class and init the variable,
+     * call doSubmit,getPaymentPlanSettings and isSandbox Method
+     */
+    static testMethod void getSettingName() {
+        //call getSettings method of Sirono Settings Util class.
         SironoSettings__c settings = SironoSettingsUtil.getSettings();
-        String settingsName = SironoSettingsUtil.isSandbox() ? SironoSettingsUtil.sandbox : SironoSettingsUtil.production;
+        
+        //Check the setting is sandbox or production.
+        String settingsName = SironoSettingsUtil.isSandbox() ? SironoSettingsUtil.sandbox: SironoSettingsUtil.production;
+        
+        //Check system assert.
         System.assert(settings.Name.equalsIgnoreCase(settingsName), 'No settings created for this org type');
     }
 
-    static @isTest void main() {
-    Test.startTest();
-    try{
-    TestUtility.setBlank = true;
-    SironoSettingsUtil.getServerEndpoint();
-}catch(exception ex){
-System.assert(String.valueof(ex.getmessage()).Contains('Sirono server is not configured'));
-}
-Test.stopTest();
-
-//TestUtility.isTest = true;
-//SironoSettingsUtil.getServerEndpoint();
-
-}
-
-static @isTest void main1() {
-TestUtility.isTest = true;
-SironoSettingsUtil.getServerEndpoint();
-
-TestUtility.setBlank = false;
-TestUtility.isTest = false;
-SironoSettingsUtil.getServerEndpoint();
-
-}
+    @isTest
+    static void testValidEndpoint() {
+        System.assert(SironoSettingsUtil.getServerEndpoint() != null, 'No valid endpoint for this org');
+    }
 }

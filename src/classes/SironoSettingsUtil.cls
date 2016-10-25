@@ -26,9 +26,6 @@ public with sharing class SironoSettingsUtil {
     }
 
     public static Boolean isSandbox() {
-        if (TestUtility.isTest) {
-            return false;
-        }
         return [SELECT Id, IsSandbox FROM Organization LIMIT 1].IsSandbox;
     }
 
@@ -37,9 +34,7 @@ public with sharing class SironoSettingsUtil {
             if (endpointUrl == null) {
                 String sandboxName = UserInfo.getUserName().substringAfterLast('.').toLowerCase();
                 endpointUrl = sandboxUrls.get(sandboxName);
-                if (TestUtility.setBlank) {
-                    endpointUrl = null;
-                }
+                                
                 if (endpointUrl == null) {
 
                     throw new CalloutException('Sirono server is not configured');
