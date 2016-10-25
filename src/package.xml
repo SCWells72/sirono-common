@@ -203,6 +203,8 @@
         <members>Contact.Origin_Code__c</members>
         <members>Contact.Overdue_Balance__c</members>
         <members>Contact.Patient_Id__c</members>
+        <members>Contact.Patient_Satisfaction__c</members>
+        <members>Contact.Payment_Proclivity_Score__c</members>
         <members>Contact.Payment_Plan_Balance__c</members>
         <members>Contact.Pre_Invoiced_Balance__c</members>
         <members>Contact.Preferred_Contact__c</members>
