@@ -720,11 +720,6 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <displayedFields>
-            <field>Merge_with_Guarantor_ID__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
         <label>Sirono Review</label>
     </fieldSets>
     <fieldSets>
@@ -787,11 +782,6 @@
         </displayedFields>
         <displayedFields>
             <field>Cred_Card_last_4_Check_Number__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Merge_with_Guarantor_ID__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -860,11 +850,6 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <displayedFields>
-            <field>Merge_with_Guarantor_ID__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
         <label>Sirono Review Mailed Form Request: Receipt</label>
     </fieldSets>
     <fieldSets>
@@ -930,11 +915,6 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <displayedFields>
-            <field>Merge_with_Guarantor_ID__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>true</isRequired>
-        </displayedFields>
         <label>Sirono Review Merge Request</label>
     </fieldSets>
     <fieldSets>
@@ -999,11 +979,6 @@
             <field>Cred_Card_last_4_Check_Number__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>true</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Merge_with_Guarantor_ID__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
         </displayedFields>
         <label>Sirono Review Missing Payment</label>
     </fieldSets>
