@@ -4,5 +4,9 @@
         <members>StatementWrapper</members>
         <name>ApexClass</name>
     </types>
+    <types>
+        <members>Case.Merge_with_Guarantor_ID__c</members>
+        <name>CustomField</name>
+    </types>
     <version>37.0</version>
 </Package>
