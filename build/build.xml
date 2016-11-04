@@ -95,7 +95,7 @@
     </target>
 
     <target name="full_deploy" description="Full environment setup in target org"
-            depends="stop_all_scheduled_jobs, deploy, initialize_custom_settings, schedule_all_jobs"/>
+            depends="stop_all_scheduled_jobs, undeployCode, deploy, initialize_custom_settings, schedule_all_jobs"/>
 
     <target name="stop_all_scheduled_jobs" description="Stops all scheduled jobs in the target org">
         <!-- stop all scheduled jobs -->
