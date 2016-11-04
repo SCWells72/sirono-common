@@ -103,6 +103,15 @@ private class CreateAdjustmentTest {
         paymentPlan.Delinquent__c = true;
         insert paymentPlan;
         
+        //Create User as a System Administrator.
+        Profile p = [SELECT Id FROM Profile WHERE Name='System Administrator']; 
+        string userName = 'adminuser@testorg1212.com.' + UserInfo.getUserName().substringAfterLast('.').toLowerCase();
+        User u = new User(Alias = 'admin', Email='adminuser@testorg.com', 
+        EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
+        LocaleSidKey='en_US', ProfileId = p.Id, 
+        TimeZoneSidKey='America/Los_Angeles', UserName=userName);
+                
+        System.runAs(u) {        
         //Create object of CreateAdjustment and call the Create Adjustment constructor.
         CreateAdjustment objCreateAdjustment = new CreateAdjustment(new ApexPages.StandardController(guarantorContact));
         
@@ -152,7 +161,8 @@ private class CreateAdjustmentTest {
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
 	System.debug('msgList log: '+ msgList);
-        //System.assertEquals(2,msgList.size());         
+            System.assertEquals(2,msgList.size());
+        }
     }
     
     /*Coverage the code for the CreateAdjustment constructor, init the global veriables,
@@ -271,6 +281,15 @@ private class CreateAdjustmentTest {
         t.Active__c = true;
         insert t;
         
+        //Create User as a System Administrator.
+        Profile pro = [SELECT Id FROM Profile WHERE Name='System Administrator']; 
+        string userName = 'adminuser@testorg1212.com.' + UserInfo.getUserName().substringAfterLast('.').toLowerCase();
+        User u = new User(Alias = 'admin', Email='adminuser@testorg.com', 
+        EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
+        LocaleSidKey='en_US', ProfileId = pro.Id, 
+        TimeZoneSidKey='America/Los_Angeles', UserName=userName);
+        
+        System.runAs(u) {        
         //Create object of CreateAdjustment and call the Create Adjustment constructor & submit method based on Apex Parameter.
         Apexpages.currentPage().getParameters().put('guarantorId',g.Id);
         Apexpages.currentPage().getParameters().put('paymentPlanExtId','121212');
@@ -337,9 +356,10 @@ private class CreateAdjustmentTest {
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
 	System.debug('msgList log: '+ msgList);
-        //System.assertEquals(4 ,msgList.size());
+            System.assertEquals(4 ,msgList.size());
         
         Test.stopTest();
+        }
     }
     
     /*Coverage the code for the CreateAdjustment constructor, init the global veriables*/
