@@ -1631,7 +1631,7 @@
         <externalId>false</externalId>
         <label>Guarantor</label>
         <referenceTo>Contact</referenceTo>
-        <relationshipLabel>Cases 2</relationshipLabel>
+        <relationshipLabel>Cases (Guarantor)</relationshipLabel>
         <relationshipName>Cases</relationshipName>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
