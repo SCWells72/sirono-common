@@ -23,7 +23,7 @@ public with sharing class SironoSettingsUtil {
         sandboxUrls.put('sandboxmm', 'https://toledo.stage.sirono.com');
         sandboxUrls.put('cloudcoop', 'https://toledo.stage.sirono.com');
         sandboxUrls.put('qa', 'https://training.sirono.com');
-        sandboxUrls.put('demo', 'https://training.sirono.com');
+        sandboxUrls.put('demo', 'https://sf-demo.sirono.com');
     }
 
     public static Boolean isSandbox() {
