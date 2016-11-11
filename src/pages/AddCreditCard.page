@@ -91,7 +91,7 @@
                     </table>
                 </div>
             </apex:outputPanel>
-            <apex:outputLabel value="There are no charge groups" rendered="{!chargeGroupList.size == 0}"/>
+            <apex:outputLabel value="There are no charge groups" rendered="{!if(chargeGroupList.size == 0 && isActivePaymentPlan == false, true, false)}"/>
         </apex:pageBlock>
         <br/>
         <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
@@ -299,6 +299,16 @@
                 </table>
             </div>
         </apex:outputPanel>
+	<apex:outputPanel rendered="{!isActivePaymentPlan}">
+            <div class="pay-staff-clear-both">
+                <table class="pay-staff-tabale-left">
+                    <tr>
+                        <td><apex:commandButton action="{!doCancel}" value="Cancel Set Up" styleClass="pay-staff-button pay-staff-cancel-button"/></td>                        
+                    </tr>
+                </table>
+            </div>
+        </apex:outputPanel>
+
     </apex:form>
 
     <Script>
