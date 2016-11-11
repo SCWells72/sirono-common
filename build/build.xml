@@ -135,6 +135,7 @@
                 serverurl="${sf.target.serverurl}">
             <![CDATA[
                 SironoSettingsUtil.getSettings();
+                SironoSettingsUtil.getPaymentPlanSettings();
             ]]>
         </executeAnonymous>
     </target>
