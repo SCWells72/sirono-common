@@ -124,7 +124,9 @@ public class ChargeGroupJSONParsing {
                 '' +
                 '      }' +
                 '' +
-                '   }' +
+        	'   },'+
+        	'"account_status":"Billed",' +
+        	'"account_sub_status":"Paid"' +
                 '' +
                 '}';
 
