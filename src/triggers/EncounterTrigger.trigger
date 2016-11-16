@@ -8,10 +8,7 @@ trigger EncounterTrigger on Encounter__c (after insert, after update) {
     if (trigger.isAfter && trigger.isInsert) {
         EncounterTriggerHandler.afterInsert(trigger.new);
     }
-    //trigger invoked before an update event
-    if (trigger.isBefore && trigger.isUpdate) {
-        EncounterTriggerHandler.beforeUpdate(trigger.new, trigger.oldMap);
-    }
+
     //trigger invoked after an update event
     if (trigger.isAfter && trigger.isUpdate) {
         EncounterTriggerHandler.afterUpdate(trigger.new, trigger.oldMap);
