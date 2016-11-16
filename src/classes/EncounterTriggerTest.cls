@@ -94,13 +94,13 @@ private class EncounterTriggerTest {
         insert chargeGroup;
 
         lstContact = [Select Id from Contact];
-        System.assertEquals(3, lstContact.size());
+        System.assertEquals(2, lstContact.size());
         encounter.Liability__c = 300;
         encounter.Guarantor__c = null ;
         update encounter;
 
         lstContact = [Select Id from Contact];
-        System.assertEquals(3, lstContact.size());
+        System.assertEquals(2, lstContact.size());
     }
 
     //Viraj Rana 09-15-2016 : Improve the code coverage of EncounterTriggerHandler
