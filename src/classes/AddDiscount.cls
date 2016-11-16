@@ -164,7 +164,7 @@ public with sharing class AddDiscount {
             chargeGroupsSelected = false;
             
             //Call Payment, Transaction, ChargeGroups, Payment Plan Request.
-            PayStaffWSUtill.parsePaymentReponse(csrfToken, jwtToken, responseBody, false, guarantorRecordId);
+            PayStaffWSUtill.parsePaymentReponse(csrfToken, jwtToken, responseBody, false);
             
         } else {
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'CSRF_Token : '+ csrfToken));

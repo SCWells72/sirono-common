@@ -24,7 +24,7 @@ public class PaymentJSONParsing {
     public string is_voidable;
     public string post_date;
 
-    public static Payment__c parse(String json, string guarantorId) {
+    public static Payment__c parse(String json) {
         if(json.contains('[')){
             json = json.replace('[','');
             json = json.replace(']','');
@@ -32,37 +32,22 @@ public class PaymentJSONParsing {
         PaymentJSONParsing objJson = (PaymentJSONParsing) System.JSON.deserialize(json, PaymentJSONParsing.class);
 
         Payment__c objPayment = new Payment__c();
+                
+        integer guarantor = Integer.valueof(getExternalID(objJson.guarantor,'guarantors'));
         
-        string urlName = '';
-        system.debug('guarantorId : ' + guarantorId+'****'+ objJson.guarantor+'dsfsdfsdf : ');
+        contact guarantorContact = [select id from contact where Profile_Pointer_ID__c =: guarantor limit 1];    
+        objPayment.Guarantor_Name__c = guarantorContact.Id;
         
-        if (String.Isblank(guarantorId)) {
-            system.debug('guarantor : ' + objJson.guarantor+'dsfsdfsdf : '+ getExternalID(objJson.guarantor,'guarantors'));
-            integer guarantor = Integer.valueof(getExternalID(objJson.guarantor,'guarantors'));
-            
-            contact guarantorContact = [select id from contact where Profile_Pointer_ID__c =: guarantor limit 1];    
-            objPayment.Guarantor_Name__c = guarantorContact.Id;
-            
-            if (!String.Isblank(objJson.payment_date)) {
-                objPayment.Charge_Date__c = Date.valueof(objJson.payment_date);
-            }
-            objPayment.Method__c = objJson.method;
-            objPayment.Last_4__c = objJson.last_4;
-            objPayment.Processor_Transaction_ID__c = objJson.processor_transaction_id;
-            
-            urlName = 'payments';
-            
-        } else {
-            objPayment.Guarantor_Name__c = guarantorId;
-            if (!String.Isblank(objJson.post_date)) {
-                objPayment.Charge_Date__c = Date.valueof(objJson.post_date);
-            }
-            
-            urlName = 'adjustments';
+        if (!String.Isblank(objJson.payment_date)) {
+            objPayment.Charge_Date__c = Date.valueof(objJson.payment_date);
         }
+        objPayment.Method__c = objJson.method;
+        objPayment.Last_4__c = objJson.last_4;
+        objPayment.Processor_Transaction_ID__c = objJson.processor_transaction_id;            
+        
         objPayment.Amount__c = PayStaffWSUtill.convertToDollars(objJson.amount);
-        objPayment.ID__c = Integer.valueof(getExternalID(objJson.url,urlName));
-        objPayment.Name = getExternalID(objJson.url,urlName);
+        objPayment.ID__c = Integer.valueof(getExternalID(objJson.url,'payments'));
+        objPayment.Name = getExternalID(objJson.url,'payments');
 
         return objPayment;
     }
@@ -90,21 +75,6 @@ public class PaymentJSONParsing {
         '   "routing_number":null,'+
         '   "bank_account_type":null,'+
         '   "is_voidable":null'+
-        '}]';
-        
-        return responseBody;
-    }
-    
-    Public Static String  testResponse1() {
-    
-        String responseBody =        '[{'+
-        '   "url": "https://toledo.stage.sirono.com/paystaff/api/adjustments/3151479/", ' +
-        '   "chargegroup":"https://toledo.stage.sirono.com/paystaff/api/chargegroups/51724/",'+
-        '   "amount":100,'+
-        '   "code":"ADM",'+
-        '   "description":null,'+
-        '   "display_kind":"",'+
-        '   "post_date":"2016-10-13"' +
         '}]';
         
         return responseBody;

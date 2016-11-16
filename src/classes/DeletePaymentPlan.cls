@@ -18,6 +18,7 @@ public with sharing class DeletePaymentPlan {
     private List<Charge_Group__c> lstCG = new List<Charge_Group__c>();
     private test__c paymentPlanObj = new test__c();
     public Boolean blnHasError = true;
+    public Boolean blnHasFirstRequest = true;
     // Constructor of a class and initialize the variables.
     public DeletePaymentPlan() {
         username = PayStaffWSUtill.un;
@@ -137,15 +138,13 @@ public with sharing class DeletePaymentPlan {
         paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
         paymentPlanObj.Active__c = false;
         paymentPlanObj.Cancellation_Date__c = system.today();
-
-        lstCG = new List<Charge_Group__c>();
-        lstCG = objPaymentPlanWrapper.chargeGroupRecords;
-
-        for (Charge_Group__c cg : lstCG) {
-            callChargeGroupRequest(String.valueof(cg.Charge_Group_ID__c), jwtToken, cg);
+                
+        if (blnHasFirstRequest) {
+            lstCG = new List<Charge_Group__c>();
+            lstCG = objPaymentPlanWrapper.chargeGroupRecords;
         }
-
-        if (blnHasError == true) {
+        
+        if(blnHasError && blnHasFirstRequest){
             doDeletePaymentPlan(csrfToken, jwtToken);
         }
     }
@@ -238,8 +237,18 @@ public with sharing class DeletePaymentPlan {
         }
 
         if (res.getStatusCode() != null && res.getStatusCode() == 204) {
-            Update paymentPlanObj;
-            Update lstCG;
+            blnHasFirstRequest = false;
+            
+            callPaymentPlanRequest(csrfToken, jwtToken);
+            
+            for (Charge_Group__c cg : lstCG) {
+                callChargeGroupRequest(String.valueof(cg.Charge_Group_ID__c),jwtToken,cg );
+            }
+            
+            if(blnHasError == true){
+                Update paymentPlanObj;
+                Update lstCG;
+            }
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
                     'Payment plan was successfully cancelled.'));
         } else {

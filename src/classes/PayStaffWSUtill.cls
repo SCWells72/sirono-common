@@ -464,6 +464,14 @@ public with sharing class PayStaffWSUtill {
         System.debug('converted cent amount: ' + dollarAmount);
         return dollarAmount;
     }
+    
+    //Viraj Rana 11-15-2016: Convert the amount in dollars with divided by -100.
+    //It is used for covert Transaction Amount.
+    public static Decimal convertToDollarsWithNegative(Decimal amount) {
+        Decimal dollarAmount = (amount != null ? (amount/-100) : amount);
+        System.debug('converted cent amount with divided by -100: '+ dollarAmount);
+        return dollarAmount;
+    }
 
     //Convert the amount from cents to dollars
     public static String convertToDollars(String cents) {
@@ -497,21 +505,81 @@ public with sharing class PayStaffWSUtill {
         return cgList;
     }
     
+    //11-15-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF.
+    //This wrapper class is used whenever Adjustment/Discount occures.
+    public class PaymentAdjustmentwrapper {
+        Transaction__c objTransaction = new Transaction__c();
+        Charge_Group__c objChargeGroup = new Charge_Group__c();
+        test__c objPaymentPlan = new test__c();
+    }
+    
      /*
     * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * Parse Payment response and call Transaction Request.
     */
-    public static void parsePaymentReponse(String csrfToken, String jwtToken, string jsonStr, boolean isPayment, string guarantorId){
-        Payment__c objPayment = new Payment__c();
+    public static void parsePaymentReponse(String csrfToken, String jwtToken, string jsonStr, boolean isPayment){
+        
+        Payment__c objPayment;
+        List<Payment_Adjustments__c> lstPaymentAdjustment = new List<Payment_Adjustments__c>();
+        PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
+        
+        List<Transaction__c> lstTransaction = new List<Transaction__c>();
+        List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
+        List<test__c> lstPaymentPlan = new List<test__c>();
+        Map<Decimal,Decimal> mapTranPayAdjId = new Map<Decimal,Decimal>();
+        
         if (isPayment) {
-            objPayment = PaymentJSONParsing.parse(jsonStr, null);
+            objPayment = new Payment__c();
+            objPayment = PaymentJSONParsing.parse(jsonStr);
         } else {
-            objPayment = PaymentJSONParsing.parse(jsonStr, guarantorId);
+            lstPaymentAdjustment = PaymentAdjustmentJSONParsing.parse(jsonStr);
         }
 
         if (objPayment != null) {
-            callTransactionRequest(csrfToken, jwtToken, objPayment, isPayment);
+            callTransactionRequest(csrfToken, jwtToken, objPayment, null, isPayment);
+        } else if (lstPaymentAdjustment.size() > 0) {
+            for (Payment_Adjustments__c objPaymentAdjustment : lstPaymentAdjustment) {
+                objPaymentAdjustmentwrapper = callTransactionRequest(csrfToken, jwtToken, null, objPaymentAdjustment, isPayment);
+                
+                lstTransaction.add(objPaymentAdjustmentwrapper.objTransaction);
+                mapTranPayAdjId.put(objPaymentAdjustment.ID__c, objPaymentAdjustmentwrapper.objTransaction.ID__c);
+                
+                lstChargeGroup.add(objPaymentAdjustmentwrapper.objChargeGroup);
+                objPaymentAdjustment.Charge_Group_Name__c = objPaymentAdjustmentwrapper.objChargeGroup.Id;
+                
+                if (objPaymentAdjustmentwrapper.objPaymentPlan.id != null) {
+                    lstPaymentPlan.add(objPaymentAdjustmentwrapper.objPaymentPlan);
+                }
+            }
+            
+            //Save all Records if it is Take Adjustment/Discount. 
+            if (lstChargeGroup.size() > 0) {
+                update lstChargeGroup;
+            }
+            
+            if (lstPaymentPlan.size() > 0) {
+                update lstPaymentPlan;
+            }
+            
+            if (lstTransaction.size() > 0) {
+                insert lstTransaction;
+                
+                List<Transaction__c> lstTran = [SELECT Id, ID__c FROM Transaction__c
+                                            where ID__c in : mapTranPayAdjId.values()];
+                                            
+                map<Decimal, string> mapTran = new map<Decimal, string>();
+                for(Transaction__c t : lstTran){
+                    mapTran.put(t.ID__c, t.Id);
+                }
+    
+                for(Payment_Adjustments__c pa : lstPaymentAdjustment) {
+                    decimal tranId = mapTranPayAdjId.get(pa.ID__c);
+                    pa.Transaction__c = mapTran.get(tranId);
+                }
+                
+                insert lstPaymentAdjustment;
+            }
         }
     }
 
@@ -520,13 +588,9 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * call Transaction Request and get all Transactions based on Payment.
     */
-    private static void callTransactionRequest(String csrfToken, String jwtToken, Payment__c objPayment, boolean isPayment){
-        string apiName;
-        if (isPayment) {
-            apiName = 'payments';
-        } else {
-            apiName = 'adjustments';
-        }
+    private static PaymentAdjustmentwrapper callTransactionRequest(String csrfToken, String jwtToken, Payment__c objPayment, Payment_Adjustments__c objPaymentAdjustment, boolean isPayment){
+        
+        PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
         
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
@@ -537,8 +601,14 @@ public with sharing class PayStaffWSUtill {
         req.setMethod('GET');
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/' + apiName + '/'
+        if (isPayment) {
+            req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/payments/'
                         + string.valueof(objPayment.ID__c) +'/transactions/');
+        } else {
+            req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/adjustments/'
+                        + string.valueof(objPaymentAdjustment.ID__c) +'/transactions/');
+        }
+        
         req.setTimeout(120000);
         try {
             res = http.send(req);
@@ -558,12 +628,13 @@ public with sharing class PayStaffWSUtill {
         }
 
         if (res.getStatusCode() != null && res.getStatusCode() == 200) {
-            parseTransactionResponse(csrfToken, jwtToken, responseBody, objPayment);
+            objPaymentAdjustmentwrapper = parseTransactionResponse(csrfToken, jwtToken, responseBody, objPayment, objPaymentAdjustment, isPayment);
         }else {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
                                     'RESPONSE : '+ res.toString() +
                                     '  RESPONSE BODY::' + responseBody));
         }
+        return objPaymentAdjustmentwrapper;
     }
 
     /*
@@ -571,7 +642,7 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * Parse Transaction response and based on Charge group call Charge group request.
     */
-    private static void parseTransactionResponse(String csrfToken, String jwtToken, string jsonStr, Payment__c objPayment){
+    private static PaymentAdjustmentwrapper parseTransactionResponse(String csrfToken, String jwtToken, string jsonStr, Payment__c objPayment, Payment_Adjustments__c objPaymentAdjustment, boolean isPayment){
         TransactionJSONParsing.TransactionWrapper objTransactionWrapper;
         objTransactionWrapper = TransactionJSONParsing.parse(jsonStr);
                 
@@ -579,13 +650,17 @@ public with sharing class PayStaffWSUtill {
         List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
         List<test__c> lstPaymentPlan = new List<test__c>();
         
+        PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
+        
         if (objTransactionWrapper != null) {
             if (objTransactionWrapper.transactionRecords.size() > 0) {
                 system.debug('Transaction record size : ' + objTransactionWrapper.transactionRecords.size());
+                system.debug('Transaction records : ' + objTransactionWrapper.transactionRecords);
                 lstTransaction = objTransactionWrapper.transactionRecords;
             }
             if (objTransactionWrapper.chargeGroupRecords.size() > 0) {
                 system.debug('Charge Group record size : ' + objTransactionWrapper.chargeGroupRecords.size());
+                system.debug('Charge Group records : ' + objTransactionWrapper.chargeGroupRecords);
                 lstChargeGroup = objTransactionWrapper.chargeGroupRecords;
 
                 for (Charge_Group__c cg : lstChargeGroup) {
@@ -605,24 +680,38 @@ public with sharing class PayStaffWSUtill {
                 }
             }
         }
-        //Save all Records.
-        insert objPayment;
-        id paymentId = objPayment.Id;
-
-        if (lsttransaction.size() > 0) {
-            for (Transaction__c objTran : lsttransaction) {
-                objTran.Payment_ID__c = paymentId;
+        //Save all Records if it is Take Payment.
+        if (isPayment) {
+            insert objPayment;
+            id paymentId = objPayment.Id;
+    
+            if (lsttransaction.size() > 0) {
+                for (Transaction__c objTran : lsttransaction) {
+                    objTran.Payment_ID__c = paymentId;
+                }
+                insert lsttransaction;
             }
-            insert lsttransaction;
+            
+            if (lstChargeGroup.size() > 0) {
+                update lstChargeGroup;
+            }
+    
+            if (lstPaymentPlan.size() > 0) {
+                update lstPaymentPlan;
+            }
+        } else {
+            //It is used for Adjustment/Discount.
+            if (lsttransaction.size() > 0) {
+                objPaymentAdjustmentwrapper.objTransaction = lsttransaction[0];
+            }
+            if (lstChargeGroup.size() > 0) {
+                objPaymentAdjustmentwrapper.objChargeGroup = lstChargeGroup[0];
+            }
+            if (lstPaymentPlan.size() > 0) {
+                objPaymentAdjustmentwrapper.objPaymentPlan = lstPaymentPlan[0];
+            }
         }
-
-        if (lstChargeGroup.size() > 0) {
-            update lstChargeGroup;
-        }
-
-        if (lstPaymentPlan.size() > 0) {
-            update lstPaymentPlan;
-        }
+        return objPaymentAdjustmentwrapper;
     }
 
      /*

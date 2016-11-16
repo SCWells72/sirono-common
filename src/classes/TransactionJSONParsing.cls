@@ -51,8 +51,8 @@ public class TransactionJSONParsing {
                 string transactionExternalId = getExternalID(String.valueof(objJson.url),'transaction');
 
                 objTransaction.ID__c = Integer.valueof(transactionExternalId);
-                objTransaction.Name = transactionExternalId;
-                objTransaction.Amount__c = PayStaffWSUtill.convertToDollars(objJson.amount);
+                objTransaction.Name = objJson.method + '-' + transactionExternalId;
+                objTransaction.Amount__c = PayStaffWSUtill.convertToDollarsWithNegative(objJson.amount);
                 if (!String.Isblank(objJson.post_date)) {
                     objTransaction.Post_Date__c = Date.valueof(objJson.post_date);
                 }

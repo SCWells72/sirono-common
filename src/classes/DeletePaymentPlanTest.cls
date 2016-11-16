@@ -169,13 +169,14 @@ private class DeletePaymentPlanTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 200;
+        TestUtility.statusCode4 = 204;
         TestUtility.statusCode3 = 204;
         TestUtility.responsebody = PaymentPlanJSONParsing.testResponse();
 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         objDeletePaymentPlan.doSubmit();
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(1, msgList.size());
+        System.assertEquals(3 ,msgList.size());
         Test.stopTest();
     }
     
@@ -201,6 +202,40 @@ private class DeletePaymentPlanTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 200;
+        TestUtility.responsebody =  PaymentPlanJSONParsing.testResponse();
+        
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
+        objDeletePaymentPlan.doSubmit();
+        
+        List<ApexPages.Message> msgList = ApexPages.getMessages();
+        System.assertEquals(2 ,msgList.size());
+        
+        Test.stopTest(); 
+    }
+    
+    static testMethod void submit6() {
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        insert guarantorContact;
+
+        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Active__c = true;
+        paymentPlan.Plan_Type__c = 'Automatic';
+        paymentPlan.Sirono_ID__c = 2876;
+        insert paymentPlan;
+        
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id,null,1321212);
+        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        insert chargeGroup;
+    
+        Apexpages.currentPage().getParameters().put('guarantorId',guarantorContact.Id);
+        Apexpages.currentPage().getParameters().put('paymentPlanId',paymentPlan.ID);
+        Apexpages.currentPage().getParameters().put('paymentPlanExtId',String.valueof(paymentPlan.Sirono_ID__c));
+
+        DeletePaymentPlan objDeletePaymentPlan = new DeletePaymentPlan();
+        Test.startTest();
+        TestUtility.status = 'CREATED';
+        TestUtility.statusCode = 200;
+        TestUtility.statusCode4 = 204;
         TestUtility.responsebody =  PaymentPlanJSONParsing.testResponse();
         
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
