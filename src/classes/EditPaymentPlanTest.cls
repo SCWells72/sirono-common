@@ -208,6 +208,8 @@ private class EditPaymentPlanTest {
         objEditPaymentPlan.address = 'test';
         objEditPaymentPlan.city = 'test';
         
+        objEditPaymentPlan.getPaymentPlanSettings();
+        
         Test.startTest();        
         objEditPaymentPlan.doSubmit();
         Test.stopTest();
@@ -271,6 +273,8 @@ private class EditPaymentPlanTest {
         objEditPaymentPlan.state = 'test';
         objEditPaymentPlan.address = 'test';
         objEditPaymentPlan.city = 'test';
+        
+        objEditPaymentPlan.getPaymentPlanSettings();
         
         Test.startTest();        
         objEditPaymentPlan.doSubmit();

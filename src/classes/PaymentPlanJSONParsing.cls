@@ -30,6 +30,7 @@ public class PaymentPlanJSONParsing {
     public List<Encounters> encounters;
     public Integer authorized_amount;
     public String skip_payment_until;
+    public String status;
 
     public class Encounters {
     }
@@ -105,7 +106,7 @@ public class PaymentPlanJSONParsing {
         }
 
         paymentPlanObj.Guarantor_Name__c = contactId;
-
+        paymentPlanObj.Status__c = objJson.status;
         if (!String.Isblank(objJson.url)) {
             String strPaymentPlan = getExternalID(String.valueof(objJson.url), 'paymentplan');
             Decimal paymentPlanExternalID = Decimal.Valueof(strPaymentPlan);
@@ -182,7 +183,8 @@ public class PaymentPlanJSONParsing {
         '   "delinquent_date": "' + TestUtility.delinquentDate + '",'+ 
         '   "encounters": [],'+
         '   "authorized_amount": 0,'+
-        '   "skip_payment_until":"2016-12-01"'+
+        '   "skip_payment_until":"2016-12-01",'+
+        '   "status":"started"'+
         '}';
         
         return responseBody;
@@ -220,7 +222,8 @@ public class PaymentPlanJSONParsing {
         '   "delinquent_date": null, '+ 
         '   "encounters": [],'+
         '   "authorized_amount": 0,'+
-        '   "skip_payment_until":"2016-12-01"'+
+        '   "skip_payment_until":"2016-12-01",'+
+        '   "status":"started"'+
         '}';
         
         return responseBody;
