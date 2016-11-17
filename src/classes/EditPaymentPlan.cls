@@ -46,7 +46,7 @@ public with sharing class EditPaymentPlan {
     public decimal totalAmount { get; set; }
     public String responseBody = '';
     public Contact gc;
-    public Sirono_Settings__c PaymentPlanSettings;
+    public Sirono_Settings__c PaymentPlanSettings = new Sirono_Settings__c();
     //adding values to picklist
     public List<SelectOption> expYearOptions {
         get {
@@ -116,9 +116,6 @@ public with sharing class EditPaymentPlan {
                     planType = 'promise';
                 }
             }
-            
-            PaymentPlanSettings = new Sirono_Settings__c();
-            PaymentPlanSettings = SironoSettingsUtil.getPaymentPlanSettings();
         }
 
         if (Apexpages.currentPage().getParameters().containsKey('guarantorId')) {
@@ -173,6 +170,18 @@ public with sharing class EditPaymentPlan {
         }
         return pg;
     }
+    
+    /*11-17-2016: Viraj Rana - Tracker #127404553
+     *It is used to get Payment Plan Setting.
+     *It is called in VF page,
+     *becuase of whenever profile is "Operations Manager or System Administrator" at that we need to create new custom setting for it.
+     *If we create using class than we can't send Web Request after insert so we use this method using VF page.
+    */
+    public void getPaymentPlanSettings(){
+         PaymentPlanSettings = new Sirono_Settings__c();
+         PaymentPlanSettings = SironoSettingsUtil.getPaymentPlanSettings();
+    }
+    
     /*
      * 08-19-2016: Sirono - Tracker # 127324171
      * Method for check the validation.

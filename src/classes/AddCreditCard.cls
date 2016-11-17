@@ -39,7 +39,7 @@ public with sharing class AddCreditCard {
     public String responseBody = '';
     public decimal dctotalAmount = 0;
     public Contact gc;
-    public Sirono_Settings__c PaymentPlanSettings;
+    public Sirono_Settings__c PaymentPlanSettings = new Sirono_Settings__c();
     public Boolean isActivePaymentPlan {get;set;}
     //Adding values to the picklist 
     public List<SelectOption> paymentPlanTypeOptions {
@@ -100,9 +100,6 @@ public with sharing class AddCreditCard {
             }
             chargeGroupId = '';
             
-            PaymentPlanSettings = new Sirono_Settings__c();
-            PaymentPlanSettings = SironoSettingsUtil.getPaymentPlanSettings();
-            
             //10-12-2016: Viraj Rana - Tracker #131459561: Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
             isActivePaymentPlan = checkPaymentPlanExist(guarantorRecordId);
         }
@@ -160,7 +157,18 @@ public with sharing class AddCreditCard {
         }
         return pg;
     }
-
+    
+    /*11-17-2016: Viraj Rana - Tracker #127404553
+     *It is used to get Payment Plan Setting.
+     *It is called in VF page,
+     *becuase of whenever profile is "Operations Manager or System Administrator" at that we need to create new custom setting for it.
+     *If we create using class than we can't send Web Request after insert so we use this method using VF page.
+    */
+    public void getPaymentPlanSettings(){
+         PaymentPlanSettings = new Sirono_Settings__c();
+         PaymentPlanSettings = SironoSettingsUtil.getPaymentPlanSettings();
+    }
+    
     //Controller Method invoked from Visualforce page
     public void doSubmit() {
         try {

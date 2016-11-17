@@ -44,7 +44,7 @@ Public Class TestUtility {
         guarantorContact.LastName = 'G Test';
         Integer tempRandom = Integer.valueOf(math.rint(math.random()*1212));
         Integer tempRandom2 = Integer.valueOf(math.rint(math.random()*12));
-        Integer randomInt = tempRandom * tempRandom2;
+        Integer randomInt = (tempRandom * tempRandom2) + Integer.valueOf(DateTime.now().getTime());
         //Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1000));        
         guarantorContact.Profile_Pointer_Id__c = Decimal.valueOf(randomInt);
         guarantorContact.HomePhone = '111';
@@ -59,7 +59,7 @@ Public Class TestUtility {
         patientContact.LastName = 'G Test';
         Integer tempRandom = Integer.valueOf(math.rint(math.random()*100));
         Integer tempRandom2 = Integer.valueOf(math.rint(math.random()*123));
-        Integer randomInt = tempRandom * tempRandom2;
+        Integer randomInt = (tempRandom * tempRandom2) + Integer.valueOf(DateTime.now().getTime());
         //Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*100));
         patientContact.Profile_Pointer_Id__c = Decimal.valueOf(randomInt);
         patientContact.HomePhone = '111';
@@ -77,7 +77,7 @@ Public Class TestUtility {
         //Ignore the external Id passed in the method parameter and set the dynamic value
         Integer tempRandom = Integer.valueOf(math.rint(math.random()*150));
         Integer tempRandom2 = Integer.valueOf(math.rint(math.random()*500));
-        Integer randomInt = tempRandom * tempRandom2;
+        Integer randomInt = (tempRandom * tempRandom2) + Integer.valueOf(DateTime.now().getTime());
         //Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1212));
         chargeGroup.Charge_Group_ID__c = Decimal.valueOf(randomInt);
         chargeGroup.Patient_Name__c = patientContactId;
@@ -123,7 +123,7 @@ Public Class TestUtility {
         //Ignore the external Id passed in the method parameter and set the dynamic value
         Integer tempRandom = Integer.valueOf(math.rint(math.random()*505));
         Integer tempRandom2 = Integer.valueOf(math.rint(math.random()*120));
-        Integer randomInt = tempRandom * tempRandom2;
+        Integer randomInt = (tempRandom * tempRandom2) + Integer.valueOf(DateTime.now().getTime());
         //Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*12));
         cg.Charge_Group_ID__c = Decimal.valueOf(randomInt);
         cg.Patient_Name__c = patientContactId;

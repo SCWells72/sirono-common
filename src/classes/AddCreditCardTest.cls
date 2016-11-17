@@ -111,7 +111,7 @@ private class AddCreditCardTest {
         objAddCreditCard.address = 'test';
         objAddCreditCard.city = 'test';
         objAddCreditCard.doNext();
-        
+        objAddCreditCard.getPaymentPlanSettings();
         objAddCreditCard.doSubmit();
         
         List<ApexPages.Message> msgList = ApexPages.getMessages();
@@ -166,7 +166,7 @@ private class AddCreditCardTest {
         objAddCreditCard.address = 'test';
         objAddCreditCard.city = 'test';
         objAddCreditCard.doNext();
-        
+        objAddCreditCard.getPaymentPlanSettings();
         objAddCreditCard.doSubmit();
         
         List<ApexPages.Message> msgList = ApexPages.getMessages();

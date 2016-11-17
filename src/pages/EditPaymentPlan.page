@@ -9,7 +9,7 @@
 -->
 
 
-<apex:page controller="EditPaymentPlan" id="pg">
+<apex:page controller="EditPaymentPlan" id="pg" action="{!getPaymentPlanSettings}">
     <!--Sirono 08-29-2016:  Indclude JQuery-->
     <apex:includeScript value="{!URLFOR($Resource.Jquery, 'jquery-3.0.0.min.js')}"/>
 

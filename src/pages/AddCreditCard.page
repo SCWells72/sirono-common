@@ -10,7 +10,7 @@
 * 
 *-->
 
-<apex:page controller="AddCreditCard" id="pg">
+<apex:page controller="AddCreditCard" id="pg" action="{!getPaymentPlanSettings}">
     <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
     <apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>
 
