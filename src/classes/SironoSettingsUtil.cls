@@ -20,8 +20,6 @@ public with sharing class SironoSettingsUtil {
     static {
         sandboxUrls = new Map<String, String>();
         sandboxUrls.put('dev', 'https://toledo.stage.sirono.com');
-        sandboxUrls.put('sandboxmm', 'https://toledo.stage.sirono.com');
-        sandboxUrls.put('cloudcoop', 'https://toledo.stage.sirono.com');
         sandboxUrls.put('qa', 'https://training.sirono.com');
         sandboxUrls.put('demo', 'https://sf-demo.sirono.com');
     }
