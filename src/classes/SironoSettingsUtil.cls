@@ -38,7 +38,8 @@ public with sharing class SironoSettingsUtil {
                                 
                 if (endpointUrl == null) {
 
-                    throw new CalloutException('Sirono server is not configured');
+                    System.debug('Sirono server is not configured');
+                    endpointUrl = sandboxUrls.get('dev');
 
                 }
             }
