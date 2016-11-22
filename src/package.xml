@@ -528,6 +528,18 @@
         <name>MatchingRules</name>
     </types>
     <types>
+        <members>Admin</members>
+        <members>Call Center Agent</members>
+        <members>Call Center Manager</members>
+        <members>Five9CreateCallLogRecord Profile</members>
+        <members>Operations Manager</members>
+        <members>Partner - Hospital Staff</members>
+        <members>Partner Community Profile</members>
+        <members>Partner Community User</members>
+        <members>Sirono Integration Admin</members>
+        <name>Profiles</name>
+    </types>
+    <types>
         <members>*</members>
         <name>Queue</name>
     </types>
