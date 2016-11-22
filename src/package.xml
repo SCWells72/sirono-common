@@ -434,6 +434,7 @@
         <members>Service__c-Services Layout</members>
         <members>Statement__c-Statement Layout</members>
         <members>Statement__c-Statements</members>
+        <members>Task-Task Layout</members>
         <members>TransactionPayerType__mdt-Transaction Payer Type Layout</members>
         <members>Transaction_Type__c-Transaction Type Layout</members>
         <members>Transaction_Type__c-Transactions</members>
@@ -445,6 +446,7 @@
         <members>UserProvAccount-User Provisioning Account Layout</members>
         <members>UserProvisioningLog-User Provisioning Log Layout</members>
         <members>UserProvisioningRequest-User Provisioning Request Layout</members>
+        <members>User_Timezone_Setting__mdt-User Timezone Layout</members>
         <members>test__c-Payment Layout</members>
         <members>test__c-Payments</members>
         <name>Layout</name>
