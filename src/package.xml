@@ -537,7 +537,7 @@
         <members>Partner Community Profile</members>
         <members>Partner Community User</members>
         <members>Sirono Integration Admin</members>
-        <name>Profiles</name>
+        <name>Profile</name>
     </types>
     <types>
         <members>*</members>
