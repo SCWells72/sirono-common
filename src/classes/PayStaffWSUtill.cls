@@ -673,6 +673,10 @@ public with sharing class PayStaffWSUtill {
                             cg.Payment_Plan__r.Guarantor_Name__c);
                         
                         lstPaymentPlan.add(objPaymentPlan);
+                        
+                        if (chargeGroup.Account_Sub_Status__c != 'Payment Plan') {
+                            cg.Payment_Plan__c = null;
+                        }
                     }
                     
                     cg.Account_Sub_Status__c = chargeGroup.Account_Sub_Status__c;
