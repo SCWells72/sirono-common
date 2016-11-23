@@ -3463,6 +3463,11 @@
         <field>test__c.Time_to_Delinquency__c</field>
         <readable>false</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>User_Timezone_Setting__mdt.Timezone_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>Adjustment_Type__mdt-Adjustment Type Layout</layout>
     </layoutAssignments>
@@ -3471,6 +3476,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>CampaignMember-Campaign Member Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Campaign_Mapping__mdt-Salesforce Campaign Name Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Campaign_Member_History__c-Campaign Members History</layout>
@@ -3633,6 +3641,9 @@
         <layout>Statement__c-Statements</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Task-Task Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>TransactionPayerType__mdt-Transaction Payer Type Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3661,6 +3672,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>test__c-Payments</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>User_Timezone_Setting__mdt-User Timezone Layout</layout>
     </layoutAssignments>
     <objectPermissions>
         <allowCreate>false</allowCreate>
