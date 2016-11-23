@@ -27,6 +27,10 @@ public with sharing class CreateCaseManual {
     public Charge_Group__c  chargeGroup = new Charge_Group__c();
     public string coverageJson {get;set;}
     public string transactionJson {get;set;}
+    
+    //11-23-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
+    //This set is also used whenever we got Coverage record based on Charge Group's "Date Of Service Start" field.
+    Set<String> setChargeGroupId = new Set<String>();
 
     /*
      * Constructor to get the guarantor and charge group details.
@@ -126,7 +130,6 @@ public with sharing class CreateCaseManual {
                 chargeGroupsSelected = true;
             }
 
-            Set<String> setChargeGroupId = new Set<String>();
             for (ChargeGroupWrapper cg : chrageGroupList) {
                 if (cg.isSelected) {
                     setChargeGroupId.add(cg.cg.id);
@@ -221,6 +224,21 @@ public with sharing class CreateCaseManual {
     public void refresh() {
         if (Apexpages.currentPage().getParameters().containsKey('reason')) {
             caseObj.Reason = Apexpages.currentPage().getParameters().get('reason');
+            
+            /* 11-23-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
+             * Populating coverage data using the selected Chargegroup with the oldest "Date Of Service Start" field.
+            */            
+            Charge_Group__c cg = new Charge_Group__c();
+            List<Charge_Group__c> lstChargeGroup  = [
+                                                        Select id
+                                                        From Charge_Group__c
+                                                        Where Id in :setChargeGroupId
+                                                        order by Date_Of_Service_Start_Date__c
+                                                    ];
+            if (lstChargeGroup.size() > 0) {
+                cg = lstChargeGroup[0];
+            }
+            
             /* 10-19-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
              * Get Coverage detail based on Selected Charge Group.
             */            
@@ -228,7 +246,7 @@ public with sharing class CreateCaseManual {
                     [SELECT Coverage__c, Coverage__r.Payor__c, Coverage__r.Payor__r.Name, Coverage__r.Plan_Name__c,
                         Coverage__r.Date_Effective__c, Coverage__r.Subscriber_Name__c, Coverage__r.Subscriber_ID__c
                         FROM ChargeGroupCoverage__c
-                        where Charge_Group__c =: chargeGroup.Id
+                        where Charge_Group__c =: cg.Id
                         order by LastModifiedDate desc limit 1];
                         
             if (coverageDetail.size() > 0) {
