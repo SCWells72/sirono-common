@@ -581,10 +581,11 @@
                             carrier = objcoverage.Coverage__r.Payor__r.Name;
                         }
                         var planType = objcoverage.Coverage__r.Plan_Name__c;
-                        var effectiveDate = objcoverage.Coverage__r.Date_Effective__c;
+                        
+                        //11-23-2016: Viraj Rana - Change to resolved Time Zone issue for Effective Date.
+                        var effectiveDate = objcoverage.Coverage__r.Date_Effective__c;                                                
                         if (effectiveDate != undefined) {
-                            var dt = new Date(effectiveDate);
-                            effectiveDate = (dt.getMonth() + 1) + '/' + dt.getDate() + '/' +  dt.getFullYear();
+                            effectiveDate = effectiveDate.split('-')[1] + '/' + effectiveDate.split('-')[2] + '/' + effectiveDate.split('-')[0];
                         }
                         
                         var subscriberName = objcoverage.Coverage__r.Subscriber_Name__c;
