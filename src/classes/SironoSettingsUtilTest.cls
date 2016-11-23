@@ -53,6 +53,10 @@ private class SironoSettingsUtilTest {
 
     @isTest
     static void testValidEndpoint() {
+
+        list<SironoSettings__c> testSironoSettings = TestUtility.generateSironoSettings();
+        insert testSironoSettings;
+
         System.assert(SironoSettingsUtil.getServerEndpoint() != null, 'No valid endpoint for this org');
     }
 }

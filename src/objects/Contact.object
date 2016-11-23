@@ -1658,6 +1658,6 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
         <masterLabel>View On Portal</masterLabel>
         <openType>onClickJavaScript</openType>
         <protected>false</protected>
-        <url>window.open(&quot;https://{!RIGHT($Label.PayStaffEndPointURL, LEN($Label.PayStaffEndPointURL)-8) }/portal/staff/login/?next=/portal/staff/guarantor-mask/{!SUBSTITUTE(TEXT( Contact.Profile_Pointer_ID__c ), &apos;,&apos;, &apos;&apos;) }&quot;, &quot;_blank&quot;)</url>
+        <url>window.open(&quot;{!$Setup.Sirono_Settings__c.Server_Endpoint_URL__c}/portal/staff/login/?next=/portal/staff/guarantor-mask/{!SUBSTITUTE(TEXT( Contact.Profile_Pointer_ID__c ), &apos;,&apos;, &apos;&apos;) }&quot;, &quot;_blank&quot;)</url>
     </webLinks>
 </CustomObject>

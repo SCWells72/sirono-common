@@ -22,28 +22,53 @@ public with sharing class SironoSettingsUtil {
         sandboxUrls.put('dev', 'https://toledo.stage.sirono.com');
         sandboxUrls.put('qa', 'https://training.sirono.com');
         sandboxUrls.put('demo', 'https://sf-demo.sirono.com');
+        sandboxUrls.put('prod', 'https://demo.stage.sirono.com');
     }
 
     public static Boolean isSandbox() {
         return [SELECT Id, IsSandbox FROM Organization LIMIT 1].IsSandbox;
     }
 
+    public static String getSandboxName(){
+        String sandboxName = userinfo.getUserName().substringAfterLast('.').toLowerCase();
+        return sandboxName;
+    }
+
     public static String getServerEndpoint() {
         if (isSandbox()) {
             if (endpointUrl == null) {
-                String sandboxName = UserInfo.getUserName().substringAfterLast('.').toLowerCase();
-                endpointUrl = sandboxUrls.get(sandboxName);
+
+                Sirono_Settings__c settings = Sirono_Settings__c.getInstance();
+
+                if (String.isNotEmpty(settings.Server_Endpoint_URL__c)){
+                    endpointUrl = settings.Server_Endpoint_URL__c;
+                }
                                 
                 if (endpointUrl == null) {
-
+                    // TODO: IF the endpointUrl is still null, call the initialize endpoint URLs method
                     System.debug('Sirono server is not configured');
-                    endpointUrl = sandboxUrls.get('dev');
+                    String sandboxEndpoint = sandboxUrls.get(getSandboxName());
 
+                    // Set endpoint URL to dev for any sandbox that has a name other than Dev
+                    if(String.isEmpty(sandboxEndpoint)){
+                        endpointUrl = sandboxUrls.get('dev');
+                    } else {
+                        settings.Server_Endpoint_URL__c = sandboxEndpoint;
+                        upsert settings;
+                        endpointUrl = settings.Server_Endpoint_URL__c;
+                    }
                 }
             }
             return endpointUrl;
+
         } else {
-            return Label.PayStaffEndPointURL;
+            if (endpointUrl == null) {
+                Sirono_Settings__c settings = Sirono_Settings__c.getInstance();
+                settings.Server_Endpoint_URL__c = sandboxUrls.get('prod');
+                upsert settings;
+                endpointUrl = settings.Server_Endpoint_URL__c;
+            }
+            return endpointUrl;
         }
     }
 

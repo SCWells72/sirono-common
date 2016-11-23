@@ -38,6 +38,16 @@
         <type>Number</type>
         <unique>false</unique>
     </fields>
+    <fields>
+        <fullName>Server_Endpoint_URL__c</fullName>
+        <defaultValue>&quot;https://toledo.stage.sirono.com&quot;</defaultValue>
+        <description>Server endpoint for Sirono application.</description>
+        <externalId>false</externalId>
+        <label>Server Endpoint URL</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
     <label>Sirono Settings New</label>
     <visibility>Public</visibility>
 </CustomObject>
