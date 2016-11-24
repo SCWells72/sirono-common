@@ -15,6 +15,10 @@ public with sharing class PayStaffWSUtill {
     public static final String STMTURL = '{0}/paystaff/api/guarantors/{1}/statements/';
     public static final String UN = 'sgullapali';
     public static final String PW = 'p@ssw0rd';
+    
+    //11-23-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
+    //It is used to verified that Charge Group have longer Payment Plan Look up or not.
+    static boolean hasChargeGroupPaymentPlan = false;
 
     //get the current + 10 Years list
     public static List<SelectOption> expYearOptions {
@@ -664,19 +668,25 @@ public with sharing class PayStaffWSUtill {
                 lstChargeGroup = objTransactionWrapper.chargeGroupRecords;
 
                 for (Charge_Group__c cg : lstChargeGroup) {
+                    //11-23-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
+                    //Boolean variable set to false for all Charge Group whenever Request made.
+                    hasChargeGroupPaymentPlan = true;
+                    
                     Charge_Group__c chargeGroup = new Charge_Group__c();
                     chargeGroup = callChargeGroupRequest(String.valueof(cg.Charge_Group_ID__c),jwtToken);
                     
-                    if(cg.Account_Sub_Status__c == 'Payment Plan'){
+                    if (cg.Account_Sub_Status__c == 'Payment Plan') {
                         test__c objPaymentPlan = new test__c();
                         objPaymentPlan = callPaymentPlanRequest(jwtToken, string.valueof(cg.Payment_Plan__r.Sirono_ID__c),
-                            cg.Payment_Plan__r.Guarantor_Name__c);
+                           cg.Payment_Plan__r.Guarantor_Name__c);
                         
                         lstPaymentPlan.add(objPaymentPlan);
-                        
-                        if (chargeGroup.Account_Sub_Status__c != 'Payment Plan') {
-                            cg.Payment_Plan__c = null;
-                        }
+                    }
+                    
+                    //11-23-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
+                    //If Charge Group have no longer Payment Plan than set it null.
+                    if (!hasChargeGroupPaymentPlan) {
+                        cg.Payment_Plan__c = null;
                     }
                     
                     cg.Account_Sub_Status__c = chargeGroup.Account_Sub_Status__c;
@@ -776,6 +786,13 @@ public with sharing class PayStaffWSUtill {
         
         cg.Account_Sub_Status__c = objChargeGroup.account_sub_status;
         cg.Account_Status__c = objChargeGroup.account_status;
+        
+        //11-24-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
+        //It is used to verified that Charge Group have longer Payment Plan Look up or not.
+        if (objChargeGroup.paymentplan == null) {
+            hasChargeGroupPaymentPlan = false;
+        }
+        
         return cg;
 
         /*if(objChargeGroup.account_sub_status == 'Payment Plan'){
