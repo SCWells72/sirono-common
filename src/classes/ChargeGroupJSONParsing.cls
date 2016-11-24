@@ -36,6 +36,7 @@ public class ChargeGroupJSONParsing {
     public Guarantor_data guarantor_data;
     public string account_status;
     public string account_sub_status;
+    public string paymentplan;
 
     public class Guarantor_data {
         public String display_id;
@@ -126,7 +127,8 @@ public class ChargeGroupJSONParsing {
                 '' +
         	'   },'+
         	'"account_status":"Billed",' +
-        	'"account_sub_status":"Paid"' +
+	        '"account_sub_status":"Paid",' +
+	        '"paymentplan":"https://toledo.stage.sirono.com/paystaff/api/paymentplan/3133/"' +
                 '' +
                 '}';
 
