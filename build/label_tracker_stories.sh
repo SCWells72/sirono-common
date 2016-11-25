@@ -6,8 +6,15 @@
 PROJECT_ID=1608481
 PIVOTAL_TOKEN='212c3d7d91c24ad24f5c487ee6a0fcf1'
 
-get_current_branch(){
-    CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+export_branch_label(){
+    BRANCH=`git rev-parse --abbrev-ref HEAD`
+    if [ "$BRANCH" == "prod" ]; then
+        export BRANCH_LABEL="prod"
+    elif [ "$BRANCH" == "qa" ]; then
+        export BRANCH_LABEL="qa"
+    else
+        export BRANCH_LABEL="dev"
+    fi
 }
 
 get_root_sha(){
@@ -31,13 +38,10 @@ label_tracker_stories(){
   for id in `extract_story_ids ${ROOT_GIT_SHA} HEAD`; do
       if [ ${#id} -ge 8 ]
         then
-            if [ "$CURRENT_BRANCH" == "prod" ]; then
-                curl -X PUT -H "X-TrackerToken: $PIVOTAL_TOKEN" -H "Content-Type: application/json" -d '{"labels":["on_prod"]}' "https://www.pivotaltracker.com/services/v5/stories/$id"
-            elif [ "$CURRENT_BRANCH" == "qa" ]; then
-                curl -X PUT -H "X-TrackerToken: $PIVOTAL_TOKEN" -H "Content-Type: application/json" -d '{"labels":["on_qa"]}' "https://www.pivotaltracker.com/services/v5/stories/$id"
-            else
-                curl -X PUT -H "X-TrackerToken: $PIVOTAL_TOKEN" -H "Content-Type: application/json" -d '{"labels":["on_dev"]}' "https://www.pivotaltracker.com/services/v5/stories/$id"
-            fi
+            LABELS=`curl -X GET -H "X-TrackerToken: $PIVOTAL_TOKEN" -H "Content-Type: application/json" "https://www.pivotaltracker.com/services/v5/stories/$id?fields=labels" \
+            | python -c 'import os,json,sys;obj=sys.stdin.read();label_json=json.loads(obj);l_set=set(map((lambda x: x["name"]), label_json["labels"]));l_set.add("on_{}".format(os.getenv("BRANCH_LABEL")));print("{{\"labels\": {}}}".format(json.dumps(list(l_set))));'`
+
+            curl -X PUT -H "X-TrackerToken: $PIVOTAL_TOKEN" -H "Content-Type: application/json" -d "$LABELS" "https://www.pivotaltracker.com/services/v5/stories/$id"
       fi
   done
 }
@@ -46,6 +50,5 @@ label_tracker_stories(){
 ## Main
 #
 get_root_sha
-get_current_branch
+export_branch_label
 label_tracker_stories
-
