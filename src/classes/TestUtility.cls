@@ -5,7 +5,7 @@
  * @ Utility class for the test class to create a records.
  */
 
-
+@isTest
 Public Class TestUtility {
     Public Static Map<String, Id> rtMap = new Map<String, Id>();
     Public Static String body = '{"token":"bar"}';
