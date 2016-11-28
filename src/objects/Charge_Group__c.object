@@ -264,7 +264,7 @@
     <fields>
         <fullName>Has_Due_Balance__c</fullName>
         <externalId>false</externalId>
-        <formula>AND(Account_Status__c = &quot;Billed&quot;, Account_Sub_Status__c = &quot;Due&quot;)</formula>
+        <formula>AND(Account_Status__c = &quot;Billed&quot;, Account_Sub_Status__c = &quot;Due By&quot;)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Has Due Balance</label>
         <trackHistory>false</trackHistory>
@@ -277,8 +277,8 @@
         <externalId>false</externalId>
         <formula>AND(Account_Status__c = &quot;Billed&quot;,
   IF (CASE(Account_Sub_Status__c,
-    &quot;Due&quot;, 1,
-    &quot;Payment Plan&quot;, 1,
+    &quot;Due By&quot;, 1,
+    &quot;On Payment Plan&quot;, 1,
     &quot;Overdue&quot;, 1,
     &quot;Delinquent&quot;, 1,
     0) == 1, TRUE, FALSE))</formula>
@@ -301,7 +301,7 @@
     <fields>
         <fullName>Has_Payment_Plan_Balance__c</fullName>
         <externalId>false</externalId>
-        <formula>AND(Account_Status__c = &quot;Billed&quot;, Account_Sub_Status__c = &quot;Payment Plan&quot;)</formula>
+        <formula>AND(Account_Status__c = &quot;Billed&quot;, Account_Sub_Status__c = &quot;On Payment Plan&quot;)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Has Payment Plan Balance</label>
         <trackHistory>false</trackHistory>
@@ -311,7 +311,7 @@
     <fields>
         <fullName>Has_Pre_Invoiced_Balance__c</fullName>
         <externalId>false</externalId>
-        <formula>AND(Account_Status__c = &quot;Billed&quot;, Account_Sub_Status__c = &quot;Pre-Invoiced&quot;)</formula>
+        <formula>AND(Account_Status__c = &quot;Billed&quot;, Account_Sub_Status__c = &quot;Pre-invoiced&quot;)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Has Pre-Invoiced Balance</label>
         <trackHistory>false</trackHistory>

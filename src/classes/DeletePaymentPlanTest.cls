@@ -32,7 +32,7 @@ private class DeletePaymentPlanTest {
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1321212);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -63,7 +63,7 @@ private class DeletePaymentPlanTest {
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1321212);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -94,7 +94,7 @@ private class DeletePaymentPlanTest {
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1321212);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -126,7 +126,7 @@ private class DeletePaymentPlanTest {
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1321212);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -158,7 +158,7 @@ private class DeletePaymentPlanTest {
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id,null,1321212);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -191,7 +191,7 @@ private class DeletePaymentPlanTest {
         insert paymentPlan;
         
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id,null,1321212);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
     
         Apexpages.currentPage().getParameters().put('guarantorId',guarantorContact.Id);
@@ -224,7 +224,7 @@ private class DeletePaymentPlanTest {
         insert paymentPlan;
         
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id,null,1321212);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
     
         Apexpages.currentPage().getParameters().put('guarantorId',guarantorContact.Id);

@@ -1044,13 +1044,13 @@ private class ProcessPaymentTest {
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
         
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
         
         //Create Transaction record.
@@ -1138,13 +1138,13 @@ private class ProcessPaymentTest {
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
         
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
         
         //Create Transaction record.

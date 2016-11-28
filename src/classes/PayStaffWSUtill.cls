@@ -15,10 +15,28 @@ public with sharing class PayStaffWSUtill {
     public static final String STMTURL = '{0}/paystaff/api/guarantors/{1}/statements/';
     public static final String UN = 'sgullapali';
     public static final String PW = 'p@ssw0rd';
-    
+
     //11-23-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
     //It is used to verified that Charge Group have longer Payment Plan Look up or not.
     static boolean hasChargeGroupPaymentPlan = false;
+
+    // Lists constructed from constant variables to for SOQL where clauses
+    public static final String[] GCConstraintsForCase = new List<String> {
+            Constants.ACCT_SUBSTATUS_PREINVOICED,
+            Constants.ACCT_SUBSTATUS_DUE_BY,
+            Constants.ACCT_SUBSTATUS_OVERDUE,
+            Constants.ACCT_SUBSTATUS_DELINQUENT,
+            Constants.ACCT_SUBSTATUS_PAYMENT_PLAN,
+            Constants.ACCT_SUBSTATUS_BAD_DEBT
+    };
+
+    public static final String[] GCConstraints = new List<String> {
+            Constants.ACCT_SUBSTATUS_PREINVOICED,
+            Constants.ACCT_SUBSTATUS_DUE_BY,
+            Constants.ACCT_SUBSTATUS_OVERDUE,
+            Constants.ACCT_SUBSTATUS_DELINQUENT,
+            Constants.ACCT_SUBSTATUS_BAD_DEBT
+    };
 
     //get the current + 10 Years list
     public static List<SelectOption> expYearOptions {
@@ -117,7 +135,7 @@ public with sharing class PayStaffWSUtill {
                                 Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
                         From Charge_Groups__r
                         Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
-                        AND Account_Sub_Status__c IN ('Preinvoiced', 'Due', 'Overdue', 'Delinquent', 'Bad Debt')
+                        AND Account_Sub_Status__c IN :GCConstraints
                 )
                 From Contact
                 Where Id = :contactId
@@ -142,7 +160,7 @@ public with sharing class PayStaffWSUtill {
                                 Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
                         From Charge_Groups__r
                         Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
-                        AND Account_Sub_Status__c IN ('Preinvoiced', 'Due', 'Overdue', 'Delinquent', 'Payment Plan', 'Bad Debt')
+                        AND Account_Sub_Status__c IN :GCConstraintsForCase
                 )
                 From Contact
                 Where Id = :contactId
@@ -167,7 +185,7 @@ public with sharing class PayStaffWSUtill {
                                 Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
                         From Charge_Groups_Patient__r
                         Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
-                        AND Account_Sub_Status__c IN ('Preinvoiced', 'Due', 'Overdue', 'Delinquent', 'Bad Debt')
+                        AND Account_Sub_Status__c IN :GCConstraints
                 )
                 From Contact
                 Where Id = :contactId
@@ -192,7 +210,7 @@ public with sharing class PayStaffWSUtill {
                                 Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
                         From Charge_Groups_Patient__r
                         Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
-                        AND Account_Sub_Status__c IN ('Preinvoiced', 'Due', 'Overdue', 'Delinquent', 'Payment Plan', 'Bad Debt')
+                        AND Account_Sub_Status__c IN :GCConstraintsForCase
                 )
                 From Contact
                 Where Id = :contactId
@@ -468,7 +486,7 @@ public with sharing class PayStaffWSUtill {
         System.debug('converted cent amount: ' + dollarAmount);
         return dollarAmount;
     }
-    
+
     //Viraj Rana 11-15-2016: Convert the amount in dollars with divided by -100.
     //It is used for covert Transaction Amount.
     public static Decimal convertToDollarsWithNegative(Decimal amount) {
@@ -499,8 +517,8 @@ public with sharing class PayStaffWSUtill {
         List<ChargeGroupWrapper> cgList = new List<ChargeGroupWrapper>();
         if (gc != null && gc.Charge_Groups__r != null && gc.Charge_Groups__r.size() > 0) {
             for (Charge_Group__c cg : gc.Charge_Groups__r) {
-                if (cg.Account_Sub_Status__c == 'Preinvoiced' || cg.Account_Sub_Status__c == 'Due' || cg.Account_Sub_Status__c == 'Overdue'
-                        || cg.Account_Sub_Status__c == 'Delinquent' || cg.Account_Sub_Status__c == 'Bad Debt' || cg.Account_Sub_Status__c == 'Payment Plan') {
+                if (cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_PREINVOICED || cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_DUE_BY || cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_OVERDUE
+                        || cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_DELINQUENT || cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_BAD_DEBT || cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_PAYMENT_PLAN) {
 
                     cgList.add(new ChargeGroupWrapper(cg, false));
                 }
@@ -508,7 +526,7 @@ public with sharing class PayStaffWSUtill {
         }
         return cgList;
     }
-    
+
     //11-15-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF.
     //This wrapper class is used whenever Adjustment/Discount occures.
     public class PaymentAdjustmentwrapper {
@@ -523,16 +541,16 @@ public with sharing class PayStaffWSUtill {
     * Parse Payment response and call Transaction Request.
     */
     public static void parsePaymentReponse(String csrfToken, String jwtToken, string jsonStr, boolean isPayment){
-        
+
         Payment__c objPayment;
         List<Payment_Adjustments__c> lstPaymentAdjustment = new List<Payment_Adjustments__c>();
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
-        
+
         List<Transaction__c> lstTransaction = new List<Transaction__c>();
         List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
         List<Payment_Plan__c> lstPaymentPlan = new List<Payment_Plan__c>();
         Map<Decimal,Decimal> mapTranPayAdjId = new Map<Decimal,Decimal>();
-        
+
         if (isPayment) {
             objPayment = new Payment__c();
             objPayment = PaymentJSONParsing.parse(jsonStr);
@@ -545,43 +563,43 @@ public with sharing class PayStaffWSUtill {
         } else if (lstPaymentAdjustment.size() > 0) {
             for (Payment_Adjustments__c objPaymentAdjustment : lstPaymentAdjustment) {
                 objPaymentAdjustmentwrapper = callTransactionRequest(csrfToken, jwtToken, null, objPaymentAdjustment, isPayment);
-                
+
                 lstTransaction.add(objPaymentAdjustmentwrapper.objTransaction);
                 mapTranPayAdjId.put(objPaymentAdjustment.Sirono_ID__c, objPaymentAdjustmentwrapper.objTransaction.Sirono_ID__c);
                 
                 lstChargeGroup.add(objPaymentAdjustmentwrapper.objChargeGroup);
-                objPaymentAdjustment.Charge_Group__c = objPaymentAdjustmentwrapper.objChargeGroup.Id;
-                
+                objPaymentAdjustment.Charge_Group__c = objPaymentAdjustmentwrapper.objChargeGroup.Id;                
+
                 if (objPaymentAdjustmentwrapper.objPaymentPlan.id != null) {
                     lstPaymentPlan.add(objPaymentAdjustmentwrapper.objPaymentPlan);
                 }
             }
-            
+
             //Save all Records if it is Take Adjustment/Discount. 
             if (lstChargeGroup.size() > 0) {
                 update lstChargeGroup;
             }
-            
+
             if (lstPaymentPlan.size() > 0) {
                 update lstPaymentPlan;
             }
-            
+
             if (lstTransaction.size() > 0) {
                 insert lstTransaction;
                 
                 List<Transaction__c> lstTran = [SELECT Id, Sirono_ID__c FROM Transaction__c
                                             where Sirono_ID__c in : mapTranPayAdjId.values()];
-                                            
+                                        
                 map<Decimal, string> mapTran = new map<Decimal, string>();
                 for(Transaction__c t : lstTran){
                     mapTran.put(t.Sirono_ID__c, t.Id);
                 }
-    
+
                 for(Payment_Adjustments__c pa : lstPaymentAdjustment) {
                     decimal tranId = mapTranPayAdjId.get(pa.Sirono_ID__c);
                     pa.Transaction__c = mapTran.get(tranId);
                 }
-                
+
                 insert lstPaymentAdjustment;
             }
         }
@@ -593,9 +611,9 @@ public with sharing class PayStaffWSUtill {
     * call Transaction Request and get all Transactions based on Payment.
     */
     private static PaymentAdjustmentwrapper callTransactionRequest(String csrfToken, String jwtToken, Payment__c objPayment, Payment_Adjustments__c objPaymentAdjustment, boolean isPayment){
-        
+
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
-        
+
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
 
@@ -612,7 +630,7 @@ public with sharing class PayStaffWSUtill {
             req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/adjustments/'
                         + string.valueof(objPaymentAdjustment.Sirono_ID__c) +'/transactions/');
         }
-        
+
         req.setTimeout(120000);
         try {
             res = http.send(req);
@@ -649,13 +667,13 @@ public with sharing class PayStaffWSUtill {
     private static PaymentAdjustmentwrapper parseTransactionResponse(String csrfToken, String jwtToken, string jsonStr, Payment__c objPayment, Payment_Adjustments__c objPaymentAdjustment, boolean isPayment){
         TransactionJSONParsing.TransactionWrapper objTransactionWrapper;
         objTransactionWrapper = TransactionJSONParsing.parse(jsonStr);
-                
+
         List<Transaction__c> lstTransaction = new List<Transaction__c>();
         List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
         List<Payment_Plan__c> lstPaymentPlan = new List<Payment_Plan__c>();
         
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
-        
+
         if (objTransactionWrapper != null) {
             if (objTransactionWrapper.transactionRecords.size() > 0) {
                 system.debug('Transaction record size : ' + objTransactionWrapper.transactionRecords.size());
@@ -671,24 +689,23 @@ public with sharing class PayStaffWSUtill {
                     //11-23-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
                     //Boolean variable set to false for all Charge Group whenever Request made.
                     hasChargeGroupPaymentPlan = true;
-                    
+
                     Charge_Group__c chargeGroup = new Charge_Group__c();
                     chargeGroup = callChargeGroupRequest(String.valueof(cg.Sirono_ID__c),jwtToken);
                     
-                    if (cg.Account_Sub_Status__c == 'Payment Plan') {
+                    if (cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_PAYMENT_PLAN) {
                         Payment_Plan__c objPaymentPlan = new Payment_Plan__c();
                         objPaymentPlan = callPaymentPlanRequest(jwtToken, string.valueof(cg.Payment_Plan__r.Sirono_ID__c),
                            cg.Payment_Plan__r.Guarantor__c);
-                        
                         lstPaymentPlan.add(objPaymentPlan);
                     }
-                    
+
                     //11-23-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
                     //If Charge Group have no longer Payment Plan than set it null.
                     if (!hasChargeGroupPaymentPlan) {
                         cg.Payment_Plan__c = null;
                     }
-                    
+
                     cg.Account_Sub_Status__c = chargeGroup.Account_Sub_Status__c;
                     cg.Account_Status__c = chargeGroup.Account_Status__c;
                 }
@@ -698,18 +715,18 @@ public with sharing class PayStaffWSUtill {
         if (isPayment) {
             insert objPayment;
             id paymentId = objPayment.Id;
-    
+
             if (lsttransaction.size() > 0) {
                 for (Transaction__c objTran : lsttransaction) {
                     objTran.Payment__c = paymentId;
                 }
                 insert lsttransaction;
             }
-            
+
             if (lstChargeGroup.size() > 0) {
                 update lstChargeGroup;
             }
-    
+
             if (lstPaymentPlan.size() > 0) {
                 update lstPaymentPlan;
             }
@@ -735,7 +752,7 @@ public with sharing class PayStaffWSUtill {
     */
     private static Charge_Group__c callChargeGroupRequest(String chargeGroupId,String jwtToken) {
         Charge_Group__c chargeGroup = new Charge_Group__c();
-        
+
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
 
@@ -778,24 +795,25 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * Update the Account_Sub_Status__c and Account_Status__c.
-    * if Account_Sub_Status__c = Payment Plan than call Payment Plan request.
+    * if Account_Sub_Status__c = On Payment Plan than call Payment Plan request.
     */
     private static Charge_Group__c parseChargeGroupResponse(String responseBody, String jwtToken){
+
         ChargeGroupJSONParsing objChargeGroup = ChargeGroupJSONParsing.parse(responseBody);
-        Charge_Group__c cg = new Charge_Group__c();        
-        
+        Charge_Group__c cg = new Charge_Group__c();
+
         cg.Account_Sub_Status__c = objChargeGroup.account_sub_status;
         cg.Account_Status__c = objChargeGroup.account_status;
-        
+
         //11-24-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
         //It is used to verified that Charge Group have longer Payment Plan Look up or not.
         if (objChargeGroup.paymentplan == null) {
             hasChargeGroupPaymentPlan = false;
         }
-        
+
         return cg;
 
-        /*if(objChargeGroup.account_sub_status == 'Payment Plan'){
+        /*if(objChargeGroup.account_sub_status == 'On Payment Plan'){
             Charge_Group__c objcg = new Charge_Group__c();
             objcg = [select Payment_Plan__c, Payment_Plan__r.Sirono_ID__c, Payment_Plan__r.Guarantor__c
                     from Charge_Group__c where id =: cg.Id limit 1];
@@ -813,7 +831,7 @@ public with sharing class PayStaffWSUtill {
     */
     private static Payment_Plan__c callPaymentPlanRequest(String jwtToken, string paymentPlanExternalId, string guarantorId){
         Payment_Plan__c objPaymentPlan = new Payment_Plan__c();
-        
+
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
 
@@ -861,7 +879,7 @@ public with sharing class PayStaffWSUtill {
 
         Payment_Plan__c paymentPlanObj = new Payment_Plan__c();
         paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
-        
+
         return paymentPlanObj;
     }
 }
