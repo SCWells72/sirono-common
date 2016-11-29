@@ -12,7 +12,6 @@
 
     <property file="${basedir}/build/build.properties"/>
     <property environment="env"/>
-    <property name="retrieve_target" value="${basedir}/sf_temp"/>
 
     <!-- Setting default value for username & password properties to empty string
          so unset values are treated as empty. Without this, ant expressions such as ${sf.blah.username}
@@ -43,17 +42,23 @@
             <isset property="sf.rename.input"/>
         </not>
     </condition>
+    <condition property="sf.retrieveTarget" value="${basedir}/sf_temp">
+        <not>
+            <isset property="sf.retrieveTarget"/>
+        </not>
+    </condition>
+
 
     <target name="retrieve">
-        <echo level="info">Retrieving from: ${sf.source.username}</echo>
-        <mkdir dir="${retrieve_target}"/>
+        <echo level="info">Retrieving from: ${sf.source.username} into: ${sf.retrieveTarget}</echo>
+        <delete dir="${sf.retrieveTarget}"/>
+        <mkdir dir="${sf.retrieveTarget}"/>
         <sf:retrieve
-                retrieveTarget="${retrieve_target}"
+                retrieveTarget="${sf.retrieveTarget}"
                 username="${sf.source.username}"
                 password="${sf.source.password}"
                 serverurl="${sf.source.serverurl}"
                 unpackaged="${basedir}/src/package.xml"/>
-        <move file="${retrieve_target}" tofile="${basedir}/src"/>
     </target>
 
     <target name="deploy">
