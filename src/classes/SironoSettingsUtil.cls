@@ -8,14 +8,6 @@
 
 public with sharing class SironoSettingsUtil {
 
-    enum orgType {
-        sandbox, production
-    }
-    public static String sandbox = 'Sandbox';
-    public static String production = 'Production';
-
-    private static String endpointUrl;
-
     private static Map<String, String> sandboxUrls;
     static {
         sandboxUrls = new Map<String, String>();
@@ -30,91 +22,58 @@ public with sharing class SironoSettingsUtil {
     }
 
     public static String getSandboxName(){
-        String sandboxName = userinfo.getUserName().substringAfterLast('.').toLowerCase();
-        return sandboxName;
+        return userinfo.getUserName().substringAfterLast('.').toLowerCase();
     }
 
     public static String getServerEndpoint() {
-        if (isSandbox()) {
-            if (endpointUrl == null) {
-
-                Sirono_Settings__c settings = Sirono_Settings__c.getInstance();
-
-                if (String.isNotEmpty(settings.Server_Endpoint_URL__c)){
-                    endpointUrl = settings.Server_Endpoint_URL__c;
-                }
-                                
-                if (endpointUrl == null) {
-                    // TODO: IF the endpointUrl is still null, call the initialize endpoint URLs method
-                    System.debug('Sirono server is not configured');
-                    String sandboxEndpoint = sandboxUrls.get(getSandboxName());
-
-                    // Set endpoint URL to dev for any sandbox that has a name other than Dev
-                    if(String.isEmpty(sandboxEndpoint)){
-                        endpointUrl = sandboxUrls.get('dev');
-                    } else {
-                        settings.Server_Endpoint_URL__c = sandboxEndpoint;
-                        upsert settings;
-                        endpointUrl = settings.Server_Endpoint_URL__c;
-                    }
-                }
-            }
-            return endpointUrl;
-
-        } else {
-            if (endpointUrl == null) {
-                Sirono_Settings__c settings = Sirono_Settings__c.getInstance();
-                settings.Server_Endpoint_URL__c = sandboxUrls.get('prod');
-                upsert settings;
-                endpointUrl = settings.Server_Endpoint_URL__c;
-            }
-            return endpointUrl;
-        }
+        initializeSironoSettings();
+        //always return the org default
+        return Sirono_Settings__c.getOrgDefaults().Server_Endpoint_URL__c;
     }
 
-    public static SironoSettings__c getSettings() {
-        SironoSettings__c settings = SironoSettings__c.getInstance(isSandbox() ? sandbox : production);
-        if (settings == null) {
-            settings = new SironoSettings__c();
-            settings.Name = isSandbox() ? sandbox : production;
-            insert settings;
-            settings = SironoSettings__c.getInstance(isSandbox() ? sandbox : production);
-        }
+    private static String getSandboxURL() {
+        if (isSandbox()) {
+            String sandboxURL = sandboxUrls.get(getSandboxName());
 
-        return settings;
+            // Return the dev endpoint for any unknown sandbox
+            if (String.isEmpty(sandboxURL)) {
+                sandboxURL = sandboxUrls.get('dev');
+            }
+            return sandboxURL;
+
+        } else {
+            return null;
+        }
     }
     
     //10-03-2016: Viraj Rana - Tracker #127404553: Validate PaymentPlan against custom settings to get payment plan settings from Hierarchy custom settings.
     public static Sirono_Settings__c getPaymentPlanSettings(){
-        
-        Sirono_Settings__c sironoSettings = new Sirono_Settings__c();
-        Id profileId = userinfo.getProfileId();
-        
-        sironoSettings = Sirono_Settings__c.getValues(profileId);
-        
+        initializeSironoSettings();
+        return Sirono_Settings__c.getInstance(UserInfo.getProfileId());
+    }
+
+    public static void initializeSironoSettings(){
+        Sirono_Settings__c sironoSettings = Sirono_Settings__c.getValues(UserInfo.getOrganizationId());
         if (sironoSettings == null) {
-            //Check Profile Id for Operations Manager or System Administrator.
-            List<profile> lstProfile = [select Id, name from profile where name = 'System Administrator' or name = 'Operations Manager'];
-            set<Id> setProfileId = new set<Id>();
-            if (lstProfile.size() > 0) {
-                for (profile p : lstProfile) {
-                    setProfileId.add(p.Id);
+            sironoSettings = new Sirono_Settings__c();
+            if (isSandbox()) {
+                sironoSettings.Server_Endpoint_URL__c = getSandboxURL();
+            }
+            insert sironoSettings;
+            sironoSettings = Sirono_Settings__c.getOrgDefaults();
+
+
+            Set<Id> ids = (new Map<Id, Profile>([SELECT Id FROM Profile where name = 'System Administrator' or name = 'Operations Manager'])).keySet();
+            for (Id id : ids) {
+                sironoSettings = Sirono_Settings__c.getValues(id);
+                if (sironoSettings == null) {
+                    Sirono_Settings__c PaymentPlanSettings = new Sirono_Settings__c(SetupOwnerId = id);
+                    PaymentPlanSettings.Max_Number_Plan_Installments__c = null;
+                    PaymentPlanSettings.Min_Installment_Amount__c = 1;
+                    PaymentPlanSettings.Min_Number_Plan_Installments__c = null;
+                    insert PaymentPlanSettings;
                 }
             }
-            if (!setProfileId.contains(profileId)) {
-                sironoSettings = Sirono_Settings__c.getOrgDefaults();
-            } else {
-                //Create Custom Setting record for Operations Manager or System Administrator profile.
-                Sirono_Settings__c PaymentPlanSettings = new Sirono_Settings__c(SetupOwnerId = profileId);
-                PaymentPlanSettings.Max_Number_Plan_Installments__c = null;
-                PaymentPlanSettings.Min_Installment_Amount__c = 1;
-                PaymentPlanSettings.Min_Number_Plan_Installments__c = null;
-                insert PaymentPlanSettings;
-                
-                sironoSettings = Sirono_Settings__c.getValues(profileId);
-            }
         }
-        
-        return sironoSettings;
-    }    
+    }
 }

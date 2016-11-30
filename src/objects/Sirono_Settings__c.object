@@ -40,7 +40,7 @@
     </fields>
     <fields>
         <fullName>Server_Endpoint_URL__c</fullName>
-        <defaultValue>&quot;https://toledo.stage.sirono.com&quot;</defaultValue>
+        <defaultValue>&quot;https://demo.stage.sirono.com&quot;</defaultValue>
         <description>Server endpoint for Sirono application.</description>
         <externalId>false</externalId>
         <label>Server Endpoint URL</label>
