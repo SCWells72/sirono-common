@@ -25,7 +25,7 @@ private class DeletePaymentPlanTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
         paymentPlan.Plan_Type__c = 'Automatic';
         paymentPlan.Sirono_ID__c = 2876;
@@ -56,7 +56,7 @@ private class DeletePaymentPlanTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
         paymentPlan.Plan_Type__c = 'Automatic';
         paymentPlan.Sirono_ID__c = 2876;
@@ -87,7 +87,7 @@ private class DeletePaymentPlanTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
         paymentPlan.Plan_Type__c = 'Automatic';
         paymentPlan.Sirono_ID__c = 2876;
@@ -119,7 +119,7 @@ private class DeletePaymentPlanTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
         paymentPlan.Plan_Type__c = 'Automatic';
         paymentPlan.Sirono_ID__c = 2876;
@@ -151,7 +151,7 @@ private class DeletePaymentPlanTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
         paymentPlan.Plan_Type__c = 'Automatic';
         paymentPlan.Sirono_ID__c = 2876;
@@ -184,7 +184,7 @@ private class DeletePaymentPlanTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
         paymentPlan.Plan_Type__c = 'Automatic';
         paymentPlan.Sirono_ID__c = 2876;
@@ -217,7 +217,7 @@ private class DeletePaymentPlanTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
         paymentPlan.Plan_Type__c = 'Automatic';
         paymentPlan.Sirono_ID__c = 2876;

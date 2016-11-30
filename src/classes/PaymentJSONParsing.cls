@@ -36,7 +36,7 @@ public class PaymentJSONParsing {
         integer guarantor = Integer.valueof(getExternalID(objJson.guarantor,'guarantors'));
         
         contact guarantorContact = [select id from contact where Profile_Pointer_ID__c =: guarantor limit 1];    
-        objPayment.Guarantor_Name__c = guarantorContact.Id;
+        objPayment.Guarantor__c = guarantorContact.Id;
         
         if (!String.Isblank(objJson.payment_date)) {
             objPayment.Charge_Date__c = Date.valueof(objJson.payment_date);
@@ -46,7 +46,7 @@ public class PaymentJSONParsing {
         objPayment.Processor_Transaction_ID__c = objJson.processor_transaction_id;            
         
         objPayment.Amount__c = PayStaffWSUtill.convertToDollars(objJson.amount);
-        objPayment.ID__c = Integer.valueof(getExternalID(objJson.url,'payments'));
+        objPayment.Sirono_ID__c = Integer.valueof(getExternalID(objJson.url,'payments'));
         objPayment.Name = getExternalID(objJson.url,'payments');
 
         return objPayment;

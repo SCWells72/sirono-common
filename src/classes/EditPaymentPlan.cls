@@ -84,25 +84,25 @@ public with sharing class EditPaymentPlan {
         totalAmount = 0;
         if (Apexpages.currentPage().getParameters().containsKey('paymentPlanId')) {
             paymentPlanRecordId = Apexpages.currentPage().getParameters().get('paymentPlanId');
-            for (test__c p : [
-                    Select Id, Name, Number_of_Installments__c, Payable_Amount__c, Next_Payment_Date__c,
-                            Plan_Type__c, Remaining_Number_of_Installments__c, Execute_on_Day__c, Sirono_ID__c
-                    FROM test__c
+            for (Payment_Plan__c p : [
+                    Select Id, Name, Original_Installment_Count__c, Remaining_Balance__c, Next_Payment_Date__c,
+                            Plan_Type__c, Remaining_Installment_Count__c, Execute_on_Day__c, Sirono_ID__c
+                    FROM Payment_Plan__c
                     Where id = :paymentPlanRecordId
             ]) {
                 System.debug('23' + p);
                 paymentPlanId = String.valueOf(p.Sirono_ID__c);
-                numberInstallments = String.valueOf(p.Number_of_Installments__c);
-                if (p.Payable_Amount__c != null) {
-                    payableAmount = String.valueOf(p.Payable_Amount__c);
+                numberInstallments = String.valueOf(p.Original_Installment_Count__c);
+                if (p.Remaining_Balance__c != null) {
+                    payableAmount = String.valueOf(p.Remaining_Balance__c);
                 } else {
                     payableAmount = '0';
                 }
                 nextPaymentDate = String.valueOf(p.Next_Payment_Date__c);
                 installmentsTotal = numberInstallments;
-                if (p.Remaining_Number_of_Installments__c != null && installmentsTotal != null) {
+                if (p.Remaining_Installment_Count__c != null && installmentsTotal != null) {
                     installmentsPaid = String.valueOf(
-                            Integer.valueOf(installmentsTotal) - Integer.valueOf(p.Remaining_Number_of_Installments__c)
+                            Integer.valueOf(installmentsTotal) - Integer.valueOf(p.Remaining_Installment_Count__c)
                     );
                 } else {
                     installmentsPaid = '0';
@@ -521,7 +521,7 @@ public with sharing class EditPaymentPlan {
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
         objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorRecordId,
                 null, chargeGroupId);
-        test__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
+        Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord; 
         upsert paymentPlanObj;
     }
 }

@@ -66,14 +66,14 @@ public with sharing class PayStaffWSUtill {
                         Medical_Record_Number__c, Name,
                         Profile_Pointer_Id__c, MailingStreet,
                         MailingCity, MailingState, MailingPostalCode, (
-                        Select Id, Name, Charge_Group_ID__c, Guarantor_Name__c, Guarantor_Name__r.Name,
-                                Account_Number__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
-                                Reported_Selfpay_Balance__c, Patient_Name__c, Patient_Name__r.Name,
+                        Select Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
+                                External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
+                                Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
                                 Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
                                 Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
                                 Provider__c, Provider__r.Name, Location__c, Location__r.Name, Account_Sub_Status__c
                         From Charge_Groups__r
-                        Where Charge_Group_ID__c != null AND Active__c = true
+                        Where Sirono_ID__c != null AND Active__c = true
                 )
                 From Contact
                 Where Id = :contactId
@@ -109,14 +109,14 @@ public with sharing class PayStaffWSUtill {
                         Medical_Record_Number__c, RecordType.DeveloperName, Social_Security_Number__c,
                         Profile_Pointer_Id__c, Patient_Id__c, HomePhone, MobilePhone, OtherPhone,
                         MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet, (
-                        Select Id, Name, Charge_Group_ID__c, Guarantor_Name__c, Guarantor_Name__r.Name,
-                                Account_Number__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
-                                Reported_Selfpay_Balance__c, Patient_Name__c, Patient_Name__r.Name,
+                        Select Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
+                                External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
+                                Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
                                 Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
                                 Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
                                 Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
                         From Charge_Groups__r
-                        Where Charge_Group_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
+                        Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
                         AND Account_Sub_Status__c IN ('Preinvoiced', 'Due', 'Overdue', 'Delinquent', 'Bad Debt')
                 )
                 From Contact
@@ -134,14 +134,14 @@ public with sharing class PayStaffWSUtill {
                         Medical_Record_Number__c, RecordType.DeveloperName, Social_Security_Number__c,
                         Profile_Pointer_Id__c, Patient_Id__c, HomePhone, MobilePhone, OtherPhone,
                         MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet, (
-                        Select Id, Name, Charge_Group_ID__c, Guarantor_Name__c, Guarantor_Name__r.Name,
-                                Account_Number__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
-                                Reported_Selfpay_Balance__c, Patient_Name__c, Patient_Name__r.Name,
+                        Select Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
+                                External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
+                                Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
                                 Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
                                 Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
                                 Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
                         From Charge_Groups__r
-                        Where Charge_Group_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
+                        Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
                         AND Account_Sub_Status__c IN ('Preinvoiced', 'Due', 'Overdue', 'Delinquent', 'Payment Plan', 'Bad Debt')
                 )
                 From Contact
@@ -159,14 +159,14 @@ public with sharing class PayStaffWSUtill {
                 Select Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
                         Medical_Record_Number__c, RecordType.DeveloperName,
                         Profile_Pointer_Id__c, Patient_Id__c, (
-                        Select Id, Name, Charge_Group_ID__c, Guarantor_Name__c, Guarantor_Name__r.Name,
-                                Account_Number__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
-                                Reported_Selfpay_Balance__c, Patient_Name__c, Patient_Name__r.Name,
+                        Select Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
+                                External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
+                                Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
                                 Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
                                 Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
                                 Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
                         From Charge_Groups_Patient__r
-                        Where Charge_Group_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
+                        Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
                         AND Account_Sub_Status__c IN ('Preinvoiced', 'Due', 'Overdue', 'Delinquent', 'Bad Debt')
                 )
                 From Contact
@@ -184,14 +184,14 @@ public with sharing class PayStaffWSUtill {
                 Select Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
                         Medical_Record_Number__c, RecordType.DeveloperName,
                         Profile_Pointer_Id__c, Patient_Id__c, (
-                        Select Id, Name, Charge_Group_ID__c, Guarantor_Name__c, Guarantor_Name__r.Name,
-                                Account_Number__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
-                                Reported_Selfpay_Balance__c, Patient_Name__c, Patient_Name__r.Name,
+                        Select Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
+                                External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
+                                Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
                                 Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
                                 Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
                                 Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
                         From Charge_Groups_Patient__r
-                        Where Charge_Group_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
+                        Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
                         AND Account_Sub_Status__c IN ('Preinvoiced', 'Due', 'Overdue', 'Delinquent', 'Payment Plan', 'Bad Debt')
                 )
                 From Contact
@@ -269,7 +269,7 @@ public with sharing class PayStaffWSUtill {
         if (cgList != null && cgList.size() > 0) {
             for (ChargeGroupWrapper cg : cgList) {
                 if (cg.isSelected) {
-                    cgIds += glue + cg.cg.Charge_Group_ID__c;
+                    cgIds += glue + cg.cg.Sirono_ID__c;
                     glue = ',';
                 }
             }
@@ -514,7 +514,7 @@ public with sharing class PayStaffWSUtill {
     public class PaymentAdjustmentwrapper {
         Transaction__c objTransaction = new Transaction__c();
         Charge_Group__c objChargeGroup = new Charge_Group__c();
-        test__c objPaymentPlan = new test__c();
+        Payment_Plan__c objPaymentPlan = new Payment_Plan__c();
     }
     
      /*
@@ -530,7 +530,7 @@ public with sharing class PayStaffWSUtill {
         
         List<Transaction__c> lstTransaction = new List<Transaction__c>();
         List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
-        List<test__c> lstPaymentPlan = new List<test__c>();
+        List<Payment_Plan__c> lstPaymentPlan = new List<Payment_Plan__c>();
         Map<Decimal,Decimal> mapTranPayAdjId = new Map<Decimal,Decimal>();
         
         if (isPayment) {
@@ -547,10 +547,10 @@ public with sharing class PayStaffWSUtill {
                 objPaymentAdjustmentwrapper = callTransactionRequest(csrfToken, jwtToken, null, objPaymentAdjustment, isPayment);
                 
                 lstTransaction.add(objPaymentAdjustmentwrapper.objTransaction);
-                mapTranPayAdjId.put(objPaymentAdjustment.ID__c, objPaymentAdjustmentwrapper.objTransaction.ID__c);
+                mapTranPayAdjId.put(objPaymentAdjustment.Sirono_ID__c, objPaymentAdjustmentwrapper.objTransaction.Sirono_ID__c);
                 
                 lstChargeGroup.add(objPaymentAdjustmentwrapper.objChargeGroup);
-                objPaymentAdjustment.Charge_Group_Name__c = objPaymentAdjustmentwrapper.objChargeGroup.Id;
+                objPaymentAdjustment.Charge_Group__c = objPaymentAdjustmentwrapper.objChargeGroup.Id;
                 
                 if (objPaymentAdjustmentwrapper.objPaymentPlan.id != null) {
                     lstPaymentPlan.add(objPaymentAdjustmentwrapper.objPaymentPlan);
@@ -569,16 +569,16 @@ public with sharing class PayStaffWSUtill {
             if (lstTransaction.size() > 0) {
                 insert lstTransaction;
                 
-                List<Transaction__c> lstTran = [SELECT Id, ID__c FROM Transaction__c
-                                            where ID__c in : mapTranPayAdjId.values()];
+                List<Transaction__c> lstTran = [SELECT Id, Sirono_ID__c FROM Transaction__c
+                                            where Sirono_ID__c in : mapTranPayAdjId.values()];
                                             
                 map<Decimal, string> mapTran = new map<Decimal, string>();
                 for(Transaction__c t : lstTran){
-                    mapTran.put(t.ID__c, t.Id);
+                    mapTran.put(t.Sirono_ID__c, t.Id);
                 }
     
                 for(Payment_Adjustments__c pa : lstPaymentAdjustment) {
-                    decimal tranId = mapTranPayAdjId.get(pa.ID__c);
+                    decimal tranId = mapTranPayAdjId.get(pa.Sirono_ID__c);
                     pa.Transaction__c = mapTran.get(tranId);
                 }
                 
@@ -607,10 +607,10 @@ public with sharing class PayStaffWSUtill {
         req.setHeader('Content-type', 'application/json');
         if (isPayment) {
             req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/payments/'
-                        + string.valueof(objPayment.ID__c) +'/transactions/');
+                        + string.valueof(objPayment.Sirono_ID__c) +'/transactions/');
         } else {
             req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/adjustments/'
-                        + string.valueof(objPaymentAdjustment.ID__c) +'/transactions/');
+                        + string.valueof(objPaymentAdjustment.Sirono_ID__c) +'/transactions/');
         }
         
         req.setTimeout(120000);
@@ -652,7 +652,7 @@ public with sharing class PayStaffWSUtill {
                 
         List<Transaction__c> lstTransaction = new List<Transaction__c>();
         List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
-        List<test__c> lstPaymentPlan = new List<test__c>();
+        List<Payment_Plan__c> lstPaymentPlan = new List<Payment_Plan__c>();
         
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
         
@@ -673,12 +673,12 @@ public with sharing class PayStaffWSUtill {
                     hasChargeGroupPaymentPlan = true;
                     
                     Charge_Group__c chargeGroup = new Charge_Group__c();
-                    chargeGroup = callChargeGroupRequest(String.valueof(cg.Charge_Group_ID__c),jwtToken);
+                    chargeGroup = callChargeGroupRequest(String.valueof(cg.Sirono_ID__c),jwtToken);
                     
                     if (cg.Account_Sub_Status__c == 'Payment Plan') {
-                        test__c objPaymentPlan = new test__c();
+                        Payment_Plan__c objPaymentPlan = new Payment_Plan__c();
                         objPaymentPlan = callPaymentPlanRequest(jwtToken, string.valueof(cg.Payment_Plan__r.Sirono_ID__c),
-                           cg.Payment_Plan__r.Guarantor_Name__c);
+                           cg.Payment_Plan__r.Guarantor__c);
                         
                         lstPaymentPlan.add(objPaymentPlan);
                     }
@@ -701,7 +701,7 @@ public with sharing class PayStaffWSUtill {
     
             if (lsttransaction.size() > 0) {
                 for (Transaction__c objTran : lsttransaction) {
-                    objTran.Payment_ID__c = paymentId;
+                    objTran.Payment__c = paymentId;
                 }
                 insert lsttransaction;
             }
@@ -811,8 +811,8 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     *  Call the paymentplan Web Service to get the paymentplan information.
     */
-    private static test__c callPaymentPlanRequest(String jwtToken, string paymentPlanExternalId, string guarantorId){
-        test__c objPaymentPlan = new test__c();
+    private static Payment_Plan__c callPaymentPlanRequest(String jwtToken, string paymentPlanExternalId, string guarantorId){
+        Payment_Plan__c objPaymentPlan = new Payment_Plan__c();
         
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
@@ -854,12 +854,12 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * parse the Payment Plan JSON.
     */
-    private static test__c parsePaymentPlanResponse(String jsonStr, string guarantorId) {
+    private static Payment_Plan__c parsePaymentPlanResponse(String jsonStr, string guarantorId) {
 
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
         objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr,guarantorId,null,null);
 
-        test__c paymentPlanObj = new test__c();
+        Payment_Plan__c paymentPlanObj = new Payment_Plan__c();
         paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
         
         return paymentPlanObj;

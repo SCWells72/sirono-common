@@ -16,7 +16,7 @@ public class ChargeGroupTriggerTest {
     insert cont;
     Contact c = new Contact(LastName = 'Matc');
     insert c;
-    test__c pp = TestUtility.generatePaymentPlan(c.Id);
+    Payment_Plan__c pp = TestUtility.generatePaymentPlan(c.Id);
     insert pp;
     Charge_Group__c cg = TestUtility.generateChargeGroup(cont.Id, con.Id, 100.0, pp.id);
     insert cg;
@@ -46,24 +46,24 @@ insert cont;
 Contact c = new Contact(LastName='Matc');
 insert c;
 
-test__c pp = TestUtility.generatePaymentPlan(c.Id);
+Payment_Plan__c pp = TestUtility.generatePaymentPlan(c.Id);
 insert pp;
 
 Charge_Group__c cg = TestUtility.generateChargeGroup(cont.Id, con.Id, 100.0,pp.id);
 insert cg;
 cg.Pre_Collection_Sent__c = null;
-cg.Guarantor_Name__c =c.Id;
+cg.Guarantor__c =c.Id;
 
-List<test__c> lst = [Select id, Payable_Amount__c from test__c where id =: pp.Id];
-System.assertEquals(0, lst[0].Payable_Amount__c) ;
+List<Payment_Plan__c> lst = [Select id, Remaining_Balance__c from Payment_Plan__c where id =: pp.Id];
+System.assertEquals(0, lst[0].Remaining_Balance__c) ;
 
 Transaction__c transactionObj = TestUtility.generateTransaction(cg, 100, 'Automatic');
 insert transactionObj ;
 
 Update cg;
 
-lst = [Select id, Payable_Amount__c from test__c where id =: pp.Id];
-System.assertEquals(100, lst[0].Payable_Amount__c) ;
+lst = [Select id, Remaining_Balance__c from Payment_Plan__c where id =: pp.Id];
+System.assertEquals(100, lst[0].Remaining_Balance__c) ;
 
 }
 

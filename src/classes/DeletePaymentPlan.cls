@@ -16,7 +16,7 @@ public with sharing class DeletePaymentPlan {
     public String paymentPlanId {get; set;}
     public String paymentPlanExtId {get; set;}
     private List<Charge_Group__c> lstCG = new List<Charge_Group__c>();
-    private test__c paymentPlanObj = new test__c();
+    private Payment_Plan__c paymentPlanObj = new Payment_Plan__c();
     public Boolean blnHasError = true;
     public Boolean blnHasFirstRequest = true;
     // Constructor of a class and initialize the variables.
@@ -134,7 +134,7 @@ public with sharing class DeletePaymentPlan {
         objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorId,
                 null, null);
 
-        paymentPlanObj = new test__c();
+        paymentPlanObj = new Payment_Plan__c();
         paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
         paymentPlanObj.Active__c = false;
         paymentPlanObj.Cancellation_Date__c = system.today();
@@ -242,7 +242,7 @@ public with sharing class DeletePaymentPlan {
             callPaymentPlanRequest(csrfToken, jwtToken);
             
             for (Charge_Group__c cg : lstCG) {
-                callChargeGroupRequest(String.valueof(cg.Charge_Group_ID__c),jwtToken,cg );
+                callChargeGroupRequest(String.valueof(cg.Sirono_ID__c),jwtToken,cg );
             }
             
             if(blnHasError == true){

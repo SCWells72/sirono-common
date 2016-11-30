@@ -32,7 +32,7 @@ public class PaymentPlanTriggerBalanceCalcTest {
 
         System.debug('G id: ' + g.Id);
         //Create a payment plan
-        test__c pp = TestUtility.generatePaymentPlan(g);
+        Payment_Plan__c pp = TestUtility.generatePaymentPlan(g);
         insert pp;
 
         Test.startTest();
@@ -41,11 +41,11 @@ public class PaymentPlanTriggerBalanceCalcTest {
         update cg1;
         Test.stopTest();
 
-        pp = [SELECT Id, Payable_Amount__c FROM test__c WHERE Id = :pp.Id];
+        pp = [SELECT Id, Remaining_Balance__c FROM Payment_Plan__c WHERE Id = :pp.Id];
         System.debug('pp.Payable_Amount__c: ' + pp.Payable_Amount__c);
         System.debug('txnAmount: ' + txn.Amount__c);
         //confirm the payable amount is what we expect
-        System.assert(pp.Payable_Amount__c == txn.Amount__c, 'PaymentPlan value is incorrect');
+        System.assert(pp.Remaining_Balance__c == txn.Amount__c, 'PaymentPlan value is incorrect');
     }
 
     @isTest
@@ -53,7 +53,7 @@ public class PaymentPlanTriggerBalanceCalcTest {
         init();
 
         //Create a payment plan
-        test__c pp = TestUtility.generatePaymentPlan(g);
+        Payment_Plan__c pp = TestUtility.generatePaymentPlan(g);
         insert pp;
 
         cg1.Payment_Plan__c = pp.Id;
@@ -72,9 +72,9 @@ public class PaymentPlanTriggerBalanceCalcTest {
                 txn, txn2
         };
         AggregateResult[] sums = [SELECT SUM(Amount__c)tot FROM Transaction__c WHERE Id IN :txns];
-        pp = [SELECT Id, Payable_Amount__c FROM test__c WHERE Id = :pp.Id];
+        pp = [SELECT Id, Remaining_Balance__c FROM Payment_Plan__c WHERE Id = :pp.Id];
         Decimal txnTotal = (Decimal) sums[0].get('tot');
 
-        System.assert(pp.Payable_Amount__c == txnTotal, 'PaymentPlan value is incorrect');
+        System.assert(pp.Remaining_Balance__c == txnTotal, 'PaymentPlan value is incorrect');
     }
 }

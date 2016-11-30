@@ -23,7 +23,7 @@ private class AddDiscountTest{
         insert patientContact;
         
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
         
         //Create Add Discount object and Call Add Discount constructor.
@@ -36,7 +36,7 @@ private class AddDiscountTest{
         
         //Create Charge Group record.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);        
-        chargeGroup.Charge_Group_ID__c = 123;        
+        chargeGroup.Sirono_ID__c = 123;        
         insert chargeGroup; 
 
         //Create Transaction record.
@@ -45,7 +45,7 @@ private class AddDiscountTest{
         
         //Create Charge Group record.
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Charge_Group_ID__c = 124;
+        chargeGroup.Sirono_ID__c = 124;
         insert chargeGroup;
         
         //Call Add Discount constructor with Selected charge group records.
@@ -95,7 +95,7 @@ private class AddDiscountTest{
         insert patientContact;
         
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
         
         //Create Add Discount object and Call Add Discount constructor and submit method.
@@ -121,7 +121,7 @@ private class AddDiscountTest{
         
         //Create Charge Group record.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);        
-        chargeGroup.Charge_Group_ID__c = 123;        
+        chargeGroup.Sirono_ID__c = 123;        
         insert chargeGroup; 
                
         //Create Transaction record.
@@ -130,7 +130,7 @@ private class AddDiscountTest{
         
         //Create Charge Group record.
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Charge_Group_ID__c = 124;
+        chargeGroup.Sirono_ID__c = 124;
         insert chargeGroup;
         
         //Call Add Discount constructor with Selected charge group records.
@@ -177,7 +177,7 @@ private class AddDiscountTest{
         insert patientContact;
         
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
         
         //Create Add Discount object and Call Add Discount constructor.
@@ -190,7 +190,7 @@ private class AddDiscountTest{
         
         //Create Charge Group record.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);        
-        chargeGroup.Charge_Group_ID__c = 123;        
+        chargeGroup.Sirono_ID__c = 123;        
         insert chargeGroup; 
                
         //Create Transaction record.
@@ -199,7 +199,7 @@ private class AddDiscountTest{
         
         //Create Charge Group record.
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Charge_Group_ID__c = 124;        
+        chargeGroup.Sirono_ID__c = 124;        
         chargeGroup.Account_Sub_Status__c = 'Payment Plan';
         insert chargeGroup;
         

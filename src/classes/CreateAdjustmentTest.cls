@@ -24,7 +24,7 @@ private class CreateAdjustmentTest {
         insert patientContact;
         
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan.active__c = true;
         paymentPlan.Delinquent__c = true;
         insert paymentPlan;
@@ -48,7 +48,7 @@ private class CreateAdjustmentTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id,null,121114);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Payment_Plan__c = paymentPlan.Id;
-        chargeGroup.Charge_Group_ID__c = 124;
+        chargeGroup.Sirono_ID__c = 124;
         chargeGroup.Charge_Group_External_ID__c = true;
         insert chargeGroup;
         
@@ -98,7 +98,7 @@ private class CreateAdjustmentTest {
         insert patientContact;
         
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan.active__c = true;
         paymentPlan.Delinquent__c = true;
         insert paymentPlan;
@@ -130,7 +130,7 @@ private class CreateAdjustmentTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id,null,121114);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Payment_Plan__c = paymentPlan.Id;
-        chargeGroup.Charge_Group_ID__c = 124;
+        chargeGroup.Sirono_ID__c = 124;
         chargeGroup.Charge_Group_External_ID__c = true;
         insert chargeGroup;
         
@@ -180,7 +180,7 @@ private class CreateAdjustmentTest {
         insert p;
         
         //Create Payment Plan record.
-        test__c t = TestUtility.generatePaymentPlan(g.Id);
+        Payment_Plan__c t = TestUtility.generatePaymentPlan(g.Id);
         t.Active__c = true;
         insert t;
         
@@ -213,7 +213,7 @@ private class CreateAdjustmentTest {
         cg = TestUtility.generateChargeGroup(g.Id,null,121114);
         cg.Invoice__c = i.id;
         cg.Payment_Plan__c = t.Id;
-        cg.Charge_Group_ID__c = 124;
+        cg.Sirono_ID__c = 124;
         cg.Charge_Group_External_ID__c = true;
         insert cg;        
         
@@ -277,7 +277,7 @@ private class CreateAdjustmentTest {
         insert p;
         
         //Create Payment Plan record.
-        test__c t = TestUtility.generatePaymentPlan(g.Id);
+        Payment_Plan__c t = TestUtility.generatePaymentPlan(g.Id);
         t.Active__c = true;
         insert t;
         
@@ -319,7 +319,7 @@ private class CreateAdjustmentTest {
         cg = TestUtility.generateChargeGroup(g.Id,null,121114);
         cg.Invoice__c = i.id;
         cg.Payment_Plan__c = t.Id;
-        cg.Charge_Group_ID__c = 124;
+        cg.Sirono_ID__c = 124;
         cg.Charge_Group_External_ID__c = true;
         insert cg;        
         

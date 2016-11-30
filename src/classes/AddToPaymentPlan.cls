@@ -101,12 +101,12 @@ public with sharing class AddToPaymentPlan {
     //Get the Active Payment plan id
     private String getActivePaymentPlan(String guarantorRecordId) {
         String ppId;
-        List<test__c> activePaymentPlans = [
+        List<Payment_Plan__c> activePaymentPlans = [
                 Select Id, Sirono_ID__c
-                From test__c
+                From Payment_Plan__c
                 Where Active__c = true
                 and Sirono_ID__c != null
-                and Guarantor_Name__c = :guarantorRecordId
+                and Guarantor__c = :guarantorRecordId
                 limit 1
         ];
         if (activePaymentPlans.size() > 0) ppId = activePaymentPlans[0].Sirono_ID__c.format();
@@ -240,7 +240,7 @@ public with sharing class AddToPaymentPlan {
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
         objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorRecordId,
                 null, chargeGroupId);
-        test__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
+        Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord; 
         upsert paymentPlanObj;
 
         List<Charge_Group__c> lstCG = new List<Charge_Group__c>();

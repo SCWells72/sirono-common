@@ -27,7 +27,7 @@ private class AddToPaymentPlanTest {
         insert p;
         
         //Create Payment Plan record.
-        test__c t = TestUtility.generatePaymentPlan(g.Id);
+        Payment_Plan__c t = TestUtility.generatePaymentPlan(g.Id);
         t.Active__c = true;
         insert t;
         
@@ -61,7 +61,7 @@ private class AddToPaymentPlanTest {
         cg = TestUtility.generateChargeGroup(g.Id,null,121114);
         cg.Invoice__c = i.id;
         cg.Payment_Plan__c = t.Id;
-        cg.Charge_Group_ID__c = 124;
+        cg.Sirono_ID__c = 124;
         cg.Charge_Group_External_ID__c = true;
         insert cg;        
         
@@ -117,7 +117,7 @@ private class AddToPaymentPlanTest {
         insert p;
         
         //Create Payment Plan record.
-        test__c t = TestUtility.generatePaymentPlan(g.Id);
+        Payment_Plan__c t = TestUtility.generatePaymentPlan(g.Id);
         t.Active__c = true;
         insert t;
         
@@ -151,7 +151,7 @@ private class AddToPaymentPlanTest {
         cg = TestUtility.generateChargeGroup(g.Id,null,121114);
         cg.Invoice__c = i.id;
         cg.Payment_Plan__c = t.Id;
-        cg.Charge_Group_ID__c = 124;
+        cg.Sirono_ID__c = 124;
         cg.Charge_Group_External_ID__c = true;
         insert cg;
         
@@ -215,7 +215,7 @@ private class AddToPaymentPlanTest {
         insert p;
         
         //Create Payment Plan record.
-        test__c t = TestUtility.generatePaymentPlan(g.Id);
+        Payment_Plan__c t = TestUtility.generatePaymentPlan(g.Id);
         t.Active__c = true;
         insert t;
         
@@ -243,7 +243,7 @@ private class AddToPaymentPlanTest {
         cg = TestUtility.generateChargeGroup(g.Id,null,121114);
         cg.Invoice__c = i.id;
         cg.Payment_Plan__c = t.Id;
-        cg.Charge_Group_ID__c = 124;
+        cg.Sirono_ID__c = 124;
         cg.Charge_Group_External_ID__c = true;
         insert cg;
         
@@ -306,7 +306,7 @@ private class AddToPaymentPlanTest {
         insert p;
         
         //Create Payment Plan record.
-        test__c t = TestUtility.generatePaymentPlan(g.Id);
+        Payment_Plan__c t = TestUtility.generatePaymentPlan(g.Id);
         t.Active__c = true;
         insert t;
         
@@ -340,7 +340,7 @@ private class AddToPaymentPlanTest {
         cg = TestUtility.generateChargeGroup(g.Id,null,121114);
         cg.Invoice__c = i.id;
         cg.Payment_Plan__c = t.Id;
-        cg.Charge_Group_ID__c = 124;
+        cg.Sirono_ID__c = 124;
         cg.Charge_Group_External_ID__c = true;
         insert cg;
         

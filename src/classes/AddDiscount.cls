@@ -20,7 +20,7 @@ public with sharing class AddDiscount {
     private Payment__c objPayment = new Payment__c();
     private List<Transaction__c> lsttransaction = new List<Transaction__c>();
     private List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
-    private List<test__c> lstPaymentPlan = new List<test__c>();
+    private List<Payment_Plan__c> lstPaymentPlan = new List<Payment_Plan__c>();
     // Constructor of a class and initialize the variables.
     public AddDiscount(ApexPages.StandardController sc) {
         username = PayStaffWSUtill.un;

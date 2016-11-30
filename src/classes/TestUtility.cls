@@ -73,14 +73,14 @@ Public Class TestUtility {
             Decimal chargeGroupExternalId,
             string paymentplanID) {
         Charge_Group__c chargeGroup = new Charge_Group__c();
-        chargeGroup.Guarantor_Name__c = guarantorContactId;
+        chargeGroup.Guarantor__c = guarantorContactId;
         //Ignore the external Id passed in the method parameter and set the dynamic value
         Integer tempRandom = Integer.valueOf(math.rint(math.random()*150));
         Integer tempRandom2 = Integer.valueOf(math.rint(math.random()*500));
         Integer randomInt = (tempRandom * tempRandom2) + Integer.valueOf(DateTime.now().getTime());
         //Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1212));
-        chargeGroup.Charge_Group_ID__c = Decimal.valueOf(randomInt);
-        chargeGroup.Patient_Name__c = patientContactId;
+        chargeGroup.Sirono_ID__c = Decimal.valueOf(randomInt);
+        chargeGroup.Patient__c = patientContactId;
         chargeGroup.Charge_Group_External_ID__c = true;
         //chargeGroup.Balance__c = -100; //can't set amount now that balance is a rollup
         chargeGroup.Reported_Selfpay_Balance__c = 10;
@@ -99,9 +99,9 @@ Public Class TestUtility {
             String patientContactId,
             Decimal chargeGroupExternalId) {
         Charge_Group__c cg = new Charge_Group__c();
-        cg.Guarantor_Name__c = guarantorContactId;
-        cg.Charge_Group_ID__c = chargeGroupExternalId;
-        cg.Patient_Name__c = patientContactId;
+        cg.Guarantor__c = guarantorContactId;
+        cg.Sirono_ID__c = chargeGroupExternalId;
+        cg.Patient__c = patientContactId;
         cg.Charge_Group_External_ID__c = true;
         //cg.Balance__c = -100; //can't set amount now that balance is a rollup
         cg.Reported_Selfpay_Balance__c = 10;
@@ -119,14 +119,14 @@ Public Class TestUtility {
                                                         String patientContactId,
                                                         Decimal chargeGroupExternalId) {
         Charge_Group__c cg = new Charge_Group__c();
-        cg.Guarantor_Name__c = guarantorContactId;
+        cg.Guarantor__c = guarantorContactId;
         //Ignore the external Id passed in the method parameter and set the dynamic value
         Integer tempRandom = Integer.valueOf(math.rint(math.random()*505));
         Integer tempRandom2 = Integer.valueOf(math.rint(math.random()*120));
         Integer randomInt = (tempRandom * tempRandom2) + Integer.valueOf(DateTime.now().getTime());
         //Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*12));
-        cg.Charge_Group_ID__c = Decimal.valueOf(randomInt);
-        cg.Patient_Name__c = patientContactId;
+        cg.Sirono_ID__c = Decimal.valueOf(randomInt);
+        cg.Patient__c = patientContactId;
         cg.Charge_Group_External_ID__c = true;
         //cg.Balance__c = -100; //can't set amount now that balance is a rollup
         cg.Reported_Selfpay_Balance__c = 10;
@@ -148,7 +148,7 @@ Public Class TestUtility {
         objTransaction.Charge_Group__c = chargeGroup.Id;
         objTransaction.Credit_Balance__c = amount < 0;
         objTransaction.Fail_Date__c = null;
-        objTransaction.Id__c = System.currentTimeMillis();
+        objTransaction.Sirono_ID__c = System.currentTimeMillis();
         objTransaction.Method__c = method;
         objTransaction.Notes__c = 'Test txn';
         objTransaction.Post_Date__c = System.today().addDays('Credit'.equals(method) ? 7 : -7);
@@ -202,20 +202,20 @@ Public Class TestUtility {
     }
 
     // Return a new payment plan record 
-    public static test__c generatePaymentPlan(String contactId) {
-        test__c paymentPlan = new test__c();
-        paymentPlan.Guarantor_Name__c = contactId;
+    public static Payment_Plan__c generatePaymentPlan(String contactId) {
+        Payment_Plan__c paymentPlan = new Payment_Plan__c();
+        paymentPlan.Guarantor__c = contactId;
         return paymentPlan;
     }
 
     // Return a new Invoice record 
     public static Invoice__c generateInvoice(String guarantorId, String patientId) {
         Invoice__c invoice = new Invoice__c();
-        invoice.Guarantor_Name__c = guarantorId;
+        invoice.Guarantor__c = guarantorId;
         invoice.Due_Date__c = System.today();
         invoice.Invoice_Date__c = System.today();
         Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1313));
-        invoice.Invoice_ID__c = Decimal.valueOf(randomInt);
+        invoice.Sirono_ID__c = Decimal.valueOf(randomInt);
         invoice.Patient__c = patientId;
         return invoice;
     }
@@ -229,9 +229,9 @@ Public Class TestUtility {
     }
 
     // Return test record
-    public static test__c generatePaymentPlan(Contact guarantor) {
-        test__c paymentPlan = new test__c();
-        paymentPlan.Guarantor_Name__c = guarantor.Id;
+    public static Payment_Plan__c generatePaymentPlan(Contact guarantor) {
+        Payment_Plan__c paymentPlan = new Payment_Plan__c();
+        paymentPlan.Guarantor__c = guarantor.Id;
         paymentPlan.Active__c = true;
         return paymentPlan;
     }
@@ -250,7 +250,7 @@ Public Class TestUtility {
         for (integer i = 0; i < 20; i++) {
             Charge_Group__c chargeGroup = new Charge_Group__c();
             chargeGroup.name = 'xyz' + i;
-            chargeGroup.Guarantor_Name__c = contID;
+            chargeGroup.Guarantor__c = contID;
             lstChargeGroup.add(chargeGroup);
         }
         return lstChargeGroup;

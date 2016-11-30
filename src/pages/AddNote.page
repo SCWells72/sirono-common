@@ -4,7 +4,7 @@
 * @Date: 05-02-2016
 -->
 
-<apex:page standardController="test__c" Extensions="AddNote">
+<apex:page standardController="Payment_Plan__c" Extensions="AddNote">
     <apex:sectionHeader title="Add Note"/>
     <apex:form>
         <apex:pageMessages/>

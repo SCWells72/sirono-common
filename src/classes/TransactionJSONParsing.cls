@@ -50,7 +50,7 @@ public class TransactionJSONParsing {
                 Transaction__c objTransaction = new Transaction__c();
                 string transactionExternalId = getExternalID(String.valueof(objJson.url),'transaction');
 
-                objTransaction.ID__c = Integer.valueof(transactionExternalId);
+                objTransaction.Sirono_ID__c = Integer.valueof(transactionExternalId);
                 objTransaction.Name = objJson.method + '-' + transactionExternalId;
                 objTransaction.Amount__c = PayStaffWSUtill.convertToDollarsWithNegative(objJson.amount);
                 if (!String.Isblank(objJson.post_date)) {
@@ -80,19 +80,19 @@ public class TransactionJSONParsing {
 
             if (mapTransactionChargeGroup.size() > 0) {
 
-                lstChargeGroup = [SELECT Id, Charge_Group_ID__c, Account_Sub_Status__c,
-                        Payment_Plan__c, Payment_Plan__r.Sirono_ID__c, Payment_Plan__r.Guarantor_Name__c
+                lstChargeGroup = [SELECT Id, Sirono_ID__c, Account_Sub_Status__c,
+                        Payment_Plan__c, Payment_Plan__r.Sirono_ID__c, Payment_Plan__r.Guarantor__c
                         FROM Charge_Group__c
-                        where Charge_Group_ID__c in: mapTransactionChargeGroup.values()];
+                        where Sirono_ID__c in: mapTransactionChargeGroup.values()];
 
                 map<decimal, string> mapChargeGroup = new map<decimal, string>();
                 for(Charge_Group__c cg : lstChargeGroup){
-                    mapChargeGroup.put(cg.Charge_Group_ID__c, cg.Id);
+                    mapChargeGroup.put(cg.Sirono_ID__c, cg.Id);
                 }
 
                 for(Transaction__c tran : lstTransaction) {
                     if(tran.Charge_Group__c == null){
-                        decimal cId = mapTransactionChargeGroup.get(string.valueof(tran.ID__c));
+                        decimal cId = mapTransactionChargeGroup.get(string.valueof(tran.Sirono_ID__c));
                         tran.Charge_Group__c = mapChargeGroup.get(cId);
                     }
                 }

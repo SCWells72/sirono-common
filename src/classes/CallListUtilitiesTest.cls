@@ -24,7 +24,7 @@ public class CallListUtilitiesTest {
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Account_Status__c = 'Billed';
         chargeGroup.Account_Sub_Status__c = 'Due';
-        chargeGroup.Charge_Group_ID__c = 123;
+        chargeGroup.Sirono_ID__c = 123;        
         insert chargeGroup;
 
         Transaction__c transactionObj = TestUtility.generateTransaction(chargeGroup, -101, 'Automatic');
@@ -33,7 +33,7 @@ public class CallListUtilitiesTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Account_Status__c = 'Billed';
         chargeGroup.Account_Sub_Status__c = 'Delinquent';
-        chargeGroup.Charge_Group_ID__c = 123444;
+        chargeGroup.Sirono_ID__c = 123444;       
         chargeGroup.Pre_Collection_Sent__c = system.today();
         insert chargeGroup;
 
@@ -76,7 +76,7 @@ public class CallListUtilitiesTest {
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Account_Status__c = 'Billed';
         chargeGroup.Account_Sub_Status__c = 'Due';
-        chargeGroup.Charge_Group_ID__c = 123;
+        chargeGroup.Sirono_ID__c = 123;        
         insert chargeGroup;
 
         Transaction__c transactionObj = TestUtility.generateTransaction(chargeGroup, -101, 'Automatic');
@@ -85,7 +85,7 @@ public class CallListUtilitiesTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Account_Status__c = 'Billed';
         chargeGroup.Account_Sub_Status__c = 'Delinquent';
-        chargeGroup.Charge_Group_ID__c = 123444;
+        chargeGroup.Sirono_ID__c = 123444; 
         insert chargeGroup;
 
         List<Charge_Group__c> lst = TestUtility.generatechargeGroupList(guarantorContact.Id);

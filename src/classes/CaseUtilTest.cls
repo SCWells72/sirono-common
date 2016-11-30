@@ -1028,12 +1028,12 @@ public class CaseUtilTest {
 
         insert lstCamp;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan.active__c = true;
         paymentPlan.Delinquent__c = true;
         insert paymentPlan;
 
-        test__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.id);
+        Payment_Plan__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan1.active__c = true;
         paymentPlan1.Delinquent__c = true;
         insert paymentPlan1;
@@ -1102,7 +1102,7 @@ public class CaseUtilTest {
 
         insert lstCamp;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan.active__c = true;
         paymentPlan.Delinquent__c = true;
         insert paymentPlan;
@@ -1282,15 +1282,15 @@ public class CaseUtilTest {
 
         insert lstCamp;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan.active__c = true;
         paymentPlan.Delinquent__c = true;
         insert paymentPlan;
 
-        test__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.id);
+        Payment_Plan__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan1.active__c = true;
         paymentPlan1.Has_Error__c = true;
-        paymentPlan1.Payable_Amount__c = -101;
+        paymentPlan1.Remaining_Balance__c = -101;
         insert paymentPlan1;
 
         Set<Id> setId = new Set<Id>();
@@ -1352,15 +1352,15 @@ public class CaseUtilTest {
 
         insert lstCamp;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan.active__c = true;
         paymentPlan.Delinquent__c = true;
         insert paymentPlan;
 
-        test__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.id);
+        Payment_Plan__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan1.active__c = true;
         paymentPlan1.Has_Error__c = true;
-        paymentPlan1.Payable_Amount__c = -101;
+        paymentPlan1.Remaining_Balance__c = -101;
         insert paymentPlan1;
 
         Set<Id> setId = new Set<Id>();

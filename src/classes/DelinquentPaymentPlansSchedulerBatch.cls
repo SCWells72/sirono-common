@@ -59,17 +59,17 @@ public with sharing class DelinquentPaymentPlansSchedulerBatch
         Date dt = System.today().addDays(-10);
         if (callList != null) {
             List<CampaignMember> memberList = new List<CampaignMember>();
-            for (test__c pp : [
-                    Select Id, Name, Guarantor_Name__c, Delinquent_Date__c, Payable_Amount__c, Active__c
-                    From test__c
-                    WHERE Guarantor_Name__c IN :guarantors
+            for (Payment_Plan__c pp : [
+                    Select Id, Name, Guarantor__c, Delinquent_Date__c, Remaining_Balance__c, Active__c
+                    From Payment_Plan__c
+                    WHERE Guarantor__c IN :guarantors
                     AND Delinquent_Date__c = :dt
-                    AND Payable_Amount__c < :-100 AND Active__c = true
+                    AND Remaining_Balance__c < :-100 AND Active__c = true
             ]) {
-                if (!existingMembers.contains(pp.Guarantor_Name__c)) {
-                    existingMembers.add(pp.Guarantor_Name__c);
+                if (!existingMembers.contains(pp.Guarantor__c)) {
+                    existingMembers.add(pp.Guarantor__c);
                     memberList.add(new CampaignMember(CampaignId = callList.Id,
-                            ContactId = pp.Guarantor_Name__c, Status = 'Sent'));
+                            ContactId = pp.Guarantor__c, Status = 'Sent'));
                 }
             }
 

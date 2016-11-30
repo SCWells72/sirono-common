@@ -82,13 +82,13 @@ public with sharing class ContactTriggerHandler {
         }
 
         if (contactId.size() > 0) {
-            List<test__c> paymentPlan = [
+            List<Payment_Plan__c> paymentPlan = [
                     Select
-                            Id, Guarantor_Name__c, Plan_Type__c,
+                            Id, Guarantor__c, Plan_Type__c,
                             Execute_on_Day__c, NextPaymentDate__c,
                             Skip_Payment_Until__c
-                    From Test__c
-                    where Guarantor_Name__c in :contactId
+                    From Payment_Plan__c
+                    where Guarantor__c in :contactId
             ];
             if (!paymentPlan.IsEmpty()) {
                 PaymentPlanTriggerHandler.populateNextPaymentDate(paymentPlan, false);

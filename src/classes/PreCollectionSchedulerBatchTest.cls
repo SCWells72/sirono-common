@@ -26,14 +26,14 @@ private class PreCollectionSchedulerBatchTest {
 
     Date dt = System.today().addDays(-10);
 
-    test__c t = TestUtility.generatePaymentPlan(con.Id);
-    t.Payable_Amount__c = -120;
+    Payment_Plan__c t = TestUtility.generatePaymentPlan(con.Id);
+    t.Remaining_Balance__c = -120;
     t.Active__c = true;
     t.Delinquent_Date__c = dt;
     insert t;
 
-    test__c t1 = TestUtility.generatePaymentPlan(con1.Id);
-    t1.Payable_Amount__c = -120;
+    Payment_Plan__c t1 = TestUtility.generatePaymentPlan(con1.Id);
+    t1.Remaining_Balance__c = -120;
     t1.Active__c = true;
     t1.Delinquent_Date__c = dt;
     insert t1;
@@ -81,14 +81,14 @@ insert con2;
 
 Date dt = System.today().addDays(-10);
 
-test__c t = TestUtility.generatePaymentPlan(con.Id);
-t.Payable_Amount__c = -120;
+Payment_Plan__c t = TestUtility.generatePaymentPlan(con.Id);
+t.Remaining_Balance__c = -120;
 t.Active__c = true;
 t.Delinquent_Date__c = dt;
 insert t;
 
-test__c t1 = TestUtility.generatePaymentPlan(con1.Id);
-t1.Payable_Amount__c = -120;
+Payment_Plan__c t1 = TestUtility.generatePaymentPlan(con1.Id);
+t1.Remaining_Balance__c = -120;
 t1.Active__c = true;
 t1.Delinquent_Date__c = dt;
 insert t1;

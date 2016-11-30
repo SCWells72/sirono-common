@@ -59,7 +59,7 @@ Sirono 08-22-2016: 127323475 when Record Saved Successfully return to the contac
                                                         onclick="checkBoxStatus();startAjaxLoader('pg:frm:statusPanel');refreshJS();"/>
                                 </td>
                                 <td class="dataCell">
-                                    <apex:outputField value="{!cgw.cg.Account_Number__c}"/>
+                                    <apex:outputField value="{!cgw.cg.External_ID__c}"/>
                                 </td>
                                 <td class="dataCell">
                                     <apex:outputField value="{!cgw.cg.Account_Type__c}"/>

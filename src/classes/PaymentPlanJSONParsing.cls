@@ -42,12 +42,12 @@ public class PaymentPlanJSONParsing {
 
     public class PaymentPlanWrapper {
         public List<Charge_Group__c> chargeGroupRecords {get; set;}
-        public test__c paymentPlanRecord {get; set;}
+        public Payment_Plan__c paymentPlanRecord {get;set;}
         public List<Encounter__c> encounterRecords {get; set;}
 
         Public paymentPlanWrapper() {
             chargeGroupRecords = new List<Charge_Group__c>();
-            paymentPlanRecord = new test__c();
+            paymentPlanRecord = new Payment_Plan__c();
             encounterRecords = new List<Encounter__c>();
         }
     }
@@ -72,11 +72,11 @@ public class PaymentPlanJSONParsing {
         PaymentPlanWrapper objPaymentPlanWrapper = new PaymentPlanWrapper();
         PaymentPlanJSONParsing objJson = parse(json);
 
-        test__c paymentPlanObj = new test__c();
+        Payment_Plan__c paymentPlanObj = new Payment_Plan__c();
         paymentPlanObj.Active__c = objJson.active;
         paymentPlanObj.Installment_Amount__c = PayStaffWSUtill.convertToDollars(objJson.installment_amount);
-        paymentPlanObj.Number_of_Installments__c = objJson.number_installments;
-        paymentPlanObj.Plan_Value__c = PayStaffWSUtill.convertToDollars(objJson.plan_value);
+        paymentPlanObj.Original_Installment_Count__c = objJson.number_installments;
+        paymentPlanObj.Original_Balance__c = PayStaffWSUtill.convertToDollars(objJson.plan_value);
         paymentPlanObj.Plan_Type__c = objJson.plan_type;
         if (objJson.plan_type == 'auto') {
             paymentPlanObj.Plan_Type__c = 'Automatic';
@@ -84,7 +84,7 @@ public class PaymentPlanJSONParsing {
             paymentPlanObj.Plan_Type__c = 'Manual';
         }
 
-        paymentPlanObj.Payable_Amount__c = PayStaffWSUtill.convertToDollars(objJson.payable_amount);
+        paymentPlanObj.Remaining_Balance__c = PayStaffWSUtill.convertToDollars(objJson.payable_amount);
         paymentPlanObj.Execute_on_Day__c = objJson.execute_on_day;
         if (!String.Isblank(objJson.next_payment_date)) {
             paymentPlanObj.NextPaymentDate__c = Date.valueof(objJson.next_payment_date);
@@ -105,13 +105,13 @@ public class PaymentPlanJSONParsing {
             paymentPlanObj.Delinquent_Date__c = null;
         }
 
-        paymentPlanObj.Guarantor_Name__c = contactId;
+        paymentPlanObj.Guarantor__c = contactId;
         paymentPlanObj.Status__c = objJson.status;
         if (!String.Isblank(objJson.url)) {
             String strPaymentPlan = getExternalID(String.valueof(objJson.url), 'paymentplan');
             Decimal paymentPlanExternalID = Decimal.Valueof(strPaymentPlan);
             if (!String.Isblank(strPaymentPlan)) {
-                List<test__c> paymentPlan = [Select id from test__c where Sirono_ID__c = :paymentPlanExternalID];
+                List<Payment_Plan__c> paymentPlan = [Select id from Payment_Plan__c where Sirono_ID__c =: paymentPlanExternalID ];
                 if (paymentPlan.Size() > 0) {
                     paymentPlanObj.ID = paymentPlan[0].Id ;
                 } else {
@@ -135,7 +135,7 @@ public class PaymentPlanJSONParsing {
 
         System.debug('setchargeGroupID' + setchargeGroupID);
         if (setchargeGroupID.Size() > 0) {
-            List<Charge_Group__c> chargeGroup = [Select id, Charge_Group_ID__c from Charge_Group__c where Charge_Group_ID__c in :setchargeGroupID];
+            List<Charge_Group__c> chargeGroup = [Select id,Sirono_ID__c from Charge_Group__c where Sirono_ID__c in : setchargeGroupID];
             for (Charge_Group__c objCG : chargeGroup) {
                 objCG.Payment_Plan__c = paymentPlanObj.ID;
             }

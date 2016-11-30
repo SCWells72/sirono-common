@@ -92,9 +92,9 @@ public class CreateCaseManualTest {
         objcoverage.Name = 'Test';
         insert objcoverage;
         
-        //Get Coverage detail for selected charge group, so we insert ChargeGroupCoverage__c record.
+        //Get Coverage detail for selected charge group, so we insert Charge_Group_Coverage_Junction__c record.
         //Set Charge Group Id and Coverage Id.
-        ChargeGroupCoverage__c objCGCoverage = new ChargeGroupCoverage__c();
+        Charge_Group_Coverage_Junction__c objCGCoverage = new Charge_Group_Coverage_Junction__c();
         objCGCoverage.Name = 'Test';
         objCGCoverage.Charge_Group__c = objManual.chargeGroup.Id;
         objCGCoverage.Coverage__c = objcoverage.Id;

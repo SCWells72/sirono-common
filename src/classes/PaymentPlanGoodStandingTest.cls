@@ -26,7 +26,7 @@ private class PaymentPlanGoodStandingTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__C = true;
         paymentPlan.Sirono_ID__c = 12345;
         insert paymentPlan;
@@ -61,7 +61,7 @@ private class PaymentPlanGoodStandingTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Sirono_ID__c = 12345;
         insert paymentPlan;
 
@@ -100,7 +100,7 @@ private class PaymentPlanGoodStandingTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Sirono_ID__c = 12345;
         insert paymentPlan;
 

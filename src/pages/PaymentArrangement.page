@@ -118,7 +118,7 @@
                         <apex:inputField value="{!newPaymentMethod.Name}"/>
                         <apex:inputField value="{!newPaymentMethod.Payment_Method_Token__c}"/>
                         <apex:inputField value="{!newPaymentMethod.Card_Type__c}"/>
-                        <apex:inputField value="{!newPaymentMethod.ID__c}"/>
+                        <apex:inputField value="{!newPaymentMethod.Sirono_ID__c}"/>
                         <apex:inputField value="{!newPaymentMethod.Expiration_Date__c}"/>
                         <apex:inputField value="{!newPaymentMethod.Last_4__c}"/>
                     </apex:pageBlockSection>

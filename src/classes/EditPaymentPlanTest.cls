@@ -21,7 +21,7 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
@@ -60,7 +60,7 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
@@ -112,7 +112,7 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
@@ -168,7 +168,7 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
         
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
         
         Charge_Group__c   chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id,null,121114);
@@ -233,7 +233,7 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
         
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
         
         Charge_Group__c   chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id,null,121114);
@@ -299,7 +299,7 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
@@ -360,9 +360,9 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Payable_Amount__c = 100;
-        paymentPlan.Number_of_Installments__c = 10;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Remaining_Balance__c = 100;
+        paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Plan_Type__c = 'Manual';
         insert paymentPlan;
 
@@ -464,7 +464,7 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Plan_Type__c = 'Manual';
         insert paymentPlan;
 
@@ -525,7 +525,7 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
@@ -586,10 +586,10 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Payable_Amount__c = 100;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
-        paymentPlan.Number_of_Installments__c = 10;
+        paymentPlan.Original_Installment_Count__c = 10;
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
@@ -655,10 +655,10 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Payable_Amount__c = 100;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
-        paymentPlan.Number_of_Installments__c = 10;
+        paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = null;
         insert paymentPlan;
 
@@ -727,10 +727,10 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Payable_Amount__c = 100;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
-        paymentPlan.Number_of_Installments__c = 10;
+        paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = null;
         insert paymentPlan;
 
@@ -799,10 +799,10 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Payable_Amount__c = 100;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
-        paymentPlan.Number_of_Installments__c = 10;
+        paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = null;
         insert paymentPlan;
 
@@ -870,10 +870,10 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Payable_Amount__c = 100;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
-        paymentPlan.Number_of_Installments__c = 10;
+        paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = null;
         insert paymentPlan;
 
@@ -943,10 +943,10 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Payable_Amount__c = 100;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
-        paymentPlan.Number_of_Installments__c = 10;
+        paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = null;
         insert paymentPlan;
 
@@ -1015,10 +1015,10 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Payable_Amount__c = 100;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
-        paymentPlan.Number_of_Installments__c = 10;
+        paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = null;
         insert paymentPlan;
 
@@ -1086,10 +1086,10 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Payable_Amount__c = 100;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
-        paymentPlan.Number_of_Installments__c = 10;
+        paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = 1;
         insert paymentPlan;
 
@@ -1158,10 +1158,10 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Payable_Amount__c = 100;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
-        paymentPlan.Number_of_Installments__c = 10;
+        paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = null;
         insert paymentPlan;
 
@@ -1185,10 +1185,10 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Payable_Amount__c = 100;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
-        paymentPlan.Number_of_Installments__c = 10;
+        paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = 1;
         insert paymentPlan;
 
@@ -1260,10 +1260,10 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
         
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Payable_Amount__c = 100;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
-        paymentPlan.Number_of_Installments__c = 10;
+        paymentPlan.Original_Installment_Count__c = 10;
         insert paymentPlan;
         
         Charge_Group__c   chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id,null,121114);
@@ -1329,10 +1329,10 @@ private class EditPaymentPlanTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
         
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Payable_Amount__c = 100;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
-        paymentPlan.Number_of_Installments__c = 10;
+        paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = 1;
         insert paymentPlan;
         

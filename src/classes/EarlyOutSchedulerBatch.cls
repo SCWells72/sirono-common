@@ -74,22 +74,22 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<s
         if (callList != null) {
             List<CampaignMember> memberList = new List<CampaignMember>();
             for (Invoice__c invoice : [
-                    Select Id, Name, Guarantor_Name__c, Invoice_Date__c,
-                            Guarantor_Name__r.Overdue_Balance__c, Guarantor_Name__r.Delinquent_Balance__c
+                    Select Id, Name, Guarantor__c, Invoice_Date__c,
+                            Guarantor__r.Overdue_Balance__c, Guarantor__r.Delinquent_Balance__c
                     From Invoice__c
-                    WHERE Guarantor_Name__c IN :guarantors
+                    WHERE Guarantor__c IN :guarantors
                     AND Invoice_Date__c = :dt
             ]) {
-                Double bal = invoice.Guarantor_Name__r.Overdue_Balance__c + invoice.Guarantor_Name__r.Delinquent_Balance__c;
-                if (invoice.Guarantor_Name__r.Overdue_Balance__c < 0 && bal <= -100 && bal > -5000
-                        && guarantorMap.containsKey(invoice.Guarantor_Name__c)
-                        && guarantorMap.get(invoice.Guarantor_Name__c).Statements__r != null
-                        && guarantorMap.get(invoice.Guarantor_Name__c).Statements__r.size() != 0
-                        && guarantorMap.get(invoice.Guarantor_Name__c).Statements__r.get(0).Statement_Date__c > invoice.Invoice_Date__c
-                        && !existingMembers.contains(invoice.Guarantor_Name__c)) {
-                    existingMembers.add(invoice.Guarantor_Name__c);
+                Double bal = invoice.Guarantor__r.Overdue_Balance__c + invoice.Guarantor__r.Delinquent_Balance__c;
+                if (invoice.Guarantor__r.Overdue_Balance__c < 0 && bal <= -100 && bal > -5000
+                        && guarantorMap.containsKey(invoice.Guarantor__c)
+                        && guarantorMap.get(invoice.Guarantor__c).Statements__r != null
+                        && guarantorMap.get(invoice.Guarantor__c).Statements__r.size() != 0
+                        && guarantorMap.get(invoice.Guarantor__c).Statements__r.get(0).Statement_Date__c > invoice.Invoice_Date__c
+                        && !existingMembers.contains(invoice.Guarantor__c)) {
+                    existingMembers.add(invoice.Guarantor__c);
                     memberList.add(new CampaignMember(CampaignId = callList.Id,
-                            ContactId = invoice.Guarantor_Name__c, Status = 'Sent'));
+                            ContactId = invoice.Guarantor__c, Status = 'Sent'));
                 }
             }
 

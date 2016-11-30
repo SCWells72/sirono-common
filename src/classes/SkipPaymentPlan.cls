@@ -55,9 +55,9 @@ public with sharing class SkipPaymentPlan {
     * to process the skip payment else return a message user
     */
     private void validatePaymentPlanType() {
-        List<test__c> automaticPaymentPlans = [
+        List<Payment_Plan__c> automaticPaymentPlans = [
                 Select Id, Sirono_ID__c, Next_Payment_Date__c, NextPaymentDate__c
-                From test__c
+                From Payment_Plan__c
                 Where Id = :paymentPlanId and Plan_Type__c = 'Automatic'
         ];
         if (automaticPaymentPlans.size() > 0) {
@@ -191,7 +191,7 @@ public with sharing class SkipPaymentPlan {
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
         objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorId,
                 null, null);
-        test__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
+        Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord; 
         upsert paymentPlanObj;
     }
 }

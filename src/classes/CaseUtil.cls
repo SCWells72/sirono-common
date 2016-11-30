@@ -186,16 +186,16 @@ Public Class CaseUtil {
                 Insert mapContactCase.values();
 
                 //Insert the Case Charge Group
-                List<Case_Charge_Group__c> lstCCG = new List<Case_Charge_Group__c >();
+                List<Case_Charge_Group_Junction__c> lstCCG = new List<Case_Charge_Group_Junction__c>();
                 for (Charge_Group__c cg : [
-                        Select id, Guarantor_Name__c
+                        Select id, Guarantor__c
                         From Charge_Group__c
                         Where Account_Status__c = 'Billed'
-                        and Guarantor_Name__c = :mapContactCase.keyset()
+                        and Guarantor__c = :mapContactCase.keyset()
                 ]) {
-                    if (mapContactCase.Containskey(cg.Guarantor_Name__c)) {
-                        Case objCase = mapContactCase.get(cg.Guarantor_Name__c);
-                        Case_Charge_Group__c ccg = new Case_Charge_Group__c();
+                    if (mapContactCase.Containskey(cg.Guarantor__c)) {
+                        Case objCase = mapContactCase.get(cg.Guarantor__c);
+                        Case_Charge_Group_Junction__c ccg = new Case_Charge_Group_Junction__c();
                         ccg.Case__c = objCase.Id;
                         ccg.Charge_Group__c = cg.Id;
                         lstCCG.add(ccg);
@@ -431,16 +431,16 @@ Public Class CaseUtil {
                 Insert mapContactCase.values();
 
                 //Insert the Case Charge Group
-                List<Case_Charge_Group__c> lstCCG = new List<Case_Charge_Group__c >();
+                List<Case_Charge_Group_Junction__c> lstCCG = new List<Case_Charge_Group_Junction__c>();
                 for (Charge_Group__c cg : [
-                        Select id, Guarantor_Name__c
+                        Select id, Guarantor__c
                         From Charge_Group__c
                         Where Account_Status__c = 'Billed'
-                        and Guarantor_Name__c = :mapContactCase.keyset()
+                        and Guarantor__c = :mapContactCase.keyset()
                 ]) {
-                    if (mapContactCase.Containskey(cg.Guarantor_Name__c)) {
-                        Case objCase = mapContactCase.get(cg.Guarantor_Name__c);
-                        Case_Charge_Group__c ccg = new Case_Charge_Group__c();
+                    if (mapContactCase.Containskey(cg.Guarantor__c)) {
+                        Case objCase = mapContactCase.get(cg.Guarantor__c);
+                        Case_Charge_Group_Junction__c ccg = new Case_Charge_Group_Junction__c();
                         ccg.Case__c = objCase.Id;
                         ccg.Charge_Group__c = cg.Id;
                         lstCCG.add(ccg);
@@ -843,15 +843,15 @@ Public Class CaseUtil {
     Public static void closeDelinquentPaymentCase(Set<Id> contactIds, Set<Id> paymentPlanID) {
 
         if (!paymentPlanID.IsEmpty()) {
-            For (test__c test: [
-                    Select id, Guarantor_Name__c
-                    From test__c
+            For (Payment_Plan__c test: [
+                                    Select id,Guarantor__c
+                                    From Payment_Plan__c
                     Where Id not in :paymentPlanID
-                    and Guarantor_Name__c in :contactIds
+                    and Guarantor__c in :contactIds
                     and active__c = true
                     and Delinquent__c = true
             ]) {
-                contactIds.remove(test.Guarantor_Name__c);
+                contactIds.remove(test.Guarantor__c);
             }
         }
 
@@ -993,16 +993,16 @@ Public Class CaseUtil {
     Public static void closeCCErrorCase(Set<Id> contactIds, Set<Id> paymentPlanID) {
 
         if (!paymentPlanID.IsEmpty()) {
-            for (test__c test: [
-                    Select id, Guarantor_Name__c
-                    From test__c
+            for(Payment_Plan__c test: [
+                                    Select id,Guarantor__c
+                                    From Payment_Plan__c
                     Where Id not in :paymentPlanID
-                    and Guarantor_Name__c in :contactIds
+                    and Guarantor__c in :contactIds
                     and active__c = true
                     and Has_Error__c = true
-                    and Payable_Amount__c <= -100
+                    and Remaining_Balance__c <= -100
             ]) {
-                contactIds.remove(test.Guarantor_Name__c);
+                contactIds.remove(test.Guarantor__c);
             }
         }
 
