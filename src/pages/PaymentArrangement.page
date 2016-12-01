@@ -3,7 +3,8 @@
 * @version 1.0.1
 * @Date: 08-17-2016
 -->
-
+<apex:page></apex:page>
+<!-- 
 <apex:page standardController="Encounter__c" extensions="PaymentArrangement" tabStyle="Payment_Arrangement__c">
     <apex:includeScript value="{!URLFOR($Resource.Jquery, 'jquery-3.0.0.min.js')}"/>
     <Style>
@@ -148,7 +149,7 @@
     </Script>
 
 
-    <!------------- Start: Processing Div---------------------------------------->
+    <!------------- Start: Processing Div----------------------------------------
     <style>
         .ProcessingBackground {
             background-color: black;
@@ -179,6 +180,6 @@
     <apex:actionStatus id="Processing" onstart="document.getElementById('divProcessing').style.display = '';"
                        onstop="document.getElementById('divProcessing').style.display = 'none';">
     </apex:actionStatus>
-    <!------------- End: Processing Div---------------------------------------->
+    <!------------- End: Processing Div----------------------------------------
 
-</apex:page>
+</apex:page> -->

@@ -14,7 +14,10 @@
 */
 
 public with sharing class ProcessPayment {
-    public String username { get; set; }
+    public ProcessPayment() {
+        
+    }
+    /*public String username { get; set; }
     public String password { get; set; }
     public string creditCardNumber { get; set; }
     public string cardHolderName { get; set; }
@@ -75,7 +78,7 @@ public with sharing class ProcessPayment {
         state = 'WI';
         address = '8131 W 48th';
         zip = '78737';
-        city = 'Austin';*/
+        city = 'Austin';*
 
         chargeGroupList = new List<ChargeGroupWrapper>();
         guarantorRecordId = sc.getId();
@@ -104,7 +107,7 @@ public with sharing class ProcessPayment {
             chargeGroupsSelected = false;
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
                 'Please select atleast one Charge Group'));
-        }*/
+        }*
         return null;
     }
 
@@ -119,7 +122,7 @@ public with sharing class ProcessPayment {
             /*
              * 08-19-2016: Sirono - Tracker # 127324171
              * Method for check the validation.
-             */
+             *
 
             boolean blnIsError = false;
             blnIsError = checkCardValidation();
@@ -148,7 +151,7 @@ public with sharing class ProcessPayment {
     /*
      * 08-19-2016: Sirono - Tracker # 127324171
      * Method for check the validation.
-     */
+     *
     Public boolean checkAmountValidation() {
         boolean blnIsError = false;
         if (isEmpty(amount) || (amount.isNumeric() && decimal.valueof(amount) == 0)) {
@@ -179,7 +182,7 @@ public with sharing class ProcessPayment {
      * 08-19-2016: Sirono - Tracker #127324171
      * Method for check the validation.
      * 09-13-2016: Viraj Rana - Tracker #130117819:   Credit Card Error Messaging Method to check the Card validation. 
-     */
+     *
     Public boolean checkCardValidation() {
         boolean blnIsError = false;
         if (creditCardNumber.length() < 12 || creditCardNumber.Length() > 19) {
@@ -251,7 +254,7 @@ public with sharing class ProcessPayment {
     /*
     #130125231 : Enable "Fill Name and Address on File" functionality.
     fill the address,city,state,zip variable with the guarantor information.
-    */
+    *
 
     public void fillNameAndAddress() {
         cardHolderName = gc.name;
@@ -360,5 +363,5 @@ public with sharing class ProcessPayment {
                         'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody));
             }
         }
-    }
+    }*/
 }

@@ -10,7 +10,7 @@
  */
 
 public with sharing class DeletePaymentPlan {
-    public String username {get; set;}
+    /*public String username {get; set;}
     public String password {get; set;}
     public String guarantorId {get; set;}
     public String paymentPlanId {get; set;}
@@ -18,10 +18,10 @@ public with sharing class DeletePaymentPlan {
     private List<Charge_Group__c> lstCG = new List<Charge_Group__c>();
     private test__c paymentPlanObj = new test__c();
     public Boolean blnHasError = true;
-    public Boolean blnHasFirstRequest = true;
+    public Boolean blnHasFirstRequest = true;*/
     // Constructor of a class and initialize the variables.
     public DeletePaymentPlan() {
-        username = PayStaffWSUtill.un;
+        /*username = PayStaffWSUtill.un;
         password = PayStaffWSUtill.pw;
         guarantorId = null;
         paymentPlanId = null;
@@ -35,9 +35,9 @@ public with sharing class DeletePaymentPlan {
         }
         if (Apexpages.currentPage().getParameters().containsKey('paymentPlanExtId')) {
             paymentPlanExtId = Apexpages.currentPage().getParameters().get('paymentPlanExtId');
-        }
+        }*/
     }
-
+	/*
     //Check String is empty or not
     private Boolean isEmpty(String str) {
         return (str == null || str.trim().equals(''));
@@ -45,7 +45,7 @@ public with sharing class DeletePaymentPlan {
 
     /*Mohan Kumar 08-01-2016: Ticket # 06638016 - 
      *Updated the QueryString parameter value to fix the "URL No Longer Exists" error.
-     */
+     *
     public Pagereference cancel() {
         Pagereference pg = null;
         if (!isEmpty(paymentPlanId)) {
@@ -87,7 +87,7 @@ public with sharing class DeletePaymentPlan {
     /*
     * 09-22-2016: Viraj Rana - Tracker #129177479
     *  Call the paymentplan Web Service to get the paymentplan information.
-    */
+    *
     private void callPaymentPlanRequest(String csrfToken, String jwtToken) {
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
@@ -127,7 +127,7 @@ public with sharing class DeletePaymentPlan {
     /*
     * 09-22-2016: Viraj Rana - Tracker # 129177479    
     * parse the Payment Plan JSON and Make a new request to get the charge group detailsyment Plan
-    */
+    *
     private void parsePaymentPlanResponse(String jsonStr, String csrfToken, String jwtToken) {
 
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
@@ -152,7 +152,7 @@ public with sharing class DeletePaymentPlan {
     /*
     * 09-22-2016: Viraj Rana - Tracker # 129177479
     * make a Charge group Reqeuest to get the chargeGroupInformation
-    */
+    *
     private void callChargeGroupRequest(String chargeGroupId, String jwtToken, Charge_Group__c cg) {
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
@@ -196,7 +196,7 @@ public with sharing class DeletePaymentPlan {
     * parse the chargroup json and update the sub status
     * 10-12-2016: Viraj Rana - Tracker # 129177479
     * Update the Account_Sub_Status__c and Account_Status__c.
-    */
+    *
     private void parseChargeGroupResponse(String responseBody, Charge_Group__c cg) {
         ChargeGroupJSONParsing objChargeGroup = ChargeGroupJSONParsing.parse(responseBody);
         cg.Account_Sub_Status__c = objChargeGroup.account_sub_status;
@@ -207,7 +207,7 @@ public with sharing class DeletePaymentPlan {
     
     /*Mohan Kumar 08-02-2016: Ticket # 06638015 - 
      *Updated the request parameter value to send the Sirono External ID and NOT salesforce record Id.
-     */
+     *
     private void doDeletePaymentPlan(String csrfToken, String jwtToken) {
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
@@ -256,5 +256,5 @@ public with sharing class DeletePaymentPlan {
                     'RESPONSE : ' + res.toString() +
                             '  RESPONSE BODY::' + responseBody));
         }
-    }
+    }*/
 }

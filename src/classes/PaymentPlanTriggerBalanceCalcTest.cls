@@ -7,7 +7,7 @@
 @isTest
 public class PaymentPlanTriggerBalanceCalcTest {
 
-    private static Contact g;
+    /*private static Contact g;
     private static Charge_Group__c cg1;
     private static Charge_Group__c cg2;
     private static Transaction__c txn;
@@ -76,5 +76,5 @@ public class PaymentPlanTriggerBalanceCalcTest {
         Decimal txnTotal = (Decimal) sums[0].get('tot');
 
         System.assert(pp.Payable_Amount__c == txnTotal, 'PaymentPlan value is incorrect');
-    }
+    }*/
 }

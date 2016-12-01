@@ -11,7 +11,10 @@
 global class MockHttpResponseGeneratorTest implements HttpCalloutMock {
     // Implement this interface method
     global HTTPResponse respond(HTTPRequest req) {
-
+		HttpResponse res = new HttpResponse();
+        res.setHeader('Content-Type', 'application/json');
+        return res;
+		/*
         // Create a fake response
         HttpResponse res = new HttpResponse();
         res.setHeader('Content-Type', 'application/json');
@@ -44,6 +47,6 @@ global class MockHttpResponseGeneratorTest implements HttpCalloutMock {
 
         res.setStatus(TestUtility.status);
 
-        return res;
+        return res;*/
     }
 }

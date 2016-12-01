@@ -7,7 +7,11 @@
  * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases
 */
 public with sharing class PaymentPlanTriggerHandler {
-    //static method invoked after insert event
+    public PaymentPlanTriggerHandler(){
+        
+        }
+    /*
+	//static method invoked after insert event
     public static void afterInsert(List<test__c> newList) {
         checkCallListRemove(newList, null);
         callDelinquentPaymentPlanCaseCreation(newList, null);
@@ -202,6 +206,6 @@ public with sharing class PaymentPlanTriggerHandler {
             CaseUtil.closeCCErrorCase(contactToCloseCase, paymentPlanID);
         }
     }
-
+	*/
 
 }

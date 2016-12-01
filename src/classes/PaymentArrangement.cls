@@ -9,7 +9,11 @@
  */
 
 public with sharing class PaymentArrangement {
-
+	
+	public PaymentArrangement() {
+        
+    }
+    /*
     public Payment_Arrangement__c paymentArrangement {get; set;}
     public Payment_Method__c newPaymentMethod {get; set;}
     public List<PaymentMethodWrapper> paymentMethodList {get; set;}
@@ -23,7 +27,7 @@ public with sharing class PaymentArrangement {
 
     /*
      * Constructor of class,declare the variables.
-     */
+     *
     public PaymentArrangement(ApexPages.StandardController sc) {
         paymentMethodTypeOptions = new List<SelectOption>();
         encounterId = sc.getId();
@@ -50,7 +54,7 @@ public with sharing class PaymentArrangement {
 
     /*
      * get all the payment record type list.
-     */
+     *
     private List<SelectOption> getPaymentRecordTypes() {
         List<SelectOption> options = new List<SelectOption>();
         for (RecordType rt : [
@@ -70,7 +74,7 @@ public with sharing class PaymentArrangement {
 
     /*
      * get list of payment methods.
-     */
+     *
     private void getGuarantorPaymentMethods(String gId) {
         for (Payment_Method__c p : [
                 Select p.Routing_Number__c, p.RecordTypeId,
@@ -88,7 +92,7 @@ public with sharing class PaymentArrangement {
 
     /*
      * Insert new Payment Arrangement record and set the lookup.
-     */
+     *
     public PageReference submitPaymentArrangement() {
         for (PaymentMethodWrapper objPM : paymentMethodList) {
             if (objPM.isSelected) {
@@ -101,7 +105,7 @@ public with sharing class PaymentArrangement {
 
     /*
      * Initilize the Payment Method object record and set the record values.
-     */
+     *
     public void createNewPaymentMethod() {
         createPaymentMethod = true;
         newPaymentMethod = new Payment_Method__c();
@@ -111,7 +115,7 @@ public with sharing class PaymentArrangement {
 
     /*
      * Initilize the Payment Method object record with null
-     */
+     *
     public void cancelNewPaymentMethod() {
         createPaymentMethod = false;
         newPaymentMethod = null;
@@ -119,7 +123,7 @@ public with sharing class PaymentArrangement {
 
     /*
      * Insert a payment method record.    
-     */
+     *
     public void saveNewPaymentMethod() {
         insert newPaymentMethod;
         for (PaymentMethodWrapper pml : paymentMethodList) {
@@ -131,7 +135,7 @@ public with sharing class PaymentArrangement {
 
     /*
      * wrapper class for the payment method.  
-     */
+     *
     public class PaymentMethodWrapper {
         public Boolean isSelected {get; set;}
         public Payment_Method__c pm {get; set;}
@@ -140,5 +144,5 @@ public with sharing class PaymentArrangement {
             isSelected = isSelect;
             pm = pmObj;
         }
-    }
+    }*/
 }

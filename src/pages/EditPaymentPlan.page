@@ -7,10 +7,10 @@
 * 08-19-2016: Sirono - Tracker # 127324171 CCard Validations
 * 09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31.
 -->
-
-
+<apex:page></apex:page>
+<!-- 
 <apex:page controller="EditPaymentPlan" id="pg" action="{!getPaymentPlanSettings}">
-    <!--Sirono 08-29-2016:  Indclude JQuery-->
+    <!--Sirono 08-29-2016:  Indclude JQuery--
     <apex:includeScript value="{!URLFOR($Resource.Jquery, 'jquery-3.0.0.min.js')}"/>
 
     <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
@@ -51,7 +51,7 @@
                 <br/><br/><br/>
             </div>
         </apex:outputPanel>
-        <!--<apex:actionFunction name="refreshJS" action="{!doNext}"/>-->
+        <!--<apex:actionFunction name="refreshJS" action="{!doNext}"/>--
         <apex:pageBlock title="{!guarantorName}">
             <apex:outputPanel id="op">
                 <div class="pay-staff-full-width pay-staff-clear-both">
@@ -117,7 +117,7 @@
                         </tr>
                     </table>
 
-                    <!-- PROMIS TO PAY PAYMENTS -->
+                    <!-- PROMIS TO PAY PAYMENTS --
                     <table class="pay-staff-tabale-left"
                            style="display:{!IF(planType == 'promise', '','none')};width:44%;">
                         <tr>
@@ -148,7 +148,7 @@
                         </tr>
                     </table>
 
-                    <!-- Automatic DRAFT PAYMENTS -->
+                    <!-- Automatic DRAFT PAYMENTS --
                     <apex:outputPanel id="opAuto">
                         <table class="pay-staff-tabale-left"
                                style="display:{!IF(planType == 'auto', '','none')};width:44%;">
@@ -181,7 +181,7 @@
                             </span>
                                 </td>
                                 <td> &nbsp; </td>
-				<!--09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31-->
+				<!--09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31--
                                 <td>
                                     <apex:inputText styleClass="pay-staff-input" onkeypress="return isDecimalNumberKey(event)" value="{!executeOnDay}"
                                                     id="executeOnDay"/>
@@ -341,4 +341,4 @@
             return true;
         }
     </Script>
-</apex:page>
+</apex:page> -->

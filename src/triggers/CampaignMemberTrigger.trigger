@@ -5,7 +5,8 @@
 * @description trigger on CampaignMember that gets invoked after insert or after update event
 */
 trigger CampaignMemberTrigger on CampaignMember (after insert, after delete) {
-
+	CampaignMemberTriggerHandler obj = new CampaignMemberTriggerHandler();
+/*
     if (CaseUtil.executeCampaignMemberTrigger == false) return;
 
     //invoked after insert event 
@@ -16,5 +17,5 @@ trigger CampaignMemberTrigger on CampaignMember (after insert, after delete) {
     //invoked after delete event
     if (Trigger.isAfter && Trigger.isDelete) {
         CampaignMemberTriggerHandler.afterDelete(Trigger.old);
-    }
+    }*/
 }

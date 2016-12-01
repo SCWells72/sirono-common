@@ -9,7 +9,8 @@
 
 
 trigger CaseTrigger on Case (after insert, after update) {
-
+	CaseTriggerHandler obj = new CaseTriggerHandler();
+/*
     //executes after insert operation
     if (Trigger.isAfter && Trigger.isInsert) {
         CaseTriggerHandler.afterInsert(Trigger.new);
@@ -19,5 +20,5 @@ trigger CaseTrigger on Case (after insert, after update) {
     //Pre-Service Campaign when Auto cases are closed manually
     if (Trigger.isAfter && Trigger.isUpdate) {
         CaseTriggerHandler.afterUpdate(Trigger.new, Trigger.oldMap);
-    }
+    }*/
 }

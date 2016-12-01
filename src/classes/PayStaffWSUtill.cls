@@ -9,6 +9,11 @@
  */
 
 public with sharing class PayStaffWSUtill {
+	
+	public PayStaffWSUtill() {
+    
+    }
+    /*
     //TODO replace use of endpoint with SironoSettingsUtil.getServerEndpoint()
     // @deprecated
     public static final String ENDPOINT = Label.PayStaffEndPointURL;
@@ -101,7 +106,7 @@ public with sharing class PayStaffWSUtill {
 
     /*Mohan Kumar 07-28-2016: This is method is used in AddToPaymentPlan to filter the Charge Group based
     *on the Status and Sub-Status rather than pulling all active ones
-    */
+    *
     public static Contact fetchGuarantorContactWithCGConstraints(String contactId) {
         Contact ob = null;
         for (Contact c : [
@@ -455,7 +460,7 @@ public with sharing class PayStaffWSUtill {
 
     /*Mohan Kumar 07-28-2016: Convert the amount in cents before sending it to Sirono on Take Payment, 
     *Add Adjustment, Add Discount actions
-    */
+    *
     public static String convertToCents(String amount) {
         String centAmount = (String.isNotBlank(amount) ? String.valueOf(Decimal.valueOf(amount) * 100) : amount);
         System.debug('converted cent amount: ' + centAmount);
@@ -485,7 +490,7 @@ public with sharing class PayStaffWSUtill {
     }
     /*Mohan Kumar 07-28-2016: Convert the amount in cents before sending it to Sirono on Take Payment, 
     *Add Adjustment, Add Discount actions
-    */
+    *
     public static String trimCommas(String val) {
         return (String.isNotBlank(val) ? val.replaceAll(',', '') : val);
     }
@@ -521,7 +526,7 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * Parse Payment response and call Transaction Request.
-    */
+    *
     public static void parsePaymentReponse(String csrfToken, String jwtToken, string jsonStr, boolean isPayment){
         
         Payment__c objPayment;
@@ -591,7 +596,7 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * call Transaction Request and get all Transactions based on Payment.
-    */
+    *
     private static PaymentAdjustmentwrapper callTransactionRequest(String csrfToken, String jwtToken, Payment__c objPayment, Payment_Adjustments__c objPaymentAdjustment, boolean isPayment){
         
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
@@ -645,7 +650,7 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * Parse Transaction response and based on Charge group call Charge group request.
-    */
+    *
     private static PaymentAdjustmentwrapper parseTransactionResponse(String csrfToken, String jwtToken, string jsonStr, Payment__c objPayment, Payment_Adjustments__c objPaymentAdjustment, boolean isPayment){
         TransactionJSONParsing.TransactionWrapper objTransactionWrapper;
         objTransactionWrapper = TransactionJSONParsing.parse(jsonStr);
@@ -732,7 +737,7 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * make a Charge group Reqeuest to get the chargeGroupInformation
-    */
+    *
     private static Charge_Group__c callChargeGroupRequest(String chargeGroupId,String jwtToken) {
         Charge_Group__c chargeGroup = new Charge_Group__c();
         
@@ -779,7 +784,7 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * Update the Account_Sub_Status__c and Account_Status__c.
     * if Account_Sub_Status__c = Payment Plan than call Payment Plan request.
-    */
+    *
     private static Charge_Group__c parseChargeGroupResponse(String responseBody, String jwtToken){
         ChargeGroupJSONParsing objChargeGroup = ChargeGroupJSONParsing.parse(responseBody);
         Charge_Group__c cg = new Charge_Group__c();        
@@ -803,14 +808,14 @@ public with sharing class PayStaffWSUtill {
             if(objcg != null){
                 callPaymentPlanRequest(jwtToken, objcg);
             }
-        }*/
+        }*
     }
 
      /*
     * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     *  Call the paymentplan Web Service to get the paymentplan information.
-    */
+    *
     private static test__c callPaymentPlanRequest(String jwtToken, string paymentPlanExternalId, string guarantorId){
         test__c objPaymentPlan = new test__c();
         
@@ -853,7 +858,7 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * parse the Payment Plan JSON.
-    */
+    *
     private static test__c parsePaymentPlanResponse(String jsonStr, string guarantorId) {
 
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
@@ -863,5 +868,5 @@ public with sharing class PayStaffWSUtill {
         paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
         
         return paymentPlanObj;
-    }
+    }*/
 }

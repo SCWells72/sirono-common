@@ -10,7 +10,8 @@
 global class CallEarlyOutAutoCase implements Schedulable {
 
     global void execute(SchedulableContext sc) {
-        CaseUtil.callEarlyOutAutoCase();
+        /*CaseUtil.callEarlyOutAutoCase();
         CaseUtil.callEarlyOutAutoCaseCloser();
+        */
     }
 }

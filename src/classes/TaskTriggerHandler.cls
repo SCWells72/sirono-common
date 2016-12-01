@@ -7,8 +7,10 @@
 */
 
 public with sharing class TaskTriggerHandler {
-
-    public static boolean isRecursive = false;
+	public TaskTriggerHandler() {
+    
+    }
+    /*public static boolean isRecursive = false;
 
     // Call removeFromCallList method when the task is inserted
     public static void afterInsert(List<Task> newList) {
@@ -122,7 +124,7 @@ public with sharing class TaskTriggerHandler {
 
     /*#130111863 : Viraj Rana :Call Activity Dates and Timestamps
      * Call callHoursOfDay method when the task is created to calculate the Hours Of Day
-     */
+     *
     private static void callHoursOfDay(List<Task> newList, Boolean isUpdate) {
         if (isRecursive) return;
 
@@ -172,5 +174,5 @@ public with sharing class TaskTriggerHandler {
             this.retryCount = 0;
             this.errorCount = 0;
         }
-    }
+    }*/
 }

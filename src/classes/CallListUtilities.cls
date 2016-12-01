@@ -8,7 +8,7 @@
 
 
 public with sharing class CallListUtilities {
-
+	/*
     //Remove the Campaign Members for the pre collection
     public static void preCollectionCallListRemoval(Set<Id> contactIds) {
         Set<Id> membersToremove = new Set<Id>();
@@ -143,5 +143,5 @@ public with sharing class CallListUtilities {
         ]
         );
         if (cmListToRemove.size() > 0) delete cmListToRemove;
-    }
+    }*/
 }

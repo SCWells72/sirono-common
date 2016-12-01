@@ -6,10 +6,11 @@
 * Sirono 08-29-2016: 127326579 when Record Saved Successfully return to the PaymentPlan after few Sec.
 * 
 *-->
-
+<apex:page></apex:page>
+<!-- 
 <apex:page controller="DeletePaymentPlan" id="pg">
     <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
-    <!--Sirono 08-29-2016:  Indclude JQuery-->
+    <!--Sirono 08-29-2016:  Indclude JQuery--
     <apex:includeScript value="{!URLFOR($Resource.Jquery, 'jquery-3.0.0.min.js')}"/>
 
     <apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>
@@ -73,4 +74,4 @@
             });
         }
     </script>
-</apex:page>
+</apex:page> -->

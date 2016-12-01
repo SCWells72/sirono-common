@@ -7,7 +7,10 @@
 */
 
 public with sharing class CaseCommentTriggerHandler {
-    //PUBLIC METHOD CALLED FROM TRIGGER
+    public CaseCommentTriggerHandler(){
+        
+    }
+	/*//PUBLIC METHOD CALLED FROM TRIGGER
     public static void afterInsert(List<CaseComment> newList) {
         //ONLY DOING CALLOUT WHEN BATCH SIZE IS ONE (It's Created from UI)
         if (newList.size() == 1) {
@@ -38,5 +41,5 @@ public with sharing class CaseCommentTriggerHandler {
             //CALL FUTURE METHOD FOR ADD NOTE CALLOUT
             PayStaffWSUtill.addNoteFuture(chargeGroupIds, caseCommentBody);
         }
-    }
+    }*/
 }

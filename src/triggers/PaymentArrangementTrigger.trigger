@@ -10,5 +10,6 @@
 trigger PaymentArrangementTrigger on Payment_Arrangement__c (after insert) {
 
     //invoked after an insert event 
-    PaymentArrangementTriggerHandler.closeEncounterCaseFromPaymentArrangement(trigger.new);
+    //PaymentArrangementTriggerHandler.closeEncounterCaseFromPaymentArrangement(trigger.new);
+    PaymentArrangementTriggerHandler obj = new PaymentArrangementTriggerHandler();
 }
