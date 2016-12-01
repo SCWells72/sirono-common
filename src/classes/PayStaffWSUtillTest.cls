@@ -7,6 +7,9 @@
 
 @isTest
 private class PayStaffWSUtillTest {
+    @testSetup static void setupSironoSettings(){
+        SironoSettingsUtil.initializeSironoSettings();
+    }
 
     static testMethod void myUnitTest() {
         PayStaffWSUtill.fetchGuarantorContact('');

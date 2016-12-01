@@ -7,6 +7,9 @@
 
 @IsTest
 private class SironoSettingsUtilTest {
+    @testSetup static void setupSironoSettings(){
+        SironoSettingsUtil.initializeSironoSettings();
+    }
 
     /*Confirm PaymentPlanSettings are created */
     static testMethod void getPaymentPlanSetting() {
@@ -18,9 +21,9 @@ private class SironoSettingsUtilTest {
 
     /*Coverage the code for the SironoSettingsUtil class and init the variable and call getPaymentPlanSettings Method for default setting */
     static testMethod void getDefaultPaymentPlanSetting() {        
-        Profile p = [SELECT Id FROM Profile WHERE Name='Chatter External User']; 
+        Profile p = [SELECT Id FROM Profile WHERE Name='Chatter External User'];
         User u = new User(Alias = 'standt', Email='standarduser@testorg.com', 
-        EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
+        EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US',
         LocaleSidKey='en_US', ProfileId = p.Id, 
         TimeZoneSidKey='America/Los_Angeles', UserName='standarduser@testorg1212.com');
         Sirono_Settings__c settings;
@@ -35,6 +38,14 @@ private class SironoSettingsUtilTest {
 
     @isTest
     static void testValidEndpoint() {
-        System.assert(SironoSettingsUtil.getServerEndpoint() != null, 'No endpoint for this org');
+        Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User'];
+        User u = new User(Alias = 'standt', Email='standarduser@testorg.com',
+                EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US',
+                LocaleSidKey='en_US', ProfileId = p.Id,
+                TimeZoneSidKey='America/Los_Angeles', UserName='standarduser@testorg1212.com');
+
+        System.runAs(u){
+            System.assert(SironoSettingsUtil.getServerEndpoint() != null, 'No endpoint for this org');
+        }
     }
 }
