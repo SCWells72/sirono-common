@@ -38,6 +38,11 @@
             <isset property="sf.maxPoll"/>
         </not>
     </condition>
+    <condition property="sf.rename.input" value="${basedir}/build/rename/FieldsRename.csv">
+        <not>
+            <isset property="sf.rename.input"/>
+        </not>
+    </condition>
 
     <target name="retrieve">
         <echo level="info">Retrieving from: ${sf.source.username}</echo>
@@ -96,6 +101,25 @@
 
     <target name="full_deploy" description="Full environment setup in target org"
             depends="stop_all_scheduled_jobs, deploy, initialize_custom_settings, schedule_all_jobs"/>
+
+    <target name="rename_prep" description="Stop all scheduled jobs and undeploy"
+            depends="stop_all_scheduled_jobs, undeployCode, deploy"/>
+
+    <target name="rename_metadata">
+       <java classname="com.sirono.sf_tools.MetadataUpdater"
+               fork="true"
+               failonerror="true">
+                <arg value="${sf.rename.input}"/>
+                <arg value="${sf.target.username}"/>
+                <arg value="${sf.target.password}"/>
+                <arg value="${sf.target.metadataurl}"/>
+             <classpath>
+                <fileset dir="${basedir}/build/lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+             </classpath>
+       </java>
+    </target>
 
     <target name="stop_all_scheduled_jobs" description="Stops all scheduled jobs in the target org">
         <!-- stop all scheduled jobs -->

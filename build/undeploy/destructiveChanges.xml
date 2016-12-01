@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>StatementWrapper</members>
-        <name>ApexClass</name>
+        <members>ChargeGroupTrigger</members>
+        <members>PaymentPlanTrigger</members>
+        <name>ApexTrigger</name>
     </types>
-    <types>
-        <members>Case.Merge_with_Guarantor_ID__c</members>
-        <name>CustomField</name>
-    </types>
-    <version>37.0</version>
+    <version>38.0</version>
 </Package>
