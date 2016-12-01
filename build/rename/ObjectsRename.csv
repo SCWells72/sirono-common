@@ -1,0 +1,4 @@
+ObjectType,OldName,NewName
+CustomObject,ChargeGroupCoverage__c,Charge_Group_Coverage_Junction__c
+CustomObject,test__c,Payment_Plan__c
+CustomObject,Case_Charge_Group__c,Case_Charge_Group_Junction__c
