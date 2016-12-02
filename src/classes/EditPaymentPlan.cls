@@ -12,7 +12,7 @@
 */
 
 public with sharing class EditPaymentPlan {
-    public String username { get; set; }
+    /*public String username { get; set; }
     public String password { get; set; }
     public String guarantorId { get; set; }
     public String paymentPlanId { get; set; }
@@ -67,11 +67,11 @@ public with sharing class EditPaymentPlan {
             return expMonthOptions;
         }
         protected set;
-    }
+    }*/
 
     //Constructor initializing variables
     public EditPaymentPlan() {
-        username = PayStaffWSUtill.un;
+        /*username = PayStaffWSUtill.un;
         password = PayStaffWSUtill.pw;
         guarantorRecordId = null;
         chargeGroupsSelected = false;
@@ -134,7 +134,7 @@ public with sharing class EditPaymentPlan {
             chargeGroupId = PayStaffWSUtill.fetchChargeGroupIds(chargeGroupList);
 
         }
-        planValue = '32772';
+        planValue = '32772';*/
     }
 
     /*//Controller Methods invoked from VisualForce
@@ -149,7 +149,7 @@ public with sharing class EditPaymentPlan {
                                     'Please select atleast one Charge Group'));
         }
         return null;
-    }*/
+    }*
 
     private Boolean isEmpty(String str) {
         return (str == null || str.trim().equals(''));
@@ -176,7 +176,7 @@ public with sharing class EditPaymentPlan {
      *It is called in VF page,
      *becuase of whenever profile is "Operations Manager or System Administrator" at that we need to create new custom setting for it.
      *If we create using class than we can't send Web Request after insert so we use this method using VF page.
-    */
+    *
     public void getPaymentPlanSettings(){
          PaymentPlanSettings = new Sirono_Settings__c();
          PaymentPlanSettings = SironoSettingsUtil.getPaymentPlanSettings();
@@ -185,7 +185,7 @@ public with sharing class EditPaymentPlan {
     /*
      * 08-19-2016: Sirono - Tracker # 127324171
      * Method for check the validation.
-     */
+     *
     public void doSubmit() {
         try {
             //doEditPaymentPlan('', '');
@@ -219,7 +219,7 @@ public with sharing class EditPaymentPlan {
      * Method for check the amount validation.
      * 09-30-2016: Viraj Rana - Tracker #127404553: Validate PaymentPlan against custom settings to check Monthly Installment Amount
      * based on Minimum Installment Amount and Maximum number of Installments.
-     */
+     *
     Public boolean checkAmountValidation() {
         boolean blnIsError = false;
 
@@ -275,7 +275,7 @@ public with sharing class EditPaymentPlan {
 
     /* 09-13-2016: Viraj Rana - Tracker #130117819: Credit Card Error Messaging Method to check the Card validation.
      * 09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31.
-     */
+     *
     Public boolean checkCardValidation() {
         boolean blnIsError = false;
         if (creditCardNumber.length() < 12 || creditCardNumber.Length() > 19) {
@@ -405,7 +405,7 @@ public with sharing class EditPaymentPlan {
             '"delinquent_date": null,' +
             '"encounters": [],' +
             '"authorized_amount": 0' +
-            '}';*/
+            '}';*
             requestData += '"installment_amount":' + PayStaffWSUtill.convertToCents(promiseAmount) + ',' +
                     '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/"' +
                     '}';
@@ -493,7 +493,7 @@ public with sharing class EditPaymentPlan {
     /*
     * #130125231 : Enable "Fill Name and Address on File" functionality.
     * fill the address,city,state,zip variable with the guarantor information.
-    */
+    *
 
     public void fillNameAndAddress() {
         cardHolderName = gc.name;
@@ -506,7 +506,7 @@ public with sharing class EditPaymentPlan {
     /*
     * 09-16-2016: Viraj Rana 
     *  Call this method to test
-    */
+    *
     Public void doTesting() {
         String str = PaymentPlanJSONParsing.testResponse();
         parseResponse(str);
@@ -515,7 +515,7 @@ public with sharing class EditPaymentPlan {
     /*
     * 08-17-2016: Sirono - Tracker # 127940071
     *  parse the Response and create a payment plan record.
-    */
+    *
     Public void parseResponse(String jsonStr) {
 
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
@@ -523,5 +523,5 @@ public with sharing class EditPaymentPlan {
                 null, chargeGroupId);
         test__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
         upsert paymentPlanObj;
-    }
+    }*/
 }

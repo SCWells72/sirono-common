@@ -6,8 +6,11 @@
 */
 
 public class PaymentAdjustmentJSONParsing {
-
-    public string url;
+	
+	 public PaymentAdjustmentJSONParsing(){
+    
+    }
+    /*public string url;
     public integer amount;
     public string code;
     public string description;
@@ -75,5 +78,5 @@ public class PaymentAdjustmentJSONParsing {
         '}]';
         
         return responseBody;
-    }
+    }*/
 }

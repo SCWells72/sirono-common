@@ -8,7 +8,7 @@
 */
 
 public with sharing class AddDiscount {
-    public String username {get; set;}
+    /*public String username {get; set;}
     public String password {get; set;}
     public String guarantorRecordId {get; set;}
     public String guarantorName {get; set;}
@@ -20,10 +20,11 @@ public with sharing class AddDiscount {
     private Payment__c objPayment = new Payment__c();
     private List<Transaction__c> lsttransaction = new List<Transaction__c>();
     private List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
-    private List<test__c> lstPaymentPlan = new List<test__c>();
+    private List<test__c> lstPaymentPlan = new List<test__c>();*/
     // Constructor of a class and initialize the variables.
-    public AddDiscount(ApexPages.StandardController sc) {
-        username = PayStaffWSUtill.un;
+    //public AddDiscount(ApexPages.StandardController sc) {
+    public AddDiscount() {
+        /*username = PayStaffWSUtill.un;
         password = PayStaffWSUtill.pw;
         chargeGroupsSelected = false;
         messageToShow = 'Please select Charge Group(s) to add Discount.';
@@ -40,9 +41,9 @@ public with sharing class AddDiscount {
                 }
             }
             chargeGroupId = '';
-        }
+        }*/
     }
-
+/*
     //Check Charge group is selected or not and do the sum of the balance
     public Pagereference doNext() {
         messageToShow = 'Please select Charge Group(s) to add Discount.';
@@ -59,7 +60,7 @@ public with sharing class AddDiscount {
             totalAmount = totalAmount.setScale(2);
             /*Mohan Kumar 08-02-2016: Changed the below calculation to multiply by 0.15 rather then 0.0015
             * 10-03-2016: Viraj Rana - Tracker #127404597: Use custom setting for discount to calculate discount amount based on Adjustment Rate.
-            */
+            *
             decimal discountRate = 0;
             discountRate = getDiscountRate();
             
@@ -73,7 +74,7 @@ public with sharing class AddDiscount {
             chargeGroupsSelected = false;
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
                                      'Please select atleast one Charge Group'));
-        }*/
+        }*
         return null;
     }
     
@@ -155,7 +156,7 @@ public with sharing class AddDiscount {
         /*}else {
             res.setStatus('CREATED');
             res.setStatusCode(201);
-        }*/
+        }*
 
         if (res.getStatus() != null && res.getStatus().trim().equalsIgnoreCase('CREATED')
                 && res.getStatusCode() != null && res.getStatusCode() == 201) {
@@ -174,5 +175,5 @@ public with sharing class AddDiscount {
                             '  RESPONSE BODY::' + responseBody));
             chargeGroupsSelected = true;
         }
-    }
+    }*/
 }

@@ -4,7 +4,8 @@
 * @Date: 08-05-2016
 * 10-19-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
 -->
-
+<apex:page></apex:page>
+<!-- 
 <apex:page standardController="Contact" Extensions="CreateCaseManual" id="pg" docType="html-5.0">
     <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
     <apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>
@@ -176,7 +177,7 @@
                             <td><apex:commandButton action="{!cancel}" value="Cancel" styleClass="pay-staff-button pay-staff-cancel-button"/></td>
                         </tr>
                     </table>
-                </div>-->
+                </div>--
             </apex:outputPanel>
             <apex:outputPanel styleClass="pay-staff-table-wrap"
                               rendered="{!AND(chrageGroupList.size != 0, !chargeGroupsSelected)}">
@@ -248,7 +249,7 @@
                 <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
                 <br/>
             </apex:outputPanel>
-            <!--<apex:outputPanel id="op" rendered="{!AND(chargeGroupsSelected, !caseTypeSelected)}">-->
+            <!--<apex:outputPanel id="op" rendered="{!AND(chargeGroupsSelected, !caseTypeSelected)}">--
             <apex:outputPanel id="op" rendered="{!Or(!chargeGroupsSelected, !caseTypeSelected)}">
                 <div class="pay-staff-clear-both">
                     <table class="pay-staff-tabale-left">
@@ -430,7 +431,7 @@
                                         <td width="49%">
                                             <apex:outputLabel styleClass="pay-staff-lable"
                                                               value="{!$ObjectType.Case.Fields[f.fieldPath].label}"/>
-                                            <!--<apex:inputField Style="width: 100%;" styleClass="pay-staff-input" html-disabled="disabled" value="{!caseObj[f.fieldPath]}"/>-->
+                                            <!--<apex:inputField Style="width: 100%;" styleClass="pay-staff-input" html-disabled="disabled" value="{!caseObj[f.fieldPath]}"/>--
                                             <apex:inputField Style="width: 100%;" styleClass="pay-staff-input"
                                                              value="{!caseObj[f.fieldPath]}"/>
                                         </td>
@@ -717,7 +718,7 @@
     </apex:outputPanel>
 
 
-    <!------------- Start: Processing Div---------------------------------------->
+    <!------------- Start: Processing Div----------------------------------------
     <style>
         .ProcessingBackground {
             background-color: black;
@@ -748,5 +749,5 @@
     <apex:actionStatus id="Processing" onstart="document.getElementById('divProcessing').style.display = '';"
                        onstop="document.getElementById('divProcessing').style.display = 'none';">
     </apex:actionStatus>
-    <!------------- End: Processing Div---------------------------------------->
-</apex:page>
+    <!------------- End: Processing Div----------------------------------------
+</apex:page> -->

@@ -6,7 +6,8 @@
 */
 
 trigger TaskTrigger on Task (after insert, after update, before update) {
-
+	TaskTriggerHandler obj = new TaskTriggerHandler();   
+/*
     //trigger invoked after an insert event 
     if (Trigger.isAfter && Trigger.isInsert) {
         TaskTriggerHandler.afterInsert(Trigger.new);
@@ -21,6 +22,6 @@ trigger TaskTrigger on Task (after insert, after update, before update) {
     if (Trigger.isBefore && Trigger.isUpdate) {
         TaskTriggerHandler.beforeUpdate(Trigger.new);
     }
-
+*/
 
 }

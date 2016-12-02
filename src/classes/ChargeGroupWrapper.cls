@@ -6,12 +6,15 @@
 */
 
 public with sharing class ChargeGroupWrapper {
-    public Charge_Group__c cg {get; set;}
+    public ChargeGroupWrapper() {
+    
+    }
+	/*public Charge_Group__c cg {get; set;}
     public Boolean isSelected {get; set;}
 
     //Constructor initializing the wrapper class variables
     public ChargeGroupWrapper(Charge_Group__c cg, Boolean isSelected) {
         this.cg = cg;
         this.isSelected = isSelected;
-    }
+    }*/
 }

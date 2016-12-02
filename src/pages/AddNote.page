@@ -3,7 +3,8 @@
 * @version 1.0.1
 * @Date: 05-02-2016
 -->
-
+<apex:page></apex:page>
+<!-- 
 <apex:page standardController="test__c" Extensions="AddNote">
     <apex:sectionHeader title="Add Note"/>
     <apex:form>
@@ -18,7 +19,7 @@
 		            <apex:outputLabel value="Guarantor Id" for="guarantorId"/>
 		            <apex:outputText value="{!guarantorId}" id="guarantorId"/>
 	            </apex:pageBlockSectionItem>
-	             -->
+	             --
                 <apex:pageBlockSectionItem>
                     <apex:outputLabel value="Charge Group Id" for="chargegroupId"/>
                     <apex:inputText value="{!chargeGroupId}" id="chargegroupId"/>
@@ -42,4 +43,4 @@
 
         </apex:pageBlock>
     </apex:form>
-</apex:page>
+</apex:page> -->

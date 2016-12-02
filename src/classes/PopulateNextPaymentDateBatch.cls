@@ -14,19 +14,25 @@ public with sharing class PopulateNextPaymentDateBatch implements Database.Batch
     }
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        return Database.getQueryLocator([
+        
+		return Database.getQueryLocator([
+                                            Select 
+                                                Id,name from Contact
+                                            ]);
+											
+		/*return Database.getQueryLocator([
                 Select
                         Id, Guarantor_Name__c, Plan_Type__c,
                         Execute_on_Day__c, NextPaymentDate__c,
                         Skip_Payment_Until__c
                 From Test__c
-        ]);
+        ]);*/
 
     }
 
     //pass the payment plan list to the method.
     public void execute(Database.BatchableContext bc, List<sObject> scope) {
-        PaymentPlanTriggerHandler.populateNextPaymentDate((List<Test__c>) scope, false);
+        /*PaymentPlanTriggerHandler.populateNextPaymentDate((List<Test__c>) scope, false);*/
     }
 
     public void finish(Database.BatchableContext bc) {

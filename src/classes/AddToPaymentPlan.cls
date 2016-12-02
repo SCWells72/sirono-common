@@ -9,7 +9,7 @@
 */
 
 public with sharing class AddToPaymentPlan {
-    public String username {get; set;}
+    /*public String username {get; set;}
     public String password {get; set;}
     public String guarantorRecordId {get; set;}
     public Boolean chargeGroupsSelected {get; set;}
@@ -19,10 +19,10 @@ public with sharing class AddToPaymentPlan {
     public String paymentPlanId {get; set;}
     public String paymentPlanExtId {get; set;}
     public List<ChargeGroupWrapper> chrageGroupList {get; set;}
-
+	*/
     // Constructor of a class and initialize the variables.
     public AddToPaymentPlan() {
-        username = PayStaffWSUtill.un;
+        /*username = PayStaffWSUtill.un;
         password = PayStaffWSUtill.pw;
         chargeGroupsSelected = false;
         chrageGroupList = new List<ChargeGroupWrapper>();
@@ -60,12 +60,12 @@ public with sharing class AddToPaymentPlan {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
                         'No active Payment Plan exist for this Guarantor. Please click Cancel to go previous page.'));
             }
-        }
+        }*/
     }
     
     /*Mohan Kumar 08-01-2016: Ticket # 06638016
     * Updated the QueryString parameter value to fix the "URL No Longer Exists" error.
-    */
+    *
     public Pagereference cancel() {
         Pagereference pg = null;
         if (!isEmpty(paymentPlanId)) {
@@ -89,7 +89,7 @@ public with sharing class AddToPaymentPlan {
             chargeGroupsSelected = false;
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
                                     'Please select atleast one Charge Group'));
-        }*/
+        }*
         return null;
     }
 
@@ -138,7 +138,7 @@ public with sharing class AddToPaymentPlan {
     
     /*Mohan Kumar 2016-08-02: Ticket # 06638015
     * Updated the request parameter value to send the Sirono External ID and NOT salesforce record Id.
-    */
+    *
     private void addToPaymentPlanCall(String csrfToken, String jwtToken) {
         String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '",' +
                 '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + '}';
@@ -184,7 +184,7 @@ public with sharing class AddToPaymentPlan {
     /*
     * 09-20-2016: Viraj Rana 
     *  Call the Web Service to get the request and parse the response 
-    */
+    *
     private void callPaymentPlanRequest(String csrfToken, String jwtToken) {
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
@@ -223,7 +223,7 @@ public with sharing class AddToPaymentPlan {
     /*
     * 09-16-2016: Viraj Rana 
     *  Call this method to test
-    */
+    *
     Public void doTesting() {
         String str = PaymentPlanJSONParsing.testResponse();
         parseResponse(str);
@@ -234,7 +234,7 @@ public with sharing class AddToPaymentPlan {
     *  parse the Response 
     * Update the substatus to 'Payment Plan' on all the newly added charge groups connected to the paymentPlan
     * Update the Payment Plan lookup on the newly added Charge Groups to point to the Payment Plan
-    */
+    *
     Public void parseResponse(String jsonStr) {
 
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
@@ -250,5 +250,5 @@ public with sharing class AddToPaymentPlan {
             cg.Payment_Plan__c = paymentPlanObj.Id;
         }
         Update lstCG;
-    }
+    }*/
 }

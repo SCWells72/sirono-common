@@ -4,7 +4,11 @@
  * @date: 09-01-2016
 */
 public with sharing class PaymentPlanUtil {
-
+	
+	public PaymentPlanUtil() {
+    
+    }
+	/*
     public static void updateBalances(Set<Id> planIds) {
 
         if (planIds.size() > 0) {
@@ -42,5 +46,5 @@ public with sharing class PaymentPlanUtil {
         if (pps.size() > 0) {
             update pps;
         }
-    }
+    }*/
 }

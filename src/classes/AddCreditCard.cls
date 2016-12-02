@@ -14,7 +14,7 @@
 
 //Mohan Kumar 08-12-2016: Convert the amount in cents before sending it to Sirono
 public with sharing class AddCreditCard {
-    public String username { get; set; }
+    /*public String username { get; set; }
     public String password { get; set; }
     public String guarantorId { get; set; }
     public String guarantorName { get; set; }
@@ -75,10 +75,10 @@ public with sharing class AddCreditCard {
         }
         protected set;
     }
-
+*/
     //Constructor for initializing variables 
     public AddCreditCard() {
-        dctotalAmount = 0;
+        /*dctotalAmount = 0;
         username = PayStaffWSUtill.un;
         password = PayStaffWSUtill.pw;
         guarantorRecordId = null;
@@ -103,7 +103,7 @@ public with sharing class AddCreditCard {
             //10-12-2016: Viraj Rana - Tracker #131459561: Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
             isActivePaymentPlan = checkPaymentPlanExist(guarantorRecordId);
         }
-        planValue = '32772';
+        planValue = '32772';*/
         /*guarantorId = '141623';
         chargeGroupId = '1072113, 1064709, 1054046';
         planType = 'auto';
@@ -121,7 +121,7 @@ public with sharing class AddCreditCard {
         city = 'Austin';
         */
     }
-
+/*
     //Controller Method invoked from Visualforce page
     public Pagereference doNext() {
         chargeGroupsSelected = false;
@@ -131,7 +131,7 @@ public with sharing class AddCreditCard {
         }/*else{
             chargeGroupsSelected = false;
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'Please select atleast one Charge Group'));
-        }*/
+        }*
         return null;
     }
 
@@ -163,7 +163,7 @@ public with sharing class AddCreditCard {
      *It is called in VF page,
      *becuase of whenever profile is "Operations Manager or System Administrator" at that we need to create new custom setting for it.
      *If we create using class than we can't send Web Request after insert so we use this method using VF page.
-    */
+    *
     public void getPaymentPlanSettings(){
          PaymentPlanSettings = new Sirono_Settings__c();
          PaymentPlanSettings = SironoSettingsUtil.getPaymentPlanSettings();
@@ -176,7 +176,7 @@ public with sharing class AddCreditCard {
             /*
             * 08-19-2016: Sirono - Tracker # 127324171
             * Method for check the amount validation.
-            */
+            *
 
             boolean blnIsError = false;
             if (!planType.trim().equalsIgnoreCase('promise')) {
@@ -220,7 +220,7 @@ public with sharing class AddCreditCard {
     * Method for check the amount validation.
     * 09-30-2016: Viraj Rana - Tracker #127404553: Validate PaymentPlan against custom settings to check Monthly Installment Amount
     * based on Minimum Installment Amount and Maximum number of Installments.
-    */    
+    * 
     Public boolean checkAmountValidation() {
         boolean blnIsError = false;
         if ((planType.trim().equalsIgnoreCase('promise') &&
@@ -287,7 +287,7 @@ public with sharing class AddCreditCard {
     * Method for check the Card validation.
     * 09-13-2016: Viraj Rana - Tracker #130117819:   Credit Card Error Messaging Method to check the Card validation. 
     * 09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31.
-    */
+    *
     Public boolean checkCardValidation() {
         boolean blnIsError = false;
         if (creditCardNumber.length() < 12 || creditCardNumber.Length() > 19) {
@@ -476,7 +476,7 @@ public with sharing class AddCreditCard {
    /*
     * #130125231 : Enable "Fill Name and Address on File" functionality.
     * fill the address,city,state,zip variable with the guarantor information.
-    */
+    *
 
     public void fillNameAndAddress() {
         cardHolderName = gc.name;
@@ -489,7 +489,7 @@ public with sharing class AddCreditCard {
     /*
     * 09-16-2016: Viraj Rana 
     *  Call this method to test
-    */
+    *
     Public void doTesting() {
         responseBody = PaymentPlanJSONParsing.testResponse();
         parseResponse(responseBody);
@@ -498,7 +498,7 @@ public with sharing class AddCreditCard {
     /*
     * 08-17-2016: Sirono - Tracker # 127940071
     *  parse the Response and create a payment plan record.
-    */
+    *
     Public void parseResponse(String jsonStr) {
 
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
@@ -515,5 +515,5 @@ public with sharing class AddCreditCard {
             cg.Payment_Plan__c = paymentPlanObj.Id;
         }
         Update lstCG;
-    }
+    }*/
 }

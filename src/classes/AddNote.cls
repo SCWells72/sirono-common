@@ -7,18 +7,21 @@
 */
 
 public with sharing class AddNote {
-    public String username {get; set;}
+    public AddNote() {
+    	
+    }
+    /*public String username {get; set;}
     public String password {get; set;}
     public String chargeGroupId {get; set;}
     public String noteText {get; set;}
-
+	
     //Constructor initializing the member variables
     public AddNote(ApexPages.StandardController sc) {
         username = PayStaffWSUtill.un;
         password = PayStaffWSUtill.pw;
         chargeGroupId = '';
     }
-
+	
     //private method returning a boolean value
     private Boolean isEmpty(String str) {
         return (str == null || str.trim().equals(''));
@@ -80,5 +83,5 @@ public with sharing class AddNote {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'JWT_Token : ' + jwtToken));
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody));
         }
-    }
+    }*/
 }

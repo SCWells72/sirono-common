@@ -11,7 +11,7 @@
 
 
 public with sharing class CreateCaseManual {
-    public String guarantorRecordId { get; set; }
+    /*public String guarantorRecordId { get; set; }
     public Boolean chargeGroupsSelected { get; set; }
     public String guarantorId { get; set; }
     public String guarantorName { get; set; }
@@ -35,6 +35,10 @@ public with sharing class CreateCaseManual {
     /*
      * Constructor to get the guarantor and charge group details.
     */
+    public CreateCaseManual(){
+        
+    }
+    /*
     public CreateCaseManual(ApexPages.StandardController sc) {
         chargeGroupsSelected = false;
         chrageGroupList = new List<ChargeGroupWrapper>();
@@ -75,7 +79,7 @@ public with sharing class CreateCaseManual {
 
     /*
     * Cancel the case creation and back to the guarantor record.
-    */
+    *
     public Pagereference cancel() {
         Pagereference pg = null;
         if (!isEmpty(guarantorRecordId)) {
@@ -89,7 +93,7 @@ public with sharing class CreateCaseManual {
 
     /*
     * check charge group is selected or not and show the guarantor details.
-    */
+    *
     public Pagereference doNext() {
         chargeGroupsSelected = false;
 
@@ -227,7 +231,7 @@ public with sharing class CreateCaseManual {
             
             /* 11-23-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
              * Populating coverage data using the selected Chargegroup with the oldest "Date Of Service Start" field.
-            */            
+            *           
             Charge_Group__c cg = new Charge_Group__c();
             List<Charge_Group__c> lstChargeGroup  = [
                                                         Select id
@@ -241,7 +245,7 @@ public with sharing class CreateCaseManual {
             
             /* 10-19-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
              * Get Coverage detail based on Selected Charge Group.
-            */            
+            *            
             List<ChargeGroupCoverage__c> coverageDetail = 
                     [SELECT Coverage__c, Coverage__r.Payor__c, Coverage__r.Payor__r.Name, Coverage__r.Plan_Name__c,
                         Coverage__r.Date_Effective__c, Coverage__r.Subscriber_Name__c, Coverage__r.Subscriber_ID__c

@@ -11,7 +11,7 @@
 global class CallPrecollectionsAutoCase implements Schedulable {
 
     global void execute(SchedulableContext sc) {
-        CaseUtil.callPrecollectionsAutoCase();
-        CaseUtil.callPrecollectionsAutoCaseCloser();
+        /*CaseUtil.callPrecollectionsAutoCase();
+        CaseUtil.callPrecollectionsAutoCaseCloser();*/
     }
 }

@@ -7,7 +7,9 @@
 */
 
 public class ChargeGroupJSONParsing {
-    public class Patient_data {
+    
+    /*
+	public class Patient_data {
         public String mrn;
         public String patient_name;
     }
@@ -133,5 +135,5 @@ public class ChargeGroupJSONParsing {
                 '}';
 
         return json;
-    }
+    }*/
 }
