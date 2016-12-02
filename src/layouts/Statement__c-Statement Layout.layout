@@ -74,7 +74,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>ID__c</field>
+                <field>Sirono_ID__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -91,12 +91,12 @@
     </layoutSections>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Guarantor_Name__c</fields>
+        <fields>Guarantor__c</fields>
         <fields>Amount__c</fields>
         <fields>Card_Holder_Name__c</fields>
         <fields>Charge_Date__c</fields>
-        <fields>Collected_by_ID__c</fields>
-        <relatedList>Payment__c.Statements__c</relatedList>
+        <fields>Collected_by__c</fields>
+        <relatedList>Payment__c.Statement__c</relatedList>
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>

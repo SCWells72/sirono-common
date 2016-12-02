@@ -67,17 +67,6 @@
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
     <fields>
-        <fullName>ID__c</fullName>
-        <externalId>true</externalId>
-        <label>ID</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>true</unique>
-    </fields>
-    <fields>
         <fullName>Patient__c</fullName>
         <externalId>false</externalId>
         <label>Patient</label>
@@ -98,6 +87,17 @@
         <trackTrending>false</trackTrending>
         <type>MasterDetail</type>
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Sirono_ID__c</fullName>
+        <externalId>true</externalId>
+        <label>ID</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>true</unique>
     </fields>
     <label>Patient Coverage Junction</label>
     <listViews>

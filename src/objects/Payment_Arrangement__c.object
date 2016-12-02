@@ -146,7 +146,7 @@
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Number_of_Installments__c</fullName>
+        <fullName>Original_Installment_Count__c</fullName>
         <externalId>false</externalId>
         <label>Number of Installments</label>
         <precision>18</precision>
@@ -180,7 +180,7 @@
         <columns>Max_Amount__c</columns>
         <columns>Date__c</columns>
         <columns>Installment_Amount__c</columns>
-        <columns>Number_of_Installments__c</columns>
+        <columns>Original_Installment_Count__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
@@ -205,7 +205,7 @@
         <columns>Arrangement_Type__c</columns>
         <columns>Billed_Date__c</columns>
         <columns>Amount__c</columns>
-        <columns>Number_of_Installments__c</columns>
+        <columns>Original_Installment_Count__c</columns>
         <columns>Installment_Amount__c</columns>
         <columns>Payment_Method__c</columns>
         <columns>Date__c</columns>
@@ -264,28 +264,28 @@
         <customTabListAdditionalFields>Max_Amount__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Payment_Method__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Date__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Number_of_Installments__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Original_Installment_Count__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Installment_Amount__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Billed_Date__c</customTabListAdditionalFields>
         <lookupDialogsAdditionalFields>Arrangement_Type__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Max_Amount__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Payment_Method__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Date__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Number_of_Installments__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Original_Installment_Count__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Installment_Amount__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Billed_Date__c</lookupDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Arrangement_Type__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Max_Amount__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Payment_Method__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Date__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Number_of_Installments__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Original_Installment_Count__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Installment_Amount__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Billed_Date__c</lookupPhoneDialogsAdditionalFields>
         <searchResultsAdditionalFields>Arrangement_Type__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Max_Amount__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Payment_Method__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Date__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Number_of_Installments__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Original_Installment_Count__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Installment_Amount__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Billed_Date__c</searchResultsAdditionalFields>
     </searchLayouts>

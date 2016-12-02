@@ -44,7 +44,7 @@ private class CreateAdjustmentTest {
         chargeGroup.Charge_Group_External_ID__c = true;
         insert chargeGroup;
         
-        //Create Charge Group record with different Charge_Group_ID__c.
+        //Create Charge Group record with different Sirono_ID__c.
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id,null,121114);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Payment_Plan__c = paymentPlan.Id;
@@ -126,7 +126,7 @@ private class CreateAdjustmentTest {
         chargeGroup.Charge_Group_External_ID__c = true;
         insert chargeGroup;
         
-        //Create Charge Group record with different Charge_Group_ID__c.
+        //Create Charge Group record with different Sirono_ID__c.
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id,null,121114);
         chargeGroup.Invoice__c = invoice.id;
         chargeGroup.Payment_Plan__c = paymentPlan.Id;
@@ -209,7 +209,7 @@ private class CreateAdjustmentTest {
         Transaction__c  transactionObj = TestUtility.generateTransaction(cg ,100,'Automatic');
         insert transactionObj;
         
-        //Create Charge Group record with different Charge_Group_ID__c.
+        //Create Charge Group record with different Sirono_ID__c.
         cg = TestUtility.generateChargeGroup(g.Id,null,121114);
         cg.Invoice__c = i.id;
         cg.Payment_Plan__c = t.Id;
@@ -315,7 +315,7 @@ private class CreateAdjustmentTest {
         Transaction__c  transactionObj = TestUtility.generateTransaction(cg ,100,'Automatic');
         insert transactionObj;
         
-        //Create Charge Group record with different Charge_Group_ID__c.
+        //Create Charge Group record with different Sirono_ID__c.
         cg = TestUtility.generateChargeGroup(g.Id,null,121114);
         cg.Invoice__c = i.id;
         cg.Payment_Plan__c = t.Id;

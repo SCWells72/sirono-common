@@ -18,7 +18,7 @@
     </fields>
     <fields>
         <label><!-- Guarantor --></label>
-        <name>Guarantor_Name__c</name>
+        <name>Guarantor__c</name>
         <relationshipLabel><!-- Invoices (Guarantor) --></relationshipLabel>
     </fields>
     <fields>
@@ -30,13 +30,13 @@
         <name>Invoice_Date__c</name>
     </fields>
     <fields>
-        <label><!-- Invoice ID --></label>
-        <name>Invoice_ID__c</name>
-    </fields>
-    <fields>
         <label><!-- Patient --></label>
         <name>Patient__c</name>
         <relationshipLabel><!-- Invoices --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Invoice ID --></label>
+        <name>Sirono_ID__c</name>
     </fields>
     <layouts>
         <layout>Invoice Layout</layout>

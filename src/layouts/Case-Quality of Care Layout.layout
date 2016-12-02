@@ -202,12 +202,12 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Charge_Group__c.NAME</fields>
-        <fields>Charge_Group__c.Account_Number__c</fields>
-        <fields>Charge_Group__c.Patient_Name__c</fields>
+        <fields>Charge_Group__c.External_ID__c</fields>
+        <fields>Charge_Group__c.Patient__c</fields>
         <fields>Charge_Group__c.Active__c</fields>
         <fields>Charge_Group__c.Account_Status__c</fields>
         <fields>Charge_Group__c.CREATED_DATE</fields>
-        <relatedList>Case_Charge_Group__c.Case__c</relatedList>
+        <relatedList>Case_Charge_Group_Junction__c.Case__c</relatedList>
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>

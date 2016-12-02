@@ -26,7 +26,7 @@
     </fields>
     <fields>
         <label><!-- ID --></label>
-        <name>ID__c</name>
+        <name>Sirono_ID__c</name>
     </fields>
     <fields>
         <label><!-- Unmapped --></label>

@@ -18,10 +18,6 @@
         <name>Hex_Code__c</name>
     </fields>
     <fields>
-        <label><!-- ID --></label>
-        <name>ID__c</name>
-    </fields>
-    <fields>
         <label><!-- Large Statement ID --></label>
         <name>Large_Statement_ID__c</name>
     </fields>
@@ -40,6 +36,10 @@
     <fields>
         <label><!-- S3 Key --></label>
         <name>S3_Key__c</name>
+    </fields>
+    <fields>
+        <label><!-- ID --></label>
+        <name>Sirono_ID__c</name>
     </fields>
     <fields>
         <label><!-- Small Statement ID --></label>

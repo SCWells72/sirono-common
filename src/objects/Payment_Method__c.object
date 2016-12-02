@@ -140,18 +140,6 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>ID__c</fullName>
-        <externalId>true</externalId>
-        <label>ID</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>true</unique>
-    </fields>
-    <fields>
         <fullName>Last_4__c</fullName>
         <externalId>false</externalId>
         <label>Last 4</label>
@@ -186,6 +174,18 @@
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sirono_ID__c</fullName>
+        <externalId>true</externalId>
+        <label>ID</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>true</unique>
     </fields>
     <label>Payment Method</label>
     <listViews>
@@ -325,7 +325,7 @@
         <lookupPhoneDialogsAdditionalFields>Card_Holder_Name__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Card_Type__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Guarantor__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>ID__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Sirono_ID__c</lookupPhoneDialogsAdditionalFields>
         <searchFilterFields>NAME</searchFilterFields>
         <searchFilterFields>Account_Number__c</searchFilterFields>
         <searchFilterFields>Card_Holder_Name__c</searchFilterFields>

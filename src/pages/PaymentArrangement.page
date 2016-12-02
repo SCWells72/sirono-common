@@ -100,7 +100,7 @@
                 <apex:inputField value="{!paymentArrangement.Arrangement_Type__c}"/>
                 <apex:inputField value="{!paymentArrangement.Installment_Amount__c}"/>
                 <apex:inputField value="{!paymentArrangement.Max_Amount__c}"/>
-                <apex:inputField value="{!paymentArrangement.Number_of_Installments__c}"/>
+                <apex:inputField value="{!paymentArrangement.Original_Installment_Count__c}"/>
                 <apex:inputField value="{!paymentArrangement.Billed_Date__c}"/>
                 <apex:inputField value="{!paymentArrangement.Date__c}"/>
             </apex:pageblockSection>

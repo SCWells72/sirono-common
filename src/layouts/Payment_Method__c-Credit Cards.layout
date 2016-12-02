@@ -71,7 +71,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ID__c</field>
+                <field>Sirono_ID__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -111,28 +111,28 @@
     </layoutSections>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Guarantor_Name__c</fields>
+        <fields>Guarantor__c</fields>
         <fields>Amount__c</fields>
         <fields>Card_Holder_Name__c</fields>
         <fields>Charge_Date__c</fields>
-        <fields>Collected_by_ID__c</fields>
-        <relatedList>Payment__c.Credit_Card__c</relatedList>
+        <fields>Collected_by__c</fields>
+        <relatedList>Payment__c.Payment_Method__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Guarantor_Name__c</fields>
+        <fields>Guarantor__c</fields>
         <fields>Active__c</fields>
         <fields>Plan_Type__c</fields>
         <fields>Execute_on_Day__c</fields>
         <fields>Next_Payment_Date__c</fields>
-        <relatedList>test__c.Credit_Card__c</relatedList>
+        <relatedList>Payment_Plan__c.Payment_Method__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>Arrangement_Type__c</fields>
         <fields>NAME</fields>
         <fields>Max_Amount__c</fields>
         <fields>Date__c</fields>
-        <fields>Number_of_Installments__c</fields>
+        <fields>Original_Installment_Count__c</fields>
         <fields>Installment_Amount__c</fields>
         <fields>Billed_Date__c</fields>
         <relatedList>Payment_Arrangement__c.Payment_Method__c</relatedList>

@@ -27,7 +27,7 @@
                     <label>Payments/Adjustments</label>
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>
-                        <name>Payment_Adjustments__c.Charge_Group_Name__c</name>
+                        <name>Payment_Adjustments__c.Charge_Group__c</name>
                     </relatedLists>
                 </sidebarComponents>
                 <style>Tabs</style>
@@ -75,7 +75,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Guarantor_Name__c</field>
+                <field>Guarantor__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -83,7 +83,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Patient_Name__c</field>
+                <field>Patient__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -99,7 +99,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Charge_Group_ID__c</field>
+                <field>Sirono_ID__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -175,7 +175,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Account_Number__c</field>
+                <field>External_ID__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -310,7 +310,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Payment_ID__c</fields>
+        <fields>Payment__c</fields>
         <fields>Amount__c</fields>
         <fields>Method__c</fields>
         <fields>CREATED_DATE</fields>
@@ -322,7 +322,7 @@
         <fields>Payor_ID__c</fields>
         <fields>Payor__c</fields>
         <fields>Payment__c</fields>
-        <relatedList>Payment_Adjustments__c.Charge_Group_Name__c</relatedList>
+        <relatedList>Payment_Adjustments__c.Charge_Group__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>CASES.CASE_NUMBER</fields>
@@ -345,17 +345,17 @@
         <sizeX>4</sizeX>
         <sizeY>2</sizeY>
         <summaryLayoutItems>
-            <field>Account_Number__c</field>
+            <field>External_ID__c</field>
             <posX>0</posX>
             <posY>0</posY>
         </summaryLayoutItems>
         <summaryLayoutItems>
-            <field>Guarantor_Name__c</field>
+            <field>Guarantor__c</field>
             <posX>0</posX>
             <posY>1</posY>
         </summaryLayoutItems>
         <summaryLayoutItems>
-            <field>Patient_Name__c</field>
+            <field>Patient__c</field>
             <posX>1</posX>
             <posY>0</posY>
         </summaryLayoutItems>

@@ -1445,17 +1445,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ChargeGroupCoverage__c.Charge_Group_Coverage_ID__c</field>
+        <field>Charge_Group_Coverage_Junction__c.Sirono_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ChargeGroupCoverage__c.Insured__c</field>
+        <field>Charge_Group_Coverage_Junction__c.Insured__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Charge_Group__c.Account_Number__c</field>
+        <field>Charge_Group__c.External_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1500,7 +1500,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Charge_Group__c.Charge_Group_ID__c</field>
+        <field>Charge_Group__c.Sirono_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1615,7 +1615,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Charge_Group__c.Patient_Name__c</field>
+        <field>Charge_Group__c.Patient__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1775,7 +1775,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.Gender__c</field>
+        <field>Contact.Sex__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2075,7 +2075,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Coverage__c.ID__c</field>
+        <field>Coverage__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2115,7 +2115,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Coverage__c.Preservice__c</field>
+        <field>Coverage__c.Encounter__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2250,7 +2250,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Encounter__c.Guarantor_Name__c</field>
+        <field>Encounter__c.Guarantor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2530,7 +2530,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Invoice__c.Invoice_ID__c</field>
+        <field>Invoice__c.Sirono_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2555,7 +2555,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Location__c.ID__c</field>
+        <field>Location__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2590,7 +2590,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Patient_Coverage_Junction__c.ID__c</field>
+        <field>Patient_Coverage_Junction__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2600,7 +2600,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Payment_Adjustments__c.Charge_Group_Name__c</field>
+        <field>Payment_Adjustments__c.Charge_Group__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2630,7 +2630,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Payment_Adjustments__c.ID__c</field>
+        <field>Payment_Adjustments__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2710,7 +2710,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Payment_Arrangement__c.Number_of_Installments__c</field>
+        <field>Payment_Arrangement__c.Original_Installment_Count__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2745,7 +2745,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Payment_Method__c.ID__c</field>
+        <field>Payment_Method__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2800,12 +2800,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Payment__c.Collected_by_ID__c</field>
+        <field>Payment__c.Collected_by__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Payment__c.Credit_Card__c</field>
+        <field>Payment__c.Payment_Method__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2825,12 +2825,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Payment__c.Guarantor_Name__c</field>
+        <field>Payment__c.Guarantor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Payment__c.ID__c</field>
+        <field>Payment__c.Sirono_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2860,7 +2860,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Payment__c.Statements__c</field>
+        <field>Payment__c.Statement__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2885,7 +2885,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Payor__c.ID__c</field>
+        <field>Payor__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2920,7 +2920,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Provider__c.ID__c</field>
+        <field>Provider__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2955,7 +2955,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Service_Rollup__c.ID__c</field>
+        <field>Service_Rollup__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3015,7 +3015,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Service__c.ID__c</field>
+        <field>Service__c.Sirono_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3060,7 +3060,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Statement__c.ID__c</field>
+        <field>Statement__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3280,7 +3280,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Transaction_Type__c.ID__c</field>
+        <field>Transaction_Type__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3320,7 +3320,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Transaction__c.ID__c</field>
+        <field>Transaction__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3335,7 +3335,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Transaction__c.Payment_ID__c</field>
+        <field>Transaction__c.Payment__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3350,117 +3350,117 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>test__c.Active__c</field>
+        <field>Payment_Plan__c.Active__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>test__c.Cancellation_Date__c</field>
+        <field>Payment_Plan__c.Cancellation_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>test__c.Collected_By__c</field>
+        <field>Payment_Plan__c.Collected_By__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>test__c.Credit_Card__c</field>
+        <field>Payment_Plan__c.Payment_Method__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>test__c.Delinquent_Date__c</field>
+        <field>Payment_Plan__c.Delinquent_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>test__c.Delinquent__c</field>
+        <field>Payment_Plan__c.Delinquent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>test__c.Error_Date__c</field>
+        <field>Payment_Plan__c.Error_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>test__c.Execute_on_Day__c</field>
+        <field>Payment_Plan__c.Execute_on_Day__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>test__c.Has_Error__c</field>
+        <field>Payment_Plan__c.Has_Error__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>test__c.Installment_Amount__c</field>
+        <field>Payment_Plan__c.Installment_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>test__c.NextPaymentDate__c</field>
+        <field>Payment_Plan__c.NextPaymentDate__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>test__c.Next_Payment_Date__c</field>
+        <field>Payment_Plan__c.Next_Payment_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>test__c.Number_of_Installments__c</field>
+        <field>Payment_Plan__c.Original_Installment_Count__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>test__c.Payable_Amount__c</field>
+        <field>Payment_Plan__c.Remaining_Balance__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>test__c.Plan_Origin__c</field>
+        <field>Payment_Plan__c.Plan_Origin__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>test__c.Plan_Type__c</field>
+        <field>Payment_Plan__c.Plan_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>test__c.Plan_Value_Modified_at_Timestamp__c</field>
+        <field>Payment_Plan__c.Plan_Value_Modified_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>test__c.Plan_Value__c</field>
+        <field>Payment_Plan__c.Original_Balance__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>test__c.Remaining_Number_of_Installments__c</field>
+        <field>Payment_Plan__c.Remaining_Installment_Count__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>test__c.Sirono_ID__c</field>
+        <field>Payment_Plan__c.Sirono_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>test__c.Skip_Payment_Until__c</field>
+        <field>Payment_Plan__c.Skip_Payment_Until__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>test__c.Status__c</field>
+        <field>Payment_Plan__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>test__c.Time_to_Delinquency__c</field>
+        <field>Payment_Plan__c.Time_to_Delinquency__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3529,10 +3529,10 @@
         <layout>CaseInteraction-Case Feed Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Case_Charge_Group__c-Case Charge Group Layout</layout>
+        <layout>Case_Charge_Group_Junction__c-Case Charge Group Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>ChargeGroupCoverage__c-Charge Group Coverages</layout>
+        <layout>Charge_Group_Coverage_Junction__c-Charge Group Coverages</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Charge_Group__c-Charge Groups Layout</layout>
@@ -3671,7 +3671,7 @@
         <layout>UserProvisioningRequest-User Provisioning Request Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>test__c-Payments</layout>
+        <layout>Payment_Plan__c-Payments</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>User_Timezone_Setting__mdt-User Timezone Layout</layout>
@@ -3790,7 +3790,7 @@
         <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
-        <object>test__c</object>
+        <object>Payment_Plan__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <pageAccesses>
@@ -4058,7 +4058,7 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>
-        <tab>ChargeGroupCoverage__c</tab>
+        <tab>Charge_Group_Coverage_Junction__c</tab>
         <visibility>DefaultOff</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -4158,7 +4158,7 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>test__c</tab>
+        <tab>Payment_Plan__c</tab>
         <visibility>DefaultOff</visibility>
     </tabVisibilities>
     <userLicense>Partner Community</userLicense>

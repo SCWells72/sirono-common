@@ -55,19 +55,6 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <fields>
-        <fullName>Account_Number__c</fullName>
-        <description>Account Number</description>
-        <externalId>true</externalId>
-        <label>Account Number</label>
-        <length>30</length>
-        <required>false</required>
-        <trackFeedHistory>true</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
         <fullName>Account_Status__c</fullName>
         <description>ChargeGroupStatus.preinvoiced</description>
         <externalId>false</externalId>
@@ -160,20 +147,6 @@
         <type>Checkbox</type>
     </fields>
     <fields>
-        <fullName>Charge_Group_ID__c</fullName>
-        <description>This is the external Charge Group iD</description>
-        <externalId>true</externalId>
-        <label>ID</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>true</unique>
-    </fields>
-    <fields>
         <fullName>Date_Of_Service_End_Date__c</fullName>
         <description>Date Of Service End Date</description>
         <externalId>false</externalId>
@@ -219,6 +192,19 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>External_ID__c</fullName>
+        <description>Account Number</description>
+        <externalId>true</externalId>
+        <label>Account Number</label>
+        <length>30</length>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Financial_Class__c</fullName>
         <description>Financial Class</description>
         <externalId>false</externalId>
@@ -232,7 +218,7 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Guarantor_Name__c</fullName>
+        <fullName>Guarantor__c</fullName>
         <externalId>false</externalId>
         <label>Guarantor</label>
         <lookupFilter>
@@ -471,7 +457,7 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Patient_Name__c</fullName>
+        <fullName>Patient__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Patient</label>
@@ -499,7 +485,7 @@
         <description>Paymentplan ID</description>
         <externalId>false</externalId>
         <label>Payment Plan</label>
-        <referenceTo>test__c</referenceTo>
+        <referenceTo>Payment_Plan__c</referenceTo>
         <relationshipLabel>Charge Groups</relationshipLabel>
         <relationshipName>Charge_Groups</relationshipName>
         <required>false</required>
@@ -638,14 +624,28 @@
         <trackTrending>false</trackTrending>
         <type>Date</type>
     </fields>
+    <fields>
+        <fullName>Sirono_ID__c</fullName>
+        <description>This is the external Charge Group iD</description>
+        <externalId>true</externalId>
+        <label>ID</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>true</unique>
+    </fields>
     <label>Charge Group</label>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
         <columns>Active__c</columns>
         <columns>Invoice__c</columns>
-        <columns>Guarantor_Name__c</columns>
-        <columns>Patient_Name__c</columns>
+        <columns>Guarantor__c</columns>
+        <columns>Patient__c</columns>
         <columns>Date_Of_Service_Start_Date__c</columns>
         <columns>Date_Of_Service_End_Date__c</columns>
         <columns>Location__c</columns>
@@ -662,15 +662,15 @@
     <pluralLabel>Charge Groups</pluralLabel>
     <searchLayouts>
         <customTabListAdditionalFields>Active__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Guarantor_Name__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Guarantor__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Date_Of_Service_Start_Date__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Date_Of_Service_End_Date__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Location__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Invoice__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Payment_Plan__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Origin_Subcode__c</customTabListAdditionalFields>
-        <searchResultsAdditionalFields>Account_Number__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Patient_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>External_ID__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Patient__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Account_Status__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Account_Sub_Status__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Active__c</searchResultsAdditionalFields>

@@ -797,7 +797,7 @@ public with sharing class PayStaffWSUtill {
 
         /*if(objChargeGroup.account_sub_status == 'Payment Plan'){
             Charge_Group__c objcg = new Charge_Group__c();
-            objcg = [select Payment_Plan__c, Payment_Plan__r.Sirono_ID__c, Payment_Plan__r.Guarantor_Name__c
+            objcg = [select Payment_Plan__c, Payment_Plan__r.Sirono_ID__c, Payment_Plan__r.Guarantor__c
                     from Charge_Group__c where id =: cg.Id limit 1];
 
             if(objcg != null){

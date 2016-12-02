@@ -12,7 +12,7 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Account_Number__c</field>
+            <field>External_ID__c</field>
             <table>Charge_Group__c</table>
         </columns>
         <columns>
@@ -82,12 +82,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Guarantor_Name__c</field>
+            <field>Guarantor__c</field>
             <table>Charge_Group__c</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Charge_Group_ID__c</field>
+            <field>Sirono_ID__c</field>
             <table>Charge_Group__c</table>
         </columns>
         <columns>
@@ -157,7 +157,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Patient_Name__c</field>
+            <field>Patient__c</field>
             <table>Charge_Group__c</table>
         </columns>
         <columns>
@@ -245,7 +245,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Charge_Group_Coverage_ID__c</field>
+            <field>Sirono_ID__c</field>
             <table>Charge_Group__c.Charge_Group_Coverages__r</table>
         </columns>
         <columns>

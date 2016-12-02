@@ -58,7 +58,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Guarantor_Name__c</field>
+            <field>Guarantor__c</field>
             <table>Invoice__c</table>
         </columns>
         <columns>
@@ -68,7 +68,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Invoice_ID__c</field>
+            <field>Sirono_ID__c</field>
             <table>Invoice__c</table>
         </columns>
         <masterLabel>Invoices</masterLabel>

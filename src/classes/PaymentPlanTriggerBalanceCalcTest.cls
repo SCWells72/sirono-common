@@ -42,7 +42,7 @@ public class PaymentPlanTriggerBalanceCalcTest {
         Test.stopTest();
 
         pp = [SELECT Id, Remaining_Balance__c FROM Payment_Plan__c WHERE Id = :pp.Id];
-        System.debug('pp.Payable_Amount__c: ' + pp.Payable_Amount__c);
+        System.debug('pp.Remaining_Balance__c: ' + pp.Remaining_Balance__c);
         System.debug('txnAmount: ' + txn.Amount__c);
         //confirm the payable amount is what we expect
         System.assert(pp.Remaining_Balance__c == txn.Amount__c, 'PaymentPlan value is incorrect');

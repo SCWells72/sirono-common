@@ -76,7 +76,7 @@ public with sharing class PaymentPlanTriggerHandler {
         List<Payment_Plan__c> newListToUpdate = new List<Payment_Plan__c>();
         Set<String> setContactId = new Set<String>();
         for (Payment_Plan__c plan:newList) {
-            //System.assert(plan.Guarantor_Name__c != null);
+            //System.assert(plan.Guarantor__c != null);
             if (plan.Guarantor__c != null) {
                 setContactId.add(plan.Guarantor__c);
             }
@@ -168,7 +168,7 @@ public with sharing class PaymentPlanTriggerHandler {
     }
 
     //Sirono 08-25-2016 : 127517003 Credit Card Error Case Creation and Closure.
-        //10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
+        //10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Remaining_Balance__c = '<= -100' to '>= 100'" in condition.
     Private static void callCCErrorCaseCreation(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap) {
         Set<Id> contactToCreateCaseIds = new Set<Id>();
         Set<Id> contactToCloseCase = new Set<Id>();

@@ -10,7 +10,7 @@
     </caseValues>
     <fields>
         <label><!-- ID --></label>
-        <name>Charge_Group_Coverage_ID__c</name>
+        <name>Sirono_ID__c</name>
     </fields>
     <fields>
         <label><!-- Charge Group --></label>

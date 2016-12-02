@@ -30,10 +30,6 @@
         <name>Fail_Date__c</name>
     </fields>
     <fields>
-        <label><!-- Sirono ID --></label>
-        <name>ID__c</name>
-    </fields>
-    <fields>
         <label><!-- Method --></label>
         <name>Method__c</name>
     </fields>
@@ -43,12 +39,16 @@
     </fields>
     <fields>
         <label><!-- Payment --></label>
-        <name>Payment_ID__c</name>
+        <name>Payment__c</name>
         <relationshipLabel><!-- Transactions --></relationshipLabel>
     </fields>
     <fields>
         <label><!-- Post Date --></label>
         <name>Post_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sirono ID --></label>
+        <name>Sirono_ID__c</name>
     </fields>
     <layouts>
         <layout>Transaction Type Layout</layout>

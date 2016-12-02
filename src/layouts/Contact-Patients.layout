@@ -90,7 +90,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Gender__c</field>
+                <field>Sex__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -197,14 +197,14 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Active__c</fields>
-        <fields>Guarantor_Name__c</fields>
+        <fields>Guarantor__c</fields>
         <fields>Date_Of_Service_Start_Date__c</fields>
         <fields>Date_Of_Service_End_Date__c</fields>
         <fields>Location__c</fields>
         <fields>Invoice__c</fields>
         <fields>Payment_Plan__c</fields>
         <fields>Origin_Subcode__c</fields>
-        <relatedList>Charge_Group__c.Patient_Name__c</relatedList>
+        <relatedList>Charge_Group__c.Patient__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>

@@ -13,7 +13,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ID__c</field>
+                <field>Sirono_ID__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -25,7 +25,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Payment_ID__c</field>
+                <field>Payment__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -92,7 +92,7 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Amount__c</fields>
-        <fields>Charge_Group_Name__c</fields>
+        <fields>Charge_Group__c</fields>
         <fields>Payor_ID__c</fields>
         <fields>Payor__c</fields>
         <fields>Payment__c</fields>

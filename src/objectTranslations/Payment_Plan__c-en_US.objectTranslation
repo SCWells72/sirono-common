@@ -22,11 +22,6 @@
         <relationshipLabel><!-- Payment Plans --></relationshipLabel>
     </fields>
     <fields>
-        <label><!-- Payment Method --></label>
-        <name>Credit_Card__c</name>
-        <relationshipLabel><!-- Payment Plans --></relationshipLabel>
-    </fields>
-    <fields>
         <label><!-- Delinquent Date --></label>
         <name>Delinquent_Date__c</name>
     </fields>
@@ -44,7 +39,7 @@
     </fields>
     <fields>
         <label><!-- Guarantor --></label>
-        <name>Guarantor_Name__c</name>
+        <name>Guarantor__c</name>
         <relationshipLabel><!-- Payment Plans --></relationshipLabel>
     </fields>
     <fields>
@@ -64,12 +59,17 @@
         <name>Next_Payment_Date__c</name>
     </fields>
     <fields>
-        <label><!-- Original Installments --></label>
-        <name>Number_of_Installments__c</name>
+        <label><!-- Plan Value --></label>
+        <name>Original_Balance__c</name>
     </fields>
     <fields>
-        <label><!-- Remaining Balance --></label>
-        <name>Payable_Amount__c</name>
+        <label><!-- Original Installments --></label>
+        <name>Original_Installment_Count__c</name>
+    </fields>
+    <fields>
+        <label><!-- Payment Method --></label>
+        <name>Payment_Method__c</name>
+        <relationshipLabel><!-- Payment Plans --></relationshipLabel>
     </fields>
     <fields>
         <label><!-- Plan Origin --></label>
@@ -81,15 +81,15 @@
     </fields>
     <fields>
         <label><!-- Plan Value Modified Date --></label>
-        <name>Plan_Value_Modified_at_Timestamp__c</name>
+        <name>Plan_Value_Modified_Date__c</name>
     </fields>
     <fields>
-        <label><!-- Plan Value --></label>
-        <name>Plan_Value__c</name>
+        <label><!-- Remaining Balance --></label>
+        <name>Remaining_Balance__c</name>
     </fields>
     <fields>
         <label><!-- Remaining Installments --></label>
-        <name>Remaining_Number_of_Installments__c</name>
+        <name>Remaining_Installment_Count__c</name>
     </fields>
     <fields>
         <label><!-- ID --></label>
@@ -98,6 +98,10 @@
     <fields>
         <label><!-- Skip Payment Until --></label>
         <name>Skip_Payment_Until__c</name>
+    </fields>
+    <fields>
+        <label><!-- Status --></label>
+        <name>Status__c</name>
     </fields>
     <fields>
         <label><!-- Time to Delinquency --></label>

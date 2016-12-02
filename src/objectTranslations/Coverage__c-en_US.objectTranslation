@@ -17,6 +17,11 @@
         <name>Date_Termination__c</name>
     </fields>
     <fields>
+        <label><!-- Encounter --></label>
+        <name>Encounter__c</name>
+        <relationshipLabel><!-- Coverages --></relationshipLabel>
+    </fields>
+    <fields>
         <label><!-- External ID --></label>
         <name>External_ID__c</name>
     </fields>
@@ -35,10 +40,6 @@
     <fields>
         <label><!-- Group Number --></label>
         <name>Group_Number__c</name>
-    </fields>
-    <fields>
-        <label><!-- ID --></label>
-        <name>ID__c</name>
     </fields>
     <fields>
         <label><!-- Member ID --></label>
@@ -66,13 +67,12 @@
         <name>Plan_Name__c</name>
     </fields>
     <fields>
-        <label><!-- Encounter --></label>
-        <name>Preservice__c</name>
-        <relationshipLabel><!-- Coverages --></relationshipLabel>
-    </fields>
-    <fields>
         <label><!-- Priority --></label>
         <name>Priority__c</name>
+    </fields>
+    <fields>
+        <label><!-- ID --></label>
+        <name>Sirono_ID__c</name>
     </fields>
     <fields>
         <label><!-- Subscriber DOB --></label>

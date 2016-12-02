@@ -73,7 +73,7 @@
         <fields>NAME</fields>
         <fields>Max_Amount__c</fields>
         <fields>Date__c</fields>
-        <fields>Number_of_Installments__c</fields>
+        <fields>Original_Installment_Count__c</fields>
         <fields>Installment_Amount__c</fields>
         <fields>Billed_Date__c</fields>
         <relatedList>Payment_Arrangement__c.Payment_Method__c</relatedList>

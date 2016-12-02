@@ -2,7 +2,7 @@
  * @author Sirono
  * @version 1.0.1
  * @Date: 08-02-2016
- * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
+ * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Remaining_Balance__c = '<= -100' to '>= 100'" in condition.
  */
 
 @isTest
@@ -49,14 +49,14 @@ private class PaymentPlanTriggerTest {
     Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
     paymentPlan.active__c = false;
     paymentPlan.Plan_Type__c = 'Automatic';
-    //10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
+    //10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Remaining_Balance__c = '<= -100' to '>= 100'" in condition.
     paymentPlan.Remaining_Balance__c = 100;
     paymentPlan.Has_Error__c = false;
     paymentPlan.Delinquent__c = true;
     insert paymentPlan;
 
     paymentPlan.Active__c = true;
-    //10-19-2016: Viraj - Tracker # 132105543-Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
+    //10-19-2016: Viraj - Tracker # 132105543-Change "Remaining_Balance__c = '<= -100' to '>= 100'" in condition.
     paymentPlan.Remaining_Balance__c = 101;
     paymentPlan.Plan_Type__c = 'Manual';
     update paymentPlan;
@@ -72,7 +72,7 @@ private class PaymentPlanTriggerTest {
         Payment_Plan__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan1.active__c = true;
         paymentPlan1.Plan_Type__c = 'Automatic';
-        //10-19-2016: Viraj - Tracker # 132105543-Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
+        //10-19-2016: Viraj - Tracker # 132105543-Change "Remaining_Balance__c = '<= -100' to '>= 100'" in condition.
         paymentPlan1.Remaining_Balance__c = 100;
         paymentPlan1.Has_Error__c = false;
         paymentPlan1.Delinquent__c = true;
@@ -93,7 +93,7 @@ private class PaymentPlanTriggerTest {
         Payment_Plan__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan1.active__c = false;
         paymentPlan1.Plan_Type__c = 'Manual';
-        //10-19-2016: Viraj - Tracker # 132105543-Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
+        //10-19-2016: Viraj - Tracker # 132105543-Change "Remaining_Balance__c = '<= -100' to '>= 100'" in condition.
         paymentPlan1.Remaining_Balance__c = 200;
         paymentPlan1.Has_Error__c = false;
         //paymentPlan1.Delinquent__c = true;
@@ -101,7 +101,7 @@ private class PaymentPlanTriggerTest {
         
         paymentPlan1.active__c = true;
         paymentPlan1.Plan_Type__c = 'Automatic';
-        //10-19-2016: Viraj - Tracker # 132105543-Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
+        //10-19-2016: Viraj - Tracker # 132105543-Change "Remaining_Balance__c = '<= -100' to '>= 100'" in condition.
         paymentPlan1.Remaining_Balance__c = 501;
         paymentPlan1.Has_Error__c = true;
         update paymentPlan1;
@@ -119,7 +119,7 @@ private class PaymentPlanTriggerTest {
         Payment_Plan__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan1.active__c = true;
         paymentPlan1.Plan_Type__c = 'Automatic';
-        //10-19-2016: Viraj - Tracker # 132105543-Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
+        //10-19-2016: Viraj - Tracker # 132105543-Change "Remaining_Balance__c = '<= -100' to '>= 100'" in condition.
         paymentPlan1.Remaining_Balance__c = 100;
         paymentPlan1.Has_Error__c = true;
         paymentPlan1.Skip_Payment_Until__c = refDt.adddays(10); 

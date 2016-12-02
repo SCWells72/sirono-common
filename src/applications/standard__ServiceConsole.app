@@ -176,7 +176,7 @@
     <tab>standard-Case</tab>
     <tab>Encounter__c</tab>
     <tab>Payor__c</tab>
-    <tab>ChargeGroupCoverage__c</tab>
+    <tab>Charge_Group_Coverage_Junction__c</tab>
     <tab>Location__c</tab>
     <tab>Provider__c</tab>
     <tab>Service_Rollup__c</tab>
@@ -188,7 +188,7 @@
     </tabLimitConfig>
     <workspaceMappings>
         <mapping>
-            <tab>ChargeGroupCoverage__c</tab>
+            <tab>Charge_Group_Coverage_Junction__c</tab>
         </mapping>
         <mapping>
             <tab>Encounter__c</tab>

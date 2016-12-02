@@ -157,7 +157,7 @@
                 <drillToDetailEnabled>false</drillToDetailEnabled>
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
-                <groupingColumn>test__c$Plan_Type__c</groupingColumn>
+                <groupingColumn>Payment_Plan__c$Plan_Type__c</groupingColumn>
                 <legendPosition>Bottom</legendPosition>
                 <report>Sirono_Reports/Payment_Plan_Type</report>
                 <showPercentage>false</showPercentage>

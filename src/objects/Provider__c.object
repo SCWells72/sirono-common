@@ -90,19 +90,6 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>ID__c</fullName>
-        <externalId>true</externalId>
-        <label>Sirono ID</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>true</unique>
-    </fields>
-    <fields>
         <fullName>Origin_Code__c</fullName>
         <externalId>false</externalId>
         <label>Origin Code</label>
@@ -113,6 +100,19 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sirono_ID__c</fullName>
+        <externalId>true</externalId>
+        <label>Sirono ID</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>true</unique>
     </fields>
     <fields>
         <fullName>Unmapped__c</fullName>

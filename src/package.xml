@@ -194,7 +194,7 @@
         <members>Contact.External_Guarantor_Id__c</members>
         <members>Contact.External_ID__c</members>
         <members>Contact.Full_Name__c</members>
-        <members>Contact.Gender__c</members>
+        <members>Contact.Sex__c</members>
         <members>Contact.Guarantor__c</members>
         <members>Contact.Invoice_Offset_Date__c</members>
         <members>Contact.Invoiced_Balance__c</members>
@@ -395,10 +395,10 @@
         <members>Case-Sirono Review Layout</members>
         <members>CaseClose-Close Case Layout</members>
         <members>CaseInteraction-Case Feed Layout</members>
-        <members>Case_Charge_Group__c-Case Charge Group Layout</members>
-        <members>Case_Charge_Group__c-Case Charge Group Layout</members>
-        <members>ChargeGroupCoverage__c-Charge Group Coverage Layout</members>
-        <members>ChargeGroupCoverage__c-Charge Group Coverages</members>
+        <members>Case_Charge_Group_Junction__c-Case Charge Group Layout</members>
+        <members>Case_Charge_Group_Junction__c-Case Charge Group Layout</members>
+        <members>Charge_Group_Coverage_Junction__c-Charge Group Coverage Layout</members>
+        <members>Charge_Group_Coverage_Junction__c-Charge Group Coverages</members>
         <members>Charge_Group__c-Charge Groups Layout</members>
         <members>Contact-External Guarantors</members>
         <members>Contact-External Patients</members>
@@ -447,8 +447,8 @@
         <members>UserProvisioningLog-User Provisioning Log Layout</members>
         <members>UserProvisioningRequest-User Provisioning Request Layout</members>
         <members>User_Timezone_Setting__mdt-User Timezone Layout</members>
-        <members>test__c-Payment Layout</members>
-        <members>test__c-Payments</members>
+        <members>Payment_Plan__c-Payment Layout</members>
+        <members>Payment_Plan__c-Payments</members>
         <name>Layout</name>
     </types>
     <types>
@@ -482,7 +482,7 @@
         <members>Case.Recently_Created_Cases</members>
         <members>Case.Sirono_Partner_Queue_Case</members>
         <members>Case.Sirono_Review_Case</members>
-        <members>ChargeGroupCoverage__c.All</members>
+        <members>Charge_Group_Coverage_Junction__c.All</members>
         <members>Charge_Group__c.All</members>
         <members>Contact.AllContacts</members>
         <members>Contact.All_External_Guarantors</members>
@@ -517,7 +517,7 @@
         <members>User.AdminUsers</members>
         <members>User.AllUsers</members>
         <members>User.All_Partner_Users</members>
-        <members>test__c.All</members>
+        <members>Payment_Plan__c.All</members>
         <name>ListView</name>
     </types>
     <types>
@@ -696,11 +696,11 @@
         <members>Contact.View_On_Portal</members>
         <members>Encounter__c.New_Payment_Arrangement</members>
         <members>Payment_Method__c.Update_Credit_Card</members>
-        <members>test__c.Add_to_Payment_Plan</members>
-        <members>test__c.Canecl_Payment_Plan</members>
-        <members>test__c.Edit_Payment_Plan</members>
-        <members>test__c.Payment_Plan_Good_Standing</members>
-        <members>test__c.Skip_Payment</members>
+        <members>Payment_Plan__c.Add_to_Payment_Plan</members>
+        <members>Payment_Plan__c.Canecl_Payment_Plan</members>
+        <members>Payment_Plan__c.Edit_Payment_Plan</members>
+        <members>Payment_Plan__c.Payment_Plan_Good_Standing</members>
+        <members>Payment_Plan__c.Skip_Payment</members>
         <name>WebLink</name>
     </types>
     <types>

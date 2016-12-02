@@ -59,11 +59,11 @@
                     </tr>
                     <tr>
                       <td data-label="REMAINING BALANCE"><div class="slds-truncate" title="REMAINING BALANCE">REMAINING BALANCE</div></td>
-                      <td data-label="REMAINING BALANCE"><div class="slds-truncate slds-text-align--right"><apex:outputText value="{0, number, Currency}"><apex:param value="{!payplan.Payable_Amount__c}"/></apex:outputText></div></td>
+                      <td data-label="REMAINING BALANCE"><div class="slds-truncate slds-text-align--right"><apex:outputText value="{0, number, Currency}"><apex:param value="{!payplan.Remaining_Balance__c}"/></apex:outputText></div></td>
                     </tr>
                     <tr>
                       <td data-label="AREMAINING INSTALLMENTS"><div class="slds-truncate" title="REMAINING INSTALLMENTS">REMAINING INSTALLMENTS</div></td>
-                      <td data-label="REMAINING INSTALLMENTS"><div class="slds-truncate slds-text-align--right">{!payplan.Remaining_Number_of_Installments__c}</div></td>
+                      <td data-label="REMAINING INSTALLMENTS"><div class="slds-truncate slds-text-align--right">{!payplan.Remaining_Installment_Count__c}</div></td>
                     </tr>
                     <tr>
                       <td data-label="INSTALLMENT AMOUNT"><div class="slds-truncate" title="INSTALLMENT AMOUNT">INSTALLMENT AMOUNT</div></td>
