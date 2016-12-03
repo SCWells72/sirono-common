@@ -494,7 +494,7 @@
             <operation>equals</operation>
             <value>True</value>
         </summaryFilterItems>
-        <summaryForeignKey>Charge_Group__c.Guarantor_Name__c</summaryForeignKey>
+        <summaryForeignKey>Charge_Group__c.Guarantor__c</summaryForeignKey>
         <summaryOperation>sum</summaryOperation>
         <trackHistory>false</trackHistory>
         <type>Summary</type>
@@ -536,7 +536,7 @@
             <operation>equals</operation>
             <value>True</value>
         </summaryFilterItems>
-        <summaryForeignKey>Charge_Group__c.Guarantor_Name__c</summaryForeignKey>
+        <summaryForeignKey>Charge_Group__c.Guarantor__c</summaryForeignKey>
         <summaryOperation>sum</summaryOperation>
         <trackHistory>false</trackHistory>
         <type>Summary</type>
@@ -566,7 +566,7 @@
             <operation>equals</operation>
             <value>True</value>
         </summaryFilterItems>
-        <summaryForeignKey>Charge_Group__c.Guarantor_Name__c</summaryForeignKey>
+        <summaryForeignKey>Charge_Group__c.Guarantor__c</summaryForeignKey>
         <summaryOperation>sum</summaryOperation>
         <trackHistory>false</trackHistory>
         <type>Summary</type>
@@ -616,7 +616,7 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Gender__c</fullName>
+        <fullName>Sex__c</fullName>
         <description>Gender of Guarantor</description>
         <externalId>false</externalId>
         <label>Sex</label>
@@ -712,7 +712,7 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
             <operation>equals</operation>
             <value>True</value>
         </summaryFilterItems>
-        <summaryForeignKey>Charge_Group__c.Guarantor_Name__c</summaryForeignKey>
+        <summaryForeignKey>Charge_Group__c.Guarantor__c</summaryForeignKey>
         <summaryOperation>sum</summaryOperation>
         <trackHistory>false</trackHistory>
         <type>Summary</type>
@@ -846,7 +846,7 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
             <operation>equals</operation>
             <value>True</value>
         </summaryFilterItems>
-        <summaryForeignKey>Charge_Group__c.Guarantor_Name__c</summaryForeignKey>
+        <summaryForeignKey>Charge_Group__c.Guarantor__c</summaryForeignKey>
         <summaryOperation>sum</summaryOperation>
         <trackHistory>false</trackHistory>
         <type>Summary</type>
@@ -891,7 +891,7 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
             <operation>equals</operation>
             <value>True</value>
         </summaryFilterItems>
-        <summaryForeignKey>Charge_Group__c.Guarantor_Name__c</summaryForeignKey>
+        <summaryForeignKey>Charge_Group__c.Guarantor__c</summaryForeignKey>
         <summaryOperation>sum</summaryOperation>
         <trackHistory>false</trackHistory>
         <type>Summary</type>
@@ -923,7 +923,7 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
             <operation>equals</operation>
             <value>True</value>
         </summaryFilterItems>
-        <summaryForeignKey>Charge_Group__c.Guarantor_Name__c</summaryForeignKey>
+        <summaryForeignKey>Charge_Group__c.Guarantor__c</summaryForeignKey>
         <summaryOperation>sum</summaryOperation>
         <trackHistory>false</trackHistory>
         <type>Summary</type>
@@ -1183,7 +1183,7 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
         <description>Created by Patient Accounting System</description>
         <label>External Guarantor</label>
         <picklistValues>
-            <picklist>Gender__c</picklist>
+            <picklist>Sex__c</picklist>
             <values>
                 <fullName>Female</fullName>
                 <default>false</default>
@@ -1266,7 +1266,7 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
         <description>Guarantor of the account or case</description>
         <label>Guarantor</label>
         <picklistValues>
-            <picklist>Gender__c</picklist>
+            <picklist>Sex__c</picklist>
             <values>
                 <fullName>Female</fullName>
                 <default>false</default>
@@ -1349,7 +1349,7 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
         <description>Patient of the account or case</description>
         <label>Patient</label>
         <picklistValues>
-            <picklist>Gender__c</picklist>
+            <picklist>Sex__c</picklist>
             <values>
                 <fullName>Female</fullName>
                 <default>false</default>
@@ -1432,7 +1432,7 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
         <description>This is for the staff of the contact Object</description>
         <label>Staff</label>
         <picklistValues>
-            <picklist>Gender__c</picklist>
+            <picklist>Sex__c</picklist>
             <values>
                 <fullName>Female</fullName>
                 <default>false</default>

@@ -54,12 +54,7 @@
     </fields>
     <fields>
         <label><!-- Collected By --></label>
-        <name>Collected_by_ID__c</name>
-        <relationshipLabel><!-- Payments --></relationshipLabel>
-    </fields>
-    <fields>
-        <label><!-- Payment Method --></label>
-        <name>Credit_Card__c</name>
+        <name>Collected_by__c</name>
         <relationshipLabel><!-- Payments --></relationshipLabel>
     </fields>
     <fields>
@@ -76,12 +71,8 @@
     </fields>
     <fields>
         <label><!-- Guarantor --></label>
-        <name>Guarantor_Name__c</name>
+        <name>Guarantor__c</name>
         <relationshipLabel><!-- Payments --></relationshipLabel>
-    </fields>
-    <fields>
-        <label><!-- Sirono ID --></label>
-        <name>ID__c</name>
     </fields>
     <fields>
         <label><!-- Last 4 --></label>
@@ -112,6 +103,11 @@
         </picklistValues>
     </fields>
     <fields>
+        <label><!-- Payment Method --></label>
+        <name>Payment_Method__c</name>
+        <relationshipLabel><!-- Payments --></relationshipLabel>
+    </fields>
+    <fields>
         <label><!-- Payment Plan --></label>
         <name>Payment_Plan__c</name>
         <relationshipLabel><!-- Payments --></relationshipLabel>
@@ -125,8 +121,12 @@
         <name>Scheduled_Date__c</name>
     </fields>
     <fields>
+        <label><!-- Sirono ID --></label>
+        <name>Sirono_ID__c</name>
+    </fields>
+    <fields>
         <label><!-- Statement --></label>
-        <name>Statements__c</name>
+        <name>Statement__c</name>
         <relationshipLabel><!-- Payments --></relationshipLabel>
     </fields>
     <fields>

@@ -96,7 +96,7 @@ public class CaseCommentTriggerTest {
            insert c;
            
            //Create Case Charge Group record.
-           Case_Charge_Group__c ccg = new Case_Charge_Group__c(Case__c = c.Id, Charge_Group__c = chargeGroup.Id); 
+           Case_Charge_Group_Junction__c ccg = new Case_Charge_Group_Junction__c(Case__c = c.Id, Charge_Group__c = chargeGroup.Id); 
            insert ccg;
            
            //Create Case Comment record.

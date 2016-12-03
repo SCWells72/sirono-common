@@ -9,10 +9,6 @@
         <value>Charge Groups</value>
     </caseValues>
     <fields>
-        <label><!-- Account Number --></label>
-        <name>Account_Number__c</name>
-    </fields>
-    <fields>
         <label><!-- Account Status --></label>
         <name>Account_Status__c</name>
     </fields>
@@ -45,10 +41,6 @@
         <name>Charge_Group_External_ID__c</name>
     </fields>
     <fields>
-        <label><!-- ID --></label>
-        <name>Charge_Group_ID__c</name>
-    </fields>
-    <fields>
         <label><!-- Date Of Service End --></label>
         <name>Date_Of_Service_End_Date__c</name>
     </fields>
@@ -62,12 +54,16 @@
         <relationshipLabel><!-- Charge Groups (External Guarantor ID) --></relationshipLabel>
     </fields>
     <fields>
+        <label><!-- Account Number --></label>
+        <name>External_ID__c</name>
+    </fields>
+    <fields>
         <label><!-- Financial Class --></label>
         <name>Financial_Class__c</name>
     </fields>
     <fields>
         <label><!-- Guarantor --></label>
-        <name>Guarantor_Name__c</name>
+        <name>Guarantor__c</name>
         <relationshipLabel><!-- Charge Groups (Guarantor) --></relationshipLabel>
     </fields>
     <fields>
@@ -146,7 +142,7 @@
     </fields>
     <fields>
         <label><!-- Patient --></label>
-        <name>Patient_Name__c</name>
+        <name>Patient__c</name>
         <relationshipLabel><!-- Charge Groups (Patient) --></relationshipLabel>
     </fields>
     <fields>
@@ -198,6 +194,10 @@
     <fields>
         <label><!-- Sirono Assigned Date --></label>
         <name>Sirono_Assigned_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- ID --></label>
+        <name>Sirono_ID__c</name>
     </fields>
     <layouts>
         <layout>Charge Groups Layout</layout>

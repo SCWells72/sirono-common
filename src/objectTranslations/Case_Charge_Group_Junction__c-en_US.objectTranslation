@@ -2,21 +2,21 @@
 <CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
     <caseValues>
         <plural>false</plural>
-        <value>Case Charge Group</value>
+        <value>Case Charge Group Junction</value>
     </caseValues>
     <caseValues>
         <plural>true</plural>
-        <value>Case Charge Groups</value>
+        <value>Case Charge Group Junctions</value>
     </caseValues>
     <fields>
         <label><!-- Case --></label>
         <name>Case__c</name>
-        <relationshipLabel><!-- Case Charge Groups --></relationshipLabel>
+        <relationshipLabel><!-- Case Charge Group Junctions --></relationshipLabel>
     </fields>
     <fields>
         <label><!-- Charge Group --></label>
         <name>Charge_Group__c</name>
-        <relationshipLabel><!-- Case Charge Groups --></relationshipLabel>
+        <relationshipLabel><!-- Case Charge Group Junctions --></relationshipLabel>
     </fields>
     <startsWith>Consonant</startsWith>
 </CustomObjectTranslation>

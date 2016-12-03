@@ -28,7 +28,7 @@ public class PopulateNextPaymentDateBatchTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
 

@@ -186,7 +186,7 @@
     </tabLimitConfig>
     <workspaceMappings>
         <mapping>
-            <fieldName>Guarantor_Name__c</fieldName>
+            <fieldName>Guarantor__c</fieldName>
             <tab>Charge_Group__c</tab>
         </mapping>
         <mapping>

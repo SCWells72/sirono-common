@@ -79,7 +79,7 @@ public with sharing class PaymentArrangement {
         for (Payment_Method__c p : [
                 Select p.Routing_Number__c, p.RecordTypeId,
                         p.Payment_Method_Token__c, p.Name,
-                        p.Last_4__c, p.Id, p.ID__c, p.Guarantor__c,
+                        p.Last_4__c, p.Id, p.Sirono_ID__c, p.Guarantor__c,
                         p.Expiration_Date__c, p.Card_Type__c,
                         p.Card_Holder_Name__c,
                         p.Account_Number__c

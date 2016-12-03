@@ -35,7 +35,7 @@ private class ProcessPaymentTest {
         insert patientContact;
 
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         //Create object of ProcessPayment and call the Process Payment constructor & submit method.
@@ -118,7 +118,7 @@ private class ProcessPaymentTest {
         insert patientContact;
 
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         //Call Process Payment constructor and submit method.
@@ -192,7 +192,7 @@ private class ProcessPaymentTest {
         insert patientContact;
 
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         //Call Process Payment constructor and submit method.
@@ -272,7 +272,7 @@ private class ProcessPaymentTest {
         insert patientContact;
 
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         //Create object of ProcessPayment and call the Process Payment constructor & fillNameAndAddress method.
@@ -350,7 +350,7 @@ private class ProcessPaymentTest {
         insert patientContact;
 
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         //Call Process Payment constructor.
@@ -437,7 +437,7 @@ private class ProcessPaymentTest {
         insert patientContact;
 
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         //Call Process Payment constructor.
@@ -517,7 +517,7 @@ private class ProcessPaymentTest {
         insert patientContact;
 
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         //Call Process Payment constructor.
@@ -602,7 +602,7 @@ private class ProcessPaymentTest {
         insert patientContact;
 
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         //Call Process Payment constructor.
@@ -674,7 +674,7 @@ private class ProcessPaymentTest {
         insert patientContact;
 
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         //Call Process Payment constructor.
@@ -764,7 +764,7 @@ private class ProcessPaymentTest {
         insert patientContact;
 
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         //Call Process Payment constructor.
@@ -856,7 +856,7 @@ private class ProcessPaymentTest {
         insert patientContact;
 
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         //Call Process Payment constructor.
@@ -948,7 +948,7 @@ private class ProcessPaymentTest {
         insert patientContact;
 
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         //Call Process Payment constructor.
@@ -1039,7 +1039,7 @@ private class ProcessPaymentTest {
         insert patientContact;
 
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         //Call Process Payment constructor.
@@ -1133,7 +1133,7 @@ private class ProcessPaymentTest {
         insert patientContact;
 
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         //Call Process Payment constructor.

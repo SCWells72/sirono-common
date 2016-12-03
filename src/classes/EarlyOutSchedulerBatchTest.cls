@@ -50,7 +50,7 @@ public class EarlyOutSchedulerBatchTest {
 
         Invoice__c i = TestUtility.generateInvoice(con1.Id, p.id);
         i.Invoice_Date__c = dt;
-        i.Guarantor_Name__c = con1.Id;
+        i.Guarantor__c = con1.Id;
         insert i;
 
         Campaign c = TestUtility.generateCampaign('Early-out');

@@ -48,7 +48,7 @@
                     <label>CHARGE GROUPS</label>
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>
-                        <name>Charge_Group__c.Guarantor_Name__c</name>
+                        <name>Charge_Group__c.Guarantor__c</name>
                     </relatedLists>
                 </sidebarComponents>
                 <sidebarComponents>
@@ -64,7 +64,7 @@
                     <label>PAYMENT PLANS</label>
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>
-                        <name>test__c.Guarantor_Name__c</name>
+                        <name>Payment_Plan__c.Guarantor__c</name>
                     </relatedLists>
                 </sidebarComponents>
                 <sidebarComponents>
@@ -72,7 +72,7 @@
                     <label>PAYMENTS</label>
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>
-                        <name>Payment__c.Guarantor_Name__c</name>
+                        <name>Payment__c.Guarantor__c</name>
                     </relatedLists>
                 </sidebarComponents>
                 <sidebarComponents>
@@ -152,7 +152,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Gender__c</field>
+                <field>Sex__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -309,7 +309,7 @@
         <relatedLists>
             <fields>NAME</fields>
             <fields>Active__c</fields>
-            <relatedList>Charge_Group__c.Guarantor_Name__c</relatedList>
+            <relatedList>Charge_Group__c.Guarantor__c</relatedList>
         </relatedLists>
     </miniLayout>
     <platformActionList>
@@ -365,14 +365,14 @@
     <relatedLists>
         <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
-        <fields>Account_Number__c</fields>
-        <fields>Patient_Name__c</fields>
+        <fields>External_ID__c</fields>
+        <fields>Patient__c</fields>
         <fields>Balance__c</fields>
         <fields>Active__c</fields>
         <fields>Account_Status__c</fields>
         <fields>Account_Sub_Status__c</fields>
         <fields>CREATED_DATE</fields>
-        <relatedList>Charge_Group__c.Guarantor_Name__c</relatedList>
+        <relatedList>Charge_Group__c.Guarantor__c</relatedList>
         <sortField>Balance__c</sortField>
         <sortOrder>Desc</sortOrder>
     </relatedLists>
@@ -384,7 +384,7 @@
         <fields>Installment_Amount__c</fields>
         <fields>Next_Payment_Date__c</fields>
         <fields>Execute_on_Day__c</fields>
-        <relatedList>test__c.Guarantor_Name__c</relatedList>
+        <relatedList>Payment_Plan__c.Guarantor__c</relatedList>
     </relatedLists>
     <relatedLists>
         <excludeButtons>New</excludeButtons>
@@ -410,8 +410,8 @@
         <fields>Amount__c</fields>
         <fields>Card_Holder_Name__c</fields>
         <fields>Charge_Date__c</fields>
-        <fields>Collected_by_ID__c</fields>
-        <relatedList>Payment__c.Guarantor_Name__c</relatedList>
+        <fields>Collected_by__c</fields>
+        <relatedList>Payment__c.Guarantor__c</relatedList>
     </relatedLists>
     <relatedLists>
         <excludeButtons>LogCall</excludeButtons>

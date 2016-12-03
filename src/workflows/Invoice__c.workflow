@@ -3,7 +3,7 @@
     <fieldUpdates>
         <fullName>Invoice_Name</fullName>
         <field>Name</field>
-        <formula>Guarantor_Name__r.FirstName  &amp; Guarantor_Name__r.LastName &amp; &apos; -  &apos; &amp; Name</formula>
+        <formula>Guarantor__r.FirstName  &amp; Guarantor__r.LastName &amp; &apos; -  &apos; &amp; Name</formula>
         <name>Invoice Name</name>
         <notifyAssignee>false</notifyAssignee>
         <operation>Formula</operation>

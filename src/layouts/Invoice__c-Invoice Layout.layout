@@ -9,7 +9,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Guarantor_Name__c</field>
+                <field>Guarantor__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -35,7 +35,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Invoice_ID__c</field>
+                <field>Sirono_ID__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -71,7 +71,7 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Active__c</fields>
-        <fields>Guarantor_Name__c</fields>
+        <fields>Guarantor__c</fields>
         <fields>Date_Of_Service_Start_Date__c</fields>
         <fields>Date_Of_Service_End_Date__c</fields>
         <fields>Location__c</fields>

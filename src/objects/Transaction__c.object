@@ -115,19 +115,6 @@
         <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>ID__c</fullName>
-        <externalId>true</externalId>
-        <label>Sirono ID</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>true</unique>
-    </fields>
-    <fields>
         <fullName>Method__c</fullName>
         <externalId>false</externalId>
         <label>Method</label>
@@ -150,7 +137,7 @@
         <type>TextArea</type>
     </fields>
     <fields>
-        <fullName>Payment_ID__c</fullName>
+        <fullName>Payment__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <description>Payment</description>
         <externalId>false</externalId>
@@ -175,12 +162,25 @@
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
     </fields>
+    <fields>
+        <fullName>Sirono_ID__c</fullName>
+        <externalId>true</externalId>
+        <label>Sirono ID</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>true</unique>
+    </fields>
     <label>Transaction</label>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
         <columns>CREATED_DATE</columns>
-        <columns>Payment_ID__c</columns>
+        <columns>Payment__c</columns>
         <columns>Charge_Group__c</columns>
         <columns>Amount__c</columns>
         <columns>Method__c</columns>
@@ -198,7 +198,7 @@
     <searchLayouts>
         <customTabListAdditionalFields>Charge_Group__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Amount__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Payment_ID__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Payment__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>CREATED_DATE</customTabListAdditionalFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>

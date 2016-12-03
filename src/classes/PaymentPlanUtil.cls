@@ -31,14 +31,14 @@ public with sharing class PaymentPlanUtil {
     }
 
     private static void updatePlans(AggregateResult[] results) {
-        List<test__c> pps = new List<test__c>();
+        List<Payment_Plan__c> pps = new List<Payment_Plan__c>();
 
         for (AggregateResult ar : results) {
             System.debug('ppId: ' + ar.get('pp'));
             System.debug('planBalance: ' + ar.get('planBalance'));
-            test__c pp = new test__c();
+            Payment_Plan__c pp = new Payment_Plan__c();
             pp.Id = (Id) ar.get('pp');
-            pp.Payable_Amount__c = (Decimal) ar.get('planBalance');
+            pp.Remaining_Balance__c = (Decimal) ar.get('planBalance');
             pps.add(pp);
         }
 

@@ -93,7 +93,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ID__c</field>
+            <field>Sirono_ID__c</field>
             <table>Service__c</table>
         </columns>
         <columns>

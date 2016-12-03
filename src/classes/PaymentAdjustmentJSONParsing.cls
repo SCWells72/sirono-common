@@ -31,14 +31,14 @@ public class PaymentAdjustmentJSONParsing {
             for (PaymentAdjustmentJSONParsing objJson : lstPaymentAdjustmentJson) {
                 Payment_Adjustments__c objPaymentAdjustment = new Payment_Adjustments__c();
                 
-                objPaymentAdjustment.ID__c = Integer.valueof(getExternalID(objJson.url,'adjustments'));
+                objPaymentAdjustment.Sirono_ID__c = Integer.valueof(getExternalID(objJson.url,'adjustments'));
                 objPaymentAdjustment.Name = getExternalID(objJson.url,'adjustments');
                 objPaymentAdjustment.Amount__c = PayStaffWSUtill.convertToDollars(objJson.amount);
                 objPaymentAdjustment.Description__c = objJson.description;                
                 if (!String.Isblank(objJson.post_date)) {
                     objPaymentAdjustment.Post_Date__c = Date.valueof(objJson.post_date);
                 }
-                mapCode.put(objPaymentAdjustment.ID__c, objJson.code);
+                mapCode.put(objPaymentAdjustment.Sirono_ID__c, objJson.code);
                 
                 lstPaymentAdjustment.add(objPaymentAdjustment);
             }
@@ -53,7 +53,7 @@ public class PaymentAdjustmentJSONParsing {
             }
 
             for(Payment_Adjustments__c pa : lstPaymentAdjustment) {
-                string strCode = mapCode.get(pa.ID__c);
+                string strCode = mapCode.get(pa.Sirono_ID__c);
                 pa.Transaction_Type__c = mapTranType.get(strCode);
             }
         }

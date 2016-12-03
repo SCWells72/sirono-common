@@ -7,7 +7,7 @@
         <field>CUST_ID</field>
     </columns>
     <columns>
-        <field>Payment__c.Guarantor_Name__c</field>
+        <field>Payment__c.Guarantor__c</field>
     </columns>
     <columns>
         <field>Payment__c.Amount__c</field>

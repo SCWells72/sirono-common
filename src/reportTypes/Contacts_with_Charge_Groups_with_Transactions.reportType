@@ -326,7 +326,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Gender__c</field>
+            <field>Sex__c</field>
             <table>Contact</table>
         </columns>
         <columns>
@@ -479,12 +479,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Charge_Group_ID__c</field>
+            <field>Sirono_ID__c</field>
             <table>Contact.Charge_Groups__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Account_Number__c</field>
+            <field>External_ID__c</field>
             <table>Contact.Charge_Groups__r</table>
         </columns>
         <columns>
@@ -624,7 +624,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Patient_Name__c</field>
+            <field>Patient__c</field>
             <table>Contact.Charge_Groups__r</table>
         </columns>
         <columns>
@@ -707,7 +707,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Payment_ID__c</field>
+            <field>Payment__c</field>
             <table>Contact.Charge_Groups__r.Transactions__r</table>
         </columns>
         <columns>
@@ -722,7 +722,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ID__c</field>
+            <field>Sirono_ID__c</field>
             <table>Contact.Charge_Groups__r.Transactions__r</table>
         </columns>
         <columns>

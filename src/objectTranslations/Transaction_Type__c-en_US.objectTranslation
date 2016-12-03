@@ -21,16 +21,16 @@
         <name>External_Description__c</name>
     </fields>
     <fields>
-        <label><!-- ID --></label>
-        <name>ID__c</name>
-    </fields>
-    <fields>
         <label><!-- Origin Code --></label>
         <name>Origin_Code__c</name>
     </fields>
     <fields>
         <label><!-- Payor Type --></label>
         <name>Payor_Type__c</name>
+    </fields>
+    <fields>
+        <label><!-- ID --></label>
+        <name>Sirono_ID__c</name>
     </fields>
     <fields>
         <label><!-- Unmapped --></label>

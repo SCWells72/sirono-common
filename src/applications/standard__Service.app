@@ -5,7 +5,7 @@
     <tab>standard-Case</tab>
     <tab>Invoice__c</tab>
     <tab>Charge_Group__c</tab>
-    <tab>test__c</tab>
+    <tab>Payment_Plan__c</tab>
     <tab>Payment__c</tab>
     <tab>Payment_Adjustments__c</tab>
     <tab>Statement__c</tab>
@@ -15,7 +15,7 @@
     <tab>standard-Dashboard</tab>
     <tab>Payment_Arrangement__c</tab>
     <tab>Payor__c</tab>
-    <tab>ChargeGroupCoverage__c</tab>
+    <tab>Charge_Group_Coverage_Junction__c</tab>
     <tab>Location__c</tab>
     <tab>Provider__c</tab>
     <tab>Service_Rollup__c</tab>

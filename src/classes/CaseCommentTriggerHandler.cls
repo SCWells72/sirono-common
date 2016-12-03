@@ -33,9 +33,9 @@ public with sharing class CaseCommentTriggerHandler {
             }
             List<String> chargeGroupIds = new List<String>();
             //Tracker # 130687155  Query to get the Charge Groups from Case Charge Group object.
-            for (Charge_Group__c cg : [Select Id, Charge_Group_ID__c From Charge_Group__c Where Id IN (Select Charge_Group__c from Case_Charge_Group__c Where Case__c = :caseId)]) {
+            for( Charge_Group__c cg : [Select Id, Sirono_ID__c From Charge_Group__c Where Id IN (Select Charge_Group__c from Case_Charge_Group_Junction__c Where Case__c = :caseId)]) {         
                 if (cg != null) {
-                    chargeGroupIds.add(cg.Charge_Group_ID__c + '');
+                    chargeGroupIds.add(cg.Sirono_ID__c + '');
                 }
             }
             //CALL FUTURE METHOD FOR ADD NOTE CALLOUT

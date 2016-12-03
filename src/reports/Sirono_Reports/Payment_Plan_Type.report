@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <aggregates>
-        <calculatedFormula>test__c.Payable_Amount__c:SUM*10</calculatedFormula>
+        <calculatedFormula>Payment_Plan__c.Remaining_Balance__c:SUM*10</calculatedFormula>
         <datatype>currency</datatype>
         <developerName>FORMULA1</developerName>
         <isActive>true</isActive>
@@ -20,7 +20,7 @@
         <chartType>Donut</chartType>
         <enableHoverLabels>false</enableHoverLabels>
         <expandOthers>false</expandOthers>
-        <groupingColumn>test__c$Plan_Type__c</groupingColumn>
+        <groupingColumn>Payment_Plan__c$Plan_Type__c</groupingColumn>
         <legendPosition>Right</legendPosition>
         <location>CHART_TOP</location>
         <showAxisLabels>true</showAxisLabels>
@@ -36,17 +36,17 @@
     </chart>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
-        <field>test__c$Payable_Amount__c</field>
+        <field>Payment_Plan__c$Remaining_Balance__c</field>
     </columns>
     <description>8/15/16</description>
     <filter>
         <criteriaItems>
-            <column>test__c$Active__c</column>
+            <column>Payment_Plan__c$Active__c</column>
             <operator>equals</operator>
             <value>1</value>
         </criteriaItems>
         <criteriaItems>
-            <column>test__c$Plan_Type__c</column>
+            <column>Payment_Plan__c$Plan_Type__c</column>
             <operator>equals</operator>
             <value>automatic,manual</value>
         </criteriaItems>
@@ -54,7 +54,7 @@
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>test__c$Plan_Type__c</field>
+        <field>Payment_Plan__c$Plan_Type__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
     <name>Payment Plan Type</name>
@@ -66,7 +66,7 @@
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <timeFrameFilter>
-        <dateColumn>test__c$Cancellation_Date__c</dateColumn>
+        <dateColumn>Payment_Plan__c$Cancellation_Date__c</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
 </Report>

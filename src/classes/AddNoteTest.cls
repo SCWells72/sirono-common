@@ -23,7 +23,7 @@ private class AddNoteTest {
         insert patientContact;
 		
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan.active__c = true;
         paymentPlan.Delinquent__c = true;
         insert paymentPlan;
@@ -58,7 +58,7 @@ private class AddNoteTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan.active__c = true;
         paymentPlan.Delinquent__c = true;
         insert paymentPlan;
@@ -82,7 +82,7 @@ private class AddNoteTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
 
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
 
         //Create Add Note object and Call Add Note constructor.
         AddNote conOb = new AddNote(new ApexPages.StandardController(paymentPlan));
@@ -117,7 +117,7 @@ private class AddNoteTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
 
         //Create Payment Plan record.
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
 
         //Create Add Note object and Call Add Note constructor.
         AddNote conOb = new AddNote(new ApexPages.StandardController(paymentPlan));

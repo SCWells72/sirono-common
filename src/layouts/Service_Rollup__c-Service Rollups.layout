@@ -44,7 +44,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ID__c</field>
+                <field>Sirono_ID__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

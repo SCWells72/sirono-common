@@ -101,7 +101,7 @@
                 <apex:inputField value="{!paymentArrangement.Arrangement_Type__c}"/>
                 <apex:inputField value="{!paymentArrangement.Installment_Amount__c}"/>
                 <apex:inputField value="{!paymentArrangement.Max_Amount__c}"/>
-                <apex:inputField value="{!paymentArrangement.Number_of_Installments__c}"/>
+                <apex:inputField value="{!paymentArrangement.Original_Installment_Count__c}"/>
                 <apex:inputField value="{!paymentArrangement.Billed_Date__c}"/>
                 <apex:inputField value="{!paymentArrangement.Date__c}"/>
             </apex:pageblockSection>
@@ -119,7 +119,7 @@
                         <apex:inputField value="{!newPaymentMethod.Name}"/>
                         <apex:inputField value="{!newPaymentMethod.Payment_Method_Token__c}"/>
                         <apex:inputField value="{!newPaymentMethod.Card_Type__c}"/>
-                        <apex:inputField value="{!newPaymentMethod.ID__c}"/>
+                        <apex:inputField value="{!newPaymentMethod.Sirono_ID__c}"/>
                         <apex:inputField value="{!newPaymentMethod.Expiration_Date__c}"/>
                         <apex:inputField value="{!newPaymentMethod.Last_4__c}"/>
                     </apex:pageBlockSection>

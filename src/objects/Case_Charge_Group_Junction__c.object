@@ -78,13 +78,13 @@
         <type>MasterDetail</type>
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
-    <label>Case Charge Group</label>
+    <label>Case Charge Group Junction</label>
     <nameField>
         <displayFormat>CCG-{000000}</displayFormat>
         <label>Case Charge Group Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Case Charge Groups</pluralLabel>
+    <pluralLabel>Case Charge Group Junctions</pluralLabel>
     <searchLayouts/>
     <sharingModel>ControlledByParent</sharingModel>
 </CustomObject>

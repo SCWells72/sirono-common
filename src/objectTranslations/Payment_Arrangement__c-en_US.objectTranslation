@@ -47,7 +47,7 @@
     </fields>
     <fields>
         <label><!-- Number of Installments --></label>
-        <name>Number_of_Installments__c</name>
+        <name>Original_Installment_Count__c</name>
     </fields>
     <fields>
         <label><!-- Payment Method --></label>

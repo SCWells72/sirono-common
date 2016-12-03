@@ -77,7 +77,7 @@
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>Guarantor_Name__c</fullName>
+        <fullName>Guarantor__c</fullName>
         <description>Guarantor</description>
         <externalId>false</externalId>
         <label>Guarantor</label>
@@ -127,20 +127,6 @@
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>Invoice_ID__c</fullName>
-        <description>Invoice ID External</description>
-        <externalId>true</externalId>
-        <label>Invoice ID</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>true</unique>
-    </fields>
-    <fields>
         <fullName>Patient__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <description>Patient</description>
@@ -164,13 +150,27 @@
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
+    <fields>
+        <fullName>Sirono_ID__c</fullName>
+        <description>Invoice ID External</description>
+        <externalId>true</externalId>
+        <label>Invoice ID</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>true</unique>
+    </fields>
     <label>Invoice</label>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
         <columns>Due_Date__c</columns>
         <columns>Invoice_Date__c</columns>
-        <columns>Guarantor_Name__c</columns>
+        <columns>Guarantor__c</columns>
         <columns>Patient__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
@@ -185,9 +185,9 @@
     <searchLayouts>
         <customTabListAdditionalFields>Invoice_Date__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Due_Date__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Guarantor_Name__c</customTabListAdditionalFields>
-        <searchResultsAdditionalFields>Guarantor_Name__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Invoice_ID__c</searchResultsAdditionalFields>
+        <customTabListAdditionalFields>Guarantor__c</customTabListAdditionalFields>
+        <searchResultsAdditionalFields>Guarantor__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Sirono_ID__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Invoice_Date__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Due_Date__c</searchResultsAdditionalFields>
     </searchLayouts>

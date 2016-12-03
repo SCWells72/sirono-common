@@ -21,12 +21,12 @@
         <name>External_Description__c</name>
     </fields>
     <fields>
-        <label><!-- Sirono ID --></label>
-        <name>ID__c</name>
-    </fields>
-    <fields>
         <label><!-- Origin Code --></label>
         <name>Origin_Code__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sirono ID --></label>
+        <name>Sirono_ID__c</name>
     </fields>
     <fields>
         <label><!-- Unmapped --></label>

@@ -101,7 +101,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ID__c</field>
+                <field>Sirono_ID__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -199,7 +199,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>ChargeGroupCoverage__c.Coverage__c</relatedList>
+        <relatedList>Charge_Group_Coverage_Junction__c.Coverage__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>

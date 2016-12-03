@@ -89,20 +89,6 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Credit_Card__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <externalId>false</externalId>
-        <label>Payment Method</label>
-        <referenceTo>Payment_Method__c</referenceTo>
-        <relationshipLabel>Payment Plans</relationshipLabel>
-        <relationshipName>Payment_Plans</relationshipName>
-        <required>false</required>
-        <trackFeedHistory>true</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
-    </fields>
-    <fields>
         <fullName>Delinquent_Date__c</fullName>
         <description>Date of deliquency</description>
         <externalId>false</externalId>
@@ -149,7 +135,7 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Guarantor_Name__c</fullName>
+        <fullName>Guarantor__c</fullName>
         <externalId>false</externalId>
         <label>Guarantor</label>
         <lookupFilter>
@@ -233,7 +219,20 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>Number_of_Installments__c</fullName>
+        <fullName>Original_Balance__c</fullName>
+        <description>Type of plan</description>
+        <externalId>false</externalId>
+        <label>Plan Value</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Original_Installment_Count__c</fullName>
         <description>payment installment months</description>
         <externalId>false</externalId>
         <label>Original Installments</label>
@@ -247,16 +246,18 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Payable_Amount__c</fullName>
+        <fullName>Payment_Method__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
-        <label>Remaining Balance</label>
-        <precision>18</precision>
+        <label>Payment Method</label>
+        <referenceTo>Payment_Method__c</referenceTo>
+        <relationshipLabel>Payment Plans</relationshipLabel>
+        <relationshipName>Payment_Plans</relationshipName>
         <required>false</required>
-        <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
+        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
-        <type>Currency</type>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Plan_Origin__c</fullName>
@@ -284,7 +285,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Plan_Value_Modified_at_Timestamp__c</fullName>
+        <fullName>Plan_Value_Modified_Date__c</fullName>
         <description>time stamp of plan modification</description>
         <externalId>false</externalId>
         <label>Plan Value Modified Date</label>
@@ -295,10 +296,9 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>Plan_Value__c</fullName>
-        <description>Type of plan</description>
+        <fullName>Remaining_Balance__c</fullName>
         <externalId>false</externalId>
-        <label>Plan Value</label>
+        <label>Remaining Balance</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -308,9 +308,9 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Remaining_Number_of_Installments__c</fullName>
+        <fullName>Remaining_Installment_Count__c</fullName>
         <externalId>false</externalId>
-        <formula>ABS(CEILING(Payable_Amount__c / Installment_Amount__c))</formula>
+        <formula>ABS(CEILING(Remaining_Balance__c / Installment_Amount__c))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Remaining Installments</label>
         <precision>18</precision>
@@ -374,7 +374,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
-        <columns>Guarantor_Name__c</columns>
+        <columns>Guarantor__c</columns>
         <columns>Active__c</columns>
         <columns>Plan_Type__c</columns>
         <columns>Execute_on_Day__c</columns>
@@ -392,19 +392,19 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
     </nameField>
     <pluralLabel>Payment Plans</pluralLabel>
     <searchLayouts>
-        <customTabListAdditionalFields>Guarantor_Name__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Guarantor__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Active__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Plan_Type__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Execute_on_Day__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Next_Payment_Date__c</customTabListAdditionalFields>
-        <lookupDialogsAdditionalFields>Plan_Value__c</lookupDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Plan_Value__c</lookupPhoneDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Original_Balance__c</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Original_Balance__c</lookupPhoneDialogsAdditionalFields>
         <searchFilterFields>NAME</searchFilterFields>
         <searchFilterFields>Delinquent_Date__c</searchFilterFields>
-        <searchFilterFields>Guarantor_Name__c</searchFilterFields>
+        <searchFilterFields>Guarantor__c</searchFilterFields>
         <searchFilterFields>Plan_Type__c</searchFilterFields>
-        <searchFilterFields>Plan_Value__c</searchFilterFields>
-        <searchResultsAdditionalFields>Plan_Value__c</searchResultsAdditionalFields>
+        <searchFilterFields>Original_Balance__c</searchFilterFields>
+        <searchResultsAdditionalFields>Original_Balance__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
     <webLinks>
@@ -416,7 +416,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <masterLabel>Add to Payment Plan</masterLabel>
         <openType>replace</openType>
         <protected>false</protected>
-        <url>/apex/AddToPaymentPlan?guarantorId={!test__c.Guarantor_NameId__c}&amp;paymentPlanId={!test__c.Id}&amp;paymentPlanExtId={!test__c.Sirono_ID__c}</url>
+        <url>/apex/AddToPaymentPlan?guarantorId={!Payment_Plan__c.GuarantorId__c}&amp;paymentPlanId={!Payment_Plan__c.Id}&amp;paymentPlanExtId={!Payment_Plan__c.Sirono_ID__c}</url>
     </webLinks>
     <webLinks>
         <fullName>Canecl_Payment_Plan</fullName>
@@ -427,7 +427,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <masterLabel>Cancel Payment Plan</masterLabel>
         <openType>replace</openType>
         <protected>false</protected>
-        <url>/apex/DeletePaymentPlan?guarantorId={!test__c.Guarantor_NameId__c}&amp;paymentPlanId={!test__c.Id}&amp;paymentPlanExtId={!test__c.Sirono_ID__c}</url>
+        <url>/apex/DeletePaymentPlan?guarantorId={!Payment_Plan__c.GuarantorId__c}&amp;paymentPlanId={!Payment_Plan__c.Id}&amp;paymentPlanExtId={!Payment_Plan__c.Sirono_ID__c}</url>
     </webLinks>
     <webLinks>
         <fullName>Edit_Payment_Plan</fullName>
@@ -438,7 +438,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <masterLabel>Edit Payment Plan</masterLabel>
         <openType>replace</openType>
         <protected>false</protected>
-        <url>/apex/EditPaymentPlan?guarantorId={!test__c.Guarantor_NameId__c}&amp;paymentPlanId={!test__c.Id}</url>
+        <url>/apex/EditPaymentPlan?guarantorId={!Payment_Plan__c.GuarantorId__c}&amp;paymentPlanId={!Payment_Plan__c.Id}</url>
     </webLinks>
     <webLinks>
         <fullName>Payment_Plan_Good_Standing</fullName>
@@ -449,7 +449,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <masterLabel>Payment Plan Good Standing</masterLabel>
         <openType>replace</openType>
         <protected>false</protected>
-        <url>/apex/PaymentPlanGoodStanding?guarantorId={!test__c.Guarantor_NameId__c}&amp;paymentPlanId={!test__c.Id}&amp;paymentPlanExtId={!test__c.Sirono_ID__c}</url>
+        <url>/apex/PaymentPlanGoodStanding?guarantorId={!Payment_Plan__c.GuarantorId__c}&amp;paymentPlanId={!Payment_Plan__c.Id}&amp;paymentPlanExtId={!Payment_Plan__c.Sirono_ID__c}</url>
     </webLinks>
     <webLinks>
         <fullName>Skip_Payment</fullName>
@@ -460,6 +460,6 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <masterLabel>Skip Payment</masterLabel>
         <openType>replace</openType>
         <protected>false</protected>
-        <url>/apex/SkipPaymentPlan?guarantorId={!test__c.Guarantor_NameId__c}&amp;paymentPlanId={!test__c.Id}&amp;paymentPlanExtId={!test__c.Sirono_ID__c}</url>
+        <url>/apex/SkipPaymentPlan?guarantorId={!Payment_Plan__c.GuarantorId__c}&amp;paymentPlanId={!Payment_Plan__c.Id}&amp;paymentPlanExtId={!Payment_Plan__c.Sirono_ID__c}</url>
     </webLinks>
 </CustomObject>

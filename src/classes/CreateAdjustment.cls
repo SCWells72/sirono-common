@@ -13,7 +13,7 @@
  */
 
 public with sharing class CreateAdjustment {
-    /*public String username {get; set;}
+    public String username {get; set;}
     public String password {get; set;}
     public String amount {get; set;}
     public String guarantorRecordId {get; set;}
@@ -30,21 +30,17 @@ public with sharing class CreateAdjustment {
     private Payment__c objPayment = new Payment__c();
     private List<Transaction__c> lsttransaction = new List<Transaction__c>();
     private List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
-    private List<test__c> lstPaymentPlan = new List<test__c>();
-	*/
+    private List<Payment_Plan__c> lstPaymentPlan = new List<Payment_Plan__c>();
+
     /*Constructor initializing variables ,check login user is admin or not.
      * Fetch Adjustment_Type__mdt records.
      */
-     public CreateAdjustment() {
-    
-    }
-    /*
     public CreateAdjustment(ApexPages.StandardController sc) {
         /*
          * 08-26-2016: Sirono - Tracker # 127767953
          * The Add Adjustment button should only appear when the user has Admin profile. 
          * Do the Query and set the flag isAdmin.
-         *
+         */
 
         isAdmin = true;
         List<User> lstUser = new List<User>(
@@ -89,7 +85,7 @@ public with sharing class CreateAdjustment {
 
     /*Controller Method invoked from Visualforce page and get the chargegroup Id
      * also check is any chargegroup is selected or not.
-     *
+     */
     public Pagereference doNext() {
         chargeGroupsSelected = false;
         chargeGroupId = PayStaffWSUtill.fetchChargeGroupIds(chrageGroupList);
@@ -99,7 +95,7 @@ public with sharing class CreateAdjustment {
             chargeGroupsSelected = false;
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 
                                         'Please select atleast one Charge Group'));
-        }*
+        }*/
         return null;
     }
 
@@ -179,5 +175,5 @@ public with sharing class CreateAdjustment {
                     'RESPONSE : ' + res.toString() +
                             '  RESPONSE BODY::' + responseBody));
         }
-    }*/
+    }
 }

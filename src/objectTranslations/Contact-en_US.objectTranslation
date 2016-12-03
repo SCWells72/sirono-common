@@ -242,18 +242,6 @@
         <name>Full_Name__c</name>
     </fields>
     <fields>
-        <label><!-- Sex --></label>
-        <name>Gender__c</name>
-        <picklistValues>
-            <masterLabel>Female</masterLabel>
-            <translation><!-- Female --></translation>
-        </picklistValues>
-        <picklistValues>
-            <masterLabel>Male</masterLabel>
-            <translation><!-- Male --></translation>
-        </picklistValues>
-    </fields>
-    <fields>
         <label><!-- Guarantor/Patient Id --></label>
         <name>Guarantor_Patient_Id__c</name>
     </fields>
@@ -349,6 +337,18 @@
     <fields>
         <label><!-- Guarantor ID --></label>
         <name>Profile_Pointer_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sex --></label>
+        <name>Sex__c</name>
+        <picklistValues>
+            <masterLabel>Female</masterLabel>
+            <translation><!-- Female --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Male</masterLabel>
+            <translation><!-- Male --></translation>
+        </picklistValues>
     </fields>
     <fields>
         <label><!-- Skip Invoice Stmt Until --></label>
@@ -474,5 +474,9 @@
     <webLinks>
         <label><!-- Process_Payment --></label>
         <name>Process_Payment</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- View_On_Portal --></label>
+        <name>View_On_Portal</name>
     </webLinks>
 </CustomObjectTranslation>

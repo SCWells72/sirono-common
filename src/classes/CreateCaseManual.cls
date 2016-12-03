@@ -11,7 +11,7 @@
 
 
 public with sharing class CreateCaseManual {
-    /*public String guarantorRecordId { get; set; }
+    public String guarantorRecordId { get; set; }
     public Boolean chargeGroupsSelected { get; set; }
     public String guarantorId { get; set; }
     public String guarantorName { get; set; }
@@ -35,10 +35,6 @@ public with sharing class CreateCaseManual {
     /*
      * Constructor to get the guarantor and charge group details.
     */
-    public CreateCaseManual(){
-        
-    }
-    /*
     public CreateCaseManual(ApexPages.StandardController sc) {
         chargeGroupsSelected = false;
         chrageGroupList = new List<ChargeGroupWrapper>();
@@ -79,7 +75,7 @@ public with sharing class CreateCaseManual {
 
     /*
     * Cancel the case creation and back to the guarantor record.
-    *
+    */
     public Pagereference cancel() {
         Pagereference pg = null;
         if (!isEmpty(guarantorRecordId)) {
@@ -93,7 +89,7 @@ public with sharing class CreateCaseManual {
 
     /*
     * check charge group is selected or not and show the guarantor details.
-    *
+    */
     public Pagereference doNext() {
         chargeGroupsSelected = false;
 
@@ -140,7 +136,7 @@ public with sharing class CreateCaseManual {
                 }
             }
             List<Charge_Group__c> lstChargeGroup = [
-                    Select id, Guarantor_Name__c, Patient_Name__c
+                    Select id, Guarantor__c, Patient__c
                     From Charge_Group__c
                     Where Id in :setChargeGroupId
                     order by CreatedDate desc
@@ -152,14 +148,14 @@ public with sharing class CreateCaseManual {
             if (gc.RecordType.DeveloperName == 'Patient') {
                 caseObj.Patient__c = gc.id;
                 if (chargeGroup != null) {
-                    caseObj.Guarantor_Information__c = chargeGroup.Guarantor_Name__c;
+                    caseObj.Guarantor_Information__c = chargeGroup.Guarantor__c;
                 }
                 guarantorContact = PayStaffWSUtill.fetchContact(caseObj.Guarantor_Information__c);
                 patientContact = gc;
             } else if (gc.RecordType.DeveloperName == 'Guarantor') {
                 caseObj.Guarantor_Information__c = gc.id;
                 if (chargeGroup != null) {
-                    caseObj.Patient__c = chargeGroup.Patient_Name__c;
+                    caseObj.Patient__c = chargeGroup.Patient__c;
                 }
                 patientContact = PayStaffWSUtill.fetchContact(caseObj.Patient__c);
                 guarantorContact = gc;
@@ -202,10 +198,10 @@ public with sharing class CreateCaseManual {
             }
 
             //add selected Charge Groups to Case
-            List<Case_Charge_Group__c> caseCGs = new List<Case_Charge_Group__c>();
+            List<Case_Charge_Group_Junction__c> caseCGs = new List<Case_Charge_Group_Junction__c>();
             for (ChargeGroupWrapper cg : chrageGroupList) {
                 if (cg.isSelected) {
-                    Case_Charge_Group__c ccg = new Case_Charge_Group__c();
+                    Case_Charge_Group_Junction__c ccg = new Case_Charge_Group_Junction__c();
                     ccg.Case__c = caseObj.Id;
                     ccg.Charge_Group__c = cg.cg.Id;
                     caseCGs.add(ccg);
@@ -231,7 +227,7 @@ public with sharing class CreateCaseManual {
             
             /* 11-23-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
              * Populating coverage data using the selected Chargegroup with the oldest "Date Of Service Start" field.
-            *           
+            */            
             Charge_Group__c cg = new Charge_Group__c();
             List<Charge_Group__c> lstChargeGroup  = [
                                                         Select id
@@ -245,11 +241,11 @@ public with sharing class CreateCaseManual {
             
             /* 10-19-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
              * Get Coverage detail based on Selected Charge Group.
-            *            
-            List<ChargeGroupCoverage__c> coverageDetail = 
+            */            
+            List<Charge_Group_Coverage_Junction__c> coverageDetail = 
                     [SELECT Coverage__c, Coverage__r.Payor__c, Coverage__r.Payor__r.Name, Coverage__r.Plan_Name__c,
                         Coverage__r.Date_Effective__c, Coverage__r.Subscriber_Name__c, Coverage__r.Subscriber_ID__c
-                        FROM ChargeGroupCoverage__c
+                        FROM Charge_Group_Coverage_Junction__c
                         where Charge_Group__c =: cg.Id
                         order by LastModifiedDate desc limit 1];
                         
@@ -259,7 +255,7 @@ public with sharing class CreateCaseManual {
             
             //Get Transaction detail based on Selected Charge Group.
             List<Transaction__c> transactionDetail = 
-                    [SELECT ID__c, Amount__c FROM Transaction__c where Charge_Group__c =: chargeGroup.Id
+                    [SELECT Sirono_ID__c, Amount__c FROM Transaction__c where Charge_Group__c =: chargeGroup.Id
                     order by LastModifiedDate desc limit 1];
                     
             if (transactionDetail.size() > 0) {

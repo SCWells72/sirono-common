@@ -205,7 +205,7 @@ public with sharing class AddCreditCard {
     public boolean checkPaymentPlanExist(string guarantorRecordId) {
         boolean blnIsError = false;
         if (guarantorRecordId != null) {
-            List<test__c> lstPaymentPlan = [SELECT Id FROM test__c where Guarantor_Name__c =: guarantorRecordId and Active__c = true];
+            List<Payment_Plan__c> lstPaymentPlan = [SELECT Id FROM Payment_Plan__c where Guarantor__c =: guarantorRecordId and Active__c = true];
             if (lstPaymentPlan.size() > 0) {
                 ApexPages.addMessage(new ApexPages.Message(apexpages.severity.warning,
                     system.label.Payment_Plan_Error));
@@ -504,7 +504,7 @@ public with sharing class AddCreditCard {
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
         objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorRecordId,
                 null, chargeGroupId);
-        test__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
+        Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord; 
         paymentPlanObj.Name = String.valueof(paymentPlanObj.Sirono_ID__c);
         upsert paymentPlanObj;
 

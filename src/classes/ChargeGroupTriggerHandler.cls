@@ -49,10 +49,10 @@ public with sharing class ChargeGroupTriggerHandler {
         Set<Id> planIds = new Set<Id>();
 
         for (Charge_Group__c cg : newList) {
-            if (cg.Pre_Collection_Sent__c == null && cg.Guarantor_Name__c != null
+            if (cg.Pre_Collection_Sent__c == null && cg.Guarantor__c != null
                     && (oldMap == null || cg.Pre_Collection_Sent__c != oldMap.get(cg.Id).Pre_Collection_Sent__c
-                    || cg.Guarantor_Name__c != oldMap.get(cg.Id).Guarantor_Name__c)) {
-                contactIds.add(cg.Guarantor_Name__c);
+                    || cg.Guarantor__c != oldMap.get(cg.Id).Guarantor__c)) {
+                contactIds.add(cg.Guarantor__c);
             }
 
             //If this chargegroup was/is associated with a paymentPlan, recalc the new/old pp balances

@@ -83,7 +83,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ID__c</field>
+            <field>Sirono_ID__c</field>
             <table>Statement__c</table>
         </columns>
         <columns>

@@ -111,7 +111,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Gender__c</field>
+                <field>Sex__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -261,7 +261,7 @@
     </platformActionList>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Patient_Name__c</fields>
+        <fields>Patient__c</fields>
         <fields>Account_Status__c</fields>
         <fields>Active__c</fields>
         <fields>Sirono_Assigned_Date__c</fields>
@@ -271,7 +271,7 @@
         <fields>NAME</fields>
         <fields>Invoice_Date__c</fields>
         <fields>Due_Date__c</fields>
-        <fields>Guarantor_Name__c</fields>
+        <fields>Guarantor__c</fields>
         <relatedList>Invoice__c.Patient__c</relatedList>
     </relatedLists>
     <relatedLists>

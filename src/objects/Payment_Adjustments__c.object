@@ -67,7 +67,7 @@
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Charge_Group_Name__c</fullName>
+        <fullName>Charge_Group__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Charge Group</label>
@@ -134,19 +134,6 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>ID__c</fullName>
-        <externalId>true</externalId>
-        <label>Sirono ID</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>true</unique>
     </fields>
     <fields>
         <fullName>Imported__c</fullName>
@@ -220,6 +207,19 @@
         <type>Date</type>
     </fields>
     <fields>
+        <fullName>Sirono_ID__c</fullName>
+        <externalId>true</externalId>
+        <label>Sirono ID</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
         <fullName>Transaction_Type__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
@@ -262,28 +262,28 @@
     <pluralLabel>Payments / Adjustments</pluralLabel>
     <searchLayouts>
         <customTabListAdditionalFields>Amount__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Charge_Group_Name__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Charge_Group__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Payor_ID__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Payor__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Payment__c</customTabListAdditionalFields>
         <lookupDialogsAdditionalFields>Amount__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Payment__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Charge_Group_Name__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Charge_Group__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Payor_ID__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Payor__c</lookupDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Amount__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Charge_Group_Name__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Charge_Group__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Payor_ID__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Payor__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Payment__c</lookupPhoneDialogsAdditionalFields>
         <searchFilterFields>NAME</searchFilterFields>
         <searchFilterFields>Amount__c</searchFilterFields>
-        <searchFilterFields>Charge_Group_Name__c</searchFilterFields>
+        <searchFilterFields>Charge_Group__c</searchFilterFields>
         <searchFilterFields>Payor_ID__c</searchFilterFields>
         <searchFilterFields>Payor__c</searchFilterFields>
         <searchResultsAdditionalFields>External_ID__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Amount__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Charge_Group_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Charge_Group__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Transaction_Type__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Payor_ID__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Payor__c</searchResultsAdditionalFields>

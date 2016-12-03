@@ -14,13 +14,13 @@
         <relationshipLabel><!-- Patient Coverage Juntions --></relationshipLabel>
     </fields>
     <fields>
-        <label><!-- ID --></label>
-        <name>ID__c</name>
-    </fields>
-    <fields>
         <label><!-- Patient --></label>
         <name>Patient__c</name>
         <relationshipLabel><!-- Patient Coverage Juntions --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- ID --></label>
+        <name>Sirono_ID__c</name>
     </fields>
     <layouts>
         <layout>Patient Coverage Junction Layout</layout>

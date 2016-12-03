@@ -62,10 +62,6 @@
         <name>External_ID__c</name>
     </fields>
     <fields>
-        <label><!-- ID --></label>
-        <name>ID__c</name>
-    </fields>
-    <fields>
         <label><!-- Imported --></label>
         <name>Imported__c</name>
     </fields>
@@ -90,6 +86,10 @@
         <label><!-- Revenue Code --></label>
         <name>Service_Rollup__c</name>
         <relationshipLabel><!-- Services --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- ID --></label>
+        <name>Sirono_ID__c</name>
     </fields>
     <fields>
         <label><!-- Transaction --></label>

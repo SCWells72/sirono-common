@@ -31,7 +31,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Number_of_Installments__c</field>
+                <field>Original_Installment_Count__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

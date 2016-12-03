@@ -13,11 +13,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Credit_Card__c</field>
+                <field>Payment_Method__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Collected_by_ID__c</field>
+                <field>Collected_by__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -74,7 +74,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Guarantor_Name__c</field>
+                <field>Guarantor__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -85,7 +85,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Statements__c</field>
+                <field>Statement__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -95,7 +95,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ID__c</field>
+                <field>Sirono_ID__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -153,12 +153,12 @@
         <fields>Charge_Group__c</fields>
         <fields>Amount__c</fields>
         <fields>CREATED_DATE</fields>
-        <relatedList>Transaction__c.Payment_ID__c</relatedList>
+        <relatedList>Transaction__c.Payment__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
         <fields>Amount__c</fields>
-        <fields>Charge_Group_Name__c</fields>
+        <fields>Charge_Group__c</fields>
         <fields>Payor_ID__c</fields>
         <fields>Payor__c</fields>
         <relatedList>Payment_Adjustments__c.Payment__c</relatedList>

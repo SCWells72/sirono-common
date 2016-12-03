@@ -209,7 +209,7 @@
                                                         onclick="checkBoxStatus();"/>
                                 </td>
                                 <td class="dataCell">
-                                    <apex:outputField value="{!cgw.cg.Account_Number__c}"/>
+                                    <apex:outputField value="{!cgw.cg.External_ID__c}"/>
                                 </td>
                                 <td class="dataCell">
                                     <apex:outputField value="{!cgw.cg.Account_Type__c}"/>
@@ -281,7 +281,7 @@
                     <ul>
                         <apex:repeat value="{!chrageGroupList}" var="cgw">
                             <apex:outputPanel rendered="{!cgw.isSelected}">
-                                <li class="pay-staff-message">Account {!cgw.cg.Account_Number__c}</li>
+                                <li class="pay-staff-message">Account {!cgw.cg.External_ID__c}</li>
                             </apex:outputPanel>
                         </apex:repeat>
                     </ul>
@@ -634,7 +634,7 @@
                 } else if (caseType == 'Sirono Review') {
                     if (reason == 'Mailed Form Request: Receipt') {
                         var amount = objTransaction.Amount__c;
-                        var code = objTransaction.ID__c;
+                        var code = objTransaction.Sirono_ID__c;
                         
                         $.map($('label'),function(o, idx) {
                             var str = $(o).text().toString().replace(/\r?\n|\r/g, '');

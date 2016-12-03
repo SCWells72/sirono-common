@@ -51,15 +51,15 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
         if (callList != null) {
             List<CampaignMember> memberList = new List<CampaignMember>();
             for (Charge_Group__c cg : [
-                    Select Id, Name, Guarantor_Name__c, Pre_Collection_Sent__c, Guarantor_Name__r.Overdue_Balance__c, Guarantor_Name__r.Delinquent_Balance__c
+                    Select Id, Name, Guarantor__c, Pre_Collection_Sent__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Delinquent_Balance__c
                     From Charge_Group__c
-                    WHERE Guarantor_Name__c IN :guarantors AND Pre_Collection_Sent__c = :dt
+                    WHERE Guarantor__c IN :guarantors AND Pre_Collection_Sent__c = :dt
             ]) {
-                Double bal = cg.Guarantor_Name__r.Overdue_Balance__c + cg.Guarantor_Name__r.Delinquent_Balance__c;
+                Double bal = cg.Guarantor__r.Overdue_Balance__c + cg.Guarantor__r.Delinquent_Balance__c;
                 System.debug('bal' + bal);
-                if (bal <= -100 && bal > -5000 && !existingMembers.contains(cg.Guarantor_Name__c)) {
-                    existingMembers.add(cg.Guarantor_Name__c);
-                    memberList.add(new CampaignMember(CampaignId = callList.Id, ContactId = cg.Guarantor_Name__c, Status = 'Sent'));
+                if (bal <= -100 && bal > -5000 && !existingMembers.contains(cg.Guarantor__c)) {
+                    existingMembers.add(cg.Guarantor__c);
+                    memberList.add(new CampaignMember(CampaignId = callList.Id, ContactId = cg.Guarantor__c, Status = 'Sent'));
                 }
             }
 

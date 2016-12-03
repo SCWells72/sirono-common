@@ -154,25 +154,11 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Collected_by_ID__c</fullName>
+        <fullName>Collected_by__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Collected By</label>
         <referenceTo>User</referenceTo>
-        <relationshipName>Payments</relationshipName>
-        <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>Credit_Card__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <externalId>false</externalId>
-        <label>Payment Method</label>
-        <referenceTo>Payment_Method__c</referenceTo>
-        <relationshipLabel>Payments</relationshipLabel>
         <relationshipName>Payments</relationshipName>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
@@ -213,7 +199,7 @@
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>Guarantor_Name__c</fullName>
+        <fullName>Guarantor__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <description>Customer of the account</description>
         <externalId>false</externalId>
@@ -235,20 +221,6 @@
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>ID__c</fullName>
-        <description>Id number</description>
-        <externalId>true</externalId>
-        <label>Sirono ID</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>true</unique>
     </fields>
     <fields>
         <fullName>Last_4__c</fullName>
@@ -296,11 +268,25 @@
         <type>Picklist</type>
     </fields>
     <fields>
+        <fullName>Payment_Method__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Payment Method</label>
+        <referenceTo>Payment_Method__c</referenceTo>
+        <relationshipLabel>Payments</relationshipLabel>
+        <relationshipName>Payments</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>Payment_Plan__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Payment Plan</label>
-        <referenceTo>test__c</referenceTo>
+        <referenceTo>Payment_Plan__c</referenceTo>
         <relationshipLabel>Payments</relationshipLabel>
         <relationshipName>Payments</relationshipName>
         <required>false</required>
@@ -334,7 +320,21 @@
         <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>Statements__c</fullName>
+        <fullName>Sirono_ID__c</fullName>
+        <description>Id number</description>
+        <externalId>true</externalId>
+        <label>Sirono ID</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Statement__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Statement</label>
@@ -365,7 +365,7 @@
         <columns>Successful__c</columns>
         <columns>Method__c</columns>
         <columns>Charge_Date__c</columns>
-        <columns>Guarantor_Name__c</columns>
+        <columns>Guarantor__c</columns>
         <columns>Amount__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
@@ -427,33 +427,33 @@
         </picklistValues>
     </recordTypes>
     <searchLayouts>
-        <customTabListAdditionalFields>Guarantor_Name__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Guarantor__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Amount__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Card_Holder_Name__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Charge_Date__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Collected_by_ID__c</customTabListAdditionalFields>
-        <lookupDialogsAdditionalFields>Credit_Card__c</lookupDialogsAdditionalFields>
+        <customTabListAdditionalFields>Collected_by__c</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>Payment_Method__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Deposit_Date__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Card_Holder_Name__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Guarantor_Name__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Guarantor__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Expiration_Date__c</lookupDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Amount__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Card_Holder_Name__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Guarantor_Name__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Credit_Card__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Collected_by_ID__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Guarantor__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Payment_Method__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Collected_by__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Charge_Date__c</lookupPhoneDialogsAdditionalFields>
         <searchFilterFields>NAME</searchFilterFields>
         <searchFilterFields>Amount__c</searchFilterFields>
         <searchFilterFields>Charge_Date__c</searchFilterFields>
-        <searchFilterFields>Credit_Card__c</searchFilterFields>
+        <searchFilterFields>Payment_Method__c</searchFilterFields>
         <searchFilterFields>Last_4__c</searchFilterFields>
-        <searchResultsAdditionalFields>Guarantor_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Guarantor__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Processor_Transaction_ID__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Card_Holder_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Amount__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Charge_Date__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Collected_by_ID__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Collected_by__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>Private</sharingModel>
 </CustomObject>

@@ -14,7 +14,7 @@
     </fields>
     <fields>
         <label><!-- Charge Group --></label>
-        <name>Charge_Group_Name__c</name>
+        <name>Charge_Group__c</name>
         <relationshipLabel><!-- Payments / Adjustments --></relationshipLabel>
     </fields>
     <fields>
@@ -36,10 +36,6 @@
     <fields>
         <label><!-- External ID --></label>
         <name>External_ID__c</name>
-    </fields>
-    <fields>
-        <label><!-- Sirono ID --></label>
-        <name>ID__c</name>
     </fields>
     <fields>
         <label><!-- Imported --></label>
@@ -66,6 +62,10 @@
     <fields>
         <label><!-- Post Date --></label>
         <name>Post_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sirono ID --></label>
+        <name>Sirono_ID__c</name>
     </fields>
     <fields>
         <label><!-- Code --></label>

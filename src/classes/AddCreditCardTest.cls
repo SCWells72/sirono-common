@@ -9,7 +9,7 @@
 private class AddCreditCardTest {
 
     static testMethod void myUnitTestWithoutId() {
-        /*TestUtility objTestUtil = new TestUtility();
+        TestUtility objTestUtil = new TestUtility();
         Map<String, Id> rtMap = new Map<String, Id>();
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
@@ -18,11 +18,11 @@ private class AddCreditCardTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        insert paymentPlan;*/
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);        
+        insert paymentPlan;
 
         AddCreditCard objAddCreditCard = new AddCreditCard();
-        /*objAddCreditCard.doCancel();
+        objAddCreditCard.doCancel();
         objAddCreditCard.doNothing();
 
 
@@ -31,9 +31,9 @@ private class AddCreditCardTest {
         List<SelectOption> expMonthOptions = objAddCreditCard.expMonthOptions;
 
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(msgList.Size(), 0);*/
+        System.assertEquals(msgList.Size(), 0);
     }
-/*
+
     static testMethod void myCheckValidationZipTest() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -43,7 +43,7 @@ private class AddCreditCardTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
         insert paymentPlan;
 
@@ -82,7 +82,7 @@ private class AddCreditCardTest {
         Transaction__c  transactionObj = TestUtility.generateTransaction(objCG,100,'Automatic');
         insert transactionObj ;
         
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
                 
         Sirono_Settings__c PaymentPlanSettings = new Sirono_Settings__c(SetupOwnerId = userinfo.getProfileId());
@@ -137,7 +137,7 @@ private class AddCreditCardTest {
         Transaction__c  transactionObj = TestUtility.generateTransaction(objCG,100,'Automatic');
         insert transactionObj ;
         
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
         
         Sirono_Settings__c PaymentPlanSettings = new Sirono_Settings__c(SetupOwnerId = userinfo.getProfileId());
@@ -189,7 +189,7 @@ private class AddCreditCardTest {
         Charge_Group__c objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         insert objCG;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Sirono_ID__c = 2876;
         insert paymentPlan;
 
@@ -237,7 +237,7 @@ private class AddCreditCardTest {
         Charge_Group__c objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         insert objCG;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -290,7 +290,7 @@ private class AddCreditCardTest {
         Transaction__c transactionObj = TestUtility.generateTransaction(objCG, 100, 'Automatic');
         insert transactionObj ;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -350,7 +350,7 @@ private class AddCreditCardTest {
         Transaction__c transactionObj = TestUtility.generateTransaction(objCG, 100, 'Automatic');
         insert transactionObj ;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -409,7 +409,7 @@ private class AddCreditCardTest {
         Transaction__c transactionObj = TestUtility.generateTransaction(objCG, 100, 'Automatic');
         insert transactionObj ;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -460,7 +460,7 @@ private class AddCreditCardTest {
         Transaction__c transactionObj = TestUtility.generateTransaction(objCG, 100, 'Automatic');
         insert transactionObj ;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -518,7 +518,7 @@ private class AddCreditCardTest {
         Transaction__c transactionObj = TestUtility.generateTransaction(objCG, 100, 'Automatic');
         insert transactionObj ;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -578,7 +578,7 @@ private class AddCreditCardTest {
         Transaction__c transactionObj = TestUtility.generateTransaction(objCG, 100, 'Automatic');
         insert transactionObj ;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -636,7 +636,7 @@ private class AddCreditCardTest {
         Transaction__c transactionObj = TestUtility.generateTransaction(objCG, 100, 'Automatic');
         insert transactionObj ;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -694,7 +694,7 @@ private class AddCreditCardTest {
         Transaction__c transactionObj = TestUtility.generateTransaction(objCG, 100, 'Automatic');
         insert transactionObj ;
 
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -753,7 +753,7 @@ private class AddCreditCardTest {
         Transaction__c  transactionObj = TestUtility.generateTransaction(objCG,100,'Automatic');
         insert transactionObj ;
         
-        test__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         insert paymentPlan;        
         
         Apexpages.currentPage().getParameters().put('guarantorId',guarantorContact.Id);
@@ -795,5 +795,5 @@ private class AddCreditCardTest {
         System.assertEquals(isError,true);
         
         Test.stopTest(); 
-    }*/
+    }
 }

@@ -7,42 +7,38 @@
  * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases
 */
 public with sharing class PaymentPlanTriggerHandler {
-    public PaymentPlanTriggerHandler(){
-        
-        }
-    /*
-	//static method invoked after insert event
-    public static void afterInsert(List<test__c> newList) {
+    //static method invoked after insert event
+    public static void afterInsert(List<Payment_Plan__c> newList) {
         checkCallListRemove(newList, null);
         callDelinquentPaymentPlanCaseCreation(newList, null);
         callCCErrorCaseCreation(newList, null);
     }
 
     //static method invoked after update event
-    public static void afterUpdate(List<test__c> newList, Map<Id, test__c> oldMap) {
+    public static void afterUpdate(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap) {
         checkCallListRemove(newList, oldMap);
         callDelinquentPaymentPlanCaseCreation(newList, oldMap);
         callCCErrorCaseCreation(newList, oldMap);
     }
 
     //static method invoked before insert event occurs
-    public static void beforeInsert(List<test__c> newList) {
+    public static void beforeInsert(List<Payment_Plan__c> newList) {
         callPopulateNextPaymentDate(newList, null, true);
     }
 
     //static method invoked after insert event
-    public static void beforeUpdate(List<test__c> newList, Map<Id, Test__c> oldMap) {
+    public static void beforeUpdate(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap) {
         callPopulateNextPaymentDate(newList, oldMap, false);
     }
 
     //private staic method that collects the Guarantor IDs
-    private static void checkCallListRemove(List<test__c> newList, Map<Id, test__c> oldMap) {
+    private static void checkCallListRemove(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap) {
         Set<Id> contactIds = new Set<Id>();
-        for (test__c pp : newList) {
-            if (!pp.Active__c && pp.Delinquent_Date__c == null && pp.Guarantor_Name__c != null
+        for (Payment_Plan__c pp : newList) {
+            if (!pp.Active__c && pp.Delinquent_Date__c == null && pp.Guarantor__c != null
                     && (oldMap == null || pp.Delinquent_Date__c != oldMap.get(pp.Id).Delinquent_Date__c
-                    || pp.Active__c != oldMap.get(pp.Id).Active__c || pp.Guarantor_Name__c != oldMap.get(pp.Id).Guarantor_Name__c)) {
-                contactIds.add(pp.Guarantor_Name__c);
+                    || pp.Active__c != oldMap.get(pp.Id).Active__c || pp.Guarantor__c != oldMap.get(pp.Id).Guarantor__c)) {
+                contactIds.add(pp.Guarantor__c);
             }
         }
 
@@ -52,13 +48,13 @@ public with sharing class PaymentPlanTriggerHandler {
     }
 
     //Mohan Kumar (Sirono) 09-23-2016 : 127404425 Set/Reset the NextPaymentDate when Execute_on_day__c, Skip_Payment_Until__c, or Plan_Type__c fields are changed.
-    public static void callPopulateNextPaymentDate(List<test__c> newList, Map<Id, Test__c> oldMap, Boolean isNew) {
-        List<Test__c> newListToSetDate = new List<Test__c>();
-        for (Test__c pp : newList) {
+    public static void callPopulateNextPaymentDate(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap, Boolean isNew) {
+        List<Payment_Plan__c> newListToSetDate = new List<Payment_Plan__c>();
+        for (Payment_Plan__c pp : newList) {
             if (isNew) {
                 newListToSetDate.add(pp);
             } else {
-                Test__c oldValue = oldMap.get(pp.Id);
+                Payment_Plan__c oldValue = oldMap.get(pp.Id);
                 if (pp.Execute_on_Day__c != oldValue.Execute_on_Day__c || pp.Skip_Payment_Until__c != oldValue.Skip_Payment_Until__c
                             || pp.Plan_Type__c != oldValue.Plan_Type__c) {
                                 // || pp.NextPaymentDate__c != oldValue.NextPaymentDate__c
@@ -76,13 +72,13 @@ public with sharing class PaymentPlanTriggerHandler {
     //this method is called from different places. When this method is called from other than PaymentPlanTrigger then
     //fromPaymentPlanTrigger parameter contains FALSE and we will need to run the update DML statment to the list.
 
-    public static void populateNextPaymentDate(List<test__c> newList, Boolean fromPaymentPlanTrigger) {
-        List<Test__c> newListToUpdate = new List<Test__c>();
+    public static void populateNextPaymentDate(List<Payment_Plan__c> newList, Boolean fromPaymentPlanTrigger) {
+        List<Payment_Plan__c> newListToUpdate = new List<Payment_Plan__c>();
         Set<String> setContactId = new Set<String>();
-        for (test__c plan:newList) {
-            //System.assert(plan.Guarantor_Name__c != null);
-            if (plan.Guarantor_Name__c != null) {
-                setContactId.add(plan.Guarantor_Name__c);
+        for (Payment_Plan__c plan:newList) {
+            //System.assert(plan.Guarantor__c != null);
+            if (plan.Guarantor__c != null) {
+                setContactId.add(plan.Guarantor__c);
             }
         }
         Map<Id, Contact> mapContacts = new Map<Id, Contact>([
@@ -91,10 +87,10 @@ public with sharing class PaymentPlanTriggerHandler {
                 Where Id IN:setContactId
         ]);
 
-        for (test__c plan:newList) {
+        for (Payment_Plan__c plan:newList) {
             Contact guarantor = new Contact();
-            if (plan.Guarantor_Name__c != null && mapContacts.containsKey(plan.Guarantor_Name__c)) {
-                guarantor = mapContacts.get(plan.Guarantor_Name__c);
+            if (plan.Guarantor__c != null && mapContacts.containsKey(plan.Guarantor__c)) {
+                guarantor = mapContacts.get(plan.Guarantor__c);
             }
 
             // Find the reference date. It is either "today" (or the test version) or the Skip Until date.
@@ -145,19 +141,19 @@ public with sharing class PaymentPlanTriggerHandler {
     }
 
     //Sirono 08-22-2016 : 127401841 Create a Delinquent Payment Plan Case
-    Private static void callDelinquentPaymentPlanCaseCreation(List<test__c> newList, Map<Id, test__c> oldMap) {
+    Private static void callDelinquentPaymentPlanCaseCreation(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap) {
         Set<Id> contactToCreateCaseIds = new Set<Id>();
         Set<Id> contactToCloseCase = new Set<Id>();
         Set<Id> paymentPlanID = new Set<Id>();
-        for (test__c plan : newList) {
-            if (trigger.IsInsert && plan.Guarantor_Name__c != null && plan.active__c == true && plan.Delinquent__c == true) {
-                contactToCreateCaseIds .add(plan.Guarantor_Name__c);
-            } else if (trigger.IsUpdate && plan.Guarantor_Name__c != null && (plan.active__c == true && plan.Delinquent__c == true && (oldMap.get(plan.id).active__c == false || oldMap.get(plan.id).Delinquent__c == false))) {
-                contactToCreateCaseIds.add(plan.Guarantor_Name__c);
+        for (Payment_Plan__c plan : newList) {
+            if (trigger.IsInsert && plan.Guarantor__c != null && plan.active__c == true && plan.Delinquent__c == true) {
+                contactToCreateCaseIds .add(plan.Guarantor__c);
+            } else if (trigger.IsUpdate && plan.Guarantor__c != null && (plan.active__c == true && plan.Delinquent__c == true && (oldMap.get(plan.id).active__c == false || oldMap.get(plan.id).Delinquent__c == false))) {
+                contactToCreateCaseIds.add(plan.Guarantor__c);
             }
 
-            if (trigger.IsUpdate && plan.Guarantor_Name__c != null && ((plan.active__c == false && oldMap.get(plan.id).active__c == true) || (plan.Delinquent__c == false && oldMap.get(plan.id).Delinquent__c == true))) {
-                contactToCloseCase.add(plan.Guarantor_Name__c);
+            if (trigger.IsUpdate && plan.Guarantor__c != null && ((plan.active__c == false && oldMap.get(plan.id).active__c == true) || (plan.Delinquent__c == false && oldMap.get(plan.id).Delinquent__c == true))) {
+                contactToCloseCase.add(plan.Guarantor__c);
                 paymentPlanID.add(plan.Id);
             }
         }
@@ -172,28 +168,28 @@ public with sharing class PaymentPlanTriggerHandler {
     }
 
     //Sirono 08-25-2016 : 127517003 Credit Card Error Case Creation and Closure.
-        //10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Payable_Amount__c = '<= -100' to '>= 100'" in condition.
-    Private static void callCCErrorCaseCreation(List<test__c> newList, Map<Id, test__c> oldMap) {
+        //10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Remaining_Balance__c = '<= -100' to '>= 100'" in condition.
+    Private static void callCCErrorCaseCreation(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap) {
         Set<Id> contactToCreateCaseIds = new Set<Id>();
         Set<Id> contactToCloseCase = new Set<Id>();
         Set<Id> paymentPlanID = new Set<Id>();
 
-        for (test__c plan : newList) {
+        for (Payment_Plan__c plan : newList) {
             if (trigger.isInsert && plan.Plan_Type__c == 'Automatic' && plan.Has_Error__c == true
-                    && plan.Active__c == true && plan.Payable_Amount__c >= 100) {
-                contactToCreateCaseIds.add(plan.Guarantor_Name__c);
-            } else if (trigger.IsUpdate && plan.Guarantor_Name__c != null
+                    && plan.Active__c == true && plan.Remaining_Balance__c >= 100) {
+                contactToCreateCaseIds.add(plan.Guarantor__c);
+            } else if (trigger.IsUpdate && plan.Guarantor__c != null
                     && (plan.active__c == true && plan.Has_Error__c == true
-                    && plan.Payable_Amount__c >= 100 && plan.Plan_Type__c == 'Automatic' && 
-                    (oldMap.get(plan.id).active__c == false || oldMap.get(plan.id).Has_Error__c == false || plan.Payable_Amount__c != oldMap.get(plan.id).Payable_Amount__c || plan.Plan_Type__c != oldMap.get(plan.id).Plan_Type__c
+                    && plan.Remaining_Balance__c >= 100 && plan.Plan_Type__c == 'Automatic' && 
+                    (oldMap.get(plan.id).active__c == false || oldMap.get(plan.id).Has_Error__c == false || plan.Remaining_Balance__c != oldMap.get(plan.id).Remaining_Balance__c || plan.Plan_Type__c != oldMap.get(plan.id).Plan_Type__c
                     ))) {
-                contactToCreateCaseIds.add(plan.Guarantor_Name__c);
+                contactToCreateCaseIds.add(plan.Guarantor__c);
             }
             if (trigger.IsUpdate && ((plan.Has_Error__c == false && oldMap.get(plan.Id).Has_Error__c != plan.Has_Error__c) || (plan.Active__c == false && oldMap.get(plan.Id).Active__c != plan.Active__c)
-                    || (plan.Payable_Amount__c > -100 && oldMap.get(plan.Id).Payable_Amount__c != plan.Payable_Amount__c)
+                    || (plan.Remaining_Balance__c > -100 && oldMap.get(plan.Id).Remaining_Balance__c != plan.Remaining_Balance__c)
                     || (plan.Plan_Type__c != 'Automatic' && oldMap.get(plan.Id).Plan_Type__c != plan.Plan_Type__c)
             )) {
-                contactToCloseCase.add(plan.Guarantor_Name__c);
+                contactToCloseCase.add(plan.Guarantor__c);
                 paymentPlanID.add(plan.Id);
             }
         }
@@ -206,6 +202,6 @@ public with sharing class PaymentPlanTriggerHandler {
             CaseUtil.closeCCErrorCase(contactToCloseCase, paymentPlanID);
         }
     }
-	*/
+
 
 }
