@@ -12,15 +12,14 @@ private class AddDiscountTest{
      * call the doNext, getDiscountRate,submit and addDiscountRequest (else condition) method
      */                    
     static testMethod void submit() {
-        AddDiscount obj = new AddDiscount();
-        /*TestUtility objTestUtility = new TestUtility();
+        TestUtility objTestUtility = new TestUtility();
         
         //Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateguarantorContact();
         insert guarantorContact ;
         
         //Create Patient Contact record.
-        /*Contact patientContact = TestUtility.generatePatientContact();
+        Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
         
         //Create Payment Plan record.
@@ -29,7 +28,7 @@ private class AddDiscountTest{
         
         //Create Add Discount object and Call Add Discount constructor.
         AddDiscount objAddDiscount = new AddDiscount(new ApexPages.StandardController(guarantorContact));
-        /*List<ApexPages.Message> msgList = ApexPages.getMessages();
+        List<ApexPages.Message> msgList = ApexPages.getMessages();
         
         //Create Invoice record.
         Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id,patientContact.Id);
@@ -58,7 +57,7 @@ private class AddDiscountTest{
         /* Call doNext method.
          * check any chargegroup is selected or not.
          * We select all charge groups in above so this method is run successfully and will proceed next step. 
-         *
+         */ 
         objAddDiscount.doNext();
        
         Test.startTest();
@@ -67,7 +66,7 @@ private class AddDiscountTest{
         /*Call submit method.
          * It will give error when web api callout beacuse of we can't set status code.
          * It covers request else part.
-         *
+         */
         objAddDiscount.submit();  
         
         //Check System Assert.
@@ -76,14 +75,14 @@ private class AddDiscountTest{
             isError  = true;
         }
         System.assertEquals(isError,true);
-        Test.stopTest(); */
+        Test.stopTest(); 
     }
     
     /* Do the unit test for the Submit method Else statement.
      *
      * Coverage the code for the AddDiscount class and
      * call the doNext Method,getDiscountRate Method,Submit method Else statement
-     *                   
+     */                    
     static testMethod void SubmitElse() {
         TestUtility objTestUtility = new TestUtility();
         
@@ -105,7 +104,7 @@ private class AddDiscountTest{
         /* Call Submit method and It will give an error "Please provide all details".
          * beacuse of we can't enter Charge Group.
          * It will cover code coverage of Else part in submit method.
-         *
+         */
         objAddDiscount.submit();
         
         //Check System Assert.
@@ -143,13 +142,13 @@ private class AddDiscountTest{
         /* Call doNext method.
          * check any chargegroup is selected or not.
          * We select all charge groups in above so this method is run successfully and will proceed next step. 
-         *
+         */
         objAddDiscount.doNext();
         
         /* Call Submit method and It will give an error "Please provide all details".
          * beacuse of we don not provide Web service releted information.
          * It will cover code coverage of Else part in submit method.
-         *
+         */
         objAddDiscount.submit();
         
         //Check System Assert.
@@ -165,7 +164,7 @@ private class AddDiscountTest{
      *
      * Coverage the code for the AddDiscount class and
      * call the doNext Method,getDiscountRate Method,Submit method and addDiscountRequest Method
-     *                   
+     */                    
     static testMethod void webServiceCallout() {
         TestUtility objTestUtility = new TestUtility();
         
@@ -213,7 +212,7 @@ private class AddDiscountTest{
         /* Call doNext method.
          * check any chargegroup is selected or not.
          * We select all charge groups in above so this method is run successfully and will proceed next step. 
-         *
+         */
         objAddDiscount.doNext();
         
         Test.startTest();
@@ -224,7 +223,7 @@ private class AddDiscountTest{
         /* Call Submit method and It will successfully save the record.
          * Set variables for call the Webservice.
          * we get response message "Discount has been added!".
-         *
+         */
         objAddDiscount.submit();  
         
         //Check System Assert.
@@ -236,5 +235,5 @@ private class AddDiscountTest{
         System.assertEquals(isError,true);
         
         Test.stopTest(); 
-    }*/
+    }
 }

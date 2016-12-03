@@ -9,15 +9,7 @@
 public class EarlyOutSchedulerBatchTest {
     Public Static List<Statement__c> lstStatement = new List<Statement__c>();
     static testMethod void main() {
-        Contact con1 = new Contact();
-        con1.LastName = 'Test';        
-        insert con1; 
-        
-        Test.startTest();
-        EarlyOutSchedulerBatch eosb = new EarlyOutSchedulerBatch();
-        system.schedule('schJob','0 11 22 * 9 ?',eosb);
-        Test.stopTest();
-        /*contact con = TestUtility.generateGuarantorContact();
+        contact con = TestUtility.generateGuarantorContact();
         insert con;
 
         contact con1 = TestUtility.generateGuarantorContact();
@@ -65,20 +57,16 @@ public class EarlyOutSchedulerBatchTest {
         System.assertEquals(1, memberList.size());
         EarlyOutSchedulerBatch eosb = new EarlyOutSchedulerBatch();
         system.schedule('schJob', '0 11 22 * 9 ?', eosb);
-        Test.stopTest();*/
+        Test.stopTest();
 
     }
 
     static testMethod void pain() {
         Test.startTest();
-        EarlyOutSchedulerBatch eosb = new EarlyOutSchedulerBatch();
-        Database.executeBatch(eosb);
-        Test.stopTest();
-        /*Test.startTest();
         List<CampaignMember> memberList = [select id from CampaignMember];
         System.assertEquals(0, memberList.size());
         EarlyOutSchedulerBatch eosb = new EarlyOutSchedulerBatch();
         Database.executeBatch(eosb);
-        Test.stopTest();*/
+        Test.stopTest();
     }
 }

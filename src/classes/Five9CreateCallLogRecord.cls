@@ -4,7 +4,7 @@
 * @Date: 06-14-2016
 */
 public without sharing class Five9CreateCallLogRecord {
-	/*
+
     public String five9ANI {get; set;}
     public String five9DNIS {get; set;}
     public String salesforceId {get; set;}
@@ -15,10 +15,10 @@ public without sharing class Five9CreateCallLogRecord {
     public String campaignName {get; set;}
     public String startTimestamp {get; set;}
     public String fullName {get; set;}
-	*/
+
     //constructor initializing member variables
     public Five9CreateCallLogRecord() {
-       /* five9ANI = null;
+        five9ANI = null;
         five9DNIS = null;
         salesforceId = null;
         callDisposition = null;
@@ -58,9 +58,9 @@ public without sharing class Five9CreateCallLogRecord {
         }
         if (Apexpages.currentPage().getParameters().containsKey('fullName')) {
             fullName = Apexpages.currentPage().getParameters().get('fullName');
-        }*/
+        }
     }
-	/*
+
     //Controller Method that creates a task 
     public Pagereference doAction() {
         try {
@@ -96,5 +96,5 @@ public without sharing class Five9CreateCallLogRecord {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, e.getMessage()));
         }
         return null;
-    }*/
+    }
 }

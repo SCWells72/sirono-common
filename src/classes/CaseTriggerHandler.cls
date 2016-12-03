@@ -17,12 +17,10 @@
 */
 
 public with sharing class CaseTriggerHandler {
-	public CaseTriggerHandler() {
-    
-    }
+
     /* PUBLIC METHOD CALLED FROM TRIGGER
     * Call the method checkAndDoAddNoteCallout
-    *
+    */
     public static void afterInsert(List<Case> newList) {
         //ONLY DOING CALLOUT WHEN BATCH SIZE IS ONE (It's Created from UI)
         if (newList.size() == 1) {
@@ -32,7 +30,7 @@ public with sharing class CaseTriggerHandler {
         
     /* PUBLIC METHOD CALLED FROM TRIGGER
     * Call the method removeCampaignMembers
-    *
+    */
     public static void afterUpdate(List<Case> newList, Map<Id, Case> oldMap) {
         removeCampaignMembers(newList, oldMap);
     }
@@ -61,7 +59,7 @@ public with sharing class CaseTriggerHandler {
     * 08-22-2016: Sirono - Tracker # 128197107 For Remove Guarantor to the Delinquent Payment Plan Call list
     *
     * 08-25-2016: Sirono - Tracker # 127517003 For Add/Remove Guarantor to the CC Error Call list
-    *
+    */
     private static void removeCampaignMembers(List<Case> newList,
             Map<Id, Case> oldMap) {
         if (!CaseUtil.executeRemoveCampaignTrigger) return;
@@ -154,5 +152,5 @@ public with sharing class CaseTriggerHandler {
                     and ContactId in :ccErrorGuarantors
             ];
         }
-    }*/
+    }
 }

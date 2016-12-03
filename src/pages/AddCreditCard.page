@@ -9,13 +9,12 @@
 * 10-12-2016: Viraj Rana - Tracker #131459561: Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
 * 
 *-->
-<apex:page></apex:page>
-<!-- 
+
 <apex:page controller="AddCreditCard" id="pg" action="{!getPaymentPlanSettings}">
     <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
     <apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>
 
-    <!--Sirono 08-22-2016:  Indclude JQuery--
+    <!--Sirono 08-22-2016:  Indclude JQuery-->
     <apex:includeScript value="{!URLFOR($Resource.Jquery, 'jquery-3.0.0.min.js')}"/>
 
     <apex:sectionHeader title="Create Payment Plan"/>
@@ -129,7 +128,7 @@
                     </tr>
                 </table>
 
-                <!-- PROMIS TO PAY PAYMENTS --
+                <!-- PROMISE TO PAY PAYMENTS -->
                 <table class="pay-staff-tabale-left" style="display:{!IF(planType == 'promise', '','none')};">
                     <tr>
                         <td colspan="2">
@@ -155,7 +154,7 @@
                     </tr>
                 </table>
 
-                <!-- AUTO DRAFT PAYMENTS --
+                <!-- AUTO DRAFT PAYMENTS -->
                 <apex:outputPanel id="opAuto">
                     <table class="pay-staff-tabale-left" style="display:{!IF(planType == 'auto', '','none')};">
                         <tr>
@@ -183,7 +182,7 @@
                                                 value="{!amount}" id="amount"/>
                             </td>
                             <td> &nbsp; </td>
-			    <!--09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31--
+			    <!--09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31-->
                             <td>
                                 <apex:inputText styleClass="pay-staff-input" onkeypress="return isDecimalNumberKey(event)" value="{!executeOnDay}" id="executeOnDay"/>
                             </td>
@@ -343,4 +342,4 @@
             return true;
         }
     </Script>
-</apex:page> -->
+</apex:page>

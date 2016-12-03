@@ -10,17 +10,7 @@ public class PopulateNextPaymentDateBatchTest {
     Public Static List<Statement__c> lstStatement = new List<Statement__c>();
     static testMethod void main() {
 
-        Contact con1 = new Contact();
-        con1.LastName = 'Test';        
-        insert con1;        
-        
-        Test.startTest();
-       
-        PopulateNextPaymentDateBatch eosb = new PopulateNextPaymentDateBatch();
-        system.schedule('schJob','0 11 22 * 9 ?',eosb);
-        Test.stopTest();
-		
-		/*TestUtility objTestUtil = new TestUtility();
+        TestUtility objTestUtil = new TestUtility();
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
@@ -36,7 +26,7 @@ public class PopulateNextPaymentDateBatchTest {
 
         PopulateNextPaymentDateBatch eosb = new PopulateNextPaymentDateBatch();
         system.schedule('schJob', '0 11 22 * 9 ?', eosb);
-        Test.stopTest();*/
+        Test.stopTest();
 
     }
 

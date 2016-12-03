@@ -9,8 +9,7 @@
 private class PayStaffWSUtillTest {
 
     static testMethod void myUnitTest() {
-    	PayStaffWSUtill obj = new PayStaffWSUtill();
-        /*PayStaffWSUtill.fetchGuarantorContact('');
+        PayStaffWSUtill.fetchGuarantorContact('');
         PayStaffWSUtill.fetchGuarantorId(null);
         PayStaffWSUtill.fetchChargeGroupIds(PayStaffWSUtill.fetchChargeGroupList(null));
         PayStaffWSUtill.getCSRFToken();
@@ -20,9 +19,9 @@ private class PayStaffWSUtillTest {
         List<SelectOption> expMonthOptions = PayStaffWSUtill.expMonthOptions;
 
         PayStaffWSUtill.TokenAuthResponse tokenAuthResponse = new PayStaffWSUtill.TokenAuthResponse();
-        tokenAuthResponse.token = 'testToken';*/
+        tokenAuthResponse.token = 'testToken';
     }
-	/*
+
     static testMethod void testStatementUrlMap() {
         Test.startTest();
         TestUtility.status = 'CREATED';
@@ -89,6 +88,6 @@ private class PayStaffWSUtillTest {
         Contact objContact = PayStaffWSUtill.fetchPatientContactWithCGConstraints(patientContact.Id);
 
         System.assertEquals(objContact.Id, patientContact.Id);
-    }*/
+    }
 
 }

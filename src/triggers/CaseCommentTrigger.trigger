@@ -8,7 +8,6 @@ trigger CaseCommentTrigger on CaseComment (after insert) {
 
     //executes after insert operation
     if (Trigger.isAfter && Trigger.isInsert) {
-        //CaseCommentTriggerHandler.afterInsert(Trigger.new);
-        CaseCommentTriggerHandler obj = new CaseCommentTriggerHandler();
+        CaseCommentTriggerHandler.afterInsert(Trigger.new);
     }
 }

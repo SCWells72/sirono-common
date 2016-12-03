@@ -9,8 +9,6 @@
 private class EncounterTriggerTest {
 
     static testMethod void myUnitTest() {
-        EncounterTriggerHandler obj = new EncounterTriggerHandler();
-        /*
         TestUtility objUtility = new TestUtility();
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
@@ -35,9 +33,9 @@ private class EncounterTriggerTest {
         update encounter;
 
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(0, msgList.size());*/
+        System.assertEquals(0, msgList.size());
     }
-	/*
+
     static testMethod void myUnitTest1() {
         TestUtility objUtility = new TestUtility();
 
@@ -140,5 +138,5 @@ private class EncounterTriggerTest {
         ];
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         System.assertEquals(0, lstCamp.size());
-    }*/
+    }
 }

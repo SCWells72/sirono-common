@@ -11,8 +11,7 @@ public class CreateCaseManualTest {
 
     @isTest
     Public static void testCallCreateCaseManual() {
-        CreateCaseManual obj = new CreateCaseManual();
-        /*test.startTest();
+        test.startTest();
         TestUtility objUtility = new TestUtility();
         Contact objContact = TestUtility.generateguarantorContact();
         insert objContact;
@@ -46,9 +45,9 @@ public class CreateCaseManualTest {
         lstCase = [Select id from case];
         System.assertEquals(1, lstCase.Size(), 'One Case Created.');
 
-        test.stopTest();*/
+        test.stopTest();
     }
-/*
+
     @isTest
     Public static void testCallCreateCaseManualForPatent() {
         test.startTest();
@@ -135,6 +134,6 @@ public class CreateCaseManualTest {
         CreateCaseManual objManual = new CreateCaseManual(sc);
         objManual.gotoCaseCreation();
         test.stopTest();
-    }*/
+    }
 
 }

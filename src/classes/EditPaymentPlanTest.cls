@@ -13,8 +13,6 @@ private class EditPaymentPlanTest {
     * Improve the code coverage
     */
     static testMethod void myCheckAmountValidationTest() {
-        EditPaymentPlan obj = new EditPaymentPlan();
-        /*
         TestUtility objTestUtil = new TestUtility();
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
@@ -46,13 +44,13 @@ private class EditPaymentPlanTest {
         }
         System.assertEquals(isError, true);
 
-        objEditPaymentPlan.cancel();*/
+        objEditPaymentPlan.cancel();
     }
     
     /*
     * 08-19-2016: Sirono - Tracker # 127324171
     * Improve the code coverage
-    *
+    */
     static testMethod void myCheckAmountValidationTest1() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -104,7 +102,7 @@ private class EditPaymentPlanTest {
     /*
     * 08-19-2016: Sirono - Tracker # 127324171
     * Improve the code coverage
-    *
+    */
     static testMethod void myCheckAmountValidationTest2() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -291,7 +289,7 @@ private class EditPaymentPlanTest {
     /*
     * 08-19-2016: Sirono - Tracker # 127324171
     * Improve the code coverage
-    *
+    */
     static testMethod void myPassAllValidations() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -352,7 +350,7 @@ private class EditPaymentPlanTest {
     /*
     * 08-19-2016: Sirono - Tracker # 127324171
     * Improve the code coverage
-    *
+    */
     static testMethod void myNestedIfCodeCoverage() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -412,7 +410,7 @@ private class EditPaymentPlanTest {
     /*
     * 08-19-2016: Sirono - Tracker # 127324171
     * Improve the code coverage for cancel method
-    *
+    */
     static testMethod void cancel() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -434,7 +432,7 @@ private class EditPaymentPlanTest {
     /*
     * 08-19-2016: Sirono - Tracker # 127324171
     * Improve the code coverage for cancel method
-    *
+    */
     static testMethod void cancel1() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -456,7 +454,7 @@ private class EditPaymentPlanTest {
     /*
     * 08-19-2016: Sirono - Tracker # 127324171
     * Improve the code coverage
-    *
+    */
     static testMethod void myPassAllValidationsForManual() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -517,7 +515,7 @@ private class EditPaymentPlanTest {
     /*
     * 09-06-2016: Viraj
     * Improve the code coverage
-    *
+    */
     static testMethod void submit() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -578,7 +576,7 @@ private class EditPaymentPlanTest {
     /*
     * 09-06-2016: Viraj
     * Improve the code coverage
-    *
+    */
     static testMethod void submitForPromisePlan() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -647,7 +645,7 @@ private class EditPaymentPlanTest {
     /*
     * 09-06-2016: Viraj
     * Improve the code coverage
-    *
+    */
     static testMethod void submitForPromisePlan1() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -719,7 +717,7 @@ private class EditPaymentPlanTest {
     /*
     * 09-06-2016: Viraj
     * Improve the code coverage
-    *
+    */
     static testMethod void submitForPromisePlan5() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -791,7 +789,7 @@ private class EditPaymentPlanTest {
     /*
     * 09-13-2016: Viraj
     * Improve the code coverage
-    *
+    */
     static testMethod void submitForAutomaticPlan() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -862,7 +860,7 @@ private class EditPaymentPlanTest {
     /*
     * 09-13-2016: Viraj
     * Improve the code coverage
-    *
+    */
     static testMethod void submitForAutomaticPlanJSONParsing() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -935,7 +933,7 @@ private class EditPaymentPlanTest {
     /*
     * 09-13-2016: Viraj
     * Improve the code coverage
-    *
+    */
     static testMethod void submitForAutomaticPlanJSONParsing1() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -1007,7 +1005,7 @@ private class EditPaymentPlanTest {
     /*
     * 09-13-2016: Viraj
     * Improve the code coverage
-    *
+    */
     static testMethod void submitForAutomaticPlanJSONParsing2() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -1078,7 +1076,7 @@ private class EditPaymentPlanTest {
     /*
     * 09-13-2016: Viraj
     * Improve the code coverage
-    *
+    */
     static testMethod void submitForAutomaticPlanJSONParsing3() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -1150,7 +1148,7 @@ private class EditPaymentPlanTest {
     /*
     * 09-13-2016: Viraj
     * Improve the code coverage
-    *
+    */
     static testMethod void executeonDay() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -1177,7 +1175,7 @@ private class EditPaymentPlanTest {
     /*
     * 09-13-2016: Viraj
     * Improve the code coverage
-    *
+    */
     static testMethod void submitForAutomaticPlanJSONParsing4() {
         TestUtility objTestUtil = new TestUtility();
 
@@ -1252,7 +1250,7 @@ private class EditPaymentPlanTest {
     /*
     * 09-13-2016: Viraj
     * Improve the code coverage
-    *
+    */
     static testMethod void submitForAutomaticPlanJSONParsing5() {
         TestUtility objTestUtil = new TestUtility();
         
@@ -1321,7 +1319,7 @@ private class EditPaymentPlanTest {
     * 10-24-2016: Viraj
     * Improve the code coverage.
     * Method used to cover code coverage of "non_field_errors" part.
-    *
+    */
     static testMethod void submitForAutomaticPlanJSONParsing6() {
         TestUtility objTestUtil = new TestUtility();
         
@@ -1390,5 +1388,5 @@ private class EditPaymentPlanTest {
         }
         System.assertEquals(isError,true);
         Test.stopTest(); 
-    }*/
+    }
 }

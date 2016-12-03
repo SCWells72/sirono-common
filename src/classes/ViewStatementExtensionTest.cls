@@ -10,8 +10,7 @@ public class ViewStatementExtensionTest {
     Public Static List<Statement__c> lstStatement = new List<Statement__c>();
 
     @testSetup static void setupData() {
-    	ViewStatementExtension obj = new ViewStatementExtension();
-        /*TestUtility objUtility = new TestUtility();
+        TestUtility objUtility = new TestUtility();
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
@@ -27,9 +26,9 @@ public class ViewStatementExtensionTest {
         statement.Statement_Date__c = Date.parse('05/22/2016');
         lstStatement.add(statement);
 
-        insert lstStatement;*/
+        insert lstStatement;
     }
-/*
+
     @isTest public static void testStatementHasPDF() {
         //Find the statement for 11/22/2015
         Date stmtDate = Date.parse('11/22/2015');
@@ -96,5 +95,5 @@ public class ViewStatementExtensionTest {
         Test.stopTest();
     }
 
-*/
+
 }

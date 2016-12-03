@@ -8,13 +8,12 @@
 * 08-01-2016: Ticket # 06638016 - Updated the QueryString parameter value to fix the "URL No Longer Exists" error.
 * Sirono 08-22-2016: 127323475 when Record Saved Successfully return to the contact after few Sec.
 *-->
-<apex:page></apex:page>
-<!-- 
+
 <apex:page controller="AddToPaymentPlan" id="pg">
     <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
     <apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>
 
-    <!--Sirono 08-22-2016:  Indclude JQuery--
+    <!--Sirono 08-22-2016:  Include JQuery-->
     <apex:includeScript value="{!URLFOR($Resource.Jquery, 'jquery-3.0.0.min.js')}"/>
 
 
@@ -195,4 +194,4 @@
         }
     </script>
 
-</apex:page> -->
+</apex:page>

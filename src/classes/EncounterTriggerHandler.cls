@@ -5,10 +5,7 @@
  * @description Handler Class for EncounterTrigger
 */
 public with sharing class EncounterTriggerHandler {
-	public EncounterTriggerHandler() {
-    
-    }
-	/*
+
     //static method invoked when a after insert operation is performed
     public static void afterInsert(List<Encounter__c> newList) {
         checkCallListRemove(newList, null);
@@ -38,5 +35,5 @@ public with sharing class EncounterTriggerHandler {
         if (contactIds.size() > 0) {
             CallListUtilities.PreServiceCallListRemoval(contactIds);
         }
-    }*/
+    }
 }

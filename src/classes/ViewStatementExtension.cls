@@ -4,10 +4,7 @@
 * @date   07-12-2016
 */
 public with sharing class ViewStatementExtension {
-    public ViewStatementExtension(){
-    
-    }
-	/*public Statement__c stmt {get; set;}
+    public Statement__c stmt {get; set;}
     public String errorMsg {get; set;}
     public Id id;
     public Date stmtDate;
@@ -83,5 +80,5 @@ public with sharing class ViewStatementExtension {
     private class StatementURL {
         public Date statement_date;
         public String pdf_url;
-    }*/
+    }
 }

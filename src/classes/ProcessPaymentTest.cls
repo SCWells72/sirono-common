@@ -15,16 +15,7 @@ private class ProcessPaymentTest {
      * doNext Method,Submit Method,checkAmountValidation Method and checkCardValidation Method
      */ 
     static testMethod void submitElse() {
-    	ProcessPayment obj = new ProcessPayment();
-        ChargeGroupJSONParsing obj1 = new ChargeGroupJSONParsing();
-        ChargeGroupWrapper obj2 = new ChargeGroupWrapper();
-        PaymentAdjustmentJSONParsing obj3 = new PaymentAdjustmentJSONParsing();
-        PaymentJSONParsing obj4 = new PaymentJSONParsing();
-        PaymentPlanJSONParsing obj5 = new PaymentPlanJSONParsing();
-        PaymentPlanUtil obj6 = new PaymentPlanUtil();
-        TestUtility obj7 = new TestUtility();
-        TransactionJSONParsing obj8 = new TransactionJSONParsing();
-        /*TestUtility objTestUtility = new TestUtility();
+    	TestUtility objTestUtility = new TestUtility();
         
         //Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
@@ -69,7 +60,7 @@ private class ProcessPaymentTest {
         /* Call doNext method.
          * check any chargegroup is selected or not.
          * We select all charge groups in above so this method is run successfully and will proceed next step. 
-         *
+         */
         objProcessPayment.doNext();
         
         //Set variables based on criteria.
@@ -86,7 +77,7 @@ private class ProcessPaymentTest {
         
         /* Call Submit method and It will give an error "Amount cannot exceed balance."
          * It will cover code coverage of Else part in submit method.
-         *
+         */
         objProcessPayment.submit();
         
         //Check System Assert.        
@@ -95,7 +86,7 @@ private class ProcessPaymentTest {
         for(Apexpages.Message msg : msgList) {
             if (msg.getDetail().contains('Amount cannot exceed balance.')) isError  = true;
         }
-        System.assertEquals(isError,true);*/
+        System.assertEquals(isError,true);
     }
 
      /*
@@ -104,7 +95,7 @@ private class ProcessPaymentTest {
      *
      * Coverage the code for the Init the Global Veriables,Call DoNext method,
      * Submit Method,checkAmountValidation Method and checkCardValidation Method.
-     *  
+     */
     static testMethod void checkCardValidation() {
         TestUtility objTestUtility = new TestUtility();
         
@@ -150,7 +141,7 @@ private class ProcessPaymentTest {
         /* Call doNext method.
          * check any chargegroup is selected or not.
          * We select all charge groups in above so this method is run successfully and will proceed next step. 
-         *
+         */
         objProcessPayment.doNext();
         
         //Set variables based on test criteria to cover code of creadit card validations.
@@ -160,7 +151,7 @@ private class ProcessPaymentTest {
         
         /* Call Submit method and It will give an errors regarding creadit card.
          * It will cover code coverage of Creadit card validation.
-         *
+         */
         objProcessPayment.submit();
         
         //Check System Assert.
@@ -178,7 +169,7 @@ private class ProcessPaymentTest {
      *
      * Coverage the code for the Init the Global Veriables,Call DoNext method,
      * Submit Method,checkAmountValidation Method and checkCardValidation Method
-     *        
+     */
     static testMethod void checkAmountEmpty() {
         TestUtility objTestUtility = new TestUtility();
         
@@ -233,12 +224,12 @@ private class ProcessPaymentTest {
         /* Call doNext method.
          * check any chargegroup is selected or not.
          * We select all charge groups in above so this method is run successfully and will proceed next step. 
-         *
+         */
         objProcessPayment.doNext();
         
         /* Call Submit method and It will give an error "Amount must be greater than zero."
          * It will cover code coverage of checkAmountValidation method.
-         *
+         */
         objProcessPayment.submit();
         
         //Check System Assert.
@@ -258,7 +249,7 @@ private class ProcessPaymentTest {
      *
      * Coverage the code for the Init the Global Veriables,Submit Method,doNext Method,
      * checkAmountValidation Method, checkCardValidation Method
-     *
+     */
     static testMethod void fillNameAndAddress() {
         TestUtility objTestUtility = new TestUtility();
         
@@ -319,7 +310,7 @@ private class ProcessPaymentTest {
         /* Call doNext method.
          * check any chargegroup is selected or not.
          * We select all charge groups in above so this method is run successfully and will proceed next step. 
-         *
+         */
         objProcessPayment.doNext();
         
         //Call Submit method and It will cover the code of fillNameAndAddress() method based on guarantor Id.
@@ -336,7 +327,7 @@ private class ProcessPaymentTest {
    
     /* Coverage the code for the Init the Global Veriables,Submit Method,doNext Method,
      * checkAmountValidation Method, checkCardValidation Method
-     *
+     */
     static testMethod void checkExceedBalance() {
         TestUtility objTestUtility = new TestUtility();
         
@@ -396,7 +387,7 @@ private class ProcessPaymentTest {
         /* Call doNext method.
          * check any chargegroup is selected or not.
          * We select all charge groups in above so this method is run successfully and will proceed next step. 
-         *
+         */
         objProcessPayment.doNext();
         
         Test.startTest();
@@ -404,7 +395,7 @@ private class ProcessPaymentTest {
         
         /* Call Submit method and It will give an error "Amount cannot exceed balance."
          * It will cover code coverage of checkAmountValidation method.
-         *
+         */
         objProcessPayment.submit();
         
         //Check System Assert.
@@ -423,7 +414,7 @@ private class ProcessPaymentTest {
      *
      * Coverage the code for the Init the Global Veriables,Submit Method,doNext Method,
      * checkAmountValidation Method, checkCardValidation Method
-     *
+     */
     static testMethod void checkAmountNegative() {
         TestUtility objTestUtility = new TestUtility();
         
@@ -484,12 +475,12 @@ private class ProcessPaymentTest {
         /* Call doNext method.
          * check any chargegroup is selected or not.
          * We select all charge groups in above so this method is run successfully and will proceed next step. 
-         *
+         */
         objProcessPayment.doNext();
         
         /* Call Submit method and It will give an error "Amount must be greater than zero."
          * It will cover code coverage of checkAmountValidation method.
-         *
+         */
         objProcessPayment.submit();
         
         //Check System Assert.
@@ -503,7 +494,7 @@ private class ProcessPaymentTest {
     
     /* Coverage the code for the Init the Global Veriables,Submit Method,doNext Method,
      * checkCardValidation Method,processPayment Method
-     *
+     */
     static testMethod void submit() {
         TestUtility objTestUtility = new TestUtility();
         
@@ -563,7 +554,7 @@ private class ProcessPaymentTest {
         /* Call doNext method.
          * check any chargegroup is selected or not.
          * We select all charge groups in above so this method is run successfully and will proceed next step. 
-         *
+         */
         objProcessPayment.doNext();
               
         Test.startTest();
@@ -574,7 +565,7 @@ private class ProcessPaymentTest {
         /* Call Submit method and It will successfully save the record.
          * Set variables for call the Webservice.
          * we get response message "Created Successfully!".
-         *
+         */
         objProcessPayment.submit();
         
         //Check System Assert.
@@ -588,7 +579,7 @@ private class ProcessPaymentTest {
          
     }
     
-   /*Coverage the code for the Init the Global Veriables,checkCardValidation Method for chargeGroupId * 
+   /*Coverage the code for the Init the Global Veriables,checkCardValidation Method for chargeGroupId */ 
   static testMethod void checkChargeGroupId() {
         TestUtility objTestUtility = new TestUtility();
         
@@ -660,7 +651,7 @@ private class ProcessPaymentTest {
   /* Coverage the code for the Init the Global Veriables,Call DoNext method,
    * Submit Method,checkAmountValidation Method and checkCardValidation Method,
    * processPayment Method with get response
-   *
+   */
   static testMethod void paymentException() {
         TestUtility objTestUtility = new TestUtility();
         
@@ -720,7 +711,7 @@ private class ProcessPaymentTest {
         /* Call doNext method.
          * check any chargegroup is selected or not.
          * We select all charge groups in above so this method is run successfully and will proceed next step. 
-         *
+         */
         objProcessPayment.doNext();
               
         Test.startTest();
@@ -733,7 +724,7 @@ private class ProcessPaymentTest {
         /* Call Submit method and It will pass the record to web api.
          * Set variables for call the Webservice.
          * Generate Payments Exception throw web api.
-         *
+         */
         objProcessPayment.submit(); 
         
         //Check System Assert.
@@ -750,7 +741,7 @@ private class ProcessPaymentTest {
   /* Coverage the code for the Init the Global Veriables,Call DoNext method,
    * Submit Method,checkAmountValidation Method and checkCardValidation Method,
    * processPayment Method get response where 'kind' value doesnot exist in responseBody
-   *
+   */
   static testMethod void wrapperListException() {
         TestUtility objTestUtility = new TestUtility();
         
@@ -810,7 +801,7 @@ private class ProcessPaymentTest {
         /* Call doNext method.
          * check any chargegroup is selected or not.
          * We select all charge groups in above so this method is run successfully and will proceed next step. 
-         *
+         */
         objProcessPayment.doNext();
               
         Test.startTest();
@@ -823,7 +814,7 @@ private class ProcessPaymentTest {
         /* Call Submit method and It will pass the record to web api.
          * Set variables for call the Webservice.
          * Generate wrapperList Exception throw web api.
-         *
+         */
         objProcessPayment.submit(); 
         
         //Check System Assert.
@@ -842,7 +833,7 @@ private class ProcessPaymentTest {
      * Coverage the code for the Init the Global Veriables,Call DoNext method,
      * Submit Method,checkAmountValidation Method and checkCardValidation Method,
      * processPayment Method get response where 'kind' value doesnot exist in responseBody
-     *
+     */
   static testMethod void chargeGroupException() {
         TestUtility objTestUtility = new TestUtility();
         
@@ -902,7 +893,7 @@ private class ProcessPaymentTest {
         /* Call doNext method.
          * check any chargegroup is selected or not.
          * We select all charge groups in above so this method is run successfully and will proceed next step. 
-         *
+         */
         objProcessPayment.doNext();
               
         Test.startTest();
@@ -915,7 +906,7 @@ private class ProcessPaymentTest {
         /* Call Submit method and It will pass the record to web api.
          * Set variables for call the Webservice.
          * Generate charge group Exception throw web api.
-         *
+         */
         objProcessPayment.submit(); 
         
         //Check System Assert.
@@ -934,7 +925,7 @@ private class ProcessPaymentTest {
      * Coverage the code for the Init the Global Veriables,Call DoNext method,
      * Submit Method,checkAmountValidation Method and checkCardValidation Method,
      * processPayment Method get response where 'kind' AND 'chargegroups' value doesnot exist in responseBody
-     *
+     */
   static testMethod void ResponseElse() {
         TestUtility objTestUtility = new TestUtility();
         
@@ -994,7 +985,7 @@ private class ProcessPaymentTest {
         /* Call doNext method.
          * check any chargegroup is selected or not.
          * We select all charge groups in above so this method is run successfully and will proceed next step. 
-         *
+         */
         objProcessPayment.doNext();
               
         Test.startTest();
@@ -1007,7 +998,7 @@ private class ProcessPaymentTest {
         /* Call Submit method and It will pass the record to web api.
          * Set variables for call the Webservice.
          * Cover else part of process Payment Reponse.
-         *
+         */
         objProcessPayment.submit(); 
         
         //Check System Assert.
@@ -1025,7 +1016,7 @@ private class ProcessPaymentTest {
      * Coverage the code for the Init the Global Veriables,Call DoNext method,
      * Submit Method,checkAmountValidation Method and checkCardValidation Method,
      * processPayment Method get response where 'kind' AND 'chargegroups' value doesnot exist in responseBody
-     *
+     */
     static testMethod void validationException() {
         TestUtility objTestUtility = new TestUtility();
         
@@ -1088,7 +1079,7 @@ private class ProcessPaymentTest {
         /* Call doNext method.
          * check any chargegroup is selected or not.
          * We select all charge groups in above so this method is run successfully and will proceed next step. 
-         *
+         */
         objProcessPayment.doNext();
               
         Test.startTest();
@@ -1101,7 +1092,7 @@ private class ProcessPaymentTest {
         /* Call Submit method and It will pass the record to web api.
          * Set variables for call the Webservice.
          * Generate Validation Exception throw web api.
-         *
+         */
         objProcessPayment.submit(); 
         
         //Check System Assert.
@@ -1119,7 +1110,7 @@ private class ProcessPaymentTest {
      * Coverage the code for the Init the Global Veriables,Call DoNext method,
      * Submit Method,checkAmountValidation Method and checkCardValidation Method,
      * processPayment Method get response where only non_field_errors exist in responseBody
-     *
+     */
     static testMethod void nonFieldException() {
         TestUtility objTestUtility = new TestUtility();
         
@@ -1182,7 +1173,7 @@ private class ProcessPaymentTest {
         /* Call doNext method.
          * check any chargegroup is selected or not.
          * We select all charge groups in above so this method is run successfully and will proceed next step. 
-         *
+         */
         objProcessPayment.doNext();
               
         Test.startTest();
@@ -1195,7 +1186,7 @@ private class ProcessPaymentTest {
         /* Call Submit method and It will pass the record to web api.
          * Set variables for call the Webservice.
          * Generate Validation Exception throw web api.
-         *
+         */
         objProcessPayment.submit(); 
         
         //Check System Assert.
@@ -1207,5 +1198,5 @@ private class ProcessPaymentTest {
         System.assertEquals(isError,true); 
         
         Test.stopTest();         
-    }*/
+    }
 }

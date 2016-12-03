@@ -3,8 +3,7 @@
 * @version 1.0.1
 * @Date: 06-14-2016
 -->
-<apex:page></apex:page>
-<!-- 
+
 <apex:page controller="Five9CreateCallLogRecord" action="{!doAction}"
            cache="false" tabStyle="Contact" showHeader="false" sidebar="false">
     <apex:form id="frm">
@@ -33,4 +32,4 @@
             </apex:pageBlockSection>
         </apex:pageBlock>
     </apex:form>
-</apex:page> -->
+</apex:page>

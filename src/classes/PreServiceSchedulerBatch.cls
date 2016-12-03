@@ -16,11 +16,7 @@ public with sharing class PreServiceSchedulerBatch implements Database.Batchable
     }
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        return Database.getQueryLocator([
-                                          Select Id, FirstName
-                                          From Contact]);
-		/*
-		//Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
+        //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 'PreService'
         });
@@ -52,12 +48,12 @@ public with sharing class PreServiceSchedulerBatch implements Database.Batchable
                     From Contact
                     Where RecordType.Name = 'Guarantor-DO-NOT-EXIST'
             ]);
-        }*/
+        }
     }
 
     //adding new campaign members
     public void execute(Database.BatchableContext bc, List<sObject> scope) {
-        /*List<Contact> guarantors = (List<Contact>) scope;
+        List<Contact> guarantors = (List<Contact>) scope;
         Date dt14 = System.today().addDays(14);
         Date dt = System.today();
         if (callList != null) {
@@ -72,7 +68,7 @@ public with sharing class PreServiceSchedulerBatch implements Database.Batchable
                 /*if(!existingMembers.contains(ps.Patient__r.Guarantor__c)){
                     existingMembers.add(ps.Patient__r.Guarantor__c);
                     memberList.add(new CampaignMember(CampaignId = callList.Id, ContactId = ps.Patient__r.Guarantor__c, Status = 'Sent'));
-                }*
+                }*/
                 System.debug('ps' + ps);
                 System.debug('existingMembers' + existingMembers);
 
@@ -85,7 +81,7 @@ public with sharing class PreServiceSchedulerBatch implements Database.Batchable
             if (memberList.size() > 0) {
                 insert memberList;
             }
-        }*/
+        }
     }
 
     public void finish(Database.BatchableContext bc) {
