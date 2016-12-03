@@ -7,7 +7,10 @@
 
 @isTest
 Public Class TestUtility {
-    Public Static Map<String, Id> rtMap = new Map<String, Id>();
+    public TestUtility(){
+    
+    }
+	/*Public Static Map<String, Id> rtMap = new Map<String, Id>();
     Public Static String body = '{"token":"bar"}';
     Public Static String responsebody = '{"token":"bar"}';
     Public Static Integer statusCode = 200;
@@ -279,5 +282,5 @@ Public Class TestUtility {
     // Generate Exception
     public static integer generateException() {
         return 1 / 0;
-    }
+    }*/
 }

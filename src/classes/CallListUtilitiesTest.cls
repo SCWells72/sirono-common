@@ -13,7 +13,8 @@ public class CallListUtilitiesTest {
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @isTest
     Public static void preCollectionCallListRemoval() {
-        TestUtility objTestUtility = new TestUtility();
+        CallListUtilities obj = new CallListUtilities();
+        /*TestUtility objTestUtility = new TestUtility();
 
         Contact guarantorContact = TestUtility.generateguarantorContact();
         insert guarantorContact ;
@@ -59,9 +60,9 @@ public class CallListUtilitiesTest {
 
         transactionObj.amount__c = -501;
         update transactionObj;
-        update guarantorContact ;
+        update guarantorContact ;*/
     }
-
+/*
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @isTest
     Public static void preCollectionCallListRemoval1() {
@@ -331,5 +332,5 @@ public class CallListUtilitiesTest {
         objTransaction.Amount__c = 1000;
         update objTransaction;
         Test.StopTest();
-    }
+    }*/
 }

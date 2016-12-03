@@ -5,6 +5,10 @@
 * @description  ChargeGroupTrigger Handler Clas  
 */
 public with sharing class ChargeGroupTriggerHandler {
+    public ChargeGroupTriggerHandler() {
+    
+    }
+	/*
     private static Boolean isTriggerProcessed;
 
     //Static Method that returns a boolean member variable
@@ -81,5 +85,5 @@ public with sharing class ChargeGroupTriggerHandler {
         }
 
         PaymentPlanUtil.updateBalances(paymentPlanIds);
-    }
+    }*/
 }

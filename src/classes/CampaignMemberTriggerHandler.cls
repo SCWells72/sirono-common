@@ -5,7 +5,10 @@
 
 public with sharing class CampaignMemberTriggerHandler {
     //static method that creates CampaignHistoryObject
-    public static void afterInsert(List<CampaignMember> newList) {
+    public CampaignMemberTriggerHandler() {
+        
+        }
+	/*public static void afterInsert(List<CampaignMember> newList) {
         createCampaignHistoryObject(newList);
     }
     //static method that updates CampaignHistoryObject
@@ -87,5 +90,5 @@ public with sharing class CampaignMemberTriggerHandler {
         if (historyListToUpdate.size() > 0) {
             update historyListToUpdate;
         }
-    }
+    }*/
 }

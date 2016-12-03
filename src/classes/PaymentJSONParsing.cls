@@ -7,7 +7,11 @@
 
 public class PaymentJSONParsing {
 
-    public string url;
+    public PaymentJSONParsing() {
+    
+    }
+	/*
+	public string url;
     public string guarantor;
     public integer amount;
     public string transaction_number;
@@ -78,5 +82,5 @@ public class PaymentJSONParsing {
         '}]';
         
         return responseBody;
-    }
+    }*/
 }

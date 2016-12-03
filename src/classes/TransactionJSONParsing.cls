@@ -6,7 +6,10 @@
 */
 
 public class TransactionJSONParsing {
-
+	public TransactionJSONParsing() {
+    
+    }
+	/*
     public string url;
     public integer amount;
     public string post_date;
@@ -131,5 +134,5 @@ public class TransactionJSONParsing {
         '}';
         
         return responseBody;
-    }
+    }*/
 }

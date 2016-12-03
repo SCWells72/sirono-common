@@ -31,9 +31,9 @@
 
 
 Public Class CaseUtil {
-    Public static Boolean executeCampaignMemberTrigger = True;
+    /*Public static Boolean executeCampaignMemberTrigger = True;
     Public static Boolean executeRemoveCampaignTrigger = True;
-
+	*/
     public CaseUtil() {
 
     }
@@ -41,7 +41,7 @@ Public Class CaseUtil {
     /*
     * 08-11-2016: Sirono - Tracker # 127398811
       Method for getting the list of the statement and pass it into the method.
-    */
+    *
     Public Static void callEarlyOutAutoCase() {
         List<Statement__c> statement = [
                 Select id, Guarantor__c
@@ -56,7 +56,7 @@ Public Class CaseUtil {
     * 08-11-2016: Sirono - Tracker # 128031249
     * Method for Create Early Out Auto Case and Add the Campaign member to Campaign.
     * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Overdue_Balance__c = '< 0' to '> 0'" in condition.
-    */
+    *
     Public Static void createEarlyOutAutoCase(List<Statement__c> statement) {
         Set<String> setContact = new Set<String>();
 
@@ -210,7 +210,7 @@ Public Class CaseUtil {
     /*
     * 08-11-2016: Sirono - Tracker # 127517097 For Automatic Early-out Case Closure
     * Method for Close the Early Out Auto Case.
-    */
+    *
     Public Static void callEarlyOutAutoCaseCloser() {
         List<Statement__c> lstStatement = [
                 Select id, Guarantor__c
@@ -224,7 +224,7 @@ Public Class CaseUtil {
     /*
     * 08-11-2016: Sirono - Tracker # 127517097 For Automatic Early-out Case Closure
     * Method for Close the Early Out Auto Case.
-    */
+    *
     Public Static void callCloseEarlyOutAutoCase(List<Statement__c> lstStatement) {
         Set<String> setContact = new Set<String>();
         for (Statement__c objStatement : lstStatement) {
@@ -237,7 +237,7 @@ Public Class CaseUtil {
     * 08-11-2016: Sirono - Tracker # 127517097 For Automatic Early-out Case Closure
     * Method for Close the Early Out Auto Case, Remove the Campaign member to Campaign.
     * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Overdue_Balance__c = '>= 0' to '<= 0'" in condition.
-    */
+    *
     Public Static void closeEarlyOutAutoCase(Set<String> setContact) {
 
         Map<Id, Contact> mapContact = new map<Id, Contact>(
@@ -287,7 +287,7 @@ Public Class CaseUtil {
     /*
     * 08-12-2016: Sirono - Tracker # 127517035 For Precollections Case Creation
     * Method for Create Pre-Collection Auto Case and Add the Campaign member to Campaign.
-    */
+    *
     Public Static void callPrecollectionsAutoCase() {
         List<Statement__c> lstStatement = [Select id, Guarantor__c from Statement__c where Statement_Date__c = :System.today()];
         createPrecollectionsAutoCase(lstStatement);
@@ -297,7 +297,7 @@ Public Class CaseUtil {
     * 08-12-2016: Sirono - Tracker # 127517035 For Precollections Case Creation
     * Method for Create Pre-Collection Auto Case and Add the Campaign member to Campaign.
     * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Delinquent_Balance__c = '< 0' to '> 0'" in condition.
-    */
+    *
     Public Static void createPrecollectionsAutoCase(List<Statement__c> lstStatement) {
         Set<String> setContact = new Set<String>();
 
@@ -455,7 +455,7 @@ Public Class CaseUtil {
     * 08-12-2016: Sirono - Tracker # 127517133 For Automatic Precollections Case Closure
     * 08-12-2016: Sirono - Tracker # 127517133 For Removal from Precollections campaign.
     * Method for Close Pre-Collection Auto Case and Remove the Campaign member from Campaign.
-    */
+    *
     Public Static void callPrecollectionsAutoCaseCloser() {
         List<Statement__c> lstStatement = [
                 Select id, Guarantor__c
@@ -470,7 +470,7 @@ Public Class CaseUtil {
     * 08-12-2016: Sirono - Tracker # 127517133 For Automatic Precollections Case Closure
     * 08-12-2016: Sirono - Tracker # 127517133 For Removal from Precollections campaign.
     * Method for Close Pre-Collection Auto Case and Remove the Campaign member from Campaign.
-    */
+    *
     Public Static void callClosePrecollectionsAutoCase(List<Statement__c> lstStatement) {
         Set<String> setContact = new Set<String>();
         for (Statement__c objStatement : lstStatement) {
@@ -484,7 +484,7 @@ Public Class CaseUtil {
     * 08-12-2016: Sirono - Tracker # 127517133 For Removal from Precollections campaign.
     * Method for Close Pre-Collection Auto Case and Remove the Campaign member from Campaign.
     * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Delinquent_Balance__c = '>= 0' to '< 0'" in condition.
-    */
+    *
     Public Static void closePrecollectionsAutoCase(Set<String> setContact) {
         Map<Id, Contact> mapContact = new map<Id, Contact>(
         [
@@ -535,7 +535,7 @@ Public Class CaseUtil {
     * 08-18-2016: Sirono - Tracker # 127517035 For Precollections Case Creation
     * Method for Create Encounter Auto Case and Add the Campaign member to Campaign.
     * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases. Change "Patient_Portion__c = '< 0' to '> 0'" in condition.
-    */
+    *
     Public Static void createEncounterAutoCase(List<Encounter__c> lstEncounter) {
         Set<String> setContact = new Set<String>();
 
@@ -668,7 +668,7 @@ Public Class CaseUtil {
     * 08-18-2016: Sirono - Tracker # 127517147 For Automatic Encounter Case Closure
     * 08-18-2016: Sirono - Tracker # 128457157 Add/Remove Guarantor to the Preservice Call list
     * Method for Close Encounter Auto Case and Remove the Campaign member from Campaign.
-    */
+    *
     Public Static void callCloseEncounterAutoCase(List<Encounter__c> lstEncounter, Boolean fromPaymentMethod) {
         Set<String> setContact = new Set<String>();
         Set<String> setEncounterIds = new Set<String>();
@@ -688,7 +688,7 @@ Public Class CaseUtil {
     * 08-18-2016: Sirono - Tracker # 127517147 For Automatic Encounter Case Closure
     * 08-18-2016: Sirono - Tracker # 128457157 Add/Remove Guarantor to the Preservice Call list
     * Method for Close Encounter Auto Case and Remove the Campaign member from Campaign.
-    */
+    *
     Public Static void closeEncounterAutoCase(Set<String> setEncounterIds,
             Set<String> setContact, Boolean skipEncounterCaseUpdate) {
         if (!skipEncounterCaseUpdate) {
@@ -737,7 +737,7 @@ Public Class CaseUtil {
     * 08-22-2016: Sirono - Tracker # 127401841 For Delinquent Payment Plan Case Creation
     * 08-22-2016: Sirono - Tracker # 128197107 For Add Guarantor to the Delinquent Payment Plan Call list
     * Method for Create Delinquent Auto Case and Add the Campaign member to Campaign.
-    */
+    *
     Public static void createDelinquentPaymentCase(Set<Id> contactIds) {
         List<Group> lstGroup = [select Id from Group where Name = 'Automated Cases' and Type = 'Queue'];
         List<RecordType> rt = [Select id from RecordType where SobjectType = 'Case' and DeveloperName = 'Automated_Cases'];
@@ -839,7 +839,7 @@ Public Class CaseUtil {
     * 08-22-2016: Sirono - Tracker # 127401841 For Close Delinquent Payment Plan Case
     * 08-22-2016: Sirono - Tracker # 128197107 For Remove Guarantor to the Delinquent Payment Plan Call list
     * Method for Create Delinquent Auto Case and Add the Campaign member to Campaign.
-    */
+    *
     Public static void closeDelinquentPaymentCase(Set<Id> contactIds, Set<Id> paymentPlanID) {
 
         if (!paymentPlanID.IsEmpty()) {
@@ -888,7 +888,7 @@ Public Class CaseUtil {
     * 08-25-2016: Sirono - Tracker # 127517003 For Credit Card Error Case Creation
     * 08-25-2016: Sirono - Tracker # 127517003 For Add Guarantor to the CC Error Call list
     * Method for Create CC Error Auto Case and Add the Campaign member to Campaign.
-    */
+    *
     Public static void createCCErrorCase(Set<Id> contactIds) {
         Map<String, Case> mapContactCase = new Map<String, Case>();
         Map<String, String> mapCampaignName = new Map<String, String>();
@@ -989,7 +989,7 @@ Public Class CaseUtil {
     * 08-26-2016: Sirono - Tracker # 127517121 For Automatic Credit Card Error Case Closure
     * 08-26-2016: Sirono - Tracker # 127517003 For Remove Guarantor to the CC Error Call list
     * Method for Create CC Error Auto Case and Remove the Campaign member to Campaign.
-    */
+    *
     Public static void closeCCErrorCase(Set<Id> contactIds, Set<Id> paymentPlanID) {
 
         if (!paymentPlanID.IsEmpty()) {
@@ -1046,5 +1046,5 @@ Public Class CaseUtil {
             mapCampaignMapping.put(objCM.MasterLabel, objCM.Salesforce_Campaign_Name__c);
         }
         return mapCampaignMapping;
-    }
+    }*/
 }

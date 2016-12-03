@@ -4,7 +4,8 @@
 * @Date: 09-05-2016
 * 09-05-2016: Created By David Z. Page makes use of statis resources SLDS203,Jquery1,ALJS
 -->
-
+<apex:page></apex:page>
+<!-- 
 <apex:page standardController="Contact" showHeader="false" standardStylesheets="false" applyHtmlTag="false"
            applyBodyTag="false" docType="html-5.0">
     <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
@@ -153,14 +154,14 @@
         </div>
 
         <div class="slds-grid">
-            <!-- ---------------------------------------------------------MAIN CARD--------------------------------------------------- -->
+            <!-- ---------------------------------------------------------MAIN CARD--------------------------------------------------- --
             <div class="slds-col slds-col-rule--right slds-size--8-of-12">
                 <div class="slds-m-left--small slds-m-top--xx-small slds-align--absolute-left"
                      id="pbBottomButtons_destination"></div>
-                <!-- CARD BODY = TABLE -->
+                <!-- CARD BODY = TABLE --
                 <section class="slds-card__body--inner slds-m-top--xx-small ">
 
-                    <!--- --------------------------------TAB START  --------------------------------------------------------------------------------------- -->
+                    <!--- --------------------------------TAB START  --------------------------------------------------------------------------------------- --
                     <div class="slds-tabs--scoped" data-aljs="tabs">
                         <ul class="slds-tabs--scoped__nav" role="tablist">
                             <li class="slds-tabs--scoped__item slds-text-heading--label slds-active" title="DETAILS"
@@ -206,7 +207,7 @@
                                    data-aljs-show="tab-7">NOTES</a>
                             </li>
                         </ul>
-                        <!--- --------------------------------TAB PANEL 1 DETAILS START --------------------------------------------------------------- -->
+                        <!--- --------------------------------TAB PANEL 1 DETAILS START --------------------------------------------------------------- --
                         <div id="tab-1" class="slds-tabs--scoped__content slds-show" role="tabpanel"
                              aria-labelledby="tab-1__item">
                             <div class="slds-card__body--inner">
@@ -216,9 +217,9 @@
                                 </apex:pageBlock>
                             </div>
                         </div>
-                        <!--- --------------------------------TAB PANEL 1 DETAILS END ------------------------------------------------------------------ -->
+                        <!--- --------------------------------TAB PANEL 1 DETAILS END ------------------------------------------------------------------ --
 
-                        <!--- --------------------------------TAB PANEL 2 SUMMARY START ---------------------------------------------------------------- -->
+                        <!--- --------------------------------TAB PANEL 2 SUMMARY START ---------------------------------------------------------------- --
                         <div id="tab-2" class="slds-tabs--scoped__content slds-hide" role="tabpanel"
                              aria-labelledby="tab-2__item">
                             <div class="slds-grid slds-grid--pull-padded">
@@ -234,9 +235,9 @@
                                 </div>
                             </div>
                         </div>
-                        <!--- --------------------------------TAB PANEL 2 SUMMARY END ---------------------------------------------------------------------- -->
+                        <!--- --------------------------------TAB PANEL 2 SUMMARY END ---------------------------------------------------------------------- --
 
-                        <!--- --------------------------------TAB PANEL 3 CHARGE GROUP START ---------------------------------------------------------------- -->
+                        <!--- --------------------------------TAB PANEL 3 CHARGE GROUP START ---------------------------------------------------------------- --
                         <div id="tab-3" class="slds-tabs--scoped__content slds-hide" role="tabpanel"
                              aria-labelledby="tab-3__item">
                             <div class="slds-card__body--inner">
@@ -246,18 +247,18 @@
                                 </apex:pageBlock>
                             </div>
                         </div>
-                        <!--- ------------------------------TAB PANEL 3 CHARGE GROUP END ------------------------------------------------------------------ -->
+                        <!--- ------------------------------TAB PANEL 3 CHARGE GROUP END ------------------------------------------------------------------ --
 
-                        <!--- --------------------------------TAB PANEL 4 ENCOUNTERS START ------------------------------------------------------------------ -->
+                        <!--- --------------------------------TAB PANEL 4 ENCOUNTERS START ------------------------------------------------------------------ --
                         <div id="tab-4" class="slds-tabs--scoped__content slds-hide" role="tabpanel"
                              aria-labelledby="tab-4__item">
                             <div class="slds-card__body--inner">
                                 <apex:relatedlist subject="{!contact.Id}" list="Assets" title="Assets"/>
                             </div>
                         </div>
-                        <!--- --------------------------------TAB PANEL 4 ENCOUNTERS END -------------------------------------------------------------------- -->
+                        <!--- --------------------------------TAB PANEL 4 ENCOUNTERS END -------------------------------------------------------------------- --
 
-                        <!--- --------------------------------TAB PANEL 5 PAYMENTS START -------------------------------------------------------------------- -->
+                        <!--- --------------------------------TAB PANEL 5 PAYMENTS START -------------------------------------------------------------------- --
                         <div id="tab-5" class="slds-tabs--scoped__content slds-hide" role="tabpanel"
                              aria-labelledby="tab-5__item">
                             <div class="slds-card__body--inner">
@@ -268,9 +269,9 @@
                                 </apex:pageBlock>
                             </div>
                         </div>
-                        <!--- --------------------------------TAB PANEL 5 PAYMENTS END ---------------------------------------------------------------------- -->
+                        <!--- --------------------------------TAB PANEL 5 PAYMENTS END ---------------------------------------------------------------------- --
 
-                        <!--- --------------------------------TAB PANEL 6 STATEMENTS START ------------------------------------------------------------------ -->
+                        <!--- --------------------------------TAB PANEL 6 STATEMENTS START ------------------------------------------------------------------ --
                         <div id="tab-6" class="slds-tabs--scoped__content slds-hide" role="tabpanel"
                              aria-labelledby="tab-6__item">
                             <div class="slds-card__body--inner">
@@ -280,22 +281,22 @@
                                 </apex:pageBlock>
                             </div>
                         </div>
-                        <!--- --------------------------------TAB PANEL 6 STATEMENTS END -------------------------------------------------------------------- -->
+                        <!--- --------------------------------TAB PANEL 6 STATEMENTS END -------------------------------------------------------------------- --
 
-                        <!--- --------------------------------TAB PANEL 7 NOTES START ----------------------------------------------------------------------- -->
+                        <!--- --------------------------------TAB PANEL 7 NOTES START ----------------------------------------------------------------------- --
                         <div id="tab-7" class="slds-tabs--scoped__content slds-hide" role="tabpanel"
                              aria-labelledby="tab-7__item">
                         </div>
-                        <!--- --------------------------------TAB PANEL 7 NOTES END ------------------------------------------------------------------------- -->
+                        <!--- --------------------------------TAB PANEL 7 NOTES END ------------------------------------------------------------------------- --
                     </div>
-                    <!--- --------------------------------TABS ENDS ----------------------------------------------------------------------------------------- -->
+                    <!--- --------------------------------TABS ENDS ----------------------------------------------------------------------------------------- --
                 </section>
             </div>
-            <!-- / MAIN CARD -->
+            <!-- / MAIN CARD --
             <div class="slds-col slds-col-rule--left slds-size--4-of-12">
                 <div class="slds-card__body--inner">
                     <section>
-                        <!--- --------------------------------CASE TAB START  --------------------------------------------------------------------------------------- -->
+                        <!--- --------------------------------CASE TAB START  --------------------------------------------------------------------------------------- --
                         <div class="slds-tabs--scoped" data-aljs="tabsCases">
                             <ul class="slds-tabs--scoped__nav" role="tablist">
                                 <li class="slds-tabs--scoped__item slds-text-heading--label slds-active" title="Open"
@@ -311,7 +312,7 @@
                                        id="tab-02__item" data-aljs-show="tab-02">Closed Cases</a>
                                 </li>
                             </ul>
-                            <!--- --------------------------------CASE TAB PANEL 1 OPEN CASES START --------------------------------------------------------------- -->
+                            <!--- --------------------------------CASE TAB PANEL 1 OPEN CASES START --------------------------------------------------------------- --
                             <div id="tab-01" class="slds-tabs--scoped__content slds-show" role="tabpanel"
                                  aria-labelledby="tab-01__item">
                                 <div class="slds-card__body--inner slds-scrollable--y">
@@ -345,9 +346,9 @@
                                     </apex:repeat>
                                 </div>
                             </div>
-                            <!--- --------------------------------TAB PANEL 1 DETAILS END ------------------------------------------------------------------ -->
+                            <!--- --------------------------------TAB PANEL 1 DETAILS END ------------------------------------------------------------------ --
 
-                            <!--- --------------------------------TAB PANEL 2 SUMMARY START ---------------------------------------------------------------- -->
+                            <!--- --------------------------------TAB PANEL 2 SUMMARY START ---------------------------------------------------------------- --
                             <div id="tab-02" class="slds-tabs--scoped__content slds-show" role="tabpanel"
                                  aria-labelledby="tab-02__item">
                                 <div class="slds-card__body--inner slds-scrollable--y">
@@ -380,10 +381,10 @@
                                     </apex:repeat>
                                 </div>
                             </div>
-                            <!--- --------------------------------TAB PANEL 2 SUMMARY END ---------------------------------------------------------------------- -->
+                            <!--- --------------------------------TAB PANEL 2 SUMMARY END ---------------------------------------------------------------------- --
 
                         </div>
-                        <!--- --------------------------------TABS ENDS ----------------------------------------------------------------------------------------- -->
+                        <!--- --------------------------------TABS ENDS ----------------------------------------------------------------------------------------- --
                     </section>
                 </div>
             </div>
@@ -391,7 +392,7 @@
         </div>
 
     </div>
-    <!--- --------------------------------TAB ENDS -------------------------------------------------------------------------------------------- -->
+    <!--- --------------------------------TAB ENDS -------------------------------------------------------------------------------------------- --
     </body>
     </html>
-</apex:page>
+</apex:page> -->

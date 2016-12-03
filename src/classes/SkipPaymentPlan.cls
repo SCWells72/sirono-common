@@ -19,17 +19,17 @@
 */
 
 public with sharing class SkipPaymentPlan {
-    public String username {get; set;}
+    /*public String username {get; set;}
     public String password {get; set;}
     public String guarantorId {get; set;}
     public String paymentPlanId {get; set;}
     public String messageToShow {get; set;}
     public String paymentPlanExtId {get; set;}
     public Boolean isAutomatic {get; set;}
-    public Boolean isSuccess {get; set;}
+    public Boolean isSuccess {get; set;}*/
 
     public SkipPaymentPlan() {
-        username = PayStaffWSUtill.un;
+        /*username = PayStaffWSUtill.un;
         password = PayStaffWSUtill.pw;
         guarantorId = null;
         paymentPlanId = null;
@@ -47,13 +47,13 @@ public with sharing class SkipPaymentPlan {
             paymentPlanExtId = Apexpages.currentPage().getParameters().get('paymentPlanExtId');
         }
 
-        validatePaymentPlanType();
+        validatePaymentPlanType();*/
     }
 
     /*
     * Mohan Kumar 08-17-2016: (127324647) Validate the Payment is of type Automatic 
     * to process the skip payment else return a message user
-    */
+    *
     private void validatePaymentPlanType() {
         List<Payment_Plan__c> automaticPaymentPlans = [
                 Select Id, Sirono_ID__c, Next_Payment_Date__c, NextPaymentDate__c
@@ -84,7 +84,7 @@ public with sharing class SkipPaymentPlan {
     /*
     * Mohan Kumar 08-01-2016: Ticket # 06638016 - Updated the QueryString parameter value
     * to fix the "URL No Longer Exists" error.
-    */
+    *
     public Pagereference cancel() {
         Pagereference pg = null;
         if (!isEmpty(paymentPlanId)) {
@@ -123,7 +123,7 @@ public with sharing class SkipPaymentPlan {
     /*
     * Mohan Kumar 08-02-2016: Ticket # 06638015 - Updated the request parameter value to 
     * send the Sirono External ID and NOT salesforce record Id.
-    */
+    *
     private void doSkipPaymentPlan(String csrfToken, String jwtToken) {
         String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '"}';
 
@@ -176,7 +176,7 @@ public with sharing class SkipPaymentPlan {
     /*
     * 09-22-2016: Viraj Rana 
     *  Call this method to test
-    */
+    *
     Public void doTesting() {
         String str = PaymentPlanJSONParsing.testResponse();
         parseResponse(str);
@@ -185,7 +185,7 @@ public with sharing class SkipPaymentPlan {
     /*
     * 09-22-2016: Sirono - Tracker # 129177663
     *  parse the Response update a payment plan record.
-    */
+    *
     Public void parseResponse(String jsonStr) {
 
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
@@ -193,5 +193,5 @@ public with sharing class SkipPaymentPlan {
                 null, null);
         Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord; 
         upsert paymentPlanObj;
-    }
+    }*/
 }

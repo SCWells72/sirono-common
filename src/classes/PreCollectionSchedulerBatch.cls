@@ -11,15 +11,19 @@ Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
 
 */
 public with sharing class PreCollectionSchedulerBatch implements Database.Batchable<sObject>, Schedulable, Database.Stateful {
-    public Campaign callList;
-    public Set<Id> existingMembers;
+    //public Campaign callList;
+    //public Set<Id> existingMembers;
 
     public void execute(SchedulableContext bc) {
         Database.executeBatch(new PreCollectionSchedulerBatch(), 200);
     }
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
+        return Database.getQueryLocator([
+                                          Select Id, FirstName
+                                            From Contact]);
+		/*
+		//Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 'PreCollections'
         });
@@ -37,12 +41,12 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
             return Database.getQueryLocator([Select Id, FirstName From Contact Where RecordType.Name = 'Guarantor' AND ID NOT IN :existingMembers]);
         } else {
             return Database.getQueryLocator([Select Id, FirstName From Contact Where RecordType.Name = 'Guarantor-DO-NOT-EXIST']);
-        }
+        }*/
     }
 
     //adding new campaign members
     public void execute(Database.BatchableContext bc, List<sObject> scope) {
-        List<Contact> guarantors = (List<Contact>) scope;
+        /*List<Contact> guarantors = (List<Contact>) scope;
         Date dt = System.today();
         if (callList != null) {
             List<CampaignMember> memberList = new List<CampaignMember>();
@@ -62,7 +66,7 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
             if (memberList.size() > 0) {
                 insert memberList;
             }
-        }
+        }*/
     }
 
     public void finish(Database.BatchableContext bc) {

@@ -10,7 +10,11 @@
 
 public with sharing class PaymentArrangementTriggerHandler {
 
-    public static void closeEncounterCaseFromPaymentArrangement(List<Payment_Arrangement__c> newList) {
+    public PaymentArrangementTriggerHandler(){
+    
+    }
+    /*
+	public static void closeEncounterCaseFromPaymentArrangement(List<Payment_Arrangement__c> newList) {
         Set<Id> encounterIds = new Set<Id>();
         for (Payment_Arrangement__c pa : newList) {
             if (pa.Encounter__c != null) encounterIds.add(pa.Encounter__c);
@@ -22,5 +26,5 @@ public with sharing class PaymentArrangementTriggerHandler {
                 Where Id IN :encounterIds
         ];
         CaseUtil.CallCloseEncounterAutoCase(encounterList, true);
-    }
+    }*/
 }

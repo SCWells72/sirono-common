@@ -7,8 +7,11 @@
 */
 
 public class PaymentPlanJSONParsing {
-
-    public String url;
+	
+	public PaymentPlanJSONParsing() {
+    
+    }
+    /*public String url;
     public Boolean active;
     public Integer installment_amount;
     public Integer number_installments;
@@ -155,7 +158,7 @@ public class PaymentPlanJSONParsing {
     /*
     * 08-17-2016: Sirono - Tracker # 127940071
     *  Test response for the test class and testing.
-    */
+    *
     Public Static String testResponse() {
 
         String responseBody = '{' +
@@ -194,7 +197,7 @@ public class PaymentPlanJSONParsing {
     /*
     * 08-17-2016: Sirono - Tracker # 127940071
     *  Test response for the test class and testing.
-    */
+    *
     Public Static String  testResponse1() {
     
         String responseBody =        '{'+
@@ -227,5 +230,5 @@ public class PaymentPlanJSONParsing {
         '}';
         
         return responseBody;
-    }
+    }*/
 }
