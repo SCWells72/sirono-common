@@ -6,8 +6,7 @@
 */
 
 trigger ContactTrigger on Contact (after insert, after update) {
-ContactTriggerHandler obj = new ContactTriggerHandler();
-/*
+
     //invoked after an insert event
     if (trigger.isAfter && trigger.isInsert) {
         ContactTriggerHandler.afterInsert(trigger.new);
@@ -16,5 +15,5 @@ ContactTriggerHandler obj = new ContactTriggerHandler();
     //invoked after an update event
     if (trigger.isAfter && trigger.isUpdate) {
         ContactTriggerHandler.afterUpdate(trigger.new, trigger.oldMap);
-    }*/
+    }
 }

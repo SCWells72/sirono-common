@@ -9,8 +9,7 @@
 private class TaskTriggerHandlerTest {
 
     static testMethod void myUnitTest() {
-         TaskTriggerHandler obj = new TaskTriggerHandler();
-		/*TestUtility objTestUtility = new TestUtility();
+        TestUtility objTestUtility = new TestUtility();
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
@@ -41,6 +40,6 @@ private class TaskTriggerHandlerTest {
         lstCampaignMember = [Select id from CampaignMember];
         System.assertEquals(0, lstCampaignMember.Size());
 
-        update taskListToInsert;*/
+        update taskListToInsert;
     }
 }

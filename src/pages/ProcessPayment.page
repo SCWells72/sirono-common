@@ -5,8 +5,7 @@
 * @ProcessPayment VF Page for the Payment Process.
 * @Date 22/09/2016 tracker # 130677929 added a "Account Sub Status" column
 -->
-<apex:page></apex:page>
-<!-- 
+
 <apex:page standardController="Contact" Extensions="ProcessPayment" id="pg">
     <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
     <apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>
@@ -273,4 +272,4 @@
             return false;
         }
     </Script>
-</apex:page> -->
+</apex:page>

@@ -14,20 +14,16 @@
 
 */
 public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<sObject>, Schedulable, Database.Stateful {
-    //public Campaign callList;
-    //public Set<Id> existingMembers;
+    public Campaign callList;
+    public Set<Id> existingMembers;
 
     public void execute(SchedulableContext sc) {
         Database.executeBatch(new EarlyOutSchedulerBatch(), 200);
     }
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        return Database.getQueryLocator([
-                                            Select 
-                                                Id,name from Contact
-                                            ]);
         //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
-        /*Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 'Early-out'
         });
         string earlyOut = mapCampaignMapping.get('Early-out');
@@ -58,12 +54,12 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<s
                     From Contact
                     Where RecordType.Name = 'Guarantor-DO-NOT-EXIST'
             ]);
-        }*/
+        }
     }
 
     //Adding Guarantors based on their overdue balance and creates to new CampaignMember list 
     public void execute(Database.BatchableContext bc, List<sObject> scope) {
-        /*List<Contact> guarantors = (List<Contact>) scope;
+        List<Contact> guarantors = (List<Contact>) scope;
         Map<Id, Contact> guarantorMap = new Map<Id, Contact>([
                 Select Id, (
                         Select Id, Name, Statement_Date__c
@@ -100,7 +96,7 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<s
             if (memberList.size() > 0) {
                 insert memberList;
             }
-        }*/
+        }
     }
 
     public void finish(Database.BatchableContext bc) {

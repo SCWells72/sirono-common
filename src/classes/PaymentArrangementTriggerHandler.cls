@@ -10,10 +10,6 @@
 
 public with sharing class PaymentArrangementTriggerHandler {
 
-    public PaymentArrangementTriggerHandler(){
-    
-    }
-    /*
 	public static void closeEncounterCaseFromPaymentArrangement(List<Payment_Arrangement__c> newList) {
         Set<Id> encounterIds = new Set<Id>();
         for (Payment_Arrangement__c pa : newList) {
@@ -26,5 +22,5 @@ public with sharing class PaymentArrangementTriggerHandler {
                 Where Id IN :encounterIds
         ];
         CaseUtil.CallCloseEncounterAutoCase(encounterList, true);
-    }*/
+    }
 }

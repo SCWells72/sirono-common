@@ -3,10 +3,9 @@
 * @version 1.0.1
 * @Date: 05-23-2016
 -->
-<apex:page></apex:page>
-<!-- 
+
 <apex:page controller="PaymentPlanGoodStanding" id="pg">
-    <!--Sirono 08-29-2016:  Indclude JQuery--
+    <!--Sirono 08-29-2016:  Indclude JQuery-->
     <apex:includeScript value="{!URLFOR($Resource.Jquery, 'jquery-3.0.0.min.js')}"/>
 
     <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
@@ -59,4 +58,4 @@
             });
         }
     </Script>
-</apex:page> -->
+</apex:page>

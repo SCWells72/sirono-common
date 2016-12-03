@@ -9,8 +9,7 @@
 private class PaymentPlanTriggerTest {
 
     static testMethod void myUnitTest() {
-        PaymentPlanTriggerHandler obj = new PaymentPlanTriggerHandler();  
-        /*TestUtility objTestUtil = new TestUtility();
+        TestUtility objTestUtil = new TestUtility();
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.RecordTypeId = Schema.SObjectType.Contact.getRecordTypeInfosByName().get('Guarantor').getRecordTypeId();
         insert guarantorContact;
@@ -37,9 +36,9 @@ private class PaymentPlanTriggerTest {
         update paymentPlan;
 
         paymentPlan.Execute_on_Day__c = 31;
-        update paymentPlan;*/
+        update paymentPlan;
     }
-/*
+
     @isTest
     static void myUnitTest1() {
 
@@ -125,5 +124,5 @@ private class PaymentPlanTriggerTest {
         paymentPlan1.Has_Error__c = true;
         paymentPlan1.Skip_Payment_Until__c = refDt.adddays(10); 
         insert paymentPlan1;        
-    }*/ 
+    }
 }

@@ -9,8 +9,7 @@
 @isTest
 private class CaseTriggerTest {
     static testMethod void myUnitTest() {
-        CaseTriggerHandler obj = new CaseTriggerHandler();
-		/*TestUtility objTestUtil = new TestUtility();
+        TestUtility objTestUtil = new TestUtility();
 
         Map<String, Id> rtMap = new Map<String, Id>();
         for (RecordType rt : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
@@ -26,9 +25,9 @@ private class CaseTriggerTest {
         insert cc;
 
         List<CaseComment> lstCaseComment = [Select id from CaseComment];
-        System.assertEquals(1, lstCaseComment.Size());*/
+        System.assertEquals(1, lstCaseComment.Size());
     }
-	/*
+
     static testMethod void myUnitTest1() {
         TestUtility objTestUtil = new TestUtility();
         Test.startTest();
@@ -63,6 +62,6 @@ private class CaseTriggerTest {
             PayStaffWSUtill.addNoteFuture(ob.Charge_Group_IDs__c.split(','), ob.Description);
         }
         Test.stopTest();
-    }*/
+    }
 
 }

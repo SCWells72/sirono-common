@@ -22,7 +22,7 @@ private class CallEarlyOutAutoCaseTest {
                 new CallEarlyOutAutoCase());
 
         // Get the information from the CronTrigger API object
-        /*CronTrigger ct = [
+        CronTrigger ct = [
                 SELECT Id, CronExpression, TimesTriggered,
                         NextFireTime
                 FROM CronTrigger
@@ -35,7 +35,7 @@ private class CallEarlyOutAutoCaseTest {
 
         // Verify the job has not run
         System.assertEquals(0, ct.TimesTriggered);
-*/
+
 
     }
 }
