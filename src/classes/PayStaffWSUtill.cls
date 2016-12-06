@@ -11,7 +11,7 @@
 public with sharing class PayStaffWSUtill {
     //TODO replace use of endpoint with SironoSettingsUtil.getServerEndpoint()
     // @deprecated
-    public static final String ENDPOINT = Label.PayStaffEndPointURL;
+    public static final String ENDPOINT = SironoSettingsUtil.getServerEndpoint();
     public static final String STMTURL = '{0}/paystaff/api/guarantors/{1}/statements/';
     public static final String UN = 'sgullapali';
     public static final String PW = 'p@ssw0rd';

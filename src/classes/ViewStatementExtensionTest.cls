@@ -26,6 +26,8 @@ public class ViewStatementExtensionTest {
         statement.Statement_Date__c = Date.parse('05/22/2016');
         lstStatement.add(statement);
 
+        SironoSettingsUtil.initializeSironoSettings();
+
         insert lstStatement;
     }
 
