@@ -163,8 +163,7 @@
                 password="${sf.target.password}"
                 serverurl="${sf.target.serverurl}">
             <![CDATA[
-                SironoSettingsUtil.getSettings();
-                SironoSettingsUtil.getPaymentPlanSettings();
+                SironoSettingsUtil.initializeSironoSettings();
             ]]>
         </executeAnonymous>
     </target>
