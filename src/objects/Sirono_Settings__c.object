@@ -3,6 +3,40 @@
     <customSettingsType>Hierarchy</customSettingsType>
     <enableFeeds>false</enableFeeds>
     <fields>
+        <fullName>Apikey__c</fullName>
+        <defaultValue>&quot;ac9b158e21153af4959ed5621d3c364c&quot;</defaultValue>	
+        <externalId>false</externalId>
+        <label>Apikey</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Country_Code__c</fullName>
+	<defaultValue>&quot;US&quot;</defaultValue>
+        <externalId>false</externalId>
+        <label>Country Code</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Format__c</fullName>
+        <defaultValue>1</defaultValue>
+        <externalId>false</externalId>
+        <label>Format</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Max_Number_Plan_Installments__c</fullName>
         <defaultValue>24</defaultValue>
         <externalId>false</externalId>
