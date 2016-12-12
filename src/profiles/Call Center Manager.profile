@@ -3365,6 +3365,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Payment_Plan__c.Completion_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Payment_Plan__c.Payment_Method__c</field>
         <readable>true</readable>
     </fieldPermissions>

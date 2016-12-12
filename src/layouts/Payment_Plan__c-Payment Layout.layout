@@ -59,6 +59,10 @@
                 <behavior>Edit</behavior>
                 <field>NextPaymentDate__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Completion_Date__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

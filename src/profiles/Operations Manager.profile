@@ -1876,7 +1876,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Payment_Plan_Balance__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3361,6 +3361,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Payment_Plan__c.Collected_By__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Payment_Plan__c.Completion_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

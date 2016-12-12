@@ -230,6 +230,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Payment_Plan_Balance__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Bad_Debt_Balance__c</field>
             </layoutItems>
         </layoutColumns>
@@ -382,8 +386,8 @@
         <fields>Active__c</fields>
         <fields>Plan_Type__c</fields>
         <fields>Installment_Amount__c</fields>
-        <fields>Next_Payment_Date__c</fields>
         <fields>Execute_on_Day__c</fields>
+        <fields>NextPaymentDate__c</fields>
         <relatedList>Payment_Plan__c.Guarantor__c</relatedList>
     </relatedLists>
     <relatedLists>
