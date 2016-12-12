@@ -864,4 +864,18 @@ public with sharing class PayStaffWSUtill {
         
         return paymentPlanObj;
     }
+    
+    //11/22/2016: Tracker #134300243 Fetch Charge Group list based on Account sub status values Preinvoiced,Due,Delinquent,Bad Debt and Overdue
+    public static List<ChargeGroupWrapper> fetchChargeGroupListByAccSubStatus(Contact gc) {
+        List<ChargeGroupWrapper> cgList = new List<ChargeGroupWrapper>();
+        if (gc != null && gc.Charge_Groups__r != null && gc.Charge_Groups__r.size() > 0) {
+            for (Charge_Group__c cg : gc.Charge_Groups__r) {
+                if(cg.Account_Sub_Status__c == 'Preinvoiced' || cg.Account_Sub_Status__c == 'Due' || cg.Account_Sub_Status__c == 'Overdue'
+                   || cg.Account_Sub_Status__c == 'Delinquent' || cg.Account_Sub_Status__c == 'Bad Debt') {
+                   cgList.add(new ChargeGroupWrapper(cg, false));
+               }
+            }
+        }
+        return cgList;
+    }
 }

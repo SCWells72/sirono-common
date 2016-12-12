@@ -8,6 +8,7 @@
 * 09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31.
 * 10-12-2016: Viraj Rana - Tracker #131459561: Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
 * 
+* 11-22-2016: Tracker #134300243: Included Account Sub Status column in the table.
 *-->
 
 <apex:page controller="AddCreditCard" id="pg" action="{!getPaymentPlanSettings}">
@@ -50,6 +51,7 @@
                         <td class="headerRow">Balance</td>
                         <td class="headerRow">Invoice Date</td>
                         <td class="headerRow">Status</td>
+                        <td class="headerRow">Sub Status</td>
                     </tr>
                 </table>
                 <div class="pay-staff-inner-table">
@@ -86,6 +88,9 @@
                                 <td class="dataCell">
                                     <apex:outputField value="{!cgw.cg.Account_Status__c}"/>
                                 </td>
+				<td class="dataCell">
+				    <apex:outputField value="{!cgw.cg.Account_Sub_Status__c}"/>
+				</td>
                             </tr>
                         </apex:repeat>
                     </table>
