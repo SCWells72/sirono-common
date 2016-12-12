@@ -1,6 +1,8 @@
 /* @author: Sirono
  * @Date: 05-30-2016
  * @Description TriggerHandler class for CampaignMemberTrigger
+ *
+ * 11-29-2016 Viraj Rana: #133707065: Case to Call Activiy
 */
 
 public with sharing class CampaignMemberTriggerHandler {
@@ -25,15 +27,22 @@ public with sharing class CampaignMemberTriggerHandler {
         }
         List<Campaign_Member_History__c> historyList = new List<Campaign_Member_History__c>();
         List<Case> caseList = new List<Case>();
+            
+        // 11-28-2016 Viraj Rana: #133707065: Case to Call Activiy
+        // Change Code to get Case Id from Campaign Member.
         List<CampaignMember> newCMList = [
                 Select Id, CampaignId, Campaign.Name, ContactId,
-                        Contact.FirstName, Contact.LastName
+                        Contact.FirstName, Contact.LastName, Case_ID__c
                 From CampaignMember
                 WHERE Id = :newList AND ContactId != null
         ];
+        system.debug('newCMList : ' + newCMList);
         for (CampaignMember cm : newCMList) {
             if (cm.ContactId != null) {
-                historyList.add(new Campaign_Member_History__c(Campaign__c = cm.CampaignId, Contact__c = cm.ContactId));
+                // 11-28-2016 Viraj Rana: Change Code to assign Case Id in Campaign Member History Record.
+                historyList.add(new Campaign_Member_History__c(Campaign__c = cm.CampaignId, Contact__c = cm.ContactId,
+                                Case_ID__c = cm.Case_ID__c));
+                    
                 caseList.add(new Case(RecordTypeId = callListCaseRtId,
                         ContactId = cm.ContactId,
                         Origin = 'Web',
@@ -46,8 +55,12 @@ public with sharing class CampaignMemberTriggerHandler {
         if (historyList.size() > 0) {
             insert historyList;
         }
-        if (caseList.size() > 0) {
-            insert caseList;
+        // 11-29-2016 Viraj Rana: #133707065: Case to Call Activiy
+        // If Trigger called from CaseUtil Class than not need to create case again.
+        if (CaseUtil.createCaseInTrigger == true) {
+            if (caseList.size() > 0) {
+                insert caseList;
+            }
         }
     }
     //private static method

@@ -5,6 +5,7 @@
 * @ Unit class  for the CaseUtil class.     
 * Do the code coverage for the CaseUtil class
 * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases.
+* 12-02-2016: Viraj Rana - #133707065: Case to Call Activiy.
 */
 
 @isTest
@@ -145,7 +146,78 @@ public class CaseUtilTest {
         CaseUtil.callEarlyOutAutoCase();
         Test.StopTest();
     }
-
+    
+    // 12-02-2016 Viraj Rana: #133707065: Case to Call Activiy
+    // Increse Code Coverage.
+    @isTest 
+    public static void testCallEarlyOutAutoCase3() {
+        Test.StartTest();
+        TestUtility objUtility = new TestUtility();
+        CaseUtil obj = new CaseUtil();
+        
+        Contact guarantorContact = TestUtility.generateGuarantorContact();        
+        insert guarantorContact;
+        
+        Contact patientContact = TestUtility.generatePatientContact();
+        insert patientContact;
+        
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id,patientContact.id,121343);
+        insert chargeGroup;
+        
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id,patientContact.id,12134323);
+        chargeGroup.Reported_Selfpay_Balance__c = 10;
+        chargeGroup.Account_Status__c = 'Billed';
+        chargeGroup.Account_Sub_Status__c= 'Overdue';
+        insert chargeGroup;
+                
+        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
+        insert objTransaction;
+        
+        List<Statement__c> lstStatement = new List<Statement__c>();
+        Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
+        lstStatement.add(statement); 
+        
+        
+        statement = TestUtility.generateStatement(guarantorContact.Id);
+        lstStatement.add(statement); 
+        insert lstStatement;
+        
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+        });
+        
+        List<Campaign> lstCampaign = new List<Campaign>();
+        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out'));
+        lstCampaign.add(objCampaign);
+        
+        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out M'));
+        lstCampaign.add(objCampaign);
+        
+        insert lstCampaign;
+        
+        List<CampaignMember> lstCamp = new list<CampaignMember>();  
+        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        lstCamp.add(cmm);
+        
+        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        lstCamp.add(cmm);
+        
+        insert lstCamp;
+                
+        Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
+        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
+            caseRecordTypeMap.put(recordType.Name, recordType.Id);
+        }        
+        
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
+        objCase.Reason = 'Early Out';
+        insert objCase;
+        
+        CaseUtil.callEarlyOutAutoCase();
+        Test.StopTest();
+    }
+        
     //Method to code coverage for callEarlyOutAutoCaseCloser
     @isTest
     public static void testCallEarlyOutAutoCaseCloser1() {
@@ -795,12 +867,92 @@ public class CaseUtilTest {
         List<Campaign> lstCampaign = new List<Campaign>();
         Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreService'));
         lstCampaign.add(objCampaign);
+        
+        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreService M'));
+        lstCampaign.add(objCampaign);
+        
+        insert lstCampaign;
+        
+        CaseUtil.createEncounterAutoCase(lstEncounter);
+        Test.StopTest();
+    }
+    
+    // 12-02-2016 Viraj Rana: #133707065: Case to Call Activiy
+    // Increse Code Coverage.
+    @isTest 
+    public static void testCreateEncounterAutoCase3() {
+        Test.StartTest();
+        TestUtility objUtility = new TestUtility();
+        
+        Contact guarantorContact = TestUtility.generateGuarantorContact();        
+        insert guarantorContact;
+        
+        Contact patientContact = TestUtility.generatePatientContact();
+        insert patientContact;
+        
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id,patientContact.id,121343);
+        insert chargeGroup;
+        
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id,patientContact.id,12134323);
+        chargeGroup.Reported_Selfpay_Balance__c = -10;
+        chargeGroup.Account_Status__c = 'Billed';
+        chargeGroup.Account_Sub_Status__c= 'Delinquent';
+        insert chargeGroup;
+        
+        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        insert objTransaction;
+        
+        List<Encounter__c> lstEncounter = new List<Encounter__c>(); 
+        
+        //10-19-2016: Viraj - Tracker # 132105543-Change Patient_Portion__c = '< 0' to '> 0'" in condition.
+        //Change patient Portion amount -10 to 10.
+        Encounter__c encounter1 = TestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
+        lstEncounter.add(encounter1);
+        
+        //10-19-2016: Viraj - Tracker # 132105543-Change Patient_Portion__c = '< 0' to '> 0'" in condition.
+        //Change patient Portion amount -10 to 10.
+        Encounter__c encounter2 = TestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
+        lstEncounter.add(encounter2);
+        
+        insert lstEncounter;
+        encounter1.Patient_Portion__c = 0;
+        update encounter1;
+        
+        Payment_Arrangement__c paymentArrangement = TestUtility.generatePaymentArrangement(encounter2.Id);
+        insert paymentArrangement;
+        
+        Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
+        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
+            caseRecordTypeMap.put(recordType.Name, recordType.Id);
+        }
+        
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+        });
+        
+        List<Campaign> lstCampaign = new List<Campaign>();
+        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreService'));
+        lstCampaign.add(objCampaign);
 
         objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreService M'));
         lstCampaign.add(objCampaign);
 
         insert lstCampaign;
-
+        
+        List<CampaignMember> lstCamp = new list<CampaignMember>();  
+        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        lstCamp.add(cmm);
+        
+        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        lstCamp.add(cmm);
+        
+        insert lstCamp;
+        
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
+        objCase.Type = 'PreService'; 
+        insert objCase;
+        
         CaseUtil.createEncounterAutoCase(lstEncounter);
         Test.StopTest();
     }

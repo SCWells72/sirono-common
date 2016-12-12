@@ -221,6 +221,7 @@
         <members>Contact.Address__c</members>
         <members>Contact.Guarantor_Patient_Id__c</members>
         <members>User.Legacy_User_Id__c</members>
+        <members>CampaignMember.Case_ID__c</members>
         <name>CustomField</name>
     </types>
     <types>
