@@ -214,7 +214,15 @@ public class CaseUtilTest {
         objCase.Reason = 'Early Out';
         insert objCase;
         
+        //Check System assert "Case_ID__c = null before calling callEarlyOutAutoCase() method".
+        System.assertEquals(lstCamp[0].Case_ID__c, null);        
+        
         CaseUtil.callEarlyOutAutoCase();
+        
+        //Check System assert "Case_ID__c != null after calling callEarlyOutAutoCase() method".
+        //Case Id assign into the Campaign Member.
+        List<CampaignMember> lstCM = [SELECT Id, CampaignId, ContactId, Case_ID__c FROM CampaignMember where Id =: lstCamp[0].Id];
+        System.assertNotEquals(lstCM[0].Case_ID__c, null);
         Test.StopTest();
     }
         
@@ -953,7 +961,15 @@ public class CaseUtilTest {
         objCase.Type = 'PreService'; 
         insert objCase;
         
+        //Check System assert "Case_ID__c = null before calling createEncounterAutoCase() method".
+        System.assertEquals(lstCamp[0].Case_ID__c, null);
+        
         CaseUtil.createEncounterAutoCase(lstEncounter);
+        
+        //Check System assert "Case_ID__c != null after calling createEncounterAutoCase() method".
+        //Case Id assign into the Campaign Member.
+        List<CampaignMember> lstCM = [SELECT Id, CampaignId, ContactId, Case_ID__c FROM CampaignMember where Id =: lstCamp[0].Id];
+        System.assertNotEquals(lstCM[0].Case_ID__c, null);
         Test.StopTest();
     }
 

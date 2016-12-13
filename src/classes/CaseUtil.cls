@@ -168,26 +168,30 @@ Public Class CaseUtil {
 
                     //Add CampaignMember
                     if (objContact.HomePhone != null || objContact.OtherPhone != null) {
-                        if (mapCampaignName.Containskey(earlyOut) && !mapCampaignMembers.get(earlyOut).contains(objContact.Id)) {
-                            CampaignMember cm = New CampaignMember();
-                            cm.CampaignId = mapCampaignName.get(earlyOut);
-                            cm.ContactId = objContact.Id;
-                            lstCampaignMember.add(cm);
-                        } else if (mapCampaignName.Containskey(earlyOut) && mapCampaignMembers.get(earlyOut).contains(objContact.Id)) {
-                            CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + earlyOut);                            
-                            lstUpdateCampaignMember.add(cm);
+                        if (mapCampaignName.containsKey(earlyOut)) {
+                    	    if (mapCampaignMembers.get(earlyOut).contains(objContact.Id)) {
+                                CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + earlyOut);
+                                lstUpdateCampaignMember.add(cm);
+                    	    } else {
+                                CampaignMember cm = new CampaignMember();
+                                cm.CampaignId = mapCampaignName.get(earlyOut);
+                                cm.ContactId = objContact.Id;
+                                lstCampaignMember.add(cm);
+                    	    }
                         }
                     }
                     if (objContact.MobilePhone != null) {
-                        if (mapCampaignName.Containskey(earlyOutMobile) && !mapCampaignMembers.get(earlyOutMobile).contains(objContact.Id)) {
-                            CampaignMember cm = New CampaignMember();
-                            cm.CampaignId = mapCampaignName.get(earlyOutMobile);
-                            cm.ContactId = objContact.Id;
-                            lstCampaignMember.add(cm);
-                        } else if (mapCampaignName.Containskey(earlyOutMobile) && mapCampaignMembers.get(earlyOutMobile).contains(objContact.Id)) {
-                            CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id  + '-' + earlyOutMobile);
-                            lstUpdateCampaignMember.add(cm);
-                        }
+                        if (mapCampaignName.containsKey(earlyOutMobile)) {
+                            if (mapCampaignMembers.get(earlyOutMobile).contains(objContact.Id)) {
+                                CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + earlyOutMobile);
+                                lstUpdateCampaignMember.add(cm);
+                            } else {
+                                CampaignMember cm = New CampaignMember();
+	                        cm.CampaignId = mapCampaignName.get(earlyOutMobile);
+	                        cm.ContactId = objContact.Id;
+	                        lstCampaignMember.add(cm);
+                            }
+                        }                        
                     }
                 }
             }
@@ -449,26 +453,30 @@ Public Class CaseUtil {
 
                     //Add CampaignMember
                     if (objContact.HomePhone != null || objContact.OtherPhone != null) {
-                        if (mapCampaignName.Containskey(preCollection) && !mapCampaignMembers.get(preCollection).contains(objContact.Id)) {
-                            CampaignMember cm = New CampaignMember();
-                            cm.CampaignId = mapCampaignName.get(preCollection);
-                            cm.ContactId = objContact.Id;
-                            lstCampaignMember.add(cm);
-                        } else if (mapCampaignName.Containskey(preCollection) && mapCampaignMembers.get(preCollection).contains(objContact.Id)) {
-                            CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + preCollection);                            
-                            lstUpdateCampaignMember.add(cm);
-                        }
+                        if (mapCampaignName.containsKey(preCollection)) {
+                            if (mapCampaignMembers.get(preCollection).contains(objContact.Id)) {
+                                CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + preCollection);                            
+                                lstUpdateCampaignMember.add(cm);
+                            } else {
+                                CampaignMember cm = New CampaignMember();
+	                        cm.CampaignId = mapCampaignName.get(preCollection);
+	                        cm.ContactId = objContact.Id;
+	                        lstCampaignMember.add(cm);
+                            }
+                    	}
                     }
                     if (objContact.MobilePhone != null) {
-                        if (mapCampaignName.Containskey(preCollectionMobile) && !mapCampaignMembers.get(preCollectionMobile).contains(objContact.Id)) {
-                            CampaignMember cm = New CampaignMember();
-                            cm.CampaignId = mapCampaignName.get(preCollectionMobile);
-                            cm.ContactId = objContact.Id;
-                            lstCampaignMember.add(cm);
-                        } else if (mapCampaignName.Containskey(preCollectionMobile) && mapCampaignMembers.get(preCollectionMobile).contains(objContact.Id)) {
-                            CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id  + '-' + preCollectionMobile);
-                            lstUpdateCampaignMember.add(cm);
-                        }
+                        if (mapCampaignName.containsKey(preCollectionMobile)) {
+                            if (mapCampaignMembers.get(preCollectionMobile).contains(objContact.Id)) {
+                                CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id  + '-' + preCollectionMobile);
+                                lstUpdateCampaignMember.add(cm);
+                            } else {
+                                CampaignMember cm = New CampaignMember();
+	                        cm.CampaignId = mapCampaignName.get(preCollectionMobile);
+	                        cm.ContactId = objContact.Id;
+	                        lstCampaignMember.add(cm);
+                            }
+                    	}
                     }
                 }
             }
@@ -715,26 +723,30 @@ Public Class CaseUtil {
 
                     //Add CampaignMember
                     if (objContact.HomePhone != null || objContact.OtherPhone != null) {
-                        if (mapCampaignName.Containskey(preService) && !mapCampaignMembers.get(preService).contains(objContact.Id)) {
-                            CampaignMember cm = New CampaignMember();
-                            cm.CampaignId = mapCampaignName.get(preService);
-                            cm.ContactId = objContact.Id;
-                            lstCampaignMember.add(cm);
-                        } else if (mapCampaignName.Containskey(preService) && mapCampaignMembers.get(preService).contains(objContact.Id)) {
-                            CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + preService);                            
-                            lstUpdateCampaignMember.add(cm);
-                        }
+                        if (mapCampaignName.containsKey(preService)) {
+                            if (mapCampaignMembers.get(preService).contains(objContact.Id)) {
+                                CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + preService);                            
+                                lstUpdateCampaignMember.add(cm);
+                            } else {
+                                CampaignMember cm = New CampaignMember();
+	                        cm.CampaignId = mapCampaignName.get(preService);
+	                        cm.ContactId = objContact.Id;
+	                        lstCampaignMember.add(cm);
+                            }
+                    	}
                     }
                     if (objContact.MobilePhone != null) {
-                        if (mapCampaignName.Containskey(preServiceMobile) && !mapCampaignMembers.get(preServiceMobile).contains(objContact.Id)) {
-                            CampaignMember cm = New CampaignMember();
-                            cm.CampaignId = mapCampaignName.get(preServiceMobile);
-                            cm.ContactId = objContact.Id;
-                            lstCampaignMember.add(cm);
-                        } else if (mapCampaignName.Containskey(preServiceMobile) && mapCampaignMembers.get(preServiceMobile).contains(objContact.Id)) {
-                            CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id  + '-' + preServiceMobile);
-                            lstUpdateCampaignMember.add(cm);
-                        }
+                        if (mapCampaignName.containsKey(preServiceMobile)) {
+                            if (mapCampaignMembers.get(preServiceMobile).contains(objContact.Id)) {
+                                CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id  + '-' + preServiceMobile);
+                                lstUpdateCampaignMember.add(cm);
+                            } else {
+                                CampaignMember cm = New CampaignMember();
+	                        cm.CampaignId = mapCampaignName.get(preServiceMobile);
+	                        cm.ContactId = objContact.Id;
+	                        lstCampaignMember.add(cm);
+                            }
+                    	}
                     }
                 }
             }
@@ -921,30 +933,30 @@ Public Class CaseUtil {
 
             //Add CampaignMember
             if (objContact.HomePhone != null || objContact.OtherPhone != null) {
-                if (mapCampaignName.Containskey(delinquent)
-                        && !mapCampaignMembers.get(delinquent).contains(objContact.Id)) {
-                    CampaignMember cm = New CampaignMember();
-                    cm.CampaignId = mapCampaignName.get(delinquent);
-                    cm.ContactId = objContact.Id;
-                    lstCampaignMember.add(cm);
-                } else if (mapCampaignName.Containskey(delinquent)
-                        && mapCampaignMembers.get(delinquent).contains(objContact.Id)) {
-                    CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + delinquent);                            
-                    lstUpdateCampaignMember.add(cm);
-                }
+                if (mapCampaignName.containsKey(delinquent)) {
+                    if (mapCampaignMembers.get(delinquent).contains(objContact.Id)) {
+                        CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + delinquent);                            
+                    	lstUpdateCampaignMember.add(cm);
+                    } else {
+                        CampaignMember cm = New CampaignMember();
+	                cm.CampaignId = mapCampaignName.get(delinquent);
+	                cm.ContactId = objContact.Id;
+	                lstCampaignMember.add(cm);
+                    }
+            	}
             }
             if (objContact.MobilePhone != null) {
-                if (mapCampaignName.Containskey(delinquentMobile)
-                        && !mapCampaignMembers.get(delinquentMobile).contains(objContact.Id)) {
-                    CampaignMember cm = New CampaignMember();
-                    cm.CampaignId = mapCampaignName.get(delinquentMobile);
-                    cm.ContactId = objContact.Id;
-                    lstCampaignMember.add(cm);
-                } else if (mapCampaignName.Containskey(delinquentMobile)
-                        && mapCampaignMembers.get(delinquentMobile).contains(objContact.Id)) {
-                    CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id  + '-' + delinquentMobile);
-                    lstUpdateCampaignMember.add(cm);
-                }
+                if (mapCampaignName.containsKey(delinquentMobile)) {
+                    if (mapCampaignMembers.get(delinquentMobile).contains(objContact.Id)) {
+                        CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id  + '-' + delinquentMobile);
+                    	lstUpdateCampaignMember.add(cm);
+                    } else {
+                        CampaignMember cm = New CampaignMember();
+	                cm.CampaignId = mapCampaignName.get(delinquentMobile);
+	                cm.ContactId = objContact.Id;
+	                lstCampaignMember.add(cm);
+                    }
+            	}
             }
         }
         
@@ -1108,26 +1120,30 @@ Public Class CaseUtil {
 
             //Add CampaignMember
             if (objContact.HomePhone != null || objContact.OtherPhone != null) {
-                if (mapCampaignName.Containskey(ccError) && !mapCampaignMembers.get(ccError).contains(objContact.Id)) {
-                    CampaignMember cm = New CampaignMember();
-                    cm.CampaignId = mapCampaignName.get(ccError);
-                    cm.ContactId = objContact.Id;
-                    lstCampaignMember.add(cm);
-                } else if (mapCampaignName.Containskey(ccError) && mapCampaignMembers.get(ccError).contains(objContact.Id)) {
-                    CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + ccError);                            
-                    lstUpdateCampaignMember.add(cm);
-                }
+                if (mapCampaignName.containsKey(ccError)) {
+                    if (mapCampaignMembers.get(ccError).contains(objContact.Id)) {
+                        CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + ccError);                            
+                    	lstUpdateCampaignMember.add(cm);
+                    } else {
+                        CampaignMember cm = New CampaignMember();
+	                cm.CampaignId = mapCampaignName.get(ccError);
+	                cm.ContactId = objContact.Id;
+	                lstCampaignMember.add(cm);
+                    }
+            	}
             }
             if (objContact.MobilePhone != null) {
-                if (mapCampaignName.Containskey(ccErrorMobile) && !mapCampaignMembers.get(ccErrorMobile).contains(objContact.Id)) {
-                    CampaignMember cm = New CampaignMember();
-                    cm.CampaignId = mapCampaignName.get(ccErrorMobile);
-                    cm.ContactId = objContact.Id;
-                    lstCampaignMember.add(cm);
-                } else if (mapCampaignName.Containskey(ccErrorMobile) && mapCampaignMembers.get(ccErrorMobile).contains(objContact.Id)) {
-                    CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id  + '-' + ccErrorMobile);
-                    lstUpdateCampaignMember.add(cm);
-                }
+                if (mapCampaignName.containsKey(ccErrorMobile)) {
+                    if (mapCampaignMembers.get(ccErrorMobile).contains(objContact.Id)) {
+                        CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id  + '-' + ccErrorMobile);
+                    	lstUpdateCampaignMember.add(cm);
+                    } else {
+                        CampaignMember cm = New CampaignMember();
+	                cm.CampaignId = mapCampaignName.get(ccErrorMobile);
+	                cm.ContactId = objContact.Id;
+	                lstCampaignMember.add(cm);
+                    }
+            	}
             }
 
         }

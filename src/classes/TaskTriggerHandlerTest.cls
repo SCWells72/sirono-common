@@ -46,8 +46,6 @@ private class TaskTriggerHandlerTest {
     
     //12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
     static testMethod void CaseCovergaeForAssignCaseId() {
-        TestUtility objTestUtility = new TestUtility();
-                
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
         
@@ -78,5 +76,9 @@ private class TaskTriggerHandlerTest {
         objTask1.Five9__Five9Campaign__c = 'IB Precollections';
         objTask1.CallDisposition = 'Successful Call';
         insert objTask1;
+        
+        //Check Case Id assign into Task Object.
+        List<Task> lstTask = [Select Id, WhatId from Task where Id =: objTask.Id];
+        System.assertEquals(objCase.Id, lstTask[0].WhatId);
     }
 }

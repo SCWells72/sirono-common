@@ -11,6 +11,11 @@
 public with sharing class TaskTriggerHandler {
 
     public static boolean isRecursive = false;
+    
+    public static final String CONTACTPREFIX = '003';
+    public static final String CASEPREFIX = '500';
+    public static final String OB = 'OB';
+    public static final String IB = 'IB';
 
     // Call removeFromCallList method when the task is inserted
     public static void afterInsert(List<Task> newList) {
@@ -68,15 +73,16 @@ public with sharing class TaskTriggerHandler {
         }
         
         for (Task t : newList) {
-            string strFive9Campaign;            
+            string strFive9Campaign;
+            
             if (t.Five9__Five9Campaign__c != null && t.WhoId != null
-                    && String.valueOf(t.WhoId).startsWith('003')
+                    && String.valueOf(t.WhoId).startsWith(CONTACTPREFIX)
                     && t.WhatId == null) {
                 
-                if (t.Five9__Five9Campaign__c.contains('OB')) {
-                    strFive9Campaign = t.Five9__Five9Campaign__c.replace('OB', '').trim();
-                } else if (t.Five9__Five9Campaign__c.contains('IB')) {
-                    strFive9Campaign = t.Five9__Five9Campaign__c.replace('IB', '').trim();
+                if (t.Five9__Five9Campaign__c.contains(OB)) {
+                    strFive9Campaign = t.Five9__Five9Campaign__c.replace(OB, '').trim();
+                } else if (t.Five9__Five9Campaign__c.contains(IB)) {
+                    strFive9Campaign = t.Five9__Five9Campaign__c.replace(IB, '').trim();
                 }                
                 system.debug('strFive9Campaign : ' + strFive9Campaign);            
             
