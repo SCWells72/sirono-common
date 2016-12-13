@@ -43,6 +43,17 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Case_ID__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Case ID</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>Campaign Members</relationshipLabel>
+        <relationshipName>Campaign_Members</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>City</fullName>
     </fields>
     <fields>

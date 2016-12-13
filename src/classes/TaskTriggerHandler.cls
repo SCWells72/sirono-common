@@ -4,16 +4,29 @@
 * @Date: 06-06-2016
 * @Handler class for TaskTrigger.
 * #130111863 Viraj Rana 09-29-2016: update the Hours_of_Day__c  field based on the timezone defined in the custom meta data. 
+*
+* 11-28-2016 Viraj Rana: #133707065: Case to Call Activiy
 */
 
 public with sharing class TaskTriggerHandler {
 
     public static boolean isRecursive = false;
+    
+    public static final String CONTACTPREFIX = '003';
+    public static final String CASEPREFIX = '500';
+    public static final String OB = 'OB';
+    public static final String IB = 'IB';
 
     // Call removeFromCallList method when the task is inserted
     public static void afterInsert(List<Task> newList) {
         removeFromCallList(newList, null);
         callHoursOfDay(newList, false);
+    }
+    
+    // 11-28-2016 Viraj Rana: #133707065: Case to Call Activiy
+    // Call assignCaseId method when the task is inserted
+    public static void beforeInsert(List<Task> newList){
+        assignCaseId(newList);
     }
 
     // Call removeFromCallList method when the task is updated
@@ -42,6 +55,61 @@ public with sharing class TaskTriggerHandler {
             return callListNameMap;
         }
         set;
+    }
+    
+    // 11-28-2016 Viraj Rana: #133707065: Case to Call Activiy
+    // This method is used to assign Latest Case Id in Task/Activity based on Campaign.
+    private static void assignCaseId(List<Task> newList) {
+        Set<Id> setContactId = new Set<Id>();
+        Set<String> setFive9Campaign = new Set<String>();
+        
+        Map<String,String> mapCampaignMapping = new Map<String,String>();
+        
+        Map<String,Task> mapTask = new Map<String,Task>();
+        
+        for (Campaign_Mapping__mdt cm : [Select MasterLabel, Salesforce_Campaign_Name__c
+                                            From Campaign_Mapping__mdt]) {
+            mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
+        }
+        
+        for (Task t : newList) {
+            string strFive9Campaign;
+            
+            if (t.Five9__Five9Campaign__c != null && t.WhoId != null
+                    && String.valueOf(t.WhoId).startsWith(CONTACTPREFIX)
+                    && t.WhatId == null) {
+                
+                if (t.Five9__Five9Campaign__c.contains(OB)) {
+                    strFive9Campaign = t.Five9__Five9Campaign__c.replace(OB, '').trim();
+                } else if (t.Five9__Five9Campaign__c.contains(IB)) {
+                    strFive9Campaign = t.Five9__Five9Campaign__c.replace(IB, '').trim();
+                }                
+                system.debug('strFive9Campaign : ' + strFive9Campaign);            
+            
+                if (mapCampaignMapping.containsKey(strFive9Campaign)) {
+                                    
+                    setContactId.add(t.WhoId);
+                    setFive9Campaign.add(mapCampaignMapping.get(strFive9Campaign));
+                    
+                    mapTask.put(t.WhoId + '-' + mapCampaignMapping.get(strFive9Campaign), t);
+                }
+            }
+        }
+        
+        if (setContactId.size() > 0) {
+            for (Campaign_Member_History__c cmh : [SELECT Id, Campaign__c, Campaign__r.Name, Contact__c, Case_ID__c
+                                                    FROM Campaign_Member_History__c
+                                                    WHERE Campaign__r.Name in: setFive9Campaign
+                                                        and Contact__c in: setContactId
+                                                        and Case_ID__c != null
+                                                    order by createddate desc]) {
+                                            
+                if (mapTask.containsKey(cmh.Contact__c + '-' + cmh.Campaign__r.Name)) {
+                    mapTask.get(cmh.Contact__c + '-' + cmh.Campaign__r.Name).WhatId = cmh.Case_ID__c;
+                    mapTask.remove(cmh.Contact__c + '-' + cmh.Campaign__r.Name);
+                }                       
+            }
+        }
     }
 
     // Call removeFromCallList method when the task is created or updated

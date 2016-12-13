@@ -67,6 +67,19 @@
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
     <fields>
+        <fullName>Case_ID__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Case ID</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>Campaign Member Histories</relationshipLabel>
+        <relationshipName>Campaign_Member_Histories</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>Contact__c</fullName>
         <externalId>false</externalId>
         <label>Contact</label>

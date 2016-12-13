@@ -5,13 +5,18 @@
 * @TaskTrigger used when task is created or updated.  
 */
 
-trigger TaskTrigger on Task (after insert, after update, before update) {
-
+trigger TaskTrigger on Task (after insert, before insert, after update,before update) {
+    
     //trigger invoked after an insert event 
     if (Trigger.isAfter && Trigger.isInsert) {
         TaskTriggerHandler.afterInsert(Trigger.new);
     }
 
+    //trigger invoked before an insert event 
+    if (Trigger.isBefore && Trigger.isInsert) {
+        TaskTriggerHandler.beforeInsert(Trigger.new);        
+    }
+    
     //trigger invoked after an update event
     if (Trigger.isAfter && Trigger.isUpdate) {
         TaskTriggerHandler.afterUpdate(Trigger.new, Trigger.oldMap);
