@@ -30,7 +30,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Overdue';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 
         //10-19-2016: Viraj - Tracker # 132105543-Change "Overdue_Balance__c = '< 0' to '> 0'" in condition.
@@ -103,7 +103,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Overdue';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 
         //10-19-2016: Viraj - Tracker # 132105543-Change "Overdue_Balance__c = '< 0' to '> 0'" in condition.
@@ -244,7 +244,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Overdue';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
@@ -315,7 +315,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Overdue';
+        chargeGroup.Account_Sub_Status__c =Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
@@ -387,7 +387,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Overdue';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 
         //10-19-2016: Viraj - Tracker # 132105543-Change "Delinquent_Balance__c = '< 0' to '> 0'" in condition.
@@ -426,7 +426,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Delinquent';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
         //10-19-2016: Viraj - Tracker # 132105543-Change "Delinquent_Balance__c = '< 0' to '> 0'" in condition.
@@ -498,7 +498,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Delinquent';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
         //10-19-2016: Viraj - Tracker # 132105543-Change "Delinquent_Balance__c = '< 0' to '> 0'" in condition.
@@ -561,7 +561,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Delinquent';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
         //10-19-2016: Viraj - Tracker # 132105543-Change "Delinquent_Balance__c = '< 0' to '> 0'" in condition.
@@ -623,7 +623,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Overdue';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
@@ -660,7 +660,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = -10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Delinquent';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
@@ -721,7 +721,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Overdue';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
@@ -758,7 +758,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = -10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Delinquent';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
@@ -838,7 +838,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = -10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Delinquent';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
@@ -992,7 +992,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = -10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Delinquent';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
@@ -1041,7 +1041,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = -10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Delinquent';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
@@ -1103,7 +1103,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = -10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Delinquent';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
@@ -1162,7 +1162,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = -10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Delinquent';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
@@ -1236,7 +1236,7 @@ public class CaseUtilTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = -10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Delinquent';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');

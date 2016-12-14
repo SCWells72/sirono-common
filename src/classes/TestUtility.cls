@@ -85,10 +85,10 @@ Public Class TestUtility {
         //chargeGroup.Balance__c = -100; //can't set amount now that balance is a rollup
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Overdue';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         chargeGroup.Active__c = true;
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Preinvoiced';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PREINVOICED;
         chargeGroup.Name = 'Sirono';
         chargeGroup.Payment_Plan__c = paymentplanID;
         return chargeGroup;
@@ -106,10 +106,10 @@ Public Class TestUtility {
         //cg.Balance__c = -100; //can't set amount now that balance is a rollup
         cg.Reported_Selfpay_Balance__c = 10;
         cg.Account_Status__c = 'Billed';
-        cg.Account_Sub_Status__c = 'Overdue';
+        cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         cg.Active__c = true;
         cg.Account_Status__c = 'Billed';
-        cg.Account_Sub_Status__c = 'Preinvoiced';
+        cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PREINVOICED;
 
         return cg;
     }
@@ -131,10 +131,10 @@ Public Class TestUtility {
         //cg.Balance__c = -100; //can't set amount now that balance is a rollup
         cg.Reported_Selfpay_Balance__c = 10;
         cg.Account_Status__c = 'Billed';
-        cg.Account_Sub_Status__c= 'Overdue';
+        cg.Account_Sub_Status__c= Constants.ACCT_SUBSTATUS_OVERDUE;
         cg.Active__c = true;
         cg.Account_Status__c = 'Billed';
-        cg.Account_Sub_Status__c = 'Preinvoiced';        
+        cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PREINVOICED;
 
         return cg;
     }

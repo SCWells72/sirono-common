@@ -246,7 +246,7 @@ public with sharing class AddToPaymentPlan {
         List<Charge_Group__c> lstCG = new List<Charge_Group__c>();
         lstCG = objPaymentPlanWrapper.chargeGroupRecords;
         for (Charge_Group__c cg : lstCG) {
-            cg.Account_Sub_Status__c = 'Payment Plan';
+            cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
             cg.Payment_Plan__c = paymentPlanObj.Id;
         }
         Update lstCG;
