@@ -21,7 +21,7 @@ public with sharing class PayStaffWSUtill {
     static boolean hasChargeGroupPaymentPlan = false;
 
     // Lists constructed from constant variables to for SOQL where clauses
-    public static final String[] GCConstraintsForCase = new List<String> {
+    public static final Set<String> GCConstraintsForCase = new Set<String> {
             Constants.ACCT_SUBSTATUS_PREINVOICED,
             Constants.ACCT_SUBSTATUS_DUE_BY,
             Constants.ACCT_SUBSTATUS_OVERDUE,
@@ -30,7 +30,7 @@ public with sharing class PayStaffWSUtill {
             Constants.ACCT_SUBSTATUS_BAD_DEBT
     };
 
-    public static final String[] GCConstraints = new List<String> {
+    public static final Set<String> GCConstraints = new Set<String> {
             Constants.ACCT_SUBSTATUS_PREINVOICED,
             Constants.ACCT_SUBSTATUS_DUE_BY,
             Constants.ACCT_SUBSTATUS_OVERDUE,
