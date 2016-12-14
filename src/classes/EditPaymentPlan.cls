@@ -125,7 +125,7 @@ public with sharing class EditPaymentPlan {
             guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
             //chargeGroupList = PayStaffWSUtill.fetchChargeGroupList(gc);
             for (ChargeGroupWrapper cgw : PayStaffWSUtill.fetchChargeGroupList(gc)) {
-                if (cgw.cg.Active__c && cgw.cg.Balance__c != 0 && cgw.cg.Account_Sub_Status__c == 'Payment Plan') {
+                if (cgw.cg.Active__c && cgw.cg.Balance__c != 0 && cgw.cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_PAYMENT_PLAN) {
                     cgw.isSelected = true;
                     chargeGroupList.add(cgw);
                     totalAmount += cgw.cg.Balance__c;

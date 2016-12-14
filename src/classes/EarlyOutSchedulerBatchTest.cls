@@ -32,7 +32,7 @@ public class EarlyOutSchedulerBatchTest {
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(con1.Id, p.id, 121343);
         chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = 'Overdue';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -120, 'Service');

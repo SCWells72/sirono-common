@@ -50,7 +50,7 @@ private class PreCollectionSchedulerBatchTest {
 
         Charge_Group__c cg = TestUtility.generateChargeGroup(con1.Id, con2.id, 1212343);
         cg.Account_Status__c = 'Billed';
-        cg.Account_Sub_Status__c = 'Delinquent';
+        cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         cg.Pre_Collection_Sent__c = System.today();
         insert cg;
 
@@ -105,17 +105,16 @@ private class PreCollectionSchedulerBatchTest {
 
         Charge_Group__c cg = TestUtility.generateChargeGroup(con1.Id, con2.id, 12122343);
         cg.Account_Status__c = 'Billed';
-        cg.Account_Sub_Status__c = 'Delinquent';
+        cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         cg.Pre_Collection_Sent__c = System.today();
         insert cg;
 
         Transaction__c transactionObj = TestUtility.generateTransaction(cg, -110, 'Automatic');
         insert transactionObj ;
 
-
         cg = TestUtility.generateChargeGroup(con.Id, con2.id, 1212343);
         cg.Account_Status__c = 'Billed';
-        cg.Account_Sub_Status__c = 'Delinquent';
+        cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         cg.Pre_Collection_Sent__c = System.today();
         insert cg;
 

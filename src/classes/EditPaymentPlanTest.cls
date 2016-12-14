@@ -64,7 +64,7 @@ private class EditPaymentPlanTest {
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
         Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
@@ -116,7 +116,7 @@ private class EditPaymentPlanTest {
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
@@ -303,7 +303,7 @@ private class EditPaymentPlanTest {
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
@@ -367,7 +367,7 @@ private class EditPaymentPlanTest {
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
@@ -470,7 +470,7 @@ private class EditPaymentPlanTest {
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Reported_Selfpay_Balance__c = -100;
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
@@ -529,7 +529,7 @@ private class EditPaymentPlanTest {
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
@@ -593,7 +593,7 @@ private class EditPaymentPlanTest {
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
@@ -665,7 +665,7 @@ private class EditPaymentPlanTest {
         System.debug('23121' + paymentPlan);
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
@@ -737,7 +737,7 @@ private class EditPaymentPlanTest {
         System.debug('23121' + paymentPlan);
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
@@ -809,7 +809,7 @@ private class EditPaymentPlanTest {
         System.debug('23121' + paymentPlan);
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
@@ -878,7 +878,7 @@ private class EditPaymentPlanTest {
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
@@ -951,7 +951,7 @@ private class EditPaymentPlanTest {
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
@@ -1023,7 +1023,7 @@ private class EditPaymentPlanTest {
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
@@ -1094,7 +1094,7 @@ private class EditPaymentPlanTest {
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
@@ -1193,7 +1193,7 @@ private class EditPaymentPlanTest {
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
@@ -1267,7 +1267,7 @@ private class EditPaymentPlanTest {
         insert paymentPlan;
         
         Charge_Group__c   chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id,null,121114);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
         
@@ -1337,7 +1337,7 @@ private class EditPaymentPlanTest {
         insert paymentPlan;
         
         Charge_Group__c   chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id,null,121114);
-        chargeGroup.Account_Sub_Status__c = 'Payment Plan';
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
         

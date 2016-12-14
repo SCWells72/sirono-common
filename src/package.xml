@@ -221,6 +221,7 @@
         <members>Contact.Address__c</members>
         <members>Contact.Guarantor_Patient_Id__c</members>
         <members>User.Legacy_User_Id__c</members>
+        <members>CampaignMember.Case_ID__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -709,6 +710,7 @@
         <members>Coverage__c</members>
         <members>Invoice__c</members>
         <members>Payment__c</members>
+        <members>Payment_Plan__c</members>
         <members>Payment_Adjustments__c</members>
         <members>Statement__c</members>
         <name>Workflow</name>
@@ -725,6 +727,7 @@
         <members>Coverage__c.Coverage_Name</members>
         <members>Invoice__c.Invoice_Name</members>
         <members>Payment__c.Payment_Name_Update</members>
+        <members>Payment_Plan__c.UpdatePPcomplete</members>
         <members>Payment_Adjustments__c.UpdateName</members>
         <members>Service__c.Service_Name</members>
         <members>Statement__c.Statement_Name</members>
@@ -740,6 +743,7 @@
         <members>Invoice__c.Invoice Name</members>
         <members>Payment__c.Payment_Name_Update</members>
         <members>Payment_Adjustments__c.CustomizeName</members>
+        <members>Payment_Plan__c.PPcomplete</members>
         <members>Service__c.Service Name</members>
         <members>Statement__c.Statement Name</members>
         <name>WorkflowRule</name>

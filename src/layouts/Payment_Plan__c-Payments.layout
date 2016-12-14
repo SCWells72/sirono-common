@@ -75,10 +75,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Next_Payment_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
                 <field>Time_to_Delinquency__c</field>
             </layoutItems>
             <layoutItems>
@@ -119,6 +115,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Cancellation_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Completion_Date__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
