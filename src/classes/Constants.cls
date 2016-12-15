@@ -18,7 +18,7 @@ public class Constants {
     public static final String ACCT_SUBSTATUS_THIRD_PARTY = 'Third Party Payer';
     public static final String ACCT_SUBSTATUS_CREDIT = 'Credit';
     public static final String ACCT_SUBSTATUS_PAID = 'Paid';
-    public static final String ACCT_SUBSTATUS_PREINVOICED = 'Pre-invoiced';
+    public static final String ACCT_SUBSTATUS_PREINVOICED = 'Pre-Invoiced';
 
     private Constants() {}
 }

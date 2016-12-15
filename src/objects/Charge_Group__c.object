@@ -311,7 +311,7 @@
     <fields>
         <fullName>Has_Pre_Invoiced_Balance__c</fullName>
         <externalId>false</externalId>
-        <formula>AND(Account_Status__c = &quot;Billed&quot;, Account_Sub_Status__c = &quot;Pre-invoiced&quot;)</formula>
+        <formula>AND(Account_Status__c = &quot;Billed&quot;, Account_Sub_Status__c = &quot;Pre-Invoiced&quot;)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Has Pre-Invoiced Balance</label>
         <trackHistory>false</trackHistory>
