@@ -6,6 +6,8 @@
 * #130111863 Viraj Rana 09-29-2016: update the Hours_of_Day__c  field based on the timezone defined in the custom meta data. 
 *
 * 11-28-2016 Viraj Rana: #133707065: Case to Call Activiy
+* 
+* 12-02-2016 Viraj Rana: #132948555: Define Exhausted Effort
 */
 
 public with sharing class TaskTriggerHandler {
@@ -19,6 +21,9 @@ public with sharing class TaskTriggerHandler {
 
     // Call removeFromCallList method when the task is inserted
     public static void afterInsert(List<Task> newList) {
+        // Call caseCloseWithExhaustedCriteria method when Task is inserted.
+        caseCloseWithExhaustedCriteria(newList, null);
+        
         removeFromCallList(newList, null);
         callHoursOfDay(newList, false);
     }
@@ -31,6 +36,8 @@ public with sharing class TaskTriggerHandler {
 
     // Call removeFromCallList method when the task is updated
     public static void afterUpdate(List<Task> newList, Map<Id, Task> oldMap) {
+        // Call caseCloseWithExhaustedCriteria method when Task is updated.
+        caseCloseWithExhaustedCriteria(newList, oldMap);
         removeFromCallList(newList, oldMap);
     }
 
@@ -112,6 +119,131 @@ public with sharing class TaskTriggerHandler {
         }
     }
 
+    // 12-02-2016 Viraj Rana: #132948555: Define Exhausted Effort.
+    // This method is used to Closed the Case based on Exhausted Criteria.
+    private static void caseCloseWithExhaustedCriteria(List<Task> newList, Map<Id,Task> oldMap) {
+    
+        Set<Id> setContactId = new Set<Id>();
+        Set<String> setFive9Campaign = new Set<String>();
+        
+        Map<String,String> mapCampaignMapping = new Map<String,String>();
+        
+        for (Campaign_Mapping__mdt cm : [Select MasterLabel, Salesforce_Campaign_Name__c
+                                            From Campaign_Mapping__mdt]) {
+            mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
+        }
+        
+        for (Task t : newList) {
+            if (t.CallDisposition != null && t.Five9__Five9Campaign__c != null
+                    && t.WhoId != null
+                    && String.valueOf(t.WhoId).startsWith(CONTACTPREFIX)
+                    && t.WhatId != null
+                    && String.valueOf(t.WhatId).startsWith(CASEPREFIX)
+                    && (oldMap == null || t.CallDisposition != oldMap.get(t.Id).CallDisposition)
+                    && (oldMap == null || t.WhatId != oldMap.get(t.Id).WhatId)) {
+
+                string strFive9Campaign;
+                
+                if (t.Five9__Five9Campaign__c.contains(OB)) {
+                    strFive9Campaign = t.Five9__Five9Campaign__c.replace(OB, '').trim();
+                } else if (t.Five9__Five9Campaign__c.contains(IB)) {
+                    strFive9Campaign = t.Five9__Five9Campaign__c.replace(IB, '').trim();
+                }
+                
+                if (mapCampaignMapping.containsKey(strFive9Campaign)) {                                    
+                    setContactId.add(t.WhoId);
+                    setFive9Campaign.add(t.Five9__Five9Campaign__c);
+                }
+            }
+        }
+        
+        if (setContactId.size() > 0) {
+            // Get Exhausted Criteria data in Custom Settings.
+            List<Exhausted_Criteria__mdt> lstExhaustedCriteria = [select MasterLabel, Type__c from Exhausted_Criteria__mdt];
+            Set<String> setFinalDisposition = new Set<String>();
+            Set<String> setRetryDisposition = new Set<String>();
+            Set<String> setErrorDisposition = new Set<String>();
+            
+            Set<String> setFinalCase = new Set<String>();
+            Set<String> setExhaustedCase = new Set<String>();
+            
+            for (Exhausted_Criteria__mdt ec : lstExhaustedCriteria) {
+                if (ec.Type__c == 'Final Dispositions') {
+                    setFinalDisposition.add(ec.MasterLabel);
+                } else if (ec.Type__c == 'Retry Dispositions') {
+                    setRetryDisposition.add(ec.MasterLabel);
+                } else if (ec.Type__c == 'Error Dispositions') {
+                    setErrorDisposition.add(ec.MasterLabel);
+                }
+            }
+            
+            for (Contact c : [
+                            Select Id, FirstName, LastName, 
+                                (Select Id, CallDisposition, Five9__Five9Campaign__c, WhatId
+                                From Tasks
+                                WHERE WhatId != null
+                                AND CallDisposition != null
+                                AND WhoId != null
+                                AND Five9__Five9Campaign__c in: setFive9Campaign)
+                             From Contact Where Id IN: setContactId
+                             ]) {
+                
+                Integer retryCount = 0;
+                Integer errorCount = 0;
+                
+                for (Task t : c.Tasks) {
+                    if (setFinalDisposition.contains(t.CallDisposition)) {
+                        if (String.valueOf(t.WhatId).startsWith(CASEPREFIX)) {
+                            setFinalCase.add(t.WhatId);
+                        }
+                        if (setExhaustedCase.contains(t.WhatId)) {
+                            setExhaustedCase.remove(t.WhatId);
+                        }
+                    } else if (setRetryDisposition.contains(t.CallDisposition) && !setFinalCase.contains(t.WhatId)
+                            && !setExhaustedCase.contains(t.WhatId)) {
+                        retryCount ++;
+                        if (retryCount >= 2) {
+                            if (String.valueOf(t.WhatId).startsWith(CASEPREFIX)) {
+                                setExhaustedCase.add(t.WhatId);
+                            }
+                        }
+                    } else if (setErrorDisposition.contains(t.CallDisposition) && !setFinalCase.contains(t.WhatId)
+                            && !setExhaustedCase.contains(t.WhatId)) {
+                        errorCount ++;
+                        if (errorCount >= 5) {
+                            if (String.valueOf(t.WhatId).startsWith(CASEPREFIX)) {
+                                setExhaustedCase.add(t.WhatId);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if (setFinalCase.size() > 0 || setExhaustedCase.size() > 0) {
+                Set<String> setAllCase = new Set<String>();                
+                setAllCase.addAll(setFinalCase);
+                setAllCase.addAll(setExhaustedCase);
+                
+                List<Case> lstCase = [SELECT Id, Status, Reason FROM Case
+                                        WHERE Id in: setAllCase and Status != 'Closed'];
+                                        
+                if (lstCase.size() > 0) {
+                    for (Case c : lstCase) {
+                        if (setFinalCase.contains(c.Id)) {
+                            c.Status = 'Closed';
+                            c.Reason = 'Case Closed - FINAL';
+                        } else if (setExhaustedCase.contains(c.Id)) {
+                            c.Status = 'Closed';
+                            c.Reason = 'Case Closed - Exhausted';
+                        }
+                    }
+                    
+                    Update lstCase;
+                }
+            }
+        }
+    }
+    	
     // Call removeFromCallList method when the task is created or updated
     private static void removeFromCallList(List<Task> newList, Map<Id, Task> oldMap) {
         Set<Id> contactIds = new Set<Id>();
