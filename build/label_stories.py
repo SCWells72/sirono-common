@@ -1,4 +1,4 @@
-import subprocess, re, requests, json
+import argparse, subprocess, re, requests, json
 
 PROJECT_ID = 1608481
 PIVOTAL_TOKEN = '212c3d7d91c24ad24f5c487ee6a0fcf1'
@@ -51,7 +51,7 @@ def get_current_branch():
     return branch.strip(' \t\n\r')
 
 
-def get_branch_label():
+def get_branch_label(current_branch):
     return branch_label_map[current_branch]
 
 
@@ -68,7 +68,10 @@ def get_story(tracker_id):
     return response.json()
 
 
-def update_story():
+def update_story(current_branch, story_json):
+    story_id = story_json["id"]
+    branch_label = get_branch_label(current_branch)
+
     request_body = dict()
     label_set = set(map((lambda x: x["name"]), story_json["labels"]))
 
@@ -87,12 +90,16 @@ def update_story():
         response.raise_for_status()
 
 
-if __name__ == "__main__":
-
-    current_branch = get_current_branch()
-    branch_label = get_branch_label()
+def main():
+    parser = argparse.ArgumentParser(description="Label tracker stories in the given branch & update their current state")
+    parser.add_argument('-b', '--branch', dest="current_branch", required=True)
+    args = parser.parse_args()
 
     for story_id in get_story_ids():
         story_json = get_story(story_id)
         if story_json:
-            update_story()
+            update_story(args.current_branch, story_json)
+
+
+if __name__ == '__main__':
+    main()
