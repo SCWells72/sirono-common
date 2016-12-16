@@ -48,7 +48,6 @@
         </not>
     </condition>
 
-
     <target name="retrieve">
         <echo level="info">Retrieving from: ${sf.source.username} into: ${sf.retrieveTarget}</echo>
         <delete dir="${sf.retrieveTarget}"/>
@@ -74,7 +73,7 @@
                 logType="Debugonly"/>
     </target>
 
-    <target name="undeployCode" depends="echo_environment">
+    <target name="undeployCode">
         <echo level="info">Remove metadata from: ${sf.target.username}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -82,6 +81,22 @@
                 serverurl="${sf.target.serverurl}"
                 deployRoot="${basedir}/build/undeploy"
                 ignoreWarnings="true"/>
+    </target>
+
+    <!-- Check only; don't remove from server -->
+    <target name="undeployCheckOnly">
+        <echo level="info">Validate removal of metadata from: ${sf.target.username}</echo>
+        <sf:deploy
+                username="${sf.target.username}"
+                password="${sf.target.password}"
+                serverurl="${sf.target.serverurl}"
+                deployRoot="${basedir}/build/undeploy"
+                ignoreWarnings="true"
+                pollWaitMillis="${sf.pollWaitMillis}"
+                maxPoll="${sf.maxPoll}"
+                testLevel="RunLocalTests"
+                logType="Debugonly"
+                checkOnly="true"/>
     </target>
 
     <!-- Check only; don't save to the server -->
