@@ -1,4 +1,4 @@
-import argparse, subprocess, re, requests, json
+import os, subprocess, re, requests
 
 PROJECT_ID = 1608481
 PIVOTAL_TOKEN = '212c3d7d91c24ad24f5c487ee6a0fcf1'
@@ -29,24 +29,26 @@ branch_label_map = {
 def get_story_ids():
     unique_story_ids = set()
     r = re.compile("#([0-9]+)")
-    p = subprocess.Popen("git log HEAD --grep='#[0-9]\+' --no-merges --pretty=format:%B", shell=True,
+    p = subprocess.Popen("git log HEAD --no-merges |grep '#[0-9]\+'|grep '\['", shell=True,
                          stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
     for line in p.stdout.readlines():
         stories = r.findall(line)
         if stories:
             for s_id in stories:
                 if len(s_id) > 7: unique_story_ids.add(s_id)
 
-    # print "\n".join(unique_story_ids)
+    print "\n".join(unique_story_ids)
     return unique_story_ids
 
 
 def get_current_branch():
-    branch = None
-    p = subprocess.Popen("git rev-parse --abbrev-ref HEAD", shell=True, stdout=subprocess.PIPE,
-                         stderr=subprocess.STDOUT, bufsize=1, universal_newlines=True)
-    for line in p.stdout.readlines():
-        branch = line
+    branch = os.getenv('GIT_BRANCH')
+    if not branch:
+        p = subprocess.Popen("git rev-parse --abbrev-ref HEAD", shell=True, stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT, bufsize=1, universal_newlines=True)
+        for line in p.stdout.readlines():
+            branch = line
 
     return branch.strip(' \t\n\r')
 
@@ -91,15 +93,23 @@ def update_story(current_branch, story_json):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Label tracker stories in the given branch & update their current state")
-    parser.add_argument('-b', '--branch', dest="current_branch", required=True)
-    args = parser.parse_args()
+    # parser = argparse.ArgumentParser(description="Label tracker stories in the given branch & update their current state")
+    # parser.add_argument('-b', '--branch', dest="current_branch", required=True)
+    # args = parser.parse_args()
 
-    for story_id in get_story_ids():
-        story_json = get_story(story_id)
-        if story_json:
-            update_story(args.current_branch, story_json)
+    current_branch = get_current_branch()
 
+    if current_branch:
+        if branch_label_map.has_key(current_branch):
+            print('Updating tracker stories addressed in branch: {}'.format(current_branch))
+            for story_id in get_story_ids():
+                story_json = get_story(story_id)
+                # if story_json:
+                #     update_story(current_branch, story_json)
+        else:
+            print('Only able to process branches: {}. Please change your branch and try again'.format(', '.join(branch_label_map.keys())))
+    else:
+        print('Unable to determine the current branch')
 
 if __name__ == '__main__':
     main()
