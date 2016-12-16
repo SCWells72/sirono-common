@@ -38,7 +38,7 @@ def get_story_ids():
             for s_id in stories:
                 if len(s_id) > 7: unique_story_ids.add(s_id)
 
-    print "\n".join(unique_story_ids)
+    # print "\n".join(unique_story_ids)
     return unique_story_ids
 
 
