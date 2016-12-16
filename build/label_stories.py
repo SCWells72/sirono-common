@@ -1,4 +1,4 @@
-import os, subprocess, re, requests
+import os, subprocess, re, requests, argparse
 
 PROJECT_ID = 1608481
 PIVOTAL_TOKEN = '212c3d7d91c24ad24f5c487ee6a0fcf1'
@@ -42,17 +42,6 @@ def get_story_ids():
     return unique_story_ids
 
 
-def get_current_branch():
-    branch = os.getenv('GIT_BRANCH')
-    if not branch:
-        p = subprocess.Popen("git rev-parse --abbrev-ref HEAD", shell=True, stdout=subprocess.PIPE,
-                             stderr=subprocess.STDOUT, bufsize=1, universal_newlines=True)
-        for line in p.stdout.readlines():
-            branch = line
-
-    return branch.strip(' \t\n\r')
-
-
 def get_branch_label(current_branch):
     return branch_label_map[current_branch]
 
@@ -93,19 +82,17 @@ def update_story(current_branch, story_json):
 
 
 def main():
-    # parser = argparse.ArgumentParser(description="Label tracker stories in the given branch & update their current state")
-    # parser.add_argument('-b', '--branch', dest="current_branch", required=True)
-    # args = parser.parse_args()
+    parser = argparse.ArgumentParser(description="Label tracker stories in the given branch & update their current state")
+    parser.add_argument('-b', '--branch', dest="current_branch", required=True)
+    args = parser.parse_args()
 
-    current_branch = get_current_branch()
-
-    if current_branch:
-        if branch_label_map.has_key(current_branch):
-            print('Updating tracker stories addressed in branch: {}'.format(current_branch))
+    if args.current_branch:
+        if branch_label_map.has_key(args.current_branch):
+            print('Updating tracker stories addressed in branch: {}'.format(args.current_branch))
             for story_id in get_story_ids():
                 story_json = get_story(story_id)
-                # if story_json:
-                #     update_story(current_branch, story_json)
+                if story_json:
+                    update_story(args.current_branch, story_json)
         else:
             print('Only able to process branches: {}. Please change your branch and try again'.format(', '.join(branch_label_map.keys())))
     else:
