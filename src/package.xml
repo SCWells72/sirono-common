@@ -228,7 +228,6 @@
         <members>Adjustment_for_Admin</members>
         <members>Case_Type_Require</members>
         <members>Charge_Groups_Require</members>
-        <members>PayStaffEndPointURL</members>
         <members>Payment_Plan_Error</members>
         <name>CustomLabel</name>
     </types>
