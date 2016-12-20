@@ -476,6 +476,7 @@
         <members>Case.Hospital_Staff_Billing_Case</members>
         <members>Case.Hospital_Staff_Case</members>
         <members>Case.Imported_from_Redmine</members>
+        <members>Case.Insurance_Update</members>
         <members>Case.Internal_Cases</members>
         <members>Case.MyCases</members>
         <members>Case.MyOpenCases</members>

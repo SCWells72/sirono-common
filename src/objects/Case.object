@@ -3124,6 +3124,28 @@
         <label>Imported from Redmine</label>
     </listViews>
     <listViews>
+        <fullName>Insurance_Update</fullName>
+        <columns>CASES.CASE_NUMBER</columns>
+        <columns>Guarantor_Information__c</columns>
+        <columns>CASES.SUBJECT</columns>
+        <columns>CASES.CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>CASES.REASON</field>
+            <operation>equals</operation>
+            <value>New Insurance</value>
+        </filters>
+        <filters>
+            <field>CASES.STATUS</field>
+            <operation>equals</operation>
+            <value>New</value>
+        </filters>
+        <label>Insurance Update</label>
+        <sharedTo>
+            <group>Data_Clerk</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
         <fullName>Internal_Cases</fullName>
         <columns>CASES.CASE_NUMBER</columns>
         <columns>CASES.SUBJECT</columns>
