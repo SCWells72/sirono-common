@@ -478,6 +478,7 @@
         <members>Case.Insurance_Update</members>
         <members>Case.Internal_Cases</members>
         <members>Case.Missing_Payment</members>
+        <members>Case.Demographic_Update</members>
         <members>Case.MyCases</members>
         <members>Case.MyOpenCases</members>
         <members>Case.Quality_of_Care_Case</members>
