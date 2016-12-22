@@ -107,7 +107,7 @@ private class TaskTriggerHandlerTest {
         Task objTask = TestUtility.generateTask(guarantorContact.Id);
         objTask.WhoId = guarantorContact.Id;
         objTask.Five9__Five9Campaign__c = 'OB PreCollections';
-        objTask.CallDisposition = 'Abandon';
+        objTask.CallDisposition = 'Busy';
         objTask.WhatId = objCase.Id;
         insert objTask;
         
@@ -120,8 +120,8 @@ private class TaskTriggerHandlerTest {
         
         Task objTask2 = TestUtility.generateTask(guarantorContact.Id);
         objTask2.WhoId = guarantorContact.Id;
-        objTask2.Five9__Five9Campaign__c = 'IB PreCollections';
-        objTask2.CallDisposition = 'DNC';
+        objTask2.Five9__Five9Campaign__c = 'OB PreCollections';
+        objTask2.CallDisposition = 'Abandon';
         objTask2.WhatId = objCase.Id;
         insert objTask2;
         
@@ -218,13 +218,6 @@ private class TaskTriggerHandlerTest {
         objTask.WhoId = guarantorContact.Id;
         objTask.Five9__Five9Campaign__c = 'OB PreCollections';
         objTask.CallDisposition = 'Busy';
-        objTask.WhatId = objCase.Id;
-        lstTask.add(objTask);
-        
-        objTask = TestUtility.generateTask(guarantorContact.Id);
-        objTask.WhoId = guarantorContact.Id;
-        objTask.Five9__Five9Campaign__c = 'OB PreCollections';
-        objTask.CallDisposition = 'Successful Call';
         objTask.WhatId = objCase.Id;
         lstTask.add(objTask);
         

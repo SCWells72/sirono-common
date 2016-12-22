@@ -124,36 +124,19 @@ public with sharing class TaskTriggerHandler {
     private static void caseCloseWithExhaustedCriteria(List<Task> newList, Map<Id,Task> oldMap) {
     
         Set<Id> setContactId = new Set<Id>();
-        Set<String> setFive9Campaign = new Set<String>();
-        
-        Map<String,String> mapCampaignMapping = new Map<String,String>();
-        
-        for (Campaign_Mapping__mdt cm : [Select MasterLabel, Salesforce_Campaign_Name__c
-                                            From Campaign_Mapping__mdt]) {
-            mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
-        }
+        Set<Id> setCaseId = new Set<Id>();
         
         for (Task t : newList) {
-            if (t.CallDisposition != null && t.Five9__Five9Campaign__c != null
+            if (t.CallDisposition != null
                     && t.WhoId != null
                     && String.valueOf(t.WhoId).startsWith(CONTACTPREFIX)
                     && t.WhatId != null
                     && String.valueOf(t.WhatId).startsWith(CASEPREFIX)
                     && (oldMap == null || t.CallDisposition != oldMap.get(t.Id).CallDisposition)
                     && (oldMap == null || t.WhatId != oldMap.get(t.Id).WhatId)) {
-
-                string strFive9Campaign;
                 
-                if (t.Five9__Five9Campaign__c.contains(OB)) {
-                    strFive9Campaign = t.Five9__Five9Campaign__c.replace(OB, '').trim();
-                } else if (t.Five9__Five9Campaign__c.contains(IB)) {
-                    strFive9Campaign = t.Five9__Five9Campaign__c.replace(IB, '').trim();
-                }
-                
-                if (mapCampaignMapping.containsKey(strFive9Campaign)) {                                    
-                    setContactId.add(t.WhoId);
-                    setFive9Campaign.add(t.Five9__Five9Campaign__c);
-                }
+                setContactId.add(t.WhoId);
+                setCaseId.add(t.WhatId);
             }
         }
         
@@ -179,40 +162,49 @@ public with sharing class TaskTriggerHandler {
             
             for (Contact c : [
                             Select Id, FirstName, LastName, 
-                                (Select Id, CallDisposition, Five9__Five9Campaign__c, WhatId
+                                (Select Id, CallDisposition, WhatId
                                 From Tasks
                                 WHERE WhatId != null
                                 AND CallDisposition != null
                                 AND WhoId != null
-                                AND Five9__Five9Campaign__c in: setFive9Campaign)
+                                AND WhatId in: setCaseId)
                              From Contact Where Id IN: setContactId
                              ]) {
                 
-                Integer retryCount = 0;
-                Integer errorCount = 0;
+                Integer count = 0;
+                Map<Id,String> mapDispositionCount = new Map<Id,String>();
                 
                 for (Task t : c.Tasks) {
-                    if (setFinalDisposition.contains(t.CallDisposition)) {
-                        if (String.valueOf(t.WhatId).startsWith(CASEPREFIX)) {
-                            setFinalCase.add(t.WhatId);
-                        }
+                    if (setFinalDisposition.contains(t.CallDisposition)) {                        
+                        setFinalCase.add(t.WhatId);
+
                         if (setExhaustedCase.contains(t.WhatId)) {
                             setExhaustedCase.remove(t.WhatId);
                         }
                     } else if (setRetryDisposition.contains(t.CallDisposition) && !setFinalCase.contains(t.WhatId)
                             && !setExhaustedCase.contains(t.WhatId)) {
-                        retryCount ++;
-                        if (retryCount >= 2) {
-                            if (String.valueOf(t.WhatId).startsWith(CASEPREFIX)) {
+                        if (!mapDispositionCount.containsKey(t.WhatId)) {
+                            mapDispositionCount.put(t.WhatId, '1#0');
+                        } else {
+                            count = Integer.valueof(mapDispositionCount.get(t.WhatId).split('#')[0]);
+                            count ++;
+                            if (count >= 2) {
                                 setExhaustedCase.add(t.WhatId);
+                            } else {
+                                mapDispositionCount.put(t.WhatId, count + '#' + mapDispositionCount.get(t.WhatId).split('#')[1]);
                             }
                         }
                     } else if (setErrorDisposition.contains(t.CallDisposition) && !setFinalCase.contains(t.WhatId)
                             && !setExhaustedCase.contains(t.WhatId)) {
-                        errorCount ++;
-                        if (errorCount >= 5) {
-                            if (String.valueOf(t.WhatId).startsWith(CASEPREFIX)) {
+                        if (!mapDispositionCount.containsKey(t.WhatId)) {
+                            mapDispositionCount.put(t.WhatId, '0#1');
+                        } else {
+                            count = Integer.valueof(mapDispositionCount.get(t.WhatId).split('#')[1]);
+                            count ++;
+                            if (count >= 5) {
                                 setExhaustedCase.add(t.WhatId);
+                            } else {                                
+                                mapDispositionCount.put(t.WhatId, mapDispositionCount.get(t.WhatId).split('#')[0] + '#' + count);
                             }
                         }
                     }
