@@ -18,6 +18,14 @@ public with sharing class TaskTriggerHandler {
     public static final String CASEPREFIX = '500';
     public static final String OB = 'OB';
     public static final String IB = 'IB';
+    
+    //#132948555: Define Exhausted Effort Constants.
+    public static final String FINAL_DISPOSITIONS = 'Final Dispositions';
+    public static final String RETRY_DISPOSITIONS = 'Retry Dispositions';
+    public static final String ERROR_DISPOSITIONS = 'Error Dispositions';
+    public static final String CASE_STATUS_CLOSED = 'Closed';
+    public static final String CASE_REASON_FINAL = 'Case Closed - FINAL';
+    public static final String CASE_REASON_EXHAUSTED = 'Case Closed - Exhausted';
 
     // Call removeFromCallList method when the task is inserted
     public static void afterInsert(List<Task> newList) {
@@ -122,7 +130,10 @@ public with sharing class TaskTriggerHandler {
     // 12-02-2016 Viraj Rana: #132948555: Define Exhausted Effort.
     // This method is used to Closed the Case based on Exhausted Criteria.
     private static void caseCloseWithExhaustedCriteria(List<Task> newList, Map<Id,Task> oldMap) {
-    
+    	
+    	//Check Task is not updated through Trigger bz of Task is updated by "callHoursOfDay" method in Trigger.
+    	if (isRecursive) return;
+    	
         Set<Id> setContactId = new Set<Id>();
         Set<Id> setCaseId = new Set<Id>();
         
@@ -151,11 +162,11 @@ public with sharing class TaskTriggerHandler {
             Set<String> setExhaustedCase = new Set<String>();
             
             for (Exhausted_Criteria__mdt ec : lstExhaustedCriteria) {
-                if (ec.Type__c == 'Final Dispositions') {
+                if (ec.Type__c.equals(FINAL_DISPOSITIONS)) {
                     setFinalDisposition.add(ec.MasterLabel);
-                } else if (ec.Type__c == 'Retry Dispositions') {
+                } else if (ec.Type__c.equals(RETRY_DISPOSITIONS)) {
                     setRetryDisposition.add(ec.MasterLabel);
-                } else if (ec.Type__c == 'Error Dispositions') {
+                } else if (ec.Type__c.equals(ERROR_DISPOSITIONS)) {
                     setErrorDisposition.add(ec.MasterLabel);
                 }
             }
@@ -217,16 +228,16 @@ public with sharing class TaskTriggerHandler {
                 setAllCase.addAll(setExhaustedCase);
                 
                 List<Case> lstCase = [SELECT Id, Status, Reason FROM Case
-                                        WHERE Id in: setAllCase and Status != 'Closed'];
+                                        WHERE Id in: setAllCase and Status !=: CASE_STATUS_CLOSED];
                                         
                 if (lstCase.size() > 0) {
                     for (Case c : lstCase) {
                         if (setFinalCase.contains(c.Id)) {
-                            c.Status = 'Closed';
-                            c.Reason = 'Case Closed - FINAL';
+                            c.Status = CASE_STATUS_CLOSED;
+                            c.Reason = CASE_REASON_FINAL;
                         } else if (setExhaustedCase.contains(c.Id)) {
-                            c.Status = 'Closed';
-                            c.Reason = 'Case Closed - Exhausted';
+                            c.Status = CASE_STATUS_CLOSED;
+                            c.Reason = CASE_REASON_EXHAUSTED;
                         }
                     }
                     
