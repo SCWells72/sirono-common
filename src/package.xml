@@ -228,7 +228,6 @@
         <members>Adjustment_for_Admin</members>
         <members>Case_Type_Require</members>
         <members>Charge_Groups_Require</members>
-        <members>PayStaffEndPointURL</members>
         <members>Payment_Plan_Error</members>
         <name>CustomLabel</name>
     </types>
@@ -478,6 +477,7 @@
         <members>Case.Imported_from_Redmine</members>
         <members>Case.Insurance_Update</members>
         <members>Case.Internal_Cases</members>
+        <members>Case.Missing_Payment</members>
         <members>Case.MyCases</members>
         <members>Case.MyOpenCases</members>
         <members>Case.Quality_of_Care_Case</members>

@@ -21,7 +21,7 @@ public with sharing class PayStaffWSUtill {
     static boolean hasChargeGroupPaymentPlan = false;
 
     // Lists constructed from constant variables to for SOQL where clauses
-    public static final Set<String> GCConstraintsForCase = new Set<String> {
+    public static final Set<String> CGConstraintsForCase = new Set<String> {
             Constants.ACCT_SUBSTATUS_PREINVOICED,
             Constants.ACCT_SUBSTATUS_DUE_BY,
             Constants.ACCT_SUBSTATUS_OVERDUE,
@@ -30,7 +30,7 @@ public with sharing class PayStaffWSUtill {
             Constants.ACCT_SUBSTATUS_BAD_DEBT
     };
 
-    public static final Set<String> GCConstraints = new Set<String> {
+    public static final Set<String> CGConstraints = new Set<String> {
             Constants.ACCT_SUBSTATUS_PREINVOICED,
             Constants.ACCT_SUBSTATUS_DUE_BY,
             Constants.ACCT_SUBSTATUS_OVERDUE,
@@ -135,7 +135,7 @@ public with sharing class PayStaffWSUtill {
                                 Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
                         From Charge_Groups__r
                         Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
-                        AND Account_Sub_Status__c IN :GCConstraints
+                        AND Account_Sub_Status__c IN :CGConstraints
                 )
                 From Contact
                 Where Id = :contactId
@@ -160,7 +160,7 @@ public with sharing class PayStaffWSUtill {
                                 Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
                         From Charge_Groups__r
                         Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
-                        AND Account_Sub_Status__c IN :GCConstraintsForCase
+                        AND Account_Sub_Status__c IN :CGConstraintsForCase
                 )
                 From Contact
                 Where Id = :contactId
@@ -185,7 +185,7 @@ public with sharing class PayStaffWSUtill {
                                 Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
                         From Charge_Groups_Patient__r
                         Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
-                        AND Account_Sub_Status__c IN :GCConstraints
+                        AND Account_Sub_Status__c IN :CGConstraints
                 )
                 From Contact
                 Where Id = :contactId
@@ -210,7 +210,7 @@ public with sharing class PayStaffWSUtill {
                                 Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
                         From Charge_Groups_Patient__r
                         Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
-                        AND Account_Sub_Status__c IN :GCConstraintsForCase
+                        AND Account_Sub_Status__c IN :CGConstraintsForCase
                 )
                 From Contact
                 Where Id = :contactId
@@ -888,7 +888,7 @@ public with sharing class PayStaffWSUtill {
         List<ChargeGroupWrapper> cgList = new List<ChargeGroupWrapper>();
         if (gc != null && gc.Charge_Groups__r != null && gc.Charge_Groups__r.size() > 0) {
             for (Charge_Group__c cg : gc.Charge_Groups__r) {
-                if(GCConstraints.contains(cg.Account_Sub_Status__c)) {
+                if(CGConstraints.contains(cg.Account_Sub_Status__c)) {
                    cgList.add(new ChargeGroupWrapper(cg, false));
                }
             }

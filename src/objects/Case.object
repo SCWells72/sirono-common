@@ -3172,6 +3172,28 @@
         <label>Internal Cases</label>
     </listViews>
     <listViews>
+        <fullName>Missing_Payment</fullName>
+        <columns>CASES.CASE_NUMBER</columns>
+        <columns>Guarantor_Information__c</columns>
+        <columns>CASES.SUBJECT</columns>
+        <columns>CASES.CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>CASES.REASON</field>
+            <operation>equals</operation>
+            <value>Missing Payment</value>
+        </filters>
+        <filters>
+            <field>CASES.STATUS</field>
+            <operation>equals</operation>
+            <value>New</value>
+        </filters>
+        <label>Missing Payment</label>
+        <sharedTo>
+            <group>Data_Clerk</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
         <fullName>MyCases</fullName>
         <filterScope>Mine</filterScope>
         <label>My Cases</label>
