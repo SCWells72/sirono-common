@@ -424,7 +424,6 @@
         <excludeButtons>SendEmail</excludeButtons>
         <excludeButtons>ViewAll</excludeButtons>
         <fields>TASK.SUBJECT</fields>
-        <fields>Call_ID__c</fields>
         <fields>Five9__Five9Campaign__c</fields>
         <fields>Five9__Five9DNIS__c</fields>
         <fields>TASK.CALLDISPOSITION</fields>

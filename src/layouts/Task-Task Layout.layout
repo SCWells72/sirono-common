@@ -43,15 +43,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Call_Start_Time__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Call_End_Time__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Five9__Five9CallbackCampaignName__c</field>
+                <field>Five9__Five9Campaign__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
