@@ -59,6 +59,7 @@ public with sharing class SironoSettingsUtil {
                 sironoSettings.Server_Endpoint_URL__c = getSandboxURL();
             }
             insert sironoSettings;
+
             sironoSettings = Sirono_Settings__c.getOrgDefaults();
 
 
@@ -75,4 +76,18 @@ public with sharing class SironoSettingsUtil {
             }
         }
     }
+    
+    //12-06-2016 Viraj Rana: #127517419: Phone Number Verification
+    //This Method is used to create custom setting.
+    public static void generatePhoneNumVerification() {
+        initializeSironoSettings();
+        Sirono_Settings__c sironoSettings = Sirono_Settings__c.getOrgDefaults();
+        if (!'US'.equals(sironoSettings.Country_Code__c)) {
+            sironoSettings.Country_Code__c = 'US';
+            sironoSettings.Format__c = 1;
+            sironoSettings.Apikey__c = 'ac9b158e21153af4959ed5621d3c364c';
+            upsert sironoSettings;
+        }
+    }
+    
 }

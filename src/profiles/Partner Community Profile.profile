@@ -219,6 +219,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ContactTriggerTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CreateAdjustment</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -307,6 +311,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>NumVerifyValidator</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>NumVerifyValidatorTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PayStaffWSUtill</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -352,6 +364,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PaymentPlanUtil</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PhoneNumberCalloutResponseBody</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1725,6 +1741,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.CTINumber1__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.CTINumber2__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.CTINumber3__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Campaign__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -1815,6 +1846,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Home_Phone_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Invoice_Offset_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -1850,6 +1886,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Mobile_Phone_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Notes__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -1866,6 +1907,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.OtherPhone</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Other_Phone_Type__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>

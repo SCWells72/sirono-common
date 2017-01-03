@@ -187,6 +187,9 @@
         <members>Case.Claim__c</members>
         <members>Contact.Age__c</members>
         <members>Contact.Bad_Debt_Balance__c</members>
+        <members>Contact.CTINumber1__c</members>
+        <members>Contact.CTINumber2__c</members>
+        <members>Contact.CTINumber3__c</members>
         <members>Contact.Campaign__c</members>
         <members>Contact.Deleted__c</members>
         <members>Contact.Delinquent_Balance__c</members>
@@ -196,11 +199,14 @@
         <members>Contact.Full_Name__c</members>
         <members>Contact.Sex__c</members>
         <members>Contact.Guarantor__c</members>
+        <members>Contact.Home_Phone_Type__c</members>
         <members>Contact.Invoice_Offset_Date__c</members>
         <members>Contact.Invoiced_Balance__c</members>
         <members>Contact.Medical_Record_Number__c</members>
+        <members>Contact.Mobile_Phone_Type__c</members>
         <members>Contact.Notes__c</members>
         <members>Contact.Origin_Code__c</members>
+        <members>Contact.Other_Phone_Type__c</members>
         <members>Contact.Overdue_Balance__c</members>
         <members>Contact.Patient_Id__c</members>
         <members>Contact.Patient_Satisfaction__c</members>
