@@ -681,7 +681,6 @@
         <members>Payor__c</members>
         <members>Provider__c</members>
         <members>Service_Rollup__c</members>
-        <members>SironoSettings__c</members>
         <members>Transaction_Type__c</members>
         <members>User</members>
         <name>SharingRules</name>
