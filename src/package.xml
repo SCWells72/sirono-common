@@ -387,7 +387,6 @@
     <types>
         <members>Adjustment_Type__mdt-Adjustment Type Layout</members>
         <members>Campaign-Campaign Layout</members>
-        <members>Campaign_Mapping__mdt-Salesforce Campaign Name Layout</members>
         <members>Campaign_Member_History__c-Campaign Member History Layout</members>
         <members>Campaign_Member_History__c-Campaign Members History</members>
         <members>CampaignMember-Campaign Member Page Layout</members>
@@ -682,7 +681,6 @@
         <members>Payor__c</members>
         <members>Provider__c</members>
         <members>Service_Rollup__c</members>
-        <members>SironoSettings__c</members>
         <members>Transaction_Type__c</members>
         <members>User</members>
         <name>SharingRules</name>

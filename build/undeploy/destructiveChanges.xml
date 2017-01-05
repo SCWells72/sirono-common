@@ -1,8 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>PayStaffEndPointURL</members>
-        <name>CustomLabel</name>
+        <members>TestAddCreditCard</members>
+        <members>TestAddDiscount</members>
+        <members>TestAddNote</members>
+        <members>TestAddToPaymentPlan</members>
+        <members>TestCallEarlyOutAutoCase</members>
+        <members>TestCallPrecollectionsAutoCase</members>
+        <members>TestCampaignMemberTrigger</members>
+        <members>TestCaseCommentTrigger</members>
+        <members>TestCaseTrigger</members>
+        <members>TestCaseUtil</members>
+        <members>TestChargeGroupTrigger</members>
+        <members>TestClassUtil</members>
+        <members>TestCreateAdjustment</members>
+        <members>TestCreateCaseManual</members>
+        <members>TestDeletePaymentPlan</members>
+        <members>TestDelinquentPaymentPlansSchedulerBatch</members>
+        <members>TestEarlyOutSchedulerBatch</members>
+        <members>TestEditPaymentPlan</members>
+        <members>TestEncounterTrigger</members>
+        <members>TestFive9CreateCallLogRecord</members>
+        <members>TestPayStaffWSUtill</members>
+        <members>TestPaymentArrangement</members>
+        <members>TestPaymentPlanGoodStanding</members>
+        <members>TestPaymentPlanTrigger</members>
+        <members>TestPaymentPlanTriggerBalanceCalc</members>
+        <members>TestPreCollectionSchedulerBatch</members>
+        <members>TestPreServiceSchedulerBatch</members>
+        <members>TestProcessPayment</members>
+        <members>TestSkipPaymentPlan</members>
+        <members>TestTaskTriggerHandler</members>
+        <members>TestViewStatementExtension</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>SironoSettings__c</members>
+        <members>User_Timezone__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Campaign_Mapping__mdt-Salesforce Campaign Name Layout</members>
+        <members>User_Timezone_Setting__mdt-User Timezone Setting Layout</members>
+        <name>Layout</name>
     </types>
     <version>38.0</version>
 </Package>
