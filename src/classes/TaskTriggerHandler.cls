@@ -14,18 +14,18 @@ public with sharing class TaskTriggerHandler {
 
     public static boolean isRecursive = false;
     
-    public static final String CONTACTPREFIX = '003';
     public static final String CASEPREFIX = '500';
-    public static final String OB = 'OB';
+    public static final String CONTACTPREFIX = '003';    
     public static final String IB = 'IB';
+    public static final String OB = 'OB';
     
     //#132948555: Define Exhausted Effort Constants.
+    public static final String CASE_REASON_EXHAUSTED = 'Case Closed - Exhausted';
+    public static final String CASE_REASON_FINAL = 'Case Closed - FINAL';
+    public static final String CASE_STATUS_CLOSED = 'Closed';
+    public static final String ERROR_DISPOSITIONS = 'Error Dispositions';
     public static final String FINAL_DISPOSITIONS = 'Final Dispositions';
     public static final String RETRY_DISPOSITIONS = 'Retry Dispositions';
-    public static final String ERROR_DISPOSITIONS = 'Error Dispositions';
-    public static final String CASE_STATUS_CLOSED = 'Closed';
-    public static final String CASE_REASON_FINAL = 'Case Closed - FINAL';
-    public static final String CASE_REASON_EXHAUSTED = 'Case Closed - Exhausted';
 
     // Call removeFromCallList method when the task is inserted
     public static void afterInsert(List<Task> newList) {
@@ -126,7 +126,21 @@ public with sharing class TaskTriggerHandler {
             }
         }
     }
+    
+    /* 01-09-2017 Viraj Rana: #132948555: Define Exhausted Effort.
+     * Wrapper class of ExhaustedCriteriaWrapper, It is used for Calculation.
+     */
+    public class ExhaustedCriteriaWrapper {
+        public Integer retryCount { get; set; }
+        public Integer errorCount { get; set; }
 
+        public ExhaustedCriteriaWrapper() {
+            // Default value set by 0,
+            this.retryCount = 0;
+            this.errorCount = 0;
+        }
+    }
+    
     // 12-02-2016 Viraj Rana: #132948555: Define Exhausted Effort.
     // This method is used to Closed the Case based on Exhausted Criteria.
     private static void caseCloseWithExhaustedCriteria(List<Task> newList, Map<Id,Task> oldMap) {
@@ -136,8 +150,8 @@ public with sharing class TaskTriggerHandler {
     	
         Set<Id> setContactId = new Set<Id>();
         Set<Id> setCaseId = new Set<Id>();
-        
-        for (Task t : newList) {
+
+        for (Task t: newList) {
             if (t.CallDisposition != null
                     && t.WhoId != null
                     && String.valueOf(t.WhoId).startsWith(CONTACTPREFIX)
@@ -152,8 +166,6 @@ public with sharing class TaskTriggerHandler {
         }
         
         if (setContactId.size() > 0) {
-            // Get Exhausted Criteria data in Custom Settings.
-            List<Exhausted_Criteria__mdt> lstExhaustedCriteria = [select MasterLabel, Type__c from Exhausted_Criteria__mdt];
             Set<String> setFinalDisposition = new Set<String>();
             Set<String> setRetryDisposition = new Set<String>();
             Set<String> setErrorDisposition = new Set<String>();
@@ -161,7 +173,8 @@ public with sharing class TaskTriggerHandler {
             Set<String> setFinalCase = new Set<String>();
             Set<String> setExhaustedCase = new Set<String>();
             
-            for (Exhausted_Criteria__mdt ec : lstExhaustedCriteria) {
+            // Get Exhausted Criteria data from Custom Meta Data.
+            for (Exhausted_Criteria__mdt ec: [SELECT MasterLabel, Type__c FROM Exhausted_Criteria__mdt]) {
                 if (ec.Type__c.equals(FINAL_DISPOSITIONS)) {
                     setFinalDisposition.add(ec.MasterLabel);
                 } else if (ec.Type__c.equals(RETRY_DISPOSITIONS)) {
@@ -171,22 +184,21 @@ public with sharing class TaskTriggerHandler {
                 }
             }
             
-            for (Contact c : [
-                            Select Id, FirstName, LastName, 
-                                (Select Id, CallDisposition, WhatId
-                                From Tasks
+            for (Contact c: [
+                            SELECT Id, FirstName, LastName, 
+                                (SELECT Id, CallDisposition, WhatId
+                                FROM Tasks
                                 WHERE WhatId != null
                                 AND CallDisposition != null
                                 AND WhoId != null
-                                AND WhatId in: setCaseId)
-                             From Contact Where Id IN: setContactId
+                                AND WhatId IN :setCaseId)
+                             FROM Contact WHERE Id IN :setContactId
                              ]) {
                 
                 Integer count = 0;
-                Map<Id,String> mapDispositionCount = new Map<Id,String>();
-                
-                for (Task t : c.Tasks) {
-                    if (setFinalDisposition.contains(t.CallDisposition)) {                        
+                Map<Id, ExhaustedCriteriaWrapper> mapDispositionCount = new Map<Id, ExhaustedCriteriaWrapper>();
+                for (Task t: c.Tasks) {
+                    if (setFinalDisposition.contains(t.CallDisposition)) {
                         setFinalCase.add(t.WhatId);
 
                         if (setExhaustedCase.contains(t.WhatId)) {
@@ -195,27 +207,25 @@ public with sharing class TaskTriggerHandler {
                     } else if (setRetryDisposition.contains(t.CallDisposition) && !setFinalCase.contains(t.WhatId)
                             && !setExhaustedCase.contains(t.WhatId)) {
                         if (!mapDispositionCount.containsKey(t.WhatId)) {
-                            mapDispositionCount.put(t.WhatId, '1#0');
+                            mapDispositionCount.put(t.WhatId, new ExhaustedCriteriaWrapper());
+                            mapDispositionCount.get(t.WhatId).retryCount++;
                         } else {
-                            count = Integer.valueof(mapDispositionCount.get(t.WhatId).split('#')[0]);
-                            count ++;
-                            if (count >= 2) {
-                                setExhaustedCase.add(t.WhatId);
-                            } else {
-                                mapDispositionCount.put(t.WhatId, count + '#' + mapDispositionCount.get(t.WhatId).split('#')[1]);
-                            }
-                        }
+                    	    mapDispositionCount.get(t.WhatId).retryCount++;
+
+                    	    if (mapDispositionCount.get(t.WhatId).retryCount >= 2) {
+	                        setExhaustedCase.add(t.WhatId);
+	                    }
+                        }                        
                     } else if (setErrorDisposition.contains(t.CallDisposition) && !setFinalCase.contains(t.WhatId)
                             && !setExhaustedCase.contains(t.WhatId)) {
                         if (!mapDispositionCount.containsKey(t.WhatId)) {
-                            mapDispositionCount.put(t.WhatId, '0#1');
+                            mapDispositionCount.put(t.WhatId, new ExhaustedCriteriaWrapper());
+                            mapDispositionCount.get(t.WhatId).errorCount++;
                         } else {
-                            count = Integer.valueof(mapDispositionCount.get(t.WhatId).split('#')[1]);
-                            count ++;
-                            if (count >= 5) {
+                            mapDispositionCount.get(t.WhatId).errorCount++;
+
+                            if (mapDispositionCount.get(t.WhatId).errorCount >= 5) {
                                 setExhaustedCase.add(t.WhatId);
-                            } else {                                
-                                mapDispositionCount.put(t.WhatId, mapDispositionCount.get(t.WhatId).split('#')[0] + '#' + count);
                             }
                         }
                     }
@@ -228,10 +238,10 @@ public with sharing class TaskTriggerHandler {
                 setAllCase.addAll(setExhaustedCase);
                 
                 List<Case> lstCase = [SELECT Id, Status, Reason FROM Case
-                                        WHERE Id in: setAllCase and Status !=: CASE_STATUS_CLOSED];
+                                        WHERE Id IN :setAllCase AND Status != :CASE_STATUS_CLOSED];
                                         
                 if (lstCase.size() > 0) {
-                    for (Case c : lstCase) {
+                    for (Case c: lstCase) {
                         if (setFinalCase.contains(c.Id)) {
                             c.Status = CASE_STATUS_CLOSED;
                             c.Reason = CASE_REASON_FINAL;
