@@ -276,6 +276,17 @@ Public Class TestUtility {
         return objTask;
     }
 
+    // Generate Task record with given Parameter.
+    public static Task generateTask(ID guarantorContactId, Id caseId, String callDisposition) {
+        Task objTask = new Task();
+        objTask.WhoId = guarantorContactId;
+        objTask.WhatId = caseId;
+        objTask.Priority = 'Normal';
+        objTask.Status = 'New';
+        objTask.CallDisposition = callDisposition;
+        objTask.Five9__Five9Campaign__c = 'OB PreCollections';
+        return objTask;
+    }
     // Generate Exception
     public static integer generateException() {
         return 1 / 0;

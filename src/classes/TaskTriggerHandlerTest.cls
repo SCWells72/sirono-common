@@ -12,8 +12,7 @@ private class TaskTriggerHandlerTest {
     
     @isTest
     static void myUnitTest() {
-        TestUtility objTestUtility = new TestUtility();
-
+        Test.startTest();
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -44,11 +43,13 @@ private class TaskTriggerHandlerTest {
         System.assertEquals(0, lstCampaignMember.Size());
 
         update taskListToInsert;
+        Test.stopTest();
     }
     
     //12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
     @isTest
-    static void CaseCovergaeForAssignCaseId() {
+    static void caseCovergaeForAssignCaseId() {
+        Test.startTest();
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
         
@@ -83,11 +84,16 @@ private class TaskTriggerHandlerTest {
         //Check Case Id assign into Task Object.
         List<Task> lstTask = [Select Id, WhatId from Task where Id =: objTask.Id];
         System.assertEquals(objCase.Id, lstTask[0].WhatId);
+        Test.stopTest();
     }
     
-    //12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
+    /* 12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
+     * This method Test the code with Retry Disposition value.
+     * If two or more than two Task contains Retry Disposition Values at that time Case closed with Exhausted.
+     */
     @isTest
-    static void CaseCovergaeForRetry() {
+    static void caseCovergaeForRetry() {
+        Test.startTest();
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
         
@@ -96,51 +102,60 @@ private class TaskTriggerHandlerTest {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
         
-        //Create Case record.
+        // Create Case record.
         Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Precollections', guarantorContact.Id);
         objCase.Type = 'Precollections'; 
         insert objCase;
         
-        //Create Campaign record.
+        // Create Campaign record.
         Campaign campaign = TestUtility.generateCampaign('PreCollections');
         insert campaign;
         
-        //Create Campaign Member Record.
+        // Create Campaign Member Record.
         CampaignMember campaignMember = TestUtility.generateCampaignMember(campaign.Id, guarantorContact.Id);
         campaignMember.Case_ID__c = objCase.Id;
         insert campaignMember;
+        
+        // Get Value for Error Disposition from Custom Meta Data.
+        List<Exhausted_Criteria__mdt> lstExhaustedCriteria = 
+        	[SELECT MasterLabel, Disposition_Type__c FROM Exhausted_Criteria__mdt WHERE Disposition_Type__c = :TaskTriggerHandler.ERROR_DISPOSITION limit 1];
 
-	//Create Task Record and set CallDisposition value equals to Error Disposition.
-	//We assign Error Disposition value here to know This case is closed or not.
-        Task objTask = TestUtility.generateTask(guarantorContact.Id);
-        objTask.WhoId = guarantorContact.Id;
-        objTask.CallDisposition = 'Busy';
-        objTask.WhatId = objCase.Id;
+	// Create Task Record and set CallDisposition value equals to Error Disposition.
+	// We assign Error Disposition value here to know This case is closed or not.
+        Task objTask = TestUtility.generateTask(guarantorContact.Id, objCase.Id, lstExhaustedCriteria[0].MasterLabel);        
         insert objTask;
         
-        //Create Task Record and set CallDisposition value equals to retry Disposition.
-        Task objTask1 = TestUtility.generateTask(guarantorContact.Id);
-        objTask1.WhoId = guarantorContact.Id;
-        objTask1.CallDisposition = 'Abandon';
-        objTask1.WhatId = objCase.Id;
+        // Check System assert. Case is not Closed.
+        List<Case> lstCase = [Select Id, Reason, Status from Case where Id =: objCase.Id];
+        System.assertNotEquals(lstCase[0].Status, TaskTriggerHandler.CASE_STATUS_CLOSED);
+        
+        // Get Value for Retry Disposition from Custom Meta Data.
+        lstExhaustedCriteria = 
+        	[SELECT MasterLabel, Disposition_Type__c FROM Exhausted_Criteria__mdt WHERE Disposition_Type__c = :TaskTriggerHandler.RETRY_DISPOSITION limit 1];
+        
+        // Create Task Record and set CallDisposition value equals to retry Disposition.
+        Task objTask1 = TestUtility.generateTask(guarantorContact.Id, objCase.Id, lstExhaustedCriteria[0].MasterLabel);
         insert objTask1;
         
-        //Create Task Record and set CallDisposition value equals to retry Disposition.
-        //When retry Disposition Count equals to or grether than two at that time this Case is Closed with CASE_REASON_EXHAUSTED Reason.
-        Task objTask2 = TestUtility.generateTask(guarantorContact.Id);
-        objTask2.WhoId = guarantorContact.Id;
-        objTask2.CallDisposition = 'Agent Error';
-        objTask2.WhatId = objCase.Id;
+        // Check System assert. Case is not Closed with Exhausted Reason.
+        lstCase = [Select Id, Reason from Case where Id =: objCase.Id];
+        System.assertNotEquals(lstCase[0].Reason, TaskTriggerHandler.CASE_REASON_EXHAUSTED);
+        
+        // Create Task Record and set CallDisposition value equals to retry Disposition.
+        // When retry Disposition Count equals to or grether than two at that time this Case is Closed with CASE_REASON_EXHAUSTED Reason.
+        Task objTask2 = TestUtility.generateTask(guarantorContact.Id, objCase.Id, lstExhaustedCriteria[0].MasterLabel);
         insert objTask2;
         
-        //Check System assert.
-        List<Case> lstCase = [Select Id, Reason from Case where Id =: objCase.Id];
+        // Check System assert. Case is Closed with Exhausted Reason.
+        lstCase = [Select Id, Reason from Case where Id =: objCase.Id];
         System.assertEquals(lstCase[0].Reason, TaskTriggerHandler.CASE_REASON_EXHAUSTED);
+        Test.stopTest();
     }
     
     //12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
     @isTest
-    static void CaseCovergaeForFinal() {
+    static void caseCovergaeForFinal() {
+        Test.startTest();
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
         
@@ -149,36 +164,42 @@ private class TaskTriggerHandlerTest {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
         
-        //Create Case Record. This case is used to create Task with Final Disposition.
+        // Create Case Record. This case is used to create Task with Final Disposition.
         Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Precollections', guarantorContact.Id);
         objCase.Type = 'Precollections'; 
         insert objCase;
         
-        //Create Campaign record.
+        // Create Campaign record.
         Campaign campaign = TestUtility.generateCampaign('PreCollections');
         insert campaign;
         
-        //Create Campaign Member and assign above Case Id into it.
+        // Create Campaign Member and assign above Case Id into it.
         CampaignMember campaignMember = TestUtility.generateCampaignMember(campaign.Id, guarantorContact.Id);
         campaignMember.Case_ID__c = objCase.Id;
         insert campaignMember;
         
-        //Create Task record with CallDisposition equals to Final Disposition value.
-        //Whenever Task is inserted at that time we check Disposition value, If it is same as final then Case closed with "Case Closed - FINAL" Reason.
-        Task objTask = TestUtility.generateTask(guarantorContact.Id);
-        objTask.WhoId = guarantorContact.Id;
-        objTask.CallDisposition = 'Wrong Number';
-        objTask.WhatId = objCase.Id;
+        // Get Value for Retry Disposition from Custom Meta Data.
+        List<Exhausted_Criteria__mdt> lstExhaustedCriteria = 
+        	[SELECT MasterLabel, Disposition_Type__c FROM Exhausted_Criteria__mdt WHERE Disposition_Type__c = :TaskTriggerHandler.FINAL_DISPOSITION limit 1];
+        
+        // Create Task record with CallDisposition equals to Final Disposition value.
+        // Whenever Task is inserted at that time we check Disposition value, If it is same as final then Case closed with "Case Closed - FINAL" Reason.
+        Task objTask = TestUtility.generateTask(guarantorContact.Id, objCase.Id, lstExhaustedCriteria[0].MasterLabel);
         insert objTask;
         
-        //Check System assert.
+        // Check System assert.
         List<Case> lstCase = [Select Id, Reason from Case where Id =: objCase.Id];
         System.assertEquals(lstCase[0].Reason, TaskTriggerHandler.CASE_REASON_FINAL);
+        Test.stopTest();
     }
     
-    //12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
+    /* 12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
+     * This method test the code When Task have two Retry Disposition Value and one Final Disposition Value,
+     * 	at that time Case should be Closed with Final Reason.  
+     */
     @isTest
-    static void CaseCovergaeForRemoveCaseInSet() {
+    static void retryWithFinalDisposition() {
+        Test.startTest();
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
         
@@ -187,56 +208,57 @@ private class TaskTriggerHandlerTest {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
         
-        //Create Case object.
+        // Create Case object.
         Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Precollections', guarantorContact.Id);
         objCase.Type = 'Precollections'; 
         insert objCase;
         
-        //Create Campaign Record.
+        // Create Campaign Record.
         Campaign campaign = TestUtility.generateCampaign('PreCollections');
         insert campaign;
         
-        //Create Campagin Member Record.
+        // Create Campagin Member Record.
         CampaignMember campaignMember = TestUtility.generateCampaignMember(campaign.Id, guarantorContact.Id);
         campaignMember.Case_ID__c = objCase.Id;
         insert campaignMember;
         
-        //Create List of Task.
+        // Create List of Task.
         List<Task> lstTask = new List<Task>();
         
-        //Create Task records with CallDisposition equals to retry Dispositions value and add into the List.
-        //We need to set Case Id same in all Task Records.
-        Task objTask = TestUtility.generateTask(guarantorContact.Id);
-        objTask.WhoId = guarantorContact.Id;
-        objTask.CallDisposition = 'Abandon';
-        objTask.WhatId = objCase.Id;
+        // Get Value for Retry Disposition from Custom Meta Data.
+        List<Exhausted_Criteria__mdt> lstExhaustedCriteria = 
+        	[SELECT MasterLabel, Disposition_Type__c FROM Exhausted_Criteria__mdt WHERE Disposition_Type__c = :TaskTriggerHandler.RETRY_DISPOSITION limit 1];
+        
+        // Create Task records with CallDisposition equals to retry Dispositions value and add into the List.
+        // We need to set Case Id same in all Task Records.
+        Task objTask = TestUtility.generateTask(guarantorContact.Id, objCase.Id, lstExhaustedCriteria[0].MasterLabel);
         lstTask.add(objTask);
         
-        //We set CallDisposition equals to retry Dispositions value.
-        objTask = TestUtility.generateTask(guarantorContact.Id);
-        objTask.WhoId = guarantorContact.Id;
-        objTask.CallDisposition = 'Answering Machine';
-        objTask.WhatId = objCase.Id;
+        // We set CallDisposition equals to retry Dispositions value.
+        objTask = TestUtility.generateTask(guarantorContact.Id, objCase.Id, lstExhaustedCriteria[0].MasterLabel);
         lstTask.add(objTask);
         
-        //We set CallDisposition equals to Final Dispositions value.
-        //We need to check If Any Task is existing with Final Disposition at that time This Case is Closed with CASE_REASON_FINAL.
-        objTask = TestUtility.generateTask(guarantorContact.Id);
-        objTask.WhoId = guarantorContact.Id;
-        objTask.CallDisposition = 'Wrong Number';
-        objTask.WhatId = objCase.Id;
+        // Get Value for Final Disposition from Custom Meta Data.
+        lstExhaustedCriteria = 
+        	[SELECT MasterLabel, Disposition_Type__c FROM Exhausted_Criteria__mdt WHERE Disposition_Type__c = :TaskTriggerHandler.FINAL_DISPOSITION limit 1];
+        
+        // We set CallDisposition equals to Final Dispositions value.
+        // We need to check If Any Task is existing with Final Disposition at that time This Case is Closed with CASE_REASON_FINAL.
+        objTask = TestUtility.generateTask(guarantorContact.Id, objCase.Id, lstExhaustedCriteria[0].MasterLabel);
         lstTask.add(objTask);
         
         insert lstTask;
         
-        //Check System assert.
+        // Check System assert.
         List<Case> lstCase = [Select Id, Reason from Case where Id =: objCase.Id];
         System.assertEquals(lstCase[0].Reason, TaskTriggerHandler.CASE_REASON_FINAL);
+        Test.stopTest();
     }
     
     //12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
     @isTest
-    static void CaseCovergaeForError() {
+    static void caseCovergaeForError() {
+        Test.startTest();
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
         
@@ -245,59 +267,50 @@ private class TaskTriggerHandlerTest {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
         
-        //Create Case object.
+        // Create Case object.
         Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Precollections', guarantorContact.Id);
         objCase.Type = 'Precollections'; 
         insert objCase;
         
-        //Create Campaign Record.
+        // Create Campaign Record.
         Campaign campaign = TestUtility.generateCampaign('PreCollections');
         insert campaign;
         
-        //Create Campagin Member Record.
+        // Create Campagin Member Record.
         CampaignMember campaignMember = TestUtility.generateCampaignMember(campaign.Id, guarantorContact.Id);
         campaignMember.Case_ID__c = objCase.Id;
         insert campaignMember;
         
         List<Task> lstTask = new List<Task>();
         
-        //Create Task records with CallDisposition equals to Error Dispositions value and add into the List.
-        //We need to set Case Id same in all Task Records.
-        //When Error Disposition Count equals to or grether than five at that time this Case is Closed with CASE_REASON_EXHAUSTED Reason.
-        Task objTask = TestUtility.generateTask(guarantorContact.Id);
-        objTask.WhoId = guarantorContact.Id;
-        objTask.CallDisposition = 'Busy';
-        objTask.WhatId = objCase.Id;
+        // Get Value for Error Disposition from Custom Meta Data.
+        List<Exhausted_Criteria__mdt> lstExhaustedCriteria = 
+        	[SELECT MasterLabel, Disposition_Type__c FROM Exhausted_Criteria__mdt WHERE Disposition_Type__c = :TaskTriggerHandler.ERROR_DISPOSITION limit 1]; 
+        
+        /* Create Task records with CallDisposition equals to Error Dispositions value and add into the List.
+         * We need to set Case Id same in all Task Records.
+         * When Error Disposition Count equals to or grether than five at that time this Case is Closed with CASE_REASON_EXHAUSTED Reason.
+         */
+        Task objTask = TestUtility.generateTask(guarantorContact.Id, objCase.Id, lstExhaustedCriteria[0].MasterLabel);
         lstTask.add(objTask);
                 
-        objTask = TestUtility.generateTask(guarantorContact.Id);
-        objTask.WhoId = guarantorContact.Id;
-        objTask.CallDisposition = 'Fax';
-        objTask.WhatId = objCase.Id;
+        objTask = TestUtility.generateTask(guarantorContact.Id, objCase.Id, lstExhaustedCriteria[0].MasterLabel);
         lstTask.add(objTask);
         
-        objTask = TestUtility.generateTask(guarantorContact.Id);
-        objTask.WhoId = guarantorContact.Id;
-        objTask.CallDisposition = 'Line Busy';
-        objTask.WhatId = objCase.Id;
+        objTask = TestUtility.generateTask(guarantorContact.Id, objCase.Id, lstExhaustedCriteria[0].MasterLabel);
         lstTask.add(objTask);
         
-        objTask = TestUtility.generateTask(guarantorContact.Id);
-        objTask.WhoId = guarantorContact.Id;
-        objTask.CallDisposition = 'Busy';
-        objTask.WhatId = objCase.Id;
+        objTask = TestUtility.generateTask(guarantorContact.Id, objCase.Id, lstExhaustedCriteria[0].MasterLabel);
         lstTask.add(objTask);
         
-        objTask = TestUtility.generateTask(guarantorContact.Id);
-        objTask.WhoId = guarantorContact.Id;
-        objTask.CallDisposition = 'No Answer';
-        objTask.WhatId = objCase.Id;
+        objTask = TestUtility.generateTask(guarantorContact.Id, objCase.Id, lstExhaustedCriteria[0].MasterLabel);
         lstTask.add(objTask);
         
         insert lstTask;
         
-        //Check System assert.
+        // Check System assert.
         List<Case> lstCase = [Select Id, Reason, Status from Case where Id =: objCase.Id];
         System.assertEquals(lstCase[0].Status, TaskTriggerHandler.CASE_STATUS_CLOSED);
+        Test.stopTest();
     }
 }

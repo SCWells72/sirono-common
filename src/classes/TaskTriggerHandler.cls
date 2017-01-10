@@ -23,14 +23,17 @@ public with sharing class TaskTriggerHandler {
     public static final String CASE_REASON_EXHAUSTED = 'Case Closed - Exhausted';
     public static final String CASE_REASON_FINAL = 'Case Closed - FINAL';
     public static final String CASE_STATUS_CLOSED = 'Closed';
-    public static final String ERROR_DISPOSITIONS = 'Error Dispositions';
-    public static final String FINAL_DISPOSITIONS = 'Final Dispositions';
-    public static final String RETRY_DISPOSITIONS = 'Retry Dispositions';
+    // We can't make only ERROR, FINAL or RETRY, because of we can't take FINAL only so make consistency we put DISPOSITION for all.
+    public static final String ERROR_DISPOSITION = 'Error';
+    public static final String FINAL_DISPOSITION = 'Final';
+    public static final String RETRY_DISPOSITION = 'Retry';
+    public static final Integer MAX_RETRY_COUNT = 2;
+    public static final Integer MAX_ERROR_COUNT = 5;
 
     // Call removeFromCallList method when the task is inserted
     public static void afterInsert(List<Task> newList) {
-        // Call caseCloseWithExhaustedCriteria method when Task is inserted.
-        caseCloseWithExhaustedCriteria(newList, null);
+        // Call closeCasesWithExhaustedCriteria method when Task is inserted.
+        closeCasesWithExhaustedCriteria(newList, null);
         
         removeFromCallList(newList, null);
         callHoursOfDay(newList, false);
@@ -44,8 +47,8 @@ public with sharing class TaskTriggerHandler {
 
     // Call removeFromCallList method when the task is updated
     public static void afterUpdate(List<Task> newList, Map<Id, Task> oldMap) {
-        // Call caseCloseWithExhaustedCriteria method when Task is updated.
-        caseCloseWithExhaustedCriteria(newList, oldMap);
+        // Call closeCasesWithExhaustedCriteria method when Task is updated.
+        closeCasesWithExhaustedCriteria(newList, oldMap);
         removeFromCallList(newList, oldMap);
     }
 
@@ -128,13 +131,13 @@ public with sharing class TaskTriggerHandler {
     }
     
     /* 01-09-2017 Viraj Rana: #132948555: Define Exhausted Effort.
-     * Wrapper class of ExhaustedCriteriaWrapper, It is used for Calculation.
+     * It is used for Retry and Error Exhausted Calculation.
      */
-    public class ExhaustedCriteriaWrapper {
+    public class ExhaustedCriteriaCounts {
         public Integer retryCount { get; set; }
         public Integer errorCount { get; set; }
 
-        public ExhaustedCriteriaWrapper() {
+        public ExhaustedCriteriaCounts() {
             // Default value set by 0,
             this.retryCount = 0;
             this.errorCount = 0;
@@ -143,16 +146,24 @@ public with sharing class TaskTriggerHandler {
     
     // 12-02-2016 Viraj Rana: #132948555: Define Exhausted Effort.
     // This method is used to Closed the Case based on Exhausted Criteria.
-    private static void caseCloseWithExhaustedCriteria(List<Task> newList, Map<Id,Task> oldMap) {
-    	
-    	//Check Task is not updated through Trigger bz of Task is updated by "callHoursOfDay" method in Trigger.
-    	if (isRecursive) return;
-    	
-        Set<Id> setContactId = new Set<Id>();
-        Set<Id> setCaseId = new Set<Id>();
+    private static void closeCasesWithExhaustedCriteria(List<Task> newList, Map<Id,Task> oldMap) {
+        
+        // Check Task is not updated through Trigger bz of Task is updated by "callHoursOfDay" method in Trigger.
+        if (isRecursive) return;
+        
+        Set<Id> contactIds = new Set<Id>();
+        Set<Id> caseIds = new Set<Id>();
+        Set<String> five9Campaigns = new Set<String>();
+        
+        Map<String,String> mapCampaignMapping = new Map<String,String>();
+        
+        for (Campaign_Mapping__mdt cm: [SELECT MasterLabel, Salesforce_Campaign_Name__c
+                                            FROM Campaign_Mapping__mdt]) {
+            mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
+        }
 
         for (Task t: newList) {
-            if (t.CallDisposition != null
+            if (t.CallDisposition != null && t.Five9__Five9Campaign__c != null
                     && t.WhoId != null
                     && String.valueOf(t.WhoId).startsWith(CONTACTPREFIX)
                     && t.WhatId != null
@@ -160,92 +171,98 @@ public with sharing class TaskTriggerHandler {
                     && (oldMap == null || t.CallDisposition != oldMap.get(t.Id).CallDisposition)
                     && (oldMap == null || t.WhatId != oldMap.get(t.Id).WhatId)) {
                 
-                setContactId.add(t.WhoId);
-                setCaseId.add(t.WhatId);
+                string strFive9Campaign;
+                
+                if (t.Five9__Five9Campaign__c.contains(OB)) {
+                    strFive9Campaign = t.Five9__Five9Campaign__c.replace(OB, '').trim();
+                } else if (t.Five9__Five9Campaign__c.contains(IB)) {
+                    strFive9Campaign = t.Five9__Five9Campaign__c.replace(IB, '').trim();
+                }
+                
+                if (mapCampaignMapping.containsKey(strFive9Campaign)) {                                    
+                    contactIds.add(t.WhoId);
+                    five9Campaigns.add(t.Five9__Five9Campaign__c);
+                    caseIds.add(t.WhatId);
+                }
             }
         }
         
-        if (setContactId.size() > 0) {
-            Set<String> setFinalDisposition = new Set<String>();
-            Set<String> setRetryDisposition = new Set<String>();
-            Set<String> setErrorDisposition = new Set<String>();
+        if (contactIds.size() > 0) {
+            Set<String> finalDispositions = new Set<String>();
+            Set<String> retryDispositions = new Set<String>();
+            Set<String> errorDispositions = new Set<String>();
             
-            Set<String> setFinalCase = new Set<String>();
-            Set<String> setExhaustedCase = new Set<String>();
+            Set<String> finalCaseIds = new Set<String>();
+            Set<String> exhaustedCaseIds = new Set<String>();
             
             // Get Exhausted Criteria data from Custom Meta Data.
-            for (Exhausted_Criteria__mdt ec: [SELECT MasterLabel, Type__c FROM Exhausted_Criteria__mdt]) {
-                if (ec.Type__c.equals(FINAL_DISPOSITIONS)) {
-                    setFinalDisposition.add(ec.MasterLabel);
-                } else if (ec.Type__c.equals(RETRY_DISPOSITIONS)) {
-                    setRetryDisposition.add(ec.MasterLabel);
-                } else if (ec.Type__c.equals(ERROR_DISPOSITIONS)) {
-                    setErrorDisposition.add(ec.MasterLabel);
+            for (Exhausted_Criteria__mdt ec: [SELECT MasterLabel, Disposition_Type__c FROM Exhausted_Criteria__mdt]) {
+                if (ec.Disposition_Type__c.equals(FINAL_DISPOSITION)) {
+                    finalDispositions.add(ec.MasterLabel);
+                } else if (ec.Disposition_Type__c.equals(RETRY_DISPOSITION)) {
+                    retryDispositions.add(ec.MasterLabel);
+                } else if (ec.Disposition_Type__c.equals(ERROR_DISPOSITION)) {
+                    errorDispositions.add(ec.MasterLabel);
                 }
             }
             
             for (Contact c: [
                             SELECT Id, FirstName, LastName, 
-                                (SELECT Id, CallDisposition, WhatId
+                                (SELECT Id, CallDisposition, Five9__Five9Campaign__c, WhatId
                                 FROM Tasks
                                 WHERE WhatId != null
                                 AND CallDisposition != null
                                 AND WhoId != null
-                                AND WhatId IN :setCaseId)
-                             FROM Contact WHERE Id IN :setContactId
+                                AND WhatId IN :caseIds
+                                AND Five9__Five9Campaign__c IN :five9Campaigns)
+                             FROM Contact WHERE Id IN :contactIds
                              ]) {
                 
-                Integer count = 0;
-                Map<Id, ExhaustedCriteriaWrapper> mapDispositionCount = new Map<Id, ExhaustedCriteriaWrapper>();
+                Map<Id, ExhaustedCriteriaCounts> mapDispositionCounts = new Map<Id, ExhaustedCriteriaCounts>();
                 for (Task t: c.Tasks) {
-                    if (setFinalDisposition.contains(t.CallDisposition)) {
-                        setFinalCase.add(t.WhatId);
-
-                        if (setExhaustedCase.contains(t.WhatId)) {
-                            setExhaustedCase.remove(t.WhatId);
+                    if (finalDispositions.contains(t.CallDisposition)) {
+                        finalCaseIds.add(t.WhatId);
+                        // Remove Case Id in set of Exhausted Case Ids.
+                        // If any task contains Final Disposition value than we need to closed the case with Final.
+                        exhaustedCaseIds.remove(t.WhatId);
+                    } else if (retryDispositions.contains(t.CallDisposition) && !finalCaseIds.contains(t.WhatId)
+                            && !exhaustedCaseIds.contains(t.WhatId)) {
+                        if (!mapDispositionCounts.containsKey(t.WhatId)) {
+                            mapDispositionCounts.put(t.WhatId, new ExhaustedCriteriaCounts());
                         }
-                    } else if (setRetryDisposition.contains(t.CallDisposition) && !setFinalCase.contains(t.WhatId)
-                            && !setExhaustedCase.contains(t.WhatId)) {
-                        if (!mapDispositionCount.containsKey(t.WhatId)) {
-                            mapDispositionCount.put(t.WhatId, new ExhaustedCriteriaWrapper());
-                            mapDispositionCount.get(t.WhatId).retryCount++;
-                        } else {
-                    	    mapDispositionCount.get(t.WhatId).retryCount++;
+                        mapDispositionCounts.get(t.WhatId).retryCount++;
 
-                    	    if (mapDispositionCount.get(t.WhatId).retryCount >= 2) {
-	                        setExhaustedCase.add(t.WhatId);
-	                    }
-                        }                        
-                    } else if (setErrorDisposition.contains(t.CallDisposition) && !setFinalCase.contains(t.WhatId)
-                            && !setExhaustedCase.contains(t.WhatId)) {
-                        if (!mapDispositionCount.containsKey(t.WhatId)) {
-                            mapDispositionCount.put(t.WhatId, new ExhaustedCriteriaWrapper());
-                            mapDispositionCount.get(t.WhatId).errorCount++;
-                        } else {
-                            mapDispositionCount.get(t.WhatId).errorCount++;
+                        if (mapDispositionCounts.get(t.WhatId).retryCount >= MAX_RETRY_COUNT) {
+                            exhaustedCaseIds.add(t.WhatId);
+                        }
+                    } else if (errorDispositions.contains(t.CallDisposition) && !finalCaseIds.contains(t.WhatId)
+                            && !exhaustedCaseIds.contains(t.WhatId)) {
+                        if (!mapDispositionCounts.containsKey(t.WhatId)) {
+                            mapDispositionCounts.put(t.WhatId, new ExhaustedCriteriaCounts());
+                        }
+                        mapDispositionCounts.get(t.WhatId).errorCount++;
 
-                            if (mapDispositionCount.get(t.WhatId).errorCount >= 5) {
-                                setExhaustedCase.add(t.WhatId);
-                            }
+                        if (mapDispositionCounts.get(t.WhatId).errorCount >= MAX_ERROR_COUNT) {
+                            exhaustedCaseIds.add(t.WhatId);
                         }
                     }
                 }
             }
             
-            if (setFinalCase.size() > 0 || setExhaustedCase.size() > 0) {
-                Set<String> setAllCase = new Set<String>();                
-                setAllCase.addAll(setFinalCase);
-                setAllCase.addAll(setExhaustedCase);
+            if (finalCaseIds.size() > 0 || exhaustedCaseIds.size() > 0) {
+                Set<String> allCaseIds = new Set<String>();                
+                allCaseIds.addAll(finalCaseIds);
+                allCaseIds.addAll(exhaustedCaseIds);
                 
                 List<Case> lstCase = [SELECT Id, Status, Reason FROM Case
-                                        WHERE Id IN :setAllCase AND Status != :CASE_STATUS_CLOSED];
+                                        WHERE Id IN :allCaseIds AND Status != :CASE_STATUS_CLOSED];
                                         
                 if (lstCase.size() > 0) {
                     for (Case c: lstCase) {
-                        if (setFinalCase.contains(c.Id)) {
+                        if (finalCaseIds.contains(c.Id)) {
                             c.Status = CASE_STATUS_CLOSED;
                             c.Reason = CASE_REASON_FINAL;
-                        } else if (setExhaustedCase.contains(c.Id)) {
+                        } else if (exhaustedCaseIds.contains(c.Id)) {
                             c.Status = CASE_STATUS_CLOSED;
                             c.Reason = CASE_REASON_EXHAUSTED;
                         }

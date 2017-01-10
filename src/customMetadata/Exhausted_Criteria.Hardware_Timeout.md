@@ -2,7 +2,7 @@
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <label>Hardware Timeout</label>
     <values>
-        <field>Type__c</field>
-        <value xsi:type="xsd:string">Retry Dispositions</value>
+        <field>Disposition_Type__c</field>
+        <value xsi:type="xsd:string">Retry</value>
     </values>
 </CustomMetadata>

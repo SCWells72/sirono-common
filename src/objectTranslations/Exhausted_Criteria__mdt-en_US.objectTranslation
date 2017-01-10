@@ -9,8 +9,8 @@
         <value>Exhausted Criterias</value>
     </caseValues>
     <fields>
-        <label><!-- Type --></label>
-        <name>Type__c</name>
+        <label><!-- Disposition Type --></label>
+        <name>Disposition_Type__c</name>
     </fields>
     <startsWith>Consonant</startsWith>
 </CustomObjectTranslation>
