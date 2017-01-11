@@ -1,11 +1,11 @@
-/*
+/**
  * @author Sirono
  * @version 1.0.1
  * @date: 05-23-2016
  * @TaskTriggerHandlerTest Test Class for the Code Covrege of TaskTriggerHandler Class.
  * 12-02-2016 Viraj Rana - #133707065: Case to Call Activiy
  * 12-02-2016 Viraj Rana - #132948555: Define Exhausted Effort
- */
+ **/
 
 @isTest
 private class TaskTriggerHandlerTest {
@@ -107,10 +107,10 @@ private class TaskTriggerHandlerTest {
         System.assertEquals(objCase.Id, lstTask[0].WhatId);
     }
     
-    /* 12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
+    /** 12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
      * This method Test the code with Retry Disposition value.
      * If two or more than two Task contains Retry Disposition Values at that time Case closed with Exhausted.
-     */
+     **/
     @isTest
     static void caseCovergaeForRetry() {
         // Create Guarantor Contact Record.
@@ -217,10 +217,10 @@ private class TaskTriggerHandlerTest {
         System.assertEquals(lstCase[0].Reason, TaskTriggerHandler.CASE_REASON_FINAL);
     }
     
-    /* 12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
+    /** 12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
      * This method test the code When Task have two Retry Disposition Value and one Final Disposition Value,
      * 	at that time Case should be Closed with Final Reason.  
-     */
+     **/
     @isTest
     static void retryWithFinalDisposition() {
         // Create Guarantor Contact Record.
@@ -315,10 +315,10 @@ private class TaskTriggerHandlerTest {
         List<Exhausted_Criteria__mdt> lstExhaustedCriteria = 
         	[SELECT MasterLabel, Disposition_Type__c FROM Exhausted_Criteria__mdt WHERE Disposition_Type__c = :TaskTriggerHandler.ERROR_DISPOSITION limit 1]; 
         
-        /* Create Task records with CallDisposition equals to Error Dispositions value and add into the List.
+        /** Create Task records with CallDisposition equals to Error Dispositions value and add into the List.
          * We need to set Case Id same in all Task Records.
          * When Error Disposition Count equals to or grether than five at that time this Case is Closed with CASE_REASON_EXHAUSTED Reason.
-         */
+         **/
         Task objTask = TestUtility.generateTask(guarantorContact.Id, objCase.Id, lstExhaustedCriteria[0].MasterLabel);
         lstTask.add(objTask);
                 
