@@ -10,18 +10,26 @@
 @isTest
 private class TaskTriggerHandlerTest {
     
-    @isTest
-    static void myUnitTest() {
-        Test.startTest();
+    /**
+     * This test method test the Campagin Member removed or not based on Task record.
+     * This method also test Call Hour of Day of the Task. When Task is created/updated at that time based on date it's calculate
+     *	Hours.
+     **/
+    @isTest    
+    static void testRemoveCampaignMember() {
+    	// Create Guarantor Contact Record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
+	// Create Campaign Record.
         Campaign campaign = TestUtility.generateCampaign('Pre-collection');
         insert campaign;
 
+	// Create Campaign Member Record.
         CampaignMember campaignMember = TestUtility.generateCampaignMember(campaign.Id, guarantorContact.Id);
         insert campaignMember;
      
+     	// Create Tasks Records.
         List<Task> taskListToInsert = new List<Task>();
         Task objTask = TestUtility.generateTask(guarantorContact.Id);
         objTask.CallDisposition = 'Final';
@@ -35,40 +43,52 @@ private class TaskTriggerHandlerTest {
         objTask.CallDisposition = 'Error';
         taskListToInsert.add(objTask);
 
+        Test.startTest();
+        // Check system assert.
         List<CampaignMember> lstCampaignMember = [Select id from CampaignMember];
         System.assertEquals(1, lstCampaignMember.Size());
 
         insert taskListToInsert;
+        // Check system assert.
         lstCampaignMember = [Select id from CampaignMember];
         System.assertEquals(0, lstCampaignMember.Size());
-
-        update taskListToInsert;
+        
+        update taskListToInsert[0];
+        // Check system assert.
+        List<Task> lstTask = [Select Id, Hours_of_Day__c from Task where Id =: taskListToInsert[0].Id];
+        System.assertnotEquals(lstTask[0].Hours_of_Day__c, null);
         Test.stopTest();
     }
     
     //12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
     @isTest
     static void caseCovergaeForAssignCaseId() {
-        Test.startTest();
+        // Create Guarantor Contact Record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
         
+        // Get Record Type Id. 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
         
+        // Create Case Record.
         Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Precollections', guarantorContact.Id);
         objCase.Type = 'Precollections'; 
         insert objCase;
         
+        // Create Campaign Record.
         Campaign campaign = TestUtility.generateCampaign('PreCollections');
         insert campaign;
         
+        // Create Campaign Member Record.
         CampaignMember campaignMember = TestUtility.generateCampaignMember(campaign.Id, guarantorContact.Id);
         campaignMember.Case_ID__c = objCase.Id;
         insert campaignMember;
         
+        Test.startTest();
+        // Create Task Records.
         Task objTask = TestUtility.generateTask(guarantorContact.Id);
         objTask.WhoId = guarantorContact.Id;
         objTask.Five9__Five9Campaign__c = 'OB PreCollections';
@@ -80,11 +100,11 @@ private class TaskTriggerHandlerTest {
         objTask1.Five9__Five9Campaign__c = 'IB Precollections';
         objTask1.CallDisposition = 'Successful Call';
         insert objTask1;
+        Test.stopTest();
         
         //Check Case Id assign into Task Object.
         List<Task> lstTask = [Select Id, WhatId from Task where Id =: objTask.Id];
         System.assertEquals(objCase.Id, lstTask[0].WhatId);
-        Test.stopTest();
     }
     
     /* 12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
@@ -93,10 +113,11 @@ private class TaskTriggerHandlerTest {
      */
     @isTest
     static void caseCovergaeForRetry() {
-        Test.startTest();
+        // Create Guarantor Contact Record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
         
+        // Get Record Type Id. 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
@@ -116,6 +137,7 @@ private class TaskTriggerHandlerTest {
         campaignMember.Case_ID__c = objCase.Id;
         insert campaignMember;
         
+        Test.startTest();
         // Get Value for Error Disposition from Custom Meta Data.
         List<Exhausted_Criteria__mdt> lstExhaustedCriteria = 
         	[SELECT MasterLabel, Disposition_Type__c FROM Exhausted_Criteria__mdt WHERE Disposition_Type__c = :TaskTriggerHandler.ERROR_DISPOSITION limit 1];
@@ -145,20 +167,21 @@ private class TaskTriggerHandlerTest {
         // When retry Disposition Count equals to or grether than two at that time this Case is Closed with CASE_REASON_EXHAUSTED Reason.
         Task objTask2 = TestUtility.generateTask(guarantorContact.Id, objCase.Id, lstExhaustedCriteria[0].MasterLabel);
         insert objTask2;
+        Test.stopTest();
         
         // Check System assert. Case is Closed with Exhausted Reason.
         lstCase = [Select Id, Reason from Case where Id =: objCase.Id];
         System.assertEquals(lstCase[0].Reason, TaskTriggerHandler.CASE_REASON_EXHAUSTED);
-        Test.stopTest();
     }
     
     //12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
     @isTest
     static void caseCovergaeForFinal() {
-        Test.startTest();
+        // Create Guarantor Contact Record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
         
+        // Get Record Type Id. 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
@@ -178,6 +201,7 @@ private class TaskTriggerHandlerTest {
         campaignMember.Case_ID__c = objCase.Id;
         insert campaignMember;
         
+        Test.startTest();
         // Get Value for Retry Disposition from Custom Meta Data.
         List<Exhausted_Criteria__mdt> lstExhaustedCriteria = 
         	[SELECT MasterLabel, Disposition_Type__c FROM Exhausted_Criteria__mdt WHERE Disposition_Type__c = :TaskTriggerHandler.FINAL_DISPOSITION limit 1];
@@ -186,11 +210,11 @@ private class TaskTriggerHandlerTest {
         // Whenever Task is inserted at that time we check Disposition value, If it is same as final then Case closed with "Case Closed - FINAL" Reason.
         Task objTask = TestUtility.generateTask(guarantorContact.Id, objCase.Id, lstExhaustedCriteria[0].MasterLabel);
         insert objTask;
+        Test.stopTest();
         
         // Check System assert.
         List<Case> lstCase = [Select Id, Reason from Case where Id =: objCase.Id];
         System.assertEquals(lstCase[0].Reason, TaskTriggerHandler.CASE_REASON_FINAL);
-        Test.stopTest();
     }
     
     /* 12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
@@ -199,10 +223,11 @@ private class TaskTriggerHandlerTest {
      */
     @isTest
     static void retryWithFinalDisposition() {
-        Test.startTest();
+        // Create Guarantor Contact Record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
         
+        // Get Record Type Id. 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
@@ -222,6 +247,7 @@ private class TaskTriggerHandlerTest {
         campaignMember.Case_ID__c = objCase.Id;
         insert campaignMember;
         
+        Test.startTest();
         // Create List of Task.
         List<Task> lstTask = new List<Task>();
         
@@ -248,20 +274,21 @@ private class TaskTriggerHandlerTest {
         lstTask.add(objTask);
         
         insert lstTask;
+        Test.stopTest();
         
         // Check System assert.
         List<Case> lstCase = [Select Id, Reason from Case where Id =: objCase.Id];
         System.assertEquals(lstCase[0].Reason, TaskTriggerHandler.CASE_REASON_FINAL);
-        Test.stopTest();
     }
     
     //12-02-2016 Viraj Rana: #133707065: Case to Call Activiy and #132948555: Define Exhausted Effort
     @isTest
     static void caseCovergaeForError() {
-        Test.startTest();
+        // Create Guarantor Contact Record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
         
+        // Get Record Type Id. 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
@@ -281,6 +308,7 @@ private class TaskTriggerHandlerTest {
         campaignMember.Case_ID__c = objCase.Id;
         insert campaignMember;
         
+        Test.startTest();
         List<Task> lstTask = new List<Task>();
         
         // Get Value for Error Disposition from Custom Meta Data.
@@ -307,10 +335,10 @@ private class TaskTriggerHandlerTest {
         lstTask.add(objTask);
         
         insert lstTask;
+        Test.stopTest();
         
         // Check System assert.
         List<Case> lstCase = [Select Id, Reason, Status from Case where Id =: objCase.Id];
         System.assertEquals(lstCase[0].Status, TaskTriggerHandler.CASE_STATUS_CLOSED);
-        Test.stopTest();
     }
 }
