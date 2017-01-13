@@ -275,7 +275,25 @@ Public Class TestUtility {
         objTask.Five9__Five9Campaign__c = 'Pre-collection';
         return objTask;
     }
-
+    
+    /**
+     * Generate Task record with given Parameter.
+     * 
+     * @param ID guarantorContactId, The contact Id for the guarantor.
+     * @param Id caseId, The associated case id. 
+     * @param String callDisposition, The call result value. 
+     * @returns Task record, The Task object using defaults and parameters.
+     **/
+    public static Task generateTask(ID guarantorContactId, Id caseId, String callDisposition) {
+        Task objTask = new Task();
+        objTask.WhoId = guarantorContactId;
+        objTask.WhatId = caseId;
+        objTask.Priority = 'Normal';
+        objTask.Status = 'New';
+        objTask.CallDisposition = callDisposition;
+        objTask.Five9__Five9Campaign__c = 'OB PreCollections';
+        return objTask;
+    }
     // Generate Exception
     public static integer generateException() {
         return 1 / 0;
