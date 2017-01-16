@@ -193,6 +193,20 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Installments_Completed__c</fullName>
+        <externalId>false</externalId>
+        <formula>Original_Installment_Count__c -  Remaining_Installment_Count__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Installments Completed</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>NextPaymentDate__c</fullName>
         <externalId>false</externalId>
         <label>Next Payment Date</label>
@@ -254,6 +268,20 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Payment_Plan_Standing__c</fullName>
+        <description>PPS is the status of the ACTIVE payment plan.
+
+            Options: Past Due, In Error, Good Standing</description>
+        <externalId>false</externalId>
+        <formula>IF(Active__c=FALSE,&quot;&quot;,IF(Delinquent__c = TRUE, &quot;Past Due&quot;, IF(Has_Error__c = TRUE, &quot;In Error&quot;, &quot;Good Standing&quot;)))</formula>
+        <label>PPS</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
         <unique>false</unique>
     </fields>
     <fields>

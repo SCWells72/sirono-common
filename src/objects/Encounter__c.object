@@ -454,6 +454,18 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Total_Credits__c</fullName>
+        <externalId>false</externalId>
+        <formula>Insurance_Discount__c +  Insurance_Discount__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Credits</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Procedure__c</fullName>
         <externalId>false</externalId>
         <label>Procedure</label>
