@@ -88,6 +88,7 @@
         <members>Activity.Hours_of_Day__c</members>
         <members>Activity.Recording__c</members>
         <members>Activity.Salesforce_ID__c</members>
+        <members>CampaignMember.Case_ID__c</members>
         <members>Case.Asset_ID__c</members>
         <members>Case.Assigned_To__c</members>
         <members>Case.Author_ID__c</members>
@@ -96,9 +97,11 @@
         <members>Case.Caller_Contact_Number__c</members>
         <members>Case.Callers_Name__c</members>
         <members>Case.Carrier__c</members>
+        <members>Case.Case_Claim__c</members>
         <members>Case.Case_ETA__c</members>
         <members>Case.Charge_Group_IDs__c</members>
         <members>Case.Charge_Group_for_Discount__c</members>
+        <members>Case.Claim__c</members>
         <members>Case.Closed_Date__c</members>
         <members>Case.Closed_Reason__c</members>
         <members>Case.Contact_ID__c</members>
@@ -183,8 +186,7 @@
         <members>Case.Time_Worked_Mins__c</members>
         <members>Case.Transaction_Amount__c</members>
         <members>Case.Transaction_Code__c</members>
-        <members>Case.Case_Claim__c</members>
-        <members>Case.Claim__c</members>
+        <members>Contact.Address__c</members>
         <members>Contact.Age__c</members>
         <members>Contact.Bad_Debt_Balance__c</members>
         <members>Contact.CTINumber1__c</members>
@@ -197,7 +199,7 @@
         <members>Contact.External_Guarantor_Id__c</members>
         <members>Contact.External_ID__c</members>
         <members>Contact.Full_Name__c</members>
-        <members>Contact.Sex__c</members>
+        <members>Contact.Guarantor_Patient_Id__c</members>
         <members>Contact.Guarantor__c</members>
         <members>Contact.Home_Phone_Type__c</members>
         <members>Contact.Invoice_Offset_Date__c</members>
@@ -210,11 +212,13 @@
         <members>Contact.Overdue_Balance__c</members>
         <members>Contact.Patient_Id__c</members>
         <members>Contact.Patient_Satisfaction__c</members>
-        <members>Contact.Payment_Proclivity_Score__c</members>
         <members>Contact.Payment_Plan_Balance__c</members>
+        <members>Contact.Payment_Plan_Balance__c</members>
+        <members>Contact.Payment_Proclivity_Score__c</members>
         <members>Contact.Pre_Invoiced_Balance__c</members>
         <members>Contact.Preferred_Contact__c</members>
         <members>Contact.Profile_Pointer_ID__c</members>
+        <members>Contact.Sex__c</members>
         <members>Contact.Skip_Invoice_Stmt_Until__c</members>
         <members>Contact.Social_Security_Number__c</members>
         <members>Contact.Statement_Preference__c</members>
@@ -223,11 +227,7 @@
         <members>Contact.Verified_Email__c</members>
         <members>Contact.Vital_Status__c</members>
         <members>Contact.X18_Digit_ID__c</members>
-        <members>Contact.Payment_Plan_Balance__c</members>
-        <members>Contact.Address__c</members>
-        <members>Contact.Guarantor_Patient_Id__c</members>
         <members>User.Legacy_User_Id__c</members>
-        <members>CampaignMember.Case_ID__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -388,9 +388,9 @@
     <types>
         <members>Adjustment_Type__mdt-Adjustment Type Layout</members>
         <members>Campaign-Campaign Layout</members>
+        <members>CampaignMember-Campaign Member Page Layout</members>
         <members>Campaign_Member_History__c-Campaign Member History Layout</members>
         <members>Campaign_Member_History__c-Campaign Members History</members>
-        <members>CampaignMember-Campaign Member Page Layout</members>
         <members>Case-Administrative Case</members>
         <members>Case-Billing Layout</members>
         <members>Case-Call List</members>
@@ -428,6 +428,8 @@
         <members>Payment_Method__c-Credit Card Layout</members>
         <members>Payment_Method__c-Credit Cards</members>
         <members>Payment_Method__c-Promise to Pay</members>
+        <members>Payment_Plan__c-Payment Layout</members>
+        <members>Payment_Plan__c-Payments</members>
         <members>Payment__c-Payment Plan Layout</members>
         <members>Payment__c-Payment Plans</members>
         <members>Payor__c-Payer Layout</members>
@@ -453,8 +455,6 @@
         <members>UserProvisioningLog-User Provisioning Log Layout</members>
         <members>UserProvisioningRequest-User Provisioning Request Layout</members>
         <members>User_Timezone_Setting__mdt-User Timezone Layout</members>
-        <members>Payment_Plan__c-Payment Layout</members>
-        <members>Payment_Plan__c-Payments</members>
         <name>Layout</name>
     </types>
     <types>
@@ -477,6 +477,7 @@
         <members>Case.Automated_Cases_Case</members>
         <members>Case.Cases_in_Queue</members>
         <members>Case.Cloud_CoOp_Case_Queue_Case</members>
+        <members>Case.Demographic_Update</members>
         <members>Case.Encounter_Needed</members>
         <members>Case.Hospital_Staff_Billing_Case</members>
         <members>Case.Hospital_Staff_Case</members>
@@ -484,7 +485,6 @@
         <members>Case.Insurance_Update</members>
         <members>Case.Internal_Cases</members>
         <members>Case.Missing_Payment</members>
-        <members>Case.Demographic_Update</members>
         <members>Case.MyCases</members>
         <members>Case.MyOpenCases</members>
         <members>Case.Quality_of_Care_Case</members>
@@ -514,6 +514,7 @@
         <members>Payment_Arrangement__c.Recurring</members>
         <members>Payment_Method__c.All</members>
         <members>Payment_Method__c.Sirono_Partner_Queue_Credit_Card</members>
+        <members>Payment_Plan__c.All</members>
         <members>Payment__c.All</members>
         <members>Payor__c.All</members>
         <members>Provider__c.All</members>
@@ -526,7 +527,6 @@
         <members>User.AdminUsers</members>
         <members>User.AllUsers</members>
         <members>User.All_Partner_Users</members>
-        <members>Payment_Plan__c.All</members>
         <name>ListView</name>
     </types>
     <types>
@@ -717,9 +717,9 @@
         <members>Charge_Group__c</members>
         <members>Coverage__c</members>
         <members>Invoice__c</members>
-        <members>Payment__c</members>
-        <members>Payment_Plan__c</members>
         <members>Payment_Adjustments__c</members>
+        <members>Payment_Plan__c</members>
+        <members>Payment__c</members>
         <members>Statement__c</members>
         <name>Workflow</name>
     </types>
@@ -734,9 +734,9 @@
         <members>Charge_Group__c.OG_SelfPay_Balance</members>
         <members>Coverage__c.Coverage_Name</members>
         <members>Invoice__c.Invoice_Name</members>
-        <members>Payment__c.Payment_Name_Update</members>
-        <members>Payment_Plan__c.UpdatePPcomplete</members>
         <members>Payment_Adjustments__c.UpdateName</members>
+        <members>Payment_Plan__c.UpdatePPcomplete</members>
+        <members>Payment__c.Payment_Name_Update</members>
         <members>Service__c.Service_Name</members>
         <members>Statement__c.Statement_Name</members>
         <name>WorkflowFieldUpdate</name>
@@ -749,9 +749,9 @@
         <members>Charge_Group__c.OG SelfPay</members>
         <members>Coverage__c.Coverage Name</members>
         <members>Invoice__c.Invoice Name</members>
-        <members>Payment__c.Payment_Name_Update</members>
         <members>Payment_Adjustments__c.CustomizeName</members>
         <members>Payment_Plan__c.PPcomplete</members>
+        <members>Payment__c.Payment_Name_Update</members>
         <members>Service__c.Service Name</members>
         <members>Statement__c.Statement Name</members>
         <name>WorkflowRule</name>
