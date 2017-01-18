@@ -72,6 +72,21 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Amount_to_Aggregate__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISBLANK(Payment__c),
+  Amount__c,
+  IF(ISBLANK(Payment__r.Sirono_ID__c), Amount__c, 0))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Amount to Aggregate</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Charge_Group__c</fullName>
         <description>Charge Group</description>
         <externalId>false</externalId>
@@ -91,7 +106,7 @@
         <fullName>Credit_Balance__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
-        <label>Credit Balance</label>
+        <label>Credit Balance (Deprecated)</label>
         <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
@@ -100,7 +115,7 @@
     <fields>
         <fullName>Export_Date__c</fullName>
         <externalId>false</externalId>
-        <label>Export Date</label>
+        <label>Export Date (Deprecated)</label>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
@@ -108,10 +123,22 @@
         <type>DateTime</type>
     </fields>
     <fields>
+        <fullName>External_ID__c</fullName>
+        <externalId>true</externalId>
+        <label>External ID</label>
+        <length>30</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Fail_Date__c</fullName>
         <description>Fail Date</description>
         <externalId>false</externalId>
-        <label>Fail Date</label>
+        <label>Fail Date (Deprecated)</label>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
@@ -133,7 +160,7 @@
     <fields>
         <fullName>Notes__c</fullName>
         <externalId>false</externalId>
-        <label>Notes</label>
+        <label>Notes (Deprecated)</label>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
@@ -167,6 +194,20 @@
         <type>DateTime</type>
     </fields>
     <fields>
+        <fullName>Service__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Service</label>
+        <referenceTo>Service__c</referenceTo>
+        <relationshipLabel>Transactions</relationshipLabel>
+        <relationshipName>Transactions</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>Sirono_ID__c</fullName>
         <externalId>true</externalId>
         <label>Sirono ID</label>
@@ -178,6 +219,16 @@
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Transaction_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Transaction Date</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
     </fields>
     <label>Transaction</label>
     <listViews>
@@ -200,10 +251,38 @@
     </nameField>
     <pluralLabel>Transactions</pluralLabel>
     <searchLayouts>
-        <customTabListAdditionalFields>Charge_Group__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Amount__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Payment__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>CREATED_DATE</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Method__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Post_Date__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Transaction_Date__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Charge_Group__c</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>Amount__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Method__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Post_Date__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Transaction_Date__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Charge_Group__c</lookupDialogsAdditionalFields>
+        <lookupFilterFields>NAME</lookupFilterFields>
+        <lookupFilterFields>Amount__c</lookupFilterFields>
+        <lookupFilterFields>Method__c</lookupFilterFields>
+        <lookupFilterFields>Post_Date__c</lookupFilterFields>
+        <lookupFilterFields>Transaction_Date__c</lookupFilterFields>
+        <lookupFilterFields>Charge_Group__c</lookupFilterFields>
+        <lookupPhoneDialogsAdditionalFields>Amount__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Method__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Post_Date__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Transaction_Date__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Charge_Group__c</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>Amount__c</searchFilterFields>
+        <searchFilterFields>Method__c</searchFilterFields>
+        <searchFilterFields>Post_Date__c</searchFilterFields>
+        <searchFilterFields>Transaction_Date__c</searchFilterFields>
+        <searchFilterFields>Charge_Group__c</searchFilterFields>
+        <searchResultsAdditionalFields>Amount__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Method__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Post_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Transaction_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Charge_Group__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
 </CustomObject>
