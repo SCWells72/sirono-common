@@ -409,6 +409,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ServiceUtils</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SironoSettingsUtil</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -454,6 +458,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TransactionJSONParsing</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TransactionTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
