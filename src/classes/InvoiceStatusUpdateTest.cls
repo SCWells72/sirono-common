@@ -1,7 +1,7 @@
 @isTest
 public class InvoiceStatusUpdateTest {
 
-    @testSetup
+    @isTest
     public static void setupTestRecords() {
 
         final String INACTIVE = 'Inactive';
@@ -31,10 +31,7 @@ public class InvoiceStatusUpdateTest {
             testChargeGroupList.add(testChargeGroup);
         }
         insert testChargeGroupList;
-    }
 
-    @isTest
-    public static void checkInvoiceSetup() {
 
         Invoice__c invoiceIndexValueCheck = [
                 SELECT Id, Invoice_Status_Index__c

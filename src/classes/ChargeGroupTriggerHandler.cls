@@ -40,6 +40,10 @@ public with sharing class ChargeGroupTriggerHandler {
         if (planIds.size() > 0) {
             PaymentPlanUtil.updateBalances(planIds);
         }
+
+        if(invoiceIds.size() > 0){
+            InvoiceUtil.updateInvoiceStatusIndex(invoiceIds);
+        }
     }
 
     //Static Method that gets invoked after an update event on Charge_Group__c records
@@ -79,6 +83,10 @@ public with sharing class ChargeGroupTriggerHandler {
         if (planIds.size() > 0) {
             PaymentPlanUtil.updateBalances(planIds);
         }
+
+        if(invoiceIds.size() > 0){
+            InvoiceUtil.updateInvoiceStatusIndex(invoiceIds);
+        }
     }
 
     //Static Method that gets invoked after a delete event on Charge_Group__c records
@@ -99,5 +107,9 @@ public with sharing class ChargeGroupTriggerHandler {
         }
 
         PaymentPlanUtil.updateBalances(paymentPlanIds);
+
+        if(invoiceIds.size() > 0){
+            InvoiceUtil.updateInvoiceStatusIndex(invoiceIds);
+        }
     }
 }
