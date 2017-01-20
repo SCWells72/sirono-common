@@ -450,6 +450,15 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Add_to_PP__c</fullName>
+        <externalId>false</externalId>
+        <formula>AND(Payment_Plan_Balance__c &gt; 0, Payment_Plan_Balance__c &lt;&gt; Invoiced_Balance__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>AddtoPP</label>
+        <trackHistory>false</trackHistory>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Address__c</fullName>
         <externalId>false</externalId>
         <formula>MailingStreet + BR() + MailingCity + &quot;, &quot; + MailingState + &quot; &quot; + MailingPostalCode + &quot; &quot; + MailingCountry</formula>
@@ -565,6 +574,21 @@
         </summaryFilterItems>
         <summaryForeignKey>Charge_Group__c.Guarantor__c</summaryForeignKey>
         <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Delinquent_Invoices__c</fullName>
+        <description>Count of delinquent invoices</description>
+        <externalId>false</externalId>
+        <label>Delinquent Invoices</label>
+        <summaryFilterItems>
+            <field>Invoice__c.Invoice_Status_Index__c</field>
+            <operation>equals</operation>
+            <value>7</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Invoice__c.Guarantor__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
         <trackHistory>false</trackHistory>
         <type>Summary</type>
     </fields>
@@ -882,6 +906,21 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
         <trackHistory>true</trackHistory>
     </fields>
     <fields>
+        <fullName>Non_PP_Invoices__c</fullName>
+        <description>Count of invoices no on payment plan</description>
+        <externalId>false</externalId>
+        <label>Non-PP Invoices</label>
+        <summaryFilterItems>
+            <field>Invoice__c.Invoice_Status_Index__c</field>
+            <operation>greaterThan</operation>
+            <value>4</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Invoice__c.Guarantor__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <type>Summary</type>
+    </fields>
+    <fields>
         <fullName>Notes__c</fullName>
         <description>external notes from Sirono</description>
         <externalId>false</externalId>
@@ -939,6 +978,21 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
         <type>Picklist</type>
     </fields>
     <fields>
+        <fullName>Outstanding_Invoices__c</fullName>
+        <description>Count of outstanding invoices</description>
+        <externalId>false</externalId>
+        <label>Outstanding Invoices</label>
+        <summaryFilterItems>
+            <field>Invoice__c.Invoice_Status_Index__c</field>
+            <operation>greaterOrEqual</operation>
+            <value>4</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Invoice__c.Guarantor__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <type>Summary</type>
+    </fields>
+    <fields>
         <fullName>Overdue_Balance__c</fullName>
         <externalId>false</externalId>
         <label>Overdue Balance</label>
@@ -950,6 +1004,21 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
         </summaryFilterItems>
         <summaryForeignKey>Charge_Group__c.Guarantor__c</summaryForeignKey>
         <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Overdue_Invoices__c</fullName>
+        <description>Count of Overdue invoices</description>
+        <externalId>false</externalId>
+        <label>Overdue Invoices</label>
+        <summaryFilterItems>
+            <field>Invoice__c.Invoice_Status_Index__c</field>
+            <operation>equals</operation>
+            <value>6</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Invoice__c.Guarantor__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
         <trackHistory>false</trackHistory>
         <type>Summary</type>
     </fields>
