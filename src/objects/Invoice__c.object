@@ -140,8 +140,6 @@
         <unique>false</unique>
     </fields>
     <fields>
-<<<<<<< HEAD
-=======
         <fullName>Invoice_Status__c</fullName>
         <externalId>false</externalId>
         <formula>If(Invoice_Status_Index__c == 7, &quot;Delinquent&quot;,
@@ -160,7 +158,6 @@ If(Invoice_Status_Index__c == 1, &quot;Invoice Voided&quot;, &quot;Error&quot;))
         <unique>false</unique>
     </fields>
     <fields>
->>>>>>> e65c00e... added new fields to invoice and charge group [Fixes #137118751]
         <fullName>Patient__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <description>Patient</description>
