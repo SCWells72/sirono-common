@@ -2,11 +2,11 @@
 <CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
     <caseValues>
         <plural>false</plural>
-        <value>Payment / Adjustment</value>
+        <value>Adjustment</value>
     </caseValues>
     <caseValues>
         <plural>true</plural>
-        <value>Payments / Adjustments</value>
+        <value>Adjustments</value>
     </caseValues>
     <fields>
         <label><!-- Amount --></label>
@@ -15,70 +15,74 @@
     <fields>
         <label><!-- Charge Group --></label>
         <name>Charge_Group__c</name>
-        <relationshipLabel><!-- Payments / Adjustments --></relationshipLabel>
+        <relationshipLabel><!-- Adjustments --></relationshipLabel>
     </fields>
     <fields>
-        <label><!-- Custom Name --></label>
+        <label><!-- Display Name --></label>
         <name>Custom_Name__c</name>
     </fields>
     <fields>
-        <label><!-- Deleted --></label>
+        <label><!-- Deleted (Deprecated) --></label>
         <name>Deleted__c</name>
     </fields>
     <fields>
-        <label><!-- Description --></label>
+        <label><!-- Description (Deprecated) --></label>
         <name>Description__c</name>
     </fields>
     <fields>
-        <label><!-- Export Date --></label>
+        <label><!-- Export Date (Deprecated) --></label>
         <name>Export_Date__c</name>
     </fields>
     <fields>
-        <label><!-- External ID --></label>
+        <label><!-- External ID (Deprecated) --></label>
         <name>External_ID__c</name>
     </fields>
     <fields>
-        <label><!-- Imported --></label>
+        <label><!-- ID --></label>
+        <name>ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Imported (Deprecated) --></label>
         <name>Imported__c</name>
     </fields>
     <fields>
-        <label><!-- Origin Code --></label>
+        <label><!-- Origin Code (Deprecated) --></label>
         <name>Origin_Code__c</name>
     </fields>
     <fields>
-        <label><!-- Payment --></label>
+        <label><!-- Payment (Deprecated) --></label>
         <name>Payment__c</name>
-        <relationshipLabel><!-- Payments / Adjustments --></relationshipLabel>
+        <relationshipLabel><!-- Adjustments --></relationshipLabel>
     </fields>
     <fields>
-        <label><!-- Payor ID --></label>
+        <label><!-- Payor ID (Deprecated) --></label>
         <name>Payor_ID__c</name>
     </fields>
     <fields>
         <label><!-- Payor --></label>
         <name>Payor__c</name>
-        <relationshipLabel><!-- Payments / Adjustments --></relationshipLabel>
+        <relationshipLabel><!-- Adjustments --></relationshipLabel>
     </fields>
     <fields>
         <label><!-- Post Date --></label>
         <name>Post_Date__c</name>
     </fields>
     <fields>
-        <label><!-- Sirono ID --></label>
+        <label><!-- Sirono ID (Deprecated) --></label>
         <name>Sirono_ID__c</name>
     </fields>
     <fields>
-        <label><!-- Code --></label>
+        <label><!-- Code (Deprecated) --></label>
         <name>Transaction_Type__c</name>
-        <relationshipLabel><!-- Payments / Adjustments --></relationshipLabel>
+        <relationshipLabel><!-- Adjustments --></relationshipLabel>
     </fields>
     <fields>
-        <label><!-- Transaction --></label>
+        <label><!-- Transaction (Deprecated) --></label>
         <name>Transaction__c</name>
-        <relationshipLabel><!-- Payments / Adjustments --></relationshipLabel>
+        <relationshipLabel><!-- Adjustments --></relationshipLabel>
     </fields>
     <layouts>
-        <layout>Payment Adjustment Layout</layout>
+        <layout>Adjustment Layout</layout>
         <sections>
             <label><!-- Comments --></label>
             <section>Comments</section>
@@ -89,11 +93,7 @@
         </sections>
     </layouts>
     <layouts>
-        <layout>Payment Adjustments</layout>
-        <sections>
-            <label><!-- Comments --></label>
-            <section>Comments</section>
-        </sections>
+        <layout>Adjustments</layout>
         <sections>
             <label><!-- Custom Links --></label>
             <section>Custom Links</section>

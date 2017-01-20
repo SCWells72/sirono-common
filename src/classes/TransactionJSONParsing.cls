@@ -62,7 +62,6 @@ public class TransactionJSONParsing {
                 if (!String.Isblank(objJson.export_date)) {
                     objTransaction.Export_Date__c = Date.valueof(objJson.export_date);
                 }
-                objTransaction.Method__c = objJson.method;
                 objTransaction.Notes__c = objJson.notes;
                 objTransaction.Credit_Balance__c = objJson.credit_balance;
 

@@ -9,6 +9,11 @@
         <value>Transactions</value>
     </caseValues>
     <fields>
+        <label><!-- Adjustment --></label>
+        <name>Adjustment__c</name>
+        <relationshipLabel><!-- Transactions --></relationshipLabel>
+    </fields>
+    <fields>
         <label><!-- Amount --></label>
         <name>Amount__c</name>
     </fields>
@@ -38,7 +43,7 @@
         <name>Fail_Date__c</name>
     </fields>
     <fields>
-        <label><!-- Method --></label>
+        <label><!-- Method (Deprecated) --></label>
         <name>Method__c</name>
     </fields>
     <fields>
@@ -66,6 +71,10 @@
     <fields>
         <label><!-- Transaction Date --></label>
         <name>Transaction_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Method --></label>
+        <name>Txn_Method__c</name>
     </fields>
     <layouts>
         <layout>Transaction Layout</layout>

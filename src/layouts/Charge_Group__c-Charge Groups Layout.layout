@@ -312,7 +312,7 @@
         <fields>NAME</fields>
         <fields>Payment__c</fields>
         <fields>Amount__c</fields>
-        <fields>Method__c</fields>
+        <fields>Txn_Method__c</fields>
         <fields>CREATED_DATE</fields>
         <relatedList>Transaction__c.Charge_Group__c</relatedList>
     </relatedLists>

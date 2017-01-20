@@ -409,10 +409,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ServiceUtils</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>SironoSettingsUtil</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -462,6 +458,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TransactionTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TxnAggregationUtils</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2584,6 +2584,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Payment_Adjustments__c.ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Payment_Adjustments__c.Imported__c</field>
         <readable>false</readable>
@@ -3390,6 +3395,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Transaction__c.Adjustment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Transaction__c.Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3451,6 +3461,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Transaction__c.Transaction_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Transaction__c.Txn_Method__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3578,7 +3593,7 @@
         <layout>Patient_Coverage_Junction__c-Patient Coverage Junction Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment_Adjustments__c-Payment Adjustments</layout>
+        <layout>Payment_Adjustments__c-Adjustments</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Payment_Arrangement__c-Payment Arrangement Layout</layout>
