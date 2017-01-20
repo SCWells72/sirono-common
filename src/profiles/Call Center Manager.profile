@@ -2784,6 +2784,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Installments_Completed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Payment_Plan__c.NextPaymentDate__c</field>
         <readable>true</readable>
@@ -2806,6 +2811,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Payment_Plan__c.Payment_Method__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Payment_Plan_Standing__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
