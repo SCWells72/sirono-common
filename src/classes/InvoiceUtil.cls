@@ -27,7 +27,7 @@ public with sharing class InvoiceUtil {
                     system.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('Invoice__c')
                             + '[Max Status Value]: ' + qr.get('maxStatusValue'));
                     tempInvoice.Id = (Id) qr.get('Invoice__c');
-                    tempInvoice.Invoice_Status_Index__c = (Integer) qr.get('maxStatusValue');
+                    tempInvoice.Invoice_Status_Index__c = Integer.valueOf(qr.get('maxStatusValue'));
 
                     invoicesToUpdate.add(tempInvoice);
                 }
