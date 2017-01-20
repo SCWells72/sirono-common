@@ -75,7 +75,7 @@
         <defaultValue>false</defaultValue>
         <description>Transaction was canceled</description>
         <externalId>false</externalId>
-        <label>Cancelled</label>
+        <label>Cancelled (Deprecated)</label>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
@@ -84,7 +84,7 @@
     <fields>
         <fullName>Card_Holder_Name__c</fullName>
         <externalId>false</externalId>
-        <label>Card Holder Name</label>
+        <label>Card Holder Name (Deprecated)</label>
         <length>100</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
@@ -96,7 +96,7 @@
     <fields>
         <fullName>Card_Type__c</fullName>
         <externalId>false</externalId>
-        <label>Card Type</label>
+        <label>Card Type (Deprecated)</label>
         <picklist>
             <picklistValues>
                 <fullName>Visa</fullName>
@@ -125,7 +125,7 @@
     <fields>
         <fullName>Charge_Date_Test__c</fullName>
         <externalId>false</externalId>
-        <label>Charge Date Test</label>
+        <label>Charge Date Test (Deprecated)</label>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
@@ -136,7 +136,7 @@
         <fullName>Charge_Date__c</fullName>
         <description>Date of transaction</description>
         <externalId>false</externalId>
-        <label>Charge Date</label>
+        <label>Charge Date (Deprecated)</label>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
@@ -147,7 +147,7 @@
         <fullName>Check_Number__c</fullName>
         <description>Number of the payment check</description>
         <externalId>false</externalId>
-        <label>Check Number</label>
+        <label>Check Number (Deprecated)</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -184,7 +184,11 @@
     <fields>
         <fullName>Display_Name__c</fullName>
         <externalId>false</externalId>
-        <formula>&quot;Patient Payment - &quot;&amp; TEXT(MONTH(DATEVALUE(Charge_Date__c))) &amp; &quot;/&quot; &amp; TEXT(DAY(DATEVALUE(Charge_Date__c))) &amp; &quot;/&quot; &amp; TEXT(YEAR(DATEVALUE(Charge_Date__c)))</formula>
+        <formula>IF(ISBLANK(Payor__c), &quot;&quot;, Payor__r.Name &amp; &quot; &quot;) &amp;
+&quot;Payment - &quot; &amp;
+TEXT(MONTH(DATEVALUE(Deposit_Date__c))) + &quot;/&quot; &amp; 
+TEXT(DAY(DATEVALUE(Deposit_Date__c))) + &quot;/&quot; &amp; 
+TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <label>Display Name</label>
         <required>false</required>
         <trackHistory>false</trackHistory>
@@ -193,9 +197,23 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Encounter__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Encounter</label>
+        <referenceTo>Encounter__c</referenceTo>
+        <relationshipLabel>Payments</relationshipLabel>
+        <relationshipName>Payments</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>Expiration_Date__c</fullName>
         <externalId>false</externalId>
-        <label>Expiration Date</label>
+        <label>Expiration Date (Deprecated)</label>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
@@ -227,9 +245,23 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>ID__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <description>Either Sirono ID or composite key: Sirono ID, Guarantor, Post Date, Code, Payor</description>
+        <externalId>true</externalId>
+        <label>ID</label>
+        <length>128</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Last_4__c</fullName>
         <externalId>false</externalId>
-        <label>Last 4</label>
+        <label>Last 4 (Deprecated)</label>
         <length>4</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
@@ -300,6 +332,32 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Payor__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Payor</label>
+        <referenceTo>Payor__c</referenceTo>
+        <relationshipLabel>Payments</relationshipLabel>
+        <relationshipName>Payments</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Posted_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Posted Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Processor_Transaction_ID__c</fullName>
         <description>Id of the processor</description>
         <externalId>false</externalId>
@@ -316,7 +374,7 @@
         <fullName>Scheduled_Date__c</fullName>
         <description>Date of scheduled payment</description>
         <externalId>false</externalId>
-        <label>Scheduled Date</label>
+        <label>Scheduled Date (Deprecated)</label>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
@@ -356,7 +414,7 @@
         <defaultValue>false</defaultValue>
         <description>If transaction was successful</description>
         <externalId>false</externalId>
-        <label>Successful</label>
+        <label>Successful (Deprecated)</label>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
@@ -431,32 +489,42 @@
         </picklistValues>
     </recordTypes>
     <searchLayouts>
+        <customTabListAdditionalFields>Payor__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Guarantor__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Amount__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Card_Holder_Name__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Charge_Date__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Method__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Deposit_Date__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Collected_by__c</customTabListAdditionalFields>
-        <lookupDialogsAdditionalFields>Payment_Method__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Deposit_Date__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Card_Holder_Name__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Payor__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Guarantor__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Expiration_Date__c</lookupDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Amount__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Card_Holder_Name__c</lookupPhoneDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Amount__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Method__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Deposit_Date__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Collected_by__c</lookupDialogsAdditionalFields>
+        <lookupFilterFields>NAME</lookupFilterFields>
+        <lookupFilterFields>Payor__c</lookupFilterFields>
+        <lookupFilterFields>Guarantor__c</lookupFilterFields>
+        <lookupFilterFields>Amount__c</lookupFilterFields>
+        <lookupFilterFields>Method__c</lookupFilterFields>
+        <lookupFilterFields>Deposit_Date__c</lookupFilterFields>
+        <lookupPhoneDialogsAdditionalFields>Payor__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Guarantor__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Payment_Method__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Amount__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Method__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Deposit_Date__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Collected_by__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Charge_Date__c</lookupPhoneDialogsAdditionalFields>
         <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>Payor__c</searchFilterFields>
+        <searchFilterFields>Guarantor__c</searchFilterFields>
         <searchFilterFields>Amount__c</searchFilterFields>
-        <searchFilterFields>Charge_Date__c</searchFilterFields>
-        <searchFilterFields>Payment_Method__c</searchFilterFields>
-        <searchFilterFields>Last_4__c</searchFilterFields>
+        <searchFilterFields>Method__c</searchFilterFields>
+        <searchFilterFields>Deposit_Date__c</searchFilterFields>
+        <searchFilterFields>Collected_by__c</searchFilterFields>
+        <searchResultsAdditionalFields>Payor__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Guarantor__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Processor_Transaction_ID__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Card_Holder_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Amount__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Charge_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Method__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Deposit_Date__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Collected_by__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>Private</sharingModel>

@@ -1,9 +1,9 @@
 /*
-*
 * When Transactions are inserted, updated or deleted,
-* calculate the rollup Amount on their related Service or Adjustment
+* calculate the rollup Amount on their related Service, Adjustment or Payment
 */
 public with sharing class TransactionTriggerHandler {
+
 
     public static void afterInsert(List<Transaction__c> newList) {
         processInsertsAndDeletes(newList);
@@ -14,21 +14,28 @@ public with sharing class TransactionTriggerHandler {
     }
 
     private static void processInsertsAndDeletes(List<Transaction__c> txnList) {
-        Set<Id> serviceIds = new Set<Id>();
+        Set<Id> svcIds = new Set<Id>();
         Set<Id> adjIds = new Set<Id>();
+        Set<Id> pmtIds = new Set<Id>();
 
         for (Transaction__c txn : txnList) {
             if (txn.Service__c != null) {
-                serviceIds.add(txn.Service__c);
+                svcIds.add(txn.Service__c);
             }
 
             if (txn.Adjustment__c != null) {
                 adjIds.add(txn.Adjustment__c);
             }
+
+
+            if (txn.Payment__c != null) {
+                pmtIds.add(txn.Payment__c);
+            }
         }
 
-        TxnAggregationUtils.aggregateServiceTxns(serviceIds);
-        TxnAggregationUtils.aggregateAdjTxns(adjIds);
+        TxnAggregationUtils.aggregateServiceTxns(svcIds);
+        TxnAggregationUtils.aggregateAdjustmentTxns(adjIds);
+        TxnAggregationUtils.aggregatePaymentTxns(pmtIds);
     }
 
     /*
@@ -36,42 +43,58 @@ public with sharing class TransactionTriggerHandler {
      */
     public static void afterUpdate(List<Transaction__c> newList, Map<Id, Transaction__c> oldMap) {
 
-        Set<Id> serviceIds = new Set<Id>();
+        Set<Id> svcIds = new Set<Id>();
         Set<Id> adjIds = new Set<Id>();
+        Set<Id> pmtIds = new Set<Id>();
 
         for (Transaction__c newTxn : newList) {
-            Transaction__c oldTxn = oldMap.get(newTxn.Id);
-
+            // It should be possible to improve the performance by
+            // updating only when (newTxn.Amount__c != oldTxn.Amount__c)
+            // Perform unconditionally until we iron out all the kinks in the
+            // data relationships & informatica jobs
             if (newTxn.Service__c != null) {
-                // It should be possibile to improve the performance of this by
-                // updating only when (newTxn.Amount__c != oldTxn.Amount__c)
-                // Perform unconditionally until we iron out all the kinks in the
-                // data relationships & informatica jobs
-                serviceIds.add(newTxn.Service__c);
-
-                // Probably overly cautious with this - I think this case is highly unlikely
-                if (newTxn.Service__c != oldTxn.Service__c){
-                    serviceIds.add(newTxn.Service__c);
-                    serviceIds.add(oldTxn.Service__c);
-                }
+                svcIds.add(newTxn.Service__c);
             }
 
             if (newTxn.Adjustment__c != null) {
-                // It should be possibile to improve the performance of this by
-                // updating only when (newTxn.Amount__c != oldTxn.Amount__c)
-                // Perform unconditionally until we iron out all the kinks in the
-                // data relationships & informatica jobs
                 adjIds.add(newTxn.Adjustment__c);
+            }
 
-                // Probably overly cautious with this - I think this case is highly unlikely
-                if (newTxn.Adjustment__c != oldTxn.Adjustment__c){
-                    adjIds.add(newTxn.Adjustment__c);
-                    adjIds.add(newTxn.Adjustment__c);
+            if (newTxn.Payment__c != null) {
+                pmtIds.add(newTxn.Payment__c);
+            }
+
+            // Check against the old id is probably overly cautious - highly unlikely
+            Id newId = getRelatedObjectId(newTxn);
+            Transaction__c oldTxn = oldMap.get(newTxn.Id);
+            Id oldId = getRelatedObjectId(oldTxn);
+
+            if (newId != oldId) {
+                if (oldTxn.Payment__c != null) {
+                    pmtIds.add(oldTxn.Payment__c);
+                } else if (oldTxn.Adjustment__c != null) {
+                    adjIds.add(oldTxn.Adjustment__c);
+                } else if (oldTxn.Service__c != null){
+                    svcIds.add(oldTxn.Service__c);
                 }
             }
         }
 
-        TxnAggregationUtils.aggregateServiceTxns(serviceIds);
-        TxnAggregationUtils.aggregateAdjTxns(adjIds);
+        TxnAggregationUtils.aggregateServiceTxns(svcIds);
+        TxnAggregationUtils.aggregateAdjustmentTxns(adjIds);
+        TxnAggregationUtils.aggregatePaymentTxns(pmtIds);
+    }
+
+    private static Id getRelatedObjectId(Transaction__c txn) {
+        if (txn.Service__c != null ) {
+            return txn.Service__c;
+        }
+
+        if (txn.Payment__c != null) {
+            return txn.Payment__c ;
+        }
+
+        return txn.Adjustment__c;
+
     }
 }
