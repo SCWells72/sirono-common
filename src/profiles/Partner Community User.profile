@@ -3554,7 +3554,7 @@
         <layout>Service_Rollup__c-Service Rollups</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Service__c-Services Layout</layout>
+        <layout>Service__c-Services</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Statement__c-Statements</layout>
@@ -3569,7 +3569,7 @@
         <layout>Transaction_Type__c-Transactions</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Transaction__c-Transactions Layout</layout>
+        <layout>Transaction__c-Transactions</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>User-User Layout</layout>

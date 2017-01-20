@@ -3569,9 +3569,6 @@
         <layout>Transaction_Type__c-Transaction Type Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Transaction__c-Transaction Type Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>User-User Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
