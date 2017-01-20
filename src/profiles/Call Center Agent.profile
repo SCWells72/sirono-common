@@ -1605,7 +1605,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.Add_to_PP__c</field>
+        <field>Contact.Add_to_Payment_Plan__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1790,7 +1790,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.Non_PP_Invoices__c</field>
+        <field>Contact.Non_Payment_Plan_Invoices__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

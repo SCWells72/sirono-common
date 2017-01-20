@@ -450,11 +450,11 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Add_to_PP__c</fullName>
+        <fullName>Add_to_Payment_Plan__c</fullName>
         <externalId>false</externalId>
         <formula>AND(Payment_Plan_Balance__c &gt; 0, Payment_Plan_Balance__c &lt;&gt; Invoiced_Balance__c)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>AddtoPP</label>
+        <label>Add to Payment Plan</label>
         <trackHistory>false</trackHistory>
         <type>Checkbox</type>
     </fields>
@@ -906,10 +906,10 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
         <trackHistory>true</trackHistory>
     </fields>
     <fields>
-        <fullName>Non_PP_Invoices__c</fullName>
-        <description>Count of invoices no on payment plan</description>
+        <fullName>Non_Payment_Plan_Invoices__c</fullName>
+        <description>Count of invoices not on payment plan</description>
         <externalId>false</externalId>
-        <label>Non-PP Invoices</label>
+        <label>Non-Payment Plan Invoices</label>
         <summaryFilterItems>
             <field>Invoice__c.Invoice_Status_Index__c</field>
             <operation>greaterThan</operation>
