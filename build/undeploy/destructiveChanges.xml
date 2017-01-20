@@ -41,6 +41,9 @@
     </types>
     <types>
         <members>Campaign_Mapping__mdt-Salesforce Campaign Name Layout</members>
+        <members>Service__c-Services Layout</members>
+        <members>Transaction__c-Transaction Type Layout</members>
+        <members>Transaction__c-Transactions Layout</members>
         <members>User_Timezone_Setting__mdt-User Timezone Setting Layout</members>
         <name>Layout</name>
     </types>

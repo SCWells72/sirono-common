@@ -439,15 +439,15 @@
         <members>Service_Rollup__c-Service Rollup Layout</members>
         <members>Service_Rollup__c-Service Rollups</members>
         <members>Service__c-Service Layout</members>
-        <members>Service__c-Services Layout</members>
+        <members>Service__c-Services</members>
         <members>Statement__c-Statement Layout</members>
         <members>Statement__c-Statements</members>
         <members>Task-Task Layout</members>
         <members>TransactionPayerType__mdt-Transaction Payer Type Layout</members>
         <members>Transaction_Type__c-Transaction Type Layout</members>
         <members>Transaction_Type__c-Transactions</members>
-        <members>Transaction__c-Transaction Type Layout</members>
-        <members>Transaction__c-Transactions Layout</members>
+        <members>Transaction__c-Transaction Layout</members>
+        <members>Transaction__c-Transactions</members>
         <members>User-User Layout</members>
         <members>UserAlt-User Profile Layout</members>
         <members>UserAppMenuItem-Application Layout</members>
