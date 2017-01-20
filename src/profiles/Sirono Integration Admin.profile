@@ -1605,6 +1605,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Add_to_Payment_Plan__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Address__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -1661,6 +1666,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Delinquent_Balance__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Delinquent_Invoices__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1780,6 +1790,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Non_Payment_Plan_Invoices__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Notes__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1805,7 +1820,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Outstanding_Invoices__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Overdue_Balance__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Overdue_Invoices__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

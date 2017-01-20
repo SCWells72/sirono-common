@@ -127,6 +127,19 @@
         <type>Date</type>
     </fields>
     <fields>
+        <fullName>Invoice_Status_Index__c</fullName>
+        <externalId>false</externalId>
+        <label>Invoice Status Index</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Patient__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <description>Patient</description>
