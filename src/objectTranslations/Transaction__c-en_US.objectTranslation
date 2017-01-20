@@ -18,10 +18,6 @@
         <name>Amount__c</name>
     </fields>
     <fields>
-        <label><!-- Amount to Aggregate --></label>
-        <name>Amount_to_Aggregate__c</name>
-    </fields>
-    <fields>
         <label><!-- Charge Group --></label>
         <name>Charge_Group__c</name>
         <relationshipLabel><!-- Transactions --></relationshipLabel>
