@@ -288,6 +288,9 @@
         <relatedList>Encounter_Coverage_Junction__c.Encounter__c</relatedList>
     </relatedLists>
     <relatedLists>
+        <relatedList>RelatedNoteList</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>CASES.CASE_NUMBER</fields>
         <fields>CASES.PRIORITY</fields>
         <fields>CASES.STATUS</fields>
