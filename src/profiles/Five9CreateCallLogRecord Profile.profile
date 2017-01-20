@@ -3506,7 +3506,7 @@
         <layout>Patient_Coverage_Junction__c-Patient Coverage Junction Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment_Adjustments__c-Payment Adjustment Layout</layout>
+        <layout>Payment_Adjustments__c-Adjustment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Payment_Arrangement__c-Payment Arrangement Layout</layout>
