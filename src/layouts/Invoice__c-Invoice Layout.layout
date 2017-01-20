@@ -23,6 +23,10 @@
                 <behavior>Edit</behavior>
                 <field>Deactivated_Charge_Groups__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Display_Name__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

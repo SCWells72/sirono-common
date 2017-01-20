@@ -66,6 +66,22 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Display_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>TRIM(Guarantor__r.Full_Name__c) &amp; &quot; (&quot; &amp;
+TRIM(Patient__r.Full_Name__c) &amp; &quot;) - &quot; &amp;
+TEXT(MONTH(Invoice_Date__c))&amp; &quot;/&quot; &amp;
+TEXT(DAY(Invoice_Date__c)) &amp; &quot;/&quot; &amp;
+TEXT(YEAR(Invoice_Date__c))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Display Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Due_Date__c</fullName>
         <description>Due Date</description>
         <externalId>false</externalId>

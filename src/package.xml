@@ -733,7 +733,7 @@
         <members>Case.Case_Escalation</members>
         <members>Charge_Group__c.OG_SelfPay_Balance</members>
         <members>Coverage__c.Coverage_Name</members>
-        <members>Invoice__c.Invoice_Name</members>
+        <members>Invoice__c.Update_Invoice_Name</members>
         <members>Payment_Adjustments__c.UpdateName</members>
         <members>Payment_Plan__c.UpdatePPcomplete</members>
         <members>Payment__c.Payment_Name_Update</members>
