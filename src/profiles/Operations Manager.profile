@@ -2289,6 +2289,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Encounter__c.Total_Credits__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Encounter__c.Type__c</field>
         <readable>true</readable>
@@ -2749,6 +2754,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Payment_Plan_Standing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Payment_Plan__c.Delinquent_Date__c</field>
         <readable>true</readable>
@@ -2776,6 +2786,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Payment_Plan__c.Installment_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Installments_Completed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
