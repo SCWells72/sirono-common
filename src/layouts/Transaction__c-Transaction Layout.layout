@@ -14,8 +14,8 @@
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Method__c</field>
+                <behavior>Readonly</behavior>
+                <field>Txn_Method__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -34,6 +34,10 @@
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Charge_Group__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Adjustment__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

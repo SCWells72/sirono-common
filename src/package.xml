@@ -420,8 +420,8 @@
         <members>Location__c-Location Layout</members>
         <members>Location__c-Locations</members>
         <members>Patient_Coverage_Junction__c-Patient Coverage Junction Layout</members>
-        <members>Payment_Adjustments__c-Payment Adjustment Layout</members>
-        <members>Payment_Adjustments__c-Payment Adjustments</members>
+        <members>Payment_Adjustments__c-Adjustment Layout</members>
+        <members>Payment_Adjustments__c-Adjustments</members>
         <members>Payment_Arrangement__c-Payment Arrangement Layout</members>
         <members>Payment_Arrangement__c-Payment Arrangements</members>
         <members>Payment_Method__c-ACH</members>

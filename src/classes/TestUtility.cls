@@ -149,7 +149,6 @@ Public Class TestUtility {
         objTransaction.Credit_Balance__c = amount < 0;
         objTransaction.Fail_Date__c = null;
         objTransaction.Sirono_ID__c = System.currentTimeMillis();
-        objTransaction.Method__c = method;
         objTransaction.Notes__c = 'Test txn';
         objTransaction.Post_Date__c = System.today().addDays('Credit'.equals(method) ? 7 : -7);
         return objTransaction;

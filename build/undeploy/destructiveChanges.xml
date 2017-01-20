@@ -35,12 +35,18 @@
         <name>ApexClass</name>
     </types>
     <types>
+        <members>Transaction__c-Method__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
         <members>SironoSettings__c</members>
         <members>User_Timezone__c</members>
         <name>CustomObject</name>
     </types>
     <types>
         <members>Campaign_Mapping__mdt-Salesforce Campaign Name Layout</members>
+        <members>Payment_Adjustments__c-Payment Adjustment Layout</members>
+        <members>Payment_Adjustments__c-Payment Adjustments</members>
         <members>Service__c-Services Layout</members>
         <members>Transaction__c-Transaction Type Layout</members>
         <members>Transaction__c-Transactions Layout</members>
