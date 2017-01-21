@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <excludeButtons>ChangeOwnerOne</excludeButtons>
+    <excludeButtons>Share</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <feedLayout>
         <autocollapsePublisher>true</autocollapsePublisher>
@@ -43,6 +45,14 @@
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Display_Name__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Type__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Account_Number__c</field>
             </layoutItems>
@@ -52,10 +62,43 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Last_4__c</field>
+                <field>Guarantor__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>
+        <style>TwoColumnsLeftToRight</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>true</customLabel>
+        <detailHeading>false</detailHeading>
+        <editHeading>true</editHeading>
+        <label>System Information</label>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>CreatedById</field>
+            </layoutItems>
+            <layoutItems>
+                <emptySpace>true</emptySpace>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Sirono_ID__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>LastModifiedById</field>
+            </layoutItems>
+            <layoutItems>
+                <emptySpace>true</emptySpace>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>ID__c</field>
+            </layoutItems>
+        </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
@@ -69,14 +112,23 @@
         <style>CustomLinks</style>
     </layoutSections>
     <relatedLists>
-        <fields>Arrangement_Type__c</fields>
         <fields>NAME</fields>
-        <fields>Max_Amount__c</fields>
-        <fields>Date__c</fields>
-        <fields>Original_Installment_Count__c</fields>
-        <fields>Installment_Amount__c</fields>
-        <fields>Billed_Date__c</fields>
-        <relatedList>Payment_Arrangement__c.Payment_Method__c</relatedList>
+        <fields>Payor__c</fields>
+        <fields>Guarantor__c</fields>
+        <fields>Amount__c</fields>
+        <fields>Method__c</fields>
+        <fields>Deposit_Date__c</fields>
+        <fields>Collected_by__c</fields>
+        <relatedList>Payment__c.Payment_Method__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Guarantor__c</fields>
+        <fields>Active__c</fields>
+        <fields>Plan_Type__c</fields>
+        <fields>Execute_on_Day__c</fields>
+        <fields>Next_Payment_Date__c</fields>
+        <relatedList>Payment_Plan__c.Payment_Method__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

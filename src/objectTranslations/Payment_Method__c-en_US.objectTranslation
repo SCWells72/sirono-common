@@ -37,6 +37,10 @@
         </picklistValues>
     </fields>
     <fields>
+        <label><!-- Display Name --></label>
+        <name>Display_Name__c</name>
+    </fields>
+    <fields>
         <label><!-- Expiration Date --></label>
         <name>Expiration_Date__c</name>
     </fields>
@@ -44,6 +48,10 @@
         <label><!-- Guarantor --></label>
         <name>Guarantor__c</name>
         <relationshipLabel><!-- Payment Methods --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- ID --></label>
+        <name>ID__c</name>
     </fields>
     <fields>
         <label><!-- Last 4 --></label>
@@ -59,8 +67,28 @@
         <name>Routing_Number__c</name>
     </fields>
     <fields>
-        <label><!-- ID --></label>
+        <label><!-- Sirono ID --></label>
         <name>Sirono_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Type --></label>
+        <name>Type__c</name>
+        <picklistValues>
+            <masterLabel>ACH</masterLabel>
+            <translation><!-- ACH --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Cash</masterLabel>
+            <translation><!-- Cash --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Check</masterLabel>
+            <translation><!-- Check --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Credit Card</masterLabel>
+            <translation><!-- Credit Card --></translation>
+        </picklistValues>
     </fields>
     <layouts>
         <layout>ACH</layout>
@@ -72,23 +100,13 @@
             <label><!-- Fields --></label>
             <section>Fields</section>
         </sections>
-    </layouts>
-    <layouts>
-        <layout>Credit Card Layout</layout>
         <sections>
-            <label><!-- Custom Links --></label>
-            <section>Custom Links</section>
+            <label><!-- System Information --></label>
+            <section>System Information</section>
         </sections>
     </layouts>
     <layouts>
-        <layout>Credit Cards</layout>
-        <sections>
-            <label><!-- Custom Links --></label>
-            <section>Custom Links</section>
-        </sections>
-    </layouts>
-    <layouts>
-        <layout>Promise to Pay</layout>
+        <layout>Cash/Check</layout>
         <sections>
             <label><!-- Custom Links --></label>
             <section>Custom Links</section>
@@ -96,6 +114,17 @@
         <sections>
             <label><!-- Fields --></label>
             <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- System Information --></label>
+            <section>System Information</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Credit Card</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
         </sections>
     </layouts>
     <recordTypes>
