@@ -167,6 +167,10 @@
                 <behavior>Readonly</behavior>
                 <field>Has_Bad_Debt_Balance__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Sub_Status_Index__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
