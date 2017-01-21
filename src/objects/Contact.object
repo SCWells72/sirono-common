@@ -703,6 +703,23 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Guarantor_Status__c</fullName>
+        <externalId>false</externalId>
+        <formula>If(Invoice_Status__c == 7, &quot;Delinquent&quot;,
+If(Invoice_Status__c == 6, &quot;Overdue&quot;,
+If(Invoice_Status__c == 5, &quot;Due&quot;,
+If(Invoice_Status__c == 4, &quot;On Payment Plan&quot;,
+If(Invoice_Status__c == 3, &quot;Paid&quot;,
+If(Invoice_Status__c == 2, &quot;Paid&quot;,
+If(Invoice_Status__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Guarantor Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Guarantor__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <description>Master Guarantor for External Guarantor record</description>
@@ -771,6 +788,18 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
         <externalId>false</externalId>
         <label>Invoice  Offset Day</label>
         <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Invoice_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Invoice Status</label>
+        <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
         <trackFeedHistory>false</trackFeedHistory>

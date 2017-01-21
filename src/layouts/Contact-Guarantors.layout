@@ -179,11 +179,19 @@
                 <field>Patient_Satisfaction__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Outstanding_Invoices__c</field>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Invoice_Status__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Guarantor_Status__c</field>
+            </layoutItems>
+	    <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Outstanding_Invoices__c</field>
+            </layoutItems>
+	    <layoutItems>
                 <field>Overdue_Invoices__c</field>
             </layoutItems>
             <layoutItems>
@@ -197,6 +205,8 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Non_Payment_Plan_Invoices__c</field>
+            </layoutItems>
+        </layoutColumns>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
