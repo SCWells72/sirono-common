@@ -2437,6 +2437,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Invoice__c.Display_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Invoice__c.Due_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2448,6 +2453,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Invoice__c.Invoice_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Invoice__c.Invoice_Status_Index__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Invoice__c.Invoice_Status__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>

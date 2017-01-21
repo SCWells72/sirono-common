@@ -66,6 +66,22 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Display_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>TRIM(Guarantor__r.Full_Name__c) &amp; &quot; (&quot; &amp;
+TRIM(Patient__r.Full_Name__c) &amp; &quot;) - &quot; &amp;
+TEXT(MONTH(Invoice_Date__c))&amp; &quot;/&quot; &amp;
+TEXT(DAY(Invoice_Date__c)) &amp; &quot;/&quot; &amp;
+TEXT(YEAR(Invoice_Date__c))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Display Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Due_Date__c</fullName>
         <description>Due Date</description>
         <externalId>false</externalId>
@@ -125,6 +141,37 @@
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Invoice_Status_Index__c</fullName>
+        <externalId>false</externalId>
+        <label>Invoice Status Index</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Invoice_Status__c</fullName>
+        <externalId>false</externalId>
+        <formula>If(Invoice_Status_Index__c == 7, &quot;Delinquent&quot;,
+If(Invoice_Status_Index__c == 6, &quot;Overdue&quot;,
+If(Invoice_Status_Index__c == 5, &quot;Due&quot;,
+If(Invoice_Status_Index__c == 4, &quot;On Payment Plan&quot;,
+If(Invoice_Status_Index__c == 3, &quot;Paid&quot;,
+If(Invoice_Status_Index__c == 2, &quot;Paid&quot;,
+If(Invoice_Status_Index__c == 1, &quot;Invoice Voided&quot;, &quot;Error&quot;)))))))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Invoice Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Patient__c</fullName>
