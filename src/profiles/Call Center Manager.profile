@@ -1429,7 +1429,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Charge_Group__c.External_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1594,7 +1594,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Charge_Group__c.Sirono_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2874,7 +2874,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Payment_Plan__c.Sirono_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2941,7 +2941,12 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Payment__c.Display_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Payment__c.Encounter__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -2951,6 +2956,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Payment__c.Guarantor__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment__c.ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2971,6 +2981,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Payment__c.Payment_Plan__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Payment__c.Payor__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Payment__c.Posted_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2996,7 +3016,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Payment__c.Successful__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3019,7 +3039,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Payor__c.Sirono_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3054,7 +3074,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Provider__c.Sirono_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3669,10 +3689,10 @@
         <layout>Payment_Plan__c-Payments</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment__c-Payment Plans</layout>
+        <layout>Payment__c-Payments</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment__c-Payment Plans</layout>
+        <layout>Payment__c-Payments</layout>
         <recordType>Payment__c.Payment_Plans</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -4235,9 +4255,9 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>true</default>
+        <default>false</default>
         <recordType>Payment__c.Payment_Plans</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <tabVisibilities>
         <tab>Charge_Group_Coverage_Junction__c</tab>

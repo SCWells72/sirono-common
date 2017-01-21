@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
     <fieldUpdates>
-        <fullName>Service_Name</fullName>
+        <fullName>Set_Name</fullName>
+        <description>Set the transaction&apos;s name</description>
         <field>Name</field>
-        <formula>Service_Rollup__r.Name &amp; &apos; - &apos; 
- &amp; TEXT(MONTH(Service_Date__c)) &amp; &apos;/&apos;
- &amp; TEXT(DAY(Service_Date__c)) &amp; &apos;/&apos;
- &amp; TEXT(YEAR(Service_Date__c))</formula>
-        <name>Service Name</name>
+        <formula>Txn_Method__c + &quot; - &quot; +   TEXT(Sirono_ID__c)</formula>
+        <name>Set Name</name>
         <notifyAssignee>false</notifyAssignee>
         <operation>Formula</operation>
         <protected>false</protected>
     </fieldUpdates>
     <rules>
-        <fullName>Service Name</fullName>
+        <fullName>TransactionName</fullName>
         <actions>
-            <name>Service_Name</name>
+            <name>Set_Name</name>
             <type>FieldUpdate</type>
         </actions>
         <active>true</active>
-        <formula>Service_Rollup__c &lt;&gt; null</formula>
+        <description>Set the name when the transaction is created</description>
+        <formula>Sirono_ID__c  &lt;&gt; 0</formula>
         <triggerType>onAllChanges</triggerType>
     </rules>
 </Workflow>
