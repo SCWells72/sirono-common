@@ -47,6 +47,8 @@
         <members>Campaign_Mapping__mdt-Salesforce Campaign Name Layout</members>
         <members>Payment_Adjustments__c-Payment Adjustment Layout</members>
         <members>Payment_Adjustments__c-Payment Adjustments</members>
+        <members>Payment__c-Payment Plan Layout</members>
+        <members>Payment__c-Payment Plans</members>
         <members>Service__c-Services Layout</members>
         <members>Transaction__c-Transaction Type Layout</members>
         <members>Transaction__c-Transactions Layout</members>

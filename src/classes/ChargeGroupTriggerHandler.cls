@@ -23,16 +23,26 @@ public with sharing class ChargeGroupTriggerHandler {
     //Static Method that gets invoked after an insert event on Charge_Group__c records
     public static void afterInsert(List<Charge_Group__c> newList) {
         Set<Id> planIds = new Set<Id>();
+        Set<Id> invoiceIds = new Set<Id>();
 
         for (Charge_Group__c cg : newList) {
             //If this chargegroup is associated with a paymentPlan, calc the pp balance
             if (cg.Payment_Plan__c != null) {
                 planIds.add(cg.Payment_Plan__c);
             }
+
+            // If the charge group is associated with an invoice, update the invoice status
+            if (cg.Invoice__c != null) {
+                invoiceIds.add(cg.Invoice__c);
+            }
         }
 
         if (planIds.size() > 0) {
             PaymentPlanUtil.updateBalances(planIds);
+        }
+
+        if(invoiceIds.size() > 0){
+            InvoiceUtil.updateInvoiceStatusIndex(invoiceIds);
         }
     }
 
@@ -43,6 +53,7 @@ public with sharing class ChargeGroupTriggerHandler {
         Set<ID> contactIds = new Set<ID>();
         //Collect Ids of the PaymentPlans to recalc their balances
         Set<Id> planIds = new Set<Id>();
+        Set<Id> invoiceIds = new Set<Id>();
 
         for (Charge_Group__c cg : newList) {
             if (cg.Pre_Collection_Sent__c == null && cg.Guarantor__c != null
@@ -58,6 +69,11 @@ public with sharing class ChargeGroupTriggerHandler {
             if (oldMap.get(cg.Id).Payment_Plan__c != null) {
                 planIds.add(oldMap.get(cg.Id).Payment_Plan__c);
             }
+
+            // If the charge group is associated with an invoice, update the invoice status
+            if (cg.Invoice__c != null) {
+                invoiceIds.add(cg.Invoice__c);
+            }
         }
 
         if (contactIds.size() > 0) {
@@ -67,19 +83,33 @@ public with sharing class ChargeGroupTriggerHandler {
         if (planIds.size() > 0) {
             PaymentPlanUtil.updateBalances(planIds);
         }
+
+        if(invoiceIds.size() > 0){
+            InvoiceUtil.updateInvoiceStatusIndex(invoiceIds);
+        }
     }
 
     //Static Method that gets invoked after a delete event on Charge_Group__c records
     public static void afterDelete(List<Charge_Group__c> oldList) {
         Set<ID> paymentPlanIds = new Set<ID>();
+        Set<Id> invoiceIds = new Set<Id>();
 
         for (Charge_Group__c cg : oldList) {
             //If this chargegroup was associated with a paymentPlan, recalc the pp balance
             if (cg.Payment_Plan__c != null) {
                 paymentPlanIds.add(cg.Payment_Plan__c);
             }
+
+            // If the charge group is associated with an invoice, update the invoice status
+            if (cg.Invoice__c != null) {
+                invoiceIds.add(cg.Invoice__c);
+            }
         }
 
         PaymentPlanUtil.updateBalances(paymentPlanIds);
+
+        if(invoiceIds.size() > 0){
+            InvoiceUtil.updateInvoiceStatusIndex(invoiceIds);
+        }
     }
 }

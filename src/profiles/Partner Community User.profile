@@ -2461,6 +2461,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Invoice__c.Invoice_Status_Index__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Invoice__c.Invoice_Status__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Invoice__c.Sirono_ID__c</field>
         <readable>true</readable>
@@ -3548,10 +3558,10 @@
         <recordType>Payment_Method__c.Promise</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment__c-Payment Plans</layout>
+        <layout>Payment__c-Payments</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment__c-Payment Plans</layout>
+        <layout>Payment__c-Payments</layout>
         <recordType>Payment__c.Payment_Plans</recordType>
     </layoutAssignments>
     <layoutAssignments>
