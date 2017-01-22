@@ -2774,6 +2774,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Method__c.Display_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Payment_Method__c.Expiration_Date__c</field>
         <readable>true</readable>
@@ -2781,6 +2786,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Payment_Method__c.Guarantor__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Method__c.ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2801,6 +2811,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Payment_Method__c.Sirono_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Payment_Method__c.Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3711,19 +3726,15 @@
         <recordType>Payment_Method__c.ACH</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment_Method__c-Credit Card Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Payment_Method__c-Credit Card Layout</layout>
+        <layout>Payment_Method__c-Cash%2FCheck</layout>
         <recordType>Payment_Method__c.Check_Cash</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment_Method__c-Credit Card Layout</layout>
-        <recordType>Payment_Method__c.Credit_Card</recordType>
+        <layout>Payment_Method__c-Credit Card</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment_Method__c-Promise to Pay</layout>
-        <recordType>Payment_Method__c.Promise</recordType>
+        <layout>Payment_Method__c-Credit Card</layout>
+        <recordType>Payment_Method__c.Credit_Card</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Payment_Plan__c-Payments</layout>
@@ -4287,11 +4298,6 @@
     <recordTypeVisibilities>
         <default>true</default>
         <recordType>Payment_Method__c.Credit_Card</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>Payment_Method__c.Promise</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

@@ -3553,19 +3553,18 @@
         <recordType>Payment_Method__c.ACH</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment_Method__c-Credit Card Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Payment_Method__c-Credit Card Layout</layout>
+        <layout>Payment_Method__c-Cash%2FCheck</layout>
         <recordType>Payment_Method__c.Check_Cash</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment_Method__c-Credit Card Layout</layout>
+        <layout>Payment_Method__c-Credit Card</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Payment_Method__c-Credit Card</layout>
         <recordType>Payment_Method__c.Credit_Card</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment_Method__c-Promise to Pay</layout>
-        <recordType>Payment_Method__c.Promise</recordType>
+        <layout>Payment_Plan__c-Payments</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Payment__c-Payments</layout>
@@ -3618,9 +3617,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>UserProvisioningRequest-User Provisioning Request Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Payment_Plan__c-Payments</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>User_Timezone_Setting__mdt-User Timezone Layout</layout>
