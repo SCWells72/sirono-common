@@ -55,6 +55,16 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <fields>
+        <fullName>All_Substatus__c</fullName>
+        <externalId>false</externalId>
+        <label>All Substatus</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
         <fullName>Deactivated_Charge_Groups__c</fullName>
         <defaultValue>false</defaultValue>
         <description>Deactivated Charge Groups</description>
@@ -184,6 +194,16 @@ If(Invoice_Status_Index__c == 1, &quot;Invoice Voided&quot;, &quot;Error&quot;))
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Partial_Payment_Plan__c</fullName>
+        <externalId>false</externalId>
+        <formula>And(Invoice_Status_Index__c &lt;&gt; 4,CONTAINS(All_Substatus__c,&quot;Payment&quot;))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Partial Payment Plan</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>Patient__c</fullName>
