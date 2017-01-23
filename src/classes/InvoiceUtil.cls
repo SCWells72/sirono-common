@@ -36,4 +36,40 @@ public with sharing class InvoiceUtil {
             }
         }
     }
+
+    /*
+     * Method calculates the balances from related charge groups.
+     *
+     * @param Set<Id> invoiceIdsFromChargeGroup - invoice Ids from charge groups that have been inserted, update, deleted
+     */
+
+    public static void updateInvoiceBalances(Set<Id> invoiceIdsFromChargeGroup) {
+        // Sum balances from active charge groups
+        if(invoiceIdsFromChargeGroup.size() > 0) {
+            AggregateResult[] queryResults = [
+                    SELECT Invoice__c, SUM(Balance__c) sumBalances
+                    FROM Charge_Group__c
+                    WHERE Invoice__c IN :invoiceIdsFromChargeGroup
+                    AND Active__c = TRUE
+                    GROUP BY Invoice__c
+            ];
+
+            if(queryResults.size() > 0){
+                List<Invoice__c> invoicesToUpdate = new List<Invoice__c>();
+
+                for(AggregateResult qr : queryResults) {
+                    Invoice__c tempInvoice = new Invoice__c();
+
+                    system.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('Invoice__c')
+                            + '[Invoice Balance]: ' + qr.get('sumBalances'));
+                    tempInvoice.Id = (Id) qr.get('Invoice__c');
+                    tempInvoice.Invoice_Balance__c = (Currency) qr.get('sumBalances');
+
+                    invoicesToUpdate.add(tempInvoice);
+                }
+
+                update invoicesToUpdate;
+            }
+        }
+    }
 }

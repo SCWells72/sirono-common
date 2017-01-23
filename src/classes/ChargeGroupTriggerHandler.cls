@@ -43,6 +43,7 @@ public with sharing class ChargeGroupTriggerHandler {
 
         if(invoiceIds.size() > 0){
             InvoiceUtil.updateInvoiceStatusIndex(invoiceIds);
+            InvoiceUtil.updateInvoiceBalances(invoiceIds);
         }
     }
 
@@ -86,6 +87,7 @@ public with sharing class ChargeGroupTriggerHandler {
 
         if(invoiceIds.size() > 0){
             InvoiceUtil.updateInvoiceStatusIndex(invoiceIds);
+            InvoiceUtil.updateInvoiceBalances(invoiceIds);
         }
     }
 
@@ -110,6 +112,7 @@ public with sharing class ChargeGroupTriggerHandler {
 
         if(invoiceIds.size() > 0){
             InvoiceUtil.updateInvoiceStatusIndex(invoiceIds);
+            InvoiceUtil.updateInvoiceBalances(invoiceIds);
         }
     }
 }
