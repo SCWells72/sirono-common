@@ -69,6 +69,18 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Balance__c</fullName>
+        <externalId>false</externalId>
+        <formula>Patient_Portion__c -  Payments__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Cancelled__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
@@ -109,6 +121,20 @@
         <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Coverage__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The coverage associated with this Encounter</description>
+        <externalId>false</externalId>
+        <label>Coverage</label>
+        <referenceTo>Coverage__c</referenceTo>
+        <relationshipLabel>Encounters</relationshipLabel>
+        <relationshipName>Encounters</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Date_of_Service__c</fullName>
@@ -454,6 +480,17 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Payments__c</fullName>
+        <externalId>false</externalId>
+        <label>Payments</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Procedure__c</fullName>
         <externalId>false</externalId>
         <label>Procedure</label>
@@ -521,6 +558,12 @@
     <label>Encounter</label>
     <listViews>
         <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Patient__c</columns>
+        <columns>Date_of_Service__c</columns>
+        <columns>Procedure__c</columns>
+        <columns>Location__c</columns>
+        <columns>Patient_Portion__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>

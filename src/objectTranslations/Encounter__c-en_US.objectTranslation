@@ -13,6 +13,10 @@
         <name>Allowed_Amount__c</name>
     </fields>
     <fields>
+        <label><!-- Balance --></label>
+        <name>Balance__c</name>
+    </fields>
+    <fields>
         <label><!-- Cancelled --></label>
         <name>Cancelled__c</name>
     </fields>
@@ -27,6 +31,11 @@
     <fields>
         <label><!-- Co-Pay --></label>
         <name>Co_Pay__c</name>
+    </fields>
+    <fields>
+        <label><!-- Coverage --></label>
+        <name>Coverage__c</name>
+        <relationshipLabel><!-- Encounters --></relationshipLabel>
     </fields>
     <fields>
         <label><!-- Date of Service --></label>
@@ -148,6 +157,10 @@
         <relationshipLabel><!-- Encounters (Patient) --></relationshipLabel>
     </fields>
     <fields>
+        <label><!-- Payments --></label>
+        <name>Payments__c</name>
+    </fields>
+    <fields>
         <label><!-- Procedure --></label>
         <name>Procedure__c</name>
     </fields>
@@ -158,6 +171,10 @@
     <fields>
         <label><!-- Total Charges --></label>
         <name>Total_Charges__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Credits --></label>
+        <name>Total_Credits__c</name>
     </fields>
     <fields>
         <label><!-- Type --></label>

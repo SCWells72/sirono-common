@@ -94,6 +94,10 @@
                 <behavior>Readonly</behavior>
                 <field>Total_Credits__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Coverage__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
