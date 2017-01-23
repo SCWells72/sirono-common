@@ -1,0 +1,92 @@
+<aura:component >
+
+    <aura:handler event="c:activateEstimateTileRequest" action="{!c.activateTileHandler}" />
+
+    <aura:attribute name="estimate" type="Object" />
+    <aura:attribute name="tileId" type="Integer" />
+
+    <!--<div class="invoice-record-wrapper">
+        <article class="invoice-record">-->
+        <article class="invoice-record" aura:id="tile" onclick="{!c.activateTile}">
+            <div class="grid">
+                <div class="col left">
+                    <div class="title">
+                        {!v.estimate.singleEncounter.Patient__r.Name}
+                        <span class="{!'display_'+(v.estimate.singleEncounter.Patient__r.Medical_Record_Number__c != undefined)}">
+                             {!' (MRN: ' + v.estimate.singleEncounter.Patient__r.Medical_Record_Number__c + ')'}
+                        </span>
+                    </div>
+                    <a class="active invoice-name">
+                        {!v.estimate.singleEncounter.Procedure__c}
+                    </a>
+                </div>
+                <div class="col right">
+                    <div class="title">Estimated Patient Portion</div>
+                    <div class="value">
+                        <ui:outputCurrency value="{!v.estimate.singleEncounter.Patient_Portion__c}" />
+                    </div>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="col due">
+                    <div class="title">
+                        Deposit Due by 
+                        <ui:outputDate value="{!v.estimate.singleEncounter.Date_of_Service__c}" format="MMM d"/>
+                    </div>
+                </div>
+                <div class="col links"><a>Make Payment Now</a></div>
+            </div>
+        </article>
+        <!--<article class="invoice-record">
+            <div class="grid">
+                <div class="col left">
+                    <div class="title">Dean Skonieczny (MRN: A01043390)</div><a href="#mri" class="active invoice-name">MRI Foot WO Contrast Left</a>
+                </div>
+                <div class="col right">
+                    <div class="title">Estimated Patient Portion</div>
+                    <div class="value">$683.00</div>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="col due">
+                    <div class="title">Deposit Due by Feb 2</div>
+                </div>
+                <div class="col links"><a href="#">Make Payment Now</a></div>
+            </div>
+        </article>
+        <article class="invoice-record">
+            <div class="grid">
+                <div class="col left">
+                    <div class="title">Dean Skonieczny (MRN: A01043390)</div><a href="#mri" class="active invoice-name">MRI Foot WO Contrast Left</a>
+                </div>
+                <div class="col right">
+                    <div class="title">Estimated Patient Portion</div>
+                    <div class="value">$683.00</div>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="col due">
+                    <div class="title">Deposit Due by Feb 2</div>
+                </div>
+                <div class="col links"><a href="#">Make Payment Now</a></div>
+            </div>
+        </article>
+        <article class="invoice-record">
+            <div class="grid">
+                <div class="col left">
+                    <div class="title">Dean Skonieczny (MRN: A01043390)</div><a href="#mri" class="active invoice-name">MRI Foot WO Contrast Left</a>
+                </div>
+                <div class="col right">
+                    <div class="title">Estimated Patient Portion</div>
+                    <div class="value">$683.00</div>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="col due">
+                    <div class="title">Deposit Due by Feb 2</div>
+                </div>
+                <div class="col links"><a href="#">Make Payment Now</a></div>
+            </div>
+        </article>-->
+    <!--</div>-->
+</aura:component>

@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="show Payment Receipt pop up">
+    <aura:attribute name="index" type="Integer" required="true" description="index" /> 
+</aura:event>

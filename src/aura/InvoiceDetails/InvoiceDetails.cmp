@@ -1,0 +1,131 @@
+<aura:component >
+
+    <aura:handler event="c:activateTileRequest" action="{!c.showDetails}" />
+
+    <aura:attribute name="listOfInvoices" type="List" />
+    <aura:attribute name="invoice" type="Object" />
+    <aura:attribute name="activeInvoice" type="Integer" />
+    
+    <div class="{!'col invoice-detail-container display_'+(v.activeInvoice != undefined)}">
+        <div class="invoice-detail-wrapper">
+            <section id="march16" class="invoice-detail ">
+              <header class="grid">
+        		<div class="col intro">
+            		<div class="issue warning">This invoice is now overdue. <strong>Please pay balance now</strong>. If you have questions about your bill, please call the billing office at 888.888.4567.</div>
+            		<div class="title clear"><a href="#">Pay Now</a> or <a href="№">Create Payment Plan</a></div>
+        		</div>
+        		<div class="col align-right slds-align-bottom"><span class="title">Total You Owe</span> <span class="value"><ui:outputCurrency value="{!v.invoice.balanceDue}" /></span></div>
+    			</header>                
+                <!---->
+                <aura:iteration items="{!v.invoice.allGroups}" var="group" >
+                    <div class="invoice-alert">
+                        <span class="status-bubble success"></span> These services were not sent to insurance and are your responsibility.
+                        <div class="float-right view-bill"><a href="#">View Itemized Bill</a></div>
+                    </div>
+                    <div class="invoice-content">
+                        <div class="col details">
+                            <ui:outputDate value="{!group.cGroup.Sirono_Assigned_Date__c}" />
+                            <div>ID Number: {!group.cGroup.External_ID__c}</div>
+                            <div>Location: {!group.cGroup.Location__c}</div>
+                        </div>
+                        <div class="col charges">
+                            <h3>Services and Charges</h3>
+                            <div class="charge-details">
+                                <aura:iteration items="{!group.cGroup.Services__r}" var="service" >
+                                    <div class="col">{!service.Name}</div>
+                                    <div class="col align-right">
+                                        <ui:outputCurrency value="{!service.Amount__c}" />
+                                    </div>
+                                </aura:iteration>
+                                <div class="col footer">Total Charges</div>
+                                <div class="col footer align-right">
+                                    <ui:outputCurrency value="{!group.totalCharges}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col payments">
+                            <h3>Payments and Adjustments</h3>
+                            <div class="payment-details">
+                                <aura:iteration items="{!group.cGroup.Payment_Adjustments__r}" var="pa" >
+                                    <div class="col">
+                                        {!pa.Name}
+                                        <div>
+                                            <ui:outputDate value="{!pa.Post_Date__c}" />
+                                        </div>
+                                    </div>
+                                    <div class="col credit align-right">
+                                        <ui:outputCurrency value="{!pa.Amount__c}" />
+                                    </div>
+                                </aura:iteration>
+                                <div class="col footer">Total Credits</div>
+                                <div class="col footer credit align-right">
+                                    <ui:outputCurrency value="{!group.totalCredits}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col total align-right"><span class="title">You Owe</span> <span class="value"><ui:outputCurrency value="{!group.totalCharges + group.totalCredits}" /></span></div>
+                    </div>
+                </aura:iteration>
+                <!--<div class="invoice-alert">
+                    <span class="status-bubble success"></span> These services were not sent to insurance and are your responsibility.
+                    <div class="float-right view-bill"><a href="#">View Itemized Bill</a></div>
+                </div>
+                <div class="invoice-content">
+                    <div class="col details">
+                        2/27/2016
+                        <div>ID Number: A1605800079</div>
+                        <div>Location: Health System Center</div>
+                    </div>
+                    <div class="col charges">
+                        <h3>Services and Charges</h3>
+                        <div class="charge-details">
+                            <div class="col">Emergency Room</div>
+                            <div class="col align-right">$785.00</div>
+                            <div class="col footer">Total Charges</div>
+                            <div class="col footer align-right">$785.00</div>
+                        </div>
+                    </div>
+                    <div class="col payments">
+                        <h3>Payments and Adjustments</h3>
+                        <div class="payment-details">
+                            <div class="col">
+                                Discount Adjustment
+                                <div>03/17/16</div>
+                            </div>
+                            <div class="col credit align-right">-$157.00</div>
+                            <div class="col footer">Total Credits</div>
+                            <div class="col footer credit align-right">-$157.00</div>
+                        </div>
+                    </div>
+                    <div class="col total align-right"><span class="title">You Owe</span> <span class="value">$628.00</span></div>
+                </div>
+                <div class="payment-plan-total-container">
+                    <div class="payment-plan-total">
+                        <div class="col align-right">
+                            <div class="title">Total Charges</div>
+                        </div>
+                        <div class="col align-right">
+                            <div class="value">$1,570.00</div>
+                        </div>
+                        <div class="col align-right">
+                            <div class="title">Total Credits</div>
+                        </div>
+                        <div class="col align-right">
+                            <div class="value credit">-$1,570.00</div>
+                        </div>
+                        <div class="col align-right">
+                            <div class="title">Total You Owe</div>
+                        </div>
+                        <div class="col align-right">
+                            <div class="value total">$0</div>
+                        </div>
+                    </div>
+                </div>-->
+            </section>
+        </div>
+    </div>
+    <div class="{!'col invoice-detail-container display_'+(v.activeInvoice == undefined)}">
+        <div class="no_selection">No invoices selected</div>
+    </div>
+  
+</aura:component>

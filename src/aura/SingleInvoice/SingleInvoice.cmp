@@ -1,0 +1,22 @@
+<aura:component >
+	<c:SingleInvoiceDetails />
+    <article class="invoice-record">
+        <div class="col left icon">
+            <div class="select-all-icon selected">
+                <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}"  category="standard" size="small" class="slds-button__icon" name="Check" />
+            </div>
+            <div class="title">Chandra Skonieczny (MRN: A01043390)</div>
+            <a href="#november2016" class="invoice-name">December 2016</a>
+        </div>
+        <div class="col right">
+            <div class="title">Balance Due</div>
+            <div class="value">$785.00</div>
+        </div>
+        <div class="col payment-due"> 
+            <em>Payment Due 1/7/2016</em>
+            <div class="float-right">
+                <a href="#" class="modal-trigger">View Details</a>
+            </div>
+        </div>
+    </article>
+</aura:component>

@@ -1,0 +1,69 @@
+<aura:component >
+	<aura:attribute name="activeSectionId" type="String" access="private"/>
+	<aura:handler name="initPlanInfo" event="c:CancelActionEvent" action="{!c.doInitInfo}"/>
+	<aura:handler name="updatePaymentMethod" event="c:UpdatePaymentMethodEvent" action="{!c.showSuccess}"/>
+	<aura:handler name="updatePaymentTerms" event="c:UpdatePaymentTermsEvent" action="{!c.showSuccess}"/>
+
+	<!-- payment plan Total Info section -->
+	<section aura:id="planInfo" class="pp-add-invoice payment-plan-content">
+		<div class="payment-plan-edit">
+			<h2>Payment Plan Summary</h2>
+			<p>Next payment of $318.58 scheduled for 01/15/2017</p>
+			<p class="title"><em>Your current payment plan started on December 15, 2016. $318.58/month is charged on day 15 of each month for the next 23 months. The 24th and final installment will be $318.5.</em></p>
+		</div>
+		<div class="payment-plan-edit slds-p-around--large border-top border-bottom">
+		<h2>Invoices Not on Payment Plan</h2>
+			<p class="title">You have <strong>1 invoice</strong> that is not on your payment plan. Add that invoice now to keep your account current.</p>
+			<div class="align-center">
+				<button class="slds-button slds-button--brand">Add Invoice(s) to Payment Plan</button>
+			</div>
+		</div>
+
+		<div class="slds-p-horizontal--medium border-top">
+			<div class="grid slds-grid--align-center">
+				<div class="col">
+					<div class="slds-button-group slds-p-top--large" role="group">
+						<button class="slds-button slds-button--neutral" onclick="{!c.editTerms}">Edit Terms</button>
+						<button class="slds-button slds-button--neutral" onclick="{!c.editPaymentMethod}">Edit Payment Method</button>
+						<button class="slds-button slds-button--neutral" onclick="{!c.showCancelPlanDialog}">Cancel Plan</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- payment plan Total Info section  END-->
+	<section aura:id="editTerms" class="pp-step-edit-terms payment-plan-content slds-hide">
+		<c:EditTerms />
+	</section>
+	<section aura:id="editPaymentMethod" class="pp-edit-method payment-plan-content slds-hide">
+		<c:EditPaymentMethod />
+	</section>
+	<section aura:id="message" class="pp-step-three payment-plan-content slds-hide">
+		<c:SuccessMessage />
+	</section>
+
+	<!-- <c:AddInvoicesToPaymentPlan /> -->
+	<div aura:id="cancelPlan">
+		<div role="dialog" tabindex="-1" class="slds-modal slds-fade-in-close" aura:id="cancelDialog">
+			<div class="slds-modal__container">
+				<div class="slds-modal__header">
+				  <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeModal}">
+					<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#close'}" category="utility" name="close" class="slds-button__icon slds-button__icon--large"/>
+					<span class="slds-assistive-text">Close</span>
+				  </button>
+				  <h2 class="slds-text-heading--medium">Cancel Payment Plan</h2>
+				</div>
+				<div class="slds-modal__content slds-p-around--x-large">
+					<div>
+						<p class="slds-text-body--regular">Clicking confirm will cancel your upcoming payment plan installments. Any unpaid invoices part of the removed payment plan must be paid in full or re-enrolled in a payment plan to avoid being sent to collections.</p>
+					</div>
+				</div>
+				<div class="slds-modal__footer">
+					<button class="slds-button slds-button--neutral" onclick="{!c.closeModal}">Exit</button>
+					<button class="slds-button slds-button--brand" onclick="{!c.cancelPlan}">Cancel Payment Plan</button>
+				</div>
+			</div>
+		</div>
+		<div class="slds-backdrop slds-backdrop--close" aura:id="backdrop"></div>
+	</div>
+</aura:component>

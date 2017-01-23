@@ -1,0 +1,27 @@
+.THIS.total_div {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    box-shadow: 0 -2px 2px 0px rgba(0,0,0,0.1);
+    margin-top: 1px;
+}
+
+.THIS.wrapper .main-wrapper.payment.alert{
+    margin-top: -502px;
+    padding-top: 502px;
+}
+
+.THIS.wrapper .main-wrapper.payment.alert.small{
+    margin-top: -157px;
+    padding-top: 157px;
+}
+
+.THIS.wrapper .main-wrapper.payment{
+    margin-top: -429px;
+    padding-top: 429px;
+}
+
+.THIS .col.payment-settings {
+    overflow: hidden;
+    padding-top: 57px;
+}

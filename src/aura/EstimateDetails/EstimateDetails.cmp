@@ -1,0 +1,81 @@
+<aura:component >
+    
+    <aura:handler event="c:activateEstimateTileRequest" action="{!c.showDetails}" />
+
+    <aura:attribute name="listOfEstimates" type="List" />
+    <aura:attribute name="estimate" type="Object" />
+    <aura:attribute name="activeEstimate" type="Integer" />
+
+    <div class="{!'col invoice-detail-container display_'+(v.activeEstimate != undefined)}">
+        <div class="none-selected">No estimates selected</div>
+        <div class="invoice-detail-wrapper">
+            <section id="mri" class="invoice-detail">
+                <header class="grid">
+                    <div class="col intro">
+                        <em>Below are the details for the estimate of upcoming procedure(s).</em>
+                        <div><a class="cta" href="#">Make a Payment Now</a></div>
+                    </div>
+                    <div class="col align-right slds-align-bottom">
+                        <span class="title">
+                            Estimated Patient Portion
+                        </span>
+                        <span class="value">
+                            <ui:outputCurrency value="{!v.estimate.singleEncounter.Patient_Portion__c}" />
+                        </span>
+                    </div>
+                </header>
+                <div class="invoice-alert"></div>
+                <div class="invoice-content">
+                    <div class="col details">
+                        2/12/2017
+                        <div>{!'ID Number: '+v.estimate.singleEncounter.Encounter_ID__c}</div>
+                        <div>{!'Location: '+v.estimate.singleEncounter.Location__c}</div>
+                    <button class="slds-button slds-button--brand slds-m-top--small clear">View Estimate</button>
+                    </div>
+                    <div class="col charges">
+                        <h3>Estimated Charges</h3>
+                        <div class="charge-details">
+                            <div class="col">{!v.estimate.singleEncounter.Procedure__c}</div>
+                            <div class="col align-right">
+                                <ui:outputCurrency value="{!v.estimate.singleEncounter.Total_Charges__c}" />
+                            </div>
+                            <div class="col footer">
+                                <div class="title">Total Charges</div>
+                            </div>
+                            <div class="col footer align-right">
+                                <ui:outputCurrency value="{!v.estimate.singleEncounter.Total_Charges__c}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col payments">
+                        <h3>Estimated Payments and Adjustments</h3> 
+                        <div class="payment-details">
+                            <div class="col">
+                                Discount Adjustment
+                                <div>
+                                    2/01/17
+                                </div>
+                            </div>
+                            <div class="col credit align-right">-$367.00</div>
+                            <div class="col footer">
+                                <div class="title">Total Credits</div>
+                            </div>
+                            <div class="col footer credit align-right">-$367.00</div>
+                        </div>
+                    </div>
+                    <div class="col total align-right">
+                        <span class="title">
+                            Estimated Patient Portion
+                        </span>
+                        <span class="value">
+                            <ui:outputCurrency value="{!v.estimate.singleEncounter.Patient_Portion__c}" />
+                        </span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="{!'col invoice-detail-container display_'+(v.activeEstimate == undefined)}">
+        <div class="no_selection">No estimates selected</div>
+    </div>
+</aura:component>

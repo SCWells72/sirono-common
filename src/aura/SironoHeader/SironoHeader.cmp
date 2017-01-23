@@ -1,0 +1,82 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="HeaderController">
+    <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/salesforce-lightning-design-system.min.css'}" />
+	<link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/main.css'}" />
+    <aura:registerEvent name="collapsedHeader" type="c:collapsedHeader"/>
+    <aura:attribute name="backButton" type="Boolean" default="false" />
+    <aura:attribute name="statusHeader" type="Boolean" default="false" />
+    <aura:attribute name="statusAlert" type="Boolean" default="false" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="force:navigateToURL" action="{!c.navigateToURLEvent}"/>
+	<div class="wrapper">
+		<div aura:id="headerWrap" class="header-wrapper alert small">	
+			<div aura:id="headerMain" class="header-main big small">
+                <div class="no-small">
+                    <div class="slds-notify_container" aura:id="notify">
+                        <div class="slds-notify slds-theme--warning slds-notify--toast" role="alert">
+                            <span class="slds-assistive-text">Info</span> 
+                            <button onclick="{!c.closeInfo}" class="slds-button slds-notify__close slds-button--icon-inverse" title="Close">
+                                <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#close'}"  category="standard" size="large" class="slds-button__icon slds-button__icon--large" name="close" />
+                            </button>
+                            <div class="slds-notify__content">Your account has overdue invoices. Please pay the balance now or set up a payment plan to avoid becoming delinquent.<br />If you have any questions about the bill, please call the Customer Care Center at 888.888.4567.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="grid">
+					<div class="col arrow-down no-big">
+                        <aura:if isTrue="{!v.backButton}">
+                            <div onclick="{!c.backHomePage}" class="arrow-toggle backIcon">
+                                <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#back'}"  category="standard" size="small" name="back" />
+                            </div>
+                        </aura:if>
+                        <div onclick="{!c.toggleHeader}" class="arrow-toggle">
+                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}"  category="standard" size="small" name="arrowdown" />
+						</div>
+					</div>
+					<div class="col issue no-big">
+						<div class="status warning sldsjs-popover">Your account is overdue!
+                            <div class="inline-block" onclick="{!c.showTooltip}">
+								<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" />
+                            </div>    
+							<div aura:id="popover-tooltip-copy" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-left slds-popup slds-hide" role="tooltip" id="help">
+								<div class="slds-popover__body">Your account has overdue invoices. Please pay the balance now or set up a payment plan to avoid becoming delinquent. If you have any questions about the bill, please call the Customer Care Center at 888.888.4567.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col you-owe">
+						<div class="no-small">
+							<div class="status warning sldsjs-popover">Your account is overdue!
+                                <div class="inline-block" onclick="{!c.showTooltip}">
+									<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" />
+                                </div>    
+								<div aura:id="popover-tooltip" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-left slds-popup slds-hide" role="tooltip" id="help">
+									<div class="slds-popover__body">Your account has overdue invoices. Please pay the balance now or set up a payment plan to avoid becoming delinquent. If you have any questions about the bill, please call the Customer Care Center at 888.888.4567.</div>
+								</div>
+							</div>
+						</div>
+						<div class="title">You Owe</div>
+						<div class="value">$5,567<span>.40</span>
+						</div>
+						<div class="no-small">
+							<div class="title">4 Outstanding Invoices</div>
+							<div class="title warning">
+								<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" /> You have 4 overdue invoices | <a href="#">View</a>
+							</div>
+						</div>
+						<div onclick="{!c.toggleHeader}" class="arrow-toggle no-small">
+							<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}"   category="standard" size="small" name="arrowdown" />
+							<span class="arrow-toggle-text no-small">Collapse Dashboard</span>
+						</div>
+					</div>
+					<div class="col payment-right">
+						<div class="slds-grid payment-container">
+							<c:OneAndDoneWidget />
+    						<c:CreatePaymentPlanWidget />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</aura:component>

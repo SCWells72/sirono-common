@@ -1,0 +1,16 @@
+<aura:component >
+	<div class="payment-plan-success">
+		<div class="grid">
+			<div class="col">
+				<div class="select-all-icon selected">
+					<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}" category="utility" name="check" class="slds-button__icon"/>
+				</div>
+			</div>
+			<div class="col">
+				<h2>Your Payment Plan is Set!</h2>
+			</div>
+		</div>
+		<p>Next payment of $179.65 scheduled for 1/15/2017</p>
+		<p class="title"><em>Your Visa ending in 9182 will be charged $179.65 on January 15, 2017 and on day 15 of each month thereafter until paid in full.</em></p>
+	</div>
+</aura:component>

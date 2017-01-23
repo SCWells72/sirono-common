@@ -1,0 +1,18 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="WorkWithPaymentsController">
+    <aura:handler event="c:collapsedHeader" action="{!c.bodyStatus}" />
+    <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/salesforce-lightning-design-system.min.css'}" />
+	<link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/main.css'}" />
+    
+    <div class="wrapper total_div">
+        <div aura:id="payment_scroll" class="main-wrapper payment small alert">
+            <div class="one-time-payment invoices">
+                <div class="col invoice-listing">
+                    <c:PatientInvoiceSelection />
+                </div>
+                <div class="col payment-settings">
+                    <c:PaymentTabs />
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

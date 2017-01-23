@@ -1,0 +1,61 @@
+<aura:component controller="WorkWithInvoicesController">
+	<aura:handler event="c:collapsedHeader" action="{!c.bodyStatus}" />
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+
+    <aura:attribute name="listOfInvoices" type="List" />
+    <aura:attribute name="groupFilter" type="String" />
+    <aura:attribute name="additionalFilter" type="String" />
+
+    <aura:attribute name="invoices" type="Aura.Component[]" />
+
+    <div class="wrapper">
+        <div aura:id="payment_scroll" class="main-wrapper small alert sldsjs-tab-target slds-tabs--scoped__content slds-hide slds-show">
+            <section class="invoices">
+                <div class="col invoice-listing">
+                    <div class="invoice-header-wrapper">
+                        <header class="invoice-header_tab1">
+                            <div class="col filter">
+                                <div class="slds-dropdown-trigger slds-dropdown-trigger--click">
+                                    <button class="slds-button slds-button--icon-border-filled" aria-haspopup="true" title="Show More">
+                                        <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#down'}" category="standard" size="small" name="down" />
+                                        <!--<svg aria-hidden="true" class="slds-button__icon">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                        </svg> -->
+                                        <span class="slds-assistive-text">Show More</span>
+                                    </button>
+                                    <div class="slds-dropdown slds-dropdown--left">
+                                        <ul class="slds-dropdown__list" role="menu">
+                                            <li class="slds-dropdown__item" role="presentation"><a href="#" role="menuitem" tabindex="0"><span class="slds-truncate">Chandra Skonieczny</span></a></li>
+                                            <li class="slds-dropdown__item" role="presentation"><a href="#" role="menuitem" tabindex="-1"><span class="slds-truncate">Kassie Skonieczny</span></a></li>
+                                            <li class="slds-dropdown__item" role="presentation"><a href="#" role="menuitem" tabindex="-1"><span class="slds-truncate">Dean Skonieczny</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>All Patients
+                            </div>
+                            <div class="col sort">
+                                <div class="slds-button-group" role="group">
+                                    <button class="slds-button slds-button--neutral">Paid</button>
+                                    <button class="slds-button slds-button--neutral">Unpaid</button>
+                                    <button class="slds-button slds-button--neutral">
+                                        <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#down'}" category="standard" size="small" name="down" />
+                                        <!--<svg aria-hidden="true" class="slds-button__icon">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                        </svg>-->
+                                    </button>
+                                </div>
+                            </div>
+                        </header>
+                    </div>
+                    <div class="invoice-record-wrapper">
+                        {!v.invoices}
+                    </div>
+                   
+                </div>
+                
+                <span aura:id="invoice_details" class="invoice_details"></span> 
+                <!--<c:InvoiceDetails />-->
+                
+            </section>
+        </div>
+    </div>
+</aura:component>

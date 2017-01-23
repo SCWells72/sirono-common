@@ -1,0 +1,159 @@
+<aura:component >
+		
+
+	<aura:attribute name="IsMakePaymentTab" type="Boolean"					/>
+	<aura:attribute name="CardTypes" 		type="String[]" 				/>
+	<aura:attribute name="States" 			type="String[]" 				/>
+	<aura:attribute name="UserInfo"			type="Object"	default="{	NameOnCard : '',
+																	
+
+	CardNumber : '',
+																	
+
+	CW : '',
+																	
+
+	Expiration : '',
+																	
+
+	BillingAddress : '',
+																	
+
+	City : '',
+																	
+
+	State : '',
+																	
+
+	Zipcode : ''}"/>
+	
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	
+	<div class="payment-amount">
+        <div class="slds-form-element">
+            <aura:if isTrue="{!v.IsMakePaymentTab}">
+                <label class="slds-form-element__label" for="text-input-01">Enter Amount to Pay Now
+                    <div class="status info sldsjs-popover">
+                        <span class="slds-icon_container sldsjs-popover-action">
+                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"  
+    
+    category="standard" size="small" name="Info" />
+                        </span>
+                    </div>
+            	</label>
+                <div class="slds-form-element__control">
+                    <input aura:id="amount" id="text-input-01" class="slds-input" type="text" value="$7645.97" />
+                </div>
+            </aura:if>
+        </div>
+    </div>
+    
+    <div class="payment-info">
+        <div class="we-accept">
+            <span>We Accept: </span>
+            <img src="{!$Resource.SironoData + '/assets/images/mastercard-icon.png'}" alt="Mastercard" /> 
+            <img src="{!$Resource.SironoData + '/assets/images/american-express-icon.png'}" alt="American Express" /> 
+            <img src="{!$Resource.SironoData + '/assets/images/visa-icon.png'}" alt="Visa" />
+        </div>
+        <div class="credit-card-form grid slds-wrap">
+            <div class="col slds-size--1-of-1">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-01">Name on Card</label>
+                    <div class="slds-form-element__control verified">
+                        <input id="text-input-01" class="slds-input" type="text" value="Thomas Gibson" />
+                    </div>
+                </div>
+            </div>
+            <div class="col slds-size--9-of-12 credit-card">
+                <div class="grid">
+                    <div class="col slds-size--9-of-12 card-number">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="text-input-01">Card Number</label>
+                            <div class="slds-form-element__control verified">
+                                <input id="text-input-01" class="slds-input" type="text" value="4451094833749182" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col slds-size--3-of-12 cvv">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="text-input-01">CVV</label>
+                            <div class="slds-form-element__control verified">
+                                <input id="text-input-01" class="slds-input" type="text" value="134" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col slds-size--3-of-12">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-01">Expiration</label>
+                    <div class="slds-form-element__control">
+                        <input id="text-input-01" class="slds-input" type="text" placeholder="mm/yy" value="05/17" />
+                    </div>
+                </div>
+            </div>
+            <div class="col slds-size--1-of-1">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-01">Billing Address</label>
+                    <div class="slds-form-element__control">
+                        <input id="text-input-01" class="slds-input" type="text" value="1234 Main Street" />
+                    </div>
+                </div>
+            </div>
+            <div class="col slds-size--1-of-1 city-state-zip">
+                <div class="grid">
+                    <div class="col city slds-size--8-of-12">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="text-input-01">City</label>
+                            <div class="slds-form-element__control">
+                                <input id="text-input-01" class="slds-input" type="text" value="New York" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col state slds-size--2-of-12">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="select-01">State</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select id="select-01" class="slds-select"><option>NY</option></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col zip slds-size--2-of-12">
+                        <label class="slds-form-element__label" for="text-input-01">Zipcode</label>
+                        <div class="slds-form-element__control">
+                            <input id="text-input-01" class="slds-input" type="text" value="10001" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col slds-size--1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <span class="slds-checkbox">
+                            <input type="checkbox" name="options" id="checkbox-308" />
+                            <label class="slds-checkbox__label" for="checkbox-308">
+                                <span class="slds-checkbox--faux"></span> 
+                                <span class="slds-form-element__label">Save this card for later use
+                                    <div class="status info sldsjs-popover">
+                                        <span class="slds-icon_container sldsjs-popover-action">
+                                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" />
+                                        </span>
+                                    </div>
+                                </span>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col slds-size--1-of-1">
+                <div class="float-right">
+                    <a href="#">
+                        <button class="slds-button slds-button--brand">Make Payment</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

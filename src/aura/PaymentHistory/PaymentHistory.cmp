@@ -1,0 +1,44 @@
+<aura:component controller='WorkWithPaymentsController'>
+    <aura:attribute name="payments" type="Payment__c[]"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <div id="tab-scoped-3" class="sldsjs-tab-target slds-tabs--scoped__content slds-hide slds-show">
+        <section class="payment-history">
+            <div class="grid">
+                <div class="col">
+                    <h2>My Payments</h2>
+                    <aura:if isTrue="{!v.payments.length > 0}">
+                    <p>Click on the receipt link to view more details regarding your payment</p>
+                    <aura:set attribute="else">
+                        <p>You have no completed payments at this time. Payments made online will show here.</p>
+                    </aura:set>
+                    </aura:if>
+                </div>
+            </div>
+            
+            <aura:if isTrue="{!v.payments.length > 0}">
+                <table class="slds-table slds-table--bordered slds-table--fixed-layout slds-no-row-hover" role="grid">
+                    <thead>
+                        <tr class="slds-text-title--caps">
+                            <th class="slds-is-sortable" scope="col" aria-label="Payment Date">
+                            </th>
+                            <th class="slds-is-sortable" scope="col" aria-label="Description">
+                            </th>
+                            <th class="slds-is-sortable" scope="col" aria-label="Transaction Number">
+                            </th>
+                            <th class="slds-is-sortable" scope="col" aria-label="Amount Paid">
+                            </th>
+                            <th class="slds-is-sortable" scope="col" aria-label="Print Receipt">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.payments}" var="payment" indexVar="index">
+                            <c:PaymentHistoryItem row='{!payment}' index="{!index}" /> 
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </aura:if>
+        </section>
+    </div>
+</aura:component>

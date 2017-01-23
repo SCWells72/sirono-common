@@ -1,0 +1,62 @@
+<aura:component controller="WorkWithStatementsController">  
+    <aura:attribute name="statements" type="WorkWithStatementsController.StatementWrapper[]"/>
+    <aura:attribute name="stateLength" type="integer"/>
+    <aura:attribute name="statementsSortItems" type="String[]"/>
+    
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div class="sldsjs-tab-target slds-tabs--scoped__content slds-hide slds-show">
+        <section class="statements">
+            <div class="grid">
+                <div class="col">
+                    <h2>View Your Statements</h2>
+                    <aura:if isTrue="{!v.statementsSortItems.length > 0}">
+                        <p>Click on the statement date to download a PDF version of the account statement.</p>
+                    <aura:set attribute="else">
+                        <p>You don't have any statements to view yet.</p>
+                    </aura:set>
+                    </aura:if>
+                </div>
+                <aura:if isTrue="{!v.statementsSortItems.length > 0}">
+                <div class="col">
+                    <div class="float-right">
+                        <div class="status sldsjs-popover">
+                            These files require Adobe Reader
+                            <span class="slds-icon_container sldsjs-popover-action" onclick="{!c.showPopoverRight}">
+                                <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info" />
+                                <span class="slds-assistive-text">Info</span>
+                            </span>
+                            <div aura:id="sldsjsPopoverRight" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-right slds-hide" role="tooltip" id="help" style="position:absolute;top:45px;right:-6px">
+                                <div class="slds-popover__body">To view PDF content, you will need software such as Adobe Reader that can read a PDF file. If the files do not open, you can download and install Adobe Reader for free now.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href='https://acrobat.adobe.com/us/en/acrobat/pdf-reader.html?promoid=KSNEW' class="slds-button slds-button--neutral download"  target="_blank">Download Adobe Reader</a>
+                </div>
+                </aura:if>
+            </div>
+            <aura:if isTrue="{!v.statementsSortItems.length > 0}">
+            <div class="statementBlock">
+            <div class="statementBlockScroll">
+            <div class="statement-grid" >
+            <aura:iteration items="{!v.statementsSortItems}" var="stateLengthItem" indexVar="position">
+                <div class="container">
+                    <aura:iteration items="{!stateLengthItem}" var="stateLengthItemOne" indexVar="positionIn">
+                        <div class="col">
+                            <a href="{!stateLengthItemOne.pdf_Url}" target="_blank">
+                                <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/doctype-sprite/svg/symbols.svg#pdf'}" category="standard" size="medium" name="pdf" />
+                                <span class="slds-assistive-text">Download</span>
+                                <ui:outputDate format="MM DD, YYYY" value="{!stateLengthItemOne.statement.LastModifiedDate}" /> Statement
+                            </a>
+                        </div>
+                    </aura:iteration> 
+                </div>
+            </aura:iteration>
+            </div>
+            </div>
+            </div>
+            </aura:if>
+        </section>
+    </div>
+</aura:component>

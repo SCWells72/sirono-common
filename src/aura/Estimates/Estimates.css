@@ -1,0 +1,46 @@
+.THIS span.slds-icon_container.slds-icon-standard-down svg {
+    fill: #16325c;
+}
+.THIS.wrapper .main-wrapper{
+    margin-top: -198px;
+    padding-top: 198px;
+}
+.THIS.wrapper .main-wrapper.small, 
+.THIS.wrapper .main-wrapper.small.alert, 
+.THIS.wrapper .main-wrapper.small.alert.success {
+    margin-top: -199px;
+    padding-top: 199px;
+}
+.THIS.wrapper .main-wrapper.alert {
+    margin-top: -543px;
+    padding-top: 543px;
+}
+
+.THIS.wrapper .main-wrapper{
+    margin-top: -470px;
+    padding-top: 470px;
+}
+
+.THIS .invoices .invoice-listing header {
+    position:absolute;
+    width:100%; 
+}
+.THIS .invoices .invoice-listing {
+    overflow:hidden; 
+}
+.THIS .invoices .invoice-record-wrapper{
+    height:calc(100% - 73px);
+}
+.THIS .estimate_details {
+    width:66.66666%;
+}
+.THIS .invoice-content .col.details,
+.THIS .invoice-content .col.charges,
+.THIS .invoice-content .col.payments,
+.THIS .invoice-content .col.total {
+    width:25%;
+}
+.THIS .invoice-content .col.total {
+    padding-top: 0;
+    padding-right: 0;
+}

@@ -1,0 +1,59 @@
+.THIS .display_false {
+    display: none;
+}
+
+.THIS .slds-active.slds-tabs--scoped__link {
+    background-color: #fff;
+    color: #0070d2;
+    border-color: #d8dde6;
+}
+
+.THIS.tabsTop {
+    position: absolute;
+    left: 0;
+    width: 100%;
+}
+.THIS .slds-tabs--scoped{
+    position: relative;
+    z-index: 501;
+}
+
+/*.THIS ul.tab {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.THIS ul.tab li {
+    float: left;
+}
+
+.THIS ul.tab li a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+.THIS ul.tab li a:hover {
+    background-color: #ddd;
+}
+
+.THIS .active {
+    background-color: #ccc;
+}
+
+.THIS .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+*/

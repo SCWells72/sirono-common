@@ -1,0 +1,51 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+
+    <!--<aura:handler name="init" action="{!c.doInit}" value="{!this}"/>-->
+
+    <aura:attribute name="aciveTab" type="String" default="Invoices" />
+
+    <div class="tabsTop">
+        <div class="slds-tabs--scoped">
+            <ul class="slds-tabs--scoped__nav" role="tablist">
+                <li class="slds-tabs--scoped__item slds-text-title--caps " title="Invoices" role="presentation">
+                    <a class="sldsjs-tab-action slds-tabs--scoped__link slds-active" id="Invoices" aura:id="Invoices_tab" onclick="{!c.activateTab}">Invoices</a>
+                </li>
+                <li class="slds-tabs--scoped__item slds-text-title--caps" title="Estimates" role="presentation">
+                    <a class="sldsjs-tab-action slds-tabs--scoped__link" id="Estimates" aura:id="Estimates_tab" onclick="{!c.activateTab}">Estimates</a>
+                </li>
+                <li class="slds-tabs--scoped__item slds-text-title--caps" title="Payment History" role="presentation">
+                    <a class="sldsjs-tab-action slds-tabs--scoped__link" id="PaymentHistory" aura:id="PaymentHistory_tab" onclick="{!c.activateTab}">Payment History</a>
+                </li>
+                <li class="slds-tabs--scoped__item slds-text-title--caps" title="Statements" role="presentation">
+                    <a class="sldsjs-tab-action slds-tabs--scoped__link" id="Statements" aura:id="Statements_tab" onclick="{!c.activateTab}">Statements</a>
+                </li>
+                <li class="slds-tabs--scoped__item slds-text-title--caps" title="Documents" role="presentation">
+                    <a class="sldsjs-tab-action slds-tabs--scoped__link" id="Documents" aura:id="Documents_tab" onclick="{!c.activateTab}"><span class="new"></span>Documents</a>
+                </li>
+            </ul>
+        </div>
+        <!--<ul class="tab">
+            <li><a class="tablinks active" id="Invoices" aura:id="Invoices_tab" onclick="{!c.activateTab}">INVOICES</a></li>
+            <li><a class="tablinks" id="Estimates" aura:id="Estimates_tab" onclick="{!c.activateTab}">ESTIMATES</a></li>
+            <li><a class="tablinks" id="PaymentHistory" aura:id="PaymentHistory_tab" onclick="{!c.activateTab}">PAYMENT HISTORY</a></li>
+            <li><a class="tablinks" id="Statements" aura:id="Statements_tab" onclick="{!c.activateTab}">STATEMENTS</a></li>
+            <li><a class="tablinks" id="Documents" aura:id="Documents_tab" onclick="{!c.activateTab}">DOCUMENTS</a></li>
+        </ul>-->
+        <div aura:id="Invoices" class="tabcontent">
+            <c:Invoices />
+        </div>
+        <div aura:id="Estimates" class="tabcontent display_false">
+            <c:Estimates />
+        </div>
+        <div aura:id="PaymentHistory" class="tabcontent display_false">
+            <c:PaymentHistory />
+        </div>
+        <div aura:id="Statements" class="tabcontent display_false">
+            <c:Statements />
+        </div>
+        <div aura:id="Documents" class="tabcontent display_false">
+            <c:Documents />
+        </div>
+
+    </div>
+</aura:component>

@@ -1,0 +1,46 @@
+/* custom styles */
+
+.THIS.wrapper .header-wrapper{
+	height: 359px;
+}
+
+.THIS.wrapper .header-wrapper.small{
+	height: 88px;
+}
+
+.THIS.wrapper .header-wrapper.small.alert{
+	height: 88px;
+}
+
+.THIS.wrapper .header-wrapper.alert {
+    height: 432px;
+}
+
+.THIS .header-main.small .no-small{
+    display: none;
+}
+
+.THIS button .slds-button__icon.slds-button__icon--large{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.THIS .inline-block{
+    display: inline-block;
+}
+
+.THIS .status .slds-popup{
+    position: absolute;
+    top: 45px;
+    right: -278px;
+}
+
+.THIS .header-main .arrow-toggle.backIcon{
+    padding-top:0;
+    position: relative;
+    top: -5px;
+}
+
+.THIS .header-main .arrow-toggle:nth-child(2){
+    padding-top: 0;
+}

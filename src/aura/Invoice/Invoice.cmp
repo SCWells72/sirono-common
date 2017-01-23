@@ -1,0 +1,42 @@
+<aura:component >
+
+    <aura:handler event="c:activateTileRequest" action="{!c.activateTileHandler}" />
+
+    <aura:attribute name="invoice" type="Object" />
+    <aura:attribute name="tileId" type="Integer" />
+
+    <article class="invoice-record" aura:id="tile" onclick="{!c.activateTile}">
+        <div class="grid">
+            <div class="col left">
+                <div class="title">
+                    {!v.invoice.singleInvoice.Patient__r.Name + ' (MRN: ' + v.invoice.singleInvoice.Sirono_ID__c + ')'}
+                </div>
+                <a class="invoice-name">
+                    <ui:outputDate value="{!v.invoice.singleInvoice.Invoice_Date__c}" format="MMMM YYYY"/>
+                </a>
+                <!--<div class="title paid">
+                    Paid on January 4, 2017
+                </div>-->
+            </div>
+            <div class="col right">
+                <div class="title">Balance Due</div>
+                <div class="value">
+                    <ui:outputCurrency value="{!v.invoice.balanceDue}" />
+                </div>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col due">
+                <div class="title paid">
+                    <span class="status-bubble warning"></span>
+                    Payment Overdue
+                    <!--Paid on January 4, 2017--> 
+                </div>
+            </div>
+            <div class="col links">
+                <a href="#">Pay Now</a> or 
+                <a href="#">Create Payment Plan</a>
+            </div>
+        </div>
+    </article>
+</aura:component>

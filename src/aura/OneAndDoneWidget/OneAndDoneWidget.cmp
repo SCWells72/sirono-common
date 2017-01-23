@@ -1,0 +1,22 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+	<div class="col payment-actions">
+        <div class="no-small">
+            <img src="{!$Resource.SironoData + '/assets/images/one-and-done.png'}" alt="One and Done" />
+            <h2>One and Done</h2>
+            <p>Simple, secure and fast is our motto. Use our payment page to clear your invoice balances.</p>
+            <a onclick="{!c.changePage}">
+                <button class="slds-button slds-button--brand">Pay Account in Full</button>
+            </a>
+        </div>
+        <div class="no-small">
+            <div class="slds-button-group" role="group">
+                <button class="slds-button warning">Pay Overdue Invoices</button> 
+                <button class="slds-button slds-button--neutral">Apply for Financial Aid</button>
+            </div>
+        </div>
+        <div class="no-big">
+            <button class="slds-button warning">Pay Overdue Invoices</button> 
+            <button class="slds-button slds-button--neutral">Apply for Financial Aid</button>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,41 @@
+<aura:component >
+	<aura:handler name="paymentMethodInit" event="c:CancelActionEvent" action="{!c.cancelEditCardAction}"/>
+	<aura:registerEvent name="initPlanInfo" type="c:CancelActionEvent"/>
+	<aura:registerEvent name="updatePaymentMethod" type="c:UpdatePaymentMethodEvent"/>
+
+	<div class="payment-plan-edit">
+		<h2>Edit Payment Method</h2>
+		<p>Next payment of $318.58 scheduled for 01/15/2017</p>
+		<p class="title"><em>Your current payment plan started on December 15, 2016. $318.58/month is charged on day 15 of each month for the next 23 months. The 24th and final installment will be $318.5.</em></p>
+	</div>
+
+	<div aura:id="editPaymentMethod" class="slds-p-top--medium slds-p-horizontal--large border-top">
+		<label class="slds-form-element__label slds-p-bottom--small">Currently paying with card on file:</label>
+		<div class="grid slds-p-bottom--large">
+			<div class="col slds-m-right--medium">
+				<div class="slds-form-element">
+				  <div class="slds-form-element__control">
+					<div class="slds-select_container">
+					  <select id="select-01" class="slds-select">
+						<option>Visa ending in 9182</option>
+					  </select>
+					</div>
+				  </div>
+				</div>
+			</div>
+			<div class="col slds-align-middle">
+				<div class="title">
+					<a href="javascript:void(0);" onclick="{!c.editCreditCard}">Edit</a> or <a href="javascript:void(0);" onclick="{!c.addNewCreditCard}">Add New Card</a>
+				</div>
+			</div>
+		</div>
+		<div class="float-right slds-p-top--large">
+			<button class="slds-button slds-button--neutral" onclick="{!c.cancelAction}">Cancel</button>
+			<button class="slds-button slds-button--brand" onclick="{!c.updatePaymentMethod}">Update Payment Method</button>
+		</div>
+	</div>
+
+	<div aura:id="editCreditCard" class="slds-p-horizontal--large border-top slds-hide">
+		<c:EditPaymentCard />
+	</div>
+</aura:component>

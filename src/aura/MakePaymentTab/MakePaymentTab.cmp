@@ -1,0 +1,4 @@
+<aura:component >
+	<c:CardPayment IsMakePaymentTab="true"/>
+    <c:SuccessMessage />
+</aura:component>

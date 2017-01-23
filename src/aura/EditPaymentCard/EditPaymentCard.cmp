@@ -1,0 +1,133 @@
+<aura:component >
+	<aura:registerEvent name="paymentMethodInit" type="c:CancelActionEvent"/>
+    <aura:attribute name="months" type="String[]" default="01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12"/>
+    <aura:attribute name="states" type="String[]" default="NY"/>
+
+    <div class="payment-info">
+        <div class="we-accept">
+            <span>We Accept: </span>
+            <img src="{!$Resource.SironoData + '/assets/images/mastercard-icon.png'}" alt="Mastercard" /> 
+            <img src="{!$Resource.SironoData + '/assets/images/american-express-icon.png'}" alt="American Express" /> 
+            <img src="{!$Resource.SironoData + '/assets/images/visa-icon.png'}" alt="Visa" />
+        </div>
+        <div class="credit-card-form grid slds-wrap">
+            <div class="col slds-size--1-of-1">
+                <div class="slds-form-element">
+<!--                     <label class="slds-form-element__label" for="text-input-01">Name on Card</label> -->
+                    <!-- <div class="slds-form-element__control verified"> -->
+                    <div class="slds-form-element__control">
+
+                        <ui:inputText value="" aura:id="nameOnCard" placeholder="Name on Card" keyup="{!c.onKeyUp}" class="slds-input verified" label="Name on Card" labelClass="slds-form-element__label" required="true"/>
+                        <!-- <input id="text-input-01" class="slds-input" type="text" value="Thomas Gibson" /> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col slds-size--9-of-12 credit-card">
+                <div class="grid">
+                    <div class="col slds-size--9-of-12 card-number">
+                        <div class="slds-form-element">
+                            <!-- <label class="slds-form-element__label" for="text-input-01">Card Number</label> -->
+                            <div class="slds-form-element__control">
+                                 <!-- errors="['Credit card number must be 12-19 digits.'}]"  -->
+                                <ui:inputNumber aura:id="cardNumber" label="Card Number" labelClass="slds-form-element__label" keyup="{!c.validate}" required="true" maxlength="19" /> <!-- format="#### - #### - #### - #### " -->
+                                <!-- <input id="text-input-01" class="slds-input" type="text" value="4451094833749182" /> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col slds-size--3-of-12 cvv">
+                        <div class="slds-form-element">
+                            <!-- <label class="slds-form-element__label" for="text-input-01">CVV</label> -->
+                            <div class="slds-form-element__control verified">
+                                <ui:inputNumber aura:id="cvv" label="CVV" labelClass="slds-form-element__label" value="" required="true"/>
+                                <!-- <input id="text-input-01" class="slds-input" type="text" value="134" /> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col slds-size--3-of-12">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-01">Expiration</label>
+                    <div class="slds-form-element__control">
+                        <input id="text-input-01" class="slds-input" type="text" placeholder="mm/yy" value="05/17" />
+                        <!-- <ui:inputSelect >
+                            <aura:iteration items="{!v.months}" var="month"> 
+                                <ui:inputSelectOption text="{!month}" label="{!month}"/>
+                            </aura:iteration>
+                        </ui:inputSelect> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col slds-size--1-of-1">
+                <div class="slds-form-element">
+                    <!-- <label class="slds-form-element__label" for="text-input-01">Billing Address</label> -->
+                    <div class="slds-form-element__control">
+                        <ui:inputText value="1234 Main Street" aura:id="billingAddress" keyup="{!c.onKeyUp}" class="slds-input verified" label="Billing Address" labelClass="slds-form-element__label" required="true"/>
+                        <!-- <input id="text-input-01" class="slds-input" type="text" value="1234 Main Street" /> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col slds-size--1-of-1 city-state-zip">
+                <div class="grid">
+                    <div class="col city slds-size--8-of-12">
+                        <div class="slds-form-element">
+                            <!-- <label class="slds-form-element__label" for="text-input-01">City</label> -->
+                            <div class="slds-form-element__control">
+                                <ui:inputText value="New York" aura:id="city" keyup="{!c.onKeyUp}" class="slds-input verified" label="City" labelClass="slds-form-element__label"/>
+                                <!-- <input id="text-input-01" class="slds-input" type="text" value="New York" /> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col state slds-size--2-of-12">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="select-01">State</label>
+                            <div class="slds-form-element__control">
+                                <!-- <div class="slds-select_container">
+                                    <select id="select-01" class="slds-select"><option>NY</option></select>
+                                </div> -->
+                                <ui:inputSelect >
+                                    <aura:iteration items="{!v.states}" var="state"> 
+                                        <ui:inputSelectOption text="{!state}" label="{!state}"/>
+                                    </aura:iteration>
+                                </ui:inputSelect>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col zip slds-size--2-of-12">
+                        <!-- <label class="slds-form-element__label" for="text-input-01">Zipcode</label> -->
+                        <div class="slds-form-element__control">
+                            <!-- <input id="text-input-01" class="slds-input" type="text" value="10001" /> -->
+                            <ui:inputNumber aura:id="zipcode" label="Zipcode" labelClass="slds-form-element__label" value="{!v.num}" required="true"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           <!--  <div class="col slds-size-!-1-of-1">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <span class="slds-checkbox">
+                            <input type="checkbox" name="options" id="checkbox-308" />
+                            <label class="slds-checkbox__label" for="checkbox-308">
+                                <span class="slds-checkbox-!-faux"></span> 
+                                <span class="slds-form-element__label">Save this card for later use
+                                    <div class="status info sldsjs-popover">
+                                        <span class="slds-icon_container sldsjs-popover-action">
+                                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" />
+                                        </span>
+                                    </div>
+                                </span>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+            </div> -->
+            <div class="col slds-size--1-of-1">
+                <div class="float-right">
+                    <button class="slds-button slds-button--neutral" onclick="{!c.cancelAction}">Cancel</button>
+					<button class="slds-button slds-button--brand">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>
