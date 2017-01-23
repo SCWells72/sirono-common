@@ -643,7 +643,7 @@
         <externalId>false</externalId>
         <formula>If(Account_Sub_Status__c == &quot;Delinquent&quot;, 7,
 If(Account_Sub_Status__c == &quot;Overdue&quot;, 6,
-If(or(Account_Sub_Status__c == &quot;Due by&quot;,Account_Sub_Status__c == &quot;Due&quot;), 5,
+If(or(Account_Sub_Status__c == &quot;Due By&quot;,Account_Sub_Status__c == &quot;Due&quot;), 5,
 If(or (Account_Sub_Status__c == &quot;On Payment Plan&quot;, Account_Sub_Status__c == &quot;Payment Plan&quot;), 4,
 If(Account_Sub_Status__c == &quot;Paid&quot;, 3,
 If(Account_Sub_Status__c == &quot;Credit&quot;, 2,
