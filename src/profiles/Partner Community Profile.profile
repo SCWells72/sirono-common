@@ -2156,6 +2156,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Encounter__c.Balance__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Encounter__c.Cancelled__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2172,6 +2177,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Encounter__c.Co_Pay__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Encounter__c.Coverage__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2241,7 +2251,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Encounter__c.Guarantor__c</field>
+        <field>Encounter__c.Guarantor_Name__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2312,6 +2322,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Encounter__c.Patient__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Encounter__c.Payments__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
