@@ -71,7 +71,7 @@
     <fields>
         <fullName>Balance__c</fullName>
         <externalId>false</externalId>
-        <formula>Patient_Portion__c -  Payments__c</formula>
+        <formula>IF( Has_Chargegroups__c, 0, Patient_Portion__c - Total_Payments__c)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Balance</label>
         <precision>18</precision>
@@ -315,6 +315,16 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Has_Chargegroups__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Are there are any related Charge_Group__c ?</description>
+        <externalId>false</externalId>
+        <label>Has Chargegroups</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Individual_Deductible_Remaining__c</fullName>
         <externalId>false</externalId>
         <formula>Individual_Deductible__c -  Individual_Deductible_Used__c</formula>
@@ -448,10 +458,11 @@
     </fields>
     <fields>
         <fullName>Patient_Portion__c</fullName>
+        <defaultValue>0</defaultValue>
         <externalId>false</externalId>
         <label>Patient Portion</label>
         <precision>18</precision>
-        <required>true</required>
+        <required>false</required>
         <scale>2</scale>
         <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
@@ -478,17 +489,6 @@
         <trackFeedHistory>true</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>Payments__c</fullName>
-        <externalId>false</externalId>
-        <label>Payments</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
     </fields>
     <fields>
         <fullName>Procedure__c</fullName>
@@ -532,6 +532,17 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Total_Payments__c</fullName>
+        <externalId>false</externalId>
+        <label>Payments</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
     </fields>

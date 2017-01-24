@@ -98,6 +98,10 @@
                 <behavior>Edit</behavior>
                 <field>Coverage__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Has_Chargegroups__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -308,6 +312,18 @@
         <fields>Assigned_To__c</fields>
         <fields>Last_Modified_Date__c</fields>
         <relatedList>Case.Encounter__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Active__c</fields>
+        <fields>Guarantor__c</fields>
+        <fields>Date_Of_Service_Start_Date__c</fields>
+        <fields>Date_Of_Service_End_Date__c</fields>
+        <fields>Location__c</fields>
+        <fields>Invoice__c</fields>
+        <fields>Payment_Plan__c</fields>
+        <fields>Origin_Subcode__c</fields>
+        <relatedList>Charge_Group__c.Encounter__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>true</showHighlightsPanel>

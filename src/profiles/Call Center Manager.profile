@@ -1424,6 +1424,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Charge_Group__c.Encounter__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Charge_Group__c.External_Guarantor_ID__c</field>
         <readable>true</readable>
@@ -2255,6 +2260,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Encounter__c.Has_Chargegroups__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Encounter__c.Individual_Deductible_Remaining__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2320,11 +2330,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Encounter__c.Payments__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Encounter__c.Procedure__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2341,6 +2346,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Encounter__c.Total_Credits__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Encounter__c.Total_Payments__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

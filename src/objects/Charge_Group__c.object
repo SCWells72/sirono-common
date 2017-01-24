@@ -169,6 +169,21 @@
         <type>Date</type>
     </fields>
     <fields>
+        <fullName>Encounter__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>A Chargegroup can only have one encounter; multiple chargegroups can have the same encounter</description>
+        <externalId>false</externalId>
+        <label>Encounter</label>
+        <referenceTo>Encounter__c</referenceTo>
+        <relationshipLabel>Charge Groups</relationshipLabel>
+        <relationshipName>Charge_Groups</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>External_Guarantor_ID__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
