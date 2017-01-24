@@ -47,11 +47,20 @@
         <members>Campaign_Mapping__mdt-Salesforce Campaign Name Layout</members>
         <members>Payment_Adjustments__c-Payment Adjustment Layout</members>
         <members>Payment_Adjustments__c-Payment Adjustments</members>
+        <members>Payment_Method__c-Credit Card Layout</members>
+        <members>Payment_Method__c-Credit Cards</members>
+        <members>Payment_Method__c-Promise to Pay</members>
+        <members>Payment__c-Payment Plan Layout</members>
+        <members>Payment__c-Payment Plans</members>
         <members>Service__c-Services Layout</members>
         <members>Transaction__c-Transaction Type Layout</members>
         <members>Transaction__c-Transactions Layout</members>
         <members>User_Timezone_Setting__mdt-User Timezone Setting Layout</members>
         <name>Layout</name>
+    </types>
+    <types>
+        <members>Invoice__c.Invoice_Name</members>
+        <name>WorkflowFieldUpdate</name>
     </types>
     <version>38.0</version>
 </Package>

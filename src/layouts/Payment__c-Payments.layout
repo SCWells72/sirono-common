@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <customButtons>Update_Credit_Card</customButtons>
+    <customConsoleComponents>
+        <subtabComponents>
+            <containers>
+                <height>30</height>
+                <isContainerAutoSizeEnabled>false</isContainerAutoSizeEnabled>
+                <region>Bottom</region>
+                <sidebarComponents>
+                    <componentType>RelatedList</componentType>
+                    <label>Transactions</label>
+                    <relatedLists>
+                        <hideOnDetail>true</hideOnDetail>
+                        <name>Transaction__c.Payment__c</name>
+                    </relatedLists>
+                </sidebarComponents>
+                <style>Tabs</style>
+                <unit>Percentage</unit>
+            </containers>
+        </subtabComponents>
+    </customConsoleComponents>
+    <excludeButtons>ChangeOwnerOne</excludeButtons>
+    <excludeButtons>ChangeRecordType</excludeButtons>
+    <excludeButtons>Share</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <feedLayout>
         <autocollapsePublisher>true</autocollapsePublisher>
@@ -34,30 +55,48 @@
         <useInlineFiltersInConsole>true</useInlineFiltersInConsole>
     </feedLayout>
     <layoutSections>
-        <customLabel>false</customLabel>
+        <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Information</label>
+        <label>Methods</label>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Card_Holder_Name__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Card_Type__c</field>
+                <behavior>Readonly</behavior>
+                <field>Display_Name__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Expiration_Date__c</field>
+                <field>Payor__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Last_4__c</field>
+                <field>Amount__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Posted_Amount__c</field>
+            </layoutItems>
+            <layoutItems>
+                <emptySpace>true</emptySpace>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Method__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Payment_Method__c</field>
+            </layoutItems>
+            <layoutItems>
+                <emptySpace>true</emptySpace>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Processor_Transaction_ID__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -67,18 +106,42 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Payment_Method_Token__c</field>
+                <field>Statement__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Sirono_ID__c</field>
+                <field>Payment_Plan__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Encounter__c</field>
+            </layoutItems>
+            <layoutItems>
+                <emptySpace>true</emptySpace>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Collected_by__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Deposit_Date__c</field>
             </layoutItems>
         </layoutColumns>
-        <style>TwoColumnsTopToBottom</style>
+        <style>TwoColumnsLeftToRight</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>true</customLabel>
+        <detailHeading>false</detailHeading>
+        <editHeading>true</editHeading>
+        <label>Details</label>
+        <layoutColumns/>
+        <layoutColumns/>
+        <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
         <customLabel>false</customLabel>
-        <detailHeading>false</detailHeading>
+        <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
         <label>System Information</label>
         <layoutColumns>
@@ -87,14 +150,24 @@
                 <field>CreatedById</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>LastModifiedById</field>
+                <emptySpace>true</emptySpace>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Sirono_ID__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>OwnerId</field>
+                <behavior>Readonly</behavior>
+                <field>LastModifiedById</field>
+            </layoutItems>
+            <layoutItems>
+                <emptySpace>true</emptySpace>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>ID__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -111,31 +184,14 @@
     </layoutSections>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Guarantor__c</fields>
         <fields>Amount__c</fields>
-        <fields>Card_Holder_Name__c</fields>
-        <fields>Charge_Date__c</fields>
-        <fields>Collected_by__c</fields>
-        <relatedList>Payment__c.Payment_Method__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Guarantor__c</fields>
-        <fields>Active__c</fields>
-        <fields>Plan_Type__c</fields>
-        <fields>Execute_on_Day__c</fields>
-        <fields>Next_Payment_Date__c</fields>
-        <relatedList>Payment_Plan__c.Payment_Method__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>Arrangement_Type__c</fields>
-        <fields>NAME</fields>
-        <fields>Max_Amount__c</fields>
-        <fields>Date__c</fields>
-        <fields>Original_Installment_Count__c</fields>
-        <fields>Installment_Amount__c</fields>
-        <fields>Billed_Date__c</fields>
-        <relatedList>Payment_Arrangement__c.Payment_Method__c</relatedList>
+        <fields>Method__c</fields>
+        <fields>Post_Date__c</fields>
+        <fields>Transaction_Date__c</fields>
+        <fields>Charge_Group__c</fields>
+        <relatedList>Transaction__c.Payment__c</relatedList>
+        <sortField>Post_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
@@ -143,7 +199,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h36000003lQ3j</masterLabel>
+        <masterLabel>00h36000003lVBa</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

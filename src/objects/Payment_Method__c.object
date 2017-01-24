@@ -43,7 +43,7 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <description>Credit card details</description>
+    <description>Details about a method of payment: credit card, ACH, check, or cash.</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableEnhancedLookup>true</enableEnhancedLookup>
@@ -109,6 +109,21 @@
         <type>Picklist</type>
     </fields>
     <fields>
+        <fullName>Display_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(Type__c) &amp;
+CASE(Type__c,
+&quot;Credit Card&quot;,  &quot; &quot; &amp; TEXT(Card_Type__c) &amp; &quot;-&quot; &amp;  Last_4__c,
+&quot;ACH&quot;, &quot; &quot; &amp; TEXT(Account_Number__c),
+&quot;&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Display Name</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Expiration_Date__c</fullName>
         <description>MM/YY (i.e. 02/16)</description>
         <externalId>false</externalId>
@@ -138,6 +153,17 @@
         <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>ID__c</fullName>
+        <externalId>true</externalId>
+        <label>ID</label>
+	<length>128</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Last_4__c</fullName>
@@ -178,7 +204,7 @@
     <fields>
         <fullName>Sirono_ID__c</fullName>
         <externalId>true</externalId>
-        <label>ID</label>
+        <label>Sirono ID</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -186,6 +212,35 @@
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Credit Card</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ACH</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Check</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Cash</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
     </fields>
     <label>Payment Method</label>
     <listViews>
@@ -237,6 +292,25 @@
                 <default>false</default>
             </values>
         </picklistValues>
+        <picklistValues>
+            <picklist>Type__c</picklist>
+            <values>
+                <fullName>ACH</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Cash</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Check</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Credit Card</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
     </recordTypes>
     <recordTypes>
         <fullName>Check_Cash</fullName>
@@ -258,6 +332,25 @@
             </values>
             <values>
                 <fullName>Visa</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Type__c</picklist>
+            <values>
+                <fullName>ACH</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Cash</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Check</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Credit Card</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -285,10 +378,29 @@
                 <default>false</default>
             </values>
         </picklistValues>
+        <picklistValues>
+            <picklist>Type__c</picklist>
+            <values>
+                <fullName>ACH</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Cash</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Check</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Credit Card</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
     </recordTypes>
     <recordTypes>
         <fullName>Promise</fullName>
-        <active>true</active>
+        <active>false</active>
         <label>Promise</label>
         <picklistValues>
             <picklist>Card_Type__c</picklist>
@@ -311,33 +423,26 @@
         </picklistValues>
     </recordTypes>
     <searchLayouts>
-        <customTabListAdditionalFields>Account_Number__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Card_Holder_Name__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Card_Type__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Expiration_Date__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Display_Name__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Type__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Guarantor__c</customTabListAdditionalFields>
-        <lookupDialogsAdditionalFields>Account_Number__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Card_Holder_Name__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Card_Type__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Expiration_Date__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Display_Name__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Type__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Guarantor__c</lookupDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Account_Number__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Card_Holder_Name__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Card_Type__c</lookupPhoneDialogsAdditionalFields>
+        <lookupFilterFields>NAME</lookupFilterFields>
+        <lookupFilterFields>Display_Name__c</lookupFilterFields>
+        <lookupFilterFields>Type__c</lookupFilterFields>
+        <lookupFilterFields>Guarantor__c</lookupFilterFields>
+        <lookupPhoneDialogsAdditionalFields>Display_Name__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Type__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Guarantor__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Sirono_ID__c</lookupPhoneDialogsAdditionalFields>
         <searchFilterFields>NAME</searchFilterFields>
-        <searchFilterFields>Account_Number__c</searchFilterFields>
-        <searchFilterFields>Card_Holder_Name__c</searchFilterFields>
-        <searchFilterFields>Card_Type__c</searchFilterFields>
-        <searchFilterFields>Expiration_Date__c</searchFilterFields>
+        <searchFilterFields>Display_Name__c</searchFilterFields>
+        <searchFilterFields>Type__c</searchFilterFields>
         <searchFilterFields>Guarantor__c</searchFilterFields>
-        <searchResultsAdditionalFields>Account_Number__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Card_Holder_Name__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Card_Type__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Expiration_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Display_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Type__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Guarantor__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Last_4__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>Private</sharingModel>
     <webLinks>

@@ -4,9 +4,9 @@
         <fullName>Service_Name</fullName>
         <field>Name</field>
         <formula>Service_Rollup__r.Name &amp; &apos; - &apos; 
- &amp; TEXT(MONTH(Post_Date__c)) &amp; &apos;/&apos;
- &amp; TEXT(DAY(Post_Date__c)) &amp; &apos;/&apos;
- &amp; TEXT(YEAR(Post_Date__c))</formula>
+ &amp; TEXT(MONTH(Service_Date__c)) &amp; &apos;/&apos;
+ &amp; TEXT(DAY(Service_Date__c)) &amp; &apos;/&apos;
+ &amp; TEXT(YEAR(Service_Date__c))</formula>
         <name>Service Name</name>
         <notifyAssignee>false</notifyAssignee>
         <operation>Formula</operation>

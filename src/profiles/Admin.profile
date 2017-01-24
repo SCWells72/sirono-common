@@ -289,6 +289,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>InvoiceStatusUpdateTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>InvoiceUtil</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MockHttpResponseGenerator</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1599,8 +1607,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Charge_Group__c.Sub_Status_Index__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.AccountId</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Add_to_Payment_Plan__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1664,6 +1682,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Delinquent_Invoices__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Department</field>
         <readable>true</readable>
@@ -1714,6 +1737,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Guarantor_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Guarantor__c</field>
         <readable>true</readable>
@@ -1741,6 +1769,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Invoice_Offset_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Invoice_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1780,6 +1813,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Non_Payment_Plan_Invoices__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Notes__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1805,7 +1843,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Outstanding_Invoices__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Overdue_Balance__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Overdue_Invoices__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2114,6 +2162,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Encounter__c.Balance__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Encounter__c.Cancelled__c</field>
         <readable>true</readable>
@@ -2131,6 +2184,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Encounter__c.Co_Pay__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Encounter__c.Coverage__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2271,6 +2329,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Encounter__c.Patient__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Encounter__c.Payments__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2470,7 +2533,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Invoice__c.All_Substatus__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Invoice__c.Deactivated_Charge_Groups__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Invoice__c.Display_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2485,7 +2558,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Invoice__c.Invoice_Balance__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Invoice__c.Invoice_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Invoice__c.Invoice_Status_Index__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Invoice__c.Invoice_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Invoice__c.Partial_Payment_Plan__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2704,6 +2797,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Method__c.Display_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Payment_Method__c.Expiration_Date__c</field>
         <readable>true</readable>
@@ -2711,6 +2809,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Payment_Method__c.Guarantor__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Method__c.ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2731,6 +2834,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Payment_Method__c.Sirono_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Payment_Method__c.Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2911,7 +3019,12 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Payment__c.Display_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Payment__c.Encounter__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -2921,6 +3034,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Payment__c.Guarantor__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment__c.ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2941,6 +3059,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Payment__c.Payment_Plan__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Payment__c.Payor__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Payment__c.Posted_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3621,28 +3749,24 @@
         <recordType>Payment_Method__c.ACH</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment_Method__c-Credit Card Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Payment_Method__c-Credit Card Layout</layout>
+        <layout>Payment_Method__c-Cash%2FCheck</layout>
         <recordType>Payment_Method__c.Check_Cash</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment_Method__c-Credit Card Layout</layout>
-        <recordType>Payment_Method__c.Credit_Card</recordType>
+        <layout>Payment_Method__c-Credit Card</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment_Method__c-Promise to Pay</layout>
-        <recordType>Payment_Method__c.Promise</recordType>
+        <layout>Payment_Method__c-Credit Card</layout>
+        <recordType>Payment_Method__c.Credit_Card</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Payment_Plan__c-Payments</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment__c-Payment Plans</layout>
+        <layout>Payment__c-Payments</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment__c-Payment Plans</layout>
+        <layout>Payment__c-Payments</layout>
         <recordType>Payment__c.Payment_Plans</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -4201,13 +4325,8 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
-        <recordType>Payment_Method__c.Promise</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>true</default>
         <recordType>Payment__c.Payment_Plans</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <tabVisibilities>
         <tab>Charge_Group_Coverage_Junction__c</tab>

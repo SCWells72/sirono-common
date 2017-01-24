@@ -425,13 +425,12 @@
         <members>Payment_Arrangement__c-Payment Arrangement Layout</members>
         <members>Payment_Arrangement__c-Payment Arrangements</members>
         <members>Payment_Method__c-ACH</members>
-        <members>Payment_Method__c-Credit Card Layout</members>
-        <members>Payment_Method__c-Credit Cards</members>
-        <members>Payment_Method__c-Promise to Pay</members>
+        <members>Payment_Method__c-Cash%2FCheck</members>
+        <members>Payment_Method__c-Credit Card</members>
         <members>Payment_Plan__c-Payment Layout</members>
         <members>Payment_Plan__c-Payments</members>
-        <members>Payment__c-Payment Plan Layout</members>
-        <members>Payment__c-Payment Plans</members>
+        <members>Payment__c-Payment Layout</members>
+        <members>Payment__c-Payments</members>
         <members>Payor__c-Payer Layout</members>
         <members>Payor__c-Payers Layout</members>
         <members>Provider__c-Provider Layout</members>
@@ -720,7 +719,9 @@
         <members>Payment_Adjustments__c</members>
         <members>Payment_Plan__c</members>
         <members>Payment__c</members>
+        <members>Service__c</members>
         <members>Statement__c</members>
+        <members>Transaction__c</members>
         <name>Workflow</name>
     </types>
     <types>
@@ -733,7 +734,7 @@
         <members>Case.Case_Escalation</members>
         <members>Charge_Group__c.OG_SelfPay_Balance</members>
         <members>Coverage__c.Coverage_Name</members>
-        <members>Invoice__c.Invoice_Name</members>
+        <members>Invoice__c.Update_Invoice_Name</members>
         <members>Payment_Adjustments__c.UpdateName</members>
         <members>Payment_Plan__c.UpdatePPcomplete</members>
         <members>Payment__c.Payment_Name_Update</members>

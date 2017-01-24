@@ -1972,6 +1972,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Coverage__c.Encounter__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Coverage__c.External_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2086,7 +2091,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
+        <field>Encounter__c.Balance__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Encounter__c.Cancelled__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2172,7 +2182,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Encounter__c.Guarantor__c</field>
+        <field>Encounter__c.Guarantor_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2246,6 +2256,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Encounter__c.Payments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Encounter__c.Procedure__c</field>
         <readable>true</readable>
@@ -2259,6 +2274,11 @@
         <editable>true</editable>
         <field>Encounter__c.Total_Charges__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Encounter__c.Total_Credits__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -2432,7 +2452,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Invoice__c.All_Substatus__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Invoice__c.Deactivated_Charge_Groups__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Invoice__c.Display_Name__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2446,18 +2476,38 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Invoice__c.Invoice_Balance__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Invoice__c.Invoice_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Invoice__c.Sirono_ID__c</field>
-        <readable>true</readable>
+        <editable>false</editable>
+        <field>Invoice__c.Invoice_Status_Index__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Invoice__c.Invoice_Status__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Invoice__c.Partial_Payment_Plan__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Invoice__c.Patient__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Invoice__c.Sirono_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3523,25 +3573,24 @@
         <recordType>Payment_Method__c.ACH</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment_Method__c-Credit Card Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Payment_Method__c-Credit Card Layout</layout>
+        <layout>Payment_Method__c-Cash%2FCheck</layout>
         <recordType>Payment_Method__c.Check_Cash</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment_Method__c-Credit Card Layout</layout>
+        <layout>Payment_Method__c-Credit Card</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Payment_Method__c-Credit Card</layout>
         <recordType>Payment_Method__c.Credit_Card</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment_Method__c-Promise to Pay</layout>
-        <recordType>Payment_Method__c.Promise</recordType>
+        <layout>Payment_Plan__c-Payments</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment__c-Payment Plans</layout>
+        <layout>Payment__c-Payments</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment__c-Payment Plans</layout>
+        <layout>Payment__c-Payments</layout>
         <recordType>Payment__c.Payment_Plans</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -3588,9 +3637,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>UserProvisioningRequest-User Provisioning Request Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Payment_Plan__c-Payments</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>User_Timezone_Setting__mdt-User Timezone Layout</layout>
