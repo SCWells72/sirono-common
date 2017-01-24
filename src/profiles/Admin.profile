@@ -1772,8 +1772,8 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Invoice_Status__c</field>
+        <editable>false</editable>
+        <field>Contact.Invoice_Status_Rollup__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

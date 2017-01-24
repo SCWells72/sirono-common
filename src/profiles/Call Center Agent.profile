@@ -1765,6 +1765,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Invoice_Status_Rollup__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Invoiced_Balance__c</field>
         <readable>true</readable>
     </fieldPermissions>

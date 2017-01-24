@@ -36,6 +36,8 @@
     </types>
     <types>
         <members>Transaction__c-Method__c</members>
+        <members>Contact.Invoice_Status__c</members>
+        <members>Contact.Guarantor_Status__c</members>
         <name>CustomField</name>
     </types>
     <types>
