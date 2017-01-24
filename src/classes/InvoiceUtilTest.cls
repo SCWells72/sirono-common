@@ -27,7 +27,7 @@ public class InvoiceUtilTest {
             Charge_Group__c testChargeGroup = TestUtility.generateChargeGroup(testGuarantor.Id, testPatient.Id, i, null);
             testChargeGroup.Account_Sub_Status__c = statusList[i];
             testChargeGroup.Invoice__c = testInvoice.Id;
-            testChargeGroup.Balance__c = TestUtility.
+            testChargeGroup.Balance__c = TestUtility.;
 
             testChargeGroupList.add(testChargeGroup);
         }

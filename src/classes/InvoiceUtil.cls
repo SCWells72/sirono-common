@@ -63,7 +63,7 @@ public with sharing class InvoiceUtil {
                     system.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('Invoice__c')
                             + '[Invoice Balance]: ' + qr.get('sumBalances'));
                     tempInvoice.Id = (Id) qr.get('Invoice__c');
-                    tempInvoice.Invoice_Balance__c = (Currency) qr.get('sumBalances');
+                    tempInvoice.Invoice_Balance__c = (Decimal) qr.get('sumBalances');
 
                     invoicesToUpdate.add(tempInvoice);
                 }
