@@ -179,8 +179,8 @@
                 <field>Patient_Satisfaction__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Invoice_Status__c</field>
+                <behavior>Readonly</behavior>
+                <field>Invoice_Status_Rollup__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
