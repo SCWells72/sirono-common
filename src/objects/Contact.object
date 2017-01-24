@@ -798,14 +798,12 @@ If(Invoice_Status__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</formula>
     <fields>
         <fullName>Invoice_Status__c</fullName>
         <externalId>false</externalId>
-        <label>Invoice Status</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
+        <label>Test Invoice Status</label>
+        <summarizedField>Invoice__c.Invoice_Status_Index__c</summarizedField>
+        <summaryForeignKey>Invoice__c.Guarantor__c</summaryForeignKey>
+        <summaryOperation>max</summaryOperation>
         <trackHistory>false</trackHistory>
-        <type>Number</type>
-        <unique>false</unique>
+        <type>Summary</type>
     </fields>
     <fields>
         <fullName>Invoiced_Balance__c</fullName>
