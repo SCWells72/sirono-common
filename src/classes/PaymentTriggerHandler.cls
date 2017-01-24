@@ -13,7 +13,7 @@ public with sharing class PaymentTriggerHandler {
         }
 
         if (encounterIds.size() > 0) {
-            EncounterUtil.updatePaymentsTotal(encounterIds);
+            EncounterUtil.updateTotalPayments(encounterIds);
         }
     }
 
@@ -38,7 +38,7 @@ public with sharing class PaymentTriggerHandler {
         }
 
         if (encounterIds.size() > 0) {
-            EncounterUtil.updatePaymentsTotal(encounterIds);
+            EncounterUtil.updateTotalPayments(encounterIds);
         }
     }
 
@@ -51,7 +51,7 @@ public with sharing class PaymentTriggerHandler {
         }
 
         if (encounterIds.size() > 0) {
-            EncounterUtil.updatePaymentsTotal(encounterIds);
+            EncounterUtil.updateTotalPayments(encounterIds);
         }
     }
 }

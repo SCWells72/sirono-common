@@ -83,14 +83,12 @@ public with sharing class ChargeGroupTriggerHandler {
                 invoiceIds.add(cg.Invoice__c);
             }
 
-            // If the Charge_Group is associated with an Encounter, update the Encounter Has_Chargegroups flag
+            // If the Charge_Group is associated with an Encounter, update the Encounter Has_Chargegroup flag
             if (cg.Encounter__c != null) {
                 if (oldMap.get(cg.Id).Encounter__c != null) {
                     if (cg.Encounter__c != oldMap.get(cg.Id).Encounter__c) {
                         encounterIds.add(cg.Encounter__c);
                         encounterIds.add(oldMap.get(cg.Id).Encounter__c);
-                    } else {
-                        //Don't do a thing - the id didn't change
                     }
                 } else {
                     encounterIds.add(cg.Encounter__c);
@@ -98,8 +96,6 @@ public with sharing class ChargeGroupTriggerHandler {
             } else {
                 if (oldMap.get(cg.Id).Encounter__c != null) {
                     encounterIds.add(oldMap.get(cg.Id).Encounter__c);
-                } else {
-                    //Don't do a thing - the id didn't change - still null
                 }
             }
 

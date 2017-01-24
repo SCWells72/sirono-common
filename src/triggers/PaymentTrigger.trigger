@@ -1,8 +1,4 @@
-/**
- * Created by mmartin on 1/23/17.
- */
-
-trigger PaymentTrigger on Payment__c (after insert, after update, after delete) {
+trigger PaymentTrigger on Payment__c (after insert, after update, after delete, after undelete) {
     //executes after insert operation
     if (trigger.isAfter && trigger.isInsert) {
         PaymentTriggerHandler.afterInsert(trigger.new);

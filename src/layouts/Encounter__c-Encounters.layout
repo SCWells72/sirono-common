@@ -91,6 +91,14 @@
                 <field>Type__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Total_Payments__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Balance__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Total_Credits__c</field>
             </layoutItems>
@@ -100,7 +108,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Has_Chargegroups__c</field>
+                <field>Has_Chargegroup__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

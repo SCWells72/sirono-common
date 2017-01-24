@@ -71,7 +71,7 @@
     <fields>
         <fullName>Balance__c</fullName>
         <externalId>false</externalId>
-        <formula>IF( Has_Chargegroups__c, 0, Patient_Portion__c - Total_Payments__c)</formula>
+        <formula>IF( Has_Chargegroup__c, 0, Patient_Portion__c - Total_Payments__c)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Balance</label>
         <precision>18</precision>
@@ -315,11 +315,11 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Has_Chargegroups__c</fullName>
+        <fullName>Has_Chargegroup__c</fullName>
         <defaultValue>false</defaultValue>
         <description>Are there are any related Charge_Group__c ?</description>
         <externalId>false</externalId>
-        <label>Has Chargegroups</label>
+        <label>Has Chargegroup</label>
         <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>

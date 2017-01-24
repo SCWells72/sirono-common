@@ -28,8 +28,8 @@ public with sharing class EncounterBalanceTest {
         INSERT new Payment__c[]{pmt1, pmt2};
         Test.stopTest();
 
-        encounter = [SELECT Id, Balance__c, Has_Chargegroups__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
-        System.assert(!encounter.Has_Chargegroups__c, 'Expected Has_Chargegroups__c to be false');
+        encounter = [SELECT Id, Balance__c, Has_Chargegroup__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
+        System.assert(!encounter.Has_Chargegroup__c, 'Expected Has_Chargegroup__c to be false');
         System.assert(encounter.Balance__c == 2000.00, 'Expected Balance__c to be 2000.00, but was: '+encounter.Balance__c);
     }
 
@@ -50,8 +50,8 @@ public with sharing class EncounterBalanceTest {
 
         Test.stopTest();
 
-        encounter = [SELECT Id, Balance__c, Has_Chargegroups__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
-        System.assert(encounter.Has_Chargegroups__c, 'Expected Has_Chargegroups__c to be true');
+        encounter = [SELECT Id, Balance__c, Has_Chargegroup__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
+        System.assert(encounter.Has_Chargegroup__c, 'Expected Has_Chargegroup__c to be true');
         System.assert(encounter.Balance__c == 0.00, 'Expected Balance__c to be 0, but was: '+encounter.Balance__c);
     }
 
@@ -74,8 +74,8 @@ public with sharing class EncounterBalanceTest {
         DELETE cgs;
         Test.stopTest();
 
-        encounter = [SELECT Id, Balance__c, Has_Chargegroups__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
-        System.assert(!encounter.Has_Chargegroups__c, 'Expected Has_Chargegroups__c to be false');
+        encounter = [SELECT Id, Balance__c, Has_Chargegroup__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
+        System.assert(!encounter.Has_Chargegroup__c, 'Expected Has_Chargegroup__c to be false');
         System.assert(encounter.Balance__c == 3000.00, 'Expected Balance__c to be 2000, but was: '+encounter.Balance__c);
     }
 }

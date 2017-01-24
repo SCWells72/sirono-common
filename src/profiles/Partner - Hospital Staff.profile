@@ -2256,7 +2256,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Encounter__c.Has_Chargegroups__c</field>
+        <field>Encounter__c.Has_Chargegroup__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

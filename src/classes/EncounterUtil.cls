@@ -15,7 +15,7 @@ public with sharing class EncounterUtil {
       * Update the Total_Payments field in the Encounters with the total of
       * all associated Payments
      */
-    public static void updatePaymentsTotal(Set<Id> encounterIds) {
+    public static void updateTotalPayments(Set<Id> encounterIds) {
 
         if (encounterIds.size() == 0) {
             return;
@@ -84,7 +84,7 @@ public with sharing class EncounterUtil {
         List<Encounter__c> encountersToUpdate = new List<Encounter__c>();
         for (Id id : encounterIds) {
             Encounter__c enc = new Encounter__c(Id=id);
-            enc.Has_Chargegroups__c = flagValue;
+            enc.Has_Chargegroup__c = flagValue;
             encountersToUpdate.add(enc);
         }
 

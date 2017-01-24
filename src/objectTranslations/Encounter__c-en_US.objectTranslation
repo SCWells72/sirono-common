@@ -100,8 +100,8 @@
         <relationshipLabel><!-- Encounters (Guarantor) --></relationshipLabel>
     </fields>
     <fields>
-        <label><!-- Has Chargegroups --></label>
-        <name>Has_Chargegroups__c</name>
+        <label><!-- Has Chargegroup --></label>
+        <name>Has_Chargegroup__c</name>
     </fields>
     <fields>
         <label><!-- Individual Deductible Remaining --></label>
