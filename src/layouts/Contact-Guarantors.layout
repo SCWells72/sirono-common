@@ -168,6 +168,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Estimate_Balance__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Invoiced_Balance__c</field>
             </layoutItems>
             <layoutItems>

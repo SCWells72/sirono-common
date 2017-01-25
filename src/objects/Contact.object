@@ -628,6 +628,19 @@
         <trackHistory>true</trackHistory>
     </fields>
     <fields>
+        <fullName>Estimate_Balance__c</fullName>
+        <defaultValue>0</defaultValue>
+        <description>Sum of all Estimates for the guarantor</description>
+        <externalId>false</externalId>
+        <label>Estimate Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>External_Guarantor_Id__c</fullName>
         <externalId>true</externalId>
         <label>External Guarantor ID</label>

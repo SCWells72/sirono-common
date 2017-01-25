@@ -230,6 +230,10 @@
         <name>Due_Balance__c</name>
     </fields>
     <fields>
+        <label><!-- Estimate Balance --></label>
+        <name>Estimate_Balance__c</name>
+    </fields>
+    <fields>
         <label><!-- External Guarantor ID --></label>
         <name>External_Guarantor_Id__c</name>
     </fields>

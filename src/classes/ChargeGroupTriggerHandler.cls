@@ -113,6 +113,7 @@ public with sharing class ChargeGroupTriggerHandler {
         if(invoiceIds.size() > 0){
             InvoiceUtil.updateInvoiceStatusIndex(invoiceIds);
         }
+
         if (encounterIds.size() > 0) {
             EncounterUtil.setHasChargeGroup(encounterIds);
         }
