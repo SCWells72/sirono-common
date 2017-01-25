@@ -30,7 +30,8 @@ public with sharing class EncounterBalanceTest {
 
         encounter = [SELECT Id, Balance__c, Has_Chargegroup__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
         System.assert(!encounter.Has_Chargegroup__c, 'Expected Has_Chargegroup__c to be false');
-        System.assert(encounter.Balance__c == 2000.00, 'Expected Balance__c to be 2000.00, but was: '+encounter.Balance__c);
+        System.assert(encounter.Balance__c == 2000.00,
+                'Expected Balance__c to be 2000.00, but was: '+encounter.Balance__c);
     }
 
     @isTest

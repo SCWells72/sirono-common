@@ -40,6 +40,8 @@ public with sharing class EncounterUtil {
 
             UPDATE encountersToUpdate;
         }
+
+        updateAssociatedGuarantors(encounterIds);
     }
 
     /**
@@ -68,9 +70,13 @@ public with sharing class EncounterUtil {
         if (encounterIds.size() > 0) {
             setHasChargeGroupFlag(encounterIds, false);
         }
+
         if (hasChargeGroup.size() > 0) {
             setHasChargeGroupFlag(hasChargeGroup, true);
         }
+
+        encounterIds.addAll(hasChargeGroup);
+        updateAssociatedGuarantors(encounterIds);
     }
 
     /*
@@ -89,5 +95,63 @@ public with sharing class EncounterUtil {
         }
 
         UPDATE encountersToUpdate;
+    }
+
+    private static void updateAssociatedGuarantors(Set<Id> encounterIds) {
+        System.debug('At the top of updateAssociatedGuarantors encounterIds: '+encounterIds);
+        List<Encounter__c> encountersWithGts = [
+                SELECT Id, Guarantor__c
+                FROM Encounter__c
+                WHERE Id IN :encounterIds
+                AND Guarantor__c != null
+        ];
+
+        Set<Id> gtIds = new Set<Id>();
+        for (Encounter__c encounter : encountersWithGts) {
+            gtIds.add(encounter.Guarantor__c);
+        }
+        updateGTEstimateBalances(gtIds);
+    }
+
+    /**
+     * Update the Estimate_Balance for each of the given guarantors
+     *
+     */
+    public static void updateGTEstimateBalances(Set<Id> gtIds) {
+
+        if (gtIds.size() == 0) {
+            return;
+        }
+
+        // Get the SUM of the balances of their associated Encounters
+        // there are no results for gtIds with no Encounters
+        AggregateResult[] results = [
+                SELECT Guarantor__c obj, SUM(Balance__c) Total
+                FROM Encounter__c
+                WHERE Guarantor__c IN :gtIds
+                AND Guarantor__c != null
+                GROUP BY Guarantor__c
+        ];
+
+        Map<Id, Decimal> resultsMap = new Map<Id, Decimal>();
+        for (AggregateResult ar : results) {
+            resultsMap.put((Id) ar.get(OBJ), (Decimal)ar.get(TOTAL));
+        }
+
+        List<Contact> toUpdate = new List<Contact>();
+        for (Id gtId : gtIds) {
+            Contact gt = new Contact(Id = gtId);
+            gt.RecordTypeId = RecordTypeUtil.guarantorRt;
+
+            if (resultsMap.containsKey(gtId)) {
+                gt.Estimate_Balance__c = resultsMap.get(gtId);
+            } else {
+                gt.Estimate_Balance__c = 0;
+            }
+
+            toUpdate.add(gt);
+        }
+
+        UPDATE toUpdate;
     }
 }
