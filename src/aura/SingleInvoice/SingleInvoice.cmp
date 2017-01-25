@@ -1,21 +1,28 @@
 <aura:component >
-	<c:SingleInvoiceDetails />
+    <aura:attribute name="invoice" type="Object" />
+    <aura:attribute name="activated" type="Boolean" default="true"/>
+    <aura:attribute name="tileId" type="Integer" />
+    <c:SingleInvoiceDetails />
     <article class="invoice-record">
         <div class="col left icon">
-            <div class="select-all-icon selected">
+            <div aura:id="selectIcon" class="select-all-icon selected" onclick="{!c.selectInvoice}">
                 <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}"  category="standard" size="small" class="slds-button__icon" name="Check" />
             </div>
-            <div class="title">Chandra Skonieczny (MRN: A01043390)</div>
-            <a href="#november2016" class="invoice-name">December 2016</a>
+            <div class="title">{!v.invoice.singleInvoice.Patient__r.Name + ' (MRN: ' + v.invoice.singleInvoice.Sirono_ID__c + ')'}</div>
+            <a href="#november2016" class="invoice-name">
+                <ui:outputdate value="{!v.invoice.singleInvoice.Invoice_Date__c}" format="MMMM YYYY" />
+            </a>
         </div>
         <div class="col right">
             <div class="title">Balance Due</div>
-            <div class="value">$785.00</div>
+            <div class="value">
+                <ui:outputcurrency value="{!v.invoice.balanceDue}" />
+            </div>
         </div>
         <div class="col payment-due"> 
-            <em>Payment Due 1/7/2016</em>
+            <em>Payment Overdue</em>
             <div class="float-right">
-                <a href="#" class="modal-trigger">View Details</a>
+                <a href="#" class="modal-trigger" onclick="{!c.openInvoiceDetails}">View Details</a>
             </div>
         </div>
     </article>

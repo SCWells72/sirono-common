@@ -1,21 +1,29 @@
 <aura:component controller="PaymentTabsController">
-    <aura:attribute name="aciveTab" type="String" default="MakeAPayment"/>  
-    <div class="nav-wrapper">
-        <nav class="navigation">
-            <div aura:id="MakeAPayment_tab" id="MakeAPayment" class="col make-payment-nav active" onclick="{!c.activateTab}">
-                Make a Payment
-            </div>
-            <div aura:id="CreatePaymentPlan_tab" id="CreatePaymentPlan" class="col payment-plan-nav" onclick="{!c.activateTab}">
-                Edit Payment Plan
-            </div>
-        </nav>
-    </div>
-    
-    <section aura:id="MakeAPayment" class="make-payment-content">
-        <c:MakePaymentTab />           
-    </section>
-    
-    <section aura:id="CreatePaymentPlan" class="make-payment-content display_false">
-        <c:PaymentPlanTab />
-    </section>
+    <aura:attribute name="PaymentInfo" type="Object" access="public" />
+	<aura:attribute name="aciveTab" type="String" default="MakeAPayment" access="private"/>
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+	<div class="nav-wrapper">
+		<nav class="navigation">
+			<div aura:id="MakeAPayment_tab" id="MakeAPayment" class="col make-payment-nav active" onclick="{!c.activateTab}">
+				Make a Payment
+			</div>
+			<div aura:id="CreatePaymentPlan_tab" id="CreatePaymentPlan" class="col payment-plan-nav" onclick="{!c.activateTab}">
+				<aura:if isTrue="{!v.PaymentInfo.hasPaymentPlans}">
+					Edit Payment Plan
+					<aura:set attribute="else">
+						Create Payment Plan
+					</aura:set>
+				</aura:if>
+			</div>
+		</nav>
+	</div>
+	
+	<section aura:id="MakeAPayment" class="make-payment-content">
+		<c:MakePaymentTab />
+	</section>
+
+	<section aura:id="CreatePaymentPlan" class="make-payment-content display_false">
+        <c:PaymentPlanTab aura:id="paymentPlanCmp" PaymentInfo="{!v.PaymentInfo}" />
+	</section>
 </aura:component>

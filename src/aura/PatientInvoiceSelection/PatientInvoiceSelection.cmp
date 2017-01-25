@@ -1,52 +1,57 @@
-<aura:component >
+<aura:component controller="WorkWithInvoicesController">
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:attribute name="invoices" type="Aura.Component[]" />
+    <aura:attribute name="listOfInvoices" type="List" />
+    <aura:attribute name="invoiceId" type="Object"/>
+    <aura:handler event="c:payCall" action="{!c.payCall}" />
+
+    <aura:registerEvent name="payNowResponse" type="c:payNowResponse"/>
     <div class="invoice-listing-wrapper">
-       <header>
-           <div class="col filter">
-               <div class="slds-dropdown-trigger slds-dropdown-trigger--click">
-                   <button class="slds-button slds-button--icon-border-filled" aria-haspopup="true" title="Show More">
-                       <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#down'}"  category="standard" size="small" class="slds-button__icon" name="Show More" />
-                   </button>
-                   <div class="slds-dropdown slds-dropdown--left">
-                       <ul class="slds-dropdown__list" role="menu">
-                           <li class="slds-dropdown__item" role="presentation">
-                               <a href="javascript:void(0);" role="menuitem" tabindex="0">
-                                   <span class="slds-truncate">Chandra Skonieczny</span>
-                               </a>
-                           </li>
-                           <li class="slds-dropdown__item" role="presentation">
-                               <a href="javascript:void(0);" role="menuitem" tabindex="-1">
-                                   <span class="slds-truncate">Kassie Skonieczny</span>
-                               </a>
-                           </li>
-                           <li class="slds-dropdown__item" role="presentation">
-                               <a href="javascript:void(0);" role="menuitem" tabindex="-1">
-                                   <span class="slds-truncate">Dean Skonieczny</span>
-                               </a>
-                           </li>
-                       </ul>
-                   </div>
-               </div>All Patients
-           </div>
-           <div class="col sort">
-               <button class="select-all-btn">
-                   <div class="select-all-icon">
-                       <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}"  category="standard" size="small" class="slds-button__icon" name="Check" />
-                   </div>Select All
-               </button>
-               <div class="float-right">
-                   <div class="slds-button-group" role="group">
-                       <button class="slds-button slds-button--brand">Unpaid</button> 
-                       <button class="slds-button slds-button--neutral">Delinquent</button> 
-                       <button class="slds-button slds-button--neutral">Overdue</button> 
-                       <button class="slds-button slds-button--neutral">
-                           <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#down'}"  category="standard" size="small" class="slds-button__icon" name="Down" />
-                       </button>
-                   </div>
-               </div>
-           </div>
+        <header>
+            <div class="col filter">
+                <div class="slds-dropdown-trigger slds-dropdown-trigger--click">
+                    <button class="slds-button slds-button--icon-border-filled" aria-haspopup="true" title="Show More">
+                        <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#down'}" category="standard" size="small" class="slds-button__icon" name="Show More" />
+                    </button>
+                    <div class="slds-dropdown slds-dropdown--left">
+                        <ul class="slds-dropdown__list" role="menu">
+                            <li class="slds-dropdown__item" role="presentation">
+                                <a href="javascript:void(0);" role="menuitem" tabindex="0">
+                                    <span class="slds-truncate">Chandra Skonieczny</span>
+                                </a>
+                            </li>
+                            <li class="slds-dropdown__item" role="presentation">
+                                <a href="javascript:void(0);" role="menuitem" tabindex="-1">
+                                    <span class="slds-truncate">Kassie Skonieczny</span>
+                                </a>
+                            </li>
+                            <li class="slds-dropdown__item" role="presentation">
+                                <a href="javascript:void(0);" role="menuitem" tabindex="-1">
+                                    <span class="slds-truncate">Dean Skonieczny</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>All Patients
+            </div>
+            <div class="col sort">
+                <button class="select-all-btn">
+                    <div class="select-all-icon">
+                        <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}" category="standard" size="small" class="slds-button__icon" name="Check" />
+                    </div>Select All
+                </button>
+                <div class="float-right">
+                    <div class="slds-button-group" role="group">
+                        <button class="slds-button slds-button--brand">Unpaid</button>
+                        <button class="slds-button slds-button--neutral">Delinquent</button>
+                        <button class="slds-button slds-button--neutral">Overdue</button>
+                    </div>
+                </div>
+            </div>
         </header>
         <!--Loop of invoices-->
-        	<c:SingleInvoice />
+        <!--<c:singleinvoice />-->
         <!--Loop of invoices-->
-    </div>
+        {!v.invoices}
+     </div>
 </aura:component>
