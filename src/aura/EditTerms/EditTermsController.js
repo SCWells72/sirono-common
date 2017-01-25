@@ -1,5 +1,4 @@
 ({
-<<<<<<< HEAD
 	doCmpInit: function(cmp, e, hlpr) {
 		 var selections = [];
 		var _tmp = 1;
@@ -23,20 +22,81 @@
 			cmp.set('v.selectedInvoiceBalance', balance);
 		}
 	},
-=======
->>>>>>> parent of b62e69b... Changes on "Create Payment Plan", "Make a Payment" tabs and "List of Invoices" component.
 	cancelAction: function (cmp, e, hlpr) {
 		cmp.getEvent("initPlanInfo").fire();
+		cmp.set('v.hasError', false);
 	},
 	updatePaymenTerms: function(cmp, e, hlpr) {
 		cmp.getEvent('updatePaymentTerms').fire();
+		cmp.set('v.hasError', false);
+	},
+	createPaymenTerms: function(cmp, e, hlpr) {
+		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
+		console.info('PaymentRequestInfo', PaymentRequestInfo);
+		var cardCmp = cmp.find('editCreditCard');
+		var termsCmp = cmp.find('editTerms');
+		$A.util.toggleClass(termsCmp, 'slds-hide');
+		$A.util.toggleClass(cardCmp, 'slds-hide');
+	},
+	doCalcView: function (cmp, e, hlpr) {
+		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
+		var PaymentInfo = cmp.get('v.PaymentInfo');
+		cmp.set('v.sliderValue', Math.floor(PaymentRequestInfo.planValue));
+		cmp.set('v.sliderValuePart', (PaymentRequestInfo.planValue % 1).toFixed(2).toString().substring(2));
+		cmp.set('v.hasError', false);
+		
+		if (PaymentRequestInfo.planValue > PaymentRequestInfo.totalAmount) {
+			var message = "Monthly amount cannot exceed current payment plan balance";
+			hlpr.showError(cmp, message);
+		}
 	},
 	changeSlider: function(cmp, e, hlpr) {
-		console.log(e.srcElement.value)
-	},
-	showPopoverInfo: function(component, event, helper) {
-		var myPopoverInfo = component.find('sldsjsPopoverInfo');
-		$A.util.toggleClass(myPopoverInfo, 'slds-hide');         
-	}
+		var newPlanValue = e.srcElement.value;
+		console.log('PP planned value', newPlanValue);
 
+		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
+		var PaymentInfo = cmp.get('v.PaymentInfo');
+
+		cmp.set('v.hasError', false);
+		if (validateInstallments(newPlanValue, PaymentRequestInfo.totalAmount, PaymentInfo)) {
+			var totalInstallment = Math.round( PaymentRequestInfo.totalAmount / newPlanValue, 10 );
+			PaymentRequestInfo.totalInstallments = totalInstallment;
+			PaymentRequestInfo.planValue = newPlanValue;
+			cmp.set('v.PaymentRequestInfo', PaymentRequestInfo);
+		}
+
+		// @TODO Add Error handling! 
+		function validateInstallments(planValue, totalAmount, PaymentInfo) {
+			if (planValue < PaymentInfo.settings.Min_Installment_Amount__c) {
+				var message = 'Monthly amount must be equal to or greater than $' + PaymentInfo.settings.Min_Installment_Amount__c + '.';
+				hlpr.showError(cmp, message);
+				return false;
+			}
+
+			if(planValue >= PaymentInfo.settings.Min_Installment_Amount__c) {
+				var totalInstallment = Math.round( PaymentRequestInfo.totalAmount / planValue, 10 );
+				var minimumInstallmentAmount = 0;
+				// console.log('Min Installment Amount : ', PaymentInfo.settings.Min_Installment_Amount__c);
+				// console.log('Max Installment : ', PaymentInfo.settings.Max_Number_Plan_Installments__c);
+				// console.log('PaymentRequestInfo.totalAmount : ', PaymentRequestInfo.totalAmount);
+				// console.log('planValue : ', planValue);
+				
+				if (PaymentInfo.settings.Max_Number_Plan_Installments__c > 0) {
+					minimumInstallmentAmount = parseFloat( PaymentRequestInfo.totalAmount / PaymentInfo.settings.Max_Number_Plan_Installments__c );
+				}
+				
+				if (totalInstallment > PaymentInfo.settings.Max_Number_Plan_Installments__c) {
+					var message = 'This monthly amount would exceed ' + PaymentInfo.settings.Max_Number_Plan_Installments__c + ' installments.' +
+						' The minimum allowed installment amount is $' + minimumInstallmentAmount + '.';
+					hlpr.showError(cmp, message);
+					return false;
+				}
+			}
+			return true;
+		};
+	},
+	showPopoverInfo: function(cmp, e, hlpr) {
+		var myPopoverInfo = cmp.find('sldsjsPopoverInfo');
+		$A.util.toggleClass(myPopoverInfo, 'slds-hide');
+	}
 })

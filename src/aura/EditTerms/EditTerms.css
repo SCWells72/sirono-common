@@ -105,3 +105,6 @@
 .THIS .grid.high-low.range_slider{
     margin-top:7px; 
 }
+.THIS .payment-plan-day--select label {
+  display: none;
+}
