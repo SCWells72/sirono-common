@@ -100,6 +100,10 @@
         <relationshipLabel><!-- Encounters (Guarantor) --></relationshipLabel>
     </fields>
     <fields>
+        <label><!-- Has Chargegroup --></label>
+        <name>Has_Chargegroup__c</name>
+    </fields>
+    <fields>
         <label><!-- Individual Deductible Remaining --></label>
         <name>Individual_Deductible_Remaining__c</name>
     </fields>
@@ -157,10 +161,6 @@
         <relationshipLabel><!-- Encounters (Patient) --></relationshipLabel>
     </fields>
     <fields>
-        <label><!-- Payments --></label>
-        <name>Payments__c</name>
-    </fields>
-    <fields>
         <label><!-- Procedure --></label>
         <name>Procedure__c</name>
     </fields>
@@ -175,6 +175,10 @@
     <fields>
         <label><!-- Total Credits --></label>
         <name>Total_Credits__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Payments --></label>
+        <name>Total_Payments__c</name>
     </fields>
     <fields>
         <label><!-- Type --></label>
