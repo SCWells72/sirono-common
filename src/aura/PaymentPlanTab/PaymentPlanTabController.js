@@ -19,26 +19,12 @@
 		$A.util.addClass(cmp.find('planInfo'), 'slds-hide');
 		cmp.set('v.activeSectionId', 'editPaymentMethod');
 	},
-	doCmpInit: function(cmp, e, hlpr) {
-		var params = e.getParam('arguments');
-		if (!params) {
-			return;
-		}
-
-		cmp.set('v.PaymentInfo', params.PaymentInfo);
-		cmp.set('v.PaymentRequestInfo', params.PaymentRequestInfo);		
-	},
 	doInitInfo: function(cmp, e, hlpr) {
 		e.stopPropagation();
 
 		$A.util.removeClass(cmp.find('planInfo'), 'slds-hide');
 		$A.util.toggleClass(cmp.find(cmp.get('v.activeSectionId')), 'slds-hide');
 		cmp.set('v.activeSectionId', '');
-
-		if (!cmp.get('v.PaymentInfo.hasPaymentPlans')) {
-			var editTerms = cmp.find('editTerms');
-			$A.util.addClass(editTerms, 'slds-hide');
-		}
 	},
 	showSuccess: function(cmp, e, hlpr) {
 		e.stopPropagation();
