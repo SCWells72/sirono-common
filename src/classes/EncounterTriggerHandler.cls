@@ -6,20 +6,34 @@
 */
 public with sharing class EncounterTriggerHandler {
 
-    //static method invoked when a after insert operation is performed
+    /*
+     * After Inserting an encounter, perform the following:
+     *   Check whether or not the guarantor can be removed from a call list
+     *   Create an Encounter Auto Case for the encounter
+     *   Calculate the Estimate_Balance for any guarantor associated with the Encounter
+     */
     public static void afterInsert(List<Encounter__c> newList) {
         checkCallListRemove(newList, null);
         CaseUtil.CreateEncounterAutoCase(newList);
         updateEstimateBalances(newList);
     }
 
-    //static method invoked when a after update operation is performed
+    /*
+     * After Updating an encounter, perform the following:
+     *   Check whether or not the guarantor can be removed from a call list
+     *   Close Encounter Auto Case and Remove the Campaign member from Campaign
+     *   If the guarantor associated with the encounter changed, recalculate the Estimate_Balance for both
+     */
     public static void afterUpdate(List<Encounter__c> newList, Map<Id, Encounter__c> oldMap) {
         checkCallListRemove(newList, oldMap);
         CaseUtil.CallCloseEncounterAutoCase(newList, false);
         checkEstimateBalanceRecalc(newList, oldMap);
     }
 
+    /*
+     * After deleting an encounter, perform the following:
+     *   For any guarantor formerly associated with the encounter, recalculate their Estimate_Balance
+     */
     public static void afterDelete(List<Encounter__c> oldList) {
         updateEstimateBalances(oldList);
     }

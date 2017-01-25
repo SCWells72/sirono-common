@@ -16,6 +16,9 @@ public with sharing class EncounterUtil {
       * all associated Payments
      */
     public static void updateTotalPayments(Set<Id> encounterIds) {
+        if (encounterIds.contains(null)) {
+            encounterIds.remove(null);
+        }
 
         if (encounterIds.size() == 0) {
             return;
@@ -49,6 +52,10 @@ public with sharing class EncounterUtil {
       * Charge_Groups and set Has_ChargeGroup flag accordingly.
      */
     public static void setHasChargeGroup(Set<Id> encounterIds) {
+        if (encounterIds.contains(null)) {
+            encounterIds.remove(null);
+        }
+
         if (encounterIds.size() == 0) {
             return;
         }
@@ -97,8 +104,11 @@ public with sharing class EncounterUtil {
         UPDATE encountersToUpdate;
     }
 
+    /*
+     * Collect the guarantor Id's from the given encounters and set the
+     * Estimate_Balance on each guarantor
+     */
     private static void updateAssociatedGuarantors(Set<Id> encounterIds) {
-        System.debug('At the top of updateAssociatedGuarantors encounterIds: '+encounterIds);
         List<Encounter__c> encountersWithGts = [
                 SELECT Id, Guarantor__c
                 FROM Encounter__c
@@ -118,12 +128,15 @@ public with sharing class EncounterUtil {
      *
      */
     public static void updateGTEstimateBalances(Set<Id> gtIds) {
+        if (gtIds.contains(null)) {
+            gtIds.remove(null);
+        }
 
         if (gtIds.size() == 0) {
             return;
         }
 
-        // Get the SUM of the balances of their associated Encounters
+        // Get the SUM of the balances of the associated Encounters
         // there are no results for gtIds with no Encounters
         AggregateResult[] results = [
                 SELECT Guarantor__c obj, SUM(Balance__c) Total
