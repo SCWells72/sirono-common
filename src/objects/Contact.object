@@ -628,6 +628,19 @@
         <trackHistory>true</trackHistory>
     </fields>
     <fields>
+        <fullName>Estimate_Balance__c</fullName>
+        <defaultValue>0</defaultValue>
+        <description>Sum of all Estimates for the guarantor</description>
+        <externalId>false</externalId>
+        <label>Estimate Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>External_Guarantor_Id__c</fullName>
         <externalId>true</externalId>
         <label>External Guarantor ID</label>
@@ -705,13 +718,13 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
     <fields>
         <fullName>Guarantor_Status__c</fullName>
         <externalId>false</externalId>
-        <formula>If(Invoice_Status__c == 7, &quot;Delinquent&quot;,
-If(Invoice_Status__c == 6, &quot;Overdue&quot;,
-If(Invoice_Status__c == 5, &quot;Due&quot;,
-If(Invoice_Status__c == 4, &quot;On Payment Plan&quot;,
-If(Invoice_Status__c == 3, &quot;Paid&quot;,
-If(Invoice_Status__c == 2, &quot;Paid&quot;,
-If(Invoice_Status__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</formula>
+        <formula>If(Invoice_Status_Rollup__c == 7, &quot;Delinquent&quot;,
+If(Invoice_Status_Rollup__c == 6, &quot;Overdue&quot;,
+If(Invoice_Status_Rollup__c == 5, &quot;Due&quot;,
+If(Invoice_Status_Rollup__c == 4, &quot;On Payment Plan&quot;,
+If(Invoice_Status_Rollup__c == 3, &quot;Paid&quot;,
+If(Invoice_Status_Rollup__c == 2, &quot;Paid&quot;,
+If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Guarantor Status</label>
         <required>false</required>
@@ -796,16 +809,14 @@ If(Invoice_Status__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</formula>
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Invoice_Status__c</fullName>
+        <fullName>Invoice_Status_Rollup__c</fullName>
         <externalId>false</externalId>
         <label>Invoice Status</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
+        <summarizedField>Invoice__c.Invoice_Status_Index__c</summarizedField>
+        <summaryForeignKey>Invoice__c.Guarantor__c</summaryForeignKey>
+        <summaryOperation>max</summaryOperation>
         <trackHistory>false</trackHistory>
-        <type>Number</type>
-        <unique>false</unique>
+        <type>Summary</type>
     </fields>
     <fields>
         <fullName>Invoiced_Balance__c</fullName>

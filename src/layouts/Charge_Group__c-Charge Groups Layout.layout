@@ -171,6 +171,10 @@
                 <behavior>Readonly</behavior>
                 <field>Sub_Status_Index__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Encounter__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

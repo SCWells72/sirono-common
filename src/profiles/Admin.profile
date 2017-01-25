@@ -265,11 +265,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EncounterBalanceTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EncounterTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>EncounterTriggerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EncounterUtil</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -286,6 +294,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ForgotPasswordControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GuarantorEstimateBalanceTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -374,6 +386,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PaymentPlanUtil</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PaymentTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1433,6 +1449,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Charge_Group__c.Encounter__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Charge_Group__c.External_Guarantor_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1712,6 +1733,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Estimate_Balance__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.External_Guarantor_Id__c</field>
         <readable>true</readable>
@@ -1772,8 +1798,8 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Invoice_Status__c</field>
+        <editable>false</editable>
+        <field>Contact.Invoice_Status_Rollup__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2268,6 +2294,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Encounter__c.Has_Chargegroup__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Encounter__c.Individual_Deductible_Remaining__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2328,12 +2359,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Encounter__c.Patient__c</field>
+        <field>Encounter__c.Patient_Portion__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Encounter__c.Payments__c</field>
+        <field>Encounter__c.Patient__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2354,6 +2385,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Encounter__c.Total_Credits__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Encounter__c.Total_Payments__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
