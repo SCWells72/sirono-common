@@ -1,6 +1,6 @@
 ({
 	doCmpInit: function(cmp, e, hlpr) {
-		var selections = [];
+		 var selections = [];
 		var _tmp = 1;
 		while (_tmp <= 31) {
 			selections.push(_tmp);
