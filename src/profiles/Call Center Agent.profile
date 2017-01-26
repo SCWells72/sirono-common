@@ -2580,7 +2580,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Invoice__c.Invoice_Balance__c</field>
         <readable>true</readable>
     </fieldPermissions>

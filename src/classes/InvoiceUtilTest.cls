@@ -1,7 +1,7 @@
 @isTest
-public class InvoiceStatusUpdateTest {
+public class InvoiceUtilTest {
 
-    @isTest
+    @testSetup
     public static void setupTestRecords() {
 
         final String INACTIVE = 'Inactive';
@@ -23,7 +23,7 @@ public class InvoiceStatusUpdateTest {
         insert testInvoice;
 
         List<Charge_Group__c> testChargeGroupList = new List<Charge_Group__c>();
-        for(Integer i = 0; i < 3; i++) {
+        for (Integer i = 0; i < 3; i++) {
             Charge_Group__c testChargeGroup = TestUtility.generateChargeGroup(testGuarantor.Id, testPatient.Id, i, null);
             testChargeGroup.Account_Sub_Status__c = statusList[i];
             testChargeGroup.Invoice__c = testInvoice.Id;
@@ -32,7 +32,10 @@ public class InvoiceStatusUpdateTest {
         }
         insert testChargeGroupList;
 
+    }
 
+    @isTest
+    public static void checkInvoiceIndexValue() {
         Invoice__c invoiceIndexValueCheck = [
                 SELECT Id, Invoice_Status_Index__c
                 FROM Invoice__c
@@ -40,5 +43,23 @@ public class InvoiceStatusUpdateTest {
         ];
 
         system.assertEquals(7, invoiceIndexValueCheck.Invoice_Status_Index__c);
+    }
+
+    @isTest
+    public static void checkAllSubstatusInvoiceString() {
+        List<Invoice__c> queryResults = [
+                SELECT Id, All_Substatus__c
+                FROM Invoice__c
+        ];
+
+        Test.startTest();
+
+        for (Invoice__c invoice : queryResults) {
+            system.assertEquals(true, invoice.All_Substatus__c.contains('Inactive'));
+            system.assertEquals(true, invoice.All_Substatus__c.contains('Paid'));
+            system.assertEquals(true, invoice.All_Substatus__c.contains('Delinquent'));
+        }
+
+        Test.stopTest();
     }
 }
