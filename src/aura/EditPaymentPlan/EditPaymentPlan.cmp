@@ -1,3 +1,27 @@
 <aura:component >
 	<!-- TODO do you really need this cmp ?--> 
+	<!-- <div class="payment-plan-edit">
+		<h2>Payment Plan Summary</h2>
+		<p>Next payment of $318.58 scheduled for 01/15/2017</p>
+		<p class="title"><em>Your current payment plan started on December 15, 2016. $318.58/month is charged on day 15 of each month for the next 23 months. The 24th and final installment will be $318.5.</em></p>
+	</div>
+	<div class="payment-plan-edit slds-p-around-!-large border-top border-bottom">
+	<h2>Invoices Not on Payment Plan</h2>
+		<p class="title">You have <strong>1 invoice</strong> that is not on your payment plan. Add that invoice now to keep your account current.</p>
+		<div class="align-center">
+			<button class="slds-button slds-button-!-brand">Add Invoice(s) to Payment Plan</button>
+		</div>
+	</div>
+
+	<div class="slds-p-horizontal-!-medium border-top">
+		<div class="grid slds-grid-!-align-center">
+			<div class="col">
+				<div class="slds-button-group slds-p-top-!-large" role="group">
+					<button class="slds-button slds-button-!-neutral" onclick="{!c.editTerms}">Edit Terms</button>
+					<button class="slds-button slds-button-!-neutral" onclick="{!c.editPaymentMethod}">Edit Payment Method</button>
+					<button class="slds-button slds-button-!-neutral" onclick="{!c.showCancelPlanDialog}">Cancel Plan</button>
+				</div>
+			</div>
+		</div>
+	</div> -->
 </aura:component>

@@ -9,12 +9,12 @@
 	<aura:attribute name="sliderValuePart" type="String" access="public" default="00"/>
 	<!-- plan Slider END -->
 	<aura:attribute name="hasError" type="Boolean" access="private" default="false"/>
-	<aura:attribute name="severity" type="String" access="public" default="0"/>
-	<aura:attribute name="message" type="String" access="public" default="0"/>
     <aura:attribute name="selectedInvoiceBalance" type="Decimal" />
 
 	<aura:handler name="init" value="{!this}" action="{!c.doCmpInit}"/>
 	<aura:handler name="change" value="{!v.PaymentRequestInfo.planValue}" action="{!c.doCalcView}"/>
+	<aura:handler name="paymentMethodInit" event="c:CancelActionEvent" action="{!c.cancelEditCardAction}"/>
+
     <aura:registerEvent name="initPlanInfo" type="c:CancelActionEvent"/>
 	<aura:registerEvent name="updatePaymentTerms" type="c:UpdatePaymentTermsEvent"/>
 
@@ -40,9 +40,9 @@
 		</div>
 	</aura:if>
 	<div aura:id="editTerms" class="set-amount">
-		<aura:renderIf isTrue="{!v.hasError}">
-			<ui:message severity="{!v.severity}" closable="true">{!v.message}</ui:message>
-		</aura:renderIf>
+		<aura:if isTrue="{!v.hasError}">
+			<c:SupportMessage aura:id="notificationCmp"/>
+		</aura:if>
 
 		<label class="slds-form-element__label"><strong>Payment Plan Balance:</strong></label>
 		<div class="value">

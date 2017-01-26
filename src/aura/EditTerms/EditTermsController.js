@@ -1,6 +1,6 @@
 ({
 	doCmpInit: function(cmp, e, hlpr) {
-		 var selections = [];
+		var selections = [];
 		var _tmp = 1;
 		while (_tmp <= 31) {
 			selections.push(_tmp);
@@ -26,17 +26,17 @@
 		cmp.getEvent("initPlanInfo").fire();
 		cmp.set('v.hasError', false);
 	},
+	cancelEditCardAction: function(cmp, e, hlpr) {
+		e.stopPropagation();
+		hlpr.toggleSections(cmp);
+	},
 	updatePaymenTerms: function(cmp, e, hlpr) {
 		cmp.getEvent('updatePaymentTerms').fire();
 		cmp.set('v.hasError', false);
 	},
 	createPaymenTerms: function(cmp, e, hlpr) {
-		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
-		console.info('PaymentRequestInfo', PaymentRequestInfo);
-		var cardCmp = cmp.find('editCreditCard');
-		var termsCmp = cmp.find('editTerms');
-		$A.util.toggleClass(termsCmp, 'slds-hide');
-		$A.util.toggleClass(cardCmp, 'slds-hide');
+		console.info('PaymentRequestInfo', cmp.get('v.PaymentRequestInfo'));
+		hlpr.toggleSections(cmp);
 	},
 	doCalcView: function (cmp, e, hlpr) {
 		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
@@ -65,7 +65,6 @@
 			cmp.set('v.PaymentRequestInfo', PaymentRequestInfo);
 		}
 
-		// @TODO Add Error handling! 
 		function validateInstallments(planValue, totalAmount, PaymentInfo) {
 			if (planValue < PaymentInfo.settings.Min_Installment_Amount__c) {
 				var message = 'Monthly amount must be equal to or greater than $' + PaymentInfo.settings.Min_Installment_Amount__c + '.';
@@ -73,14 +72,10 @@
 				return false;
 			}
 
-			if(planValue >= PaymentInfo.settings.Min_Installment_Amount__c) {
+			if (planValue >= PaymentInfo.settings.Min_Installment_Amount__c) {
 				var totalInstallment = Math.round( PaymentRequestInfo.totalAmount / planValue, 10 );
 				var minimumInstallmentAmount = 0;
-				// console.log('Min Installment Amount : ', PaymentInfo.settings.Min_Installment_Amount__c);
-				// console.log('Max Installment : ', PaymentInfo.settings.Max_Number_Plan_Installments__c);
-				// console.log('PaymentRequestInfo.totalAmount : ', PaymentRequestInfo.totalAmount);
-				// console.log('planValue : ', planValue);
-				
+
 				if (PaymentInfo.settings.Max_Number_Plan_Installments__c > 0) {
 					minimumInstallmentAmount = parseFloat( PaymentRequestInfo.totalAmount / PaymentInfo.settings.Max_Number_Plan_Installments__c );
 				}
