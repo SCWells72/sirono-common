@@ -12,7 +12,7 @@ private class WorkWithDocumentsControllerTest {
 		}
 		insert documentsToInsert;
 
-		Integer countDocumentsByController = WorkWithDocumentsController.getDocumentsInOrder(null).size();
+		Integer countDocumentsByController = WorkWithDocumentsController.getDocumentsInOrder(null, null).size();
 		//serach in folder 'Sirono'
 		System.assertEquals(0, countDocumentsByController);
 	}
