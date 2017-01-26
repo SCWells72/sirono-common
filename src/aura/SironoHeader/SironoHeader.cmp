@@ -2,11 +2,16 @@
     <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/salesforce-lightning-design-system.min.css'}" />
 	<link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/main.css'}" />
     <aura:registerEvent name="collapsedHeader" type="c:collapsedHeader"/>
+    <aura:registerEvent name="payNowResponse" type="c:payNowResponse"/>
     <aura:attribute name="backButton" type="Boolean" default="false" />
     <aura:attribute name="statusHeader" type="Boolean" default="false" />
     <aura:attribute name="statusAlert" type="Boolean" default="false" />
+    <aura:attribute name='invoiceId' type="String"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler event="force:navigateToURL" action="{!c.navigateToURLEvent}"/>
+    <aura:handler event="c:payNowRequest" action="{!c.setInvoice}"/>    
+    <aura:handler event="c:payCall" action="{!c.putInvoucePaument}" />
+    
 	<div class="wrapper">
 		<div aura:id="headerWrap" class="header-wrapper alert small">	
 			<div aura:id="headerMain" class="header-main big small">

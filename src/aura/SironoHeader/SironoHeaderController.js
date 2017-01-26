@@ -31,6 +31,7 @@
         var appEvent = $A.get("e.c:collapsedHeader");
         var headerWrap = component.find('headerWrap');
         var headerMain = component.find('headerMain');
+
         if($A.util.hasClass(headerWrap,"small")){
             component.set('v.statusHeader','true');
         }
@@ -65,5 +66,18 @@
         $A.get("e.force:navigateToURL").setParams({
 			'url' : '/' 
 		}).fire();
-	}
+	},
+    setInvoice: function(component, event, helper) {
+        component.set('v.invoiceId', event.getParam('invoiceId'));
+        $A.get("e.force:navigateToURL").setParams({
+            'url' : '/payments'
+        }).fire();        
+    },
+    putInvoucePaument: function(component, event, helper) {
+        var invoiceId = component.get('v.invoiceId');
+        component.set('v.invoiceId', undefined);
+        var appEvent = $A.get("e.c:payNowResponse");
+        appEvent.setParams({ "invoiceId" : invoiceId});
+        appEvent.fire();
+    }
 })

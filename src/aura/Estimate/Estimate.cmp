@@ -21,7 +21,7 @@
                     </a>
                 </div>
                 <div class="col right">
-                    <div class="title">Estimated Patient Portion</div>
+                    <div class="title">Balance</div>
                     <div class="value">
                         <ui:outputCurrency value="{!v.estimate.singleEncounter.Patient_Portion__c}" />
                     </div>

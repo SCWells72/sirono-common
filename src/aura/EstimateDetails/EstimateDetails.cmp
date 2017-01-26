@@ -7,7 +7,7 @@
     <aura:attribute name="activeEstimate" type="Integer" />
 
     <div class="{!'col invoice-detail-container display_'+(v.activeEstimate != undefined)}">
-        <div class="none-selected">No estimates selected</div>
+        <!--<div class="none-selected">No estimates selected</div>-->
         <div class="invoice-detail-wrapper">
             <section id="mri" class="invoice-detail">
                 <header class="grid">
@@ -17,7 +17,7 @@
                     </div>
                     <div class="col align-right slds-align-bottom">
                         <span class="title">
-                            Estimated Patient Portion
+                            Balance
                         </span>
                         <span class="value">
                             <ui:outputCurrency value="{!v.estimate.singleEncounter.Patient_Portion__c}" />
@@ -65,7 +65,7 @@
                     </div>
                     <div class="col total align-right">
                         <span class="title">
-                            Estimated Patient Portion
+                            Balance
                         </span>
                         <span class="value">
                             <ui:outputCurrency value="{!v.estimate.singleEncounter.Patient_Portion__c}" />

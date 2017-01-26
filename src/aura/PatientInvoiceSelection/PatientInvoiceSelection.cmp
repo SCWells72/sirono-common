@@ -3,9 +3,9 @@
     <aura:attribute name="invoices" type="Aura.Component[]" />
     <aura:attribute name="listOfInvoices" type="List" />
     <aura:attribute name="invoiceId" type="Object"/>
-    <aura:handler event="c:payCall" action="{!c.payCall}" />
+    <aura:handler event="c:payNowResponse" action="{!c.payCall}" />
 
-    <aura:registerEvent name="payNowResponse" type="c:payNowResponse"/>
+    <aura:registerEvent name="payCall" type="c:payCall"/>
     <div class="invoice-listing-wrapper">
         <header>
             <div class="col filter">

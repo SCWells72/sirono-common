@@ -8,13 +8,20 @@
 
 	activateTileHandler : function (component, event, helper) {
 		var tileId = component.get("v.tileId");
-		console.log(tileId);
-		console.log(event.getParam('tileId'));
-		console.log(event.getParam('tileId') == tileId);
 		if (event.getParam('tileId') == tileId) {
 			$A.util.addClass(component.find('tile'), 'active');
 		} else {
 			$A.util.removeClass(component.find('tile'), 'active');
 		}
 	},
+	changePage : function(component, event, helper) {
+        $A.get("e.force:navigateToURL").setParams({
+			'url' : '/payments' 
+		}).fire();
+	},
+	sendInvoiceToHeader: function(component, event, helper) {
+        var appEvent = $A.get("e.c:payNowRequest");
+        appEvent.setParams({ "invoiceId" : component.get('v.invoice.singleInvoice.Id'), 'type': 'make' });
+        appEvent.fire();
+	}
 })
