@@ -91,37 +91,6 @@ public with sharing class InvoiceUtil {
             }
 
             update idWithStatusValuesMap.values();
-
-//            Map<Id, List<String>> idWithStatusValues = new Map<Id, List<String>>();
-//            // Loop through query results and add status values to map<id, list<string>>
-//            if(queryResults.size() > 0) {
-//                for(AggregateResult ar : queryResults) {
-//                    if(idWithStatusValues.containsKey((Id) ar.get('Invoice__c'))) {
-//                        List<String> tempList = idWithStatusValues.get((Id) ar.get('Invoice__c'));
-//                        tempList.add((String) ar.get('Account_Sub_Status__c'));
-//                        idWithStatusValues.put((Id) ar.get('Invoice__c'), tempList);
-//                    } else {
-//                        Id tempId = (Id) ar.get('Invoice__c');
-//                        List<String> tempList = new List<String>();
-//                        tempList.add((String) ar.get('Account_Sub_Status__c'));
-//                        idWithStatusValues.put(tempId, tempList);
-//                    }
-//                }
-//            }
-//
-//            // Loop through map with list of strings and join the list and put into new map<id, string>
-//            Map<Id, Invoice__c> invoicesToUpdate = new Map<Id, Invoice__c>();
-//
-//            for(Id invoiceId : idWithStatusValues.keySet()) {
-//                List<String> tempList = idWithStatusValues.get(invoiceId);
-//                Invoice__c invoice = new Invoice__c();
-//                String concatString = String.join(tempList, ', ');
-//                invoice.All_Substatus__c = concatString;
-//                invoicesToUpdate.put(invoiceId, invoice);
-//            }
-//
-//            // Update the All_Sub_Status field with the concatenated string
-//            update invoicesToUpdate.values();
         }
     }
 }
