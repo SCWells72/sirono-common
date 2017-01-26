@@ -9,10 +9,10 @@
 		var orderType = '';
 		var arrowPath = arrowUse.getAttribute('href');
 		if (arrowPath.includes('arrowdown')) {
-			orderType = 'ASC';
+			orderType = 'ASC NULLS FIRST';
 			arrowPath = arrowPath.replace('arrowdown', 'arrowup');
 		} else {
-			orderType = 'DESC';
+			orderType = 'DESC NULLS LAST';
 			arrowPath = arrowPath.replace('arrowup', 'arrowdown');
 		}
 		arrowUse.setAttribute('href', arrowPath);
