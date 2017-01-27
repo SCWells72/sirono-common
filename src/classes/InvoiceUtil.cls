@@ -4,7 +4,7 @@ public with sharing class InvoiceUtil {
      * Method takes a set of invoice Ids and updates the Invoice Status Index with the MAX Status Index value from
      * related charge groups.
      *
-     * @param Set<Id> invoiceIdsFromChargeGroup - invoice Ids from charge groups that have been inserted, updated, deleted
+     * @param Set<Id> invoiceIdsFromChargeGroup - invoice Ids from charge groups that have been inserted, updated, or deleted
      */
 
     public static void updateInvoiceStatusIndex(Set<Id> invoiceIdsFromChargeGroup) {
@@ -42,26 +42,23 @@ public with sharing class InvoiceUtil {
      * values from related charge groups. It then concatenates those values and inserts the values into the All_Substatus__c
      * field on the Invoice object.
      *
-     * @param Set<Id> invoiceIdsFromChargeGroup - invoice ids from charge groups that have been inserted, updated, deleted
+     * @param Set<Id> invoiceIdsFromChargeGroup - invoice ids from charge groups that have been inserted, updated, or deleted
      */
-    public static void updateAllSubstatusInvoiceField(Set<Id> invoiceIdsFromChargeGroup) {
-        if(invoiceIdsFromChargeGroup.size() > 0) {
+    public static void updateAllSubstatusInvoiceField(Set<Id> chargeGroupInvoiceIds) {
+        if(chargeGroupInvoiceIds.size() > 0) {
             // Query for distinct Invoice/Account Substatus values using group by
             AggregateResult[] queryResults = [
                     SELECT Invoice__c, Account_Sub_Status__c
                     FROM Charge_Group__c
-                    WHERE Invoice__c IN :invoiceIdsFromChargeGroup
+                    WHERE Invoice__c IN :chargeGroupInvoiceIds
                     GROUP BY Invoice__c, Account_Sub_Status__c
             ];
-
-            system.debug('>>>> Query result objects: ' + queryResults);
 
             // Put invoice ids into a set to get a list of distinct Ids to loop through
             Set<Id> invoiceIdSet = new Set<Id>();
 
             for (AggregateResult ar : queryResults) {
                 invoiceIdSet.add((Id) ar.get('Invoice__c'));
-                system.debug('>>>> Invoice Id: ' + ar.get('Invoice__c'));
             }
 
             // idWithStatusValuesMap includes Invoices that will need to be updated
@@ -72,7 +69,6 @@ public with sharing class InvoiceUtil {
             for (Id invoiceId : invoiceIdSet) {
                 List<String> tempStatusList = new List<String>();
                 Invoice__c tempInvoice = new Invoice__c();
-                system.debug('>>>>> Current invoice Id: ' + invoiceId);
 
                 for (AggregateResult ar : queryResults) {
                     if ((Id) ar.get('Invoice__c') == invoiceId) {
@@ -82,8 +78,7 @@ public with sharing class InvoiceUtil {
                     }
                 }
 
-                String concatStatusValues = String.join(tempStatusList, ', ');
-                system.debug('>>>> Concatenated status value: ' + concatStatusValues);
+                String concatStatusValues = String.join(tempStatusList, ',');
                 tempInvoice.All_Substatus__c = concatStatusValues;
                 tempInvoice.Id = invoiceId;
 
