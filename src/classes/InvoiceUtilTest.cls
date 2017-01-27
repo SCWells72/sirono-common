@@ -44,9 +44,9 @@ public class InvoiceUtilTest {
                 LIMIT 1
         ];
 
-        system.assertEquals(7, invoiceIndexValueCheck.Invoice_Status_Index__c);
-
         Test.stopTest();
+
+        system.assertEquals(7, invoiceIndexValueCheck.Invoice_Status_Index__c);
     }
 
     @isTest
@@ -58,13 +58,13 @@ public class InvoiceUtilTest {
                 FROM Invoice__c
         ];
 
+        Test.stopTest();
+
         for (Invoice__c invoice : queryResults) {
             system.assertEquals(true, invoice.All_Substatus__c.contains('Inactive'));
             system.assertEquals(true, invoice.All_Substatus__c.contains('Paid'));
             system.assertEquals(true, invoice.All_Substatus__c.contains('Delinquent'));
         }
-
-        Test.stopTest();
     }
 
     @isTest
@@ -80,9 +80,9 @@ public class InvoiceUtilTest {
             errorMessage = e.getMessage();
         }
 
-        system.assertEquals(null, errorMessage);
-
         Test.stopTest();
+
+        system.assertEquals(null, errorMessage);
     }
 
     @isTest
@@ -103,12 +103,12 @@ public class InvoiceUtilTest {
                 FROM Invoice__c
         ];
 
+        Test.stopTest();
+
         // Assert the count of values from splitting the All_Substatus__c field
         // Assert that 'Delinquent' is no longer in the All_Substatus__c
         System.assertEquals(2, invoiceList[0].All_Substatus__c.split(',').size());
         System.assertEquals(false, invoiceList[0].All_Substatus__c.contains('Delinquent'));
-
-        Test.stopTest();
     }
 
     public static void deleteRelatedChargeGroupTest() {
@@ -126,8 +126,8 @@ public class InvoiceUtilTest {
                 FROM Invoice__c
         ];
 
-        System.assertEquals(null, invoiceList[0].All_Substatus__c);
-
         Test.stopTest();
+
+        System.assertEquals(null, invoiceList[0].All_Substatus__c);
     }
 }
