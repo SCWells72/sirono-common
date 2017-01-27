@@ -169,6 +169,21 @@
         <type>Date</type>
     </fields>
     <fields>
+        <fullName>Encounter__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>A Chargegroup can only have one encounter; multiple chargegroups can have the same encounter</description>
+        <externalId>false</externalId>
+        <label>Encounter</label>
+        <referenceTo>Encounter__c</referenceTo>
+        <relationshipLabel>Charge Groups</relationshipLabel>
+        <relationshipName>Charge_Groups</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>External_Guarantor_ID__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
@@ -643,7 +658,7 @@
         <externalId>false</externalId>
         <formula>If(Account_Sub_Status__c == &quot;Delinquent&quot;, 7,
 If(Account_Sub_Status__c == &quot;Overdue&quot;, 6,
-If(or(Account_Sub_Status__c == &quot;Due by&quot;,Account_Sub_Status__c == &quot;Due&quot;), 5,
+If(or(Account_Sub_Status__c == &quot;Due By&quot;,Account_Sub_Status__c == &quot;Due&quot;), 5,
 If(or (Account_Sub_Status__c == &quot;On Payment Plan&quot;, Account_Sub_Status__c == &quot;Payment Plan&quot;), 4,
 If(Account_Sub_Status__c == &quot;Paid&quot;, 3,
 If(Account_Sub_Status__c == &quot;Credit&quot;, 2,

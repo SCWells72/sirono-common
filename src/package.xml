@@ -196,6 +196,7 @@
         <members>Contact.Deleted__c</members>
         <members>Contact.Delinquent_Balance__c</members>
         <members>Contact.Due_Balance__c</members>
+        <members>Contact.Estimate_Balance__c</members>
         <members>Contact.External_Guarantor_Id__c</members>
         <members>Contact.External_ID__c</members>
         <members>Contact.Full_Name__c</members>

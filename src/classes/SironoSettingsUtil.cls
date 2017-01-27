@@ -14,6 +14,7 @@ public with sharing class SironoSettingsUtil {
         sandboxUrls.put('dev', 'https://toledo.stage.sirono.com');
         sandboxUrls.put('qa', 'https://training.sirono.com');
         sandboxUrls.put('demo', 'https://sf-demo.sirono.com');
+        sandboxUrls.put('portal', 'https://sf-portal.sirono.com');
     }
 
     public static Boolean isSandbox() {

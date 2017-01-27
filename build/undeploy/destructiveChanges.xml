@@ -35,7 +35,9 @@
         <name>ApexClass</name>
     </types>
     <types>
+        <members>Encounter__c.Payments__c</members>
         <members>Transaction__c-Method__c</members>
+        <members>Contact.Invoice_Status__c</members>
         <name>CustomField</name>
     </types>
     <types>
