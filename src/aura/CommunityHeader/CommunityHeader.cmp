@@ -1,4 +1,6 @@
 <aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="HeaderController">
+    <aura:attribute name="userInfo" type="User"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/salesforce-lightning-design-system.min.css'}" />
         <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/main.css'}" />
         <div class="wrapper">
@@ -6,7 +8,7 @@
                 <div class="slds-grid">
                     <div class="slds-col slds-p-horizontal--medium slds-p-vertical--small">
                         <img class="portal-logo" src="{!$Resource.SironoData + '/assets/images/health-system-logo.png'}" alt="Health System" />
-                        <span class="welcome">Welcome back, Dean! ID: DD13021</span>
+                        <span class="welcome">Welcome back, {!v.userInfo.Contact.FirstName}! ID: {!v.userInfo.Contact.Profile_Pointer_ID__c}</span>
                     </div>
                     <div class="slds-col">
                         <div class="slds-grid nav-main">
