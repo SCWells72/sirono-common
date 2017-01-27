@@ -63,11 +63,15 @@ public with sharing class InvoiceUtil {
                     system.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('Invoice__c')
                             + '[Invoice Balance]: ' + qr.get('sumBalances'));
                     tempInvoice.Id = (Id) qr.get('Invoice__c');
-                    tempInvoice.Invoice_Balance__c = (Decimal) qr.get('sumBalances');
+
+                    if((Decimal)qr.get('sumBalances') != 0 || (Decimal)qr.get('sumBalances') != null){
+                        tempInvoice.Invoice_Balance__c = (Decimal) qr.get('sumBalances');
+                    } else {
+                        tempInvoice.Invoice_Balance__c = 0.00;
+                    }
 
                     invoicesToUpdate.add(tempInvoice);
                 }
-
                 update invoicesToUpdate;
             }
         }

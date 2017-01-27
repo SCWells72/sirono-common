@@ -29,6 +29,7 @@ public class InvoiceUtilTest {
             Charge_Group__c testChargeGroup = TestUtility.generateChargeGroup(testGuarantor.Id, testPatient.Id, i, null);
             testChargeGroup.Account_Sub_Status__c = statusList[i];
             testChargeGroup.Invoice__c = testInvoice.Id;
+            testChargeGroup.Sirono_ID__c = i;
 
             testChargeGroupList.add(testChargeGroup);
         }
@@ -37,7 +38,9 @@ public class InvoiceUtilTest {
         List<Transaction__c> testTransactionsList = new List<Transaction__c>();
         for (Charge_Group__c cg : testChargeGroupList) {
             for (Integer i = 0; i < 5; i++) {
+                Integer randomInt = Integer.valueOf(Math.random());
                 Transaction__c tempTransaction = TestUtility.generateTransaction(cg, TestUtility.generateRandomCurrency(), 'service');
+                tempTransaction.Sirono_ID__c = randomInt;
                 testTransactionsList.add(tempTransaction);
             }
         }
@@ -46,6 +49,8 @@ public class InvoiceUtilTest {
 
     @isTest
     public static void checkInvoiceIndexValue() {
+        Test.startTest();
+
         Invoice__c invoiceIndexValueCheck = [
                 SELECT Id, Invoice_Status_Index__c
                 FROM Invoice__c
@@ -53,10 +58,14 @@ public class InvoiceUtilTest {
         ];
 
         system.assertEquals(7, invoiceIndexValueCheck.Invoice_Status_Index__c);
+
+        Test.stopTest();
     }
 
     @isTest
     public static void checkInvoiceBalance() {
+        Test.startTest();
+
         List<Invoice__c> insertedInvoices = [
                 SELECT Id
                 FROM Invoice__c
@@ -79,7 +88,9 @@ public class InvoiceUtilTest {
                 LIMIT 1
         ];
 
-        system.assertEquals(transactionSum.txnAmount, invoiceBalanceCheck.Invoice_Balance__c);
+        system.assertEquals(transactionSum[0].get('txnAmount'), invoiceBalanceCheck.Invoice_Balance__c);
+
+        Test.stopTest();
     }
 
     @isTest
@@ -92,11 +103,11 @@ public class InvoiceUtilTest {
                 SELECT Id
                 FROM Charge_Group__c
         ];
-        delete removeTxns;
+        delete chargeGroups;
 
         Invoice__c invoice = [
                 SELECT Id, Invoice_Balance__c
-                FROM Charge_Group__c
+                FROM Invoice__c
                 LIMIT 1
         ];
 
