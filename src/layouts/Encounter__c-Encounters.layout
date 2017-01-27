@@ -180,7 +180,7 @@
                 <field>Co_Insurance__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Patient_Portion__c</field>
             </layoutItems>
         </layoutColumns>
