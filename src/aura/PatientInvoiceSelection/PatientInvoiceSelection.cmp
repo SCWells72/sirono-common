@@ -3,15 +3,18 @@
     <aura:attribute name="invoices" type="Aura.Component[]" />
     <aura:attribute name="listOfInvoices" type="List" />
     <aura:attribute name="invoiceId" type="Object"/>
+    <aura:attribute name="AreAllInvoicesSelected" type="Boolean" default="false"/>
     <aura:handler event="c:payNowResponse" action="{!c.payCall}" />
+    <aura:handler event="c:calculatePaymentBalanceEvent" action="{!c.refreshAllInvoicesSelected}" />
 
+    <aura:registerEvent name="selectAllInvoices" type="c:SelectInvoicesEvent"/>
     <aura:registerEvent name="payCall" type="c:payCall"/>
     <div class="invoice-listing-wrapper">
         <header>
             <div class="col filter">
                 <div class="slds-dropdown-trigger slds-dropdown-trigger--click">
                     <button class="slds-button slds-button--icon-border-filled" aria-haspopup="true" title="Show More">
-                        <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#down'}" category="standard" size="small" class="slds-button__icon" name="Show More" />
+                        <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#down'}" category="standard" size="small" class="slds-button__icon" name="Show More" />
                     </button>
                     <div class="slds-dropdown slds-dropdown--left">
                         <ul class="slds-dropdown__list" role="menu">
@@ -35,16 +38,31 @@
                 </div>All Patients
             </div>
             <div class="col sort">
-                <button class="select-all-btn">
-                    <div class="select-all-icon">
-                        <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}" category="standard" size="small" class="slds-button__icon" name="Check" />
-                    </div>Select All
+                <button class="select-all-btn" onclick="{!c.selectAllInvoices}">
+                    <div class="{!v.AreAllInvoicesSelected ? 'select-all-icon selected' : 'select-all-icon'}">
+                        <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}"  category="standard" size="small" class="slds-button__icon" name="Check" />
+                    </div>{!v.AreAllInvoicesSelected ? 'Deselect All' : 'Select All'}
                 </button>
                 <div class="float-right">
-                    <div class="slds-button-group" role="group">
-                        <button class="slds-button slds-button--brand">Unpaid</button>
-                        <button class="slds-button slds-button--neutral">Delinquent</button>
-                        <button class="slds-button slds-button--neutral">Overdue</button>
+                    <div class="slds-radio--button-group">
+                        <span class="slds-button slds-radio--button">
+                            <input type="radio" name="radio" id="unpaid" checked="true" onclick="{!c.filterInvoices}"/>
+                            <label class="slds-radio--button__label" for="unpaid">
+                                <span class="slds-radio--faux">Unpaid</span>
+                            </label>
+                        </span>
+                        <span class="slds-button slds-radio--button">
+                            <input type="radio" name="radio" id="delinquent" onclick="{!c.filterInvoices}"/>
+                            <label class="slds-radio--button__label" for="delinquent">
+                                <span class="slds-radio--faux">Delinquent</span>
+                            </label>
+                        </span>
+                        <span class="slds-button slds-radio--button">
+                            <input type="radio" name="radio" id="overdue" onclick="{!c.filterInvoices}"/>
+                            <label class="slds-radio--button__label" for="overdue">
+                                <span class="slds-radio--faux">Overdue</span>
+                            </label>
+                        </span>
                     </div>
                 </div>
             </div>

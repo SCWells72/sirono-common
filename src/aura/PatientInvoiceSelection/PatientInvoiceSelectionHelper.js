@@ -22,6 +22,7 @@
 				var calculatePaymentBalance  = $A.get("e.c:calculatePaymentBalanceEvent");
 				calculatePaymentBalance.setParams({
 					"paymentBalance" : selectedBalance,
+					'invoices': listOfInvoices
 				});
 				calculatePaymentBalance.fire();
 				this.createTiles(component,listOfInvoices);
@@ -62,6 +63,7 @@
 				var calculatePaymentBalance  = $A.get("e.c:calculatePaymentBalanceEvent");
 				calculatePaymentBalance.setParams({
 					"paymentBalance" : selectedBalance,
+					'invoices': listOfInvoices
 				});
 				calculatePaymentBalance.fire();
 				this.createTiles(component,listOfInvoices);
@@ -109,5 +111,5 @@
 		}
 
 		
-	},
+	}
 })
