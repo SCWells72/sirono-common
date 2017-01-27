@@ -40,10 +40,9 @@
 
 	openInvoiceDetails : function(component, event, helper){
 		console.log('open invoice details');
-		console.log(component.get("v.tileId"));
-		component.set("v.isVisibleModal", true);
-		$A.get("e.c:activateTileRequest").setParams({
-			"tileId" : component.get("v.tileId")
+		console.log(component.get("v.invoice"));
+		$A.get("e.c:SingleInvoiceDetailsEvent").setParams({
+			"invoice" : component.get("v.invoice")
 		}).fire();
 	}
 

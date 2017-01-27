@@ -1,8 +1,9 @@
 <aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="WorkWithPaymentsController">
     <aura:handler event="c:collapsedHeader" action="{!c.bodyStatus}" />
+    <aura:attribute name="modalDispaly" type="Boolean" default="false"/>
     <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/salesforce-lightning-design-system.min.css'}" />
 	<link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/main.css'}" />
-    
+    <c:SingleInvoiceDetails />
     <div class="wrapper total_div">
         <div aura:id="payment_scroll" class="main-wrapper payment small alert">
             <div class="one-time-payment invoices">
@@ -13,6 +14,70 @@
                     <c:PaymentTabs />
                 </div>
             </div>
+        </div>                   
+            
+        <div role="dialog" tabindex="-1" aria-labelledby="header43" id="slds-modal" class="{!v.modalDispaly?'slds-modal invoice-detail-modal slds-fade-in-open':'slds-modal invoice-detail-modal'}">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close">
+                        <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#close'}" category="standard" size="large" name="close" />
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="header43" class="slds-text-heading--medium">Invoice Details</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium invoices">
+                    <section class="invoice-detail">
+                        <header class="grid">
+                            <div class="col intro">
+                                <em>Your next payment of $750.00 is due on Jan 7th.</em>
+                                <div><a class="cta" href="#">Make a Payment</a></div>
+                            </div>
+                            <div class="col align-right slds-align-bottom"><span class="title">Total You Owe</span> <span class="value">$750.00</span></div>
+                        </header>
+                        <div class="invoice-alert">
+                            <span class="status-bubble success"></span> Anthem has finished processing these charges
+                            <div class="float-right view-bill"><a href="#">View Itemized Bill</a></div>
+                        </div>
+                        <div class="invoice-content">
+                            <div class="col details">
+                                11/12/2016
+                                <div>ID Number: A1531600470�</div>
+                                <div>Location: UT Dana Cancer Center</div>
+                            </div>
+                            <div class="col charges">
+                                <h3>Services and Charges</h3>
+                                <div class="charge-details">
+                                    <div class="col">Emergency Room</div>
+                                    <div class="col align-right">$1,500.00</div>
+                                    <div class="col footer">Total Charges</div>
+                                    <div class="col footer align-right">$1,500.00</div>
+                                </div>
+                            </div>
+                            <div class="col payments">
+                                <h3>Payments and Adjustments</h3>
+                                <div class="payment-details">
+                                    <div class="col">
+                                        Anthem Adjustment
+                                        <div>11/30/16</div>
+                                    </div>
+                                    <div class="col credit align-right">-$750.00</div>
+                                    <div class="col footer">Total Credits</div>
+                                    <div class="col footer credit align-right">-$750.00</div>
+                                </div>
+                            </div>
+                            <div class="col total align-right"><span class="title">You Owe</span> <span class="value">$750.00</span></div>
+                        </div>
+                    </section>
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="cancel-modal slds-button slds-button--neutral">Close</button>
+                </div>
+            </div>
         </div>
+
+
     </div>
+
+
+
 </aura:component>

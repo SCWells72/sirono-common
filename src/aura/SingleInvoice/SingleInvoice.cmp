@@ -5,8 +5,8 @@
     <aura:attribute name="isVisibleModal" type="Boolean"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler event="c:SelectInvoicesEvent" action="{!c.toggleAllInvoices}" />
+    <aura:registerEvent name="singleInvoiceDetailsEvent" type="c:SingleInvoiceDetailsEvent"/>
     
-    <c:SingleInvoiceDetails />
     <article class="invoice-record">
         <div class="col left icon">
             <div aura:id="selectIcon" class="select-all-icon selected" onclick="{!c.selectInvoice}">
@@ -29,8 +29,5 @@
                 <a href="" class="modal-trigger" onclick="{!c.openInvoiceDetails}">View Details</a>
             </div>
         </div>
-        <aura:if isTrue="{!v.isVisibleModal}">
-            <c:InvoiceDetails />
-        </aura:if>
     </article>
 </aura:component>
