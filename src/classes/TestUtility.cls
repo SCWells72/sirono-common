@@ -297,4 +297,11 @@ Public Class TestUtility {
     public static integer generateException() {
         return 1 / 0;
     }
+
+    public static Decimal generateRandomCurrency() {
+        Double randomDouble = Math.random() * 100;
+        Decimal randomCurrencyValue = Decimal.valueOf(randomDouble).setScale(2);
+
+        return randomCurrencyValue;
+    }
 }
