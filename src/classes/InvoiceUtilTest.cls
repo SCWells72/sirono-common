@@ -111,6 +111,7 @@ public class InvoiceUtilTest {
         System.assertEquals(false, invoiceList[0].All_Substatus__c.contains('Delinquent'));
     }
 
+    @isTest
     public static void deleteRelatedChargeGroupTest() {
         Test.startTest();
 
