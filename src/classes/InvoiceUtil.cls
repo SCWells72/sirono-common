@@ -21,7 +21,7 @@ public with sharing class InvoiceUtil {
             if(queryResults.size() > 0){
                 List<Invoice__c> invoicesToUpdate = new List<Invoice__c>();
 
-                for(AggregateResult qr : queryResults) {
+                for(AggregateResult qr: queryResults) {
                     Invoice__c tempInvoice = new Invoice__c();
 
                     system.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('Invoice__c')
@@ -55,9 +55,9 @@ public with sharing class InvoiceUtil {
             ];
 
             if(queryResults.size() > 0){
-                List<Invoice__c> invoicesToUpdate = new List<Invoice__c>();
+                Map<Id, Invoice__c> invoicesToUpdate = new Map<Id, Invoice__c>();
 
-                for(AggregateResult qr : queryResults) {
+                for(AggregateResult qr: queryResults) {
                     Invoice__c tempInvoice = new Invoice__c();
 
                     system.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('Invoice__c')
@@ -70,9 +70,23 @@ public with sharing class InvoiceUtil {
                         tempInvoice.Invoice_Balance__c = 0.00;
                     }
 
-                    invoicesToUpdate.add(tempInvoice);
+                    invoicesToUpdate.put(tempInvoice.Id, tempInvoice);
                 }
-                update invoicesToUpdate;
+
+                // Loop through invoice ids from charge group and see if any are missing
+                // If so, set the invoice balance to 0 and then add to a list
+                for(Id invoiceId: invoiceIdsFromChargeGroup) {
+                    if(!invoicesToUpdate.containsKey(invoiceId)) {
+                        Invoice__c tempInvoice = new Invoice__c();
+
+                        tempInvoice.Id = invoiceId;
+                        tempInvoice.Invoice_Balance__c = 0.00;
+
+                        invoicesToUpdate.put(tempInvoice.Id, tempInvoice);
+                    }
+                }
+
+                update invoicesToUpdate.values();
             }
         }
     }

@@ -38,7 +38,7 @@ public class InvoiceUtilTest {
         List<Transaction__c> testTransactionsList = new List<Transaction__c>();
         for (Charge_Group__c cg : testChargeGroupList) {
             for (Integer i = 0; i < 5; i++) {
-                Integer randomInt = Integer.valueOf(Math.random());
+                Integer randomInt = Integer.valueOf(Math.random()*100000);
                 Transaction__c tempTransaction = TestUtility.generateTransaction(cg, TestUtility.generateRandomCurrency(), 'service');
                 tempTransaction.Sirono_ID__c = randomInt;
                 testTransactionsList.add(tempTransaction);
@@ -94,7 +94,7 @@ public class InvoiceUtilTest {
     }
 
     @isTest
-    public static void invoiceBalanceDeletedTxnTest() {
+    public static void invoiceBalanceDeletedChargeGroupTest() {
         // Get a list of charge groups and delete them
         // Assert that invoice balance = 0.00
         Test.startTest();
