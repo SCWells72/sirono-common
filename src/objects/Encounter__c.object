@@ -600,6 +600,7 @@
         <searchResultsAdditionalFields>Date_of_Service__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Location__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Procedure__c</searchResultsAdditionalFields>
+        <searchResultsCustomButtons>Pay_Estimate</searchResultsCustomButtons>
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <startsWith>Vowel</startsWith>
@@ -613,5 +614,17 @@
         <openType>sidebar</openType>
         <page>PaymentArrangement</page>
         <protected>false</protected>
+    </webLinks>
+    <webLinks>
+        <fullName>Pay_Estimate</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <linkType>url</linkType>
+        <masterLabel>Pay Estimate</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <requireRowSelection>false</requireRowSelection>
+        <url>&quot;/apex/PayEstimate?id={!Contact.Id}&quot;</url>
     </webLinks>
 </CustomObject>
