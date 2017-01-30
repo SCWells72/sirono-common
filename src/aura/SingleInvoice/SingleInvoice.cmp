@@ -2,10 +2,9 @@
     <aura:attribute name="invoice" type="Object" />
     <aura:attribute name="activated" type="Boolean" default="true"/>
     <aura:attribute name="tileId" type="Integer" />
-    <aura:attribute name="isVisibleModal" type="Boolean"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler event="c:SelectInvoicesEvent" action="{!c.toggleAllInvoices}" />
-    <aura:registerEvent name="singleInvoiceDetailsEvent" type="c:SingleInvoiceDetailsEvent"/>
+    <aura:registerEvent name="singleInvoiceDetailsEvent" type="c:SingleInvoiceDetailsEvent"/> 
     
     <article class="invoice-record">
         <div class="col left icon">

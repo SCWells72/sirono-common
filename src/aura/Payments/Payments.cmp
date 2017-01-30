@@ -9,6 +9,8 @@
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
+    <c:SingleInvoiceDetails />
+
     <div class="wrapper total_div">
         <div aura:id="payment_scroll" class="main-wrapper payment small alert">
             <div class="one-time-payment invoices">

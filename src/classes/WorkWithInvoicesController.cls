@@ -10,9 +10,9 @@ public with sharing class WorkWithInvoicesController {
 		];
 		if (u.ContactId != null) {
 			List<Invoice__c> listOfInvoices = new List<Invoice__c>();
-			String query = 'SELECT Id, Name, Patient__r.Name, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, '+
+			String query = 'SELECT Id, Name, Patient__r.Name, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, '+
 							'Due_Date__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Invoiced_Balance__c, '+
-							'Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c, ' + 
+							'Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c, Partial_Payment_Plan__c, ' + 
 							'Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Pre_Invoiced_Balance__c, ' +
 							'(SELECT Id FROM Charge_Groups__r) ' +
 							'FROM Invoice__c WHERE Guarantor__c = \'' + u.ContactId + '\'';
@@ -30,6 +30,7 @@ public with sharing class WorkWithInvoicesController {
 						Name,
 						Balance__c,
 						Location__c,
+						Location__r.Name,
 						External_ID__c,
 						Sirono_Assigned_Date__c,
 						(
@@ -75,9 +76,9 @@ public with sharing class WorkWithInvoicesController {
 		];
 		if (u.ContactId != null) {
 			List<Invoice__c> listOfInvoices = new List<Invoice__c>();
-			String query = 'SELECT Id, Name, Patient__r.Name, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, '+
+			String query = 'SELECT Id, Name, Patient__r.Name, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, '+
 							'Due_Date__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Invoiced_Balance__c, '+
-							'Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c, ' + 
+							'Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c, Partial_Payment_Plan__c, ' + 
 							'Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Pre_Invoiced_Balance__c, ' +
 							'(SELECT Id FROM Charge_Groups__r) ' +
 							'FROM Invoice__c WHERE Guarantor__c = \'' + u.ContactId + '\'' + ' AND Id =\'' + invoiceId + '\'';
@@ -95,6 +96,7 @@ public with sharing class WorkWithInvoicesController {
 						Name,
 						Balance__c,
 						Location__c,
+						Location__r.Name,
 						External_ID__c,
 						Sirono_Assigned_Date__c,
 						(

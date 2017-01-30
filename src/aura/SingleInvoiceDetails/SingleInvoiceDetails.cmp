@@ -1,84 +1,140 @@
-<aura:component>
-	<link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/salesforce-lightning-design-system.min.css'}" />
-	<aura:attribute name="invoice" type="Object" />
-	<aura:handler event="c:SingleInvoiceDetailsEvent" action="{!c.displayInvoiceDetails}" />
-
-	<div aura:id="slds-modal" role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal">
-		<div class="slds-modal__container">
-			<div class="slds-modal__header">
-				<button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeModal}">
-					<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#close'}" category="standard" size="large" class="slds-button__icon slds-button__icon--large" name="Close" />
-					<span class="slds-assistive-text">Close</span>
-				</button>
-				<h2 id="header43" class="slds-text-heading--medium">Invoice Details</h2>
-			</div>
-			<div class="slds-modal__content slds-p-around--medium invoices">
-				<section class="invoice-detail">
-					<header class="grid">
-						<div class="col intro">
-							<em>Your next payment of ${!v.invoice.balanceDue} is due on Jan 7th.</em><br/>
-							<a class="cta" href="#">Make a Payment</a>
-						</div>
-						<div class="col align-right slds-align-bottom">
-							<span class="title">Total You Owe</span> 
-							<span class="value">${!v.invoice.balanceDue}</span>
-						</div>
-					</header>
-					<aura:iteration items="{!v.invoice.allGroups}" var="group" >
-	                    <div class="invoice-alert">
-	                        <span class="status-bubble success"></span> These services were not sent to insurance and are your responsibility.
-	                        <div class="float-right view-bill"><a href="#">View Itemized Bill</a></div>
-	                    </div>
-	                    <div class="invoice-content">
-	                        <div class="col details">
-	                            <ui:outputDate value="{!group.cGroup.Sirono_Assigned_Date__c}" />
-	                            <div>ID Number: {!group.cGroup.External_ID__c}</div>
-	                            <div>Location: {!group.cGroup.Location__c}</div>
-	                        </div>
-	                        <div class="col charges">
-	                            <h3>Services and Charges</h3>
-	                            <div class="charge-details">
-	                                <aura:iteration items="{!group.cGroup.Services__r}" var="service" >
-	                                    <div class="col">{!service.Name}</div>
-	                                    <div class="col align-right">
-	                                        <ui:outputCurrency value="{!service.Amount__c}" />
-	                                    </div>
-	                                </aura:iteration>
-	                                <div class="col footer">Total Charges</div>
-	                                <div class="col footer align-right">
-	                                    <ui:outputCurrency value="{!group.totalCharges}" />
-	                                </div>
-	                            </div>
-	                        </div>
-	                        <div class="col payments">
-	                            <h3>Payments and Adjustments</h3>
-	                            <div class="payment-details">
-	                                <aura:iteration items="{!group.cGroup.Payment_Adjustments__r}" var="pa" >
-	                                    <div class="col">
-	                                        {!pa.Name}
-	                                        <div>
-	                                            <ui:outputDate value="{!pa.Post_Date__c}" />
-	                                        </div>
-	                                    </div>
-	                                    <div class="col credit align-right">
-	                                        <ui:outputCurrency value="{!pa.Amount__c}" />
-	                                    </div>
-	                                </aura:iteration>
-	                                <div class="col footer">Total Credits</div>
-	                                <div class="col footer credit align-right">
-	                                    <ui:outputCurrency value="{!group.totalCredits}" />
-	                                </div>
-	                            </div>
-	                        </div>
-	                        <div class="col total align-right"><span class="title">You Owe</span> <span class="value"><ui:outputCurrency value="{!group.totalCharges + group.totalCredits}" /></span></div>
-	                    </div>
-	                </aura:iteration>
-				</section>
-			</div>
-			<div class="slds-modal__footer">
-				<button class="cancel-modal slds-button slds-button--neutral" onclick="{!c.closeModal}">Close</button>
-			</div>
-		</div>
-	</div>
-	<div aura:id="slds-backdrop" class="slds-backdrop"></div>
+<aura:component >
+	<link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/salesforce-lightning-design-system.min.css'}" /> 
+    <aura:attribute name="invoice" type="Object" /> 
+    <aura:handler event="c:SingleInvoiceDetailsEvent" action="{!c.displayInvoiceDetails}" /> 
+ 
+    <div aura:id="slds-modal" role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal invoice-detail-modal"> 
+    <div class="slds-modal__container"> 
+        <div class="slds-modal__header"> 
+        <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeModal}"> 
+            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#close'}" category="standard" size="large" class="slds-button__icon slds-button__icon--large" name="Close" /> 
+            <span class="slds-assistive-text">Close</span> 
+        </button> 
+        <h2 id="header43" class="slds-text-heading--medium">Invoice Details</h2> 
+        </div> 
+        <div class="slds-modal__content slds-p-around--medium invoices"> 
+        <section class="invoice-detail"> 
+            <header class="grid"> 
+                <div class="col intro">
+                    <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Due'}">
+                        <div class="issue warning">This invoice is due {!v.invoice.singleInvoice.Due_Date__c}. Please pay the balance now to keep your account current.</div>
+                    </aura:if>
+                    <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Overdue'}">
+                        <div class="issue warning">This invoice is now overdue. Please pay the balance now to avoid collections.</div>
+                    </aura:if>
+                    <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'}">
+                        <div class="issue warning">This invoice is now delinquent and will be sent to a collections agency if payment arrangements are not made within the next 30 days. Please pay the balance now.</div>
+                    </aura:if>
+                    <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'On Payment Plan'}">
+                        <div class="issue">Your next payment date of [Payment Plan].[Installment_Amount__c] is due Jan 7th.</div>
+                    </aura:if>
+                    <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Invoice Voided'}">
+                        <div class="issue">This invoice has changed. Charges were removed from this invoice for review and may appear on a future invoice. No action is required currently.</div>
+                    </aura:if>
+                    <aura:if isTrue="{!v.invoice.singleInvoice.Partial_Payment_Plan__c}">
+                        <div class="issue">Some charges on this invoice are not fully on your payment plan. Add this invoice to your payment plan to ensure it will be paid in full.</div>
+                    </aura:if>
+            		<aura:if isTrue="{!and(or(v.invoice.singleInvoice.Invoice_Status__c == 'Due', v.invoice.singleInvoice.Invoice_Status__c == 'Overdue', v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), not(v.invoice.singleInvoice.Partial_Payment_Plan__c))}">
+                        <div class="title clear"><a href="#">Pay Now</a> or <a href="#">Create Payment Plan</a></div>
+                    </aura:if>
+            		<aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'On Payment Plan'}">
+                        <div class="title clear"><a href="#">Make Additional Payment</a></div>
+                    </aura:if>
+                    <aura:if isTrue="{!and(or(v.invoice.singleInvoice.Invoice_Status__c == 'Due', v.invoice.singleInvoice.Invoice_Status__c == 'Overdue', v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), v.invoice.singleInvoice.Partial_Payment_Plan__c)}">
+                        <div class="title clear"><a href="#">Pay Now</a> or <a href="#">Add to Payment Plan</a></div>
+                    </aura:if>
+        		</div>
+            <div class="col align-right slds-align-bottom"> 
+                <span class="title">Total You Owe</span>  
+                <span class="value">${!v.invoice.balanceDue}</span> 
+            </div> 
+            </header> 
+            <aura:iteration items="{!v.invoice.allGroups}" var="group" > 
+                        <div class="invoice-alert"> 
+                            <span class="status-bubble success"></span> These services were not sent to insurance and are your responsibility. 
+                            <div class="float-right view-bill"><a href="#">View Itemized Bill</a></div> 
+                        </div> 
+                        <div class="invoice-content"> 
+                            <div class="col details"> 
+                                <ui:outputDate value="{!group.cGroup.Sirono_Assigned_Date__c}" /> 
+                                <div>ID Number: {!group.cGroup.External_ID__c}</div> 
+                                <div>Location: {!group.cGroup.Location__r.Name}</div> 
+                            </div> 
+                            <div class="col charges"> 
+                                <h3>Services and Charges</h3> 
+                                <div class="charge-details"> 
+                                    <aura:iteration items="{!group.cGroup.Services__r}" var="service" > 
+                                        <div class="col">{!service.Name}</div> 
+                                        <div class="col align-right"> 
+                                            <ui:outputCurrency value="{!service.Amount__c}" /> 
+                                        </div> 
+                                    </aura:iteration> 
+                                    <div class="col footer">Total Charges</div> 
+                                    <div class="col footer align-right"> 
+                                        <ui:outputCurrency value="{!group.totalCharges}" /> 
+                                    </div> 
+                                </div> 
+                            </div> 
+                            <div class="col payments"> 
+                                <h3>Payments and Adjustments</h3> 
+                                <div class="payment-details"> 
+                                    <aura:iteration items="{!group.cGroup.Payment_Adjustments__r}" var="pa" > 
+                                        <div class="col"> 
+                                            {!pa.Name} 
+                                            <div> 
+                                                <ui:outputDate value="{!pa.Post_Date__c}" /> 
+                                            </div> 
+                                        </div> 
+                                        <div class="col credit align-right"> 
+                                            <ui:outputCurrency value="{!pa.Amount__c}" /> 
+                                        </div> 
+                                    </aura:iteration> 
+                                    <div class="col footer">Total Credits</div> 
+                                    <div class="col footer credit align-right"> 
+                                        <ui:outputCurrency value="{!group.totalCredits}" /> 
+                                    </div> 
+                                </div> 
+                            </div> 
+                            <div class="col total align-right"><span class="title">You Owe</span> <span class="value"><ui:outputCurrency value="{!group.totalCharges + group.totalCredits}" /></span></div> 
+                        </div> 
+                    </aura:iteration> 
+            <aura:if isTrue="{!v.invoice.allGroups.length > 1}">
+                <div class="payment-plan-total-container">
+                    <div class="payment-plan-total">
+                        <div class="col align-right">
+                            <div class="title">Total Charges</div>
+                        </div>
+                        <div class="col align-right">
+                            <div class="value">
+                                <ui:outputCurrency value="{!v.invoice.invoiceTotalCharges}" /> 
+                            </div>
+                        </div>
+                        <div class="col align-right">
+                            <div class="title">Total Credits</div>
+                        </div>
+                        <div class="col align-right">
+                            <div class="value credit">
+                                <ui:outputCurrency value="{!v.invoice.invoiceTotalCredits}" /> 
+                            </div>
+                        </div>
+                        <div class="col align-right">
+                            <div class="title">Total You Owe</div>
+                        </div>
+                        <div class="col align-right">
+                            <div class="value total">
+                                <ui:outputCurrency value="{!v.invoice.balanceDue}" /> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+            
+        </section> 
+        </div> 
+        <div class="slds-modal__footer"> 
+        <button class="cancel-modal slds-button slds-button--neutral" onclick="{!c.closeModal}">Close</button> 
+        </div> 
+    </div> 
+    </div> 
+    <div aura:id="slds-backdrop" class="slds-backdrop"></div>
 </aura:component>

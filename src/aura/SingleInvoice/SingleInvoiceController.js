@@ -40,8 +40,8 @@
 
 	openInvoiceDetails : function(component, event, helper){
 		console.log('open invoice details');
-		console.log(component.get("v.invoice"));
-		$A.get("e.c:SingleInvoiceDetailsEvent").setParams({
+		console.log(component.get("v.invoice")); 
+		$A.get("e.c:SingleInvoiceDetailsEvent").setParams({ 
 			"invoice" : component.get("v.invoice")
 		}).fire();
 	}
