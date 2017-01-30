@@ -325,6 +325,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PayEstimate</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PayEstimateTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PayStaffWSUtill</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -4199,6 +4207,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>MyProfilePage</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>PayEstimate</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
