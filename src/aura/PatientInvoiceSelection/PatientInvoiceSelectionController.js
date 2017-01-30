@@ -1,18 +1,13 @@
 ({
 	doInit: function(component, event, helper) {
-        var appEvent = $A.get("e.c:payCall");
-        appEvent.fire();
-    },
-    payCall: function(component, event, helper) {
-        var invoiceId =  event.getParam('invoiceId');
-        if (invoiceId === undefined) {
-
+        var invoiceId = component.get('v.invoiceId');
+		console.log("invoiceId", invoiceId);
+		if (invoiceId == null) {
 			helper.getAllInvoices(component);
-        } else {
-        	helper.getInvoice(component, invoiceId);
-        }
+		} else {
+			helper.getInvoice(component, invoiceId);
+		}
     },
-
     selectAllInvoices : function(component, event, helper) {
         var areAllInvoicesSelected = component.get('v.AreAllInvoicesSelected');
         $A.get("e.c:SelectInvoicesEvent").setParams({"SelectAll" : !areAllInvoicesSelected}).fire();

@@ -19,9 +19,14 @@
 			'url' : '/payments' 
 		}).fire();
 	},
-	sendInvoiceToHeader: function(component, event, helper) {
+	sendInvoiceNowToHeader: function(component, event, helper) {
         var appEvent = $A.get("e.c:payNowRequest");
-        appEvent.setParams({ "invoiceId" : component.get('v.invoice.singleInvoice.Id'), 'type': 'make' });
+        appEvent.setParams({ "invoiceId" : component.get('v.invoice.singleInvoice.Id'), 'type': 'MakeAPayment' });
+        appEvent.fire();
+	},
+	sendInvoiceCreateToHeader: function(component, event, helper) {
+        var appEvent = $A.get("e.c:payNowRequest");
+        appEvent.setParams({ "invoiceId" : component.get('v.invoice.singleInvoice.Id'), 'type': 'CreatePaymentPlan' });
         appEvent.fire();
 	}
 })

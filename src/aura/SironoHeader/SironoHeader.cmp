@@ -20,7 +20,8 @@
 	<!-- transfers invoiceId betweem components -->
     <aura:handler event="c:payNowRequest" action="{!c.setInvoice}"/>    
     <aura:handler event="c:payCall" action="{!c.putInvoucePaument}" />
-    <aura:attribute name='invoiceId' type="String"/>
+    <aura:attribute name='invoiceId' type="String" />
+    <aura:attribute name='activeTab' type="String" />
 	<!-- transfers invoiceId betweem components END-->
     
 	<div class="wrapper">

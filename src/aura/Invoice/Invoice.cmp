@@ -36,8 +36,8 @@
                 </div>
             </div>
             <div class="col links">
-                <a onclick="{!c.sendInvoiceToHeader}">Pay Now</a> or 
-                <a onclick="{!c.sendInvoiceToHeader}">Create Payment Plan</a>
+                <a onclick="{!c.sendInvoiceNowToHeader}">Pay Now</a> or 
+                <a onclick="{!c.sendInvoiceCreateToHeader}">Create Payment Plan</a>
             </div>
         </div>
     </article>

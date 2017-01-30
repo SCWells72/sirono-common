@@ -2,11 +2,14 @@
     doInit: function (component, event, helper) {
         var urlEvent = window.location.pathname;
         var homePage = '/guarantor/s/';
+		var arrowToggleHeader = component.find('arrowToggleHeader');
         if(urlEvent == homePage){
             component.set("v.backButton","false");
+			$A.util.removeClass(arrowToggleHeader,"arrowDisplay");
         }
         else{
             component.set("v.backButton","true");
+			$A.util.addClass(arrowToggleHeader,"arrowDisplay"); 
         }
     },
     
@@ -14,12 +17,15 @@
         var headerWrap = component.find('headerWrap');
         var headerMain = component.find('headerMain');
         var urlEvent = window.location.pathname;
+		var arrowToggleHeader = component.find('arrowToggleHeader');
         var homePage = '/guarantor/s/';
         if(urlEvent == homePage){
-            component.set("v.backButton","false");
+            component.set("v.backButton","false"); 
+			$A.util.removeClass(arrowToggleHeader,"arrowDisplay");
         }
         else{
             component.set("v.backButton","true");
+			$A.util.addClass(arrowToggleHeader,"arrowDisplay"); 
         }
         if($A.util.hasClass(headerWrap,"small") == false){
             $A.util.addClass(headerWrap,"small");
@@ -34,9 +40,11 @@
 
         if($A.util.hasClass(headerWrap,"small")){
             component.set('v.statusHeader','true');
+			
         }
         else{
             component.set('v.statusHeader','false');
+			
         }
         appEvent.setParams({ "collapse" : component.get('v.statusHeader') });
         appEvent.fire();
@@ -69,15 +77,18 @@
 	},
     setInvoice: function(component, event, helper) {
         component.set('v.invoiceId', event.getParam('invoiceId'));
+        component.set('v.activeTab', event.getParam('type'));
         $A.get("e.force:navigateToURL").setParams({
             'url' : '/payments'
         }).fire();        
     },
     putInvoucePaument: function(component, event, helper) {
         var invoiceId = component.get('v.invoiceId');
+        var activeTab = component.get('v.activeTab');
         component.set('v.invoiceId', undefined);
+        component.set('v.activeTab', undefined);
         var appEvent = $A.get("e.c:payNowResponse");
-        appEvent.setParams({ "invoiceId" : invoiceId});
+        appEvent.setParams({ "invoiceId" : invoiceId, "activeTab": activeTab});
         appEvent.fire();
     }
 })

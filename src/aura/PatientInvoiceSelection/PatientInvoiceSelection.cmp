@@ -2,13 +2,11 @@
     <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
     <aura:attribute name="invoices" type="Aura.Component[]" />
     <aura:attribute name="listOfInvoices" type="List" />
-    <aura:attribute name="invoiceId" type="Object"/>
+    <aura:attribute name="invoiceId" type="String"/>
     <aura:attribute name="AreAllInvoicesSelected" type="Boolean" default="false"/>
-    <aura:handler event="c:payNowResponse" action="{!c.payCall}" />
     <aura:handler event="c:calculatePaymentBalanceEvent" action="{!c.refreshAllInvoicesSelected}" />
 
     <aura:registerEvent name="selectAllInvoices" type="c:SelectInvoicesEvent"/>
-    <aura:registerEvent name="payCall" type="c:payCall"/>
     <div class="invoice-listing-wrapper">
         <header>
             <div class="col filter">

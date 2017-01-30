@@ -38,9 +38,12 @@
 .THIS .header-main .arrow-toggle.backIcon{
     padding-top:0;
     position: relative;
-    top: -5px;
+    top: 20px;
 }
 
 .THIS .header-main .arrow-toggle:nth-child(2){
     padding-top: 0;
+}
+.THIS .arrowDisplay {
+    display:none!important;
 }

@@ -1,18 +1,31 @@
 ({
 	activateTab : function (component, event, helper) {
 		var tabToActivate = event.target.id;
-		var aciveTab = component.get("v.aciveTab");
-		if (aciveTab != tabToActivate) {
-			if (aciveTab) {
-				$A.util.addClass(component.find(aciveTab), 'display_false');
-				$A.util.removeClass(component.find(aciveTab+'_tab'), 'active');
+		var activeTab = component.get("v.activeTab");
+		if (activeTab != tabToActivate) {
+			if (activeTab) {
+				$A.util.addClass(component.find(activeTab), 'display_false');
+				$A.util.removeClass(component.find(activeTab+'_tab'), 'active');
 			}
 			$A.util.removeClass(component.find(tabToActivate), 'display_false');
 			$A.util.addClass(component.find(tabToActivate+'_tab'), 'active');
-			component.set("v.aciveTab",tabToActivate);
+			component.set("v.activeTab",tabToActivate);
 		}
 	},
 	doInit: function(cmp, e, hlpr) {
+		var activeTab = cmp.get("v.activeTab");
+		
+		console.log("activeTab", activeTab);
+		if(activeTab === undefined || activeTab == 'MakeAPayment') {
+			//set default value
+			cmp.set("v.activeTab", "MakeAPayment");
+		} else {
+			$A.util.removeClass(cmp.find('MakeAPayment' + '_tab'), 'active');
+			$A.util.addClass(cmp.find('MakeAPayment'), 'display_false');
+			$A.util.addClass(cmp.find(activeTab + '_tab'), 'active');
+			$A.util.removeClass(cmp.find(activeTab), 'display_false');
+		}
+
 		var checkPPAction = cmp.get("c.getPaymentPlanInfo");
 		checkPPAction.setCallback(this, function(response) {
 			var state = response.getState();
@@ -28,6 +41,7 @@
 			}
 		});
 		$A.enqueueAction(checkPPAction);
+		
 
 		/** @TODO DO PaymentRequestInfo from the values selected from Controller: Active Payment Plan or smth like that ? */
 		function getInitPaymentRequestInfo(paymentInfo) {
@@ -73,5 +87,5 @@
 			}
 			return initInfo;
 		};
-	}
+	},
 })

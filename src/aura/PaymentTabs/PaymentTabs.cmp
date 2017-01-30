@@ -1,7 +1,8 @@
 <aura:component controller="PaymentTabsController">
     <aura:attribute name="PaymentInfo" type="Object" access="public" />
-	<aura:attribute name="aciveTab" type="String" default="MakeAPayment" access="private"/>
-	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="activeTab" type="String"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
 	<div class="nav-wrapper">
 		<nav class="navigation">
@@ -22,7 +23,6 @@
 	<section aura:id="MakeAPayment" class="make-payment-content">
 		<c:MakePaymentTab />
 	</section>
-
 	<section aura:id="CreatePaymentPlan" class="make-payment-content display_false">
         <c:PaymentPlanTab aura:id="paymentPlanCmp" PaymentInfo="{!v.PaymentInfo}" />
 	</section>
