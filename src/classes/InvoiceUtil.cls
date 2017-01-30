@@ -54,19 +54,12 @@ public with sharing class InvoiceUtil {
                     GROUP BY Invoice__c, Account_Sub_Status__c
             ];
 
-            // Put invoice ids into a set to get a list of distinct Ids to loop through
-            Set<Id> invoiceIdSet = new Set<Id>();
-
-            for (AggregateResult ar : queryResults) {
-                invoiceIdSet.add((Id) ar.get('Invoice__c'));
-            }
-
             // idWithStatusValuesMap includes Invoices that will need to be updated
             Map<Id, Invoice__c> idWithStatusValuesMap = new Map<Id, Invoice__c>();
 
             // Loop through each invoice Id in the invoiceIdSet and add each associated Substatus value to a list
             // Concatnate the substatus list and assign to Invoice__c.All_Substatus__c
-            for (Id invoiceId : invoiceIdSet) {
+            for (Id invoiceId : chargeGroupInvoiceIds) {
                 List<String> tempStatusList = new List<String>();
                 Invoice__c tempInvoice = new Invoice__c();
 
