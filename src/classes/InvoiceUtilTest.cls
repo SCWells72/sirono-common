@@ -57,9 +57,9 @@ public class InvoiceUtilTest {
                 LIMIT 1
         ];
 
-        system.assertEquals(7, invoiceIndexValueCheck.Invoice_Status_Index__c);
-
         Test.stopTest();
+
+        system.assertEquals(7, invoiceIndexValueCheck.Invoice_Status_Index__c);
     }
 
     @isTest
@@ -88,9 +88,9 @@ public class InvoiceUtilTest {
                 LIMIT 1
         ];
 
-        system.assertEquals(transactionSum[0].get('txnAmount'), invoiceBalanceCheck.Invoice_Balance__c);
-
         Test.stopTest();
+
+        system.assertEquals(transactionSum[0].get('txnAmount'), invoiceBalanceCheck.Invoice_Balance__c);
     }
 
     @isTest
@@ -111,8 +111,8 @@ public class InvoiceUtilTest {
                 LIMIT 1
         ];
 
-        system.assertEquals(0.00, invoice.Invoice_Balance__c);
-
         Test.stopTest();
+
+        system.assertEquals(0.00, invoice.Invoice_Balance__c);
     }
 }
