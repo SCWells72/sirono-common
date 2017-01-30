@@ -14,7 +14,8 @@ public with sharing class WorkWithInvoicesController {
 							'Due_Date__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Invoiced_Balance__c, '+
 							'Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c, Partial_Payment_Plan__c, ' + 
 							'Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Pre_Invoiced_Balance__c, ' +
-							'(SELECT Id FROM Charge_Groups__r) ' +
+							'(SELECT Id, Payment_Plan__c, Payment_Plan__r.Active__c, Payment_Plan__r.Installment_Amount__c, ' +
+							'Payment_Plan__r.NextPaymentDate__c FROM Charge_Groups__r) ' +
 							'FROM Invoice__c WHERE Guarantor__c = \'' + u.ContactId + '\'';
 			listOfInvoices = Database.query(query);
 
@@ -32,6 +33,10 @@ public with sharing class WorkWithInvoicesController {
 						Location__c,
 						Location__r.Name,
 						External_ID__c,
+						Payment_Plan__c,
+						Payment_Plan__r.Active__c,
+						Payment_Plan__r.Installment_Amount__c,
+						Payment_Plan__r.NextPaymentDate__c,
 						Sirono_Assigned_Date__c,
 						(
 							SELECT
@@ -80,7 +85,8 @@ public with sharing class WorkWithInvoicesController {
 							'Due_Date__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Invoiced_Balance__c, '+
 							'Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c, Partial_Payment_Plan__c, ' + 
 							'Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Pre_Invoiced_Balance__c, ' +
-							'(SELECT Id FROM Charge_Groups__r) ' +
+							'(SELECT Id, Payment_Plan__c, Payment_Plan__r.Active__c, Payment_Plan__r.Installment_Amount__c, ' +
+							'Payment_Plan__r.NextPaymentDate__c FROM Charge_Groups__r) ' +
 							'FROM Invoice__c WHERE Guarantor__c = \'' + u.ContactId + '\'' + ' AND Id =\'' + invoiceId + '\'';
 			listOfInvoices = Database.query(query);
 
@@ -98,6 +104,10 @@ public with sharing class WorkWithInvoicesController {
 						Location__c,
 						Location__r.Name,
 						External_ID__c,
+						Payment_Plan__c,
+						Payment_Plan__r.Active__c,
+						Payment_Plan__r.Installment_Amount__c,
+						Payment_Plan__r.NextPaymentDate__c,
 						Sirono_Assigned_Date__c,
 						(
 							SELECT
@@ -139,6 +149,8 @@ public with sharing class WorkWithInvoicesController {
 		//@AuraEnabled Boolean isPaid {get;set;}
 		//@AuraEnabled Boolean isOverdue {get;set;}
 		@AuraEnabled List<ChargeGroupWrapper> allGroups {get;set;}
+		@AuraEnabled Decimal nextPayment {get;set;}
+		@AuraEnabled Date nextDate {get;set;}
 
 		public InvoicesWrapper(Invoice__c invoice, Map<Id,Charge_Group__c> allGroupsMap) {
 			this.singleInvoice = invoice;
@@ -153,7 +165,10 @@ public with sharing class WorkWithInvoicesController {
 				);
 				if (allGroupsMap.get(cGroup.Id).Balance__c != null)
 					balanceDue += allGroupsMap.get(cGroup.Id).Balance__c;
-
+				if (cGroup.Payment_Plan__c != null && cGroup.Payment_Plan__r.Active__c) {
+					this.nextPayment = cGroup.Payment_Plan__r.Installment_Amount__c;
+					this.nextDate = cGroup.Payment_Plan__r.NextPaymentDate__c;
+				}
 			}
 		}
 	}

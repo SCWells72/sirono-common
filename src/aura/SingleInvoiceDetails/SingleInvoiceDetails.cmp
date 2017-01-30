@@ -17,7 +17,7 @@
             <header class="grid"> 
                 <div class="col intro">
                     <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Due'}">
-                        <div class="issue warning">This invoice is due {!v.invoice.singleInvoice.Due_Date__c}. Please pay the balance now to keep your account current.</div>
+                        <div class="issue warning">This invoice is due <ui:outputDate value="{!v.invoice.singleInvoice.Due_Date__c}" />. Please pay the balance now to keep your account current.</div>
                     </aura:if>
                     <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Overdue'}">
                         <div class="issue warning">This invoice is now overdue. Please pay the balance now to avoid collections.</div>
@@ -26,21 +26,21 @@
                         <div class="issue warning">This invoice is now delinquent and will be sent to a collections agency if payment arrangements are not made within the next 30 days. Please pay the balance now.</div>
                     </aura:if>
                     <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'On Payment Plan'}">
-                        <div class="issue">Your next payment date of [Payment Plan].[Installment_Amount__c] is due Jan 7th.</div>
+                        <div style="padding-bottom: 10px;">Your next payment date of ${!v.invoice.nextPayment} is due <ui:outputDate value="{!v.invoice.nextDate}" />.</div>
                     </aura:if>
                     <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Invoice Voided'}">
-                        <div class="issue">This invoice has changed. Charges were removed from this invoice for review and may appear on a future invoice. No action is required currently.</div>
+                        <div style="padding-bottom: 10px;">This invoice has changed. Charges were removed from this invoice for review and may appear on a future invoice. No action is required currently.</div>
                     </aura:if>
                     <aura:if isTrue="{!v.invoice.singleInvoice.Partial_Payment_Plan__c}">
-                        <div class="issue">Some charges on this invoice are not fully on your payment plan. Add this invoice to your payment plan to ensure it will be paid in full.</div>
+                        <div style="padding-bottom: 10px;">Some charges on this invoice are not fully on your payment plan. Add this invoice to your payment plan to ensure it will be paid in full.</div>
                     </aura:if>
-            		<aura:if isTrue="{!and(or(v.invoice.singleInvoice.Invoice_Status__c == 'Due', v.invoice.singleInvoice.Invoice_Status__c == 'Overdue', v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), not(v.invoice.singleInvoice.Partial_Payment_Plan__c))}">
+            		<aura:if isTrue="{!and((v.invoice.singleInvoice.Invoice_Status__c == 'Due' || v.invoice.singleInvoice.Invoice_Status__c == 'Overdue' || v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), not(v.invoice.singleInvoice.Partial_Payment_Plan__c))}">
                         <div class="title clear"><a href="#">Pay Now</a> or <a href="#">Create Payment Plan</a></div>
                     </aura:if>
             		<aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'On Payment Plan'}">
                         <div class="title clear"><a href="#">Make Additional Payment</a></div>
                     </aura:if>
-                    <aura:if isTrue="{!and(or(v.invoice.singleInvoice.Invoice_Status__c == 'Due', v.invoice.singleInvoice.Invoice_Status__c == 'Overdue', v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), v.invoice.singleInvoice.Partial_Payment_Plan__c)}">
+                    <aura:if isTrue="{!and((v.invoice.singleInvoice.Invoice_Status__c == 'Due' || v.invoice.singleInvoice.Invoice_Status__c == 'Overdue' || v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), v.invoice.singleInvoice.Partial_Payment_Plan__c)}">
                         <div class="title clear"><a href="#">Pay Now</a> or <a href="#">Add to Payment Plan</a></div>
                     </aura:if>
         		</div>
