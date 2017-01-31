@@ -1,9 +1,7 @@
 /**
- * Unit class for the PayEstimate Class.
- * It tests the Pay Estimate Process.
- * If Encounter balance is greater than zero and it's associate with Guarantor Contact than create/make a payment record for this encounter.
- * Check Amount and Card related validations.
+ * Test class for the PayEstimate Class.
  **/
+ 
 @isTest
 private class PayEstimateTest {
     
@@ -50,10 +48,6 @@ private class PayEstimateTest {
         List<SelectOption> expYearOptions = objPayEstimate.expYearOptions;
         List<SelectOption> expMonthOptions = objPayEstimate.expMonthOptions;
         
-        // Call checkAmountValidation method. That checks the Amount related Validation.
-        objPayEstimate.checkAmountValidation();
-        // Call checkCardValidation method. That checks the Card related validation.
-        objPayEstimate.checkCardValidation();
         // Call submit method. that take/create payment for Encounter Record.
         objPayEstimate.submit();
         
@@ -129,10 +123,10 @@ private class PayEstimateTest {
     }
     
     /**
-     * This method test the Amount Validation functionality.
+     * This method test/cover the else part of Submit method.
      **/
     @isTest
-    static void checkAmountValidation() {
+    static void submitElsePart() {
         // Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         INSERT guarantorContact;
@@ -153,186 +147,24 @@ private class PayEstimateTest {
         // Call doNext Method.
         objPayEstimate.doNext();
         
-        // Set Amount equals to 100.
-        objPayEstimate.amount = '100';        
-        // Call checkAmountValidation to Validate Amount Value.
-        objPayEstimate.checkAmountValidation();
-        
-        Test.stopTest();
-        
-        //Check System Assert. We do not get any error message because of we pass amount equals to 100.
-        List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(msgList.size(), 0);
-        
-        // Set Amount equals to 0.
-        objPayEstimate.amount = '0';        
-        // Call checkAmountValidation to Validate Amount Value.
-        objPayEstimate.checkAmountValidation();
-        
-        //Check System Assert. We got Error message Amount must be Greater than Zero.
-        msgList = ApexPages.getMessages();
-        Boolean isError = false;
-        for(Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains(Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO)) {
-                isError  = true;
-            }
-        }
-        System.assertEquals(isError, true);
-        
-        // Set Amount equals to 0.
-        objPayEstimate.amount = '1000';        
-        // Call checkAmountValidation to Validate Amount Value.
-        objPayEstimate.checkAmountValidation();
-        
-        //Check System Assert. We got Error message Amount cannot exceed balance.
-        msgList = ApexPages.getMessages();
-        isError = false;
-        for(Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains(Constants.PAGE_MESSAGE_AMOUNT_EXCEED_BALANCE)) {
-                isError  = true;
-            }
-        }
-        System.assertEquals(isError, true);
-        
-        // Set Amount equals to less than 0.
-        objPayEstimate.amount = '-100';        
-        // Call checkAmountValidation to Validate Amount Value.
-        objPayEstimate.checkAmountValidation();
-        
-        //Check System Assert. We got Error message Amount must be Greater than Zero.
-        msgList = ApexPages.getMessages();
-        isError = false;
-        for(Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains(Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO)) {
-                isError  = true;
-            }
-        }
-        System.assertEquals(isError, true);
-    }
-    
-    /**
-     * This method test the Card Validation functionality.
-     **/
-    @isTest
-    static void checkCardValidation() {
-        // Create Guarantor Contact record.
-        Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
-        
-        Test.startTest();
-        
-        // Create PayEstimate class object with guarantorContact.
-        PayEstimate objPayEstimate = new PayEstimate(new ApexPages.StandardController(guarantorContact));
-        
-        objPayEstimate.expirationYear = String.valueof(System.today().Year() + 1);
-        objPayEstimate.expirationMonth = '07';
-        objPayEstimate.creditCardNumber= '1234567891113';
-        objPayEstimate.cardHolderName= 'Test Name';
-        objPayEstimate.zip = '07895';
+        // Set variables to generate errors.
         objPayEstimate.amount = '';
-        objPayEstimate.cvv = '1234';
-        objPayEstimate.state = 'Test State';
-        objPayEstimate.address = 'Test Address';
-        objPayEstimate.city = 'Test City';
+        objPayEstimate.cvv = '';
+        objPayEstimate.creditCardNumber = '1234';
+        objPayEstimate.expirationYear = String.valueof(System.today().Year());
+        objPayEstimate.expirationMonth = String.valueof(System.today().Month() - 1);
+        
+        // Call submit method.
+        objPayEstimate.submit();
         
         Test.stopTest();
         
-        // Call checkCardValidation to Validate Card Fields.
-        objPayEstimate.checkCardValidation();
-        
-        // Check system assert. All values are true, so we don't get any Error message.
-        List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(msgList.size(), 0);
-        
-        // Set creditCardNumber wrong.
-        objPayEstimate.creditCardNumber = '1234';        
-        // Call checkCardValidation to Validate Card Fields.
-        objPayEstimate.checkCardValidation();
-        
-        //Check System Assert. We got Error message Card number is 12 to 19 digits.
-        msgList = ApexPages.getMessages();
-        Boolean isError = false;
-        for(Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains(Constants.PAGE_MESSAGE_CREDIT_CARD_NUMBER_12_19_DIGITS)) {
-                isError  = true;
-            }
-        }
-        System.assertEquals(isError, true);
-        
-        // Set creditCardNumber equals to empty.
-        objPayEstimate.creditCardNumber = '';        
-        // Call checkCardValidation to Validate Card Fields.
-        objPayEstimate.checkCardValidation();
-        
-        //Check System Assert. We got Error message Card number is require.
-        msgList = ApexPages.getMessages();
-        isError = false;
-        for(Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains(Constants.PAGE_MESSAGE_CREDIT_CARD_NUMBER_REQUIRE)) {
-                isError  = true;
-            }
-        }
-        System.assertEquals(isError, true);
-        
-        // Set expirationYear less than to Current year and expirationMonth less than to Current month.
-        objPayEstimate.expirationYear = String.valueof(System.today().Year());
-        objPayEstimate.expirationMonth = String.valueof(System.today().Month() - 1);        
-        // Call checkCardValidation to Validate Card Fields.
-        objPayEstimate.checkCardValidation();
-        
-        //Check System Assert. We got Error message Expiration Date must be in the future.
-        msgList = ApexPages.getMessages();
-        isError = false;
-        for(Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains(Constants.PAGE_MESSAGE_EXPIRATION_DATE_FUTURE)) {
-                isError  = true;
-            }
-        }
-        System.assertEquals(isError, true);
-        
-        // Set expirationYear less than to Current year for code coverage.
-        objPayEstimate.expirationYear = String.valueof(System.today().Year() - 1);        
-        
-        // Set zip less than to five digit.
-        objPayEstimate.zip = '0785';        
-        // Call checkCardValidation to Validate Card Fields.
-        objPayEstimate.checkCardValidation();
-        
-        //Check System Assert. We got Error message Zip code must be 5 digits.
-        msgList = ApexPages.getMessages();
-        isError = false;
-        for(Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains(Constants.PAGE_MESSAGE_ZIP_CODE_FIVE_DIGIT)) {
-                isError  = true;
-            }
-        }
-        System.assertEquals(isError, true);
-        
-        // Set zip as a string value.
-        objPayEstimate.zip = 'test';
-        objPayEstimate.cvv = '';
-        // Call checkCardValidation to Validate Card Fields.
-        objPayEstimate.checkCardValidation();
-        
-        //Check System Assert. We got Error message Zip code can only contain numeric values.
-        msgList = ApexPages.getMessages();
-        isError = false;
-        for(Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains(Constants.PAGE_MESSAGE_ZIP_CODE_ONLY_NUMERIC)) {
-                isError  = true;
-            }
-        }
-        System.assertEquals(isError, true);
-        
-        // We simply set all variables for Code Coverage.        
-        objPayEstimate.cardHolderName = '';
-        objPayEstimate.cvv = '123456';
-        objPayEstimate.address = '';
-        objPayEstimate.zip = '';
-        // Call checkCardValidation to Validate Card Fields.
-        objPayEstimate.checkCardValidation();
-        
-        // Call submit method for Else Part code coverage.
-        objPayEstimate.submit();
+        // Get List of Payment based on Encounter.
+        List<Payment__c> payments = [SELECT Id, Amount__c, Guarantor__c, Encounter__c
+                        FROM Payment__c
+                        WHERE Encounter__c = :encounter.Id
+        ];
+        // Check system assert, Payment is not create for encounter.
+        System.assertEquals(payments.size(), 0);
     }
 }
