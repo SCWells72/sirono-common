@@ -175,11 +175,12 @@
     <listRefreshMethod>refreshList</listRefreshMethod>
     <primaryTabColor>#0070D2</primaryTabColor>
     <saveUserSessions>false</saveUserSessions>
-    <tab>standard-Contact</tab>
     <tab>standard-Case</tab>
-    <tab>Encounter__c</tab>
-    <tab>standard-Dashboard</tab>
     <tab>Charge_Group__c</tab>
+    <tab>standard-Contact</tab>
+    <tab>Coverage__c</tab>
+    <tab>standard-Dashboard</tab>
+    <tab>Encounter__c</tab>
     <tabLimitConfig>
         <maxNumberOfPrimaryTabs>20</maxNumberOfPrimaryTabs>
         <maxNumberOfSubTabs>10</maxNumberOfSubTabs>
@@ -190,10 +191,15 @@
             <tab>Charge_Group__c</tab>
         </mapping>
         <mapping>
+            <fieldName>Encounter__c</fieldName>
+            <tab>Coverage__c</tab>
+        </mapping>
+        <mapping>
+            <fieldName>Guarantor__c</fieldName>
             <tab>Encounter__c</tab>
         </mapping>
         <mapping>
-            <fieldName>ContactId</fieldName>
+            <fieldName>Guarantor_Information__c</fieldName>
             <tab>standard-Case</tab>
         </mapping>
         <mapping>

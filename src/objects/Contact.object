@@ -41,6 +41,10 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -100,7 +104,7 @@
         <label>Agent Hightlight</label>
     </compactLayouts>
     <enableEnhancedLookup>true</enableEnhancedLookup>
-    <enableFeeds>true</enableFeeds>
+    <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
     <externalSharingModel>Private</externalSharingModel>
     <fieldSets>
@@ -212,6 +216,111 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <label>Billing_Patient</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Guarantor</fullName>
+        <description>It will display in Create Manual Case</description>
+        <displayedFields>
+            <field>FirstName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MiddleName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>LastName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Suffix</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Birthdate</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Social_Security_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>HomePhone</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MobilePhone</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>OtherPhone</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MailingStreet</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MailingCity</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MailingState</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MailingPostalCode</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MailingCountry</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Guarantor</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Patient</fullName>
+        <description>It will display in Create Manual Case</description>
+        <displayedFields>
+            <field>FirstName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MiddleName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>LastName</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Suffix</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Medical_Record_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Patient</label>
     </fieldSets>
     <fieldSets>
         <fullName>Payer_Guarantor</fullName>
@@ -445,7 +554,6 @@
     </fieldSets>
     <fields>
         <fullName>AccountId</fullName>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Lookup</type>
     </fields>
@@ -485,12 +593,10 @@
     </fields>
     <fields>
         <fullName>AssistantName</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
     </fields>
     <fields>
         <fullName>AssistantPhone</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
     </fields>
     <fields>
@@ -510,7 +616,6 @@
     </fields>
     <fields>
         <fullName>Birthdate</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
     </fields>
     <fields>
@@ -518,7 +623,6 @@
         <externalId>false</externalId>
         <label>CTINumber1</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Phone</type>
     </fields>
@@ -527,7 +631,6 @@
         <externalId>false</externalId>
         <label>CTINumber2</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Phone</type>
     </fields>
@@ -536,7 +639,6 @@
         <externalId>false</externalId>
         <label>CTINumber3</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Phone</type>
     </fields>
@@ -549,7 +651,6 @@
         <relationshipLabel>Contacts</relationshipLabel>
         <relationshipName>Contacts</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Lookup</type>
     </fields>
@@ -558,7 +659,6 @@
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
         <label>Deleted</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Checkbox</type>
     </fields>
@@ -594,17 +694,14 @@
     </fields>
     <fields>
         <fullName>Department</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
     </fields>
     <fields>
         <fullName>Description</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
     </fields>
     <fields>
         <fullName>DoNotCall</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
     </fields>
     <fields>
@@ -624,7 +721,6 @@
     </fields>
     <fields>
         <fullName>Email</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
     </fields>
     <fields>
@@ -636,7 +732,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Currency</type>
     </fields>
@@ -647,7 +742,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Number</type>
         <unique>true</unique>
@@ -658,14 +752,12 @@
         <label>External ID</label>
         <length>255</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Text</type>
         <unique>false</unique>
     </fields>
     <fields>
         <fullName>Fax</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
     </fields>
     <fields>
@@ -678,27 +770,6 @@
         <trackHistory>false</trackHistory>
         <type>Text</type>
         <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Sex__c</fullName>
-        <description>Gender of Guarantor</description>
-        <externalId>false</externalId>
-        <label>Sex</label>
-        <picklist>
-            <picklistValues>
-                <fullName>Male</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Female</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
-        <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <type>Picklist</type>
     </fields>
     <fields>
         <fullName>Guarantor_Patient_Id__c</fullName>
@@ -752,23 +823,19 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <relationshipLabel>Guarantor</relationshipLabel>
         <relationshipName>Assigned_Guarantor</relationshipName>
         <required>false</required>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Lookup</type>
     </fields>
     <fields>
         <fullName>HasOptedOutOfEmail</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
     </fields>
     <fields>
         <fullName>HasOptedOutOfFax</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
     </fields>
     <fields>
         <fullName>HomePhone</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
     </fields>
     <fields>
@@ -792,7 +859,6 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
             <sorted>false</sorted>
         </picklist>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Picklist</type>
     </fields>
@@ -803,7 +869,6 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <precision>2</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Number</type>
         <unique>false</unique>
@@ -835,7 +900,6 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
     </fields>
     <fields>
         <fullName>Jigsaw</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
     </fields>
     <fields>
@@ -889,13 +953,11 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Picklist</type>
     </fields>
     <fields>
         <fullName>MailingAddress</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
     </fields>
     <fields>
@@ -905,14 +967,12 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <label>Medical Record Number</label>
         <length>20</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Text</type>
         <unique>false</unique>
     </fields>
     <fields>
         <fullName>MobilePhone</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
     </fields>
     <fields>
@@ -936,13 +996,11 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
             <sorted>false</sorted>
         </picklist>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Picklist</type>
     </fields>
     <fields>
         <fullName>Name</fullName>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
     </fields>
     <fields>
@@ -966,7 +1024,6 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <externalId>false</externalId>
         <label>Notes</label>
         <length>131072</length>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Html</type>
         <visibleLines>10</visibleLines>
@@ -977,19 +1034,16 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <label>Origin Code</label>
         <length>255</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Text</type>
         <unique>false</unique>
     </fields>
     <fields>
         <fullName>OtherAddress</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
     </fields>
     <fields>
         <fullName>OtherPhone</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
     </fields>
     <fields>
@@ -1013,7 +1067,6 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
             <sorted>false</sorted>
         </picklist>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Picklist</type>
     </fields>
@@ -1064,7 +1117,6 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
     </fields>
     <fields>
         <fullName>OwnerId</fullName>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Lookup</type>
     </fields>
@@ -1075,7 +1127,6 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Number</type>
         <unique>true</unique>
@@ -1087,7 +1138,6 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <precision>3</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Number</type>
         <unique>false</unique>
@@ -1114,14 +1164,12 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <precision>3</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Number</type>
         <unique>false</unique>
     </fields>
     <fields>
         <fullName>Phone</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
     </fields>
     <fields>
@@ -1146,7 +1194,6 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <label>Preferred Contact</label>
         <length>15</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Text</type>
         <unique>false</unique>
@@ -1158,23 +1205,40 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Number</type>
         <unique>true</unique>
     </fields>
     <fields>
         <fullName>ReportsToId</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Sex__c</fullName>
+        <description>Gender of Guarantor</description>
+        <externalId>false</externalId>
+        <label>Sex</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Male</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Female</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <type>Picklist</type>
     </fields>
     <fields>
         <fullName>Skip_Invoice_Stmt_Until__c</fullName>
         <externalId>false</externalId>
         <label>Skip Invoice Stmt Until</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Date</type>
     </fields>
@@ -1197,7 +1261,6 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <label>Statement Preference</label>
         <length>100</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Text</type>
         <unique>false</unique>
@@ -1215,7 +1278,6 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
     </fields>
     <fields>
         <fullName>Title</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
     </fields>
     <fields>
@@ -1237,7 +1299,6 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <description>Box verifying Email</description>
         <externalId>false</externalId>
         <label>Verified Email</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Checkbox</type>
     </fields>
@@ -1248,7 +1309,6 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <precision>2</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <type>Number</type>
         <unique>false</unique>
@@ -1292,6 +1352,19 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
             <value>Contact.External_Guarantor</value>
         </filters>
         <label>All External Guarantors</label>
+    </listViews>
+    <listViews>
+        <fullName>All_External_Patients</fullName>
+        <columns>FULL_NAME</columns>
+        <columns>CONTACT.PHONE1</columns>
+        <columns>CONTACT.EMAIL</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>CONTACT.RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Contact.External_Patient</value>
+        </filters>
+        <label>All External Patients</label>
     </listViews>
     <listViews>
         <fullName>All_Guarantors</fullName>
@@ -1386,13 +1459,123 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         </filters>
         <label>Calculated Balance</label>
     </listViews>
-    <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <recordTypes>
         <fullName>External_Guarantor</fullName>
         <active>true</active>
         <description>Created by Patient Accounting System</description>
         <label>External Guarantor</label>
+        <picklistValues>
+            <picklist>Home_Phone_Type__c</picklist>
+            <values>
+                <fullName>Invalid</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Landline</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mobile</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>LeadSource</picklist>
+            <values>
+                <fullName>Advertisement</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Customer Event</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Employee Referral</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Google AdWords</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Partner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Purchased List</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Trade Show</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Webinar</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Website</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Mobile_Phone_Type__c</picklist>
+            <values>
+                <fullName>Invalid</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Landline</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mobile</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Name</picklist>
+            <values>
+                <fullName>Dr%2E</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mr%2E</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mrs%2E</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Ms%2E</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Prof%2E</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Other_Phone_Type__c</picklist>
+            <values>
+                <fullName>Invalid</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Landline</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mobile</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
         <picklistValues>
             <picklist>Sex__c</picklist>
             <values>
@@ -1404,6 +1587,12 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
                 <default>false</default>
             </values>
         </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>External_Patient</fullName>
+        <active>true</active>
+        <description>Created by Patient Accounting System</description>
+        <label>External Patient</label>
         <picklistValues>
             <picklist>LeadSource</picklist>
             <values>
@@ -1470,48 +1659,97 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
                 <default>false</default>
             </values>
         </picklistValues>
-	<picklistValues>
-            <picklist>Home_Phone_Type__c</picklist>
+        <picklistValues>
+            <picklist>Sex__c</picklist>
             <values>
-                <fullName>Invalid</fullName>
+                <fullName>Female</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>Landline</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mobile</fullName>
+                <fullName>Male</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
-	<picklistValues>
-            <picklist>Mobile_Phone_Type__c</picklist>
+    </recordTypes>
+    <recordTypes>
+        <fullName>General</fullName>
+        <active>true</active>
+        <description>Used to create a contact when they are not identified as a Guarantor, Patient or Staff Contact.</description>
+        <label>General</label>
+        <picklistValues>
+            <picklist>LeadSource</picklist>
             <values>
-                <fullName>Invalid</fullName>
+                <fullName>Advertisement</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>Landline</fullName>
+                <fullName>Customer Event</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>Mobile</fullName>
+                <fullName>Employee Referral</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Google AdWords</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Partner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Purchased List</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Trade Show</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Webinar</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Website</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
-	<picklistValues>
-            <picklist>Other_Phone_Type__c</picklist>
+        <picklistValues>
+            <picklist>Name</picklist>
             <values>
-                <fullName>Invalid</fullName>
+                <fullName>Dr%2E</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>Landline</fullName>
+                <fullName>Mr%2E</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>Mobile</fullName>
+                <fullName>Mrs%2E</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Ms%2E</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Prof%2E</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Sex__c</picklist>
+            <values>
+                <fullName>Female</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Male</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -1522,13 +1760,17 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <description>Guarantor of the account or case</description>
         <label>Guarantor</label>
         <picklistValues>
-            <picklist>Sex__c</picklist>
+            <picklist>Home_Phone_Type__c</picklist>
             <values>
-                <fullName>Female</fullName>
+                <fullName>Invalid</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>Male</fullName>
+                <fullName>Landline</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mobile</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -1576,6 +1818,21 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
             </values>
         </picklistValues>
         <picklistValues>
+            <picklist>Mobile_Phone_Type__c</picklist>
+            <values>
+                <fullName>Invalid</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Landline</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mobile</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
             <picklist>Name</picklist>
             <values>
                 <fullName>Dr%2E</fullName>
@@ -1598,37 +1855,7 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
                 <default>false</default>
             </values>
         </picklistValues>
-	<picklistValues>
-            <picklist>Home_Phone_Type__c</picklist>
-            <values>
-                <fullName>Invalid</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Landline</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-		<picklistValues>
-            <picklist>Mobile_Phone_Type__c</picklist>
-            <values>
-                <fullName>Invalid</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Landline</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-		<picklistValues>
+        <picklistValues>
             <picklist>Other_Phone_Type__c</picklist>
             <values>
                 <fullName>Invalid</fullName>
@@ -1640,6 +1867,17 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
             </values>
             <values>
                 <fullName>Mobile</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Sex__c</picklist>
+            <values>
+                <fullName>Female</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Male</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -1650,13 +1888,17 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <description>Patient of the account or case</description>
         <label>Patient</label>
         <picklistValues>
-            <picklist>Sex__c</picklist>
+            <picklist>Home_Phone_Type__c</picklist>
             <values>
-                <fullName>Female</fullName>
+                <fullName>Invalid</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>Male</fullName>
+                <fullName>Landline</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mobile</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -1704,6 +1946,21 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
             </values>
         </picklistValues>
         <picklistValues>
+            <picklist>Mobile_Phone_Type__c</picklist>
+            <values>
+                <fullName>Invalid</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Landline</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mobile</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
             <picklist>Name</picklist>
             <values>
                 <fullName>Dr%2E</fullName>
@@ -1726,37 +1983,7 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
                 <default>false</default>
             </values>
         </picklistValues>
-	<picklistValues>
-            <picklist>Home_Phone_Type__c</picklist>
-            <values>
-                <fullName>Invalid</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Landline</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-		<picklistValues>
-            <picklist>Mobile_Phone_Type__c</picklist>
-            <values>
-                <fullName>Invalid</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Landline</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-		<picklistValues>
+        <picklistValues>
             <picklist>Other_Phone_Type__c</picklist>
             <values>
                 <fullName>Invalid</fullName>
@@ -1768,6 +1995,17 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
             </values>
             <values>
                 <fullName>Mobile</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Sex__c</picklist>
+            <values>
+                <fullName>Female</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Male</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -1778,13 +2016,17 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <description>This is for the staff of the contact Object</description>
         <label>Staff</label>
         <picklistValues>
-            <picklist>Sex__c</picklist>
+            <picklist>Home_Phone_Type__c</picklist>
             <values>
-                <fullName>Female</fullName>
+                <fullName>Invalid</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>Male</fullName>
+                <fullName>Landline</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mobile</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -1832,6 +2074,21 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
             </values>
         </picklistValues>
         <picklistValues>
+            <picklist>Mobile_Phone_Type__c</picklist>
+            <values>
+                <fullName>Invalid</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Landline</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mobile</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
             <picklist>Name</picklist>
             <values>
                 <fullName>Dr%2E</fullName>
@@ -1854,37 +2111,7 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
                 <default>false</default>
             </values>
         </picklistValues>
-	<picklistValues>
-            <picklist>Home_Phone_Type__c</picklist>
-            <values>
-                <fullName>Invalid</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Landline</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-		<picklistValues>
-            <picklist>Mobile_Phone_Type__c</picklist>
-            <values>
-                <fullName>Invalid</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Landline</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-		<picklistValues>
+        <picklistValues>
             <picklist>Other_Phone_Type__c</picklist>
             <values>
                 <fullName>Invalid</fullName>
@@ -1896,6 +2123,17 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
             </values>
             <values>
                 <fullName>Mobile</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Sex__c</picklist>
+            <values>
+                <fullName>Female</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Male</fullName>
                 <default>false</default>
             </values>
         </picklistValues>

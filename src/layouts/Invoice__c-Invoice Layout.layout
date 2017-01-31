@@ -30,7 +30,7 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Invoice_Status__c</field>
-            </layoutItems>    
+            </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Display_Name__c</field>
@@ -90,14 +90,15 @@
     </layoutSections>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Active__c</fields>
         <fields>Guarantor__c</fields>
-        <fields>Date_Of_Service_Start_Date__c</fields>
-        <fields>Date_Of_Service_End_Date__c</fields>
-        <fields>Location__c</fields>
+        <fields>Active__c</fields>
+        <fields>Balance__c</fields>
+        <fields>Account_Status__c</fields>
+        <fields>Account_Sub_Status__c</fields>
         <fields>Payment_Plan__c</fields>
-        <fields>Origin_Subcode__c</fields>
         <relatedList>Charge_Group__c.Invoice__c</relatedList>
+        <sortField>Account_Sub_Status__c</sortField>
+        <sortOrder>Asc</sortOrder>
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>

@@ -14,6 +14,11 @@
         <relationshipLabel><!-- Campaign Member Histories --></relationshipLabel>
     </fields>
     <fields>
+        <label><!-- Case ID --></label>
+        <name>Case_ID__c</name>
+        <relationshipLabel><!-- Campaign Member Histories --></relationshipLabel>
+    </fields>
+    <fields>
         <label><!-- Contact --></label>
         <name>Contact__c</name>
         <relationshipLabel><!-- Campaign Member Histories --></relationshipLabel>

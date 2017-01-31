@@ -112,6 +112,10 @@
         </picklistValues>
     </fields>
     <fields>
+        <label><!-- Payment Id --></label>
+        <name>Payment_Id__c</name>
+    </fields>
+    <fields>
         <label><!-- Payment Method --></label>
         <name>Payment_Method__c</name>
         <relationshipLabel><!-- Payments --></relationshipLabel>
@@ -120,6 +124,10 @@
         <label><!-- Payment Plan --></label>
         <name>Payment_Plan__c</name>
         <relationshipLabel><!-- Payments --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Payment Receipt --></label>
+        <name>Payment_Receipt__c</name>
     </fields>
     <fields>
         <label><!-- Payor --></label>

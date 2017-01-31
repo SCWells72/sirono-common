@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Sirono Settings New</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Sirono Settings New</value>
+    </caseValues>
+    <fields>
+        <label><!-- Apikey --></label>
+        <name>Apikey__c</name>
+    </fields>
+    <fields>
+        <label><!-- Country Code --></label>
+        <name>Country_Code__c</name>
+    </fields>
+    <fields>
+        <label><!-- Format --></label>
+        <name>Format__c</name>
+    </fields>
+    <fields>
+        <label><!-- Max Number Plan Installments --></label>
+        <name>Max_Number_Plan_Installments__c</name>
+    </fields>
+    <fields>
+        <label><!-- Min Installment Amount --></label>
+        <name>Min_Installment_Amount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Min Number Plan Installments --></label>
+        <name>Min_Number_Plan_Installments__c</name>
+    </fields>
+    <fields>
+        <label><!-- Server Endpoint URL --></label>
+        <name>Server_Endpoint_URL__c</name>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

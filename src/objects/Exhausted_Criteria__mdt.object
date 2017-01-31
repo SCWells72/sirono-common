@@ -3,6 +3,7 @@
     <fields>
         <fullName>Disposition_Type__c</fullName>
         <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
         <label>Disposition Type</label>
         <length>255</length>
         <required>false</required>
@@ -11,4 +12,5 @@
     </fields>
     <label>Exhausted Criteria</label>
     <pluralLabel>Exhausted Criterias</pluralLabel>
+    <visibility>Public</visibility>
 </CustomObject>
