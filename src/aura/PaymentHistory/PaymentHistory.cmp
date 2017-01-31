@@ -21,12 +21,45 @@
                     <thead>
                         <tr class="slds-text-title--caps">
                             <th class="slds-is-sortable" scope="col" aria-label="Payment Date">
+                                <a data-order-type='Charge_Date__c' onclick="{!c.updateSorting}" class="slds-th__action slds-text-link--reset">
+                                    <span class="slds-assistive-text">Sort </span>
+                                    <span class="slds-truncate" title="Payment Date">Payment Date</span>
+                                    <div class="slds-icon_container">
+                                        <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
+                                    </div>
+                                    <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
+                                </a>
                             </th>
                             <th class="slds-is-sortable" scope="col" aria-label="Description">
+                                <a data-order-type='Payment_Method__r.Last_4__c' onclick="{!c.updateSorting}" class="slds-th__action slds-text-link--reset">
+                                    <span class="slds-assistive-text">Sort </span>
+                                    <span class="slds-truncate" title="Description">Description</span>
+                                    <div class="slds-icon_container">
+                                        <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
+                                    </div>
+                                    <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
+                                </a>
                             </th>
                             <th class="slds-is-sortable" scope="col" aria-label="Transaction Number">
+                                <a data-order-type='Processor_Transaction_Id__c' onclick="{!c.updateSorting}" class="slds-th__action slds-text-link--reset">
+                                    <span class="slds-assistive-text">Sort </span>
+                                    <span class="slds-truncate" title="Transaction Number">Transaction Number</span>
+                                    <div class="slds-icon_container">
+                                        <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
+
+                                    </div>
+                                    <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
+                                </a>
                             </th>
                             <th class="slds-is-sortable" scope="col" aria-label="Amount Paid">
+                                <a data-order-type='Amount__c' onclick="{!c.updateSorting}" class="slds-th__action slds-text-link--reset">
+                                    <span class="slds-assistive-text">Sort </span>
+                                    <span class="slds-truncate" title="Amount Paid">Amount Paid</span>
+                                    <div class="slds-icon_container">
+                                        <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
+                                    </div>
+                                    <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
+                                </a>
                             </th>
                             <th class="slds-is-sortable" scope="col" aria-label="Print Receipt">
                             </th>

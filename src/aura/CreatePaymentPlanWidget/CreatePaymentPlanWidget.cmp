@@ -1,12 +1,71 @@
 <aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="paymentPlan" type="Payment_Plan__c" />
 
     <aura:registerevent name="payRequest" type="c:payNowRequest" />
-	<div class="col payment-cta no-small">
-        <img src="{!$Resource.SironoData + '/assets/images/payment-plan.png'}" alt="Create Payment Plan" />
-        <h2>Create a Payment Plan</h2>
-        <p>Can't pay your invoices all at once? Enroll in an interest-free payment plan - easy, convenient and hassle-free!</p>
-        <a onclick="{!c.sendPageCreateToHeader}">
-            <button class="slds-button slds-button--neutral">Create Payment Plan</button>
-        </a>
-    </div>
+    <aura:if istrue="{!v.paymentPlan.Active__c}">
+        <!--Automatic-->
+        <aura:if istrue="{!v.paymentPlan.Plan_Type__c == 'Automatic'}">
+            <aura:if istrue="{!v.paymentPlan.Payment_Plan_Standing__c == 'Good Standing'}">
+                <img src="{!$Resource.SironoData + '/assets/images/payment-plan-success.png'}" alt="Your Payent Plan" />
+                <h2>Your Payent Plan</h2>
+                Next payment {!v.paymentPlan.Installment_Amount__c} scheduled for {!v.paymentPlan.NextPaymentDate__c} | Payment {!v.paymentPlan.Installments_Completed__c} of {!v.paymentPlan.Original_Installment_Count__c}
+                <a onclick="{!c.sendPageCreateToHeader}">
+                    <button class="slds-button slds-button--neutral">Edit Payment Plan</button>
+                </a>
+            </aura:if>
+            <aura:if istrue="{!v.paymentPlan.Payment_Plan_Standing__c == 'In Error'}">
+                <img src="{!$Resource.SironoData + '/assets/images/payment-plan-warning.png'}" alt="Your Payent Plan is in Error" />
+                <h2>Your Payent Plan</h2>
+                Next payment {!v.paymentPlan.Installment_Amount__c} scheduled for {!v.paymentPlan.NextPaymentDate__c} | Payment {!v.paymentPlan.Installments_Completed__c} of {!v.paymentPlan.Original_Installment_Count__c}
+                <a onclick="{!c.sendPageCreateToHeader}">
+                    <button class="slds-button warning">Update Payment Method</button>
+                </a>
+            </aura:if>
+            <aura:if istrue="{!v.paymentPlan.Payment_Plan_Standing__c == 'Past Due'}">
+                <img src="{!$Resource.SironoData + '/assets/images/payment-plan-delinquent.png'}" alt="Your Payent Plan" />
+                <h2>Your Payent Plan is Delinguent</h2>
+                Next payment {!v.paymentPlan.Installment_Amount__c} scheduled for {!v.paymentPlan.NextPaymentDate__c} | Payment {!v.paymentPlan.Installments_Completed__c} of {!v.paymentPlan.Original_Installment_Count__c}
+                <a onclick="{!c.sendPageCreateToHeader}">
+                    <button class="slds-button slds-button--destructive">Update Payment Method</button>
+                </a>
+            </aura:if>
+        </aura:if>
+        <!--Automatic END-->
+        <!--Manual-->
+        <aura:if isTrue="{!v.paymentPlan.Plan_Type__c == 'Manual'}">
+            <aura:if isTrue="{!v.paymentPlan.Payment_Plan_Standing__c == 'Good Standing'}">
+                <img src="{!$Resource.SironoData + '/assets/images/payment-plan-success.png'}" alt="Your Payent Plan" />
+                <h2>Your Payent Plan</h2>
+                Next payment {!v.paymentPlan.Installment_Amount__c} scheduled for {!v.paymentPlan.NextPaymentDate__c} | Payment {!v.paymentPlan.Installments_Completed__c} of {!v.paymentPlan.Original_Installment_Count__c}
+                <a onclick="{!c.sendPageMakeToHeader}">
+                    <button class="slds-button slds-button--neutral">Pay Installment</button>
+                </a>
+                <a onclick="{!c.sendPageCreateToHeader}">
+                    <button class="slds-button">Edit Payment Plan</button>
+                </a>
+            </aura:if>
+            <aura:if istrue="{!v.paymentPlan.Payment_Plan_Standing__c == 'Past Due'}">
+                <img src="{!$Resource.SironoData + '/assets/images/payment-plan-delinquent.png'}" alt="Your Payent Plan" />
+                <h2>Your Payent Plan is Delinguent</h2>
+                Next payment {!v.paymentPlan.Installment_Amount__c} scheduled for {!v.paymentPlan.NextPaymentDate__c} | Payment {!v.paymentPlan.Installments_Completed__c} of {!v.paymentPlan.Original_Installment_Count__c}
+                <a onclick="{!c.sendPageMakeToHeader}">
+                    <button class="slds-button slds-button--destructive">Pay Installment</button>
+                </a>
+                <a onclick="{!c.sendPageCreateToHeader}">
+                    <button class="slds-button">Update Payment Method</button>
+                </a>
+            </aura:if>
+        </aura:if>
+        <!--Manual END-->
+        <aura:set attribute="else">
+            <div class="col payment-cta no-small">
+                <img src="{!$Resource.SironoData + '/assets/images/payment-plan.png'}" alt="Create Payment Plan" />
+                <h2>Create a Payment Plan</h2>
+                <p>Can't pay your invoices all at once? Enroll in an interest-free payment plan - easy, convenient and hassle-free!</p>
+                <a onclick="{!c.sendPageCreateToHeader}">
+                    <button class="slds-button slds-button--neutral">Create Payment Plan</button>
+                </a>
+            </div>
+        </aura:set>
+    </aura:if>
 </aura:component>

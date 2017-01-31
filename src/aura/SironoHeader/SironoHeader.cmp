@@ -111,18 +111,10 @@
 		                            </div>    
 									<div aura:id="popover-tooltip-copy" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-left slds-popup slds-hide" role="tooltip" id="help">
 										<div class="slds-popover__body">
-											Message{!v.guarantorWrapper.messageInfo}
+											{!v.guarantorWrapper.messageInfo}
 										</div>
 									</div>
 	                            </aura:if>
-	                            <div class="inline-block" onclick="{!c.showTooltip}">
-									<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" />
-	                            </div>    
-								<div aura:id="popover-tooltip-copy" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-left slds-popup slds-hide" role="tooltip" id="help">
-									<div class="slds-popover__body">
-										{!v.guarantorWrapper.messageInfo}
-									</div>
-								</div>
 							</div>
 						</div>
 					</aura:if>
@@ -145,7 +137,7 @@
 		                            </div>    
 									<div aura:id="popover-tooltip-copy" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-left slds-popup slds-hide" role="tooltip" id="help">
 										<div class="slds-popover__body">
-											Message{!v.guarantorWrapper.messageInfo}
+											{!v.guarantorWrapper.messageInfo}
 										</div>
 									</div>
 	                            </aura:if>
@@ -168,7 +160,7 @@
 	                            </div>    
 								<div aura:id="popover-tooltip-copy" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-left slds-popup slds-hide" role="tooltip" id="help">
 									<div class="slds-popover__body">
-										Message{!v.guarantorWrapper.messageInfo}
+										{!v.guarantorWrapper.messageInfo}
 									</div>
 								</div>
 							</div>
@@ -359,7 +351,7 @@
 						<div class="col payment-right">
 							<div class="slds-grid payment-container">
 								<c:OneAndDoneWidget guarantorWrapper='{!v.guarantorWrapper}'/>
-	    						<c:CreatePaymentPlanWidget />
+                                <c:CreatePaymentPlanWidget paymentPlan="{!v.guarantorWrapper.paymentPlan}" />
 							</div>
 						</div>
 					</aura:if>
