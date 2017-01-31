@@ -114,6 +114,23 @@
                 checkOnly="true"/>
     </target>
 
+    <!-- Check only; only run specified tests -->
+    <target name="deployCheckSelectTests">
+        <echo level="info">Running select tests in: ${sf.target.username}</echo>
+        <sf:deploy
+                username="${sf.target.username}"
+                password="${sf.target.password}"
+                serverurl="${sf.target.serverurl}"
+                deployRoot="${basedir}/src"
+                pollWaitMillis="${sf.pollWaitMillis}"
+                maxPoll="${sf.maxPoll}"
+                logType="Debugonly"
+                checkOnly="true"
+                testLevel="RunSpecifiedTests">
+            <runTest>EncounterBalanceTest</runTest>
+        </sf:deploy>
+    </target>
+
     <target name="echo_environment">
         <echoproperties prefix="sf."/>
         <echoproperties prefix="env."/>

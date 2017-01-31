@@ -7,8 +7,6 @@ public class InvoiceUtilTest {
         final String INACTIVE = 'Inactive';
         final String PAID = 'Paid';
         final String DELINQUENT = 'Delinquent';
-        final String TXN_SERVICE = 'serivce';
-
 
         List<String> statusList = new List<String>();
         statusList.add(INACTIVE);
@@ -29,22 +27,11 @@ public class InvoiceUtilTest {
             Charge_Group__c testChargeGroup = TestUtility.generateChargeGroup(testGuarantor.Id, testPatient.Id, i, null);
             testChargeGroup.Account_Sub_Status__c = statusList[i];
             testChargeGroup.Invoice__c = testInvoice.Id;
-            testChargeGroup.Sirono_ID__c = i;
 
             testChargeGroupList.add(testChargeGroup);
         }
         insert testChargeGroupList;
 
-        List<Transaction__c> testTransactionsList = new List<Transaction__c>();
-        for (Charge_Group__c cg : testChargeGroupList) {
-            for (Integer i = 0; i < 5; i++) {
-                Integer randomInt = Integer.valueOf(Math.random()*100000);
-                Transaction__c tempTransaction = TestUtility.generateTransaction(cg, TestUtility.generateRandomCurrency(), 'service');
-                tempTransaction.Sirono_ID__c = randomInt;
-                testTransactionsList.add(tempTransaction);
-            }
-        }
-        insert testTransactionsList;
     }
 
     @isTest
@@ -63,56 +50,85 @@ public class InvoiceUtilTest {
     }
 
     @isTest
-    public static void checkInvoiceBalance() {
+    public static void checkAllSubstatusInvoiceString() {
         Test.startTest();
 
-        List<Invoice__c> insertedInvoices = [
-                SELECT Id
+        List<Invoice__c> queryResults = [
+                SELECT Id, All_Substatus__c
                 FROM Invoice__c
-        ];
-        Set<Id> invoiceIdSet = (new Map<Id, Invoice__c>(insertedInvoices)).keySet();
-
-        // call invoice utility to update invoice balance
-        InvoiceUtil.updateInvoiceBalances(invoiceIdSet);
-
-        AggregateResult[] transactionSum = [
-                SELECT SUM(Amount__c) txnAmount, Charge_Group__r.Invoice__c
-                FROM Transaction__c
-                GROUP BY Charge_Group__r.Invoice__c
-        ];
-
-        // Get the invoice Id and make sure they're the same as the txn sum
-        Invoice__c invoiceBalanceCheck = [
-                SELECT Id, Invoice_Balance__c
-                FROM Invoice__c
-                LIMIT 1
         ];
 
         Test.stopTest();
 
-        system.assertEquals(transactionSum[0].get('txnAmount'), invoiceBalanceCheck.Invoice_Balance__c);
+        for (Invoice__c invoice : queryResults) {
+            system.assertEquals(true, invoice.All_Substatus__c.contains('Inactive'));
+            system.assertEquals(true, invoice.All_Substatus__c.contains('Paid'));
+            system.assertEquals(true, invoice.All_Substatus__c.contains('Delinquent'));
+        }
     }
 
     @isTest
-    public static void invoiceBalanceDeletedChargeGroupTest() {
-        // Get a list of charge groups and delete them
-        // Assert that invoice balance = 0.00
+    public static void checkAllSubstatusInvoiceFieldEmptySet() {
         Test.startTest();
 
-        List<Charge_Group__c> chargeGroups = [
-                SELECT Id
-                FROM Charge_Group__c
-        ];
-        delete chargeGroups;
+        String errorMessage;
+        Set<Id> emptyInvoiceIdSet = new Set<Id>();
 
-        Invoice__c invoice = [
-                SELECT Id, Invoice_Balance__c
+        try {
+            InvoiceUtil.updateAllSubstatusInvoiceField(emptyInvoiceIdSet);
+        } catch (Exception e) {
+            errorMessage = e.getMessage();
+        }
+
+        Test.stopTest();
+
+        system.assertEquals(null, errorMessage);
+    }
+
+    @isTest
+    public static void changeChargeGroupSubstatusTest() {
+        Test.startTest();
+
+        List<Charge_Group__c> chargeGroupList = [
+                SELECT Id, Account_Sub_Status__c
+                FROM Charge_Group__c
+                WHERE Account_Sub_Status__c = 'Delinquent'
+        ];
+
+        chargeGroupList[0].Account_Sub_Status__c = 'Paid';
+        update chargeGroupList[0];
+
+        List<Invoice__c> invoiceList =[
+                SELECT Id, All_Substatus__c
                 FROM Invoice__c
-                LIMIT 1
         ];
 
         Test.stopTest();
 
-        system.assertEquals(0.00, invoice.Invoice_Balance__c);
+        // Assert the count of values from splitting the All_Substatus__c field
+        // Assert that 'Delinquent' is no longer in the All_Substatus__c
+        System.assertEquals(2, invoiceList[0].All_Substatus__c.split(',').size());
+        System.assertEquals(false, invoiceList[0].All_Substatus__c.contains('Delinquent'));
+    }
+
+    @isTest
+    public static void deleteRelatedChargeGroupTest() {
+        Test.startTest();
+
+        List<Charge_Group__c> chargeGroupList = [
+            SELECT Id
+            FROM Charge_Group__c
+        ];
+
+        delete chargeGroupList;
+
+        List<Invoice__c> invoiceList = [
+                SELECT Id, All_Substatus__c
+                FROM Invoice__c
+        ];
+
+        Test.stopTest();
+
+        System.assertEquals(null, invoiceList[0].All_Substatus__c);
     }
 }

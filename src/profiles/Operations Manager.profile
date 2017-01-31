@@ -497,6 +497,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>VisualForceValidations</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisualForceValidationsTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>WrapperError</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2380,11 +2388,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Encounter__c.Total_Charges__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Encounter__c.Total_Credits__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
