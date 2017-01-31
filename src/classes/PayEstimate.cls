@@ -114,10 +114,13 @@ public with sharing class PayEstimate {
      **/
     public void submit() {
         try {
-            Boolean blnIsError = checkCardValidation();
-            Boolean blnIsAmountError = checkAmountValidation();
+            // Call creditCardValidation method that validate all informations/values for Credit Card.
+            Boolean blnIsCCError = VisualForceValidations.creditCardValidation(creditCardNumber, expirationYear, expirationMonth,
+                    zip, cardHolderName, cvv, address);
+            // Call amountValidation method that validate amount.
+            Boolean blnIsAmountError = VisualForceValidations.amountValidation(amount, String.valueOf(selectedEncounter.Balance__c));
 
-            if (!blnIsError && !blnIsAmountError) {
+            if (!blnIsCCError && !blnIsAmountError) {
                 Payment__c payment = new Payment__c();
                 payment.Name = PAYMENTNAME;
                 payment.Guarantor__c = guarantorRecordId;
@@ -136,103 +139,6 @@ public with sharing class PayEstimate {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
                     'ERROR: ' + e.getMessage()));
         }
-    }
-
-    /**
-     * This method is use to check String is empty or null for Validation.
-     *
-     * @Param String str - That contains String value.
-     * @returns Boolean - That contains true or false based on parameter.
-     **/
-    private Boolean isEmpty(String str) {
-        return (str == null || str.trim().equals(''));
-    }
-
-    /**
-     * This method is used to check Amount validation.
-     *
-     * @returns Boolean blnIsError - That contains true or false.
-     **/
-    Public Boolean checkAmountValidation() {
-        Boolean blnIsError = false;
-        if (isEmpty(amount) || (amount.isNumeric() && decimal.valueof(amount) == 0)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO));
-            blnIsError = true;
-        } else {
-            if (decimal.valueof(amount) < 0) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                        Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO));
-                blnIsError = true;
-            }
-            if (decimal.valueof(amount) > selectedEncounter.Balance__c) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                        Constants.PAGE_MESSAGE_AMOUNT_EXCEED_BALANCE));
-                blnIsError = true;
-            }
-        }
-        return blnIsError;
-    }
-
-    /**
-     * This method is used to check Card validation.
-     *
-     * @returns Boolean blnIsError - That contains true or false.
-     **/
-    Public Boolean checkCardValidation() {
-        Boolean blnIsError = false;
-        if (creditCardNumber.length() < 12 || creditCardNumber.Length() > 19) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    Constants.PAGE_MESSAGE_CREDIT_CARD_NUMBER_12_19_DIGITS));
-            blnIsError = true;
-        }
-        if (isEmpty(creditCardNumber)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    Constants.PAGE_MESSAGE_CREDIT_CARD_NUMBER_REQUIRE));
-            blnIsError = true;
-        }
-        if (Integer.valueof(expirationYear) < system.today().year() ||
-                (Integer.valueof(expirationYear) == system.today().year() &&
-                        Integer.valueof(expirationMonth) < system.today().Month())) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    Constants.PAGE_MESSAGE_EXPIRATION_DATE_FUTURE));
-            blnIsError = true;
-        }
-        if (!isEmpty(zip) && zip.length() != 5) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    Constants.PAGE_MESSAGE_ZIP_CODE_FIVE_DIGIT));
-            blnIsError = true;
-        }
-        if (!isEmpty(zip) && !zip.isNumeric()) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    Constants.PAGE_MESSAGE_ZIP_CODE_ONLY_NUMERIC));
-            blnIsError = true;
-        }
-        if (isEmpty(cardHolderName)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    Constants.PAGE_MESSAGE_NAME_REQUIRE));
-            blnIsError = true;
-        }
-        if (!isEmpty(cvv) && (cvv.length() < 3 || cvv.length() > 4)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    Constants.PAGE_MESSAGE_CVV_4_OR_3_DIGIT));
-            blnIsError = true;
-        }
-        if (isEmpty(cvv)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    Constants.PAGE_MESSAGE_CVV_REQUIRE));
-            blnIsError = true;
-        }
-        if (isEmpty(address)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    Constants.PAGE_MESSAGE_BILLING_ADDRESS_REQUIRE));
-            blnIsError = true;
-        }
-        if (isEmpty(zip)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    Constants.PAGE_MESSAGE_ZIP_CODE_REQUIRE));
-            blnIsError = true;
-        }
-        return blnIsError;
     }
 
     /**
