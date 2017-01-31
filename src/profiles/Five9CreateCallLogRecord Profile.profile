@@ -301,6 +301,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>InvoiceStatusUpdateTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>InvoiceUtil</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MockHttpResponseGenerator</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1379,7 +1387,6 @@
         <field>Case.Type</field>
         <readable>true</readable>
     </fieldPermissions>
-
     <fieldPermissions>
         <editable>false</editable>
         <field>Charge_Group_Coverage_Junction__c.Insured__c</field>
@@ -1430,7 +1437,6 @@
         <field>Charge_Group__c.Charge_Group_External_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
-
     <fieldPermissions>
         <editable>false</editable>
         <field>Charge_Group__c.Date_Of_Service_End_Date__c</field>
@@ -1443,6 +1449,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Charge_Group__c.Display_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Charge_Group__c.Encounter__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -1451,7 +1462,7 @@
         <field>Charge_Group__c.External_Guarantor_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
-        <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Charge_Group__c.External_ID__c</field>
         <readable>false</readable>
@@ -1618,13 +1629,23 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-    	<field>Charge_Group__c.Sirono_ID__c</field>
+        <field>Charge_Group__c.Sirono_ID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Charge_Group__c.Sub_Status_Index__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.AccountId</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Add_to_Payment_Plan__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -1687,6 +1708,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Delinquent_Invoices__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Department</field>
         <readable>true</readable>
@@ -1738,12 +1764,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.Sex__c</field>
+        <field>Contact.Guarantor_Patient_Id__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.Guarantor_Patient_Id__c</field>
+        <field>Contact.Guarantor_Status__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1774,6 +1800,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Invoice_Offset_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Invoice_Status_Rollup__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1813,6 +1844,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Non_Payment_Plan_Invoices__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Notes__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -1838,7 +1874,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Outstanding_Invoices__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Overdue_Balance__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Overdue_Invoices__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1885,6 +1931,11 @@
         <editable>true</editable>
         <field>Contact.ReportsToId</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Sex__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2028,6 +2079,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Coverage__c.Encounter__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Coverage__c.External_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2049,11 +2105,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Coverage__c.Group_Number__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Coverage__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2093,12 +2144,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Coverage__c.Encounter__c</field>
+        <field>Coverage__c.Priority__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Coverage__c.Priority__c</field>
+        <field>Coverage__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2518,7 +2569,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Exhausted_Criteria__mdt.Disposition_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Invoice__c.All_Substatus__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Invoice__c.Deactivated_Charge_Groups__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Invoice__c.Display_Name__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2533,17 +2599,37 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Invoice__c.Invoice_Balance__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Invoice__c.Invoice_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Invoice__c.Sirono_ID__c</field>
+        <field>Invoice__c.Invoice_Status_Index__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Invoice__c.Invoice_Status__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Invoice__c.Partial_Payment_Plan__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Invoice__c.Patient__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Invoice__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2563,12 +2649,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Location__c.Sirono_ID__c</field>
+        <field>Location__c.Origin_Code__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Location__c.Origin_Code__c</field>
+        <field>Location__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2595,6 +2681,11 @@
         <editable>true</editable>
         <field>Opportunity.ROI_Analysis_Completed__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Patient_Coverage_Junction__c.Display_Name__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2638,7 +2729,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Payment_Adjustments__c.Sirono_ID__c</field>
+        <field>Payment_Adjustments__c.ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2669,6 +2760,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Payment_Adjustments__c.Post_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Adjustments__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2718,6 +2814,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Payment_Arrangement__c.Number_of_Installments__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Payment_Arrangement__c.Original_Installment_Count__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2743,6 +2844,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Payment_Method__c.Display_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Payment_Method__c.Expiration_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2753,7 +2859,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Payment_Method__c.Sirono_ID__c</field>
+        <field>Payment_Method__c.ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2769,6 +2875,146 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Payment_Method__c.Routing_Number__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Method__c.Sirono_ID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Method__c.Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Active__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Cancellation_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Collected_By__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Completion_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Delinquent_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Delinquent__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Error_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Execute_on_Day__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Has_Error__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Installment_Amount__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Installments_Completed__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.NextPaymentDate__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Next_Payment_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Original_Balance__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Original_Installment_Count__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Payment_Method__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Payment_Plan_Standing__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Plan_Origin__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Plan_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Plan_Value_Modified_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Remaining_Balance__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Remaining_Installment_Count__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Sirono_ID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Skip_Payment_Until__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Status__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Plan__c.Time_to_Delinquency__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2813,17 +3059,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Payment__c.Payment_Method__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Payment__c.Deposit_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Payment__c.Display_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment__c.Encounter__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2838,7 +3084,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Payment__c.Sirono_ID__c</field>
+        <field>Payment__c.ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2853,7 +3099,32 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Payment__c.Payment_Id__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment__c.Payment_Method__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Payment__c.Payment_Plan__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment__c.Payment_Receipt__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment__c.Payor__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment__c.Posted_Amount__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2864,6 +3135,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Payment__c.Scheduled_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2893,12 +3169,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Payor__c.Sirono_ID__c</field>
+        <field>Payor__c.Origin_Code__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Payor__c.Origin_Code__c</field>
+        <field>Payor__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2928,12 +3204,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Provider__c.Sirono_ID__c</field>
+        <field>Provider__c.Origin_Code__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Provider__c.Origin_Code__c</field>
+        <field>Provider__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3018,12 +3294,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Service__c.Display_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Service__c.External_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Service__c.Sirono_ID__c</field>
+        <field>Service__c.ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3058,17 +3339,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Service__c.Sirono_ID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Service__c.Transaction__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Statement__c.Hex_Code__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Statement__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3094,6 +3375,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Statement__c.S3_Key__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Statement__c.Sirono_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3288,11 +3574,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Transaction_Type__c.Sirono_ID__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Transaction_Type__c.Origin_Code__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -3303,7 +3584,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Transaction_Type__c.Sirono_ID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Transaction_Type__c.Unmapped__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Transaction__c.Adjustment__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3313,7 +3604,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Transaction__c.Amount_to_Aggregate__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Transaction__c.Credit_Balance__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Transaction__c.Display_Name__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3323,12 +3624,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Transaction__c.Fail_Date__c</field>
+        <field>Transaction__c.External_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Transaction__c.Sirono_ID__c</field>
+        <field>Transaction__c.Fail_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3353,125 +3654,30 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Transaction__c.Service__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Transaction__c.Sirono_ID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Transaction__c.Transaction_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Transaction__c.Txn_Method__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>User.Legacy_User_Id__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Active__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Cancellation_Date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Collected_By__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Payment_Method__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Delinquent_Date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Delinquent__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Error_Date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Execute_on_Day__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Has_Error__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Installment_Amount__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.NextPaymentDate__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Next_Payment_Date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Original_Installment_Count__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Remaining_Balance__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Plan_Origin__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Plan_Type__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Plan_Value_Modified_Date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Original_Balance__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Remaining_Installment_Count__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Sirono_ID__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Skip_Payment_Until__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Status__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Plan__c.Time_to_Delinquency__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-        <fieldPermissions>
         <editable>false</editable>
         <field>User_Timezone_Setting__mdt.Timezone_Name__c</field>
         <readable>false</readable>
@@ -3485,7 +3691,6 @@
     <layoutAssignments>
         <layout>CampaignMember-Campaign Member Page Layout</layout>
     </layoutAssignments>
-
     <layoutAssignments>
         <layout>Campaign_Member_History__c-Campaign Member History Layout</layout>
     </layoutAssignments>
@@ -3950,11 +4155,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
-        <recordType>Payment_Method__c.Promise</recordType>
-        <visible>false</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
         <recordType>Payment__c.Payment_Plans</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
@@ -4000,6 +4200,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Payment_Method__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Payment_Plan__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -4056,10 +4260,6 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>standard-UserProvisioningRequest</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>Payment_Plan__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <userLicense>Guest User License</userLicense>
