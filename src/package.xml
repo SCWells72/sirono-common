@@ -702,6 +702,7 @@
         <members>Contact.Add_to_Payment_Plan</members>
         <members>Contact.Create_Payment_Plan</members>
         <members>Contact.Process_Payment</members>
+	<members>Contact.Pay_Estimate</members>
         <members>Contact.View_On_Portal</members>
         <members>Encounter__c.New_Payment_Arrangement</members>
         <members>Payment_Method__c.Update_Credit_Card</members>

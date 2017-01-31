@@ -2030,6 +2030,17 @@ If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</fo
         <url>http://www.google.com/search?q={!Contact_FirstName} {!Contact_LastName}</url>
     </webLinks>
     <webLinks>
+        <fullName>Pay_Estimate</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Pay Estimate</masterLabel>
+        <openType>noSidebar</openType>
+        <page>PayEstimate</page>
+        <protected>false</protected>
+    </webLinks>
+    <webLinks>
         <fullName>Process_Payment</fullName>
         <availability>online</availability>
         <displayType>button</displayType>

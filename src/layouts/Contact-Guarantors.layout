@@ -7,6 +7,7 @@
     <customButtons>Add_Case</customButtons>
     <customButtons>Add_to_Payment_Plan</customButtons>
     <customButtons>View_On_Portal</customButtons>
+    <customButtons>Pay_Estimate</customButtons>
     <customConsoleComponents>
         <primaryTabComponents>
             <containers>
