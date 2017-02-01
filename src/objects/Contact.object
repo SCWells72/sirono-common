@@ -718,13 +718,20 @@ ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
     <fields>
         <fullName>Guarantor_Status__c</fullName>
         <externalId>false</externalId>
-        <formula>If(Invoice_Status_Rollup__c == 7, &quot;Delinquent&quot;,
-If(Invoice_Status_Rollup__c == 6, &quot;Overdue&quot;,
-If(Invoice_Status_Rollup__c == 5, &quot;Due&quot;,
-If(Invoice_Status_Rollup__c == 4, &quot;On Payment Plan&quot;,
-If(Invoice_Status_Rollup__c == 3, &quot;Paid&quot;,
-If(Invoice_Status_Rollup__c == 2, &quot;Paid&quot;,
-If(Invoice_Status_Rollup__c == 1, &quot;Paid&quot;, &quot;Error&quot;)))))))</formula>
+        <formula>IF(RecordType.Name == &apos;Guarantor&apos;,
+CASE(Invoice_Status_Rollup__c,
+9, &quot;Delinquent&quot;,
+8, &quot;Overdue&quot;,
+7, &quot;Due&quot;,
+6, &quot;On Payment Plan&quot;,
+5, &quot;Paid&quot;,
+4, &quot;Paid&quot;,
+3, &quot;Paid&quot;,
+2, &quot;Unknown&quot;,
+1, &quot;Paid&quot;,
+0, &quot;Paid&quot;,
+&quot;Error&quot;),
+&quot;&quot;)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Guarantor Status</label>
         <required>false</required>
