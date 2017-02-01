@@ -26,7 +26,7 @@
                         <div class="issue warning">This invoice is now delinquent and will be sent to a collections agency if payment arrangements are not made within the next 30 days. Please pay the balance now.</div>
                     </aura:if>
                     <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'On Payment Plan'}">
-                        <div style="padding-bottom: 10px;">Your next payment date of ${!v.invoice.nextPayment} is due <ui:outputDate value="{!v.invoice.nextDate}" />.</div>
+                        <div style="padding-bottom: 10px;">Your next payment date of <ui:outputCurrency value="{!v.invoice.nextPayment}" /> is due <ui:outputDate value="{!v.invoice.nextDate}" />.</div>
                     </aura:if>
                     <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Invoice Voided'}">
                         <div style="padding-bottom: 10px;">This invoice has changed. Charges were removed from this invoice for review and may appear on a future invoice. No action is required currently.</div>
@@ -46,7 +46,9 @@
         		</div>
             <div class="col align-right slds-align-bottom"> 
                 <span class="title">Total You Owe</span>  
-                <span class="value">${!v.invoice.balanceDue}</span> 
+                <span class="value">
+                    <ui:outputCurrency value="{!v.invoice.balanceDue}" />
+                </span> 
             </div> 
             </header> 
             <aura:iteration items="{!v.invoice.allGroups}" var="group" > 
