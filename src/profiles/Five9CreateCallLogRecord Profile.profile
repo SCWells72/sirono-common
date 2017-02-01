@@ -2354,11 +2354,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Encounter__c.Total_Credits__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Encounter__c.Total_Payments__c</field>
         <readable>true</readable>
     </fieldPermissions>
