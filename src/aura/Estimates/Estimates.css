@@ -34,13 +34,3 @@
 .THIS .estimate_details {
     width:66.66666%;
 }
-.THIS .invoice-content .col.details,
-.THIS .invoice-content .col.charges,
-.THIS .invoice-content .col.payments,
-.THIS .invoice-content .col.total {
-    width:25%;
-}
-.THIS .invoice-content .col.total {
-    padding-top: 0;
-    padding-right: 0;
-}

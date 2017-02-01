@@ -16,3 +16,17 @@
     margin-left: -132.5px;
     z-index: 2;
 }
+
+.THIS .balance {
+    font-size: 1rem !important;
+}
+
+.THIS .total {
+    width: 100% !important;
+    padding-bottom: 0px !important;
+}
+
+.THIS .divLine {
+    width: 66.6666%; 
+    margin-left: 33.3333%;
+}

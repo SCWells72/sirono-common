@@ -20,16 +20,16 @@
                             Balance
                         </span>
                         <span class="value">
-                            <ui:outputCurrency value="{!v.estimate.singleEncounter.Patient_Portion__c}" />
+                            <ui:outputCurrency value="{!v.estimate.singleEncounter.Balance__c}" />
                         </span>
                     </div>
                 </header>
                 <div class="invoice-alert"></div>
                 <div class="invoice-content">
                     <div class="col details">
-                        2/12/2017
+                        <ui:outputDate value="{!v.estimate.singleEncounter.Date_of_Service__c}" format="MM/DD/YYYY"/>
                         <div>{!'ID Number: '+v.estimate.singleEncounter.Encounter_ID__c}</div>
-                        <div>{!'Location: '+v.estimate.singleEncounter.Location__c}</div>
+                        <div>{!'Location: '+ if(v.estimate.singleEncounter.Type__c == 'HB', v.estimate.singleEncounter.Location__c, v.estimate.singleEncounter.Ordering_Physician__c)}</div>
                     <button class="slds-button slds-button--brand slds-m-top--small clear">View Estimate</button>
                     </div>
                     <div class="col charges">
@@ -63,12 +63,44 @@
                             <div class="col footer credit align-right">-$367.00</div>
                         </div>
                     </div>
-                    <div class="col total align-right">
-                        <span class="title">
-                            Balance
+                    <div class="{! 'col total align-right payments display_'+(v.estimate.singleEncounter.Total_Payments__c > 0)}">
+                        <span class="title balance">
+                            Estimated Patient Portion
                         </span>
                         <span class="value">
                             <ui:outputCurrency value="{!v.estimate.singleEncounter.Patient_Portion__c}" />
+                        </span>
+                        <hr class="divLine"/>
+                    </div>
+                    <div class="col"/>
+                    <div class="col"/>
+                    <div class="{! 'col payments display_'+(v.estimate.singleEncounter.Total_Payments__c > 0)}">
+                        <h3>Payments Recieved</h3>
+                        <div class="payment-details">
+                            <aura:iteration items="{!v.estimate.singleEncounter.Payments__r}" var="payment" >
+                                    <div class="col">
+                                        Thank you for your payment - 
+                                        <ui:outputDate value="{! payment.Deposit_Date__c}" format="MM/DD/YYYY"/>
+                                    </div>
+                                    <div class="col credit align-right">
+                                        <ui:outputCurrency value="{!payment.Amount__c}" />
+                                    </div>
+                            </aura:iteration>
+                            
+                            <div class="col footer">
+                                <div class="title">Total Credits</div>
+                            </div>
+                            <div class="col footer credit align-right">
+                                <ui:outputCurrency value="{!v.estimate.singleEncounter.Total_Payments__c}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col total align-right">
+                        <span class="title balance">
+                            Balance
+                        </span>
+                        <span class="value">
+                            <ui:outputCurrency value="{!v.estimate.singleEncounter.Balance__c}" />
                         </span>
                     </div>
                 </div>
