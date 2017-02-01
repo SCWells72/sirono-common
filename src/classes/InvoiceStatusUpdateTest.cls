@@ -39,6 +39,6 @@ public class InvoiceStatusUpdateTest {
                 LIMIT 1
         ];
 
-        system.assertEquals(7, invoiceIndexValueCheck.Invoice_Status_Index__c);
+        system.assertEquals(9, invoiceIndexValueCheck.Invoice_Status_Index__c);
     }
 }
