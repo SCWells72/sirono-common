@@ -10,13 +10,21 @@ public with sharing class WorkWithInvoicesController {
 		];
 		if (u.ContactId != null) {
 			List<Invoice__c> listOfInvoices = new List<Invoice__c>();
-			String query = 'SELECT Id, Name, Patient__r.Name, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, '+
+			String query = 'SELECT Id, Name, Patient__r.Name, Patient__r.Medical_Record_Number__c, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, '+
 							'Due_Date__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Invoiced_Balance__c, '+
 							'Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c, Partial_Payment_Plan__c, ' + 
 							'Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Pre_Invoiced_Balance__c, ' +
 							'(SELECT Id, Payment_Plan__c, Payment_Plan__r.Active__c, Payment_Plan__r.Installment_Amount__c, ' +
 							'Payment_Plan__r.NextPaymentDate__c FROM Charge_Groups__r) ' +
 							'FROM Invoice__c WHERE Guarantor__c = \'' + u.ContactId + '\'';
+			if(groupFilter != null && groupFilter != '') {
+				if(groupFilter == 'Unpaid'){
+					query += ' AND Invoice_Status__c IN (\'Delinquent\', \'Overdue\', \'Due\', \'On Payment Plan\')';
+				} else {
+					query += ' AND Invoice_Status__c = \'' + groupFilter + '\'';
+				}
+			}
+			System.debug('QUERY: ' + query);
 			listOfInvoices = Database.query(query);
 
 			Set<String> allChargeGroupIds = new Set<String>();
@@ -32,12 +40,16 @@ public with sharing class WorkWithInvoicesController {
 						Balance__c,
 						Location__c,
 						Location__r.Name,
+						Provider__r.Name,
+						Account_Type__c,
 						External_ID__c,
 						Payment_Plan__c,
 						Payment_Plan__r.Active__c,
 						Payment_Plan__r.Installment_Amount__c,
 						Payment_Plan__r.NextPaymentDate__c,
 						Sirono_Assigned_Date__c,
+						Date_Of_Service_Start_Date__c,
+						Date_Of_Service_End_Date__c,
 						(
 							SELECT
 									Id,
@@ -70,6 +82,39 @@ public with sharing class WorkWithInvoicesController {
 		return allInvoices;
 	}
 
+	@AuraEnabled
+    public static List<WorkWithEstimatesController.EstimateWrapper> getAllEstimates(String groupFilter, String additionalFilter) {
+		return WorkWithEstimatesController.getAllEstimates(groupFilter, additionalFilter);
+	}
+
+	@AuraEnabled
+	public static List<WorkWithEstimatesController.EstimateWrapper> getEstimate(String invoiceId){
+		List<WorkWithEstimatesController.EstimateWrapper> allEstimates = new List<WorkWithEstimatesController.EstimateWrapper>();
+		User u = [
+			SELECT	ContactId
+			FROM	User
+			WHERE	Id =: UserInfo.getUserId()
+		];
+		if (u.ContactId != null) {
+			String query = 'SELECT Id, Name, Patient__r.Name, Estimate_ID__c, Patient_Portion__c, '+
+							'Date_of_Service__c, Patient__r.Medical_Record_Number__c, Procedure__c, '+
+							'Location__c, Encounter_ID__c, Total_Charges__c, Insurance_Discount__c, '+
+							'Insurance_Portion__c, Total_Payments__c, Balance__c, Type__c, Ordering_Physician__c, '+
+							'(SELECT Amount__c, Deposit_Date__c FROM Payments__r) '+
+							'FROM Encounter__c WHERE Guarantor__c = \'' + u.ContactId + '\'' + ' AND Id =\'' + invoiceId + '\'';
+			List<Encounter__c> listOfEncounters = Database.query(query);
+
+			for (Encounter__c encounter : listOfEncounters) {
+				allEstimates.add(
+					new WorkWithEstimatesController.EstimateWrapper(
+						encounter
+					)
+				);
+			}
+		}
+		return allEstimates;
+	}
+
 
 	@AuraEnabled
     public static List<InvoicesWrapper> getInvoice(String invoiceId) {
@@ -81,7 +126,7 @@ public with sharing class WorkWithInvoicesController {
 		];
 		if (u.ContactId != null) {
 			List<Invoice__c> listOfInvoices = new List<Invoice__c>();
-			String query = 'SELECT Id, Name, Patient__r.Name, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, '+
+			String query = 'SELECT Id, Name, Patient__r.Name, Patient__r.Medical_Record_Number__c, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, '+
 							'Due_Date__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Invoiced_Balance__c, '+
 							'Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c, Partial_Payment_Plan__c, ' + 
 							'Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Pre_Invoiced_Balance__c, ' +
@@ -103,6 +148,8 @@ public with sharing class WorkWithInvoicesController {
 						Balance__c,
 						Location__c,
 						Location__r.Name,
+						Provider__r.Name,
+						Account_Type__c,
 						External_ID__c,
 						Payment_Plan__c,
 						Payment_Plan__r.Active__c,
@@ -140,8 +187,6 @@ public with sharing class WorkWithInvoicesController {
 		}
 		return allInvoices;
 	}
-
-
 
 	public class InvoicesWrapper {
 		@AuraEnabled Invoice__c singleInvoice {get;set;}

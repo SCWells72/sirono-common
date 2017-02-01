@@ -1,10 +1,9 @@
-//TODO remove without sharing
-public without sharing class WorkWithPaymentsController {
+public with sharing class WorkWithPaymentsController {
 	public static final Integer SWAP_TRUE 	= 1;
 	public static final Integer SWAP_FALSE 	= 2;
 	public static final Integer SWAP_EQUALS = 0;
 
-    public static final String QUERY            = 'SELECT Id, Charge_Date__c, Payment_Method__r.Last_4__c, Processor_Transaction_Id__c, Amount__c FROM Payment__c';
+    public static final String QUERY            = 'SELECT Id, Charge_Date__c,Method__c, Payment_Method__r.Last_4__c, Processor_Transaction_Id__c, Amount__c FROM Payment__c';
     public static final String ORDER_BY         = ' ORDER BY ';
     public static final String DEFAULT_ORDER    = 'Charge_Date__c DESC';
     public static final String LIMIT_SUFFIX     = ' LIMIT 50000';

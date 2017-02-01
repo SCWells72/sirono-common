@@ -65,9 +65,14 @@ public with sharing class HeaderController {
 															Id,
 															Payment_Plan_Standing__c,
 															NextPaymentDate__c,
-															Installment_Amount__c
+															Installment_Amount__c,
+															Installments_Completed__c,
+															Original_Installment_Count__c,
+															Active__c,
+															Plan_Type__c
 													FROM 	Payment_Plan__c
-													ORDER By CreatedDate DESC
+													WHERE	Guarantor__c = :user.ContactId
+													ORDER BY Active__c DESC, LastModifiedDate DESC
 													LIMIT 1
 				];
 				if(listInvoices.size() > 0 && listInvoices[0] != null) {

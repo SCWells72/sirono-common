@@ -33,10 +33,10 @@
             <table class="slds-table slds-table--bordered slds-table--fixed-layout slds-no-row-hover" role="grid">
                 <thead>
                     <tr class="slds-text-title--caps">
-                        <th class="slds-is-sortable" scope="col" aria-label="Document Name">
+                        <th class="slds-is-sortable" scope="col" aria-label="Name">
                             <a data-order-type='Name' onclick="{!c.updateSorting}" class="slds-th__action slds-text-link--reset">
                                 <span class="slds-assistive-text">Sort </span>
-                                <span class="slds-truncate" title="Document Name">Document Name</span>
+                                <span class="slds-truncate" title="Name">Name</span>
                                 <div class="slds-icon_container">
                                     <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
 
@@ -58,7 +58,7 @@
                         <th class="slds-is-sortable" scope="col" aria-label="Post Date">
                             <a data-order-type='LastModifiedDate' onclick="{!c.updateSorting}" class="slds-th__action slds-text-link--reset">
                                 <span class="slds-assistive-text">Sort </span>
-                                <span class="slds-truncate" title="Post Date">Post Date</span>
+                                <span class="slds-truncate" title="Post Date">Last Modified</span>
                                 <div class="slds-icon_container">
                                     <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
 
@@ -67,6 +67,7 @@
                             </a>
                         </th>
                         <th class="slds-is-sortable" scope="col" aria-label="Stage">
+                            <span class="slds-truncate" title="link">link</span>
                             <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
                         </th>
                     </tr>

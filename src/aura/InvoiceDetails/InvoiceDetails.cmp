@@ -1,37 +1,71 @@
 <aura:component >
-
     <aura:handler event="c:activateTileRequest" action="{!c.showDetails}" />
+
 
     <aura:attribute name="listOfInvoices" type="List" />
     <aura:attribute name="invoice" type="Object" />
     <aura:attribute name="activeInvoice" type="Integer" />
+    <aura:registerevent name="payNowRequest" type="c:payNowRequest" />
     
     <div class="{!'col invoice-detail-container display_'+(v.activeInvoice != undefined)}">
         <div class="invoice-detail-wrapper">
             <section id="march16" class="invoice-detail ">
               <header class="grid">
-        		<div class="col intro">
-            		<div class="issue warning">This invoice is now overdue. <strong>Please pay balance now</strong>. If you have questions about your bill, please call the billing office at 888.888.4567.</div>
-            		<div class="title clear"><a href="#">Pay Now</a> or <a href="№">Create Payment Plan</a></div>
-        		</div>
-        		<div class="col align-right slds-align-bottom"><span class="title">Total You Owe</span> <span class="value"><ui:outputCurrency value="{!v.invoice.balanceDue}" /></span></div>
-    			</header>                
+                  <div class="col intro">
+                      <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Due'}">
+                          <div class="issue warning">This invoice is due <ui:outputdate value="{!v.invoice.singleInvoice.Due_Date__c}" />. Please pay the balance now to keep your account current.</div>
+                      </aura:if>
+                      <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Overdue'}">
+                          <div class="issue warning">This invoice is now overdue. Please pay the balance now to avoid collections.</div>
+                      </aura:if>
+                      <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'}">
+                          <div class="issue warning">This invoice is now delinquent and will be sent to a collections agency if payment arrangements are not made within the next 30 days. Please pay the balance now.</div>
+                      </aura:if>
+                      <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'On Payment Plan'}">
+                          <div style="padding-bottom: 10px;">Your next payment date of <ui:outputcurrency value="{!v.invoice.balanceDue}" /> is due <ui:outputdate format="MMMM d, YYYY" value="{!v.invoice.nextDate}" />.</div>
+                      </aura:if>
+                      <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Invoice Voided'}">
+                          <div style="padding-bottom: 10px;">This invoice has changed. Charges were removed from this invoice for review and may appear on a future invoice. No action is required currently.</div>
+                      </aura:if>
+                      <aura:if isTrue="{!v.invoice.singleInvoice.Partial_Payment_Plan__c}">
+                          <div style="padding-bottom: 10px;">Some charges on this invoice are not fully on your payment plan. Add this invoice to your payment plan to ensure it will be paid in full.</div>
+                      </aura:if>
+                      <aura:if isTrue="{!and((v.invoice.singleInvoice.Invoice_Status__c == 'Due' || v.invoice.singleInvoice.Invoice_Status__c == 'Overdue' || v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), not(v.invoice.singleInvoice.Partial_Payment_Plan__c))}">
+                          <div class="title clear"><a onclick="{!c.sendInvoiceNowToHeader}">Pay Now</a> or <a onclick="{!c.sendInvoiceCreateToHeader}">Create Payment Plan</a></div>
+                      </aura:if>
+                      <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'On Payment Plan'}">
+                          <div class="title clear"><a onclick="{!c.sendInvoiceNowToHeader}">Make Additional Payment</a></div>
+                      </aura:if>
+                      <aura:if isTrue="{!and((v.invoice.singleInvoice.Invoice_Status__c == 'Due' || v.invoice.singleInvoice.Invoice_Status__c == 'Overdue' || v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), v.invoice.singleInvoice.Partial_Payment_Plan__c)}">
+                          <div class="title clear"><a onclick="{!c.sendInvoiceNowToHeader}">Pay Now</a> or <a onclick="{!c.sendInvoiceCreateToHeader}">Add to Payment Plan</a></div>
+                      </aura:if>
+                  </div>
+                  <div class="col align-right slds-align-bottom">
+                      <span class="title">Total You Owe</span>
+                      <span class="value"><ui:outputcurrency value="{!v.invoice.balanceDue}" /></span>
+                  </div> 
+              </header>                
                 <!---->
-                <aura:iteration items="{!v.invoice.allGroups}" var="group" >
+                <aura:iteration items="{!v.invoice.allGroups}" var="group">
                     <div class="invoice-alert">
                         <span class="status-bubble success"></span> These services were not sent to insurance and are your responsibility.
                         <div class="float-right view-bill"><a href="#">View Itemized Bill</a></div>
                     </div>
                     <div class="invoice-content">
                         <div class="col details">
-                            <ui:outputDate value="{!group.cGroup.Sirono_Assigned_Date__c}" />
+                            <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_Start_Date__c}" /> - <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_End_Date__c}" />
                             <div>ID Number: {!group.cGroup.External_ID__c}</div>
-                            <div>Location: {!group.cGroup.Location__c}</div>
+                            <aura:if isTrue="{!group.cGroup.Account_Type__c == 'HB'}">
+                                <div>Location: {!group.cGroup.Location__r.Name}</div>
+                            </aura:if>
+                            <aura:if isTrue="{!group.cGroup.Account_Type__c == 'PB'}">
+                                <div>Provider: {!group.cGroup.Provider__r.Name}</div>
+                            </aura:if>
                         </div>
                         <div class="col charges">
                             <h3>Services and Charges</h3>
                             <div class="charge-details">
-                                <aura:iteration items="{!group.cGroup.Services__r}" var="service" >
+                                <aura:iteration items="{!group.cGroup.Services__r}" var="service">
                                     <div class="col">{!service.Name}</div>
                                     <div class="col align-right">
                                         <ui:outputCurrency value="{!service.Amount__c}" />
@@ -46,7 +80,7 @@
                         <div class="col payments">
                             <h3>Payments and Adjustments</h3>
                             <div class="payment-details">
-                                <aura:iteration items="{!group.cGroup.Payment_Adjustments__r}" var="pa" >
+                                <aura:iteration items="{!group.cGroup.Payment_Adjustments__r}" var="pa">
                                     <div class="col">
                                         {!pa.Name}
                                         <div>
@@ -66,61 +100,36 @@
                         <div class="col total align-right"><span class="title">You Owe</span> <span class="value"><ui:outputCurrency value="{!group.totalCharges + group.totalCredits}" /></span></div>
                     </div>
                 </aura:iteration>
-                <!--<div class="invoice-alert">
-                    <span class="status-bubble success"></span> These services were not sent to insurance and are your responsibility.
-                    <div class="float-right view-bill"><a href="#">View Itemized Bill</a></div>
-                </div>
-                <div class="invoice-content">
-                    <div class="col details">
-                        2/27/2016
-                        <div>ID Number: A1605800079</div>
-                        <div>Location: Health System Center</div>
-                    </div>
-                    <div class="col charges">
-                        <h3>Services and Charges</h3>
-                        <div class="charge-details">
-                            <div class="col">Emergency Room</div>
-                            <div class="col align-right">$785.00</div>
-                            <div class="col footer">Total Charges</div>
-                            <div class="col footer align-right">$785.00</div>
-                        </div>
-                    </div>
-                    <div class="col payments">
-                        <h3>Payments and Adjustments</h3>
-                        <div class="payment-details">
-                            <div class="col">
-                                Discount Adjustment
-                                <div>03/17/16</div>
+                <aura:if isTrue="{!v.invoice.allGroups.length > 1}">
+                    <div class="payment-plan-total-container">
+                        <div class="payment-plan-total">
+                            <div class="col align-right">
+                                <div class="title">Total Charges</div>
                             </div>
-                            <div class="col credit align-right">-$157.00</div>
-                            <div class="col footer">Total Credits</div>
-                            <div class="col footer credit align-right">-$157.00</div>
+                            <div class="col align-right">
+                                <div class="value">
+                                    <ui:outputCurrency value="{!v.invoice.invoiceTotalCharges}" />
+                                </div>
+                            </div>
+                            <div class="col align-right">
+                                <div class="title">Total Credits</div>
+                            </div>
+                            <div class="col align-right">
+                                <div class="value credit">
+                                    <ui:outputCurrency value="{!v.invoice.invoiceTotalCredits}" />
+                                </div>
+                            </div>
+                            <div class="col align-right">
+                                <div class="title">Total You Owe</div>
+                            </div>
+                            <div class="col align-right">
+                                <div class="value total">
+                                    <ui:outputCurrency value="{!v.invoice.balanceDue}" />
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col total align-right"><span class="title">You Owe</span> <span class="value">$628.00</span></div>
-                </div>
-                <div class="payment-plan-total-container">
-                    <div class="payment-plan-total">
-                        <div class="col align-right">
-                            <div class="title">Total Charges</div>
-                        </div>
-                        <div class="col align-right">
-                            <div class="value">$1,570.00</div>
-                        </div>
-                        <div class="col align-right">
-                            <div class="title">Total Credits</div>
-                        </div>
-                        <div class="col align-right">
-                            <div class="value credit">-$1,570.00</div>
-                        </div>
-                        <div class="col align-right">
-                            <div class="title">Total You Owe</div>
-                        </div>
-                        <div class="col align-right">
-                            <div class="value total">$0</div>
-                        </div>
-                    </div>
-                </div>-->
+                </aura:if>
             </section>
         </div>
     </div>

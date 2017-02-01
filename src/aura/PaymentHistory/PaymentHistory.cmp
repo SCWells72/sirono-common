@@ -1,21 +1,21 @@
 <aura:component controller='WorkWithPaymentsController'>
-    <aura:attribute name="payments" type="Payment__c[]"/>
+    <aura:attribute name="payments" type="Payment__c[]" />
 
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <div id="tab-scoped-3" class="sldsjs-tab-target slds-tabs--scoped__content slds-hide slds-show">
         <section class="payment-history">
             <div class="grid">
                 <div class="col">
                     <h2>My Payments</h2>
-                    <aura:if isTrue="{!v.payments.length > 0}">
-                    <p>Click on the receipt link to view more details regarding your payment</p>
-                    <aura:set attribute="else">
-                        <p>You have no completed payments at this time. Payments made online will show here.</p>
-                    </aura:set>
+                    <aura:if istrue="{!v.payments.length > 0}">
+                        <p>Click on the receipt link to view more details regarding your payment</p>
+                        <aura:set attribute="else">
+                            <p>You have no completed payments at this time. Payments made online will show here.</p>
+                        </aura:set>
                     </aura:if>
                 </div>
             </div>
-            
+
             <aura:if isTrue="{!v.payments.length > 0}">
                 <table class="slds-table slds-table--bordered slds-table--fixed-layout slds-no-row-hover" role="grid">
                     <thead>
@@ -25,7 +25,17 @@
                                     <span class="slds-assistive-text">Sort </span>
                                     <span class="slds-truncate" title="Payment Date">Payment Date</span>
                                     <div class="slds-icon_container">
-                                        <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
+                                        <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
+                                    </div>
+                                    <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
+                                </a>
+                            </th>
+                            <th class="slds-is-sortable" scope="col" aria-label="Method">
+                                <a data-order-type='Method__c' onclick="{!c.updateSorting}" class="slds-th__action slds-text-link--reset">
+                                    <span class="slds-assistive-text">Sort </span>
+                                    <span class="slds-truncate" title="Method">Method</span>
+                                    <div class="slds-icon_container">
+                                        <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
                                     </div>
                                     <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
                                 </a>
@@ -35,7 +45,7 @@
                                     <span class="slds-assistive-text">Sort </span>
                                     <span class="slds-truncate" title="Description">Description</span>
                                     <div class="slds-icon_container">
-                                        <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
+                                        <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
                                     </div>
                                     <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
                                 </a>
@@ -45,8 +55,7 @@
                                     <span class="slds-assistive-text">Sort </span>
                                     <span class="slds-truncate" title="Transaction Number">Transaction Number</span>
                                     <div class="slds-icon_container">
-                                        <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
-
+                                        <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
                                     </div>
                                     <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
                                 </a>
@@ -56,18 +65,20 @@
                                     <span class="slds-assistive-text">Sort </span>
                                     <span class="slds-truncate" title="Amount Paid">Amount Paid</span>
                                     <div class="slds-icon_container">
-                                        <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
+                                        <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
                                     </div>
                                     <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
                                 </a>
                             </th>
                             <th class="slds-is-sortable" scope="col" aria-label="Print Receipt">
+                                <span class="slds-truncate" title="Amount Paid">LINK</span>
+
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <aura:iteration items="{!v.payments}" var="payment" indexVar="index">
-                            <c:PaymentHistoryItem row='{!payment}' index="{!index}" /> 
+                        <aura:iteration items="{!v.payments}" var="payment" indexvar="index">
+                            <c:PaymentHistoryItem row='{!payment}' index="{!index}" />
                         </aura:iteration>
                     </tbody>
                 </table>
