@@ -307,7 +307,6 @@
         <fields>Profile_Pointer_ID__c</fields>
         <relatedLists>
             <fields>NAME</fields>
-            <fields>Active__c</fields>
             <relatedList>Charge_Group__c.Guarantor__c</relatedList>
         </relatedLists>
     </miniLayout>
@@ -327,10 +326,11 @@
         <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
         <fields>Patient__c</fields>
-        <fields>Active__c</fields>
-        <fields>Balance__c</fields>
         <fields>Account_Status__c</fields>
         <fields>Account_Sub_Status__c</fields>
+        <fields>Balance__c</fields>
+        <fields>Date_Of_Service_Start_Date__c</fields>
+        <fields>Date_Of_Service_End_Date__c</fields>
         <fields>Invoice__c</fields>
         <fields>Invoice_Age__c</fields>
         <relatedList>Charge_Group__c.Guarantor__c</relatedList>
@@ -343,8 +343,6 @@
         <fields>Patient__c</fields>
         <fields>Procedure__c</fields>
         <fields>Date_of_Service__c</fields>
-        <fields>Allowed_Amount__c</fields>
-        <fields>Patient_Portion__c</fields>
         <fields>Balance__c</fields>
         <relatedList>Encounter__c.Guarantor__c</relatedList>
         <sortField>Date_of_Service__c</sortField>
@@ -368,10 +366,10 @@
         <fields>NAME</fields>
         <fields>Amount__c</fields>
         <fields>Method__c</fields>
-        <fields>ID__c</fields>
-        <fields>Payment_Plan__c</fields>
+        <fields>Payment_Id__c</fields>
+        <fields>Payment_Receipt__c</fields>
         <relatedList>Payment__c.Guarantor__c</relatedList>
-        <sortField>ID__c</sortField>
+        <sortField>Payment_Id__c</sortField>
         <sortOrder>Asc</sortOrder>
     </relatedLists>
     <relatedLists>
@@ -381,6 +379,8 @@
         <fields>Statement_Date__c</fields>
         <fields>PdfUrl__c</fields>
         <relatedList>Statement__c.Guarantor__c</relatedList>
+        <sortField>Statement_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
         <fields>CASES.STATUS</fields>
@@ -396,7 +396,10 @@
         <fields>NAME</fields>
         <fields>Invoice_Date__c</fields>
         <fields>Due_Date__c</fields>
+        <fields>Invoice_Status__c</fields>
         <relatedList>Invoice__c.Guarantor__c</relatedList>
+        <sortField>Invoice_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
         <fields>TASK.SUBJECT</fields>
@@ -409,9 +412,12 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Display_Name__c</fields>
         <fields>Type__c</fields>
+        <fields>Display_Name__c</fields>
+        <fields>Expiration_Date__c</fields>
         <relatedList>Payment_Method__c.Guarantor__c</relatedList>
+        <sortField>NAME</sortField>
+        <sortOrder>Asc</sortOrder>
     </relatedLists>
     <relatedLists>
         <fields>CASES.CASE_NUMBER</fields>
