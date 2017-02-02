@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>User Timezone Setting</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>User Timezone Setting</value>
+    </caseValues>
+    <fields>
+        <label><!-- Timezone Name --></label>
+        <name>Timezone_Name__c</name>
+        <picklistValues>
+            <masterLabel>Africa/Algiers</masterLabel>
+            <translation><!-- Africa/Algiers --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Africa/Cairo</masterLabel>
+            <translation><!-- Africa/Cairo --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Africa/Johannesburg</masterLabel>
+            <translation><!-- Africa/Johannesburg --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Africa/Nairobi</masterLabel>
+            <translation><!-- Africa/Nairobi --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Anchorage</masterLabel>
+            <translation><!-- America/Anchorage --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Argentina/Buenos_Aires</masterLabel>
+            <translation><!-- America/Argentina/Buenos_Aires --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Bogota</masterLabel>
+            <translation><!-- America/Bogota --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Caracas</masterLabel>
+            <translation><!-- America/Caracas --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Chicago</masterLabel>
+            <translation><!-- America/Chicago --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Denver ****America/Denver</masterLabel>
+            <translation><!-- America/Denver ****America/Denver --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/El_Salvador</masterLabel>
+            <translation><!-- America/El_Salvador --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Halifax</masterLabel>
+            <translation><!-- America/Halifax --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Indiana/Indianapolis</masterLabel>
+            <translation><!-- America/Indiana/Indianapolis --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Lima</masterLabel>
+            <translation><!-- America/Lima --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Los_Angeles</masterLabel>
+            <translation><!-- America/Los_Angeles --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Mexico_City</masterLabel>
+            <translation><!-- America/Mexico_City --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/New_York</masterLabel>
+            <translation><!-- America/New_York --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Panama</masterLabel>
+            <translation><!-- America/Panama --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Phoenix</masterLabel>
+            <translation><!-- America/Phoenix --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Puerto_Rico</masterLabel>
+            <translation><!-- America/Puerto_Rico --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Santiago</masterLabel>
+            <translation><!-- America/Santiago --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Sao_Paulo</masterLabel>
+            <translation><!-- America/Sao_Paulo --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/St_Johns</masterLabel>
+            <translation><!-- America/St_Johns --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>America/Tijuana</masterLabel>
+            <translation><!-- America/Tijuana --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Baghdad</masterLabel>
+            <translation><!-- Asia/Baghdad --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Bangkok</masterLabel>
+            <translation><!-- Asia/Bangkok --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Colombo</masterLabel>
+            <translation><!-- Asia/Colombo --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Dhaka</masterLabel>
+            <translation><!-- Asia/Dhaka --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Dubai</masterLabel>
+            <translation><!-- Asia/Dubai --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Ho_Chi_Minh</masterLabel>
+            <translation><!-- Asia/Ho_Chi_Minh --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Hong_Kong</masterLabel>
+            <translation><!-- Asia/Hong_Kong --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Jakarta</masterLabel>
+            <translation><!-- Asia/Jakarta --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Jerusalem</masterLabel>
+            <translation><!-- Asia/Jerusalem --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Kabul</masterLabel>
+            <translation><!-- Asia/Kabul --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Kamchatka</masterLabel>
+            <translation><!-- Asia/Kamchatka --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Karachi</masterLabel>
+            <translation><!-- Asia/Karachi --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Kathmandu</masterLabel>
+            <translation><!-- Asia/Kathmandu --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Kolkata</masterLabel>
+            <translation><!-- Asia/Kolkata --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Kuala_Lumpur</masterLabel>
+            <translation><!-- Asia/Kuala_Lumpur --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Kuwait</masterLabel>
+            <translation><!-- Asia/Kuwait --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Manila</masterLabel>
+            <translation><!-- Asia/Manila --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Rangoon</masterLabel>
+            <translation><!-- Asia/Rangoon --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Riyadh</masterLabel>
+            <translation><!-- Asia/Riyadh --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Seoul</masterLabel>
+            <translation><!-- Asia/Seoul --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Shanghai</masterLabel>
+            <translation><!-- Asia/Shanghai --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Singapore</masterLabel>
+            <translation><!-- Asia/Singapore --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Taipei</masterLabel>
+            <translation><!-- Asia/Taipei --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Tashkent</masterLabel>
+            <translation><!-- Asia/Tashkent --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Tbilisi</masterLabel>
+            <translation><!-- Asia/Tbilisi --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Tehran</masterLabel>
+            <translation><!-- Asia/Tehran --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Tokyo</masterLabel>
+            <translation><!-- Asia/Tokyo --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia/Yekaterinburg</masterLabel>
+            <translation><!-- Asia/Yekaterinburg --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Atlantic/Bermuda</masterLabel>
+            <translation><!-- Atlantic/Bermuda --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Atlantic/Cape_Verde</masterLabel>
+            <translation><!-- Atlantic/Cape_Verde --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Atlantic/South_Georgia</masterLabel>
+            <translation><!-- Atlantic/South_Georgia --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Australia/Adelaide</masterLabel>
+            <translation><!-- Australia/Adelaide --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Australia/Darwin</masterLabel>
+            <translation><!-- Australia/Darwin --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Australia/Lord_Howe</masterLabel>
+            <translation><!-- Australia/Lord_Howe --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Australia/Perth</masterLabel>
+            <translation><!-- Australia/Perth --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Australia/Sydney</masterLabel>
+            <translation><!-- Australia/Sydney --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe/Amsterdam</masterLabel>
+            <translation><!-- Europe/Amsterdam --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe/Athens</masterLabel>
+            <translation><!-- Europe/Athens --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe/Berlin</masterLabel>
+            <translation><!-- Europe/Berlin --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe/Brussels</masterLabel>
+            <translation><!-- Europe/Brussels --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe/Bucharest</masterLabel>
+            <translation><!-- Europe/Bucharest --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe/Dublin</masterLabel>
+            <translation><!-- Europe/Dublin --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe/Helsinki</masterLabel>
+            <translation><!-- Europe/Helsinki --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe/Istanbul</masterLabel>
+            <translation><!-- Europe/Istanbul --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe/Lisbon</masterLabel>
+            <translation><!-- Europe/Lisbon --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe/London</masterLabel>
+            <translation><!-- Europe/London --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe/Minsk</masterLabel>
+            <translation><!-- Europe/Minsk --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe/Moscow</masterLabel>
+            <translation><!-- Europe/Moscow --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe/Paris</masterLabel>
+            <translation><!-- Europe/Paris --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe/Prague</masterLabel>
+            <translation><!-- Europe/Prague --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe/Rome</masterLabel>
+            <translation><!-- Europe/Rome --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>GMT</masterLabel>
+            <translation><!-- GMT --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Pacific/Auckland</masterLabel>
+            <translation><!-- Pacific/Auckland --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Pacific/Chatham</masterLabel>
+            <translation><!-- Pacific/Chatham --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Pacific/Enderbury</masterLabel>
+            <translation><!-- Pacific/Enderbury --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Pacific/Fiji</masterLabel>
+            <translation><!-- Pacific/Fiji --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Pacific/Guadalcanal</masterLabel>
+            <translation><!-- Pacific/Guadalcanal --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Pacific/Honolulu</masterLabel>
+            <translation><!-- Pacific/Honolulu --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Pacific/Kiritimati</masterLabel>
+            <translation><!-- Pacific/Kiritimati --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Pacific/Niue</masterLabel>
+            <translation><!-- Pacific/Niue --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Pacific/Norfolk</masterLabel>
+            <translation><!-- Pacific/Norfolk --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Pacific/Pago_Pago</masterLabel>
+            <translation><!-- Pacific/Pago_Pago --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Pacific/Tongatapu</masterLabel>
+            <translation><!-- Pacific/Tongatapu --></translation>
+        </picklistValues>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

@@ -9,10 +9,6 @@
         <value>Charge Group Coverage Junctions</value>
     </caseValues>
     <fields>
-        <label><!-- ID --></label>
-        <name>Sirono_ID__c</name>
-    </fields>
-    <fields>
         <label><!-- Charge Group --></label>
         <name>Charge_Group__c</name>
         <relationshipLabel><!-- Charge Group Coverage Junctions --></relationshipLabel>
@@ -25,6 +21,10 @@
     <fields>
         <label><!-- Insured? --></label>
         <name>Insured__c</name>
+    </fields>
+    <fields>
+        <label><!-- ID --></label>
+        <name>Sirono_ID__c</name>
     </fields>
     <layouts>
         <layout>Charge Group Coverage Layout</layout>

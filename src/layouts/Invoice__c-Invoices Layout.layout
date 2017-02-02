@@ -28,37 +28,6 @@
         </subtabComponents>
     </customConsoleComponents>
     <excludeButtons>Submit</excludeButtons>
-    <feedLayout>
-        <autocollapsePublisher>true</autocollapsePublisher>
-        <compactFeed>true</compactFeed>
-        <feedFilterPosition>CenterDropDown</feedFilterPosition>
-        <feedFilters>
-            <feedFilterType>AllUpdates</feedFilterType>
-        </feedFilters>
-        <feedFilters>
-            <feedFilterType>FeedItemType</feedFilterType>
-            <feedItemType>TextPost</feedItemType>
-        </feedFilters>
-        <fullWidthFeed>true</fullWidthFeed>
-        <hideSidebar>false</hideSidebar>
-        <highlightExternalFeedItems>true</highlightExternalFeedItems>
-        <rightComponents>
-            <componentType>Following</componentType>
-        </rightComponents>
-        <rightComponents>
-            <componentType>Followers</componentType>
-        </rightComponents>
-        <rightComponents>
-            <componentType>Topics</componentType>
-        </rightComponents>
-        <rightComponents>
-            <componentType>CustomLinks</componentType>
-        </rightComponents>
-        <rightComponents>
-            <componentType>CustomButtons</componentType>
-        </rightComponents>
-        <useInlineFiltersInConsole>true</useInlineFiltersInConsole>
-    </feedLayout>
     <layoutSections>
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
@@ -82,18 +51,10 @@
                 <field>Deactivated_Charge_Groups__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Invoice_Status_Index__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Invoice_Status__c</field>
             </layoutItems>
-	    <layoutItems>
-                <behavior>Edit</behavior>
-                <field>All_Substatus__c</field>
-            </layoutItems>
-	    <layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Partial_Payment_Plan__c</field>
             </layoutItems>
@@ -148,14 +109,15 @@
     </layoutSections>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Active__c</fields>
         <fields>Guarantor__c</fields>
-        <fields>Date_Of_Service_Start_Date__c</fields>
-        <fields>Date_Of_Service_End_Date__c</fields>
-        <fields>Location__c</fields>
+        <fields>Active__c</fields>
+        <fields>Balance__c</fields>
+        <fields>Account_Status__c</fields>
+        <fields>Account_Sub_Status__c</fields>
         <fields>Payment_Plan__c</fields>
-        <fields>Origin_Subcode__c</fields>
         <relatedList>Charge_Group__c.Invoice__c</relatedList>
+        <sortField>Account_Sub_Status__c</sortField>
+        <sortOrder>Asc</sortOrder>
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
