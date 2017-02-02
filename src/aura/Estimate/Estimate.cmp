@@ -17,7 +17,8 @@
                         </span>
                     </div>
                     <a class="active invoice-name">
-                        {!v.estimate.singleEncounter.Procedure__c}
+                        {!v.estimate.singleEncounter.Procedure__c} - 
+                        <ui:outputDate value="{!v.estimate.singleEncounter.Date_of_Service__c}" format="MM/DD/YYYY"/>
                     </a>
                 </div>
                 <div class="col right">
@@ -34,7 +35,7 @@
                         <ui:outputDate value="{!v.estimate.singleEncounter.Date_of_Service__c}" format="MMM d"/>
                     </div>
                 </div>
-                <div class="col links"><a>Make Payment Now</a></div>
+                <div class="col links"><a onclick="{!c.sendEstimateNowToHeader}">Make Payment Now</a></div>
             </div>
         </article>
         <!--<article class="invoice-record">

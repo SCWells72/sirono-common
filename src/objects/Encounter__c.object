@@ -21,6 +21,10 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -39,7 +43,6 @@
     <actionOverrides>
         <actionName>View</actionName>
         <content>Encounter_Record_Page</content>
-        <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
     </actionOverrides>
@@ -415,6 +418,18 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Insurance_Total__c</fullName>
+        <externalId>false</externalId>
+        <formula>Insurance_Discount__c +  Insurance_Portion__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Insurance Total</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Liability__c</fullName>
         <externalId>false</externalId>
         <label>Liability</label>
@@ -458,13 +473,13 @@
     </fields>
     <fields>
         <fullName>Patient_Portion__c</fullName>
-        <defaultValue>0</defaultValue>
         <externalId>false</externalId>
+        <formula>Total_Charges__c - Insurance_Total__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Patient Portion</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
     </fields>
@@ -524,18 +539,6 @@
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Total_Credits__c</fullName>
-        <externalId>false</externalId>
-        <formula>Insurance_Discount__c +  Insurance_Discount__c</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Total Credits</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
         <fullName>Total_Payments__c</fullName>
         <externalId>false</externalId>
         <label>Payments</label>
@@ -574,7 +577,6 @@
         <columns>Date_of_Service__c</columns>
         <columns>Procedure__c</columns>
         <columns>Location__c</columns>
-        <columns>Patient_Portion__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>

@@ -159,7 +159,7 @@ Public Class TestUtility {
             Decimal patientPortion,
             Date serviceDate) {
         Encounter__c encounter = new Encounter__c(Guarantor__c = guarantorId,
-                Patient_Portion__c = patientPortion,
+                Total_Charges__c = patientPortion,
                 Date_of_Service__c = serviceDate);
         return encounter;
     }

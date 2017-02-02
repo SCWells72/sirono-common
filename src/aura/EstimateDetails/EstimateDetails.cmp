@@ -16,7 +16,7 @@
                         <div><a class="cta" href="#">Make a Payment Now</a></div>
                     </div>
                     <div class="col align-right slds-align-bottom">
-                        <span class="title">
+                        <span class="title balance">
                             Balance
                         </span>
                         <span class="value">
@@ -50,17 +50,27 @@
                     <div class="col payments">
                         <h3>Estimated Payments and Adjustments</h3> 
                         <div class="payment-details">
-                            <div class="col">
-                                Discount Adjustment
-                                <div>
-                                    2/01/17
+                            
+                            <aura:renderIf isTrue="{! if (v.estimate.singleEncounter.Insurance_Discount__c != null, true, false) }">
+                                <div class="col">
+                                    {! if ( v.estimate.singleEncounter.Coverage__c != NULL, v.estimate.singleEncounter.Coverage__r.Name + ' Adjustment', 'Insurance Adjustment')}
                                 </div>
-                            </div>
-                            <div class="col credit align-right">-$367.00</div>
-                            <div class="col footer">
-                                <div class="title">Total Credits</div>
-                            </div>
-                            <div class="col footer credit align-right">-$367.00</div>
+                                <div class="col credit align-right">-<ui:outputCurrency value="{!v.estimate.singleEncounter.Insurance_Discount__c}" /></div>
+                            </aura:renderIf>
+
+                            <aura:renderIf isTrue="{! v.estimate.singleEncounter.Insurance_Portion__c != NULL}">
+                                <div class="col">
+                                    {! if ( v.estimate.singleEncounter.Coverage__c != NULL, v.estimate.singleEncounter.Coverage__r.Name + ' Payment', 'Insurance Payment')}
+                                </div>
+                                <div class="col credit align-right">-<ui:outputCurrency value="{!v.estimate.singleEncounter.Insurance_Portion__c}" /></div>
+                            </aura:renderIf>
+                            
+                            <aura:renderIf isTrue="{! v.estimate.singleEncounter.Insurance_Total__c > 0}">
+                                <div class="col footer">
+                                    <div class="title">Total Credits</div>
+                                </div>
+                                <div class="col footer credit align-right">-<ui:outputCurrency value="{!v.estimate.singleEncounter.Insurance_Total__c}" /></div>
+                            </aura:renderIf>
                         </div>
                     </div>
                     <div class="{! 'col total align-right payments display_'+(v.estimate.singleEncounter.Total_Payments__c > 0)}">

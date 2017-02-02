@@ -6,6 +6,12 @@
 		}).fire();
 	},
 
+	sendEstimateNowToHeader: function(component, event, helper) {
+        var appEvent = $A.get("e.c:payNowRequest");
+        appEvent.setParams({ "invoiceId" : component.get('v.estimate.singleEncounter.Id'), 'type': 'MakeAPayment', 'isEstimate': true });
+        appEvent.fire();
+	},
+
 	activateTileHandler : function (component, event, helper) {
 		var tileId = component.get("v.tileId");
 		console.log(tileId);
