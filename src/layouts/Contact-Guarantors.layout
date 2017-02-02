@@ -89,10 +89,12 @@
         </subtabComponents>
     </customConsoleComponents>
     <excludeButtons>Clone</excludeButtons>
+    <excludeButtons>DataDotComClean</excludeButtons>
     <excludeButtons>DisableCustomerPortal</excludeButtons>
     <excludeButtons>DisablePrmSuperUser</excludeButtons>
     <excludeButtons>EnablePrmSuperUser</excludeButtons>
     <excludeButtons>RequestUpdate</excludeButtons>
+    <excludeButtons>RequestUseSfdc</excludeButtons>
     <excludeButtons>SendEmail</excludeButtons>
     <excludeButtons>Share</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
@@ -341,6 +343,8 @@
         <fields>Patient__c</fields>
         <fields>Procedure__c</fields>
         <fields>Date_of_Service__c</fields>
+        <fields>Allowed_Amount__c</fields>
+        <fields>Patient_Portion__c</fields>
         <fields>Balance__c</fields>
         <relatedList>Encounter__c.Guarantor__c</relatedList>
         <sortField>Date_of_Service__c</sortField>
