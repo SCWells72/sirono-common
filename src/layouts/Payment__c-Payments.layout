@@ -14,14 +14,6 @@
                         <name>Transaction__c.Payment__c</name>
                     </relatedLists>
                 </sidebarComponents>
-                <sidebarComponents>
-                    <componentType>RelatedList</componentType>
-                    <label>Notes &amp; Attachments</label>
-                    <relatedLists>
-                        <hideOnDetail>false</hideOnDetail>
-                        <name>RelatedNoteList</name>
-                    </relatedLists>
-                </sidebarComponents>
                 <style>Tabs</style>
                 <unit>Percentage</unit>
             </containers>
