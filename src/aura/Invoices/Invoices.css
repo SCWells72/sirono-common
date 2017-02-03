@@ -28,3 +28,7 @@
 .THIS .invoices .invoice-record-wrapper {
      height:calc(100% - 73px);
 }
+.THIS .partial-payment{
+    font-weight: bold;
+    color: #4bca81;
+}

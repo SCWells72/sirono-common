@@ -11,8 +11,8 @@
             <div aura:id="selectIcon" class="select-all-icon selected" onclick="{!c.selectInvoice}">
                 <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}"  category="standard" size="small" class="slds-button__icon" name="Check" />
             </div>
-            <div class="title">{!v.invoice.singleInvoice.Patient__r.Name + ' (MRN: ' + v.invoice.singleInvoice.Sirono_ID__c + ')'}</div>
-            <a href="#november2016" class="invoice-name">
+            <div class="title">{!v.invoice.singleInvoice.Patient__r.Name + ' (MRN: ' + v.invoice.singleInvoice.Patient__r.Medical_Record_Number__c + ')'}</div>
+            <a class="invoice-name" onclick="{!c.selectInvoice}">
                 <ui:outputdate value="{!v.invoice.singleInvoice.Invoice_Date__c}" format="MMMM YYYY" />
             </a>
         </div>
@@ -23,7 +23,8 @@
             </div>
         </div>
         <div class="col payment-due"> 
-            <em>Payment Overdue</em>
+            <em>{!v.invoice.singleInvoice.Invoice_Status__c}</em>
+            <em class="{!v.invoice.singleInvoice.Partial_Payment_Plan__c != true ? 'slds-hide' : ''}"><br/>Partially on a Payment Plan</em>
             <div class="float-right">
                 <a href="" class="modal-trigger" onclick="{!c.openInvoiceDetails}">View Details</a>
             </div>

@@ -33,7 +33,7 @@
         <div class="grid">
             <div class="col due">
                 <div class="title paid">
-                    <aura:if isTrue="{!v.invoice.Invoice_Status__c == 'Due'}">
+                    <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Due'}">
                         Payment due by <ui:outputdate value="{!v.invoice.singleInvoice.Due_Date__c}" format="MM d" />
                     </aura:if>
 
@@ -51,11 +51,16 @@
                         <span class="status-bubble success"></span>
                         On Payment Plan
                     </aura:if>
+
+                    <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Paid'}">
+                        <span class="status-bubble success"></span>
+                        Paid
+                    </aura:if>
                     
                     <!--Paid on January 4, 2017--> 
                     
                     <aura:if isTrue="{!v.invoice.singleInvoice.Partial_Payment_Plan__c == true}">
-                        <p>Partially on a Payment Plan</p>
+                        <p class="partial-payment">Partially on a Payment Plan</p>
                     </aura:if>
                 </div>
             </div>
