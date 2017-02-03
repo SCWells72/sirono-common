@@ -90,6 +90,11 @@ public with sharing class CreatePaymentPlan {
 		//Call methods for creating new payment plan
 		
 		//fill in ChargeGroups.isSelected
+		for (ChargeGroupWrapper cgw: addCreditCardInstance.chargeGroupList)
+			cgw.isSelected = true; //TODO check which groups are to be selected 
+		
+		addCreditCardInstance.getPaymentPlanSettings();
+		addCreditCardInstance.CreatePaymentPlan();
 		//getPaymentPlanSettings() and doSubmit();
 		
 		return null;

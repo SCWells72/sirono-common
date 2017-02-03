@@ -24,10 +24,10 @@ public with sharing class WorkWithStatementsController {
 												SELECT 
 															Id, 
 															PdfUrl__c, 
-															LastModifiedDate 
+															Statement_Date__c 
 												FROM 		Statement__c 
 												WHERE 		Guarantor__c = :currentUser.ContactId
-												ORDER BY 	LastModifiedDate DESC 
+												ORDER BY 	Statement_Date__c DESC 
 												LIMIT 50000
 											];
 		for(Integer i = 0; i < statementList.size(); i++) {

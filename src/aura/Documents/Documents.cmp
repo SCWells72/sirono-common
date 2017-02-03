@@ -8,7 +8,12 @@
             <div class="grid">
                 <div class="col">
                     <h2>View Your Documents</h2>
-                    <p>Click on the associated link to download a PDF version.</p>
+                    <aura:if isTrue="{!v.documents.length > 0}">
+                        <p>Click on the associated link to download a PDF version.</p>
+                        <aura:set attribute="else">
+                            <p>You don't have any documents to view yet.</p>
+                        </aura:set>
+                    </aura:if>
                 </div>
 
                 <aura:if isTrue="{!v.existPdfFlag}">
@@ -30,6 +35,7 @@
                     </div>
                 </aura:if>
             </div>
+            <aura:if isTrue="{!v.documents.length > 0}">
             <table class="slds-table slds-table--bordered slds-table--fixed-layout slds-no-row-hover" role="grid">
                 <thead>
                     <tr class="slds-text-title--caps">
@@ -79,6 +85,7 @@
                     </aura:iteration>
                 </tbody>
             </table>
+            </aura:if>
         </section>
     </div>
 </aura:component>

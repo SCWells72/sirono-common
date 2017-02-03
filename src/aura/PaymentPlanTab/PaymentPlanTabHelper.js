@@ -1,12 +1,9 @@
 ({
-	showPopup: function(cmp, componentId, className) { 
-		var modal = cmp.find(componentId); 
-		$A.util.removeClass(modal, className+'hide'); 
-		$A.util.addClass(modal, className+'open'); 
-	},
-	hidePopup: function(cmp, componentId, className) { 
-		var modal = cmp.find(componentId);
-		$A.util.addClass(modal, className+'hide');
-		$A.util.removeClass(modal, className+'open');
+	resetCmp: function(cmp) { 
+		$A.util.removeClass(cmp.find('planInfo'), 'slds-hide');
+		$A.util.addClass(cmp.find('message'), 'slds-hide');
+		cmp.set('v.editTermsVisible', !cmp.get('v.PaymentInfo.hasPaymentPlans'));
+		$A.util.addClass(cmp.find(cmp.get('v.activeSectionId')), 'slds-hide');
+		cmp.set('v.activeSectionId', null);
 	}
 })

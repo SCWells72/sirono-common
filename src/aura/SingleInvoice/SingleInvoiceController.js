@@ -13,7 +13,7 @@
 		component.set('v.activated', !activated);
 		var calculatePaymentBalance  = $A.get("e.c:calculatePaymentBalanceEvent");
 		calculatePaymentBalance.setParams({
-			"changeSum" : balanceDue,
+			"changeSum" : balanceDue
 		});
 		calculatePaymentBalance.fire();
 	},

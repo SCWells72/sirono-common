@@ -32,3 +32,35 @@
     font-weight: bold;
     color: #4bca81;
 }
+.THIS .buttonGroup {
+    position:relative;
+}
+.THIS .blockSelect {
+    position:absolute;
+    left: 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    background: #fff;
+    top: 32px;
+    display:none;
+}
+.THIS .AddBlocksSelect .slds-button.slds-button--neutral {
+    border-radius:5px;    
+}
+
+.THIS .blockSelect .slds-button.slds-radio--button:hover{
+    background: #f4f6f9;
+}
+.THIS .blockSelect .slds-button.slds-radio--button { 
+    border-bottom: 1px solid #ccc;
+}
+.THIS .blockSelect .slds-button.slds-radio--button:last-child {
+    border-bottom:none;    
+}
+.THIS .showSelect {
+    display:block;
+}
+.THIS .AddBlocksSelect label {
+    width:100%;
+    border-radius:0;
+}

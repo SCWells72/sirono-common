@@ -2,3 +2,35 @@
     position: relative;
     z-index: 5011;
 }
+.THIS .slds-popover {
+    background: #16325c;
+    line-height: 1rem;
+}
+.THIS .help-info {
+    position:absolute;
+}
+.THIS .sldsjs-popover-action {
+    font-size:16px;
+}
+.THIS .sldsjs-popover-action:hover {
+    text-decoration:none;
+}
+
+.THIS .copyright, 
+.THIS .popup_txt,
+.THIS .popup_drid,
+.THIS .popup_drid .col.right,
+.THIS .popup_drid .value,
+.THIS .popup_drid .title{ 
+    cursor:default; 
+}
+.THIS .help .sldsjs-popover-action {
+    text-decoration:none;
+}
+.THIS .LiveChart {
+    display:inline-block;
+}
+.THIS .LiveChart:hover {
+    text-decoration:underline;
+    font-weight:bold;
+}

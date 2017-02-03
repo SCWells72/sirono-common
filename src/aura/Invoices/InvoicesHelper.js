@@ -44,6 +44,7 @@
 					if (status === "SUCCESS") {
 						var invoices = component.get('v.invoices');
 						invoices.push(invoice);
+						console.log('invoice', invoice.get('v.invoice').singleInvoice.Partial_Payment_Plan__c);
 						component.set('v.invoices',invoices);
 					}
 					else if (status === "INCOMPLETE") {
@@ -64,7 +65,7 @@
 			function(newComponent, status, errorMessage) {
 				if (status === "SUCCESS") {
 					var invoiceDetails = component.find('invoice_details');
-					invoiceDetails.set("v.body",newComponent);
+					invoiceDetails.set("v.body", newComponent);
 				}
 				else if (status === "INCOMPLETE") {
 					console.log("No response from server or client is offline.");

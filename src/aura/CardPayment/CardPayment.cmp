@@ -1,66 +1,90 @@
-<aura:component >
-		
+<aura:component controller="MakeAPaymentController">
+    <aura:attribute name="listOfIds" type="String[]" />
+    <aura:attribute name="selectedPaymentSum" type="Decimal" />
+    <aura:attribute name="IsMakePaymentTab" type="Boolean" />
+    <aura:attribute name="CardTypes" type="String[]" />
+    <aura:attribute name="States" type="String[]" />
+    <aura:attribute name="messages" type="String[]" />
+    <aura:attribute name="IsIcon" type="Boolean" default="false"/>    
+    <aura:attribute name="IsIcon2" type="Boolean" default="false"/>    
+    <aura:attribute name="cardInformation" type="MakeAPaymentController.CardInformation" />
+    <aura:attribute name="UserInfo" type="Object" default="{	NameOnCard : '',
 
-	<aura:attribute name="IsMakePaymentTab" type="Boolean"					/>
-	<aura:attribute name="CardTypes" 		type="String[]" 				/>
-	<aura:attribute name="States" 			type="String[]" 				/>
-	<aura:attribute name="UserInfo"			type="Object"	default="{	NameOnCard : '',
-																	
 
 	CardNumber : '',
-																	
+
 
 	CW : '',
-																	
+
 
 	Expiration : '',
-																	
+
 
 	BillingAddress : '',
-																	
+
 
 	City : '',
-																	
+
 
 	State : '',
-																	
 
-	Zipcode : ''}"/>
-	
-	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-	
-	<div class="payment-amount">
+
+	Zipcode : ''}" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.selectedPaymentSum}" action="{!c.updateAmountInformation}"/>
+    <aura:handler event="c:calculatePaymentBalanceEvent" action="{!c.changePaymentBalance}" />
+    <div class="payment-amount">
         <div class="slds-form-element">
             <aura:if isTrue="{!v.IsMakePaymentTab}">
-                <label class="slds-form-element__label" for="text-input-01">Enter Amount to Pay Now
+                <label class="slds-form-element__label" for="text-input-01">
+                    Enter Amount to Pay Now
                     <div class="status info sldsjs-popover">
                         <span class="slds-icon_container sldsjs-popover-action">
-                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"  
-    
-    category="standard" size="small" name="Info" />
+                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="Info" />
                         </span>
                     </div>
-            	</label>
+                </label>
                 <div class="slds-form-element__control">
-                    <input aura:id="amount" id="text-input-01" class="slds-input" type="text" value="$7645.97" />
+                  <!--  <input aura:id="amount" id="text-input-01" class="slds-input" type="text" value="{!'$' + v.selectedPaymentSum}" /> -->
+                    <ui:inputCurrency aura:id="amount" class="slds-input" value="{!v.selectedPaymentSum}" />
                 </div>
             </aura:if>
         </div>
     </div>
-    
+
     <div class="payment-info">
         <div class="we-accept">
             <span>We Accept: </span>
-            <img src="{!$Resource.SironoData + '/assets/images/mastercard-icon.png'}" alt="Mastercard" /> 
-            <img src="{!$Resource.SironoData + '/assets/images/american-express-icon.png'}" alt="American Express" /> 
+            <img src="{!$Resource.SironoData + '/assets/images/mastercard-icon.png'}" alt="Mastercard" />
+            <img src="{!$Resource.SironoData + '/assets/images/american-express-icon.png'}" alt="American Express" />
             <img src="{!$Resource.SironoData + '/assets/images/visa-icon.png'}" alt="Visa" />
         </div>
+        <aura:if isTrue="{!v.IsIcon2}">            
+            <div class="success uiMessage">
+            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#success'}" category="standard" size="small" name="success" />
+            <span>Success</span>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.IsIcon}">
+            <div class="block_messageError">
+                <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#warning'}" category="standard" size="small" name="warning" />
+                <ol class="block_messageErrorOl error uiMessage">
+                    <aura:iteration items="{!v.messages}" var="arrayItem" indexVar="position">
+                        <li>{!arrayItem}.<!--{!(position == 0) ? ' ' : '.' }--></li>
+                    </aura:iteration>
+                </ol>
+                </div>
+            
+        </aura:if>
+
+
         <div class="credit-card-form grid slds-wrap">
             <div class="col slds-size--1-of-1">
                 <div class="slds-form-element">
                     <label class="slds-form-element__label" for="text-input-01">Name on Card</label>
-                    <div class="slds-form-element__control verified">
-                        <input id="text-input-01" class="slds-input" type="text" value="Thomas Gibson" />
+                    <div class="slds-form-element__control">
+                        <ui:inputtext class="slds-input" value="{!v.cardInformation.cardHolderName}" />
                     </div>
                 </div>
             </div>
@@ -69,16 +93,16 @@
                     <div class="col slds-size--9-of-12 card-number">
                         <div class="slds-form-element">
                             <label class="slds-form-element__label" for="text-input-01">Card Number</label>
-                            <div class="slds-form-element__control verified">
-                                <input id="text-input-01" class="slds-input" type="text" value="4451094833749182" />
+                            <div class="slds-form-element__control">
+                                <ui:inputtext class="slds-input" value="{!v.cardInformation.creditCardNumber}" />
                             </div>
                         </div>
                     </div>
                     <div class="col slds-size--3-of-12 cvv">
                         <div class="slds-form-element">
                             <label class="slds-form-element__label" for="text-input-01">CVV</label>
-                            <div class="slds-form-element__control verified">
-                                <input id="text-input-01" class="slds-input" type="text" value="134" />
+                            <div class="slds-form-element__control">
+                                <ui:inputtext class="slds-input" value="{!v.cardInformation.cvv}" />
                             </div>
                         </div>
                     </div>
@@ -88,7 +112,7 @@
                 <div class="slds-form-element">
                     <label class="slds-form-element__label" for="text-input-01">Expiration</label>
                     <div class="slds-form-element__control">
-                        <input id="text-input-01" class="slds-input" type="text" placeholder="mm/yy" value="05/17" />
+                        <ui:inputtext class="slds-input" placeholder="mm/yy" value="{!v.cardInformation.expirationDate}" />
                     </div>
                 </div>
             </div>
@@ -96,7 +120,7 @@
                 <div class="slds-form-element">
                     <label class="slds-form-element__label" for="text-input-01">Billing Address</label>
                     <div class="slds-form-element__control">
-                        <input id="text-input-01" class="slds-input" type="text" value="1234 Main Street" />
+                        <ui:inputtext class="slds-input" value="{!v.cardInformation.address}" />
                     </div>
                 </div>
             </div>
@@ -106,7 +130,7 @@
                         <div class="slds-form-element">
                             <label class="slds-form-element__label" for="text-input-01">City</label>
                             <div class="slds-form-element__control">
-                                <input id="text-input-01" class="slds-input" type="text" value="New York" />
+                                <ui:inputtext class="slds-input" value="{!v.cardInformation.city}" />
                             </div>
                         </div>
                     </div>
@@ -123,7 +147,7 @@
                     <div class="col zip slds-size--2-of-12">
                         <label class="slds-form-element__label" for="text-input-01">Zipcode</label>
                         <div class="slds-form-element__control">
-                            <input id="text-input-01" class="slds-input" type="text" value="10001" />
+                            <ui:inputtext class="slds-input" value="{!v.cardInformation.zip}" />
                         </div>
                     </div>
                 </div>
@@ -133,12 +157,13 @@
                     <div class="slds-form-element__control">
                         <span class="slds-checkbox">
                             <input type="checkbox" name="options" id="checkbox-308" />
-                            <label class="slds-checkbox__label" for="checkbox-308">
-                                <span class="slds-checkbox--faux"></span> 
-                                <span class="slds-form-element__label">Save this card for later use
-                                    <div class="status info sldsjs-popover">
+                            <label class="slds-checkbox__label element__label_checkbox" for="checkbox-308">
+                                <span class="slds-checkbox--faux"></span>
+                                <span class="slds-form-element__label ">
+                                    Save this card for later use
+                                    <div class="status info sldsjs-popover ">
                                         <span class="slds-icon_container sldsjs-popover-action">
-                                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" />
+                                            <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info" />
                                         </span>
                                     </div>
                                 </span>
@@ -149,9 +174,7 @@
             </div>
             <div class="col slds-size--1-of-1">
                 <div class="float-right">
-                    <a href="#">
-                        <button class="slds-button slds-button--brand">Make Payment</button>
-                    </a>
+                    <button class="slds-button slds-button--brand" onclick="{!c.makePayment}">Make Payment</button>
                 </div>
             </div>
         </div>

@@ -8,12 +8,15 @@
 		console.log("set params payments");
 		var invoiceId = event.getParam('invoiceId');
 		var activeTab = event.getParam('activeTab');
+		var isEstimate = event.getParam('isEstimateRecord');
 		console.log('active', activeTab);
 		console.log('invoice', invoiceId);
+		console.log('isEstimate', isEstimate);
 		$A.createComponent(
 			"c:PatientInvoiceSelection",
 			{
-				"invoiceId" : invoiceId
+				"invoiceId" : invoiceId,
+				"isEstimateType": isEstimate
 			},
 			function(newComponent, status, errorMessage) {
 				if (status === "SUCCESS") {

@@ -55,7 +55,7 @@
                     Next payment <ui:outputcurrency value="{!v.paymentPlan.Installment_Amount__c}" />  is due by:<br/> <ui:outputdate format="MMMM d, YYYY" value="{!v.paymentPlan.NextPaymentDate__c}" /> | Payment {!v.paymentPlan.Installments_Completed__c} of {!v.paymentPlan.Original_Installment_Count__c}
                     <br />
                     <a onclick="{!c.sendPageMakeToHeader}">
-                        <button class="slds-button slds-button--destructive">Pay Missed Installment</button>
+                        <button class="slds-button slds-button--destructive btn_PayMissedPastDue">Pay Missed Installment</button>
                     </a>
                     <br/>
                     <a onclick="{!c.sendPageCreateToHeader}">

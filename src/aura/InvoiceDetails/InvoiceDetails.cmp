@@ -22,7 +22,7 @@
                           <div class="issue warning">This invoice is now delinquent and will be sent to a collections agency if payment arrangements are not made within the next 30 days. Please pay the balance now.</div>
                       </aura:if>
                       <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'On Payment Plan'}">
-                          <div style="padding-bottom: 10px;">Your next payment date of <ui:outputcurrency value="{!v.invoice.balanceDue}" /> is due <ui:outputdate format="MMMM d, YYYY" value="{!v.invoice.nextDate}" />.</div>
+                          <div style="padding-bottom: 10px;">Your next payment date of <ui:outputcurrency value="{!v.invoice.nextPayment}" /> is due <ui:outputdate format="MMMM d, YYYY" value="{!v.invoice.nextDate}" />.</div>
                       </aura:if>
                       <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Invoice Voided'}">
                           <div style="padding-bottom: 10px;">This invoice has changed. Charges were removed from this invoice for review and may appear on a future invoice. No action is required currently.</div>
@@ -65,41 +65,42 @@
                         <div class="col charges">
                             <h3>Services and Charges</h3>
                             <div class="charge-details">
-                                <aura:iteration items="{!group.cGroup.Services__r}" var="service">
-                                    <div class="col">{!service.Name}</div>
+                                <aura:iteration items="{!group.services}" var="service">
+                                    <div class="col">{!service.displayName}</div>
                                     <div class="col align-right">
-                                        <ui:outputCurrency value="{!service.Amount__c}" />
+                                        <ui:outputcurrency value="{!service.amount}" />
                                     </div>
                                 </aura:iteration>
                                 <div class="col footer">Total Charges</div>
                                 <div class="col footer align-right">
-                                    <ui:outputCurrency value="{!group.totalCharges}" />
+                                    <ui:outputcurrency value="{!group.totalCharges}" />
                                 </div>
                             </div>
                         </div>
                         <div class="col payments">
                             <h3>Payments and Adjustments</h3>
                             <div class="payment-details">
-                                <aura:iteration items="{!group.cGroup.Payment_Adjustments__r}" var="pa">
+                                <aura:iteration items="{!group.adjusts}" var="pa">
                                     <div class="col">
-                                        {!pa.Name}
-                                        <div>
-                                            <ui:outputDate value="{!pa.Post_Date__c}" />
-                                        </div>
+                                        {!pa.displayName}
                                     </div>
                                     <div class="col credit align-right">
-                                        <ui:outputCurrency value="{!pa.Amount__c}" />
+                                        <ui:outputcurrency value="{!pa.amount}" />
                                     </div>
                                 </aura:iteration>
                                 <div class="col footer">Total Credits</div>
                                 <div class="col footer credit align-right">
-                                    <ui:outputCurrency value="{!group.totalCredits}" />
+                                    <ui:outputcurrency value="{!group.totalCredits}" />
                                 </div>
                             </div>
                         </div>
                         <div class="col total align-right"><span class="title">You Owe</span> <span class="value"><ui:outputCurrency value="{!group.totalCharges + group.totalCredits}" /></span></div>
                     </div>
                 </aura:iteration>
+                <!-- fixed lightning bug-->
+                <input type="hidden" name="fixedBug" value="{!v.invoice.allGroups.length > 1}" />
+                <!-- fixed lightning bug END-->
+
                 <aura:if isTrue="{!v.invoice.allGroups.length > 1}">
                     <div class="payment-plan-total-container">
                         <div class="payment-plan-total">
@@ -108,7 +109,7 @@
                             </div>
                             <div class="col align-right">
                                 <div class="value">
-                                    <ui:outputCurrency value="{!v.invoice.invoiceTotalCharges}" />
+                                    <ui:outputcurrency value="{!v.invoice.invoiceTotalCharges}" />
                                 </div>
                             </div>
                             <div class="col align-right">
@@ -116,7 +117,7 @@
                             </div>
                             <div class="col align-right">
                                 <div class="value credit">
-                                    <ui:outputCurrency value="{!v.invoice.invoiceTotalCredits}" />
+                                    <ui:outputcurrency value="{!v.invoice.invoiceTotalCredits}" />
                                 </div>
                             </div>
                             <div class="col align-right">
@@ -124,7 +125,7 @@
                             </div>
                             <div class="col align-right">
                                 <div class="value total">
-                                    <ui:outputCurrency value="{!v.invoice.balanceDue}" />
+                                    <ui:outputcurrency value="{!v.invoice.balanceDue}" />
                                 </div>
                             </div>
                         </div>

@@ -11,6 +11,8 @@
             component.set("v.backButton","true");
 			$A.util.addClass(arrowToggleHeader,"arrowDisplay"); 
         }
+		
+        helper.getAllHeaderInfo(component);
     },
     
     navigateToURLEvent: function (component, event, helper) {
@@ -76,8 +78,12 @@
 		}).fire();
 	},
     setInvoice: function(component, event, helper) {
+		console.log('setInvoice');
         component.set('v.invoiceId', event.getParam('invoiceId'));
         component.set('v.activeTab', event.getParam('type'));
+		if(event.getParam('isEstimate') == true){
+			component.set('v.isEstimateRecord', true);
+		}
         $A.get("e.force:navigateToURL").setParams({
             'url' : '/payments'
         }).fire();        
@@ -85,10 +91,11 @@
     putInvoucePaument: function(component, event, helper) {
         var invoiceId = component.get('v.invoiceId');
         var activeTab = component.get('v.activeTab');
+		var isEstimate = component.get('v.isEstimateRecord');
         component.set('v.invoiceId', undefined);
         component.set('v.activeTab', undefined);
         var appEvent = $A.get("e.c:payNowResponse");
-        appEvent.setParams({ "invoiceId" : invoiceId, "activeTab": activeTab});
+        appEvent.setParams({ "invoiceId" : invoiceId, "activeTab": activeTab, "isEstimateRecord": isEstimate});
         appEvent.fire();
     }
 })

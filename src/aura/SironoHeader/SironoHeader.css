@@ -1,7 +1,7 @@
 /* custom styles */
 
 .THIS.wrapper .header-wrapper{
-	height: 359px;
+	height: auto !important;
 }
 
 .THIS.wrapper .header-wrapper.small{
@@ -12,12 +12,29 @@
 	height: 88px;
 }
 
-.THIS.wrapper .header-wrapper.alert {
+/*.THIS.wrapper .header-wrapper.alert {
     height: 432px;
-}
+}*/
 
 .THIS .header-main.small .no-small{
     display: none;
+}
+
+.THIS .header-main.small .fullSuccess{
+    height: 75px;
+}
+
+.THIS .header-main.small .no-balance{
+    width: 70%;
+}
+
+.THIS .header-main.small .you-owe {
+    width: auto !important;
+    min-width: 16.6%;
+}
+
+.THIS .header-main.small .col.issue {
+    min-width: 16.6%;
 }
 
 .THIS button .slds-button__icon.slds-button__icon--large{
@@ -35,6 +52,31 @@
     right: -278px;
 }
 
+.THIS .status.inform {
+    background: #04844B;
+    color: #fff;
+}
+
+.THIS .status.inform a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.THIS .status.warning a {
+    color: #16325c;
+    text-decoration: underline;
+}
+
+.THIS .header-main .no-balance {
+    display: inline-block;
+    width: 15%;
+    margin-left: 2rem;
+}
+
+.THIS .header-main .no-balance-header {
+    padding-bottom: 1rem;
+}
+
 .THIS .header-main .arrow-toggle.backIcon{
     padding-top:0;
     position: relative;
@@ -45,5 +87,21 @@
     padding-top: 0;
 }
 .THIS .arrowDisplay {
-    display:none!important;
+    display:none !important;
+}
+.THIS .col.issue.no-big.section_header_Payment {
+    width:27%;
+    padding:1rem;
+}
+.THIS .col.issue.no-big.section_header_Amount {
+    width:25%;
+    padding:1rem;
+}
+
+.THIS .value span.uiOutputDate {
+    position: initial;
+}
+
+.THIS .issue {
+    padding: 1rem 10px 0 !important;
 }

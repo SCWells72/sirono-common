@@ -84,8 +84,8 @@ public with sharing class AddCreditCardLightning {
         guarantorName = '';
         planType = null;
         isActivePaymentPlan = false;
-        if (String.IsNotBlank(guarantorId)) {
-            guarantorRecordId = Apexpages.currentPage().getParameters().get('guarantorId');
+        if (String.IsNotBlank(guarantorId)) { // need to check if there is a difference between guarantorId and guarantorRecordId
+            guarantorRecordId = guarantorId;
             gc = PayStaffWSUtill.fetchGuarantorContact(guarantorId);
             guarantorName = PayStaffWSUtill.fetchGuarantorName(gc);
             guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
@@ -102,6 +102,8 @@ public with sharing class AddCreditCardLightning {
             isActivePaymentPlan = checkPaymentPlanExist(guarantorRecordId);
         }
         planValue = '32772'; //AB TODO check what is this
+        
+        SironoLightningPageMessagesList = new List<ApexPages.Message>();
     }
 
     //Controller Method invoked from Visualforce page
@@ -137,7 +139,7 @@ public with sharing class AddCreditCardLightning {
     }
     
     //Controller Method invoked from Visualforce page
-    public void CreatePaymentPlan() {
+    public void CreatePaymentPlan() { //previously doSubmit on original class
         try {
             
             /*

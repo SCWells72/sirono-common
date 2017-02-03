@@ -47,7 +47,7 @@
                             <a href="{!stateLengthItemOne.pdf_Url}" target="_blank">
                                 <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/doctype-sprite/svg/symbols.svg#pdf'}" category="standard" size="medium" name="pdf" />
                                 <span class="slds-assistive-text">Download</span>
-                                <ui:outputDate format="MM DD, YYYY" value="{!stateLengthItemOne.statement.LastModifiedDate}" /> Statement
+                                <ui:outputdate format="MMMM d, YYYY" value="{!stateLengthItemOne.statement.Statement_Date__c}" /> Statement
                             </a>
                         </div>
                     </aura:iteration> 

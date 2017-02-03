@@ -3,7 +3,9 @@
     <aura:attribute name="invoices" type="Aura.Component[]" />
     <aura:attribute name="listOfInvoices" type="List" />
     <aura:attribute name="invoiceId" type="String"/>
+    <aura:attribute name="groupFilter" type="String" default="unpaid"/>
     <aura:attribute name="AreAllInvoicesSelected" type="Boolean" default="false"/>
+    <aura:attribute name="isEstimateType" type="Boolean" default="false"/>
     <aura:handler event="c:calculatePaymentBalanceEvent" action="{!c.refreshAllInvoicesSelected}" />
 
     <aura:registerEvent name="selectAllInvoices" type="c:SelectInvoicesEvent"/>
@@ -41,22 +43,22 @@
                         <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}"  category="standard" size="small" class="slds-button__icon" name="Check" />
                     </div>{!v.AreAllInvoicesSelected ? 'Deselect All' : 'Select All'}
                 </button>
-                <div class="float-right">
+                <div class="float-right" aura:id="filtes">
                     <div class="slds-radio--button-group">
                         <span class="slds-button slds-radio--button">
-                            <input type="radio" name="radio" id="unpaid" checked="true" onclick="{!c.filterInvoices}"/>
+                            <input type="radio" name="radio" id="unpaid" checked="true" onchange="{!c.filterInvoices}"/>
                             <label class="slds-radio--button__label" for="unpaid">
                                 <span class="slds-radio--faux">Unpaid</span>
                             </label>
                         </span>
                         <span class="slds-button slds-radio--button">
-                            <input type="radio" name="radio" id="delinquent" onclick="{!c.filterInvoices}"/>
+                            <input type="radio" name="radio" id="delinquent" onchange="{!c.filterInvoices}"/>
                             <label class="slds-radio--button__label" for="delinquent">
                                 <span class="slds-radio--faux">Delinquent</span>
                             </label>
                         </span>
                         <span class="slds-button slds-radio--button">
-                            <input type="radio" name="radio" id="overdue" onclick="{!c.filterInvoices}"/>
+                            <input type="radio" name="radio" id="overdue" onchange="{!c.filterInvoices}"/>
                             <label class="slds-radio--button__label" for="overdue">
                                 <span class="slds-radio--faux">Overdue</span>
                             </label>

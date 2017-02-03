@@ -29,6 +29,10 @@ public with sharing class HeaderController {
 		@AuraEnabled public Invoice__c invoiceOverdue 		{get;set;}
 		@AuraEnabled public String messageInfo 				{get;set;}
 		@AuraEnabled public Payment_Plan__c paymentPlan 	{get;set;}
+		@AuraEnabled public Integer newEstimatesCount	 	{get;set;}
+		@AuraEnabled public Boolean version2 				{get;set;}
+		@AuraEnabled public Boolean version3 				{get;set;}
+		@AuraEnabled public Boolean version4 				{get;set;}
 
 		public GuarantorWrapper(Id userId) {
 			this.messageInfo = '';
@@ -75,6 +79,14 @@ public with sharing class HeaderController {
 													ORDER BY Active__c DESC, LastModifiedDate DESC
 													LIMIT 1
 				];
+
+				this.newEstimatesCount = [
+											SELECT 
+													COUNT()
+											FROM 	Encounter__c
+											
+				];
+
 				if(listInvoices.size() > 0 && listInvoices[0] != null) {
 					this.invoiceOverdue = listInvoices[0];
 				}
@@ -86,6 +98,15 @@ public with sharing class HeaderController {
 				} else if(contact.Guarantor_Status__c == DELINQUENT_STATUS) {
 					this.messageInfo = DELINQUENT_MESSAGE;
 				}
+
+				this.version2 = ((this.contact.Guarantor_Status__c == 'Due' || this.contact.Guarantor_Status__c == 'Overdue' 
+					|| this.contact.Guarantor_Status__c == 'Delinquent') && this.contact.Add_to_Payment_Plan__c == false) ? true : false;
+				this.version3 = ((((this.contact.Guarantor_Status__c == 'Due' || this.contact.Guarantor_Status__c == 'Overdue' 
+					|| this.contact.Guarantor_Status__c == 'Delinquent') && this.contact.Add_to_Payment_Plan__c == true) 
+						|| this.contact.Guarantor_Status__c == 'On Payment Plan') && (this.paymentPlan != null && this.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')) ? true : false;
+				this.version4 = ((((this.contact.Guarantor_Status__c == 'Due' || this.contact.Guarantor_Status__c == 'Overdue' 
+					|| this.contact.Guarantor_Status__c == 'Delinquent') && this.contact.Add_to_Payment_Plan__c == true) 
+						|| this.contact.Guarantor_Status__c == 'On Payment Plan') && (this.paymentPlan != null && this.paymentPlan.Payment_Plan_Standing__c != 'Good Standing')) ? true : false;
 			}
 		}
 	}

@@ -3,6 +3,7 @@
     <aura:attribute name="activeTab" type="String"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	<aura:handler name="resetPaymentTabs" event="c:CancelActionEvent" action="{!c.doInit}" />
 
 	<div class="nav-wrapper">
 		<nav class="navigation">
@@ -12,9 +13,7 @@
 			<div aura:id="CreatePaymentPlan_tab" id="CreatePaymentPlan" class="col payment-plan-nav" onclick="{!c.activateTab}">
 				<aura:if isTrue="{!v.PaymentInfo.hasPaymentPlans}">
 					Edit Payment Plan
-					<aura:set attribute="else">
-						Create Payment Plan
-					</aura:set>
+					<aura:set attribute="else">Create Payment Plan</aura:set>
 				</aura:if>
 			</div>
 		</nav>
@@ -24,6 +23,6 @@
 		<c:MakePaymentTab />
 	</section>
 	<section aura:id="CreatePaymentPlan" class="make-payment-content display_false">
-        <c:PaymentPlanTab aura:id="paymentPlanCmp" PaymentInfo="{!v.PaymentInfo}" />
+		<c:PaymentPlanTab aura:id="paymentPlanCmp" PaymentInfo="{!v.PaymentInfo}" />
 	</section>
 </aura:component>

@@ -1,4 +1,7 @@
 ({
+	doCmpInit: function(cmp, e, hlpr) {
+		hlpr.doCmpInit(cmp);
+	},
 	cancelAction: function (cmp, e, hlpr) {
 		cmp.getEvent('initPlanInfo').fire();
 	},

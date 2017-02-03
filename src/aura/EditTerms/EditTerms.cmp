@@ -1,15 +1,14 @@
-<aura:component >
+<aura:component controller="PaymentTabsController">
 	<aura:attribute name="PaymentInfo" type="Object" access="public" default="{}" />
 	<aura:attribute name="PaymentRequestInfo" type="Object" access="public" default="{}" />
 	<!-- day of month selection -->
 	<aura:attribute name="dayOfMonthSelection" type="Integer[]" access="public"/>
 	<!-- day of month selection END-->
 	<!-- plan Slider --> 
-	<aura:attribute name="sliderValue" type="Decimal" access="public" default="0"/>
+	<aura:attribute name="sliderValue" type="String" access="public" default="0"/>
 	<aura:attribute name="sliderValuePart" type="String" access="public" default="00"/>
 	<!-- plan Slider END -->
 	<aura:attribute name="hasError" type="Boolean" access="private" default="false"/>
-    <aura:attribute name="selectedInvoiceBalance" type="Decimal" />
 
 	<aura:handler name="init" value="{!this}" action="{!c.doCmpInit}"/>
 	<aura:handler name="change" value="{!v.PaymentRequestInfo.planValue}" action="{!c.doCalcView}"/>
@@ -33,10 +32,7 @@
 					</div>
 				</div>
 			</h2>
-			<p>Next payment of <ui:outputCurrency value="{!v.PaymentRequestInfo.planValue}" format="$#,###.##"/> scheduled for 01/15/2017 </p>
-			<p class="title">
-				<em>Your current payment plan started on December 15, 2016. <ui:outputCurrency value="{!v.PaymentRequestInfo.planValue}" format="$#,###.##"/>/month is charged on day {!v.PaymentRequestInfo.executeOnDay} of each month for the next {!v.PaymentRequestInfo.totalInstallments - 1} months. The {!v.PaymentRequestInfo.totalInstallments}th and final installment will be <ui:outputCurrency value="{!v.PaymentRequestInfo.planValue}" format="$#,###.##"/>.</em>
-			</p>
+			<c:EditPlanInfo PaymentInfo="{!v.PaymentInfo}"/>
 		</div>
 	</aura:if>
 	<div aura:id="editTerms" class="set-amount">
@@ -56,9 +52,7 @@
 				<div class="col months">{!v.PaymentRequestInfo.totalInstallments} <span>Months</span>
 				</div>
 			</div>
-			<div class="info">
-				Adjust your monthly payments to estimate your payment over fewer months.
-			</div>
+			<div class="info">Adjust your monthly payments to estimate your payment over fewer months.</div>
 			<input type="range" min="{!v.PaymentInfo.settings.Min_Installment_Amount__c}" max="{!v.PaymentRequestInfo.totalAmount}" step="0.05" value="{!v.PaymentRequestInfo.planValue}" class="payment-slider-circle" onchange="{!c.changeSlider}"/>
 			<div class="grid high-low range_slider">
 				<div class="col"><ui:outputcurrency value="{!v.PaymentInfo.settings.Min_Installment_Amount__c}" format="$#,###.##" /></div>
@@ -102,9 +96,9 @@
 		</div>
 	</div>
 
-	<aura:renderIf isTrue="{!not(v.PaymentInfo.hasPaymentPlans)}">
+	<aura:if isTrue="{!not(v.PaymentInfo.hasPaymentPlans)}">
 		<div aura:id="editCreditCard" class="slds-p-horizontal--large border-top slds-hide">
 			<c:EditPaymentCard PaymentInfo="{!v.PaymentInfo}" PaymentRequestInfo="{!v.PaymentRequestInfo}"/>
 		</div>
-	</aura:renderIf>
+	</aura:if>
 </aura:component>

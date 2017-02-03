@@ -1,11 +1,7 @@
 ({
-	showCancelPlanDialog: function (cmp, e, hlpr) {
-		try {
-		cmp.find('cancelPlanCmp').showCancelDialog();
+	editPaymentCancel: function (cmp, e, hlpr) {
 		$A.util.removeClass(cmp.find('cancelPlan'), 'slds-hide');
-		} catch (e) {
-			console.log(e);
-		}
+		cmp.find('cancelPlanCmp').showCancelDialog();
 	},
 	editTerms: function(cmp, e, hlpr) {
 		var editTerms = cmp.find('editTerms');
@@ -31,19 +27,20 @@
 	},
 	doInitInfo: function(cmp, e, hlpr) {
 		e.stopPropagation();
-		//TODO add resetCmp
-		//hlpr.resetCmp(cmp);
+		hlpr.resetCmp(cmp);
 	},
 	showSuccess: function(cmp, e, hlpr) {
 		e.stopPropagation();
-
+		var params = e.getParam('arguments');
+		console.log('1111', params)
+		if (params && params.paymentPlan) {
+			cmp.set('v.PlanInfo', params.paymentPlan);
+		}
 		$A.util.addClass(cmp.find('planInfo'), 'slds-hide');
 		$A.util.addClass(cmp.find(cmp.get('v.activeSectionId')), 'slds-hide');
 		$A.util.removeClass(cmp.find('message'), 'slds-hide');
-		if (cmp.get('v.activeSectionId') === 'editTerms') {
-			cmp.set('v.editTermsVisible', false);
-		}
-		cmp.set('v.activeSectionId', '');
+		cmp.set('v.editTermsVisible', false);
+		cmp.set('v.activeSectionId', null);
 	},
 	resetCmp: function(cmp, e, hlpr) {
 		cmp.getEvent('resetPaymentTabs').fire();

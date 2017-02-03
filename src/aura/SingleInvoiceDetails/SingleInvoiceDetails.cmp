@@ -65,7 +65,7 @@
                             <div class="col charges"> 
                                 <h3>Services and Charges</h3> 
                                 <div class="charge-details"> 
-                                    <aura:iteration items="{!group.cGroup.Services__r}" var="service" > 
+                                    <aura:iteration items="{!group.services}" var="service" > 
                                         <div class="col">{!service.Name}</div> 
                                         <div class="col align-right"> 
                                             <ui:outputCurrency value="{!service.Amount__c}" /> 
@@ -80,7 +80,7 @@
                             <div class="col payments"> 
                                 <h3>Payments and Adjustments</h3> 
                                 <div class="payment-details"> 
-                                    <aura:iteration items="{!group.cGroup.Payment_Adjustments__r}" var="pa" > 
+                                    <aura:iteration items="{!group.adjusts}" var="pa" > 
                                         <div class="col"> 
                                             {!pa.Name} 
                                             <div> 

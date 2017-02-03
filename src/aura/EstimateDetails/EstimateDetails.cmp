@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <div class="col payments">
-                        <h3>Estimated Payments and Adjustments</h3> 
+                        <h3>Estimated Payment and Adjustments</h3> 
                         <div class="payment-details">
                             
                             <aura:renderIf isTrue="{! if (v.estimate.singleEncounter.Insurance_Discount__c != null, true, false) }">

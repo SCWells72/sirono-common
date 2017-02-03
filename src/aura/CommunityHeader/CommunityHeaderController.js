@@ -4,7 +4,7 @@
 		$A.util.toggleClass(mySettings, 'slds-hide');     
 	},
 	showHelp : function(component, event, helper) {
-		var mySettings = component.find('sldsjsPopoverActionHelp');
+		var mySettings = component.find('sldsjsPopoverActionHelp'); 
 		$A.util.toggleClass(mySettings, 'slds-hide');         
 	},
 	doInit : function(component, event, helper) {

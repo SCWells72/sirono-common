@@ -4,7 +4,7 @@
 	<div class="col payment-actions">
         <div class="no-small">
             <img src="{!$Resource.SironoData + '/assets/images/one-and-done.png'}" alt="One and Done" />
-            <h2>One and Done</h2>
+            <h2 class="actionsHeader">One and Done</h2>
             <p>Simple, secure and fast is our motto. Use our payment page to clear your invoice balances.</p>        
             <!-- Guarantor_Status__c == 'Due' -->  
             <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Due')}">  
@@ -16,7 +16,7 @@
                 <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c == true)}">
                     <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}"> 
                         <a onclick="{!c.sendPageMakeToHeader}">
-                            <button class="slds-button slds-button--brand">Pay Account in Full</button>
+                            <button class="slds-button slds-button--brand btn_PayAccountFullDue">Pay Account in Full</button>
                         </a>
                     </aura:if>
                 </aura:if>
@@ -24,91 +24,111 @@
             <!-- Guarantor_Status__c == 'Due' END -->  
         </div>
         <div class="no-small">
-            <div class="slds-button-group" role="group">
+            <div class="slds-button-group slds_btn_group" role="group">
                 <!-- Guarantor_Status__c == 'Due' -->
-                <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Due')}">  
-                    <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c == false)}"> 
+                <div class="btn_groupDue">
+                <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Due')}">
+                    <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c == false)}">
                         <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Create Payment Plan</ui:button>
-                    </aura:if> 
+                    </aura:if>
                     <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c == true)}">
-                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">  
-                            <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Add Invoice(s) to Plan</ui:button>
+                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">
+                            <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral btn_AddInvoiceDue">Add Invoice(s) to Plan</ui:button>
                         </aura:if>
-                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}"> 
+                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}">
                             <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button slds-button--neutral">Pay Missed Installment</ui:button>
                             <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
                         </aura:if>
-                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due')}"> 
+                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due')}">
                             <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button slds-button--neutral">Pay Missed Installment</ui:button>
                             <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
                         </aura:if>
                     </aura:if>
                 </aura:if>
+                </div>
                 <!-- Guarantor_Status__c == 'Due' END -->
-
                 <!-- Guarantor_Status__c == 'Overdue' -->
-                <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Overdue')}">   
-                    <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button warning">Pay Overdue Invoices</ui:button> 
-                    <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c == false)}">
-                        <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Create Payment Plan</ui:button>
+                <div class="PayOverdue">
+                    <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Overdue')}">
+                        <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button warning btn_PayOverdueTop">Pay Overdue Invoices</ui:button>
+                        <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c == false)}">
+                            <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Create Payment Plan</ui:button>
+                        </aura:if>
+                        <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c)}">
+                            <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">
+                                <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral btn_PayOverdueBottom">Add Invoice(s) to Plan</ui:button>
+                            </aura:if>
+                            <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}">
+                                <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button warning">Update Payment Method</ui:button>
+                            </aura:if>
+                            <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due')}">
+                                <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
+                            </aura:if>
+                        </aura:if> 
                     </aura:if>
-
-                    <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c)}">
-                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">
-                            <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Add Invoice(s) to Plan</ui:button>
-                        </aura:if>
-                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}">
-                            <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button warning">Update Payment Method</ui:button>
-                        </aura:if>
-                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due')}">
-                            <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
-                        </aura:if>
-                    </aura:if>
-                </aura:if>
+                </div>
                 <!-- Guarantor_Status__c == 'Overdue' END -->
-
                 <!-- Guarantor_Status__c == 'Delinquent' -->
-                <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent')}">   
-                    <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button slds-button--destructive">Pay Delinquent Invoices</ui:button> 
-                    <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c == false)}">
-                         <ui:button press="{!c.sendPageCreateToHeader}"  class="slds-button slds-button--neutral">Create Payment Plan</ui:button>
-                    </aura:if>
-
-                    <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c)}">
-                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">
-                            <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Add Invoice(s) to Plan</ui:button>
+                <div class="btn_PayDelinquent">
+                    <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent')}">
+                        <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button slds-button--destructive btn_PayDelinquentTO">Pay Delinquent Invoices</ui:button>
+                        <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c == false)}">
+                            <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral ">Create Payment Plan</ui:button>
                         </aura:if>
-                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}">
-                            <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button warning">Update Payment Method</ui:button>
+                        <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c)}">
+                            <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">
+                                <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Add Invoice(s) to Plan</ui:button>
+                            </aura:if>
+                            <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}">
+                                <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button warning">Update Payment Method</ui:button>
+                            </aura:if>
+                            <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due')}">
+                                <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
+                            </aura:if>
                         </aura:if>
-                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due')}">
-                            <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
+                    </aura:if> 
+                    </div>
+                    <!-- Guarantor_Status__c == 'Delinquent' END -->
+                    <!-- Guarantor_Status__c == 'On Payment Plan' -->
+                    <div class="btn_OnPaymentPlan">
+                        <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'On Payment Plan')}">
+                            <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c)}">
+                                <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">
+                                    <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button slds-button--neutral">Make Additional Payment</ui:button>
+                                    <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
+                                </aura:if>
+                                <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}">
+                                    <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button slds-button--neutral">Pay Missed Installment</ui:button>
+                                    <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button warning">Update Payment Method</ui:button>
+                                </aura:if>
+                                <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due')}">
+                                    <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button slds-button--neutral">Pay Missed Installment</ui:button>
+                                    <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
+                                </aura:if>
+                            </aura:if>
                         </aura:if>
-                    </aura:if>
-                </aura:if>
-                <!-- Guarantor_Status__c == 'Delinquent' END -->
-                <!-- Guarantor_Status__c == 'On Payment Plan' -->
-                <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'On Payment Plan')}"> 
-                    <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c)}">
-                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">
-                            <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button slds-button--neutral">Make Additional Payment</ui:button>
-                            <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
-                        </aura:if>
-                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}">
-                            <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button slds-button--neutral">Pay Missed Installment</ui:button>
-                            <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button warning">Update Payment Method</ui:button>
-                        </aura:if>
-                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due')}">
-                            <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button slds-button--neutral">Pay Missed Installment</ui:button>
-                            <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
-                        </aura:if>
-                    </aura:if>
-                </aura:if>
-                <!-- Guarantor_Status__c == 'On Payment Plan' END -->
-            </div>
+                    </div>
+                    <!-- Guarantor_Status__c == 'On Payment Plan' END -->
+                </div>
         </div>
 
         <div class="no-big">
+            <!-- Guarantor_Status__c == 'Due' -->
+            <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Due')}">
+                <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c == false)}">
+                    <a onclick="{!c.sendPageCreateToHeader}">
+                        <button class="slds-button slds-button--brand">Pay Account in Full</button>
+                    </a>
+                </aura:if>
+                <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c == true)}">
+                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">
+                        <a onclick="{!c.sendPageMakeToHeader}">
+                            <button class="slds-button slds-button--brand">Pay Account in Full</button>
+                        </a>
+                    </aura:if>
+                </aura:if>
+            </aura:if>
+            <!-- Guarantor_Status__c == 'Due' END -->  
             <!-- Guarantor_Status__c == 'Due' -->
             <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Due')}">  
                 <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c == false)}"> 
@@ -116,7 +136,7 @@
                 </aura:if> 
                 <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c == true)}">
                     <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}"> 
-                        <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Add Invoice(s) to Plan</ui:button>
+                        <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral btn_AddInvoiceDue">Add Invoice(s) to Plan</ui:button>
                     </aura:if>
                     <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}"> 
                         <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button slds-button--neutral">Pay Missed Installment</ui:button>
@@ -127,35 +147,38 @@
                         <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
                     </aura:if>
                 </aura:if>
-            </aura:if>
+            </aura:if> 
             <!-- Guarantor_Status__c == 'Due' END -->
 
             <!-- Guarantor_Status__c == 'Overdue' -->
+            <div>
             <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Overdue')}">   
-                <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button warning">Pay Overdue Invoices</ui:button> 
+                <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button warning ">Pay Overdue Invoices</ui:button> 
                 <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c == false)}">
-                    <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Create Payment Plan</ui:button>
+                    <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral ">Create Payment Plan</ui:button>
                 </aura:if>
 
                 <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c)}">
                     <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">
-                        <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Add Invoice(s) to Plan</ui:button>
+                        <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral PayOverdueBottom">Add Invoice(s) to Plan</ui:button>
                     </aura:if>
                     <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}">
-                        <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button warning">Update Payment Method</ui:button>
+                        <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button warning PayOverdueBottom">Update Payment Method</ui:button>
                     </aura:if>
                     <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due')}">
-                        <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
+                        <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral PayOverdueBottom">Edit Payment Plan</ui:button>
                     </aura:if>
                 </aura:if>
             </aura:if>
+            </div>
             <!-- Guarantor_Status__c == 'Overdue' END -->
 
             <!-- Guarantor_Status__c == 'Delinquent' -->
+            <div>
             <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent')}">   
-                <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button slds-button--destructive">Pay Delinquent Invoices</ui:button> 
+                <ui:button press="{!c.sendPageMakeToHeader}" class="slds-button slds-button--destructive btn_Pay btn_PayTop">Pay Delinquent Invoices</ui:button>  
                 <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c == false)}">
-                    <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Create Payment Plan</ui:button>
+                    <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral btn_Pay btn_PayBottom">Create Payment Plan</ui:button>
                 </aura:if>
 
                 <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c)}">
@@ -170,6 +193,7 @@
                     </aura:if>
                 </aura:if>
             </aura:if>
+            </div>
             <!-- Guarantor_Status__c == 'Delinquent' END -->
             <!-- Guarantor_Status__c == 'On Payment Plan' -->
             <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'On Payment Plan')}"> 
@@ -189,6 +213,7 @@
                 </aura:if>
             </aura:if>
             <!-- Guarantor_Status__c == 'On Payment Plan' END -->
+            
         </div>
     </div>
 </aura:component>

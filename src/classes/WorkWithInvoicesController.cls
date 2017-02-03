@@ -1,4 +1,9 @@
-public with sharing class WorkWithInvoicesController {
+//TODO remove without sharing
+public without sharing class WorkWithInvoicesController {
+	public static final String TRANSACTION_SERVICE_METHOD				= 'Service';
+	public static final String SERVICE_DEFAULT_NAME						= 'Unknown';
+	public static final String INVOICE_PAID_STATUS						= 'Paid';
+	public static final String INVOICE_UNPAID_STATUS					= 'Unpaid';
 	
 	@AuraEnabled
     public static List<InvoicesWrapper> getAllInvoices(String groupFilter, String additionalFilter) {
@@ -17,13 +22,22 @@ public with sharing class WorkWithInvoicesController {
 							'(SELECT Id, Payment_Plan__c, Payment_Plan__r.Active__c, Payment_Plan__r.Installment_Amount__c, ' +
 							'Payment_Plan__r.NextPaymentDate__c FROM Charge_Groups__r) ' +
 							'FROM Invoice__c WHERE Guarantor__c = \'' + u.ContactId + '\'';
+			
+			/*Unpaid (Invoice Status = Delinquent, Overdue, Due, or On Payment Plan), 
+			Paid (Invoice Status = Paid or Invoice Voided), 
+			Overdue (Invoice Status = Overdue), 
+			Delinquent (Invoice Status = Delinquent), 
+			and On Payment Plan (Invoice Status = On Payment Plan).*/
 			if(groupFilter != null && groupFilter != '') {
-				if(groupFilter == 'Unpaid'){
+				if(groupFilter == INVOICE_UNPAID_STATUS){
 					query += ' AND Invoice_Status__c IN (\'Delinquent\', \'Overdue\', \'Due\', \'On Payment Plan\')';
+				} else if(groupFilter == INVOICE_PAID_STATUS) {
+					query += ' AND Invoice_Status__c IN (\'Paid\', \'Invoice Voided\')';
 				} else {
 					query += ' AND Invoice_Status__c = \'' + groupFilter + '\'';
 				}
 			}
+			
 			System.debug('QUERY: ' + query);
 			listOfInvoices = Database.query(query);
 
@@ -51,19 +65,13 @@ public with sharing class WorkWithInvoicesController {
 						Date_Of_Service_Start_Date__c,
 						Date_Of_Service_End_Date__c,
 						(
-							SELECT
-									Id,
-									Name,
+							SELECT 
+									Adjustment__r.Name,
+									Payment__r.Name,
+									Service__r.Name,
 									Amount__c,
-									Post_Date__c
-							FROM	Payment_Adjustments__r
-						),
-						(
-							SELECT
-									Id,
-									Name,
-									Amount__c
-							FROM	Services__r
+									Txn_Method__c
+							FROM	Transactions__r
 						)
 				FROM	Charge_Group__c
 				WHERE	Id IN: allChargeGroupIds
@@ -170,6 +178,15 @@ public with sharing class WorkWithInvoicesController {
 									Name,
 									Amount__c
 							FROM	Services__r
+						),
+						(
+							SELECT 
+									Adjustment__r.Name,
+									Payment__r.Name,
+									Amount__c,
+									Service__r.Name,
+									Txn_Method__c
+							FROM	Transactions__r
 						)
 				FROM	Charge_Group__c
 				WHERE	Id IN: allChargeGroupIds
@@ -210,7 +227,8 @@ public with sharing class WorkWithInvoicesController {
 				);
 				if (allGroupsMap.get(cGroup.Id).Balance__c != null)
 					balanceDue += allGroupsMap.get(cGroup.Id).Balance__c;
-				if (cGroup.Payment_Plan__c != null && cGroup.Payment_Plan__r.Active__c) {
+				//if (cGroup.Payment_Plan__c != null && cGroup.Payment_Plan__r.Active__c) {
+				if (cGroup.Payment_Plan__c != null) {
 					this.nextPayment = cGroup.Payment_Plan__r.Installment_Amount__c;
 					this.nextDate = cGroup.Payment_Plan__r.NextPaymentDate__c;
 				}
@@ -222,19 +240,52 @@ public with sharing class WorkWithInvoicesController {
 		@AuraEnabled Charge_Group__c cGroup {get;set;}
 		@AuraEnabled Decimal totalCharges {get;set;}
 		@AuraEnabled Decimal totalCredits {get;set;}
+		@AuraEnabled List<ServiceWrapper> services {get;set;}
+		@AuraEnabled List<ServiceWrapper> adjusts {get;set;}
 
 		public ChargeGroupWrapper(Charge_Group__c cGroup) {
 			this.cGroup = cGroup;
-			totalCredits = 0;
-			for (Payment_Adjustments__c pa : cGroup.Payment_Adjustments__r) {
-				if (pa.Amount__c != null)
-					totalCredits += pa.Amount__c;
-			}
 			totalCharges = 0;
-			for (Service__c service : cGroup.Services__r) {
-				if (service.Amount__c != null)
-					totalCharges += service.Amount__c;
+			totalCredits = 0;
+			Map<String, ServiceWrapper> adjustMap = new Map<String, ServiceWrapper>();
+			Map<String, ServiceWrapper> serviceMap = new Map<String, ServiceWrapper>();
+			for(Transaction__c pa : cGroup.Transactions__r) {
+				if(pa.Txn_Method__c == TRANSACTION_SERVICE_METHOD) {
+					totalCharges += pa.Amount__c;
+					addServiceInMap(serviceMap, pa);
+				} else {
+					totalCredits += pa.Amount__c;
+					addServiceInMap(adjustMap, pa);
+				}
 			}
+			this.adjusts = adjustMap.values();
+			this.services = serviceMap.values();
+		}
+		private void addServiceInMap(Map<String, ServiceWrapper> objectMap, Transaction__c pa) {
+			String displayName = SERVICE_DEFAULT_NAME;
+			if(pa.Adjustment__r.Name != null) {
+				displayName = pa.Adjustment__r.Name;
+			} else if(pa.Payment__r.Name != null) {
+				displayName = pa.Payment__r.Name;
+			} else if(pa.Service__r.Name != null) {
+				displayName = pa.Service__r.Name;
+			}
+			displayName = displayName.split('-')[0]; //get Name e.g. Aetna Payment - 1/14/2016  finded(Aetna Payment )
+			if(objectMap.containsKey(displayName)) {
+				objectMap.get(displayName).Amount += pa.Amount__c;
+			} else {
+				objectMap.put(displayName, new ServiceWrapper(displayName, pa.Amount__c));
+			}
+		}
+	}
+
+	public class ServiceWrapper {
+		@AuraEnabled public String displayName {get;set;}
+		@AuraEnabled public Decimal amount {get;set;}
+		
+		public ServiceWrapper(String displayName, Decimal amount) {
+			this.displayName = displayName;
+			this.amount = amount;
 		}
 	}
 }

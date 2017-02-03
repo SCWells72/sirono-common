@@ -1,4 +1,4 @@
 ({
-	helperMethod : function() {
+	doCmpInit: function(cmp) {
 	}
 })
