@@ -22,6 +22,10 @@
         <relationshipLabel><!-- Payment Plans --></relationshipLabel>
     </fields>
     <fields>
+        <label><!-- Completion Date --></label>
+        <name>Completion_Date__c</name>
+    </fields>
+    <fields>
         <label><!-- Delinquent Date --></label>
         <name>Delinquent_Date__c</name>
     </fields>
@@ -51,6 +55,10 @@
         <name>Installment_Amount__c</name>
     </fields>
     <fields>
+        <label><!-- Installments Completed --></label>
+        <name>Installments_Completed__c</name>
+    </fields>
+    <fields>
         <label><!-- Next Payment Date --></label>
         <name>NextPaymentDate__c</name>
     </fields>
@@ -70,6 +78,10 @@
         <label><!-- Payment Method --></label>
         <name>Payment_Method__c</name>
         <relationshipLabel><!-- Payment Plans --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Payment Plan Standing --></label>
+        <name>Payment_Plan_Standing__c</name>
     </fields>
     <fields>
         <label><!-- Plan Origin --></label>

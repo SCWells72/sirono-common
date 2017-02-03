@@ -701,6 +701,7 @@
         <members>Contact.Add_Discount</members>
         <members>Contact.Add_to_Payment_Plan</members>
         <members>Contact.Create_Payment_Plan</members>
+        <members>Contact.Pay_Estimate</members>
         <members>Contact.Process_Payment</members>
         <members>Contact.View_On_Portal</members>
         <members>Encounter__c.New_Payment_Arrangement</members>

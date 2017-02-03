@@ -201,6 +201,10 @@
         <startsWith>Vowel</startsWith>
     </fields>
     <fields>
+        <label><!-- Add to Payment Plan --></label>
+        <name>Add_to_Payment_Plan__c</name>
+    </fields>
+    <fields>
         <label><!-- Address --></label>
         <name>Address__c</name>
     </fields>
@@ -211,6 +215,18 @@
     <fields>
         <label><!-- Bad Debt Balance --></label>
         <name>Bad_Debt_Balance__c</name>
+    </fields>
+    <fields>
+        <label><!-- CTINumber1 --></label>
+        <name>CTINumber1__c</name>
+    </fields>
+    <fields>
+        <label><!-- CTINumber2 --></label>
+        <name>CTINumber2__c</name>
+    </fields>
+    <fields>
+        <label><!-- CTINumber3 --></label>
+        <name>CTINumber3__c</name>
     </fields>
     <fields>
         <label><!-- Campaign --></label>
@@ -224,6 +240,10 @@
     <fields>
         <label><!-- Delinquent Balance --></label>
         <name>Delinquent_Balance__c</name>
+    </fields>
+    <fields>
+        <label><!-- Delinquent Invoices --></label>
+        <name>Delinquent_Invoices__c</name>
     </fields>
     <fields>
         <label><!-- Due Balance --></label>
@@ -250,14 +270,38 @@
         <name>Guarantor_Patient_Id__c</name>
     </fields>
     <fields>
+        <label><!-- Guarantor Status --></label>
+        <name>Guarantor_Status__c</name>
+    </fields>
+    <fields>
         <help><!-- Master Guarantor for External Guarantor record --></help>
         <label><!-- Guarantor --></label>
         <name>Guarantor__c</name>
         <relationshipLabel><!-- Guarantor --></relationshipLabel>
     </fields>
     <fields>
+        <label><!-- Home Phone Type --></label>
+        <name>Home_Phone_Type__c</name>
+        <picklistValues>
+            <masterLabel>Invalid</masterLabel>
+            <translation><!-- Invalid --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Landline</masterLabel>
+            <translation><!-- Landline --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Mobile</masterLabel>
+            <translation><!-- Mobile --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
         <label><!-- Invoice  Offset Day --></label>
         <name>Invoice_Offset_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Invoice Status --></label>
+        <name>Invoice_Status_Rollup__c</name>
     </fields>
     <fields>
         <label><!-- Invoiced Balance --></label>
@@ -311,6 +355,26 @@
         <name>Medical_Record_Number__c</name>
     </fields>
     <fields>
+        <label><!-- Mobile Phone Type --></label>
+        <name>Mobile_Phone_Type__c</name>
+        <picklistValues>
+            <masterLabel>Invalid</masterLabel>
+            <translation><!-- Invalid --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Landline</masterLabel>
+            <translation><!-- Landline --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Mobile</masterLabel>
+            <translation><!-- Mobile --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Non-Payment Plan Invoices --></label>
+        <name>Non_Payment_Plan_Invoices__c</name>
+    </fields>
+    <fields>
         <label><!-- Notes --></label>
         <name>Notes__c</name>
     </fields>
@@ -319,16 +383,48 @@
         <name>Origin_Code__c</name>
     </fields>
     <fields>
+        <label><!-- Other Phone Type --></label>
+        <name>Other_Phone_Type__c</name>
+        <picklistValues>
+            <masterLabel>Invalid</masterLabel>
+            <translation><!-- Invalid --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Landline</masterLabel>
+            <translation><!-- Landline --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Mobile</masterLabel>
+            <translation><!-- Mobile --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Outstanding Invoices --></label>
+        <name>Outstanding_Invoices__c</name>
+    </fields>
+    <fields>
         <label><!-- Overdue Balance --></label>
         <name>Overdue_Balance__c</name>
+    </fields>
+    <fields>
+        <label><!-- Overdue Invoices --></label>
+        <name>Overdue_Invoices__c</name>
     </fields>
     <fields>
         <label><!-- Patient ID --></label>
         <name>Patient_Id__c</name>
     </fields>
     <fields>
+        <label><!-- Patient Satisfaction --></label>
+        <name>Patient_Satisfaction__c</name>
+    </fields>
+    <fields>
         <label><!-- Payment Plan Balance --></label>
         <name>Payment_Plan_Balance__c</name>
+    </fields>
+    <fields>
+        <label><!-- Payment Proclivity Score --></label>
+        <name>Payment_Proclivity_Score__c</name>
     </fields>
     <fields>
         <label><!-- Pre-Invoiced Balance --></label>
@@ -402,6 +498,17 @@
         </sections>
     </layouts>
     <layouts>
+        <layout>External Patients</layout>
+        <sections>
+            <label><!-- Identification --></label>
+            <section>Identification</section>
+        </sections>
+        <sections>
+            <label><!-- Information --></label>
+            <section>Information</section>
+        </sections>
+    </layouts>
+    <layouts>
         <layout>Guarantors</layout>
         <sections>
             <label><!-- Address --></label>
@@ -434,6 +541,14 @@
     <recordTypes>
         <label><!-- External Guarantor --></label>
         <name>External_Guarantor</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- External Patient --></label>
+        <name>External_Patient</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- General --></label>
+        <name>General</name>
     </recordTypes>
     <recordTypes>
         <label><!-- Guarantor --></label>
@@ -474,6 +589,10 @@
     <webLinks>
         <label><!-- GoogleSearch --></label>
         <name>GoogleSearch</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Pay_Estimate --></label>
+        <name>Pay_Estimate</name>
     </webLinks>
     <webLinks>
         <label><!-- Process_Payment --></label>

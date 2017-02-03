@@ -33,6 +33,10 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -3724,6 +3728,87 @@
             </values>
         </picklistValues>
         <picklistValues>
+            <picklist>Est_annual_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-23%2C540</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>23%2C541-31%2C860</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>31%2C861-40%2C180</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>40%2C181-48%2C500</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>48%2C501-56%2C820</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>56%2C821-65%2C140</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>65%2C141-73%2C460</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>73%2C461-81%2C780</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <values>
+                <fullName>12 months</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3 months</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-1%2C962</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>1%2C963-2%2C655</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2%2C656-3%2C348</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3%2C349-4%2C042</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C043-4%2C735</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C736-5%2C428</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>5%2C429-6%2C122</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>6%2C123-8%2C178</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
             <picklist>Form_to_be_Mailed__c</picklist>
             <values>
                 <fullName>Charity Application</fullName>
@@ -4127,6 +4212,87 @@
             </values>
             <values>
                 <fullName>%28E%29 80%25</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_annual_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-23%2C540</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>23%2C541-31%2C860</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>31%2C861-40%2C180</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>40%2C181-48%2C500</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>48%2C501-56%2C820</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>56%2C821-65%2C140</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>65%2C141-73%2C460</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>73%2C461-81%2C780</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <values>
+                <fullName>12 months</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3 months</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-1%2C962</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>1%2C963-2%2C655</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2%2C656-3%2C348</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3%2C349-4%2C042</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C043-4%2C735</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C736-5%2C428</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>5%2C429-6%2C122</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>6%2C123-8%2C178</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -4797,6 +4963,87 @@
             </values>
             <values>
                 <fullName>%28E%29 80%25</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_annual_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-23%2C540</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>23%2C541-31%2C860</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>31%2C861-40%2C180</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>40%2C181-48%2C500</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>48%2C501-56%2C820</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>56%2C821-65%2C140</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>65%2C141-73%2C460</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>73%2C461-81%2C780</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <values>
+                <fullName>12 months</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3 months</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-1%2C962</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>1%2C963-2%2C655</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2%2C656-3%2C348</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3%2C349-4%2C042</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C043-4%2C735</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C736-5%2C428</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>5%2C429-6%2C122</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>6%2C123-8%2C178</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -5595,6 +5842,87 @@
             </values>
         </picklistValues>
         <picklistValues>
+            <picklist>Est_annual_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-23%2C540</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>23%2C541-31%2C860</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>31%2C861-40%2C180</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>40%2C181-48%2C500</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>48%2C501-56%2C820</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>56%2C821-65%2C140</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>65%2C141-73%2C460</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>73%2C461-81%2C780</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <values>
+                <fullName>12 months</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3 months</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-1%2C962</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>1%2C963-2%2C655</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2%2C656-3%2C348</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3%2C349-4%2C042</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C043-4%2C735</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C736-5%2C428</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>5%2C429-6%2C122</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>6%2C123-8%2C178</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
             <picklist>Form_to_be_Mailed__c</picklist>
             <values>
                 <fullName>Charity Application</fullName>
@@ -5934,6 +6262,87 @@
             </values>
             <values>
                 <fullName>%28E%29 80%25</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_annual_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-23%2C540</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>23%2C541-31%2C860</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>31%2C861-40%2C180</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>40%2C181-48%2C500</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>48%2C501-56%2C820</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>56%2C821-65%2C140</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>65%2C141-73%2C460</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>73%2C461-81%2C780</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <values>
+                <fullName>12 months</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3 months</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-1%2C962</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>1%2C963-2%2C655</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2%2C656-3%2C348</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3%2C349-4%2C042</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C043-4%2C735</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C736-5%2C428</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>5%2C429-6%2C122</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>6%2C123-8%2C178</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -6303,6 +6712,41 @@
             </values>
             <values>
                 <fullName>3 months</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-1%2C962</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>1%2C963-2%2C655</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2%2C656-3%2C348</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3%2C349-4%2C042</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C043-4%2C735</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C736-5%2C428</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>5%2C429-6%2C122</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>6%2C123-8%2C178</fullName>
                 <default>false</default>
             </values>
         </picklistValues>

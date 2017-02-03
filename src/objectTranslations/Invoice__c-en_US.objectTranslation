@@ -9,8 +9,16 @@
         <value>Invoices</value>
     </caseValues>
     <fields>
+        <label><!-- All Substatus --></label>
+        <name>All_Substatus__c</name>
+    </fields>
+    <fields>
         <label><!-- Deactivated Charge Groups --></label>
         <name>Deactivated_Charge_Groups__c</name>
+    </fields>
+    <fields>
+        <label><!-- Display Name --></label>
+        <name>Display_Name__c</name>
     </fields>
     <fields>
         <label><!-- Due Date --></label>
@@ -26,8 +34,24 @@
         <name>Invoice_Age__c</name>
     </fields>
     <fields>
+        <label><!-- Invoice Balance --></label>
+        <name>Invoice_Balance__c</name>
+    </fields>
+    <fields>
         <label><!-- Invoice Date --></label>
         <name>Invoice_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Invoice Status Index --></label>
+        <name>Invoice_Status_Index__c</name>
+    </fields>
+    <fields>
+        <label><!-- Invoice Status --></label>
+        <name>Invoice_Status__c</name>
+    </fields>
+    <fields>
+        <label><!-- Partial Payment Plan --></label>
+        <name>Partial_Payment_Plan__c</name>
     </fields>
     <fields>
         <label><!-- Patient --></label>

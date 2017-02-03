@@ -19,6 +19,23 @@ public class Constants {
     public static final String ACCT_SUBSTATUS_CREDIT = 'Credit';
     public static final String ACCT_SUBSTATUS_PAID = 'Paid';
     public static final String ACCT_SUBSTATUS_PREINVOICED = 'Pre-Invoiced';
+    
+    // Constant variables for Page Level Messages.
+    public static final String PAGE_MESSAGE_AMOUNT_EXCEED_BALANCE = 'Amount cannot exceed balance.';
+    public static final String PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO = 'Amount must be greater than zero.';
+    public static final String PAGE_MESSAGE_BILLING_ADDRESS_REQUIRE = 'Billing Address is a required field.';
+    public static final String PAGE_MESSAGE_CREATED_SUCCESSFULLY = 'Created Successfully.';
+    public static final String PAGE_MESSAGE_ZIP_CODE_FIVE_DIGIT = 'Zip code must be 5 digits.';
+    public static final String PAGE_MESSAGE_ZIP_CODE_ONLY_NUMERIC = 'Zip code can only contain numeric values.';
+    public static final String PAGE_MESSAGE_ZIP_CODE_REQUIRE = 'Zip Code is a required field.';
+    
+    // Constant variables for Credit Card Validation Messages.
+    public static final String PAGE_MESSAGE_CC_NUMBER_12_19_DIGITS = 'Credit card number must be 12-19 digits.';
+    public static final String PAGE_MESSAGE_CC_NUMBER_REQUIRE = 'Card Number is a required field.';
+    public static final String PAGE_MESSAGE_CC_CVV_4_OR_3_DIGIT = 'CVV must be 4 digits for American Express and 3 digits for other card types.';
+    public static final String PAGE_MESSAGE_CC_CVV_REQUIRE = 'CVV is a required field.';    
+    public static final String PAGE_MESSAGE_CC_EXPIRATION_DATE_FUTURE = 'Expiration date must be in the future.';
+    public static final String PAGE_MESSAGE_CC_NAME_REQUIRE = 'Name is a required field.';    
 
     private Constants() {}
 }

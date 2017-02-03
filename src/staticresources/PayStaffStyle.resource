@@ -230,3 +230,7 @@ span.pay-staff-custom_message_2{
     max-height: 140px;
     overflow-y: auto;
 }
+
+.pay-staff-td-width {
+	width: 5%;
+}

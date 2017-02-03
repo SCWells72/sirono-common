@@ -22,4 +22,38 @@
             <roleAndSubordinatesInternal>CEO</roleAndSubordinatesInternal>
         </sharedFrom>
     </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>temp_agent_all_contacts</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>temp_agent_all_contacts</label>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+        <sharedFrom>
+            <allInternalUsers></allInternalUsers>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>temp_partners_all_contacts</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>temporary to allow all partner users to see contacts</description>
+        <label>temp_partners_all_contacts</label>
+        <sharedTo>
+            <allPartnerUsers></allPartnerUsers>
+        </sharedTo>
+        <sharedFrom>
+            <allInternalUsers></allInternalUsers>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>temp_partners_with_partners</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>temp_partners_with_partners</label>
+        <sharedTo>
+            <allPartnerUsers></allPartnerUsers>
+        </sharedTo>
+        <sharedFrom>
+            <allPartnerUsers></allPartnerUsers>
+        </sharedFrom>
+    </sharingOwnerRules>
 </SharingRules>

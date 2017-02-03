@@ -14,6 +14,10 @@
         <relationshipLabel><!-- Patient Coverage Juntions --></relationshipLabel>
     </fields>
     <fields>
+        <label><!-- Display Name --></label>
+        <name>Display_Name__c</name>
+    </fields>
+    <fields>
         <label><!-- Patient --></label>
         <name>Patient__c</name>
         <relationshipLabel><!-- Patient Coverage Juntions --></relationshipLabel>

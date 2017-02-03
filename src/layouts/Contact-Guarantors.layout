@@ -7,6 +7,7 @@
     <customButtons>Add_Case</customButtons>
     <customButtons>Add_to_Payment_Plan</customButtons>
     <customButtons>View_On_Portal</customButtons>
+    <customButtons>Pay_Estimate</customButtons>
     <customConsoleComponents>
         <primaryTabComponents>
             <containers>
@@ -89,37 +90,17 @@
         </subtabComponents>
     </customConsoleComponents>
     <excludeButtons>Clone</excludeButtons>
+    <excludeButtons>DataDotComClean</excludeButtons>
     <excludeButtons>DisableCustomerPortal</excludeButtons>
     <excludeButtons>DisablePrmSuperUser</excludeButtons>
     <excludeButtons>EnablePrmSuperUser</excludeButtons>
     <excludeButtons>RequestUpdate</excludeButtons>
+    <excludeButtons>RequestUseSfdc</excludeButtons>
     <excludeButtons>SendEmail</excludeButtons>
     <excludeButtons>Share</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <excludeButtons>ViewPartnerPortalUser</excludeButtons>
     <excludeButtons>XClean</excludeButtons>
-    <feedLayout>
-        <autocollapsePublisher>true</autocollapsePublisher>
-        <compactFeed>true</compactFeed>
-        <feedFilterPosition>CenterDropDown</feedFilterPosition>
-        <feedFilters>
-            <feedFilterType>AllUpdates</feedFilterType>
-        </feedFilters>
-        <feedFilters>
-            <feedFilterType>FeedItemType</feedFilterType>
-            <feedItemType>TextPost</feedItemType>
-        </feedFilters>
-        <fullWidthFeed>true</fullWidthFeed>
-        <hideSidebar>false</hideSidebar>
-        <highlightExternalFeedItems>true</highlightExternalFeedItems>
-        <rightComponents>
-            <componentType>CustomLinks</componentType>
-        </rightComponents>
-        <rightComponents>
-            <componentType>CustomButtons</componentType>
-        </rightComponents>
-        <useInlineFiltersInConsole>true</useInlineFiltersInConsole>
-    </feedLayout>
     <layoutSections>
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
@@ -159,10 +140,6 @@
                 <field>Statement_Preference__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Skip_Invoice_Stmt_Until__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Pre_Invoiced_Balance__c</field>
             </layoutItems>
@@ -184,31 +161,19 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Invoice_Status_Rollup__c</field>
+                <field>Guarantor_Status__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Guarantor_Status__c</field>
-            </layoutItems>
-	        <layoutItems>
-                <behavior>Readonly</behavior>
                 <field>Outstanding_Invoices__c</field>
             </layoutItems>
-	        <layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Overdue_Invoices__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Delinquent_Invoices__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Add_to_Payment_Plan__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Non_Payment_Plan_Invoices__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -344,7 +309,6 @@
         <fields>Profile_Pointer_ID__c</fields>
         <relatedLists>
             <fields>NAME</fields>
-            <fields>Active__c</fields>
             <relatedList>Charge_Group__c.Guarantor__c</relatedList>
         </relatedLists>
     </miniLayout>
@@ -361,6 +325,103 @@
         </relatedContentItems>
     </relatedContent>
     <relatedLists>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
+        <fields>Patient__c</fields>
+        <fields>Account_Status__c</fields>
+        <fields>Account_Sub_Status__c</fields>
+        <fields>Balance__c</fields>
+        <fields>Date_Of_Service_Start_Date__c</fields>
+        <fields>Date_Of_Service_End_Date__c</fields>
+        <fields>Invoice__c</fields>
+        <fields>Invoice_Age__c</fields>
+        <relatedList>Charge_Group__c.Guarantor__c</relatedList>
+        <sortField>Invoice_Age__c</sortField>
+        <sortOrder>Asc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <customButtons>Pay_Estimate</customButtons>
+        <fields>NAME</fields>
+        <fields>Patient__c</fields>
+        <fields>Procedure__c</fields>
+        <fields>Date_of_Service__c</fields>
+        <fields>Balance__c</fields>
+        <relatedList>Encounter__c.Guarantor__c</relatedList>
+        <sortField>Date_of_Service__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
+        <fields>Active__c</fields>
+        <fields>Plan_Type__c</fields>
+        <fields>Payment_Plan_Standing__c</fields>
+        <fields>Installment_Amount__c</fields>
+        <fields>Execute_on_Day__c</fields>
+        <fields>NextPaymentDate__c</fields>
+        <relatedList>Payment_Plan__c.Guarantor__c</relatedList>
+        <sortField>Active__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
+        <fields>Amount__c</fields>
+        <fields>Method__c</fields>
+        <fields>Payment_Id__c</fields>
+        <fields>Payment_Receipt__c</fields>
+        <relatedList>Payment__c.Guarantor__c</relatedList>
+        <sortField>Payment_Id__c</sortField>
+        <sortOrder>Asc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
+        <fields>Original_Balance__c</fields>
+        <fields>Statement_Date__c</fields>
+        <fields>PdfUrl__c</fields>
+        <relatedList>Statement__c.Guarantor__c</relatedList>
+        <sortField>Statement_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>CASES.STATUS</fields>
+        <fields>CASES.SUBJECT</fields>
+        <fields>CASES.CASE_NUMBER</fields>
+        <fields>CASES.REASON</fields>
+        <fields>CASES.PRIORITY</fields>
+        <fields>Assigned_To__c</fields>
+        <fields>Last_Modified_Date__c</fields>
+        <relatedList>Case.Guarantor_Information__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Invoice_Date__c</fields>
+        <fields>Due_Date__c</fields>
+        <fields>Invoice_Status__c</fields>
+        <relatedList>Invoice__c.Guarantor__c</relatedList>
+        <sortField>Invoice_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>TASK.SUBJECT</fields>
+        <fields>TASK.WHAT_NAME</fields>
+        <fields>ACTIVITY.TASK</fields>
+        <fields>TASK.DUE_DATE</fields>
+        <fields>CORE.USERS.FULL_NAME</fields>
+        <fields>TASK.LAST_UPDATE</fields>
+        <relatedList>RelatedHistoryList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Type__c</fields>
+        <fields>Display_Name__c</fields>
+        <fields>Expiration_Date__c</fields>
+        <relatedList>Payment_Method__c.Guarantor__c</relatedList>
+        <sortField>NAME</sortField>
+        <sortOrder>Asc</sortOrder>
+    </relatedLists>
+    <relatedLists>
         <fields>CASES.CASE_NUMBER</fields>
         <fields>CASES.PRIORITY</fields>
         <fields>CASES.STATUS</fields>
@@ -374,114 +435,9 @@
     <relatedLists>
         <relatedList>RelatedContentNoteList</relatedList>
     </relatedLists>
-    <relatedLists>
-        <excludeButtons>NewEvent</excludeButtons>
-        <excludeButtons>NewProposeMeeting</excludeButtons>
-        <excludeButtons>NewTask</excludeButtons>
-        <fields>TASK.SUBJECT</fields>
-        <fields>TASK.WHAT_NAME</fields>
-        <fields>ACTIVITY.TASK</fields>
-        <fields>TASK.DUE_DATE</fields>
-        <fields>TASK.STATUS</fields>
-        <fields>TASK.PRIORITY</fields>
-        <fields>CORE.USERS.FULL_NAME</fields>
-        <fields>Five9__Five9SessionId__c</fields>
-        <fields>TASK.CREATED_DATE</fields>
-        <relatedList>RelatedActivityList</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Patient__c</fields>
-        <fields>Procedure__c</fields>
-        <fields>Total_Charges__c</fields>
-        <fields>Allowed_Amount__c</fields>
-        <fields>Patient_Portion__c</fields>
-        <relatedList>Encounter__c.Guarantor__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <excludeButtons>New</excludeButtons>
-        <fields>NAME</fields>
-        <fields>External_ID__c</fields>
-        <fields>Patient__c</fields>
-        <fields>Balance__c</fields>
-        <fields>Active__c</fields>
-        <fields>Account_Status__c</fields>
-        <fields>Account_Sub_Status__c</fields>
-        <fields>CREATED_DATE</fields>
-        <relatedList>Charge_Group__c.Guarantor__c</relatedList>
-        <sortField>Balance__c</sortField>
-        <sortOrder>Desc</sortOrder>
-    </relatedLists>
-    <relatedLists>
-        <excludeButtons>New</excludeButtons>
-        <fields>NAME</fields>
-        <fields>Active__c</fields>
-        <fields>Plan_Type__c</fields>
-        <fields>Installment_Amount__c</fields>
-        <fields>Execute_on_Day__c</fields>
-        <fields>NextPaymentDate__c</fields>
-        <relatedList>Payment_Plan__c.Guarantor__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <excludeButtons>New</excludeButtons>
-        <fields>NAME</fields>
-        <fields>Original_Balance__c</fields>
-        <fields>Statement_Date__c</fields>
-        <fields>PdfUrl__c</fields>
-        <relatedList>Statement__c.Guarantor__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>CASES.STATUS</fields>
-        <fields>CASES.SUBJECT</fields>
-        <fields>CASES.CASE_NUMBER</fields>
-        <fields>CASES.REASON</fields>
-        <fields>CASES.PRIORITY</fields>
-        <fields>Assigned_To__c</fields>
-        <fields>Last_Modified_Date__c</fields>
-        <relatedList>Case.Guarantor_Information__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <excludeButtons>New</excludeButtons>
-        <fields>NAME</fields>
-        <fields>Amount__c</fields>
-        <fields>Card_Holder_Name__c</fields>
-        <fields>Charge_Date__c</fields>
-        <fields>Collected_by__c</fields>
-        <relatedList>Payment__c.Guarantor__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <excludeButtons>LogCall</excludeButtons>
-        <excludeButtons>MailMerge</excludeButtons>
-        <excludeButtons>RequestUpdate</excludeButtons>
-        <excludeButtons>SendEmail</excludeButtons>
-        <excludeButtons>ViewAll</excludeButtons>
-        <fields>TASK.SUBJECT</fields>
-        <fields>Five9__Five9Campaign__c</fields>
-        <fields>Five9__Five9DNIS__c</fields>
-        <fields>TASK.CALLDISPOSITION</fields>
-        <fields>Recording__c</fields>
-        <fields>TASK.LAST_UPDATE</fields>
-        <fields>Five9__Five9SessionId__c</fields>
-        <fields>TASK.CALLDURATION</fields>
-        <relatedList>RelatedHistoryList</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <excludeButtons>New</excludeButtons>
-        <fields>NAME</fields>
-        <fields>Account_Number__c</fields>
-        <fields>Card_Holder_Name__c</fields>
-        <fields>Card_Type__c</fields>
-        <fields>Expiration_Date__c</fields>
-        <relatedList>Payment_Method__c.Guarantor__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <excludeButtons>New</excludeButtons>
-        <fields>NAME</fields>
-        <relatedList>Campaign_Member_History__c.Contact__c</relatedList>
-    </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>
-    <showHighlightsPanel>true</showHighlightsPanel>
+    <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>

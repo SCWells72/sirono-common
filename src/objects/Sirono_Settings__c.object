@@ -4,7 +4,7 @@
     <enableFeeds>false</enableFeeds>
     <fields>
         <fullName>Apikey__c</fullName>
-        <defaultValue>&quot;ac9b158e21153af4959ed5621d3c364c&quot;</defaultValue>	
+        <defaultValue>&quot;ac9b158e21153af4959ed5621d3c364c&quot;</defaultValue>
         <externalId>false</externalId>
         <label>Apikey</label>
         <length>255</length>
@@ -15,7 +15,7 @@
     </fields>
     <fields>
         <fullName>Country_Code__c</fullName>
-	<defaultValue>&quot;US&quot;</defaultValue>
+        <defaultValue>&quot;US&quot;</defaultValue>
         <externalId>false</externalId>
         <label>Country Code</label>
         <length>255</length>

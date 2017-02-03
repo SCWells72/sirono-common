@@ -21,6 +21,10 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -47,7 +51,7 @@
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableEnhancedLookup>true</enableEnhancedLookup>
-    <enableFeeds>true</enableFeeds>
+    <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
     <enableReports>true</enableReports>
     <enableSearch>true</enableSearch>
@@ -62,7 +66,6 @@
         <precision>12</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
@@ -74,7 +77,6 @@
         <label>Card Holder Name</label>
         <length>254</length>
         <required>false</required>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
@@ -104,7 +106,6 @@
             <sorted>false</sorted>
         </picklist>
         <required>false</required>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
     </fields>
@@ -129,7 +130,6 @@ CASE(Type__c,
         <externalId>false</externalId>
         <label>Expiration Date</label>
         <required>false</required>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
     </fields>
@@ -150,7 +150,6 @@ CASE(Type__c,
         <referenceTo>Contact</referenceTo>
         <relationshipName>Credit_Cards</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
@@ -158,9 +157,8 @@ CASE(Type__c,
         <fullName>ID__c</fullName>
         <externalId>true</externalId>
         <label>ID</label>
-	<length>128</length>
+        <length>128</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
@@ -171,7 +169,6 @@ CASE(Type__c,
         <label>Last 4</label>
         <length>10</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
@@ -182,7 +179,6 @@ CASE(Type__c,
         <label>Payment Method Token</label>
         <length>254</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
@@ -196,7 +192,6 @@ CASE(Type__c,
         <precision>9</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
@@ -208,7 +203,6 @@ CASE(Type__c,
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>true</unique>
@@ -238,7 +232,6 @@ CASE(Type__c,
             <sorted>false</sorted>
         </picklist>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
     </fields>
@@ -264,11 +257,9 @@ CASE(Type__c,
     </listViews>
     <nameField>
         <label>Name</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <type>Text</type>
     </nameField>
     <pluralLabel>Payment Methods</pluralLabel>
-    <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <recordTypes>
         <fullName>ACH</fullName>
         <active>true</active>

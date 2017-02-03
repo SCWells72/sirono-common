@@ -4,9 +4,17 @@
     <customConsoleComponents>
         <subtabComponents>
             <containers>
-                <height>30</height>
+                <height>40</height>
                 <isContainerAutoSizeEnabled>false</isContainerAutoSizeEnabled>
                 <region>Bottom</region>
+                <sidebarComponents>
+                    <componentType>RelatedList</componentType>
+                    <label>Charge Groups</label>
+                    <relatedLists>
+                        <hideOnDetail>true</hideOnDetail>
+                        <name>Charge_Group__c.Encounter__c</name>
+                    </relatedLists>
+                </sidebarComponents>
                 <sidebarComponents>
                     <componentType>RelatedList</componentType>
                     <label>Payment Arrangements</label>
@@ -15,43 +23,28 @@
                         <name>Payment_Arrangement__c.Encounter__c</name>
                     </relatedLists>
                 </sidebarComponents>
+                <sidebarComponents>
+                    <componentType>RelatedList</componentType>
+                    <label>Coverages</label>
+                    <relatedLists>
+                        <hideOnDetail>true</hideOnDetail>
+                        <name>Coverage__c.Encounter__c</name>
+                    </relatedLists>
+                </sidebarComponents>
+                <sidebarComponents>
+                    <componentType>RelatedList</componentType>
+                    <label>Cases</label>
+                    <relatedLists>
+                        <hideOnDetail>true</hideOnDetail>
+                        <name>Case.Encounter__c</name>
+                    </relatedLists>
+                </sidebarComponents>
                 <style>Tabs</style>
                 <unit>Percentage</unit>
             </containers>
         </subtabComponents>
     </customConsoleComponents>
     <excludeButtons>Submit</excludeButtons>
-    <feedLayout>
-        <autocollapsePublisher>true</autocollapsePublisher>
-        <compactFeed>true</compactFeed>
-        <feedFilterPosition>CenterDropDown</feedFilterPosition>
-        <feedFilters>
-            <feedFilterType>AllUpdates</feedFilterType>
-        </feedFilters>
-        <feedFilters>
-            <feedFilterType>FeedItemType</feedFilterType>
-            <feedItemType>TextPost</feedItemType>
-        </feedFilters>
-        <fullWidthFeed>true</fullWidthFeed>
-        <hideSidebar>false</hideSidebar>
-        <highlightExternalFeedItems>true</highlightExternalFeedItems>
-        <rightComponents>
-            <componentType>Following</componentType>
-        </rightComponents>
-        <rightComponents>
-            <componentType>Followers</componentType>
-        </rightComponents>
-        <rightComponents>
-            <componentType>Topics</componentType>
-        </rightComponents>
-        <rightComponents>
-            <componentType>CustomLinks</componentType>
-        </rightComponents>
-        <rightComponents>
-            <componentType>CustomButtons</componentType>
-        </rightComponents>
-        <useInlineFiltersInConsole>true</useInlineFiltersInConsole>
-    </feedLayout>
     <layoutSections>
         <customLabel>false</customLabel>
         <detailHeading>false</detailHeading>
@@ -97,10 +90,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Balance__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Total_Credits__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -180,7 +169,7 @@
                 <field>Co_Insurance__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Patient_Portion__c</field>
             </layoutItems>
         </layoutColumns>
@@ -304,13 +293,6 @@
         <relatedList>Payment_Arrangement__c.Encounter__c</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Encounter_Coverage_Junction__c.Encounter__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <relatedList>RelatedNoteList</relatedList>
-    </relatedLists>
-    <relatedLists>
         <fields>CASES.CASE_NUMBER</fields>
         <fields>CASES.PRIORITY</fields>
         <fields>CASES.STATUS</fields>
@@ -320,6 +302,20 @@
         <fields>Assigned_To__c</fields>
         <fields>Last_Modified_Date__c</fields>
         <relatedList>Case.Encounter__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Payor__c</fields>
+        <fields>Subscriber_Name__c</fields>
+        <fields>Subscriber_ID__c</fields>
+        <fields>Member_Name__c</fields>
+        <fields>Member_Relationship__c</fields>
+        <fields>Plan_Name__c</fields>
+        <fields>Date_Effective__c</fields>
+        <fields>Date_Termination__c</fields>
+        <relatedList>Coverage__c.Encounter__c</relatedList>
+        <sortField>Payor__c</sortField>
+        <sortOrder>Asc</sortOrder>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
@@ -333,8 +329,11 @@
         <fields>Origin_Subcode__c</fields>
         <relatedList>Charge_Group__c.Encounter__c</relatedList>
     </relatedLists>
+    <relatedLists>
+        <relatedList>RelatedNoteList</relatedList>
+    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
-    <showHighlightsPanel>true</showHighlightsPanel>
+    <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
