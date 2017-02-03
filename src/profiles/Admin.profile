@@ -301,11 +301,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>InvoiceStatusUpdateTest</apexClass>
+        <apexClass>InvoiceUtil</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>InvoiceUtil</apexClass>
+        <apexClass>InvoiceUtilTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
