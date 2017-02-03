@@ -8,25 +8,30 @@
 @isTest
 public class ChargeGroupTriggerTest {
 
+    private static Decimal CG_EXT_ID = 100.00;
     @isTest
     public static void main() {
-        Contact con = TestUtility.generatePatientContact();
-        insert con;
-        Contact cont = TestUtility.generateGuarantorContact();
-        insert cont;
-        Contact c = new Contact(LastName = 'Matc');
-        insert c;
-        Payment_Plan__c pp = TestUtility.generatePaymentPlan(c.Id);
-        insert pp;
-        Charge_Group__c cg = TestUtility.generateChargeGroup(cont.Id, con.Id, 100.0, pp.id);
-        insert cg;
+        Contact pt = TestUtility.generatePatientContact();
+        INSERT pt;
 
-        Charge_Group__c cg1 = [Select id from Charge_Group__c where name = 'Sirono'];
+        Contact gt = TestUtility.generateGuarantorContact();
+        INSERT gt;
+
+        Payment_Plan__c pp = TestUtility.generatePaymentPlan(gt.Id);
+        INSERT pp;
+
+        Charge_Group__c cg = TestUtility.generateChargeGroup(gt.Id, pt.Id, CG_EXT_ID, pp.id);
+        INSERT cg;
+
+        Charge_Group__c cg1 = [SELECT Id FROM Charge_Group__c WHERE name = 'Sirono'];
         cg1.name = 'Sir';
-        Update cg1;
+        UPDATE cg1;
+
+        cg1 = [Select Id, Name FROM Charge_Group__c];
+
         System.assertEquals('Sir', cg1.Name);
-        delete cg1;
-        undelete cg1;
+        DELETE cg1;
+        UNDELETE cg1;
 
         ChargeGroupTriggerHandler.getIsTriggerProcessed();
         ChargeGroupTriggerHandler.setIsTriggerProcessed(true);
@@ -49,7 +54,7 @@ public class ChargeGroupTriggerTest {
         Payment_Plan__c pp = TestUtility.generatePaymentPlan(c.Id);
         insert pp;
 
-        Charge_Group__c cg = TestUtility.generateChargeGroup(cont.Id, con.Id, 100.0, pp.id);
+        Charge_Group__c cg = TestUtility.generateChargeGroup(cont.Id, con.Id, CG_EXT_ID, pp.id);
         insert cg;
         cg.Pre_Collection_Sent__c = null;
         cg.Guarantor__c = c.Id;
