@@ -108,14 +108,9 @@ public with sharing class InvoiceUtil {
      *
      * @param Set<Id> invoiceIdsFromChargeGroup - invoice ids from charge groups that have been inserted, updated, or deleted
      */
-<<<<<<< HEAD
 
-    public static void updateAllSubstatusInvoiceField(Set<Id> invoiceIdsFromChargeGroup) {
-        if(invoiceIdsFromChargeGroup.size() > 0) {
-=======
     public static void updateAllSubstatusInvoiceField(Set<Id> chargeGroupInvoiceIds) {
         if(chargeGroupInvoiceIds.size() > 0) {
->>>>>>> 03d4a4e... added tests, cleaned up InvoiceUtil
             // Query for distinct Invoice/Account Substatus values using group by
             AggregateResult[] queryResults = [
                     SELECT Invoice__c, Account_Sub_Status__c
