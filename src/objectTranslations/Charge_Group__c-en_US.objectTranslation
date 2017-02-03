@@ -49,6 +49,15 @@
         <name>Date_Of_Service_Start_Date__c</name>
     </fields>
     <fields>
+        <label><!-- Display Name --></label>
+        <name>Display_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Encounter --></label>
+        <name>Encounter__c</name>
+        <relationshipLabel><!-- Charge Groups --></relationshipLabel>
+    </fields>
+    <fields>
         <label><!-- External Guarantor --></label>
         <name>External_Guarantor_ID__c</name>
         <relationshipLabel><!-- Charge Groups (External Guarantor ID) --></relationshipLabel>
@@ -198,6 +207,10 @@
     <fields>
         <label><!-- ID --></label>
         <name>Sirono_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Substatus Index --></label>
+        <name>Sub_Status_Index__c</name>
     </fields>
     <layouts>
         <layout>Charge Groups Layout</layout>

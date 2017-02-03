@@ -73,6 +73,11 @@
     </layoutSections>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Display_Name__c</fields>
+        <fields>Amount__c</fields>
+        <fields>Service_Date__c</fields>
+        <fields>Provider__c</fields>
+        <fields>Charge_Group__c</fields>
         <relatedList>Service__c.Service_Rollup__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

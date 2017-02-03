@@ -4,38 +4,34 @@
     <customButtons>Skip_Payment</customButtons>
     <customButtons>Canecl_Payment_Plan</customButtons>
     <customButtons>Payment_Plan_Good_Standing</customButtons>
+    <customConsoleComponents>
+        <subtabComponents>
+            <containers>
+                <height>40</height>
+                <isContainerAutoSizeEnabled>false</isContainerAutoSizeEnabled>
+                <region>Bottom</region>
+                <sidebarComponents>
+                    <componentType>RelatedList</componentType>
+                    <label>CHARGE GROUPS</label>
+                    <relatedLists>
+                        <hideOnDetail>true</hideOnDetail>
+                        <name>Charge_Group__c.Payment_Plan__c</name>
+                    </relatedLists>
+                </sidebarComponents>
+                <sidebarComponents>
+                    <componentType>RelatedList</componentType>
+                    <label>PAYMENTS</label>
+                    <relatedLists>
+                        <hideOnDetail>true</hideOnDetail>
+                        <name>Payment__c.Payment_Plan__c</name>
+                    </relatedLists>
+                </sidebarComponents>
+                <style>Tabs</style>
+                <unit>Percentage</unit>
+            </containers>
+        </subtabComponents>
+    </customConsoleComponents>
     <excludeButtons>Submit</excludeButtons>
-    <feedLayout>
-        <autocollapsePublisher>true</autocollapsePublisher>
-        <compactFeed>true</compactFeed>
-        <feedFilterPosition>CenterDropDown</feedFilterPosition>
-        <feedFilters>
-            <feedFilterType>AllUpdates</feedFilterType>
-        </feedFilters>
-        <feedFilters>
-            <feedFilterType>FeedItemType</feedFilterType>
-            <feedItemType>TextPost</feedItemType>
-        </feedFilters>
-        <fullWidthFeed>true</fullWidthFeed>
-        <hideSidebar>false</hideSidebar>
-        <highlightExternalFeedItems>true</highlightExternalFeedItems>
-        <rightComponents>
-            <componentType>Following</componentType>
-        </rightComponents>
-        <rightComponents>
-            <componentType>Followers</componentType>
-        </rightComponents>
-        <rightComponents>
-            <componentType>Topics</componentType>
-        </rightComponents>
-        <rightComponents>
-            <componentType>CustomLinks</componentType>
-        </rightComponents>
-        <rightComponents>
-            <componentType>CustomButtons</componentType>
-        </rightComponents>
-        <useInlineFiltersInConsole>true</useInlineFiltersInConsole>
-    </feedLayout>
     <layoutSections>
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
@@ -74,10 +70,6 @@
                 <field>Installment_Amount__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Time_to_Delinquency__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>NextPaymentDate__c</field>
             </layoutItems>
@@ -103,10 +95,6 @@
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Status__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -154,33 +142,8 @@
                 <behavior>Edit</behavior>
                 <field>Plan_Type__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Plan_Origin__c</field>
-            </layoutItems>
         </layoutColumns>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Skip_Payment_Until__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Delinquent__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Delinquent_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Has_Error__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Error_Date__c</field>
-            </layoutItems>
-        </layoutColumns>
+        <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
@@ -227,22 +190,24 @@
     </layoutSections>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Account_Status__c</fields>
         <fields>Active__c</fields>
-        <fields>CREATED_DATE</fields>
+        <fields>Account_Status__c</fields>
+        <fields>Account_Sub_Status__c</fields>
+        <fields>Balance__c</fields>
+        <fields>Invoice__c</fields>
         <relatedList>Charge_Group__c.Payment_Plan__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <relatedList>RelatedEntityHistoryList</relatedList>
+        <sortField>Invoice__c</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Guarantor__c</fields>
         <fields>Amount__c</fields>
-        <fields>Card_Holder_Name__c</fields>
-        <fields>Charge_Date__c</fields>
-        <fields>Collected_by__c</fields>
+        <fields>Method__c</fields>
+        <fields>Payment_Id__c</fields>
+        <fields>Payment_Receipt__c</fields>
         <relatedList>Payment__c.Payment_Plan__c</relatedList>
+        <sortField>Payment_Id__c</sortField>
+        <sortOrder>Asc</sortOrder>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

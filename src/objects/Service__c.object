@@ -51,7 +51,7 @@
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableEnhancedLookup>true</enableEnhancedLookup>
-    <enableFeeds>true</enableFeeds>
+    <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
     <enableReports>true</enableReports>
     <enableSearch>true</enableSearch>
@@ -75,7 +75,6 @@
             <sorted>false</sorted>
         </picklist>
         <required>false</required>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
@@ -87,7 +86,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -98,7 +96,6 @@
         <label>CPT Code Modifers</label>
         <length>254</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -111,7 +108,6 @@
         <label>CPT Code Override</label>
         <length>254</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -123,7 +119,6 @@
         <label>CPT Code</label>
         <length>25</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -136,7 +131,6 @@
         <label>Category (Deprecated)</label>
         <length>254</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -152,7 +146,6 @@
         <relationshipName>Services</relationshipName>
         <relationshipOrder>0</relationshipOrder>
         <reparentableMasterDetail>true</reparentableMasterDetail>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>MasterDetail</type>
@@ -164,7 +157,6 @@
         <externalId>false</externalId>
         <label>Charge Code Description</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>TextArea</type>
@@ -176,7 +168,6 @@
         <label>Charge Code</label>
         <length>254</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -187,7 +178,6 @@
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
         <label>Deleted (Deprecated)</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -215,7 +205,6 @@ TEXT(YEAR(Service_Date__c))</formula>
         <label>External ID (Deprecated)</label>
         <length>254</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -229,7 +218,6 @@ TEXT(YEAR(Service_Date__c))</formula>
         <label>ID</label>
         <length>128</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -240,7 +228,6 @@ TEXT(YEAR(Service_Date__c))</formula>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
         <label>Imported (Deprecated)</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -251,7 +238,6 @@ TEXT(YEAR(Service_Date__c))</formula>
         <externalId>false</externalId>
         <label>Post Date (Deprecated)</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -265,7 +251,6 @@ TEXT(YEAR(Service_Date__c))</formula>
         <relationshipLabel>Services</relationshipLabel>
         <relationshipName>Services</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -277,7 +262,6 @@ TEXT(YEAR(Service_Date__c))</formula>
         <label>Quantity</label>
         <length>254</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -289,7 +273,6 @@ TEXT(YEAR(Service_Date__c))</formula>
         <externalId>false</externalId>
         <label>Service Date</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -303,7 +286,6 @@ TEXT(YEAR(Service_Date__c))</formula>
         <relationshipLabel>Services</relationshipLabel>
         <relationshipName>Services</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -315,7 +297,6 @@ TEXT(YEAR(Service_Date__c))</formula>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -330,7 +311,6 @@ TEXT(YEAR(Service_Date__c))</formula>
         <relationshipLabel>Transactions</relationshipLabel>
         <relationshipName>Services</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -343,7 +323,6 @@ TEXT(YEAR(Service_Date__c))</formula>
     </listViews>
     <nameField>
         <label>Name</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Text</type>
     </nameField>

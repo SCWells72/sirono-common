@@ -21,6 +21,10 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -47,7 +51,7 @@
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableEnhancedLookup>true</enableEnhancedLookup>
-    <enableFeeds>true</enableFeeds>
+    <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
     <enableReports>true</enableReports>
     <enableSearch>true</enableSearch>
@@ -60,7 +64,6 @@
         <description>Activates plan</description>
         <externalId>false</externalId>
         <label>Active</label>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -70,7 +73,6 @@
         <externalId>false</externalId>
         <label>Cancellation Date</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -83,7 +85,6 @@
         <referenceTo>User</referenceTo>
         <relationshipName>Payment_Plans</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -94,7 +95,6 @@
         <externalId>false</externalId>
         <label>Completion Date</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -105,7 +105,6 @@
         <externalId>false</externalId>
         <label>Delinquent Date</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -116,7 +115,6 @@
         <description>If Participant is past due</description>
         <externalId>false</externalId>
         <label>Delinquent</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -127,7 +125,6 @@
         <externalId>false</externalId>
         <label>Error Date</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -139,7 +136,6 @@
         <precision>2</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -163,7 +159,6 @@
         <relationshipName>Payment_Plans</relationshipName>
         <relationshipOrder>0</relationshipOrder>
         <reparentableMasterDetail>true</reparentableMasterDetail>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>MasterDetail</type>
@@ -175,7 +170,6 @@
         <description>Error in plan</description>
         <externalId>false</externalId>
         <label>Has Error</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -187,7 +181,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -211,7 +204,6 @@
         <externalId>false</externalId>
         <label>Next Payment Date</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -251,7 +243,6 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -264,7 +255,6 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <precision>5</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -279,7 +269,6 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <relationshipLabel>Payment Plans</relationshipLabel>
         <relationshipName>Payment_Plans</relationshipName>
         <required>false</required>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -291,7 +280,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
             Options: Past Due, In Error, Good Standing</description>
         <externalId>false</externalId>
         <formula>IF(Active__c=FALSE,&quot;&quot;,IF(Delinquent__c = TRUE, &quot;Past Due&quot;, IF(Has_Error__c = TRUE, &quot;In Error&quot;, &quot;Good Standing&quot;)))</formula>
-        <label>PPS</label>
+        <label>Payment Plan Standing</label>
         <required>false</required>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -304,7 +293,6 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <label>Plan Origin</label>
         <length>254</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -317,7 +305,6 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <label>Plan Type</label>
         <length>254</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -329,7 +316,6 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <externalId>false</externalId>
         <label>Plan Value Modified Date</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
@@ -341,7 +327,6 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -367,7 +352,6 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -379,7 +363,6 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <externalId>false</externalId>
         <label>Skip Payment Until</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -390,7 +373,6 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <label>Status</label>
         <length>10</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -425,7 +407,6 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
     </listViews>
     <nameField>
         <label>Name</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Text</type>
     </nameField>

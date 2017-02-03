@@ -51,7 +51,7 @@
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableEnhancedLookup>true</enableEnhancedLookup>
-    <enableFeeds>true</enableFeeds>
+    <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
     <enableReports>true</enableReports>
     <enableSearch>true</enableSearch>
@@ -65,7 +65,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -78,7 +77,6 @@
         <referenceTo>Charge_Group__c</referenceTo>
         <relationshipName>Payment_Adjustments</relationshipName>
         <required>false</required>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -103,7 +101,6 @@ TEXT(YEAR(Post_Date__c))</formula>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
         <label>Deleted (Deprecated)</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -114,7 +111,6 @@ TEXT(YEAR(Post_Date__c))</formula>
         <label>Description (Deprecated)</label>
         <length>254</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -125,7 +121,6 @@ TEXT(YEAR(Post_Date__c))</formula>
         <externalId>false</externalId>
         <label>Export Date (Deprecated)</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
@@ -136,7 +131,6 @@ TEXT(YEAR(Post_Date__c))</formula>
         <label>External ID (Deprecated)</label>
         <length>254</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -144,13 +138,11 @@ TEXT(YEAR(Post_Date__c))</formula>
     </fields>
     <fields>
         <fullName>ID__c</fullName>
-        <caseSensitive>false</caseSensitive>
         <description>Composite key: Charge Group, Post Date, Code, Payor</description>
         <externalId>true</externalId>
         <label>ID</label>
         <length>128</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -161,7 +153,6 @@ TEXT(YEAR(Post_Date__c))</formula>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
         <label>Imported (Deprecated)</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -172,7 +163,6 @@ TEXT(YEAR(Post_Date__c))</formula>
         <label>Origin Code (Deprecated)</label>
         <length>20</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -187,7 +177,6 @@ TEXT(YEAR(Post_Date__c))</formula>
         <relationshipLabel>Adjustments</relationshipLabel>
         <relationshipName>Payment_Adjustments</relationshipName>
         <required>false</required>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -198,7 +187,6 @@ TEXT(YEAR(Post_Date__c))</formula>
         <label>Payor ID (Deprecated)</label>
         <length>254</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -212,7 +200,6 @@ TEXT(YEAR(Post_Date__c))</formula>
         <referenceTo>Payor__c</referenceTo>
         <relationshipName>Payments_Adjustments</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -222,7 +209,6 @@ TEXT(YEAR(Post_Date__c))</formula>
         <externalId>false</externalId>
         <label>Post Date</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -234,7 +220,6 @@ TEXT(YEAR(Post_Date__c))</formula>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -249,7 +234,6 @@ TEXT(YEAR(Post_Date__c))</formula>
         <relationshipLabel>Adjustments</relationshipLabel>
         <relationshipName>Payments_Adjustments</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -263,7 +247,6 @@ TEXT(YEAR(Post_Date__c))</formula>
         <relationshipLabel>Adjustments</relationshipLabel>
         <relationshipName>Payment_Adjustments</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -277,7 +260,6 @@ TEXT(YEAR(Post_Date__c))</formula>
     </listViews>
     <nameField>
         <label>Name</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Text</type>
     </nameField>

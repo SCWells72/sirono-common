@@ -25,6 +25,10 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -45,10 +49,9 @@
         <type>Default</type>
     </actionOverrides>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
-    <enableFeeds>true</enableFeeds>
+    <enableFeeds>false</enableFeeds>
     <fields>
         <fullName>ActualCost</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
     </fields>
     <fields>
         <fullName>AmountAllOpportunities</fullName>
@@ -58,28 +61,22 @@
     </fields>
     <fields>
         <fullName>BudgetedCost</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
     </fields>
     <fields>
         <fullName>CampaignMemberRecordTypeId</fullName>
-        <trackFeedHistory>true</trackFeedHistory>
         <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Description</fullName>
-        <trackFeedHistory>true</trackFeedHistory>
     </fields>
     <fields>
         <fullName>EndDate</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
     </fields>
     <fields>
         <fullName>ExpectedResponse</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
     </fields>
     <fields>
         <fullName>ExpectedRevenue</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
     </fields>
     <fields>
         <fullName>Five9__Five9CallNow__c</fullName>
@@ -89,7 +86,6 @@
         <externalId>false</externalId>
         <inlineHelpText>All new campaign members are added to Five9 list with &apos;call now mode&apos; set to &apos;ANY&apos;</inlineHelpText>
         <label>Five9 Call Now</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <type>Checkbox</type>
     </fields>
     <fields>
@@ -98,7 +94,6 @@
         <externalId>false</externalId>
         <label>Five9 WS Endpoint</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <type>Url</type>
     </fields>
     <fields>
@@ -118,7 +113,6 @@
         <externalId>false</externalId>
         <label>Five9 Report Email</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <type>Email</type>
         <unique>false</unique>
     </fields>
@@ -129,7 +123,6 @@
         <label>Five9 User</label>
         <length>50</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <type>Text</type>
         <unique>false</unique>
     </fields>
@@ -141,7 +134,6 @@
         <label>Five9list</label>
         <length>50</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <type>Text</type>
         <unique>false</unique>
     </fields>
@@ -183,11 +175,9 @@
     </fields>
     <fields>
         <fullName>IsActive</fullName>
-        <trackFeedHistory>true</trackFeedHistory>
     </fields>
     <fields>
         <fullName>Name</fullName>
-        <trackFeedHistory>true</trackFeedHistory>
     </fields>
     <fields>
         <fullName>NumberOfContacts</fullName>
@@ -209,21 +199,17 @@
     </fields>
     <fields>
         <fullName>NumberSent</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
     </fields>
     <fields>
         <fullName>OwnerId</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
         <type>Lookup</type>
     </fields>
     <fields>
         <fullName>ParentId</fullName>
-        <trackFeedHistory>true</trackFeedHistory>
         <type>Lookup</type>
     </fields>
     <fields>
         <fullName>StartDate</fullName>
-        <trackFeedHistory>true</trackFeedHistory>
     </fields>
     <fields>
         <fullName>Status</fullName>
@@ -246,7 +232,6 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
-        <trackFeedHistory>true</trackFeedHistory>
         <type>Picklist</type>
     </fields>
     <fields>
@@ -266,7 +251,6 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
-        <trackFeedHistory>true</trackFeedHistory>
         <type>Picklist</type>
     </fields>
     <listViews>

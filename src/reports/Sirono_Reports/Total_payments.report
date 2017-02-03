@@ -11,7 +11,7 @@
         <columns>
             <field>Payment__c.Amount__c</field>
         </columns>
-        <format>Tabular</format>
+        <format>Summary</format>
         <name>Payments block 1</name>
         <params>
             <name>co</name>

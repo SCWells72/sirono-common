@@ -195,22 +195,27 @@
     </layoutSections>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Account_Status__c</fields>
         <fields>Active__c</fields>
-        <fields>CREATED_DATE</fields>
+        <fields>Account_Status__c</fields>
+        <fields>Account_Sub_Status__c</fields>
+        <fields>Balance__c</fields>
+        <fields>Invoice__c</fields>
         <relatedList>Charge_Group__c.Payment_Plan__c</relatedList>
+        <sortField>Invoice__c</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Guarantor__c</fields>
         <fields>Amount__c</fields>
-        <fields>Card_Holder_Name__c</fields>
-        <fields>Charge_Date__c</fields>
-        <fields>Collected_by__c</fields>
+        <fields>Method__c</fields>
+        <fields>Payment_Id__c</fields>
+        <fields>Payment_Receipt__c</fields>
         <relatedList>Payment__c.Payment_Plan__c</relatedList>
+        <sortField>Payment_Id__c</sortField>
+        <sortOrder>Asc</sortOrder>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

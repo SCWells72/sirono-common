@@ -47,6 +47,10 @@
     </fields>
     <fields>
         <label><!-- Number of Installments --></label>
+        <name>Number_of_Installments__c</name>
+    </fields>
+    <fields>
+        <label><!-- Number of Installments --></label>
         <name>Original_Installment_Count__c</name>
     </fields>
     <fields>

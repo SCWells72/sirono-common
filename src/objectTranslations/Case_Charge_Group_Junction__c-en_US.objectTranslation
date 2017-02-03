@@ -11,12 +11,12 @@
     <fields>
         <label><!-- Case --></label>
         <name>Case__c</name>
-        <relationshipLabel><!-- Case Charge Group Junctions --></relationshipLabel>
+        <relationshipLabel><!-- Case Charge Groups --></relationshipLabel>
     </fields>
     <fields>
         <label><!-- Charge Group --></label>
         <name>Charge_Group__c</name>
-        <relationshipLabel><!-- Case Charge Group Junctions --></relationshipLabel>
+        <relationshipLabel><!-- Case Charge Groups --></relationshipLabel>
     </fields>
     <startsWith>Consonant</startsWith>
 </CustomObjectTranslation>

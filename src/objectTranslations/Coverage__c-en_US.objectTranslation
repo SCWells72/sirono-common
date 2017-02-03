@@ -42,6 +42,10 @@
         <name>Group_Number__c</name>
     </fields>
     <fields>
+        <label><!-- Is Effective --></label>
+        <name>Is_Effective__c</name>
+    </fields>
+    <fields>
         <label><!-- Member ID --></label>
         <name>Member_ID__c</name>
     </fields>

@@ -51,7 +51,7 @@
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableEnhancedLookup>true</enableEnhancedLookup>
-    <enableFeeds>true</enableFeeds>
+    <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
     <enableReports>true</enableReports>
     <enableSearch>true</enableSearch>
@@ -65,7 +65,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -76,7 +75,6 @@
         <description>Transaction was canceled</description>
         <externalId>false</externalId>
         <label>Cancelled (Deprecated)</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -87,7 +85,6 @@
         <label>Card Holder Name (Deprecated)</label>
         <length>100</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -117,7 +114,6 @@
             <sorted>false</sorted>
         </picklist>
         <required>false</required>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
@@ -127,7 +123,6 @@
         <externalId>false</externalId>
         <label>Charge Date Test (Deprecated)</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -138,7 +133,6 @@
         <externalId>false</externalId>
         <label>Charge Date (Deprecated)</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
@@ -151,7 +145,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -165,7 +158,6 @@
         <referenceTo>User</referenceTo>
         <relationshipName>Payments</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -176,7 +168,6 @@
         <externalId>false</externalId>
         <label>Deposit Date</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
@@ -205,7 +196,6 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <relationshipLabel>Payments</relationshipLabel>
         <relationshipName>Payments</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -215,7 +205,6 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <externalId>false</externalId>
         <label>Expiration Date (Deprecated)</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -239,20 +228,17 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <relationshipLabel>Payments</relationshipLabel>
         <relationshipName>Payments</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
     <fields>
         <fullName>ID__c</fullName>
-        <caseSensitive>false</caseSensitive>
         <description>Either Sirono ID or composite key: Sirono ID, Guarantor, Post Date, Code, Payor</description>
         <externalId>true</externalId>
         <label>ID</label>
         <length>128</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -264,7 +250,6 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <label>Last 4 (Deprecated)</label>
         <length>4</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -298,10 +283,18 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
             <sorted>false</sorted>
         </picklist>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Payment_Id__c</fullName>
+        <displayFormat>{0000}</displayFormat>
+        <externalId>false</externalId>
+        <label>Payment Id</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>AutoNumber</type>
     </fields>
     <fields>
         <fullName>Payment_Method__c</fullName>
@@ -312,7 +305,6 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <relationshipLabel>Payments</relationshipLabel>
         <relationshipName>Payments</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -326,10 +318,19 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <relationshipLabel>Payments</relationshipLabel>
         <relationshipName>Payments</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Payment_Receipt__c</fullName>
+        <description>could be replaced depending on other functionality being worked on.</description>
+        <externalId>false</externalId>
+        <label>Payment Receipt</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
     </fields>
     <fields>
         <fullName>Payor__c</fullName>
@@ -340,7 +341,6 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <relationshipLabel>Payments</relationshipLabel>
         <relationshipName>Payments</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -352,7 +352,6 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -364,7 +363,6 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <label>Processor Transaction ID</label>
         <length>254</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -376,7 +374,6 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <externalId>false</externalId>
         <label>Scheduled Date (Deprecated)</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
@@ -389,7 +386,6 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -404,7 +400,6 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <relationshipLabel>Payments</relationshipLabel>
         <relationshipName>Payments</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -415,7 +410,6 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <description>If transaction was successful</description>
         <externalId>false</externalId>
         <label>Successful (Deprecated)</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -434,12 +428,10 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
     </listViews>
     <nameField>
         <label>Name</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Text</type>
     </nameField>
     <pluralLabel>Payments</pluralLabel>
-    <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <recordTypeTrackHistory>true</recordTypeTrackHistory>
     <recordTypes>
         <fullName>Payment_Plans</fullName>
