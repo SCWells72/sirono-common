@@ -173,10 +173,6 @@
         <name>Total_Charges__c</name>
     </fields>
     <fields>
-        <label><!-- Total Credits --></label>
-        <name>Total_Credits__c</name>
-    </fields>
-    <fields>
         <label><!-- Payments --></label>
         <name>Total_Payments__c</name>
     </fields>
@@ -215,5 +211,9 @@
     <webLinks>
         <label><!-- New_Payment_Arrangement --></label>
         <name>New_Payment_Arrangement</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- Pay_Estimate --></label>
+        <name>Pay_Estimate</name>
     </webLinks>
 </CustomObjectTranslation>

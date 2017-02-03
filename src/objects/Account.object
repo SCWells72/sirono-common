@@ -287,6 +287,9 @@
         <type>Picklist</type>
     </fields>
     <fields>
+        <fullName>IsCustomerPortal</fullName>
+    </fields>
+    <fields>
         <fullName>IsPartner</fullName>
     </fields>
     <fields>

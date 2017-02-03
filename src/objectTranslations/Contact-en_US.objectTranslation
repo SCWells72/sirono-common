@@ -591,6 +591,10 @@
         <name>GoogleSearch</name>
     </webLinks>
     <webLinks>
+        <label><!-- Pay_Estimate --></label>
+        <name>Pay_Estimate</name>
+    </webLinks>
+    <webLinks>
         <label><!-- Process_Payment --></label>
         <name>Process_Payment</name>
     </webLinks>

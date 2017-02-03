@@ -33,14 +33,6 @@
                 </sidebarComponents>
                 <sidebarComponents>
                     <componentType>RelatedList</componentType>
-                    <label>Notes &amp; Attachments</label>
-                    <relatedLists>
-                        <hideOnDetail>true</hideOnDetail>
-                        <name>RelatedNoteList</name>
-                    </relatedLists>
-                </sidebarComponents>
-                <sidebarComponents>
-                    <componentType>RelatedList</componentType>
                     <label>Cases</label>
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>
