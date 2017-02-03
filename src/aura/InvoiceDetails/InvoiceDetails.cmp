@@ -51,6 +51,15 @@
                         <span class="status-bubble success"></span> These services were not sent to insurance and are your responsibility.
                         <div class="float-right view-bill"><a href="#">View Itemized Bill</a></div>
                     </div>
+                    <aura:if isTrue="{!group.cGroup.Charge_Group_Coverages__r.length > 0}">
+                        <p>
+                            <aura:iteration items="{!group.cGroup.Charge_Group_Coverages__r}" var="coverage" indexVar="index">
+                                {!coverage.Coverage__r.Payor__r.Name}<aura:if isTrue="{!index != (group.cGroup.Charge_Group_Coverages__r.length - 1)}">,</aura:if>
+                            </aura:iteration>
+                            have finished processing these charges.
+                        </p>
+                        <br/>
+                    </aura:if>
                     <div class="invoice-content">
                         <div class="col details">
                             <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_Start_Date__c}" /> - <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_End_Date__c}" />

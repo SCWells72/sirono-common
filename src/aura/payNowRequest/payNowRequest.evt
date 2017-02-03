@@ -1,4 +1,5 @@
 <aura:event type="APPLICATION" description="Event template">
     <aura:attribute name="invoiceId" type="String" />
+    <aura:attribute name="isEstimate" type="Boolean" default="false"/>
     <aura:attribute name="type" type="String"/>
 </aura:event>

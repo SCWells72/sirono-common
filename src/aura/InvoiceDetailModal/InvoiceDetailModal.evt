@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION">
+	<aura:attribute name="modal" type="Boolean" />
+    <aura:attribute name="open" type="Boolean" />
+</aura:event>

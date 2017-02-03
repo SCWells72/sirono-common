@@ -1,4 +1,5 @@
 <aura:event type="APPLICATION" description="Event template" >
 	<aura:attribute name="paymentBalance" type="Decimal" />
     <aura:attribute name="changeSum" type="Decimal" default="0"/>
+    <aura:attribute name="recordId" type="String" />
 </aura:event>

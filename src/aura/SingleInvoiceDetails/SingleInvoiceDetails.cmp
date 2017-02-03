@@ -66,9 +66,9 @@
                                 <h3>Services and Charges</h3> 
                                 <div class="charge-details"> 
                                     <aura:iteration items="{!group.services}" var="service" > 
-                                        <div class="col">{!service.Name}</div> 
+                                        <div class="col">{!service.displayName}</div> 
                                         <div class="col align-right"> 
-                                            <ui:outputCurrency value="{!service.Amount__c}" /> 
+                                            <ui:outputCurrency value="{!service.amount}" /> 
                                         </div> 
                                     </aura:iteration> 
                                     <div class="col footer">Total Charges</div> 
@@ -82,13 +82,10 @@
                                 <div class="payment-details"> 
                                     <aura:iteration items="{!group.adjusts}" var="pa" > 
                                         <div class="col"> 
-                                            {!pa.Name} 
-                                            <div> 
-                                                <ui:outputDate value="{!pa.Post_Date__c}" /> 
-                                            </div> 
+                                            {!pa.displayName} 
                                         </div> 
                                         <div class="col credit align-right"> 
-                                            <ui:outputCurrency value="{!pa.Amount__c}" /> 
+                                            <ui:outputCurrency value="{!pa.amount}" /> 
                                         </div> 
                                     </aura:iteration> 
                                     <div class="col footer">Total Credits</div> 

@@ -72,9 +72,18 @@ public without sharing class WorkWithInvoicesController {
 									Amount__c,
 									Txn_Method__c
 							FROM	Transactions__r
+							ORDER BY Post_Date__c
+						),
+						(
+							SELECT 
+									Id,
+									Name,
+									Coverage__r.Payor__r.Name 
+							FROM	Charge_Group_Coverages__r
 						)
 				FROM	Charge_Group__c
 				WHERE	Id IN: allChargeGroupIds
+				ORDER BY CreatedDate
 			];
 			Map<Id,Charge_Group__c> allGroupsMap = new Map<Id,Charge_Group__c>(allGroups);
 
