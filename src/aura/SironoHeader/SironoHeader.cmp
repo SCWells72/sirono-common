@@ -3,23 +3,26 @@
 	<link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/main.css'}" />
     <aura:registerEvent name="collapsedHeader" type="c:collapsedHeader"/>
     <aura:registerEvent name="payNowResponse" type="c:payNowResponse"/>
+   
     <aura:attribute name="backButton" type="Boolean" default="false" />
     <aura:attribute name="arrowToggleHeader" type="Boolean" default="true" />    
     <aura:attribute name="statusHeader" type="Boolean" default="false" />
     <aura:attribute name="statusAlert" type="Boolean" default="false" />
     <aura:attribute name="guarantorWrapper" type="HeaderController.GuarantorWrapper" />
-	
-	<!-- Invoiced_Balance__c -->
-	<aura:attribute name="invoiceValue" type="Decimal" access="public" default="0"/>
-	<aura:attribute name="invoiceValuePart" type="String" access="public" default="00"/>
-	<!-- Invoiced_Balance__c END-->
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler event="force:navigateToURL" action="{!c.navigateToURLEvent}"/>
 
+    <!-- Invoiced_Balance__c -->
+    <aura:attribute name="invoiceValue" type="Decimal" access="public" default="0"/>
+    <aura:attribute name="invoiceValuePart" type="String" access="public" default="00"/>
+    <!-- Invoiced_Balance__c END-->
+
 	<!-- transfers invoiceId betweem components -->
     <aura:handler event="c:payNowRequest" action="{!c.setInvoice}"/>    
     <aura:handler event="c:payCall" action="{!c.putInvoucePaument}" />
+    <aura:handler event="c:ToggleHeader" action="{!c.toggleHeader}" />
+
     <aura:attribute name='invoiceId' type="String" />
     <aura:attribute name='activeTab' type="String" />
     <aura:attribute name="isEstimateRecord" type="Boolean" default="false" />
@@ -49,7 +52,7 @@
                             <div class="slds-notify slds-theme--error slds-notify--toast" role="alert">
                                 <span class="slds-assistive-text">Info</span>
                                 <button onclick="{!c.closeInfo}" class="slds-button slds-notify__close slds-button--icon-inverse" title="Close">
-                                    <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#close'}" category="standard" size="large" class="slds-button__icon slds-button__icon--large" name="close" />
+                                	<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#close'}"  category="standard" size="large" class="slds-button__icon slds-button__icon--large" name="close" />
                                 </button>
                                 <div class="slds-notify__content">
                                     {!v.guarantorWrapper.messageInfo}
@@ -72,7 +75,7 @@
 
 					<!-- Guarantor_Status__c == 'Overdue' -->
 				    <aura:if isTrue="{! and (v.guarantorWrapper.contact.Guarantor_Status__c == 'Overdue', or(v.guarantorWrapper.version2, v.guarantorWrapper.version3, v.guarantorWrapper.version4))}">
-				        <div class="col issue no-big">
+				        <div class="col issue no-big small-popover">
 				           	<div class="status warning sldsjs-popover">
 				                Your account is overdue!
 
@@ -90,7 +93,7 @@
 				    <!-- Guarantor_Status__c == 'Overdue' END-->
 				    <!-- Guarantor_Status__c == 'Delinquent' -->
 				    <aura:if isTrue="{! and (v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent', or(v.guarantorWrapper.version2, v.guarantorWrapper.version3, v.guarantorWrapper.version4))}">
-				   		<div class="col issue no-big">
+				   		<div class="col issue no-big small-popover">
 				            <div class="status error sldsjs-popover">
 				                Your account is delinquent!
 				                <aura:if istrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c)}">
@@ -109,143 +112,7 @@
 
 					<!-- no-small -->
 					<div class="col you-owe">
-						<!-- Your account is overdue/delinquent message -->
-						<aura:if isTrue="{! and (v.guarantorWrapper.contact.Guarantor_Status__c == 'Overdue', or(v.guarantorWrapper.version2, v.guarantorWrapper.version3, v.guarantorWrapper.version4))}">
-				            <div class="no-small">
-				                <div class="status warning sldsjs-popover">
-				                    Your account is overdue!
-				                    <div class="inline-block" onclick="{!c.showTooltip}">
-				                    	<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info" />
-				                    </div>
-				                    <div aura:id="popover-tooltip" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-left slds-popup slds-hide" role="tooltip" id="help">
-				                        <div class="slds-popover__body">
-				                            {!v.guarantorWrapper.messageInfo}
-				                        </div>
-				                    </div>
-				                </div>
-				            </div>
-				        </aura:if>
-				        <aura:if isTrue="{! and (v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent', or(v.guarantorWrapper.version2, v.guarantorWrapper.version3, v.guarantorWrapper.version4))}">
-				            <div class="no-small">
-				                <div class="status error sldsjs-popover">
-				                    Your account is delinquent!
-				                    <aura:if istrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c)}">
-					                    <div class="inline-block" onclick="{!c.showTooltip}">
-					                        <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info" />
-					                    </div>
-
-					                    <div aura:id="popover-tooltip" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-left slds-popup slds-hide" role="tooltip" id="help">
-					                        <div class="slds-popover__body">
-					                            {!v.guarantorWrapper.messageInfo}
-					                        </div>
-					                    </div>
-					                </aura:if>
-				                </div>
-				            </div>
-				        </aura:if>
-				        <!-- Your account is overdue/delinquent message END-->
-
-						<!-- YOU OWE -->
-						<aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c != 'Paid')}">
-							<div class="title">You Owe</div>
-							<div class="value">
-								{!v.invoiceValue}<span>.{!v.invoiceValuePart}</span>
-							</div>
-							<div class="no-small">
-								<div class="title">
-									{!v.guarantorWrapper.contact.Outstanding_Invoices__c} Outstanding Invoices
-								</div>
-							</div>
-							<aura:set attribute="else">
-            					<img src="{!$Resource.SironoData + '/assets/images/paid-in-full-success.png'}" alt="One and Done" class="fullSuccess"/>
-            					<div class="no-balance">
-	            					<h3 class="no-balance-header">You Are On It!</h3>
-	            					<div class="status inform sldsjs-popover">
-	            						You have no outstanding invoices at this time. You can view your past invoices, payment history, statements, and documents 
-	            						<a href="#">here</a>.
-	            					</div>
-	            				</div>
-							</aura:set>
-						</aura:if>
-
-						<!-- Guarantor Status == Overdue OR Delinquent With overdue invoices -->
-						<aura:if isTrue="{! and (v.guarantorWrapper.contact.Guarantor_Status__c == 'Overdue', or(v.guarantorWrapper.version2, v.guarantorWrapper.version3, v.guarantorWrapper.version4))}">
-							<div class="no-small">
-								<div class="title warning">
-									<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" /> You have {!v.guarantorWrapper.contact.Overdue_Invoices__c} overdue invoices | <a href="#">View</a>
-								</div>
-							</div>
-						</aura:if>
-
-						<aura:if isTrue="{! and (v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent', or(v.guarantorWrapper.version2, v.guarantorWrapper.version3, v.guarantorWrapper.version4))}">
-							<div class="no-small">
-								<div class="title error">
-									<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" /> You have {!v.guarantorWrapper.contact.Delinquent_Invoices__c} delinquent invoices | <a href="#">View</a>
-								</div>
-							</div>
-						</aura:if>
-						<!-- Guarantor Status == Overdue OR Delinquent With overdue invoices END -->
-						<!-- estimate notification -->
-						<aura:if isTrue="{! v.guarantorWrapper.newEstimatesCount > 0}">
-							<div class="no-small">
-								<div class="title success">
-									<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" /> You have new estimate(s) for your upcoming appointment | <a href="#">View</a>
-								</div>
-							</div>
-						</aura:if>
-						<!-- estimate notification END -->
-
-						<!-- Version #2 Outstanding balance, no payment plan -->
-						<aura:if isTrue="{! v.guarantorWrapper.version2}">
-							<div class="no-small">
-								<div class="status warning sldsjs-popover">
-									<a href="#">Pay your bill</a> or <a href="#">set up an interest-free payment plan</a> today!
-								</div>
-
-								<div class="status inform sldsjs-popover">
-									View your account details <a href="#">here</a>.
-								</div>
-							</div>
-						</aura:if>
-						<!-- Version #2 Outstanding balance, no payment plan END-->
-
-						<!-- Version #3 Outstanding balance, payment plan, good standing -->
-						<aura:if isTrue="{! v.guarantorWrapper.version3}">
-							<div class="no-small">
-								<div class="section_header_Payment">
-		                            <div class="title">
-		                                Next Payment Installment Due <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.NextPaymentDate__c}"/>
-		                            </div>
-		                        </div>
-
-		                        <div class="">
-									<div class="status warning sldsjs-popover">
-										<a href="#">Pay your bill</a> or <a href="#">manage your payment plan</a> today!
-									</div>
-
-									<div class="status inform sldsjs-popover">
-										View your account details <a href="#">here</a>.
-									</div>
-								</div>
-							</div>
-						</aura:if>
-						<!-- Version #3 Outstanding balance, payment plan, good standing END-->
-
-						<!-- Version #4 Outstanding balance, payment plan, in error or past due -->
-						<aura:if isTrue="{! v.guarantorWrapper.version4}">
-							<div class="no-small">
-								<div class="title error">
-									<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info"/> Latest payment plan installment was missed!
-								</div>
-								<div class="status warning sldsjs-popover">
-									Your <a href="#">payment plan</a> requires your attention! Please <a href="#">pay your missing installment</a> or pay your account in full to avoid payment plan cancellation.
-								</div>
-								<div class="status inform sldsjs-popover">
-									View your account details <a href="#">here</a>.
-								</div>	
-							</div>
-						</aura:if>
-						<!-- Version #4 Outstanding balance, payment plan, in error or past due END-->
+						<c:SummaryWidget guarantorWrapper='{!v.guarantorWrapper}' invoiceValue='{! v.invoiceValue}' invoiceValuePart='{! v.invoiceValuePart}'/>
 
 						<div onclick="{!c.toggleHeader}" class="arrow-toggle no-small">
 							<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}"   category="standard" size="small" name="arrowdown" />

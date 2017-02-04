@@ -97,5 +97,5 @@
         var appEvent = $A.get("e.c:payNowResponse");
         appEvent.setParams({ "invoiceId" : invoiceId, "activeTab": activeTab, "isEstimateRecord": isEstimate});
         appEvent.fire();
-    }
+    },
 })

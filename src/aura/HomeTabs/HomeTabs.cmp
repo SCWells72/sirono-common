@@ -1,7 +1,7 @@
 <aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
 
     <!--<aura:handler name="init" action="{!c.doInit}" value="{!this}"/>-->
-
+    <aura:handler event="c:ActivateTab" action="{!c.eventActivateTab}"/>
     <aura:attribute name="aciveTab" type="String" default="Invoices" />
 
     <div class="tabsTop">
@@ -20,7 +20,7 @@
                     <a class="sldsjs-tab-action slds-tabs--scoped__link" id="Statements" aura:id="Statements_tab" onclick="{!c.activateTab}">Statements</a>
                 </li>
                 <li class="slds-tabs--scoped__item slds-text-title--caps" title="Documents" role="presentation">
-                    <a class="sldsjs-tab-action slds-tabs--scoped__link" id="Documents" aura:id="Documents_tab" onclick="{!c.activateTab}">Documents</a>
+                    <a class="sldsjs-tab-action slds-tabs--scoped__link" id="Documents" aura:id="Documents_tab" onclick="{!c.activateTab}"><span class="new"></span>Documents</a>
                 </li>
             </ul>
         </div>

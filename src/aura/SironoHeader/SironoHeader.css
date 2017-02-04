@@ -37,6 +37,14 @@
     min-width: 16.6%;
 }
 
+.THIS .header-main .fullSuccess-container{
+    margin-bottom: 1rem;
+}
+
+.THIS .header-main.small .fullSuccess-container{
+    margin-bottom: 0rem;
+}
+
 .THIS button .slds-button__icon.slds-button__icon--large{
     width: 1.5rem;
     height: 1.5rem;
@@ -81,6 +89,11 @@
     padding-top:0;
     position: relative;
     top: 20px;
+}
+
+.THIS .header-main.small .small-popover {
+    display: flex !important;
+    align-items: center;
 }
 
 .THIS .header-main .arrow-toggle:nth-child(2){
