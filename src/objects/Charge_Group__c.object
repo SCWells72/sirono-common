@@ -635,13 +635,19 @@
     <fields>
         <fullName>Sub_Status_Index__c</fullName>
         <externalId>false</externalId>
-        <formula>If(Account_Sub_Status__c == &quot;Delinquent&quot;, 7,
-If(Account_Sub_Status__c == &quot;Overdue&quot;, 6,
-If(or(Account_Sub_Status__c == &quot;Due By&quot;,Account_Sub_Status__c == &quot;Due&quot;), 5,
-If(or (Account_Sub_Status__c == &quot;On Payment Plan&quot;, Account_Sub_Status__c == &quot;Payment Plan&quot;), 4,
-If(Account_Sub_Status__c == &quot;Paid&quot;, 3,
-If(Account_Sub_Status__c == &quot;Credit&quot;, 2,
-If(Account_Sub_Status__c == &quot;Inactive&quot;, 1, 0)))))))</formula>
+        <formula>CASE(Account_Sub_Status__c,
+&quot;Delinquent&quot;, 9,
+&quot;Overdue&quot;, 8,
+&quot;Due By&quot;, 7,
+&quot;Due&quot;, 7,
+&quot;On Payment Plan&quot;, 6,
+&quot;Payment Plan&quot;, 6,
+&quot;Paid&quot;, 5,
+&quot;Credit&quot;, 4,
+&quot;Bad Debt&quot;, 3,
+&quot;Unknown&quot;, 2,
+&quot;Inactive&quot;, 1,
+0)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Substatus Index</label>
         <precision>18</precision>

@@ -46,7 +46,7 @@ public class InvoiceUtilTest {
 
         Test.stopTest();
 
-        system.assertEquals(7, invoiceIndexValueCheck.Invoice_Status_Index__c);
+        system.assertEquals(9, invoiceIndexValueCheck.Invoice_Status_Index__c);
     }
 
     @isTest
