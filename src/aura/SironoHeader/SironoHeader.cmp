@@ -60,7 +60,7 @@
                             </div>
                         </div>
                     </div>
-                </aura:if>              
+                </aura:if>             
 				<div class="grid">
 					<div class="col arrow-down no-big">
                         <aura:if isTrue="{!v.backButton}">
@@ -95,10 +95,10 @@
 				    <aura:if isTrue="{! and (v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent', or(v.guarantorWrapper.version2, v.guarantorWrapper.version3, v.guarantorWrapper.version4))}">
 				   		<div class="col issue no-big small-popover">
 				            <div class="status error sldsjs-popover">
-				                Your account is delinquent!
-				                <aura:if istrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c)}">
+				                Your account is Delinquent!
+				                <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c)}">
 				                    <div class="inline-block" onclick="{!c.showTooltip}">
-				                        <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info" />
+				                        <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info" />
 				                    </div>
 				                    <div aura:id="popover-tooltip-copy" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-left slds-popup slds-hide" role="tooltip" id="help">
 				                        <div class="slds-popover__body">
@@ -137,8 +137,8 @@
 								<div class="title">
 					                Installment Amount
 					            </div>
-					            <div class="value">
-									{!v.guarantorWrapper.paymentPlan.Installment_Amount__c}
+					            <div class="value install-amount">
+									<ui:outputCurrency value="{!v.guarantorWrapper.paymentPlan.Installment_Amount__c}"/>
 								</div>
 							</div>
 						</aura:if>
@@ -151,8 +151,8 @@
 								<div class="title">
 					                Installment Amount
 					            </div>
-					            <div class="value">
-									{!v.guarantorWrapper.paymentPlan.Installment_Amount__c}
+					            <div class="value install-amount">
+									<ui:outputCurrency value="{!v.guarantorWrapper.paymentPlan.Installment_Amount__c}"/>
 								</div>
 							</div>
 						</aura:if>
@@ -175,8 +175,8 @@
                                 <div class="title">
                                     Installment Amount
                                 </div>
-                                <div class="value">
-                                    {!v.guarantorWrapper.paymentPlan.Installment_Amount__c}
+                                <div class="value install-amount">
+                                    <ui:outputCurrency value="{!v.guarantorWrapper.paymentPlan.Installment_Amount__c}"/>
                                 </div>
                             </div>
 						</aura:if>
@@ -199,8 +199,8 @@
 								<div class="title">
 					                Installment Amount
 					            </div>
-					            <div class="value">
-									{!v.guarantorWrapper.paymentPlan.Installment_Amount__c}
+					            <div class="value install-amount">
+									<ui:outputCurrency value="{!v.guarantorWrapper.paymentPlan.Installment_Amount__c}"/>
 								</div>
 							</div>
 						</aura:if>
@@ -211,7 +211,7 @@
 						<div class="col payment-right">
 							<div class="slds-grid payment-container">
 								<c:OneAndDoneWidget guarantorWrapper='{!v.guarantorWrapper}'/>
-                                <c:CreatePaymentPlanWidget paymentPlan="{!v.guarantorWrapper.paymentPlan}" />
+                                <c:CreatePaymentPlanWidget guarantorWrapper='{!v.guarantorWrapper}' />
 							</div>
 						</div>
 					</aura:if>

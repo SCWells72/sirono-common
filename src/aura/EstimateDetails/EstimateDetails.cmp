@@ -13,7 +13,7 @@
                 <header class="grid">
                     <div class="col intro">
                         <em>Below are the details for the estimate of upcoming procedure(s).</em>
-                        <div><a class="cta" href="#">Make a Payment Now</a></div>
+                        <div><a class="cta" onclick="{!c.sendEstimateNowToHeader}">Make a Payment Now</a></div>
                     </div>
                     <div class="col align-right slds-align-bottom">
                         <span class="title balance">

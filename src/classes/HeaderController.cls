@@ -1,6 +1,7 @@
 public with sharing class HeaderController {
 	public static String WARNING_MESSAGE 	  = 'Your account has overdue invoices. Please pay the balance now or set up a payment plan to avoid becoming delinquent.\n If you have any questions about the bill, please contact the Customer Service Center at #.';
 	public static String DELINQUENT_MESSAGE   = 'This account has delinquent invoices. Delinquent invoices will be sent to a collection agency if payment arrangements are not made within the next 30 days. Please pay the balance now or set up a payment plan.'; 
+	public static String DUE_STATUS  	  	  = 'Due';
 	public static String OVERDUE_STATUS  	  = 'Overdue';
 	public static String DELINQUENT_STATUS    = 'Delinquent';
 	public static String PAYMENT_PLAN_STATUS  = 'On Payment Plan';
@@ -60,7 +61,7 @@ public with sharing class HeaderController {
 															Due_Date__c
 													FROM 	Invoice__c
 													WHERE 	Guarantor__c = :contact.Id
-														AND Invoice_Status__c = :OVERDUE_STATUS
+														AND Invoice_Status__c = :DUE_STATUS
 													ORDER BY CreatedDate 
 													LIMIT 1
 				];

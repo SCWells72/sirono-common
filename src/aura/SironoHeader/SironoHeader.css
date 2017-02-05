@@ -118,3 +118,15 @@
 .THIS .issue {
     padding: 1rem 10px 0 !important;
 }
+
+.THIS .install-amount span {
+    font-size: 2rem !important;
+}
+
+.THIS .view-account-details {
+    display: block;
+    width: 50%;
+}
+.THIS .col.payment-right {
+    margin-right:20px;
+}
