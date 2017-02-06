@@ -81,6 +81,7 @@
 		console.log('setInvoice');
         component.set('v.invoiceId', event.getParam('invoiceId'));
         component.set('v.activeTab', event.getParam('type'));
+        component.set('v.filter', event.getParam('filter'));
 		if(event.getParam('isEstimate') == true){
 			component.set('v.isEstimateRecord', true);
 		}
@@ -92,10 +93,12 @@
         var invoiceId = component.get('v.invoiceId');
         var activeTab = component.get('v.activeTab');
 		var isEstimate = component.get('v.isEstimateRecord');
+		var filter = component.get('v.filter');
         component.set('v.invoiceId', undefined);
         component.set('v.activeTab', undefined);
+        component.set('v.filter', undefined);
         var appEvent = $A.get("e.c:payNowResponse");
-        appEvent.setParams({ "invoiceId" : invoiceId, "activeTab": activeTab, "isEstimateRecord": isEstimate});
+        appEvent.setParams({ "invoiceId" : invoiceId, "activeTab": activeTab, "isEstimateRecord": isEstimate, "filter": filter});
         appEvent.fire();
     },
 })
