@@ -493,6 +493,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TxnPASPmtAggregationTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TxnPaymentAggregationTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ViewStatementExtension</apexClass>
         <enabled>false</enabled>
     </classAccesses>

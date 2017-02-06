@@ -162,10 +162,11 @@ private class DeletePaymentPlanTest {
         insert chargeGroup;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.ID);
+        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         Apexpages.currentPage().getParameters().put('paymentPlanExtId', String.valueof(paymentPlan.Sirono_ID__c));
 
         DeletePaymentPlan objDeletePaymentPlan = new DeletePaymentPlan();
+
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 200;
@@ -175,9 +176,17 @@ private class DeletePaymentPlanTest {
 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         objDeletePaymentPlan.doSubmit();
-        List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(3 ,msgList.size());
         Test.stopTest();
+
+        boolean passed = false;
+        List<ApexPages.Message> msgList = ApexPages.getMessages();
+        for (ApexPages.Message msg : msgList) {
+            if(msg.getDetail().equals('Payment plan was successfully cancelled.')) {
+                passed = true;
+                break;
+            }
+        }
+        System.assert(passed, 'Confirmation message is missing for pplan delete');
     }
     
     static testMethod void submit5() {
@@ -189,11 +198,11 @@ private class DeletePaymentPlanTest {
         paymentPlan.Plan_Type__c = 'Automatic';
         paymentPlan.Sirono_ID__c = 2876;
         insert paymentPlan;
-        
+
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id,null,1321212);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
-    
+
         Apexpages.currentPage().getParameters().put('guarantorId',guarantorContact.Id);
         Apexpages.currentPage().getParameters().put('paymentPlanId',paymentPlan.ID);
         Apexpages.currentPage().getParameters().put('paymentPlanExtId',String.valueof(paymentPlan.Sirono_ID__c));
@@ -203,16 +212,16 @@ private class DeletePaymentPlanTest {
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 200;
         TestUtility.responsebody =  PaymentPlanJSONParsing.testResponse();
-        
+
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         objDeletePaymentPlan.doSubmit();
-        
+
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         System.assertEquals(2 ,msgList.size());
-        
-        Test.stopTest(); 
+
+        Test.stopTest();
     }
-    
+
     static testMethod void submit6() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
@@ -222,11 +231,11 @@ private class DeletePaymentPlanTest {
         paymentPlan.Plan_Type__c = 'Automatic';
         paymentPlan.Sirono_ID__c = 2876;
         insert paymentPlan;
-        
+
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id,null,1321212);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
-    
+
         Apexpages.currentPage().getParameters().put('guarantorId',guarantorContact.Id);
         Apexpages.currentPage().getParameters().put('paymentPlanId',paymentPlan.ID);
         Apexpages.currentPage().getParameters().put('paymentPlanExtId',String.valueof(paymentPlan.Sirono_ID__c));
@@ -237,12 +246,12 @@ private class DeletePaymentPlanTest {
         TestUtility.statusCode = 200;
         TestUtility.statusCode4 = 204;
         TestUtility.responsebody =  PaymentPlanJSONParsing.testResponse();
-        
+
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         objDeletePaymentPlan.doSubmit();
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         System.assertEquals(2 ,msgList.size());
-        Test.stopTest(); 
+        Test.stopTest();
     }
 
     //Coverage for the cancel Method
