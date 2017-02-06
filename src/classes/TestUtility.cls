@@ -1,137 +1,84 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @date 08-12-2016
- * @ Utility class for the test class to create a records.
+ * Test utilities to create records.
  */
 
 @isTest
-Public Class TestUtility {
-    Public Static Map<String, Id> rtMap = new Map<String, Id>();
-    Public Static String body = '{"token":"bar"}';
-    Public Static String responsebody = '{"token":"bar"}';
-    Public Static Integer statusCode = 200;
-    Public Static Integer statusCode2 = 200;
-    Public Static Integer statusCode3 = 200;
-    Public Static Integer statusCode4 = 200;
-    Public Static String status = 'CREATED';
+public class TestUtility {
+    public static String body = '{"token":"bar"}';
+    public static String responsebody = '{"token":"bar"}';
+    public static Integer statusCode = 200;
+    public static Integer statusCode2 = 200;
+    public static Integer statusCode3 = 200;
+    public static Integer statusCode4 = 200;
+    public static String status = 'CREATED';
     public static boolean isTest = false;
     public static boolean setBlank = false;
     public static String errorbody = '' ;
-    public static integer currentDay = 22;
-    public static integer currentMonth = 12;
-    public static integer currentYear = 2017;
+    public static Integer currentDay = 22;
+    public static Integer currentMonth = 12;
+    public static Integer currentYear = 2017;
     public static boolean hasException = false;
-    public static string planType = 'auto';
-    public static string errorDate = '2016-05-13';
-    public static string delinquentDate = '2016-05-13';
+    public static String planType = 'auto';
+    public static String errorDate = '2016-05-13';
+    public static String delinquentDate = '2016-05-13';
 
-    public static string url = 'http://127.0.0.1:8000/paystaff/api/paymentplan/2876/';
-    Public TestUtility() {
-        for (RecordType rt : [
-                Select Id, Name
-                From RecordType
-                Where sObjectType = 'Contact'
-        ]) {
-            rtMap.put(rt.Name, rt.Id);
-        }
+    public static String url = 'http://127.0.0.1:8000/paystaff/api/paymentplan/2876/';
+
+    private static Decimal getUniqueId() {
+        return Decimal.valueOf(Math.random());
     }
 
     // Return Guarantor Contact record        
-    Public Static contact generateGuarantorContact() {
+    public static Contact generateGuarantorContact() {
         Contact guarantorContact = new Contact();
         guarantorContact.RecordTypeId = RecordTypeUtil.guarantorRt;
-        guarantorContact.LastName = 'G Test';
-        Integer tempRandom = Integer.valueOf(math.rint(math.random()*1212));
-        Integer tempRandom2 = Integer.valueOf(math.rint(math.random()*12));
-        Integer randomInt = (tempRandom * tempRandom2) + Integer.valueOf(DateTime.now().getTime());
-        //Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1000));        
-        guarantorContact.Profile_Pointer_Id__c = Decimal.valueOf(randomInt);
+        guarantorContact.LastName = 'Test Guarantor';
+        guarantorContact.Profile_Pointer_Id__c = getUniqueId();
         guarantorContact.HomePhone = '111';
         guarantorContact.MobilePhone = '111';
         return guarantorContact;
     }
 
     // Return Patient Contact record
-    Public Static contact generatePatientContact() {
+    public static Contact generatePatientContact() {
         Contact patientContact = new Contact();
         patientContact.RecordTypeId = RecordTypeUtil.patientRt;
-        patientContact.LastName = 'G Test';
-        Integer tempRandom = Integer.valueOf(math.rint(math.random()*100));
-        Integer tempRandom2 = Integer.valueOf(math.rint(math.random()*123));
-        Integer randomInt = (tempRandom * tempRandom2) + Integer.valueOf(DateTime.now().getTime());
-        //Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*100));
-        patientContact.Profile_Pointer_Id__c = Decimal.valueOf(randomInt);
+        patientContact.LastName = 'Test Patient';
         patientContact.HomePhone = '111';
         patientContact.MobilePhone = '111';
+        patientContact.Patient_Id__c = getUniqueId();
         return patientContact;
     }
 
     // Return charge group record
-    Public Static Charge_Group__c generateChargeGroup(String guarantorContactId,
+    public static Charge_Group__c generateChargeGroup(String guarantorContactId,
             String patientContactId,
             Decimal chargeGroupExternalId,
-            string paymentplanID) {
-        Charge_Group__c chargeGroup = new Charge_Group__c();
-        chargeGroup.Guarantor__c = guarantorContactId;
-        //Ignore the external Id passed in the method parameter and set the dynamic value
-        Integer tempRandom = Integer.valueOf(math.rint(math.random()*150));
-        Integer tempRandom2 = Integer.valueOf(math.rint(math.random()*500));
-        Integer randomInt = (tempRandom * tempRandom2) + Integer.valueOf(DateTime.now().getTime());
-        //Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1212));
-        chargeGroup.Sirono_ID__c = Decimal.valueOf(randomInt);
-        chargeGroup.Patient__c = patientContactId;
-        chargeGroup.Charge_Group_External_ID__c = true;
-        //chargeGroup.Balance__c = -100; //can't set amount now that balance is a rollup
-        chargeGroup.Reported_Selfpay_Balance__c = 10;
-        chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
-        chargeGroup.Active__c = true;
-        chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PREINVOICED;
-        chargeGroup.Name = 'Sirono';
+            String paymentplanID) {
+        Charge_Group__c chargeGroup = generateChargeGroup(guarantorContactId, patientContactId, chargeGroupExternalId);
         chargeGroup.Payment_Plan__c = paymentplanID;
         return chargeGroup;
     }
 
     // Return charge group record
-    Public Static Charge_Group__c  generateChargeGroupWithExternalId(String guarantorContactId,
+    public static Charge_Group__c  generateChargeGroupWithExternalId(String guarantorContactId,
             String patientContactId,
             Decimal chargeGroupExternalId) {
-        Charge_Group__c cg = new Charge_Group__c();
-        cg.Guarantor__c = guarantorContactId;
-        cg.Sirono_ID__c = chargeGroupExternalId;
-        cg.Patient__c = patientContactId;
-        cg.Charge_Group_External_ID__c = true;
-        //cg.Balance__c = -100; //can't set amount now that balance is a rollup
-        cg.Reported_Selfpay_Balance__c = 10;
-        cg.Account_Status__c = 'Billed';
-        cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
-        cg.Active__c = true;
-        cg.Account_Status__c = 'Billed';
-        cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PREINVOICED;
-
-        return cg;
+        return generateChargeGroup(guarantorContactId, patientContactId, chargeGroupExternalId);
     }
     
     // Return charge group record with external Id from parameter
-    Public Static Charge_Group__c  generateChargeGroup(String guarantorContactId,
+    Public static Charge_Group__c  generateChargeGroup(String guarantorContactId,
                                                         String patientContactId,
                                                         Decimal chargeGroupExternalId) {
         Charge_Group__c cg = new Charge_Group__c();
         cg.Guarantor__c = guarantorContactId;
-        //Ignore the external Id passed in the method parameter and set the dynamic value
-        Integer tempRandom = Integer.valueOf(math.rint(math.random()*505));
-        Integer tempRandom2 = Integer.valueOf(math.rint(math.random()*120));
-        Integer randomInt = (tempRandom * tempRandom2) + Integer.valueOf(DateTime.now().getTime());
-        //Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*12));
-        cg.Sirono_ID__c = Decimal.valueOf(randomInt);
+        cg.Sirono_ID__c = getUniqueId();
         cg.Patient__c = patientContactId;
+        cg.External_ID__c = String.valueOf(chargeGroupExternalId);
+        cg.Name = 'Sirono';
         cg.Charge_Group_External_ID__c = true;
-        //cg.Balance__c = -100; //can't set amount now that balance is a rollup
         cg.Reported_Selfpay_Balance__c = 10;
-        cg.Account_Status__c = 'Billed';
-        cg.Account_Sub_Status__c= Constants.ACCT_SUBSTATUS_OVERDUE;
         cg.Active__c = true;
         cg.Account_Status__c = 'Billed';
         cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PREINVOICED;
@@ -148,7 +95,7 @@ Public Class TestUtility {
         objTransaction.Charge_Group__c = chargeGroup.Id;
         objTransaction.Credit_Balance__c = amount < 0;
         objTransaction.Fail_Date__c = null;
-        objTransaction.Sirono_ID__c = System.currentTimeMillis();
+        objTransaction.Sirono_ID__c = getUniqueId();
         objTransaction.Notes__c = 'Test txn';
         objTransaction.Post_Date__c = System.today().addDays('Credit'.equals(method) ? 7 : -7);
         return objTransaction;
@@ -201,9 +148,16 @@ Public Class TestUtility {
     }
 
     // Return a new payment plan record 
-    public static Payment_Plan__c generatePaymentPlan(String contactId) {
+    public static Payment_Plan__c generatePaymentPlan(String guarantorId) {
         Payment_Plan__c paymentPlan = new Payment_Plan__c();
-        paymentPlan.Guarantor__c = contactId;
+        paymentPlan.Guarantor__c = guarantorId;
+        return paymentPlan;
+    }
+
+    // Return an Active PaymentPlan record
+    public static Payment_Plan__c generatePaymentPlan(Contact guarantor) {
+        Payment_Plan__c paymentPlan = generatePaymentPlan(guarantor.Id);
+        paymentPlan.Active__c = true;
         return paymentPlan;
     }
 
@@ -213,8 +167,7 @@ Public Class TestUtility {
         invoice.Guarantor__c = guarantorId;
         invoice.Due_Date__c = System.today();
         invoice.Invoice_Date__c = System.today();
-        Integer randomInt = DateTime.now().millisecond() + Integer.valueOf(math.rint(math.random()*1313));
-        invoice.Sirono_ID__c = Decimal.valueOf(randomInt);
+        invoice.Sirono_ID__c = getUniqueId();
         invoice.Patient__c = patientId;
         return invoice;
     }
@@ -227,14 +180,6 @@ Public Class TestUtility {
         return cc;
     }
 
-    // Return test record
-    public static Payment_Plan__c generatePaymentPlan(Contact guarantor) {
-        Payment_Plan__c paymentPlan = new Payment_Plan__c();
-        paymentPlan.Guarantor__c = guarantor.Id;
-        paymentPlan.Active__c = true;
-        return paymentPlan;
-    }
-
     // Return payment method record 
     public static Payment_Method__c generatePaymentMethod(String guarantorId, String recordTypeID) {
         Payment_Method__c paymentMethod = new Payment_Method__c();
@@ -244,7 +189,7 @@ Public Class TestUtility {
     }
 
     // return list of charge_group__c records
-    public static list<Charge_Group__c> generatechargeGroupList(ID contID) {
+    public static List<Charge_Group__c> generateChargeGroupList(ID contID) {
         list<Charge_Group__c> lstChargeGroup = new list<Charge_Group__c>();
         for (integer i = 0; i < 20; i++) {
             Charge_Group__c chargeGroup = new Charge_Group__c();
@@ -283,7 +228,7 @@ Public Class TestUtility {
      * @param String callDisposition, The call result value. 
      * @returns Task record, The Task object using defaults and parameters.
      **/
-    public static Task generateTask(ID guarantorContactId, Id caseId, String callDisposition) {
+    public static Task generateTask(Id guarantorContactId, Id caseId, String callDisposition) {
         Task objTask = new Task();
         objTask.WhoId = guarantorContactId;
         objTask.WhatId = caseId;
@@ -293,8 +238,67 @@ Public Class TestUtility {
         objTask.Five9__Five9Campaign__c = 'OB PreCollections';
         return objTask;
     }
+
     // Generate Exception
-    public static integer generateException() {
+    public static Integer generateException() {
         return 1 / 0;
+    }
+
+    private static Payment__c generatePayment() {
+        Payment__c payment = new Payment__c();
+        payment.Charge_Date__c = System.today();
+        return payment;
+    }
+
+    public static Payment__c generatePASPayment(String pmtKey) {
+        Payment__c pmt = generatePayment();
+        pmt.ID__c = pmtKey;
+        return pmt;
+    }
+
+    public static Payment__c generateSironoPayment(Id guarantorId, Decimal sironoId, Decimal amount) {
+        Payment__c payment = generatePayment();
+        payment.Guarantor__c = guarantorId;
+        payment.Sirono_ID__c = sironoId;
+        payment.Amount__c = amount;
+        return payment;
+    }
+
+    // Return a payment transaction
+    public static Transaction__c generatePaymentTxn(Charge_Group__c chargeGroup,
+            Decimal amount,
+            Payment__c pmt) {
+        Transaction__c objTransaction = generateTxn(chargeGroup, amount);
+        objTransaction.Payment__c = pmt.Id;
+        return objTransaction;
+    }
+
+    // Return a service transaction
+    public static Transaction__c generateServiceTxn(Charge_Group__c chargeGroup,
+            Decimal amount,
+            Service__c svc) {
+        Transaction__c objTransaction = generateTxn(chargeGroup, amount);
+        objTransaction.Post_Date__c = System.today().addDays(-7);
+        objTransaction.Service__c = svc.Id;
+        return objTransaction;
+    }
+
+    // Return an adjustment transaction
+    public static Transaction__c generateAdjTxn(Charge_Group__c chargeGroup,
+            Decimal amount,
+            Payment_Adjustments__c adj) {
+        Transaction__c objTransaction = generateTxn(chargeGroup, amount);
+        objTransaction.Adjustment__c = adj.Id;
+        return objTransaction;
+    }
+
+    //Build a skeletal transaction
+    private static Transaction__c generateTxn(Charge_Group__c chargeGroup, Decimal amount) {
+        Transaction__c txn = new Transaction__c();
+        txn.Amount__c = amount == null ? 0 : amount;
+        txn.Charge_Group__c = chargeGroup.Id;
+        txn.Sirono_ID__c = getUniqueId();
+        txn.Post_Date__c = System.today();
+        return txn;
     }
 }
