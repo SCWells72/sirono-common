@@ -9,7 +9,7 @@
 
 
     <!-- Your account is overdue/delinquent message -->
-    <aura:if isTrue="{! and (v.guarantorWrapper.contact.Guarantor_Status__c == 'Overdue', or(v.guarantorWrapper.version2, v.guarantorWrapper.version3, v.guarantorWrapper.version4))}">
+    <aura:if isTrue="{! v.guarantorWrapper.contact.Guarantor_Status__c == 'Overdue'}">
         <div class="no-small">
             <div class="status warning sldsjs-popover">
                 Your account is overdue!
@@ -24,7 +24,7 @@
             </div>
         </div>
     </aura:if>
-    <aura:if isTrue="{! and (v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent', or(v.guarantorWrapper.version2, v.guarantorWrapper.version3, v.guarantorWrapper.version4))}">
+    <aura:if isTrue="{! v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent'}">
         <div class="no-small">
             <div class="status error sldsjs-popover">
                 Your account is delinquent!
@@ -70,7 +70,7 @@
     </aura:if>
 
     <!-- Guarantor Status == Overdue OR Delinquent With overdue invoices -->
-    <aura:if isTrue="{! and (v.guarantorWrapper.contact.Guarantor_Status__c == 'Overdue', or(v.guarantorWrapper.version2, v.guarantorWrapper.version3, v.guarantorWrapper.version4))}">
+    <aura:if isTrue="{! v.guarantorWrapper.contact.Guarantor_Status__c == 'Overdue'}">
         <div class="no-small">
             <div class="title warning">
                 <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" /> You have {!v.guarantorWrapper.contact.Overdue_Invoices__c} overdue invoices | <a onclick="{! c.goToInvoices}">View</a>
@@ -78,7 +78,7 @@
         </div>
     </aura:if>
 
-    <aura:if isTrue="{! and (v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent', or(v.guarantorWrapper.version2, v.guarantorWrapper.version3, v.guarantorWrapper.version4))}">
+    <aura:if isTrue="{! v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent'}">
         <div class="no-small">
             <div class="title error">
                 <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" /> You have {!v.guarantorWrapper.contact.Delinquent_Invoices__c} delinquent invoices | <a onclick="{! c.goToInvoices}">View</a>
@@ -103,7 +103,7 @@
                 <a onclick="{!c.goToPayment}">Pay your bill</a> or <a onclick="{!c.goToPaymentPlan}">set up an interest-free payment plan</a> today!
             </div>
 
-            <div class="status inform sldsjs-popover">
+            <div class="status inform sldsjs-popover view-account-details">
                 View your account details <a onclick="{!c.goToMainPage}">here</a>.
             </div>
         </div>
@@ -124,7 +124,7 @@
                     <a onclick="{!c.goToPayment}">Pay your bill</a> or <a onclick="{!c.goToPaymentPlan}">manage your payment plan</a> today!
                 </div>
 
-                <div class="status inform sldsjs-popover">
+                <div class="status inform sldsjs-popover view-account-details">
                     View your account details <a onclick="{!c.goToMainPage}">here</a>.
                 </div>
             </div>
@@ -141,7 +141,7 @@
             <div class="status warning sldsjs-popover">
                 Your <a onclick="{!c.goToPaymentPlan}">payment plan</a> requires your attention! Please <a onclick="{!c.goToPayment}">pay your missing installment</a> or pay your account in full to avoid payment plan cancellation.
             </div>
-            <div class="status inform sldsjs-popover">
+            <div class="status inform sldsjs-popover view-account-details">
                 View your account details <a onclick="{!c.goToMainPage}">here</a>.
             </div>  
         </div>

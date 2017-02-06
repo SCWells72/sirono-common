@@ -73,14 +73,14 @@
                             </aura:renderIf>
                         </div>
                     </div>
-                    <div class="{! 'col total align-right payments display_'+(v.estimate.singleEncounter.Total_Payments__c > 0)}">
+                    <div class="col total align-right payments">
                         <span class="title balance">
                             Estimated Patient Portion
                         </span>
                         <span class="value">
                             <ui:outputCurrency value="{!v.estimate.singleEncounter.Patient_Portion__c}" />
                         </span>
-                        <hr class="divLine"/>
+                        <hr class="{! 'divLine display_'+(v.estimate.singleEncounter.Total_Payments__c > 0)}"/>
                     </div>
                     <div class="col"/>
                     <div class="col"/>
@@ -105,7 +105,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col total align-right">
+                    <div class="{! 'col total align-right display_'+(v.estimate.singleEncounter.Total_Payments__c > 0)}">
                         <span class="title balance">
                             Balance
                         </span>
