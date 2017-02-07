@@ -22,7 +22,9 @@
 
 	makePaymentHelper : function(component, event, helper){
 		console.log('t:', JSON.stringify(component.get('v.cardInformation')));
-		var action = component.get('c.makeNewPayment');
+		var isEstimate = component.get('v.isEstimate');
+		var action = isEstimate ? component.get('c.makeNewEstimatePayment') : component.get('c.makeNewPayment');
+		console.log('action', action);
 		action.setParams({jsonPayment: JSON.stringify(component.get('v.cardInformation'))});
         action.setCallback(this, function(response){
             console.log('makePayment');
@@ -35,14 +37,12 @@
 						arraySplit.push(info[i]);
 					}
 				};	
-						
+				
 				component.set('v.messages', arraySplit);
 				component.set('v.IsIcon', true);
 				component.set('v.IsIcon2', false);
-              //  component.set('v.cardInformation',info);
-				//console.log(component.get('v.cardInformation'))
+
             }else{
-			   
 
                 console.error(response.getError()[0].message);
 				component.set('v.IsIcon', false);

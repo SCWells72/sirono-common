@@ -1,35 +1,23 @@
 <aura:component controller="MakeAPaymentController">
-    <aura:attribute name="listOfIds" type="String[]" />
-    <aura:attribute name="selectedPaymentSum" type="Decimal" />
-    <aura:attribute name="IsMakePaymentTab" type="Boolean" />
-    <aura:attribute name="CardTypes" type="String[]" />
-    <aura:attribute name="States" type="String[]" />
-    <aura:attribute name="messages" type="String[]" />
-    <aura:attribute name="IsIcon" type="Boolean" default="false"/>    
-    <aura:attribute name="IsIcon2" type="Boolean" default="false"/>    
-    <aura:attribute name="cardInformation" type="MakeAPaymentController.CardInformation" />
+    <aura:attribute name="listOfIds"            type="String[]" />
+    <aura:attribute name="isEstimate"           type="Boolean"  />
+    <aura:attribute name="selectedPaymentSum"   type="Decimal"  />
+    <aura:attribute name="IsMakePaymentTab"     type="Boolean"  />
+    <aura:attribute name="CardTypes"            type="String[]" />
+    <aura:attribute name="States"               type="String[]" />
+    <aura:attribute name="messages"             type="String[]" />
+    <aura:attribute name="IsIcon"               type="Boolean"  default="false"/>    
+    <aura:attribute name="IsIcon2"              type="Boolean"  default="false"/>    
+    <aura:attribute name="cardInformation"      type="MakeAPaymentController.CardInformation" />
     <aura:attribute name="UserInfo" type="Object" default="{	NameOnCard : '',
-
-
-	CardNumber : '',
-
-
-	CW : '',
-
-
-	Expiration : '',
-
-
-	BillingAddress : '',
-
-
-	City : '',
-
-
-	State : '',
-
-
-	Zipcode : ''}" />
+                                                                CardNumber : '',
+                                                                CW : '',
+                                                                Expiration : '',
+                                                                BillingAddress : '',
+                                                                City : '',
+                                                                State : '',
+                                                                Zipcode : ''}" />
+    <aura:registerEvent name="toggleSuccessMessageEvent" type="c:ToggleSuccessMessageEvent"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <aura:handler name="change" value="{!v.selectedPaymentSum}" action="{!c.updateAmountInformation}"/>
