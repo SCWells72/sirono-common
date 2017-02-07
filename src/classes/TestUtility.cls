@@ -244,6 +244,12 @@ public class TestUtility {
         return 1 / 0;
     }
 
+    public static Decimal generateRandomCurrency() {
+        Double randomDouble = Math.random() * 100;
+        Decimal randomCurrencyValue = Decimal.valueOf(randomDouble).setScale(2);
+
+        return randomCurrencyValue;
+    }
     private static Payment__c generatePayment() {
         Payment__c payment = new Payment__c();
         payment.Charge_Date__c = System.today();

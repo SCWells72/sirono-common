@@ -301,10 +301,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>InvoiceStatusUpdateTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>InvoiceUtil</apexClass>
         <enabled>false</enabled>
     </classAccesses>

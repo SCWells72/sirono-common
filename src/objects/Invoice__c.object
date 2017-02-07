@@ -143,6 +143,7 @@ TEXT(YEAR(Invoice_Date__c))</formula>
     </fields>
     <fields>
         <fullName>Invoice_Balance__c</fullName>
+        <defaultValue>0.00</defaultValue>
         <externalId>false</externalId>
         <label>Invoice Balance</label>
         <precision>18</precision>
