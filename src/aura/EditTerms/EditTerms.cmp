@@ -1,18 +1,18 @@
 <aura:component controller="PaymentTabsController">
 	<aura:attribute name="PaymentInfo" type="Object" access="public" default="{}" />
 	<aura:attribute name="PaymentRequestInfo" type="Object" access="public" default="{}" />
-	<!-- day of month selection -->
 	<aura:attribute name="dayOfMonthSelection" type="Integer[]" access="public"/>
-	<!-- day of month selection END-->
 	<!-- plan Slider --> 
-	<aura:attribute name="sliderValue" type="String" access="public" default="0"/>
-	<aura:attribute name="sliderValuePart" type="String" access="public" default="00"/>
+	<aura:attribute name="minAmount" type="Decimal" access="private" default="0"/>
+	<aura:attribute name="sliderValue" type="String" access="private" default="0"/>
+	<aura:attribute name="sliderValuePart" type="String" access="private" default="00"/>
 	<!-- plan Slider END -->
-	<aura:attribute name="hasError" type="Boolean" access="private" default="false"/>
+	<aura:attribute name="hasError" type="Boolean" access="public" default="false"/>
 
 	<aura:handler name="init" value="{!this}" action="{!c.doCmpInit}"/>
 	<aura:handler name="change" value="{!v.PaymentRequestInfo.planValue}" action="{!c.doCalcView}"/>
 	<aura:handler name="paymentMethodInit" event="c:CancelActionEvent" action="{!c.cancelEditCardAction}"/>
+	<aura:handler name="paymentPlanCreated" event="c:PaymentPlanCreatedEvent" action="{!c.resetCmp}"/>
 
     <aura:registerEvent name="initPlanInfo" type="c:CancelActionEvent"/>
 	<aura:registerEvent name="updatePaymentTerms" type="c:UpdatePaymentTermsEvent"/>
@@ -42,7 +42,7 @@
 
 		<label class="slds-form-element__label"><strong>Payment Plan Balance:</strong></label>
 		<div class="value">
-			<ui:outputCurrency value="{!v.PaymentRequestInfo.totalAmount}" format="$#,###.##"/>
+			<ui:outputCurrency value="{!v.PaymentRequestInfo.totalAmount}" />
 		</div>
 
 		<div class="payment-slider">
@@ -53,25 +53,25 @@
 				</div>
 			</div>
 			<div class="info">Adjust your monthly payments to estimate your payment over fewer months.</div>
-			<input type="range" min="{!v.PaymentInfo.settings.Min_Installment_Amount__c}" max="{!v.PaymentRequestInfo.totalAmount}" step="0.05" value="{!v.PaymentRequestInfo.planValue}" class="payment-slider-circle" onchange="{!c.changeSlider}"/>
+			<input type="range" min="{!v.minAmount}" max="{!v.PaymentRequestInfo.totalAmount}" step="0.05" value="{!v.PaymentRequestInfo.planValue}" class="payment-slider-circle" onchange="{!c.changeSlider}"/>
 			<div class="grid high-low range_slider">
-				<div class="col"><ui:outputcurrency value="{!v.PaymentInfo.settings.Min_Installment_Amount__c}" format="$#,###.##" /></div>
-				<div class="col align-right"><ui:outputCurrency value="{!v.PaymentRequestInfo.totalAmount}" format="$#,###.##"/></div>
+				<div class="col">
+					<ui:outputcurrency value="{!v.minAmount}"/>
+				</div>
+				<div class="col align-right">
+					<ui:outputCurrency value="{!v.PaymentRequestInfo.totalAmount}"/>
+				</div>
 			</div>
 		</div>
 		<label class="slds-form-element__label">Set payment day of month</label><br/>
 		<div class="pay-date grid">
 			<div class="col slds-align-middle">Pay on day </div>
 			<div class="col">
-				<div class="slds-form-element__control">
-					<div class="slds-select_container">
-						<lightning:select name="dayOfMonth" label="Day of month" aura:id="dayOfMonth" value="{!v.PaymentRequestInfo.executeOnDay}" class="payment-plan-day--select">
-							<aura:iteration items="{!v.dayOfMonthSelection}" var="day">
-								<ui:inputSelectOption text="{!day}" label="{!day}"/>
-							</aura:iteration>
-						</lightning:select>
-					</div>
-				</div>
+				<lightning:select name="dayOfMonth" label="Day of month" aura:id="dayOfMonth" value="{!v.PaymentRequestInfo.executeOnDay}" class="payment-plan-day--select">
+					<aura:iteration items="{!v.dayOfMonthSelection}" var="day">
+						<ui:inputSelectOption text="{!day}" label="{!day}"/>
+					</aura:iteration>
+				</lightning:select>
 			</div>
 			<div class="col slds-align-middle">of each month.</div>
 		</div>

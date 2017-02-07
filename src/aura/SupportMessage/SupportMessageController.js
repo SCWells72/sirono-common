@@ -10,6 +10,7 @@
 
         console.error(params.message);
         cmp.set('v.show', true);
+        cmp.set('v.title', 'Error');
         cmp.set('v.severity', 'error');
         cmp.set('v.message', params.message);	
 	}

@@ -31,10 +31,9 @@
 	},
 	showSuccess: function(cmp, e, hlpr) {
 		e.stopPropagation();
-		var params = e.getParam('arguments');
-		console.log('1111', params)
+		var params = e.getParams();
 		if (params && params.paymentPlan) {
-			cmp.set('v.PlanInfo', params.paymentPlan);
+			cmp.set('v.PlanInfoRecord', params.paymentPlan);
 		}
 		$A.util.addClass(cmp.find('planInfo'), 'slds-hide');
 		$A.util.addClass(cmp.find(cmp.get('v.activeSectionId')), 'slds-hide');

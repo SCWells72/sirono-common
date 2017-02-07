@@ -1,7 +1,7 @@
 <aura:component >
 	<aura:attribute name="PaymentInfo" type="Object" access="public" default="{}" />
 	<aura:attribute name="PaymentRequestInfo" type="Object" access="public" default="{}" />
-	<aura:attribute name="PlanInfoRecord" type="Payment_Plan__c" access="public" />
+	<aura:attribute name="PlanInfoRecord" type="Object" access="public" />
 	<aura:attribute name="activeSectionId" type="String" access="private" />
 	<aura:attribute name="editTermsVisible" type="Boolean" access="private" default="false"/>
 
@@ -24,20 +24,20 @@
 				<h2>Payment Plan Summary</h2>
 				<c:EditPlanInfo PaymentInfo="{!v.PaymentInfo}"/>
 			</div>
-			<aura:if isTrue="{!and(v.PaymentInfo.addToPaymentAvail, v.PaymentInfo.guarantor.Non_Payment_Plan_Invoices__c)}">
+			<aura:renderIf isTrue="{!and(v.PaymentInfo.addToPaymentAvail, v.PaymentInfo.guarantor.Non_Payment_Plan_Invoices__c)}">
 				<div class="payment-plan-edit slds-p-around--large border-top border-bottom">
 					<c:AddInvoicesToPaymentPlan PaymentInfo="{!v.PaymentInfo}"/>
 				</div>
-			</aura:if>
+			</aura:renderIf>
 
 			<div class="slds-p-horizontal--medium border-top">
 				<div class="grid slds-grid--align-center">
 					<div class="col">
 						<div class="slds-button-group slds-p-top--large" role="group">
-							<aura:if isTrue="{!v.PaymentInfo.paymentPlan.Plan_Type__c == 'Automatic'}">
+							<aura:renderIf isTrue="{!v.PaymentInfo.paymentPlan.Plan_Type__c == 'Automatic'}">
 								<button class="slds-button slds-button--neutral" onclick="{!c.editTerms}">Edit Terms</button>
 								<button class="slds-button slds-button--neutral" onclick="{!c.editPaymentMethod}">Edit Payment Method</button>
-							</aura:if>
+							</aura:renderIf>
 							<button class="slds-button slds-button--neutral" onclick="{!c.editPaymentCancel}">Cancel Plan</button>
 						</div>
 					</div>
@@ -78,5 +78,4 @@
 			<c:EditPaymentPlanCancel aura:id="cancelPlanCmp" PaymentInfo="{!v.PaymentInfo}"/>
 		</aura:if>
 	</div>
-
 </aura:component>

@@ -6,3 +6,6 @@
 	-webkit-appearance: none; 
 	margin: 0; 
 }
+.THIS div.display--inline {
+	display: inline-block;
+}

@@ -15,6 +15,11 @@
 						value: val,
 						label: selections.MONTHS[val]
 					});
+					months.sort(function(a, b) {
+						var av = parseInt(a.value);
+						var bv = parseInt(b.value);
+						return av - bv;
+					});
 				}
 
 				cmp.set('v.months', months);
@@ -27,15 +32,19 @@
 		var date = new Date();
 		date.setMonth(date.getMonth() + 1);
 		var CreditCard = cmp.get('v.CreditCard') || {};
-		CreditCard.expirationMonth = date.getMonth() + 1;
+		var curr_month = date.getMonth() + 1;
+		CreditCard.expirationMonth = curr_month < 10 ? '0' + curr_month: '' + curr_month;
 		CreditCard.expirationYear = date.getFullYear();
+		CreditCard.isSaved = false;
 		cmp.set('v.CreditCard', CreditCard);
 	},
 	doDateValueInit: function(cmp, e, hlpr) {
 		var executeOnDay = cmp.get('v.PaymentRequestInfo.executeOnDay') || 15;
 
 		var date = new Date();
-		date.setMonth(date.getMonth() + 1);
+		if (executeOnDay <= date.getDate()) {
+			date.setMonth(date.getMonth() + 1);
+		}
 		date.setDate(executeOnDay);
 
 		var curr_date = date.getDate();
@@ -44,30 +53,60 @@
 
 		cmp.set('v.nextPaymentDate', (curr_month < 10 ? '0' + curr_month : curr_month) + '/' + (curr_date < 10 ? '0' + curr_date : curr_date) + '/' + curr_year);
 	},
-	cancelAction: function (cmp, e, hlpr) {
+	cancelAction: function(cmp, e, hlpr) {
 		cmp.getEvent('paymentMethodInit').fire();
 	},
-	submitInfo: function(cmp, e, hlpr) {
+	saveNewCard: function(cmp, e, hlpr) {
 		cmp.set('v.hasError', false);
 		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
 		var CreditCard = cmp.get('v.CreditCard');
 		PaymentRequestInfo.creditCard = CreditCard;
-		console.info('Save Payment Plan: info', JSON.parse(JSON.stringify(PaymentRequestInfo)));
-		//if (!hlpr.isValidateExpDate(cmp) || 
-		//	!hlpr.isValidateCVV(cmp)){ 
-			//!hlpr.isValidateCardN(cmp)) {
-		//	return;
-		//}
+		//console.info('Update Payment Plan: info', JSON.parse(JSON.stringify(PaymentRequestInfo)));
+
+		var createPlan = cmp.get('c.doEditPaymentMethod');
+		createPlan.setParams({
+			'paymentInfoStr': JSON.stringify( PaymentRequestInfo )
+		});
+		createPlan.setCallback(this, function(response) {
+			if (response.getState() === 'SUCCESS') {
+				var plan = response.getReturnValue();
+				cmp.getEvent('paymentMethodInit').fire();
+				cmp.getEvent('updatePaymentMethod').setParams({
+					paymentPlan: plan
+				}).fire();
+				return;
+			}
+
+			var errors = response.getError();
+			if (errors) {
+				hlpr.showError(cmp, errors? errors[0].message : 'Error has been occurred');
+			}
+		});
+		$A.enqueueAction(createPlan);
+	},
+	setupPlan: function(cmp, e, hlpr) {
+		// console.log('date', hlpr.isValidateExpDate(cmp) );
+		// console.log('cvv-n',  hlpr.isValidCutNOTNumber(cmp, "cvv") );
+		// console.log('zip',  hlpr.isValidCutNOTNumber(cmp, "zipcode") );
+		// console.log('cn',  hlpr.isValidateCardN(cmp) );
+		// console.log('cvv',  hlpr.isValidateCVV(cmp) );
+		if (!hlpr.isValidateExpDate(cmp) || !hlpr.isValidCutNOTNumber(cmp, "cvv") || !hlpr.isValidCutNOTNumber(cmp, "zipcode") || !hlpr.isValidateCardN(cmp) || !hlpr.isValidateCVV(cmp)) {
+			hlpr.showError(cmp, 'Please fill in all required fields');
+			return;
+		}
+
+		cmp.set('v.hasError', false);
+		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
+		var CreditCard = cmp.get('v.CreditCard');
+		PaymentRequestInfo.creditCard = CreditCard;
 
 		var createPlan = cmp.get('c.createPaymentPlan');
 		createPlan.setParams({
 			'paymentInfoStr': JSON.stringify( PaymentRequestInfo )
 		});
 		createPlan.setCallback(this, function(response) {
-			try {
 			if (response.getState() === 'SUCCESS') {
 				var plan = response.getReturnValue();
-				console.log('responseresponse: ' , plan);
 				cmp.getEvent('paymentPlanCreated').setParams({
 					paymentPlan: plan
 				}).fire();
@@ -78,7 +117,6 @@
 			if (errors) {
 				hlpr.showError(cmp, errors? errors[0].message : 'Error has been occurred');
 			}
-			} catch (e) {console.log(e);}
 		});
 		$A.enqueueAction(createPlan);
 	},
@@ -87,12 +125,18 @@
 	},
 	validateCVV : function(cmp, e, hlpr) {
 		//hlpr.validateCVV(cmp);
-		hlpr.cutNOTNumber(cmp, "cvv");
+		hlpr.isValidCutNOTNumber(cmp, "cvv");
+		hlpr.isValidateCVV(cmp);
 	},
 	validateCardN : function(cmp, e, hlpr) {
 		hlpr.isValidateCardN(cmp);
 	},
 	validateZip : function(cmp, e, hlpr) {
-		hlpr.cutNOTNumber(cmp, "zipcode");
+		hlpr.isValidCutNOTNumber(cmp, "zipcode");
+	},
+	bindChangeSave: function(cmp, e, hlpr) {
+		var CreditCard = cmp.get('v.CreditCard') || {};
+		CreditCard.isSaved = !CreditCard.isSaved;
+		cmp.set('v.CreditCard', CreditCard);
 	}
 })

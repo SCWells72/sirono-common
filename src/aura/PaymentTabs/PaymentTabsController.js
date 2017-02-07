@@ -11,6 +11,10 @@
 			$A.util.addClass(component.find(tabToActivate+'_tab'), 'active');
 			component.set("v.activeTab",tabToActivate);
 		}
+
+		var appEvent = $A.get("e.c:switchTab");
+		appEvent.setParams({ "tabName" : component.get('v.activeTab')});
+        appEvent.fire();
 	},
 	doInit: function(cmp, e, hlpr) {
 		var activeTab = cmp.get("v.activeTab");
@@ -30,16 +34,30 @@
 		checkPPAction.setCallback(this, function(response) {
 			var state = response.getState();
 			if (state === 'SUCCESS') {
+				try {
 				var paymentInfo = response.getReturnValue();
 				var PaymentRequestInfo = hlpr.getInitPaymentRequestInfo(paymentInfo);
-
-				console.info('PaymentInfo', paymentInfo);
-				console.info('PaymentRequestInfo', PaymentRequestInfo);
-
+				// console.info('PaymentInfo', paymentInfo);
+				// console.info('PaymentRequestInfo', PaymentRequestInfo);
 				cmp.set('v.PaymentInfo', paymentInfo);
 				cmp.find('paymentPlanCmp').doCmpInit(paymentInfo, PaymentRequestInfo);
+				} catch(e) {console.log(e);}
 			}
 		});
 		$A.enqueueAction(checkPPAction);
+	},
+	changePaymentBalance: function(cmp, e, hlpr) {
+		var params = e.getParams();
+		try {
+			var paymentInfo = cmp.get('v.PaymentInfo');
+			if (paymentInfo) {
+				paymentInfo = hlpr.getAdjustedPaymentInfo(paymentInfo, params);
+				var PaymentRequestInfo = hlpr.getInitPaymentRequestInfo(paymentInfo);
+				// console.info('PaymentInfo', paymentInfo);
+				// console.info('PaymentRequestInfo', PaymentRequestInfo);
+				cmp.set('v.PaymentInfo', paymentInfo);
+				cmp.find('paymentPlanCmp').doCmpInit(paymentInfo, PaymentRequestInfo);
+			}
+		} catch (e) { console.log(e);}
 	}
 })

@@ -1,4 +1,49 @@
 ({
+	getAdjustedPaymentInfo: function(paymentInfo, params) {
+		var invoices = params.invoices || [];
+		var addOrRemove = params.add;
+		var groupsToRemove = [];
+		var groupsToAdd = [];
+
+		invoices.forEach(function(invoice) {
+			;(invoice.allGroups || []).forEach(function(groupWr) {
+				var group = groupWr.cGroup;
+				if (group.Active__c && group.Balance__c && group.Sirono_ID__c) {
+					if (addOrRemove) {
+						groupsToAdd.push(group);
+					} else {
+						groupsToRemove.push(group);
+					}
+				}
+			});
+		});
+
+		var currentGroups = paymentInfo.chargeGroups || [];
+		var newGroups = [].concat(currentGroups);
+		// add all new if needed
+		var filteredWithNew = groupsToAdd.filter(function(newGroup) {
+			var passed = true;
+			newGroups.forEach(function(group) {
+				if (passed && group.Id === newGroup.Id) {
+					passed = false;
+				} 
+			});
+			return passed;
+		});
+		newGroups = newGroups.concat(filteredWithNew);
+		// remove groups for remove
+		var filteredAfterRemove = newGroups.filter(function(group) {
+			var passed = true;
+			groupsToRemove.forEach(function(newGroup) {
+				if (passed && group.Id === newGroup.Id) {
+					passed = false;
+				} 
+			});
+			return passed;
+		});
+		paymentInfo.chargeGroups = filteredAfterRemove;
+		return paymentInfo;
+	},
 	getInitPaymentRequestInfo: function(paymentInfo) {
 		var initInfo = {
 			creditCard: {},
@@ -31,9 +76,9 @@
 		if (paymentInfo.chargeGroups) {
 			var groupsList = [];
 			paymentInfo.chargeGroups.forEach(function (group) {
-				if (group.cg.Balance__c && group.cg.Sirono_ID__c) {
-					groupsList.push(group.cg.Sirono_ID__c);
-					initInfo.totalAmount += parseFloat( group.cg.Balance__c ? group.cg.Balance__c : 0 );
+				if (group.Balance__c && group.Sirono_ID__c) {
+					groupsList.push(group.Sirono_ID__c);
+					initInfo.totalAmount += parseFloat( group.Balance__c ? group.Balance__c : 0 );
 				}
 			});
 			initInfo.chargeGroupId = groupsList.join(',');

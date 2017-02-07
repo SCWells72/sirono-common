@@ -1,8 +1,11 @@
 <aura:component controller="PaymentTabsController">
-	<aura:attribute name="PaymentInfo" type="Object" access="public" default="{}" />
-	<aura:attribute name="PaymentRequestInfo" type="Object" access="public" default="{}" />
+	<aura:attribute name="PaymentInfo" type="Object" access="public"/>
+	<aura:attribute name="PaymentRequestInfo" type="Object" access="public"/>
+	<aura:attribute name="CreditCard" type="Object" access="public"/>
+	<aura:attribute name="selectedCardId" type="String" access="private"/>
+	<aura:attribute name="hasError" type="Boolean" access="private" default="false"/>
 
-	<aura:handler name="init" value="{!this}" action="{!c.doCmpInit}"/>
+	<aura:handler name="change" value="{!v.PaymentInfo.paymentPlan}" action="{!c.doCmpInit}"/>
 	<aura:handler name="paymentMethodInit" event="c:CancelActionEvent" action="{!c.cancelEditCardAction}"/>
 	<aura:registerEvent name="initPlanInfo" type="c:CancelActionEvent"/>
 	<aura:registerEvent name="updatePaymentMethod" type="c:UpdatePaymentMethodEvent"/>
@@ -13,10 +16,14 @@
 	</div>
 
 	<div aura:id="editPaymentMethod" class="slds-p-top--medium slds-p-horizontal--large border-top">
+		<aura:if isTrue="{!v.hasError}">
+			<c:SupportMessage aura:id="notificationCmp"/>
+		</aura:if>
+
 		<div class="grid slds-p-bottom--large">
 			<aura:if isTrue="{!and(v.PaymentInfo.creditCards, v.PaymentInfo.creditCards.length > 0)}">
 				<div class="col slds-m-right--medium">
-					<lightning:select name="state" label="Currently paying with card on file:" required="true">
+					<lightning:select name="state" label="Currently paying with card on file:" required="true" value="{!v.selectedCardId}" onchange="{!c.changeCard}">
 						<aura:iteration items="{!v.PaymentInfo.creditCards}" var="card">
 							<option value="{!card.sfId}">{!card.displayName}</option>
 						</aura:iteration>
@@ -43,6 +50,6 @@
 	</div>
 
 	<div aura:id="editCreditCard" class="slds-p-horizontal--large border-top slds-hide">
-		<c:EditPaymentCard />
+		<c:EditPaymentCard PaymentRequestInfo="{!v.PaymentRequestInfo}" CreditCard="{!v.CreditCard}"/>
 	</div>
 </aura:component>

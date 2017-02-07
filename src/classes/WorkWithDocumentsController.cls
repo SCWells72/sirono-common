@@ -23,6 +23,8 @@ public with sharing class WorkWithDocumentsController {
         String searchFolderQuery = '';
         if(folder.size() > 0) {
             searchFolderQuery = ' WHERE FolderId=\'' + folder[0].Id + '\' ';
+        } else {
+            return documents;
         }
         String finalQuery = QUERY + searchFolderQuery + ORDER_BY + criteria + orderType + LIMIT_SUFFIX; 
         System.debug('finalQuery=' + finalQuery);
