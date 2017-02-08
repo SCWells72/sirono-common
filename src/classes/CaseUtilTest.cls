@@ -776,7 +776,7 @@ public class CaseUtilTest {
         lstEncounter.add(encounter2);
 
         insert lstEncounter;
-        encounter1.Total_Charges__c = 0;
+        encounter1.Patient_Portion__c = 0;
         update encounter1;
 
         Payment_Arrangement__c paymentArrangement = TestUtility.generatePaymentArrangement(encounter2.Id);
@@ -856,7 +856,7 @@ public class CaseUtilTest {
         lstEncounter.add(encounter2);
 
         insert lstEncounter;
-        encounter1.Total_Charges__c = 0;
+        encounter1.Patient_Portion__c = 0;
         update encounter1;
 
         Payment_Arrangement__c paymentArrangement = TestUtility.generatePaymentArrangement(encounter2.Id);
@@ -923,7 +923,7 @@ public class CaseUtilTest {
         lstEncounter.add(encounter2);
         
         insert lstEncounter;
-        encounter1.Total_Charges__c = 0;
+        encounter1.Patient_Portion__c = 0;
         update encounter1;
         
         Payment_Arrangement__c paymentArrangement = TestUtility.generatePaymentArrangement(encounter2.Id);

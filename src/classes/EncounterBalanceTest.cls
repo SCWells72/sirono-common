@@ -7,7 +7,7 @@ public with sharing class EncounterBalanceTest {
     @testSetup
     public static void setupData() {
         Encounter__c encounter = new Encounter__c();
-        encounter.Total_Charges__c = 3000.00;
+        encounter.Patient_Portion__c = 3000.00;
         encounter.Department__c = 'Test Dept';
         INSERT encounter;
     }
@@ -32,32 +32,6 @@ public with sharing class EncounterBalanceTest {
         System.assert(!encounter.Has_Chargegroup__c, 'Expected Has_Chargegroup__c to be false');
         System.assert(encounter.Balance__c == 2000.00,
                 'Expected Balance__c to be 2000.00, but was: '+encounter.Balance__c);
-    }
-
-    @isTest
-    public static void testEncounterBalanceAfterPaymentChanges() {
-        Encounter__c encounter = [SELECT Id, Patient_Portion__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
-
-        Test.startTest();
-        //Save a payment associated with the Encounter
-        Payment__c pmt1 = new Payment__c();
-        pmt1.Amount__c = 600.00;
-        pmt1.Encounter__c = encounter.Id;
-
-        INSERT pmt1;
-
-        //Change the amount of the payment
-        pmt1 = [SELECT Id, Amount__c FROM Payment__c WHERE Encounter__c = :encounter.Id];
-        pmt1.Amount__c = 800.00;
-        UPDATE pmt1;
-
-        Test.stopTest();
-
-
-        encounter = [SELECT Id, Balance__c, Has_Chargegroup__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
-        System.assert(!encounter.Has_Chargegroup__c, 'Expected Has_Chargegroup__c to be false');
-        System.assert(encounter.Balance__c == 2200.00,
-                'Expected Balance__c to be 2200.00, but was: '+encounter.Balance__c);
     }
 
     @isTest

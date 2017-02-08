@@ -1,5 +1,7 @@
 ({
-    doInit: function (component, event, helper) {
+    doInit: function (component, event, helper) {	
+        var headerWrap = component.find('headerWrap');
+        var headerMain = component.find('headerMain');
         var urlEvent = window.location.pathname;
         var homePage = '/guarantor/s/';
 		var arrowToggleHeader = component.find('arrowToggleHeader');
@@ -10,12 +12,18 @@
         else{
             component.set("v.backButton","true");
 			$A.util.addClass(arrowToggleHeader,"arrowDisplay"); 
+			$A.util.addClass(headerWrap,"small");
+        	$A.util.addClass(headerMain,"small");
         }
 		
         helper.getAllHeaderInfo(component);
     },
     
     navigateToURLEvent: function (component, event, helper) {
+		if(event.getParam('isredirect') == true) {
+			location.reload();
+			return;
+		}
         var headerWrap = component.find('headerWrap');
         var headerMain = component.find('headerMain');
         var urlEvent = window.location.pathname;
@@ -24,14 +32,19 @@
         if(urlEvent == homePage){
             component.set("v.backButton","false"); 
 			$A.util.removeClass(arrowToggleHeader,"arrowDisplay");
+			if($A.util.hasClass(headerWrap,"small") == true){
+				$A.util.removeClass(headerWrap,"small");
+        		$A.util.removeClass(headerMain,"small");
+			}
         }
         else{
             component.set("v.backButton","true");
 			$A.util.addClass(arrowToggleHeader,"arrowDisplay"); 
-        }
-        if($A.util.hasClass(headerWrap,"small") == false){
-            $A.util.addClass(headerWrap,"small");
-        	$A.util.addClass(headerMain,"small");
+			console.log("flag1");
+			if($A.util.hasClass(headerWrap,"small") == false){
+				$A.util.addClass(headerWrap,"small");
+        		$A.util.addClass(headerMain,"small");
+			}
         }
     },
     
@@ -82,6 +95,7 @@
         component.set('v.invoiceId', event.getParam('invoiceId'));
         component.set('v.activeTab', event.getParam('type'));
         component.set('v.filter', event.getParam('filter'));
+        component.set('v.hideCreatePaymentPlanTab', event.getParam('hideCreatePaymentPlanTab'));
 		if(event.getParam('isEstimate') == true){
 			component.set('v.isEstimateRecord', true);
 		}
@@ -92,13 +106,21 @@
     putInvoucePaument: function(component, event, helper) {
         var invoiceId = component.get('v.invoiceId');
         var activeTab = component.get('v.activeTab');
-		var isEstimate = component.get('v.isEstimateRecord');
+        var isEstimate = component.get('v.isEstimateRecord');
+		var hideCreatePaymentPlanTab = component.get('v.hideCreatePaymentPlanTab');
 		var filter = component.get('v.filter');
         component.set('v.invoiceId', undefined);
         component.set('v.activeTab', undefined);
         component.set('v.filter', undefined);
+        component.set('v.hideCreatePaymentPlanTab', false);
         var appEvent = $A.get("e.c:payNowResponse");
-        appEvent.setParams({ "invoiceId" : invoiceId, "activeTab": activeTab, "isEstimateRecord": isEstimate, "filter": filter});
+        appEvent.setParams({ 
+            "invoiceId" : invoiceId, 
+            "activeTab": activeTab, 
+            "isEstimateRecord": isEstimate, 
+            "filter": filter,
+            "hideCreatePaymentPlanTab" : hideCreatePaymentPlanTab
+        });
         appEvent.fire();
     },
 })

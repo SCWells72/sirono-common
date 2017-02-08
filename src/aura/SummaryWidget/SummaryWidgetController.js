@@ -1,4 +1,9 @@
-({
+({  
+    doInit: function (component, event, helper) {   
+        var src = event.getSource();
+        helper.getAllHeaderInfo(component);
+    },
+
     goToPayment: function(component, event, helper) {
         var appEvent = $A.get("e.c:payNowRequest");
         appEvent.setParams({ "invoiceId" : null, 'type': 'MakeAPayment' });

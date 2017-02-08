@@ -9,7 +9,7 @@ public with sharing class GuarantorEstimateBalanceTest {
     @testSetup
     public static void setupData() {
         Encounter__c encounter = new Encounter__c();
-        encounter.Total_Charges__c = 3000.00;
+        encounter.Patient_Portion__c = 3000.00;
         encounter.Department__c = 'Test Dept';
         INSERT encounter;
 

@@ -77,7 +77,7 @@
 
 .THIS .header-main .no-balance {
     display: inline-block;
-    width: 15%;
+    width: 50%;
     margin-left: 2rem;
 }
 
@@ -126,7 +126,15 @@
 .THIS .view-account-details {
     display: block;
     width: 50%;
+    max-width: 320px;
 }
 .THIS .col.payment-right {
     margin-right:20px;
+}
+.THIS .small-popover .status {
+    padding:10px 4px;
+    text-align: center;
+}
+.THIS .status .slds-icon {
+   margin: 0 0 0 2px;
 }
