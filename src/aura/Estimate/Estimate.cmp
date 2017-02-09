@@ -37,7 +37,7 @@
             <div class="{!v.isOnPaymentsPage ? 'col right ' : 'col right'}">
                 <div class="title">Balance</div>
                 <div class="value">
-                    <ui:outputCurrency value="{!v.estimate.singleEncounter.Patient_Portion__c}" />
+                    <ui:outputCurrency value="{!v.estimate.singleEncounter.Balance__c}" />
                 </div>
                 
             </div>
