@@ -305,6 +305,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>InvoiceUtilTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MockHttpResponseGenerator</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -3829,6 +3833,10 @@
     <layoutAssignments>
         <layout>Payment_Arrangement__c-Payment Arrangement Layout</layout>
         <recordType>Payment_Arrangement__c.Payment_Plan</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Payment_Method__c-ACH</layout>
+        <recordType>Payment_Method__c.Promise</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Payment_Method__c-Credit Card</layout>

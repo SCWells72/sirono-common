@@ -40,15 +40,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Due_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Patient__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Deactivated_Charge_Groups__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -71,6 +63,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Invoice_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Due_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -114,11 +110,11 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Guarantor__c</fields>
-        <fields>Active__c</fields>
         <fields>Balance__c</fields>
-        <fields>Account_Status__c</fields>
+        <fields>Date_Of_Service_Start_Date__c</fields>
+        <fields>Date_Of_Service_End_Date__c</fields>
         <fields>Account_Sub_Status__c</fields>
-        <fields>Payment_Plan__c</fields>
+        <fields>Account_Status__c</fields>
         <relatedList>Charge_Group__c.Invoice__c</relatedList>
         <sortField>Account_Sub_Status__c</sortField>
         <sortOrder>Asc</sortOrder>

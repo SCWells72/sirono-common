@@ -201,7 +201,7 @@ TEXT(YEAR(Invoice_Date__c))</formula>
     <fields>
         <fullName>Partial_Payment_Plan__c</fullName>
         <externalId>false</externalId>
-        <formula>And(Invoice_Status_Index__c &lt;&gt; 4,CONTAINS(All_Substatus__c,&quot;Payment&quot;))</formula>
+        <formula>And(Invoice_Status_Index__c &lt;&gt; 6,CONTAINS(All_Substatus__c,&quot;Payment&quot;))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Partial Payment Plan</label>
         <trackHistory>false</trackHistory>
