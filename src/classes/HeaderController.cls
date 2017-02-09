@@ -1,6 +1,8 @@
 public with sharing class HeaderController {
-	public static String WARNING_MESSAGE 	  = 'Your account has overdue invoices. Please pay the balance now or set up a payment plan to avoid becoming delinquent.\n If you have any questions about the bill, please contact the Customer Service Center at #.';
+	public static String WARNING_MESSAGE 	  = 'Your account has overdue invoices. Please pay the balance now or set up a payment plan to avoid becoming delinquent.\n If you have any questions about the bill, please contact the Customer Service Center at (925)-231-2502.';
 	public static String DELINQUENT_MESSAGE   = 'This account has delinquent invoices. Delinquent invoices will be sent to a collection agency if payment arrangements are not made within the next 30 days. Please pay the balance now or set up a payment plan.'; 
+	public static String PASTDUE_MESSAGE      = ' We have not received your latest payment plan installment. Please pay your previous installment amount now or pay your account in full to avoid payment plan cancellation. If you have any questions about the bill, call the Customer Service Center at (925)-231-2502.'; 
+	public static String ERROR_MESSAGE		  = ' Your latest payment plan installment failed. Please update your payment method or pay your previous installment amount now to keep your account current. If you have any questions about the bill, call the Customer Service Center at (925)-231-2502.';
 	public static String DUE_STATUS  	  	  = 'Due';
 	public static String OVERDUE_STATUS  	  = 'Overdue';
 	public static String DELINQUENT_STATUS    = 'Delinquent';
@@ -29,11 +31,13 @@ public with sharing class HeaderController {
 		@AuraEnabled public Contact contact 				{get;set;}
 		@AuraEnabled public Invoice__c invoiceOverdue 		{get;set;}
 		@AuraEnabled public String messageInfo 				{get;set;}
+		@AuraEnabled public String pastDueMessage 			{get;set;}
 		@AuraEnabled public Payment_Plan__c paymentPlan 	{get;set;}
 		@AuraEnabled public Integer newEstimatesCount	 	{get;set;}
 		@AuraEnabled public Boolean version2 				{get;set;}
 		@AuraEnabled public Boolean version3 				{get;set;}
 		@AuraEnabled public Boolean version4 				{get;set;}
+		@AuraEnabled public Boolean isInstallAmountView 	{get;set;}
 
 		public GuarantorWrapper(Id userId) {
 			this.messageInfo = '';
@@ -85,7 +89,8 @@ public with sharing class HeaderController {
 											SELECT 
 													COUNT()
 											FROM 	Encounter__c
-											
+											WHERE   Guarantor__c = :user.ContactId AND 
+													CreatedDate >= :Datetime.now().addDays(-30)
 				];
 
 				if(listInvoices.size() > 0 && listInvoices[0] != null) {
@@ -99,6 +104,12 @@ public with sharing class HeaderController {
 				} else if(contact.Guarantor_Status__c == DELINQUENT_STATUS) {
 					this.messageInfo = DELINQUENT_MESSAGE;
 				}
+				if(paymentPlan.Active__c && paymentPlan.Payment_Plan_Standing__c == 'Past Due') {
+					this.messageInfo += PASTDUE_MESSAGE;
+				}
+				if(paymentPlan.Active__c && paymentPlan.Plan_Type__c == 'Automatic' && paymentPlan.Payment_Plan_Standing__c == 'In Error') {
+					this.messageInfo += ERROR_MESSAGE;
+				}
 
 				this.version2 = ((this.contact.Guarantor_Status__c == 'Due' || this.contact.Guarantor_Status__c == 'Overdue' 
 					|| this.contact.Guarantor_Status__c == 'Delinquent') && this.contact.Add_to_Payment_Plan__c == false) ? true : false;
@@ -108,6 +119,8 @@ public with sharing class HeaderController {
 				this.version4 = ((((this.contact.Guarantor_Status__c == 'Due' || this.contact.Guarantor_Status__c == 'Overdue' 
 					|| this.contact.Guarantor_Status__c == 'Delinquent') && this.contact.Add_to_Payment_Plan__c == true) 
 						|| this.contact.Guarantor_Status__c == 'On Payment Plan') && (this.paymentPlan != null && this.paymentPlan.Payment_Plan_Standing__c != 'Good Standing')) ? true : false;
+				this.isInstallAmountView = (((this.contact.Guarantor_Status__c == 'Due' || this.contact.Guarantor_Status__c == 'Overdue' || this.contact.Guarantor_Status__c == 'Delinquent') 
+					&& this.contact.Add_to_Payment_Plan__c == true) || this.contact.Guarantor_Status__c == 'On Payment Plan') ? true : false;
 			}
 		}
 	}

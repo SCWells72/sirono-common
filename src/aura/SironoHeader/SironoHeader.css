@@ -34,7 +34,7 @@
 }
 
 .THIS .header-main.small .col.issue {
-    min-width: 16.6%;
+    min-width: 14%;
 }
 
 .THIS .header-main .fullSuccess-container{
@@ -117,10 +117,6 @@
 
 .THIS .issue {
     padding: 1rem 10px 0 !important;
-}
-
-.THIS .install-amount span {
-    font-size: 2rem !important;
 }
 
 .THIS .view-account-details {

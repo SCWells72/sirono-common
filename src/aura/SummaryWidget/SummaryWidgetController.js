@@ -5,15 +5,11 @@
     },
 
     goToPayment: function(component, event, helper) {
-        var appEvent = $A.get("e.c:payNowRequest");
-        appEvent.setParams({ "invoiceId" : null, 'type': 'MakeAPayment' });
-        appEvent.fire();      
+        helper.goToPaymentsPage(component, 'MakeAPayment');
     },
 
-    goToPaymentPlan: function(component, event, helper) {
-        var appEvent = $A.get("e.c:payNowRequest");
-        appEvent.setParams({ "invoiceId" : null, 'type': 'CreatePaymentPlan' });
-        appEvent.fire();      
+    goToPaymentPlan: function(component, event, helper) {    
+        helper.goToPaymentsPage(component, 'CreatePaymentPlan');
     },
 
     goToMainPage: function(component, event, helper) {
@@ -23,19 +19,11 @@
     },
 
     goToInvoices: function(component, event, helper) {
-        var headerEvent = $A.get("e.c:ToggleHeader");
-        headerEvent.fire(); 
-        var appEvent = $A.get("e.c:ActivateTab");
-        appEvent.setParams({ 'activeTab': 'Invoices' });
-        appEvent.fire();      
+        helper.goToMainPage(component, 'Invoices');
     },
 
     goToEstimates: function(component, event, helper) {
-        var headerEvent = $A.get("e.c:ToggleHeader");
-        headerEvent.fire();  
-        var appEvent = $A.get("e.c:ActivateTab");
-        appEvent.setParams({ 'activeTab': 'Estimates' });
-        appEvent.fire();   
+        helper.goToMainPage(component, 'Estimates');
     },
 
     showTooltip: function(component, event, helper) {

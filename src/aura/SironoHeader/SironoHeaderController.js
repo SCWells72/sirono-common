@@ -8,12 +8,24 @@
         if(urlEvent == homePage){
             component.set("v.backButton","false");
 			$A.util.removeClass(arrowToggleHeader,"arrowDisplay");
+
+            if (window.location.href.includes('activeTab=')) {
+                $A.util.addClass(headerWrap,"small");
+                $A.util.addClass(headerMain,"small");
+            }
         }
         else{
             component.set("v.backButton","true");
 			$A.util.addClass(arrowToggleHeader,"arrowDisplay"); 
 			$A.util.addClass(headerWrap,"small");
         	$A.util.addClass(headerMain,"small");
+
+            if (window.location.href.includes('tab=')) {
+                var tabType = window.location.href.split("=").pop();
+                component.set('v.activeTab', tabType);
+                var appEvent = $A.get("e.c:payCall");
+                appEvent.fire();
+            } 
         }
 		
         helper.getAllHeaderInfo(component);
