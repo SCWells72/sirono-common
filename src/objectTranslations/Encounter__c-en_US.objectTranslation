@@ -136,6 +136,10 @@
         <name>Insurance_Portion__c</name>
     </fields>
     <fields>
+        <label><!-- Insurance Total --></label>
+        <name>Insurance_Total__c</name>
+    </fields>
+    <fields>
         <label><!-- Liability --></label>
         <name>Liability__c</name>
     </fields>
@@ -173,7 +177,7 @@
         <name>Total_Charges__c</name>
     </fields>
     <fields>
-        <label><!-- Total Payments --></label>
+        <label><!-- Payments --></label>
         <name>Total_Payments__c</name>
     </fields>
     <fields>
