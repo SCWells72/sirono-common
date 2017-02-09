@@ -173,7 +173,7 @@
         <name>Total_Charges__c</name>
     </fields>
     <fields>
-        <label><!-- Payments --></label>
+        <label><!-- Total Payments --></label>
         <name>Total_Payments__c</name>
     </fields>
     <fields>

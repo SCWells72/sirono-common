@@ -418,6 +418,18 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Insurance_Total__c</fullName>
+        <externalId>false</externalId>
+        <formula>Insurance_Discount__c +  Insurance_Portion__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Insurance Total</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Liability__c</fullName>
         <externalId>false</externalId>
         <label>Liability</label>
