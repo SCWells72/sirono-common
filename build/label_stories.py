@@ -1,6 +1,7 @@
 import os, subprocess, re, requests, argparse
 
-PROJECT_ID = 1608481
+SF_PROJECT_ID = 1608481
+PORTAL_PROJECT_ID = 1930765
 PIVOTAL_TOKEN = '212c3d7d91c24ad24f5c487ee6a0fcf1'
 HEADERS = {"X-TrackerToken": PIVOTAL_TOKEN, "Content-type": "application/json"}
 TRACKER_STORY_URL = "https://www.pivotaltracker.com/services/v5/projects/{}/stories/{}"
@@ -15,12 +16,14 @@ state_hierarchy = {
 
 branch_state_map = {
     'master': 'finished',
+    'portal': 'finished',
     'qa': 'delivered',
     'prod': 'accepted'
 }
 
 branch_label_map = {
     'master': 'on_dev',
+    'portal': 'on_portalqa',
     'qa': 'on_qa',
     'prod': 'on_prod'
 }
@@ -46,9 +49,15 @@ def get_branch_label(current_branch):
     return branch_label_map[current_branch]
 
 
-def get_story(tracker_id):
+def get_project_id(current_branch):
+    if 'portal' == current_branch:
+        return PORTAL_PROJECT_ID
+    return SF_PROJECT_ID
+
+
+def get_story(current_branch, tracker_id):
     try:
-        get_url = TRACKER_STORY_URL.format(PROJECT_ID, tracker_id)
+        get_url = TRACKER_STORY_URL.format(get_project_id(current_branch), tracker_id)
         response = requests.get(get_url, headers=HEADERS)
         response.raise_for_status()
     except requests.exceptions.RequestException as e:
@@ -66,19 +75,20 @@ def update_story(current_branch, story_json):
     request_body = dict()
     label_set = set(map((lambda x: x["name"]), story_json["labels"]))
 
-    if not branch_label in label_set:
-        print("Add label: {} to story: {} ".format(branch_label, story_id))
-        label_set.add(branch_label)
-        request_body["labels"] = list(map((lambda x: {"name": x}), label_set))
+    if 'rejected' != story_json[CURRENT_STATE].lower():
+        if not branch_label in label_set:
+            print("Add label: {} to story: {} ".format(branch_label, story_id))
+            label_set.add(branch_label)
+            request_body["labels"] = list(map((lambda x: {"name": x}), label_set))
 
-    if state_hierarchy[branch_state_map[current_branch]] > state_hierarchy.get(story_json[CURRENT_STATE], 0):
-        print("Update state for story: {} from: {} to: {}".format(story_id, story_json[CURRENT_STATE], branch_state_map[current_branch]))
-        request_body[CURRENT_STATE] = branch_state_map[current_branch]
+        if state_hierarchy[branch_state_map[current_branch]] > state_hierarchy.get(story_json[CURRENT_STATE], 0):
+            print("Update state for story: {} from: {} to: {}".format(story_id, story_json[CURRENT_STATE], branch_state_map[current_branch]))
+            request_body[CURRENT_STATE] = branch_state_map[current_branch]
 
-    if request_body:
-        #print json.dumps(request_body)
-        response = requests.put(TRACKER_STORY_URL.format(PROJECT_ID, story_id), json=request_body, headers=HEADERS)
-        response.raise_for_status()
+        if request_body:
+            #print json.dumps(request_body)
+            response = requests.put(TRACKER_STORY_URL.format(get_project_id(current_branch), story_id), json=request_body, headers=HEADERS)
+            response.raise_for_status()
 
 
 def main():
@@ -90,7 +100,7 @@ def main():
         if branch_label_map.has_key(args.current_branch):
             print('Updating tracker stories addressed in branch: {}'.format(args.current_branch))
             for story_id in get_story_ids():
-                story_json = get_story(story_id)
+                story_json = get_story(args.current_branch, story_id)
                 if story_json:
                     update_story(args.current_branch, story_json)
         else:

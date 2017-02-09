@@ -301,10 +301,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>InvoiceStatusUpdateTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>InvoiceUtil</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -494,6 +490,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TxnAggregationUtils</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TxnPASPmtAggregationTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TxnPaymentAggregationTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2357,6 +2361,11 @@
         <editable>false</editable>
         <field>Encounter__c.Insurance_Portion__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Encounter__c.Insurance_Total__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
