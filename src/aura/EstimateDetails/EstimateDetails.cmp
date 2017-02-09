@@ -13,7 +13,9 @@
                 <header class="grid">
                     <div class="col intro">
                         <em>Below are the details for the estimate of upcoming procedure(s).</em>
-                        <div><a class="cta" onclick="{!c.sendEstimateNowToHeader}">Make a Payment Now</a></div>
+                        <aura:if isTrue="{!v.estimate.estimateStatus == 'Unpaid'}">
+                            <div><a class="cta" onclick="{!c.sendEstimateNowToHeader}">Make Deposit</a></div>
+                        </aura:if>
                     </div>
                     <div class="col align-right slds-align-bottom">
                         <span class="title balance">
@@ -24,7 +26,6 @@
                         </span>
                     </div>
                 </header>
-                <div class="invoice-alert"></div>
                 <div class="invoice-content">
                     <div class="col details">
                         <ui:outputDate value="{!v.estimate.singleEncounter.Date_of_Service__c}" format="MM/DD/YYYY"/>
@@ -55,21 +56,21 @@
                                 <div class="col">
                                     {! if ( v.estimate.singleEncounter.Coverage__c != NULL, v.estimate.singleEncounter.Coverage__r.Name + ' Adjustment', 'Insurance Adjustment')}
                                 </div>
-                                <div class="col credit align-right">-<ui:outputCurrency value="{!v.estimate.singleEncounter.Insurance_Discount__c}" /></div>
+                                <div class="{! 'col credit align-right ' + if(or (v.estimate.singleEncounter.Insurance_Discount__c == null, v.estimate.singleEncounter.Insurance_Discount__c == 0), 'zero-credit', '')}"><aura:if isTrue="{!v.estimate.singleEncounter.Insurance_Discount__c > 0}">-</aura:if><ui:outputCurrency value="{!v.estimate.singleEncounter.Insurance_Discount__c}" /></div>
                             </aura:renderIf>
 
                             <aura:renderIf isTrue="{! v.estimate.singleEncounter.Insurance_Portion__c != NULL}">
                                 <div class="col">
                                     {! if ( v.estimate.singleEncounter.Coverage__c != NULL, v.estimate.singleEncounter.Coverage__r.Name + ' Payment', 'Insurance Payment')}
                                 </div>
-                                <div class="col credit align-right">-<ui:outputCurrency value="{!v.estimate.singleEncounter.Insurance_Portion__c}" /></div>
+                                <div class="{! 'col credit align-right ' + if(or (v.estimate.singleEncounter.Insurance_Portion__c == null, v.estimate.singleEncounter.Insurance_Portion__c == 0), 'zero-credit', '')}"><aura:if isTrue="{!v.estimate.singleEncounter.Insurance_Portion__c > 0}">-</aura:if><ui:outputCurrency value="{!v.estimate.singleEncounter.Insurance_Portion__c}" /></div>
                             </aura:renderIf>
                             
-                            <aura:renderIf isTrue="{! v.estimate.singleEncounter.Insurance_Total__c > 0}">
+                            <aura:renderIf isTrue="{! or (v.estimate.singleEncounter.Insurance_Discount__c != NULL, v.estimate.singleEncounter.Insurance_Portion__c != NULL)}">
                                 <div class="col footer">
                                     <div class="title">Total Credits</div>
                                 </div>
-                                <div class="col footer credit align-right">-<ui:outputCurrency value="{!v.estimate.singleEncounter.Insurance_Total__c}" /></div>
+                                <div class="{! 'col footer credit align-right ' + if(and(or (v.estimate.singleEncounter.Insurance_Discount__c == null, v.estimate.singleEncounter.Insurance_Discount__c == 0), or (v.estimate.singleEncounter.Insurance_Portion__c == null, v.estimate.singleEncounter.Insurance_Portion__c == 0)), 'zero-credit', '')}"><aura:if isTrue="{! v.estimate.singleEncounter.Insurance_Portion__c + v.estimate.singleEncounter.Insurance_Discount__c > 0}">-</aura:if><ui:outputCurrency value="{! v.estimate.singleEncounter.Insurance_Portion__c + v.estimate.singleEncounter.Insurance_Discount__c}" /></div>
                             </aura:renderIf>
                         </div>
                     </div>

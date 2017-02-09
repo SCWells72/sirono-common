@@ -30,3 +30,11 @@
     width: 66.6666%; 
     margin-left: 33.3333%;
 }
+
+.THIS .invoice-content {
+    margin-top: 20px;
+}
+
+.THIS .zero-credit {
+    color: #16325c !important;
+}

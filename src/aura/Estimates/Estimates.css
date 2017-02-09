@@ -24,6 +24,7 @@
 .THIS .invoices .invoice-listing header {
     position:absolute;
     width:100%; 
+    height:73px;
 }
 .THIS .invoices .invoice-listing {
     overflow:hidden; 
@@ -33,4 +34,72 @@
 }
 .THIS .estimate_details {
     width:66.66666%;
+}
+
+.THIS .buttonGroup {
+    position:relative;
+}
+.THIS .blockSelect {
+    position:absolute;
+    left: 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    background: #fff;
+    top: 32px;
+    display:none;
+}
+.THIS .AddBlocksSelect .slds-button.slds-button--neutral {
+    border-radius:5px;    
+}
+
+.THIS .blockSelect .slds-button.slds-radio--button:hover{
+    background: #f4f6f9;
+}
+.THIS .blockSelect .slds-button.slds-radio--button { 
+    border-bottom: 1px solid #ccc;
+}
+.THIS .blockSelect .slds-button.slds-radio--button:last-child {
+    border-bottom:none;    
+}
+.THIS .showSelect {
+    display:block;
+}
+.THIS .AddBlocksSelect label {
+    width:100%;
+    border-radius:0;
+}
+
+.THIS .small-text {
+    white-space: nowrap; 
+    overflow: hidden; 
+    padding: 5px; 
+    text-overflow: ellipsis; 
+    display: inline-flex;
+    width: 175px;
+}
+.THIS .float-right_position {
+    position:absolute;
+    right:20px;
+}
+
+.THIS .display-none {
+    display: none;
+}
+
+.THIS .empty-estimates {
+    padding: 50px 0;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.THIS .empty-estimates h2 {
+    font-size: 1.3rem;
+    font-weight: 200;
+    padding: 0 0 20px 0;
+}
+
+.THIS .empty-estimates p {
+    font-size: .75rem;
+    line-height: 1.25;
+    color: #54698d;
 }

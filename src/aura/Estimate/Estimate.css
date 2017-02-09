@@ -5,3 +5,6 @@
 .THIS .display_false {
     display: none;
 }
+.THIS .gridEstimate {
+    width:100%;
+}
