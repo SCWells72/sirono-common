@@ -4,14 +4,11 @@
         'startURL'  : 'e.c:setStartUrl'
     },
 
-    handleLogin: function (component, event, helpler) {
-        var username = component.find("username").get("v.value");
-        var password = component.find("password").get("v.value");
+    handleLogin: function (component, event, helper, username, password) {
         var action = component.get("c.login");
         var startUrl = component.get("v.startUrl");
         
         startUrl = decodeURIComponent(startUrl);
-        
         action.setParams({username:username, password:password, startUrl:startUrl});
         action.setCallback(this, function(a){
             var rtnValue = a.getReturnValue();
@@ -21,6 +18,29 @@
             }
         });
         $A.enqueueAction(action);
+    },
+
+    getUrlParameter: function (sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1));
+        var sURLVariablesGl = sPageURL.split('?');
+        var sURLVariablesStr;
+        var sURLVariables;
+        var sParameterName, i;
+
+        for (i = 0; i < sURLVariablesGl.length; i++) {
+            sURLVariablesStr += sURLVariablesGl[i] + '&';
+        }
+
+        sURLVariables = sURLVariablesStr.split('&');
+        
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? false : sParameterName[1];
+            }
+        }
+        return false;
     },
     
     getIsUsernamePasswordEnabled : function (component, event, helpler) {

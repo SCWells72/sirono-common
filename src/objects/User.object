@@ -9,10 +9,6 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>DeleteBannerPhotoAction</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>EditUserAction</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -49,10 +45,6 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>UpdateBannerPhotoAction</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>UserActivationAction</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -60,6 +52,24 @@
     <enableEnhancedLookup>false</enableEnhancedLookup>
     <enableFeeds>true</enableFeeds>
     <externalSharingModel>Private</externalSharingModel>
+    <fields>
+        <fullName>Community_Password__c</fullName>
+        <externalId>false</externalId>
+        <label>Community Password</label>
+        <length>16</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Is_Demo_Locked__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Is Demo Locked</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Checkbox</type>
+    </fields>
     <fields>
         <fullName>Legacy_User_Id__c</fullName>
         <externalId>true</externalId>
@@ -118,6 +128,7 @@
         <columns>CORE.USER_ROLE.NAME</columns>
         <columns>CORE.USERS.ACTIVE</columns>
         <columns>CORE.PROFILE.NAME</columns>
+        <columns>CORE.PROFILE.USERTYPE</columns>
         <filterScope>Everything</filterScope>
         <label>All Users</label>
     </listViews>

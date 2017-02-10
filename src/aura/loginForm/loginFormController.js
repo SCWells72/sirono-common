@@ -5,22 +5,31 @@
         component.set("v.isSelfRegistrationEnabled", helper.getIsSelfRegistrationEnabled(component, event, helper));
         component.set("v.communityForgotPasswordUrl", helper.getCommunityForgotPasswordUrl(component, event, helper));
         component.set("v.communitySelfRegisterUrl", helper.getCommunitySelfRegisterUrl(component, event, helper));
+    
+        if (helper.getUrlParameter('un') != false && helper.getUrlParameter('pw') != false) {
+            var username = helper.getUrlParameter('un').replace('%40','@');
+            var password = helper.getUrlParameter('pw');
+
+            helper.handleLogin(component, event, helper, username, password);
+        }
     },
     
-    handleLogin: function (component, event, helpler) {
-        helpler.handleLogin(component, event, helpler);
+    handleLogin: function (component, event, helper) {
+        var username = component.find("username").get("v.value");
+        var password = component.find("password").get("v.value");
+        helper.handleLogin(component, event, helper, username, password);
     },
     
-    setStartUrl: function (component, event, helpler) {
+    setStartUrl: function (component, event, helper) {
         var startUrl = event.getParam('startURL');
         if(startUrl) {
             component.set("v.startUrl", startUrl);
         }
     },
-    onKeyUp: function(component, event, helpler){
+    onKeyUp: function(component, event, helper){
         //checks for "enter" key
         if (event.getParam('keyCode')===13) {
-            helpler.handleLogin(component, event, helpler);
+            helper.handleLogin(component, event, helper);
         }
     },
     
