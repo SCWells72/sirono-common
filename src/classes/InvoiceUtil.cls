@@ -16,7 +16,7 @@ public with sharing class InvoiceUtil {
             for (Id invoiceId: chargeGroupInvoiceIds) {
                 Invoice__c tempInvoice = new Invoice__c();
                 tempInvoice.Id = invoiceId;
-                tempInvoice.Invoice_Status_Index__c = null;
+                tempInvoice.Invoice_Status_Index__c = 0;
 
                 invoicesToUpdate.put(invoiceId, tempInvoice);
             }
@@ -34,7 +34,7 @@ public with sharing class InvoiceUtil {
                     system.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('Invoice__c')
                             + '[Max Status Value]: ' + qr.get('maxStatusValue'));
 
-                    // Update the Invoice Status Index field directly within the map, else the field remains null
+                    // Update the Invoice Status Index field directly within the map, else the field remains 0
                     invoicesToUpdate.get((Id) qr.get('Invoice__c')).Invoice_Status_Index__c = Integer.valueOf(qr.get('maxStatusValue'));
                 }
 
