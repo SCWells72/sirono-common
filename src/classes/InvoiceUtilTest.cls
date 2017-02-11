@@ -27,6 +27,7 @@ public class InvoiceUtilTest {
             Charge_Group__c testChargeGroup = TestUtility.generateChargeGroup(testGuarantor.Id, testPatient.Id, i, null);
             testChargeGroup.Account_Sub_Status__c = statusList[i];
             testChargeGroup.Invoice__c = testInvoice.Id;
+            testChargeGroup.Active__c = TRUE;
 
             testChargeGroupList.add(testChargeGroup);
         }
@@ -38,15 +39,60 @@ public class InvoiceUtilTest {
     public static void checkInvoiceIndexValue() {
         Test.startTest();
 
-        Invoice__c invoiceIndexValueCheck = [
+        Invoice__c inv = [
                 SELECT Id, Invoice_Status_Index__c
                 FROM Invoice__c
                 LIMIT 1
         ];
 
+        Decimal maxInvoiceStatusIndex = inv.Invoice_Status_Index__c;
+
+        Charge_Group__c cg = [
+                SELECT Id, Sub_Status_Index__c
+                FROM Charge_Group__c
+                ORDER BY Sub_Status_Index__c DESC
+                LIMIT 1
+        ];
+
+        Decimal maxIndexFromChargeGroup = cg.Sub_Status_Index__c;
+
         Test.stopTest();
 
-        system.assertEquals(9, invoiceIndexValueCheck.Invoice_Status_Index__c);
+        system.assertEquals(maxIndexFromChargeGroup, maxInvoiceStatusIndex);
+    }
+
+    @isTest
+    public static void invoiceIndexWithNoChargeGroupsTest() {
+        Test.startTest();
+
+        Invoice__c inv = [
+                SELECT Id, Invoice_Status_Index__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        Decimal originalIndexValue = inv.Invoice_Status_Index__c;
+
+        List<Charge_Group__c> deleteChargeGroups = [
+                SELECT Id
+                FROM Charge_Group__c
+                WHERE Invoice__c = :inv.Id
+        ];
+
+        delete deleteChargeGroups;
+
+        Invoice__c updatedInvoice = [
+                SELECT Id, Invoice_Status_Index__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        Decimal updatedIndexValue = updatedInvoice.Invoice_Status_Index__c;
+
+        test.stopTest();
+
+        System.assertNotEquals(originalIndexValue, updatedIndexValue);
+        System.assertEquals(0, updatedIndexValue);
     }
 
     @isTest
