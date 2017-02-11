@@ -151,10 +151,87 @@ public class InvoiceUtilTest {
                 LIMIT 1
         ];
 
-        
+        AggregateResult[] cgBalanceSum = [
+                SELECT SUM(Balance__c) balanceSum
+                FROM Charge_Group__c
+                WHERE Invoice__c = :inv.Id
+                GROUP BY Invoice__c
+        ];
+
+        Decimal sumChargeGroupBalance;
+        for (AggregateResult ar: cgBalanceSum) {
+            sumChargeGroupBalance = (Decimal) ar.get('balanceSum');
+        }
 
         Test.stopTest();
 
         System.assertNotEquals(null, inv.Invoice_Balance__c);
+        System.assertEquals(sumChargeGroupBalance, inv.Invoice_Balance__c);
+    }
+
+    @isTest
+    public static void invoiceBalanceCheckWithDeletedChargeGroup() {
+        Test.startTest();
+
+        Invoice__c inv = [
+                SELECT Id, Invoice_Balance__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        Decimal originalBalance = inv.Invoice_Balance__c;
+
+        Charge_Group__c deleteChargeGroup = [
+                SELECT Id
+                FROM Charge_Group__c
+                LIMIT 1
+        ];
+
+        delete deleteChargeGroup;
+
+        Invoice__c updatedInv = [
+                SELECT Id, Invoice_Balance__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        Decimal updatedBalance = updatedInv.Invoice_Balance__c;
+
+        Test.stopTest();
+
+        System.assertNotEquals(originalBalance, updatedBalance);
+    }
+
+    @isTest
+    public static void invoiceBalanceWithNoChargeGroups() {
+        test.startTest();
+
+        Invoice__c inv = [
+                SELECT Id, Invoice_Balance__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        Decimal originalBalance = inv.Invoice_Balance__c;
+
+        List<Charge_Group__c> deleteAllChargeGroups = [
+                SELECT Id
+                FROM Charge_Group__c
+        ];
+
+        delete deleteAllChargeGroups;
+
+        Invoice__c updatedInv = [
+                SELECT Id, Invoice_Balance__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        Decimal updatedBalance = updatedInv.Invoice_Balance__c;
+
+        test.stopTest();
+
+        System.assertNotEquals(originalBalance, updatedBalance);
+        System.assertEquals(0.00, updatedBalance);
     }
 }
