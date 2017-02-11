@@ -32,6 +32,15 @@ public class InvoiceUtilTest {
         }
         insert testChargeGroupList;
 
+        List<Transaction__c> testTransactionsList = new List<Transaction__c>();
+        for (Charge_Group__c cg: testChargeGroupList) {
+            for (Integer i = 0; i < 5; i++) {
+                Transaction__c tempTransaction = TestUtility.generateTransaction(cg, TestUtility.generateRandomCurrency(), 'service');
+                testTransactionsList.add(tempTransaction);
+            }
+        }
+        insert testTransactionsList;
+
     }
 
     @isTest
@@ -130,5 +139,22 @@ public class InvoiceUtilTest {
         Test.stopTest();
 
         System.assertEquals(null, invoiceList[0].All_Substatus__c);
+    }
+
+    @isTest
+    public static void initialInvoiceBalanceTest() {
+        Test.startTest();
+
+        Invoice__c inv = [
+                SELECT Id, Invoice_Balance__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        
+
+        Test.stopTest();
+
+        System.assertNotEquals(null, inv.Invoice_Balance__c);
     }
 }
