@@ -82,9 +82,12 @@ public with sharing class ChargeGroupTriggerHandler {
                 planIds.add(oldMap.get(cg.Id).Payment_Plan__c);
             }
 
-            // If the charge group is associated with an invoice, update the invoice status
+            // If the charge group is associated with an invoice, calculate fields related to the invoice
             if (cg.Invoice__c != null) {
                 invoiceIds.add(cg.Invoice__c);
+            }
+            if (oldMap.get(cg.Id).Invoice__c != null) {
+                invoiceIds.add(oldMap.get(cg.Id).Invoice__c);
             }
 
             // If the Charge_Group is associated with an Encounter, update the Encounter Has_Chargegroup flag
