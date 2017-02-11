@@ -685,7 +685,7 @@
         <summaryFilterItems>
             <field>Invoice__c.Invoice_Status_Index__c</field>
             <operation>equals</operation>
-            <value>7</value>
+            <value>9</value>
         </summaryFilterItems>
         <summaryForeignKey>Invoice__c.Guarantor__c</summaryForeignKey>
         <summaryOperation>count</summaryOperation>
@@ -1018,7 +1018,7 @@ CASE(Invoice_Status_Rollup__c,
         <summaryFilterItems>
             <field>Invoice__c.Invoice_Status_Index__c</field>
             <operation>greaterThan</operation>
-            <value>4</value>
+            <value>6</value>
         </summaryFilterItems>
         <summaryForeignKey>Invoice__c.Guarantor__c</summaryForeignKey>
         <summaryOperation>count</summaryOperation>
@@ -1085,7 +1085,7 @@ CASE(Invoice_Status_Rollup__c,
         <summaryFilterItems>
             <field>Invoice__c.Invoice_Status_Index__c</field>
             <operation>greaterOrEqual</operation>
-            <value>4</value>
+            <value>6</value>
         </summaryFilterItems>
         <summaryForeignKey>Invoice__c.Guarantor__c</summaryForeignKey>
         <summaryOperation>count</summaryOperation>
@@ -1115,7 +1115,7 @@ CASE(Invoice_Status_Rollup__c,
         <summaryFilterItems>
             <field>Invoice__c.Invoice_Status_Index__c</field>
             <operation>equals</operation>
-            <value>6</value>
+            <value>8</value>
         </summaryFilterItems>
         <summaryForeignKey>Invoice__c.Guarantor__c</summaryForeignKey>
         <summaryOperation>count</summaryOperation>
