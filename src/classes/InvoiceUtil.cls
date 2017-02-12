@@ -7,33 +7,39 @@ public with sharing class InvoiceUtil {
      * @param Set<Id> invoiceIdsFromChargeGroup - invoice Ids from charge groups that have been inserted, updated, or deleted
      */
 
-    public static void updateInvoiceStatusIndex(Set<Id> invoiceIdsFromChargeGroup) {
+    public static void updateInvoiceStatusIndex(Set<Id> chargeGroupInvoiceIds) {
         // Get the max index value from related charge groups and insert into Invoice Status Index field
-        if(invoiceIdsFromChargeGroup.size() != 0) {
+        if(chargeGroupInvoiceIds.size() != 0) {
+            // Instantiate an Id, Invoice map to hold temp invoices and field values to update
+            Map<Id, Invoice__c> invoicesToUpdate = new Map<Id, Invoice__c>();
+
+            for (Id invoiceId: chargeGroupInvoiceIds) {
+                Invoice__c tempInvoice = new Invoice__c();
+                tempInvoice.Id = invoiceId;
+                tempInvoice.Invoice_Status_Index__c = 0;
+
+                invoicesToUpdate.put(invoiceId, tempInvoice);
+            }
+
             AggregateResult[] queryResults = [
                     SELECT Invoice__c, MAX(Sub_Status_Index__c) maxStatusValue
                     FROM Charge_Group__c
-                    WHERE Invoice__c IN :invoiceIdsFromChargeGroup
+                    WHERE Invoice__c IN :chargeGroupInvoiceIds
                     AND Active__c = TRUE
                     GROUP BY Invoice__c
             ];
 
             if(queryResults.size() > 0) {
-                List<Invoice__c> invoicesToUpdate = new List<Invoice__c>();
-
                 for(AggregateResult qr: queryResults) {
-                    Invoice__c tempInvoice = new Invoice__c();
-
                     system.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('Invoice__c')
                             + '[Max Status Value]: ' + qr.get('maxStatusValue'));
-                    tempInvoice.Id = (Id) qr.get('Invoice__c');
-                    tempInvoice.Invoice_Status_Index__c = Integer.valueOf(qr.get('maxStatusValue'));
 
-                    invoicesToUpdate.add(tempInvoice);
+                    // Update the Invoice Status Index field directly within the map, else the field remains 0
+                    invoicesToUpdate.get((Id) qr.get('Invoice__c')).Invoice_Status_Index__c = Integer.valueOf(qr.get('maxStatusValue'));
                 }
-
-                update invoicesToUpdate;
             }
+
+            update invoicesToUpdate.values();
         }
     }
 
@@ -94,6 +100,13 @@ public with sharing class InvoiceUtil {
             // Instantiate map that is accessed by if and else blocks
             Map<Id, Invoice__c> invoicesToUpdate = new Map<Id, Invoice__c>();
 
+            for (Id invoiceId: chargeGroupInvoiceIds) {
+                Invoice__c tempInvoice = new Invoice__c();
+                tempInvoice.Id = invoiceId;
+                tempInvoice.Invoice_Balance__c = 0.00;
+                invoicesToUpdate.put(invoiceId, tempInvoice);
+            }
+
             AggregateResult[] queryResults = [
                     SELECT Invoice__c, SUM(Balance__c) sumBalances
                     FROM Charge_Group__c
@@ -103,47 +116,18 @@ public with sharing class InvoiceUtil {
             ];
 
             if (queryResults.size() > 0) {
-
                 for (AggregateResult qr: queryResults) {
-                    Invoice__c tempInvoice = new Invoice__c();
-
                     system.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('Invoice__c')
                             + '[Invoice Balance]: ' + qr.get('sumBalances'));
-                    tempInvoice.Id = (Id) qr.get('Invoice__c');
 
                     if ((Decimal) qr.get('sumBalances') != 0 || (Decimal) qr.get('sumBalances') != null) {
-                        tempInvoice.Invoice_Balance__c = (Decimal) qr.get('sumBalances');
-                    } else {
-                        tempInvoice.Invoice_Balance__c = 0.00;
+                        // Update the Invoice Balance field directly within the map, else the balance will remain 0.00
+                        invoicesToUpdate.get((Id) qr.get('Invoice__c')).Invoice_Balance__c = (Decimal) qr.get('sumBalances');
                     }
-
-                    invoicesToUpdate.put(tempInvoice.Id, tempInvoice);
-                }
-
-                // Loop through invoice ids from charge group and see if any are missing
-                // If so, set the invoice balance to 0 and then add to a list
-                for (Id invoiceId: chargeGroupInvoiceIds) {
-                    if (!invoicesToUpdate.containsKey(invoiceId)) {
-                        Invoice__c tempInvoice = new Invoice__c();
-
-                        tempInvoice.Id = invoiceId;
-                        tempInvoice.Invoice_Balance__c = 0.00;
-
-                        invoicesToUpdate.put(tempInvoice.Id, tempInvoice);
-                    }
-                }
-
-            } else {
-                // If query results are 0, then update invoice balance to 0 that for Ids passed into the method
-                for (Id invoiceId: chargeGroupInvoiceIds) {
-                    Invoice__c tempInvoice = new Invoice__c();
-
-                    tempInvoice.Id = invoiceId;
-                    tempInvoice.Invoice_Balance__c = 0.00;
-
-                    invoicesToUpdate.put(tempInvoice.Id, tempInvoice);
                 }
             }
+
+            update invoicesToUpdate.values();
         }
     }
 }

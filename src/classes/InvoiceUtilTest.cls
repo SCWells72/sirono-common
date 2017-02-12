@@ -27,10 +27,20 @@ public class InvoiceUtilTest {
             Charge_Group__c testChargeGroup = TestUtility.generateChargeGroup(testGuarantor.Id, testPatient.Id, i, null);
             testChargeGroup.Account_Sub_Status__c = statusList[i];
             testChargeGroup.Invoice__c = testInvoice.Id;
+            testChargeGroup.Active__c = TRUE;
 
             testChargeGroupList.add(testChargeGroup);
         }
         insert testChargeGroupList;
+
+        List<Transaction__c> testTransactionsList = new List<Transaction__c>();
+        for (Charge_Group__c cg: testChargeGroupList) {
+            for (Integer i = 0; i < 5; i++) {
+                Transaction__c tempTransaction = TestUtility.generateTransaction(cg, TestUtility.generateRandomCurrency(), 'service');
+                testTransactionsList.add(tempTransaction);
+            }
+        }
+        insert testTransactionsList;
 
     }
 
@@ -38,15 +48,60 @@ public class InvoiceUtilTest {
     public static void checkInvoiceIndexValue() {
         Test.startTest();
 
-        Invoice__c invoiceIndexValueCheck = [
+        Invoice__c inv = [
                 SELECT Id, Invoice_Status_Index__c
                 FROM Invoice__c
                 LIMIT 1
         ];
 
+        Decimal maxInvoiceStatusIndex = inv.Invoice_Status_Index__c;
+
+        Charge_Group__c cg = [
+                SELECT Id, Sub_Status_Index__c
+                FROM Charge_Group__c
+                ORDER BY Sub_Status_Index__c DESC
+                LIMIT 1
+        ];
+
+        Decimal maxIndexFromChargeGroup = cg.Sub_Status_Index__c;
+
         Test.stopTest();
 
-        system.assertEquals(9, invoiceIndexValueCheck.Invoice_Status_Index__c);
+        system.assertEquals(maxIndexFromChargeGroup, maxInvoiceStatusIndex);
+    }
+
+    @isTest
+    public static void invoiceIndexWithNoChargeGroupsTest() {
+        Test.startTest();
+
+        Invoice__c inv = [
+                SELECT Id, Invoice_Status_Index__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        Decimal originalIndexValue = inv.Invoice_Status_Index__c;
+
+        List<Charge_Group__c> deleteChargeGroups = [
+                SELECT Id
+                FROM Charge_Group__c
+                WHERE Invoice__c = :inv.Id
+        ];
+
+        delete deleteChargeGroups;
+
+        Invoice__c updatedInvoice = [
+                SELECT Id, Invoice_Status_Index__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        Decimal updatedIndexValue = updatedInvoice.Invoice_Status_Index__c;
+
+        test.stopTest();
+
+        System.assertNotEquals(originalIndexValue, updatedIndexValue);
+        System.assertEquals(0, updatedIndexValue);
     }
 
     @isTest
@@ -130,5 +185,99 @@ public class InvoiceUtilTest {
         Test.stopTest();
 
         System.assertEquals(null, invoiceList[0].All_Substatus__c);
+    }
+
+    @isTest
+    public static void initialInvoiceBalanceTest() {
+        Test.startTest();
+
+        Invoice__c inv = [
+                SELECT Id, Invoice_Balance__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        AggregateResult[] cgBalanceSum = [
+                SELECT SUM(Balance__c) balanceSum
+                FROM Charge_Group__c
+                WHERE Invoice__c = :inv.Id
+                GROUP BY Invoice__c
+        ];
+
+        Decimal sumChargeGroupBalance;
+        for (AggregateResult ar: cgBalanceSum) {
+            sumChargeGroupBalance = (Decimal) ar.get('balanceSum');
+        }
+
+        Test.stopTest();
+
+        System.assertNotEquals(null, inv.Invoice_Balance__c);
+        System.assertEquals(sumChargeGroupBalance, inv.Invoice_Balance__c);
+    }
+
+    @isTest
+    public static void invoiceBalanceCheckWithDeletedChargeGroup() {
+        Test.startTest();
+
+        Invoice__c inv = [
+                SELECT Id, Invoice_Balance__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        Decimal originalBalance = inv.Invoice_Balance__c;
+
+        Charge_Group__c deleteChargeGroup = [
+                SELECT Id
+                FROM Charge_Group__c
+                LIMIT 1
+        ];
+
+        delete deleteChargeGroup;
+
+        Invoice__c updatedInv = [
+                SELECT Id, Invoice_Balance__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        Decimal updatedBalance = updatedInv.Invoice_Balance__c;
+
+        Test.stopTest();
+
+        System.assertNotEquals(originalBalance, updatedBalance);
+    }
+
+    @isTest
+    public static void invoiceBalanceWithNoChargeGroups() {
+        test.startTest();
+
+        Invoice__c inv = [
+                SELECT Id, Invoice_Balance__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        Decimal originalBalance = inv.Invoice_Balance__c;
+
+        List<Charge_Group__c> deleteAllChargeGroups = [
+                SELECT Id
+                FROM Charge_Group__c
+        ];
+
+        delete deleteAllChargeGroups;
+
+        Invoice__c updatedInv = [
+                SELECT Id, Invoice_Balance__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        Decimal updatedBalance = updatedInv.Invoice_Balance__c;
+
+        test.stopTest();
+
+        System.assertNotEquals(originalBalance, updatedBalance);
+        System.assertEquals(0.00, updatedBalance);
     }
 }
