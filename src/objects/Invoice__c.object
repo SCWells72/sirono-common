@@ -21,10 +21,6 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -51,7 +47,7 @@
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableEnhancedLookup>true</enableEnhancedLookup>
-    <enableFeeds>false</enableFeeds>
+    <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>
     <enableReports>true</enableReports>
     <enableSearch>true</enableSearch>
@@ -63,6 +59,7 @@
         <externalId>false</externalId>
         <label>All Substatus</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>TextArea</type>
@@ -73,6 +70,7 @@
         <description>Deactivated Charge Groups</description>
         <externalId>false</externalId>
         <label>Deactivated Charge Groups</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -99,6 +97,7 @@ TEXT(YEAR(Invoice_Date__c))</formula>
         <externalId>false</externalId>
         <label>Due Date</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -122,6 +121,7 @@ TEXT(YEAR(Invoice_Date__c))</formula>
         <relationshipName>Guarantor</relationshipName>
         <relationshipOrder>0</relationshipOrder>
         <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>MasterDetail</type>
@@ -143,12 +143,12 @@ TEXT(YEAR(Invoice_Date__c))</formula>
     </fields>
     <fields>
         <fullName>Invoice_Balance__c</fullName>
-        <defaultValue>0.00</defaultValue>
         <externalId>false</externalId>
         <label>Invoice Balance</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -159,6 +159,7 @@ TEXT(YEAR(Invoice_Date__c))</formula>
         <externalId>false</externalId>
         <label>Invoice Date</label>
         <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -170,6 +171,7 @@ TEXT(YEAR(Invoice_Date__c))</formula>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -178,7 +180,8 @@ TEXT(YEAR(Invoice_Date__c))</formula>
     <fields>
         <fullName>Invoice_Status__c</fullName>
         <externalId>false</externalId>
-        <formula>CASE(Invoice_Status_Index__c,
+        <formula>IF(AND(Invoice_Balance__c &lt;&gt; NULL, Invoice_Balance__c ==0), &quot;Paid&quot;,
+CASE(Invoice_Status_Index__c,
 9, &quot;Delinquent&quot;,
 8, &quot;Overdue&quot;,
 7, &quot;Due&quot;,
@@ -189,7 +192,7 @@ TEXT(YEAR(Invoice_Date__c))</formula>
 2, &quot;Unknown&quot;,
 1, &quot;Invoice Voided&quot;,
 0, &quot;Invoice Voided&quot;,
-&quot;Error&quot;)</formula>
+&quot;Error&quot;))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Invoice Status</label>
         <required>false</required>
@@ -201,7 +204,7 @@ TEXT(YEAR(Invoice_Date__c))</formula>
     <fields>
         <fullName>Partial_Payment_Plan__c</fullName>
         <externalId>false</externalId>
-        <formula>And(Invoice_Status_Index__c &lt;&gt; 6,CONTAINS(All_Substatus__c,&quot;Payment&quot;))</formula>
+        <formula>And(Invoice_Status_Index__c &lt;&gt; 4,CONTAINS(All_Substatus__c,&quot;Payment&quot;))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Partial Payment Plan</label>
         <trackHistory>false</trackHistory>
@@ -227,6 +230,7 @@ TEXT(YEAR(Invoice_Date__c))</formula>
         <relationshipLabel>Invoices</relationshipLabel>
         <relationshipName>Invoices</relationshipName>
         <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -239,6 +243,7 @@ TEXT(YEAR(Invoice_Date__c))</formula>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -257,6 +262,7 @@ TEXT(YEAR(Invoice_Date__c))</formula>
     </listViews>
     <nameField>
         <label>Name</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Text</type>
     </nameField>
