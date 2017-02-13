@@ -178,7 +178,8 @@ TEXT(YEAR(Invoice_Date__c))</formula>
     <fields>
         <fullName>Invoice_Status__c</fullName>
         <externalId>false</externalId>
-        <formula>CASE(Invoice_Status_Index__c,
+        <formula>IF(AND(Invoice_Balance__c &lt;&gt; NULL, Invoice_Balance__c ==0), &quot;Paid&quot;,
+CASE(Invoice_Status_Index__c,
 9, &quot;Delinquent&quot;,
 8, &quot;Overdue&quot;,
 7, &quot;Due&quot;,
@@ -189,7 +190,7 @@ TEXT(YEAR(Invoice_Date__c))</formula>
 2, &quot;Unknown&quot;,
 1, &quot;Invoice Voided&quot;,
 0, &quot;Invoice Voided&quot;,
-&quot;Error&quot;)</formula>
+&quot;Error&quot;))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Invoice Status</label>
         <required>false</required>
