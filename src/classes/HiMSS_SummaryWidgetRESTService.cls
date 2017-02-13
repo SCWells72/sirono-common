@@ -15,6 +15,10 @@ global without sharing class HiMSS_SummaryWidgetRESTService {
     global static void getGuarantor() {
     	RestRequest req = RestContext.request;
     	RestResponse res = RestContext.response;
+    	if (res == null) {
+            res = new RestResponse();
+            RestContext.response = res;
+        }
 
     	String firstName = req.params.get('firstName');
     	String lastName = req.params.get('lastName');
@@ -23,12 +27,7 @@ global without sharing class HiMSS_SummaryWidgetRESTService {
     		Guarantor portalGuarantor = HiMSS_SummaryWidgetRESTService.getPortalGuarantor(firstName, lastName);
 			if (portalGuarantor != null) {
 				res.responseBody = Blob.valueOf(JSON.serialize(portalGuarantor));	
-			} else {
-				// return null;
 			}
-			
-    	} else {
-    		// return null;
     	}
     }
 

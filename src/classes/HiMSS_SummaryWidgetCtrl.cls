@@ -21,7 +21,6 @@ public with sharing class HiMSS_SummaryWidgetCtrl {
 		@AuraEnabled public Guarantor.GuarantorContact 	contact 				{get;set;}
 		@AuraEnabled public Guarantor.Invoice 			invoiceOverdue 			{get;set;}
 		@AuraEnabled public String 						messageInfo 			{get;set;}
-		@AuraEnabled public String 						pastDueMessage 			{get;set;}
 		@AuraEnabled public Guarantor.PaymentPlan 		paymentPlan 			{get;set;}
 		@AuraEnabled public Integer 					newEstimatesCount	 	{get;set;}
 		@AuraEnabled public Boolean 					version2 				{get;set;}
