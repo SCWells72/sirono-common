@@ -34,7 +34,8 @@
 	},
 	editCreditCard: function(cmp, e, hlpr) {
 		e.stopPropagation();
-
+		//Temporary solution
+		cmp.set('v.CreditCard', hlpr.getDefaultCard());
 		$A.util.toggleClass(cmp.find('editPaymentMethod'), 'slds-hide');
 		$A.util.toggleClass(cmp.find('editCreditCard'), 'slds-hide');
 		return false;
@@ -54,6 +55,41 @@
 		$A.util.toggleClass(cmp.find('editPaymentMethod'), 'slds-hide');
 		$A.util.toggleClass(cmp.find('editCreditCard'), 'slds-hide');
 	},
+
+	setupPlan: function(cmp, e, hlpr) {
+		console.log('setUpPlan');
+		cmp.set('v.hasError', false);
+		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
+		console.log('PRI', PaymentRequestInfo);
+		var CreditCard = cmp.get('v.CreditCard');
+		console.log('CC:', CreditCard);
+		PaymentRequestInfo.creditCard = CreditCard;
+
+		var createPlan = cmp.get('c.addToPaymentPlan');
+		createPlan.setCallback(this, function(response) {
+			if (response.getState() === 'SUCCESS') {
+				var appEvent = $A.get("e.c:switchTab");
+				appEvent.setParams({ "tabName" : 'CreatePaymentPlan'});
+				appEvent.fire();
+				
+				setTimeout(function() { 
+					var plan = response.getReturnValue();
+					cmp.getEvent('updatePaymentMethod').fire();
+					return;
+				}, 2500);
+
+				
+			}
+
+			var errors = response.getError();
+			console.log('errors', errors);
+			if (errors) {
+				hlpr.showError(cmp, errors? errors[0].message : 'Error has been occurred');
+			}
+		});
+		$A.enqueueAction(createPlan);
+	},
+
 	updatePaymentMethod: function(cmp, e, hlpr) {
 		cmp.set('v.hasError', false);
 		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
@@ -70,7 +106,8 @@
 				var plan = response.getReturnValue();
 				console.log('responseresponse: ' , plan);
 				cmp.getEvent('updatePaymentMethod').setParams({
-					paymentPlan: plan
+					paymentPlan: plan,
+					isEditTerms: true
 				}).fire();
 				return;
 			}

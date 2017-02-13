@@ -22,6 +22,8 @@
                                 <div aura:id="sldsjsPopoverAction" class="sldsjs-popover-target slds-dropdown slds-dropdown--left slds-nubbin--top-left slds-hide">
                                     <ul class="slds-dropdown__list" role="menu">
                                         <li class="slds-dropdown__item" role="presentation"><a href="javascript:void(0);" role="menuitem" tabindex="0"><span class="slds-truncate">My Account</span></a></li>
+                                        <li class="slds-dropdown__item" role="presentation"><a href="javascript:void(0);" role="menuitem" tabindex="0"><span class="slds-truncate">Update Personal Information</span></a></li>
+                                        <li class="slds-dropdown__item" role="presentation"><a href="javascript:void(0);" role="menuitem" tabindex="0"><span class="slds-truncate">Update Insurance Information</span></a></li>
                                         <li class="slds-dropdown__item" role="presentation"><a href="/" role="menuitem" tabindex="0"><span class="slds-truncate">Logout</span></a></li>
                                     </ul>
                                 </div>
@@ -48,8 +50,8 @@
                                         </p>      
                                         <div class="grid popup_drid">
                                             <div class="col left" style="cursor:default;">
-                                                <div class="value">888.545.6666 <span>Toll Free</span></div>
-                                                <div class="value">423.290.7499</div>
+                                                <div class="value"><span>Toll Free</span></div>
+                                                <div class="value">(925)-231-2502</div>
                                             </div>
                                             <div class="col right">
                                                 <div class="title">Monday - Friday</div>

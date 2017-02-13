@@ -84,3 +84,9 @@
 .THIS .no-link {
     display: none;
 }
+
+.THIS .value span {
+    font-size: 2.5rem;
+    position: absolute;
+    top: 3px;
+}

@@ -2,8 +2,11 @@
 	<aura:attribute name="PlanInfoRecord" 		type="Object"		access="GLOBAL"	/>
 	<aura:attribute name="Payment" 				type="Payment__c"	access="GLOBAL"	/>
 	<aura:attribute name="isPaymentCompleted" 	type="Boolean"		access="GLOBAL" default="false"	/>
+	<aura:attribute name="isEstimatePayment" 	type="Boolean"		access="GLOBAL" default="false"	/>
     <aura:attribute name="trNumber"             type="String"       access="GLOBAL" />
     <aura:attribute name="trAmount"             type="String"       access="GLOBAL" />
+    <aura:attribute name="isOnPaymentPage"		type="String"       access="GLOBAL" default="true"/>
+    <aura:attribute name="isEditTerms"          type="Boolean"      access="GLOBAL" default="false"/>
     <aura:registerEvent name="toggleSuccessMessageEvent" type="c:ToggleSuccessMessageEvent"/>
 
 	<div class="payment-plan-success" aura:id="successMessage">
@@ -14,8 +17,9 @@
 				</div>
 			</div>
 			<div class="col">
-				<h2 class="{!v.isPaymentCompleted ? 'slds-hide' : ''}">Your Payment Plan is Set!</h2>
+				<h2 class="{!v.isPaymentCompleted ? 'slds-hide' : (v.isEditTerms ? 'slds-hide' : '')}">Your Payment Plan is Set!</h2>
 				<h2 class="{!v.isPaymentCompleted ? '' : 'slds-hide'}">Thank you for your payment!</h2>
+                <h2 class="{!v.isEditTerms ? '' : 'slds-hide'}">Payment Plan Updated!</h2>
 			</div>
 		</div>
 		<div class="{!v.isPaymentCompleted ? 'slds-hide' : ''}">
@@ -23,20 +27,21 @@
 			<p class="title"><em>Your <ui:outputText value="{!v.PlanInfoRecord.Payment_Method__r.Card_Type__c}"/> ending in <ui:outputText value="{!v.PlanInfoRecord.Payment_Method__r.Last_4__c}"/> will be charged <ui:outputCurrency value="{!v.PlanInfoRecord.Installment_Amount__c}"/> on <ui:outputDate value="{!v.PlanInfoRecord.NextPaymentDate__c}" format="MMMM d, YYYY"/> and on day <ui:outputText value="{!v.PlanInfoRecord.Execute_on_Day__c}"/> of each month thereafter until paid in full.</em></p>
 		</div>
 
-		<div class="{!v.isPaymentCompleted ? '' : 'slds-hide'}">
-			<p>Your transaction number is ({!v.trNumber}). A payment of ({!v.trAmount}) was applied to your account and you will receive a printable receipt in your email.</p>
+		<div class="{!and(v.isPaymentCompleted, v.isOnPaymentPage) ? '' : 'slds-hide'}">
+			<p>Your transaction number is {!v.trNumber}. A payment of {!v.trAmount} was applied to your account and you will receive a printable receipt in your email.</p>
 			<div class="slds-align--absolute-center">
 				<button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" onclick="{!c.returnToAccountSummary}">
 				  	<span class="slds-text-not-selected">
 				    	Return to Account Summary
 					</span>
 				</button>
-
-				<button class="slds-button slds-button--neutral slds-not-selected slds-button--brand" aria-live="assertive" onclick="{!c.makeAdditionalPayment}">
-				  	<span class="slds-text-not-selected">
-				    	Make Additional Payment
-					</span>
-				</button>
+                <div class="{!v.isEstimatePayment ? 'slds-hide' : ''}">
+				    <button class="slds-button slds-button--neutral slds-not-selected slds-button--brand" aria-live="assertive" onclick="{!c.makeAdditionalPayment}">
+				  	    <span class="slds-text-not-selected">
+				    	    Make Additional Payment
+					    </span>
+				    </button>
+                </div>
 			</div>
 		</div>
 	</div>

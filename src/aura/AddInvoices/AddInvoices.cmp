@@ -1,0 +1,101 @@
+<aura:component controller="PaymentTabsController">
+	<aura:attribute name="PaymentInfo" type="Object" access="public" default="{}" />
+	<aura:attribute name="PaymentRequestInfo" type="Object" access="public" default="{}" />
+
+    <aura:attribute name="PaymentInfoTemp" type="Object" access="public" default="{}" />
+    <aura:attribute name="PaymentRequestInfoTemp" type="Object" access="public" default="{}"/>
+	<aura:attribute name="dayOfMonthSelection" type="Integer[]" access="public"/>
+	<!-- plan Slider --> 
+	<aura:attribute name="minAmount" type="Decimal" access="private" default="0"/>
+	<aura:attribute name="sliderValue" type="String" access="private" default="0"/>
+	<aura:attribute name="sliderValuePart" type="String" access="private" default="00"/>
+	<!-- plan Slider END -->
+	<aura:attribute name="hasError" type="Boolean" access="public" default="false"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.doCmpInit}"/>
+	<aura:handler name="change" value="{!v.PaymentRequestInfo.planValue}" action="{!c.doCalcView}"/>
+	<aura:handler name="paymentMethodInit" event="c:CancelActionEvent" action="{!c.cancelEditCardAction}"/>
+	<aura:handler name="paymentPlanCreated" event="c:PaymentPlanCreatedEvent" action="{!c.resetCmp}"/>
+    <aura:handler name="change" value="{!v.PaymentInfo}" action="{!c.fillTempVariables}" />
+
+    <aura:registerEvent name="initPlanInfo" type="c:CancelActionEvent"/>
+	<aura:registerEvent name="updatePaymentTerms" type="c:UpdatePaymentTermsEvent"/>
+
+	<aura:if isTrue="{!v.PaymentInfo.hasPaymentPlans}">
+		<div class="intro">
+			<h2 class="txt_h2">Add Invoices to Payment Plan
+			</h2>
+            <label class="slds-form-element__label"><strong>Payment Plan Balance:</strong></label>
+            <div class="value">
+                <ui:outputcurrency value="{!v.PaymentRequestInfo.totalAmount}" />
+            </div>
+			<c:EditPlanInfo PaymentInfo="{!v.PaymentInfoTemp}"/>
+		</div>
+	</aura:if>
+	<div aura:id="editTerms" class="set-amount">
+		<aura:if isTrue="{!v.hasError}">
+			<c:SupportMessage aura:id="notificationCmp"/>
+		</aura:if>
+        <label class="slds-form-element__label">Set new payment amount and time</label>
+		<label class="slds-form-element__label"><strong>New</strong> Payment Plan Balance:</label>
+		<div class="value">
+			<ui:outputCurrency value="{!v.PaymentRequestInfo.totalAmount}" />
+		</div>
+
+		<div class="payment-slider">
+			<div class="grid payment-numbers">
+				<div class="col amount">{!v.sliderValue}<span>.{!v.sliderValuePart}</span></div>
+				<div class="col over slds-align-bottom">over</div>
+				<div class="col months">{!v.PaymentRequestInfo.totalInstallments} <span>Months</span>
+				</div>
+			</div>
+			<div class="info">Adjust your monthly payments to estimate your payment over fewer months.</div>
+			<input type="range" min="{!v.minAmount}" max="{!v.PaymentRequestInfo.totalAmount}" step="0.01" value="{!v.PaymentRequestInfo.planValue}" class="payment-slider-circle" onchange="{!c.changeSlider}"/>
+			<div class="grid high-low range_slider">
+				<div class="col">
+					<ui:outputcurrency value="{!v.minAmount}"/>
+				</div>
+				<div class="col align-right">
+					<ui:outputCurrency value="{!v.PaymentRequestInfo.totalAmount}"/>
+				</div>
+			</div>
+		</div>
+		<label class="slds-form-element__label">Set payment day of month</label><br/>
+		<div class="pay-date grid">
+			<div class="col slds-align-middle">Pay on day </div>
+			<div class="col">
+				<lightning:select name="dayOfMonth" label="Day of month" aura:id="dayOfMonth" value="{!v.PaymentRequestInfo.executeOnDay}" class="payment-plan-day--select">
+					<aura:iteration items="{!v.dayOfMonthSelection}" var="day">
+						<ui:inputSelectOption text="{!day}" label="{!day}"/>
+					</aura:iteration>
+				</lightning:select>
+			</div>
+			<div class="col slds-align-middle">of each month.</div>
+		</div>
+		<div class="float-right slds-p-bottom--large">
+			<aura:if isTrue="false">
+				<button class="slds-button slds-button--neutral" onclick="{!c.cancelAction}">Cancel</button>
+				<aura:if isTrue="{!not(v.hasError)}">
+					<button class="slds-button slds-button--brand pp-step-two-button" onclick="{!c.updatePaymenTerms}">Update Terms</button>
+					<aura:set attribute="else">
+						<button class="slds-button slds-button--brand pp-step-two-button" disabled="disabled">Update Terms</button>
+					</aura:set>
+				</aura:if>
+				<aura:set attribute="else">
+					<aura:if isTrue="{!not(v.hasError)}">
+						<button class="slds-button slds-button--brand pp-step-two-button" onclick="{!c.createPaymenTerms}">Payment Method</button>
+						<aura:set attribute="else">
+							<button class="slds-button slds-button--brand pp-step-two-button" disabled="disabled">Enter Payment Details</button>
+						</aura:set>
+					</aura:if>
+				</aura:set>
+			</aura:if>
+		</div>
+	</div>
+
+	<aura:if isTrue="true">
+		<div aura:id="editCreditCard" class="slds-p-horizontal--large border-top slds-hide">
+			<c:EditPaymentMethod updatePlan="true" PaymentInfo="{!v.PaymentInfo}" PaymentRequestInfo="{!v.PaymentRequestInfo}"/>
+		</div>
+	</aura:if>
+</aura:component>

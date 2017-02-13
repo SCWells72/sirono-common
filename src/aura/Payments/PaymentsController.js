@@ -1,22 +1,25 @@
 ({
 	doInit: function (component, event, helper) {
-		console.log('init payments');
+		console.log('payments comp');
 		var appEvent = $A.get("e.c:payCall");
         appEvent.fire();
 	},
     payCall: function(component, event, helper) {
-		console.log("set params payments");
 		var invoiceId = event.getParam('invoiceId');
 		var activeTab = event.getParam('activeTab');
 		var isEstimate = event.getParam('isEstimateRecord');
-		console.log('active', activeTab);
-		console.log('invoice', invoiceId);
-		console.log('isEstimate', isEstimate);
+		var filter = event.getParam('filter');
+		console.log('groupFilter', filter);
+		var hideCreatePaymentPlanTab = event.getParam('hideCreatePaymentPlanTab');
+		activeTab = hideCreatePaymentPlanTab ? 'MakeAPayment' : activeTab;
+		filter = filter == null ? 'Unpaid' : filter;
 		$A.createComponent(
 			"c:PatientInvoiceSelection",
 			{
 				"invoiceId" : invoiceId,
-				"isEstimateType": isEstimate
+				"isEstimateType": isEstimate,
+				"groupFilter": filter,
+				"selectedTab" : activeTab
 			},
 			function(newComponent, status, errorMessage) {
 				if (status === "SUCCESS") {
@@ -34,7 +37,9 @@
 		$A.createComponent(
 			"c:PaymentTabs",
 			{
-				"activeTab" : activeTab
+				"invoiceId" : invoiceId,
+				"activeTab" : activeTab,
+				"hideCreatePaymentPlanTab" : hideCreatePaymentPlanTab
 			},
 			function(newComponent, status, errorMessage) {
 				if (status === "SUCCESS") {

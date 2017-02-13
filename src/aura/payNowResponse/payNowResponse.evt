@@ -1,5 +1,7 @@
 <aura:event type="APPLICATION" description="Event to pass variables">
-    <aura:attribute name='invoiceId' type="String"/>
-    <aura:attribute name='activeTab' type="String"/>
-    <aura:attribute name='isEstimateRecord' type="Boolean" default="false"/>
+    <aura:attribute name='invoiceId' 					type="String"	/>
+    <aura:attribute name='activeTab' 					type="String"	/>
+    <aura:attribute name='filter'    					type="String"	/>
+    <aura:attribute name='hideCreatePaymentPlanTab'    	type="Boolean"	default="false"/>
+    <aura:attribute name='isEstimateRecord' 			type="Boolean" 	default="false"/>
 </aura:event>

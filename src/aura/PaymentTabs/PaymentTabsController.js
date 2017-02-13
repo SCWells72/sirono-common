@@ -1,7 +1,9 @@
 ({
 	activateTab : function (component, event, helper) {
 		var tabToActivate = event.target.id;
+		console.log(tabToActivate);
 		var activeTab = component.get("v.activeTab");
+		console.log(activeTab);
 		if (activeTab != tabToActivate) {
 			if (activeTab) {
 				$A.util.addClass(component.find(activeTab), 'display_false');

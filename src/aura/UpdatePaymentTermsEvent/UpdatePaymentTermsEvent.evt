@@ -1,3 +1,4 @@
 <aura:event type="COMPONENT" description="Event template">
 	<aura:attribute name="paymentPlan" type="Object" access="GLOBAL"/>
+    <aura:attribute name="isEditTerms" type="Boolean" access="GLOBAL" default="true"/>
 </aura:event>

@@ -1,20 +1,20 @@
 ({
 	doInit : function (component, event, helper) {
-		helper.getAllEstimates(component);
+		helper.init(component);
 	},
-    	bodyStatus: function (component, event, helper) {
-        var status = event.getParam("collapse");
-        var alert = event.getParam("alert");
-        var scroll = component.find('payment_scroll');
-        if(status == "true"){
-            $A.util.removeClass(scroll,"small");
-        }
-        if(status == "false"){
-            $A.util.addClass(scroll,"small");
-        }
-        if(alert == "true"){
-            $A.util.removeClass(scroll,"alert");
-        }
+	bodyStatus: function (component, event, helper) {
+		var status = event.getParam("collapse");
+		var alert = event.getParam("alert");
+		var scroll = component.find('payment_scroll');
+		if(status == "true"){
+			$A.util.removeClass(scroll,"small");
+		}
+		if(status == "false"){
+			$A.util.addClass(scroll,"small");
+		}
+		if(alert == "true"){
+			$A.util.removeClass(scroll,"alert");
+		}
 	},
 	activateSelect : function(component, event, helper) {
 		var blockSelect = component.find('blockSelect'); 
@@ -41,7 +41,11 @@
 		}
 		patientLabel = patientLabel.substring(0, patientLabel.length - 2);
 		if(selectCounter != patientSetOld.length) {
-			component.set('v.patientLabel', patientLabel);
+			if(selectCounter == 0) {
+				component.set('v.patientLabel', 'Not Selected');
+			} else {
+				component.set('v.patientLabel', patientLabel);
+			}
 		} else {
 			component.set('v.patientLabel', 'All Patients');
 		}
@@ -55,7 +59,6 @@
 				event.target.id == 'unpaidEstimates' ? 'Unpaid' : 'Paid';
 		console.log('filterValue', filterValue);
 		if(component.get('v.groupFilter') != filterValue){
-			component.set('v.patientSet', undefined);
             component.set('v.groupFilter', filterValue);
             helper.getAllEstimates(component);	
         } 

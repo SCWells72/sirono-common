@@ -21,7 +21,7 @@
         </td>
         <td role="gridcell" data-label="Download">
             <div class="slds-truncate slds-align-middle" title="Download">
-                <a href="{!v.row.Url}" download = "{!v.row.Name}">
+                <a href="{!v.row.doc.Url}" download = "{!v.row.doc.Name}">
                     <aura:if isTrue="{!(v.row.doc.ContentType == 'application/pdf')}">
                         <span class="slds-icon_container">
                             <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/doctype-sprite/svg/symbols.svg#pdf'}" category="standard" size="medium" name="pdf" />

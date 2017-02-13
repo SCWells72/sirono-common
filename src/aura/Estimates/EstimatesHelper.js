@@ -1,14 +1,20 @@
 ({
 	getAllEstimates : function(component) {
+	console.log('Init Estimate');
 		var action = component.get("c.getAllEstimates");
 		var additionalFilter = '';
 		
 		var selectedPatients = component.get('v.patientSet');
-		if(selectedPatients != null) {
+		console.log('pat', selectedPatients);
+		if(selectedPatients != null && selectedPatients.length > 0) {
 			for(var i = 0; i < selectedPatients.length; i++) {
 				if(selectedPatients[i].isSelected == true) {
 					additionalFilter += "'" + selectedPatients[i].id + "',";
 				}
+			}
+			
+			if(additionalFilter == '') {
+				additionalFilter = 'null';
 			}
 		}
 		
@@ -22,19 +28,16 @@
 			if (state === "SUCCESS") {
 				var listOfEstimates = response.getReturnValue();
 				console.log('listOfEstimates', listOfEstimates);
+				console.log('component.get("v.groupFilter")', component.get("v.groupFilter"));
+				console.log('listOfEstimates.length', listOfEstimates.length);
 
-				if (component.get("v.groupFilter") == 'All') {
-					if (listOfEstimates.length > 0) {
+					if (listOfEstimates.length > 0 || selectedPatients.length > 0) {
 						$A.util.removeClass(component.find('main-body'), 'display-none');
 						$A.util.removeClass(component.find('estimate_details'), 'display-none');
 					} else {
+						if(selectedPatients == null || selectedPatients.length == 0)
 						$A.util.removeClass(component.find('empty-estimates'), 'display-none');
 					}
-				}
-
-				if(additionalFilter == '') {
-					this.buildPatientList(component, listOfEstimates, selectedPatients);
-				}
 				this.createTiles(component,listOfEstimates);
 			} else if (state === "ERROR") {
 				var errors = response.getError();
@@ -51,23 +54,41 @@
         $A.enqueueAction(action);
 	},
 
-	buildPatientList : function(component, listOfEstimates, selectedPatients) {
+	init: function(component) {
+		var action = component.get("c.getPatientList");
+		action.setCallback(this, function(response) {
+			var state = response.getState();
+			if (state === "SUCCESS") {
+				var patientList = response.getReturnValue();
+				this.buildPatientList(component, patientList);
+				this.getAllEstimates(component);
+			} else if (state === "ERROR") {
+				var errors = response.getError();
+				if (errors) {
+					if (errors[0] && errors[0].message) {
+						console.log("Error message: " + errors[0].message);
+					}
+				} else {
+					console.log("Unknown error");
+				}
+			}
+		});
+		$A.enqueueAction(action);
+	},
+
+	buildPatientList : function(component, patientListDB) {
 		//init patient list
 		var patientList = [];
 		var patientSet  = new Set();
-		for (var i = 0; i < listOfEstimates.length; i++) {
-			if(!patientSet.has(listOfEstimates[i].singleEncounter.Patient__r.Id)) {
-				var patientMRN = '';
-				if(listOfEstimates[i].singleEncounter.Patient__r.Medical_Record_Number__c != undefined && listOfEstimates[i].singleEncounter.Patient__r.Medical_Record_Number__c != null) {
-					patientMRN = ' (MRN: ' + listOfEstimates[i].singleEncounter.Patient__r.Medical_Record_Number__c + ')';
-				}
+		for (var i = 0; i < patientListDB.length; i++) {
+			if(!patientSet.has(patientListDB[i].id)) {
 				patientList.push({
-							id : listOfEstimates[i].singleEncounter.Patient__r.Id,
-						  name : listOfEstimates[i].singleEncounter.Patient__r.Name,
-					isSelected : true,
-					       MRN : patientMRN
+							id : patientListDB[i].id,
+						  name : patientListDB[i].name,
+					isSelected : patientListDB[i].isSelected,
+					       MRN : patientListDB[i].MRN
 				});
-				patientSet.add(listOfEstimates[i].singleEncounter.Patient__r.Id);
+				patientSet.add(patientListDB[i].id);
 			}
 		}
 		component.set('v.patientSet', patientList);

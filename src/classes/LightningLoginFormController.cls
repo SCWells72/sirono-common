@@ -9,10 +9,10 @@ global class LightningLoginFormController {
         try{
             ApexPages.PageReference lgn = Site.login(username, password, startUrl);
             aura.redirect(lgn);
-            return null;
+            return lgn.getUrl();
         }
         catch (Exception ex) {
-            return ex.getMessage();            
+            return null;            
         }
     }
     

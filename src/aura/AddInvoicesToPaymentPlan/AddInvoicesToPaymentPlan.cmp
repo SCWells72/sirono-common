@@ -1,14 +1,15 @@
 <aura:component >
 	<aura:attribute name="PaymentInfo" type="Object" access="public" default="{}" />
+    <aura:attribute name="addInvoiceShow" type="Boolean" />
 
 	<h2>Invoices Not on Payment Plan</h2>
 	<aura:if isTrue="{!v.PaymentInfo.paymentPlan.Plan_Type__c == 'Manual'}">
-		<p class="title">You have <strong>{!v.PaymentInfo.guarantor.Non_Payment_Plan_Invoices__c} invoice</strong> not completely enrolled on your payment plan. Please call the customer service center ###-###-#### to add these invoices.</p>
+		<p class="title">You have <strong>{!v.PaymentInfo.guarantor.Non_Payment_Plan_Invoices__c} invoice</strong> not completely enrolled on your payment plan. Please call the customer service center (925)-231-2502 to add these invoices.</p>
 	</aura:if>
 	<aura:if isTrue="{!v.PaymentInfo.paymentPlan.Plan_Type__c == 'Automatic'}">
 		<p class="title">You have <strong>{!v.PaymentInfo.guarantor.Non_Payment_Plan_Invoices__c} invoice</strong> that is not on your payment plan. Add that invoice now to keep your account current.</p>
 		<div class="align-center">
-			<button class="slds-button slds-button--brand">Add Invoice(s) to Payment Plan</button>
+			<button class="slds-button slds-button--brand" onclick="{!c.addInvoice}">Add Invoice(s) to Payment Plan</button>
 		</div>
 	</aura:if>
 </aura:component>

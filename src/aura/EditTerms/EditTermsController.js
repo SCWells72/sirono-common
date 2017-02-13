@@ -32,7 +32,8 @@
 			if (response.getState() === 'SUCCESS') {
 				var plan = response.getReturnValue();
 				cmp.getEvent('updatePaymentTerms').setParams({
-					paymentPlan: plan
+					paymentPlan: plan,
+					isEditTerms: true
 				}).fire();
 				return;
 			}

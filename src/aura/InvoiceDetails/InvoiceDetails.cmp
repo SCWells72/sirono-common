@@ -13,30 +13,31 @@
               <header class="grid">
                   <div class="col intro">
                       <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Due'}">
-                          <div class="issue warning">This invoice is due <ui:outputdate value="{!v.invoice.singleInvoice.Due_Date__c}" />. Please pay the balance now to keep your account current.</div>
+                          <div style="padding-bottom: 10px;">This invoice is due <ui:outputdate value="{!v.invoice.singleInvoice.Due_Date__c}" />. Please pay the balance now to keep your account current.</div>
                       </aura:if>
                       <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Overdue'}">
                           <div class="issue warning">This invoice is now overdue. Please pay the balance now to avoid collections.</div>
                       </aura:if>
                       <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'}">
-                          <div class="issue warning">This invoice is now delinquent and will be sent to a collections agency if payment arrangements are not made within the next 30 days. Please pay the balance now.</div>
+                          <div class="issue error">This invoice is now delinquent and will be sent to a collections agency if payment arrangements are not made within 30 days. Please pay the balance now.</div>
                       </aura:if>
                       <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'On Payment Plan'}">
-                          <div style="padding-bottom: 10px;">Your next payment date of <ui:outputcurrency value="{!v.invoice.nextPayment}" /> is due <ui:outputdate format="MMMM d, YYYY" value="{!v.invoice.nextDate}" />.</div>
+                          <div style="padding-bottom: 10px;">Your next payment amount of <ui:outputcurrency value="{!v.invoice.nextPayment}" /> is due <ui:outputdate format="MMMM d, YYYY" value="{!v.invoice.nextDate}" />.</div>
                       </aura:if>
                       <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Invoice Voided'}">
                           <div style="padding-bottom: 10px;">This invoice has changed. Charges were removed from this invoice for review and may appear on a future invoice. No action is required currently.</div>
                       </aura:if>
                       <aura:if isTrue="{!v.invoice.singleInvoice.Partial_Payment_Plan__c}">
-                          <div style="padding-bottom: 10px;">Some charges on this invoice are not fully on your payment plan. Add this invoice to your payment plan to ensure it will be paid in full.</div>
+                          <div style="padding-bottom: 10px;"  class="credit">Some charges on this invoice are not fully on your payment plan. Add this invoice to your payment plan to ensure it will be paid in full.</div>
                       </aura:if>
-                      <aura:if isTrue="{!and((v.invoice.singleInvoice.Invoice_Status__c == 'Due' || v.invoice.singleInvoice.Invoice_Status__c == 'Overdue' || v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), not(v.invoice.singleInvoice.Partial_Payment_Plan__c))}">
+
+                      <aura:if isTrue="{!and((v.invoice.singleInvoice.Invoice_Status__c == 'Due' || v.invoice.singleInvoice.Invoice_Status__c == 'Overdue' || v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), not(v.invoice.singleInvoice.Guarantor__r.Add_to_Payment_Plan__c))}">
                           <div class="title clear"><a onclick="{!c.sendInvoiceNowToHeader}">Pay Now</a> or <a onclick="{!c.sendInvoiceCreateToHeader}">Create Payment Plan</a></div>
                       </aura:if>
                       <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'On Payment Plan'}">
                           <div class="title clear"><a onclick="{!c.sendInvoiceNowToHeader}">Make Additional Payment</a></div>
                       </aura:if>
-                      <aura:if isTrue="{!and((v.invoice.singleInvoice.Invoice_Status__c == 'Due' || v.invoice.singleInvoice.Invoice_Status__c == 'Overdue' || v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), v.invoice.singleInvoice.Partial_Payment_Plan__c)}">
+                      <aura:if isTrue="{!and((v.invoice.singleInvoice.Invoice_Status__c == 'Due' || v.invoice.singleInvoice.Invoice_Status__c == 'Overdue' || v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), v.invoice.singleInvoice.Guarantor__r.Add_to_Payment_Plan__c)}">
                           <div class="title clear"><a onclick="{!c.sendInvoiceNowToHeader}">Pay Now</a> or <a onclick="{!c.sendInvoiceCreateToHeader}">Add to Payment Plan</a></div>
                       </aura:if>
                   </div>
@@ -48,18 +49,28 @@
                 <!---->
                 <aura:iteration items="{!v.invoice.allGroups}" var="group">
                     <div class="invoice-alert">
-                        <span class="status-bubble success"></span> These services were not sent to insurance and are your responsibility.
-                        <div class="float-right view-bill"><a href="#">View Itemized Bill</a></div>
+                        <span class="status-bubble success"></span> 
+                         <aura:if isTrue="{!group.cGroup.Charge_Group_Coverages__r.length > 0}">
+                                
+                                <aura:set attribute="else">
+                                    These services were not sent to insurance and are your responsibility.
+                                </aura:set>
+                                <aura:if isTrue="{!group.validPayer}">
+                                    <aura:iteration items="{!group.cGroup.Charge_Group_Coverages__r}" var="coverage" indexVar="index">
+                                         <aura:if isTrue="{!coverage.Coverage__r.Payor__r != null}">
+                                            {!coverage.Coverage__r.Payor__r.Name}<aura:if isTrue="{!index != (group.cGroup.Charge_Group_Coverages__r.length - 1)}">,&ensp;</aura:if>
+                                         </aura:if>
+                                    
+                                     </aura:iteration>
+                                    have finished processing these charges.
+                                    <aura:set attribute="else">
+                                        Insurance has finished processing these charges.
+                                    </aura:set>
+                                </aura:if>
+                                 
+                            </aura:if>
+                        <div class="float-right view-bill"><a>View Details</a></div>
                     </div>
-                    <aura:if isTrue="{!group.cGroup.Charge_Group_Coverages__r.length > 0}">
-                        <p>
-                            <aura:iteration items="{!group.cGroup.Charge_Group_Coverages__r}" var="coverage" indexVar="index">
-                                {!coverage.Coverage__r.Payor__r.Name}<aura:if isTrue="{!index != (group.cGroup.Charge_Group_Coverages__r.length - 1)}">,</aura:if>
-                            </aura:iteration>
-                            have finished processing these charges.
-                        </p>
-                        <br/>
-                    </aura:if>
                     <div class="invoice-content">
                         <div class="col details">
                             <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_Start_Date__c}" /> - <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_End_Date__c}" />
@@ -75,10 +86,12 @@
                             <h3>Services and Charges</h3>
                             <div class="charge-details">
                                 <aura:iteration items="{!group.services}" var="service">
-                                    <div class="col">{!service.displayName}</div>
-                                    <div class="col align-right">
-                                        <ui:outputcurrency value="{!service.amount}" />
-                                    </div>
+                                    <aura:if isTrue="{!service.amount != 0}">
+                                        <div class="col">{!service.displayName}</div>
+                                        <div class="col align-right">
+                                            <ui:outputcurrency value="{!service.amount}" />
+                                        </div>
+                                    </aura:if>
                                 </aura:iteration>
                                 <div class="col footer">Total Charges</div>
                                 <div class="col footer align-right">
@@ -93,12 +106,12 @@
                                     <div class="col">
                                         {!pa.displayName}
                                     </div>
-                                    <div class="col credit align-right">
+                                    <div class="col align-right">
                                         <ui:outputcurrency value="{!pa.amount}" />
                                     </div>
                                 </aura:iteration>
                                 <div class="col footer">Total Credits</div>
-                                <div class="col footer credit align-right">
+                                <div class="col footer align-right">
                                     <ui:outputcurrency value="{!group.totalCredits}" />
                                 </div>
                             </div>

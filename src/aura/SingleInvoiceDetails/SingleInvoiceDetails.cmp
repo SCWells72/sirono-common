@@ -53,12 +53,29 @@
             </header> 
             <aura:iteration items="{!v.invoice.allGroups}" var="group" > 
                         <div class="invoice-alert"> 
-                            <span class="status-bubble success"></span> These services were not sent to insurance and are your responsibility. 
-                            <div class="float-right view-bill"><a href="#">View Itemized Bill</a></div> 
+                            <span class="status-bubble success"></span> 
+                             <aura:if isTrue="{!group.cGroup.Charge_Group_Coverages__r.length > 0}">
+                                
+                                <aura:set attribute="else">
+                                    These services were not sent to insurance and are your responsibility.
+                                </aura:set>
+                                <aura:if isTrue="{!group.validPayer}">
+                                    <aura:iteration items="{!group.cGroup.Charge_Group_Coverages__r}" var="coverage" indexVar="index">
+                                            <aura:if isTrue="{!coverage.Coverage__r.Payor__r != null}">
+                                            {!coverage.Coverage__r.Payor__r.Name}<aura:if isTrue="{!index != (group.cGroup.Charge_Group_Coverages__r.length - 1)}">,&ensp;</aura:if>
+                                            </aura:if>
+                                    
+                                        </aura:iteration>
+                                    have finished processing these charges.
+                                    <aura:set attribute="else">
+                                        Insurance has finished processing these charges.
+                                    </aura:set>
+                                </aura:if>
+                            </aura:if>
+                            <div class="float-right view-bill"><a>View Details</a></div> 
                         </div> 
                         <div class="invoice-content"> 
-                            <div class="col details"> 
-                                <ui:outputDate value="{!group.cGroup.Sirono_Assigned_Date__c}" /> 
+                            <div class="col details"> <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_Start_Date__c}" /> - <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_End_Date__c}" />
                                 <div>ID Number: {!group.cGroup.External_ID__c}</div> 
                                 <div>Location: {!group.cGroup.Location__r.Name}</div> 
                             </div> 

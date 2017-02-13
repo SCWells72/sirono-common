@@ -1,0 +1,4 @@
+<design:component>
+    <design:attribute name="login" label="Login" description="Login of the guarantor portal." />
+    <design:attribute name="password" label="Password" description="Password of the guarantor portal." />
+</design:component>

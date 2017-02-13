@@ -34,3 +34,10 @@
     text-decoration:underline;
     font-weight:bold;
 }
+.THIS .global-header .nav-main .slds-col.settings .slds-dropdown {
+    left:10px;
+    width: 169px;
+}
+.THIS .slds-truncate {
+    white-space: normal;
+}

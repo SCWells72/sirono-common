@@ -34,7 +34,15 @@
 		var CreditCard = cmp.get('v.CreditCard') || {};
 		var curr_month = date.getMonth() + 1;
 		CreditCard.expirationMonth = curr_month < 10 ? '0' + curr_month: '' + curr_month;
+		CreditCard.expirationMonth = '02';
 		CreditCard.expirationYear = date.getFullYear();
+		CreditCard.cardholderName = 'Charles Green';
+		CreditCard.creditCardNumber = '4111111111111111';
+		CreditCard.cvv = '123';
+		CreditCard.address = '1221 Congress Ave';
+		CreditCard.city = 'Austin';
+		CreditCard.state = 'TX';
+		CreditCard.zip = '78701';
 		CreditCard.isSaved = false;
 		cmp.set('v.CreditCard', CreditCard);
 	},
@@ -57,44 +65,57 @@
 		cmp.getEvent('paymentMethodInit').fire();
 	},
 	saveNewCard: function(cmp, e, hlpr) {
-		cmp.set('v.hasError', false);
-		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
-		var CreditCard = cmp.get('v.CreditCard');
-		PaymentRequestInfo.creditCard = CreditCard;
-		//console.info('Update Payment Plan: info', JSON.parse(JSON.stringify(PaymentRequestInfo)));
+		if(hlpr.isValidateExpDate(cmp) && hlpr.isValidCutNOTNumber(cmp, "cvv") && hlpr.isValidateCVV(cmp) && hlpr.isValidateCardN(cmp) && hlpr.isValidCutNOTNumber(cmp, "zipcode")){
+			cmp.set('v.hasError', false);
+			var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
+			var CreditCard = cmp.get('v.CreditCard');
+			console.log('Credit Card:', CreditCard);
+			PaymentRequestInfo.creditCard = CreditCard;
+			//console.info('Update Payment Plan: info', JSON.parse(JSON.stringify(PaymentRequestInfo)));
 
-		var createPlan = cmp.get('c.doEditPaymentMethod');
-		createPlan.setParams({
-			'paymentInfoStr': JSON.stringify( PaymentRequestInfo )
-		});
-		createPlan.setCallback(this, function(response) {
-			if (response.getState() === 'SUCCESS') {
-				var plan = response.getReturnValue();
-				cmp.getEvent('paymentMethodInit').fire();
-				cmp.getEvent('updatePaymentMethod').setParams({
-					paymentPlan: plan
-				}).fire();
-				return;
-			}
+			var createPlan = cmp.get('c.doEditPaymentMethod');
+			createPlan.setParams({
+				'paymentInfoStr': JSON.stringify( PaymentRequestInfo )
+			});
+			createPlan.setCallback(this, function(response) {
+				if (response.getState() === 'SUCCESS') {
+					var plan = response.getReturnValue();
+					cmp.getEvent('paymentMethodInit').fire();
+					cmp.getEvent('updatePaymentMethod').setParams({
+						paymentPlan: plan
+					}).fire();
+					return;
+				}
 
-			var errors = response.getError();
-			if (errors) {
-				hlpr.showError(cmp, errors? errors[0].message : 'Error has been occurred');
+				var errors = response.getError();
+				if (errors) {
+					hlpr.showError(cmp, errors? errors[0].message : 'Error has been occurred');
+				}
+			});
+			$A.enqueueAction(createPlan);
+		}else{
+			console.log('ShowError');
+			if(cmp.get('v.cvvError') == ''){
+				hlpr.showError(cmp, 'Please fill in all required fields');
+			}else{
+				hlpr.showError(cmp, cmp.get('v.cvvError'));
 			}
-		});
-		$A.enqueueAction(createPlan);
+			return;
+		}
 	},
 	setupPlan: function(cmp, e, hlpr) {
-		// console.log('date', hlpr.isValidateExpDate(cmp) );
-		// console.log('cvv-n',  hlpr.isValidCutNOTNumber(cmp, "cvv") );
-		// console.log('zip',  hlpr.isValidCutNOTNumber(cmp, "zipcode") );
-		// console.log('cn',  hlpr.isValidateCardN(cmp) );
-		// console.log('cvv',  hlpr.isValidateCVV(cmp) );
+		try {
+		console.log('date', hlpr.isValidateExpDate(cmp) );
+		console.log('cvv-n',  hlpr.isValidCutNOTNumber(cmp, "cvv") );
+		console.log('zip',  hlpr.isValidCutNOTNumber(cmp, "zipcode") );
+		console.log('cn',  hlpr.isValidateCardN(cmp) );
+		console.log('cvv',  hlpr.isValidateCVV(cmp) );
+
 		if (!hlpr.isValidateExpDate(cmp) || !hlpr.isValidCutNOTNumber(cmp, "cvv") || !hlpr.isValidCutNOTNumber(cmp, "zipcode") || !hlpr.isValidateCardN(cmp) || !hlpr.isValidateCVV(cmp)) {
 			hlpr.showError(cmp, 'Please fill in all required fields');
 			return;
 		}
-
+		console.log('Is Valid');
 		cmp.set('v.hasError', false);
 		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
 		var CreditCard = cmp.get('v.CreditCard');
@@ -107,24 +128,33 @@
 		createPlan.setCallback(this, function(response) {
 			if (response.getState() === 'SUCCESS') {
 				var plan = response.getReturnValue();
-				cmp.getEvent('paymentPlanCreated').setParams({
-					paymentPlan: plan
-				}).fire();
+				console.log(plan)
+				var appEvent = $A.get("e.c:switchTab");
+				appEvent.setParams({ "tabName" : 'CreatePaymentPlan'});
+				appEvent.fire();
+				setTimeout(function() { 
+					cmp.getEvent('paymentPlanCreated').setParams({
+					paymentPlan: plan }).fire(); 
+				}, 2500);
+
+				
+
 				return;
 			}
 
 			var errors = response.getError();
+			console.log('errors', errors);
 			if (errors) {
 				hlpr.showError(cmp, errors? errors[0].message : 'Error has been occurred');
 			}
 		});
 		$A.enqueueAction(createPlan);
+	} catch (e) {console.log(e)}
 	},
 	validateExpDate : function(cmp, e, hlpr) {
 		hlpr.isValidateExpDate(cmp);
 	},
 	validateCVV : function(cmp, e, hlpr) {
-		//hlpr.validateCVV(cmp);
 		hlpr.isValidCutNOTNumber(cmp, "cvv");
 		hlpr.isValidateCVV(cmp);
 	},

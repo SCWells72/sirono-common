@@ -17,13 +17,13 @@
     <aura:attribute name="communityForgotPasswordUrl" type="String" access="private"/>
     <aura:attribute name="communitySelfRegisterUrl" type="String" access="private"/>
     
-    <aura:registerevent name="sitePropagatedStartUrl" type="c:setStartUrl"/>
+    <!-- <aura:registerevent name="sitePropagatedStartUrl" type="c:setStartUrl"/> -->
     <aura:handler name="init" value="{!this}" action="{!c.initialize}"/>
-    <aura:dependency resource="c:setStartUrl" type="EVENT"/>
+<!--     <aura:dependency resource="c:setStartUrl" type="EVENT"/>
     <aura:dependency resource="siteforce:registerQueryEventMap" type="EVENT"/>
-    <aura:handler event="c:setStartUrl" action="{!c.setStartUrl}"/>
+    <aura:handler event="c:setStartUrl" action="{!c.setStartUrl}"/> -->
     
-    <div>
+    <!-- <div>
         <aura:renderIf isTrue="{!v.isUsernamePasswordEnabled}">
             <span>
                 <aura:renderIf isTrue="{!v.showError}">
@@ -53,5 +53,5 @@
                 </aura:renderIf>                            
             </div> 
         </aura:renderIf>
-    </div>
+    </div> -->
 </aura:component>

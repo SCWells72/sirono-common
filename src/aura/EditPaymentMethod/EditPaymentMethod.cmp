@@ -4,6 +4,7 @@
 	<aura:attribute name="CreditCard" type="Object" access="public"/>
 	<aura:attribute name="selectedCardId" type="String" access="private"/>
 	<aura:attribute name="hasError" type="Boolean" access="private" default="false"/>
+    <aura:attribute name="updatePlan" type="Boolean" default="false" />
 
 	<aura:handler name="change" value="{!v.PaymentInfo.paymentPlan}" action="{!c.doCmpInit}"/>
 	<aura:handler name="paymentMethodInit" event="c:CancelActionEvent" action="{!c.cancelEditCardAction}"/>
@@ -45,7 +46,12 @@
 		</div>
 		<div class="float-right slds-p-top--large">
 			<button class="slds-button slds-button--neutral" onclick="{!c.cancelAction}">Cancel</button>
-			<button class="slds-button slds-button--brand" onclick="{!c.updatePaymentMethod}">Update Payment Method</button>
+            <aura:if isTrue="{!!v.updatePlan}">
+			    <button class="slds-button slds-button--brand" onclick="{!c.updatePaymentMethod}">Update Payment Method</button>
+            </aura:if>
+            <aura:if isTrue="{!v.updatePlan}">
+                <button class="slds-button slds-button--brand" onclick="{!c.setupPlan}">Update Payment Plan</button>
+            </aura:if>
 		</div>
 	</div>
 

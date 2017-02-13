@@ -47,3 +47,15 @@
     .THIS .success svg use{
         fill:green;
     }
+ .THIS .cvv .slds-form-element__control.cvv_block {
+    border-left: none!important; 
+}
+.THIS .inputHeight input{
+    min-height: calc(2.125rem + 2px);
+}
+.THIS .slds-select_container .slds-select {
+    padding-right: 1.1rem;
+}
+/*.THIS .cvv_block .slds-form-element__help {
+    width: 198px;
+}*/

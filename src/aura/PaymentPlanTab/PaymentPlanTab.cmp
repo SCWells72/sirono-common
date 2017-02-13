@@ -4,12 +4,15 @@
 	<aura:attribute name="PlanInfoRecord" type="Object" access="public" />
 	<aura:attribute name="activeSectionId" type="String" access="private" />
 	<aura:attribute name="editTermsVisible" type="Boolean" access="private" default="false"/>
+    <aura:attribute name="addInvoiceVisible" type="Boolean" default="false" />
+    <aura:attribute name="showEditTermsMessage" type="Boolean" default="false" />
 
 	<aura:handler name="init" value="{!this}" action="{!c.doInitInfo}" />
 	<aura:handler name="initPlanInfo" event="c:CancelActionEvent" action="{!c.doInitInfo}" />
 	<aura:handler name="updatePaymentMethod" event="c:UpdatePaymentMethodEvent" action="{!c.showSuccess}" />
 	<aura:handler name="updatePaymentTerms" event="c:UpdatePaymentTermsEvent" action="{!c.showSuccess}" />
 	<aura:handler name="paymentPlanCreated" event="c:PaymentPlanCreatedEvent" action="{!c.showSuccess}" />
+    <aura:handler name="change" value="{!v.addInvoiceVisible}" action="{!c.hideBlocks}" /> 
 	<aura:registerEvent name="resetPaymentTabs" type="c:CancelActionEvent"/>
 
 	<aura:method name="doCmpInit" action="{!c.doCmpInit}" description="Do CMP init with initial PP Info" access="public">
@@ -24,11 +27,11 @@
 				<h2>Payment Plan Summary</h2>
 				<c:EditPlanInfo PaymentInfo="{!v.PaymentInfo}"/>
 			</div>
-			<aura:renderIf isTrue="{!and(v.PaymentInfo.addToPaymentAvail, v.PaymentInfo.guarantor.Non_Payment_Plan_Invoices__c)}">
+			<aura:if isTrue="{!and(v.PaymentInfo.addToPaymentAvail, v.PaymentInfo.guarantor.Non_Payment_Plan_Invoices__c)}">
 				<div class="payment-plan-edit slds-p-around--large border-top border-bottom">
-					<c:AddInvoicesToPaymentPlan PaymentInfo="{!v.PaymentInfo}"/>
+					<c:AddInvoicesToPaymentPlan PaymentInfo="{!v.PaymentInfo}" addInvoiceShow="{!v.addInvoiceVisible}"/>
 				</div>
-			</aura:renderIf>
+			</aura:if>
 
 			<div class="slds-p-horizontal--medium border-top">
 				<div class="grid slds-grid--align-center">
@@ -62,8 +65,13 @@
 			<c:EditPaymentMethod PaymentInfo="{!v.PaymentInfo}" PaymentRequestInfo="{!v.PaymentRequestInfo}"/>
 		</aura:if>
 	</section>
+    <section aura:id="addInvoices" class="{!v.addInvoiceVisible ? 'pp-edit-method payment-plan-content' :'pp-edit-method payment-plan-content slds-hide'}">
+        <aura:if isTrue="{!v.PaymentInfo.hasPaymentPlans ? (v.addInvoiceVisible ? true : false) : false}">
+            <c:AddInvoices PaymentInfo="{!v.PaymentInfo}" PaymentRequestInfo="{!v.PaymentRequestInfo}"/>
+        </aura:if>
+    </section>
 	<section aura:id="message" class="pp-step-three payment-plan-content">
-		<c:SuccessMessage PlanInfoRecord="{!v.PlanInfoRecord}"/>
+		<c:SuccessMessage PlanInfoRecord="{!v.PlanInfoRecord}" isEditTerms="{!v.showEditTermsMessage}"/>
 		<div class="slds-p-horizontal--medium border-top">
 			<div class="grid slds-grid--align-center">
 				<div class="col">

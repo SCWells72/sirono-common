@@ -74,8 +74,10 @@
     overflow: hidden; 
     padding: 5px; 
     text-overflow: ellipsis; 
-    display: inline-flex;
-    width: 175px;
+    display: inline-block;
+    width: 160px;
+    position: relative;
+    top: 10px;
 }
 .THIS .float-right_position {
     position:absolute;

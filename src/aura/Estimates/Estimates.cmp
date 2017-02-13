@@ -2,7 +2,7 @@
 <aura:handler event="c:collapsedHeader" action="{!c.bodyStatus}" />
     <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
 
-    <aura:attribute name="groupFilter"  type="String"   default="All"/>
+    <aura:attribute name="groupFilter"  type="String"   default="Unpaid"/>
     <aura:attribute name="patientSet"   type="Set" />
     <aura:attribute name="patientLabel" type="String"   default="All Patients"/>
 
@@ -74,12 +74,12 @@
                 </div>
                 <span aura:id="estimate_details" class="estimate_details display-none"></span> 
                     <!--<c:EstimateDetails />-->
-                <div aura:id="empty-estimates" class="empty-estimates display-none">
-                    <div class="col">
-                        <h2>My Estimates</h2>
-                        <p>You have no estimates at this time.</p>
+                    <div aura:id="empty-estimates" class="empty-estimates display-none">
+                        <div class="col">
+                            <h2>My Estimates</h2>
+                            <p>You have no estimates at this time.</p>
+                        </div>
                     </div>
-                </div>
             </section>
         </div>
     </div>

@@ -95,7 +95,7 @@
 				var calcPlanValue = parseFloat( initInfo.totalAmount / paymentInfo.settings.Max_Number_Plan_Installments__c, 10 );
 				//console.log('initially calcPlanValue: ' + calcPlanValue );
 				if (calcPlanValue < initInfo.planValue) {
-					initInfo.totalInstallments = Math.round( initInfo.totalAmount / initInfo.planValue, 10 );
+					initInfo.totalInstallments = Math.ceil( initInfo.totalAmount / initInfo.planValue, 10 );
 				} else {
 					initInfo.planValue = calcPlanValue;
 				}

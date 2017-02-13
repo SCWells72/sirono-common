@@ -64,3 +64,14 @@
     width:100%;
     border-radius:0;
 }
+
+.THIS .small-text {
+    white-space: nowrap; 
+    overflow: hidden; 
+    padding: 5px; 
+    text-overflow: ellipsis; 
+    display: inline-block;
+    width: 160px;
+    position: relative;
+    top: 10px;
+}

@@ -2,7 +2,7 @@
 	showError: function(cmp, message) {
 		cmp.set('v.hasError', true);
 		cmp.find('notificationCmp').showError(message);
-	}, 
+	},  
 	showValidError: function(cmp, message) {
 		var errMesscmp = cmp.find("cardValidError");
 		var errMessage = errMesscmp.get("v.value");
@@ -24,10 +24,12 @@
 		var expDate = new Date(yearcmpValue, monthValue);
 		var isValid = expDate > Date.now();
 
-		if (isValid) {
+		if (!isValid) {
 			monthcmp.set("v.errors", [{message:"Expiration date must be in the future."}]);
+			cmp.set('v.cvvError', 'Expiration date must be in the future.');
 		} else {
 			monthcmp.set("v.errors", null);
+
 		}
 		return isValid;
 	},
@@ -40,34 +42,45 @@
 		// console.log('cvvValue ', cvvValue);
 		// console.log('valid ', cncmp.get('v.validity').valid);
 		var isValid = false;
-		if (! cvvValue ) {
-			errMesscmp.set("v.value", '');
+		if (!cvvValue) {
+			//errMesscmp.set("v.value", '');
 			return isValid;
 		}
-		if ((cncmp.get('v.validity') == null || cncmp.get('v.validity').valid) && cnValue) {
+		console.log('Check CVV', cncmp, cncmp.get('v.validity'), cncmp.get('v.validity').valid, cnValue);
+		if ((cncmp.get('v.validity') == null || cncmp.get('v.validity').valid) && cnValue != undefined && cnValue != '') {
+			console.log('Inside cvv block');
 			var cardno = /^(?:3[47][0-9]{13})$/;
 			//console.log("match = ", cnValue.match(cardno));
 			if (cnValue.match(cardno)) {
+				console.log('1');
 				if (cvvValue.toString().length != 4) {
-					errMesscmp.set("v.value", "CVV must be 4 digits for American Express and 3 digits for other card types.");
+					console.log('2');
+					//errMesscmp.set("v.value", "CVV must be 4 digits for American Express and 3 digits for other card types.");
+					cvvcmp.set("v.errors", [{message:"CVV must be 4 digits for American Express and 3 digits for other card types."}]);
+					cmp.set('v.cvvError', 'CVV must be 4 digits for American Express and 3 digits for other card types.');
 				} else {
+				console.log('3');
 					isValid = true;
-					errMesscmp.set("v.value", '');
+					cmp.set('v.cvvError', '');
+					//errMesscmp.set("v.value", '');
 				}
 			} else {
+				console.log('4');
 				if (cvvValue.toString().length != 3) {
-					errMesscmp.set("v.value", "CVV must be 4 digits for American Express and 3 digits for other card types.");
+					console.log('5');
+					//errMesscmp.set("v.value", "CVV must be 4 digits for American Express and 3 digits for other card types.");
+					cvvcmp.set("v.errors", [{message:"CVV must be 4 digits for American Express and 3 digits for other card types."}]);
+					cmp.set('v.cvvError', 'CVV must be 4 digits for American Express and 3 digits for other card types.');
 				} else {
+				console.log('6');
 					isValid = true;
-					errMesscmp.set("v.value", '');
+					cmp.set('v.cvvError', '');
+					//errMesscmp.set("v.value", '');
 				}
 			}
 
 		} else {
-			//console.log("Please fill in card number");
-			//set error "please fill card number"
-			errMesscmp.set("v.value", "Please fill in card number");
-			//errMesscmp.set("v.value", '');
+			//errMesscmp.set("v.value", "Please fill in card number");
 		}
 		/*var cvvcmp = cmp.find("cvv");
 		var cvvValue = cvvcmp.get("v.value");
@@ -112,7 +125,7 @@
 		//     //this.showValidError(cmp, "Card number is a required field.");
 		//     errMesscmp.set("v.value", "Card number is a required field");
 		// } else
-		if (cnValue && isNaN(cnValue)) {
+		if (cnValue && (isNaN(cnValue) || cnValue.includes(' '))) {
 			cnValue = cnValue.toString().substring(0, cnValue.toString().length - 1);
 			console.log('cnValue --- > ', cnValue);
 			cncmp.set("v.value", cnValue);
@@ -136,7 +149,7 @@
 	isValidCutNOTNumber : function(cmp, idToVerify) {
 		var numberCmp = cmp.find(idToVerify);
 		var value = numberCmp.get("v.value");
-		if (value && isNaN(value)) {
+		if (value && (isNaN(value) || value.includes(' '))) {
 			value = value.toString().substring(0, value.toString().length - 1);
 			numberCmp.set("v.value", value);
 		}

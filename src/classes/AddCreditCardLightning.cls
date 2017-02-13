@@ -53,7 +53,7 @@ public with sharing class AddCreditCardLightning {
     public List<SelectOption> expYearOptions {
         get {
             if (expYearOptions == null) {
-                expYearOptions = PayStaffWSUtill.expYearOptions;
+                expYearOptions = PayStaffWSUtillLightning.expYearOptions;
             }
             return expYearOptions;
         }
@@ -64,7 +64,7 @@ public with sharing class AddCreditCardLightning {
     public List<SelectOption> expMonthOptions {
         get {
             if (expMonthOptions == null) {
-                expMonthOptions = PayStaffWSUtill.expMonthOptions;
+                expMonthOptions = PayStaffWSUtillLightning.expMonthOptions;
             }
             return expMonthOptions;
         }
@@ -76,8 +76,8 @@ public with sharing class AddCreditCardLightning {
     	
     	System.debug('AddCreditCardLightning constructor');
         dctotalAmount = 0;
-        username = PayStaffWSUtill.un;
-        password = PayStaffWSUtill.pw;
+        username = PayStaffWSUtillLightning.un;
+        password = PayStaffWSUtillLightning.pw;
         guarantorRecordId = null;
         chargeGroupsSelected = false;
         chargeGroupList = new List<ChargeGroupWrapper>();
@@ -86,12 +86,12 @@ public with sharing class AddCreditCardLightning {
         isActivePaymentPlan = false;
         if (String.IsNotBlank(guarantorId)) { // need to check if there is a difference between guarantorId and guarantorRecordId
             guarantorRecordId = guarantorId;
-            gc = PayStaffWSUtill.fetchGuarantorContact(guarantorId);
-            guarantorName = PayStaffWSUtill.fetchGuarantorName(gc);
-            guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
-            //chargeGroupList = PayStaffWSUtill.fetchChargeGroupList(gc);
+            gc = PayStaffWSUtillLightning.fetchGuarantorContact(guarantorId);
+            guarantorName = PayStaffWSUtillLightning.fetchGuarantorName(gc);
+            guarantorId = PayStaffWSUtillLightning.fetchGuarantorId(gc);
+            //chargeGroupList = PayStaffWSUtillLightning.fetchChargeGroupList(gc);
             //date: 11/22/2016 tracker #134300243 fetching charge group list based on account sub status : Preinvoiced, Due, Overdue, Delinquent, or Bad Debt
-            for (ChargeGroupWrapper cgw : PayStaffWSUtill.fetchChargeGroupListByAccSubStatus(gc)) {
+            for (ChargeGroupWrapper cgw : PayStaffWSUtillLightning.fetchChargeGroupListByAccSubStatus(gc)) {
                 if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
                     chargeGroupList.add(cgw);
                 }
@@ -109,7 +109,7 @@ public with sharing class AddCreditCardLightning {
     //Controller Method invoked from Visualforce page
     public Pagereference doNext() {
         chargeGroupsSelected = false;
-        chargeGroupId = PayStaffWSUtill.fetchChargeGroupIds(chargeGroupList);
+        chargeGroupId = PayStaffWSUtillLightning.fetchChargeGroupIds(chargeGroupList);
         if (!isEmpty(chargeGroupId)) {
             chargeGroupsSelected = true;
         }
@@ -155,8 +155,8 @@ public with sharing class AddCreditCardLightning {
             boolean blnIsAmountError = checkAmountValidation();
 
             if (blnIsError == false && !blnIsAmountError) {
-                String jwtToken = PayStaffWSUtill.getJWTToken(username, password);
-                String csrfToken = PayStaffWSUtill.getCSRFToken();
+                String jwtToken = PayStaffWSUtillLightning.getJWTToken(username, password);
+                String csrfToken = PayStaffWSUtillLightning.getCSRFToken();
                 if (csrfToken != null && jwtToken != null) {
                     doAddCreditCard(csrfToken, jwtToken);
                 }
@@ -339,9 +339,9 @@ public with sharing class AddCreditCardLightning {
             planValue = '32772';
             requestData += '"plan_type":"' + planType + '",' +
                     '"plan_value":' + planValue + ',' +
-                    '"installment_amount":' + PayStaffWSUtill.convertToCents(amount) + ',' +
+                    '"installment_amount":' + PayStaffWSUtillLightning.convertToCents(amount) + ',' +
                     '"execute_on_day":' + executeOnDay + ',' +
-                    '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + ',' +
+                    '"chargegroups": ' + PayStaffWSUtillLightning.buildChargeGroupsURL(chargeGroupId) + ',' +
                     '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/",' +
                     '"active":true,' +
                     '"credit_card":{' +
@@ -360,8 +360,8 @@ public with sharing class AddCreditCardLightning {
             planValue = '1700';
             requestData += '"plan_type":"' + planType + '",' +
                     '"plan_value":' + planValue + ',' +
-                    '"installment_amount":' + PayStaffWSUtill.convertToCents(promiseAmount) + ',' +
-                    '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + ',' +
+                    '"installment_amount":' + PayStaffWSUtillLightning.convertToCents(promiseAmount) + ',' +
+                    '"chargegroups": ' + PayStaffWSUtillLightning.buildChargeGroupsURL(chargeGroupId) + ',' +
                     '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/",' +
                     '"active":true}';
         }

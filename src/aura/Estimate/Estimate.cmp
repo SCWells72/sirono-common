@@ -24,15 +24,24 @@
                          {!' (MRN: ' + v.estimate.singleEncounter.Patient__r.Medical_Record_Number__c + ')'}
                     </span>
                 </div>
-                <a class="active invoice-name">
+                <span class="active invoice-name">
                     {!v.estimate.singleEncounter.Procedure__c} - 
                     <ui:outputDate value="{!v.estimate.singleEncounter.Date_of_Service__c}" format="MM/DD/YYYY" class="{!v.isOnPaymentsPage ? 'slds-hide' : ''}"/>
                     <ui:outputText value="{!v.invoiceNameDate}" class="{!!v.isOnPaymentsPage ? 'slds-hide' : ''}"/>
-                </a>
-                <span class="{!!v.isOnPaymentsPage ? 'slds-hide' : 'title'}">Deposit Due by </span>
-                <span class="{!!v.isOnPaymentsPage ? 'slds-hide' : 'title'}">
-                    <ui:outputText value="{!v.depositDueBy}"/>
                 </span>
+                <div class="{!!v.isOnPaymentsPage ? 'slds-hide' : ''}">
+                    
+                    <div class="{!v.estimate.estimateStatus == 'Unpaid' ? '' : 'slds-hide'}">
+                        <span class="title">Deposit Due by </span>
+                        <span class="title"><ui:outputText value="{!v.depositDueBy}"/> </span>
+                    </div>
+                    <div class="{!v.estimate.estimateStatus == 'Unpaid' ? 'slds-hide' : ''}">
+                        <div class="title">
+                            <span class="status-bubble success"></span>
+                            Paid
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="{!v.isOnPaymentsPage ? 'col right ' : 'col right'}">
                 <div class="title">Balance</div>

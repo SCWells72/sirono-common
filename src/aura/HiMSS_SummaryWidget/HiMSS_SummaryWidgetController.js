@@ -6,20 +6,26 @@
 
     goToMainPage: function(component, event, helper) {
     	var guarantorWrapper = component.get('v.guarantorWrapper');
-    	console.log('::::guarantorWrapper.grtUser.userName::' + guarantorWrapper.grtUser.userName);
-    	console.log('::::guarantorWrapper.grtUser.password::' + guarantorWrapper.grtUser.password);
         $A.get("e.force:navigateToURL").setParams({
-            'url' : 'https://portal-sirono.cs18.force.com/guarantor/s/?un=' + guarantorWrapper.grtUser.userName + '@gmail.com&pw=' + guarantorWrapper.grtUser.password
+            'url' : 'https://portal-sirono.cs18.force.com/guarantor/s/?un=' + guarantorWrapper.grtUser.userName + '&pw=' + guarantorWrapper.grtUser.password
         }).fire(); 
     },
 
-    // goToInvoices: function(component, event, helper) {
-    //     helper.goToMainPage(component, 'Invoices');
-    // },
+    goToInvoices: function(component, event, helper) {
+        var guarantorWrapper = component.get('v.guarantorWrapper');
+        $A.get("e.force:navigateToURL").setParams({
+            'url' : 'https://portal-sirono.cs18.force.com/guarantor/s/?un=' + guarantorWrapper.grtUser.userName + '&pw=' + guarantorWrapper.grtUser.password 
+                + '&activeTab=Invoices'
+        }).fire();
+    },
 
-    // goToEstimates: function(component, event, helper) {
-    //     helper.goToMainPage(component, 'Estimates');
-    // },
+    goToEstimates: function(component, event, helper) {
+        var guarantorWrapper = component.get('v.guarantorWrapper');
+        $A.get("e.force:navigateToURL").setParams({
+            'url' : 'https://portal-sirono.cs18.force.com/guarantor/s/?un=' + guarantorWrapper.grtUser.userName + '&pw=' + guarantorWrapper.grtUser.password 
+                + '&activeTab=Estimates'
+        }).fire();
+    },
 
     showTooltip: function(component, event, helper) {
         var tooltip = component.find('popover-tooltip');

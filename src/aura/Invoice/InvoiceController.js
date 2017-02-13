@@ -26,7 +26,7 @@
 	},
 	sendInvoiceCreateToHeader: function(component, event, helper) {
         var appEvent = $A.get("e.c:payNowRequest");
-        appEvent.setParams({ "invoiceId" : component.get('v.invoice.singleInvoice.Id'), 'type': 'CreatePaymentPlan' });
+        appEvent.setParams({ 'type': 'CreatePaymentPlan' });
         appEvent.fire();
 	}
 })

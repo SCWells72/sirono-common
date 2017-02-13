@@ -39,21 +39,37 @@
 		<aura:if isTrue="{!v.hasError}">
 			<c:SupportMessage aura:id="notificationCmp"/>
 		</aura:if>
-
-		<label class="slds-form-element__label"><strong>Payment Plan Balance:</strong></label>
+        <aura:if isTrue="{!!v.PaymentInfo.hasPaymentPlans}">
+            <div class="title">
+                <h2 class="txt_h2">Set payment amount and time
+                    <div class="status info sldsjs-popover">
+                        <span class="slds-icon_container sldsjs-popover-action" onclick="{!c.showPopoverInfo}">
+                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="utility" size="small" name="info" class="slds-icon slds-icon--x-small" />
+                            <span class="slds-assistive-text">Info</span>
+                        </span>
+                        <div aura:id="sldsjsPopoverInfo" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-right slds-hide" role="tooltip" id="help" style="position:absolute;top:45px;right:-6px;">
+                            <div class="slds-popover__body">
+                                Payment plan must be completed within {!v.PaymentInfo.settings.Max_Number_Plan_Installments__c} months with a minimum monthly amount of ${!v.PaymentInfo.settings.Min_Installment_Amount__c}
+                            </div>
+                        </div>
+                    </div>
+                </h2>
+            </div>
+        </aura:if>
+        <label class="slds-form-element__label"><strong>Payment Plan Balance:</strong></label>
 		<div class="value">
 			<ui:outputCurrency value="{!v.PaymentRequestInfo.totalAmount}" />
 		</div>
 
 		<div class="payment-slider">
 			<div class="grid payment-numbers">
-				<div class="col amount">{!v.sliderValue}<span>.{!v.sliderValuePart}</span></div>
+				<div class="col amount">${!v.sliderValue}<span>.{!v.sliderValuePart}</span></div>
 				<div class="col over slds-align-bottom">over</div>
 				<div class="col months">{!v.PaymentRequestInfo.totalInstallments} <span>Months</span>
 				</div>
 			</div>
 			<div class="info">Adjust your monthly payments to estimate your payment over fewer months.</div>
-			<input type="range" min="{!v.minAmount}" max="{!v.PaymentRequestInfo.totalAmount}" step="0.05" value="{!v.PaymentRequestInfo.planValue}" class="payment-slider-circle" onchange="{!c.changeSlider}"/>
+			<input type="range" min="{!v.minAmount}" max="{!v.PaymentRequestInfo.totalAmount}" step="0.01" value="{!v.PaymentRequestInfo.planValue}" class="payment-slider-circle" onchange="{!c.changeSlider}"/>
 			<div class="grid high-low range_slider">
 				<div class="col">
 					<ui:outputcurrency value="{!v.minAmount}"/>

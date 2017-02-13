@@ -52,7 +52,6 @@
         else{
             component.set("v.backButton","true");
 			$A.util.addClass(arrowToggleHeader,"arrowDisplay"); 
-			console.log("flag1");
 			if($A.util.hasClass(headerWrap,"small") == false){
 				$A.util.addClass(headerWrap,"small");
         		$A.util.addClass(headerMain,"small");
@@ -116,6 +115,7 @@
         }).fire();        
     },
     putInvoucePaument: function(component, event, helper) {
+		console.log('Put params');
         var invoiceId = component.get('v.invoiceId');
         var activeTab = component.get('v.activeTab');
         var isEstimate = component.get('v.isEstimateRecord');

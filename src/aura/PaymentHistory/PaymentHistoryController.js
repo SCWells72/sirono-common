@@ -7,10 +7,10 @@
 		var orderType = '';
 		var arrowPath = arrowUse.getAttribute('href');
 		if (arrowPath.includes('arrowdown')) {
-			orderType = 'ASC NULLS FIRST';
+			orderType = 'ASC';
 			arrowPath = arrowPath.replace('arrowdown', 'arrowup');
 		} else {
-			orderType = 'DESC NULLS LAST';
+			orderType = 'DESC';
 			arrowPath = arrowPath.replace('arrowup', 'arrowdown');
 		}
 		arrowUse.setAttribute('href', arrowPath);

@@ -5,15 +5,28 @@
 		}).fire();
 	},
 	sendPageMakeToHeader: function(component, event, helper) {
-		console.log("PageMake");
         var appEvent = $A.get("e.c:payNowRequest");
         appEvent.setParams({ 'type': 'MakeAPayment' });
         appEvent.fire();
 	},
 	sendPageCreateToHeader: function(component, event, helper) {
-		console.log("PageCreate");
         var appEvent = $A.get("e.c:payNowRequest");
         appEvent.setParams({ 'type': 'CreatePaymentPlan' });
         appEvent.fire();
-	}
+	},
+	sendUnpaidFilterToHeader: function(component, Event, helper) {
+		var appEvent = $A.get("e.c:payNowRequest");
+		appEvent.setParams({ 'type': 'MakeAPayment', 'filter': 'Unpaid' });
+		appEvent.fire();
+	},
+	sendDelinquentFilterToHeader: function(component, Event, helper) {
+		var appEvent = $A.get("e.c:payNowRequest");
+		appEvent.setParams({ 'type': 'MakeAPayment', 'filter': 'Delinquent' });
+		appEvent.fire();
+	},
+	sendOverdueFilterToHeader: function(component, Event, helper) {
+		var appEvent = $A.get("e.c:payNowRequest");
+		appEvent.setParams({ 'type': 'MakeAPayment', 'filter': 'Overdue' });
+		appEvent.fire();
+	},
 })

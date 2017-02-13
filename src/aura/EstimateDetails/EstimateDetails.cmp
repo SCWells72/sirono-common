@@ -1,10 +1,11 @@
-<aura:component >
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global">
     
     <aura:handler event="c:activateEstimateTileRequest" action="{!c.showDetails}" />
 
     <aura:attribute name="listOfEstimates" type="List" />
     <aura:attribute name="estimate" type="Object" />
     <aura:attribute name="activeEstimate" type="Integer" />
+    <aura:attribute name="fileUrl" type="String"/>
 
     <div class="{!'col invoice-detail-container display_'+(v.activeEstimate != undefined)}">
         <!--<div class="none-selected">No estimates selected</div>-->
@@ -31,7 +32,9 @@
                         <ui:outputDate value="{!v.estimate.singleEncounter.Date_of_Service__c}" format="MM/DD/YYYY"/>
                         <div>{!'ID Number: '+v.estimate.singleEncounter.Encounter_ID__c}</div>
                         <div>{!'Location: '+ if(v.estimate.singleEncounter.Type__c == 'HB', v.estimate.singleEncounter.Location__c, v.estimate.singleEncounter.Ordering_Physician__c)}</div>
-                    <button class="slds-button slds-button--brand slds-m-top--small clear">View Estimate</button>
+                        <aura:if isTrue="{!v.fileUrl != null}">
+                            <button class="slds-button slds-button--brand slds-m-top--small clear" onclick="{!c.toggleModal}">View Estimate</button>
+                        </aura:if>
                     </div>
                     <div class="col charges">
                         <h3>Estimated Charges</h3>
@@ -124,4 +127,21 @@
     <div class="{!'col invoice-detail-container display_'+(v.activeEstimate == undefined)}">
         <div class="no_selection">No estimates selected</div>
     </div>
+    <!-- MODAL -->
+    <div aura:id="slds-modal" role="dialog" tabindex="-1" class="slds-modal estimate">
+      <div class="slds-modal__container container">
+        <div class="slds-modal__header slds-modal__header slds-modal__header--empty">
+          <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.toggleModal}">
+               <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#close'}"  category="standard" size="small" name="back" />
+            <span class="slds-assistive-text">Close</span>
+          </button>
+        </div>
+        <div class="slds-modal__content content slds-p-around--large">
+           <!-- <iframe src="https://cs18.salesforce.com/sfc/p/11000000DprC/a/1100000000t1/9BtWR9wcq2.PCekp8HcjodW9JUfnlJBCP4WOIXOosBM" class="frame"></iframe>-->
+            <img src="{!v.fileUrl}" class="frame"/>
+        </div>
+      </div>
+    </div>
+    <div aura:id="slds-backdrop" class="slds-backdrop"></div>
+    <!-- MODAL END-->
 </aura:component>

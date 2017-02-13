@@ -9,7 +9,10 @@
     <aura:attribute name="invoiceValue" type="Decimal" access="public" default="0"/>
     <aura:attribute name="invoiceValuePart" type="String" access="public" default="00"/>
     <!-- Invoiced_Balance__c END-->
+    <aura:attribute name="login" type="String" access="public" />
+    <aura:attribute name="password" type="String" access="public"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="c:UpdateSummaryWidget" action="{!c.doInit}" />
     <div class="{! if (v.isLanding, 'landing-padding', '')}">
         <aura:if isTrue="{! v.guarantorWrapper.contact.Guarantor_Status__c == 'Overdue'}">
             <div class="no-small">
@@ -59,7 +62,7 @@
                 <div class="no-small">
                     <div class="section_header_Payment">
                         <div class="title">
-                            Next Payment Due By <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.invoiceOverdue.Due_Date__c}"/>
+                            Payment Due By <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.invoiceOverdue.Due_Date__c}"/>
                         </div>
                     </div>
                 </div>
@@ -106,7 +109,7 @@
         <!-- estimate notification END -->
 
         <!-- Version #3 Outstanding balance, payment plan, good standing -->
-        <aura:if isTrue="{! v.guarantorWrapper.version3}">
+        <aura:if isTrue="{! and(v.guarantorWrapper.version3, v.guarantorWrapper.contact.Guarantor_Status__c != 'Due')}">
             <div class="no-small">
                 <div class="section_header_Payment">
                     <div class="title">

@@ -9,14 +9,18 @@
         var startUrl = component.get("v.startUrl");
         
         startUrl = decodeURIComponent(startUrl);
+
         action.setParams({username:username, password:password, startUrl:startUrl});
-        action.setCallback(this, function(a){
-            var rtnValue = a.getReturnValue();
-            if (rtnValue !== null) {
-                component.set("v.errorMessage",rtnValue);
-                component.set("v.showError",true);
-            }
+        action.setCallback(this, function(response){
+            var rtnValue = response.getReturnValue();
+            console.log('::rtnValue:::::' + rtnValue);
+            if (rtnValue != null) {
+                // window.location.href = rtnValue;
+                // component.set("v.errorMessage",rtnValue);
+                // component.set("v.showError",true);
+            } 
         });
+
         $A.enqueueAction(action);
     },
 

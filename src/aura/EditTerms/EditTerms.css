@@ -102,9 +102,17 @@
 .THIS .txt_h2 {
   display: inline-flex;  
 }
+
+.THIS .title h2 {
+    font-size: 18px;
+    color: gray;
+}
 .THIS .grid.high-low.range_slider{
     margin-top:7px; 
 }
 .THIS .payment-plan-day--select label {
   display: none;
+}
+.THIS .slds-popover--tooltip {
+    width:20rem;
 }

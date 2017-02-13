@@ -1,13 +1,14 @@
 <aura:component controller="PaymentTabsController">
 	<aura:attribute name="PaymentInfo" type="Object" access="public"/>
 	<aura:attribute name="PaymentRequestInfo" type="Object" access="public"/>
-	<aura:attribute name="CreditCard" type="Object" access="public"/>
+    <aura:attribute name="CreditCard" type="Object" access="public" />
 
 	<aura:attribute name="states" type="String[]" default="AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY" access="private"/>
 	<aura:attribute name="months" type="String[]" access="private"/>
 	<aura:attribute name="years" type="String[]" access="private" default="[]"/>
 	<aura:attribute name="hasError" type="Boolean" access="private" default="false"/>
 	<aura:attribute name="nextPaymentDate" type="String" access="private" default=""/>
+    <aura:attribute name="cvvError" type="String" default="" />
 
 	<aura:handler name="init" value="{!this}" action="{!c.doCmpInit}"/>
 	<aura:handler name="change" value="{!v.PaymentRequestInfo.executeOnDay}" action="{!c.doDateValueInit}"/>
@@ -19,7 +20,7 @@
 		<aura:if isTrue="{!v.hasError}">
 			<c:SupportMessage aura:id="notificationCmp"/>
 		</aura:if>
-
+        <ui:inputDefaultError aura:id="cardValidError" value="" />
 		<div class="we-accept">
 			<span>We Accept: </span>
 			<img src="{!$Resource.SironoData + '/assets/images/mastercard-icon.png'}" alt="Mastercard" /> 
@@ -39,19 +40,21 @@
 						<lightning:input type="text" aura:id="cvv" label="CVV" name="cvv" minlength="3" maxlength="4" value="{!v.CreditCard.cvv}" required="true" messageWhenValueMissing="CVV is a required field" messageWhenBadInput="CVV must be 4 digits for American Express and 3 digits for other card types." messageWhenTooLong="CVV must be 4 digits for American Express and 3 digits for other card types." onchange="{!c.validateCVV}" disabled="{!v.CreditCard.sfId}"/>
 					</div>
 				</div>
-				<ui:inputDefaultError aura:id="cardValidError" value=""/>
+				<div class="slds-hide">
+					<ui:inputDefaultError aura:id="cardValidError" value=""/>
+				</div>
 			</div>
 			<div class="col slds-size--1-of-1">
 				<div class="grid">
 					<div class="col slds-size--1-of-2">
-						<lightning:select aura:id="month" name="month" value="{!v.CreditCard.expirationMonth}" label="Expiration" disabled="{!v.CreditCard.sfId}">
+                        <lightning:select aura:id="month" name="month" value="{!v.CreditCard.expirationMonth}" label="Expiration" disabled="{!v.CreditCard.sfId}" onchange="{!c.validateExpDate}">
 							<aura:iteration items="{!v.months}" var="month"> 
 								<option value="{!month.value}" text="{!month.label}"></option>
 							</aura:iteration>
 						</lightning:select>
 					</div>
 					<div class="col slds-size--1-of-2">
-						<lightning:select aura:id="year" name="year" value="{!v.CreditCard.expirationYear}" label="Year" class="payment-card--year-hide" disabled="{!v.CreditCard.sfId}">
+						<lightning:select aura:id="year" name="year" value="{!v.CreditCard.expirationYear}" label="Year" class="payment-card--year-hide" disabled="{!v.CreditCard.sfId}" onchange="{!c.validateExpDate}">
 							<aura:iteration items="{!v.years}" var="year"> 
 								<option text="{!year}"></option>
 							</aura:iteration>

@@ -34,6 +34,7 @@ public with sharing class ProcessPaymentLightning {
     public List<ChargeGroupWrapper> chargeGroupList { get; set; }
 	public Contact gc { get; set; }
 	public String errorMessages{get;set;}
+	public List<Transaction__c> listOfCreatedTransactions{get;set;}
     private Payment__c objPayment = new Payment__c();
     private List<Transaction__c> lsttransaction = new List<Transaction__c>();
     private List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
@@ -59,7 +60,7 @@ public with sharing class ProcessPaymentLightning {
         protected set;
     }
 
-    public ProcessPaymentLightning(ApexPages.StandardController sc) {
+    public ProcessPaymentLightning(ApexPages.StandardController sc, List<String> selectedIds) {
         username = PayStaffWSUtillLightning.un;
         password = PayStaffWSUtillLightning.pw;
 		System.debug('pass:'+password);
@@ -91,10 +92,12 @@ public with sharing class ProcessPaymentLightning {
             //chargeGroupList = PayStaffWSUtillLightning.fetchChargeGroupList(gc);
             //Collection of ChargeGroups that are active, balance not zero and who's account sub status is Preinvoiced, Due, Overdue, Delinquent, Bad Debt, or Payment Plan.
             for (ChargeGroupWrapper cgw : PayStaffWSUtillLightning.fetchChargeGroupListByAccountSubStatus(gc)) {
-                if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
-					cgw.isSelected = true;
-					chargeGroupList.add(cgw);
-                }
+                for(String item: selectedIds){
+					if (item == cgw.cg.Invoice__c && cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
+						cgw.isSelected = true;
+						chargeGroupList.add(cgw);
+					}
+				}
             }
             chargeGroupId = '';
         }
@@ -151,7 +154,15 @@ public with sharing class ProcessPaymentLightning {
         }
 		System.debug('end submit');
 		System.debug(errorMessages);
-		return errorMessages != '' ? errorMessages : 'Success';
+		String transactionInfo = '';
+		if(errorMessages == ''){
+			Transaction__c tr = new Transaction__c();
+			tr = [SELECT id, Sirono_Id__c, Amount__c, Payment__r.Amount__c, Payment__r.Payment_Id__c FROM Transaction__c WHERE Charge_Group__r.Guarantor__c = :gc.id ORDER BY CreatedDate DESC LIMIT 1];
+			System.debug(tr);
+			transactionInfo = 'Success;' + String.valueOf(tr.Payment__r.Payment_Id__c) + ';$' + String.valueOf(tr.Payment__r.Amount__c);
+		}
+		System.debug(transactionInfo);
+		return errorMessages != '' ? errorMessages : transactionInfo;
     }   
 
     /*
@@ -264,7 +275,7 @@ public with sharing class ProcessPaymentLightning {
     // Method used for payment process
     private void processPayment(String csrfToken, String jwtToken) {
 		System.debug('chargeGroupId:'+chargeGroupId);
-        String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '",' +
+		String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '",' +
                 '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/'
                 + guarantorId + '/",' +
                 '"number":"' + creditCardNumber + '",' +
@@ -313,7 +324,7 @@ public with sharing class ProcessPaymentLightning {
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'Created Successfully!'));
 
             //Call Payment, Transaction, ChargeGroups, Payment Plan Request.
-            PayStaffWSUtillLightning.parsePaymentReponse(csrfToken, jwtToken, responseBody, true);
+            listOfCreatedTransactions = PayStaffWSUtillLightning.parsePaymentReponse(csrfToken, jwtToken, responseBody, true);
         } else {
             if (test.isRunningTest()) {
                 responseBody = TestUtility.errorBody;

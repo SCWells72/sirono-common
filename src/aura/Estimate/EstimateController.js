@@ -22,13 +22,17 @@
 
 	activateTile : function (component, event, helper) {
 		console.log(component.get("v.tileId"));
-		$A.get("e.c:activateEstimateTileRequest").setParams({
-			"tileId" : component.get("v.tileId")
-		}).fire();
+		if(!component.get('v.isOnPaymentsPage')) {
+			$A.get("e.c:activateEstimateTileRequest").setParams({
+				"tileId" : component.get("v.tileId")
+			}).fire();
+		}
 	},
 
 	sendEstimateNowToHeader: function(component, event, helper) {
         var appEvent = $A.get("e.c:payNowRequest");
+
+console.log('SinglerEstimateId', component.get('v.estimate.singleEncounter.Id'));
         appEvent.setParams({ 
         	"invoiceId" : component.get('v.estimate.singleEncounter.Id'), 
         	'type': 'MakeAPayment', 

@@ -34,12 +34,16 @@
             <div class="col due">
                 <div class="title paid">
                     <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Due'}">
-                        Payment due by <ui:outputdate value="{!v.invoice.singleInvoice.Due_Date__c}" format="MM d" />
+                        Payment due by <ui:outputdate value="{!v.invoice.singleInvoice.Due_Date__c}" format="MM/DD/YYYY" />
                     </aura:if>
 
                     <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Overdue'}">
                         <span class="status-bubble warning"></span>
                         Overdue
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Invoice Voided'}">
+                        Invoice Voided
                     </aura:if>
 
                     <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'}">
@@ -65,13 +69,13 @@
                 </div>
             </div>
             <div class="col links">
-                <aura:if isTrue="{!and((v.invoice.singleInvoice.Invoice_Status__c == 'Due' || v.invoice.singleInvoice.Invoice_Status__c == 'Overdue' || v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), not(v.invoice.singleInvoice.Partial_Payment_Plan__c))}">
+                <aura:if isTrue="{!and((v.invoice.singleInvoice.Invoice_Status__c == 'Due' || v.invoice.singleInvoice.Invoice_Status__c == 'Overdue' || v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), not(v.invoice.singleInvoice.Guarantor__r.Add_to_Payment_Plan__c))}">
                     <a onclick="{!c.sendInvoiceNowToHeader}">Pay Now</a> or <a onclick="{!c.sendInvoiceCreateToHeader}">Create Payment Plan</a>
                 </aura:if>
                 <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'On Payment Plan'}">
                     <a onclick="{!c.sendInvoiceNowToHeader}">Make Additional Payment</a>
                 </aura:if>
-                <aura:if isTrue="{!and((v.invoice.singleInvoice.Invoice_Status__c == 'Due' || v.invoice.singleInvoice.Invoice_Status__c == 'Overdue' || v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), v.invoice.singleInvoice.Partial_Payment_Plan__c)}">
+                <aura:if isTrue="{!and((v.invoice.singleInvoice.Invoice_Status__c == 'Due' || v.invoice.singleInvoice.Invoice_Status__c == 'Overdue' || v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), v.invoice.singleInvoice.Guarantor__r.Add_to_Payment_Plan__c)}">
                     <a onclick="{!c.sendInvoiceNowToHeader}">Pay Now</a> or <a onclick="{!c.sendInvoiceCreateToHeader}">Add to Payment Plan</a>
                 </aura:if>
             </div>
