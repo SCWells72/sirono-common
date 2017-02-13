@@ -134,7 +134,7 @@ Sirono 08-22-2016: 127323475 when Record Saved Successfully return to the contac
         function returnToContact() {
             $('img[title="INFO"]').each(function () {
                 setTimeout(function () {
-                    window.location = '/{!guarantorRecordId}';
+                    window.location = '/{!JSENCODE(guarantorRecordId)}';
                 }, delaymessage);
             });
         }
