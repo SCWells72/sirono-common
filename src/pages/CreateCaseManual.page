@@ -543,8 +543,8 @@
                 if('{!transactionJson}' != '') {
                     var objTransaction = JSON.parse('{!transactionJson}');
                 }
-                var caseType = '{!caseType}';
-                var reason = '{!caseObj.Reason}';                
+                var caseType = '{!JSENCODE(caseType)}';
+                var reason = '{!JSENCODE(caseObj.Reason)}';                
                 
                 if (caseType == 'Billing') {
                     if (reason == 'Refund/Credit Request') {

@@ -188,7 +188,7 @@
         function returnToContact() {
             $('img[title="INFO"]').each(function () {
                 setTimeout(function () {
-                    window.location = '/{!guarantorRecordId}';
+                    window.location = '/{!JSENCODE(guarantorRecordId)}';
                 }, delaymessage);
             });
         }

@@ -76,7 +76,7 @@
         function returnToContact() {
             if ({!isSuccess}) {
                 setTimeout(function () {
-                    window.location = '/{!paymentPlanId}';
+                    window.location = '/{!JSENCODE(paymentPlanId)}';
                 }, delayMessage);
             }
         }
