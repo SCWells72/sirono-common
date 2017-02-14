@@ -635,7 +635,8 @@
     <fields>
         <fullName>Sub_Status_Index__c</fullName>
         <externalId>false</externalId>
-        <formula>CASE(Account_Sub_Status__c,
+        <formula>IF(Balance__c = 0, 5,
+CASE(Account_Sub_Status__c,
 &quot;Delinquent&quot;, 9,
 &quot;Overdue&quot;, 8,
 &quot;Due By&quot;, 7,
@@ -647,7 +648,7 @@
 &quot;Bad Debt&quot;, 3,
 &quot;Unknown&quot;, 2,
 &quot;Inactive&quot;, 1,
-0)</formula>
+0))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Substatus Index</label>
         <precision>18</precision>
