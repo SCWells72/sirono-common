@@ -542,7 +542,7 @@ public with sharing class PayStaffWSUtill {
     */
     public static void parsePaymentReponse(String csrfToken, String jwtToken, string jsonStr, boolean isPayment){
 
-        Payment__c objPayment;
+        List<Payment__c> payments = new List<Payment__c>();
         List<Payment_Adjustments__c> lstPaymentAdjustment = new List<Payment_Adjustments__c>();
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
 
@@ -552,17 +552,18 @@ public with sharing class PayStaffWSUtill {
         Map<Decimal,Decimal> mapTranPayAdjId = new Map<Decimal,Decimal>();
 
         if (isPayment) {
-            objPayment = new Payment__c();
+            Payment__c objPayment = new Payment__c();
             objPayment = PaymentJSONParsing.parse(jsonStr);
+            payments.add(objPayment);
         } else {
             lstPaymentAdjustment = PaymentAdjustmentJSONParsing.parse(jsonStr);
         }
 
-        if (objPayment != null) {
-            callTransactionRequest(csrfToken, jwtToken, objPayment, null, isPayment);
+        if (payments.size() > 0) {
+            callTransactionRequest(csrfToken, jwtToken, payments, null, isPayment);
         } else if (lstPaymentAdjustment.size() > 0) {
             for (Payment_Adjustments__c objPaymentAdjustment : lstPaymentAdjustment) {
-                objPaymentAdjustmentwrapper = callTransactionRequest(csrfToken, jwtToken, null, objPaymentAdjustment, isPayment);
+                objPaymentAdjustmentwrapper = callTransactionRequest(csrfToken, jwtToken, null, String.valueOf(objPaymentAdjustment.Sirono_ID__c), isPayment);
 
                 lstTransaction.add(objPaymentAdjustmentwrapper.objTransaction);
                 mapTranPayAdjId.put(objPaymentAdjustment.Sirono_ID__c, objPaymentAdjustmentwrapper.objTransaction.Sirono_ID__c);
@@ -610,7 +611,7 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * call Transaction Request and get all Transactions based on Payment.
     */
-    private static PaymentAdjustmentwrapper callTransactionRequest(String csrfToken, String jwtToken, Payment__c objPayment, Payment_Adjustments__c objPaymentAdjustment, boolean isPayment){
+    private static PaymentAdjustmentwrapper callTransactionRequest(String csrfToken, String jwtToken, List<Payment__c> payments, String paymentAdjustmentSironoId, boolean isPayment){
 
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
 
@@ -625,10 +626,10 @@ public with sharing class PayStaffWSUtill {
         req.setHeader('Content-type', 'application/json');
         if (isPayment) {
             req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/payments/'
-                        + string.valueof(objPayment.Sirono_ID__c) +'/transactions/');
+                        + String.valueOf(payments.get(0).Sirono_ID__c) +'/transactions/');
         } else {
             req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/adjustments/'
-                        + string.valueof(objPaymentAdjustment.Sirono_ID__c) +'/transactions/');
+                        + paymentAdjustmentSironoId +'/transactions/');
         }
 
         req.setTimeout(120000);
@@ -650,7 +651,7 @@ public with sharing class PayStaffWSUtill {
         }
 
         if (res.getStatusCode() != null && res.getStatusCode() == 200) {
-            objPaymentAdjustmentwrapper = parseTransactionResponse(csrfToken, jwtToken, responseBody, objPayment, objPaymentAdjustment, isPayment);
+            objPaymentAdjustmentwrapper = parseTransactionResponse(csrfToken, jwtToken, responseBody, payments, isPayment);
         }else {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
                                     'RESPONSE : '+ res.toString() +
@@ -664,7 +665,7 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * Parse Transaction response and based on Charge group call Charge group request.
     */
-    private static PaymentAdjustmentwrapper parseTransactionResponse(String csrfToken, String jwtToken, string jsonStr, Payment__c objPayment, Payment_Adjustments__c objPaymentAdjustment, boolean isPayment){
+    private static PaymentAdjustmentwrapper parseTransactionResponse(String csrfToken, String jwtToken, string jsonStr, List<Payment__c> payments, boolean isPayment){
         TransactionJSONParsing.TransactionWrapper objTransactionWrapper;
         objTransactionWrapper = TransactionJSONParsing.parse(jsonStr);
 
@@ -713,8 +714,8 @@ public with sharing class PayStaffWSUtill {
         }
         //Save all Records if it is Take Payment.
         if (isPayment) {
-            insert objPayment;
-            id paymentId = objPayment.Id;
+            insert payments;
+            id paymentId = payments.get(0).Id;
 
             if (lsttransaction.size() > 0) {
                 for (Transaction__c objTran : lsttransaction) {
