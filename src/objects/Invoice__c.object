@@ -202,7 +202,7 @@ CASE(Invoice_Status_Index__c,
     <fields>
         <fullName>Partial_Payment_Plan__c</fullName>
         <externalId>false</externalId>
-        <formula>And(Invoice_Status_Index__c &lt;&gt; 6,CONTAINS(All_Substatus__c,&quot;Payment&quot;))</formula>
+        <formula>AND(Invoice_Balance__c &gt; 0, Invoice_Status_Index__c &lt;&gt; 6, CONTAINS(All_Substatus__c, &quot;Payment&quot;))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Partial Payment Plan</label>
         <trackHistory>false</trackHistory>
