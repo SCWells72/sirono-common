@@ -156,7 +156,7 @@
 
         function returnToContact() {
             $('img[title="INFO"]').each(function () {
-                // We have created below variable, because of can not convert boolean directly to JSENCODE.
+	    	// We have created below variable, because of can not convert boolean directly to JSENCODE.
 	        var isAdmin = Boolean('{!JSENCODE(IF(isAdmin, "true", "false"))}');
                 if (isAdmin == true)
                 {

@@ -4,9 +4,10 @@
 * @Date: 06-14-2016
 -->
 
-<apex:page controller="Five9CreateCallLogRecord" action="{!doAction}"
-           cache="false" tabStyle="Contact" showHeader="false" sidebar="false">
+<apex:page controller="Five9CreateCallLogRecord" cache="false" tabStyle="Contact" showHeader="false" sidebar="false">
     <apex:form id="frm">
+        <apex:actionFunction name="doInit" action="{!doAction}"/>
+        
         <apex:pageMessages/>
         <apex:pageBlock>
             <apex:pageBlockSection title="five9 ANI is : {!five9ANI}" collapsible="false">
@@ -32,4 +33,9 @@
             </apex:pageBlockSection>
         </apex:pageBlock>
     </apex:form>
+    <script>
+       window.onload = function(){
+         doInit();
+       };
+    </script>
 </apex:page>
