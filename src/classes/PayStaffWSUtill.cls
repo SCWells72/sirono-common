@@ -542,6 +542,8 @@ public with sharing class PayStaffWSUtill {
     */
     public static void parsePaymentReponse(String csrfToken, String jwtToken, string jsonStr, boolean isPayment){
 
+        // We have change Payment__c object to List of Payment__c and this list pass in Methods as a parameter.
+        // This changes do to resolve Security Scan related issue. 
         List<Payment__c> payments = new List<Payment__c>();
         List<Payment_Adjustments__c> lstPaymentAdjustment = new List<Payment_Adjustments__c>();
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();

@@ -11,11 +11,18 @@ public with sharing class CaseCommentTriggerHandler {
     public static void afterInsert(List<CaseComment> newList) {
         //ONLY DOING CALLOUT WHEN BATCH SIZE IS ONE (It's Created from UI)
         if (newList.size() == 1) {
+            // Passing parameter change CaseComment single record to List of CaseComment to resolve Security Scan Issue.
             checkAndDoAddNoteCallout(newList);
         }
     }
 
-    //PRIVATE METHOD TO VALIDATE AND CALL ADD NOTE FUTURE METHOD
+    /**
+     * PRIVATE METHOD TO VALIDATE AND CALL ADD NOTE FUTURE METHOD
+     *
+     * @param List<CaseComment> caseComments - That contains List of Case Comments.
+     *
+     * Parameter change CaseComment object to List of CaseComment to resolve Security Scan Issue.
+     **/
     private static void checkAndDoAddNoteCallout(List<CaseComment> caseComments) {
         //CHECK IF COMMENT BODY IS NOT NULL
         if (caseComments.get(0).CommentBody != null) {

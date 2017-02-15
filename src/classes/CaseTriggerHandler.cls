@@ -24,6 +24,7 @@ public with sharing class CaseTriggerHandler {
     public static void afterInsert(List<Case> newList) {
         //ONLY DOING CALLOUT WHEN BATCH SIZE IS ONE (It's Created from UI)
         if (newList.size() == 1) {
+            // Passing parameter change Case single record to List of Case to resolve Security Scan Issue.
             checkAndDoAddNoteCallout(newList);
         }
     }
@@ -35,9 +36,15 @@ public with sharing class CaseTriggerHandler {
         removeCampaignMembers(newList, oldMap);
     }
 
-    //PRIVATE METHOD TO VALIDATE AND CALL ADD NOTE FUTURE METHOD
-    //Call a Method addNoteFuture with Charge_Group_IDs__c and Description parameter and send a Request to endpoint
-    private static void checkAndDoAddNoteCallout(List<Case> newCases) {    	 
+    /**
+     * PRIVATE METHOD TO VALIDATE AND CALL ADD NOTE FUTURE METHOD
+     * Call a Method addNoteFuture with Charge_Group_IDs__c and Description parameter and send a Request to endpoint
+     *
+     * @param List<Case> newCases - That contains List of Case.
+     *
+     * Parameter change Case object to List of Case to resolve Security Scan Issue.
+     **/
+    private static void checkAndDoAddNoteCallout(List<Case> newCases) {      
         //Tracker # 130687155 REMOVED CONDITION TO CHECK FOR CASE RECORD TYPE 
         if (newCases.get(0).Description != null) {
             //CHECK IF CASE DID NOT CREATED BY SIRONO INTEGRATION USER
