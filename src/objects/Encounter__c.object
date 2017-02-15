@@ -55,7 +55,6 @@
     <enableFeeds>true</enableFeeds>
     <enableHistory>false</enableHistory>
     <enableReports>true</enableReports>
-    <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ReadWrite</externalSharingModel>
@@ -534,6 +533,7 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>true</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
     </fields>
@@ -577,6 +577,7 @@
         <columns>Procedure__c</columns>
         <columns>Location__c</columns>
         <columns>Patient_Portion__c</columns>
+        <columns>Balance__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
@@ -605,6 +606,18 @@
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <startsWith>Vowel</startsWith>
+    <webLinks>
+        <fullName>Add_Attachment</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <height>600</height>
+        <linkType>url</linkType>
+        <masterLabel>Add Attachment</masterLabel>
+        <openType>sidebar</openType>
+        <protected>false</protected>
+        <url>/apex/UploadAttachmentPage?id={!Encounter__c.Id }</url>
+    </webLinks>
     <webLinks>
         <fullName>New_Payment_Arrangement</fullName>
         <availability>online</availability>

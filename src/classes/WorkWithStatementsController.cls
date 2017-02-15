@@ -1,5 +1,5 @@
 public with sharing class WorkWithStatementsController {
-	public static final String VIEW_URL_SUFFIX = '/guarantor/apex/ViewStatementPDF?id=';
+	public static final String VIEW_URL_SUFFIX = '/guarantor/servlet/servlet.FileDownload?file=';
 
 	public class StatementWrapper {
 		@AuraEnabled
@@ -8,8 +8,10 @@ public with sharing class WorkWithStatementsController {
 		public Statement__c statement 	{get;set;}
 
 		public StatementWrapper(Statement__c statement) {
-			this.pdf_Url 	= WorkWithStatementsController.VIEW_URL_SUFFIX + statement.Id;
 			this.statement 	= statement;
+			if(statement.Attachments != null && statement.Attachments.size() > 0) {
+				this.pdf_Url = WorkWithStatementsController.VIEW_URL_SUFFIX + statement.Attachments[0].Id;
+			}
 		}
 	}
 
@@ -24,7 +26,14 @@ public with sharing class WorkWithStatementsController {
 												SELECT 
 															Id, 
 															PdfUrl__c, 
-															Statement_Date__c 
+															Statement_Date__c,
+															(
+																SELECT
+																		 Id
+																FROM	 Attachments
+																ORDER BY CreatedDate DESC
+																LIMIT	 1
+															)
 												FROM 		Statement__c 
 												WHERE 		Guarantor__c = :currentUser.ContactId
 												ORDER BY 	Statement_Date__c DESC 

@@ -13,9 +13,11 @@
         action.setParams({username:username, password:password, startUrl:startUrl});
         action.setCallback(this, function(response){
             var rtnValue = response.getReturnValue();
-            console.log('::rtnValue:::::' + rtnValue);
             if (rtnValue != null) {
-                // window.location.href = rtnValue;
+                if (helper.getUrlParameter('activeTab') != false) {
+                    rtnValue = rtnValue.replace('CommunitiesLanding', 'CommunitiesLanding?activeTab=' + helper.getUrlParameter('activeTab'));    
+                } 
+                window.location.href = rtnValue;
                 // component.set("v.errorMessage",rtnValue);
                 // component.set("v.showError",true);
             } 

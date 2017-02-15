@@ -1,6 +1,6 @@
 ({
 	myAction: function (component, event, helper) {
-
+		
 	},
 
 	checkMessages: function(component, event, helper){

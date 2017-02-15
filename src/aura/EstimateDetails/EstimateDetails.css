@@ -39,27 +39,6 @@
     color: #16325c !important;
 }
 
-.slds-modal.estimate.THIS  {
-    position: absolute;
-    top: 100px;
-}
-
-.THIS .slds-modal__container.container {
-    width: 85%;
-}
-
-.THIS .content {
-    position: absolute;
-    bottom: 10px;
-    height: 75%;
-    width: 100%;
-}
-
-.THIS .slds-modal__close {
-    top: -11rem;
-}
-
-.THIS .frame {
-    width: 100%;
-    height: auto;
+.THIS a.slds-button.slds-button--brand.slds-m-top--small.clear {
+    max-width: 150px;
 }

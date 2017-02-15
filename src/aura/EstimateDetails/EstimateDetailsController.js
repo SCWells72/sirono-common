@@ -19,22 +19,4 @@
     	});
         appEvent.fire();
 	},
-	preview : function(component, event, helper) {
-		$A.get('e.lightning:openFiles').fire({
-			recordIds: ['06811000000ADunAAG', '06911000000ADmwAAG']
-		});
-	},
-	previewold : function(component, event, helper) {
-		var urlEvent = $A.get("e.force:navigateToURL");
-		urlEvent.setParams({
-		  "url": "https://cs18.salesforce.com/sfc/p/#11000000DprC/a/1100000000t1/9BtWR9wcq2.PCekp8HcjodW9JUfnlJBCP4WOIXOosBM"
-		});
-		urlEvent.fire();
-	},
-	toggleModal: function (component, event, helper) { 
-		var modal = component.find('slds-modal'); 
-		var backdrop = component.find('slds-backdrop'); 
-		$A.util.toggleClass(modal, 'slds-fade-in-open'); 
-		$A.util.toggleClass(backdrop, 'slds-backdrop--open'); 
-	}
 })

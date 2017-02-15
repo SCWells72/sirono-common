@@ -90,3 +90,7 @@
     position: absolute;
     top: 3px;
 }
+
+.THIS .logo-container {
+    margin-bottom: 1rem;
+}

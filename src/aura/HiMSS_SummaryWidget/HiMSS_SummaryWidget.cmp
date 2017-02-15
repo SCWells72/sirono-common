@@ -7,11 +7,10 @@
     <aura:attribute name="invoiceValue" type="Decimal" access="public" default="0"/>
     <aura:attribute name="invoiceValuePart" type="String" access="public" default="00"/>
     <!-- Invoiced_Balance__c END-->
-    <aura:attribute name="login" type="String" access="public" />
-    <aura:attribute name="password" type="String" access="public"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     
     <div class="landing-padding">
+        <div class="logo-container"><a onclick=""><img src="{!$Resource.SironoData + '/assets/images/sirono-blue-logo.png'}" alt="Sirono Logo" /></a></div>
         <aura:if isTrue="{! v.guarantorWrapper.contact.status == 'Overdue'}">
             <div class="no-small">
                 <div class="status warning sldsjs-popover">

@@ -99,6 +99,8 @@ public with sharing class HeaderController {
 				}
 				if(paymentPlans.size() > 0 && paymentPlans[0] != null) {
 					this.paymentPlan = paymentPlans[0];
+				} else {
+					this.paymentPlan = new Payment_Plan__c();
 				}
 				if(contact.Guarantor_Status__c == OVERDUE_STATUS) {
 					this.messageInfo = WARNING_MESSAGE;

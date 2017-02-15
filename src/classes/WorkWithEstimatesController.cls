@@ -1,6 +1,6 @@
 public without sharing class WorkWithEstimatesController {
 	//TODO dynamic domain
-	public static final String FILE_PREFIX = 'https://c.cs18.content.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId=';
+	public static final String FILE_PREFIX = '/guarantor/servlet/servlet.FileDownload?file=';
 
 	@AuraEnabled
     public static List<EstimateWrapper> getAllEstimates(String groupFilter, String additionalFilter) {
@@ -20,7 +20,7 @@ public without sharing class WorkWithEstimatesController {
 							'Date_of_Service__c, Patient__r.Medical_Record_Number__c, Procedure__c, '+
 							'Location__c, Encounter_ID__c, Total_Charges__c, Insurance_Discount__c, '+
 							'Insurance_Portion__c, Total_Payments__c, Balance__c, Type__c, Ordering_Physician__c, '+
-							'(SELECT ContentDocument.LatestPublishedVersionId  FROM ContentDocumentLinks ORDER BY SystemModstamp DESC),' +
+							'(SELECT Id  FROM Attachments ORDER BY CreatedDate DESC LIMIT 1),' +
 							'Coverage__c, Coverage__r.Name '+
 							'FROM Encounter__c WHERE Guarantor__c = \'' + u.ContactId + '\'' + selectedPatients;
 
@@ -42,13 +42,6 @@ public without sharing class WorkWithEstimatesController {
 				allEstimates.add(estimate);
 			}
 		}
-		List<ContentDocument> tempList = [Select Id From ContentDocument];
-		List<ContentVersion> tempVersionList = [Select Id From ContentVersion];
-		List<ContentDocumentLink> tempLinkList = [SELECT Id FROM ContentDocumentLink WHERE LinkedEntityId = :u.ContactId];
-
-		System.debug('tempList' + tempList);
-		System.debug('tempLinkList' + tempLinkList);
-		System.debug('tempVersionList' + tempVersionList);
 		return allEstimates;
 	}
 
@@ -97,9 +90,8 @@ public without sharing class WorkWithEstimatesController {
 				status = 'Paid';
 			}
 			this.estimateStatus = status;
-			System.debug('singleEncounter.ContentDocumentLinks' + singleEncounter.ContentDocumentLinks);
-			if(singleEncounter.ContentDocumentLinks != null && singleEncounter.ContentDocumentLinks.size() > 0) {
-				fileUrl = FILE_PREFIX + singleEncounter.ContentDocumentLinks[0].ContentDocument.LatestPublishedVersionId;
+			if(singleEncounter.Attachments != null && singleEncounter.Attachments.size() > 0) {
+				fileUrl = FILE_PREFIX + singleEncounter.Attachments[0].Id;
 			}
 		}
 	}

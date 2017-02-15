@@ -35,9 +35,11 @@
 		component.set('v.States', states);
 		var curr = component.find("amount");
 		curr.set("v.format", '$#,###.00');
-		
-		//var formField = component.find('field').getElement;
-		//console.log('input + '+formField);
+        console.log('qwertyuil');
+	 	//var formField = component.find('field');
+        //formField.set('autocomplete', 'off');
+        //formField.value = 'off';
+		//console.log('input + ',formField);
 		//formField.setAttribute('autocomplete','off');
 	},
 
@@ -88,7 +90,8 @@
 
 	makePayment : function(component, event, helper){
 		
-		helper.makePaymentHelper(component, event, helper);
+		helper.makePaymentHelper(component, event, helper);   
+       
 	},
 
 	updateAmountInformation : function(component, event, helper){
@@ -112,7 +115,7 @@
 		hlpr.isValidateCVV(cmp);
 	},
 	validateCardN : function(cmp, e, hlpr) {
-		hlpr.isValidateCardN(cmp);
+		hlpr.isValidateCardN(cmp);         
 	},
 	validateZip : function(cmp, e, hlpr) {
 		hlpr.isValidCutNOTNumber(cmp, "zipcode");

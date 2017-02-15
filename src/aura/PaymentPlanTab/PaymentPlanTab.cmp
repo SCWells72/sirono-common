@@ -41,7 +41,7 @@
 								<button class="slds-button slds-button--neutral" onclick="{!c.editTerms}">Edit Terms</button>
 								<button class="slds-button slds-button--neutral" onclick="{!c.editPaymentMethod}">Edit Payment Method</button>
 							</aura:renderIf>
-							<button class="slds-button slds-button--neutral" onclick="{!c.editPaymentCancel}">Cancel Plan</button>
+							<button class="slds-button slds-button--neutral">Cancel Plan</button>
 						</div>
 					</div>
 				</div>

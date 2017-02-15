@@ -7,11 +7,8 @@
             <div class="grid">
                 <div class="col">
                     <h2>My Payments</h2>
-                    <aura:if istrue="{!v.payments.length > 0}">
-                        <p>Click on the receipt link to view more details regarding your payment</p>
-                        <aura:set attribute="else">
-                            <p>You have no completed payments at this time. Payments made online will show here.</p>
-                        </aura:set>
+                    <aura:if isTrue="{!v.payments.length == 0}">
+                        <p>You have no completed payments at this time. Payments made online will show here.</p>
                     </aura:if>
                 </div>
             </div>
