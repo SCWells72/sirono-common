@@ -6,7 +6,7 @@
 
 <apex:page controller="Five9CreateCallLogRecord" cache="false" tabStyle="Contact" showHeader="false" sidebar="false">
     <apex:form id="frm">
-        <apex:actionFunction name="doInit" action="{!doAction}"/>
+        <apex:actionFunction name="callAction" action="{!doAction}" reRender="nothing"/>
         
         <apex:pageMessages/>
         <apex:pageBlock>
@@ -34,8 +34,6 @@
         </apex:pageBlock>
     </apex:form>
     <script>
-       window.onload = function(){
-         doInit();
-       };
+        window.onload = callAction();
     </script>
 </apex:page>
