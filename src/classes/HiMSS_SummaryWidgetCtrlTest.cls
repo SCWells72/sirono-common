@@ -3,14 +3,13 @@ private class HiMSS_SummaryWidgetCtrlTest {
     static testMethod void getGuarantorInfoTest() {
       Test.startTest();
       Test.setMock(HttpCalloutMock.class, new HiMSS_SummaryWidgetMocks());
-   		HiMSS_SummaryWidgetCtrl.GuarantorWrapper gwRecord = HiMSS_SummaryWidgetCtrl.getAllHeaderInfo();
+   		List<HiMSS_SummaryWidgetCtrl.GuarantorWrapper> gwRecordList = HiMSS_SummaryWidgetCtrl.getAllHeaderInfo();
 
-   		System.assert(gwRecord.grtUser.username == 'ruth.a.fiser@gmail.com', 'Incorrect username');
-   		System.assert(gwRecord.grtUser.password == 'test_pw_76', 'Incorrect user password');
-   		System.assert(gwRecord.newEstimatesCount == 3, 'Incorrect new estimates count');
-   		System.assert(gwRecord.paymentPlan.planType == 'Automatic', 'Incorrect payment plan planType');
-   		System.assert(gwRecord.invoiceOverdue == null, 'Incorrect invoice');
-   		System.assert(gwRecord.contact.status == 'Paid', 'Incorrect contact status');
+   		System.assert(gwRecordList[0].grtUser.username == 'cgreen_1@sirono.com', 'Incorrect username');
+   		System.assert(gwRecordList[0].grtUser.password == 'p@$$w0rd', 'Incorrect user password');
+   		System.assert(gwRecordList[0].newEstimatesCount == 1, 'Incorrect new estimates count');
+   		System.assert(gwRecordList[0].invoiceOverdue.dueDate != null, 'Incorrect invoice');
+   		System.assert(gwRecordList[0].contact.status == 'Delinquent', 'Incorrect contact status');
 
       Test.stopTest();
     }

@@ -1,6 +1,10 @@
 <aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="HiMSS_SummaryWidgetCtrl">
     <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/salesforce-lightning-design-system.min.css'}" />
     <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/main.css'}" />
+    <aura:attribute name="isLogin" type="Boolean" default="false"/>
+    <aura:attribute name="guarantorWrapperTimer" type="DateTime"/>
+    <aura:attribute name="guarantorWrapperListCounter" type="Integer"/>
+    <aura:attribute name="guarantorWrapperList" type="List" />
     <aura:attribute name="guarantorWrapper" type="HiMSS_SummaryWidgetCtrl.GuarantorWrapper" />
 
     <!-- Invoiced_Balance__c -->
@@ -8,15 +12,18 @@
     <aura:attribute name="invoiceValuePart" type="String" access="public" default="00"/>
     <!-- Invoiced_Balance__c END-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="c:HiMSS_SummaryWidgetRotateEvent" action="{!c.doRotate}" />
+    <aura:registerEvent name="rotateEvent" type="c:HiMSS_SummaryWidgetRotateEvent"/>
     
     <div class="landing-padding">
-        <div class="logo-container"><a onclick=""><img src="{!$Resource.SironoData + '/assets/images/sirono-blue-logo.png'}" alt="Sirono Logo" /></a></div>
+        <div class="logo-container"><img src="{!$Resource.SironoData + '/assets/images/sirono-blue-logo.png'}" alt="Sirono Logo" /></div>
+
         <aura:if isTrue="{! v.guarantorWrapper.contact.status == 'Overdue'}">
             <div class="no-small">
                 <div class="status warning sldsjs-popover">
                     Your account is overdue!
                     <div class="inline-block" onclick="{!c.showTooltip}">
-                        <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info" />
+                        <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info" />
                     </div>
                     <div aura:id="popover-tooltip" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-left slds-popup slds-hide" role="tooltip" id="help">
                         <div class="slds-popover__body">
@@ -31,7 +38,7 @@
                 <div class="status error sldsjs-popover">
                     Your account is Delinquent!
                     <div class="inline-block" onclick="{!c.showTooltip}">
-                        <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info" />
+                        <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info" />
                     </div>
 
                     <div aura:id="popover-tooltip" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-left slds-popup slds-hide" role="tooltip" id="help">
@@ -82,7 +89,7 @@
         <aura:if isTrue="{! v.guarantorWrapper.contact.status == 'Overdue'}">
             <div class="no-small">
                 <div class="title warning">
-                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" /> You have {!v.guarantorWrapper.contact.overdueInvoices} overdue invoices | <a onclick="{! c.goToMainPage}">View</a>
+                    <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" /> You have {!v.guarantorWrapper.contact.overdueInvoices} overdue invoices | <a onclick="{! c.goToInvoices}">View</a>
                 </div>
             </div>
         </aura:if>
@@ -90,7 +97,7 @@
         <aura:if isTrue="{! v.guarantorWrapper.contact.status == 'Delinquent'}">
             <div class="no-small">
                 <div class="title error">
-                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" /> You have {!v.guarantorWrapper.contact.delinquentInvoices} delinquent invoices | <a onclick="{! c.goToMainPage}">View</a>
+                    <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" /> You have {!v.guarantorWrapper.contact.delinquentInvoices} delinquent invoices | <a onclick="{! c.goToInvoices}">View</a>
                 </div>
             </div>
         </aura:if>
@@ -99,7 +106,7 @@
         <aura:if isTrue="{! v.guarantorWrapper.newEstimatesCount > 0}">
             <div class="no-small">
                 <div class="title success">
-                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" /> You have new estimate(s) for your upcoming appointment | <a onclick="{! c.goToMainPage}">View</a>
+                    <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" /> You have new estimate(s) for your upcoming appointment | <a onclick="{! c.goToEstimates}">View</a>
                 </div>
             </div>
         </aura:if>
@@ -121,7 +128,7 @@
         <aura:if isTrue="{! v.guarantorWrapper.version4}">
             <div class="no-small">
                 <div class="title error">
-                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info"/> Latest payment plan installment was missed!
+                    <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info"/> Latest payment plan installment was missed!
                 </div>
             </div>
         </aura:if>
