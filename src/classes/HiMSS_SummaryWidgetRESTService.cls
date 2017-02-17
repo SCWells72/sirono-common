@@ -19,16 +19,17 @@ global without sharing class HiMSS_SummaryWidgetRESTService {
             res = new RestResponse();
             RestContext.response = res;
         }
+        String getNewUser = req.params.get('getNewUser');
 
-		List<Guarantor> portalGuarantorList = HiMSS_SummaryWidgetRESTService.getPortalGuarantor();
+		List<Guarantor> portalGuarantorList = HiMSS_SummaryWidgetRESTService.getPortalGuarantor(getNewUser);
 		if (! portalGuarantorList.isEmpty()) {
 			res.responseBody = Blob.valueOf(JSON.serialize(portalGuarantorList));	
 		}
     }
 
-    public static List<Guarantor> getPortalGuarantor() {
+    public static List<Guarantor> getPortalGuarantor(String getNewUser) {
     	List<Guarantor> guarantorList = new List<Guarantor>();
-		Map<Id, Guarantor.GuarantorUser> userMap = HiMSS_SummaryWidgetRESTService.getUsers();
+		Map<Id, Guarantor.GuarantorUser> userMap = HiMSS_SummaryWidgetRESTService.getUsers(getNewUser);
 		if (! userMap.isEmpty()) {
 			Map<Id, Guarantor.GuarantorContact> grtContactMap = HiMSS_SummaryWidgetRESTService.getGrtContact(userMap.keySet());
 			Map<Id, Guarantor.Invoice> grtInvoiceMap = HiMSS_SummaryWidgetRESTService.getGuarantorInvoice(userMap.keySet());
@@ -45,24 +46,110 @@ global without sharing class HiMSS_SummaryWidgetRESTService {
 		}
     }
 
-    public static Map<Id, Guarantor.GuarantorUser> getUsers() {
-    	Map<Id, Guarantor.GuarantorUser> userMap = new Map<Id, Guarantor.GuarantorUser>();
-    	List<User> usrList = [
+    public static Map<Id, Guarantor.GuarantorUser> getUsers(String getNewUser) {
+    	Map<Id, Guarantor.GuarantorUser> guarantorUserMap = new Map<Id, Guarantor.GuarantorUser>();
+    	Map<Id, User> usrMap = new Map<Id, User>([
     					SELECT 	Id, 
     						   	ContactId,
     						   	UserName,
-    						   	Community_Password__c 
+    						   	Community_Password__c,
+    						   	Is_Demo_Active__c,
+    						   	Contact.Invoiced_Balance__c
     					FROM 	User 
     					WHERE 	Name = 'Charles Green' AND
     							Is_Demo_Locked__c = false
             					// Id='00511000004rIxJAAU'//AB 2/14 Setting default user
             			ORDER BY CreatedDate ASC
-    	];
-    	for (User usr : usrList) {
-    		userMap.put(usr.ContactId, new Guarantor.GuarantorUser(usr.UserName, usr.Community_Password__c,  usr.ContactId));
-    	}
+    	]);
 
-    	return userMap;
+    	User usr = getUntouchedUser(usrMap, getNewUser);
+    	// for (User usr : usrList) {
+    	guarantorUserMap.put(usr.ContactId, new Guarantor.GuarantorUser(usr.UserName, usr.Community_Password__c,  usr.ContactId));
+    	// }
+
+    	return guarantorUserMap;
+    }
+
+    public static User getUntouchedUser(Map<Id, User> usrMap, String getNewUser) {
+    	User activeUser = checkActiveUser(usrMap, getNewUser);
+    	System.debug(':::activeUser:::' + activeUser);
+    	System.debug(':::getNewUser:::' + getNewUser);
+    	if (activeUser == null) {
+    		Map<Id, Id> contactUserIds = new Map<Id, Id>();
+	    	for (User usr : usrMap.values()) {
+	    		contactUserIds.put(usr.ContactId, usr.Id);
+	    	}
+
+	    	Map<Id, Datetime> lastActivityMap = new Map<Id, Datetime>();
+	    	Set<Id> paymentPlanSet = new Set<Id>();
+	    	List<Payment_Plan__c> paymentPlanList = [
+	    		SELECT Id, Guarantor__c, LastModifiedDate
+	    		FROM Payment_Plan__c
+	    		WHERE Guarantor__c IN :contactUserIds.keySet() AND 
+	    			Active__c = true
+	    		ORDER BY LastModifiedDate DESC
+	    	];
+	    	for (Payment_Plan__c paymentPlan : paymentPlanList) {
+	    		paymentPlanSet.add(paymentPlan.Guarantor__c);
+	    	}
+
+	    	List<Payment__c> paymentList = [
+	    		SELECT Id, Guarantor__c, LastModifiedDate
+	    		FROM Payment__c
+	    		WHERE Guarantor__c IN :contactUserIds.keySet()
+	    		ORDER BY LastModifiedDate DESC
+	    	];
+	    	for (Payment__c payment : paymentList) {
+	    		if (! lastActivityMap.containsKey(payment.Guarantor__c) && ! paymentPlanSet.contains(payment.Guarantor__c)) {	
+	    			lastActivityMap.put(payment.Guarantor__c, payment.LastModifiedDate);
+	    		}
+	    	}
+	    	System.debug(':::lastActivityMap:::' + lastActivityMap);
+
+	    	for (User usr : usrMap.values()) {
+	    		if (! lastActivityMap.containsKey(usr.ContactId) && ! paymentPlanSet.contains(usr.ContactId)) {
+	    			lastActivityMap.put(usr.ContactId, usr.CreatedDate);
+	    		}
+	    	}
+
+	    	Datetime lastActivityDate;
+	    	Id lastActivityDateContactId;
+	    	for (Id contactId : lastActivityMap.keySet()) {
+	    		if (lastActivityDate == null || (lastActivityMap.get(contactId) < lastActivityDate)) {
+	    			lastActivityDate = lastActivityMap.get(contactId);
+	    			lastActivityDateContactId = contactId;
+	    		}
+	    	}
+
+	    	User untouchedUser = usrMap.get(contactUserIds.get(lastActivityDateContactId));
+	    	untouchedUser.Is_Demo_Active__c = true;
+	    	update untouchedUser;
+	    	System.debug(':::untouchedUser:::' + untouchedUser);
+
+	    	return (lastActivityDateContactId != null) ? untouchedUser : null;
+    	} else {
+    		return activeUser;
+    	}
+    }
+
+    private static User checkActiveUser(Map<Id, User> usrMap, String getNewUser) {
+    	User activeUser;
+    	for (User usr : usrMap.values()) {
+    		if (usr.Is_Demo_Active__c) {
+    			activeUser = usr;
+    			break;
+    		}
+    	}
+    	if (activeUser != null) {
+    		Integer paymentPlanCount = [SELECT COUNT() FROM Payment_Plan__c WHERE Guarantor__c =: activeUser.ContactId AND Active__c = true];
+    		if (activeUser.Contact.Invoiced_Balance__c == 0 || (paymentPlanCount >= 1 && getNewUser == 'true')) {
+    			activeUser.Is_Demo_Active__c = false;
+    			update activeUser;
+    			return null;
+    		}
+    	} 
+
+    	return activeUser;
     }
 
     public static Map<Id, Guarantor.GuarantorContact> getGrtContact(Set<Id> contactIds) {
@@ -133,7 +220,8 @@ global without sharing class HiMSS_SummaryWidgetRESTService {
 													Installments_Completed__c,
 													Original_Installment_Count__c,
 													Active__c,
-													Plan_Type__c
+													Plan_Type__c, 
+													Guarantor__c
 											FROM 	Payment_Plan__c
 											WHERE	Guarantor__c IN :contactIds
 											ORDER BY Active__c DESC, LastModifiedDate DESC

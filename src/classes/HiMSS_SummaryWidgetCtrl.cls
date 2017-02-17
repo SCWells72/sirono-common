@@ -12,8 +12,31 @@ public with sharing class HiMSS_SummaryWidgetCtrl {
 	public static String PLAN_STANDING_GOOD     = 'Good standing';
 
 	@AuraEnabled
-	public static GuarantorWrapper getAllHeaderInfo() {
-		return new GuarantorWrapper(UserInfo.getUserId());
+	public static List<GuarantorWrapper> getAllHeaderInfo(String getNewUser) {
+		List<GuarantorWrapper> guarantorWrapperList = new List<GuarantorWrapper>();
+		HttpResponse res = HiMSS_SummaryWidgetCtrl.query(getNewUser);
+		if (res.getStatus() == 'OK' && ! String.isEmpty(res.getBody())) {
+			List<Guarantor> portalGuarantorList = (List<Guarantor>) JSON.deserialize(
+	        	res.getBody(), List<Guarantor>.class
+	    	);
+
+	    	for (Guarantor portalGuarantor : portalGuarantorList) {
+	    		guarantorWrapperList.add(new GuarantorWrapper(portalGuarantor));
+	    	}
+		}
+
+		return guarantorWrapperList;
+	}
+
+	private static HttpResponse query(String getNewUser) {
+		HttpRequest req = new HttpRequest(); 		
+		req.setMethod('GET');
+		req.setEndpoint('https://portal-sirono.cs18.force.com/guarantor/services/apexrest/SummaryWidget?getNewUser=' + getNewUser);
+		
+		Http http = new Http();
+		HttpResponse res = http.send(req);
+		    	
+		return res;
 	}
 
 	public class GuarantorWrapper {
@@ -28,61 +51,42 @@ public with sharing class HiMSS_SummaryWidgetCtrl {
 		@AuraEnabled public Boolean 					version4 				{get;set;}
 		@AuraEnabled public Boolean 					isInstallAmountView 	{get;set;}
 
-		public GuarantorWrapper(Id userId) {
+		public GuarantorWrapper(Guarantor portalGuarantor) {
 			this.messageInfo = '';
-			User user = [SELECT FirstName, LastName FROM User WHERE Id = :userId];
-			HttpResponse res = query(user.FirstName, user.LastName);
-			if(res.getStatus() == 'OK' && ! String.isEmpty(res.getBody())) {
-				Guarantor portalGuarantor = (Guarantor) JSON.deserialize(
-		        	res.getBody(), Guarantor.class
-		    	);
+	    	this.grtUser = portalGuarantor.grtUser;
 
-		    	this.grtUser = portalGuarantor.grtUser;
+	    	if (portalGuarantor.grtUser.contactId != null) {
+	    		this.contact = portalGuarantor.grtContact;
+	    		this.invoiceOverdue = portalGuarantor.grtInvoice;
+	    		this.paymentPlan = portalGuarantor.grtPaymentPlan;
+	    		this.newEstimatesCount = portalGuarantor.newEstimatesCount;
 
-		    	if (portalGuarantor.grtUser.contactId != null) {
-		    		this.contact = portalGuarantor.grtContact;
-		    		this.invoiceOverdue = portalGuarantor.grtInvoice;
-		    		this.paymentPlan = portalGuarantor.grtPaymentPlan;
-		    		this.newEstimatesCount = portalGuarantor.newEstimatesCount;
+				if (contact.status == OVERDUE_STATUS) {
+					this.messageInfo = WARNING_MESSAGE;
+				} else if (contact.status == DELINQUENT_STATUS) {
+					this.messageInfo = DELINQUENT_MESSAGE;
+				}
+				if (this.paymentPlan != null && (paymentPlan.isActive && paymentPlan.paymentPlanStanding == 'Past Due' && paymentPlan.planType == 'Automatic')) {
+					this.messageInfo += PASTDUE_MESSAGE;
+				}
+				if (this.paymentPlan != null && (paymentPlan.isActive && paymentPlan.paymentPlanStanding == 'Past Due' && paymentPlan.planType == 'Manual')) {
+					this.messageInfo += PASTDUE_MANUAL_MESSAGE;
+				}
+				if (this.paymentPlan != null && (paymentPlan.isActive && paymentPlan.planType == 'Automatic' && paymentPlan.paymentPlanStanding == 'In Error')) {
+					this.messageInfo += ERROR_MESSAGE;
+				}
 
-					if(contact.status == OVERDUE_STATUS) {
-						this.messageInfo = WARNING_MESSAGE;
-					} else if(contact.status == DELINQUENT_STATUS) {
-						this.messageInfo = DELINQUENT_MESSAGE;
-					}
-					if(paymentPlan.isActive && paymentPlan.paymentPlanStanding == 'Past Due' && paymentPlan.planType == 'Automatic') {
-						this.messageInfo += PASTDUE_MESSAGE;
-					}
-					if(paymentPlan.isActive && paymentPlan.paymentPlanStanding == 'Past Due' && paymentPlan.planType == 'Manual') {
-						this.messageInfo += PASTDUE_MANUAL_MESSAGE;
-					}
-					if(paymentPlan.isActive && paymentPlan.planType == 'Automatic' && paymentPlan.paymentPlanStanding == 'In Error') {
-						this.messageInfo += ERROR_MESSAGE;
-					}
-
-					this.version2 = ((this.contact.status == 'Due' || this.contact.status == 'Overdue' 
-						|| this.contact.status == 'Delinquent') && this.contact.addToPaymentPlan == false) ? true : false;
-					this.version3 = ((((this.contact.status == 'Due' || this.contact.status == 'Overdue' 
-						|| this.contact.status == 'Delinquent') && this.contact.addToPaymentPlan == true) 
-							|| this.contact.status == 'On Payment Plan') && (this.paymentPlan != null && this.paymentPlan.paymentPlanStanding == 'Good Standing')) ? true : false;
-					this.version4 = ((((this.contact.status == 'Due' || this.contact.status == 'Overdue' 
-						|| this.contact.status == 'Delinquent') && this.contact.addToPaymentPlan == true) 
-							|| this.contact.status == 'On Payment Plan') && (this.paymentPlan != null && this.paymentPlan.paymentPlanStanding != 'Good Standing')) ? true : false;
-					this.isInstallAmountView = (((this.contact.status == 'Due' || this.contact.status == 'Overdue' || this.contact.status == 'Delinquent') 
-						&& this.contact.addToPaymentPlan == true) || this.contact.status == 'On Payment Plan') ? true : false;
-		    	}
-			}
+				this.version2 = ((this.contact.status == 'Due' || this.contact.status == 'Overdue' 
+					|| this.contact.status == 'Delinquent') && this.contact.addToPaymentPlan == false) ? true : false;
+				this.version3 = ((((this.contact.status == 'Due' || this.contact.status == 'Overdue' 
+					|| this.contact.status == 'Delinquent') && this.contact.addToPaymentPlan == true) 
+						|| this.contact.status == 'On Payment Plan') && (this.paymentPlan != null && this.paymentPlan.paymentPlanStanding == 'Good Standing')) ? true : false;
+				this.version4 = ((((this.contact.status == 'Due' || this.contact.status == 'Overdue' 
+					|| this.contact.status == 'Delinquent') && this.contact.addToPaymentPlan == true) 
+						|| this.contact.status == 'On Payment Plan') && (this.paymentPlan != null && this.paymentPlan.paymentPlanStanding != 'Good Standing')) ? true : false;
+				this.isInstallAmountView = (((this.contact.status == 'Due' || this.contact.status == 'Overdue' || this.contact.status == 'Delinquent') 
+					&& this.contact.addToPaymentPlan == true) || this.contact.status == 'On Payment Plan') ? true : false;
+	    	}
 		}
-
-		private HttpResponse query(String firstName, String lastName) {
-	    	HttpRequest req = new HttpRequest(); 		
-			req.setMethod('GET');
-			req.setEndpoint('https://portal-sirono.cs18.force.com/guarantor/services/apexrest/SummaryWidget?firstName=' + firstName.replaceAll(' ', '+') + '&lastName=' + lastName.replaceAll(' ', '+'));
-			
-			Http http = new Http();
-	    	HttpResponse res = http.send(req);
-	    	    	
-	    	return res;
-	    }
 	}
 }

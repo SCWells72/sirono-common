@@ -16,7 +16,7 @@
     <aura:registerEvent name="rotateEvent" type="c:HiMSS_SummaryWidgetRotateEvent"/>
     
     <div class="landing-padding">
-        <div class="logo-container"><img src="{!$Resource.SironoData + '/assets/images/sirono-blue-logo.png'}" alt="Sirono Logo" /></div>
+        <div class="logo-container"><img class="sironoLogo" src="{!$Resource.SironoData + '/assets/images/sirono-blue-logo.png'}" alt="Sirono Logo" /></div>
 
         <aura:if isTrue="{! v.guarantorWrapper.contact.status == 'Overdue'}">
             <div class="no-small">
@@ -112,12 +112,35 @@
         </aura:if>
         <!-- estimate notification END -->
 
+        <!-- Version #2 Outstanding balance, no payment plan -->
+        <aura:if isTrue="{! v.guarantorWrapper.version2}">
+            <div class="no-small">
+                <div class="status inform-block sldsjs-popover">
+                    <a onclick="{!c.goToPayments}">Pay your bill</a> or <a onclick="{!c.goToPaymentPlans}">set up an interest-free payment plan</a> today!
+                </div>
+
+                <div class="status inform-block sldsjs-popover">
+                    View your account details <a onclick="{!c.goToMainPage}">here</a>.
+                </div>
+            </div>
+        </aura:if>
+        <!-- Version #2 Outstanding balance, no payment plan END-->
+
         <!-- Version #3 Outstanding balance, payment plan, good standing -->
         <aura:if isTrue="{! v.guarantorWrapper.version3}">
             <div class="no-small">
                 <div class="section_header_Payment">
                     <div class="title">
                         Next Payment Installment Due <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.nextPaymentDate}"/>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="status inform-block sldsjs-popover">
+                        <a onclick="{!c.goToPayments}">Pay your bill</a> or <a onclick="{!c.goToPaymentPlans}">manage your payment plan</a> today!
+                    </div>
+
+                    <div class="status inform-block sldsjs-popover">
+                        View your account details <a onclick="{!c.goToMainPage}">here</a>.
                     </div>
                 </div>
             </div>
@@ -131,10 +154,15 @@
                     <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info"/> Latest payment plan installment was missed!
                 </div>
             </div>
+            <div class="status inform-block sldsjs-popover">
+                Your <a onclick="{!c.goToPaymentPlans}">payment plan</a> requires your attention!<br></br> 
+                Please <a onclick="{!c.goToPayments}">pay your missing installment</a> or pay your<br></br>  
+                account in full to avoid payment plan cancellation.
+            </div>
+            <div class="status inform-block sldsjs-popover">
+                View your account details <a onclick="{!c.goToMainPage}">here</a>.
+            </div>
         </aura:if>
         <!-- Version #4 Outstanding balance, payment plan, in error or past due END-->
-        <div class="title">
-        	<a onclick="{!c.goToMainPage}">Go to Portal</a>
-        </div>
     </div>
 </aura:component>

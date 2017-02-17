@@ -2,5 +2,7 @@
 	<aura:attribute name='type'    						type="String"	/>
 	<aura:attribute name='guarantorWrapperTimer'    	type="Datetime"	/>
     <aura:attribute name='guarantorWrapperListCounter'  type="Integer"	/>
-    <aura:attribute name='isLogin'	default="false"		type="Boolean"	/>
+    <aura:attribute name='isLogin'						type="Boolean"	/>
+    <aura:attribute name='isActiveUser'					type="Boolean"	/>
+    <aura:attribute name='userName'						type="String"	/>
 </aura:event>

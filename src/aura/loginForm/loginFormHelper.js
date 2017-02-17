@@ -16,7 +16,9 @@
             if (rtnValue != null) {
                 if (helper.getUrlParameter('activeTab') != false) {
                     rtnValue = rtnValue.replace('CommunitiesLanding', 'CommunitiesLanding?activeTab=' + helper.getUrlParameter('activeTab'));    
-                } 
+                } else if (helper.getUrlParameter('tab') != false) {
+                    rtnValue = rtnValue.replace('CommunitiesLanding', 'CommunitiesLanding?tab=' + helper.getUrlParameter('tab'));    
+                }
                 window.location.href = rtnValue;
                 // component.set("v.errorMessage",rtnValue);
                 // component.set("v.showError",true);

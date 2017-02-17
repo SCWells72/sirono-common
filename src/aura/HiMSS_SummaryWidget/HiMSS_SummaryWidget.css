@@ -92,5 +92,22 @@
 }
 
 .THIS .logo-container {
-    margin-bottom: 1rem;
+    margin-bottom: 3rem;
+}
+
+.THIS .sironoLogo {
+    width: 13rem;
+}
+
+.THIS .inform-block {
+    display: table !important;
+    color: #689FCD;
+    font-weight: bold;
+    border: 2px #689FCD solid;
+}
+
+.THIS .inform-block a {
+    font-weight: bold;
+    text-decoration: underline;
+    color: #689FCD;
 }

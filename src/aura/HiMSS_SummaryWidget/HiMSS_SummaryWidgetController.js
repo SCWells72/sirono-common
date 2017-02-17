@@ -16,27 +16,23 @@
     },
 
     goToMainPage: function(component, event, helper) {
-        var url = helper.getUrl(component);
-        $A.get("e.force:navigateToURL").setParams({
-            'url' : url
-        }).fire(); 
-        helper.setLogin(component, event, helper);
+        helper.goToUrl(component, event, helper, null, 'main');
     },
 
     goToInvoices: function(component, event, helper) {
-        var url = helper.getUrl(component) + '&activeTab=Invoices';
-        $A.get("e.force:navigateToURL").setParams({
-            'url' : url 
-        }).fire();
-        helper.setLogin(component, event, helper);
+        helper.goToUrl(component, event, helper, 'activeTab=Invoices', 'main');
     },
 
     goToEstimates: function(component, event, helper) {
-        var url = helper.getUrl(component) + '&activeTab=Estimates';
-        $A.get("e.force:navigateToURL").setParams({
-            'url' : url 
-        }).fire();
-        helper.setLogin(component, event, helper);
+        helper.goToUrl(component, event, helper, 'activeTab=Estimates', 'main');
+    },
+
+    goToPayments: function(component, event, helper) {
+        helper.goToUrl(component, event, helper, 'tab=MakeAPayment', 'payment');
+    },
+
+    goToPaymentPlans: function(component, event, helper) {
+        helper.goToUrl(component, event, helper, 'tab=CreatePaymentPlan', 'payment');
     },
 
     showTooltip: function(component, event, helper) {

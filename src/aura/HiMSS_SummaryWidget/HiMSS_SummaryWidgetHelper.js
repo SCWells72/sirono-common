@@ -1,24 +1,14 @@
 ({
+	getAllHeaderInfo : function(component, helper) {
+		helper.getDataFromHeader(component, helper);
+	},
+
 	getDataFromHeader : function(component, helper) {
 		var appEvent = $A.get("e.c:HiMSS_SummaryWidgetRotateEvent");
-		console.log('::::appEvent:::::' + appEvent);
 		appEvent.setParams({ 
         	'type': 'get'
     	});
         appEvent.fire();
-	},
-
-	getAllHeaderInfo : function(component, helper) {
-		var action = component.get("c.getAllHeaderInfo");
-        action.setCallback(this, function(response) {
-	    	if (response.getState() === 'SUCCESS') {
-	    		var guarantorWrapperList = response.getReturnValue();
-		        component.set('v.guarantorWrapperList', guarantorWrapperList);
-		        // helper.setGuarantorWrapper(component, helper);
-		        helper.getDataFromHeader(component, helper);
-	    	}
-        });
-        $A.enqueueAction(action);
 	},
 
 	getFormatter : function() {
@@ -31,19 +21,59 @@
 	},
 
 	setGuarantorWrapper : function(component, event, helper) {
-		console.log('::::setGuarantorWrapper::::::');
-		component.set('v.isLogin', event.getParam('isLogin'));
-		var formatter = helper.getFormatter();
-		var guarantorWrapperList = component.get('v.guarantorWrapperList');
-		var guarantorWrapperListCounter = helper.getGuarantorWrapperListCounter(component, event, helper, guarantorWrapperList);
-		var guarantorWrapper = guarantorWrapperList[guarantorWrapperListCounter];
-        component.set('v.guarantorWrapper', guarantorWrapper);
-        
-        if (typeof(guarantorWrapper.contact) != "undefined") {
-            component.set('v.invoiceValue', formatter.format(Math.floor(guarantorWrapper.contact.invoicedBalance)));
-    		component.set('v.invoiceValuePart', (guarantorWrapper.contact.invoicedBalance % 1).toFixed(2).toString().substring(2));
-    	}
+		var isTimer = helper.checkTimer(component, event);
+		var isActiveUser = event.getParam('isActiveUser');
 
+		var getNewUser = (isTimer == true || (isTimer == null && ! isActiveUser)) ? 'true' : 'false';
+		var action = component.get("c.getAllHeaderInfo");
+		action.setParams({
+			'getNewUser' : getNewUser
+		});
+
+        action.setCallback(this, function(response) {
+	    	if (response.getState() === 'SUCCESS') {
+	    		var guarantorWrapperList = response.getReturnValue();
+		        component.set('v.guarantorWrapperList', guarantorWrapperList);
+		        component.set('v.guarantorWrapper', guarantorWrapperList[0]);
+		        var guarantorWrapper = component.get('v.guarantorWrapper');
+		        var formatter = helper.getFormatter();
+		        if (typeof(guarantorWrapper.contact) != "undefined") {
+		            component.set('v.invoiceValue', formatter.format(Math.floor(guarantorWrapper.contact.invoicedBalance)));
+		    		component.set('v.invoiceValuePart', (guarantorWrapper.contact.invoicedBalance % 1).toFixed(2).toString().substring(2));
+		    	}
+
+				if (event.getParam('userName') != guarantorWrapper.grtUser.userName) {
+					component.set('v.isLogin', false);
+				} else {
+					component.set('v.isLogin', true);
+				}
+
+				var guarantorWrapperTimer;
+				if (typeof(guarantorWrapper.paymentPlan) != 'undefined' && guarantorWrapper.paymentPlan != null && guarantorWrapper.paymentPlan.isActive) {
+					var previousDateTime = event.getParam('guarantorWrapperTimer');
+					if (typeof(previousDateTime) != 'undefined' && previousDateTime != null) {
+						guarantorWrapperTimer = previousDateTime;
+					} else {
+						guarantorWrapperTimer = new Date();
+					}
+				} else {
+					guarantorWrapperTimer = null;
+				}
+
+				var appEvent = $A.get("e.c:HiMSS_SummaryWidgetRotateEvent");
+					appEvent.setParams({ 
+			        	'type': 'post',
+			        	'userName': guarantorWrapper.grtUser.userName,
+			        	'guarantorWrapperTimer': guarantorWrapperTimer,
+			        	'isActiveUser': true
+			    	});
+		        appEvent.fire();
+	    	}
+        });
+        $A.enqueueAction(action);
+		// var guarantorWrapperListCounter = helper.getGuarantorWrapperListCounter(component, event, helper, guarantorWrapperList);
+		// var guarantorWrapper = guarantorWrapperList[guarantorWrapperListCounter];
+        // component.set('v.guarantorWrapper', guarantorWrapper);
 	},
 
 	getGuarantorWrapperListCounter : function(component, event, helper, guarantorWrapperList) {
@@ -66,17 +96,29 @@
 		return guarantorWrapperListCounter;
 	},
 
-	goToMainPage : function(component, tabType) {
+	goToUrl : function(component, event, helper, tabAttribute, pageType) {
+		var mainPartUrl = helper.getUrl(component, pageType);
+		var url = (tabAttribute == null) ? mainPartUrl : mainPartUrl + tabAttribute;
         $A.get("e.force:navigateToURL").setParams({
-            'url' : '/?activeTab=' + tabType
-        }).fire();
+            'url' : url
+        }).fire(); 
+        helper.setLogin(component, event, helper);
 	},
 
-	getUrl : function(component) {
+	getUrl : function(component, pageType) {
 		var guarantorWrapper = component.get('v.guarantorWrapper');
 		var isLogin = component.get('v.isLogin');
-		var url = (isLogin) ? 'https://portal-sirono.cs18.force.com/guarantor/s/?' : 'https://portal-sirono.cs18.force.com/guarantor/s/login/?startURL=/guarantor/s/&ec=302&';
-		url += 'un=' + guarantorWrapper.grtUser.userName + '&pw=' + guarantorWrapper.grtUser.password;
+		var url;
+		if (pageType == 'main') {
+			url = (isLogin) ? 'https://portal-sirono.cs18.force.com/guarantor/s/?' : 'https://portal-sirono.cs18.force.com/guarantor/s/login/?startURL=/guarantor/s/&ec=302&';
+		} else {
+			url = (isLogin) ? 'https://portal-sirono.cs18.force.com/guarantor/s/payments?' : 'https://portal-sirono.cs18.force.com/guarantor/s/login/?startURL=/guarantor/s/payments&ec=302&';
+		}
+		
+		if (! isLogin) {
+			url += 'un=' + guarantorWrapper.grtUser.userName + '&pw=' + guarantorWrapper.grtUser.password + '&';	
+		}
+		
 		return url;
 	},
 
@@ -95,7 +137,7 @@
 			return (diffMins >= 2) ? true : false;
 		} else {
 			console.log('::::true::::');
-			return true;
+			return null;
 		}
 	},
 

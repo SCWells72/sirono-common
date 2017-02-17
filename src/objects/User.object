@@ -63,6 +63,14 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Is_Demo_Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Is Demo Active</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Is_Demo_Locked__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
