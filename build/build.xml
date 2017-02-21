@@ -136,6 +136,23 @@
         <echoproperties prefix="env."/>
     </target>
 
+    <condition property="metadata_type" value="CustomObject">
+        <not>
+            <isset property="metadata_type"/>
+        </not>
+    </condition>
+
+    <target name="listMetadata">
+        <echo level="info">List metadata type: ${metadata_type} from: ${sf.source.username} into: ${basedir}/listMetadata/list_${metadata_type}.log</echo>
+        <mkdir dir="${basedir}/listMetadata"/>
+      <sf:listMetadata
+        username="${sf.source.username}"
+        password="${sf.source.password}"
+        serverurl="${sf.source.serverurl}"
+        metadataType="${metadata_type}"
+        resultFilePath="${basedir}/listMetadata/list_${metadata_type}.log"/>
+    </target>
+
     <target name="full_deploy" description="Full environment setup in target org"
             depends="stop_all_scheduled_jobs, deploy, initialize_custom_settings, schedule_all_jobs"/>
 
