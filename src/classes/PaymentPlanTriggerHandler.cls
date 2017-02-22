@@ -26,9 +26,10 @@ public with sharing class PaymentPlanTriggerHandler {
         callPopulateNextPaymentDate(newList, null, true);
     }
 
-    //static method invoked after insert event
+    //static method invoked before update event
     public static void beforeUpdate(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap) {
         callPopulateNextPaymentDate(newList, oldMap, false);
+        resetChargesAdded(newList, oldMap);
     }
 
     //private staic method that collects the Guarantor IDs
@@ -200,6 +201,20 @@ public with sharing class PaymentPlanTriggerHandler {
 
         if (contactToCloseCase.Size() > 0) {
             CaseUtil.closeCCErrorCase(contactToCloseCase, paymentPlanID);
+        }
+    }
+
+    // If the plan value modified date changes, then set the charges added since start field to 0
+    private static void resetChargesAdded(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap) {
+        List<Id> planIds = new List<Id>();
+
+        for (Payment_Plan__c plan : newList) {
+            Datetime newDate = plan.Plan_Value_Modified_Date__c;
+            Datetime oldDate = oldMap.get(plan.Id).Plan_Value_Modified_Date__c;
+
+            if(newDate != oldDate) {
+                plan.Charges_Added_Since_Start__c = 0;
+            }
         }
     }
 

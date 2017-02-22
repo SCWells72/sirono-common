@@ -4,6 +4,7 @@
 
 public class Constants {
 
+    // Constant variables for account substatus values.
     public static final String ACCT_SUBSTATUS_DUE_BY = 'Due By';
     public static final String ACCT_SUBSTATUS_PAYMENT_PLAN = 'On Payment Plan';
     public static final String ACCT_SUBSTATUS_INACTIVE = 'Inactive';
@@ -36,6 +37,12 @@ public class Constants {
     public static final String PAGE_MESSAGE_CC_CVV_REQUIRE = 'CVV is a required field.';    
     public static final String PAGE_MESSAGE_CC_EXPIRATION_DATE_FUTURE = 'Expiration date must be in the future.';
     public static final String PAGE_MESSAGE_CC_NAME_REQUIRE = 'Name is a required field.';    
+
+    // Constant variables for transaction method (txn_method) values.
+    public static final String ADJUSTMENT = 'Adjustment';
+    public static final String PAYMENT = 'Payment';
+    public static final String SERVICE = 'Service';
+    public static final String UNKNOWN = 'Unknown';
 
     private Constants() {}
 }
