@@ -71,6 +71,71 @@ public class InvoiceUtilTest {
     }
 
     @isTest
+    public static void invoiceIndexWithInactiveChargeGroup() {
+        Test.startTest();
+
+        Charge_Group__c maxChargeGroup = [
+                SELECT Id, Active__c, Sub_Status_Index__c
+                FROM Charge_Group__c
+                ORDER BY Sub_Status_Index__c DESC
+                LIMIT 1
+        ];
+
+        Decimal maxChargeGroupIndex = maxChargeGroup.Sub_Status_Index__c;
+        maxChargeGroup.Active__c = FALSE;
+        update maxChargeGroup;
+
+        Invoice__c inv = [
+                SELECT Id, Invoice_Status_Index__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        Decimal updatedInvoiceIndex = inv.Invoice_Status_Index__c;
+
+        test.stopTest();
+
+        System.assertNotEquals(maxChargeGroupIndex, updatedInvoiceIndex);
+    }
+
+    @isTest
+    public static void invoiceWithAllInactiveChargeGroups() {
+        Test.startTest();
+
+        Invoice__c originalInvoice = [
+                SELECT Id, Invoice_Status_Index__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        Decimal originalInvIndex = originalInvoice.Invoice_Status_Index__c;
+
+        List<Charge_Group__c> chargeGroupList = [
+                SELECT Id, Active__c, Sub_Status_Index__c
+                FROM Charge_Group__c
+        ];
+
+        for (Charge_Group__c cg: chargeGroupList) {
+            cg.Active__c = FALSE;
+        }
+
+        update chargeGroupList;
+
+        Invoice__c updatedInvoice = [
+                SELECT Id, Invoice_Status_Index__c
+                FROM Invoice__c
+                LIMIT 1
+        ];
+
+        Decimal updatedInvIndex = updatedInvoice.Invoice_Status_Index__c;
+
+        Test.stopTest();
+
+        System.assertEquals(0, updatedInvIndex);
+        System.assertNotEquals(originalInvIndex, updatedInvIndex);
+    }
+
+    @isTest
     public static void invoiceIndexWithNoChargeGroupsTest() {
         Test.startTest();
 
