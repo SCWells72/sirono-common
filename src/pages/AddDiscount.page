@@ -48,6 +48,7 @@ Sirono 08-22-2016: 127323475 when Record Saved Successfully return to the contac
                         <td class="headerRow">Balance</td>
                         <td class="headerRow">Invoice Date</td>
                         <td class="headerRow">Status</td>
+                        <td class="headerRow">Sub Status</td>
                     </tr>
                 </table>
                 <div class="pay-staff-inner-table">
@@ -83,6 +84,9 @@ Sirono 08-22-2016: 127323475 when Record Saved Successfully return to the contac
                                 </td>
                                 <td class="dataCell">
                                     <apex:outputField value="{!cgw.cg.Account_Status__c}"/>
+                                </td>
+                                <td class="dataCell">
+                                    <apex:outputField value="{!cgw.cg.Account_Sub_Status__c}"/>
                                 </td>
                             </tr>
                         </apex:repeat>
