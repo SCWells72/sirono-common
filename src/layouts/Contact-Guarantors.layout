@@ -265,10 +265,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Test_ID__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
                 <field>X18_Digit_ID__c</field>
             </layoutItems>
             <layoutItems>
