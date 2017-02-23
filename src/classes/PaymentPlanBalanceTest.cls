@@ -10,16 +10,18 @@ public class PaymentPlanBalanceTest {
     @testSetup
     static void setupTestRecords() {
         // Use a modified CreatedDate so we can test transactions added in the future
-        Date newCreateDate = system.today().addDays(-5);
+        Datetime newCreateDate = system.now().addDays(-5);
 
         // Generate and insert initial Transaction, Charge Group, Guarantor, and Patient
         Contact patient = TestUtility.generatePatientContact();
-        patient.CreatedDate = (Date) newCreateDate;
+        patient.CreatedDate = Date.valueOf(newCreateDate);
         insert patient;
 
+
         Contact guarantor = TestUtility.generateGuarantorContact();
-        guarantor.CreatedDate = (Date) newCreateDate;
+        guarantor.CreatedDate = Date.valueOf(newCreateDate);
         insert guarantor;
+
 
         Map<String, String> recordTypeMap = new Map<String, String>();
         for (RecordType recordType : [
@@ -31,25 +33,27 @@ public class PaymentPlanBalanceTest {
         }
 
         Payment_Method__c testPM = TestUtility.generatePaymentMethod(guarantor.Id, recordTypeMap.get('Credit Card'));
-        testPM.CreatedDate = (Date) newCreateDate;
+        testPM.CreatedDate = Date.valueOf(newCreateDate);
         insert testPM;
 
         Payment_Plan__c testPP = TestUtility.generatePaymentPlan(guarantor);
-        testPP.CreatedDate = (Date) newCreateDate;
-        testPP.Plan_Value_Modified_Date__c = (Date) newCreateDate;
-        testPP.Original_Balance__c = 100;
+        testPP.CreatedDate = newCreateDate;
+        testPP.Plan_Value_Modified_Date__c = newCreateDate;
+        testPP.Original_Balance__c = TestUtility.generateRandomCurrency();
         insert testPP;
 
         Charge_Group__c testCG = TestUtility.generateChargeGroup(guarantor.Id, patient.Id, 887887, testPP.Id);
-        testCG.CreatedDate = (Date) newCreateDate;
+        testCG.CreatedDate = Date.valueOf(newCreateDate);
         insert testCG;
 
         Service__c testService = TestUtility.generateService(testCG, TestUtility.generateRandomCurrency());
-        testService.Post_Date__c = (Date) newCreateDate;
+        testService.Post_Date__c = Date.valueOf(newCreateDate);
         insert testService;
 
         Transaction__c testTransaction = TestUtility.generateServiceTxn(testCG, testService.Amount__c, testService);
-        testTransaction.Post_Date__c = testService.Post_Date__c;
+        testTransaction.Post_Date__c = Date.valueOf(newCreateDate);
+        testTransaction.Transaction_Date__c = Date.valueOf(testPP.Plan_Value_Modified_Date__c);
+        insert testTransaction;
     }
 
     // Upon initial insert of charge group and related data, make sure Charges_Added_Since_Start__c = 0 or null
@@ -78,7 +82,8 @@ public class PaymentPlanBalanceTest {
         insert newService;
 
         Transaction__c newServiceTransaction = TestUtility.generateServiceTxn(testCG, newService.Amount__c, newService);
-        newServiceTransaction.Post_Date__c = newService.Post_Date__c;
+        newServiceTransaction.Post_Date__c = Date.valueOf(newService.Post_Date__c);
+        newServiceTransaction.Transaction_Date__c =  Date.valueOf(newServiceTransaction.Post_Date__c);
         insert newServiceTransaction;
 
         Payment_Plan__c ppResults = [
@@ -96,10 +101,15 @@ public class PaymentPlanBalanceTest {
     // Add a new transaction and then modify the payment plan's value modified date; Charges_Added_Since_Start__c should equal 0
     @isTest
     static void changePPValueModifiedDateTest() {
+        Test.startTest();
+
         Charge_Group__c testCG = [SELECT Id, Balance__c from Charge_Group__c LIMIT 1];
 
-        Transaction__c secondTestTransaction = TestUtility.generateTransaction(testCG, 100, null);
-        secondTestTransaction.CreatedDate = system.today().addDays(-3);
+        Service__c newService = TestUtility.generateService(testCG, TestUtility.generateRandomCurrency());
+        insert newService;
+
+        Transaction__c secondTestTransaction = TestUtility.generateServiceTxn(testCG, newService.Amount__c, newService);
+        secondTestTransaction.Transaction_Date__c = system.today().addDays(-3);
         insert secondTestTransaction;
 
         Payment_Plan__c updatedPPResults = [
@@ -118,6 +128,8 @@ public class PaymentPlanBalanceTest {
                 LIMIT 1
         ];
 
+        Test.stopTest();
+
         system.assertEquals(0, finalPPResults.Charges_Added_Since_Start__c,
                 'Value date was updated, charges added should be 0.');
     }
@@ -125,9 +137,16 @@ public class PaymentPlanBalanceTest {
     // Insert a payment transaction and verify that the added charges field isn't updated
     @isTest
     static void insertPaymentTransactionTest() {
-        Charge_Group__c testCG = [SELECT Id, Balance__c from Charge_Group__c LIMIT 1];
+        Test.startTest();
 
-        Transaction__c secondTestTransaction = TestUtility.generateTransaction(testCG, 100, 'credit');
+        Charge_Group__c testCG = [SELECT Id, Balance__c from Charge_Group__c LIMIT 1];
+        Contact guarantor = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+
+        Payment__c pmt = TestUtility.generateSironoPayment(guarantor.Id, Decimal.valueOf(Math.random()), TestUtility.generateRandomCurrency());
+        insert pmt;
+
+        Transaction__c secondTestTransaction = TestUtility.generatePaymentTxn(testCG, pmt.Amount__c, pmt);
+        secondTestTransaction.Transaction_Date__c = Date.valueOf(secondTestTransaction.Post_Date__c);
         insert secondTestTransaction;
 
         Payment_Plan__c ppResults = [
@@ -135,6 +154,8 @@ public class PaymentPlanBalanceTest {
                 FROM Payment_Plan__c
                 LIMIT 1
         ];
+
+        Test.stopTest();
 
         system.assertEquals(0, ppResults.Charges_Added_Since_Start__c,
                 'Transaction was payment type; charges added should not have been updated.');

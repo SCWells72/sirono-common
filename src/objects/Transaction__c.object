@@ -116,7 +116,7 @@
     <fields>
         <fullName>Charge_added_since_plan_start__c</fullName>
         <externalId>false</externalId>
-        <formula>AND( Charge_Group__r.Payment_Plan__r.Plan_Value_Modified_Date__c &lt; CreatedDate , Amount__c &gt; 0 , Txn_Method__c == &apos;Service&apos;)</formula>
+        <formula>AND( Transaction_Date__c &gt; DATEVALUE(Charge_Group__r.Payment_Plan__r.Plan_Value_Modified_Date__c), Amount__c &gt; 0 , Txn_Method__c == &apos;Service&apos; )</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Charge added since payment plan start</label>
         <trackHistory>false</trackHistory>
