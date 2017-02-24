@@ -46,7 +46,7 @@
         <script type="text/javascript">
             function testSetTabTitle() {
                 //Set the current tab's title
-                sforce.console.setTabTitle('Contact: {!Contact.Name}');
+                sforce.console.setTabTitle('Contact: {!JSENCODE(Contact.Name)}');
             }
 
             var pageLoad = window.onload;

@@ -53,7 +53,7 @@
         function returnToContact() {
             $('img[title="INFO"]').each(function () {
                 setTimeout(function () {
-                    window.location = '/{!paymentPlanId}';
+                    window.location = '/{!JSENCODE(paymentPlanId)}';
                 }, delaymessage);
             });
         }

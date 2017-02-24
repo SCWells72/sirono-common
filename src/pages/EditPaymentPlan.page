@@ -322,7 +322,7 @@
         function returnToContact() {
             $('img[title="INFO"]').each(function () {
                 setTimeout(function () {
-                    window.location = '/{!paymentPlanRecordId}';
+                    window.location = '/{!JSENCODE(paymentPlanRecordId)}';
                 }, delaymessage);
             });
         }

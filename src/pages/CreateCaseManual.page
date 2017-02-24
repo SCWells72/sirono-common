@@ -537,14 +537,14 @@
             };
             
             function fnFieldSet() {
-                if('{!coverageJson}' != '') {
-                    var objcoverage = JSON.parse('{!coverageJson}');
+                if('{!JSENCODE(coverageJson)}' != '') {
+                    var objcoverage = JSON.parse('{!JSENCODE(coverageJson)}');
                 }
-                if('{!transactionJson}' != '') {
-                    var objTransaction = JSON.parse('{!transactionJson}');
+                if('{!JSENCODE(transactionJson)}' != '') {
+                    var objTransaction = JSON.parse('{!JSENCODE(transactionJson)}');
                 }
-                var caseType = '{!caseType}';
-                var reason = '{!caseObj.Reason}';                
+                var caseType = '{!JSENCODE(caseType)}';
+                var reason = '{!JSENCODE(caseObj.Reason)}';                
                 
                 if (caseType == 'Billing') {
                     if (reason == 'Refund/Credit Request') {
@@ -699,7 +699,7 @@
             function returnToContact() {
                 $('img[title="INFO"]').each(function () {
                     setTimeout(function () {
-                        window.location.href = '/{!guarantorRecordId}';
+                        window.location.href = '/{!JSENCODE(guarantorRecordId)}';
                     }, delaymessage);
                 });
                 return false;
