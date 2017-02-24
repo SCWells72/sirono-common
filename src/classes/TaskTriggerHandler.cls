@@ -89,8 +89,10 @@ public with sharing class TaskTriggerHandler {
         
         Map<String,Task> mapTask = new Map<String,Task>();
         
-        for (Campaign_Mapping__mdt cm : [Select MasterLabel, Salesforce_Campaign_Name__c
-                                            From Campaign_Mapping__mdt]) {
+        for (Campaign_Mapping__mdt cm: [SELECT MasterLabel, Salesforce_Campaign_Name__c
+                                            FROM Campaign_Mapping__mdt
+					    WHERE Salesforce_Campaign_Name__c != null
+	]) {
             mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
         }
         
@@ -168,7 +170,9 @@ public with sharing class TaskTriggerHandler {
         Map<String,String> mapCampaignMapping = new Map<String,String>();
         
         for (Campaign_Mapping__mdt cm: [SELECT MasterLabel, Salesforce_Campaign_Name__c
-                                            FROM Campaign_Mapping__mdt]) {
+                                            FROM Campaign_Mapping__mdt
+					    WHERE Salesforce_Campaign_Name__c != null
+	]) {
             mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
         }
 
@@ -206,7 +210,10 @@ public with sharing class TaskTriggerHandler {
             Set<String> exhaustedCaseIds = new Set<String>();
             
             // Get Exhausted Criteria data from Custom Meta Data.
-            for (Exhausted_Criteria__mdt ec: [SELECT MasterLabel, Disposition_Type__c FROM Exhausted_Criteria__mdt]) {
+            for (Exhausted_Criteria__mdt ec: [SELECT MasterLabel, Disposition_Type__c
+            		FROM Exhausted_Criteria__mdt
+			WHERE Disposition_Type__c != null
+	    ]) {
                 if (ec.Disposition_Type__c.equals(FINAL_DISPOSITION)) {
                     finalDispositions.add(ec.MasterLabel);
                 } else if (ec.Disposition_Type__c.equals(RETRY_DISPOSITION)) {

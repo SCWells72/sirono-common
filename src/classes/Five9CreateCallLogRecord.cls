@@ -3,7 +3,7 @@
 * @version 1.0.1
 * @Date: 06-14-2016
 */
-public without sharing class Five9CreateCallLogRecord {
+public with sharing class Five9CreateCallLogRecord {
 
     public String five9ANI {get; set;}
     public String five9DNIS {get; set;}

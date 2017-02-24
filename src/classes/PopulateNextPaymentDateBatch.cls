@@ -15,11 +15,12 @@ public with sharing class PopulateNextPaymentDateBatch implements Database.Batch
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator([
-                Select
+                SELECT
                         Id, Guarantor__c, Plan_Type__c,
                         Execute_on_Day__c, NextPaymentDate__c,
                         Skip_Payment_Until__c
-                From Payment_Plan__c
+                FROM Payment_Plan__c
+                WHERE Guarantor__c != null
         ]);
 
     }
