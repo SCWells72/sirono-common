@@ -1,0 +1,112 @@
+<aura:component >
+    <aura:attribute name="CreditCard" type="MakeAPaymentController.CardInformation" />
+    <aura:attribute name="CheckValidation" type="Boolean" default="false" />
+    <aura:attribute name="states" type="String[]" default=""/>
+    <aura:attribute name="months" type="String[]" access="public" />
+    <aura:attribute name="years" type="String[]" access="public" default="[]" />
+    <aura:handler name="change" value="{!v.CreditCard}" action="{!c.checkValidation}"/>
+	<div class="col slds-size--1-of-1">
+        <div class="slds-form-element">
+            <div class="slds-form-element__control inputHeight">
+                <lightning:input label="Name on Card" aura:id="cardName" name="nameOnCard" messageWhenValueMissing="Name is a required field" required="true" value="{!v.CreditCard.cardHolderName}"/>
+            	<ui:inputDefaultError aura:id="cardNameError" value="" />
+            </div>
+        </div>
+    </div>
+    <div class="col slds-size--8-of-12 credit-card">
+        <div class="grid">
+            <div class="col slds-size--8-of-12 card-number">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control inputHeight">
+                        <lightning:input type="tel" aura:id="cardNumber" name="cardNumber" label="Card Number" required="true" minlength="12" maxlength="19" value="{!v.CreditCard.creditCardNumber}" messageWhenValueMissing="Card number is a required field" messageWhenbadinput="Credit card number must be 12-19 digits." messageWhenTooLong="Credit card number must be 12-19 digits." onchange="{!c.validateCardN}" formatter="" />
+                    	<ui:inputDefaultError aura:id="cardNumberError" value="" />
+                    </div>
+                </div>
+            </div>
+            <div class="col slds-size--4-of-12 cvv">
+                <div class="slds-form-element">
+                   <div class="slds-form-element__control cvv_block inputHeight"> 
+                        <lightning:input type="text" aura:id="cvv" label="CVV" name="cvv" minlength="3" maxlength="4" value="{!v.CreditCard.cvv}" required="true" messageWhenValueMissing="CVV is a required field" messageWhenBadInput="CVV must be 4 digits for American Express and 3 digits for other card types." messageWhenTooLong="CVV must be 4 digits for American Express and 3 digits for other card types." onchange="{!c.validateCVV}" />
+                    	<ui:inputDefaultError aura:id="cvvError" value="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col slds-size--12-of-12">
+        <div class="slds-form-element">
+            <div class="grid">
+                <div class="col slds-size--1-of-2">
+                    <lightning:select aura:id="month" name="month" value="{!v.CreditCard.expirationMonth}" label="Expiration">
+                        <aura:iteration items="{!v.months}" var="month">
+                            <option value="{!month.value}" text="{!month.label}"></option>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+                <div class="col slds-size--1-of-2">
+                    <lightning:select aura:id="year" name="year" value="{!v.CreditCard.expirationYear}" label="Year" class="payment-card--year-hide">
+                        <aura:iteration items="{!v.years}" var="year">
+                            <option text="{!year}"></option>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+            </div>
+            <ui:inputDefaultError aura:id="expirationError" value="" />
+        </div>
+    </div>
+    <div class="col slds-size--2-of-1">
+        <div class="slds-form-element">
+            <div class="slds-form-element__control inputHeight">
+                <lightning:input aura:id="address" value="{!v.CreditCard.address}" label="Billing Address" name="billingAddress" required="true" messageWhenValueMissing="Billing Address is a required field" />
+            	<ui:inputDefaultError aura:id="addressError" value="" />
+            </div>
+        </div>
+    </div>
+    <div class="col slds-size--1-of-1 city-state-zip">
+        <div class="grid">
+            <div class="col city slds-size--8-of-12">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-01">City</label>
+                    <div class="slds-form-element__control">
+                        <ui:inputText class="slds-input" value="{!v.CreditCard.city}" />
+                    </div>
+                </div>
+            </div>
+            <div class="col state slds-size--2-of-12">
+                <div class="slds-form-element">
+                    <lightning:select name="state" label="State" required="true" value="{!v.CreditCard.state}">
+                        <aura:iteration items="{!v.states}" var="state">
+                            <option text="{!state}"></option>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+            </div>
+            <div class="col zip slds-size--2-of-12">
+                <div class="slds-form-element__control inputHeight">
+                    <lightning:input type="text" aura:id="zipcode" name="zipcode" label="Zipcode" value="{!v.CreditCard.zip}" required="true" messageWhenValueMissing="Zip Code is a required field" minlength="5" maxlength="5" messageWhenBadInput="Zip Code must be 5 digits." messageWhenTooLong="Zip Code must be 5 digits." onchange="{!c.validateZip}" />
+                	<ui:inputDefaultError aura:id="zipcodeError" value="" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col slds-size--1-of-1">
+        <div class="slds-form-element">
+            <div class="slds-form-element__control">
+                <span class="slds-checkbox">
+                    <input type="checkbox" name="options" id="checkbox-308" />
+                    <label class="slds-checkbox__label element__label_checkbox" for="checkbox-308">
+                        <span class="slds-checkbox--faux"></span>
+                        <span class="slds-form-element__label ">
+                            Save this card for later use
+                            <div class="status info sldsjs-popover ">
+                                <span class="slds-icon_container sldsjs-popover-action">
+                                    <c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info" />
+                                </span>
+                            </div>
+                        </span>
+                    </label>
+                </span>
+            </div>
+        </div>
+    </div>
+</aura:component>
