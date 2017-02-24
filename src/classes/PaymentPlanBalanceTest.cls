@@ -1,10 +1,8 @@
 @isTest
 public class PaymentPlanBalanceTest {
 
-    /* Cases to test for:
-    • Value of new field before new charge groups transactions are added
-    • Value of field after new transactions are added
-    • Modify plan value date and recalculate transactions
+    /*
+     * Setup test data to be used in the following test methods.
      */
 
     @testSetup
@@ -56,13 +54,19 @@ public class PaymentPlanBalanceTest {
         insert testTransaction;
     }
 
-    // Upon initial insert of charge group and related data, make sure Charges_Added_Since_Start__c = 0 or null
+    /*
+     * Upon initial insert of charge group and related data, make sure Charges_Added_Since_Start__c = 0 or null
+     */
     @isTest
     static void initialCGInsertTest() {
+        Test.startTest();
+
         List<Payment_Plan__c> ppResults = [
                 SELECT Id, Charges_Added_Since_Start__c
                 FROM Payment_Plan__c
         ];
+
+        Test.stopTest();
 
         for(Payment_Plan__c pp : ppResults){
             system.debug('Charges added since plan start: ' + pp.Charges_Added_Since_Start__c);
@@ -71,7 +75,9 @@ public class PaymentPlanBalanceTest {
         }
     }
 
-    // Add a new transaction to the charge group, Charges_Added_Since_Start__c should equal transaction amount
+    /*
+     * Add a new transaction to the charge group, Charges_Added_Since_Start__c should equal transaction amount
+     */
     @isTest
     static void addNewTransactionTest() {
         Test.startTest();
@@ -98,7 +104,10 @@ public class PaymentPlanBalanceTest {
                 'Charges added since plan start should equal the inserted transaction amount.');
     }
 
-    // Add a new transaction and then modify the payment plan's value modified date; Charges_Added_Since_Start__c should equal 0
+    /*
+     * Add a new transaction and then modify the payment plan's value modified date
+     * Assert that Charges_Added_Since_Start__c equals 0
+     */
     @isTest
     static void changePPValueModifiedDateTest() {
         Test.startTest();
@@ -134,7 +143,11 @@ public class PaymentPlanBalanceTest {
                 'Value date was updated, charges added should be 0.');
     }
 
-    // Insert a payment transaction and verify that the added charges field isn't updated
+    /*
+     * Insert a payment transaction and
+     * Assert that the added charges field isn't updated
+     * Charges_Added_Since_Start__c sums only service transactions
+     */
     @isTest
     static void insertPaymentTransactionTest() {
         Test.startTest();

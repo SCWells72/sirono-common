@@ -5,6 +5,12 @@
 */
 public with sharing class PaymentPlanUtil {
 
+    /*
+     * setBalanceAndCharges is a gateway method to setAmounts, which does the actual object modifications.
+     *
+     * @param Set<Id> planIds - Ids from payment plans that need to be calculated
+     * @return Map<Id, Payment_Plan__c>
+     */
     public static Map<Id, Payment_Plan__c> setBalanceAndCharges(Set<Id> planIds) {
             //update the paymentplan with the sum of its chargegroup balances
             // Get the SUM of the associated chargegroup balances
@@ -28,13 +34,19 @@ public with sharing class PaymentPlanUtil {
             return setAmounts(results, chargeResults);
     }
 
-
+    /*
+     * setAmounts takes the query results, if any, from setBalanceAndCharges and puts the values into a map that
+     * updates appropriate fields on the Payment Plan object. The results are returned through setBalanceAndCharges and
+     * updated in whichever method or class called setBalanceAndCharges.
+     *
+     * @param AggregateResult[] balanceResults - query results to set plan balance
+     * @param AggregateResult[] chargeResults - query results to set charges added sine plan start
+     * @return Map<Id, Payment_Plan__c>
+     */
     private static Map<Id, Payment_Plan__c> setAmounts(AggregateResult[] balanceResults, AggregateResult[] chargeResults) {
         Map<Id, Payment_Plan__c> ppMap = new Map<Id, Payment_Plan__c>();
 
         for (AggregateResult ar : balanceResults) {
-//            System.debug('ppId: ' + ar.get('pp'));
-//            System.debug('planBalance: ' + ar.get('planBalance'));
             System.debug('Updating balance in Payment Plan [Id: ' + ar.get('pp') + ', New balance: ' + ar.get('planBalance') + ']');
             Payment_Plan__c pp = new Payment_Plan__c(Id = (Id) ar.get('pp'));
             pp.Remaining_Balance__c = (Decimal) ar.get('planBalance');
@@ -42,8 +54,6 @@ public with sharing class PaymentPlanUtil {
         }
 
         for (AggregateResult ar : chargeResults) {
-//            System.debug('ppId: ' + ar.get('pp'));
-//            System.debug('chargesAdded: ' + ar.get('chargesAdded'));
             System.debug('Updating charges added to Payment Plan [Id: ' + ar.get('pp') + ', Charges added: ' + ar.get('chargesAdded') + ']');
             Id ppId = (Id) ar.get('pp');
             Payment_Plan__c pp = ppMap.get(ppId);
