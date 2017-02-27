@@ -109,6 +109,10 @@
                 <field>Remaining_Balance__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Charges_Added_Since_Start__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Cancellation_Date__c</field>
             </layoutItems>

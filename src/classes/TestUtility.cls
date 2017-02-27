@@ -307,4 +307,14 @@ public class TestUtility {
         txn.Post_Date__c = System.today();
         return txn;
     }
+
+    // Build and return a service record
+    public static Service__c generateService(Charge_Group__c chargeGroup, Decimal amount) {
+        Service__c srv = new Service__c();
+        srv.Sirono_ID__c = getUniqueId();
+        srv.Amount__c = amount;
+        srv.Charge_Group__c = chargeGroup.Id;
+        srv.Post_Date__c = System.today();
+        return srv;
+    }
 }
