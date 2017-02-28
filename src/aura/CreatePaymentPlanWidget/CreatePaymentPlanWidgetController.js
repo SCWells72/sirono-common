@@ -13,5 +13,9 @@
         var appEvent = $A.get("e.c:payNowRequest");
         appEvent.setParams({ 'type': 'CreatePaymentPlan' });
         appEvent.fire();
+	},
+	showTooltip: function(component, event, helper) {
+		var tooltip = component.find('popover-tooltip-payment');
+		$A.util.toggleClass(tooltip,"slds-hide");
 	}
 })

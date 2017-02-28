@@ -20,6 +20,14 @@
                         <img src="{!$Resource.SironoData + '/assets/images/payment-plan-warning.png'}" alt="Your Payment Plan is in Error" />
                         <h2 class="actionsHeader">Your Payment Plan is in Error</h2>
                         Next payment <ui:outputcurrency value="{!v.guarantorWrapper.paymentPlan.Installment_Amount__c}" /> scheduled for:<br/> <ui:outputdate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.NextPaymentDate__c}" /> | Payment {!v.guarantorWrapper.paymentPlan.Installments_Completed__c} of {!v.guarantorWrapper.paymentPlan.Original_Installment_Count__c}
+                        <div class="inline-block" onclick="{!c.showTooltip}">
+                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" />
+                        </div>
+                        <div aura:id="popover-tooltip-payment" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-right slds-popup slds-hide" role="tooltip" id="help">
+                            <div class="slds-popover__body">
+                                Your latest payment plan installment failed. Please update your payment method or pay your previous installment amount now to keep your account current.
+                            </div>
+                        </div>
                         <br />
                         <a onclick="{!c.sendPageCreateToHeader}">
                             <button class="slds-button warning InstallmentBtn">Update Payment Method</button>
@@ -31,6 +39,14 @@
                         <img src="{!$Resource.SironoData + '/assets/images/payment-plan-delinquent.png'}" alt="Your Payment Plan" />
                         <h2 class="actionsHeader">Your Payment Plan is Past Due</h2> 
                         Next payment <ui:outputcurrency value="{!v.guarantorWrapper.paymentPlan.Installment_Amount__c}" /> scheduled for:<br/> <ui:outputdate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.NextPaymentDate__c}" /> | Payment {!v.guarantorWrapper.paymentPlan.Installments_Completed__c} of {!v.guarantorWrapper.paymentPlan.Original_Installment_Count__c}
+                        <div class="inline-block" onclick="{!c.showTooltip}">
+                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" />
+                        </div>
+                        <div aura:id="popover-tooltip-payment" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-right slds-popup slds-hide" role="tooltip" id="help">
+                            <div class="slds-popover__body">
+                                We have not received your latest payment plan installment. Please pay your previous installment amount now or pay your account in full to avoid payment plan cancellation.
+                            </div>
+                        </div>
                         <br/>
                         <a onclick="{!c.sendPageCreateToHeader}">
                             <button class="slds-button slds-button--destructive Update_Payment">Update Payment Method</button>
@@ -60,6 +76,14 @@
                         <img src="{!$Resource.SironoData + '/assets/images/payment-plan-delinquent.png'}" alt="Your Payment Plan" />
                         <h2 class="actionsHeader">Your Payment Plan is Past Due</h2>
                         Next payment <ui:outputcurrency value="{!v.guarantorWrapper.paymentPlan.Installment_Amount__c}" />  is due by:<br/> <ui:outputdate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.NextPaymentDate__c}" /> | Payment {!v.guarantorWrapper.paymentPlan.Installments_Completed__c} of {!v.guarantorWrapper.paymentPlan.Original_Installment_Count__c}
+                        <div class="inline-block" onclick="{!c.showTooltip}">
+                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info" />
+                        </div>
+                        <div aura:id="popover-tooltip-payment" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-right slds-popup slds-hide" role="tooltip" id="help">
+                            <div class="slds-popover__body">
+                                We have not received your latest payment plan installment. Please pay your previous installment amount now or pay your account in full to avoid payment plan cancellation. If you have any questions about the bill, call the Customer Service Center at #.
+                            </div>
+                        </div>
                         <br />
                         <a onclick="{!c.sendPageMakeToHeader}">
                             <button class="slds-button slds-button--destructive btn_PayMissedPastDue">Pay Missed Installment</button>

@@ -15,3 +15,13 @@
 .THIS .btn_PayMissedPastDue {
     margin: 10px 0;
 }
+.THIS .slds-icon {
+    fill: #16325c;
+    cursor: pointer;
+    margin: 0 0 4px 4px;
+}
+.THIS .sldsjs-popover-target {
+    position: absolute;
+    left: -10px;
+    top: 210px;
+}
