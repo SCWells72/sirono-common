@@ -1,24 +1,22 @@
 /*
-* @author: Sirono
-* @version 1.0.1
-* @Date: 10-17-2016
-* JSON Parsing Class for the response which comes from Transaction Request.
+* JSON Parsing Class for the response which comes from Transaction Request. Takes the response and turns it into
+* a list of Transaction__c & Charge_Group__c objects with the Charge_Group__c properly populated in the transactions.
 */
 
 public class TransactionJSONParsing {
 
-    public string url;
-    public integer amount;
-    public string post_date;
-    public string fail_date;
-    public string export_date;
-    public string created_at;
-    public string modified_at;
-    public string method;
-    public string notes;
-    public boolean credit_balance;
-    public string payment;
-    public string chargegroup;
+    public String url;
+    public Integer amount;
+    public String post_date;
+    public String fail_date;
+    public String export_date;
+    public String created_at;
+    public String modified_at;
+    public String method;
+    public String notes;
+    public Boolean credit_balance;
+    public String payment;
+    public String chargegroup;
 
     public class TransactionWrapper{
         public List<Transaction__c> transactionRecords {get;set;}
@@ -43,35 +41,31 @@ public class TransactionJSONParsing {
             (List<TransactionJSONParsing>) System.JSON.deserialize(json.replace('_credit_balance','credit_balance'), List<TransactionJSONParsing>.class);
 
         if (lstTransactionJson.size() > 0) {
-            List<Charge_Group__c> unallocatedChargeGroup = [SELECT Id FROM Charge_Group__c where name = 'Unallocated'];
-            map<string, decimal> mapTransactionChargeGroup = new map<string, decimal>();
+
+            Map<Decimal, Decimal> mapTransactionChargeGroup = new Map<Decimal, Decimal>();
 
             for (TransactionJSONParsing objJson : lstTransactionJson) {
                 Transaction__c objTransaction = new Transaction__c();
-                string transactionExternalId = getExternalID(String.valueof(objJson.url),'transaction');
+                String transactionExternalId = getExternalID(objJson.url,'transaction');
 
-                objTransaction.Sirono_ID__c = Integer.valueof(transactionExternalId);
+                objTransaction.Sirono_ID__c = Decimal.valueOf(transactionExternalId);
                 objTransaction.Name = objJson.method + '-' + transactionExternalId;
                 objTransaction.Amount__c = PayStaffWSUtill.convertToDollarsWithNegative(objJson.amount);
-                if (!String.Isblank(objJson.post_date)) {
-                    objTransaction.Post_Date__c = Date.valueof(objJson.post_date);
+                if (!String.isBlank(objJson.post_date)) {
+                    objTransaction.Post_Date__c = Date.valueOf(objJson.post_date);
                 }
-                if (!String.Isblank(objJson.fail_date)) {
-                    objTransaction.Fail_Date__c = Date.valueof(objJson.fail_date);
+                if (!String.isBlank(objJson.fail_date)) {
+                    objTransaction.Fail_Date__c = Date.valueOf(objJson.fail_date);
                 }
-                if (!String.Isblank(objJson.export_date)) {
-                    objTransaction.Export_Date__c = Date.valueof(objJson.export_date);
+                if (!String.isBlank(objJson.export_date)) {
+                    objTransaction.Export_Date__c = Date.valueOf(objJson.export_date);
                 }
                 objTransaction.Notes__c = objJson.notes;
                 objTransaction.Credit_Balance__c = objJson.credit_balance;
 
-                if (objJson.chargegroup == null) {
-                    if(unallocatedChargeGroup.size() > 0){
-                        objTransaction.Charge_Group__c = unallocatedChargeGroup[0].Id;
-                    }
-                } else {
-                    decimal chargegroup = Decimal.Valueof(getExternalID(String.valueof(objJson.chargegroup),'chargegroups'));
-                    mapTransactionChargeGroup.put(transactionExternalId, chargegroup);
+                if (objJson.chargegroup != null) {
+                    Decimal chargegroup = Decimal.valueOf(getExternalID(objJson.chargegroup,'chargegroups'));
+                    mapTransactionChargeGroup.put(objTransaction.Sirono_ID__c, chargegroup);
                 }
 
                 lstTransaction.add(objTransaction);
@@ -84,35 +78,31 @@ public class TransactionJSONParsing {
                         FROM Charge_Group__c
                         where Sirono_ID__c in: mapTransactionChargeGroup.values()];
 
-                map<decimal, string> mapChargeGroup = new map<decimal, string>();
+                Map<Decimal, String> mapChargeGroup = new Map<Decimal, String>();
                 for(Charge_Group__c cg : lstChargeGroup){
                     mapChargeGroup.put(cg.Sirono_ID__c, cg.Id);
                 }
 
-                for(Transaction__c tran : lstTransaction) {
-                    if(tran.Charge_Group__c == null){
-                        decimal cId = mapTransactionChargeGroup.get(string.valueof(tran.Sirono_ID__c));
-                        tran.Charge_Group__c = mapChargeGroup.get(cId);
+                for (Transaction__c txn : lstTransaction) {
+                    if (txn.Charge_Group__c == null){
+                        Decimal cId = mapTransactionChargeGroup.get(txn.Sirono_ID__c);
+                        txn.Charge_Group__c = mapChargeGroup.get(cId);
                     }
                 }
             }
 
-            if(lstTransaction.size() > 0){
-                objTransactionWrapper.transactionRecords = lstTransaction;
-            }
-            if(lstChargeGroup.size() > 0){
-                objTransactionWrapper.chargeGroupRecords = lstChargeGroup;
-            }
+            objTransactionWrapper.transactionRecords = lstTransaction;
+            objTransactionWrapper.chargeGroupRecords = lstChargeGroup;
         }
         return objTransactionWrapper;
     }
 
-    public Static String getExternalID(String url,string splitWith){
+    public static String getExternalID(String url,string splitWith){
         String[] externalID = url.split(splitWith);
         return externalID[externalID.Size() - 1].replaceAll('/','');
     }
     
-    Public Static String  testResponse() {
+    public static String  testResponse() {
     
         String responseBody =        '{'+
         '   "url":"https://toledo.stage.sirono.com/paystaff/api/transaction/22923843/", ' +
