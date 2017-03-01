@@ -51,7 +51,7 @@
                                         <div class="grid popup_drid">
                                             <div class="col left" style="cursor:default;">
                                                 <div class="value"><span>Toll Free</span></div>
-                                                <div class="value">(925)-231-2502</div>
+                                                <div class="value">{! $Label.c.Customer_Service_Center_Phone}</div>
                                             </div>
                                             <div class="col right">
                                                 <div class="title">Monday - Friday</div>

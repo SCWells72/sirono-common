@@ -1,8 +1,8 @@
 public with sharing class HiMSS_SummaryWidgetCtrl {
-	public static String WARNING_MESSAGE 	    = 'Your account has overdue invoices. Please pay the balance now or set up a payment plan to avoid becoming delinquent.\n If you have any questions about the bill, please contact the Customer Service Center at (925)-231-2502.';
+	public static String WARNING_MESSAGE 	    = 'Your account has overdue invoices. Please pay the balance now or set up a payment plan to avoid becoming delinquent.\n If you have any questions about the bill, please contact the Customer Service Center at ' + Label.Customer_Service_Center_Phone + '.';
 	public static String DELINQUENT_MESSAGE     = 'This account has delinquent invoices. Delinquent invoices will be sent to a collection agency if payment arrangements are not made within the next 30 days. Please pay the balance now or set up a payment plan.'; 
 	public static String PASTDUE_MESSAGE        = ' We have not received your latest payment plan installment. Please pay your previous installment amount now or pay your account in full to avoid payment plan cancellation.'; 
-	public static String PASTDUE_MANUAL_MESSAGE = ' We have not received your latest payment plan installment. Please pay your previous installment amount now or pay your account in full to avoid payment plan cancellation. If you have any questions about the bill, call the Customer Service Center at (925)-231-2502.';
+	public static String PASTDUE_MANUAL_MESSAGE = ' We have not received your latest payment plan installment. Please pay your previous installment amount now or pay your account in full to avoid payment plan cancellation. If you have any questions about the bill, call the Customer Service Center at ' + Label.Customer_Service_Center_Phone + '.';
 	public static String ERROR_MESSAGE		    = ' Your latest payment plan installment failed. Please update your payment method or pay your previous installment amount now to keep your account current.';
 	public static String DUE_STATUS  	  	    = 'Due';
 	public static String OVERDUE_STATUS  	    = 'Overdue';

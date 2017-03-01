@@ -49,7 +49,7 @@
 	                                <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#close'}"  category="standard" size="large" class="slds-button__icon slds-button__icon--large" name="close" />
 	                            </button>
 	                            <div class="slds-notify__content">
-	                            	Your account has overdue invoices. Please pay the balance now or set up a payment plan to avoid becoming delinquent.<br /> If you have any questions about the bill, please contact the Customer Service Center at (925)-231-2502.
+	                            	Your account has overdue invoices. Please pay the balance now or set up a payment plan to avoid becoming delinquent.<br /> If you have any questions about the bill, please contact the Customer Service Center at {! $Label.c.Customer_Service_Center_Phone}.
 	                            </div>
 	                        </div>
 	                    </div>
