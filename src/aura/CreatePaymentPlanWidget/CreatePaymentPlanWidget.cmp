@@ -81,7 +81,7 @@
                         </div>
                         <div aura:id="popover-tooltip-payment" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-right slds-popup slds-hide" role="tooltip" id="help">
                             <div class="slds-popover__body">
-                                We have not received your latest payment plan installment. Please pay your previous installment amount now or pay your account in full to avoid payment plan cancellation. If you have any questions about the bill, call the Customer Service Center at #.
+                                We have not received your latest payment plan installment. Please pay your previous installment amount now or pay your account in full to avoid payment plan cancellation. If you have any questions about the bill, call the Customer Service Center at {! $Label.c.Customer_Service_Center_Phone}.
                             </div>
                         </div>
                         <br />
