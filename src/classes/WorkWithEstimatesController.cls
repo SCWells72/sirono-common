@@ -26,7 +26,7 @@ public without sharing class WorkWithEstimatesController {
 
 			if (groupFilter != null && groupFilter != '') {
 				if (groupFilter == 'Unpaid') {
-					query += ' AND Encounter__c.Balance__c > 0 AND Encounter__c.Total_Payments__c = null '; 
+					query += ' AND Encounter__c.Balance__c > 0 AND (Encounter__c.Total_Payments__c = null OR Encounter__c.Total_Payments__c = 0)';
 				}
 				if (groupFilter == 'Paid') {
 					query += ' AND ((Encounter__c.Balance__c > 0 AND Encounter__c.Total_Payments__c > 0 ) OR Encounter__c.Balance__c <= 0) ';
@@ -84,7 +84,7 @@ public without sharing class WorkWithEstimatesController {
 			if (singleEncounter.Insurance_Portion__c != null)
 				insurancePortion = - singleEncounter.Insurance_Portion__c; // TODO update after fields creation
 			String status = '';
-			if(singleEncounter.Balance__c > 0 && singleEncounter.Total_Payments__c == null){
+			if(singleEncounter.Balance__c > 0 && (singleEncounter.Total_Payments__c == null || singleEncounter.Total_Payments__c == 0)){
 				status = 'Unpaid';
 			} else if ((singleEncounter.Balance__c > 0 && singleEncounter.Total_Payments__c > 0) || singleEncounter.Balance__c <= 0) {
 				status = 'Paid';

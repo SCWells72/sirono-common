@@ -62,6 +62,10 @@ global without sharing class HiMSS_SummaryWidgetRESTService {
             			ORDER BY CreatedDate ASC
     	]);
 
+		for (Id id : usrMap.keySet()) {
+			System.debug(' user id: '+id+' User: '+usrMap.get(id));
+		}
+
     	User usr = getUntouchedUser(usrMap, getNewUser);
     	// for (User usr : usrList) {
     	guarantorUserMap.put(usr.ContactId, new Guarantor.GuarantorUser(usr.UserName, usr.Community_Password__c,  usr.ContactId));

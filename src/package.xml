@@ -34,6 +34,10 @@
     </types>
     <types>
         <members>*</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>*</members>
         <name>AuthProvider</name>
     </types>
     <types>
@@ -539,10 +543,18 @@
         <name>MatchingRules</name>
     </types>
     <types>
+        <members>*</members>
+        <name>Network</name>
+    </types>
+    <types>
         <members>Admin</members>
         <members>Call Center Agent</members>
         <members>Call Center Manager</members>
+        <members>Customer Community User</members>
+        <members>Customer Community Plus User</members>
         <members>Five9CreateCallLogRecord Profile</members>
+        <members>Guarantor Community Plus</members>
+        <members>Guarantor</members>
         <members>Operations Manager</members>
         <members>Partner - Hospital Staff</members>
         <members>Partner Community Profile</members>
@@ -627,6 +639,7 @@
         <members>Sirono_Reports/Payment_Frequency</members>
         <members>Sirono_Reports/Payment_Method</members>
         <members>Sirono_Reports/Payment_Plan_Type</members>
+        <members>Sirono_Reports/Payments_by_Calendar_Year</members>
         <members>Sirono_Reports/Payments_by_Frequency</members>
         <members>Sirono_Reports/Payments_by_Method</members>
         <members>Sirono_Reports/Payments_by_Month</members>
@@ -685,6 +698,10 @@
         <members>Transaction_Type__c</members>
         <members>User</members>
         <name>SharingRules</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>SiteDotCom</name>
     </types>
     <types>
         <members>*</members>

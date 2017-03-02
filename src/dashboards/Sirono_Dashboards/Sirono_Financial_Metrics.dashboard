@@ -21,13 +21,13 @@
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
                 <groupingColumn>Statement__c$Statement_Date__c</groupingColumn>
+                <header>A/R Summary by Statement Date</header>
                 <legendPosition>Bottom</legendPosition>
                 <report>Sirono_Reports/AR_Summary_Statement</report>
                 <showPercentage>false</showPercentage>
                 <showPicturesOnCharts>false</showPicturesOnCharts>
                 <showValues>false</showValues>
                 <sortBy>RowLabelAscending</sortBy>
-                <title>AR Summary by Statement</title>
                 <useReportChart>false</useReportChart>
             </dashboardComponent>
             <rowIndex>0</rowIndex>
@@ -76,8 +76,8 @@
                 <enableHover>false</enableHover>
                 <expandOthers>true</expandOthers>
                 <groupingColumn>Charge_Group__c.Charge_Group_Coverages__r$Insured__c</groupingColumn>
-                <header>AR Summary by Coverage</header>
-                <legendPosition>Bottom</legendPosition>
+                <header>A/R Summary by Coverage</header>
+                <legendPosition>Right</legendPosition>
                 <report>Sirono_Reports/AR_Summary_by_Coverage</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>false</showTotal>
@@ -92,22 +92,25 @@
             <colSpan>3</colSpan>
             <columnIndex>0</columnIndex>
             <dashboardComponent>
-                <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
+                <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
                 <chartAxisRange>Auto</chartAxisRange>
-                <componentType>Bar</componentType>
-                <displayUnits>Auto</displayUnits>
+                <chartSummary>
+                    <axisBinding>y</axisBinding>
+                    <column>FORMULA1</column>
+                </chartSummary>
+                <componentType>Funnel</componentType>
                 <drillEnabled>false</drillEnabled>
                 <drillToDetailEnabled>false</drillToDetailEnabled>
                 <enableHover>false</enableHover>
-                <expandOthers>false</expandOthers>
-                <legendPosition>Bottom</legendPosition>
-                <report>Sirono_Reports/Payment_Frequency</report>
+                <expandOthers>true</expandOthers>
+                <groupingColumn>Payment__c.Deposit_Date__c</groupingColumn>
+                <header>Payments by Calendar Year</header>
+                <legendPosition>Right</legendPosition>
+                <report>Sirono_Reports/Payments_by_Calendar_Year</report>
                 <showPercentage>false</showPercentage>
-                <showPicturesOnCharts>false</showPicturesOnCharts>
-                <showValues>false</showValues>
-                <sortBy>RowLabelAscending</sortBy>
-                <title>Payments by Frequency</title>
-                <useReportChart>true</useReportChart>
+                <showValues>true</showValues>
+                <sortBy>RowLabelDescending</sortBy>
+                <useReportChart>false</useReportChart>
             </dashboardComponent>
             <rowIndex>4</rowIndex>
             <rowSpan>4</rowSpan>
@@ -129,13 +132,13 @@
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
                 <groupingColumn>Payment__c.Method__c</groupingColumn>
+                <header>Payments by Method</header>
                 <legendPosition>Bottom</legendPosition>
                 <report>Sirono_Reports/Payment_Method</report>
                 <showPercentage>false</showPercentage>
                 <showPicturesOnCharts>false</showPicturesOnCharts>
                 <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
-                <title>Payments by Method</title>
                 <useReportChart>false</useReportChart>
             </dashboardComponent>
             <rowIndex>4</rowIndex>
@@ -158,13 +161,13 @@
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
                 <groupingColumn>Payment_Plan__c$Plan_Type__c</groupingColumn>
-                <legendPosition>Bottom</legendPosition>
+                <header>Payment Plan by Type</header>
+                <legendPosition>Right</legendPosition>
                 <report>Sirono_Reports/Payment_Plan_Type</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>false</showTotal>
                 <showValues>false</showValues>
                 <sortBy>RowLabelAscending</sortBy>
-                <title>Payment Plan by Type</title>
                 <useReportChart>false</useReportChart>
             </dashboardComponent>
             <rowIndex>4</rowIndex>

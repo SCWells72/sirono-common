@@ -1,0 +1,12 @@
+<apex:page controller="SimpleLoginToCommunityController" sidebar="false">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="1">
+                <apex:selectRadio value="{!userId}" layout="pageDirection" >
+                    <apex:selectOptions value="{!items}" />
+                </apex:selectRadio>
+            </apex:pageBlockSection>            
+            <apex:commandButton action="{!login}" value="Go" />
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

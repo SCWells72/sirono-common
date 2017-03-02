@@ -17,7 +17,7 @@
             <axisBinding>y</axisBinding>
             <column>FORMULA1</column>
         </chartSummaries>
-        <chartType>Pie</chartType>
+        <chartType>Donut</chartType>
         <enableHoverLabels>false</enableHoverLabels>
         <expandOthers>false</expandOthers>
         <groupingColumn>Charge_Group__c.Charge_Group_Coverages__r$Insured__c</groupingColumn>

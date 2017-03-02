@@ -13,19 +13,19 @@
                     <column>RowCount</column>
                 </chartSummary>
                 <componentType>Metric</componentType>
-                <header>Agent Open Cases</header>
-                <indicatorBreakpoint1>100.0</indicatorBreakpoint1>
-                <indicatorBreakpoint2>500.0</indicatorBreakpoint2>
-                <indicatorHighColor>#FF2A5C</indicatorHighColor>
-                <indicatorLowColor>#00BC28</indicatorLowColor>
-                <indicatorMiddleColor>#FCF11A</indicatorMiddleColor>
+                <header>Open Cases</header>
+                <indicatorBreakpoint1>200.0</indicatorBreakpoint1>
+                <indicatorBreakpoint2>900.0</indicatorBreakpoint2>
+                <indicatorHighColor>#AA1901</indicatorHighColor>
+                <indicatorLowColor>#008040</indicatorLowColor>
+                <indicatorMiddleColor>#FFB75D</indicatorMiddleColor>
                 <report>WIP_OPS_Reports/Agent_Open_Cases</report>
             </dashboardComponent>
             <rowIndex>0</rowIndex>
             <rowSpan>3</rowSpan>
         </dashboardGridComponents>
         <dashboardGridComponents>
-            <colSpan>2</colSpan>
+            <colSpan>4</colSpan>
             <columnIndex>3</columnIndex>
             <dashboardComponent>
                 <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
@@ -48,65 +48,8 @@
             <rowSpan>3</rowSpan>
         </dashboardGridComponents>
         <dashboardGridComponents>
-            <colSpan>2</colSpan>
-            <columnIndex>5</columnIndex>
-            <dashboardComponent>
-                <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
-                <chartAxisRange>Auto</chartAxisRange>
-                <chartSummary>
-                    <axisBinding>y</axisBinding>
-                    <column>RowCount</column>
-                </chartSummary>
-                <componentType>Donut</componentType>
-                <drillEnabled>false</drillEnabled>
-                <drillToDetailEnabled>false</drillToDetailEnabled>
-                <enableHover>false</enableHover>
-                <expandOthers>true</expandOthers>
-                <groupingColumn>ESCALATION_STATE</groupingColumn>
-                <header>Agent Escalated Cases</header>
-                <legendPosition>Bottom</legendPosition>
-                <report>WIP_OPS_Reports/Agent_Escalated_Cases</report>
-                <showPercentage>false</showPercentage>
-                <showTotal>false</showTotal>
-                <showValues>false</showValues>
-                <sortBy>RowLabelAscending</sortBy>
-                <useReportChart>false</useReportChart>
-            </dashboardComponent>
-            <rowIndex>0</rowIndex>
-            <rowSpan>3</rowSpan>
-        </dashboardGridComponents>
-        <dashboardGridComponents>
-            <colSpan>4</colSpan>
-            <columnIndex>0</columnIndex>
-            <dashboardComponent>
-                <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
-                <chartAxisRange>Auto</chartAxisRange>
-                <chartSummary>
-                    <aggregate>Average</aggregate>
-                    <axisBinding>y</axisBinding>
-                    <column>AGE</column>
-                </chartSummary>
-                <componentType>Bar</componentType>
-                <drillEnabled>false</drillEnabled>
-                <drillToDetailEnabled>false</drillToDetailEnabled>
-                <enableHover>false</enableHover>
-                <expandOthers>false</expandOthers>
-                <groupingColumn>REASON</groupingColumn>
-                <header>Age of Cases Currently Open by Reason</header>
-                <legendPosition>Bottom</legendPosition>
-                <report>WIP_OPS_Reports/Age_of_Cases_Currently_Open_by_Reason</report>
-                <showPercentage>false</showPercentage>
-                <showPicturesOnCharts>false</showPicturesOnCharts>
-                <showValues>true</showValues>
-                <sortBy>RowLabelAscending</sortBy>
-                <useReportChart>false</useReportChart>
-            </dashboardComponent>
-            <rowIndex>3</rowIndex>
-            <rowSpan>7</rowSpan>
-        </dashboardGridComponents>
-        <dashboardGridComponents>
             <colSpan>3</colSpan>
-            <columnIndex>4</columnIndex>
+            <columnIndex>0</columnIndex>
             <dashboardComponent>
                 <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
                 <chartAxisRange>Auto</chartAxisRange>
@@ -130,12 +73,12 @@
                 <title>Calls by Campaign</title>
                 <useReportChart>false</useReportChart>
             </dashboardComponent>
-            <rowIndex>3</rowIndex>
+            <rowIndex>8</rowIndex>
             <rowSpan>5</rowSpan>
         </dashboardGridComponents>
         <dashboardGridComponents>
-            <colSpan>9</colSpan>
-            <columnIndex>0</columnIndex>
+            <colSpan>4</colSpan>
+            <columnIndex>3</columnIndex>
             <dashboardComponent>
                 <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
                 <chartAxisRange>Auto</chartAxisRange>
@@ -143,24 +86,23 @@
                     <axisBinding>y</axisBinding>
                     <column>RowCount</column>
                 </chartSummary>
-                <componentType>Bar</componentType>
-                <displayUnits>Auto</displayUnits>
+                <componentType>Column</componentType>
                 <drillEnabled>false</drillEnabled>
                 <drillToDetailEnabled>false</drillToDetailEnabled>
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
-                <groupingColumn>Activity.Five9__Five9AgentName__c</groupingColumn>
+                <groupingColumn>REASON</groupingColumn>
+                <header>Open Cases by Reason</header>
                 <legendPosition>Bottom</legendPosition>
-                <report>WIP_OPS_Reports/Completed_Activities_By_Agent</report>
+                <maxValuesDisplayed>11</maxValuesDisplayed>
+                <report>WIP_OPS_Reports/Age_of_Cases_Currently_Open_by_Reason</report>
                 <showPercentage>false</showPercentage>
-                <showPicturesOnCharts>false</showPicturesOnCharts>
                 <showValues>true</showValues>
-                <sortBy>RowLabelAscending</sortBy>
-                <title>Completed Cases By Agent</title>
+                <sortBy>RowValueDescending</sortBy>
                 <useReportChart>false</useReportChart>
             </dashboardComponent>
-            <rowIndex>10</rowIndex>
-            <rowSpan>3</rowSpan>
+            <rowIndex>8</rowIndex>
+            <rowSpan>5</rowSpan>
         </dashboardGridComponents>
         <numberOfColumns>9</numberOfColumns>
         <rowHeight>80</rowHeight>

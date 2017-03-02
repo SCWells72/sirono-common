@@ -59,6 +59,10 @@
                 <field>OwnerId</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Author_ID__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>CaseNumber</field>
             </layoutItems>
