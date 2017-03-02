@@ -3633,6 +3633,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Transaction__c.Charge_added_since_plan_start__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Transaction__c.Credit_Balance__c</field>
         <readable>false</readable>
     </fieldPermissions>

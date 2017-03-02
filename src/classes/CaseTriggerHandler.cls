@@ -24,7 +24,8 @@ public with sharing class CaseTriggerHandler {
     public static void afterInsert(List<Case> newList) {
         //ONLY DOING CALLOUT WHEN BATCH SIZE IS ONE (It's Created from UI)
         if (newList.size() == 1) {
-            checkAndDoAddNoteCallout(newList.get(0));
+            // Passing parameter change Case single record to List of Case to resolve Security Scan Issue.
+            checkAndDoAddNoteCallout(newList);
         }
     }
         
@@ -35,17 +36,33 @@ public with sharing class CaseTriggerHandler {
         removeCampaignMembers(newList, oldMap);
     }
 
-    //PRIVATE METHOD TO VALIDATE AND CALL ADD NOTE FUTURE METHOD
-    //Call a Method addNoteFuture with Charge_Group_IDs__c and Description parameter and send a Request to endpoint
-    private static void checkAndDoAddNoteCallout(Case c) {
+    /**
+     * PRIVATE METHOD TO VALIDATE AND CALL ADD NOTE FUTURE METHOD
+     * Call a Method addNoteFuture with Charge_Group_IDs__c and Description parameter and send a Request to endpoint
+     *
+     * @param List<Case> newCases - That contains List of Case.
+     *
+     * Parameter change Case object to List of Case to resolve Security Scan Issue.
+     **/
+    private static void checkAndDoAddNoteCallout(List<Case> newCases) {      
         //Tracker # 130687155 REMOVED CONDITION TO CHECK FOR CASE RECORD TYPE 
-        if (c.Description != null) {
+        if (newCases.get(0).Description != null) {
             //CHECK IF CASE DID NOT CREATED BY SIRONO INTEGRATION USER
-            for (Case ob : [Select Id, Description, Charge_Group_IDs__c From Case Where Id = :c.Id AND CreatedBy.Name != 'Sirono Integration' AND Charge_Group_IDs__c != null]) {
-                //CALL FUTURE METHOD FOR ADD NOTE CALLOUT
+            
+            // We have removed Loop and take List Variable because of we need only one record based on Case Id.
+            // This changes do for Security Scan's "Async Future Method Inside Loops" related Error.
+            List<Case> cases = new List<Case>([
+	            		SELECT Id, Description, Charge_Group_IDs__c
+	            		FROM Case
+	            		WHERE Id = :newCases.get(0).Id
+	            		AND CreatedBy.Name != 'Sirono Integration'
+	            		AND Charge_Group_IDs__c != null
+    	    ]);
+    	    if (cases.size() > 0) {
+    		//CALL FUTURE METHOD FOR ADD NOTE CALLOUT
                 //split the Charge_Group_IDs__c parameter to pass it as a List in the method
-                PayStaffWSUtill.addNoteFuture(ob.Charge_Group_IDs__c.split(','), ob.Description);
-            }
+                PayStaffWSUtill.addNoteFuture(cases[0].Charge_Group_IDs__c.split(','), cases[0].Description);
+    	    }
         }
     }
                                                         

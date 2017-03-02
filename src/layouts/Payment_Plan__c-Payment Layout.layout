@@ -41,11 +41,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Remaining_Installment_Count__c</field>
+                <field>Charges_Added_Since_Start__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Next_Payment_Date__c</field>
+                <field>Remaining_Installment_Count__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>

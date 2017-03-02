@@ -11,26 +11,42 @@ public with sharing class CaseCommentTriggerHandler {
     public static void afterInsert(List<CaseComment> newList) {
         //ONLY DOING CALLOUT WHEN BATCH SIZE IS ONE (It's Created from UI)
         if (newList.size() == 1) {
-            checkAndDoAddNoteCallout(newList.get(0));
+            // Passing parameter change CaseComment single record to List of CaseComment to resolve Security Scan Issue.
+            checkAndDoAddNoteCallout(newList);
         }
     }
 
-    //PRIVATE METHOD TO VALIDATE AND CALL ADD NOTE FUTURE METHOD
-    private static void checkAndDoAddNoteCallout(CaseComment cc) {
+    /**
+     * PRIVATE METHOD TO VALIDATE AND CALL ADD NOTE FUTURE METHOD
+     *
+     * @param List<CaseComment> caseComments - That contains List of Case Comments.
+     *
+     * Parameter change CaseComment object to List of CaseComment to resolve Security Scan Issue.
+     **/
+    private static void checkAndDoAddNoteCallout(List<CaseComment> caseComments) {
         //CHECK IF COMMENT BODY IS NOT NULL
-        if (cc.CommentBody != null) {
+        if (caseComments.get(0).CommentBody != null) {
             //CHECK IF CASE OF NOES RECORD TYPE AND DID NOT CREATED BY SIRONO INTEGRATION USER
             //AND Have ChargeGroups ASSOCIATED with Case
             Id caseId;
             string caseCommentBody = '';
             //Removed Internal Case record type check in the query 
-            for (CaseComment ob : [Select Id, CommentBody, ParentId From CaseComment Where Id = :cc.Id AND CreatedBy.Name != 'Sirono Integration']) {
+            for (CaseComment ob: [SELECT Id, CommentBody, ParentId
+            			FROM CaseComment
+            			WHERE Id = :caseComments.get(0).Id
+            			AND CreatedBy.Name != 'Sirono Integration'
+	    ]) {
                 caseId = ob.ParentId;
                 caseCommentBody = ob.CommentBody;
             }
             List<String> chargeGroupIds = new List<String>();
             //Tracker # 130687155  Query to get the Charge Groups from Case Charge Group object.
-            for( Charge_Group__c cg : [Select Id, Sirono_ID__c From Charge_Group__c Where Id IN (Select Charge_Group__c from Case_Charge_Group_Junction__c Where Case__c = :caseId)]) {         
+            for (Charge_Group__c cg: [SELECT Id, Sirono_ID__c
+            			FROM Charge_Group__c
+            			WHERE Id IN (SELECT Charge_Group__c
+            				FROM Case_Charge_Group_Junction__c
+            				WHERE Case__c = :caseId)
+	    ]) {         
                 if (cg != null) {
                     chargeGroupIds.add(cg.Sirono_ID__c + '');
                 }

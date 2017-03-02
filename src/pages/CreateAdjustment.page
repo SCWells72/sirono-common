@@ -40,6 +40,7 @@
                         <td class="headerRow">Balance</td>
                         <td class="headerRow">Invoice Date</td>
                         <td class="headerRow">Status</td>
+                        <td class="headerRow">Sub Status</td>
                     </tr>
                 </table>
                 <div class="pay-staff-inner-table">
@@ -75,6 +76,9 @@
                                 </td>
                                 <td class="dataCell">
                                     <apex:outputField value="{!cgw.cg.Account_Status__c}"/>
+                                </td>
+                                <td class="dataCell">
+                                    <apex:outputField value="{!cgw.cg.Account_Sub_Status__c}"/>
                                 </td>
                             </tr>
                         </apex:repeat>
@@ -156,12 +160,12 @@
 
         function returnToContact() {
             $('img[title="INFO"]').each(function () {
-
-                if ({!isAdmin} == true
-                )
+	    	// We have created below variable, because of can not convert boolean directly to JSENCODE.
+	        var isAdmin = Boolean('{!JSENCODE(IF(isAdmin, "true", "false"))}');
+                if (isAdmin == true)
                 {
                     setTimeout(function () {
-                        window.location = '/{!guarantorRecordId}';
+                        window.location = '/{!JSENCODE(guarantorRecordId)}';
                     }, delaymessage);
                 }
             });

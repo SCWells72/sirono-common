@@ -22,14 +22,14 @@ public with sharing class ChargeGroupTriggerHandler {
 
     //Static Method that gets invoked after an insert event on Charge_Group__c records
     public static void afterInsert(List<Charge_Group__c> newList) {
-        Set<Id> planIds = new Set<Id>();
+        Set<Id> paymentPlanIds = new Set<Id>();
         Set<Id> invoiceIds = new Set<Id>();
         Set<Id> encounterIds = new Set<Id>();
 
         for (Charge_Group__c cg : newList) {
             //If this chargegroup is associated with a paymentPlan, calc the pp balance
             if (cg.Payment_Plan__c != null) {
-                planIds.add(cg.Payment_Plan__c);
+                paymentPlanIds.add(cg.Payment_Plan__c);
             }
 
             // If the charge group is associated with an invoice, update the invoice status
@@ -42,8 +42,11 @@ public with sharing class ChargeGroupTriggerHandler {
             }
         }
 
-        if (planIds.size() > 0) {
-            PaymentPlanUtil.updateBalances(planIds);
+        if (paymentPlanIds.size() > 0) {
+            Map<Id, Payment_Plan__c> plansToUpdate = PaymentPlanUtil.setBalanceAndCharges(paymentPlanIds);
+            if (plansToUpdate.size() > 0) {
+                update plansToUpdate.values();
+            }
         }
 
         if (invoiceIds.size() > 0) {
@@ -63,7 +66,7 @@ public with sharing class ChargeGroupTriggerHandler {
         //CODE FOR CALL LIST - REMOVE
         Set<ID> contactIds = new Set<ID>();
         //Collect Ids of the PaymentPlans to recalc their balances
-        Set<Id> planIds = new Set<Id>();
+        Set<Id> paymentPlanIds = new Set<Id>();
         Set<Id> invoiceIds = new Set<Id>();
         Set<Id> encounterIds = new Set<Id>();
 
@@ -76,10 +79,10 @@ public with sharing class ChargeGroupTriggerHandler {
 
             //If this chargegroup was/is associated with a paymentPlan, recalc the new/old pp balances
             if (cg.Payment_Plan__c != null) {
-                planIds.add(cg.Payment_Plan__c);
+                paymentPlanIds.add(cg.Payment_Plan__c);
             }
             if (oldMap.get(cg.Id).Payment_Plan__c != null) {
-                planIds.add(oldMap.get(cg.Id).Payment_Plan__c);
+                paymentPlanIds.add(oldMap.get(cg.Id).Payment_Plan__c);
             }
 
             // If the charge group is associated with an invoice, calculate fields related to the invoice
@@ -113,8 +116,11 @@ public with sharing class ChargeGroupTriggerHandler {
             CallListUtilities.PreCollectionCallListRemoval(contactIds);
         }
 
-        if (planIds.size() > 0) {
-            PaymentPlanUtil.updateBalances(planIds);
+        if (paymentPlanIds.size() > 0) {
+            Map<Id, Payment_Plan__c> plansToUpdate = PaymentPlanUtil.setBalanceAndCharges(paymentPlanIds);
+            if (plansToUpdate.size() > 0) {
+                update plansToUpdate.values();
+            }
         }
 
         if(invoiceIds.size() > 0){
@@ -150,8 +156,6 @@ public with sharing class ChargeGroupTriggerHandler {
             }
         }
 
-        PaymentPlanUtil.updateBalances(paymentPlanIds);
-
         if(invoiceIds.size() > 0){
             InvoiceUtil.updateInvoiceStatusIndex(invoiceIds);
             InvoiceUtil.updateInvoiceBalances(invoiceIds);
@@ -160,6 +164,13 @@ public with sharing class ChargeGroupTriggerHandler {
 
         if (encounterIds.size() > 0) {
             EncounterUtil.setHasChargeGroup(encounterIds);
+        }
+
+        if (paymentPlanIds.size() > 0){
+            Map<Id, Payment_Plan__c> plansToUpdate = PaymentPlanUtil.setBalanceAndCharges(paymentPlanIds);
+            if (plansToUpdate.size() > 0) {
+                update plansToUpdate.values();
+            }
         }
     }
 }
