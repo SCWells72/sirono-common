@@ -1,0 +1,14 @@
+<aura:component access="GLOBAL">
+	<aura:attribute name="show" type="Boolean" access="GLOBAL" default="FALSE"/>
+	<aura:attribute name="severity" type="String" access="GLOBAL"/>
+	<aura:attribute name="title" type="String" access="GLOBAL"/>
+	<aura:attribute name="message" type="String" access="GLOBAL"/>
+
+    <aura:method name="showError" action="{!c.doError}" description="" access="GLOBAL">
+		<aura:attribute name="message" type="String" default="Error" />
+	</aura:method>
+
+	<aura:renderIf isTrue="{!v.show}">
+		<ui:message severity="{!v.severity}" closable="true" title="{!v.title}">{!v.message}</ui:message>
+	</aura:renderIf>
+</aura:component>

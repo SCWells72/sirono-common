@@ -3026,12 +3026,11 @@
     <listViews>
         <fullName>AllOpenCases</fullName>
         <columns>CASES.CASE_NUMBER</columns>
-        <columns>NAME</columns>
+        <columns>Author_ID__c</columns>
         <columns>CASES.SUBJECT</columns>
         <columns>CASES.STATUS</columns>
         <columns>CASES.TYPE</columns>
         <columns>CASES.REASON</columns>
-        <columns>CASES.PRIORITY</columns>
         <columns>CASES.CREATED_DATE</columns>
         <columns>Guarantor_Information__c</columns>
         <columns>CORE.USERS.ALIAS</columns>

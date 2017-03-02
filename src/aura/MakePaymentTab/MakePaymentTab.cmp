@@ -1,0 +1,16 @@
+<aura:component >
+    <aura:attribute name="showSuccessMessage"   type="Boolean"  default="false" />
+    <aura:attribute name="validationMessages"   type="String[]" />
+    <aura:attribute name="transactionNumber"    type="String"   />
+    <aura:attribute name="transactionAmount"    type="String"   />
+    <aura:attribute name="isEstimate"           type="Boolean"  />
+    <aura:attribute name="invoiceId"            type="String"  />
+    <aura:handler name="change" value="{!v.validationMessages}" action="{!c.checkMessages}"/>
+    <!--<aura:handler event="c:ToggleSuccessMessageEvent" action="{!c.toggleMessage}" />-->
+    <aura:if isTrue="{!!v.showSuccessMessage}">
+	    <c:CardPayment messages="{!v.validationMessages}" IsMakePaymentTab="true" isEstimate="{!v.isEstimate}" invoiceId="{!v.invoiceId}"/>
+	</aura:if>
+	<div class="{!!v.showSuccessMessage ? 'slds-hide' : ''}">
+		<c:SuccessMessage isPaymentCompleted="{!v.showSuccessMessage}" trNumber="{!v.transactionNumber}" trAmount="{!v.transactionAmount}" isOnPaymentPage="true" isEstimatePayment="{!v.isEstimate}"/>
+	</div>
+</aura:component>

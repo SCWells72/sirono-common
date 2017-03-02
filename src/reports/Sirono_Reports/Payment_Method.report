@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <aggregates>
-        <calculatedFormula>ABS(Payment__c.Amount__c:SUM)*10</calculatedFormula>
+        <calculatedFormula>Payment__c.Amount__c:SUM*10</calculatedFormula>
         <datatype>currency</datatype>
         <developerName>FORMULA1</developerName>
         <isActive>true</isActive>
         <isCrossBlock>false</isCrossBlock>
-        <masterLabel>Payment Amount</masterLabel>
+        <masterLabel>Amount Paid</masterLabel>
         <scale>2</scale>
     </aggregates>
     <chart>
@@ -17,7 +17,7 @@
             <axisBinding>y</axisBinding>
             <column>FORMULA1</column>
         </chartSummaries>
-        <chartType>Donut</chartType>
+        <chartType>Pie</chartType>
         <enableHoverLabels>false</enableHoverLabels>
         <expandOthers>false</expandOthers>
         <groupingColumn>Payment__c.Method__c</groupingColumn>
@@ -38,6 +38,13 @@
         <field>Payment__c.Amount__c</field>
     </columns>
     <description>8/15/16</description>
+    <filter>
+        <criteriaItems>
+            <column>Payment__c.Method__c</column>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+    </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>

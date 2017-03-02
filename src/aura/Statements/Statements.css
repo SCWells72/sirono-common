@@ -1,0 +1,16 @@
+.THIS .statements .statement-grid{
+    display:block;
+    padding-bottom:20px;
+}
+
+.THIS .statementBlock{
+    overflow:hidden;
+}
+.THIS .statementBlockScroll{
+    overflow:auto;
+}
+.THIS .container{
+    display: table-cell;
+    padding-right:60px;
+    min-width:310px; 
+}

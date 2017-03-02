@@ -8,7 +8,17 @@ public with sharing class CommunitiesLandingController {
 
     //Code we will invoke on page load.
     public PageReference forwardToStartPage() {
-        return Network.communitiesLanding();
+    	String activeTab = apexPages.currentPage().getParameters().get('activeTab');
+        String tab = apexPages.currentPage().getParameters().get('tab');
+    	if (String.isEmpty(activeTab) && String.isEmpty(tab)) {
+    		return Network.communitiesLanding();
+    	} else if (! String.isEmpty(activeTab)) {
+    		String returnUrl = Network.communitiesLanding().getUrl() + '/?activeTab=' + activeTab;
+    		return new PageReference(returnUrl);
+    	} else {
+            String returnUrl = Network.communitiesLanding().getUrl() + 'payments/?tab=' + tab;
+            return new PageReference(returnUrl);
+        }
     }
 
     public CommunitiesLandingController() {

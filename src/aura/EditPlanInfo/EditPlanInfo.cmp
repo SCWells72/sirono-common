@@ -1,0 +1,19 @@
+<aura:component >
+	<aura:attribute name="PaymentInfo" type="Object" access="public" default="{}" />
+
+	<!-- <p>Next payment of <ui:outputcurrency value="{!v.PaymentInfo.paymentPlan.Remaining_Installment_Count__c == 1 ? v.PaymentInfo.paymentPlan.Remaining_Balance__c - v.PaymentInfo.paymentPlan.Installment_Amount__c * (v.PaymentInfo.paymentPlan.Remaining_Installment_Count__c - 1) : v.PaymentInfo.paymentPlan.Installment_Amount__c}" />/month for the next <ui:outputText value="{!v.PaymentInfo.paymentPlan.Remaining_Installment_Count__c}" /> installment(s). The final installment amount is <ui:outputCurrency value="{!v.PaymentInfo.paymentPlan.Remaining_Balance__c - v.PaymentInfo.paymentPlan.Installment_Amount__c * (v.PaymentInfo.paymentPlan.Remaining_Installment_Count__c - 1)}" /> scheduled for <ui:outputDate value="{!v.PaymentInfo.paymentPlan.NextPaymentDate__c}" format="MMMM d, YYYY"/></p> -->
+	<aura:if isTrue="{!v.PaymentInfo.paymentPlan.Plan_Type__c == 'Automatic'}">
+	<p class="title">
+		Your current payment plan is set up to charge <ui:outputCurrency value="{!v.PaymentInfo.paymentPlan.Installment_Amount__c}"/>/month on day <ui:outputText value="{!v.PaymentInfo.paymentPlan.Execute_on_Day__c}"/> of each month for the next <ui:outputText value="{!v.PaymentInfo.paymentPlan.Remaining_Installment_Count__c}"/> installment(s). The final installment amount is <ui:outputCurrency value="{!v.PaymentInfo.paymentPlan.Remaining_Balance__c - v.PaymentInfo.paymentPlan.Installment_Amount__c * (v.PaymentInfo.paymentPlan.Remaining_Installment_Count__c - 1)}"/>.
+	</p>
+	</aura:if>
+
+	<aura:if isTrue="{!v.PaymentInfo.paymentPlan.Plan_Type__c == 'Manual'}">
+	<p class="title">
+		Your current payment plan is set up for <ui:outputCurrency value="{!v.PaymentInfo.paymentPlan.Installment_Amount__c}"/>/month for the next <ui:outputText value="{!v.PaymentInfo.paymentPlan.Remaining_Installment_Count__c}"/> installment(s). The final installment amount is <ui:outputCurrency value="{!v.PaymentInfo.paymentPlan.Remaining_Balance__c - v.PaymentInfo.paymentPlan.Installment_Amount__c * (v.PaymentInfo.paymentPlan.Remaining_Installment_Count__c - 1)}"/>.
+	</p>
+	</aura:if>
+	<!-- <p class="title"><em>
+		Your current payment plan started on <ui:outputDate value="{!v.PaymentInfo.paymentPlan.CreatedDate}" format="MMMM d, YYYY"/>. <ui:outputCurrency value="{!v.PaymentInfo.paymentPlan.Installment_Amount__c}"/>/month is charged on day <ui:outputText value="{!v.PaymentInfo.paymentPlan.Execute_on_Day__c}"/> of each month for the next <ui:outputText value="{!v.PaymentInfo.paymentPlan.Remaining_Installment_Count__c - 1}"/> months. The <ui:outputText value="{!v.PaymentInfo.paymentPlan.Remaining_Installment_Count__c}"/>th and final installment will be <ui:outputCurrency value="{!v.PaymentInfo.paymentPlan.Remaining_Balance__c - v.PaymentInfo.paymentPlan.Installment_Amount__c * (v.PaymentInfo.paymentPlan.Remaining_Installment_Count__c - 1)}"/>.
+	</em></p> -->
+</aura:component>

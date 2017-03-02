@@ -1,0 +1,91 @@
+<aura:component controller="WorkWithDocumentsController">
+    <aura:attribute name="documents" type="Document[]"/>
+    <aura:attribute name="existPdfFlag" type="Boolean"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <div class="sldsjs-tab-target slds-tabs--scoped__content slds-hide slds-show">
+        <section class="documents">
+            <div class="grid">
+                <div class="col">
+                    <h2>View Your Documents</h2>
+                    <aura:if isTrue="{!v.documents.length > 0}">
+                        <p>Click on the associated link to download a PDF version.</p>
+                        <aura:set attribute="else">
+                            <p>You don't have any documents to view yet.</p>
+                        </aura:set>
+                    </aura:if>
+                </div>
+
+                <aura:if isTrue="{!v.existPdfFlag}">
+                    <div class="col">
+                        <div class="float-right">
+                            <div class="status sldsjs-popover">
+                                These files require Adobe Reader 
+                                <span class="slds-icon_container sldsjs-popover-action"  onclick="{!c.showPopoverRight}">
+                                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info" />
+
+                                    <span class="slds-assistive-text">Info</span>
+                                </span>
+                                <div aura:id="sldsjsPopoverRight"  class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-right slds-hide"  role="tooltip" id="help" style="position:absolute;top:45px;right:14px">
+                                    <div class="slds-popover__body">To view PDF content, you will need software such as Adobe Reader that can read a PDF file. If the files do not open, you can download and install Adobe Reader for free now.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href='https://acrobat.adobe.com/us/en/acrobat/pdf-reader.html?promoid=KSNEW' class="slds-button slds-button--neutral download"  target="_blank">Download Adobe Reader</a>
+                    </div>
+                </aura:if>
+            </div>
+            <aura:if isTrue="{!v.documents.length > 0}">
+            <table class="slds-table slds-table--bordered slds-table--fixed-layout slds-no-row-hover" role="grid">
+                <thead>
+                    <tr class="slds-text-title--caps">
+                        <th class="slds-is-sortable" scope="col" aria-label="Name">
+                            <a data-order-type='Name' onclick="{!c.updateSorting}" class="slds-th__action slds-text-link--reset">
+                                <span class="slds-assistive-text">Sort </span>
+                                <span class="slds-truncate" title="Name">Name</span>
+                                <div class="slds-icon_container">
+                                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
+
+                                </div>
+                                <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
+                            </a> 
+                        </th>
+                        <th class="slds-is-sortable" scope="col" aria-label="Document Category">
+                            <a data-order-type='Description' onclick="{!c.updateSorting}" class="slds-th__action slds-text-link--reset">
+                                <span class="slds-assistive-text">Sort </span>
+                                <span class="slds-truncate" title="Document Category">Description</span>
+                                <div class="slds-icon_container">
+
+                                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
+                                </div>
+                                <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
+                            </a>
+                        </th>
+                        <th class="slds-is-sortable" scope="col" aria-label="Post Date">
+                            <a data-order-type='LastModifiedDate' onclick="{!c.updateSorting}" class="slds-th__action slds-text-link--reset">
+                                <span class="slds-assistive-text">Sort </span>
+                                <span class="slds-truncate" title="Post Date">Last Modified</span>
+                                <div class="slds-icon_container">
+                                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#arrowdown'}" category="standard" size="small" name="arrowdown" />
+
+                                </div> 
+                                <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
+                            </a>
+                        </th>
+                        <th class="slds-is-sortable" scope="col" aria-label="Stage">
+                            <span class="slds-truncate" title="link">link</span>
+                            <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <aura:iteration items="{!v.documents}" var="document">
+                        <c:Document row='{!document}' /> 
+                    </aura:iteration>
+                </tbody>
+            </table>
+            </aura:if>
+        </section>
+    </div>
+</aura:component>

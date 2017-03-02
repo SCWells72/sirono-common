@@ -24,6 +24,13 @@
         <value>Please select at least one Charge Group(s).</value>
     </labels>
     <labels>
+        <fullName>Customer_Service_Center_Phone</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Customer Service Center Phone</shortDescription>
+        <value>(925)-231-2502</value>
+    </labels>
+    <labels>
         <fullName>Payment_Plan_Error</fullName>
         <language>en_US</language>
         <protected>false</protected>

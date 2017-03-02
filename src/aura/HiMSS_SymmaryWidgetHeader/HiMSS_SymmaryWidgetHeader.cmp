@@ -1,0 +1,8 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+	<aura:attribute name='type'    						type="String"	/>
+	<aura:attribute name='guarantorWrapperTimer'    	type="Datetime"/>
+    <aura:attribute name='guarantorWrapperListCounter'  type="Integer"/>
+    <aura:attribute name='isLogin'  					type="Boolean"/>
+    <aura:handler event="c:HiMSS_SummaryWidgetRotateEvent" action="{!c.processEvent}" />
+    <aura:registerEvent name="rotateEvent" type="c:HiMSS_SummaryWidgetRotateEvent"/>
+</aura:component>

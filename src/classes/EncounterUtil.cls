@@ -24,6 +24,10 @@ public with sharing class EncounterUtil {
             return;
         }
 
+        Map<Id, Encounter__c> encountersToUpdate = new Map<Id, Encounter__c>();
+        for (Id id : encounterIds) {
+        	encountersToUpdate.put(id, new Encounter__c(Id = id, Total_Payments__c = 0));
+        }
         // Get the SUM of all the associated payments
         AggregateResult[] results = [
                 SELECT Encounter__c obj, SUM(Amount__c) Total
@@ -32,18 +36,14 @@ public with sharing class EncounterUtil {
                 GROUP BY Encounter__c
         ];
 
-        if (results.size() > 0) {
-            List<Encounter__c> encountersToUpdate = new List<Encounter__c>();
             for (AggregateResult ar : results) {
                 Encounter__c enc = new Encounter__c(Id=(Id)ar.get(OBJ));
                 enc.Total_Payments__c = (Decimal) ar.get(TOTAL);
 
-                encountersToUpdate.add(enc);
+            encountersToUpdate.put(enc.Id, enc);
             }
 
-            UPDATE encountersToUpdate;
-        }
-
+        UPDATE encountersToUpdate.values();
         updateAssociatedGuarantors(encounterIds);
     }
 

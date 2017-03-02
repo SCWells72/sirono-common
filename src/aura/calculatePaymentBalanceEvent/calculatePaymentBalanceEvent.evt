@@ -1,0 +1,8 @@
+<aura:event type="APPLICATION" description="Event template" >
+	<aura:attribute name="paymentBalance" type="Decimal" />
+	<aura:attribute name="changeSum" type="Decimal" default="0"/>
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="invoices" type="List" default="[]"/>
+	<aura:attribute name="add" type="Boolean" default="true"/>
+    <aura:attribute name="allInvoices" type="String[]" default="[]"/>
+</aura:event>

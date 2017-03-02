@@ -1,0 +1,10 @@
+.THIS .slds-truncate{
+    min-height:15px;
+}
+
+.THIS .info {
+    left: -2px;
+    top: 37%;
+    background: #2574a9;
+    position: absolute;
+}

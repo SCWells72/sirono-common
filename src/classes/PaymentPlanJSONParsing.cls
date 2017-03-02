@@ -111,12 +111,11 @@ public class PaymentPlanJSONParsing {
             String strPaymentPlan = getExternalID(String.valueof(objJson.url), 'paymentplan');
             Decimal paymentPlanExternalID = Decimal.Valueof(strPaymentPlan);
             if (!String.Isblank(strPaymentPlan)) {
-                List<Payment_Plan__c> paymentPlan = [Select id from Payment_Plan__c where Sirono_ID__c =: paymentPlanExternalID ];
+                paymentPlanObj.Sirono_ID__c = paymentPlanExternalID;
+                paymentPlanObj.Name = String.valueof(paymentPlanObj.Sirono_ID__c);
+                List<Payment_Plan__c> paymentPlan = [Select Id, Sirono_ID__c from Payment_Plan__c where Sirono_ID__c =: paymentPlanExternalID ];
                 if (paymentPlan.Size() > 0) {
                     paymentPlanObj.ID = paymentPlan[0].Id ;
-                } else {
-                    paymentPlanObj.Sirono_ID__c = paymentPlanExternalID;
-                    paymentPlanObj.Name = String.valueof(paymentPlanObj.Sirono_ID__c);
                 }
             }
         }

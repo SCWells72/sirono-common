@@ -1,0 +1,73 @@
+<aura:component controller="PaymentTabsController">
+	<aura:attribute name="PaymentInfo" type="Object" access="public"/>
+	<aura:attribute name="PaymentRequestInfo" type="Object" access="public"/>
+    <aura:attribute name="CreditCard" type="Object" access="public"/>
+
+	<aura:attribute name="states" type="String[]" default="AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY" access="private"/>
+	<aura:attribute name="months" type="String[]" access="private"/>
+	<aura:attribute name="years" type="String[]" access="private" default="[]"/>
+	<aura:attribute name="hasError" type="Boolean" access="private" default="false"/>
+	<aura:attribute name="nextPaymentDate" type="String" access="private" default=""/>
+    <aura:attribute name="cvvError" type="String" default="" />
+    <aura:attribute name="IsValid" type="Boolean" default="false" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.doCmpInit}"/>
+	<aura:handler name="change" value="{!v.PaymentRequestInfo.executeOnDay}" action="{!c.doDateValueInit}"/>
+	<aura:registerEvent name="paymentMethodInit" type="c:CancelActionEvent"/>
+	<aura:registerEvent name="paymentPlanCreated" type="c:PaymentPlanCreatedEvent"/>
+	<aura:registerEvent name="updatePaymentMethod" type="c:UpdatePaymentMethodEvent"/>
+
+	<div class="payment-info">
+		<aura:if isTrue="{!v.hasError}">
+            <c:SuccessMessage isSuccess="false" aura:id="notificationCmp" />
+		</aura:if>
+        <ui:inputDefaultError aura:id="cardValidError" value="" />
+		<div class="we-accept">
+			<span>We Accept: </span>
+			<img src="{!$Resource.SironoData + '/assets/images/mastercard-icon.png'}" alt="Mastercard" /> 
+			<img src="{!$Resource.SironoData + '/assets/images/american-express-icon.png'}" alt="American Express" /> 
+			<img src="{!$Resource.SironoData + '/assets/images/visa-icon.png'}" alt="Visa" />
+		</div>
+		<div class="credit-card-form grid slds-wrap">
+            <c:PaymentCard CheckValidation="{!v.IsValid}" CreditCard="{!v.CreditCard}" months="{!v.months}" years="{!v.years}" states="{!v.states}" />
+			<aura:if isTrue="{!!v.CreditCard.sfId}">
+				<div class="col slds-size--1-of-1">
+					<lightning:input type="checkbox" label="Save this card for later use" name="options" value="{!v.CreditCard.isSaved}" class="display--inline" onchange="{!c.bindChangeSave}"/>
+					<div class="status info sldsjs-popover">
+						<span class="slds-icon_container sldsjs-popover-action">
+							<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info"/>
+						</span>
+					</div>
+				</div>
+			</aura:if>
+			<div class="slds-size--1-of-1 grid slds-wrap slds-p-bottom--large">
+				<aura:if isTrue="{!and(v.PaymentInfo, not(v.PaymentInfo.hasPaymentPlans))}">
+					<div class="col slds-size--1-of-1 border-top slds-p-around--large">
+						<div class="title">
+							<em>Your payment plan will start on {!v.nextPaymentDate}. <ui:outputCurrency value="{!v.PaymentRequestInfo.planValue}"/>/month will be charged on day {!v.PaymentRequestInfo.executeOnDay} of each month for the next {!v.PaymentRequestInfo.totalInstallments - 1} months. The {!v.PaymentRequestInfo.totalInstallments}th and final installment will be <ui:outputCurrency value="{!v.PaymentRequestInfo.totalAmount- v.PaymentRequestInfo.planValue * (v.PaymentRequestInfo.totalInstallments-1)}"/>.</em>
+						</div>
+					</div>
+					<div class="col slds-size--1-of-3 slds-p-around--large">
+						<button class="slds-button slds-button--neutral" onclick="{!c.cancelAction}">Back</button>
+					</div>
+					<div class="col slds-size--2-of-3 slds-p-around--large">
+						<div class="float-right">
+                            <button disabled="{!!v.IsValid}" class="slds-button slds-button--brand pp-step-three-button" onclick="{!c.setupPlan}">Set Up Payment Plan</button>
+						</div>
+					</div>
+
+					<aura:set attribute="else">
+						<div class="col slds-size--1-of-3 slds-p-around--large">
+							<button class="slds-button slds-button--neutral" onclick="{!c.cancelAction}">Cancel</button>
+						</div>
+						<div class="col slds-size--2-of-3 slds-p-around--large">
+							<div class="float-right">
+                                <button disabled="{!!v.IsValid}" class="slds-button slds-button--brand" onclick="{!c.saveNewCard}">Update Payment Method</button>
+							</div>
+						</div>
+					</aura:set>
+				</aura:if>
+			</div>
+		</div>
+	</div>
+</aura:component>

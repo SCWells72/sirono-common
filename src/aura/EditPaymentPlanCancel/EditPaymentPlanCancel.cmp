@@ -1,0 +1,32 @@
+<aura:component controller="PaymentTabsController">
+	<aura:attribute name="PaymentInfo" type="Object" access="public" default="{}"/>
+	<aura:attribute name="hasError" type="Boolean" access="private" default="false"/>
+
+	<aura:registerEvent name="resetPaymentTabs" type="c:CancelActionEvent"/>
+	<aura:method name="showCancelDialog" action="{!c.showCancelPlanDialog}" description="Show Cancel Payment Plan Window" access="public"/>
+
+	<div role="dialog" tabindex="-1" class="slds-modal slds-fade-in-close" aura:id="cancelDialog">
+		<div class="slds-modal__container">
+			<div class="slds-modal__header">
+				<button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeModal}">
+					<c:svgIcon svgpath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#close'}" category="utility" name="close" class="slds-button__icon slds-button__icon--large" />
+					<span class="slds-assistive-text">Close</span>
+				</button>
+				<h2 class="slds-text-heading--medium">Cancel Payment Plan</h2>
+			</div>
+			<div class="slds-modal__content slds-p-around--x-large">
+				<div>
+					<aura:if isTrue="{!v.hasError}">
+                        <c:SuccessMessage isSuccess="false" aura:id="notificationCmp" />
+					</aura:if>
+					<p class="slds-text-body--regular">Clicking confirm will cancel your upcoming payment plan installments. Any unpaid invoices part of the removed payment plan must be paid in full or re-enrolled in a payment plan to avoid being sent to collections.</p>
+				</div>
+			</div>
+			<div class="slds-modal__footer">
+				<button class="slds-button slds-button--neutral" onclick="{!c.closeModal}">Exit</button>
+				<button class="slds-button slds-button--brand" onclick="{!c.cancelPlan}">Cancel Payment Plan</button>
+			</div>
+		</div>
+	</div>
+	<div class="slds-backdrop slds-backdrop--close" aura:id="backdrop"></div>
+</aura:component>

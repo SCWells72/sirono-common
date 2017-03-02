@@ -1,0 +1,100 @@
+.THIS .main-body {
+    padding: 1rem 1rem 3rem 1rem;
+}
+
+.THIS.col.payment-actions {
+    padding: 0!important; 
+    min-width:2rem!important;
+}
+.THIS .actionsHeader{
+    font-weight: bold!important;  
+}
+.THIS .slds_btn_group {
+    display:block; 
+    /*position:relative!important;   */
+}
+
+.THIS .payment-actions .slds-button-group { 
+    position:relative;
+}
+
+.THIS .PayOverdue, .THIS .PayDelinquent {
+    display: flex;
+}
+
+.THIS .btn_PayOverdueTop, .THIS .btn_PayDelinquentTOP {
+    display: inline-block;
+    width: 50% !important;
+    border-radius: 0 0 0 0.25rem !important;
+    margin-top: 17px!important;
+}
+.THIS .btn_PayDelinquentTOP {
+    width:100%;
+}
+.THIS .btn_apply_aid {
+    display: inline-block;
+    width: 50% !important;
+    border-left:1px solid #ccc;
+}
+
+.THIS .btn_PayOverdueBottom {
+    margin: 0 auto!important;
+    width:100%!important;
+    background:#fff;
+    border-left:none!important;
+    border-top:1px solid #ccc; 
+    outline:none;
+    box-shadow:none!important; 
+    margin-top:17px!important;
+}
+.THIS .btn_PayOverdueBottom:hover {
+    background:#fff;
+}
+/*
+.THIS .btn_PayAccountFullDue  {
+    border-radius:5px!important;
+    margin: 0 auto!important;
+    padding: 1px!important;
+    width:42%;
+}
+.THIS .slds_btn_group .single_btn_apply_aid {
+    border-radius:5px!important;
+    margin: 0 auto!important;
+    padding: 1px!important;
+    width:40%!important;
+}
+
+.THIS .payment-actions .slds-button-group {
+    padding-bottom:1rem;
+}
+.THIS .slds_btn_group button:last-child{
+    margin: 0 auto!important;
+    width:100%;
+    background:#fff;
+    border-left:none!important;
+    border-top:1px solid #ccc; 
+    outline:none;
+    box-shadow:none!important;   
+}
+*/
+
+.THIS .btn_OnPaymentPlan button:last-child,
+.THIS .PayDelinquent button:last-child,
+.THIS .PayOverdue button:last-child{ 
+    margin-top: 17px!important;    
+}
+.THIS .btn_OnPaymentPlan button:first-child { 
+    border: 1px solid #ccc!important; 
+    width:46%!important;
+}
+
+.THIS .btn_groupDue button.btn_AddInvoiceDue {
+    border: none!important;
+    border-top: 1px solid #ccc!important;
+    border-radius: 0!important;
+    padding: 5px!important;  
+}
+.THIS .btn_groupDue .Due_OnPP_widget { 
+    width: 100%!important;
+    border-left: 0!important; 
+}

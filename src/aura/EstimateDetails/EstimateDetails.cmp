@@ -1,0 +1,130 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global">
+    
+    <aura:handler event="c:activateEstimateTileRequest" action="{!c.showDetails}" />
+
+    <aura:attribute name="listOfEstimates" type="List" />
+    <aura:attribute name="estimate" type="Object" />
+    <aura:attribute name="activeEstimate" type="Integer" />
+    <aura:attribute name="fileUrl" type="String"/>
+
+    <div class="{!'col invoice-detail-container display_'+(v.activeEstimate != undefined)}">
+        <!--<div class="none-selected">No estimates selected</div>-->
+        <div class="invoice-detail-wrapper">
+            <section id="mri" class="invoice-detail">
+                <header class="grid">
+                    <div class="col intro">
+                        <em>Below are the details for the estimate of upcoming procedure(s).</em>
+                        <aura:if isTrue="{!v.estimate.estimateStatus == 'Unpaid'}">
+                            <div><a class="cta" onclick="{!c.sendEstimateNowToHeader}">Make Deposit</a></div>
+                        </aura:if>
+                    </div>
+                    <div class="col align-right slds-align-bottom">
+                        <span class="title balance">
+                            Balance
+                        </span>
+                        <span class="value">
+                            <ui:outputCurrency value="{!v.estimate.singleEncounter.Balance__c}" />
+                        </span>
+                    </div>
+                </header>
+                <div class="invoice-content">
+                    <div class="col details">
+                        <ui:outputDate value="{!v.estimate.singleEncounter.Date_of_Service__c}" format="MM/DD/YYYY"/>
+                        <div>{!'ID Number: '+v.estimate.singleEncounter.Encounter_ID__c}</div>
+                        <div>{!'Location: '+ if(v.estimate.singleEncounter.Type__c == 'HB', v.estimate.singleEncounter.Location__c, v.estimate.singleEncounter.Ordering_Physician__c)}</div>
+                        <aura:if isTrue="{!v.estimate.fileUrl}">
+                            <a target="_blank" href="{!v.estimate.fileUrl}" class="slds-button slds-button--brand slds-m-top--small clear">Download Estimate</a>
+                        </aura:if>
+                    </div>
+                    <div class="col charges">
+                        <h3>Estimated Charges</h3>
+                        <div class="charge-details">
+                            <div class="col">{!v.estimate.singleEncounter.Procedure__c}</div>
+                            <div class="col align-right">
+                                <ui:outputCurrency value="{!v.estimate.singleEncounter.Total_Charges__c}" />
+                            </div>
+                            <div class="col footer">
+                                <div class="title">Total Charges</div>
+                            </div>
+                            <div class="col footer align-right">
+                                <ui:outputCurrency value="{!v.estimate.singleEncounter.Total_Charges__c}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col payments">
+                        <h3>Estimated Payment and Adjustments</h3> 
+                        <div class="payment-details">
+                            
+                            <aura:if isTrue="{! v.estimate.singleEncounter.Insurance_Discount__c != null }">
+                                <div class="col">
+                                    {! if ( v.estimate.singleEncounter.Coverage__c != NULL, v.estimate.singleEncounter.Coverage__r.Name + ' Adjustment', 'Insurance Adjustment')}
+                                </div>
+                                <div class="{! 'col credit align-right ' + if(or (v.estimate.singleEncounter.Insurance_Discount__c == null, v.estimate.singleEncounter.Insurance_Discount__c == 0), 'zero-credit', '')}"><aura:if isTrue="{!v.estimate.singleEncounter.Insurance_Discount__c > 0}">-</aura:if><ui:outputCurrency value="{!v.estimate.singleEncounter.Insurance_Discount__c}" /></div>
+                            </aura:if>
+
+                            <aura:if isTrue="{! v.estimate.singleEncounter.Insurance_Portion__c != NULL}">
+                                <div class="col">
+                                    {! if ( v.estimate.singleEncounter.Coverage__c != NULL, v.estimate.singleEncounter.Coverage__r.Name + ' Payment', 'Insurance Payment')}
+                                </div>
+                                <div class="{! 'col credit align-right ' + if(or (v.estimate.singleEncounter.Insurance_Portion__c == null, v.estimate.singleEncounter.Insurance_Portion__c == 0), 'zero-credit', '')}"><aura:if isTrue="{!v.estimate.singleEncounter.Insurance_Portion__c > 0}">-</aura:if><ui:outputCurrency value="{!v.estimate.singleEncounter.Insurance_Portion__c}" /></div>
+                            </aura:if>
+                            
+                            <aura:if isTrue="{! or (v.estimate.singleEncounter.Insurance_Discount__c != NULL, v.estimate.singleEncounter.Insurance_Portion__c != NULL)}">
+                                <div class="col footer">
+                                    <div class="title">Total Credits</div>
+                                </div>
+                                <div class="{! 'col footer credit align-right ' + if(and(or (v.estimate.singleEncounter.Insurance_Discount__c == null, v.estimate.singleEncounter.Insurance_Discount__c == 0), or (v.estimate.singleEncounter.Insurance_Portion__c == null, v.estimate.singleEncounter.Insurance_Portion__c == 0)), 'zero-credit', '')}">
+	                                <aura:if isTrue="{! if ( and (v.estimate.singleEncounter.Insurance_Portion__c != null, v.estimate.singleEncounter.Insurance_Discount__c != null), v.estimate.singleEncounter.Insurance_Portion__c + v.estimate.singleEncounter.Insurance_Discount__c > 0, if ( v.estimate.singleEncounter.Insurance_Portion__c != null, v.estimate.singleEncounter.Insurance_Portion__c > 0, if (v.estimate.singleEncounter.Insurance_Discount__c != null, v.estimate.singleEncounter.Insurance_Discount__c > 0, false) ) ) }">-</aura:if>
+	                                <ui:outputCurrency value="{! if ( and (v.estimate.singleEncounter.Insurance_Portion__c != null, v.estimate.singleEncounter.Insurance_Discount__c != null), v.estimate.singleEncounter.Insurance_Portion__c + v.estimate.singleEncounter.Insurance_Discount__c, if ( v.estimate.singleEncounter.Insurance_Portion__c != null, v.estimate.singleEncounter.Insurance_Portion__c, if (v.estimate.singleEncounter.Insurance_Discount__c != null, v.estimate.singleEncounter.Insurance_Discount__c, null) ) )}" />
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                    <div class="col total align-right payments">
+                        <span class="title balance">
+                            Estimated Patient Portion
+                        </span>
+                        <span class="value">
+                            <ui:outputCurrency value="{!v.estimate.singleEncounter.Patient_Portion__c}" />
+                        </span>
+                        <hr class="{! 'divLine display_'+(v.estimate.singleEncounter.Total_Payments__c > 0)}"/>
+                    </div>
+                    <div class="col"/>
+                    <div class="col"/>
+                    <div class="{! 'col payments display_'+(v.estimate.singleEncounter.Total_Payments__c > 0)}">
+                        <h3>Payments Received</h3>
+                        <div class="payment-details">
+                            <aura:iteration items="{!v.estimate.singleEncounter.Payments__r}" var="payment" >
+                                    <div class="col">
+                                        Thank you for your payment - 
+                                        <ui:outputDate value="{! payment.Deposit_Date__c}" format="MM/DD/YYYY"/>
+                                    </div>
+                                    <div class="col credit align-right">
+                                        <ui:outputCurrency value="{!payment.Amount__c}" />
+                                    </div>
+                            </aura:iteration>
+                            
+                            <div class="col footer">
+                                <div class="title">Total Credits</div>
+                            </div>
+                            <div class="col footer credit align-right">
+                                <ui:outputCurrency value="{!v.estimate.singleEncounter.Total_Payments__c}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="{! 'col total align-right display_'+(v.estimate.singleEncounter.Total_Payments__c > 0)}">
+                        <span class="title balance">
+                            Balance
+                        </span>
+                        <span class="value">
+                            <ui:outputCurrency value="{!v.estimate.singleEncounter.Balance__c}" />
+                        </span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="{!'col invoice-detail-container display_'+(v.activeEstimate == undefined)}">
+        <div class="no_selection">No estimates selected</div>
+    </div>
+</aura:component>

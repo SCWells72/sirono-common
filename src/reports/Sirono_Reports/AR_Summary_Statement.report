@@ -40,8 +40,8 @@
     <filter>
         <criteriaItems>
             <column>Statement__c$Statement_Date__c</column>
-            <operator>lessThan</operator>
-            <value>8/1/2016</value>
+            <operator>greaterThan</operator>
+            <value>9/30/2016</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

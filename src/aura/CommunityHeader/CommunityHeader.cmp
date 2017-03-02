@@ -1,0 +1,76 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="HeaderController">
+    <aura:attribute name="userInfo" type="User"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/salesforce-lightning-design-system.min.css'}" />
+        <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/main.css'}" />
+        <div class="wrapper">
+            <div class="global-header">
+                <div class="slds-grid">
+                    <div class="slds-col slds-p-horizontal--medium slds-p-vertical--small">
+                        <img class="portal-logo" src="{!$Resource.SironoData + '/assets/images/health-system-logo.png'}" alt="Health System" />
+                        <span class="welcome">Welcome back, {!v.userInfo.Contact.FirstName}! ID: {!v.userInfo.Contact.Profile_Pointer_ID__c}</span>
+                    </div>
+                    <div class="slds-col">
+                        <div class="slds-grid nav-main">
+                            <div class="slds-col settings sldsjs-popover">
+                                <a href="" class="sldsjs-popover-action" onclick="{!c.showSettings}">
+                                    <!--<span class="slds-icon_container">-->
+                                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#settings'}" category="standard" size="medium" name="settings" />
+                                    <!--<span class="slds-assistive-text">Settings</span>
+                                    </span>-->
+                                </a>
+                                <div aura:id="sldsjsPopoverAction" class="sldsjs-popover-target slds-dropdown slds-dropdown--left slds-nubbin--top-left slds-hide">
+                                    <ul class="slds-dropdown__list" role="menu">
+                                        <li class="slds-dropdown__item" role="presentation"><a href="javascript:void(0);" role="menuitem" tabindex="0"><span class="slds-truncate">My Account</span></a></li>
+                                        <li class="slds-dropdown__item" role="presentation"><a href="javascript:void(0);" role="menuitem" tabindex="0"><span class="slds-truncate">Update Personal Information</span></a></li>
+                                        <li class="slds-dropdown__item" role="presentation"><a href="javascript:void(0);" role="menuitem" tabindex="0"><span class="slds-truncate">Update Insurance Information</span></a></li>
+                                        <li class="slds-dropdown__item" role="presentation"><a href="/" role="menuitem" tabindex="0"><span class="slds-truncate">Logout</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="slds-col help sldsjs-popover">
+                                <a href="" class="sldsjs-popover-action" onclick="{!c.showHelp}"> 
+                                    Help
+                                    <!--<span class=" slds-icon_container"--> 
+                                    <!--<span class="slds-icon_container">-->
+                                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#help'}" category="standard" size="small" name="help" />
+                                    <!--<span class="slds-assistive-text">Help</span></span>-->
+                                </a>
+                                <div aura:id="sldsjsPopoverActionHelp"  class="sldsjs-popover-target help-info slds-popover slds-nubbin--top-right slds-theme--info slds-hide" role="dialog">
+                                    <div class="slds-popover__body">
+                                        <div class="live-chat"> 
+                                            <!--<span class="slds-icon_container">-->
+                                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#chat'}" category="standard" size="small" name="chat" />
+                                            <!--<span class="slds-assistive-text">Live Chat</span></span>-->
+                                            <div class="LiveChart">Click Here for Live Chat Help</div>
+                                        </div>
+                                        <p class="popup_txt">  
+                                            Questions about your hospital bill or need technical support?
+                                            Contact the Customer Care Center:
+                                        </p>      
+                                        <div class="grid popup_drid">
+                                            <div class="col left" style="cursor:default;">
+                                                <div class="value"><span>Toll Free</span></div>
+                                                <div class="value">{! $Label.c.Customer_Service_Center_Phone}</div>
+                                            </div>
+                                            <div class="col right">
+                                                <div class="title">Monday - Friday</div>
+                                                <div class="value">8am to 9pm EST</div>
+                                                <div class="title">Saturday</div>
+                                                <div class="value">8:30am to 1pm EST</div>
+                                            </div>
+                                        </div>
+                                        <div class="copyright">
+                                            Copyright 2016 Sirono Concierge
+                                            Terms of Service. Privacy Policy. Financial Assistance Policy.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </aura:component>

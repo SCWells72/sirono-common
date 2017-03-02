@@ -1,0 +1,104 @@
+<aura:component controller="WorkWithInvoicesController">
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:attribute name="invoices" type="Aura.Component[]" />
+    <aura:attribute name="blockInvoices" type="Aura.Component[]" />    
+    <aura:attribute name="patientSet" type="Set" />
+    <aura:attribute name="patientLabel" type="String" default="All Patients"/>
+    <aura:attribute name="listOfInvoices" type="List" />
+    <aura:attribute name="invoiceId" type="String"/>
+    <aura:attribute name="groupFilter" type="String" default="unpaid"/>
+    <aura:attribute name="AreAllInvoicesSelected" type="Boolean" default="false"/>
+    <aura:attribute name="isEstimateType" type="Boolean" default="false"/>
+    <aura:attribute name="selectedTab" type="String" default="MakeAPayment" />
+    <aura:handler event="c:calculatePaymentBalanceEvent" action="{!c.refreshAllInvoicesSelected}" />
+    <aura:handler event="c:switchTab" action="{!c.reInitData}" />
+    <aura:handler name="change" value="{!v.invoices}" action="{!c.checkSize}"/>
+    <aura:registerEvent name="selectAllInvoices" type="c:SelectInvoicesEvent"/>
+    <div class="invoice-listing-wrapper">
+        <header>
+            <aura:if isTrue="{!v.patientSet.length > 0}">
+                <div class="col filter">
+                    <div aura:id="patientList" class="slds-picklist slds-dropdown-trigger slds-dropdown-trigger--click">
+                        <button class="slds-button slds-button--icon-border-filled" aria-haspopup="true" title="Show More" onclick="{!c.patientsVisibility}">
+                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#down'}" category="standard" size="small" name="down" class="slds-button__icon"/>
+                            <!--<svg aria-hidden="true" class="slds-button__icon">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                            </svg> -->
+                            <span class="slds-assistive-text">Show More</span>
+                        </button>
+                        <div class="slds-dropdown slds-dropdown--left">
+                            <ul class="slds-dropdown__list" role="menu">
+                                <aura:iteration items="{!v.patientSet}" var="patient" indexVar='index'>
+                                    <li class="{!patient.isSelected == true ? 'slds-is-selected' : ''}" role="presentation" data-patient-id="{!patient.id}" onclick="{!c.patientSelect}">
+                                    <span class="slds-lookup__item-action slds-lookup__item-action--label" role="option" tabindex="{!index == 0 ? 0 : -1}" id="listbox-option-266">
+                                        <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}" category="standard" size="small" class="slds-icon slds-icon--selected slds-icon--x-small slds-icon-text-default slds-m-right--x-small slds-shrink-none" />
+                                        <span class="slds-truncate" title="{!patient.MRN}">
+                                        {!patient.name}</span>
+                                    </span>
+                                    </li>
+                                </aura:iteration>
+                                            
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="small-text">{!v.patientLabel}</div>
+                </div>
+            </aura:if>
+            
+
+           <!-- <div class="box_gray">These invoices are not a payment plan</div>
+            <div class="box_gray">Invoices on current payment plan</div> -->
+
+            <div class="col sort" aura:id="sort">
+                <button class="select-all-btn" onclick="{!c.selectAllInvoices}">
+                    <div class="{!v.AreAllInvoicesSelected ? 'select-all-icon selected' : 'select-all-icon'}">
+                        <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}"  category="standard" size="small" class="slds-button__icon" name="Check" />
+                    </div>{!v.AreAllInvoicesSelected ? 'Deselect All' : 'Select All'}
+                </button>
+                <div class="float-right" aura:id="filtes">
+                    <div class="slds-radio--button-group">
+                        <span class="slds-button slds-radio--button">
+                            <input type="radio" name="radio" id="unpaid" checked="{!v.groupFilter == 'Unpaid'}"   onchange="{!c.filterInvoices}"/>
+                            <label class="slds-radio--button__label" for="unpaid">
+                                <span class="slds-radio--faux">Unpaid</span>
+                            </label>
+                        </span>
+                        <span class="slds-button slds-radio--button">
+                            <input type="radio" name="radio" id="overdue" checked="{!v.groupFilter == 'Overdue'}" onchange="{!c.filterInvoices}"/>
+                            <label class="slds-radio--button__label" for="overdue">
+                                <span class="slds-radio--faux">Overdue</span>
+                            </label>
+                        </span>
+                        <span class="slds-button slds-radio--button">
+                            <input type="radio" name="radio" id="delinquent" checked="{!v.groupFilter == 'Delinquent'}" onchange="{!c.filterInvoices}"/>
+                            <label class="slds-radio--button__label" for="delinquent">
+                                <span class="slds-radio--faux">Delinquent</span>
+                            </label>
+                        </span>
+                        <aura:if isTrue="{!v.selectedTab == 'MakeAPayment'}"> 
+                            <span class="slds-button slds-radio--button">
+                                <input type="radio" name="radio" id="On Payment Plan" checked="{!v.groupFilter == 'On Payment Plan'}" onchange="{!c.filterInvoices}"/>
+                                <label class="slds-radio--button__label" for="On Payment Plan">
+                                    <span class="slds-radio--faux">On Payment Plan</span>
+                                </label>
+                            </span>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!--Loop of invoices-->
+        <!--<c:singleinvoice />-->
+        <!--Loop of invoices-->
+        <aura:if isTrue="{!v.invoices.length != 0 ? v.selectedTab == 'CreatePaymentPlan' ? true : false : false}">
+            <div class="box_gray">These invoices are not on a payment plan</div>
+        </aura:if>
+        {!v.invoices}
+        <input type="hidden" name="fixedBug" value="{!v.blockInvoices.length}" />
+        <aura:if isTrue="{!v.blockInvoices.length != 0}">
+            <div class="box_gray">Invoices on current payment plan</div>
+        
+        </aura:if>
+        {!v.blockInvoices}
+     </div>
+</aura:component>

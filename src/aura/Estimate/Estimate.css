@@ -1,0 +1,10 @@
+.THIS.invoice-record-wrapper {
+    height: 100%!important;
+    padding-bottom: 73px;
+}
+.THIS .display_false {
+    display: none;
+}
+.THIS .gridEstimate {
+    width:100%;
+}
