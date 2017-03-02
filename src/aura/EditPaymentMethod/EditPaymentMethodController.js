@@ -1,6 +1,7 @@
 ({
 	doCmpInit: function(cmp, e, hlpr) {
 		var PaymentInfo = cmp.get('v.PaymentInfo');
+
 		var cardId = cmp.get('v.PaymentInfo.paymentPlan.Payment_Method__c');
 		var CreditCard = hlpr.getDefaultCard();
 
@@ -15,6 +16,33 @@
 		cmp.set('v.selectedCardId', cardId);
 		cmp.set('v.CreditCard', CreditCard);
 	},
+
+	initCardSelectOptions: function(cmp, e, hlpr) {
+		var PaymentInfo = cmp.get('v.PaymentInfo');
+		var cardSelection = cmp.find('state');
+		console.log('PaymentInfo' , PaymentInfo);
+		console.log('cardSelection' , cardSelection);
+		cardSelection.set('v.body', []);
+		var body = cardSelection.get('v.body');
+		PaymentInfo.creditCards.forEach(function(card){
+			$A.createComponent(
+				'aura:html',
+				{
+					tag: 'option',
+					HTMLAttributes: {
+						value: card.sfId,
+						text: card.displayName
+					}
+				},
+				function(newOption){
+					if(cmp.isValid()){
+						body.push(newOption);
+						cardSelection.set('v.body', body);
+					}
+				})
+		});
+	},
+
 	cancelAction: function (cmp, e, hlpr) {
 		cmp.getEvent('initPlanInfo').fire();
 	},

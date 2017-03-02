@@ -7,6 +7,28 @@
 			_tmp++;
 		}
 		cmp.set('v.dayOfMonthSelection', selections);
+		var dayOfMonthSelection = cmp.find('dayOfMonth');
+		dayOfMonthSelection.set('v.body', []);
+		var body = dayOfMonthSelection.get('v.body');
+		selections.forEach(function(selection){
+			$A.createComponent(
+				'aura:html',
+				{
+					tag: 'option',
+					HTMLAttributes: {
+						value: selection,
+						text: selection
+					}
+				},
+				function(newOption){
+					if(cmp.isValid()){
+						body.push(newOption);
+						dayOfMonthSelection.set('v.body', body);
+					}
+				})
+		});
+		//dayOfMonthSelection.set('v.value', defaultDayOfMonth);
+
 		cmp.set('v.hasError', false);
 
 		console.log('fillTempVariables');

@@ -1,4 +1,22 @@
 ({
+	
+	getDefaultCard: function(cmp) {
+		var date = new Date();
+		date.setMonth(date.getMonth() + 1);
+		return {
+			isSaved: false,
+			expirationMonth: '03',
+			expirationYear: date.getFullYear(),
+			cardHolderName:'',
+			creditCardNumber: '',
+			cvv: '',
+			address: '',
+			city: '',
+			zip: '',
+			state: ''
+		};
+	},
+
 	showError: function(cmp, message) {
 		cmp.set('v.hasError', true);
 		cmp.find('notificationCmp').showError(message);

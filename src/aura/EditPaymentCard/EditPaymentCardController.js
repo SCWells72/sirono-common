@@ -3,6 +3,7 @@
 		var credtCardSelections = cmp.get('c.getCardSelectOptions');
 		credtCardSelections.setCallback(this, function(response) {
 			if (response.getState() === 'SUCCESS') {
+				console.log('getCardSelectOptions EDIT');
 				var selections = response.getReturnValue();
 				var months = [];
 				var years = [];
@@ -21,6 +22,7 @@
 						return av - bv;
 					});
 				}
+				
 
 				cmp.set('v.months', months);
 				cmp.set('v.years', years);
@@ -32,18 +34,13 @@
 		var date = new Date();
 		date.setMonth(date.getMonth() + 1);
 		var CreditCard = cmp.get('v.CreditCard') || {};
+		console.log('CreditCard', CreditCard, CreditCard.length);
+		if(CreditCard.length == undefined || CreditCard.length == 0){
+			CreditCard = hlpr.getDefaultCard(cmp);
+			console.log('CreditCard Init:', CreditCard);
+		}
 		var curr_month = date.getMonth() + 1;
-		CreditCard.expirationMonth = curr_month < 10 ? '0' + curr_month: '' + curr_month;
-		CreditCard.expirationMonth = '02';
-		CreditCard.expirationYear = date.getFullYear();
-		CreditCard.cardholderName = 'Charles Green';
-		CreditCard.creditCardNumber = '4111111111111111';
-		CreditCard.cvv = '123';
-		CreditCard.address = '1221 Congress Ave';
-		CreditCard.city = 'Austin';
-		CreditCard.state = 'TX';
-		CreditCard.zip = '78701';
-		CreditCard.isSaved = false;
+		
 		cmp.set('v.CreditCard', CreditCard);
 	},
 	doDateValueInit: function(cmp, e, hlpr) {
@@ -65,7 +62,8 @@
 		cmp.getEvent('paymentMethodInit').fire();
 	},
 	saveNewCard: function(cmp, e, hlpr) {
-		if(hlpr.isValidateExpDate(cmp) && hlpr.isValidCutNOTNumber(cmp, "cvv") && hlpr.isValidateCVV(cmp) && hlpr.isValidateCardN(cmp) && hlpr.isValidCutNOTNumber(cmp, "zipcode")){
+		console.log('saveNewCard');
+		//if(hlpr.isValidateExpDate(cmp) && hlpr.isValidCutNOTNumber(cmp, "cvv") && hlpr.isValidateCVV(cmp) && hlpr.isValidateCardN(cmp) && hlpr.isValidCutNOTNumber(cmp, "zipcode")){
 			cmp.set('v.hasError', false);
 			var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
 			var CreditCard = cmp.get('v.CreditCard');
@@ -93,28 +91,14 @@
 				}
 			});
 			$A.enqueueAction(createPlan);
-		}else{
-			console.log('ShowError');
-			if(cmp.get('v.cvvError') == ''){
-				hlpr.showError(cmp, 'Please fill in all required fields');
-			}else{
-				hlpr.showError(cmp, cmp.get('v.cvvError'));
-			}
-			return;
-		}
+		//}
 	},
 	setupPlan: function(cmp, e, hlpr) {
 		try {
-		console.log('date', hlpr.isValidateExpDate(cmp) );
-		console.log('cvv-n',  hlpr.isValidCutNOTNumber(cmp, "cvv") );
-		console.log('zip',  hlpr.isValidCutNOTNumber(cmp, "zipcode") );
-		console.log('cn',  hlpr.isValidateCardN(cmp) );
-		console.log('cvv',  hlpr.isValidateCVV(cmp) );
-
-		if (!hlpr.isValidateExpDate(cmp) || !hlpr.isValidCutNOTNumber(cmp, "cvv") || !hlpr.isValidCutNOTNumber(cmp, "zipcode") || !hlpr.isValidateCardN(cmp) || !hlpr.isValidateCVV(cmp)) {
-			hlpr.showError(cmp, 'Please fill in all required fields');
-			return;
-		}
+		//if (!hlpr.isValidateExpDate(cmp) || !hlpr.isValidCutNOTNumber(cmp, "cvv") || !hlpr.isValidCutNOTNumber(cmp, "zipcode") || !hlpr.isValidateCardN(cmp) || !hlpr.isValidateCVV(cmp)) {
+		//	hlpr.showError(cmp, 'Please fill in all required fields');
+		//	return;
+		//}
 		console.log('Is Valid');
 		cmp.set('v.hasError', false);
 		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');

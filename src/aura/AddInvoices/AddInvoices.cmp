@@ -34,7 +34,7 @@
 	</aura:if>
 	<div aura:id="editTerms" class="set-amount">
 		<aura:if isTrue="{!v.hasError}">
-			<c:SupportMessage aura:id="notificationCmp"/>
+            <c:SuccessMessage isSuccess="false" aura:id="notificationCmp" />
 		</aura:if>
         <label class="slds-form-element__label">Set new payment amount and time</label>
 		<label class="slds-form-element__label"><strong>New</strong> Payment Plan Balance:</label>
@@ -65,9 +65,10 @@
 			<div class="col slds-align-middle">Pay on day </div>
 			<div class="col">
 				<lightning:select name="dayOfMonth" label="Day of month" aura:id="dayOfMonth" value="{!v.PaymentRequestInfo.executeOnDay}" class="payment-plan-day--select">
-					<aura:iteration items="{!v.dayOfMonthSelection}" var="day">
+					<!--<aura:iteration items="{!v.dayOfMonthSelection}" var="day">
 						<ui:inputSelectOption text="{!day}" label="{!day}"/>
-					</aura:iteration>
+					</aura:iteration>-->
+					<option value="0" name="loading..."/>
 				</lightning:select>
 			</div>
 			<div class="col slds-align-middle">of each month.</div>

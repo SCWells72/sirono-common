@@ -1,5 +1,18 @@
 ({
 	doCmpInit: function(cmp, e, hlpr) {
+		console.log('doCmpInit');
+		var PaymentInfo = cmp.get('v.PaymentInfo');
+		console.log('CreditCard');
+		var CreditCard = hlpr.getDefaultCard(cmp);
+		console.log('CreditCard Init:', CreditCard);
+		if (PaymentInfo && PaymentInfo.creditCards.length) {
+			PaymentInfo.creditCards.forEach(function(card) {
+				CreditCard = card;
+			});
+		}
+
+		cmp.set('v.CreditCard', CreditCard);
+		
 		var selections = [];
 		var _tmp = 1;
 		while (_tmp <= 31) {
@@ -7,6 +20,27 @@
 			_tmp++;
 		}
 		cmp.set('v.dayOfMonthSelection', selections);
+		var dayOfMonthSelection = cmp.find('dayOfMonth');
+		dayOfMonthSelection.set('v.body', []);
+		var body = dayOfMonthSelection.get('v.body');
+		selections.forEach(function(selection){
+			$A.createComponent(
+				'aura:html',
+				{
+					tag: 'option',
+					HTMLAttributes: {
+						value: selection,
+						text: selection
+					}
+				},
+				function(newOption){
+					if(cmp.isValid()){
+						body.push(newOption);
+						dayOfMonthSelection.set('v.body', body);
+					}
+				})
+		});
+
 		cmp.set('v.hasError', false);
 	},
 	resetCmp: function(cmp, e, hlpr) {

@@ -37,11 +37,11 @@
 				<div class="grid slds-grid--align-center">
 					<div class="col">
 						<div class="slds-button-group slds-p-top--large" role="group">
-							<aura:renderIf isTrue="{!v.PaymentInfo.paymentPlan.Plan_Type__c == 'Automatic'}">
+							<aura:if isTrue="{!v.PaymentInfo.paymentPlan.Plan_Type__c == 'Automatic'}">
 								<button class="slds-button slds-button--neutral" onclick="{!c.editTerms}">Edit Terms</button>
 								<button class="slds-button slds-button--neutral" onclick="{!c.editPaymentMethod}">Edit Payment Method</button>
-							</aura:renderIf>
-							<button class="slds-button slds-button--neutral">Cancel Plan</button>
+							</aura:if>
+                            <button class="slds-button slds-button--neutral" onclick="{!c.editPaymentCancel}">Cancel Plan</button>
 						</div>
 					</div>
 				</div>
@@ -71,7 +71,7 @@
         </aura:if>
     </section>
 	<section aura:id="message" class="pp-step-three payment-plan-content">
-		<c:SuccessMessage PlanInfoRecord="{!v.PlanInfoRecord}" isEditTerms="{!v.showEditTermsMessage}"/>
+		<c:SuccessMessage PlanInfoRecord="{!v.PlanInfoRecord}" isEditTerms="{!v.showEditTermsMessage}" isSuccess="true"/>
 		<div class="slds-p-horizontal--medium border-top">
 			<div class="grid slds-grid--align-center">
 				<div class="col">

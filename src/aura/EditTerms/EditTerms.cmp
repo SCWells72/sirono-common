@@ -1,6 +1,7 @@
 <aura:component controller="PaymentTabsController">
 	<aura:attribute name="PaymentInfo" type="Object" access="public" default="{}" />
 	<aura:attribute name="PaymentRequestInfo" type="Object" access="public" default="{}" />
+    <aura:attribute name="CreditCard" type="Object" access="public" default="{}" />
 	<aura:attribute name="dayOfMonthSelection" type="Integer[]" access="public"/>
 	<!-- plan Slider --> 
 	<aura:attribute name="minAmount" type="Decimal" access="private" default="0"/>
@@ -37,7 +38,7 @@
 	</aura:if>
 	<div aura:id="editTerms" class="set-amount">
 		<aura:if isTrue="{!v.hasError}">
-			<c:SupportMessage aura:id="notificationCmp"/>
+			<c:SuccessMessage isSuccess="false" aura:id="notificationCmp" />
 		</aura:if>
         <aura:if isTrue="{!!v.PaymentInfo.hasPaymentPlans}">
             <div class="title">
@@ -69,7 +70,7 @@
 				</div>
 			</div>
 			<div class="info">Adjust your monthly payments to estimate your payment over fewer months.</div>
-			<input type="range" min="{!v.minAmount - 0.001}" max="{!v.PaymentRequestInfo.totalAmount + 0.001}" step="0.01" value="{!v.PaymentRequestInfo.planValue}" class="payment-slider-circle" onchange="{!c.changeSlider}"/>
+			<input type="range" min="{!v.minAmount}" max="{!v.PaymentRequestInfo.totalAmount}" step="0.01" value="{!v.PaymentRequestInfo.planValue}" class="payment-slider-circle" onchange="{!c.changeSlider}"/>
 			<div class="grid high-low range_slider">
 				<div class="col">
 					<ui:outputcurrency value="{!v.minAmount}"/>
@@ -84,9 +85,10 @@
 			<div class="col slds-align-middle">Pay on day </div>
 			<div class="col">
 				<lightning:select name="dayOfMonth" label="Day of month" aura:id="dayOfMonth" value="{!v.PaymentRequestInfo.executeOnDay}" class="payment-plan-day--select">
-					<aura:iteration items="{!v.dayOfMonthSelection}" var="day">
+					<!--<aura:iteration items="{!v.dayOfMonthSelection}" var="day">
 						<ui:inputSelectOption text="{!day}" label="{!day}"/>
-					</aura:iteration>
+					</aura:iteration>-->
+					<option value="0" name="loading..."/>
 				</lightning:select>
 			</div>
 			<div class="col slds-align-middle">of each month.</div>
@@ -114,7 +116,7 @@
 
 	<aura:if isTrue="{!not(v.PaymentInfo.hasPaymentPlans)}">
 		<div aura:id="editCreditCard" class="slds-p-horizontal--large border-top slds-hide">
-			<c:EditPaymentCard PaymentInfo="{!v.PaymentInfo}" PaymentRequestInfo="{!v.PaymentRequestInfo}"/>
+			<c:EditPaymentCard PaymentInfo="{!v.PaymentInfo}" PaymentRequestInfo="{!v.PaymentRequestInfo}" />
 		</div>
 	</aura:if>
 </aura:component>

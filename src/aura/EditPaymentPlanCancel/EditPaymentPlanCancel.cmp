@@ -17,7 +17,7 @@
 			<div class="slds-modal__content slds-p-around--x-large">
 				<div>
 					<aura:if isTrue="{!v.hasError}">
-						<c:SupportMessage aura:id="notificationCmp"/>
+                        <c:SuccessMessage isSuccess="false" aura:id="notificationCmp" />
 					</aura:if>
 					<p class="slds-text-body--regular">Clicking confirm will cancel your upcoming payment plan installments. Any unpaid invoices part of the removed payment plan must be paid in full or re-enrolled in a payment plan to avoid being sent to collections.</p>
 				</div>

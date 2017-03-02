@@ -7,6 +7,7 @@
     <aura:attribute name="updatePlan" type="Boolean" default="false" />
 
 	<aura:handler name="change" value="{!v.PaymentInfo.paymentPlan}" action="{!c.doCmpInit}"/>
+	<aura:handler name="change" value="{!v.PaymentInfo.creditCards}" action="{!c.initCardSelectOptions}"/>
 	<aura:handler name="paymentMethodInit" event="c:CancelActionEvent" action="{!c.cancelEditCardAction}"/>
 	<aura:registerEvent name="initPlanInfo" type="c:CancelActionEvent"/>
 	<aura:registerEvent name="updatePaymentMethod" type="c:UpdatePaymentMethodEvent"/>
@@ -18,16 +19,17 @@
 
 	<div aura:id="editPaymentMethod" class="slds-p-top--medium slds-p-horizontal--large border-top">
 		<aura:if isTrue="{!v.hasError}">
-			<c:SupportMessage aura:id="notificationCmp"/>
+            <c:SuccessMessage isSuccess="false" aura:id="notificationCmp" />
 		</aura:if>
 
 		<div class="grid slds-p-bottom--large">
 			<aura:if isTrue="{!and(v.PaymentInfo.creditCards, v.PaymentInfo.creditCards.length > 0)}">
 				<div class="col slds-m-right--medium">
-					<lightning:select name="state" label="Currently paying with card on file:" required="true" value="{!v.selectedCardId}" onchange="{!c.changeCard}">
-						<aura:iteration items="{!v.PaymentInfo.creditCards}" var="card">
+					<lightning:select name="state" aura:id="state" label="Currently paying with card on file:" required="true" value="{!v.selectedCardId}" onchange="{!c.changeCard}">
+						<!--<aura:iteration items="{!v.PaymentInfo.creditCards}" var="card">
 							<option value="{!card.sfId}">{!card.displayName}</option>
-						</aura:iteration>
+						</aura:iteration>-->
+						<option value="0" name="loading..."/>
 					</lightning:select>
 				</div>
 				<div class="col slds-align-middle">

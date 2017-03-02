@@ -6,7 +6,7 @@
 			isSaved: false,
 			expirationMonth: '02',
 			expirationYear: date.getFullYear(),
-			cardholderName:'Charles Green',
+			cardHolderName:'Charles Green',
 			creditCardNumber: '4111111111111111',
 			cvv: '123',
 			address: '1221 Congress Ave',

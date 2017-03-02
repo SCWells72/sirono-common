@@ -29,5 +29,22 @@
 		console.log('Data:', _total, _part, totalInstallment);
 		totalInstallment = Math.round(totalInstallment * _part * 100) / 100 < Math.round(_total * 100) / 100 ? totalInstallment + 1: totalInstallment;
 		return totalInstallment;
-	}
+	},
+
+	getDefaultCard: function(cmp) {
+		var date = new Date();
+		date.setMonth(date.getMonth() + 1);
+		return {
+			isSaved: false,
+			expirationMonth: '02',
+			expirationYear: date.getFullYear(),
+			cardHolderName:'Charles Green',
+			creditCardNumber: '4111111111111111',
+			cvv: '123',
+			address: '1221 Congress Ave',
+			city: 'Austin',
+			zip: '78701',
+			state: 'TX'
+		};
+	},
 })
