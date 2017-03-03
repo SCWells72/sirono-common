@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #deploy destructiveChanges.xml
-result=$((ant undeployCode -Dsf.target.username=$sfusername -Dsf.target.password=$sfpassword -Dsf.target.serverurl=$sfserverurl) 2>&1)
+result=$((ant undeployCode -Dsf.target.username=$sfusername -Dsf.target.password=$sfpassword -Dsf.target.serverurl=$sfserverurl -Dsf.testLevel=$sftestlevel) 2>&1)
  
 echo "result: $result"
 #parse the build output, allow Warnings but fail on FAILED
