@@ -47,6 +47,11 @@
             <isset property="sf.retrieveTarget"/>
         </not>
     </condition>
+    <condition property="sf.testLevel" value="RunLocalTests">
+        <not>
+            <isset property="sf.testLevel"/>
+        </not>
+    </condition>
 
     <target name="retrieve">
         <echo level="info">Retrieving from: ${sf.source.username} into: ${sf.retrieveTarget}</echo>
@@ -61,7 +66,7 @@
     </target>
 
     <target name="deploy">
-        <echo level="info">Deploying to: ${sf.target.username}</echo>
+        <echo level="info">Deploying to: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
                 username="${sf.target.username}"
                 password="${sf.target.password}"
@@ -69,7 +74,7 @@
                 deployRoot="${basedir}/src"
                 pollWaitMillis="${sf.pollWaitMillis}"
                 maxPoll="${sf.maxPoll}"
-                testLevel="RunLocalTests"
+                testLevel="${sf.testLevel}"
                 logType="Debugonly"/>
     </target>
 
@@ -80,6 +85,7 @@
                 password="${sf.target.password}"
                 serverurl="${sf.target.serverurl}"
                 deployRoot="${basedir}/build/undeploy"
+                testLevel="${sf.testLevel}"
                 ignoreWarnings="true"/>
     </target>
 
@@ -94,14 +100,14 @@
                 ignoreWarnings="true"
                 pollWaitMillis="${sf.pollWaitMillis}"
                 maxPoll="${sf.maxPoll}"
-                testLevel="RunLocalTests"
+                testLevel="${sf.testLevel}"
                 logType="Debugonly"
                 checkOnly="true"/>
     </target>
 
     <!-- Check only; don't save to the server -->
     <target name="deployCheckOnly">
-        <echo level="info">Validating in: ${sf.target.username}</echo>
+        <echo level="info">Validating in: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
                 username="${sf.target.username}"
                 password="${sf.target.password}"
@@ -109,7 +115,7 @@
                 deployRoot="${basedir}/src"
                 pollWaitMillis="${sf.pollWaitMillis}"
                 maxPoll="${sf.maxPoll}"
-                testLevel="RunLocalTests"
+                testLevel="${sf.testLevel}"
                 logType="Debugonly"
                 checkOnly="true"/>
     </target>
