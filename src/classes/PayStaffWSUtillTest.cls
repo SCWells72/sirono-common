@@ -94,3 +94,59 @@ private class PayStaffWSUtillTest {
     }
 
 }
+    /**
+     * This method test the logic of Fetch Guarantor Contact with CG Constrains for Add Discount
+     * Here CG account substatus is "Preinvoiced" so we get contact with one CG.
+     **/
+    @isTest
+    public static void fetchContactWithCGForDiscount() {        
+        // Create Contact record with guarantor record type.
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        INSERT guarantorContact;
+        
+        // Create Contact record with patient record type.
+        Contact patientContact = TestUtility.generatePatientContact();
+        INSERT patientContact;
+        
+        // Create Charge Group Record.
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12345);
+        INSERT chargeGroup;
+
+		// Call fetchGuarantorContactWithCGConstraintsForDiscount method.
+        Test.startTest();
+        Contact contact = PayStaffWSUtill.fetchGuarantorContactWithCGConstraintsForDiscount(guarantorContact.Id);
+        Test.stopTest();
+        
+        // Check system assert, Charge Group size of Contact.
+        System.assertEquals(contact.Charge_Groups__r.size(), 1);
+    }
+    
+    /**
+     * This method test the logic of Fetch Guarantor Contact with CG Constrains for Add Discount
+     * Here CG account substatus is "Bad Debt" so we get only contact details.
+     * We can't get any CG record with contact.
+     **/
+    @isTest
+    public static void fetchContactWithoutCGForDiscount() {        
+        // Create Contact record with guarantor record type.
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        INSERT guarantorContact;
+        
+        // Create Contact record with patient record type.
+        Contact patientContact = TestUtility.generatePatientContact();
+        INSERT patientContact;
+        
+        // Create Charge Group Record.
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12345);
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_BAD_DEBT;
+        INSERT chargeGroup;
+
+		// Call fetchGuarantorContactWithCGConstraintsForDiscount method.
+        Test.startTest();
+        Contact contact = PayStaffWSUtill.fetchGuarantorContactWithCGConstraintsForDiscount(guarantorContact.Id);
+        Test.stopTest();
+        
+        // Check system assert, Charge Group size of Contact.
+        System.assertEquals(contact.Charge_Groups__r.size(), 0);
+    }
+ }
