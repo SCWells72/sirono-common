@@ -93,7 +93,6 @@ private class PayStaffWSUtillTest {
         System.assertEquals(objContact.Id, patientContact.Id);
     }
 
-}
     /**
      * This method test the logic of Fetch Guarantor Contact with CG Constrains for Add Discount
      * Here CG account substatus is "Preinvoiced" so we get contact with one CG.
