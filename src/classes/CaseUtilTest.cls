@@ -1546,4 +1546,28 @@ public class CaseUtilTest {
         System.assertEquals(2, lst.Size());
         Test.StopTest();
     }
+    
+    /**
+     * This method checks/verifies object or field access rights.
+     **/
+    static testMethod void checkAccessRights() {
+    	
+        // Create User as a Read Only Profile User.
+        Profile readOnlyProf = [SELECT Id FROM Profile WHERE Name =:Constants.READ_ONLY_PROFILE];
+        User readOnlyUser = new User(Alias = 'admin', Email = 'adminuser@testorg.com',
+                EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
+                LocaleSidKey = 'en_US', ProfileId = readOnlyProf.Id,
+                TimeZoneSidKey = 'America/Los_Angeles', UserName = 'testjohn@acme.com');
+		        
+	// Check Create Rights for Read Only Profile User using runAs.
+	System.runAs(readOnlyUser) {
+	    try {
+	        CaseSecurityContext.CREATE_CONTEXT.actionAllowed();
+	    }
+    	    catch (exception ex) {
+	        // Check System assert
+	        System.assert(ex.getMessage().contains('You do not have Create rights'), 'Check Create Rights');
+	    }
+	}
+    }
 }

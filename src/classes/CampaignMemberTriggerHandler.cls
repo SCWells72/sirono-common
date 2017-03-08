@@ -1,20 +1,17 @@
-/* @author: Sirono
- * @Date: 05-30-2016
- * @Description TriggerHandler class for CampaignMemberTrigger
- *
- * 11-29-2016 Viraj Rana: #133707065: Case to Call Activiy
-*/
+/**
+ * TriggerHandler class for CampaignMemberTrigger
+ **/
 
 public with sharing class CampaignMemberTriggerHandler {
-    //static method that creates CampaignHistoryObject
+
     public static void afterInsert(List<CampaignMember> newList) {
         createCampaignHistoryObject(newList);
     }
-    //static method that updates CampaignHistoryObject
+
     public static void afterDelete(List<CampaignMember> oldList) {
         updateCampaignHistoryObject(oldList);
     }
-    // private static method inserts Campaignmemberhistory list and Case list
+
     private static void createCampaignHistoryObject(List<CampaignMember> newList) {
         Id callListCaseRtId = null;
         for (RecordType rt : [
@@ -27,16 +24,16 @@ public with sharing class CampaignMemberTriggerHandler {
         }
         List<Campaign_Member_History__c> historyList = new List<Campaign_Member_History__c>();
         List<Case> caseList = new List<Case>();
-            
-        // 11-28-2016 Viraj Rana: #133707065: Case to Call Activiy
-        // Change Code to get Case Id from Campaign Member.
+
         List<CampaignMember> newCMList = [
                 Select Id, CampaignId, Campaign.Name, ContactId,
                         Contact.FirstName, Contact.LastName, Case_ID__c
                 From CampaignMember
                 WHERE Id = :newList AND ContactId != null
         ];
-        system.debug('newCMList : ' + newCMList);
+
+        System.debug('newCMList : ' + newCMList);
+
         for (CampaignMember cm : newCMList) {
             if (cm.ContactId != null) {
                 // 11-28-2016 Viraj Rana: Change Code to assign Case Id in Campaign Member History Record.
@@ -52,18 +49,23 @@ public with sharing class CampaignMemberTriggerHandler {
                                 + ' added to ' + cm.Campaign.Name + ' Campaign'));
             }
         }
+
         if (historyList.size() > 0) {
-            insert historyList;
-        }
-        // 11-29-2016 Viraj Rana: #133707065: Case to Call Activiy
-        // If Trigger called from CaseUtil Class than not need to create case again.
-        if (CaseUtil.createCaseInTrigger == true) {
-            if (caseList.size() > 0) {
-                insert caseList;
+            if (CMHSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+	        INSERT historyList;
             }
         }
+
+        // If Trigger called from CaseUtil Class then no need to create case again.
+        if (CaseUtil.createCaseInTrigger == true) {
+            if (caseList.size() > 0) {
+            	if (CaseSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+            	    insert caseList;
+		}
+	    }
+        }
     }
-    //private static method
+
     private static void updateCampaignHistoryObject(List<CampaignMember> oldList) {
         Set<Id> contactIds = new Set<Id>();
         Set<Id> campaignIds = new Set<Id>();
@@ -97,8 +99,11 @@ public with sharing class CampaignMemberTriggerHandler {
                 historyListToUpdate.add(cmh);
             }
         }
+
         if (historyListToUpdate.size() > 0) {
-            update historyListToUpdate;
+            if (CMHSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+            	UPDATE historyListToUpdate;
+            }
         }
     }
 }
