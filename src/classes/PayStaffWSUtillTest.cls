@@ -112,13 +112,14 @@ private class PayStaffWSUtillTest {
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12345);
         INSERT chargeGroup;
 
-		// Call fetchGuarantorContactWithCGConstraintsForDiscount method.
+	// Call fetchGuarantorContactWithCGConstraintsForDiscount method.
         Test.startTest();
         Contact contact = PayStaffWSUtill.fetchGuarantorContactWithCGConstraintsForDiscount(guarantorContact.Id);
         Test.stopTest();
         
         // Check system assert, Charge Group size of Contact.
         System.assertEquals(contact.Charge_Groups__r.size(), 1);
+        System.assertEquals(guarantorContact.Id, contact.Id);
     }
     
     /**
@@ -141,12 +142,13 @@ private class PayStaffWSUtillTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_BAD_DEBT;
         INSERT chargeGroup;
 
-		// Call fetchGuarantorContactWithCGConstraintsForDiscount method.
+	// Call fetchGuarantorContactWithCGConstraintsForDiscount method.
         Test.startTest();
         Contact contact = PayStaffWSUtill.fetchGuarantorContactWithCGConstraintsForDiscount(guarantorContact.Id);
         Test.stopTest();
         
         // Check system assert, Charge Group size of Contact.
         System.assertEquals(contact.Charge_Groups__r.size(), 0);
+        System.assertEquals(guarantorContact.Id, contact.Id);
     }
- }
+}

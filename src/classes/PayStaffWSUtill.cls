@@ -36,6 +36,8 @@ public with sharing class PayStaffWSUtill {
             Constants.ACCT_SUBSTATUS_OVERDUE,
             Constants.ACCT_SUBSTATUS_DELINQUENT,
             Constants.ACCT_SUBSTATUS_BAD_DEBT
+    };
+    
     // Set of CG Account Sub Status to Fetch Guarantor Contact for Discount SOQL where clause
     public static final Set<String> CGConstraintsForDiscount = new Set<String> {
         Constants.ACCT_SUBSTATUS_DUE_BY,
@@ -905,9 +907,13 @@ public with sharing class PayStaffWSUtill {
         }
         return cgList;
     }
+    
     /**
      * This method is use to get Contact record with Charge Groups where CG Account Sub Status are...
      * Due By, Overdue, Delinquent, On Payment Plan, or Pre-Invoiced
+     *
+     * @param String contactId - That contains Contact Id.
+     * @returns Contact contact - That contains Contact Details with Charge Groups.
      **/
     public static Contact fetchGuarantorContactWithCGConstraintsForDiscount(String contactId) {
         Contact contact = null;
