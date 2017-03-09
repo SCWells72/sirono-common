@@ -34,4 +34,26 @@ private class CampaignMemberTriggerTest {
         System.assertEquals(0, msgList.size());
     }
 
+    /**
+     * Check all access rights for a read only User using runAs.
+     **/
+    @isTest
+    static void checkAccessRights() {
+        List<CMHSecurityContext> allContexts = new List<CMHSecurityContext>{CMHSecurityContext.CREATE_CONTEXT,
+                CMHSecurityContext.UPDATE_CONTEXT, CMHSecurityContext.DELETE_CONTEXT
+        };
+
+        System.runAs(TestUtility.generateReadOnlyUser()) {
+            for (CMHSecurityContext context: allContexts) {
+                try {
+                    context.actionAllowed();
+                    System.assert(false, 'Expected permission to be denied for ' + context);
+                } catch (SecurityUtils.SecurityException ex) {
+                    System.debug('SecurityException : ' + ex);
+                } catch (Exception e) {
+                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
+                }
+            }
+        }
+    }
 }

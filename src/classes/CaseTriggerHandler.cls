@@ -105,6 +105,9 @@ public with sharing class CaseTriggerHandler {
                 }
             }
         }
+        
+        // Create instant of CmpnMemberSecurityContext class. It is use to check Delete access on Object.
+	CmpnMemberSecurityContext cmpnMemSecurityContext = new CmpnMemberSecurityContext();
 
         if (earlyOutGuarantors.size() > 0) {
             Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
@@ -112,13 +115,15 @@ public with sharing class CaseTriggerHandler {
             });
             string earlyOut = mapCampaignMapping.get('Early-out');
             string earlyOutMobile = mapCampaignMapping.get('Early-out M');
-
-            delete [
-                    Select id, ContactId
-                    From CampaignMember
-                    Where (Campaign.Name = :earlyOut or Campaign.Name = :earlyOutMobile)
-                    and ContactId in :earlyOutGuarantors
-            ];
+						
+	    if (cmpnMemSecurityContext.deleteActionAllowed()) {
+	    	DELETE [
+                    	SELECT Id, ContactId
+                    	FROM CampaignMember
+                    	WHERE (Campaign.Name = :earlyOut OR Campaign.Name = :earlyOutMobile)
+                    	AND ContactId IN :earlyOutGuarantors
+            	];
+	    }
         }
 
         if (preCollectionGuarantors.size() > 0) {
@@ -128,12 +133,14 @@ public with sharing class CaseTriggerHandler {
             string preCollection = mapCampaignMapping.get('PreCollections');
             string preCollectionMobile = mapCampaignMapping.get('PreCollections M');
 
-            delete [
-                    Select id, ContactId
-                    From CampaignMember
-                    Where (Campaign.Name = :preCollection or Campaign.Name = :preCollectionMobile)
-                    and ContactId in :preCollectionGuarantors
-            ];
+            if (cmpnMemSecurityContext.deleteActionAllowed()) {
+	        DELETE [
+	        	SELECT Id, ContactId
+	                FROM CampaignMember
+	                WHERE (Campaign.Name = :preCollection OR Campaign.Name = :preCollectionMobile)
+	                AND ContactId IN :preCollectionGuarantors
+	        ];
+            }
         }
 
         if (encounterGuarantors.size() > 0) {
@@ -147,12 +154,14 @@ public with sharing class CaseTriggerHandler {
             string delinquent = mapCampaignMapping.get('Delinquent');
             string delinquentMobile = mapCampaignMapping.get('Delinquent M');
 
-            Delete [
-                    Select id, ContactId
-                    From CampaignMember
-                    Where (Campaign.Name = :delinquent or Campaign.Name = :delinquentMobile)
-                    and ContactId in :delinquentGuarantors
-            ];
+            if (cmpnMemSecurityContext.deleteActionAllowed()) {
+            	DELETE [
+                    	SELECT Id, ContactId
+                    	FROM CampaignMember
+                    	WHERE (Campaign.Name = :delinquent OR Campaign.Name = :delinquentMobile)
+                    	AND ContactId IN :delinquentGuarantors
+            	];	
+            }
         }
 
         if (ccErrorGuarantors.size() > 0) {
@@ -162,12 +171,14 @@ public with sharing class CaseTriggerHandler {
             string ccError = mapCampaignMapping.get('CC Error');
             string ccErrorMobile = mapCampaignMapping.get('CC Error M');
 
-            Delete [
-                    Select id, ContactId
-                    From CampaignMember
-                    Where (Campaign.Name = :ccError or Campaign.Name = :ccErrorMobile )
-                    and ContactId in :ccErrorGuarantors
-            ];
+            if (cmpnMemSecurityContext.deleteActionAllowed()) {
+                DELETE [
+                        SELECT Id, ContactId
+                        FROM CampaignMember
+                        WHERE (Campaign.Name = :ccError OR Campaign.Name = :ccErrorMobile )
+                        AND ContactId IN :ccErrorGuarantors
+                ];
+            }
         }
     }
 }

@@ -43,6 +43,9 @@ public class Constants {
     public static final String PAYMENT = 'Payment';
     public static final String SERVICE = 'Service';
     public static final String UNKNOWN = 'Unknown';
+    
+    // Constant variable for Security Context Unit Testing Nagative Profile.
+    public static final String READ_ONLY_PROFILE = 'Read Only';
 
     private Constants() {}
 }
