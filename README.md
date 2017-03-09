@@ -43,11 +43,9 @@ If you are using SSH keys (to avoid locally caching your password):
     pushing the feature branch back to github. The simplest way is to do an [interactive rebase](http://gitready.com/advanced/2009/02/10/squashing-commits-with-rebase.html):
     `git pull --rebase -i origin master`
     
-1. address any merge conflicts that come up and run full tests in your sandbox again
+1. Address any merge conflicts that come up and run full tests in your sandbox again
 
-1. push your branch to github  
+1. Push your branch to github  
     `git push origin new_feature_branch`
 
 1. [Create a pull request](https://help.github.com/articles/creating-a-pull-request). 
-
-_Under no circumstances should you force push the branch once a pull request has been made_
