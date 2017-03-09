@@ -18,10 +18,9 @@ If you are using SSH keys (to avoid locally caching your password):
 
 #### Git Strategies for Developing Features
 1. Create a new branch for the feature/user story:  
-    `git checkout -b new_feature_branch`
-
-1. To ensure the branch is based off master, immediately rebase  
-    `git pull --rebase origin master`
+    `git checkout -b newBranch master`
+    or
+    `git branch newBranch master`
 
 1. Make changes & test within your local sandbox, making commits to your feature branch along the way.
     (use your tool of choice - Force.com IDE/MavensMate/Illuminated Cloud)
