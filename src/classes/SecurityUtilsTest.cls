@@ -8,17 +8,10 @@ public class SecurityUtilsTest {
     /**
      * This method tests Create Rights for provided CREATE_CONTEXT for Valid/Not-Valid User.
      **/
-    static testMethod void checkCreateRightsAllowed() {
-
-        // Create User as a Read Only Profile User.
-        Profile readOnlyProf = [SELECT Id FROM Profile WHERE Name =:Constants.READ_ONLY_PROFILE];
-        User readOnlyUser = new User(Alias = 'admin', Email = 'adminuser@testorg.com',
-                EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
-                LocaleSidKey = 'en_US', ProfileId = readOnlyProf.Id,
-                TimeZoneSidKey = 'America/Los_Angeles', UserName = 'testjohn@acme.com');
-
-	// Check Create Rights for Read Only Profile User using runAs.
-	System.runAs(readOnlyUser) {
+    @isTest
+    static void checkCreateRightsAllowed() {
+        // Check Create Rights for Read Only User using runAs.
+	System.runAs(TestUtility.generateReadOnlyUser()) {
 	    try {
 	        CaseSecurityContext.CREATE_CONTEXT.actionAllowed();
 	    }
@@ -27,7 +20,8 @@ public class SecurityUtilsTest {
 	        System.assert(ex.getMessage().contains('You do not have Create rights'), 'Check Create Rights');
 	    }
 	}
-        // Check Create Rights without runAs User/System Administrator.
+		
+        // Check Create Rights without runAs Read Only User.
         Boolean hasCreateRights = CaseSecurityContext.CREATE_CONTEXT.actionAllowed();
         // Check System assert
         System.assert(hasCreateRights, 'Check create rights');
@@ -36,17 +30,10 @@ public class SecurityUtilsTest {
     /**
      * This method tests Update Rights for provided UPDATE_CONTEXT for Valid/Not-Valid User.
      **/
-    static testMethod void checkUpdateRightsAllowed() {
-
-        // Create User as a Read Only Profile User.
-        Profile readOnlyProf = [SELECT Id FROM Profile WHERE Name =:Constants.READ_ONLY_PROFILE];
-        User readOnlyUser = new User(Alias = 'admin', Email = 'adminuser@testorg.com',
-                EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
-                LocaleSidKey = 'en_US', ProfileId = readOnlyProf.Id,
-                TimeZoneSidKey = 'America/Los_Angeles', UserName = 'testjohn@acme.com');
-
-        // Check Update Rights for Read Only Profile User using runAs.
-        System.runAs(readOnlyUser) {
+    @isTest
+    static void checkUpdateRightsAllowed() {
+        // Check Update Rights for Read Only User using runAs.
+        System.runAs(TestUtility.generateReadOnlyUser()) {
 	    try {
 	        CaseSecurityContext.UPDATE_CONTEXT.actionAllowed();
 	    }
@@ -55,7 +42,8 @@ public class SecurityUtilsTest {
 	        System.assert(ex.getMessage().contains('You do not have Update rights'), 'Check Update Rights');
 	    }
         }
-        // Check Update Rights without runAs User/System Administrator.
+        
+        // Check Update Rights without runAs Read Only User.
         Boolean hasUpdateRights = CaseSecurityContext.UPDATE_CONTEXT.actionAllowed();
         // Check System assert
         System.assert(hasUpdateRights, 'Check Update rights');
@@ -64,17 +52,10 @@ public class SecurityUtilsTest {
     /**
      * This method tests Delete Rights for provided DELETE_CONTEXT for Valid/Not-Valid User.
      **/
-    static testMethod void checkDeleteRightsAllowed() {
-
-        // Create User as a Read Only Profile User.
-        Profile readOnlyProf = [SELECT Id FROM Profile WHERE Name =:Constants.READ_ONLY_PROFILE];
-        User readOnlyUser = new User(Alias = 'admin', Email = 'adminuser@testorg.com',
-                EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
-                LocaleSidKey = 'en_US', ProfileId = readOnlyProf.Id,
-                TimeZoneSidKey = 'America/Los_Angeles', UserName = 'testjohn@acme.com');
-
-        // Check Delete Rights for Read Only Profile User using runAs.
-        System.runAs(readOnlyUser) {
+    @isTest
+    static void checkDeleteRightsAllowed() {
+        // Check Delete Rights for Read Only User using runAs.
+        System.runAs(TestUtility.generateReadOnlyUser()) {
 	    try {
 	        CaseSecurityContext.DELETE_CONTEXT.actionAllowed();
 	    }
@@ -83,7 +64,8 @@ public class SecurityUtilsTest {
 	        System.assert(ex.getMessage().contains('You do not have Delete rights'), 'Check Delete Rights');
 	    }
         }
-        // Check Delete Rights without runAs User/System Administrator.
+        
+        // Check Delete Rights without runAs Read Only User.
         Boolean hasDeleteRights = CaseSecurityContext.DELETE_CONTEXT.actionAllowed();
         // Check System assert
         System.assert(hasDeleteRights, 'Check Delete rights');
@@ -92,26 +74,20 @@ public class SecurityUtilsTest {
     /**
      * This method tests Upsert Rights for provided UPSERT_CONTEXT for Valid/Not-Valid User.
      **/
-    static testMethod void checkUpsertRightsAllowed() {
-
-        // Create User as a Read Only Profile User.
-        Profile readOnlyProf = [SELECT Id FROM Profile WHERE Name =:Constants.READ_ONLY_PROFILE];
-        User readOnlyUser = new User(Alias = 'admin', Email = 'adminuser@testorg.com',
-                EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
-                LocaleSidKey = 'en_US', ProfileId = readOnlyProf.Id,
-                TimeZoneSidKey = 'America/Los_Angeles', UserName = 'testjohn@acme.com');
-
-        // Check Upsert Rights for Read Only Profile User using runAs.
-        System.runAs(readOnlyUser) {
+    @isTest
+    static void checkUpsertRightsAllowed() {
+        // Check Upsert Rights for Read Only User using runAs.
+        System.runAs(TestUtility.generateReadOnlyUser()) {
 	    try {
 	        CaseSecurityContext.UPSERT_CONTEXT.actionAllowed();
 	    }
 	    catch (exception ex) {
-	        // Check System assert.
+	    	// Check System assert.
 	        System.assert(ex.getMessage().contains('You do not have Upsert rights'), 'Check Upsert Rights');
 	    }
         }
-        // Check Upsert Rights without runAs User/System Administrator.
+        
+        // Check Upsert Rights without runAs Read Only User.
         Boolean hasUpsertRights = CaseSecurityContext.UPSERT_CONTEXT.actionAllowed();
         // Check System assert
         System.assert(hasUpsertRights, 'Check Upsert rights');

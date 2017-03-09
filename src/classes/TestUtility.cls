@@ -317,4 +317,18 @@ public class TestUtility {
         srv.Post_Date__c = System.today();
         return srv;
     }
+    
+    /**
+     * This method is use to create/generate Read Only User.
+     *
+     * @returns User readOnlyUser - That contains User as a Read Only.
+     **/
+    public static User generateReadOnlyUser() {
+        Profile readOnlyProf = [SELECT Id FROM Profile WHERE Name = :Constants.READ_ONLY_PROFILE];
+        User readOnlyUser = new User(Alias = 'readonly', Email = 'readonlyuserr@testorg.com',
+                EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
+                LocaleSidKey = 'en_US', ProfileId = readOnlyProf.Id,
+                TimeZoneSidKey = 'America/Los_Angeles', UserName = 'readonlyuserr@testorg.com');
+        return readOnlyUser;
+    }
 }

@@ -1548,26 +1548,26 @@ public class CaseUtilTest {
     }
     
     /**
-     * This method checks/verifies object or field access rights.
+     * Check all access rights for a read only User using runAs.
      **/
-    static testMethod void checkAccessRights() {
-    	
-        // Create User as a Read Only Profile User.
-        Profile readOnlyProf = [SELECT Id FROM Profile WHERE Name =:Constants.READ_ONLY_PROFILE];
-        User readOnlyUser = new User(Alias = 'admin', Email = 'adminuser@testorg.com',
-                EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
-                LocaleSidKey = 'en_US', ProfileId = readOnlyProf.Id,
-                TimeZoneSidKey = 'America/Los_Angeles', UserName = 'testjohn@acme.com');
-		        
-	// Check Create Rights for Read Only Profile User using runAs.
-	System.runAs(readOnlyUser) {
-	    try {
-	        CaseSecurityContext.CREATE_CONTEXT.actionAllowed();
-	    }
-    	    catch (exception ex) {
-	        // Check System assert
-	        System.assert(ex.getMessage().contains('You do not have Create rights'), 'Check Create Rights');
-	    }
-	}
+    @isTest
+    static void checkAccessRights() {
+        List<CaseSecurityContext> allContexts = new List<CaseSecurityContext>{CaseSecurityContext.CREATE_CONTEXT,
+        	CaseSecurityContext.CREATE_WITH_GT_CONTEXT, CaseSecurityContext.CU_CREATE_WITH_ENCOUNTER_CONTEXT, 
+                CaseSecurityContext.UPDATE_CONTEXT, CaseSecurityContext.UPSERT_CONTEXT, CaseSecurityContext.DELETE_CONTEXT
+        };
+
+        System.runAs(TestUtility.generateReadOnlyUser()) {
+            for (CaseSecurityContext context: allContexts) {
+                try {
+                    context.actionAllowed();
+                    System.assert(false, 'Expected permission to be denied for ' + context);
+                } catch (SecurityUtils.SecurityException ex) {
+                    System.debug('SecurityException : ' + ex);
+                } catch (Exception e) {
+                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
+                }
+            }
+        }
     }
 }
