@@ -52,7 +52,7 @@ public with sharing class CreateCaseManual {
             Contact objContact = PayStaffWSUtill.fetchContact(guarantorRecordId);
             if (objContact != null) {
                 if (objContact.RecordType.DeveloperName == 'Guarantor') {
-                    gc = PayStaffWSUtill.fetchGuarantorContactWithCGConstraintsForCase(guarantorRecordId);
+                    gc = PayStaffWSUtill.fetchGuarantorFilteredByAcctSubStatus(guarantorRecordId, PayStaffWSUtill.CGConstraintsForCase);
                     guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
                 } else if (objContact.RecordType.DeveloperName == 'Patient') {
                     gc = PayStaffWSUtill.fetchPatientContactWithCGConstraintsForCase(guarantorRecordId);

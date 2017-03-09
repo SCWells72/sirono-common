@@ -93,4 +93,61 @@ private class PayStaffWSUtillTest {
         System.assertEquals(objContact.Id, patientContact.Id);
     }
 
+    /**
+     * This method test the logic of Fetch Guarantor Contact with CG Constrains
+     * Here CG account substatus is "Preinvoiced" so we get contact with one CG.
+     **/
+    @isTest
+    public static void fetchContactWithCG() {
+        // Create Contact record with guarantor record type.
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        INSERT guarantorContact;
+        
+        // Create Contact record with patient record type.
+        Contact patientContact = TestUtility.generatePatientContact();
+        INSERT patientContact;
+        
+        // Create Charge Group Record.
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12345);
+        INSERT chargeGroup;
+
+	// Call fetchGuarantorFilteredByAcctSubStatus method.
+        Test.startTest();
+        Contact contact = PayStaffWSUtill.fetchGuarantorFilteredByAcctSubStatus(guarantorContact.Id, PayStaffWSUtill.CGConstraintsForDiscount);
+        Test.stopTest();
+        
+        // Check system assert, Charge Group size of Contact.
+        System.assertEquals(contact.Charge_Groups__r.size(), 1);
+        System.assertEquals(guarantorContact.Id, contact.Id);
+    }
+    
+    /**
+     * This method test the logic of Fetch Guarantor Contact with CG Constrains
+     * Here CG account substatus is "Bad Debt" so we get only contact details.
+     * We can't get any CG record with contact.
+     **/
+    @isTest
+    public static void fetchContactWithoutCG() {
+        // Create Contact record with guarantor record type.
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        INSERT guarantorContact;
+        
+        // Create Contact record with patient record type.
+        Contact patientContact = TestUtility.generatePatientContact();
+        INSERT patientContact;
+        
+        // Create Charge Group Record.
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12345);
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_BAD_DEBT;
+        INSERT chargeGroup;
+
+	// Call fetchGuarantorFilteredByAcctSubStatus method.
+        Test.startTest();
+        Contact contact = PayStaffWSUtill.fetchGuarantorFilteredByAcctSubStatus(guarantorContact.Id, PayStaffWSUtill.CGConstraintsForDiscount);
+        Test.stopTest();
+        
+        // Check system assert, Charge Group size of Contact.
+        System.assertEquals(contact.Charge_Groups__r.size(), 0);
+        System.assertEquals(guarantorContact.Id, contact.Id);
+    }
 }
