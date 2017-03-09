@@ -41,7 +41,7 @@ public with sharing class AddToPaymentPlan {
         }
 
         if (guarantorRecordId != null) {
-            Contact gc = PayStaffWSUtill.fetchGuarantorContactWithCGConstraints(guarantorRecordId);
+            Contact gc = PayStaffWSUtill.fetchGuarantorFilteredByAcctSubStatus(guarantorRecordId, PayStaffWSUtill.CGConstraints);
             guarantorName = PayStaffWSUtill.fetchGuarantorName(gc);
             guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
             //chrageGroupList = PayStaffWSUtill.fetchChargeGroupList(gc);

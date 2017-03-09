@@ -126,57 +126,36 @@ public with sharing class PayStaffWSUtill {
         return ob;
     }
 
-    /*Mohan Kumar 07-28-2016: This is method is used in AddToPaymentPlan to filter the Charge Group based
-    *on the Status and Sub-Status rather than pulling all active ones
-    */
-    public static Contact fetchGuarantorContactWithCGConstraints(String contactId) {
-        Contact ob = null;
-        for (Contact c : [
-                Select Id, Name, FirstName, MiddleName, LastName, Suffix, Birthdate, Salutation,
+    /**
+     * This method is use get Contact details with Charge Groups
+     * where CG Account Sub Status are based on cgSubStatusFilters.
+     *
+     * @param String contactId - That contains Contact Id.
+     * @param Set<String> cgSubStatusFilters - That contains Set of CG Account Sub Status.
+     * @returns Contact contact - That contains Contact details with Charge Groups.
+     **/     
+    public static Contact fetchGuarantorFilteredByAcctSubStatus(String contactId, Set<String> cgSubStatusFilters) {
+        Contact contact = null;
+        for (Contact c: [
+                SELECT Id, Name, FirstName, MiddleName, LastName, Suffix, Birthdate, Salutation,
                         Medical_Record_Number__c, RecordType.DeveloperName, Social_Security_Number__c,
                         Profile_Pointer_Id__c, Patient_Id__c, HomePhone, MobilePhone, OtherPhone,
-                        MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet, (
-                        Select Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
+                        MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet,
+                        (SELECT Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
                                 External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
                                 Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
                                 Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
                                 Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
                                 Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
-                        From Charge_Groups__r
-                        Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
-                        AND Account_Sub_Status__c IN :CGConstraints
-                )
-                From Contact
-                Where Id = :contactId
+                        FROM Charge_Groups__r
+                        WHERE Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
+                        AND Account_Sub_Status__c IN :cgSubStatusFilters)
+                FROM Contact
+                WHERE Id = :contactId
         ]) {
-            ob = c;
+            contact = c;
         }
-        return ob;
-    }
-
-    public static Contact fetchGuarantorContactWithCGConstraintsForCase(String contactId) {
-        Contact ob = null;
-        for (Contact c : [
-                Select Id, Name, FirstName, MiddleName, LastName, Suffix, Birthdate, Salutation,
-                        Medical_Record_Number__c, RecordType.DeveloperName, Social_Security_Number__c,
-                        Profile_Pointer_Id__c, Patient_Id__c, HomePhone, MobilePhone, OtherPhone,
-                        MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet, (
-                        Select Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
-                                External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
-                                Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
-                                Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
-                                Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
-                                Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
-                        From Charge_Groups__r
-                        Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
-                        AND Account_Sub_Status__c IN :CGConstraintsForCase
-                )
-                From Contact
-                Where Id = :contactId
-        ]) {
-            ob = c;
-        }
-        return ob;
+        return contact;
     }
 
     //08-09-2016: This is method is used to get the CG records of Patient Contact type
@@ -906,36 +885,5 @@ public with sharing class PayStaffWSUtill {
             }
         }
         return cgList;
-    }
-    
-    /**
-     * This method is use to get Contact record with Charge Groups where CG Account Sub Status are...
-     * Due By, Overdue, Delinquent, On Payment Plan, or Pre-Invoiced
-     *
-     * @param String contactId - That contains Contact Id.
-     * @returns Contact contact - That contains Contact Details with Charge Groups.
-     **/
-    public static Contact fetchGuarantorContactWithCGConstraintsForDiscount(String contactId) {
-        Contact contact = null;
-        for (Contact c: [
-        		SELECT Id, Name, FirstName, MiddleName, LastName, Suffix, Birthdate, Salutation,                
-                        Medical_Record_Number__c, RecordType.DeveloperName, Social_Security_Number__c,
-                        Profile_Pointer_Id__c, Patient_Id__c, HomePhone, MobilePhone, OtherPhone,
-                        MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet,
-                        (SELECT Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
-                                External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
-                                Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
-                                Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
-                                Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
-                                Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
-                        FROM Charge_Groups__r
-                        WHERE Sirono_ID__c != null AND Active__c = true
-                        AND Account_Sub_Status__c IN :CGConstraintsForDiscount)
-                FROM Contact
-                WHERE Id = :contactId
-        ]) {
-            contact = c;
-        }
-        return contact;
     }
 }
