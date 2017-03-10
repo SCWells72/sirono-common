@@ -48,4 +48,27 @@ private class SironoSettingsUtilTest {
             System.assert(SironoSettingsUtil.getServerEndpoint() != null, 'No endpoint for this org');
         }
     }
+    
+    /**
+     * Check all access rights for a read only User using runAs.
+     **/
+    @isTest
+    static void checkAccessRights() {
+        List<SironoSettingsSecurityContext> allContexts = new List<SironoSettingsSecurityContext>{SironoSettingsSecurityContext.CREATE_CONTEXT,
+        	SironoSettingsSecurityContext.UPSERT_CONTEXT
+        };
+
+        System.runAs(TestUtility.generateReadOnlyUser()) {
+            for (SironoSettingsSecurityContext context: allContexts) {
+                try {
+                    context.actionAllowed();
+                    System.assert(false, 'Expected permission to be denied for ' + context);
+                } catch (SecurityUtils.SecurityException ex) {
+                    System.debug('SecurityException : ' + ex);
+                } catch (Exception e) {
+                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
+                }
+            }
+        }
+    }
 }

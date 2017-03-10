@@ -132,7 +132,10 @@ public with sharing class PaymentPlanGoodStanding {
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
         objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorId,
                 paymentPlanExtId, null);
-        Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord; 
-        upsert paymentPlanObj;
+        Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
+        
+	if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
+	    UPSERT paymentPlanObj;
+	}
     }
 }

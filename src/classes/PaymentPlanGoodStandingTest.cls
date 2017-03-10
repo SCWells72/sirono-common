@@ -132,6 +132,29 @@ private class PaymentPlanGoodStandingTest {
         System.assertEquals('/' + paymentPlan.Id, pageRef.getUrl());
 
         con.doTesting();
+    }
+    
+    /**
+     * Check all access rights for a read only User using runAs.
+     **/
+    @isTest
+    static void checkAccessRights() {
+        List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext>{PaymentPlanSecurityContext.UPSERT_CONTEXT,
+        	PaymentPlanSecurityContext.UPDATE_CONTEXT, PaymentPlanSecurityContext.DP_UPDATE_CONTEXT, 
+                PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT
+        };
 
+        System.runAs(TestUtility.generateReadOnlyUser()) {
+            for (PaymentPlanSecurityContext context: allContexts) {
+                try {
+                    context.actionAllowed();
+                    System.assert(false, 'Expected permission to be denied for ' + context);
+                } catch (SecurityUtils.SecurityException ex) {
+                    System.debug('SecurityException : ' + ex);
+                } catch (Exception e) {
+                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
+                }
+            }
+        }
     }
 }
