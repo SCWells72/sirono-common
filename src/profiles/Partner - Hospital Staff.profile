@@ -2831,7 +2831,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Invoice__c.All_Substatus__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
