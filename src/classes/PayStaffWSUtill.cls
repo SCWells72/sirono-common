@@ -568,15 +568,21 @@ public with sharing class PayStaffWSUtill {
 
             //Save all Records if it is Take Adjustment/Discount. 
             if (lstChargeGroup.size() > 0) {
-                update lstChargeGroup;
+                if (ChargeGroupSecurityContext.UPDATE_WITH_STATUS_CONTEXT.actionAllowed()) {
+                    UPDATE lstChargeGroup;
+                }
             }
 
             if (lstPaymentPlan.size() > 0) {
-                update lstPaymentPlan;
+                if (PaymentPlanSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+                    UPDATE lstPaymentPlan;
+                }
             }
 
             if (lstTransaction.size() > 0) {
-                insert lstTransaction;
+                if (TransactionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+                    INSERT lstTransaction;
+                }
                 
                 List<Transaction__c> lstTran = [SELECT Id, Sirono_ID__c FROM Transaction__c
                                             where Sirono_ID__c in : mapTranPayAdjId.values()];
@@ -591,7 +597,9 @@ public with sharing class PayStaffWSUtill {
                     pa.Transaction__c = mapTran.get(tranId);
                 }
 
-                insert lstPaymentAdjustment;
+                if (PaymentAdjustmentsSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+                    INSERT lstPaymentAdjustment;
+                }
             }
         }
     }
@@ -704,22 +712,31 @@ public with sharing class PayStaffWSUtill {
         }
         //Save all Records if it is Take Payment.
         if (isPayment) {
-            insert payments;
-            id paymentId = payments.get(0).Id;
+            if (PaymentSecurityContext.PSWU_CREATE_CONTEXT.actionAllowed()) {
+            	INSERT payments;
+            }
+            Id paymentId = payments.get(0).Id;
 
             if (lsttransaction.size() > 0) {
                 for (Transaction__c objTran : lsttransaction) {
                     objTran.Payment__c = paymentId;
                 }
-                insert lsttransaction;
+                
+                if (TransactionSecurityContext.CREATE_WITH_PAYMENT_CONTEXT.actionAllowed()) {
+                    INSERT lsttransaction;
+                }
             }
 
             if (lstChargeGroup.size() > 0) {
-                update lstChargeGroup;
+                if (ChargeGroupSecurityContext.UPDATE_WITH_STATUS_CONTEXT.actionAllowed()) {
+                    UPDATE lstChargeGroup;
+                }
             }
 
             if (lstPaymentPlan.size() > 0) {
-                update lstPaymentPlan;
+                if (PaymentPlanSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+                    UPDATE lstPaymentPlan;
+                }
             }
         } else {
             //It is used for Adjustment/Discount.

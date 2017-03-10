@@ -95,12 +95,14 @@ public with sharing class PaymentArrangement {
                 paymentArrangement.Payment_Method__c = objPM.pm.Id;
             }
         }
-        insert paymentArrangement;
+        if (PaymentArrangementSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+            INSERT paymentArrangement;
+        }
         return new PageReference('/' + encounterId);
     }
 
     /*
-     * Initilize the Payment Method object record and set the record values.
+     * Initialize the Payment Method object record and set the record values.
      */
     public void createNewPaymentMethod() {
         createPaymentMethod = true;
@@ -121,7 +123,9 @@ public with sharing class PaymentArrangement {
      * Insert a payment method record.    
      */
     public void saveNewPaymentMethod() {
-        insert newPaymentMethod;
+        if (PaymentMethodSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+            INSERT newPaymentMethod;
+        }
         for (PaymentMethodWrapper pml : paymentMethodList) {
             pml.isSelected = false;
         }

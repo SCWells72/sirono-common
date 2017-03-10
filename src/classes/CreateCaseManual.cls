@@ -187,14 +187,20 @@ public with sharing class CreateCaseManual {
             Database.DMLOptions dmlOpts = new Database.DMLOptions();
             dmlOpts.assignmentRuleHeader.assignmentRuleId = AR.id;
             caseObj.setOptions(dmlOpts);
-            upsert caseObj;
+
+            if (CaseSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
+            	UPSERT caseObj;	
+            }
 
             //create case comments
             if (String.isNotBlank(caseNotes)) {
                 CaseComment cc = new CaseComment();
                 cc.ParentId = caseObj.Id;
                 cc.CommentBody = caseNotes;
-                upsert cc;
+
+                if (CaseCommentSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
+                    UPSERT cc;
+                }
             }
 
             //add selected Charge Groups to Case
@@ -207,7 +213,10 @@ public with sharing class CreateCaseManual {
                     caseCGs.add(ccg);
                 }
             }
-            upsert caseCGs;
+	    if (CaseCGJunctionSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
+	        UPSERT caseCGs;
+	    }
+
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'Created Successfully!'));
             if (test.isRunningTest()) {
 
