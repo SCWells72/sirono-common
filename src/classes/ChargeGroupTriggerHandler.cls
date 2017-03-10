@@ -45,7 +45,7 @@ public with sharing class ChargeGroupTriggerHandler {
         if (paymentPlanIds.size() > 0) {
             Map<Id, Payment_Plan__c> plansToUpdate = PaymentPlanUtil.setBalanceAndCharges(paymentPlanIds);
             if (plansToUpdate.size() > 0) {
-                if (PaymentPlanSecurityContext.CTH_UPDATE_CONTEXT.actionAllowed()) {
+                if (PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT.actionAllowed()) {
 		    UPDATE plansToUpdate.values();
 		}
             }
@@ -121,7 +121,7 @@ public with sharing class ChargeGroupTriggerHandler {
         if (paymentPlanIds.size() > 0) {
             Map<Id, Payment_Plan__c> plansToUpdate = PaymentPlanUtil.setBalanceAndCharges(paymentPlanIds);
             if (plansToUpdate.size() > 0) {
-                if (PaymentPlanSecurityContext.CTH_UPDATE_CONTEXT.actionAllowed()) {
+                if (PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT.actionAllowed()) {
 		    UPDATE plansToUpdate.values();
 		}
             }
@@ -173,7 +173,7 @@ public with sharing class ChargeGroupTriggerHandler {
         if (paymentPlanIds.size() > 0){
             Map<Id, Payment_Plan__c> plansToUpdate = PaymentPlanUtil.setBalanceAndCharges(paymentPlanIds);
             if (plansToUpdate.size() > 0) {
-                if (PaymentPlanSecurityContext.CTH_UPDATE_CONTEXT.actionAllowed()) {
+                if (PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT.actionAllowed()) {
 		    UPDATE plansToUpdate.values();
 		}
             }
