@@ -508,7 +508,10 @@ public with sharing class AddCreditCard {
                 null, chargeGroupId);
         Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord; 
         paymentPlanObj.Name = String.valueof(paymentPlanObj.Sirono_ID__c);
-        upsert paymentPlanObj;
+
+	if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
+	    UPSERT paymentPlanObj;
+	}
 
         List<Charge_Group__c> lstCG = new List<Charge_Group__c>();
         lstCG = objPaymentPlanWrapper.chargeGroupRecords;
@@ -516,8 +519,8 @@ public with sharing class AddCreditCard {
             cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
             cg.Payment_Plan__c = paymentPlanObj.Id;
         }
-        Update lstCG;
-
-
+        if (ChargeGroupSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+            UPDATE lstCG;	
+        }
     }
 }

@@ -94,7 +94,9 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<s
             }
 
             if (memberList.size() > 0) {
-                insert memberList;
+            	if (CmpnMemberSecurityContext.SB_CREATE_CONTEXT.actionAllowed()) {
+            	    INSERT memberList;
+            	}
             }
         }
     }
