@@ -284,8 +284,9 @@ public with sharing class TaskTriggerHandler {
                             c.Reason = CASE_REASON_EXHAUSTED;
                         }
                     }
-                    
-                    Update lstCase;
+                    if (CaseSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+                    	UPDATE lstCase;	
+                    }
                 }
             }
         }
@@ -362,7 +363,11 @@ public with sharing class TaskTriggerHandler {
             }
 
             if (cmListToRemove.size() > 0) {
-                delete cmListToRemove;
+            	// Create instant of CmpnMemberSecurityContext class. It is use to check Delete access on Object.
+		CmpnMemberSecurityContext cmpnMemSecurityContext = new CmpnMemberSecurityContext();
+            	if (cmpnMemSecurityContext.deleteActionAllowed()) {
+            	    DELETE cmListToRemove;	
+            	}
             }
         }
     }
@@ -398,7 +403,9 @@ public with sharing class TaskTriggerHandler {
 
         if (!lstTask.Isempty()) {
             isRecursive = true;
-            update lstTask;
+            if (TaskSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+            	UPDATE lstTask;	
+            }
             isRecursive = false;
         }
     }
