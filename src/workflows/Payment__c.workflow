@@ -5,7 +5,7 @@
         <description>Update Payment Name
 
 &gt;&gt;&gt;
-IF( ISBLANK(Charge_Date__c), &apos;Patient Payment&apos; , &quot;Patient Payment - &quot; &amp;  TEXT(MONTH(DATEVALUE(Charge_Date__c))) &amp; &quot;/&quot; &amp; TEXT(DAY(DATEVALUE(Charge_Date__c))) &amp; &quot;/&quot; &amp; TEXT(YEAR(DATEVALUE(Charge_Date__c))))</description>
+IF( ISBLANK(Deposit_Date__c), &apos;Patient Payment&apos; , &quot;Patient Payment - &quot; &amp;  TEXT(MONTH(DATEVALUE(Deposit_Date__c))) &amp; &quot;/&quot; &amp; TEXT(DAY(DATEVALUE(Deposit_Date__c))) &amp; &quot;/&quot; &amp; TEXT(YEAR(DATEVALUE(Deposit_Date__c))))</description>
         <field>Name</field>
         <formula>Display_Name__c</formula>
         <name>Payment Name Update</name>

@@ -252,7 +252,6 @@ public class TestUtility {
     }
     private static Payment__c generatePayment() {
         Payment__c payment = new Payment__c();
-        payment.Charge_Date__c = System.today();
         payment.Deposit_Date__c = System.today();
         return payment;
     }

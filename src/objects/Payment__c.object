@@ -420,7 +420,7 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <columns>NAME</columns>
         <columns>Successful__c</columns>
         <columns>Method__c</columns>
-        <columns>Charge_Date__c</columns>
+        <columns>Deposit_Date__c</columns>
         <columns>Guarantor__c</columns>
         <columns>Amount__c</columns>
         <filterScope>Everything</filterScope>
