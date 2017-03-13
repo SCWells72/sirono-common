@@ -1,28 +1,25 @@
 /*
-* @author: Sirono
-* @version 1.0.1
-* @Date: 10-17-2016
-* JSON Parsing Class for the response which comes from Payment Request.
+* Parse the JSON response from a server Payment request.
 */
 
 public class PaymentJSONParsing {
 
-    public string url;
-    public string guarantor;
-    public integer amount;
-    public string transaction_number;
-    public string payment_date;
-    public string method;
-    public string last_4;
-    public string processor_transaction_id;
-    public string receipt_link;
-    public string payment_info;
-    public string payment_type;
-    public string account_number;
-    public string routing_number;
-    public string bank_account_type;
-    public string is_voidable;
-    public string post_date;
+    public String url;
+    public String guarantor;
+    public Integer amount;
+    public String transaction_number;
+    public String payment_date;
+    public String method;
+    public String last_4;
+    public String processor_transaction_id;
+    public String receipt_link;
+    public String payment_info;
+    public String payment_type;
+    public String account_number;
+    public String routing_number;
+    public String bank_account_type;
+    public String is_voidable;
+    public String post_date;
 
     public static Payment__c parse(String json) {
         if(json.contains('[')){
@@ -33,13 +30,14 @@ public class PaymentJSONParsing {
 
         Payment__c objPayment = new Payment__c();
                 
-        integer guarantor = Integer.valueof(getExternalID(objJson.guarantor,'guarantors'));
+        Integer guarantor = Integer.valueof(getExternalID(objJson.guarantor,'guarantors'));
         
-        contact guarantorContact = [select id from contact where Profile_Pointer_ID__c =: guarantor limit 1];    
+        Contact guarantorContact = [SELECT Id FROM Contact WHERE Profile_Pointer_ID__c =: guarantor limit 1];
         objPayment.Guarantor__c = guarantorContact.Id;
         
-        if (!String.Isblank(objJson.payment_date)) {
+        if (!String.isBlank(objJson.payment_date)) {
             objPayment.Charge_Date__c = Date.valueof(objJson.payment_date);
+            objPayment.Deposit_Date__c = Date.valueof(objJson.payment_date);
         }
         objPayment.Method__c = objJson.method;
         objPayment.Last_4__c = objJson.last_4;
@@ -52,14 +50,14 @@ public class PaymentJSONParsing {
         return objPayment;
     }
 
-    public Static String getExternalID(String url,string splitWith){
+    public static String getExternalID(String url, String splitWith){
         String[] externalID = url.split(splitWith);
         return externalID[externalID.Size() - 1].replaceAll('/','');
     }
+
+    public static String testResponse() {
     
-    Public Static String  testResponse() {
-    
-        String responseBody =        '[{'+
+        String responseBody = '[{'+
         '   "url": "https://toledo.stage.sirono.com/paystaff/api/payments/20690/", ' +
         '   "guarantor":"https://toledo.stage.sirono.com/paystaff/api/guarantors/123/",'+
         '   "amount":100,'+
