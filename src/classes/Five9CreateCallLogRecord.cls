@@ -62,7 +62,7 @@ public with sharing class Five9CreateCallLogRecord {
     }
 
     //Controller Method that creates a task 
-    public Pagereference doAction() {
+    public PageReference doAction() {
         try {
             System.debug('======================= salesforceId: ' + salesforceId);
             System.debug('======================= callDisposition: ' + callDisposition);
@@ -82,8 +82,10 @@ public with sharing class Five9CreateCallLogRecord {
                     t.Five9__Five9AgentName__c = fullName;
                     t.ActivityDate = Date.today();
                     t.status = 'Completed';
-                    insert t;
-                    System.debug('======================= t: ' + t);
+                    if (TaskSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+                        INSERT t;
+                        System.debug('======================= t: ' + t);    
+                    }
                 } else {
                     ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'Salesforce Id must be of Contact Type'));
                     if (Test.IsRunningTest()) {

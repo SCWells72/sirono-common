@@ -69,4 +69,27 @@ public class EarlyOutSchedulerBatchTest {
         Database.executeBatch(eosb);
         Test.stopTest();
     }
+    
+    /**
+     * Check all access rights for a read only User using runAs.
+     **/
+    @isTest
+    static void checkAccessRights() {
+        List<CmpnMemberSecurityContext> allContexts = new List<CmpnMemberSecurityContext>{CmpnMemberSecurityContext.CREATE_CONTEXT,
+        	CmpnMemberSecurityContext.UPDATE_CONTEXT
+        };
+
+        System.runAs(TestUtility.generateReadOnlyUser()) {
+            for (CmpnMemberSecurityContext context: allContexts) {
+                try {
+                    context.actionAllowed();
+                    System.assert(false, 'Expected permission to be denied for ' + context);
+                } catch (SecurityUtils.SecurityException ex) {
+                    System.debug('SecurityException : ' + ex);
+                } catch (Exception e) {
+                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
+                }
+            }
+        }
+    }
 }
