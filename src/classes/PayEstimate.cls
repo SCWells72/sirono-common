@@ -127,10 +127,7 @@ public with sharing class PayEstimate {
                 payment.Amount__c = decimal.valueof(amount);
                 payment.Encounter__c = selectedEncounter.Id;
                 payment.Deposit_Date__c = system.now();
-                
-                if (PaymentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                    INSERT payment; 
-                }
+                INSERT payment;
 
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY));
             } else {

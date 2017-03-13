@@ -368,11 +368,11 @@ private class CreateAdjustmentTest {
          * This code runs as the system user
          * Get profile record for Standard User and create User based on this profile.
          */
-        Profile p = [SELECT Id FROM Profile WHERE Name = 'System Administrator'];
-        User u = new User(Alias = 'standt', Email = 'adminuser@testorg1212.com',
+    Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User'];
+    User u = new User(Alias = 'standt', Email = 'standarduser@testorg.com',
             EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
             LocaleSidKey = 'en_US', ProfileId = p.Id,
-            TimeZoneSidKey = 'America/Los_Angeles', UserName = 'adminuser@testorg1212.com');
+            TimeZoneSidKey = 'America/Los_Angeles', UserName = 'standarduser@testorg1212.com');
 
     //Call Create Adjustment constructor as a Standard user to cover code based on user.
     System.runAs(u) {

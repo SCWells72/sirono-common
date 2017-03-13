@@ -31,7 +31,7 @@ public with sharing class AddDiscount {
         guarantorRecordId = sc.getId();
         guarantorName = '';
         if (guarantorRecordId != null) {
-            Contact gc = PayStaffWSUtill.fetchGuarantorFilterCGByAcctSubStatus(guarantorRecordId, PayStaffWSUtill.CGConstraintsForDiscount);
+            Contact gc = PayStaffWSUtill.fetchGuarantorContact(guarantorRecordId);
             guarantorName = PayStaffWSUtill.fetchGuarantorName(gc);
             //chargeGroupList = PayStaffWSUtill.fetchChargeGroupList(gc);
             for (ChargeGroupWrapper cgw : PayStaffWSUtill.fetchChargeGroupList(gc)) {

@@ -101,7 +101,7 @@ public with sharing class AddCreditCard {
                 }
             }
             chargeGroupId = '';
-            
+
             //10-12-2016: Viraj Rana - Tracker #131459561: Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
             isActivePaymentPlan = checkPaymentPlanExist(guarantorRecordId);
         }
@@ -167,10 +167,10 @@ public with sharing class AddCreditCard {
      *If we create using class than we can't send Web Request after insert so we use this method using VF page.
     */
     public void getPaymentPlanSettings(){
-         PaymentPlanSettings = new Sirono_Settings__c();
-         PaymentPlanSettings = SironoSettingsUtil.getPaymentPlanSettings();
+        PaymentPlanSettings = new Sirono_Settings__c();
+        PaymentPlanSettings = SironoSettingsUtil.getPaymentPlanSettings();
     }
-    
+
     //Controller Method invoked from Visualforce page
     public void doSubmit() {
         try {
@@ -202,7 +202,7 @@ public with sharing class AddCreditCard {
             // Debug error response
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'ERROR: ' + e.getMessage()));
         }
-    }    
+    }
     //10-12-2016: Viraj Rana - Tracker #131459561: Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
     public boolean checkPaymentPlanExist(string guarantorRecordId) {
         boolean blnIsError = false;
@@ -210,7 +210,7 @@ public with sharing class AddCreditCard {
             List<Payment_Plan__c> lstPaymentPlan = [SELECT Id FROM Payment_Plan__c where Guarantor__c =: guarantorRecordId and Active__c = true];
             if (lstPaymentPlan.size() > 0) {
                 ApexPages.addMessage(new ApexPages.Message(apexpages.severity.warning,
-                    system.label.Payment_Plan_Error));
+                        system.label.Payment_Plan_Error));
                 blnIsError = true;
             }
         }
@@ -222,7 +222,7 @@ public with sharing class AddCreditCard {
     * Method for check the amount validation.
     * 09-30-2016: Viraj Rana - Tracker #127404553: Validate PaymentPlan against custom settings to check Monthly Installment Amount
     * based on Minimum Installment Amount and Maximum number of Installments.
-    */ 
+    */
     Public boolean checkAmountValidation() {
         boolean blnIsError = false;
         if ((planType.trim().equalsIgnoreCase('promise') &&
@@ -251,33 +251,33 @@ public with sharing class AddCreditCard {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'Amount cannot exceed balance.'));
                 blnIsError = true;
             }
-            
+
             decimal tempAmount = decimal.valueof(planType.trim().equalsIgnoreCase('promise') ? promiseAmount : amount);
-            
+
             if(tempAmount < PaymentPlanSettings.Min_Installment_Amount__c){
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'Monthly amount must be equal to or greater than $' + PaymentPlanSettings.Min_Installment_Amount__c + '.'));
+                        'Monthly amount must be equal to or greater than $' + PaymentPlanSettings.Min_Installment_Amount__c + '.'));
                 blnIsError = true;
             }
-            
+
             if(tempAmount >= PaymentPlanSettings.Min_Installment_Amount__c) {
                 integer totalInstallment = integer.valueof((dctotalAmount/tempAmount).round(System.RoundingMode.CEILING));
                 integer minimumInstallmentAmount = 0;
-                
+
                 system.debug('Min Installment Amount : ' + PaymentPlanSettings.Min_Installment_Amount__c);
                 system.debug('Max Installment : ' + PaymentPlanSettings.Max_Number_Plan_Installments__c);
                 system.debug('dctotalAmount : ' + dctotalAmount);
                 system.debug('tempAmount : ' + tempAmount);
-                
+
                 if (PaymentPlanSettings.Max_Number_Plan_Installments__c > 0) {
                     minimumInstallmentAmount = integer.valueof((dctotalAmount/PaymentPlanSettings.Max_Number_Plan_Installments__c).round(System.RoundingMode.CEILING));
                 }
-                
+
                 if (totalInstallment > PaymentPlanSettings.Max_Number_Plan_Installments__c) {
                     ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                        'This monthly amount would exceed ' + PaymentPlanSettings.Max_Number_Plan_Installments__c + ' installments.' +
-                        ' The minimum allowed installment amount is $' + minimumInstallmentAmount + '.'));
-                    blnIsError = true;                
+                            'This monthly amount would exceed ' + PaymentPlanSettings.Max_Number_Plan_Installments__c + ' installments.' +
+                                    ' The minimum allowed installment amount is $' + minimumInstallmentAmount + '.'));
+                    blnIsError = true;
                 }
             }
         }
@@ -506,12 +506,9 @@ public with sharing class AddCreditCard {
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
         objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorRecordId,
                 null, chargeGroupId);
-        Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord; 
+        Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
         paymentPlanObj.Name = String.valueof(paymentPlanObj.Sirono_ID__c);
-
-	if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
-	    UPSERT paymentPlanObj;
-	}
+        upsert paymentPlanObj;
 
         List<Charge_Group__c> lstCG = new List<Charge_Group__c>();
         lstCG = objPaymentPlanWrapper.chargeGroupRecords;
@@ -519,8 +516,8 @@ public with sharing class AddCreditCard {
             cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
             cg.Payment_Plan__c = paymentPlanObj.Id;
         }
-        if (ChargeGroupSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-            UPDATE lstCG;	
-        }
+        Update lstCG;
+
+
     }
 }

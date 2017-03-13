@@ -32,9 +32,9 @@ public with sharing class ProcessPaymentLightning {
     public String guarantorName { get; set; }
     public String chargeGroupId { get; set; }
     public List<ChargeGroupWrapper> chargeGroupList { get; set; }
-	public Contact gc { get; set; }
-	public String errorMessages{get;set;}
-	public List<Transaction__c> listOfCreatedTransactions{get;set;}
+    public Contact gc { get; set; }
+    public String errorMessages{get;set;}
+    public List<Transaction__c> listOfCreatedTransactions{get;set;}
     private Payment__c objPayment = new Payment__c();
     private List<Transaction__c> lsttransaction = new List<Transaction__c>();
     private List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
@@ -63,10 +63,10 @@ public with sharing class ProcessPaymentLightning {
     public ProcessPaymentLightning(ApexPages.StandardController sc, List<String> selectedIds) {
         username = PayStaffWSUtillLightning.un;
         password = PayStaffWSUtillLightning.pw;
-		System.debug('pass:'+password);
+        System.debug('pass:'+password);
         chargeGroupsSelected = false;
         guarantorName = '';
-		errorMessages = '';
+        errorMessages = '';
         /*
         guarantorId = '571';
         chargeGroupId = '1113837';
@@ -88,16 +88,16 @@ public with sharing class ProcessPaymentLightning {
             gc = PayStaffWSUtillLightning.fetchGuarantorContact(guarantorRecordId);
             guarantorName = PayStaffWSUtillLightning.fetchGuarantorName(gc);
             guarantorId = PayStaffWSUtillLightning.fetchGuarantorId(gc);
-			Boolean once = false;
+            Boolean once = false;
             //chargeGroupList = PayStaffWSUtillLightning.fetchChargeGroupList(gc);
             //Collection of ChargeGroups that are active, balance not zero and who's account sub status is Preinvoiced, Due, Overdue, Delinquent, Bad Debt, or Payment Plan.
             for (ChargeGroupWrapper cgw : PayStaffWSUtillLightning.fetchChargeGroupListByAccountSubStatus(gc)) {
                 for(String item: selectedIds){
-					if (item == cgw.cg.Invoice__c && cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
-						cgw.isSelected = true;
-						chargeGroupList.add(cgw);
-					}
-				}
+                    if (item == cgw.cg.Invoice__c && cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
+                        cgw.isSelected = true;
+                        chargeGroupList.add(cgw);
+                    }
+                }
             }
             chargeGroupId = '';
         }
@@ -105,7 +105,7 @@ public with sharing class ProcessPaymentLightning {
 
     public Pagereference doNext() {
         chargeGroupsSelected = false;
-		system.debug('chargeGroupList'+chargeGroupList);
+        system.debug('chargeGroupList'+chargeGroupList);
         chargeGroupId = PayStaffWSUtillLightning.fetchChargeGroupIds(chargeGroupList);
         if (!isEmpty(chargeGroupId)) {
             chargeGroupsSelected = true;
@@ -124,7 +124,7 @@ public with sharing class ProcessPaymentLightning {
     // Method used for call processPayment method
     public String submit() {
         System.debug('submit:'+username+';'+password);
-		try {
+        try {
 
             /*
              * 08-19-2016: Sirono - Tracker # 127324171
@@ -133,9 +133,9 @@ public with sharing class ProcessPaymentLightning {
 
             boolean blnIsError = false;
             blnIsError = checkCardValidation();
-			system.debug(blnIsError);
+            system.debug(blnIsError);
             boolean blnIsAmountError = checkAmountValidation();
-			system.debug(blnIsAmountError);
+            system.debug(blnIsAmountError);
             if (blnIsError == false && !blnIsAmountError) {
                 String jwtToken = PayStaffWSUtillLightning.getJWTToken(username, password);
                 String csrfToken = PayStaffWSUtillLightning.getCSRFToken();
@@ -150,19 +150,19 @@ public with sharing class ProcessPaymentLightning {
 
         } catch (Exception e) {
             // Debug error response
-			errorMessages += 'ERROR: ' + e.getMessage() + ';' + e.getStackTraceString(); 
+            errorMessages += 'ERROR: ' + e.getMessage() + ';' + e.getStackTraceString(); 
         }
-		System.debug('end submit');
-		System.debug(errorMessages);
-		String transactionInfo = '';
-		if(errorMessages == ''){
-			Transaction__c tr = new Transaction__c();
-			tr = [SELECT id, Sirono_Id__c, Amount__c, Payment__r.Amount__c, Payment__r.Payment_Id__c FROM Transaction__c WHERE Charge_Group__r.Guarantor__c = :gc.id ORDER BY CreatedDate DESC LIMIT 1];
-			System.debug(tr);
-			transactionInfo = 'Success;' + String.valueOf(tr.Payment__r.Payment_Id__c) + ';$' + String.valueOf(tr.Payment__r.Amount__c);
-		}
-		System.debug(transactionInfo);
-		return errorMessages != '' ? errorMessages : transactionInfo;
+        System.debug('end submit');
+        System.debug(errorMessages);
+        String transactionInfo = '';
+        if(errorMessages == ''){
+            Transaction__c tr = new Transaction__c();
+            tr = [SELECT id, Sirono_Id__c, Amount__c, Payment__r.Amount__c, Payment__r.Payment_Id__c FROM Transaction__c WHERE Charge_Group__r.Guarantor__c = :gc.id ORDER BY CreatedDate DESC LIMIT 1];
+            System.debug(tr);
+            transactionInfo = 'Success;' + String.valueOf(tr.Payment__r.Payment_Id__c) + ';$' + String.valueOf(tr.Payment__r.Amount__c);
+        }
+        System.debug(transactionInfo);
+        return errorMessages != '' ? errorMessages : transactionInfo;
     }   
 
     /*
@@ -173,7 +173,7 @@ public with sharing class ProcessPaymentLightning {
         boolean blnIsError = false;
         if (isEmpty(amount) || (amount.isNumeric() && decimal.valueof(amount) == 0)) {
             errorMessages += 'Amount must be greater than zero.';
-			blnIsError = true;
+            blnIsError = true;
         } else {
             decimal dctotalAmount = 0;
             for (ChargeGroupWrapper cgw : chargeGroupList) {
@@ -184,11 +184,11 @@ public with sharing class ProcessPaymentLightning {
             }
             if (decimal.valueof(amount) < 0) {
                 errorMessages += 'Amount must be greater than zero.';
-				blnIsError = true;
+                blnIsError = true;
             }
-			System.debug(amount + ';' + dctotalAmount);
+            System.debug(amount + ';' + dctotalAmount);
             if (decimal.valueof(amount) > dctotalAmount) {
-				errorMessages += 'Amount cannot exceed balance.';
+                errorMessages += 'Amount cannot exceed balance.';
                 blnIsError = true;
             }
         }
@@ -204,56 +204,56 @@ public with sharing class ProcessPaymentLightning {
         boolean blnIsError = false;
         if (creditCardNumber.length() < 12 || creditCardNumber.Length() > 19) {
             errorMessages += 'Credit card number must be 12-19 digits.';
-			blnIsError = true;
-        }
-        if (isEmpty(creditCardNumber)) {
-			errorMessages += 'Card Number is a required field.';
             blnIsError = true;
         }
-		System.debug(expirationYear);System.debug(expirationMonth);
-		expirationYear = '20' + expirationYear;
-		if (Integer.valueof(expirationYear) < system.today().year() ||
+        if (isEmpty(creditCardNumber)) {
+            errorMessages += 'Card Number is a required field.';
+            blnIsError = true;
+        }
+        System.debug(expirationYear);System.debug(expirationMonth);
+        expirationYear = '20' + expirationYear;
+        if (Integer.valueof(expirationYear) < system.today().year() ||
                 (Integer.valueof(expirationYear) == system.today().year() &&
                         Integer.valueof(expirationMonth) < system.today().Month())) {
             errorMessages += 'Expiration date must be in the future.';
-			blnIsError = true;
+            blnIsError = true;
         }
         if (!isEmpty(zip) && zip.length() != 5) {
-			errorMessages +=  'Zip code must be 5 digits.';
+            errorMessages +=  'Zip code must be 5 digits.';
             blnIsError = true;
         }
         if (!isEmpty(zip) && !zip.isNumeric()) {
             errorMessages +=   'Zip code can only contain numeric values.';
-			blnIsError = true;
+            blnIsError = true;
         }
         if (isEmpty(cardHolderName)) {
-			errorMessages +=   'Name is a required field.';
+            errorMessages +=   'Name is a required field.';
             blnIsError = true;
         }
 
         if (!isEmpty(cvv) && (cvv.length() < 3 || cvv.length() > 4)) {
             errorMessages +=  'CVV must be 4 digits for American Express and 3 digits for other card types.';
-			blnIsError = true;
+            blnIsError = true;
         }
 
         if (isEmpty(cvv)) {
             errorMessages +=  'CVV is a required field.';
-			blnIsError = true;
+            blnIsError = true;
         }
 
         if (isEmpty(address)) {
             errorMessages +=   'Billing Address is a required field.';
-			blnIsError = true;
+            blnIsError = true;
         }
 
         if (isEmpty(zip)) {
             errorMessages +=  'Zip Code is a required field.';
-			blnIsError = true;
+            blnIsError = true;
         }
 
         if (isEmpty(chargeGroupId)) {
             errorMessages +=  'Charge Group is a required field.';
-			blnIsError = true;
+            blnIsError = true;
         }
 
         return blnIsError;
@@ -274,8 +274,8 @@ public with sharing class ProcessPaymentLightning {
 
     // Method used for payment process
     private void processPayment(String csrfToken, String jwtToken) {
-		System.debug('chargeGroupId:'+chargeGroupId);
-		String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '",' +
+        System.debug('chargeGroupId:'+chargeGroupId);
+        String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '",' +
                 '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/'
                 + guarantorId + '/",' +
                 '"number":"' + creditCardNumber + '",' +
@@ -315,7 +315,7 @@ public with sharing class ProcessPaymentLightning {
             }
         } catch (Exception e) {
             // Debug error response
-			errorMessages += 'PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage();
+            errorMessages += 'PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage();
         }
 
         if (res.getStatus() != null && res.getStatus().trim().equalsIgnoreCase('CREATED')
@@ -335,7 +335,7 @@ public with sharing class ProcessPaymentLightning {
                 if (wrpPaymentPlanobj != null && wrpPaymentPlanobj.errors.size() > 0) {
                     List<WrapperErrorArray.Errors> lstError = wrpPaymentPlanobj.errors;
                     for (WrapperErrorArray.Errors obj : lstError) {
-						errorMessages += String.valueof(obj.non_field_errors);
+                        errorMessages += String.valueof(obj.non_field_errors);
                     }
                 }
             } else if (responseBody.Contains('non_field_errors') && responseBody.Contains('Payments Exception')) {
@@ -343,7 +343,7 @@ public with sharing class ProcessPaymentLightning {
                 WrapperError wrpPaymentPlanobj = (WrapperError) parser.readValueAs(WrapperError.class);
                 if (wrpPaymentPlanobj != null && wrpPaymentPlanobj.errors.non_field_errors.size() > 0) {
                     for (String strMessage : wrpPaymentPlanobj.errors.non_field_errors) {
-						errorMessages += String.valueof(strMessage);
+                        errorMessages += String.valueof(strMessage);
                     }
                 }
             } else if (responseBody.Contains('kind') && !responseBody.Contains('chargegroups')) {
@@ -351,22 +351,22 @@ public with sharing class ProcessPaymentLightning {
                 WrapperListError wrpobj = (WrapperListError) parser.readValueAs(WrapperListError.class);
                 if (wrpobj != null && wrpobj.errors.size() > 0) {
                     for (String strMessage : wrpobj.errors) {
-						errorMessages += String.valueof(strMessage);
+                        errorMessages += String.valueof(strMessage);
                     }
                 }
             } else if (responseBody.Contains('kind') && responseBody.Contains('chargegroups')) {
                 errorMessages += 'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody;
-				
+                
             } else if(responseBody.Contains('non_field_errors')){
                 JSONParser parser = JSON.createParser(responseBody);
                 WrapperNonFieldErrorArray wrpPaymentPlanobj  = (WrapperNonFieldErrorArray)parser.readValueAs(WrapperNonFieldErrorArray.class);
                 if(wrpPaymentPlanobj  != null && wrpPaymentPlanobj.non_field_errors.size() > 0){
                     for(String strMessage : wrpPaymentPlanobj.non_field_errors){
-						errorMessages += String.valueof(strMessage);
-					}
+                        errorMessages += String.valueof(strMessage);
+                    }
                 }
             } else {
-				errorMessages += 'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody;
+                errorMessages += 'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody;
                 
             }
         }

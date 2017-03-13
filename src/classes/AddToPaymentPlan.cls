@@ -19,7 +19,7 @@ public with sharing class AddToPaymentPlan {
     public String paymentPlanId {get; set;}
     public String paymentPlanExtId {get; set;}
     public List<ChargeGroupWrapper> chrageGroupList {get; set;}
-	
+    
     // Constructor of a class and initialize the variables.
     public AddToPaymentPlan() {
         username = PayStaffWSUtill.un;
@@ -41,7 +41,7 @@ public with sharing class AddToPaymentPlan {
         }
 
         if (guarantorRecordId != null) {
-            Contact gc = PayStaffWSUtill.fetchGuarantorFilterCGByAcctSubStatus(guarantorRecordId, PayStaffWSUtill.CGConstraints);
+            Contact gc = PayStaffWSUtill.fetchGuarantorContactWithCGConstraints(guarantorRecordId);
             guarantorName = PayStaffWSUtill.fetchGuarantorName(gc);
             guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
             //chrageGroupList = PayStaffWSUtill.fetchChargeGroupList(gc);
@@ -240,11 +240,8 @@ public with sharing class AddToPaymentPlan {
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
         objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorRecordId,
                 null, chargeGroupId);
-        Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
-
-	if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
-	    UPSERT paymentPlanObj;
-	}
+        Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord; 
+        upsert paymentPlanObj;
 
         List<Charge_Group__c> lstCG = new List<Charge_Group__c>();
         lstCG = objPaymentPlanWrapper.chargeGroupRecords;
@@ -252,8 +249,6 @@ public with sharing class AddToPaymentPlan {
             cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
             cg.Payment_Plan__c = paymentPlanObj.Id;
         }
-	if (ChargeGroupSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-	    UPDATE lstCG;
-    	}
+        Update lstCG;
     }
 }

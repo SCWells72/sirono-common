@@ -37,15 +37,6 @@ public with sharing class PayStaffWSUtill {
             Constants.ACCT_SUBSTATUS_DELINQUENT,
             Constants.ACCT_SUBSTATUS_BAD_DEBT
     };
-    
-    // Set of CG Account Sub Status to Fetch Guarantor Contact for Discount SOQL where clause
-    public static final Set<String> CGConstraintsForDiscount = new Set<String> {
-        Constants.ACCT_SUBSTATUS_DUE_BY,
-        Constants.ACCT_SUBSTATUS_OVERDUE,
-        Constants.ACCT_SUBSTATUS_DELINQUENT,
-        Constants.ACCT_SUBSTATUS_PAYMENT_PLAN,
-        Constants.ACCT_SUBSTATUS_PREINVOICED
-    };
 
     //get the current + 10 Years list
     public static List<SelectOption> expYearOptions {
@@ -126,36 +117,57 @@ public with sharing class PayStaffWSUtill {
         return ob;
     }
 
-    /**
-     * This method is use get Contact details with Charge Groups
-     * where CG Account Sub Status are based on cgSubStatusFilters.
-     *
-     * @param String contactId - That contains Contact Id.
-     * @param Set<String> cgSubStatusFilters - That contains Set of CG Account Sub Status.
-     * @returns Contact contact - That contains Contact details with Charge Groups.
-     **/     
-    public static Contact fetchGuarantorFilterCGByAcctSubStatus(String contactId, Set<String> cgSubStatusFilters) {
-        Contact contact = null;
-        for (Contact c: [
-                SELECT Id, Name, FirstName, MiddleName, LastName, Suffix, Birthdate, Salutation,
+    /*Mohan Kumar 07-28-2016: This is method is used in AddToPaymentPlan to filter the Charge Group based
+    *on the Status and Sub-Status rather than pulling all active ones
+    */
+    public static Contact fetchGuarantorContactWithCGConstraints(String contactId) {
+        Contact ob = null;
+        for (Contact c : [
+                Select Id, Name, FirstName, MiddleName, LastName, Suffix, Birthdate, Salutation,
                         Medical_Record_Number__c, RecordType.DeveloperName, Social_Security_Number__c,
                         Profile_Pointer_Id__c, Patient_Id__c, HomePhone, MobilePhone, OtherPhone,
-                        MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet,
-                        (SELECT Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
+                        MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet, (
+                        Select Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
                                 External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
                                 Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
                                 Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
                                 Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
                                 Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
-                        FROM Charge_Groups__r
-                        WHERE Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
-                        AND Account_Sub_Status__c IN :cgSubStatusFilters)
-                FROM Contact
-                WHERE Id = :contactId
+                        From Charge_Groups__r
+                        Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
+                        AND Account_Sub_Status__c IN :CGConstraints
+                )
+                From Contact
+                Where Id = :contactId
         ]) {
-            contact = c;
+            ob = c;
         }
-        return contact;
+        return ob;
+    }
+
+    public static Contact fetchGuarantorContactWithCGConstraintsForCase(String contactId) {
+        Contact ob = null;
+        for (Contact c : [
+                Select Id, Name, FirstName, MiddleName, LastName, Suffix, Birthdate, Salutation,
+                        Medical_Record_Number__c, RecordType.DeveloperName, Social_Security_Number__c,
+                        Profile_Pointer_Id__c, Patient_Id__c, HomePhone, MobilePhone, OtherPhone,
+                        MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet, (
+                        Select Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
+                                External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
+                                Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
+                                Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
+                                Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
+                                Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
+                        From Charge_Groups__r
+                        Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
+                        AND Account_Sub_Status__c IN :CGConstraintsForCase
+                )
+                From Contact
+                Where Id = :contactId
+        ]) {
+            ob = c;
+        }
+        return ob;
     }
 
     //08-09-2016: This is method is used to get the CG records of Patient Contact type
@@ -530,9 +542,7 @@ public with sharing class PayStaffWSUtill {
     */
     public static void parsePaymentReponse(String csrfToken, String jwtToken, string jsonStr, boolean isPayment){
 
-        // We have change Payment__c object to List of Payment__c and this list pass in Methods as a parameter.
-        // This changes do to resolve Security Scan related issue. 
-        List<Payment__c> payments = new List<Payment__c>();
+        Payment__c objPayment;
         List<Payment_Adjustments__c> lstPaymentAdjustment = new List<Payment_Adjustments__c>();
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
 
@@ -542,18 +552,17 @@ public with sharing class PayStaffWSUtill {
         Map<Decimal,Decimal> mapTranPayAdjId = new Map<Decimal,Decimal>();
 
         if (isPayment) {
-            Payment__c objPayment = new Payment__c();
+            objPayment = new Payment__c();
             objPayment = PaymentJSONParsing.parse(jsonStr);
-            payments.add(objPayment);
         } else {
             lstPaymentAdjustment = PaymentAdjustmentJSONParsing.parse(jsonStr);
         }
 
-        if (payments.size() > 0) {
-            callTransactionRequest(csrfToken, jwtToken, payments, null, isPayment);
+        if (objPayment != null) {
+            callTransactionRequest(csrfToken, jwtToken, objPayment, null, isPayment);
         } else if (lstPaymentAdjustment.size() > 0) {
             for (Payment_Adjustments__c objPaymentAdjustment : lstPaymentAdjustment) {
-                objPaymentAdjustmentwrapper = callTransactionRequest(csrfToken, jwtToken, null, String.valueOf(objPaymentAdjustment.Sirono_ID__c), isPayment);
+                objPaymentAdjustmentwrapper = callTransactionRequest(csrfToken, jwtToken, null, objPaymentAdjustment, isPayment);
 
                 lstTransaction.add(objPaymentAdjustmentwrapper.objTransaction);
                 mapTranPayAdjId.put(objPaymentAdjustment.Sirono_ID__c, objPaymentAdjustmentwrapper.objTransaction.Sirono_ID__c);
@@ -568,21 +577,15 @@ public with sharing class PayStaffWSUtill {
 
             //Save all Records if it is Take Adjustment/Discount. 
             if (lstChargeGroup.size() > 0) {
-                if (ChargeGroupSecurityContext.UPDATE_WITH_STATUS_CONTEXT.actionAllowed()) {
-                    UPDATE lstChargeGroup;
-                }
+                update lstChargeGroup;
             }
 
             if (lstPaymentPlan.size() > 0) {
-                if (PaymentPlanSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                    UPDATE lstPaymentPlan;
-                }
+                update lstPaymentPlan;
             }
 
             if (lstTransaction.size() > 0) {
-                if (TransactionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                    INSERT lstTransaction;
-                }
+                insert lstTransaction;
                 
                 List<Transaction__c> lstTran = [SELECT Id, Sirono_ID__c FROM Transaction__c
                                             where Sirono_ID__c in : mapTranPayAdjId.values()];
@@ -597,9 +600,7 @@ public with sharing class PayStaffWSUtill {
                     pa.Transaction__c = mapTran.get(tranId);
                 }
 
-                if (PaymentAdjustmentsSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                    INSERT lstPaymentAdjustment;
-                }
+                insert lstPaymentAdjustment;
             }
         }
     }
@@ -609,7 +610,7 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * call Transaction Request and get all Transactions based on Payment.
     */
-    private static PaymentAdjustmentwrapper callTransactionRequest(String csrfToken, String jwtToken, List<Payment__c> payments, String paymentAdjustmentSironoId, boolean isPayment){
+    private static PaymentAdjustmentwrapper callTransactionRequest(String csrfToken, String jwtToken, Payment__c objPayment, Payment_Adjustments__c objPaymentAdjustment, boolean isPayment){
 
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
 
@@ -624,10 +625,10 @@ public with sharing class PayStaffWSUtill {
         req.setHeader('Content-type', 'application/json');
         if (isPayment) {
             req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/payments/'
-                        + String.valueOf(payments.get(0).Sirono_ID__c) +'/transactions/');
+                        + string.valueof(objPayment.Sirono_ID__c) +'/transactions/');
         } else {
             req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/adjustments/'
-                        + paymentAdjustmentSironoId +'/transactions/');
+                        + string.valueof(objPaymentAdjustment.Sirono_ID__c) +'/transactions/');
         }
 
         req.setTimeout(120000);
@@ -649,7 +650,7 @@ public with sharing class PayStaffWSUtill {
         }
 
         if (res.getStatusCode() != null && res.getStatusCode() == 200) {
-            objPaymentAdjustmentwrapper = parseTransactionResponse(csrfToken, jwtToken, responseBody, payments, isPayment);
+            objPaymentAdjustmentwrapper = parseTransactionResponse(csrfToken, jwtToken, responseBody, objPayment, objPaymentAdjustment, isPayment);
         }else {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
                                     'RESPONSE : '+ res.toString() +
@@ -663,7 +664,7 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * Parse Transaction response and based on Charge group call Charge group request.
     */
-    private static PaymentAdjustmentwrapper parseTransactionResponse(String csrfToken, String jwtToken, string jsonStr, List<Payment__c> payments, boolean isPayment){
+    private static PaymentAdjustmentwrapper parseTransactionResponse(String csrfToken, String jwtToken, string jsonStr, Payment__c objPayment, Payment_Adjustments__c objPaymentAdjustment, boolean isPayment){
         TransactionJSONParsing.TransactionWrapper objTransactionWrapper;
         objTransactionWrapper = TransactionJSONParsing.parse(jsonStr);
 
@@ -712,31 +713,22 @@ public with sharing class PayStaffWSUtill {
         }
         //Save all Records if it is Take Payment.
         if (isPayment) {
-            if (PaymentSecurityContext.PSWU_CREATE_CONTEXT.actionAllowed()) {
-            	INSERT payments;
-            }
-            Id paymentId = payments.get(0).Id;
+            insert objPayment;
+            id paymentId = objPayment.Id;
 
             if (lsttransaction.size() > 0) {
                 for (Transaction__c objTran : lsttransaction) {
                     objTran.Payment__c = paymentId;
                 }
-                
-                if (TransactionSecurityContext.CREATE_WITH_PAYMENT_CONTEXT.actionAllowed()) {
-                    INSERT lsttransaction;
-                }
+                insert lsttransaction;
             }
 
             if (lstChargeGroup.size() > 0) {
-                if (ChargeGroupSecurityContext.UPDATE_WITH_STATUS_CONTEXT.actionAllowed()) {
-                    UPDATE lstChargeGroup;
-                }
+                update lstChargeGroup;
             }
 
             if (lstPaymentPlan.size() > 0) {
-                if (PaymentPlanSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                    UPDATE lstPaymentPlan;
-                }
+                update lstPaymentPlan;
             }
         } else {
             //It is used for Adjustment/Discount.
@@ -825,7 +817,6 @@ public with sharing class PayStaffWSUtill {
             Charge_Group__c objcg = new Charge_Group__c();
             objcg = [select Payment_Plan__c, Payment_Plan__r.Sirono_ID__c, Payment_Plan__r.Guarantor__c
                     from Charge_Group__c where id =: cg.Id limit 1];
-
             if(objcg != null){
                 callPaymentPlanRequest(jwtToken, objcg);
             }

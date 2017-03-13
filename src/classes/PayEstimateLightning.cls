@@ -1,5 +1,5 @@
 public with sharing class PayEstimateLightning {
- 	// Constant variable.
+    // Constant variable.
     public static final String PAYMENTNAME = 'Payment';
 
     // Page Level Variables.
@@ -21,22 +21,22 @@ public with sharing class PayEstimateLightning {
     public String state {get; set;}
     public String zip {get; set;}
     public String errorMessages{get;set;}
-    // Getter setter of expYearOptions - That gets the Year Options from PayStaffWSUtill Class.
+    // Getter setter of expYearOptions - That gets the Year Options from PayStaffWSUtillLightning Class.
     public List<SelectOption> expYearOptions {
         get {
             if (expYearOptions == null) {
-                expYearOptions = PayStaffWSUtill.expYearOptions;
+                expYearOptions = PayStaffWSUtillLightning.expYearOptions;
             }
             return expYearOptions;
         }
         protected set;
     }
 
-    // Getter setter of expMonthOptions - That gets the Month Options from PayStaffWSUtill Class.
+    // Getter setter of expMonthOptions - That gets the Month Options from PayStaffWSUtillLightning Class.
     public List<SelectOption> expMonthOptions {
         get {
             if (expMonthOptions == null) {
-                expMonthOptions = PayStaffWSUtill.expMonthOptions;
+                expMonthOptions = PayStaffWSUtillLightning.expMonthOptions;
             }
             return expMonthOptions;
         }
@@ -52,7 +52,7 @@ public with sharing class PayEstimateLightning {
         // Get/Set Contact/Guarantor Id.
         guarantorRecordId = controller.getId();
         this.encounterId = encounterId;
-		errorMessages = '';
+        errorMessages = '';
         if (guarantorRecordId != null) {
             // Fetch Guarantor Contact record based on Id.
             guarantorContact = PayStaffWSUtillLightning.fetchGuarantorContact(guarantorRecordId);
@@ -130,7 +130,7 @@ public with sharing class PayEstimateLightning {
                 payment.Amount__c = decimal.valueof(amount);
                 payment.Encounter__c = selectedEncounter.Id;
                 payment.Deposit_Date__c = system.now();
-				payment.Method__c = 'credit';
+                payment.Method__c = 'credit';
                 INSERT payment;
 
             } else {

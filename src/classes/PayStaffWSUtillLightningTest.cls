@@ -1,27 +1,20 @@
-/*
- * @author Sirono
- * @version 1.0.1
- * @Date: 05-02-2016
- * @PayStaffWSUtillTest Test Class for the Code Covrege of PayStaffWSUtill Class.
- */
-
 @isTest
-private class PayStaffWSUtillTest {
+private class PayStaffWSUtillLightningTest {
     @testSetup static void setupSironoSettings(){
         SironoSettingsUtil.initializeSironoSettings();
     }
 
     static testMethod void myUnitTest() {
-        PayStaffWSUtill.fetchGuarantorContact('');
-        PayStaffWSUtill.fetchGuarantorId(null);
-        PayStaffWSUtill.fetchChargeGroupIds(PayStaffWSUtill.fetchChargeGroupList(null));
-        PayStaffWSUtill.getCSRFToken();
-        PayStaffWSUtill.getJWTToken(PayStaffWSUtill.un, PayStaffWSUtill.pw);
-        PayStaffWSUtill.buildChargeGroupsURL('1,2');
-        List<SelectOption> expYearOptions = PayStaffWSUtill.expYearOptions;
-        List<SelectOption> expMonthOptions = PayStaffWSUtill.expMonthOptions;
+        PayStaffWSUtillLightning.fetchGuarantorContact('');
+        PayStaffWSUtillLightning.fetchGuarantorId(null);
+        PayStaffWSUtillLightning.fetchChargeGroupIds(PayStaffWSUtillLightning.fetchChargeGroupList(null));
+        PayStaffWSUtillLightning.getCSRFToken();
+        PayStaffWSUtillLightning.getJWTToken(PayStaffWSUtillLightning.un, PayStaffWSUtillLightning.pw);
+        PayStaffWSUtillLightning.buildChargeGroupsURL('1,2');
+        List<SelectOption> expYearOptions = PayStaffWSUtillLightning.expYearOptions;
+        List<SelectOption> expMonthOptions = PayStaffWSUtillLightning.expMonthOptions;
 
-        PayStaffWSUtill.TokenAuthResponse tokenAuthResponse = new PayStaffWSUtill.TokenAuthResponse();
+        PayStaffWSUtillLightning.TokenAuthResponse tokenAuthResponse = new PayStaffWSUtillLightning.TokenAuthResponse();
         tokenAuthResponse.token = 'testToken';
     }
 
@@ -32,7 +25,7 @@ private class PayStaffWSUtillTest {
         //TestUtility.body = '<input type=\'hidden\' name=\'csrfmiddlewaretoken\' value=\'';
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
 
-        HttpResponse res = PayStaffWSUtill.getStatementUrls('12345');
+        HttpResponse res = PayStaffWSUtillLightning.getStatementUrls('12345');
 
         String contentType = res.getHeader('Content-Type');
         System.assert(contentType == 'application/json');
@@ -47,27 +40,27 @@ private class PayStaffWSUtillTest {
         TestUtility.body = 'sirono<input type=\'hidden\' name=\'csrfmiddlewaretoken\' value=\'';
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
 
-        string str = PayStaffWSUtill.getCSRFToken();
+        string str = PayStaffWSUtillLightning.getCSRFToken();
         Test.stopTest();
     }
 
     @isTest
     static void testConvertToDollars() {
         Decimal inputCents = 150;
-        Decimal outputDollars = PayStaffWSUtill.convertToDollars(inputCents);
+        Decimal outputDollars = PayStaffWSUtillLightning.convertToDollars(inputCents);
         System.assert('1.5'.equals(outputDollars.format()), 'Expected 1.5, but got ' + outputDollars);
     }
 
     @isTest
     static void testConvertToDollars1() {
         string inputCents = '100';
-        string dollarAmount = PayStaffWSUtill.convertToDollars(inputCents);
+        string dollarAmount = PayStaffWSUtillLightning.convertToDollars(inputCents);
         System.assertEquals('1.00', dollarAmount);
     }
     @isTest
     static void testConvertToCents() {
         String inputDollars = '100';
-        String outputCents = PayStaffWSUtill.convertToCents(inputDollars);
+        String outputCents = PayStaffWSUtillLightning.convertToCents(inputDollars);
         System.assert('10000'.equals(outputCents), 'Expected 10000, but got ' + outputCents);
     }
 
@@ -75,8 +68,8 @@ private class PayStaffWSUtillTest {
     static void main() {
         Contact con = new Contact(LastName = 'Sirono', Patient_Id__c = 123456);
         insert con;
-        PayStaffWSUtill.fetchPatientId(con);
-        PayStaffWSUtill.addNoteWSCallout(null, null);
+        PayStaffWSUtillLightning.fetchPatientId(con);
+        PayStaffWSUtillLightning.addNoteWSCallout(null, null);
     }
 
     @isTest
@@ -87,8 +80,8 @@ private class PayStaffWSUtillTest {
         insert guarantorContact;
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12345);
         insert chargeGroup;
-        PayStaffWSUtill.fetchChargeGroupListbyaccountsubstatus(guarantorContact);
-        Contact objContact = PayStaffWSUtill.fetchPatientContactWithCGConstraints(patientContact.Id);
+        PayStaffWSUtillLightning.fetchChargeGroupListbyaccountsubstatus(guarantorContact);
+        Contact objContact = PayStaffWSUtillLightning.fetchPatientContactWithCGConstraints(patientContact.Id);
 
         System.assertEquals(objContact.Id, patientContact.Id);
     }
