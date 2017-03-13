@@ -191,7 +191,10 @@ public with sharing class SkipPaymentPlan {
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
         objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorId,
                 null, null);
-        Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord; 
-        upsert paymentPlanObj;
+        Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
+
+	if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
+	    UPSERT paymentPlanObj;
+	}
     }
 }

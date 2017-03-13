@@ -59,7 +59,9 @@ public with sharing class SironoSettingsUtil {
             if (isSandbox()) {
                 sironoSettings.Server_Endpoint_URL__c = getSandboxURL();
             }
-            insert sironoSettings;
+            if (SironoSettingsSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+            	INSERT sironoSettings;	
+            }
 
             sironoSettings = Sirono_Settings__c.getOrgDefaults();
 
@@ -72,7 +74,10 @@ public with sharing class SironoSettingsUtil {
                     PaymentPlanSettings.Max_Number_Plan_Installments__c = null;
                     PaymentPlanSettings.Min_Installment_Amount__c = 1;
                     PaymentPlanSettings.Min_Number_Plan_Installments__c = null;
-                    insert PaymentPlanSettings;
+                    
+                    if (SironoSettingsSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+		        INSERT PaymentPlanSettings;	
+		    }
                 }
             }
         }
@@ -87,8 +92,10 @@ public with sharing class SironoSettingsUtil {
             sironoSettings.Country_Code__c = 'US';
             sironoSettings.Format__c = 1;
             sironoSettings.Apikey__c = 'ac9b158e21153af4959ed5621d3c364c';
-            upsert sironoSettings;
+
+	    if (SironoSettingsSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
+            	UPSERT sironoSettings;
+	    }
         }
     }
-    
 }
