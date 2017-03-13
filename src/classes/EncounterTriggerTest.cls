@@ -139,4 +139,27 @@ private class EncounterTriggerTest {
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         System.assertEquals(0, lstCamp.size());
     }
+    
+    /**
+     * Check all access rights for a read only User using runAs.
+     **/
+    @isTest
+    static void checkAccessRights() {
+        List<EncounterSecurityContext> allContexts = new List<EncounterSecurityContext>{EncounterSecurityContext.UPDATE_CONTEXT,
+        	EncounterSecurityContext.UPDATE_HAS_CHARGEGROUP_CONTEXT
+        };
+
+        System.runAs(TestUtility.generateReadOnlyUser()) {
+            for (EncounterSecurityContext context: allContexts) {
+                try {
+                    context.actionAllowed();
+                    System.assert(false, 'Expected permission to be denied for ' + context);
+                } catch (SecurityUtils.SecurityException ex) {
+                    System.debug('SecurityException : ' + ex);
+                } catch (Exception e) {
+                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
+                }
+            }
+        }
+    }
 }

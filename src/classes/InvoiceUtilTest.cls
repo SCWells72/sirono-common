@@ -345,4 +345,27 @@ public class InvoiceUtilTest {
         System.assertNotEquals(originalBalance, updatedBalance);
         System.assertEquals(0.00, updatedBalance);
     }
+    
+    /**
+     * Check all access rights for a read only User using runAs.
+     **/
+    @isTest
+    static void checkAccessRights() {
+        List<InvoiceSecurityContext> allContexts = new List<InvoiceSecurityContext>{InvoiceSecurityContext.UPDATE_CONTEXT,
+        	InvoiceSecurityContext.UPDATE_ALL_SUBSTATUS_CONTEXT, InvoiceSecurityContext.UPDATE_BALANCE_CONTEXT
+        };
+
+        System.runAs(TestUtility.generateReadOnlyUser()) {
+            for (InvoiceSecurityContext context: allContexts) {
+                try {
+                    context.actionAllowed();
+                    System.assert(false, 'Expected permission to be denied for ' + context);
+                } catch (SecurityUtils.SecurityException ex) {
+                    System.debug('SecurityException : ' + ex);
+                } catch (Exception e) {
+                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
+                }
+            }
+        }
+    }
 }

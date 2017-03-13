@@ -41,7 +41,9 @@ public with sharing class TxnAggregationUtils {
 
         // Update the database
         if (adjs.size() > 0) {
-            update adjs;
+            if (PaymentAdjustmentsSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+                UPDATE adjs;	
+            }
         }
     }
 
@@ -106,7 +108,9 @@ public with sharing class TxnAggregationUtils {
 
         // Update the database
         if (pmts.size() > 0) {
-            update pmts;
+            if (PaymentSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+                UPDATE pmts;	
+            }
         }
     }
 
@@ -144,7 +148,9 @@ public with sharing class TxnAggregationUtils {
 
         // Update the database
         if (services.size() > 0) {
-            update services;
+            if (ServiceSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+                UPDATE services;	
+	    }
         }
     }
 

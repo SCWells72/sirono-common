@@ -38,8 +38,9 @@ public with sharing class InvoiceUtil {
                     invoicesToUpdate.get((Id) qr.get('Invoice__c')).Invoice_Status_Index__c = Integer.valueOf(qr.get('maxStatusValue'));
                 }
             }
-
-            update invoicesToUpdate.values();
+	    if (InvoiceSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+	        UPDATE invoicesToUpdate.values();
+	    }
         }
     }
 
@@ -83,8 +84,9 @@ public with sharing class InvoiceUtil {
 
                 idWithStatusValuesMap.put(invoiceId, tempInvoice);
             }
-
-            update idWithStatusValuesMap.values();
+	    if (InvoiceSecurityContext.UPDATE_ALL_SUBSTATUS_CONTEXT.actionAllowed()) {
+	        UPDATE idWithStatusValuesMap.values();
+	    }
         }
     }
 
@@ -126,8 +128,9 @@ public with sharing class InvoiceUtil {
                     }
                 }
             }
-
-            update invoicesToUpdate.values();
+	    if (InvoiceSecurityContext.UPDATE_BALANCE_CONTEXT.actionAllowed()) {
+	        UPDATE invoicesToUpdate.values();
+	    }
         }
     }
 }

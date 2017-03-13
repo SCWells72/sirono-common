@@ -36,14 +36,16 @@ public with sharing class EncounterUtil {
                 GROUP BY Encounter__c
         ];
 
-            for (AggregateResult ar : results) {
-                Encounter__c enc = new Encounter__c(Id=(Id)ar.get(OBJ));
-                enc.Total_Payments__c = (Decimal) ar.get(TOTAL);
+        for (AggregateResult ar : results) {
+            Encounter__c enc = new Encounter__c(Id=(Id)ar.get(OBJ));
+            enc.Total_Payments__c = (Decimal) ar.get(TOTAL);
 
             encountersToUpdate.put(enc.Id, enc);
-            }
+        }
 
-        UPDATE encountersToUpdate.values();
+        if (EncounterSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+            UPDATE encountersToUpdate.values();
+	}
         updateAssociatedGuarantors(encounterIds);
     }
 
@@ -100,8 +102,9 @@ public with sharing class EncounterUtil {
             enc.Has_Chargegroup__c = flagValue;
             encountersToUpdate.add(enc);
         }
-
-        UPDATE encountersToUpdate;
+	if (EncounterSecurityContext.UPDATE_HAS_CHARGEGROUP_CONTEXT.actionAllowed()) {
+	    UPDATE encountersToUpdate;
+	}
     }
 
     /*
@@ -164,7 +167,8 @@ public with sharing class EncounterUtil {
 
             toUpdate.add(gt);
         }
-
-        UPDATE toUpdate;
+	if (ContactSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+	    UPDATE toUpdate;
+	}
     }
 }
