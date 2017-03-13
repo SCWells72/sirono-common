@@ -134,7 +134,7 @@ public with sharing class PayStaffWSUtill {
      * @param Set<String> cgSubStatusFilters - That contains Set of CG Account Sub Status.
      * @returns Contact contact - That contains Contact details with Charge Groups.
      **/     
-    public static Contact fetchGuarantorFilteredByAcctSubStatus(String contactId, Set<String> cgSubStatusFilters) {
+    public static Contact fetchGuarantorFilterCGByAcctSubStatus(String contactId, Set<String> cgSubStatusFilters) {
         Contact contact = null;
         for (Contact c: [
                 SELECT Id, Name, FirstName, MiddleName, LastName, Suffix, Birthdate, Salutation,

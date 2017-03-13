@@ -111,9 +111,9 @@ private class PayStaffWSUtillTest {
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12345);
         INSERT chargeGroup;
 
-	// Call fetchGuarantorFilteredByAcctSubStatus method.
+	// Call fetchGuarantorFilterCGByAcctSubStatus method.
         Test.startTest();
-        Contact contact = PayStaffWSUtill.fetchGuarantorFilteredByAcctSubStatus(guarantorContact.Id, PayStaffWSUtill.CGConstraintsForDiscount);
+        Contact contact = PayStaffWSUtill.fetchGuarantorFilterCGByAcctSubStatus(guarantorContact.Id, PayStaffWSUtill.CGConstraintsForDiscount);
         Test.stopTest();
         
         // Check system assert, Charge Group size of Contact.
@@ -141,9 +141,9 @@ private class PayStaffWSUtillTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_BAD_DEBT;
         INSERT chargeGroup;
 
-	// Call fetchGuarantorFilteredByAcctSubStatus method.
+	// Call fetchGuarantorFilterCGByAcctSubStatus method.
         Test.startTest();
-        Contact contact = PayStaffWSUtill.fetchGuarantorFilteredByAcctSubStatus(guarantorContact.Id, PayStaffWSUtill.CGConstraintsForDiscount);
+        Contact contact = PayStaffWSUtill.fetchGuarantorFilterCGByAcctSubStatus(guarantorContact.Id, PayStaffWSUtill.CGConstraintsForDiscount);
         Test.stopTest();
         
         // Check system assert, Charge Group size of Contact.
