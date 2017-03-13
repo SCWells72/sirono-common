@@ -150,4 +150,27 @@ private class PayStaffWSUtillTest {
         System.assertEquals(contact.Charge_Groups__r.size(), 0);
         System.assertEquals(guarantorContact.Id, contact.Id);
     }
+    
+    /**
+     * Check all access rights for a read only User using runAs.
+     **/
+    @isTest
+    static void checkAccessRights() {
+        List<TransactionSecurityContext> allContexts = new List<TransactionSecurityContext>{TransactionSecurityContext.CREATE_CONTEXT,
+        	TransactionSecurityContext.CREATE_WITH_PAYMENT_CONTEXT
+        };
+
+        System.runAs(TestUtility.generateReadOnlyUser()) {
+            for (TransactionSecurityContext context: allContexts) {
+                try {
+                    context.actionAllowed();
+                    System.assert(false, 'Expected permission to be denied for ' + context);
+                } catch (SecurityUtils.SecurityException ex) {
+                    System.debug('SecurityException : ' + ex);
+                } catch (Exception e) {
+                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
+                }
+            }
+        }
+    }
 }
