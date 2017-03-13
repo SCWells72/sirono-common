@@ -79,7 +79,9 @@ public with sharing class PreServiceSchedulerBatch implements Database.Batchable
             }
 
             if (memberList.size() > 0) {
-                insert memberList;
+                if (CmpnMemberSecurityContext.SB_CREATE_CONTEXT.actionAllowed()) {
+                    INSERT memberList;
+                }
             }
         }
     }
