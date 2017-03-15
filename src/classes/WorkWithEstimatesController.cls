@@ -5,10 +5,12 @@ public without sharing class WorkWithEstimatesController {
 	@AuraEnabled
     public static List<EstimateWrapper> getAllEstimates(String groupFilter, String additionalFilter) {
 		String selectedPatients = '';
+		List<String> additionalFilters = new List<String>();
 		if(!String.isBlank(additionalFilter)) {
-			List<String> additionalFilters = additionalFilter.split(',');
+			additionalFilters = additionalFilter.replace('\'', '').split(',');
 			selectedPatients += ' AND Patient__c IN :additionalFilters';
 		}
+
 		List<EstimateWrapper> allEstimates = new List<EstimateWrapper>();
 		User u = [
 			SELECT	ContactId

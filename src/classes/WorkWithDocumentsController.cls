@@ -5,7 +5,7 @@ public with sharing class WorkWithDocumentsController {
     public static final String  DEFAULT_ORDER        = 'LastModifiedDate';
     public static final String  DEFAULT_ORDER_TYPE   = ' DESC ';
     public static final String  LIMIT_SUFFIX         = ' LIMIT 50000';
-    public static final String  FOLDER_NAME          = 'Sirono';
+    public static       String  FOLDER_NAME          = 'Sirono';
 	public static final Integer WAIT_DAY			 = -30;
 
     @AuraEnabled

@@ -23,6 +23,7 @@ private class WorkWithEstimatesControllerTest {
 
 	        patientContact = TestUtility.generatePatientContact();
 	      	patientContact.AccountId = testAcc.Id;
+	      	patientContact.Medical_Record_Number__c = '1234512345';
 	        insert patientContact;
 
 	        internalUser = new User (
