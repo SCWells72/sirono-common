@@ -6,8 +6,8 @@ public without sharing class WorkWithEstimatesController {
     public static List<EstimateWrapper> getAllEstimates(String groupFilter, String additionalFilter) {
 		String selectedPatients = '';
 		if(!String.isBlank(additionalFilter)) {
-			selectedPatients += ' AND Patient__c IN (';
-			selectedPatients += additionalFilter.removeEnd(',') + ')';
+			List<String> additionalFilters = additionalFilter.split(',');
+			selectedPatients += ' AND Patient__c IN :additionalFilters';
 		}
 		List<EstimateWrapper> allEstimates = new List<EstimateWrapper>();
 		User u = [
@@ -26,7 +26,7 @@ public without sharing class WorkWithEstimatesController {
 
 			if (groupFilter != null && groupFilter != '') {
 				if (groupFilter == 'Unpaid') {
-					query += ' AND Encounter__c.Balance__c > 0 AND (Encounter__c.Total_Payments__c = null OR Encounter__c.Total_Payments__c = 0)';
+					query += ' AND Encounter__c.Balance__c > 0 AND (Encounter__c.Total_Payments__c = null OR Encounter__c.Total_Payments__c = 0) '; 
 				}
 				if (groupFilter == 'Paid') {
 					query += ' AND ((Encounter__c.Balance__c > 0 AND Encounter__c.Total_Payments__c > 0 ) OR Encounter__c.Balance__c <= 0) ';
