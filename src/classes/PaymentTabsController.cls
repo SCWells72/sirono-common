@@ -25,7 +25,7 @@ public with sharing class PaymentTabsController
 	{
 		User currentUser = [SELECT Id, ContactId FROM User WHERE Id = :userInfo.getUserId()];
 		Contact guarantor = [SELECT id FROM Contact WHERE id = :currentUser.ContactId];
-		AddToPaymentPlan addToPlan = new AddToPaymentPlan(guarantor.id);
+		AddToPaymentPlanLightning addToPlan = new AddToPaymentPlanLightning(guarantor.id);
 		addToPlan.doNext();
 		return addToPlan.submit();
 	}
@@ -288,7 +288,6 @@ public with sharing class PaymentTabsController
 	private static void doDeletePaymentPlan(String csrfToken, String jwtToken, String guarantorId, String paymentPlanExtId)
 	{
 		PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper = PaymentTabsController.callPaymentPlanRequest(csrfToken, jwtToken, guarantorId, paymentPlanExtId);
-		System.debug('doDeletePaymentPlan');
 		HttpRequest req = new HttpRequest();
 		req.setMethod('DELETE');
 		req.setHeader('Authorization', 'JWT ' + jwtToken);
@@ -301,7 +300,6 @@ public with sharing class PaymentTabsController
 		{
 			res = new Http().send(req);
 			responseBody = res.getBody();
-			System.debug('responseBody:'+responseBody);
 		}
 		catch (Exception e)
 		{
@@ -310,7 +308,6 @@ public with sharing class PaymentTabsController
 
 		if (res.getStatusCode() != null && res.getStatusCode() == 204)
 		{
-			System.debug('objPaymentPlanWrapper:'+objPaymentPlanWrapper);
 			if (objPaymentPlanWrapper != null)
 			{
 				List<Charge_Group__c> chargeGroups = objPaymentPlanWrapper.chargeGroupRecords;
@@ -321,7 +318,6 @@ public with sharing class PaymentTabsController
 				paymentPlanObj.Cancellation_Date__c = System.today();
 
 				Boolean hasError = false;
-				System.debug('chargeGroups:'+chargeGroups);
 				for (Charge_Group__c cg : chargeGroups)
 				{
 					hasError = PaymentTabsController.callChargeGroupRequest(String.valueof(cg.Sirono_ID__c), jwtToken, cg);
