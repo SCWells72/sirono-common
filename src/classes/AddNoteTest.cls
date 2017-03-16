@@ -1,91 +1,96 @@
-/*
-* @author Sirono
-* @version 1.0.1
-* @Date: 05-02-2016
-* @ Unit class  for the AddNote class.     
-* Do the code coverage for the AddNote class
-*/
+/**
+ * This class is use to test the logic of Add Note Class.
+ **/
 
 @isTest
 private class AddNoteTest {
-    /*Coverage the code for the AddNote class and init the variable call the doSubmit*/
+	
+    /**
+     * This method tests the logic of Error message when necessary parameters are not pass.
+     **/
     static testMethod void SubmitElse() {
-        Test.startTest();
-        TestUtility objUtility = new TestUtility();
-
-        //Create Guarantor Contact record.
+        // Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        insert guarantorContact;
+        INSERT guarantorContact;
 
-        //Create Patient Contact record.
+        // Create Patient Contact record.
         Contact patientContact = TestUtility.generatePatientContact();
-        insert patientContact;
+        INSERT patientContact;
 
-        //Create Payment Plan record.
+        // Create Payment Plan record.
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan.active__c = true;
         paymentPlan.Delinquent__c = true;
-        insert paymentPlan;
+        INSERT paymentPlan;
 
-        //Create Add Note object and Call Add Note constructor.
+        Test.startTest();
+        // Create Add Note object and Call Add Note constructor.
         AddNote conOb = new AddNote(new ApexPages.StandardController(paymentPlan));
         
-         /* Call Submit method and It will give an error "Please provide all details".
-         * beacuse of we can't enter charge group Id and note.
-         * It will cover code coverage of Else part in submit method.
-         */
+        // Call Submit method and It will give an error "Please provide all details".
+        // beacuse of we can't enter charge group Id and note.
+        // It will cover code coverage of Else part in submit method.
         conOb.doSubmit();
-
-        /* Check System Assert.
-         * It will give an error "Please provide all details" beacuse of we can't enter charge group Id and note.
-         */
-        List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for(Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Please provide all details.')) isError  = true;
-    }
         Test.stopTest();
+
+        // Check System Assert.
+        // It will give an error "Please provide all details" beacuse of we can't enter charge group Id and note.
+        List<ApexPages.Message> msgList = ApexPages.getMessages();
+        Boolean isError = false;
+        for (Apexpages.Message msg: msgList) {
+            if (msg.getDetail().contains('Please provide all details.'))
+            	isError = true;
+        }
+        System.assert(isError, 'Expected error message Please provide all details.');
     }
 
+    /**
+     * This method tests the logic submit method without Parameter.
+     **/
     static testMethod void noParameterTest() {
-        Test.startTest();
-        TestUtility objUtility = new TestUtility();
-
+        // Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        insert guarantorContact;
+        INSERT guarantorContact;
 
+	// Create Patient Contact record.
         Contact patientContact = TestUtility.generatePatientContact();
-        insert patientContact;
+        INSERT patientContact;
 
+	// Create Payment Plan record.
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan.active__c = true;
         paymentPlan.Delinquent__c = true;
-        insert paymentPlan;
+        INSERT paymentPlan;
 
-
+        Test.startTest();
+        // Create object of class and call doSubmit method.
         AddNote conOb = new AddNote(new ApexPages.StandardController(paymentPlan));
         conOb.doSubmit();
-
-        List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(2, msgList.size());
         Test.stopTest();
+
+	// Check system assert. It will give an exception beacuse of we can't pass charge group Id and note.
+        List<ApexPages.Message> msgList = ApexPages.getMessages();
+        Boolean isError = false;
+        for (Apexpages.Message msg: msgList) {
+            if (msg.getDetail().contains('Divide by 0'))
+            	isError = true;
+        }
+        System.assert(isError, 'Missing required details & arithmetic rule violation throws an Exception during doSubmit');
     }
 
-    /* Coverage the code for the AddNote class and init the variable,
-     * call if condition of doSubmit Method and call if conditon of doAddNote method
-     */
+    /**
+     * This method tests the logic of Add Note functionality with necessary parameter and Web Request. 
+     **/
     static testMethod void webServiceCallout() {
-        TestUtility objUtility = new TestUtility();
-
-        //Create Guarantor Contact record.
+        // Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
 
-        //Create Payment Plan record.
+        // Create Payment Plan record.
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
-
-        //Create Add Note object and Call Add Note constructor.
+        
+        // Create Add Note object and Call Add Note constructor.
         AddNote conOb = new AddNote(new ApexPages.StandardController(paymentPlan));
-        //Set charge group Id and note value.
+        // Set charge group Id and note value.
         conOb.chargegroupId = 'test';
         conOb.noteText = 'test class';
 
@@ -93,47 +98,51 @@ private class AddNoteTest {
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        /* Call Submit method and It will successfully save the record.
-         * Set variables for call the Webservice.
-         * we get response message "Created Successfully!".
-         */
+        // Call Submit method and It will successfully save the record.
         conOb.doSubmit();
-        //Check System Assert.
+        Test.stopTest();
+        
+        // Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for(Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Created Successfully!')) isError  = true;
+        Boolean isSuccess = false;
+        for (Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Created Successfully!'))
+            	isSuccess = true;
         }
+        System.assert(isSuccess, 'Successfully Note Create');
     }
 
-    /* Coverage the code for the AddNote class and init the variable,
-     * call if condition of doSubmit Method and call else conditon of doAddNote method
-     */
-    static testMethod void submit() {
-        TestUtility objUtility = new TestUtility();
-
-        //Create Guarantor Contact record.
+    /**
+     * This method test/code coverage of "doAddNote" method's else part.
+     * We have passed all necessary parameters but not set web service related parameter (Status, Status Code)
+     * so we got error message like Web Request fail.
+     **/
+    static testMethod void doAddNoteElse() {
+        // Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
 
-        //Create Payment Plan record.
+        // Create Payment Plan record.
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
 
-        //Create Add Note object and Call Add Note constructor.
+        // Create Add Note object and Call Add Note constructor.
         AddNote conOb = new AddNote(new ApexPages.StandardController(paymentPlan));
-        //Set charge group Id and note value.
+        // Set charge group Id and note value.
         conOb.chargegroupId = 'test';
         conOb.noteText = 'test class';
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        /* Call Submit method and It will give an error.
-         * Beacuse of we can't set the parameter for webservice to cover code of Else part in Submit method.
-         */
+        // Call Submit method and It will give an error.
         conOb.doSubmit();
-        //Check System Assert.
-        List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(4, msgList.size());
         Test.stopTest();
-
+        
+        // Check System Assert, Exception occures during payment process because missing and bad requires.
+        List<ApexPages.Message> msgList = ApexPages.getMessages();
+        Boolean isError = false;
+        for (Apexpages.Message msg: msgList) {
+            if (msg.getDetail().contains('JWT_Token'))
+            	isError = true;
+        }
+        System.assert(isError, 'JWT_Token Exception during Payment Process');
     }
 }

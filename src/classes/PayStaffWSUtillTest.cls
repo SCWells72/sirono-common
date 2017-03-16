@@ -1,17 +1,28 @@
-/*
- * @author Sirono
- * @version 1.0.1
- * @Date: 05-02-2016
- * @PayStaffWSUtillTest Test Class for the Code Covrege of PayStaffWSUtill Class.
- */
+/**
+ * This class is use to test the logic of PayStaffWSUtill Class.
+ **/
 
 @isTest
 private class PayStaffWSUtillTest {
+	
+    /**
+     * This method is used to setup preliminary data to let's all testmethods to execute as expected.
+     **/
     @testSetup static void setupSironoSettings(){
+        Test.startTest();
         SironoSettingsUtil.initializeSironoSettings();
+        Test.stopTest();
+        
+        // Check system assert.
+        Sirono_Settings__c sironoSettings = Sirono_Settings__c.getOrgDefaults();
+        System.assertNotEquals(sironoSettings, null, 'Should have failed due to sironoSettings are null.');
     }
 
-    static testMethod void myUnitTest() {
+    /**
+     * This method tests the logic of expYearOptions is populate or not.
+     **/
+    @isTest
+    static void checkExpYearPopulated() {
         PayStaffWSUtill.fetchGuarantorContact('');
         PayStaffWSUtill.fetchGuarantorId(null);
         PayStaffWSUtill.fetchChargeGroupIds(PayStaffWSUtill.fetchChargeGroupList(null));
@@ -21,76 +32,133 @@ private class PayStaffWSUtillTest {
         List<SelectOption> expYearOptions = PayStaffWSUtill.expYearOptions;
         List<SelectOption> expMonthOptions = PayStaffWSUtill.expMonthOptions;
 
+        Test.startTest();
         PayStaffWSUtill.TokenAuthResponse tokenAuthResponse = new PayStaffWSUtill.TokenAuthResponse();
         tokenAuthResponse.token = 'testToken';
+        Test.stopTest();
+        
+        // Check System assert.
+        System.assertNotEquals(expYearOptions, null, 'Should have failed due to expYearOptions are null.');
     }
 
-    static testMethod void testStatementUrlMap() {
-        Test.startTest();
+    /**
+     * This method tests the logic of Statement Url.
+     **/
+    @isTest
+    static void checkStatementUrlMap() {
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 200;
-        //TestUtility.body = '<input type=\'hidden\' name=\'csrfmiddlewaretoken\' value=\'';
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
 
+        Test.startTest();
         HttpResponse res = PayStaffWSUtill.getStatementUrls('12345');
-
         String contentType = res.getHeader('Content-Type');
-        System.assert(contentType == 'application/json');
-        System.assertEquals(200, res.getStatusCode());
         Test.stopTest();
+        
+        // Check system assert.
+        System.assert(contentType == 'application/json', 'Should have failed due to contentType is null.');
+        System.assertEquals(200, res.getStatusCode(), 'Should have failed due to status code is not 200.');
     }
 
-    static testMethod void testStatementUrlMap1() {
-        Test.startTest();
+    /**
+     * This method tests the logic of get CSRF Token.
+     **/
+    @isTest
+    static void checkCSRFToken() {
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 200;
         TestUtility.body = 'sirono<input type=\'hidden\' name=\'csrfmiddlewaretoken\' value=\'';
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
 
+        Test.startTest();
         string str = PayStaffWSUtill.getCSRFToken();
         Test.stopTest();
+        
+        // Check System assert.
+        System.assertNotEquals(str, null, 'Should have failed due to CSRF Token is null.');
     }
 
+    /**
+     * This method tests the logic of Cent to Dollar Convert with rounded.
+     **/
     @isTest
-    static void testConvertToDollars() {
+    static void convertCentToDollarsRounded() {
         Decimal inputCents = 150;
+        
+        Test.startTest();
         Decimal outputDollars = PayStaffWSUtill.convertToDollars(inputCents);
+        Test.stopTest();
+        
+        // Check system assert.
         System.assert('1.5'.equals(outputDollars.format()), 'Expected 1.5, but got ' + outputDollars);
     }
 
+    /**
+     * This method tests the logic of Cent to Dollar Convert.
+     **/
     @isTest
-    static void testConvertToDollars1() {
+    static void convertCentToDollars() {
         string inputCents = '100';
+        Test.startTest();
         string dollarAmount = PayStaffWSUtill.convertToDollars(inputCents);
-        System.assertEquals('1.00', dollarAmount);
+        Test.stopTest();
+        
+        // Check system assert.
+        System.assert('1.00'.equals(dollarAmount), 'Expected 1.00, but got ' + dollarAmount);
     }
+    
+    /**
+     * This method tests the logic of Dollar to Cent Convert.
+     **/
     @isTest
-    static void testConvertToCents() {
+    static void convertDollarToCents() {
         String inputDollars = '100';
+        Test.startTest();
         String outputCents = PayStaffWSUtill.convertToCents(inputDollars);
+        Test.stopTest();
+        
+        // Check system assert.
         System.assert('10000'.equals(outputCents), 'Expected 10000, but got ' + outputCents);
     }
 
+    /**
+     * This method tests the logic of Fetch Patient Id method.
+     **/
     @isTest
-    static void main() {
+    static void checkPatientId() {
         Contact con = new Contact(LastName = 'Sirono', Patient_Id__c = 123456);
-        insert con;
-        PayStaffWSUtill.fetchPatientId(con);
+        INSERT con;
+        
+        Test.startTest();
+        String patientId = PayStaffWSUtill.fetchPatientId(con);
         PayStaffWSUtill.addNoteWSCallout(null, null);
+        Test.stopTest();
+        
+        // Check System assert.
+        System.assertEquals(Decimal.valueOf(patientId), con.Patient_Id__c, 'Should have failed due to different patient id.');
     }
 
+    /**
+     * This method tests the logic of fetch CG with acc sub status and fetch patient contact with CG.
+     **/
     @isTest
-    static void testChargeGroupByAccountSubStatus() {
+    static void testChargeGroupByAccSubStatus() {
         Contact patientContact = TestUtility.generatePatientContact();
-        insert patientContact;
+        INSERT patientContact;
+        
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        insert guarantorContact;
+        INSERT guarantorContact;
+        
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12345);
-        insert chargeGroup;
+        INSERT chargeGroup;
+        
+        Test.startTest();
         PayStaffWSUtill.fetchChargeGroupListbyaccountsubstatus(guarantorContact);
         Contact objContact = PayStaffWSUtill.fetchPatientContactWithCGConstraints(patientContact.Id);
-
-        System.assertEquals(objContact.Id, patientContact.Id);
+        Test.stopTest();
+        
+        // Check system assert.
+        System.assertEquals(objContact.Id, patientContact.Id, 'Should have failed due to Contact Id differ.');
     }
 
     /**
