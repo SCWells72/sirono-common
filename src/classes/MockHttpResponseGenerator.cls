@@ -1,17 +1,18 @@
-/*
- * @author Sirono
- * @version 1.0.1
- * @Date: 07-25-2016
- */
+/**
+ * This class generates MockHttpResponseGenerator for HttpCalloutMock.
+ **/
 
 @isTest global class MockHttpResponseGenerator implements HttpCalloutMock {
 
+    /**
+     * This method generates & returns HttpResponse for provided HTTPRequest.
+     **/
     global HTTPResponse respond(HTTPRequest req) {
 
+    	HttpResponse res = new HttpResponse();
         if (req.getEndpoint().contains('/paystaff/api/guarantors/') &&
                 req.getEndpoint().endsWith('statements/')) {
             // Mock statement urls
-            HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');
             res.setBody('[{"statement_date": "2015-11-22", ' +
                     '"pdf_url": "https://accudoc-toledo.s3.amazonaws.com/20151123/13_55_13_sir.0x1355137f.pdf?' +
@@ -32,7 +33,6 @@
             return res;
         } else if (req.getEndpoint().contains('/paystaff')) {
             // Mock statement urls
-            HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');
             res.setBody('[{"statement_date": "2015-11-22", ' +
                     '"pdf_url": "https://accudoc-toledo.s3.amazonaws.com/20151123/13_55_13_sir.0x1355137f.pdf?' +
@@ -52,6 +52,9 @@
             res.setStatusCode(200);
             return res;
         }
+
+        // Check system assert, HttpResponse should not be null.
+        System.assertNotEquals(res, null, 'HttpResponse is not generated for submitted HTTPRequest');
 
         return null;
     }

@@ -1,27 +1,25 @@
-/*
-* @author Sirono
-* @version 1.0.1
-* @Date: 08-12-2016
-* @ Unit class  for the CaseUtil class.
-* Do the code coverage for the CaseUtil class
-*/
+/**
+ * This class is use to test the logic of CreateCaseManual Class.
+ **/
 
 @isTest
 public class CreateCaseManualTest {
 
+    /**
+     * This method checks logic implemented for create case record manually.
+     **/
     @isTest
     Public static void testCallCreateCaseManual() {
-        test.startTest();
-        TestUtility objUtility = new TestUtility();
         Contact objContact = TestUtility.generateguarantorContact();
-        insert objContact;
+        INSERT objContact;
 
         Charge_Group__c objCG = TestUtility.generateChargeGroup(objContact.Id, null, 1214);
-        insert objCG;
+        INSERT objCG;
 
         Transaction__c txn = TestUtility.generateTransaction(objCG, -100, 'Credit');
-        insert txn;
+        INSERT txn;
 
+        Test.startTest();
         Apexpages.currentpage().getparameters().put('guarantorId', objContact.id);
         ApexPages.StandardController sc = new ApexPages.StandardController(objContact);
         CreateCaseManual objManual = new CreateCaseManual(sc);
@@ -29,42 +27,48 @@ public class CreateCaseManualTest {
         objManual.cancel();
         objManual.doNext();
 
+	// Check system assert, No charge group is selected.
         System.assertEquals(false, objManual.chargeGroupsSelected, 'Charge group selected');
-        for (ChargeGroupWrapper cg : objManual.chrageGroupList) {
+        for (ChargeGroupWrapper cg: objManual.chrageGroupList) {
             cg.isSelected = true;
         }
         objManual.doNext();
+        // Check system assert, charge group is selected.
         System.assertEquals(true, objManual.chargeGroupsSelected, 'No Charge group selected');
 
         objManual.caseNotes = 'wedwew';
         objManual.gotoCaseCreation();
 
-        List<Case> lstCase = [Select id from case];
-        System.assertEquals(0, lstCase.Size(), 'Case Exist.');
+        List<Case> lstCase = [SELECT Id FROM Case];
+        // Check system assert, No Case record exist.
+        System.assert(lstCase.isEmpty(), 'Case Exist.');
         objManual.submit();
-        lstCase = [Select id from case];
-        System.assertEquals(1, lstCase.Size(), 'One Case Created.');
+        Test.stopTest();
 
-        test.stopTest();
+        lstCase = [SELECT Id, Status FROM Case];
+        // Check system assert, Case record created with some values.
+        System.assertEquals(1, lstCase.Size(), 'One Case Created.');
+        System.assertEquals('New', lstCase[0].Status, 'Case created with different Status');
     }
 
+    /**
+     * This method checks logic for create case record manually for patient.
+     **/
     @isTest
-    Public static void testCallCreateCaseManualForPatent() {
-        test.startTest();
-
-        TestUtility objUtility = new TestUtility();
+    Public static void testCallCreateCaseManualForPatient() {
         Contact objContactguarantor = TestUtility.generateguarantorContact();
-        insert objContactguarantor ;
+        INSERT objContactguarantor ;
 
         Contact objContact = TestUtility.generatePatientContact();
-        insert objContact;
+        INSERT objContact;
 
         Charge_Group__c objCG = TestUtility.generateChargeGroup(objContactguarantor.Id, objContact .id, 121343);
-        insert objCG;
+        INSERT objCG;
 
         Transaction__c txn = TestUtility.generateTransaction(objCG, 100, 'Credit');
-        insert txn;
+        INSERT txn;
 
+        Test.startTest();
         Apexpages.currentpage().getparameters().put('guarantorId', objContact.id);
         Apexpages.currentpage().getparameters().put('reason', 'Bankruptcy');
         ApexPages.StandardController sc = new ApexPages.StandardController(objContact);
@@ -75,65 +79,76 @@ public class CreateCaseManualTest {
         objmanual.refresh();
         objManual.caseType = 'General';
 
-
+	// Check system assert, No Charge Group Selected.
         System.assertEquals(false, objManual.chargeGroupsSelected, 'Charge group selected');
-        for (ChargeGroupWrapper cg : objManual.chrageGroupList) {
+        for (ChargeGroupWrapper cg: objManual.chrageGroupList) {
             cg.isSelected = true;
         }
         objManual.doNext();
+        // Check system assert, Charge Group Selected.
         System.assertEquals(true, objManual.chargeGroupsSelected, 'No Charge group selected');
 
         objManual.caseNotes = 'wedwew';
         objManual.gotoCaseCreation();
 
-        //10-19-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
-        //Get Coverage detail for selected charge group, so we insert Converage record.
+        // Get Coverage detail for selected charge group, so we insert Converage record.
         Coverage__c objcoverage = new Coverage__c();
         objcoverage.Name = 'Test';
-        insert objcoverage;
-        
-        //Get Coverage detail for selected charge group, so we insert Charge_Group_Coverage_Junction__c record.
-        //Set Charge Group Id and Coverage Id.
+        INSERT objcoverage;
+
+        // Get Coverage detail for selected charge group, so we insert Charge_Group_Coverage_Junction__c record.
+        // Set Charge Group Id and Coverage Id.
         Charge_Group_Coverage_Junction__c objCGCoverage = new Charge_Group_Coverage_Junction__c();
         objCGCoverage.Name = 'Test';
         objCGCoverage.Charge_Group__c = objManual.chargeGroup.Id;
         objCGCoverage.Coverage__c = objcoverage.Id;
-        insert objCGCoverage;
-        
+        INSERT objCGCoverage;
+
         objmanual.refresh();
-        
-        List<Case> lstCase = [Select id from case]; 
-        System.assertEquals(0,lstCase.Size() ,'Case Exist.');    
+
+        List<Case> lstCase = [SELECT Id FROM Case];
+        // Check system assert, No Case record created.
+        System.assert(lstCase.isEmpty() ,'Case Exist.');
         objManual.submit();
-        lstCase = [Select id from case];
+        Test.stopTest();
+
+        lstCase = [SELECT Id, Status FROM Case];
+        // Check system assert, Case record created.
         System.assertEquals(1, lstCase.Size(), 'One Case Created.');
-
-        test.stopTest();
-
+        System.assertEquals('New', lstCase[0].Status, 'Case created with different Status');
     }
 
+    /**
+     * This method checks logic for create case record without any case record type id.
+     **/
     @isTest
     Public static void testCallCreateCaseManualWithoutanyID() {
-        test.startTest();
-
-        TestUtility objUtility = new TestUtility();
         Contact objContactguarantor = TestUtility.generateguarantorContact();
-        insert objContactguarantor ;
+        INSERT objContactguarantor ;
 
         Contact objContact = TestUtility.generatePatientContact();
-        insert objContact;
+        INSERT objContact;
 
         Charge_Group__c objCG = TestUtility.generateChargeGroup(objContactguarantor.Id, objContact .id, 121343);
-        insert objCG;
+        INSERT objCG;
 
         Transaction__c txn = TestUtility.generateTransaction(objCG, -100, 'Credit');
-        insert txn;
+        INSERT txn;
 
-
+        Test.startTest();
         ApexPages.StandardController sc = new ApexPages.StandardController(objContact);
         CreateCaseManual objManual = new CreateCaseManual(sc);
         objManual.gotoCaseCreation();
-        test.stopTest();
+        Test.stopTest();
+        
+        // Check system assert.
+        List<ApexPages.Message> msgList = ApexPages.getMessages();
+        Boolean isError = false;
+        for (Apexpages.Message msg: msgList) {
+            if (msg.getDetail().contains(label.Case_Type_Require)) isError = true;
+        }
+        // Check system assert, Error occurrence during process.
+        System.assert(isError, 'Should have gotten an error message because Case type required');
     }
     
     /**

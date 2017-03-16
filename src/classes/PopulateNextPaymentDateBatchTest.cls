@@ -1,26 +1,22 @@
-/*
- * @author Viraj Rana
- * @version 1.0.1
- * @Date: 09-26-2016
- * @PopulateNextPaymentDateBatchTest Test Class for the unit test of PopulateNextPaymentDateBatch Class.
- */
+/**
+ * This class tests methods implemented in PopulateNextPaymentDateBatch class.
+ **/
 
 @isTest
 public class PopulateNextPaymentDateBatchTest {
-    Public Static List<Statement__c> lstStatement = new List<Statement__c>();
-    static testMethod void main() {
-
-        TestUtility objTestUtil = new TestUtility();
-
+    
+    /**
+     * This method checks Next Payment Date gets Populated.
+     **/
+    static testMethod void checkNextPaymentDatePopulated() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        insert guarantorContact;
+        INSERT guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        insert patientContact;
+        INSERT patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        insert paymentPlan;
-
+        INSERT paymentPlan;
 
         Test.startTest();
 
@@ -28,12 +24,28 @@ public class PopulateNextPaymentDateBatchTest {
         system.schedule('schJob', '0 11 22 * 9 ?', eosb);
         Test.stopTest();
 
+        // Check system assert, Check NextPaymentDate__c should be populated.
+        List<Payment_Plan__c> paymentPlans = [SELECT Id, NextPaymentDate__c FROM Payment_Plan__c
+                WHERE Guarantor__c = :guarantorContact.Id];
+        System.assertNotEquals(paymentPlans[0].NextPaymentDate__c, null, 'NextPaymentDate__c should not be null for Payment Plan.');
     }
 
-    static testMethod void pain() {
+    /**
+     * This method verifies CRON expression that is generated internally.
+     **/
+    static testMethod void checkInternalCRONExpression() {
+        String CRON_EXP = '0 0 0 15 3 ? 2022';
+
         Test.startTest();
-        PopulateNextPaymentDateBatch eosb = new PopulateNextPaymentDateBatch();
-        Database.executeBatch(eosb);
+        // Schedule the test job
+        String jobId = System.schedule('ScheduleApexClassTest', CRON_EXP, new PopulateNextPaymentDateBatch());
+
         Test.stopTest();
+
+        // Get the information from the CronTrigger object
+        CronTrigger ct = [SELECT Id, CronExpression, TimesTriggered, NextFireTime FROM CronTrigger WHERE Id = :jobId];
+
+        // Check expressions are the same, CRON Expression should be same.
+        System.assertEquals(CRON_EXP, ct.CronExpression, 'CRON Expression does not match with submitted job.');
     }
 }

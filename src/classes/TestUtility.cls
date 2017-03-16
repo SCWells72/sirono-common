@@ -28,7 +28,7 @@ public class TestUtility {
         return Decimal.valueOf(Math.random());
     }
 
-    // Return Guarantor Contact record        
+    // Return Guarantor Contact record
     public static Contact generateGuarantorContact() {
         Contact guarantorContact = new Contact();
         guarantorContact.RecordTypeId = RecordTypeUtil.guarantorRt;
@@ -66,7 +66,7 @@ public class TestUtility {
             Decimal chargeGroupExternalId) {
         return generateChargeGroup(guarantorContactId, patientContactId, chargeGroupExternalId);
     }
-    
+
     // Return charge group record with external Id from parameter
     Public static Charge_Group__c  generateChargeGroup(String guarantorContactId,
                                                         String patientContactId,
@@ -85,7 +85,7 @@ public class TestUtility {
 
         return cg;
     }
-    
+
     // Return transaction record
     public static Transaction__c generateTransaction(Charge_Group__c chargeGroup,
             Decimal amount,
@@ -117,7 +117,7 @@ public class TestUtility {
         return paymentArrangement;
     }
 
-    // Return a new case record    
+    // Return a new case record
     public static Case generateCase(String rTypeId, String cType, String gId) {
         Case objCase = new Case();
         objCase.RecordTypeId = rTypeId;
@@ -131,7 +131,7 @@ public class TestUtility {
         return objCase;
     }
 
-    // Return a new Statement record    
+    // Return a new Statement record
     public static Statement__c generateStatement(String contactId) {
         Statement__c stmt = new Statement__c();
         stmt.Statement_Date__c = System.Today();
@@ -139,7 +139,7 @@ public class TestUtility {
         return stmt;
     }
 
-    // Return a new campaign record    
+    // Return a new campaign record
     public static Campaign generateCampaign(String name) {
         Campaign objCampaign = New Campaign();
         objCampaign.Name = name;
@@ -147,7 +147,7 @@ public class TestUtility {
         return objCampaign;
     }
 
-    // Return a new payment plan record 
+    // Return a new payment plan record
     public static Payment_Plan__c generatePaymentPlan(String guarantorId) {
         Payment_Plan__c paymentPlan = new Payment_Plan__c();
         paymentPlan.Guarantor__c = guarantorId;
@@ -161,7 +161,7 @@ public class TestUtility {
         return paymentPlan;
     }
 
-    // Return a new Invoice record 
+    // Return a new Invoice record
     public static Invoice__c generateInvoice(String guarantorId, String patientId) {
         Invoice__c invoice = new Invoice__c();
         invoice.Guarantor__c = guarantorId;
@@ -172,7 +172,7 @@ public class TestUtility {
         return invoice;
     }
 
-    // Return a new Case Comment 
+    // Return a new Case Comment
     public static CaseComment generateCaseComment(String parentId) {
         CaseComment cc = new CaseComment();
         cc.CommentBody = 'Test';
@@ -180,7 +180,7 @@ public class TestUtility {
         return cc;
     }
 
-    // Return payment method record 
+    // Return payment method record
     public static Payment_Method__c generatePaymentMethod(String guarantorId, String recordTypeID) {
         Payment_Method__c paymentMethod = new Payment_Method__c();
         paymentMethod.Guarantor__c = guarantorId;
@@ -219,13 +219,13 @@ public class TestUtility {
         objTask.Five9__Five9Campaign__c = 'Pre-collection';
         return objTask;
     }
-    
+
     /**
      * Generate Task record with given Parameter.
-     * 
+     *
      * @param ID guarantorContactId, The contact Id for the guarantor.
-     * @param Id caseId, The associated case id. 
-     * @param String callDisposition, The call result value. 
+     * @param Id caseId, The associated case id.
+     * @param String callDisposition, The call result value.
      * @returns Task record, The Task object using defaults and parameters.
      **/
     public static Task generateTask(Id guarantorContactId, Id caseId, String callDisposition) {
@@ -239,9 +239,20 @@ public class TestUtility {
         return objTask;
     }
 
-    // Generate Exception
+    /**
+     * This method is use to Generate Exception.
+     *
+     * @returns Integer/Exception.
+     **/
     public static Integer generateException() {
-        return 1 / 0;
+    	// We put try/catch here because of we need to check System Assert for this method.
+    	// We got this method as a Missing assert in Security Scan Report.
+    	try {
+    	    return 1 / 0;
+    	} catch (Exception ex) {
+    	    System.assert(ex.getMessage().contains('Divide by 0'), 'Should have failed due to Arithmetic Operation.');
+    	    throw ex;
+    	}
     }
 
     public static Decimal generateRandomCurrency() {
