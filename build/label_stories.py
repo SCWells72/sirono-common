@@ -16,14 +16,12 @@ state_hierarchy = {
 
 branch_state_map = {
     'master': 'finished',
-    'portal': 'finished',
     'qa': 'delivered',
     'prod': 'accepted'
 }
 
 branch_label_map = {
     'master': 'on_dev',
-    'portal': 'on_portalqa',
     'qa': 'on_qa',
     'prod': 'on_prod'
 }
@@ -55,14 +53,19 @@ def get_project_id(current_branch):
     return SF_PROJECT_ID
 
 
-def get_story(current_branch, tracker_id):
+def get_story(project_id, tracker_id):
     try:
-        get_url = TRACKER_STORY_URL.format(get_project_id(current_branch), tracker_id)
+        get_url = TRACKER_STORY_URL.format(project_id, tracker_id)
         response = requests.get(get_url, headers=HEADERS)
         response.raise_for_status()
+    except requests.exceptions.HTTPError as fourOfour:
+        if response.status_code == 404:
+            if project_id == SF_PROJECT_ID:
+                return get_story(PORTAL_PROJECT_ID, tracker_id)
+            else:
+                return None
     except requests.exceptions.RequestException as e:
-        if response.status_code != 404:
-            print e
+        print e
         return None
 
     return response.json()
@@ -100,7 +103,7 @@ def main():
         if branch_label_map.has_key(args.current_branch):
             print('Updating tracker stories addressed in branch: {}'.format(args.current_branch))
             for story_id in get_story_ids():
-                story_json = get_story(args.current_branch, story_id)
+                story_json = get_story(SF_PROJECT_ID, story_id)
                 if story_json:
                     update_story(args.current_branch, story_json)
         else:
