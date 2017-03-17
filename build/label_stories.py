@@ -72,7 +72,9 @@ def get_story(project_id, tracker_id):
 
 
 def update_story(current_branch, story_json):
+
     story_id = story_json["id"]
+    project_id = story_json["project_id"]
     branch_label = get_branch_label(current_branch)
 
     request_body = dict()
@@ -84,13 +86,15 @@ def update_story(current_branch, story_json):
             label_set.add(branch_label)
             request_body["labels"] = list(map((lambda x: {"name": x}), label_set))
 
-        if state_hierarchy[branch_state_map[current_branch]] > state_hierarchy.get(story_json[CURRENT_STATE], 0):
-            print("Update state for story: {} from: {} to: {}".format(story_id, story_json[CURRENT_STATE], branch_state_map[current_branch]))
-            request_body[CURRENT_STATE] = branch_state_map[current_branch]
+        if 'unscheduled' != story_json[CURRENT_STATE].lower():
+            if state_hierarchy[branch_state_map[current_branch]] > state_hierarchy.get(story_json[CURRENT_STATE], 0):
+                print("Update state for story: {} from: {} to: {}".format(story_id, story_json[CURRENT_STATE], branch_state_map[current_branch]))
+                request_body[CURRENT_STATE] = branch_state_map[current_branch]
 
         if request_body:
-            #print json.dumps(request_body)
-            response = requests.put(TRACKER_STORY_URL.format(get_project_id(current_branch), story_id), json=request_body, headers=HEADERS)
+            # print('\nstory retrieved: '+ json.dumps(story_json))
+            # print('\nstory to push: '+ json.dumps(request_body))
+            response = requests.put(TRACKER_STORY_URL.format(project_id, story_id), json=request_body, headers=HEADERS)
             response.raise_for_status()
 
 
@@ -104,6 +108,7 @@ def main():
             print('Updating tracker stories addressed in branch: {}'.format(args.current_branch))
             for story_id in get_story_ids():
                 story_json = get_story(SF_PROJECT_ID, story_id)
+
                 if story_json:
                     update_story(args.current_branch, story_json)
         else:
