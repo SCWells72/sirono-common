@@ -545,7 +545,15 @@
     </types>
     <types>
         <members>*</members>
+        <name>NamedCredential</name>
+    </types>
+    <types>
+        <members>*</members>
         <name>Network</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>NamedCredential</name>
     </types>
     <types>
         <members>Admin</members>

@@ -11,6 +11,11 @@ global class MockHttpResponseGeneratorTest implements HttpCalloutMock {
      **/
     global HTTPResponse respond(HTTPRequest req) {
 
+        if (req.getEndpoint().contains('/paystaff/token-auth/') ||
+                req.getEndpoint().contains('/portal/account/forgot-password/')) {
+            AuthRestClientMock authMock = new AuthRestClientMock();
+            return authMock.respond(req);
+        }
         // Create a fake response
         HttpResponse res = new HttpResponse();
         res.setHeader('Content-Type', 'application/json');

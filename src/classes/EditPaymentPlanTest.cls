@@ -986,7 +986,7 @@ private class EditPaymentPlanTest {
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
         TestUtility.responsebody = PaymentPlanJSONParsing.testResponse();
-        TestUtility.errorBody = '{"kind":"Payments Exception","errors":{"non_field_errors":["Amount exceeds selected charge groups"]}}';
+        TestUtility.errorBody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_EXISTING_PLAN);
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         objEditPaymentPlan.doSubmit();        
         Test.stopTest();
@@ -1054,7 +1054,7 @@ private class EditPaymentPlanTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
-        TestUtility.errorBody = '{"kind":"Payments Exception","errors":["Credit card number is invalid.","Merchant account does not support payment instrument."]}';
+        TestUtility.errorBody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_LIST);
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         objEditPaymentPlan.doSubmit();
         Test.stopTest();
@@ -1122,7 +1122,7 @@ private class EditPaymentPlanTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
-        TestUtility.errorBody = '{"kind":"Payments Exception","errors":{"chargegroups":["Invalid hyperlink - Object does not exist."],"guarantor":["Invalid hyperlink - Object does not exist."]}}';
+        TestUtility.errorBody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_CHARGEGROUPS);
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         objEditPaymentPlan.doSubmit();
         objEditPaymentPlan.doTesting();       
@@ -1220,7 +1220,7 @@ private class EditPaymentPlanTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
-        TestUtility.Errorbody  = '{"kind":"Validation exception","errors":[{"non_field_errors":"Cannot directly change ChargeGroups on an existing plan"}]}';
+        TestUtility.Errorbody  = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.VALIDATION_EXISTING_PLAN);
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         objEditPaymentPlan.doSubmit();
         objEditPaymentPlan.doTesting();
@@ -1358,7 +1358,7 @@ private class EditPaymentPlanTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
-        TestUtility.Errorbody  = '{"non_field_errors":["Cannot directly change ChargeGroups on an existing plan"]}';
+        TestUtility.Errorbody  = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.VALIDATION_EXISTING_PLAN);
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         objEditPaymentPlan.doSubmit();
         objEditPaymentPlan.doTesting();

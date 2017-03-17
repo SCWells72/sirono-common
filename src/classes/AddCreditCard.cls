@@ -42,7 +42,7 @@ public with sharing class AddCreditCard {
     public Contact gc;
     public Sirono_Settings__c PaymentPlanSettings = new Sirono_Settings__c();
     public Boolean isActivePaymentPlan {get;set;}
-    //Adding values to the picklist 
+    //Adding values to the picklist
     public List<SelectOption> paymentPlanTypeOptions {
         get {
             if (paymentPlanTypeOptions == null) {
@@ -77,7 +77,7 @@ public with sharing class AddCreditCard {
         protected set;
     }
 
-    //Constructor for initializing variables 
+    //Constructor for initializing variables
     public AddCreditCard() {
         dctotalAmount = 0;
         username = PayStaffWSUtill.un;
@@ -101,7 +101,7 @@ public with sharing class AddCreditCard {
                 }
             }
             chargeGroupId = '';
-            
+
             //10-12-2016: Viraj Rana - Tracker #131459561: Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
             isActivePaymentPlan = checkPaymentPlanExist(guarantorRecordId);
         }
@@ -159,7 +159,7 @@ public with sharing class AddCreditCard {
         }
         return pg;
     }
-    
+
     /*11-17-2016: Viraj Rana - Tracker #127404553
      *It is used to get Payment Plan Setting.
      *It is called in VF page,
@@ -170,11 +170,11 @@ public with sharing class AddCreditCard {
          PaymentPlanSettings = new Sirono_Settings__c();
          PaymentPlanSettings = SironoSettingsUtil.getPaymentPlanSettings();
     }
-    
+
     //Controller Method invoked from Visualforce page
     public void doSubmit() {
         try {
-            
+
             /*
             * 08-19-2016: Sirono - Tracker # 127324171
             * Method for check the amount validation.
@@ -202,7 +202,7 @@ public with sharing class AddCreditCard {
             // Debug error response
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'ERROR: ' + e.getMessage()));
         }
-    }    
+    }
     //10-12-2016: Viraj Rana - Tracker #131459561: Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
     public boolean checkPaymentPlanExist(string guarantorRecordId) {
         boolean blnIsError = false;
@@ -216,13 +216,13 @@ public with sharing class AddCreditCard {
         }
         return blnIsError;
     }
-       
+
     /*
     * 08-19-2016: Sirono - Tracker # 127324171
     * Method for check the amount validation.
     * 09-30-2016: Viraj Rana - Tracker #127404553: Validate PaymentPlan against custom settings to check Monthly Installment Amount
     * based on Minimum Installment Amount and Maximum number of Installments.
-    */ 
+    */
     Public boolean checkAmountValidation() {
         boolean blnIsError = false;
         if ((planType.trim().equalsIgnoreCase('promise') &&
@@ -251,43 +251,43 @@ public with sharing class AddCreditCard {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'Amount cannot exceed balance.'));
                 blnIsError = true;
             }
-            
+
             decimal tempAmount = decimal.valueof(planType.trim().equalsIgnoreCase('promise') ? promiseAmount : amount);
-            
+
             if(tempAmount < PaymentPlanSettings.Min_Installment_Amount__c){
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
                     'Monthly amount must be equal to or greater than $' + PaymentPlanSettings.Min_Installment_Amount__c + '.'));
                 blnIsError = true;
             }
-            
+
             if(tempAmount >= PaymentPlanSettings.Min_Installment_Amount__c) {
                 integer totalInstallment = integer.valueof((dctotalAmount/tempAmount).round(System.RoundingMode.CEILING));
                 integer minimumInstallmentAmount = 0;
-                
+
                 system.debug('Min Installment Amount : ' + PaymentPlanSettings.Min_Installment_Amount__c);
                 system.debug('Max Installment : ' + PaymentPlanSettings.Max_Number_Plan_Installments__c);
                 system.debug('dctotalAmount : ' + dctotalAmount);
                 system.debug('tempAmount : ' + tempAmount);
-                
+
                 if (PaymentPlanSettings.Max_Number_Plan_Installments__c > 0) {
                     minimumInstallmentAmount = integer.valueof((dctotalAmount/PaymentPlanSettings.Max_Number_Plan_Installments__c).round(System.RoundingMode.CEILING));
                 }
-                
+
                 if (totalInstallment > PaymentPlanSettings.Max_Number_Plan_Installments__c) {
                     ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
                         'This monthly amount would exceed ' + PaymentPlanSettings.Max_Number_Plan_Installments__c + ' installments.' +
                         ' The minimum allowed installment amount is $' + minimumInstallmentAmount + '.'));
-                    blnIsError = true;                
+                    blnIsError = true;
                 }
             }
         }
         return blnIsError;
     }
-    
+
     /*
     * 08-19-2016: Sirono - Tracker # 127324171
     * Method for check the Card validation.
-    * 09-13-2016: Viraj Rana - Tracker #130117819:   Credit Card Error Messaging Method to check the Card validation. 
+    * 09-13-2016: Viraj Rana - Tracker #130117819:   Credit Card Error Messaging Method to check the Card validation.
     * 09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31.
     */
     Public boolean checkCardValidation() {
@@ -365,17 +365,15 @@ public with sharing class AddCreditCard {
 
     // Method for add credit card.
     private void doAddCreditCard(String csrfToken, String jwtToken) {
-        //doTesting(); return;
 
         String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '",';
         if (planType != null && planType.trim().equalsIgnoreCase('auto')) {
-            planValue = '32772';
             requestData += '"plan_type":"' + planType + '",' +
                     '"plan_value":' + planValue + ',' +
                     '"installment_amount":' + PayStaffWSUtill.convertToCents(amount) + ',' +
                     '"execute_on_day":' + executeOnDay + ',' +
                     '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + ',' +
-                    '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/",' +
+                    '"guarantor":" ' + 'callout:sirono_server/paystaff/api/guarantors/' + guarantorId + '/",' +
                     '"active":true,' +
                     '"credit_card":{' +
                     '"method":"credit",' +
@@ -390,12 +388,11 @@ public with sharing class AddCreditCard {
                     '"city":"' + city + '"' +
                     '}' + '}';
         } else if (planType != null && planType.trim().equalsIgnoreCase('promise')) {
-            planValue = '1700';
             requestData += '"plan_type":"' + planType + '",' +
                     '"plan_value":' + planValue + ',' +
                     '"installment_amount":' + PayStaffWSUtill.convertToCents(promiseAmount) + ',' +
                     '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + ',' +
-                    '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/",' +
+                    '"guarantor":" ' + 'callout:sirono_server/paystaff/api/guarantors/' + guarantorId + '/",' +
                     '"active":true}';
         }
 
@@ -405,7 +402,7 @@ public with sharing class AddCreditCard {
         req.setMethod('POST');
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paymentplan/');
+        req.setEndpoint('callout:sirono_server/paystaff/api/paymentplan/');
         req.setBody(requestData);
 
         try {
@@ -434,7 +431,7 @@ public with sharing class AddCreditCard {
             System.debug(responseBody);
             if (responseBody.Contains('non_field_errors') && responseBody.Contains('Validation exception')) {
                 JSONParser parser = JSON.createParser(responseBody);
-                WrapperErrorArray wrpPaymentPlanobj = (WrapperErrorArray) parser.readValueAs(WrapperErrorArray .class);
+                WrapperErrorArray wrpPaymentPlanobj = (WrapperErrorArray) parser.readValueAs(WrapperErrorArray.class);
                 if (wrpPaymentPlanobj != null && wrpPaymentPlanobj.errors.size() > 0) {
                     List<WrapperErrorArray.Errors> lstError = wrpPaymentPlanobj.errors;
                     for (WrapperErrorArray.Errors obj : lstError) {
@@ -474,7 +471,7 @@ public with sharing class AddCreditCard {
             }
         }
     }
-    
+
    /*
     * #130125231 : Enable "Fill Name and Address on File" functionality.
     * fill the address,city,state,zip variable with the guarantor information.
@@ -487,16 +484,16 @@ public with sharing class AddCreditCard {
         state = gc.MailingState;
         zip = gc.MailingPostalCode;
     }
-    
+
     /*
-    * 09-16-2016: Viraj Rana 
+    * 09-16-2016: Viraj Rana
     *  Call this method to test
     */
     Public void doTesting() {
         responseBody = PaymentPlanJSONParsing.testResponse();
         parseResponse(responseBody);
     }
-    
+
     /*
     * 08-17-2016: Sirono - Tracker # 127940071
     *  parse the Response and create a payment plan record.
@@ -506,12 +503,12 @@ public with sharing class AddCreditCard {
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
         objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorRecordId,
                 null, chargeGroupId);
-        Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord; 
+        Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
         paymentPlanObj.Name = String.valueof(paymentPlanObj.Sirono_ID__c);
 
-	if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
-	    UPSERT paymentPlanObj;
-	}
+        if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
+            UPSERT paymentPlanObj;
+        }
 
         List<Charge_Group__c> lstCG = new List<Charge_Group__c>();
         lstCG = objPaymentPlanWrapper.chargeGroupRecords;
@@ -520,7 +517,7 @@ public with sharing class AddCreditCard {
             cg.Payment_Plan__c = paymentPlanObj.Id;
         }
         if (ChargeGroupSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-            UPDATE lstCG;	
+            UPDATE lstCG;
         }
     }
 }

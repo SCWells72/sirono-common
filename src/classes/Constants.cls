@@ -43,9 +43,11 @@ public class Constants {
     public static final String PAYMENT = 'Payment';
     public static final String SERVICE = 'Service';
     public static final String UNKNOWN = 'Unknown';
+
+    //Constants for PaymentPlans
+    public static final String AUTOMATIC = 'Automatic';
+    public static final String MANUAL = 'Manual';
     
     // Constant variable for Security Context Unit Testing Nagative Profile.
     public static final String READ_ONLY_PROFILE = 'Read Only';
-
-    private Constants() {}
 }

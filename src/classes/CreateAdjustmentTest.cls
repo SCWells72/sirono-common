@@ -49,12 +49,12 @@ private class CreateAdjustmentTest {
 
         // Call Create Adjustment constructor with Selected charge group records and also call doNext, submit methods.
         objCreateAdjustment = new CreateAdjustment(new ApexPages.StandardController(guarantorContact));
-        for (ChargeGroupWrapper objChargeGroupWrapper: objCreateAdjustment.chrageGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objCreateAdjustment.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
         
         Test.startTest();
-        
+
         // check any chargegroup is selected or not.
         // We select all charge groups in above so this method is run successfully and will proceed next step.
         objCreateAdjustment.doNext();
@@ -68,10 +68,10 @@ private class CreateAdjustmentTest {
         objCreateAdjustment.submit();
         
         Test.stopTest();
-        
+
         // Check System Assert.
         // It will give an error "Please provide all details" beacuse of we can't enter Adjustment Amount.
-        List<ApexPages.Message> msgList = ApexPages.getMessages();        
+        List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
         for (Apexpages.Message msg: msgList) {
             if (msg.getDetail().contains('Please provide all details.')) isError = true;
@@ -131,11 +131,11 @@ private class CreateAdjustmentTest {
 
             // Call Create Adjustment constructor with Selected charge group with chargegroupId records and also call doNext, submit methods.
             objCreateAdjustment = new CreateAdjustment(new ApexPages.StandardController(guarantorContact));
-            for (ChargeGroupWrapper objChargeGroupWrapper: objCreateAdjustment.chrageGroupList) {
+            for (ChargeGroupWrapper objChargeGroupWrapper : objCreateAdjustment.chargeGroupList) {
                 objChargeGroupWrapper.isSelected = true;
                 objCreateAdjustment.chargegroupId = objChargeGroupWrapper.cg.ID;
             }
-            
+
             Test.startTest();
             // We enter Adjustment Amount value = 10 and Adjustment Type = Auto.
             objCreateAdjustment.amount = '10';
@@ -150,11 +150,11 @@ private class CreateAdjustmentTest {
         
             // Call Submit method and It will give an error.
             // beacuse of we can't call webservice in this method.
-            objCreateAdjustment.submit();            
+            objCreateAdjustment.submit();
             Test.stopTest();
 
             // Check System Assert, Exception occures during create adjustment process because missing or bad requires.
-            List<ApexPages.Message> msgList = ApexPages.getMessages();        
+            List<ApexPages.Message> msgList = ApexPages.getMessages();
 	    Boolean isError = false;
 	    for (Apexpages.Message msg: msgList) {
 	        if (msg.getDetail().contains('JWT EXCEPTION')) isError = true;
@@ -221,7 +221,7 @@ private class CreateAdjustmentTest {
         Apexpages.currentPage().getParameters().put('guarantorId', g.Id);
         Apexpages.currentPage().getParameters().put('paymentPlanExtId', '121212');
         objCreateAdjustment = new CreateAdjustment(new ApexPages.StandardController(g));
-        for (ChargeGroupWrapper cgw: objCreateAdjustment.chrageGroupList) {
+        for (ChargeGroupWrapper cgw : objCreateAdjustment.chrageGroupList) {
             cgw.isSelected = true;
         }
         
@@ -241,12 +241,12 @@ private class CreateAdjustmentTest {
         // We set all variables as per requirement to save the record.
         // Set variables for call the Webservice.
         // Set Adjustment Amount and Adjustment Type.
-        objCreateAdjustment.submit();        
+        objCreateAdjustment.submit();
         Test.stopTest();
         
         // Check System Assert.
         // We will received Created Successfully message.
-        List<ApexPages.Message> msgList = ApexPages.getMessages();        
+        List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isSuccess = false;
         for (Apexpages.Message msg: msgList) {
             if (msg.getDetail().contains('Created Successfully!')) isSuccess = true;
@@ -321,7 +321,7 @@ private class CreateAdjustmentTest {
             Apexpages.currentPage().getParameters().put('guarantorId', g.Id);
             Apexpages.currentPage().getParameters().put('paymentPlanExtId', '121212');
             objCreateAdjustment = new CreateAdjustment(new ApexPages.StandardController(g));
-            for (ChargeGroupWrapper cgw: objCreateAdjustment.chrageGroupList) {
+            for (ChargeGroupWrapper cgw : objCreateAdjustment.chrageGroupList) {
                 cgw.isSelected = true;
             }
         
@@ -339,11 +339,11 @@ private class CreateAdjustmentTest {
         
             // Call Submit method and It will give an error.
      	    // Beacuse of we set the different parameter for webservice to cover code of Else part in Submit method.
-            objCreateAdjustment.submit();            
+            objCreateAdjustment.submit();
             Test.stopTest();
 
             // Check system assert, Missing required details & arithmetic rule violation should throw an exception.
-	    List<ApexPages.Message> msgList = ApexPages.getMessages();        
+	    List<ApexPages.Message> msgList = ApexPages.getMessages();
 	    Boolean isError = false;
 	    for (Apexpages.Message msg: msgList) {
 	        if (msg.getDetail().contains('Please provide all details.')) isError = true;
@@ -369,12 +369,12 @@ private class CreateAdjustmentTest {
         System.runAs(u) {
             Contact g = TestUtility.generateguarantorContact();
             INSERT g;
-    
+
             Test.startTest();
             CreateAdjustment objCreateAdjustment = new CreateAdjustment(new ApexPages.StandardController(g));
             Test.stopTest();
         }
-    
+
         // Check System Assert. We got Error message Amount must be Greater than Zero.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
