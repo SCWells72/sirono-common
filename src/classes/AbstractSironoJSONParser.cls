@@ -1,6 +1,6 @@
 /**
  * Superclass for all JSON Parsers for Sirono JSON responses
- *
+ *  
  */
 
 public virtual class AbstractSironoJSONParser {

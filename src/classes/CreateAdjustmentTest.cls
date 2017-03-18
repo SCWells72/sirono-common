@@ -221,7 +221,7 @@ private class CreateAdjustmentTest {
         Apexpages.currentPage().getParameters().put('guarantorId', g.Id);
         Apexpages.currentPage().getParameters().put('paymentPlanExtId', '121212');
         objCreateAdjustment = new CreateAdjustment(new ApexPages.StandardController(g));
-        for (ChargeGroupWrapper cgw : objCreateAdjustment.chrageGroupList) {
+        for (ChargeGroupWrapper cgw : objCreateAdjustment.chargeGroupList) {
             cgw.isSelected = true;
         }
         
@@ -321,7 +321,7 @@ private class CreateAdjustmentTest {
             Apexpages.currentPage().getParameters().put('guarantorId', g.Id);
             Apexpages.currentPage().getParameters().put('paymentPlanExtId', '121212');
             objCreateAdjustment = new CreateAdjustment(new ApexPages.StandardController(g));
-            for (ChargeGroupWrapper cgw : objCreateAdjustment.chrageGroupList) {
+            for (ChargeGroupWrapper cgw : objCreateAdjustment.chargeGroupList) {
                 cgw.isSelected = true;
             }
         

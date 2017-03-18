@@ -14,20 +14,20 @@ public with sharing class RestClientConstants {
 
 
     public final static Map<String, String> CHARGE_GROUP_URLS = new Map<String, String>{
-    // 0 - the chargegroup sirono id
+            // 0 - the chargegroup sirono id
             CHARGEGROUP_KEY => 'callout:sirono_server/paystaff/api/chargegroups/{0}'
 
     };
 
     public final static Map<String, String> GUARANTOR_URLS = new Map<String, String>{
-    // 0 - the guarantor id
+            // 0 - the guarantor id
             STATEMENTS => 'callout:sirono_server/paystaff/api/guarantors/{0}/statements/'
     };
 
     public final static Map<String, String> PAYMENT_PLAN_URLS = new Map<String, String>{
-    // 0 - the payment plan external id
+            // 0 - the payment plan external id
             ADD_CHARGEGROUP_KEY => 'callout:sirono_server/paystaff/api/paymentplan/{0}/add_chargegroups/',
-    // 0 - playmentPlanExtId
+            // 0 - playmentPlanExtId
             PAYMENT_PLAN_KEY => 'callout:sirono_server/paystaff/api/paymentplan/{0}'
     };
 

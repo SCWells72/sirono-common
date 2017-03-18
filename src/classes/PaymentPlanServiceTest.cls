@@ -84,7 +84,7 @@ public with sharing class PaymentPlanServiceTest {
         try {
             PaymentPlanService.addChargeGroup(PLAN_SIRONO_ID, new String[]{'1962'});
         } catch (SironoServiceException ex) {
-            System.assertEquals('Unknown chargegroups requested: 1962', ex.getMessage());
+            System.assertEquals('Unknown chargegroup requested: 1962', ex.getMessage());
             expectedFailure = true;
         }
         Test.stopTest();
