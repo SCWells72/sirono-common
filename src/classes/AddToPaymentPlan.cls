@@ -9,12 +9,11 @@ public with sharing class AddToPaymentPlan {
     public Boolean chargeGroupsSelected {get; set;}
     public String guarantorId {get; set;}
     public String guarantorName {get; set;}
-    public String chargeGroupId {get; set;}
+    public String[] chargeGroupIds {get; set;}
     public String paymentPlanId {get; set;}
     public String paymentPlanExtId {get; set;}
     public List<ChargeGroupWrapper> chargeGroupList {get; set;}
 
-    // Constructor of a class and initialize the variables.
     public AddToPaymentPlan() {
         chargeGroupsSelected = false;
         chargeGroupList = new List<ChargeGroupWrapper>();
@@ -33,35 +32,34 @@ public with sharing class AddToPaymentPlan {
         }
 
         if (guarantorRecordId != null) {
-            Contact gc = PayStaffWSUtill.fetchGuarantorFilterCGByAcctSubStatus(guarantorRecordId, PayStaffWSUtill.CGConstraints);
+            Contact gc = GuarantorDao.getGuarantorFilterCGByAcctSubStatus(guarantorRecordId, Constants.CGConstraints);
             guarantorName = PayStaffWSUtill.fetchGuarantorName(gc);
             guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
-            for (ChargeGroupWrapper cgw : PayStaffWSUtill.fetchChargeGroupList(gc)) {
+            for (ChargeGroupWrapper cgw : ChargeGroupWrapper.buildList(gc)) {
                 if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
                     chargeGroupList.add(cgw);
                 }
             }
-            chargeGroupId = '';
+            chargeGroupIds = new String[]{};
         }
 
-        // Launch Add to Payment Plan from contact Guarantor record
         if (String.isBlank(paymentPlanExtId)) {
             paymentPlanExtId = getActivePaymentPlanId(guarantorRecordId);
             if (String.isBlank(paymentPlanExtId)) {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
-                        'No active Payment Plan exist for this Guarantor. Please click Cancel to go previous page.'));
+                        'No active Payment Plan exists for this Guarantor. Please click Cancel to go previous page.'));
             }
         }
     }
 
     /**
-    * Update the QueryString parameter value to fix the "URL No Longer Exists" error.
+    * Set the proper page on cancel
     */
     public PageReference cancel() {
         PageReference pg = null;
-        if (!isEmpty(paymentPlanId)) {
+        if (String.isNotBlank(paymentPlanId)) {
             pg = new PageReference('/' + paymentPlanId);
-        } else if (!isEmpty(guarantorRecordId)) {
+        } else if (String.isNotBlank(guarantorRecordId)) {
             pg = new PageReference('/' + guarantorRecordId);
         } else {
             pg = new PageReference('/home/home.jsp');
@@ -73,19 +71,23 @@ public with sharing class AddToPaymentPlan {
     //Check Charge group is selected or not.
     public PageReference doNext() {
         chargeGroupsSelected = false;
-        chargeGroupId = PayStaffWSUtill.fetchChargeGroupIds(chargeGroupList);
-        if (!isEmpty(chargeGroupId)) {
-            chargeGroupsSelected = true;
-        }
+        chargeGroupIds = getSelectedChargeGroupIds();
+        chargeGroupsSelected = chargeGroupIds.isEmpty();
+
         return null;
     }
 
-    //Check String is empty or not
-    private Boolean isEmpty(String str) {
-        return (str == null || str.trim().equals(''));
+    private List<String> getSelectedChargeGroupIds() {
+        Set<String> idSet = new Set<String>();
+        for (ChargeGroupWrapper cgw : chargeGroupList) {
+            if (cgw.isSelected) {
+                idSet.add(cgw.cg.Sirono_ID__c.format());
+            }
+        }
+        return new List<String>(idSet);
     }
 
-    //Get the Active Payment plan id
+    //Get the current guarantor's active PaymentPlan id
     private String getActivePaymentPlanId(String guarantorRecordId) {
 
         Payment_Plan__c activePaymentPlan = PaymentPlanDao.getActivePaymentPlan(guarantorRecordId);
@@ -96,11 +98,11 @@ public with sharing class AddToPaymentPlan {
     }
 
     /**
-     * Call addToPaymentPlanCall.
+     * Add the chargeGroup to the paymentplan.
      */
     public void submit() {
         try {
-            if (isEmpty(paymentPlanExtId) || isEmpty(guarantorId) || isEmpty(chargeGroupId)) {
+            if (String.isBlank(paymentPlanExtId) || String.isBlank(guarantorId) || !chargeGroupsSelected) {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
                         'Please provide all details.'));
                 if (Test.IsRunningTest()) {
@@ -117,29 +119,12 @@ public with sharing class AddToPaymentPlan {
     }
 
     /**
-     * Test enabler for submit
-     */
-    @TestVisible
-    private void setChargeGroupId(String cgId) {
-        chargeGroupId = cgId;
-    }
-
-    /**
-     * Test enabler for submit
-     */
-    @TestVisible
-    private void setGuarantorId(String gId) {
-        guarantorId = gId;
-    }
-
-    /**
-     * Call the sirono server to add the selected chargegroup to the payment plan then
-     * update the SF copy of the data
+     * Call the PaymentPlanService to add the selected chargegroups to the payment plan
      */
     private void addChargeGroup() {
 
         try {
-            PaymentPlanService.addChargeGroup(paymentPlanExtId, new String[] {chargeGroupId});
+            PaymentPlanService.addChargeGroups(paymentPlanExtId, chargeGroupIds);
         } catch (SironoServiceException se) {
             for (String err: se.errors) {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,

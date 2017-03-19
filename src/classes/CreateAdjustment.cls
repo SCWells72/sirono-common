@@ -78,7 +78,7 @@ public with sharing class CreateAdjustment {
             Contact gc = PayStaffWSUtill.fetchGuarantorContact(guarantorRecordId);
             guarantorName = PayStaffWSUtill.fetchGuarantorName(gc);
             guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
-            chargeGroupList = PayStaffWSUtill.fetchChargeGroupList(gc);
+            chargeGroupList = ChargeGroupWrapper.buildList(gc);
             chargeGroupId = '';
         }
     }

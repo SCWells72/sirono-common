@@ -214,7 +214,7 @@ public with sharing class PaymentPlanService extends AbstractService {
      * @param - String planId  The Sirono id of the plan.
      * @param -  List<String> chargegroupIds  The Sirono ids of the chargeGroups to add.
      */
-    public static void addChargeGroup(String planId,  List<String> chargegroupIds) {
+    public static void addChargeGroups(String planId,  List<String> chargegroupIds) {
 
         validatePlanId(planId);
         validateChargeGroupIds(chargegroupIds);

@@ -53,7 +53,7 @@ public with sharing class PaymentPlanServiceTest {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
         Test.startTest();
-        PaymentPlanService.addChargeGroup(PLAN_SIRONO_ID, new String[]{String.valueOf(CG_TO_ADD_ID)});
+        PaymentPlanService.addChargeGroups(PLAN_SIRONO_ID, new String[]{String.valueOf(CG_TO_ADD_ID)});
         Test.stopTest();
 
         Payment_Plan__c pp = [
@@ -82,7 +82,7 @@ public with sharing class PaymentPlanServiceTest {
         Boolean expectedFailure = false;
         Test.startTest();
         try {
-            PaymentPlanService.addChargeGroup(PLAN_SIRONO_ID, new String[]{'1962'});
+            PaymentPlanService.addChargeGroups(PLAN_SIRONO_ID, new String[]{'1962'});
         } catch (SironoServiceException ex) {
             System.assertEquals('Unknown chargegroup requested: 1962', ex.getMessage());
             expectedFailure = true;
@@ -103,7 +103,7 @@ public with sharing class PaymentPlanServiceTest {
         Boolean expectedFailure = false;
         Test.startTest();
         try {
-            PaymentPlanService.addChargeGroup('1492', new String[]{String.valueOf(CG_TO_ADD_ID)});
+            PaymentPlanService.addChargeGroups('1492', new String[]{String.valueOf(CG_TO_ADD_ID)});
         } catch (SironoServiceException ex) {
             System.assertEquals('Unknown Payment Plan: 1492', ex.getMessage());
             expectedFailure = true;
