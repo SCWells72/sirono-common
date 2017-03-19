@@ -552,10 +552,6 @@
         <name>Network</name>
     </types>
     <types>
-        <members>*</members>
-        <name>NamedCredential</name>
-    </types>
-    <types>
         <members>Admin</members>
         <members>Call Center Agent</members>
         <members>Call Center Manager</members>
