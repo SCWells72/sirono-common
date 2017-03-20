@@ -50,7 +50,6 @@ public with sharing class PaymentPlanDaoTest {
         System.assertEquals(pp, null, 'Expected null but got a paymentplan retrieved by PP sirono_id');
     }
 
-
     @isTest
     public static void getPaymentPlanBySironoIdTest() {
 
@@ -60,11 +59,24 @@ public with sharing class PaymentPlanDaoTest {
         System.assertEquals(PP_SIRONO_ID, pp.Sirono_ID__c, 'Expected Sirono_ID__c of '+PP_SIRONO_ID+' but got: '+pp.Sirono_ID__c);
     }
 
-
     @isTest
     public static void getPaymentPlanBySironoIdNotFoundTest() {
 
         Payment_Plan__c pp = PaymentPlanDao.getPaymentPlanBySironoId(88);
         System.assert(pp == null, 'Expected null paymentplan retrieved by sirono_id but got: '+pp);
+    }
+
+    @isTest
+    public static void upsertPlansTest() {
+
+        Payment_Plan__c pp = PaymentPlanDao.getPaymentPlanBySironoId(PP_SIRONO_ID);
+
+        pp.Active__c = false;
+        Test.startTest();
+        PaymentPlanDao.upsertPlans(new Payment_Plan__c[]{pp});
+        Test.stopTest();
+        pp = PaymentPlanDao.getPaymentPlanBySironoId(PP_SIRONO_ID);
+
+        System.assert(!pp.Active__c, 'Expected pp to be inactive');
     }
 }

@@ -128,4 +128,15 @@ public with sharing class GuarantorDaoTest {
         System.assertEquals(gt.Id, contact.Id);
         System.assertEquals(contact.Charge_Groups__r.get(0).Account_Sub_Status__c, Constants.ACCT_SUBSTATUS_PREINVOICED);
     }
+
+    @isTest
+    public static void getGuarantorTest() {
+        Contact gt1 = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
+        Contact gt2 = GuarantorDao.getGuarantor(gt1.Id);
+        System.assertEquals(gt1.Id, gt2.Id, 'Guarantor Ids should be the same');
+        System.assertEquals(GT_SIRONO_ID, gt2.Profile_Pointer_ID__c.toPlainString(),
+                'Expected Sirono_ID__c of ' + GT_SIRONO_ID + ' but got: ' + gt2.Profile_Pointer_ID__c.toPlainString());
+        System.assertEquals(RecordTypeUtil.guarantorRt, gt2.RecordTypeId,
+                'Expected RecordTypeId of ' + RecordTypeUtil.guarantorRt + ' but got: ' + gt2.RecordTypeId);
+    }
 }

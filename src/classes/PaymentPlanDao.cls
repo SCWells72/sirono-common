@@ -61,7 +61,7 @@ public with sharing class PaymentPlanDao extends AbstractDao{
      * Upsert the given list of Payment_Plan__c objects
      * @param - Payment_Plan__c the plans to be upserted
      */
-    public static void upsertPlan(List<Payment_Plan__c> paymentPlans) {
+    public static void upsertPlans(List<Payment_Plan__c> paymentPlans) {
         if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
             UPSERT paymentPlans;
         }

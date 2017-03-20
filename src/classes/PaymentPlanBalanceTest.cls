@@ -12,12 +12,12 @@ public class PaymentPlanBalanceTest {
 
         // Generate and insert initial Transaction, Charge Group, Guarantor, and Patient
         Contact patient = TestUtility.generatePatientContact();
-        patient.CreatedDate = Date.valueOf(newCreateDate);
+        patient.CreatedDate = newCreateDate;
         insert patient;
 
 
         Contact guarantor = TestUtility.generateGuarantorContact();
-        guarantor.CreatedDate = Date.valueOf(newCreateDate);
+        guarantor.CreatedDate = newCreateDate;
         insert guarantor;
 
 
@@ -31,7 +31,7 @@ public class PaymentPlanBalanceTest {
         }
 
         Payment_Method__c testPM = TestUtility.generatePaymentMethod(guarantor.Id, recordTypeMap.get('Credit Card'));
-        testPM.CreatedDate = Date.valueOf(newCreateDate);
+        testPM.CreatedDate = newCreateDate;
         insert testPM;
 
         Payment_Plan__c testPP = TestUtility.generatePaymentPlan(guarantor);
@@ -41,16 +41,16 @@ public class PaymentPlanBalanceTest {
         insert testPP;
 
         Charge_Group__c testCG = TestUtility.generateChargeGroup(guarantor.Id, patient.Id, 887887, testPP.Id);
-        testCG.CreatedDate = Date.valueOf(newCreateDate);
+        testCG.CreatedDate = newCreateDate;
         insert testCG;
 
         Service__c testService = TestUtility.generateService(testCG, TestUtility.generateRandomCurrency());
-        testService.Post_Date__c = Date.valueOf(newCreateDate);
+        testService.Post_Date__c = newCreateDate.date();
         insert testService;
 
         Transaction__c testTransaction = TestUtility.generateServiceTxn(testCG, testService.Amount__c, testService);
-        testTransaction.Post_Date__c = Date.valueOf(newCreateDate);
-        testTransaction.Transaction_Date__c = Date.valueOf(testPP.Plan_Value_Modified_Date__c);
+        testTransaction.Post_Date__c = newCreateDate;
+        testTransaction.Transaction_Date__c = testPP.Plan_Value_Modified_Date__c.date();
         insert testTransaction;
     }
 
@@ -88,8 +88,8 @@ public class PaymentPlanBalanceTest {
         insert newService;
 
         Transaction__c newServiceTransaction = TestUtility.generateServiceTxn(testCG, newService.Amount__c, newService);
-        newServiceTransaction.Post_Date__c = Date.valueOf(newService.Post_Date__c);
-        newServiceTransaction.Transaction_Date__c =  Date.valueOf(newServiceTransaction.Post_Date__c);
+        newServiceTransaction.Post_Date__c = newService.Post_Date__c;
+        newServiceTransaction.Transaction_Date__c =  newServiceTransaction.Post_Date__c.date();
         insert newServiceTransaction;
 
         Payment_Plan__c ppResults = [
@@ -159,7 +159,7 @@ public class PaymentPlanBalanceTest {
         insert pmt;
 
         Transaction__c secondTestTransaction = TestUtility.generatePaymentTxn(testCG, pmt.Amount__c, pmt);
-        secondTestTransaction.Transaction_Date__c = Date.valueOf(secondTestTransaction.Post_Date__c);
+        secondTestTransaction.Transaction_Date__c = secondTestTransaction.Post_Date__c.date();
         insert secondTestTransaction;
 
         Payment_Plan__c ppResults = [

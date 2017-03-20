@@ -15,9 +15,11 @@ public abstract with sharing class SironoRestClient {
     private String jwtToken;
     private String csrfToken;
     private Set<Integer> validStatuses;
+	private String endpointURL;
 
     {
         req = new HttpRequest();
+        req.setCompressed(true);
         http = new Http();
         validStatuses = new Set<Integer>{
                 RestClientConstants.HTTP_SUCCESS
@@ -30,15 +32,13 @@ public abstract with sharing class SironoRestClient {
      * @returns - SironoRestClient The SironoRestClient object, allows chaining.
      */
     public SironoRestClient getRequestor() {
-        addDefaults();
-        req.setMethod(RestClientConstants.GET);
-        return this;
+        return this.getRequestor(false);
     }
 
     /**
      * Configure the request for the GET method.
      *
-     * @params - Boolean skipDefaults If false do not include the defaults request settings.
+     * @params - Boolean skipDefaults If false, include the defaults request settings.
      * @returns - SironoRestClient The SironoRestClient object, allows chaining.
      */
     public SironoRestClient getRequestor(Boolean skipDefaults) {
@@ -179,7 +179,9 @@ public abstract with sharing class SironoRestClient {
      */
     public HttpResponse call() {
         try {
+
             res = http.send(req);
+
             if (!validStatuses.contains(res.getStatusCode())) {
                 logFailedRequest();
                 List<String> errors = processFailedResponse(res.getBody());
@@ -190,6 +192,10 @@ public abstract with sharing class SironoRestClient {
             throw e;
         } catch (Exception e) {
             System.debug('Exception encountered when calling Sirono service: ' + e.getMessage());
+            System.debug('>>>>>req.method: '+req.getMethod());
+            System.debug('>>>>>req.endpoint: '+req.getEndpoint());
+            System.debug('>>>>>req.Headers - '+RestClientConstants.AUTHORIZATION+': '+req.getHeader(RestClientConstants.AUTHORIZATION)+' '+RestClientConstants.CONTENT_TYPE+': '+req.getHeader(RestClientConstants.CONTENT_TYPE));
+            System.debug('>>>>>req.body: '+req.getBody());
 
             String message = String.format(HTTP_EXCEPTION_MSG, new String[]{
                     req.getMethod(),
@@ -292,7 +298,7 @@ public abstract with sharing class SironoRestClient {
     /**
      * Utility for getting the CSRF token.
      *
-     * @returns - String csrfToken The SCRF Token value.
+     * @returns - String csrfToken The CSRF Token value.
      */
     protected String getCsrf() {
         if (csrfToken == null) {
@@ -309,7 +315,7 @@ public abstract with sharing class SironoRestClient {
      */
     @TestVisible
     private List<String> processFailedResponse(String jsonString) {
-        System.debug(jsonString);
+        System.debug('processFailedResponse: '+jsonString);
         JSONParser parser = JSON.createParser(jsonString);
         WrapperBadResponse wrapper;
 
@@ -351,7 +357,7 @@ public abstract with sharing class SironoRestClient {
     /**
      *
      * Generally used to ensure that the sironoId (which is numeric) being passed in the url doesn't contain
-     * commas as that causes all kinds of grief and pain
+     * commas as that causes all kinds of grief and pain.
      */
     protected String stripCommas(String val) {
         return (String.isNotBlank(val) ? val.replaceAll(',', '') : val);
@@ -362,9 +368,11 @@ public abstract with sharing class SironoRestClient {
      * Return the given sironoId formatted as a chargegroup absolute URI
      */
     protected String asChargeGroupURL(String chargeGroupId) {
-        return String.format(RestClientConstants.CHARGE_GROUP_URLS.get(RestClientConstants.CHARGEGROUP_KEY), new String[]{
-                stripCommas(chargeGroupId)
-        });
+        String cgUrl = String.format(RestClientConstants.CHARGE_GROUP_URLS.get(RestClientConstants.CHARGEGROUP_KEY),
+                new String[]{stripCommas(chargeGroupId)
+				});
+
+        return resolveBaseURL(cgUrl);
     }
 
     /**
@@ -372,9 +380,34 @@ public abstract with sharing class SironoRestClient {
      * Return the given sironoId formatted as a paymentplan absolute URI
      */
     protected String asPaymentPlanURL(String planId) {
-        return String.format(RestClientConstants.PAYMENT_PLAN_URLS.get(RestClientConstants.PAYMENT_PLAN_KEY), new String[]{
+        String ppUrl =  String.format(RestClientConstants.PAYMENT_PLAN_URLS.get(RestClientConstants.PAYMENT_PLAN_KEY), new String[]{
                 stripCommas(planId)
-        });
+        		});
+
+        return resolveBaseURL(ppUrl);
+    }
+
+    /**
+     * Replace the named creds server placeholder with the actual endpointURL from the sirono_server named creds
+     */
+    protected String resolveBaseURL(String newURL) {
+        return newURL.replace(RestClientConstants.SIRONO_BASE_URL, getEndpointString());
+    }
+
+    /**
+     * Retrieve the actual endpointURL from the sirono_server named creds in order to resolve the urls in the JSON
+     */
+    protected String getEndpointString() {
+        if (endpointURL == null) {
+            NamedCredential nc = [
+                    SELECT DeveloperName, Endpoint, Id, MasterLabel, PrincipalType
+                    FROM NamedCredential
+                    WHERE DeveloperName = :RestClientConstants.SIRONO_NAMED_CREDS_ID
+                    LIMIT 1
+            ];
+            endpointURL = nc.Endpoint;
+        }
+        return endpointURL;
     }
 
 
@@ -414,7 +447,6 @@ public abstract with sharing class SironoRestClient {
          */
         public String getCsrfToken() {
             String csrfToken;
-
             // Skip the default request headers.
             HttpResponse res = getRequestor(true)
                     .url(RestClientConstants.AUTH_URLS.get(RestClientConstants.CSRF_KEY))

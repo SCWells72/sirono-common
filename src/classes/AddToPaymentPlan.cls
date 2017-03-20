@@ -33,7 +33,7 @@ public with sharing class AddToPaymentPlan {
 
         if (guarantorRecordId != null) {
             Contact gc = GuarantorDao.getGuarantorFilterCGByAcctSubStatus(guarantorRecordId, Constants.CGConstraints);
-            guarantorName = PayStaffWSUtill.fetchGuarantorName(gc);
+            guarantorName = GuarantorService.buildGuarantorDetailString(gc);
             guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
             for (ChargeGroupWrapper cgw : ChargeGroupWrapper.buildList(gc)) {
                 if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
@@ -70,9 +70,10 @@ public with sharing class AddToPaymentPlan {
 
     //Check Charge group is selected or not.
     public PageReference doNext() {
+
         chargeGroupsSelected = false;
         chargeGroupIds = getSelectedChargeGroupIds();
-        chargeGroupsSelected = chargeGroupIds.isEmpty();
+        chargeGroupsSelected = !chargeGroupIds.isEmpty();
 
         return null;
     }
@@ -81,7 +82,7 @@ public with sharing class AddToPaymentPlan {
         Set<String> idSet = new Set<String>();
         for (ChargeGroupWrapper cgw : chargeGroupList) {
             if (cgw.isSelected) {
-                idSet.add(cgw.cg.Sirono_ID__c.format());
+                idSet.add(cgw.cg.Sirono_ID__c.toPlainString());
             }
         }
         return new List<String>(idSet);
@@ -92,7 +93,7 @@ public with sharing class AddToPaymentPlan {
 
         Payment_Plan__c activePaymentPlan = PaymentPlanDao.getActivePaymentPlan(guarantorRecordId);
         if (activePaymentPlan!= null) {
-            return activePaymentPlan.Sirono_ID__c.format();
+            return activePaymentPlan.Sirono_ID__c.toPlainString();
         }
         return null;
     }

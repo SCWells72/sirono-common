@@ -26,7 +26,7 @@ public with sharing class PaymentPlanService extends AbstractService {
         private HttpResponse addToPlan(String planId, List<String> chargeGroupIds) {
 
             return postRequestor()
-                    .url(RestClientConstants.ADD_CHARGEGROUP_KEY, new String[] {PayStaffWSUtill.trimCommas(planId)})
+                    .url(RestClientConstants.ADD_CHARGEGROUP_KEY, new String[] {stripCommas(planId)})
                     .body(buildAddToPaymentPlanBody(chargeGroupIds))
                     .call();
 
@@ -42,7 +42,7 @@ public with sharing class PaymentPlanService extends AbstractService {
         private HttpResponse getPlan(String planId) {
 
             return getRequestor()
-                    .url(asPaymentPlanURL(planId))
+                    .url(RestClientConstants.PAYMENT_PLAN_KEY, new String[]{stripCommas(planId)})
                     .call();
 
         }
@@ -55,21 +55,19 @@ public with sharing class PaymentPlanService extends AbstractService {
          */
         @TestVisible
         private String buildAddToPaymentPlanBody(List<String> chargeGroupIds) {
-            JSONGenerator generator = JSON.createGenerator(false);
-
-            generator.writeStartObject();
-            generator.writeStringField(RestClientConstants.CSRF_JSON_KEY, getCsrf());
-
-            generator.writeFieldName(RestClientConstants.CHARGE_GROUPS);
-            generator.writeStartArray();
+            List<String> cgUrls = new List<String>();
             for (String chargeGroupId : chargeGroupIds) {
-                generator.writeString(asChargeGroupURL(chargeGroupId));
+                cgUrls.add(asChargeGroupURL(chargeGroupId));
             }
-            generator.writeEndArray();
 
-            generator.writeEndObject();
+            Map<String, Object> rawData = new Map<String,Object>{
+                    RestClientConstants.CHARGE_GROUPS => cgUrls,
+                    RestClientConstants.CSRF_JSON_KEY => getCsrf()
+            };
 
-            return generator.getAsString();
+            String body = JSON.serializePretty(rawData);
+            //System.debug('buildAddToPaymentPlanBody: '+body);
+            return body;
         }
     }
 
@@ -221,6 +219,8 @@ public with sharing class PaymentPlanService extends AbstractService {
 
         PaymentPlanRestClient client = new PaymentPlanRestClient();
         client.addToPlan(planId, chargeGroupIds);
+
+        client = new PaymentPlanRestClient();
         HttpResponse response = client.getPlan(planId);
         updateObjects(response.getBody(), chargegroupIds);
     }
@@ -265,7 +265,7 @@ public with sharing class PaymentPlanService extends AbstractService {
 
         Payment_Plan__c pmtPlan = wrapper.paymentPlanRecord;
         pmtPlan.Plan_Value_Modified_Date__c = Datetime.now();
-        PaymentPlanDao.upsertPlan(new Payment_Plan__c[]{pmtPlan});
+        PaymentPlanDao.upsertPlans(new Payment_Plan__c[]{pmtPlan});
 
         List<Charge_Group__c> cgList = wrapper.chargeGroupRecords;
         for (Charge_Group__c cg : cgList) {

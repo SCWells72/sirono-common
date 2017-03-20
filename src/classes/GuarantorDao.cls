@@ -1,12 +1,29 @@
 /**
  * Access Guarantor contact data
+ * TODO when we create a PatientDao, pull up a virtual ContactDao with common functionality
  */
 
 public with sharing class GuarantorDao extends AbstractDao {
 
+    public static Contact getGuarantor(String recordId) {
+        Contact gt = [
+                SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
+                        Medical_Record_Number__c, Name,
+                        Profile_Pointer_Id__c, MailingStreet,
+                        MailingCity, MailingState, MailingPostalCode, RecordTypeId
+                FROM Contact
+                WHERE Id = :recordId AND RecordTypeId = :RecordTypeUtil.guarantorRt
+                LIMIT 1
+        ];
+        return gt;
+    }
+
     public static Contact getGuarantorBySironoId(String sironoId) {
         Contact gt = [
-                SELECT Id, RecordTypeId, Profile_Pointer_ID__c
+                SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
+                        Medical_Record_Number__c, Name,
+                        Profile_Pointer_Id__c, MailingStreet,
+                        MailingCity, MailingState, MailingPostalCode, RecordTypeId
                 FROM Contact
                 WHERE RecordTypeId = :RecordTypeUtil.guarantorRt
                 AND Profile_Pointer_Id__c = :Decimal.valueOf(sironoId)
@@ -22,7 +39,7 @@ public with sharing class GuarantorDao extends AbstractDao {
                 SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
                         Medical_Record_Number__c, Name,
                         Profile_Pointer_Id__c, MailingStreet,
-                        MailingCity, MailingState, MailingPostalCode,
+                        MailingCity, MailingState, MailingPostalCode, RecordTypeId,
                 (
                         SELECT Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
                                 External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
@@ -55,7 +72,7 @@ public with sharing class GuarantorDao extends AbstractDao {
                 SELECT Id, Name, FirstName, MiddleName, LastName, Suffix, Birthdate, Salutation,
                         Medical_Record_Number__c, RecordType.DeveloperName, Social_Security_Number__c,
                         Profile_Pointer_Id__c, Patient_Id__c, HomePhone, MobilePhone, OtherPhone,
-                        MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet,
+                        MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet, RecordTypeId,
                     (
                         SELECT Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
                                 External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,

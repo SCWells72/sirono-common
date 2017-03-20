@@ -152,15 +152,17 @@ public with sharing class PayStaffWSUtill {
         return ob;
     }
 
-    //get the Guarantor Id from pass contact.
+    //get the Guarantor Id from given contact.
     public static String fetchGuarantorId(Contact gc) {
-        String guarantorId = '';
-        if (gc != null && gc.Profile_Pointer_Id__c != null) {
-            guarantorId = String.valueOf(gc.Profile_Pointer_Id__c);
-        } else if (Apexpages.currentPage() != null) {
-            handleErrorMessages(ApexPages.SEVERITY.ERROR, 'Guarantor Id does not exist!');
+        String sironoId = '';
+        try{
+            sironoId = GuarantorService.getGuarantorSironoId(gc);
+        } catch (SironoServiceException ex) {
+            if (Apexpages.currentPage() != null) {
+                handleErrorMessages(ApexPages.SEVERITY.ERROR, 'Guarantor Id does not exist!');
+            }
         }
-        return guarantorId;
+        return sironoId;
     }
 
     //get the Patient Id from passed contact.
@@ -176,34 +178,21 @@ public with sharing class PayStaffWSUtill {
 
     //get the Guarantor Name from passed contact.
     public static String fetchGuarantorName(Contact gc) {
-        String guarantorName = '';
-        guarantorName = gc.FirstName + (gc.MiddleName != null ? ' ' + gc.MiddleName : '')
-                + (gc.LastName != null ? ' ' + gc.LastName : '')
-                + (gc.Suffix != null ? ' ' + gc.Suffix : '')
-                + ' (DOB: ' + (gc.Birthdate != null ? gc.Birthdate.format() : '')
-                + ', MRN: ' + (gc.Medical_Record_Number__c != null ? gc.Medical_Record_Number__c : '')
-                + ')';
-        return guarantorName;
+        return GuarantorService.buildGuarantorDetailString(gc);
     }
 
     //get the charge group list
     public static List<ChargeGroupWrapper> fetchChargeGroupList(Contact gc) {
-        List<ChargeGroupWrapper> cgList = new List<ChargeGroupWrapper>();
-        if (gc != null && gc.Charge_Groups__r != null && gc.Charge_Groups__r.size() > 0) {
-            for (Charge_Group__c cg : gc.Charge_Groups__r) {
-                cgList.add(new ChargeGroupWrapper(cg, false));
-            }
-        }
-        return cgList;
+        return ChargeGroupWrapper.buildList(gc);
     }
 
     //get the charge group list based on the record type
+    //TODO - make sure we always retrieve the recordTypeId with every Contact & then this can move into the
+    //ChargeGroupWrapper.buildList method - without the recordType parameter
     public static List<ChargeGroupWrapper> fetchChargeGroupList(Contact gc, String recordType) {
         List<ChargeGroupWrapper> cgList = new List<ChargeGroupWrapper>();
-        if (gc != null && gc.Charge_Groups__r != null && gc.Charge_Groups__r.size() > 0 && recordType == 'Guarantor') {
-            for (Charge_Group__c cg : gc.Charge_Groups__r) {
-                cgList.add(new ChargeGroupWrapper(cg, false));
-            }
+        if (recordType == 'Guarantor') {
+            return ChargeGroupWrapper.buildList(gc);
         } else if (gc != null && gc.Charge_Groups_Patient__r != null
                 && gc.Charge_Groups_Patient__r.size() > 0 && recordType == 'Patient') {
             for (Charge_Group__c cg : gc.Charge_Groups_Patient__r) {
