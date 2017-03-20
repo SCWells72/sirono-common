@@ -92,7 +92,7 @@ public with sharing class AddToPaymentPlan {
     private String getActivePaymentPlanId(String guarantorRecordId) {
 
         Payment_Plan__c activePaymentPlan = PaymentPlanDao.getActivePaymentPlan(guarantorRecordId);
-        if (activePaymentPlan!= null) {
+        if (activePaymentPlan != null) {
             return activePaymentPlan.Sirono_ID__c.toPlainString();
         }
         return null;
@@ -123,7 +123,6 @@ public with sharing class AddToPaymentPlan {
      * Call the PaymentPlanService to add the selected chargegroups to the payment plan
      */
     private void addChargeGroup() {
-
         try {
             PaymentPlanService.addChargeGroups(paymentPlanExtId, chargeGroupIds);
         } catch (SironoServiceException se) {

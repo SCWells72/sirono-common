@@ -268,6 +268,7 @@ public with sharing class PaymentPlanService extends AbstractService {
         PaymentPlanDao.upsertPlans(new Payment_Plan__c[]{pmtPlan});
 
         List<Charge_Group__c> cgList = wrapper.chargeGroupRecords;
+        //TODO this should move into a method like: ChargeGroupService.putOnPlan(pmtPlan, wrapper.chargeGroupRecords)
         for (Charge_Group__c cg : cgList) {
             cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
             cg.Payment_Plan__c = pmtPlan.Id;

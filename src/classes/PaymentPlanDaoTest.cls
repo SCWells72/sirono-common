@@ -1,5 +1,5 @@
 /**
- * Created by mmartin on 3/14/17.
+ * Tests for the PaymentPlanDao methods
  */
 @IsTest
 public with sharing class PaymentPlanDaoTest {
@@ -68,8 +68,8 @@ public with sharing class PaymentPlanDaoTest {
 
     @isTest
     public static void upsertPlansTest() {
-
-        Payment_Plan__c pp = PaymentPlanDao.getPaymentPlanBySironoId(PP_SIRONO_ID);
+        Contact gt = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
+        Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
 
         pp.Active__c = false;
         Test.startTest();

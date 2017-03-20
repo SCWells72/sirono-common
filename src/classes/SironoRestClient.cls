@@ -19,7 +19,6 @@ public abstract with sharing class SironoRestClient {
 
     {
         req = new HttpRequest();
-        req.setCompressed(true);
         http = new Http();
         validStatuses = new Set<Integer>{
                 RestClientConstants.HTTP_SUCCESS
@@ -32,17 +31,17 @@ public abstract with sharing class SironoRestClient {
      * @returns - SironoRestClient The SironoRestClient object, allows chaining.
      */
     public SironoRestClient getRequestor() {
-        return this.getRequestor(false);
+        return this.getRequestor(true);
     }
 
     /**
      * Configure the request for the GET method.
      *
-     * @params - Boolean skipDefaults If false, include the defaults request settings.
+     * @params - Boolean addDefaults If true, include the default request settings.
      * @returns - SironoRestClient The SironoRestClient object, allows chaining.
      */
-    public SironoRestClient getRequestor(Boolean skipDefaults) {
-        if (!skipDefaults) {
+    public SironoRestClient getRequestor(Boolean addDefaults) {
+        if (addDefaults) {
             addDefaults();
         }
 
@@ -70,17 +69,17 @@ public abstract with sharing class SironoRestClient {
      * @returns - SironoRestClient The SironoRestClient object, allows chaining.
      */
     public SironoRestClient postRequestor() {
-        return postRequestor(false);
+        return postRequestor(true);
     }
 
     /**
      * Configure the request for the POST method.
      *
-     * @params - Boolean skipDefaults If false do not include the defaults request settings.
+     * @params - Boolean addDefaults If true, include the default request settings.
      * @returns - SironoRestClient The SironoRestClient object, allows chaining.
      */
-    public SironoRestClient postRequestor(Boolean skipDefaults) {
-        if (!skipDefaults) {
+    public SironoRestClient postRequestor(Boolean addDefaults) {
+        if (addDefaults) {
             addDefaults();
         }
         setSuccessStatuses(new Set<Integer>{
@@ -235,9 +234,10 @@ public abstract with sharing class SironoRestClient {
     }
 
     /**
-     * Utility for adding the default headers and time to a request.
+     * Utility for adding the default headers, compression & timeout to a request.
      */
     private void addDefaults() {
+        req.setCompressed(true);
         req.setHeader(RestClientConstants.AUTHORIZATION, getJwtHeaderValue());
         req.setHeader(RestClientConstants.CONTENT_TYPE, RestClientConstants.APPLICATION_JSON);
         req.setTimeout(RestClientConstants.DEFAULT_TIMEOUT);
@@ -429,8 +429,8 @@ public abstract with sharing class SironoRestClient {
          */
         public String getJwtToken() {
 
-            // Skip the default request headers.
-            HttpResponse res = postRequestor(true)
+            // Do not include the default request headers.
+            HttpResponse res = postRequestor(false)
                     .url(RestClientConstants.AUTH_URLS.get(RestClientConstants.TOKEN_KEY))
                     .body(RestClientConstants.TOKEN_BODY)
                     .call();
@@ -447,8 +447,8 @@ public abstract with sharing class SironoRestClient {
          */
         public String getCsrfToken() {
             String csrfToken;
-            // Skip the default request headers.
-            HttpResponse res = getRequestor(true)
+            // Do not include the default request headers.
+            HttpResponse res = getRequestor(false)
                     .url(RestClientConstants.AUTH_URLS.get(RestClientConstants.CSRF_KEY))
                     .call();
 

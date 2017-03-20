@@ -1,10 +1,10 @@
 /**
- * Created by mmartin on 3/20/17.
+ * GuarantorService
  */
 
 public with sharing class GuarantorService extends AbstractService {
 
-    //Get the Guarantor Id from the given contact.
+    //Get the Guarantor's Profile_Pointer_Id__c from the given contact.
     public static String getGuarantorSironoId(Contact contact) {
         String guarantorId = '';
         if (contact == null) {
@@ -23,7 +23,7 @@ public with sharing class GuarantorService extends AbstractService {
         return guarantorId;
     }
 
-    //get the Guarantor Name from passed contact.
+    //Cet the Guarantor details string from the given contact.
     public static String buildGuarantorDetailString(Contact gc) {
         String details = '';
         details = gc.FirstName + (gc.MiddleName != null ? ' ' + gc.MiddleName : '')

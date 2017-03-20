@@ -20,6 +20,7 @@ public with sharing class ChargeGroupWrapperTest {
         INSERT cgs;
     }
 
+    @isTest
     public static void buildListTest(){
         Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
         gt = GuarantorDao.getGuarantorAllActiveCG(gt.Id);
@@ -30,6 +31,7 @@ public with sharing class ChargeGroupWrapperTest {
                 'Expected '+gt.Charge_Groups__r.size()+' cg wrappers but got: '+wrapperList.size());
     }
 
+    @isTest
     public static void buildEmptyListTest(){
         Contact gt = TestUtility.generateGuarantorContact();
 
@@ -39,6 +41,7 @@ public with sharing class ChargeGroupWrapperTest {
                 'Expected '+gt.Charge_Groups__r.size()+' cg wrappers but got: '+wrapperList.size());
     }
 
+    @isTest
     public static void buildEmptyListNullTest(){
         Contact gt = TestUtility.generateGuarantorContact();
 

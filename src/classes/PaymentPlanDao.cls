@@ -1,5 +1,6 @@
 /**
  * DB functionality for PaymentPlans
+ * TODO eventually all the PPlan SOQl & DML should be here & then the PaymentPlanSecurityContext can become in innerclass here
  */
 
 public with sharing class PaymentPlanDao extends AbstractDao{
@@ -12,7 +13,7 @@ public with sharing class PaymentPlanDao extends AbstractDao{
     public static Payment_Plan__c getActivePaymentPlan(String guarantorId) {
 
         List<Payment_Plan__c> plans = [
-                SELECT Id, Sirono_ID__c
+                SELECT Id, Sirono_ID__c, Active__c
                 FROM Payment_Plan__c
                 WHERE Active__c = true
                 AND Sirono_ID__c != null
@@ -44,7 +45,7 @@ public with sharing class PaymentPlanDao extends AbstractDao{
     public static Payment_Plan__c getPaymentPlanBySironoId(Decimal sironoId) {
 
         List<Payment_Plan__c> plans = [
-                SELECT Id, Sirono_ID__c
+                SELECT Id, Sirono_ID__c, Active__c
                 FROM Payment_Plan__c
                 WHERE Sirono_ID__c = :sironoId
                 LIMIT 1
