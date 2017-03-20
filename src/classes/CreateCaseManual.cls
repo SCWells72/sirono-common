@@ -16,7 +16,7 @@ public with sharing class CreateCaseManual {
     public String guarantorId { get; set; }
     public String guarantorName { get; set; }
     public String chargeGroupId { get; set; }
-    public List<ChargeGroupWrapper> chrageGroupList { get; set; }
+    public List<ChargeGroupWrapper> chargeGroupList { get; set; }
     public Case caseObj { get; set; }
     public String caseType { get; set; }
     public Boolean caseTypeSelected { get; set; }
@@ -37,7 +37,7 @@ public with sharing class CreateCaseManual {
     */
     public CreateCaseManual(ApexPages.StandardController sc) {
         chargeGroupsSelected = false;
-        chrageGroupList = new List<ChargeGroupWrapper>();
+        chargeGroupList = new List<ChargeGroupWrapper>();
         guarantorName = '';
         caseObj = new Case();
         caseTypeSelected = false;
@@ -52,7 +52,7 @@ public with sharing class CreateCaseManual {
             Contact objContact = PayStaffWSUtill.fetchContact(guarantorRecordId);
             if (objContact != null) {
                 if (objContact.RecordType.DeveloperName == 'Guarantor') {
-                    gc = PayStaffWSUtill.fetchGuarantorFilterCGByAcctSubStatus(guarantorRecordId, PayStaffWSUtill.CGConstraintsForCase);
+                    gc = GuarantorDao.getGuarantorFilterCGByAcctSubStatus(guarantorRecordId, Constants.CGConstraintsForCase);
                     guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
                 } else if (objContact.RecordType.DeveloperName == 'Patient') {
                     gc = PayStaffWSUtill.fetchPatientContactWithCGConstraintsForCase(guarantorRecordId);
@@ -66,7 +66,7 @@ public with sharing class CreateCaseManual {
 
             for (ChargeGroupWrapper cgw : PayStaffWSUtill.fetchChargeGroupList(gc, objContact.RecordType.DeveloperName)) {
                 if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
-                    chrageGroupList.add(cgw);
+                    chargeGroupList.add(cgw);
                 }
             }
             chargeGroupId = '';
@@ -94,7 +94,7 @@ public with sharing class CreateCaseManual {
         chargeGroupsSelected = false;
 
         //validate to see if user have selected Case Type
-        chargeGroupId = PayStaffWSUtill.fetchChargeGroupIds(chrageGroupList);
+        chargeGroupId = PayStaffWSUtill.fetchChargeGroupIds(chargeGroupList);
 
         if (!isEmpty(chargeGroupId)) {
             chargeGroupsSelected = true;
@@ -130,7 +130,7 @@ public with sharing class CreateCaseManual {
                 chargeGroupsSelected = true;
             }
 
-            for (ChargeGroupWrapper cg : chrageGroupList) {
+            for (ChargeGroupWrapper cg : chargeGroupList) {
                 if (cg.isSelected) {
                     setChargeGroupId.add(cg.cg.id);
                 }
@@ -205,7 +205,7 @@ public with sharing class CreateCaseManual {
 
             //add selected Charge Groups to Case
             List<Case_Charge_Group_Junction__c> caseCGs = new List<Case_Charge_Group_Junction__c>();
-            for (ChargeGroupWrapper cg : chrageGroupList) {
+            for (ChargeGroupWrapper cg : chargeGroupList) {
                 if (cg.isSelected) {
                     Case_Charge_Group_Junction__c ccg = new Case_Charge_Group_Junction__c();
                     ccg.Case__c = caseObj.Id;

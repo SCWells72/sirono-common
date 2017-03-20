@@ -24,6 +24,28 @@ public class TestUtility {
 
     public static String url = 'http://127.0.0.1:8000/paystaff/api/paymentplan/2876/';
 
+    // Enum for JSON body type responses
+    public enum JSON_BODY_TYPE {
+        PAYMENT_CHARGEGROUPS,
+        PAYMENT_EXISTING_PLAN,
+        PAYMENT_NON_FIELD,
+        PAYMENT_LIST,
+        NO_KIND,
+        UNAUTHORIZED,
+        VALIDATION_EXISTING_PLAN
+    }
+
+    // Map of JSON_BODY_TYPE enum to json body response.
+    public static Map<JSON_BODY_TYPE, String> JSON_ERROR_BODIES = new Map<JSON_BODY_TYPE, String> {
+        JSON_BODY_TYPE.PAYMENT_CHARGEGROUPS => '{"kind":"Payments Exception","errors":{"chargegroups":["Invalid hyperlink - Object does not exist."],"guarantor":["Invalid hyperlink - Object does not exist."]}}',
+        JSON_BODY_TYPE.PAYMENT_EXISTING_PLAN => '{"kind":"Payments Exception","errors":{"non_field_errors":["Amount exceeds selected charge groups"]}}',
+        JSON_BODY_TYPE.PAYMENT_NON_FIELD => '{"kind":"Payments Exception","errors":{"non_field_errors":["Amount exceeds selected charge groups"]}}',
+        JSON_BODY_TYPE.PAYMENT_LIST => '{"kind":"Payments Exception","errors":["Credit card number is invalid.","Merchant account does not support payment instrument."]}',
+        JSON_BODY_TYPE.NO_KIND => '{"non_field_errors":["Cannot directly change ChargeGroups on an existing plan"]}',
+        JSON_BODY_TYPE.UNAUTHORIZED => '{"kind":"Permission Denied Exception","errors":["Incorrect authentication credentials."]}',
+        JSON_BODY_TYPE.VALIDATION_EXISTING_PLAN => '{"kind":"Validation exception","errors":[{"non_field_errors":"Cannot directly change ChargeGroups on an existing plan"}]}'
+    };
+
     private static Decimal getUniqueId() {
         return Decimal.valueOf(Math.random());
     }
@@ -150,6 +172,7 @@ public class TestUtility {
     // Return a new payment plan record
     public static Payment_Plan__c generatePaymentPlan(String guarantorId) {
         Payment_Plan__c paymentPlan = new Payment_Plan__c();
+        paymentPlan.Sirono_ID__c = getUniqueId();
         paymentPlan.Guarantor__c = guarantorId;
         return paymentPlan;
     }
@@ -191,7 +214,7 @@ public class TestUtility {
     // return list of charge_group__c records
     public static List<Charge_Group__c> generateChargeGroupList(ID contID) {
         list<Charge_Group__c> lstChargeGroup = new list<Charge_Group__c>();
-        for (integer i = 0; i < 20; i++) {
+        for (Integer i = 0; i < 20; i++) {
             Charge_Group__c chargeGroup = new Charge_Group__c();
             chargeGroup.name = 'xyz' + i;
             chargeGroup.Guarantor__c = contID;

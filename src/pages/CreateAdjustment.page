@@ -29,7 +29,7 @@
         </apex:outputPanel>
         <apex:actionFunction name="refreshJS" action="{!doNext}"/>
         <apex:pageBlock title="{!guarantorName}" rendered="{!isAdmin}">
-            <apex:outputPanel styleClass="pay-staff-table-wrap" rendered="{!chrageGroupList.size != 0}">
+            <apex:outputPanel styleClass="pay-staff-table-wrap" rendered="{!chargeGroupList.size != 0}">
                 <table class="list">
                     <tr class="headerRow">
                         <td class="headerRow">Select One</td>
@@ -45,7 +45,7 @@
                 </table>
                 <div class="pay-staff-inner-table">
                     <table class="list">
-                        <apex:repeat value="{!chrageGroupList}" var="cgw">
+                        <apex:repeat value="{!chargeGroupList}" var="cgw">
                             <tr class="dataRow">
                                 <td class="dataCell">
                                     <apex:inputCheckbox value="{!cgw.isSelected}" id="inputId" styleClass="selectCBK"
@@ -85,7 +85,7 @@
                     </table>
                 </div>
             </apex:outputPanel>
-            <apex:outputLabel value="There are no charge groups" rendered="{!chrageGroupList.size == 0}"/>
+            <apex:outputLabel value="There are no charge groups" rendered="{!chargeGroupList.size == 0}"/>
         </apex:pageBlock>
         <br/>
         <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
@@ -94,7 +94,7 @@
             <apex:outputPanel rendered="{!isAdmin}">
                 <div class="pay-staff-full-width pay-staff-clear-both">
                     <table class="pay-staff-tabale-left">
-                        <apex:repeat value="{!chrageGroupList}" var="cgw">
+                        <apex:repeat value="{!chargeGroupList}" var="cgw">
                             <apex:outputPanel rendered="{!cgw.isSelected}">
                                 <tr>
                                     <td>

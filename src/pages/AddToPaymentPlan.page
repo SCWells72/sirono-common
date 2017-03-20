@@ -33,7 +33,7 @@
         <apex:actionFunction name="refreshJS" action="{!doNext}"/>
         <apex:pageBlock title="{!guarantorName}">
             <apex:outputPanel styleClass="pay-staff-table-wrap"
-                              rendered="{!AND(chrageGroupList.size != 0, paymentPlanExtId != null)}">
+                              rendered="{!AND(chargeGroupList.size != 0, paymentPlanExtId != null)}">
                 <table class="list">
                     <tr class="headerRow">
                         <td class="headerRow">
@@ -55,7 +55,7 @@
                 </table>
                 <div class="pay-staff-inner-table">
                     <table class="list">
-                        <apex:repeat value="{!chrageGroupList}" var="cgw">
+                        <apex:repeat value="{!chargeGroupList}" var="cgw">
                             <tr class="dataRow">
                                 <td class="dataCell">
                                     <apex:inputCheckbox value="{!cgw.isSelected}" id="inputId" styleClass="selectCBK"
@@ -95,7 +95,7 @@
                     </table>
                 </div>
             </apex:outputPanel>
-            <apex:outputLabel value="There are no charge groups" rendered="{!chrageGroupList.size == 0}"/>
+            <apex:outputLabel value="There are no charge groups" rendered="{!chargeGroupList.size == 0}"/>
         </apex:pageBlock>
         <apex:outputPanel rendered="{!paymentPlanExtId != null}">
             <br/>
@@ -151,7 +151,7 @@
                 </table>
                 <br/><br/><br/>
                 <ul>
-                    <apex:repeat value="{!chrageGroupList}" var="cgw">
+                    <apex:repeat value="{!chargeGroupList}" var="cgw">
                         <apex:outputPanel rendered="{!cgw.isSelected}">
                             <li class="pay-staff-message">Account {!cgw.cg.External_ID__c}</li>
                         </apex:outputPanel>

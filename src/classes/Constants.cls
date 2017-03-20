@@ -43,9 +43,39 @@ public class Constants {
     public static final String PAYMENT = 'Payment';
     public static final String SERVICE = 'Service';
     public static final String UNKNOWN = 'Unknown';
+
+    //Constants for PaymentPlans
+    public static final String AUTOMATIC = 'Automatic';
+    public static final String MANUAL = 'Manual';
     
-    // Constant variable for Security Context Unit Testing Nagative Profile.
+    // Constant variable for Security Context Unit Testing Negative Profile.
     public static final String READ_ONLY_PROFILE = 'Read Only';
 
-    private Constants() {}
+    // Account Substatus constraints used for Cases
+    public static final Set<String> CGConstraintsForCase = new Set<String> {
+            Constants.ACCT_SUBSTATUS_BAD_DEBT,
+            Constants.ACCT_SUBSTATUS_DELINQUENT,
+            Constants.ACCT_SUBSTATUS_DUE_BY,
+            Constants.ACCT_SUBSTATUS_OVERDUE,
+            Constants.ACCT_SUBSTATUS_PAYMENT_PLAN,
+            Constants.ACCT_SUBSTATUS_PREINVOICED
+    };
+
+    // Account Substatus constraints used for making Payments & adding to PPlans
+    public static final Set<String> CGConstraints = new Set<String> {
+            Constants.ACCT_SUBSTATUS_BAD_DEBT,
+            Constants.ACCT_SUBSTATUS_DELINQUENT,
+            Constants.ACCT_SUBSTATUS_DUE_BY,
+            Constants.ACCT_SUBSTATUS_OVERDUE,
+            Constants.ACCT_SUBSTATUS_PREINVOICED
+    };
+
+    // Account Substatus constraints used for adding Discounts
+    public static final Set<String> CGConstraintsForDiscount = new Set<String> {
+            Constants.ACCT_SUBSTATUS_DELINQUENT,
+            Constants.ACCT_SUBSTATUS_DUE_BY,
+            Constants.ACCT_SUBSTATUS_OVERDUE,
+            Constants.ACCT_SUBSTATUS_PAYMENT_PLAN,
+            Constants.ACCT_SUBSTATUS_PREINVOICED
+    };
 }

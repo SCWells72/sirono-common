@@ -29,7 +29,7 @@ public class CreateCaseManualTest {
 
 	// Check system assert, No charge group is selected.
         System.assertEquals(false, objManual.chargeGroupsSelected, 'Charge group selected');
-        for (ChargeGroupWrapper cg: objManual.chrageGroupList) {
+        for (ChargeGroupWrapper cg : objManual.chargeGroupList) {
             cg.isSelected = true;
         }
         objManual.doNext();
@@ -81,7 +81,7 @@ public class CreateCaseManualTest {
 
 	// Check system assert, No Charge Group Selected.
         System.assertEquals(false, objManual.chargeGroupsSelected, 'Charge group selected');
-        for (ChargeGroupWrapper cg: objManual.chrageGroupList) {
+        for (ChargeGroupWrapper cg : objManual.chargeGroupList) {
             cg.isSelected = true;
         }
         objManual.doNext();
@@ -140,7 +140,7 @@ public class CreateCaseManualTest {
         CreateCaseManual objManual = new CreateCaseManual(sc);
         objManual.gotoCaseCreation();
         Test.stopTest();
-        
+
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;

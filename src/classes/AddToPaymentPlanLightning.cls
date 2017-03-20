@@ -18,7 +18,7 @@ public with sharing class AddToPaymentPlanLightning {
     public String chargeGroupId {get; set;}
     public String paymentPlanId {get; set;}
     public String paymentPlanExtId {get; set;}
-    public List<ChargeGroupWrapper> chrageGroupList {get; set;}
+    public List<ChargeGroupWrapper> chargeGroupList {get; set;}
 	public String errorMessage{get;set;}
 	
     // Constructor of a class and initialize the variables.
@@ -26,7 +26,7 @@ public with sharing class AddToPaymentPlanLightning {
         username = PayStaffWSUtillLightning.un;
         password = PayStaffWSUtillLightning.pw;
         chargeGroupsSelected = false;
-        chrageGroupList = new List<ChargeGroupWrapper>();
+        chargeGroupList = new List<ChargeGroupWrapper>();
         guarantorName = '';
 		errorMessage = '';
         paymentPlanExtId = null;
@@ -43,7 +43,7 @@ public with sharing class AddToPaymentPlanLightning {
                 System.debug('cgw:'+cgw);
 				if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
                     cgw.isSelected = true;
-					chrageGroupList.add(cgw);
+					chargeGroupList.add(cgw);
                 }
             }
             chargeGroupId = '';
@@ -61,7 +61,7 @@ public with sharing class AddToPaymentPlanLightning {
     //Check Charge group is selected or not.
     public Pagereference doNext() {
         chargeGroupsSelected = false;
-        chargeGroupId = PayStaffWSUtillLightning.fetchChargeGroupIds(chrageGroupList);
+        chargeGroupId = PayStaffWSUtillLightning.fetchChargeGroupIds(chargeGroupList);
         if (!isEmpty(chargeGroupId)) {
             chargeGroupsSelected = true;
         }/*else {
