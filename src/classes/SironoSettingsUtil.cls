@@ -27,7 +27,7 @@ public with sharing class SironoSettingsUtil {
 
     public static String getServerEndpoint() {
         //always return the org default
-        return 'callout:sirono_server';
+        return RestClientConstants.SIRONO_BASE_URL;
     }
 
     private static String getSandboxURL() {
