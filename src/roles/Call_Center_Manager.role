@@ -4,6 +4,5 @@
     <contactAccessLevel>Edit</contactAccessLevel>
     <mayForecastManagerShare>false</mayForecastManagerShare>
     <name>Call Center Manager</name>
-    <opportunityAccessLevel>Edit</opportunityAccessLevel>
     <parentRole>COO</parentRole>
 </Role>
