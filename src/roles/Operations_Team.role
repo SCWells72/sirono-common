@@ -5,6 +5,5 @@
     <description>Operations Team</description>
     <mayForecastManagerShare>false</mayForecastManagerShare>
     <name>Operations Team</name>
-    <opportunityAccessLevel>Edit</opportunityAccessLevel>
     <parentRole>COO</parentRole>
 </Role>
