@@ -586,17 +586,6 @@
         <url>/apex/UploadAttachmentPage?id={!Encounter__c.Id }</url>
     </webLinks>
     <webLinks>
-        <fullName>New_Payment_Arrangement</fullName>
-        <availability>online</availability>
-        <displayType>button</displayType>
-        <height>600</height>
-        <linkType>page</linkType>
-        <masterLabel>New Payment Arrangement</masterLabel>
-        <openType>sidebar</openType>
-        <page>PaymentArrangement</page>
-        <protected>false</protected>
-    </webLinks>
-    <webLinks>
         <fullName>Pay_Estimate</fullName>
         <availability>online</availability>
         <displayType>massActionButton</displayType>
