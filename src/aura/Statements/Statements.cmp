@@ -28,7 +28,7 @@
                                 <span class="slds-assistive-text">Info</span>
                             </span>
                             <div aura:id="sldsjsPopoverRight" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-right slds-hide" role="tooltip" id="help" style="position:absolute;top:45px;right:-6px">
-                                <div class="slds-popover__body">To view PDF content, you will need software such as Adobe Reader that can read a PDF file. If the files do not open, you can download and install Adobe Reader for free now.</div>
+                                <div class="slds-popover__body">{! $Label.c.Statements_Tooltip}</div>
                             </div>
                         </div>
                     </div>
