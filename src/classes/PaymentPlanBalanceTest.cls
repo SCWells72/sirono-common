@@ -8,7 +8,7 @@ public class PaymentPlanBalanceTest {
     @testSetup
     static void setupTestRecords() {
         // Use a modified CreatedDate so we can test transactions added in the future
-        Datetime newCreateDate = system.now().addDays(-5);
+        Datetime newCreateDate = System.now().addDays(-5);
 
         // Generate and insert initial Transaction, Charge Group, Guarantor, and Patient
         Contact patient = TestUtility.generatePatientContact();
@@ -69,8 +69,8 @@ public class PaymentPlanBalanceTest {
         Test.stopTest();
 
         for(Payment_Plan__c pp : ppResults){
-            system.debug('Charges added since plan start: ' + pp.Charges_Added_Since_Start__c);
-            system.assert(pp.Charges_Added_Since_Start__c == 0.00 || pp.Charges_Added_Since_Start__c == null,
+            System.debug('Charges added since plan start: ' + pp.Charges_Added_Since_Start__c);
+            System.assert(pp.Charges_Added_Since_Start__c == 0.00 || pp.Charges_Added_Since_Start__c == null,
                     'Charges Added Should be 0 or null on initial insert.');
         }
     }
@@ -100,7 +100,7 @@ public class PaymentPlanBalanceTest {
 
         Test.stopTest();
 
-        system.assertEquals(newServiceTransaction.Amount__c, ppResults.Charges_Added_Since_Start__c,
+        System.assertEquals(newServiceTransaction.Amount__c, ppResults.Charges_Added_Since_Start__c,
                 'Charges added since plan start should equal the inserted transaction amount.');
     }
 
@@ -118,7 +118,7 @@ public class PaymentPlanBalanceTest {
         insert newService;
 
         Transaction__c secondTestTransaction = TestUtility.generateServiceTxn(testCG, newService.Amount__c, newService);
-        secondTestTransaction.Transaction_Date__c = system.today().addDays(-3);
+        secondTestTransaction.Transaction_Date__c = System.today().addDays(-3);
         insert secondTestTransaction;
 
         Payment_Plan__c updatedPPResults = [
@@ -139,7 +139,7 @@ public class PaymentPlanBalanceTest {
 
         Test.stopTest();
 
-        system.assertEquals(0, finalPPResults.Charges_Added_Since_Start__c,
+        System.assertEquals(0, finalPPResults.Charges_Added_Since_Start__c,
                 'Value date was updated, charges added should be 0.');
     }
 
@@ -170,7 +170,7 @@ public class PaymentPlanBalanceTest {
 
         Test.stopTest();
 
-        system.assertEquals(0, ppResults.Charges_Added_Since_Start__c,
+        System.assertEquals(0, ppResults.Charges_Added_Since_Start__c,
                 'Transaction was payment type; charges added should not have been updated.');
     }
 }
