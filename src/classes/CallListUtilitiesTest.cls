@@ -9,10 +9,12 @@
 @isTest
 public class CallListUtilitiesTest {
 
+    //TODO: Provide a valid message about what is being asserted on all asserts.
+    //TODO: Add inline documentation here about what this assert is verifying
 
-    //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
+    // Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @isTest
-    Public static void preCollectionCallListRemoval() {
+    Public static void removeCMWithOverdueDelinquentBalance() {
         TestUtility objTestUtility = new TestUtility();
 
         Contact guarantorContact = TestUtility.generateguarantorContact();
@@ -30,6 +32,7 @@ public class CallListUtilitiesTest {
         Transaction__c transactionObj = TestUtility.generateTransaction(chargeGroup, -101, 'Automatic');
         insert transactionObj ;
 
+        Test.startTest();
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Account_Status__c = 'Billed';
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
@@ -60,11 +63,19 @@ public class CallListUtilitiesTest {
         transactionObj.amount__c = -501;
         update transactionObj;
         update guarantorContact ;
+        Test.stopTest();
+
+        // Check system assert.
+        List<CampaignMember> campaignMembers = [SELECT Id, CampaignId, ContactId, Case_ID__c FROM CampaignMember
+                WHERE CampaignId = :lstCampaign[0].Id];
+
+        //TODO: Add inline documentation to this test to specify why we are performing the data manipulation and what the expected outcome should be.  If there are other asserts that add values please add them.
+        System.assertEquals(campaignMembers[0].ContactId, guarantorContact.Id);
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @isTest
-    Public static void preCollectionCallListRemoval1() {
+    Public static void preCollectionCallListRemoval() {
         TestUtility objTestUtility = new TestUtility();
 
         Contact guarantorContact = TestUtility.generateguarantorContact();
@@ -73,6 +84,7 @@ public class CallListUtilitiesTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
+        Test.startTest();
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Account_Status__c = 'Billed';
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DUE_BY;
@@ -107,12 +119,18 @@ public class CallListUtilitiesTest {
 
         transactionObj.amount__c = -501;
         update transactionObj;
-        update guarantorContact ;
+        update guarantorContact;
+        Test.stopTest();
+
+        // Check system assert.
+        List<CampaignMember> campaignMembers = [SELECT Id, CampaignId, ContactId, Case_ID__c FROM CampaignMember
+                WHERE CampaignId = :lstCampaign[0].Id];
+        System.assertEquals(campaignMembers.size(), 0);
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @isTest
-    Public static void earlyOutCallListRemoval() {
+    Public static void earlyOutCallListRemovalWithoutCG() {
         TestUtility objTestUtility = new TestUtility();
 
         Contact guarantorContact = TestUtility.generateguarantorContact();
@@ -123,6 +141,7 @@ public class CallListUtilitiesTest {
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
+        Test.startTest();
         List<Campaign> lstCampaign = new List<Campaign>();
         Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out'));
         lstCampaign.add(objCampaign);
@@ -132,11 +151,18 @@ public class CallListUtilitiesTest {
         insert cmm;
 
         update guarantorContact;
+        Test.stopTest();
+
+        // Check system assert. Don't remove campaign member because of we do not insert charge group.
+        List<CampaignMember> campaignMembers = [SELECT Id, CampaignId, ContactId, Case_ID__c FROM CampaignMember
+                WHERE CampaignId = :lstCampaign[0].Id];
+        //TODO: verify the found campaign member is the expect object.
+        System.assertEquals(campaignMembers.size(), 1);
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @isTest
-    public static void removeCampaignMembers() {
+    public static void delinquentCaseWithoutCG() {
         TestUtility objUtility = new TestUtility();
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
@@ -146,19 +172,26 @@ public class CallListUtilitiesTest {
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
-
+        Test.startTest();
         Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
         objCase.Type = 'Delinquent';
         insert objCase;
 
         objCase.Status = 'Closed';
         Update objCase;
+        Test.stopTest();
 
+        // Check system assert.
+        List<Case> cases = [SELECT Id, Reason, Guarantor_Information__c FROM Case
+                WHERE Guarantor_Information__c = :guarantorContact.Id];
+
+        //TODO: verify the case is the expected object and that it has been updated appropriately
+        System.assertEquals(cases.size(), 1);
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @isTest
-    public static void removeCampaignMembers1() {
+    public static void preCollectionCaseWithoutCG() {
         TestUtility objUtility = new TestUtility();
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
@@ -168,19 +201,25 @@ public class CallListUtilitiesTest {
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
-
+        Test.startTest();
         Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Precollections', guarantorContact.Id);
         objCase.Type = 'Precollections';
         insert objCase;
 
         objCase.Status = 'Closed';
         Update objCase;
+        Test.stopTest();
 
+        // Check system assert.
+        List<Case> cases = [SELECT Id, Status, Guarantor_Information__c FROM Case
+                WHERE Guarantor_Information__c = :guarantorContact.Id];
+
+        System.assertEquals(cases[0].Status, 'Closed');
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @isTest
-    public static void removeCampaignMembers2() {
+    public static void earlyOutCaseUpdate() {
         TestUtility objUtility = new TestUtility();
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
@@ -190,18 +229,25 @@ public class CallListUtilitiesTest {
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
-
+        Test.startTest();
         Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
         insert objCase;
 
         objCase.Status = 'Closed';
         Update objCase;
+        Test.stopTest();
 
+        // Check system assert.
+        List<Case> cases = [SELECT Id, Reason, Guarantor_Information__c FROM Case
+                WHERE Guarantor_Information__c = :guarantorContact.Id];
+
+        //TODO: verify the case is the expected object and that it has been updated appropriately
+        System.assertEquals(cases.size(), 1);
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @isTest
-    public static void removeCampaignMembers3() {
+    public static void ccErrorCaseUpdate() {
         TestUtility objUtility = new TestUtility();
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
@@ -211,18 +257,23 @@ public class CallListUtilitiesTest {
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
-
+        Test.startTest();
         Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'CC Error', guarantorContact.Id);
         insert objCase;
 
         objCase.Status = 'Closed';
         Update objCase;
+        Test.stopTest();
 
+        // Check system assert.
+        List<Case> cases = [SELECT Id, Status, Guarantor_Information__c FROM Case
+                WHERE Guarantor_Information__c = :guarantorContact.Id];
+        System.assertEquals(cases[0].Status, 'Closed');
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @isTest
-    public static void removeCampaignMembers4() {
+    public static void encounterCaseUpdate() {
         TestUtility objUtility = new TestUtility();
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
@@ -232,13 +283,18 @@ public class CallListUtilitiesTest {
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
-
+        Test.startTest();
         Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Encounter', guarantorContact.Id);
         insert objCase;
 
         objCase.Status = 'Closed';
         Update objCase;
+        Test.stopTest();
 
+        // Check system assert.
+        List<Case> cases = [SELECT Id, Status, Guarantor_Information__c FROM Case
+                WHERE Guarantor_Information__c = :guarantorContact.Id];
+        System.assertEquals(cases[0].Status, 'Closed');
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
@@ -246,12 +302,11 @@ public class CallListUtilitiesTest {
     public static void checkAndDoAddNoteCallout() {
         TestUtility objUtility = new TestUtility();
 
-
-        Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User'];
-        User u = new User(Alias = 'standt', Email = 'standarduser@testorg.com',
+        Profile p = [SELECT Id FROM Profile WHERE Name = 'System Administrator'];
+        User u = new User(Alias = 'standt', Email = 'systemuser@testorg.com',
                 EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
                 LocaleSidKey = 'en_US', ProfileId = p.Id,
-                TimeZoneSidKey = 'America/Los_Angeles', UserName = 'standarduser@testorg1212.com');
+                TimeZoneSidKey = 'America/Los_Angeles', UserName = 'systemuser@testorg1212.com');
 
         System.runAs(u) {
             Contact guarantorContact = TestUtility.generateGuarantorContact();
@@ -261,22 +316,25 @@ public class CallListUtilitiesTest {
             for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
                 caseRecordTypeMap.put(recordType.Name, recordType.Id);
             }
-
+            Test.startTest();
             Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Internal Case'), 'Early Out', guarantorContact.Id);
             objCase.Type = 'Delinquent';
             objCase.Description = 'Delinquent';
             objCase.Charge_Group_IDs__c = '121';
             insert objCase;
+            Test.stopTest();
 
-            objCase.Status = 'Closed';
-            Update objCase;
+            // Check system assert.
+            List<Case> cases = [SELECT Id, Type, Guarantor_Information__c FROM Case
+                WHERE Id = :objCase.Id];
+            //TODO: verify the case is the expected object and that it has been updated appropriately
+            System.assertEquals(cases.size(), 1);
         }
     }
 
     //Viraj Rana : 09-15-2016: Unit test of caseEarlyOutClose method
     @isTest
-    public static void testCallEarlyOutAutoCase1() {
-        Test.StartTest();
+    public static void checkContactOverdueBalance() {
         TestUtility objUtility = new TestUtility();
         CaseUtil obj = new CaseUtil();
 
@@ -289,6 +347,7 @@ public class CallListUtilitiesTest {
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
         insert chargeGroup;
 
+        Test.startTest();
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = 'Billed';
@@ -300,13 +359,17 @@ public class CallListUtilitiesTest {
 
         objTransaction.Amount__c = 1000;
         update objTransaction;
-        Test.StopTest();
+        Test.stopTest();
+
+        // Check system assert.
+        List<Contact> Contacts = [SELECT Id, Overdue_Balance__c FROM Contact
+            WHERE Id = :guarantorContact.Id];
+        System.assertEquals(Contacts[0].Overdue_Balance__c, 1000);
     }
 
     //Viraj Rana : 09-15-2016: Unit test of caseEarlyOutClose method
     @isTest
-    public static void testCallEarlyOutAutoCase2() {
-        Test.StartTest();
+    public static void checkContactDelinquentBalance() {
         TestUtility objUtility = new TestUtility();
         CaseUtil obj = new CaseUtil();
 
@@ -319,6 +382,7 @@ public class CallListUtilitiesTest {
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
         insert chargeGroup;
 
+        Test.startTest();
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = 'Billed';
@@ -330,6 +394,11 @@ public class CallListUtilitiesTest {
 
         objTransaction.Amount__c = 1000;
         update objTransaction;
-        Test.StopTest();
+        Test.stopTest();
+
+        // Check system assert.
+        List<Contact> Contacts = [SELECT Id, Delinquent_Balance__c FROM Contact
+            WHERE Id = :guarantorContact.Id];
+        System.assertEquals(Contacts[0].Delinquent_Balance__c, 1000);
     }
 }

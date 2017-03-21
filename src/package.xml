@@ -265,6 +265,7 @@
         <members>Discount_Type__mdt</members>
         <members>Exhausted_Criteria__mdt</members>
         <members>Sirono_Settings__c</members>
+        <members>StatesList__c</members>
         <members>TransactionPayerType__mdt</members>
         <members>User</members>
         <members>UserProvisioningRequest</members>
@@ -541,6 +542,10 @@
         <members>Account</members>
         <members>Contact</members>
         <name>MatchingRules</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>NamedCredential</name>
     </types>
     <types>
         <members>*</members>

@@ -22,7 +22,7 @@ public with sharing class CreateAdjustment {
     public String guarantorName {get; set;}
     public String chargeGroupId {get; set;}
     public Boolean isAdmin {get; set;}
-    public List<ChargeGroupWrapper> chrageGroupList {get; set;}
+    public List<ChargeGroupWrapper> chargeGroupList {get; set;}
 
     //Mohan Kumar 2016-08-16: 127328707 to show the adjustment type from the metadata type which are only enabled
     public List<SelectOption> adjustmentTypeOptions {get; set;}
@@ -61,7 +61,7 @@ public with sharing class CreateAdjustment {
         password = PayStaffWSUtill.pw;
         chargeGroupsSelected = false;
         guarantorName = '';
-        chrageGroupList = new List<ChargeGroupWrapper>();
+        chargeGroupList = new List<ChargeGroupWrapper>();
         guarantorRecordId = sc.getId();
 
         //Mohan Kumar 2016-08-16: fetch only those metadata type which are marked as enabled
@@ -78,7 +78,7 @@ public with sharing class CreateAdjustment {
             Contact gc = PayStaffWSUtill.fetchGuarantorContact(guarantorRecordId);
             guarantorName = PayStaffWSUtill.fetchGuarantorName(gc);
             guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
-            chrageGroupList = PayStaffWSUtill.fetchChargeGroupList(gc);
+            chargeGroupList = ChargeGroupWrapper.buildList(gc);
             chargeGroupId = '';
         }
     }
@@ -88,7 +88,7 @@ public with sharing class CreateAdjustment {
      */
     public Pagereference doNext() {
         chargeGroupsSelected = false;
-        chargeGroupId = PayStaffWSUtill.fetchChargeGroupIds(chrageGroupList);
+        chargeGroupId = PayStaffWSUtill.fetchChargeGroupIds(chargeGroupList);
         if (!isEmpty(chargeGroupId)) {
             chargeGroupsSelected = true;
         }/*else {

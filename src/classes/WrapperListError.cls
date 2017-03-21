@@ -1,12 +1,15 @@
-/*
-* @author Sirono
-* @version 1.0.1
-* @Date: 09-13-2016
-* @description
-* Viraj Rana: Public class to parse the error response.
-* 
-*/
-Public class WrapperListError {
+/**
+ * Public class to parse the error response.
+ */
+public class WrapperListError extends WrapperBadResponse {
     public List<String> errors;
     public String kind;
+
+    public override List<String> getErrors() {
+        List<String> errs = new String[]{};
+        for(String err: errors) {
+            errs.add(String.format(WrapperBadResponse.SHORT_ERROR, new String[]{kind, err}));
+        }
+        return errs;
+    }
 }

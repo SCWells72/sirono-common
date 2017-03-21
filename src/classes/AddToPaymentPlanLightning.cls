@@ -18,15 +18,15 @@ public with sharing class AddToPaymentPlanLightning {
     public String chargeGroupId {get; set;}
     public String paymentPlanId {get; set;}
     public String paymentPlanExtId {get; set;}
-    public List<ChargeGroupWrapper> chrageGroupList {get; set;}
-    public String errorMessage{get;set;}
-    
+    public List<ChargeGroupWrapper> chargeGroupList {get; set;}
+	  public String errorMessage{get;set;}
+	
     // Constructor of a class and initialize the variables.
     public AddToPaymentPlanLightning(String gId) {
         username = PayStaffWSUtillLightning.un;
         password = PayStaffWSUtillLightning.pw;
         chargeGroupsSelected = false;
-        chrageGroupList = new List<ChargeGroupWrapper>();
+        chargeGroupList = new List<ChargeGroupWrapper>();
         guarantorName = '';
         errorMessage = '';
         paymentPlanExtId = (Test.isRunningTest() && Apexpages.currentPage().getParameters().containsKey('paymentPlanExtId')) ? Apexpages.currentPage().getParameters().get('paymentPlanExtId') : null;
@@ -38,12 +38,12 @@ public with sharing class AddToPaymentPlanLightning {
             Contact gc = PayStaffWSUtillLightning.fetchGuarantorContactWithCGConstraints(guarantorRecordId);
             guarantorName = PayStaffWSUtillLightning.fetchGuarantorName(gc);
             guarantorId = PayStaffWSUtillLightning.fetchGuarantorId(gc);
-            //chrageGroupList = PayStaffWSUtillLightning.fetchChargeGroupList(gc);
+            //chargeGroupList = PayStaffWSUtillLightning.fetchChargeGroupList(gc);
             for (ChargeGroupWrapper cgw : PayStaffWSUtillLightning.fetchChargeGroupList(gc)) {
                 System.debug('cgw:'+cgw);
                 if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
                     cgw.isSelected = true;
-                    chrageGroupList.add(cgw);
+					          chargeGroupList.add(cgw);
                 }
             }
             chargeGroupId = '';
@@ -61,7 +61,7 @@ public with sharing class AddToPaymentPlanLightning {
     //Check Charge group is selected or not.
     public Pagereference doNext() {
         chargeGroupsSelected = false;
-        chargeGroupId = PayStaffWSUtillLightning.fetchChargeGroupIds(chrageGroupList);
+        chargeGroupId = PayStaffWSUtillLightning.fetchChargeGroupIds(chargeGroupList);
         if (!isEmpty(chargeGroupId)) {
             chargeGroupsSelected = true;
         }/*else {

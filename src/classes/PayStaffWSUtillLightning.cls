@@ -3,9 +3,9 @@
  * @version 1.0.1
  * @Date: 05-02-2016
  * @ PayStaffWSUtill class to contain all common methods for PayStaff Web service
- * @ Date: 21/09/2016 tracker # 130677929 method to filter Charge Groups based on Account sub status 
+ * @ Date: 21/09/2016 tracker # 130677929 method to filter Charge Groups based on Account sub status
  * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
- * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF 
+ * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
  */
 
 public with sharing class PayStaffWSUtillLightning {
@@ -474,7 +474,7 @@ public with sharing class PayStaffWSUtillLightning {
         }
     }
 
-    /*Mohan Kumar 07-28-2016: Convert the amount in cents before sending it to Sirono on Take Payment, 
+    /*Mohan Kumar 07-28-2016: Convert the amount in cents before sending it to Sirono on Take Payment,
     *Add Adjustment, Add Discount actions
     */
     public static String convertToCents(String amount) {
@@ -504,7 +504,7 @@ public with sharing class PayStaffWSUtillLightning {
         System.debug('converted: ' + cents + ' cents to dollar amount: ' + dollarAmount);
         return dollarAmount;
     }
-    /*Mohan Kumar 07-28-2016: Convert the amount in cents before sending it to Sirono on Take Payment, 
+    /*Mohan Kumar 07-28-2016: Convert the amount in cents before sending it to Sirono on Take Payment,
     *Add Adjustment, Add Discount actions
     */
     public static String trimCommas(String val) {
@@ -537,7 +537,7 @@ public with sharing class PayStaffWSUtillLightning {
         Charge_Group__c objChargeGroup = new Charge_Group__c();
         Payment_Plan__c objPaymentPlan = new Payment_Plan__c();
     }
-    
+
      /*
     * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
@@ -570,17 +570,19 @@ public with sharing class PayStaffWSUtillLightning {
 
                 lstTransaction.add(objPaymentAdjustmentwrapper.objTransaction);
                 mapTranPayAdjId.put(objPaymentAdjustment.Sirono_ID__c, objPaymentAdjustmentwrapper.objTransaction.Sirono_ID__c);
-                
+
                 lstChargeGroup.add(objPaymentAdjustmentwrapper.objChargeGroup);
-                objPaymentAdjustment.Charge_Group__c = objPaymentAdjustmentwrapper.objChargeGroup.Id;                
+                objPaymentAdjustment.Charge_Group__c = objPaymentAdjustmentwrapper.objChargeGroup.Id;
 
                 if (objPaymentAdjustmentwrapper.objPaymentPlan.id != null) {
                     lstPaymentPlan.add(objPaymentAdjustmentwrapper.objPaymentPlan);
                 }
             }
+
             System.debug('lstTransaction:'+lstTransaction);
                 
             //Save all Records if it is Take Adjustment/Discount. 
+
             if (lstChargeGroup.size() > 0) {
                 update lstChargeGroup;
             }
@@ -595,7 +597,7 @@ public with sharing class PayStaffWSUtillLightning {
                 
                 List<Transaction__c> lstTran = [SELECT Id, Sirono_ID__c FROM Transaction__c
                                             where Sirono_ID__c in : mapTranPayAdjId.values()];
-                                        
+
                 map<Decimal, string> mapTran = new map<Decimal, string>();
                 for(Transaction__c t : lstTran){
                     mapTran.put(t.Sirono_ID__c, t.Id);
@@ -680,7 +682,6 @@ public with sharing class PayStaffWSUtillLightning {
         List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
         List<Payment_Plan__c> lstPaymentPlan = new List<Payment_Plan__c>();
         Set<Payment_Plan__c> setPaymentPlan = new Set<Payment_Plan__c>();
-        
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
 
         if (objTransactionWrapper != null) {
@@ -704,7 +705,7 @@ public with sharing class PayStaffWSUtillLightning {
 
                     Charge_Group__c chargeGroup = new Charge_Group__c();
                     chargeGroup = callChargeGroupRequest(String.valueof(cg.Sirono_ID__c),jwtToken);
-                    
+
                     if (cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_PAYMENT_PLAN) {
                         Payment_Plan__c objPaymentPlan = new Payment_Plan__c();
                         objPaymentPlan = callPaymentPlanRequest(jwtToken, string.valueof(cg.Payment_Plan__r.Sirono_ID__c),
@@ -734,7 +735,7 @@ public with sharing class PayStaffWSUtillLightning {
                     objTran.Payment__c = paymentId;
                 }
                 System.debug('txns: '+lsttransaction);
-                insert lsttransaction;                
+                insert lsttransaction;
             }
 
             if (lstChargeGroup.size() > 0) {
@@ -898,7 +899,7 @@ public with sharing class PayStaffWSUtillLightning {
 
         return paymentPlanObj;
     }
-    
+
     //11/22/2016: Tracker #134300243 Fetch Charge Group list based on Account sub status values Preinvoiced,Due,Delinquent,Bad Debt and Overdue
     public static List<ChargeGroupWrapper> fetchChargeGroupListByAccSubStatus(Contact gc) {
         List<ChargeGroupWrapper> cgList = new List<ChargeGroupWrapper>();

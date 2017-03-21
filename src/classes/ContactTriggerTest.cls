@@ -1,17 +1,27 @@
-/* author Sirono 
-   Date 10/31/2016
-   @version 1.0.1
-   @description class to validate Guarantor phone number Sirono - Tracker #127517419
-*/
+/**
+ * This class tests the logic of Contact Trigger and Contact Trigger Handler Class.
+ **/
+
 @isTest
 public class ContactTriggerTest {
 
+    /**
+     * This method is used to setup preliminary data to let's all testmethods to execute as expected.
+     **/
     @testSetup
     public static void setup() {
+        Test.startTest();
         SironoSettingsUtil.generatePhoneNumVerification();
+        Test.stopTest();
+
+        // Check system assert, Sirono settings initialized with some value & its not null.
+        Sirono_Settings__c sironoSettings = Sirono_Settings__c.getOrgDefaults();
+        System.assertNotEquals(sironoSettings.Apikey__c, null, 'Should not Sirono settings null.');
     }
 
-    //Test that phone verification fires on insert
+    /**
+     * This method checks logic for validate phone number after insert contact record.
+     **/
     static testMethod void testAfterInsert() {
         Test.startTest();
 
@@ -21,7 +31,7 @@ public class ContactTriggerTest {
 
         Contact con = TestUtility.generateGuarantorContact();
         con.HomePhone = '6157187745';
-        insert con;
+        INSERT con;
 
         Test.stopTest();
 
@@ -29,13 +39,15 @@ public class ContactTriggerTest {
                 Id, OtherPhone, MobilePhone, HomePhone, Home_Phone_Type__c,
                 Mobile_Phone_Type__c, Other_Phone_Type__c, CTINumber1__c, CTINumber2__c,
                 CTINumber3__c
-        FROM Contact WHERE Id =: con.Id];
+        FROM Contact WHERE Id = :con.Id];
 
-        //Verify Home_Phone_Type__c was set
+        // Verify Home_Phone_Type__c was set
         System.assert(!String.isEmpty(contacts[0].Home_Phone_Type__c), 'Expected Home_Phone_Type__c to be set but was \''+contacts[0].Home_Phone_Type__c+'\'');
     }
-    
-    //Test that phone verification fires on update
+
+    /**
+     * This method checks logic for validate phone number after update contact record.
+     **/
     static testMethod void testAfterUpdate() {
         Test.startTest();
 
@@ -45,11 +57,11 @@ public class ContactTriggerTest {
 
         Contact con = TestUtility.generateGuarantorContact();
         con.HomePhone = '6157187748';
-        insert con;
-        
+        INSERT con;
+
         con.HomePhone = '6157187745';
         con.Home_Phone_Type__c = null;
-        update con;
+        UPDATE con;
 
         Test.stopTest();
 
@@ -57,15 +69,17 @@ public class ContactTriggerTest {
                 Id, OtherPhone, MobilePhone, HomePhone, Home_Phone_Type__c,
                 Mobile_Phone_Type__c, Other_Phone_Type__c, CTINumber1__c, CTINumber2__c,
                 CTINumber3__c
-        FROM Contact WHERE Id =: con.Id];
+        FROM Contact WHERE Id = :con.Id];
 
-        //Verify Home_Phone_Type__c was set
+        // Verify Home_Phone_Type__c was set
         System.assert(!String.isEmpty(contacts[0].Home_Phone_Type__c), 'Expected Home_Phone_Type__c to be set but was \''+contacts[0].Home_Phone_Type__c+'\'');
     }
 
-    //test to verify Other number is Landline.
+    /**
+     * This method checks logic for validate provided Other number is Landline.
+     **/
     static testMethod void testCTIAssignment_OtherLandlineOnly() {
-        //inserting contact record invokes contact trigger
+        // inserting contact record invokes contact trigger
         Contact con = TestUtility.generateGuarantorContact();
         con.HomePhone = '6157187745';
         con.MobilePhone = '';
@@ -75,22 +89,24 @@ public class ContactTriggerTest {
         TestUtility.statusCode = 200;
         TestUtility.body = PhoneNumberCalloutResponseBody.responseLandline();
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        insert con;
+        INSERT con;
         Test.stopTest();
 
         List<Contact> lstContact = [SELECT
                                   Id, OtherPhone, MobilePhone, HomePhone, Home_Phone_Type__c,
                                   Mobile_Phone_Type__c, Other_Phone_Type__c, CTINumber1__c, CTINumber2__c,
                                   CTINumber3__c
-                                  FROM Contact WHERE Id =: con.Id];
-				
-        //Check System assert for Other Phone.
-        System.assertEquals(con.OtherPhone, lstContact[0].CTINumber3__c);
+                                  FROM Contact WHERE Id = :con.Id];
+
+        // Check System assert, CTINumber3__c number is populated same as other phone.
+        System.assertEquals(con.OtherPhone, lstContact[0].CTINumber3__c, 'CTINumber3__c is not populated as other phone.');
     }
-    
-    //test to verify Mobile number is Landline.
+
+    /**
+     * This method checks logic for validate provided Mobile number is Landline.
+     **/
     static testMethod void testCTIAssignment_MobileLandlineElse() {
-        //inserting contact record invokes contact trigger
+        // inserting contact record invokes contact trigger
         Contact con = TestUtility.generateGuarantorContact();
         con.HomePhone = '6157187745';
         con.MobilePhone = '6157187745';
@@ -100,21 +116,24 @@ public class ContactTriggerTest {
         TestUtility.statusCode = 200;
         TestUtility.body = PhoneNumberCalloutResponseBody.responseLandline();
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        insert con;
+        INSERT con;
         Test.stopTest();
 
         List<Contact> lstContact = [SELECT
                                   Id, OtherPhone, MobilePhone, HomePhone, Home_Phone_Type__c,
                                   Mobile_Phone_Type__c, Other_Phone_Type__c, CTINumber1__c, CTINumber2__c,
                                   CTINumber3__c
-                                  FROM Contact WHERE Id =: con.Id];
+                                  FROM Contact WHERE Id = :con.Id];
 
-        System.assertEquals(con.MobilePhone, lstContact[0].CTINumber3__c);
+	// Check System assert, CTINumber3__c number is populated same as MobilePhone.
+        System.assertEquals(con.MobilePhone, lstContact[0].CTINumber3__c, 'CTINumber3__c is not populated as MobilePhone.');
     }
-    
-    //test to verify Other number is Mobile.
+
+    /**
+     * This method checks logic for validate provided Other number is Mobile.
+     **/
     static testMethod void testCTIAssignment_OtherMobileOnly() {
-        //inserting contact record invokes contact trigger
+        // inserting contact record invokes contact trigger
         Contact con = TestUtility.generateGuarantorContact();
         con.HomePhone = '';
         con.MobilePhone = '';
@@ -124,113 +143,152 @@ public class ContactTriggerTest {
         TestUtility.statusCode = 200;
         TestUtility.body = PhoneNumberCalloutResponseBody.responseMobile();
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        insert con;
+        INSERT con;
         Test.stopTest();
 
         List<Contact> lstContact = [SELECT
                                   Id, OtherPhone, MobilePhone, HomePhone, Home_Phone_Type__c,
                                   Mobile_Phone_Type__c, Other_Phone_Type__c, CTINumber1__c, CTINumber2__c,
                                   CTINumber3__c
-                                  FROM Contact WHERE Id =: con.Id];
+                                  FROM Contact WHERE Id = :con.Id];
 
-        System.assertEquals(con.OtherPhone, lstContact[0].CTINumber2__c);
+	// Check System assert, CTINumber2__c number is populated same as other phone.
+        System.assertEquals(con.OtherPhone, lstContact[0].CTINumber2__c, 'CTINumber2__c is not populated as other phone.');
     }
-    
-    //test to verify an invalid number.
+
+    /**
+     * This method checks logic for validate provided number is invalid.
+     **/
     static testMethod void testInvalidNumberVerify() {
 
         Contact con = TestUtility.generateGuarantorContact();
         con.HomePhone = '12312345645645645'; //too long
         con.MobilePhone = '123'; //too short
         con.OtherPhone = '1234567890'; //not a real number
+        
         Test.startTest();
         TestUtility.statusCode = 200;
         TestUtility.body = PhoneNumberCalloutResponseBody.responseInvalid();
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        insert con;
+        INSERT con;
         Test.stopTest();
 
         List<Contact> lstContact = [SELECT
                                   Id, OtherPhone, MobilePhone, HomePhone, Home_Phone_Type__c,
                                   Mobile_Phone_Type__c, Other_Phone_Type__c, CTINumber1__c, CTINumber2__c,
                                   CTINumber3__c
-                                  FROM Contact WHERE Id =: con.Id];
+                                  FROM Contact WHERE Id = :con.Id];
 
-        System.assertEquals(lstContact[0].Home_Phone_Type__c, NumVerifyValidator.INVALID);
-        System.assertEquals(lstContact[0].Mobile_Phone_Type__c, NumVerifyValidator.INVALID);
-        System.assertEquals(lstContact[0].Other_Phone_Type__c, NumVerifyValidator.INVALID);
+	// Check system asserts.
+        System.assertEquals(lstContact[0].Home_Phone_Type__c, NumVerifyValidator.INVALID, 'Provided number is not Invalid type');
+        System.assertEquals(lstContact[0].Mobile_Phone_Type__c, NumVerifyValidator.INVALID, 'Provided number is not Invalid type');
+        System.assertEquals(lstContact[0].Other_Phone_Type__c, NumVerifyValidator.INVALID, 'Provided number is not Invalid type');
     }
-    
-    //test for Non Guarantor Contact.
+
+    /**
+     * This method checks logic for Non Guarantor Contact.
+     **/
     static testMethod void testNonGuarantor_HomeLandline() {
-        //Generate Patient Contact
+        // Generate Patient Contact
         Contact con = TestUtility.generatePatientContact();
         con.HomePhone = '6157187745';
         con.MobilePhone = '';
         con.OtherPhone = '';
+        
         Test.startTest();
         TestUtility.statusCode = 200;
         TestUtility.body = PhoneNumberCalloutResponseBody.responseLandline();
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        insert con;
+        INSERT con;
         Test.stopTest();
 
         List<Contact> lstContact = [SELECT
                                   Id, OtherPhone, MobilePhone, HomePhone, Home_Phone_Type__c,
                                   Mobile_Phone_Type__c, Other_Phone_Type__c, CTINumber1__c, CTINumber2__c,
                                   CTINumber3__c
-                                  FROM Contact WHERE Id =: con.Id];
+                                  FROM Contact WHERE Id = :con.Id];
 
-	//Check system assert.
-	//All conditions we follow to generate CTINumber1__c based on HomePhone.
-	//But Contact is not Guarantor that's why CTINumber1__c becomes null.
-        System.assertEquals(lstContact[0].CTINumber1__c, null);
+    	// Check system assert.
+    	// All conditions we follow to generate CTINumber1__c based on HomePhone.
+    	// But Contact is not Guarantor that's why CTINumber1__c becomes null.
+        System.assertEquals(lstContact[0].CTINumber1__c, null, 'CTINumber1__c should be null because of non-guarantor contact');
     }
 
+    /**
+     * This method checks logic for CTIAssignment for Home and Landline.
+     **/
     @isTest
     static void testCTIAssignment_HomeLandlineOnly() {
         String phoneNumber = '5128823456';
         Contact contact = new Contact(HomePhone=phoneNumber, Home_Phone_Type__c=NumVerifyValidator.LANDLINE);
 
+        Test.startTest();
         ContactTriggerHandler.setCTINumbers(contact);
+        Test.stopTest();
+        
+        // Check system asserts.
         System.assert(phoneNumber.equals(contact.CTINumber1__c), 'Expected CTINumber1 to be 5128823456');
         System.assert(String.isEmpty(contact.CTINumber2__c), 'Expected CTINumber2 to be empty');
         System.assert(String.isEmpty(contact.CTINumber3__c), 'Expected CTINumber3 to be empty');
     }
 
+    /**
+     * This method checks logic for CTIAssignment for Home and Mobile.
+     **/
     @isTest
     static void testCTIAssignment_HomeMobileOnly() {
         String phoneNumber = '5128823456';
         Contact contact = new Contact(HomePhone=phoneNumber, Home_Phone_Type__c=NumVerifyValidator.MOBILE);
 
+        Test.startTest();
         ContactTriggerHandler.setCTINumbers(contact);
+        Test.stopTest();
+        
+        // Check system asserts.
         System.assert(phoneNumber.equals(contact.CTINumber2__c), 'Expected CTINumber2 to be 5128823456');
         System.assert(String.isEmpty(contact.CTINumber1__c), 'Expected CTINumber1 to be empty');
         System.assert(String.isEmpty(contact.CTINumber3__c), 'Expected CTINumber3 to be empty');
     }
 
+    /**
+     * This method checks logic for CTIAssignment for Mobile and Landline.
+     **/
     @isTest
     static void testCTIAssignment_MobileLandlineOnly() {
         String phoneNumber = '5128823456';
         Contact contact = new Contact(MobilePhone=phoneNumber, Mobile_Phone_Type__c=NumVerifyValidator.LANDLINE);
 
+        Test.startTest();
         ContactTriggerHandler.setCTINumbers(contact);
+        Test.stopTest();
+        
+        // Check system asserts.
         System.assert(phoneNumber.equals(contact.CTINumber1__c), 'Expected CTINumber1 to be 5128823456');
         System.assert(String.isEmpty(contact.CTINumber2__c), 'Expected CTINumber2 to be empty');
         System.assert(String.isEmpty(contact.CTINumber3__c), 'Expected CTINumber3 to be empty');
     }
 
+    /**
+     * This method checks logic for CTIAssignment for Mobile.
+     **/
     @isTest
     static void testCTIAssignment_MobileMobileOnly() {
         String phoneNumber = '5128823456';
         Contact contact = new Contact(MobilePhone=phoneNumber, Mobile_Phone_Type__c=NumVerifyValidator.MOBILE);
 
+        Test.startTest();
         ContactTriggerHandler.setCTINumbers(contact);
+        Test.stopTest();
+        
+        // Check system asserts.
         System.assert(phoneNumber.equals(contact.CTINumber2__c), 'Expected CTINumber2 to be 5128823456');
         System.assert(String.isEmpty(contact.CTINumber1__c), 'Expected CTINumber1 to be empty');
         System.assert(String.isEmpty(contact.CTINumber3__c), 'Expected CTINumber3 to be empty');
     }
-    
+
+    /**
+     * This method checks logic for CTIAssignment for All Landline numbers.
+     **/
     @isTest
     static void testCTIAssignment_AllNumbersLandlineOnly() {
         String homePhone = '5128823456';
@@ -240,14 +298,21 @@ public class ContactTriggerTest {
         			MobilePhone = mobilePhone, Mobile_Phone_Type__c = NumVerifyValidator.LANDLINE,
         			OtherPhone = otherPhone, Other_Phone_Type__c = NumVerifyValidator.LANDLINE);
 
+        Test.startTest();
         ContactTriggerHandler.setCTINumbers(contact);
+        Test.stopTest();
+        
+        // Check system asserts.
         System.assert(homePhone.equals(contact.CTINumber1__c), 'Expected CTINumber1 to be 5128823456');
         System.assert(otherPhone.equals(contact.CTINumber3__c), 'Expected CTINumber3 to be 4528321232');
         System.assert(String.isEmpty(contact.CTINumber2__c), 'Expected CTINumber2 to be empty');
         //mobile number is not assign in any CTI number bz of Mobile_Phone_Type__c is LANDLINE
         //but CTINumber1 and CTINumber3 is not empty.
     }
-    
+
+    /**
+     * This method checks logic for CTIAssignment for All Mobile numbers.
+     **/
     @isTest
     static void testCTIAssignment_AllNumbersMobileOnly() {
         String homePhone = '5128823456';
@@ -257,11 +322,15 @@ public class ContactTriggerTest {
         			MobilePhone = mobilePhone, Mobile_Phone_Type__c = NumVerifyValidator.MOBILE,
         			OtherPhone = otherPhone, Other_Phone_Type__c = NumVerifyValidator.MOBILE);
 
+        Test.startTest();
         ContactTriggerHandler.setCTINumbers(contact);
+        Test.stopTest();
+        
+        // Check system asserts.
         System.assert(mobilePhone.equals(contact.CTINumber2__c), 'Expected CTINumber2 to be 5128823444');
         System.assert(String.isEmpty(contact.CTINumber1__c), 'Expected CTINumber1 to be empty');
         System.assert(String.isEmpty(contact.CTINumber3__c), 'Expected CTINumber3 to be empty');
-        //Homephone and Otherphone is not assign in any CTI number bz of Home_Phone_Type__c and Other_Phone_Type__c are MOBILE
-        //and CTINumber2 is not empty.
+        // Homephone and Otherphone is not assign in any CTI number bz of Home_Phone_Type__c and Other_Phone_Type__c are MOBILE
+        // and CTINumber2 is not empty.
     }
 }

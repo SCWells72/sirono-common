@@ -45,7 +45,7 @@ public class PaymentPlanJSONParsing {
         public Payment_Plan__c paymentPlanRecord {get;set;}
         public List<Encounter__c> encounterRecords {get; set;}
 
-        Public paymentPlanWrapper() {
+        Public PaymentPlanWrapper() {
             chargeGroupRecords = new List<Charge_Group__c>();
             paymentPlanRecord = new Payment_Plan__c();
             encounterRecords = new List<Encounter__c>();
@@ -56,16 +56,17 @@ public class PaymentPlanJSONParsing {
         return (PaymentPlanJSONParsing) System.JSON.deserialize(json, PaymentPlanJSONParsing.class);
     }
 
+    //TODO when do we pass in a chargegroupId? why don't we just always retrieve all that were sent back with the plan?
     public static PaymentPlanWrapper createPaymentPlanRecord(String json, String contactId,
             String paymentPlanId, String chargeGroupId) {
 
         List<String> lstString = new list<String>();
         Set<Decimal> setchargeGroupID = new Set<Decimal>();
-        if (!String.Isblank(chargeGroupId)) {
+        if (!String.isBlank(chargeGroupId)) {
             lstString = chargeGroupId.Split(',');
             for (String str : lstString) {
                 if (str.isNumeric()) {
-                    setchargeGroupID.add(Decimal.Valueof(str));
+                    setchargeGroupID.add(Decimal.valueOf(str));
                 }
             }
         }
@@ -86,14 +87,14 @@ public class PaymentPlanJSONParsing {
 
         paymentPlanObj.Remaining_Balance__c = PayStaffWSUtill.convertToDollars(objJson.payable_amount);
         paymentPlanObj.Execute_on_Day__c = objJson.execute_on_day;
-        if (!String.Isblank(objJson.next_payment_date)) {
+        if (!String.isBlank(objJson.next_payment_date)) {
             paymentPlanObj.NextPaymentDate__c = Date.valueof(objJson.next_payment_date);
         }
-        if (!String.Isblank(objJson.skip_payment_until)) {
+        if (!String.isBlank(objJson.skip_payment_until)) {
             paymentPlanObj.Skip_Payment_Until__c = Date.valueof(objJson.skip_payment_until);
         }
         paymentPlanObj.Has_Error__c = objJson.has_error;
-        if (!String.Isblank(String.valueof(objJson.error_date))) {
+        if (!String.isBlank(String.valueof(objJson.error_date))) {
             paymentPlanObj.Error_Date__c = Date.valueof(objJson.error_date);
         } else {
             paymentPlanObj.Error_Date__c = null;
@@ -105,17 +106,29 @@ public class PaymentPlanJSONParsing {
             paymentPlanObj.Delinquent_Date__c = null;
         }
 
-        paymentPlanObj.Guarantor__c = contactId;
+        if (!String.isBlank(contactId)) {
+            paymentPlanObj.Guarantor__c = contactId;
+        } else {
+            String gtId = getExternalId(objJson.guarantor, 'guarantors');
+            Contact gt = [
+                    SELECT Id
+                    FROM Contact
+                    WHERE RecordTypeId =: RecordTypeUtil.guarantorRt
+                    AND Profile_Pointer_Id__c =: Decimal.valueOf(gtId)
+                    LIMIT 1];
+            paymentPlanObj.Guarantor__c = gt.Id;
+        }
+
         paymentPlanObj.Status__c = objJson.status;
-        if (!String.Isblank(objJson.url)) {
+        if (!String.isBlank(objJson.url)) {
             String strPaymentPlan = getExternalID(String.valueof(objJson.url), 'paymentplan');
-            Decimal paymentPlanExternalID = Decimal.Valueof(strPaymentPlan);
-            if (!String.Isblank(strPaymentPlan)) {
+            Decimal paymentPlanExternalID = Decimal.valueOf(strPaymentPlan);
+            if (!String.isBlank(strPaymentPlan)) {
                 paymentPlanObj.Sirono_ID__c = paymentPlanExternalID;
                 paymentPlanObj.Name = String.valueof(paymentPlanObj.Sirono_ID__c);
                 List<Payment_Plan__c> paymentPlan = [Select Id, Sirono_ID__c from Payment_Plan__c where Sirono_ID__c =: paymentPlanExternalID ];
                 if (paymentPlan.Size() > 0) {
-                    paymentPlanObj.ID = paymentPlan[0].Id ;
+                    paymentPlanObj.Id = paymentPlan[0].Id ;
                 }
             }
         }
@@ -127,7 +140,7 @@ public class PaymentPlanJSONParsing {
             for (String str : objJson.chargegroups) {
                 String strChargeGroupID = getExternalID(String.valueof(str), 'chargegroups');
                 if (strChargeGroupID.isNumeric()) {
-                    setchargeGroupID.add(Decimal.Valueof(strChargeGroupID));
+                    setchargeGroupID.add(Decimal.valueOf(strChargeGroupID));
                 }
             }
         }
@@ -145,7 +158,8 @@ public class PaymentPlanJSONParsing {
         return objPaymentPlanWrapper;
     }
 
-    //Viraj Rana : 09-15-2016: Split the URL and return the last number which is external id.
+    //Split the URL and return the last number which is external id.
+    //TODO this should be in a superclass for all the JSON parsers
     public Static String getExternalID(String url, string splitWith) {
         String[] externalID = url.split(splitWith);
         return externalID[externalID.Size() - 1].replaceAll('/', '');

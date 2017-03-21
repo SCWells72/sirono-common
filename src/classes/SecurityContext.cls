@@ -13,7 +13,7 @@ public abstract with sharing class SecurityContext {
     public abstract Boolean deleteActionAllowed();
     public Set<String> fieldsToCheck { get; set; }
     public ACTION objectAction { get; set; }
-    
+
     /**
      * This method is use to call Verify method of Security Util Class.
      *

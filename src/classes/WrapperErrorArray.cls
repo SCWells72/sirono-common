@@ -1,16 +1,17 @@
-/*
-* @author Sirono
-* @version 1.0.1
-* @Date: 09-20-2016
-* @description
-* Viraj Rana: Public class to parse the error response.
-* 
-*/
-Public class WrapperErrorArray {
+
+public class WrapperErrorArray extends WrapperBadResponse {
     public class Errors {
         public String non_field_errors;
     }
 
     public String kind;
     public List<Errors> errors;
+
+    public override List<String> getErrors() {
+        List<String> errs = new String[]{};
+        for(Errors nonFieldError: errors) {
+            errs.add(String.format(WrapperBadResponse.LONG_ERROR, new String[]{kind, WrapperBadResponse.NON_FIELD_ERRORS_STR, nonFieldError.non_field_errors}));
+        }
+        return errs;
+    }
 }

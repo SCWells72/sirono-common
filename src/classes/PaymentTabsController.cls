@@ -288,7 +288,6 @@ public with sharing class PaymentTabsController
 	private static void doDeletePaymentPlan(String csrfToken, String jwtToken, String guarantorId, String paymentPlanExtId)
 	{
 		PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper = PaymentTabsController.callPaymentPlanRequest(csrfToken, jwtToken, guarantorId, paymentPlanExtId);
-		System.debug('doDeletePaymentPlan');
 		HttpRequest req = new HttpRequest();
 		req.setMethod('DELETE');
 		req.setHeader('Authorization', 'JWT ' + jwtToken);
@@ -310,7 +309,6 @@ public with sharing class PaymentTabsController
 
 		if (res.getStatusCode() != null && res.getStatusCode() == 204)
 		{
-			System.debug('objPaymentPlanWrapper:'+objPaymentPlanWrapper);
 			if (objPaymentPlanWrapper != null)
 			{
 				List<Charge_Group__c> chargeGroups = objPaymentPlanWrapper.chargeGroupRecords;

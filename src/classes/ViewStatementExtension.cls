@@ -1,4 +1,4 @@
-/* 
+/*
 * @author Sirono
 * @version 1.0.1
 * @date   07-12-2016
@@ -42,13 +42,14 @@ public with sharing class ViewStatementExtension {
     //Parsing the response from external Webservice callout
     private Map<String, String> getStatementUrlMap(String guarantorId) {
         Map<String, String> stmtUrlMmap = new Map<String, String>();
+        GuarantorsRestClient guarantorsRestClient;
         try {
-            HttpResponse res = PayStaffWSUtill.getStatementUrls(guarantorId);
+            guarantorsRestClient = new guarantorsRestClient();
+            guarantorsRestClient.getStatements(guarantorId.replace(',', ''));
 
-            if (200 == res.getStatusCode()) {
+            if (guarantorsRestClient.getStatusCode() == RestClientConstants.HTTP_SUCCESS) {
                 // Parse JSON response to get all the statement date/url pairs
-                JSONParser parser = JSON.createParser(res.getBody());
-                System.debug('res' + res.getBody());
+                JSONParser parser = JSON.createParser(guarantorsRestClient.getResponseBody());
 
                 while (parser.nextToken() != null) {
                     if (parser.getCurrentToken() == JSONToken.START_OBJECT) {
@@ -60,9 +61,6 @@ public with sharing class ViewStatementExtension {
                         }
                     }
                 }
-            } else {
-                System.debug('Error retrieving stmt urls for guarantor: ' + guarantorId + ' statusCode: ' + res.getStatus() +
-                        ' body: ' + res.getBody());
             }
         } catch (Exception ex) {
             if (Apexpages.currentPage() != null) {
@@ -75,7 +73,7 @@ public with sharing class ViewStatementExtension {
         return stmtUrlMmap;
     }
 
-    //Inner Class 
+    //Inner Class
 
     private class StatementURL {
         public Date statement_date;
