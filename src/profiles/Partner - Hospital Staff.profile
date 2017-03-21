@@ -485,27 +485,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>PaymentArrangement</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PaymentArrangementSecurityContext</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PaymentArrangementTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PaymentArrangementTriggerHandler</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>PaymentJSONParsing</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PaymentMethodSecurityContext</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -3035,56 +3015,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Payment_Arrangement__c.Amount__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Payment_Arrangement__c.Arrangement_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Arrangement__c.Billed_Date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Arrangement__c.Date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Payment_Arrangement__c.Encounter__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Arrangement__c.Installment_Amount__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Arrangement__c.Max_Amount__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Arrangement__c.Number_of_Installments__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Arrangement__c.Original_Installment_Count__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Payment_Arrangement__c.Payment_Method__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Payment_Method__c.Account_Number__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4071,17 +4001,6 @@
         <layout>Payment_Adjustments__c-Adjustments</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment_Arrangement__c-Payment Arrangement Layout</layout>
-        <recordType>Payment_Arrangement__c.Deposit</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Payment_Arrangement__c-Payment Arrangement Layout</layout>
-        <recordType>Payment_Arrangement__c.Payment_Plan</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Payment_Arrangement__c-Payment Arrangements</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Payment_Method__c-ACH</layout>
         <recordType>Payment_Method__c.ACH</recordType>
     </layoutAssignments>
@@ -4402,10 +4321,6 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>PaymentArrangement</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
-    <pageAccesses>
         <apexPage>PaymentPlanGoodStanding</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
@@ -4533,16 +4448,6 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>true</default>
-        <recordType>Payment_Arrangement__c.Deposit</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>Payment_Arrangement__c.Payment_Plan</recordType>
-        <visible>false</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
         <default>false</default>
         <recordType>Payment_Method__c.ACH</recordType>
         <visible>true</visible>
@@ -4597,10 +4502,6 @@
     <tabVisibilities>
         <tab>Payment_Adjustments__c</tab>
         <visibility>DefaultOff</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>Payment_Arrangement__c</tab>
-        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Payment_Method__c</tab>

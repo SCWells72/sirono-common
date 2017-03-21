@@ -133,12 +133,6 @@ public class TestUtility {
         return encounter;
     }
 
-    // Return Payment Arrangement record
-    public static Payment_Arrangement__c generatePaymentArrangement(String encounterId) {
-        Payment_Arrangement__c paymentArrangement = new Payment_Arrangement__c(Encounter__c = encounterId);
-        return paymentArrangement;
-    }
-
     // Return a new case record
     public static Case generateCase(String rTypeId, String cType, String gId) {
         Case objCase = new Case();

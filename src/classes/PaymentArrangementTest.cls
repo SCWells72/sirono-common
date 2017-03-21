@@ -10,7 +10,7 @@
 @isTest
 public class PaymentArrangementTest {
 
-    //Unit test for the class PaymentArrangement
+    /*//Unit test for the class PaymentArrangement
     @isTest public static void paymentArrangementtest1() {
 
         Contact patientContact = TestUtility.generatePatientContact();
@@ -51,12 +51,12 @@ public class PaymentArrangementTest {
 
         objPaymentArrangement.submitPaymentArrangement();
         objPaymentArrangement.paymentMethodType = '12';
-    }
+    }*/
     
     /**
      * Check all access rights for a read only User using runAs.
      **/
-    @isTest
+    /*@isTest
     static void checkAccessRights() {
         List<PaymentArrangementSecurityContext> allContexts = new List<PaymentArrangementSecurityContext>{
         	PaymentArrangementSecurityContext.CREATE_CONTEXT
@@ -74,5 +74,5 @@ public class PaymentArrangementTest {
                 }
             }
         }
-    }
+    }*/
 }

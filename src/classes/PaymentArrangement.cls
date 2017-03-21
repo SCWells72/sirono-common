@@ -10,7 +10,7 @@
 
 public with sharing class PaymentArrangement {
 
-    public Payment_Arrangement__c paymentArrangement {get; set;}
+    /*public Payment_Arrangement__c paymentArrangement {get; set;}
     public Payment_Method__c newPaymentMethod {get; set;}
     public List<PaymentMethodWrapper> paymentMethodList {get; set;}
     public String paymentMethodType {get; set;}
@@ -19,12 +19,12 @@ public with sharing class PaymentArrangement {
     public Contact guarantor {get; set;}
     public String encounterId {get; set;}
     public Boolean createPaymentMethod {get; set;}
-    public String creditCardRecordID = '';
+    public String creditCardRecordID = '';*/
 
     /*
      * Constructor of class,declare the variables.
      */
-    public PaymentArrangement(ApexPages.StandardController sc) {
+    /*public PaymentArrangement(ApexPages.StandardController sc) {
         paymentMethodTypeOptions = new List<SelectOption>();
         encounterId = sc.getId();
         encounter = new Encounter__c();
@@ -46,12 +46,12 @@ public with sharing class PaymentArrangement {
             guarantor = PayStaffWSUtill.fetchContact(encounter.Guarantor__c);
             getGuarantorPaymentMethods(guarantor.Id);
         }
-    }
+    }*/
 
     /*
      * get all the payment record type list.
      */
-    private List<SelectOption> getPaymentRecordTypes() {
+    /*private List<SelectOption> getPaymentRecordTypes() {
         List<SelectOption> options = new List<SelectOption>();
         for (RecordType rt : [
                 Select SobjectType, Name, IsActive, Id
@@ -66,12 +66,12 @@ public with sharing class PaymentArrangement {
             }
         }
         return options;
-    }
+    }*/
 
     /*
      * get list of payment methods.
      */
-    private void getGuarantorPaymentMethods(String gId) {
+    /*private void getGuarantorPaymentMethods(String gId) {
         for (Payment_Method__c p : [
                 Select p.Routing_Number__c, p.RecordTypeId,
                         p.Payment_Method_Token__c, p.Name,
@@ -84,12 +84,12 @@ public with sharing class PaymentArrangement {
         ]) {
             paymentMethodList.add(new PaymentMethodWrapper(p, false));
         }
-    }
+    }*/
 
     /*
      * Insert new Payment Arrangement record and set the lookup.
      */
-    public PageReference submitPaymentArrangement() {
+    /*public PageReference submitPaymentArrangement() {
         for (PaymentMethodWrapper objPM : paymentMethodList) {
             if (objPM.isSelected) {
                 paymentArrangement.Payment_Method__c = objPM.pm.Id;
@@ -99,30 +99,30 @@ public with sharing class PaymentArrangement {
             INSERT paymentArrangement;
         }
         return new PageReference('/' + encounterId);
-    }
+    }*/
 
     /*
      * Initialize the Payment Method object record and set the record values.
      */
-    public void createNewPaymentMethod() {
+    /*public void createNewPaymentMethod() {
         createPaymentMethod = true;
         newPaymentMethod = new Payment_Method__c();
         newPaymentMethod.Guarantor__c = guarantor.Id;
         newPaymentMethod.RecordTypeID = creditCardRecordID;
-    }
+    }*/
 
     /*
      * Initilize the Payment Method object record with null
      */
-    public void cancelNewPaymentMethod() {
+    /*public void cancelNewPaymentMethod() {
         createPaymentMethod = false;
         newPaymentMethod = null;
-    }
+    }*/
 
     /*
      * Insert a payment method record.    
      */
-    public void saveNewPaymentMethod() {
+    /*public void saveNewPaymentMethod() {
         if (PaymentMethodSecurityContext.CREATE_CONTEXT.actionAllowed()) {
             INSERT newPaymentMethod;
         }
@@ -131,12 +131,12 @@ public with sharing class PaymentArrangement {
         }
         paymentMethodList.add(new PaymentMethodWrapper(newPaymentMethod, true));
         createPaymentMethod = false;
-    }
+    }*/
 
     /*
      * wrapper class for the payment method.  
      */
-    public class PaymentMethodWrapper {
+    /*public class PaymentMethodWrapper {
         public Boolean isSelected {get; set;}
         public Payment_Method__c pm {get; set;}
 
@@ -144,5 +144,5 @@ public with sharing class PaymentArrangement {
             isSelected = isSelect;
             pm = pmObj;
         }
-    }
+    }*/
 }

@@ -285,15 +285,6 @@
     </platformActionList>
     <quickActionList/>
     <relatedLists>
-        <fields>NAME</fields>
-        <fields>Amount__c</fields>
-        <fields>Installment_Amount__c</fields>
-        <fields>Original_Installment_Count__c</fields>
-        <fields>Billed_Date__c</fields>
-        <fields>CREATED_DATE</fields>
-        <relatedList>Payment_Arrangement__c.Encounter__c</relatedList>
-    </relatedLists>
-    <relatedLists>
         <fields>CASES.CASE_NUMBER</fields>
         <fields>CASES.PRIORITY</fields>
         <fields>CASES.STATUS</fields>
