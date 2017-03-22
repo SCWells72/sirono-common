@@ -386,7 +386,6 @@
     <types>
         <members>Five9</members>
         <members>Informatica</members>
-        <members>ca_collab_2_0</members>
         <members>sf_chttr_apps</members>
         <members>sf_com_apps</members>
         <name>InstalledPackage</name>
