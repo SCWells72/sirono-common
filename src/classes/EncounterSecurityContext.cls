@@ -45,11 +45,4 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
     public override System.Type getObjectType() {
         return Encounter__c.class;
     }
-    
-    /**
-     * Override deleteActionAllowed method of SecurityContext class
-     **/
-    public override Boolean deleteActionAllowed() { 	
-        return Encounter__c.sObjectType.getDescribe().isDeletable();
-    }
 }

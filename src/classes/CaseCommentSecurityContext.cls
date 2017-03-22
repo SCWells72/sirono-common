@@ -35,11 +35,4 @@ public with sharing class CaseCommentSecurityContext extends SecurityContext {
     public override System.Type getObjectType() {
         return CaseComment.class;
     }
-    
-    /**
-     * Override deleteActionAllowed method of SecurityContext class
-     **/
-    public override Boolean deleteActionAllowed() { 	
-        return CaseComment.sObjectType.getDescribe().isDeletable();
-    }
 }

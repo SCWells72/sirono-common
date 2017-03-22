@@ -35,11 +35,4 @@ public with sharing class PaymentMethodSecurityContext extends SecurityContext {
     public override System.Type getObjectType() {
         return Payment_Method__c.class;
     }
-    
-    /**
-     * Override deleteActionAllowed method of SecurityContext class
-     **/
-    public override Boolean deleteActionAllowed() { 	
-        return Payment_Method__c.sObjectType.getDescribe().isDeletable();
-    }
 }

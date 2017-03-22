@@ -35,11 +35,4 @@ public with sharing class ContactSecurityContext extends SecurityContext {
     public override System.Type getObjectType() {
         return Contact.class;
     }
-    
-    /**
-     * Override deleteActionAllowed method of SecurityContext class
-     **/
-    public override Boolean deleteActionAllowed() { 	
-        return Contact.sObjectType.getDescribe().isDeletable();
-    }
 }

@@ -34,11 +34,4 @@ public with sharing class ServiceSecurityContext extends SecurityContext {
     public override System.Type getObjectType() {
         return Service__c.class;
     }
-    
-    /**
-     * Override deleteActionAllowed method of SecurityContext class
-     **/
-    public override Boolean deleteActionAllowed() { 	
-        return Service__c.sObjectType.getDescribe().isDeletable();
-    }
 }
