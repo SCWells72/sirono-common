@@ -455,17 +455,18 @@ public with sharing class PayStaffWSUtill {
         Map<Decimal,Decimal> mapTranPayAdjId = new Map<Decimal,Decimal>();
 
         if (isPayment) {
-            objPayment = new Payment__c();
+            Payment__c objPayment = new Payment__c();
             objPayment = PaymentJSONParsing.parse(jsonStr);
+            payments.add(objPayment);
         } else {
             lstPaymentAdjustment = PaymentAdjustmentJSONParsing.parse(jsonStr);
         }
 
-        if (objPayment != null) {
-            callTransactionRequest(csrfToken, jwtToken, objPayment, null, isPayment);
+        if (payments.size() > 0) {
+            callTransactionRequest(csrfToken, jwtToken, payments, null, isPayment);
         } else if (lstPaymentAdjustment.size() > 0) {
             for (Payment_Adjustments__c objPaymentAdjustment : lstPaymentAdjustment) {
-                objPaymentAdjustmentwrapper = callTransactionRequest(csrfToken, jwtToken, null, objPaymentAdjustment, isPayment);
+                objPaymentAdjustmentwrapper = callTransactionRequest(csrfToken, jwtToken, null, String.valueOf(objPaymentAdjustment.Sirono_ID__c), isPayment);
 
                 lstTransaction.add(objPaymentAdjustmentwrapper.objTransaction);
                 mapTranPayAdjId.put(objPaymentAdjustment.Sirono_ID__c, objPaymentAdjustmentwrapper.objTransaction.Sirono_ID__c);
@@ -480,17 +481,22 @@ public with sharing class PayStaffWSUtill {
 
             //Save all Records if it is Take Adjustment/Discount.
             if (lstChargeGroup.size() > 0) {
-                update lstChargeGroup;
+                if (ChargeGroupSecurityContext.UPDATE_WITH_STATUS_CONTEXT.actionAllowed()) {
+                    UPDATE lstChargeGroup;
+                }
             }
 
             if (lstPaymentPlan.size() > 0) {
-                update lstPaymentPlan;
+                if (PaymentPlanSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+                    UPDATE lstPaymentPlan;
+                }
             }
 
             if (lstTransaction.size() > 0) {
                 if (TransactionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
                     INSERT lstTransaction;
                 }
+
                 List<Transaction__c> lstTran = [SELECT Id, Sirono_ID__c FROM Transaction__c
                                             where Sirono_ID__c in : mapTranPayAdjId.values()];
 
@@ -504,7 +510,9 @@ public with sharing class PayStaffWSUtill {
                     pa.Transaction__c = mapTran.get(tranId);
                 }
 
-                insert lstPaymentAdjustment;
+                if (PaymentAdjustmentsSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+                    INSERT lstPaymentAdjustment;
+                }
             }
         }
     }
@@ -512,7 +520,7 @@ public with sharing class PayStaffWSUtill {
     /*
     * Call Transaction Request and get all Transactions based on Payment.
     */
-    private static PaymentAdjustmentwrapper callTransactionRequest(String csrfToken, String jwtToken, Payment__c objPayment, Payment_Adjustments__c objPaymentAdjustment, boolean isPayment){
+    private static PaymentAdjustmentwrapper callTransactionRequest(String csrfToken, String jwtToken, List<Payment__c> payments, String paymentAdjustmentSironoId, boolean isPayment){
 
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
 
@@ -552,7 +560,7 @@ public with sharing class PayStaffWSUtill {
         }
 
         if (res.getStatusCode() != null && res.getStatusCode() == 200) {
-            objPaymentAdjustmentwrapper = parseTransactionResponse(csrfToken, jwtToken, responseBody, objPayment, objPaymentAdjustment, isPayment);
+            objPaymentAdjustmentwrapper = parseTransactionResponse(csrfToken, jwtToken, responseBody, payments, isPayment);
         }else {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
                                     'RESPONSE : '+ res.toString() +
@@ -564,7 +572,7 @@ public with sharing class PayStaffWSUtill {
     /*
     * Parse Transaction response and based on Charge group call Charge group request.
     */
-    private static PaymentAdjustmentwrapper parseTransactionResponse(String csrfToken, String jwtToken, string jsonStr, Payment__c objPayment, Payment_Adjustments__c objPaymentAdjustment, boolean isPayment){
+    private static PaymentAdjustmentwrapper parseTransactionResponse(String csrfToken, String jwtToken, string jsonStr, List<Payment__c> payments, boolean isPayment){
         TransactionJSONParsing.TransactionWrapper objTransactionWrapper;
         objTransactionWrapper = TransactionJSONParsing.parse(jsonStr);
 
@@ -612,8 +620,10 @@ public with sharing class PayStaffWSUtill {
 
         //Save all Records if it is Take Payment.
         if (isPayment) {
-            insert objPayment;
-            id paymentId = objPayment.Id;
+            if (PaymentSecurityContext.PSWU_CREATE_CONTEXT.actionAllowed()) {
+            	INSERT payments;
+            }
+            Id paymentId = payments.get(0).Id;
 
             if (lsttransaction.size() > 0) {
                 for (Transaction__c objTran : lsttransaction) {
@@ -626,11 +636,15 @@ public with sharing class PayStaffWSUtill {
             }
 
             if (lstChargeGroup.size() > 0) {
-                update lstChargeGroup;
+                if (ChargeGroupSecurityContext.UPDATE_WITH_STATUS_CONTEXT.actionAllowed()) {
+                    UPDATE lstChargeGroup;
+                }
             }
 
             if (lstPaymentPlan.size() > 0) {
-                update lstPaymentPlan;
+                if (PaymentPlanSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+                    UPDATE lstPaymentPlan;
+                }
             }
         } else {
             //It is used for Adjustment/Discount.
