@@ -89,7 +89,6 @@
 		var maxAmount = cmp.get('v.maxAmount');
 		var newPlanValue = parseFloat(PaymentRequestInfo.planValue, 10);		
 		cmp.set('v.hasError', false);
-		//cmp.set('v.sliderValue', Math.ceil(newPlanValue));
 		var minInstallmentAmount = hlpr.getCalculatedMinInstallmentAmount(PaymentInfo.settings, PaymentRequestInfo.totalAmount);
 		
 		if (newPlanValue > PaymentRequestInfo.totalAmount) {
