@@ -4482,10 +4482,6 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>Field_Trip__Field_Analysis__c</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>Invoice__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
