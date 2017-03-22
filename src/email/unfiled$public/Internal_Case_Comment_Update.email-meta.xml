@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>internal case update notification</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Internal Case Comment Update</name>
+    <style>none</style>
+    <subject>Sirono Case Update {!Case.CaseNumber}:{!Case.Priority}:{!Case.Reason}</subject>
+    <type>text</type>
+</EmailTemplate>

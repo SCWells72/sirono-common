@@ -332,6 +332,12 @@
         <name>Document</name>
     </types>
     <types>
+        <members>unfiled$public/Internal_Case_Comment_Update</members>
+        <members>unfiled$public/Internal_Case_Creation</members>
+        <members>unfiled$public/SUPPORTNewassignmentnotificationSAMPLE</members>
+        <name>EmailTemplate</name>
+    </types>
+    <types>
         <members>Case.Administration Escalation Rules</members>
         <members>Case.Pre%2FPost-Service Escalation Rules</members>
         <name>EscalationRule</name>
