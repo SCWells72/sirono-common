@@ -1,0 +1,142 @@
+<project name="Initial Deploy of Sirono SFDC metadata" default="help"
+         basedir=".."
+         xmlns:sf="antlib:com.salesforce"
+         xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
+
+    <target name="help" description="default">
+        <echo message="Tasks to run for the initial deploy to a Dev org"/>
+    </target>
+
+    <target name="deployPrep" description="Prep source for an initial deployment to a dev org">
+        <getUsernamePrefix text="${sf.target.username}" property="un_prefix" />
+        <echo message="Turn off history tracking in all objects"/>
+        <replace dir="${basedir}/src/objects">
+            <replacetoken><![CDATA[<trackHistory>true</trackHistory>]]></replacetoken>
+            <replacevalue><![CDATA[<trackHistory>false</trackHistory>]]></replacevalue>
+            <include name="*.object"/>
+        </replace>
+
+        <echo message="Remove the Sirono_Partner_Queue"/>
+        <replace dir="${basedir}/src/objects">
+            <replacetoken><![CDATA[    <listViews>
+        <fullName>Sirono_Partner_Queue_Coverage</fullName>
+        <filterScope>Queue</filterScope>
+        <label>Sirono Partner Queue</label>
+        <queue>Sirono_Partner_Queue</queue>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+    </listViews>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+            <include name="Coverage__c.object"/>
+        </replace>
+        <replace dir="${basedir}/src/objects">
+            <replacetoken><![CDATA[    <listViews>
+        <fullName>Cases_in_Queue</fullName>
+        <filterScope>Queue</filterScope>
+        <label>Cases in Queue</label>
+        <queue>Sirono_Partner_Queue</queue>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+            <portalRoleAndSubordinates>SironoPartnerPartnerUser</portalRoleAndSubordinates>
+        </sharedTo>
+    </listViews>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+            <include name="Case.object"/>
+        </replace>
+        <replace dir="${basedir}/src/objects">
+            <replacetoken><![CDATA[    <listViews>
+        <fullName>Sirono_Partner_Queue_Case</fullName>
+        <filterScope>Queue</filterScope>
+        <label>Sirono Partner Queue</label>
+        <queue>Sirono_Partner_Queue</queue>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+    </listViews>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+            <include name="Case.object"/>
+        </replace>
+        <replace dir="${basedir}/src/objects">
+            <replacetoken><![CDATA[    <listViews>
+        <fullName>Sirono_Partner_Queue_Credit_Card</fullName>
+        <filterScope>Queue</filterScope>
+        <label>Sirono Partner Queue</label>
+        <queue>Sirono_Partner_Queue</queue>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+    </listViews>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+            <include name="Payment_Method__c.object"/>
+        </replace>
+        <replace file="${basedir}/src/package.xml">
+            <replacetoken><![CDATA[<members>Case.Sirono_Partner_Queue_Coverage</members>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+        </replace>
+        <replace file="${basedir}/src/package.xml">
+            <replacetoken><![CDATA[<members>Coverage__c.Sirono_Partner_Queue_Coverage</members>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+        </replace>
+        <replace file="${basedir}/src/package.xml">
+            <replacetoken><![CDATA[<members>Payment_Method__c.Sirono_Partner_Queue_Coverage</members>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+        </replace>
+        <move file="${basedir}/src/queues/Sirono_Partner_Queue.queue" tofile="${basedir}/src/queues/Sirono_Partner_Queue.queue.bak" overwrite="true"/>
+
+        <echo message="Make ${sf.target.username} admin for Guarantor_Portal and Partner_Community"/>
+        <replace dir="${basedir}/src/sites">
+            <replacetoken><![CDATA[<siteAdmin>sironodev@cloudcoop.io</siteAdmin>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
+            <include name="Guarantor_Portal.site"/>
+        </replace>
+        <replace dir="${basedir}/src/sites">
+            <replacetoken><![CDATA[<siteAdmin>sirono@cloudcoop.io</siteAdmin>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
+            <include name="Partner_Community.site"/>
+        </replace>
+
+        <echo message="Set subdomain for all sites to ${un_prefix}-community-1-developer-edition"/>
+        <replace dir="${basedir}/src/sites">
+            <replacetoken><![CDATA[<subdomain>sirono</subdomain>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<subdomain>${un_prefix}-community-1-developer-edition</subdomain>]]></replacevalue>
+            <include name="*.site"/>
+        </replace>
+
+        <echo message="Remove sharingRules"/>
+        <move todir="${basedir}/src/sharingRules" includeemptydirs="false">
+            <fileset dir="${basedir}/src/sharingRules">
+                <exclude name="**/*.bak"/>
+            </fileset>
+            <mapper type="glob" from="*" to="*.bak"/>
+        </move>
+    </target>
+
+    <target name="revertPrep">
+        <echo message="Revert all changes in ${basedir}/src"/>
+        <exec dir="${basedir}/src" executable="git">
+            <arg value="checkout"/>
+            <arg value="--"/>
+            <arg value="${basedir}/src"/>
+        </exec>
+        <exec dir="${basedir}/src" executable="git">
+            <arg value="clean"/>
+            <arg value="-fd"/>
+        </exec>
+    </target>
+
+    <scriptdef name="getUsernamePrefix" language="javascript">
+        <attribute name="text" />
+        <attribute name="property" />
+        <![CDATA[
+       var str = attributes.get("text");
+       var end = str.indexOf("+");;
+       project.setProperty(attributes.get("property"), str.substring(0, end));
+     ]]>
+    </scriptdef>
+
+    <target name="test_getUsernamePrefix">
+        <getUsernamePrefix text="${sf.target.username}" property="un_prefix" />
+        <echo message="subtext = ${un_prefix}" />
+    </target>
+</project>

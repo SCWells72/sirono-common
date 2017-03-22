@@ -3062,15 +3062,6 @@
         </sharedTo>
     </listViews>
     <listViews>
-        <fullName>Cloud_CoOp_Case_Queue_Case</fullName>
-        <filterScope>Queue</filterScope>
-        <label>Cloud CoOp Case Queue</label>
-        <queue>Cloud_CoOp_Case_Queue</queue>
-        <sharedTo>
-            <allInternalUsers></allInternalUsers>
-        </sharedTo>
-    </listViews>
-    <listViews>
         <fullName>Demographic_Update</fullName>
         <columns>CASES.CASE_NUMBER</columns>
         <columns>Guarantor_Information__c</columns>
