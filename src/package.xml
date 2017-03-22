@@ -674,6 +674,10 @@
         <name>Scontrol</name>
     </types>
     <types>
+        <members>Name</members>
+        <name>Settings</name>
+    </types>
+    <types>
         <members>Case.Case_Sirono_Partner</members>
         <members>Case.Sirono_Internal</members>
         <members>Contact.Contact_Sirono_Internal</members>
