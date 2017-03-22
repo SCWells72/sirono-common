@@ -48,11 +48,4 @@ public with sharing class CaseCGJunctionSecurityContext extends SecurityContext 
     public override System.Type getObjectType() {
         return Case_Charge_Group_Junction__c.class;
     }
-    
-    /**
-     * Override deleteActionAllowed method of SecurityContext class
-     **/
-    public override Boolean deleteActionAllowed() { 	
-        return Case_Charge_Group_Junction__c.sObjectType.getDescribe().isDeletable();
-    }
 }

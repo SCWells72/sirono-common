@@ -53,11 +53,4 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
     public override System.Type getObjectType() {
         return Transaction__c.class;
     }
-
-    /**
-     * Override deleteActionAllowed method of SecurityContext class
-     **/
-    public override Boolean deleteActionAllowed() { 	
-        return Transaction__c.sObjectType.getDescribe().isDeletable();
-    }
 }

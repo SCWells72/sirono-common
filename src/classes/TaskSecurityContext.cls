@@ -55,11 +55,4 @@ public with sharing class TaskSecurityContext extends SecurityContext {
     public override System.Type getObjectType() {
         return Task.class;
     }
-    
-    /**
-     * Override deleteActionAllowed method of SecurityContext class
-     **/
-    public override Boolean deleteActionAllowed() { 	
-        return Task.sObjectType.getDescribe().isDeletable();
-    }
 }

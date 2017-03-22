@@ -46,11 +46,4 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
     public override System.Type getObjectType() {
         return Charge_Group__c.class;
     }
-    
-    /**
-     * Override deleteActionAllowed method of SecurityContext class
-     **/
-    public override Boolean deleteActionAllowed() { 	
-        return Charge_Group__c.sObjectType.getDescribe().isDeletable();
-    }
 }
