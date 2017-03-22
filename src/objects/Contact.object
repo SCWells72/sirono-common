@@ -1428,22 +1428,6 @@ CASE(Invoice_Status_Rollup__c,
         <label>All Staff</label>
     </listViews>
     <listViews>
-        <fullName>Contacts_w_TD_ID</fullName>
-        <columns>FULL_NAME</columns>
-        <columns>ACCOUNT.NAME</columns>
-        <columns>CONTACT.TITLE</columns>
-        <columns>CONTACT.PHONE1</columns>
-        <columns>CONTACT.EMAIL</columns>
-        <columns>CORE.USERS.ALIAS</columns>
-        <filterScope>Everything</filterScope>
-        <filters>
-            <field>Profile_Pointer_ID__c</field>
-            <operation>contains</operation>
-            <value>TD</value>
-        </filters>
-        <label>Contacts w/ TD ID</label>
-    </listViews>
-    <listViews>
         <fullName>MyContacts</fullName>
         <columns>FULL_NAME</columns>
         <columns>ACCOUNT.NAME</columns>
@@ -1453,18 +1437,6 @@ CASE(Invoice_Status_Rollup__c,
         <columns>CORE.USERS.ALIAS</columns>
         <filterScope>Mine</filterScope>
         <label>My Contacts</label>
-    </listViews>
-    <listViews>
-        <fullName>Test_View2</fullName>
-        <booleanFilter>(1 OR 2 OR 3 OR 4 OR 5 OR 6) AND 7</booleanFilter>
-        <columns>FULL_NAME</columns>
-        <columns>ACCOUNT.NAME</columns>
-        <filterScope>Everything</filterScope>
-        <filters>
-            <field>Profile_Pointer_ID__c</field>
-            <operation>notEqual</operation>
-        </filters>
-        <label>Calculated Balance</label>
     </listViews>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <recordTypes>
