@@ -117,9 +117,7 @@
 		var balance = e.getParam('paymentBalance');
 		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
 		console.log('Recalculate Total Amount:', balance, PaymentRequestInfo);
-		PaymentRequestInfo.totalAmount = balance;
-		//cmp.set('v.PaymentRequestInfo', PaymentRequestInfo);
-				
+		PaymentRequestInfo.totalAmount = balance;				
 	},
 
 	changeSlider: function(cmp, e, hlpr) {
