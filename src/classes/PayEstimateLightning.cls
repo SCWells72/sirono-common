@@ -21,22 +21,22 @@ public with sharing class PayEstimateLightning {
     public String state {get; set;}
     public String zip {get; set;}
     public String errorMessages{get;set;}
-    // Getter setter of expYearOptions - That gets the Year Options from PayStaffWSUtillLightning Class.
+    // Getter setter of expYearOptions - That gets the Year Options from PayStaffWSUtill Class.
     public List<SelectOption> expYearOptions {
         get {
             if (expYearOptions == null) {
-                expYearOptions = PayStaffWSUtillLightning.expYearOptions;
+                expYearOptions = PayStaffWSUtill.expYearOptions;
             }
             return expYearOptions;
         }
         protected set;
     }
 
-    // Getter setter of expMonthOptions - That gets the Month Options from PayStaffWSUtillLightning Class.
+    // Getter setter of expMonthOptions - That gets the Month Options from PayStaffWSUtill Class.
     public List<SelectOption> expMonthOptions {
         get {
             if (expMonthOptions == null) {
-                expMonthOptions = PayStaffWSUtillLightning.expMonthOptions;
+                expMonthOptions = PayStaffWSUtill.expMonthOptions;
             }
             return expMonthOptions;
         }
