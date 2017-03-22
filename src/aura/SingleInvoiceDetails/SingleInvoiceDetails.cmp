@@ -34,22 +34,13 @@
                     <aura:if isTrue="{!v.invoice.singleInvoice.Partial_Payment_Plan__c}">
                         <div style="padding-bottom: 10px;">{! $Label.c.Invoice_Details_Partial_Payment_Plan_Message}</div>
                     </aura:if>
-            		<!--<aura:if isTrue="{!and((v.invoice.singleInvoice.Invoice_Status__c == 'Due' || v.invoice.singleInvoice.Invoice_Status__c == 'Overdue' || v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), not(v.invoice.singleInvoice.Partial_Payment_Plan__c))}">
-                        <div class="title clear"><a href="#">Pay Now</a> or <a href="#">Create Payment Plan</a></div>
-                    </aura:if>-->
-            		<!--<aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'On Payment Plan'}">
-                        <div class="title clear"><a href="#">Make Additional Payment</a></div>
-                    </aura:if>-->
-                    <!--<aura:if isTrue="{!and((v.invoice.singleInvoice.Invoice_Status__c == 'Due' || v.invoice.singleInvoice.Invoice_Status__c == 'Overdue' || v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'), v.invoice.singleInvoice.Partial_Payment_Plan__c)}">
-                        <div class="title clear"><a href="#">Pay Now</a> or <a href="#">Add to Payment Plan</a></div>
-                    </aura:if>-->
-        		</div>
-            <div class="col align-right slds-align-bottom"> 
-                <span class="title">Total You Owe &emsp;</span>  
-                <span class="value">
-                    <ui:outputCurrency value="{!v.invoice.balanceDue}" />
-                </span> 
-            </div> 
+		</div>
+	    	<div class="col align-right slds-align-bottom"> 
+		    <span class="title">Total You Owe &emsp;</span>  
+		    <span class="value">
+		    	<ui:outputCurrency value="{!v.invoice.balanceDue}" />
+		    </span> 
+	    	</div> 
             </header> 
             <aura:iteration items="{!v.invoice.allGroups}" var="group" > 
                         <div class="invoice-alert"> 
