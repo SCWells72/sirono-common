@@ -119,6 +119,10 @@
             <arg value="--"/>
             <arg value="${basedir}/src"/>
         </exec>
+        <exec dir="${basedir}/src" executable="git">
+            <arg value="clean"/>
+            <arg value="-fd"/>
+        </exec>
     </target>
 
     <scriptdef name="getUsernamePrefix" language="javascript">
