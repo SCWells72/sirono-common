@@ -84,23 +84,31 @@
         </replace>
         <move file="${basedir}/src/queues/Sirono_Partner_Queue.queue" tofile="${basedir}/src/queues/Sirono_Partner_Queue.queue.bak" overwrite="true"/>
 
-        <echo message="Make ${sf.target.username} admin for Guarantor_Portal and Partner_Community"/>
+        <echo message="Make ${sf.target.username} admin for all sites"/>
         <replace dir="${basedir}/src/sites">
             <replacetoken><![CDATA[<siteAdmin>sironodev@cloudcoop.io</siteAdmin>]]></replacetoken>
             <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
-            <include name="Guarantor_Portal.site"/>
+            <include name="*.site"/>
         </replace>
         <replace dir="${basedir}/src/sites">
             <replacetoken><![CDATA[<siteAdmin>sirono@cloudcoop.io</siteAdmin>]]></replacetoken>
             <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
-            <include name="Partner_Community.site"/>
+            <include name="*.site"/>
         </replace>
 
-        <echo message="Set subdomain for all sites to ${un_prefix}-community-1-developer-edition"/>
+        <echo message="Set subdomain for all community sites to ${un_prefix}-community-1-developer-edition"/>
         <replace dir="${basedir}/src/sites">
             <replacetoken><![CDATA[<subdomain>sirono</subdomain>]]></replacetoken>
             <replacevalue expandProperties="true"><![CDATA[<subdomain>${un_prefix}-community-1-developer-edition</subdomain>]]></replacevalue>
-            <include name="*.site"/>
+            <include name="Guarantor_Portal.site"/>
+            <include name="Partner_Community.site"/>
+        </replace>
+
+        <echo message="Set subdomain for five9 site to ${un_prefix}-1-dev-ed"/>
+        <replace dir="${basedir}/src/sites">
+            <replacetoken><![CDATA[<subdomain>five9tosirono</subdomain>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<subdomain>${un_prefix}-1-dev-ed</subdomain>]]></replacevalue>
+            <include name="Five9CreateCallLogRecord.site"/>
         </replace>
 
         <echo message="Remove sharingRules"/>
@@ -130,8 +138,11 @@
         <attribute name="property" />
         <![CDATA[
        var str = attributes.get("text");
-       var end = str.indexOf("+");;
-       project.setProperty(attributes.get("property"), str.substring(0, end));
+       var start = str.indexOf("+")+1;
+       var end = str.indexOf("@");
+       var subStr = str.substring(start, end);
+       subStr = subStr.replace('.', '');
+       project.setProperty(attributes.get("property"), subStr);
      ]]>
     </scriptdef>
 
