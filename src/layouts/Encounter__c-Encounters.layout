@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <customButtons>New_Payment_Arrangement</customButtons>
     <customButtons>Add_Attachment</customButtons>
     <customConsoleComponents>
         <subtabComponents>
@@ -14,14 +13,6 @@
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>
                         <name>Charge_Group__c.Encounter__c</name>
-                    </relatedLists>
-                </sidebarComponents>
-                <sidebarComponents>
-                    <componentType>RelatedList</componentType>
-                    <label>Payment Arrangements</label>
-                    <relatedLists>
-                        <hideOnDetail>true</hideOnDetail>
-                        <name>Payment_Arrangement__c.Encounter__c</name>
                     </relatedLists>
                 </sidebarComponents>
                 <sidebarComponents>
@@ -280,19 +271,7 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
-    <platformActionList>
-        <actionListContext>Record</actionListContext>
-    </platformActionList>
     <quickActionList/>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Amount__c</fields>
-        <fields>Installment_Amount__c</fields>
-        <fields>Original_Installment_Count__c</fields>
-        <fields>Billed_Date__c</fields>
-        <fields>CREATED_DATE</fields>
-        <relatedList>Payment_Arrangement__c.Encounter__c</relatedList>
-    </relatedLists>
     <relatedLists>
         <fields>CASES.CASE_NUMBER</fields>
         <fields>CASES.PRIORITY</fields>

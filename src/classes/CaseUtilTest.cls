@@ -853,9 +853,6 @@ public class CaseUtilTest {
         encounter1.Patient_Portion__c = 0;
         update encounter1;
 
-        Payment_Arrangement__c paymentArrangement = TestUtility.generatePaymentArrangement(encounter2.Id);
-        insert paymentArrangement;
-
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
@@ -939,9 +936,6 @@ public class CaseUtilTest {
         encounter1.Patient_Portion__c = 0;
         update encounter1;
 
-        Payment_Arrangement__c paymentArrangement = TestUtility.generatePaymentArrangement(encounter2.Id);
-        insert paymentArrangement;
-
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
@@ -1011,9 +1005,6 @@ public class CaseUtilTest {
         insert lstEncounter;
         encounter1.Patient_Portion__c = 0;
         update encounter1;
-
-        Payment_Arrangement__c paymentArrangement = TestUtility.generatePaymentArrangement(encounter2.Id);
-        insert paymentArrangement;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
