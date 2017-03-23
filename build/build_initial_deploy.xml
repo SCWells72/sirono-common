@@ -8,7 +8,7 @@
     </target>
 
     <target name="deployPrep" description="Prep source for an initial deployment to a dev org">
-        <getUsernamePrefix text="${sf.target.username}" property="un_prefix" />
+        <getOrgName text="${sf.target.username}" property="orgName" />
         <echo message="Turn off history tracking in all objects"/>
         <replace dir="${basedir}/src/objects">
             <replacetoken><![CDATA[<trackHistory>true</trackHistory>]]></replacetoken>
@@ -84,23 +84,17 @@
         </replace>
         <move file="${basedir}/src/queues/Sirono_Partner_Queue.queue" tofile="${basedir}/src/queues/Sirono_Partner_Queue.queue.bak" overwrite="true"/>
 
-        <echo message="Make ${sf.target.username} admin for Guarantor_Portal and Partner_Community"/>
-        <replace dir="${basedir}/src/sites">
-            <replacetoken><![CDATA[<siteAdmin>sironodev@cloudcoop.io</siteAdmin>]]></replacetoken>
-            <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
-            <include name="Guarantor_Portal.site"/>
+        <echo message="Share dashboards with: ${sf.target.username}"/>
+        <replace dir="${basedir}/src/dashboards">
+            <replacetoken><![CDATA[<sharedTo>sirono@cloudcoop.io</sharedTo>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<sharedTo>${sf.target.username}</sharedTo>]]></replacevalue>
+            <include name="Sirono_Dashboards-meta.xml"/>
         </replace>
-        <replace dir="${basedir}/src/sites">
-            <replacetoken><![CDATA[<siteAdmin>sirono@cloudcoop.io</siteAdmin>]]></replacetoken>
-            <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
-            <include name="Partner_Community.site"/>
-        </replace>
-
-        <echo message="Set subdomain for all sites to ${un_prefix}-community-1-developer-edition"/>
-        <replace dir="${basedir}/src/sites">
-            <replacetoken><![CDATA[<subdomain>sirono</subdomain>]]></replacetoken>
-            <replacevalue expandProperties="true"><![CDATA[<subdomain>${un_prefix}-community-1-developer-edition</subdomain>]]></replacevalue>
-            <include name="*.site"/>
+        <echo message="Share reports with: ${sf.target.username}"/>
+        <replace dir="${basedir}/src/reports">
+            <replacetoken><![CDATA[<sharedTo>sirono@cloudcoop.io</sharedTo>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<sharedTo>${sf.target.username}</sharedTo>]]></replacevalue>
+            <include name="Sirono_Reports-meta.xml"/>
         </replace>
 
         <echo message="Remove sharingRules"/>
@@ -110,6 +104,33 @@
             </fileset>
             <mapper type="glob" from="*" to="*.bak"/>
         </move>
+
+        <echo message="Make ${sf.target.username} admin for all sites"/>
+        <replace dir="${basedir}/src/sites">
+            <replacetoken><![CDATA[<siteAdmin>sironodev@cloudcoop.io</siteAdmin>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
+            <include name="*.site"/>
+        </replace>
+        <replace dir="${basedir}/src/sites">
+            <replacetoken><![CDATA[<siteAdmin>sirono@cloudcoop.io</siteAdmin>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
+            <include name="*.site"/>
+        </replace>
+
+        <echo message="Set subdomain for all community sites to: ${orgName}-sirono-community-developer-edition"/>
+        <replace dir="${basedir}/src/sites">
+            <replacetoken><![CDATA[<subdomain>sirono</subdomain>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<subdomain>${orgName}-sirono-community-developer-edition</subdomain>]]></replacevalue>
+            <include name="Guarantor_Portal.site"/>
+            <include name="Partner_Community.site"/>
+        </replace>
+
+        <echo message="Set subdomain for five9 site to force.com subdomain: ${orgName}-sirono-developer-edition"/>
+        <replace dir="${basedir}/src/sites">
+            <replacetoken><![CDATA[<subdomain>five9tosirono</subdomain>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<subdomain>${orgName}-sirono-developer-edition</subdomain>]]></replacevalue>
+            <include name="Five9CreateCallLogRecord.site"/>
+        </replace>
     </target>
 
     <target name="revertPrep">
@@ -125,18 +146,18 @@
         </exec>
     </target>
 
-    <scriptdef name="getUsernamePrefix" language="javascript">
+    <scriptdef name="getOrgName" language="javascript">
         <attribute name="text" />
         <attribute name="property" />
         <![CDATA[
        var str = attributes.get("text");
-       var end = str.indexOf("+");;
+       var end = str.indexOf("+");
        project.setProperty(attributes.get("property"), str.substring(0, end));
      ]]>
     </scriptdef>
 
-    <target name="test_getUsernamePrefix">
-        <getUsernamePrefix text="${sf.target.username}" property="un_prefix" />
-        <echo message="subtext = ${un_prefix}" />
+    <target name="testGetOrgName">
+        <getOrgName text="${sf.target.username}" property="orgName" />
+        <echo message="orgName = ${orgName}" />
     </target>
 </project>
