@@ -7,6 +7,32 @@
         <echo message="Tasks to run for the initial deploy to a Dev org"/>
     </target>
 
+    <target name="preDeploy" description="Deploy settings needed for the initial deploy to run successfully">
+        <echo level="info">Deploy settings needed for the initial source deploy to: ${sf.retrieveTarget} to run successfully</echo>
+        <delete dir="${basedir}/pre_deploy"/>
+        <mkdir dir="${basedir}/pre_deploy/settings"/>
+        <copy file="${basedir}/src/settings/Name.settings" tofile="${basedir}/pre_deploy/settings/Name.settings"/>
+        <echo level="info">Deploying Name settings to: ${sf.target.username}</echo>
+        <echo file="${basedir}/pre_deploy/package.xml" ><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Name</members>
+        <name>Settings</name>
+    </types>
+        <version>39.0</version>
+</Package>]]></echo>
+        <sf:deploy
+                username="${sf.target.username}"
+                password="${sf.target.password}"
+                serverurl="${sf.target.serverurl}"
+                deployRoot="${basedir}/pre_deploy"
+                pollWaitMillis="${sf.pollWaitMillis}"
+                maxPoll="${sf.maxPoll}"
+                testLevel="NoTestRun"
+                logType="Debugonly"/>
+        <delete dir="${basedir}/pre_deploy"/>
+    </target>
+
     <target name="deployPrep" description="Prep source for an initial deployment to a dev org">
         <getOrgName text="${sf.target.username}" property="orgName" />
         <echo message="Turn off history tracking in all objects"/>
