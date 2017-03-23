@@ -5,11 +5,16 @@ To create a new org, log into the DevHub and click on the Environment Hub app. F
 ### Below are the settings that need to be configured _after_ creating your org but _before_ you deploy
 
 - [ ] Create a Force.com Site domain name
-  - Setup >
+  - Setup > User Interface > Sites & Domains > Sites
+    - Take the prefix from your username and add `-sirono`
+    - For example, my dev org username is `justinbox+justin.dove@sirono.com`, so my Force.com Site subdomain is `justinbox-sirono`
+    - You should now have 2 domains listed in Domains:
+      - 	`justinbox-sirono-dev-ed.my.salesforce.com`
+      -   `justinbox-sirono-developer-edition.na40.force.com`
 - [ ] Enable Communities
   - [ ] Set the Community subdomain
-    - Take the prefix from your username and add `-community-1`
-    - For example, my personal dev org username is `justinbox+justin.dove@sirono.com` and my community subdomain is `justinbox-community-1`
+    - Take the prefix from your username and add `-sirono-community`
+    - For example, my dev org username is `justinbox+justin.dove@sirono.com` and my community subdomain is `justinbox-sirono-community`
   - [ ] Create a Guarantor community
   - [ ] Create a Partner Community community
 - [ ] Enable Chatter
