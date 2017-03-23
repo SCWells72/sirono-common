@@ -15,7 +15,7 @@ To create a new org, log into the DevHub and click on the Environment Hub app. F
   - [ ] Set the Community subdomain
     - Take the prefix from your username and add `-sirono-community`
     - For example, my dev org username is `justinbox+justin.dove@sirono.com` and my community subdomain is `justinbox-sirono-community`
-  - [ ] Create a Guarantor community
+  - [ ] Create a Guarantor Portal community
   - [ ] Create a Partner Community community
 - [ ] Enable Chatter
   - [ ] Enable Users to edit posts (throws unrecognized permission error when deploying profile if not enabled)
