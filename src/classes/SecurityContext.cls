@@ -16,7 +16,7 @@ public virtual with sharing class SecurityContext {
      * @returns System.Type - That contains object type.
      **/
     public virtual System.Type getObjectType(){
-    	throw new SecurityException('You have not override getObjectType method in child class');
+    	throw new SecurityException('getObjectType() not implemented in SecurityContext subclass');
     	return null;
     }
     
@@ -27,7 +27,7 @@ public virtual with sharing class SecurityContext {
      * @returns boolean - That contains true or false based on delete access.
      **/
     public virtual Boolean deleteActionAllowed(){
-    	throw new SecurityException('You have not override deleteActionAllowed method in child class');
+    	throw new SecurityException('deleteActionAllowed() not implemented in SecurityContext subclass');
     	return false;
     }
     
