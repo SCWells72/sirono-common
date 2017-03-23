@@ -10,13 +10,14 @@ Rules to consider when making your new org:
 ### Below are the settings that need to be configured _after_ creating your org but _before_ you deploy
 
 - [ ] Create a Force.com Site domain name
+
   - Setup > User Interface > Sites and Domains > Sites
   - Your site domain must follow the following convention: org name and add `-sirono`. For example, The Site.com subdomain for justinbox is `justinbox-sirono`.
 - [ ] Enable Communities
   - [ ] Create the Community subdomain
     - Take your org name and add `-sirono-community`
     - For example, the justinbox community subdomain will be `justinbox-sirono-community`
-  - [ ] Create a Guarantor community
+  - [ ] Create the Guarantor community
     - Choose the Napili template
     - The community name should be "Guarantor Portal"
     - The community url should end with "/guarantor"
@@ -25,12 +26,10 @@ Rules to consider when making your new org:
     - The community name should be "Partner Community"
     - The community url should end with "/partner"
 - [ ] Enable Chatter
-  - [ ] Enable Users to edit posts (throws unrecognized permission error when deploying profile if not enabled)
+  - [ ] Enable Users to edit posts
 - [ ] Enable External Sharing Model
 - [ ] Update the Opportunity Sharing Model to Private
-  - Throws error: `objects/Opportunity.object -- Error: ReadWrite is not a valid sharing model for Opportunity when Account sharing model is Private`
 - [ ] Enable Notes
-  - Resolves issues when trying to deploy certain quickActions
 
 ### After the initial deployment, be sure to publish your Site changes in your community.
 - Go to Setup > Communities > Manage
