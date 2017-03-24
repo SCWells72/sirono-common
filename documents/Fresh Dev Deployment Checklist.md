@@ -30,6 +30,7 @@ Rules to consider when making your new org:
 - [ ] Update the Opportunity Sharing Model to Private
 - [ ] Enable Notes
 - [ ] Enable Report and Dashboard Folder Sharing (available only in Salesfoce Classic setup menu)
+- [ ] Enable "Set Audit Fields upon Record Creation" and "Update Records with Inactive Owners" User Permissions in User Interface options
 
 ### After the initial deployment, be sure to publish your Site changes in your community.
 - Go to Setup > Communities > Manage
