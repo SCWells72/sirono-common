@@ -6988,7 +6988,7 @@
                 <default>false</default>
             </values>
             <values>
-                <fullName>VIP Caller</fullName>
+                <fullName>VIP Called</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
