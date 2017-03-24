@@ -2651,7 +2651,7 @@
                 <cssExposed>false</cssExposed>
             </picklistValues>
             <picklistValues>
-                <fullName>VIP Caller</fullName>
+                <fullName>VIP Called</fullName>
                 <default>false</default>
                 <cssExposed>false</cssExposed>
             </picklistValues>

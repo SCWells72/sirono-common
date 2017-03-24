@@ -114,7 +114,7 @@
         <notifyAssignee>false</notifyAssignee>
         <priority>High</priority>
         <protected>false</protected>
-        <status>Open</status>
+        <status>Not Started</status>
         <subject>CASE ESCALATION</subject>
     </tasks>
 </Workflow>
