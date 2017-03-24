@@ -16,12 +16,14 @@ public with sharing class PaymentPlanServiceTest {
         Contact pt = TestUtility.generatePatientContact();
         INSERT pt;
 
+        Datetime createdDT = Datetime.now().addDays(-3);
+        
         Payment_Plan__c pp = TestUtility.generatePaymentPlan(gt);
         pp.Plan_Type__c = Constants.AUTOMATIC;
         pp.Sirono_ID__c = Decimal.valueOf(PLAN_SIRONO_ID);
-        pp.CreatedDate = Datetime.now().addDays(-3);
-        pp.Plan_Value_Modified_Date__c = pp.CreatedDate;
+        pp.Plan_Value_Modified_Date__c = createdDT;
         INSERT pp;
+        Test.setCreatedDate(pp.Id, createdDT);
 
         Charge_Group__c cg = TestUtility.generateChargeGroup(gt.Id, pt.Id, 12345, pp.id);
         cg.Sirono_ID__c = 12345;
