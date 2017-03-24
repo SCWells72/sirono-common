@@ -27,7 +27,6 @@ Rules to consider when making your new org:
     - Choose the Napili template
     - The community name should be "Partner Community"
     - The community url should end with "/partner"
-<<<<<<< HEAD
 - [ ] Enable External Sharing Model
 - [ ] Update the Opportunity Sharing Model to Private
 - [ ] Enable Notes
