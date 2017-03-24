@@ -138,6 +138,20 @@
             <runTest>EncounterBalanceTest</runTest>
         </sf:deploy>
     </target>
+    
+    <!-- Deploy without tests -->
+    <target name="deployNoTests">
+        <echo level="info">Deploying to: ${sf.target.username} without tests</echo>
+        <sf:deploy
+                username="${sf.target.username}"
+                password="${sf.target.password}"
+                serverurl="${sf.target.serverurl}"
+                deployRoot="${basedir}/src"
+                pollWaitMillis="${sf.pollWaitMillis}"
+                maxPoll="${sf.maxPoll}"
+                testLevel="NoTestRun"
+                logType="Debugonly"/>
+    </target>
 
     <target name="echo_environment">
         <echoproperties prefix="sf."/>
@@ -165,7 +179,7 @@
             depends="stop_all_scheduled_jobs, deploy, initialize_custom_settings, schedule_all_jobs"/>
     
     <target name="initial_deploy" description="Deploy into a Dev org for the first time"
-            depends="init.preDeploy, init.deployPrep, deploy, init.revertPrep, deploy, remove_sample_data, initialize_custom_settings, schedule_all_jobs"/>
+            depends="init.preDeploy, init.deployPrep, deployNoTests, init.revertPrep, deployNoTests, remove_sample_data, initialize_custom_settings, schedule_all_jobs"/>
 
     <target name="rename_prep" description="Stop all scheduled jobs and undeploy"
             depends="stop_all_scheduled_jobs, undeployCode, deploy"/>
