@@ -96,8 +96,13 @@
             <replacevalue><![CDATA[]]></replacevalue>
             <include name="Payment_Method__c.object"/>
         </replace>
+
         <replace file="${basedir}/src/package.xml">
-            <replacetoken><![CDATA[<members>Case.Sirono_Partner_Queue_Coverage</members>]]></replacetoken>
+            <replacetoken><![CDATA[<members>Case.Cases_in_Queue</members>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+        </replace>
+        <replace file="${basedir}/src/package.xml">
+            <replacetoken><![CDATA[<members>Case.Sirono_Partner_Queue_Case</members>]]></replacetoken>
             <replacevalue><![CDATA[]]></replacevalue>
         </replace>
         <replace file="${basedir}/src/package.xml">
@@ -105,9 +110,10 @@
             <replacevalue><![CDATA[]]></replacevalue>
         </replace>
         <replace file="${basedir}/src/package.xml">
-            <replacetoken><![CDATA[<members>Payment_Method__c.Sirono_Partner_Queue_Coverage</members>]]></replacetoken>
+            <replacetoken><![CDATA[<members>Payment_Method__c.Sirono_Partner_Queue_Credit_Card</members>]]></replacetoken>
             <replacevalue><![CDATA[]]></replacevalue>
         </replace>
+
         <move file="${basedir}/src/queues/Sirono_Partner_Queue.queue" tofile="${basedir}/src/queues/Sirono_Partner_Queue.queue.bak" overwrite="true"/>
 
         <echo message="Remove sharingRules"/>
@@ -117,6 +123,41 @@
             </fileset>
             <mapper type="glob" from="*" to="*.bak"/>
         </move>
+        <replace file="${basedir}/src/package.xml">
+            <replacetoken><![CDATA[    <types>
+        <members>Case.Case_Sirono_Partner</members>
+        <members>Case.Sirono_Internal</members>
+        <members>Contact.Contact_Sirono_Internal</members>
+        <members>Contact.Contact_Sirono_Partner</members>
+        <members>Coverage__c.Coverage_Sirono_Internal</members>
+        <members>Payment_Adjustments__c.PaymentAdj_Sirono_Internal</members>
+        <members>Payment_Method__c.Credit_Card_Sirono_Internal</members>
+        <members>Payment__c.Payment_Internal_Sirono</members>
+        <name>SharingOwnerRule</name>
+    </types>
+    <types>
+        <members>Account</members>
+        <members>Asset</members>
+        <members>Campaign</members>
+        <members>Case</members>
+        <members>Contact</members>
+        <members>Coverage__c</members>
+        <members>Encounter__c</members>
+        <members>Location__c</members>
+        <members>Payment_Adjustments__c</members>
+        <members>Payment_Arrangement__c</members>
+        <members>Payment_Method__c</members>
+        <members>Payment__c</members>
+        <members>Payor__c</members>
+        <members>Provider__c</members>
+        <members>Service_Rollup__c</members>
+        <members>Transaction_Type__c</members>
+        <members>User</members>
+        <name>SharingRules</name>
+    </types>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+        </replace>
+
 
         <echo message="Make ${sf.target.username} admin for all sites"/>
         <replace dir="${basedir}/src/sites">
@@ -153,10 +194,9 @@
             <arg value="--"/>
             <arg value="${basedir}/src"/>
         </exec>
-        <exec dir="${basedir}/src" executable="git">
-            <arg value="clean"/>
-            <arg value="-fd"/>
-        </exec>
+        <delete>
+            <fileset dir="${basedir}/src" includes="**/*.bak"/>
+        </delete>
     </target>
 
     <scriptdef name="getOrgName" language="javascript">

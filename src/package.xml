@@ -29,7 +29,6 @@
     </types>
     <types>
         <members>Case</members>
-        <members>Lead</members>
         <name>AssignmentRules</name>
     </types>
     <types>
@@ -39,14 +38,6 @@
     <types>
         <members>*</members>
         <name>AuthProvider</name>
-    </types>
-    <types>
-        <members>Case.Internal Case</members>
-        <name>AutoResponseRule</name>
-    </types>
-    <types>
-        <members>Case</members>
-        <name>AutoResponseRules</name>
     </types>
     <types>
         <members>Case.Administrative</members>
@@ -481,7 +472,6 @@
         <members>Case.AllOpenCases</members>
         <members>Case.Automated_Cases_Case</members>
         <members>Case.Cases_in_Queue</members>
-        <members>Case.Cloud_CoOp_Case_Queue_Case</members>
         <members>Case.Demographic_Update</members>
         <members>Case.Encounter_Needed</members>
         <members>Case.Hospital_Staff_Billing_Case</members>
@@ -503,9 +493,7 @@
         <members>Contact.All_Guarantors</members>
         <members>Contact.All_Patients</members>
         <members>Contact.All_Staff</members>
-        <members>Contact.Contacts_w_TD_ID</members>
         <members>Contact.MyContacts</members>
-        <members>Contact.Test_View2</members>
         <members>Coverage__c.All</members>
         <members>Coverage__c.Sirono_Partner_Queue_Coverage</members>
         <members>Coverage__c.test_coverage_view</members>
