@@ -29,6 +29,7 @@ Rules to consider when making your new org:
 - [ ] Enable External Sharing Model
 - [ ] Update the Opportunity Sharing Model to Private
 - [ ] Enable Notes
+- [ ] Enable Report and Dashboard Folder Sharing (available only in Salesfoce Classic setup menu)
 
 ### After the initial deployment, be sure to publish your Site changes in your community.
 - Go to Setup > Communities > Manage
