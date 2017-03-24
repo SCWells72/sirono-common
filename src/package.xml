@@ -297,12 +297,6 @@
         <members>Service_Dashboards/Agent_Supervisor_Overview</members>
         <members>Service_Dashboards/Service_Exec_Overview</members>
         <members>Service_Dashboards/Service_KPIs</members>
-        <members>Sirono_Dashboards</members>
-        <members>Sirono_Dashboards/Agent_Dashboard</members>
-        <members>Sirono_Dashboards/Ops_Dashboard</members>
-        <members>Sirono_Dashboards/Sirono_Financial_Metrics</members>
-        <members>Sirono_Dashboards/Supervisor_Dashboard</members>
-        <members>Sirono_Dashboards/System_Use_Dashboard</members>
         <name>Dashboard</name>
     </types>
     <types>
