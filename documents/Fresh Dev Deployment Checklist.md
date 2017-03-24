@@ -8,10 +8,12 @@ Rules to consider when making your new org:
 - Your username _**must**_ follow the following naming convention: orgname+email@something.com. For instance, Justin Dove's username for the dev org "justinbox" is `justinbox+justin.dove@sirono.com`. If this convention is not followed, we will have issues deploying code to the new org.
 
 ### Below are the settings that need to be configured _after_ creating your org but _before_ you deploy
+##### The steps below must be set in order
 
 - [ ] Create a Force.com Site domain name
   - Setup > User Interface > Sites and Domains > Sites
   - Your site domain must follow the following convention: org name and add `-sirono`. For example, The Site.com subdomain for justinbox is `justinbox-sirono`.
+- [ ] Enable Chatter
 - [ ] Enable Communities
   - [ ] Create the Community subdomain
     - Take your org name and add `-sirono-community`
@@ -24,13 +26,9 @@ Rules to consider when making your new org:
     - Choose the Napili template
     - The community name should be "Partner Community"
     - The community url should end with "/partner"
-- [ ] Enable Chatter
-  - [ ] Enable Users to edit posts (throws unrecognized permission error when deploying profile if not enabled)
 - [ ] Enable External Sharing Model
 - [ ] Update the Opportunity Sharing Model to Private
-  - Throws error: `objects/Opportunity.object -- Error: ReadWrite is not a valid sharing model for Opportunity when Account sharing model is Private`
 - [ ] Enable Notes
-  - Resolves issues when trying to deploy certain quickActions
 
 ### After the initial deployment, be sure to publish your Site changes in your community.
 - Go to Setup > Communities > Manage
