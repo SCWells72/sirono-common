@@ -21,12 +21,12 @@ Rules to consider when making your new org:
     - For example, the justinbox community subdomain will be `justinbox-sirono-community`
   - [ ] Create the Guarantor community
     - Choose the Napili template
-    - The community name should be "Guarantor Portal"
-    - The community url should end with "/guarantor"
+    - The community name must be "Guarantor Portal"
+    - The community url must end with "/guarantor"
   - [ ] Create a Partner Community community
     - Choose the Napili template
-    - The community name should be "Partner Community"
-    - The community url should end with "/partner"
+    - The community name must be "Partner Community"
+    - The community url must end with "/partner"
 - [ ] Enable External Sharing Model
 - [ ] Update the Opportunity Sharing Model to Private
 - [ ] Enable Notes
