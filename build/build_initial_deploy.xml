@@ -7,8 +7,34 @@
         <echo message="Tasks to run for the initial deploy to a Dev org"/>
     </target>
 
+    <target name="preDeploy" description="Deploy settings needed for the initial deploy to run successfully">
+        <echo level="info">Deploy settings needed for the initial source deploy to: ${sf.retrieveTarget} to run successfully</echo>
+        <delete dir="${basedir}/pre_deploy"/>
+        <mkdir dir="${basedir}/pre_deploy/settings"/>
+        <copy file="${basedir}/src/settings/Name.settings" tofile="${basedir}/pre_deploy/settings/Name.settings"/>
+        <echo level="info">Deploying Name settings to: ${sf.target.username}</echo>
+        <echo file="${basedir}/pre_deploy/package.xml" ><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Name</members>
+        <name>Settings</name>
+    </types>
+        <version>39.0</version>
+</Package>]]></echo>
+        <sf:deploy
+                username="${sf.target.username}"
+                password="${sf.target.password}"
+                serverurl="${sf.target.serverurl}"
+                deployRoot="${basedir}/pre_deploy"
+                pollWaitMillis="${sf.pollWaitMillis}"
+                maxPoll="${sf.maxPoll}"
+                testLevel="NoTestRun"
+                logType="Debugonly"/>
+        <delete dir="${basedir}/pre_deploy"/>
+    </target>
+
     <target name="deployPrep" description="Prep source for an initial deployment to a dev org">
-        <getUsernamePrefix text="${sf.target.username}" property="un_prefix" />
+        <getOrgName text="${sf.target.username}" property="orgName" />
         <echo message="Turn off history tracking in all objects"/>
         <replace dir="${basedir}/src/objects">
             <replacetoken><![CDATA[<trackHistory>true</trackHistory>]]></replacetoken>
@@ -84,25 +110,6 @@
         </replace>
         <move file="${basedir}/src/queues/Sirono_Partner_Queue.queue" tofile="${basedir}/src/queues/Sirono_Partner_Queue.queue.bak" overwrite="true"/>
 
-        <echo message="Make ${sf.target.username} admin for Guarantor_Portal and Partner_Community"/>
-        <replace dir="${basedir}/src/sites">
-            <replacetoken><![CDATA[<siteAdmin>sironodev@cloudcoop.io</siteAdmin>]]></replacetoken>
-            <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
-            <include name="Guarantor_Portal.site"/>
-        </replace>
-        <replace dir="${basedir}/src/sites">
-            <replacetoken><![CDATA[<siteAdmin>sirono@cloudcoop.io</siteAdmin>]]></replacetoken>
-            <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
-            <include name="Partner_Community.site"/>
-        </replace>
-
-        <echo message="Set subdomain for all sites to ${un_prefix}-community-1-developer-edition"/>
-        <replace dir="${basedir}/src/sites">
-            <replacetoken><![CDATA[<subdomain>sirono</subdomain>]]></replacetoken>
-            <replacevalue expandProperties="true"><![CDATA[<subdomain>${un_prefix}-community-1-developer-edition</subdomain>]]></replacevalue>
-            <include name="*.site"/>
-        </replace>
-
         <echo message="Remove sharingRules"/>
         <move todir="${basedir}/src/sharingRules" includeemptydirs="false">
             <fileset dir="${basedir}/src/sharingRules">
@@ -110,6 +117,33 @@
             </fileset>
             <mapper type="glob" from="*" to="*.bak"/>
         </move>
+
+        <echo message="Make ${sf.target.username} admin for all sites"/>
+        <replace dir="${basedir}/src/sites">
+            <replacetoken><![CDATA[<siteAdmin>sironodev@cloudcoop.io</siteAdmin>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
+            <include name="*.site"/>
+        </replace>
+        <replace dir="${basedir}/src/sites">
+            <replacetoken><![CDATA[<siteAdmin>sirono@cloudcoop.io</siteAdmin>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
+            <include name="*.site"/>
+        </replace>
+
+        <echo message="Set subdomain for all community sites to: ${orgName}-sirono-community-developer-edition"/>
+        <replace dir="${basedir}/src/sites">
+            <replacetoken><![CDATA[<subdomain>sirono</subdomain>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<subdomain>${orgName}-sirono-community-developer-edition</subdomain>]]></replacevalue>
+            <include name="Guarantor_Portal.site"/>
+            <include name="Partner_Community.site"/>
+        </replace>
+
+        <echo message="Set subdomain for five9 site to force.com subdomain: ${orgName}-sirono-developer-edition"/>
+        <replace dir="${basedir}/src/sites">
+            <replacetoken><![CDATA[<subdomain>five9tosirono</subdomain>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<subdomain>${orgName}-sirono-developer-edition</subdomain>]]></replacevalue>
+            <include name="Five9CreateCallLogRecord.site"/>
+        </replace>
     </target>
 
     <target name="revertPrep">
@@ -125,18 +159,18 @@
         </exec>
     </target>
 
-    <scriptdef name="getUsernamePrefix" language="javascript">
+    <scriptdef name="getOrgName" language="javascript">
         <attribute name="text" />
         <attribute name="property" />
         <![CDATA[
        var str = attributes.get("text");
-       var end = str.indexOf("+");;
+       var end = str.indexOf("+");
        project.setProperty(attributes.get("property"), str.substring(0, end));
      ]]>
     </scriptdef>
 
-    <target name="test_getUsernamePrefix">
-        <getUsernamePrefix text="${sf.target.username}" property="un_prefix" />
-        <echo message="subtext = ${un_prefix}" />
+    <target name="testGetOrgName">
+        <getOrgName text="${sf.target.username}" property="orgName" />
+        <echo message="orgName = ${orgName}" />
     </target>
 </project>

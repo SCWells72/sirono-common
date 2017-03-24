@@ -10,15 +10,16 @@ Rules to consider when making your new org:
 ### Below are the settings that need to be configured _after_ creating your org but _before_ you deploy
 ##### The steps below must be set in order
 
+- [ ] Enable Chatter
+  - [ ] Enable Users to edit posts
 - [ ] Create a Force.com Site domain name
   - Setup > User Interface > Sites and Domains > Sites
   - Your site domain must follow the following convention: org name and add `-sirono`. For example, The Site.com subdomain for justinbox is `justinbox-sirono`.
-- [ ] Enable Chatter
 - [ ] Enable Communities
   - [ ] Create the Community subdomain
     - Take your org name and add `-sirono-community`
     - For example, the justinbox community subdomain will be `justinbox-sirono-community`
-  - [ ] Create a Guarantor community
+  - [ ] Create the Guarantor community
     - Choose the Napili template
     - The community name should be "Guarantor Portal"
     - The community url should end with "/guarantor"
@@ -26,6 +27,7 @@ Rules to consider when making your new org:
     - Choose the Napili template
     - The community name should be "Partner Community"
     - The community url should end with "/partner"
+<<<<<<< HEAD
 - [ ] Enable External Sharing Model
 - [ ] Update the Opportunity Sharing Model to Private
 - [ ] Enable Notes
