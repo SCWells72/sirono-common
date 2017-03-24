@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Role xmlns="http://soap.sforce.com/2006/04/metadata">
-    <caseAccessLevel>None</caseAccessLevel>
+    <caseAccessLevel>Edit</caseAccessLevel>
     <contactAccessLevel>None</contactAccessLevel>
     <description>Makana Health Customer User</description>
     <mayForecastManagerShare>false</mayForecastManagerShare>
