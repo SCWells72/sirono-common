@@ -3052,16 +3052,6 @@
         </sharedTo>
     </listViews>
     <listViews>
-        <fullName>Cases_in_Queue</fullName>
-        <filterScope>Queue</filterScope>
-        <label>Cases in Queue</label>
-        <queue>Sirono_Partner_Queue</queue>
-        <sharedTo>
-            <allInternalUsers></allInternalUsers>
-            <portalRoleAndSubordinates>SironoPartnerPartnerUser</portalRoleAndSubordinates>
-        </sharedTo>
-    </listViews>
-    <listViews>
         <fullName>Demographic_Update</fullName>
         <columns>CASES.CASE_NUMBER</columns>
         <columns>Guarantor_Information__c</columns>
