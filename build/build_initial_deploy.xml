@@ -33,16 +33,16 @@
         <delete dir="${basedir}/pre_deploy"/>
     </target>
 
-    <target name="deployPrep" description="Prep source for an initial deployment to a dev org">
-        <echo level="info">Perform prep on source in order to deploy to: ${sf.target.username}</echo>
-        <getOrgName text="${sf.target.username}" property="orgName" />
+    <target name="turnOffHistoryTracking">
         <echo message="Turn off history tracking in all objects"/>
         <replace dir="${basedir}/src/objects">
             <replacetoken><![CDATA[<trackHistory>true</trackHistory>]]></replacetoken>
             <replacevalue><![CDATA[<trackHistory>false</trackHistory>]]></replacevalue>
             <include name="*.object"/>
         </replace>
+    </target>
 
+    <target name="removePartnerQueue">
         <echo message="Remove the Sirono_Partner_Queue"/>
         <replace dir="${basedir}/src/objects">
             <replacetoken><![CDATA[    <listViews>
@@ -116,7 +116,9 @@
         </replace>
 
         <move file="${basedir}/src/queues/Sirono_Partner_Queue.queue" tofile="${basedir}/src/queues/Sirono_Partner_Queue.queue.bak" overwrite="true"/>
+    </target>
 
+    <target name="removeSharingRules">
         <echo message="Remove sharingRules"/>
         <move todir="${basedir}/src/sharingRules" includeemptydirs="false">
             <fileset dir="${basedir}/src/sharingRules">
@@ -159,6 +161,10 @@
             <replacevalue><![CDATA[]]></replacevalue>
         </replace>
 
+    </target>
+
+    <target name="updateSitesAdminAndDomain">
+        <getOrgName text="${sf.target.username}" property="orgName" />
 
         <echo message="Make ${sf.target.username} admin for all sites"/>
         <replace dir="${basedir}/src/sites">
@@ -186,6 +192,14 @@
             <replacevalue expandProperties="true"><![CDATA[<subdomain>${orgName}-sirono-developer-edition</subdomain>]]></replacevalue>
             <include name="Five9CreateCallLogRecord.site"/>
         </replace>
+    </target>
+
+    <target name="deployPrep" description="Prep source for deployment to a dev org">
+        <echo level="info">Perform prep on source in order to deploy to: ${sf.target.username}</echo>
+        <antCall target="turnOffHistoryTracking"/>
+        <antCall target="removePartnerQueue"/>
+        <antCall target="removeSharingRules"/>
+        <antCall target="updateSitesAdminAndDomain"/>
     </target>
 
     <target name="revertPrep">
