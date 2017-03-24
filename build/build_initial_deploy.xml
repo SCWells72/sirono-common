@@ -110,19 +110,6 @@
         </replace>
         <move file="${basedir}/src/queues/Sirono_Partner_Queue.queue" tofile="${basedir}/src/queues/Sirono_Partner_Queue.queue.bak" overwrite="true"/>
 
-        <echo message="Share dashboards with: ${sf.target.username}"/>
-        <replace dir="${basedir}/src/dashboards">
-            <replacetoken><![CDATA[<sharedTo>sirono@cloudcoop.io</sharedTo>]]></replacetoken>
-            <replacevalue expandProperties="true"><![CDATA[<sharedTo>${sf.target.username}</sharedTo>]]></replacevalue>
-            <include name="Sirono_Dashboards-meta.xml"/>
-        </replace>
-        <echo message="Share reports with: ${sf.target.username}"/>
-        <replace dir="${basedir}/src/reports">
-            <replacetoken><![CDATA[<sharedTo>sirono@cloudcoop.io</sharedTo>]]></replacetoken>
-            <replacevalue expandProperties="true"><![CDATA[<sharedTo>${sf.target.username}</sharedTo>]]></replacevalue>
-            <include name="Sirono_Reports-meta.xml"/>
-        </replace>
-
         <echo message="Remove sharingRules"/>
         <move todir="${basedir}/src/sharingRules" includeemptydirs="false">
             <fileset dir="${basedir}/src/sharingRules">
