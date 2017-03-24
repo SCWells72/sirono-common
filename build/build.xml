@@ -199,6 +199,7 @@
     </target>
 
     <target name="schedule_all_jobs" depends="stop_all_scheduled_jobs">
+        <echo level="info">Schedule all jobs in: ${sf.target.username}</echo>
         <!-- schedule all jobs -->
         <executeAnonymous
                 username="${sf.target.username}"
@@ -217,6 +218,7 @@
     </target>
 
     <target name="initialize_custom_settings">
+        <echo level="info">Initialize custom settings in: ${sf.target.username}</echo>
         <!-- execute apex to initialize custom settings -->
         <executeAnonymous
                 username="${sf.target.username}"

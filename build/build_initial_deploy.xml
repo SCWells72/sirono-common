@@ -8,7 +8,7 @@
     </target>
 
     <target name="preDeploy" description="Deploy settings needed for the initial deploy to run successfully">
-        <echo level="info">Deploy settings needed for the initial source deploy to: ${sf.retrieveTarget} to run successfully</echo>
+        <echo level="info">Deploy settings needed for the initial source deploy to: ${sf.target.username} to run successfully</echo>
         <delete dir="${basedir}/pre_deploy"/>
         <mkdir dir="${basedir}/pre_deploy/settings"/>
         <copy file="${basedir}/src/settings/Name.settings" tofile="${basedir}/pre_deploy/settings/Name.settings"/>
@@ -34,6 +34,7 @@
     </target>
 
     <target name="deployPrep" description="Prep source for an initial deployment to a dev org">
+        <echo level="info">Perform prep on source in order to deploy to: ${sf.target.username}</echo>
         <getOrgName text="${sf.target.username}" property="orgName" />
         <echo message="Turn off history tracking in all objects"/>
         <replace dir="${basedir}/src/objects">
