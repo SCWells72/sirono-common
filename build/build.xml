@@ -165,7 +165,7 @@
             depends="stop_all_scheduled_jobs, deploy, initialize_custom_settings, schedule_all_jobs"/>
     
     <target name="initial_deploy" description="Deploy into a Dev org for the first time"
-            depends="init.preDeploy, init.deployPrep, deploy, init.revertPrep, deploy, initialize_custom_settings, schedule_all_jobs"/>
+            depends="init.preDeploy, init.deployPrep, deploy, init.revertPrep, deploy, remove_sample_data, initialize_custom_settings, schedule_all_jobs"/>
 
     <target name="rename_prep" description="Stop all scheduled jobs and undeploy"
             depends="stop_all_scheduled_jobs, undeployCode, deploy"/>
@@ -226,6 +226,31 @@
                 serverurl="${sf.target.serverurl}">
             <![CDATA[
                 SironoSettingsUtil.initializeSironoSettings();
+            ]]>
+        </executeAnonymous>
+    </target>
+
+    <target name="remove_sample_data">
+        <echo level="info">Remove all sample data from dev org: ${sf.target.username}</echo>
+        <executeAnonymous
+                username="${sf.target.username}"
+                password="${sf.target.password}"
+                serverurl="${sf.target.serverurl}">
+            <![CDATA[
+                Opportunity[] opps = [SELECT Id FROM Opportunity];
+                DELETE opps;
+                Case[] cases = [SELECT Id FROM Case];
+                DELETE cases;
+                Lead[] leads = [SELECT Id FROM Lead];
+                DELETE leads;
+                Contact[] contacts = [SELECT Id FROM Contact];
+                DELETE contacts;
+                Campaign[] cmpns = [SELECT Id FROM Campaign];
+                DELETE cmpns;
+                Solution[] sols = [SELECT Id FROM Solution];
+                DELETE sols;
+                Account[] accts = [SELECT Id FROM Account];
+                DELETE accts;
             ]]>
         </executeAnonymous>
     </target>
