@@ -471,7 +471,6 @@
         <members>Campaign.MyActiveCampaigns</members>
         <members>Case.AllOpenCases</members>
         <members>Case.Automated_Cases_Case</members>
-        <members>Case.Cases_in_Queue</members>
         <members>Case.Demographic_Update</members>
         <members>Case.Encounter_Needed</members>
         <members>Case.Hospital_Staff_Billing_Case</members>
@@ -666,10 +665,8 @@
         <name>Settings</name>
     </types>
     <types>
-        <members>Case.Case_Sirono_Partner</members>
         <members>Case.Sirono_Internal</members>
         <members>Contact.Contact_Sirono_Internal</members>
-        <members>Contact.Contact_Sirono_Partner</members>
         <members>Coverage__c.Coverage_Sirono_Internal</members>
         <members>Payment_Adjustments__c.PaymentAdj_Sirono_Internal</members>
         <members>Payment_Method__c.Credit_Card_Sirono_Internal</members>
