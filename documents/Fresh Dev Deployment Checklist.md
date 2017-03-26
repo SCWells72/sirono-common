@@ -35,7 +35,7 @@ Rules to consider when making your new org:
 - [ ] Enable "Set Audit Fields upon Record Creation" and "Update Records with Inactive Owners" User Permissions in User Interface options
   - Setup > Customize > User Interface
 
-### Below are steps to take after a successful deployment
+### Below are steps to take after a successful deployment & before loading data into it
 ##### Publish Site changes in your community
 - Go to Setup > Communities > Manage
 - In the community manager, go to Administration > Pages and click on "Go to Site.com Studio" in the lower right-hand corner of the page
@@ -46,3 +46,12 @@ Rules to consider when making your new org:
 - Go to Setup > Users > Permission Sets
 - Click on Salesforce Console User > Manage Assignments
 - Assign yourself the permission set and save
+
+##### Turn off Salesforce duplicate checking
+- Go to Setup > Data.com Administration > Duplicate Management > Duplicate Rules
+- Select 'Standard Contact Duplicate Rule' and deactivate it
+- Go to Setup > Data.com Administration > Duplicate Management > Matching Rules
+- Deactivate 'Standard Contact Matching Rule'
+
+### Load with data
+- Create a tracker ticket, assigned to Margaret, with your new dev org username, pwd & security token requesting a data load
