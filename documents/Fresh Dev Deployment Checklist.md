@@ -1,4 +1,4 @@
-# Partner Developer Edition Deployment Checklist
+# Partner Developer Edition - Initial Deployment Checklist
 ### Use the following conventions when creating your own Developer Edition Org
 To create a new org, log into the DevHub and click on the Environment Hub app. From there, click on the _New Org_ button in the top right-hand corner.
 
