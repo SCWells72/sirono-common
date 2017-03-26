@@ -1,15 +1,13 @@
 # Partner Developer Edition - Initial Deployment Checklist
-### Use the following conventions when creating your own Developer Edition Org
+### Create your dev org
+
 To create a new org, log into the DevHub and click on the Environment Hub app. From there, click on the _New Org_ button in the top right-hand corner.
 
-Rules to consider when making your new org:
-- Your Org name can be anything you want, but it cannot be a name that is already in use. This will prevent errors when creating subdomains later on.
-- Enabling My Domain and setting a My Domain value will allow you use SSO. You can set My Domain and SSO after you create your org, if you wish.
-- Your username _**must**_ follow the following naming convention: orgname+email@something.com. For instance, Justin Dove's username for the dev org "justinbox" is `justinbox+justin.dove@sirono.com`. If this convention is not followed, we will have issues deploying code to the new org.
+##### Follow these naming conventions:
+- Your Org name can be anything you want, but it cannot be a name that is already in use. (This will prevent errors when creating subdomains later on).
+- Your username _**must**_ follow the naming convention: orgname+email@something.com. For instance, Justin Dove's username for the dev org "justinbox" is `justinbox+justin.dove@sirono.com`. If this convention is not followed, the initial deploy to the org will fail.
 
-### Below are the settings that need to be configured _after_ creating your org but _before_ you deploy
-##### The steps below must be set in order
-
+### _After_ creating your org but _before_ you deploy code, configure these setting (in this order!)
 - [ ] Enable Chatter
   - [ ] Enable Users to edit posts
 - [ ] Create a Force.com Site domain name
@@ -35,7 +33,19 @@ Rules to consider when making your new org:
 - [ ] Enable "Set Audit Fields upon Record Creation" and "Update Records with Inactive Owners" User Permissions in User Interface options
   - Setup > Customize > User Interface
 
-### Below are steps to take after a successful deployment & before loading data into it
+### Deploy code to new org
+- Sync master - be sure there are no local changes
+```
+git checkout master
+git pull
+```
+- Set sf.target.username, sf.target.password & sf.target.serverurl in build/build.properties. As with a sandbox, the password is the concatenation of password and security token. The sf.target.serverurl should be https://login.salesforce.com
+- Run the initial deployment
+```
+ant initial_deploy
+```
+
+### After a successful deployment & before loading data into the org:
 ##### Publish Site changes in your community
 - Go to Setup > Communities > Manage
 - In the community manager, go to Administration > Pages and click on "Go to Site.com Studio" in the lower right-hand corner of the page
@@ -53,5 +63,8 @@ Rules to consider when making your new org:
 - Go to Setup > Data.com Administration > Duplicate Management > Matching Rules
 - Deactivate 'Standard Contact Matching Rule'
 
-### Load with data
+### Request data load
 - Create a tracker ticket, assigned to Margaret, with your new dev org username, pwd & security token requesting a data load
+
+### Post setup
+- Enabling My Domain and setting a My Domain value will allow you use SSO. You can set My Domain and SSO after your org is up and running, if you wish.
