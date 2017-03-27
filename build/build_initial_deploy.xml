@@ -1,4 +1,4 @@
-<project name="Initial Deploy of Sirono SFDC metadata" default="help"
+<project name="init" default="help"
          basedir=".."
          xmlns:sf="antlib:com.salesforce"
          xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
@@ -160,10 +160,10 @@
     </types>]]></replacetoken>
             <replacevalue><![CDATA[]]></replacevalue>
         </replace>
-
     </target>
 
     <target name="updateSitesAdminAndDomain">
+
         <getOrgName text="${sf.target.username}" property="orgName" />
 
         <echo message="Make ${sf.target.username} admin for all sites"/>
@@ -196,10 +196,10 @@
 
     <target name="deployPrep" description="Prep source for deployment to a dev org">
         <echo level="info">Perform prep on source in order to deploy to: ${sf.target.username}</echo>
-        <antCall target="turnOffHistoryTracking"/>
-        <antCall target="removePartnerQueue"/>
-        <antCall target="removeSharingRules"/>
-        <antCall target="updateSitesAdminAndDomain"/>
+        <antcall target="turnOffHistoryTracking"/>
+        <antcall target="removePartnerQueue"/>
+        <antcall target="removeSharingRules"/>
+        <antcall target="updateSitesAdminAndDomain"/>
     </target>
 
     <target name="revertPrep">
