@@ -128,10 +128,8 @@
         </move>
         <replace file="${basedir}/src/package.xml">
             <replacetoken><![CDATA[    <types>
-        <members>Case.Case_Sirono_Partner</members>
         <members>Case.Sirono_Internal</members>
         <members>Contact.Contact_Sirono_Internal</members>
-        <members>Contact.Contact_Sirono_Partner</members>
         <members>Coverage__c.Coverage_Sirono_Internal</members>
         <members>Payment_Adjustments__c.PaymentAdj_Sirono_Internal</members>
         <members>Payment_Method__c.Credit_Card_Sirono_Internal</members>
