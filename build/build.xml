@@ -3,7 +3,7 @@
          xmlns:sf="antlib:com.salesforce"
          xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
 
-    <include file="${basedir}/build/build_initial_deploy.xml" as="init"/>
+    <import file="${basedir}/build/build_initial_deploy.xml"/>
 
     <taskdef uri="antlib:com.salesforce"
              resource="com/salesforce/antlib.xml"
@@ -179,8 +179,8 @@
             depends="stop_all_scheduled_jobs, deploy, initialize_custom_settings, schedule_all_jobs"/>
     
     <target name="initial_deploy" description="Deploy into a Dev org for the first time"
-            depends="init.preDeploy, init.deployPrep, deployNoTests, init.revertPrep, init.updateSitesAdminAndDomain,
-             deployNoTests, remove_sample_data, initialize_custom_settings, schedule_all_jobs, init.revertPrep"/>
+            depends="preDeploy, deployPrep, deployNoTests, revertPrep, updateSitesAdminAndDomain,
+             deployNoTests, remove_sample_data, initialize_custom_settings, schedule_all_jobs, revertPrep"/>
 
     <target name="rename_prep" description="Stop all scheduled jobs and undeploy"
             depends="stop_all_scheduled_jobs, undeployCode, deploy"/>
