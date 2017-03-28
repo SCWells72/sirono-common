@@ -162,7 +162,7 @@
     <target name="createSites">
         <getOrgName text="${sf.target.username}" property="orgName" />
         <mkdir dir="${basedir}/src/sites"/>
-        <copy todir="${basedir}/src/sites">
+        <copy todir="${basedir}/src/sites" overwrite="true">
             <fileset dir="${basedir}/template/sites"/>
         </copy>
 
