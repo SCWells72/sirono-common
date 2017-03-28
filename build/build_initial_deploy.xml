@@ -146,7 +146,6 @@
         <members>Encounter__c</members>
         <members>Location__c</members>
         <members>Payment_Adjustments__c</members>
-        <members>Payment_Arrangement__c</members>
         <members>Payment_Method__c</members>
         <members>Payment__c</members>
         <members>Payor__c</members>
