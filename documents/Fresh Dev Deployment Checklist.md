@@ -26,7 +26,7 @@ To create a new org, log into the DevHub and click on the Environment Hub app. F
     - The community name must be "Partner Community"
     - The community url must end with "/partner"
 - [ ] Enable External Sharing Model
-- [ ] Update the Opportunity Sharing Model to Private
+- [ ] Update the Opportunity Sharing Model to Private. Setup -> Security Controls -> SharingSettings. Update it for both internal and external access (two dropdowns).
 - [ ] Enable Notes
 - [ ] Enable Report and Dashboard Folder Sharing (available only in Salesfoce Classic setup menu)
   - Setup > Reports & Dashboards > Folder Sharing
