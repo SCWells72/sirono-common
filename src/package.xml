@@ -29,7 +29,6 @@
     </types>
     <types>
         <members>Case</members>
-        <members>Lead</members>
         <name>AssignmentRules</name>
     </types>
     <types>
@@ -39,14 +38,6 @@
     <types>
         <members>*</members>
         <name>AuthProvider</name>
-    </types>
-    <types>
-        <members>Case.Internal Case</members>
-        <name>AutoResponseRule</name>
-    </types>
-    <types>
-        <members>Case</members>
-        <name>AutoResponseRules</name>
     </types>
     <types>
         <members>Case.Administrative</members>
@@ -297,12 +288,6 @@
         <members>Service_Dashboards/Agent_Supervisor_Overview</members>
         <members>Service_Dashboards/Service_Exec_Overview</members>
         <members>Service_Dashboards/Service_KPIs</members>
-        <members>Sirono_Dashboards</members>
-        <members>Sirono_Dashboards/Agent_Dashboard</members>
-        <members>Sirono_Dashboards/Ops_Dashboard</members>
-        <members>Sirono_Dashboards/Sirono_Financial_Metrics</members>
-        <members>Sirono_Dashboards/Supervisor_Dashboard</members>
-        <members>Sirono_Dashboards/System_Use_Dashboard</members>
         <name>Dashboard</name>
     </types>
     <types>
@@ -330,6 +315,13 @@
         <members>SharedDocuments</members>
         <members>SharedDocuments/Sirono_Image_file.jpg</members>
         <name>Document</name>
+    </types>
+    <types>
+        <members>unfiled$public/Internal_Case_Comment_Update</members>
+        <members>unfiled$public/Internal_Case_Creation</members>
+        <members>unfiled$public/SUPPORTNewassignmentnotificationSAMPLE</members>
+        <members>unfiled$public/SUPPORTSelfServiceNewCommentSAMPLE</members>
+        <name>EmailTemplate</name>
     </types>
     <types>
         <members>Case.Administration Escalation Rules</members>
@@ -386,7 +378,6 @@
     <types>
         <members>Five9</members>
         <members>Informatica</members>
-        <members>ca_collab_2_0</members>
         <members>sf_chttr_apps</members>
         <members>sf_com_apps</members>
         <name>InstalledPackage</name>
@@ -480,7 +471,6 @@
         <members>Campaign.MyActiveCampaigns</members>
         <members>Case.AllOpenCases</members>
         <members>Case.Automated_Cases_Case</members>
-        <members>Case.Cases_in_Queue</members>
         <members>Case.Demographic_Update</members>
         <members>Case.Encounter_Needed</members>
         <members>Case.Hospital_Staff_Billing_Case</members>
@@ -671,10 +661,12 @@
         <name>Scontrol</name>
     </types>
     <types>
-        <members>Case.Case_Sirono_Partner</members>
+        <members>Name</members>
+        <name>Settings</name>
+    </types>
+    <types>
         <members>Case.Sirono_Internal</members>
         <members>Contact.Contact_Sirono_Internal</members>
-        <members>Contact.Contact_Sirono_Partner</members>
         <members>Coverage__c.Coverage_Sirono_Internal</members>
         <members>Payment_Adjustments__c.PaymentAdj_Sirono_Internal</members>
         <members>Payment_Method__c.Credit_Card_Sirono_Internal</members>

@@ -12,17 +12,6 @@
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
-        <fullName>Contact_Sirono_Partner</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Contact: Sirono Partner</label>
-        <sharedTo>
-            <portalRoleAndSubordinates>SironoPartnerPartnerUser</portalRoleAndSubordinates>
-        </sharedTo>
-        <sharedFrom>
-            <roleAndSubordinatesInternal>CEO</roleAndSubordinatesInternal>
-        </sharedFrom>
-    </sharingOwnerRules>
-    <sharingOwnerRules>
         <fullName>temp_agent_all_contacts</fullName>
         <accessLevel>Edit</accessLevel>
         <label>temp_agent_all_contacts</label>
