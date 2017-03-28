@@ -3,11 +3,37 @@ private class WorkWithPaymentsControllerTest {
 	
 	@isTest static void getPaymentHistoryTest() {
 		User internalUser;
-		System.runAs(new User(Id = UserInfo.getUserId(), UserRoleId = UserInfo.getUserRoleId())) {
+		UserRole usrRole = [
+            SELECT Id
+            FROM UserRole 
+            WHERE Name = 'CEO'
+        ];
+
+        Profile testProfile = [
+            SELECT Id, Name
+            FROM Profile 
+            WHERE Name = 'System Administrator'
+        ];
+
+		User testUser = new User (
+            LastName = 'test user 1', 
+            Username = String.valueOf(System.now().millisecond()) + 'test.user.payment@example.com', 
+            Email = 'test.1@example.com', 
+            Alias = 'testu1', 
+            TimeZoneSidKey = 'GMT', 
+            LocaleSidKey = 'en_GB', 
+            EmailEncodingKey = 'ISO-8859-1', 
+            ProfileId = testProfile.Id, 
+            UserRoleId = usrRole.Id,
+            LanguageLocaleKey = 'en_US'
+        ); 
+        insert testUser; 
+
+		System.runAs(testUser) {
 			Profile profile = [
 	            SELECT Id, Name
 	            FROM Profile 
-	            WHERE name = 'Guarantor Community'
+	            WHERE Name = 'Guarantor'
 	        ];
 
 	        Account testAcc = new Account (

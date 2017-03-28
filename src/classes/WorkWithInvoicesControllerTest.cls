@@ -5,11 +5,38 @@ private class WorkWithInvoicesControllerTest {
 		Contact patientContact;
 		User internalUser;
 		Invoice__c invoice1;
-		System.runAs(new User(Id = UserInfo.getUserId(), UserRoleId = UserInfo.getUserRoleId())) {
+
+		UserRole usrRole = [
+            SELECT Id
+            FROM UserRole 
+            WHERE Name = 'CEO'
+        ];
+
+        Profile testProfile = [
+            SELECT Id, Name
+            FROM Profile 
+            WHERE Name = 'System Administrator'
+        ];
+
+		User testUser = new User (
+            LastName = 'test user 1', 
+            Username = String.valueOf(System.now().millisecond()) + 'test.user.invoice@example.com', 
+            Email = 'test.1@example.com', 
+            Alias = 'testu1', 
+            TimeZoneSidKey = 'GMT', 
+            LocaleSidKey = 'en_GB', 
+            EmailEncodingKey = 'ISO-8859-1', 
+            ProfileId = testProfile.Id, 
+            UserRoleId = usrRole.Id,
+            LanguageLocaleKey = 'en_US'
+        ); 
+        insert testUser;   
+
+		System.runAs(testUser) {
 			Profile profile = [
 	            SELECT Id, Name
 	            FROM Profile 
-	            WHERE name = 'Guarantor Community'
+	            WHERE Name = 'Guarantor'
 	        ];
 
 	        Account testAcc = new Account (
@@ -153,11 +180,38 @@ private class WorkWithInvoicesControllerTest {
 		Contact patientContact;
 		User internalUser;
 		Encounter__c encounter1;
-		System.runAs(new User(Id = UserInfo.getUserId(), UserRoleId = UserInfo.getUserRoleId())) {
+
+		UserRole usrRole = [
+            SELECT Id
+            FROM UserRole 
+            WHERE Name = 'CEO'
+        ];
+
+        Profile testProfile = [
+            SELECT Id, Name
+            FROM Profile 
+            WHERE Name = 'System Administrator'
+        ];
+
+		User testUser = new User (
+            LastName = 'test user 1', 
+            Username = String.valueOf(System.now().millisecond()) + 'test.user.invoice2@example.com', 
+            Email = 'test.1@example.com', 
+            Alias = 'testu1', 
+            TimeZoneSidKey = 'GMT', 
+            LocaleSidKey = 'en_GB', 
+            EmailEncodingKey = 'ISO-8859-1', 
+            ProfileId = testProfile.Id, 
+            UserRoleId = usrRole.Id,
+            LanguageLocaleKey = 'en_US'
+        ); 
+        insert testUser;   
+
+		System.runAs(testUser) {
 			Profile profile = [
 	            SELECT Id, Name
 	            FROM Profile 
-	            WHERE name = 'Guarantor Community'
+	            WHERE name = 'Guarantor'
 	        ];
 
 	        Account testAcc = new Account (
