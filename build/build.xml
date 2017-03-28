@@ -67,7 +67,7 @@
                 unpackaged="${basedir}/src/package.xml"/>
     </target>
 
-    <target name="deploy">
+    <target name="deploy" depends="createSites">
         <echo level="info">Deploying to: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -80,7 +80,7 @@
                 logType="Debugonly"/>
     </target>
 
-    <target name="undeployCode">
+    <target name="undeployCode" depends="createSites">
         <echo level="info">Remove metadata from: ${sf.target.username}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -92,7 +92,7 @@
     </target>
 
     <!-- Check only; don't remove from server -->
-    <target name="undeployCheckOnly">
+    <target name="undeployCheckOnly" depends="createSites">
         <echo level="info">Validate removal of metadata from: ${sf.target.username}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -108,7 +108,7 @@
     </target>
 
     <!-- Check only; don't save to the server -->
-    <target name="deployCheckOnly">
+    <target name="deployCheckOnly" depends="createSites">
         <echo level="info">Validating in: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -123,7 +123,7 @@
     </target>
 
     <!-- Check only; only run specified tests -->
-    <target name="deployCheckSelectTests">
+    <target name="deployCheckSelectTests" depends="createSites">
         <echo level="info">Running select tests in: ${sf.target.username}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -140,7 +140,7 @@
     </target>
     
     <!-- Deploy without tests -->
-    <target name="deployNoTests">
+    <target name="deployNoTests" depends="createSites">
         <echo level="info">Deploying to: ${sf.target.username} without tests</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -178,9 +178,9 @@
     <target name="full_deploy" description="Full environment setup in target org"
             depends="stop_all_scheduled_jobs, deploy, initialize_custom_settings, schedule_all_jobs"/>
     
-    <target name="initial_deploy" description="Deploy into a Dev org for the first time"
-            depends="preDeploy, deployPrep, deployNoTests, revertPrep, updateSitesAdminAndDomain,
-             deployNoTests, remove_sample_data, initialize_custom_settings, schedule_all_jobs, revertPrep"/>
+    <target name="initial_deploy" description="Deploy into a DE org for the first time"
+            depends="preDeploy, deployPrep, deployNoTests, revertPrep, deployNoTests, remove_sample_data,
+            initialize_custom_settings, revertPrep"/>
 
     <target name="rename_prep" description="Stop all scheduled jobs and undeploy"
             depends="stop_all_scheduled_jobs, undeployCode, deploy"/>
