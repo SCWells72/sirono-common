@@ -2651,7 +2651,7 @@
                 <cssExposed>false</cssExposed>
             </picklistValues>
             <picklistValues>
-                <fullName>VIP Caller</fullName>
+                <fullName>VIP Called</fullName>
                 <default>false</default>
                 <cssExposed>false</cssExposed>
             </picklistValues>
@@ -3049,16 +3049,6 @@
         <queue>Automated_Cases</queue>
         <sharedTo>
             <allInternalUsers></allInternalUsers>
-        </sharedTo>
-    </listViews>
-    <listViews>
-        <fullName>Cases_in_Queue</fullName>
-        <filterScope>Queue</filterScope>
-        <label>Cases in Queue</label>
-        <queue>Sirono_Partner_Queue</queue>
-        <sharedTo>
-            <allInternalUsers></allInternalUsers>
-            <portalRoleAndSubordinates>SironoPartnerPartnerUser</portalRoleAndSubordinates>
         </sharedTo>
     </listViews>
     <listViews>
@@ -6988,7 +6978,7 @@
                 <default>false</default>
             </values>
             <values>
-                <fullName>VIP Caller</fullName>
+                <fullName>VIP Called</fullName>
                 <default>false</default>
             </values>
         </picklistValues>

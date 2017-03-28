@@ -12,14 +12,12 @@ public class PaymentPlanBalanceTest {
 
         // Generate and insert initial Transaction, Charge Group, Guarantor, and Patient
         Contact patient = TestUtility.generatePatientContact();
-        patient.CreatedDate = newCreateDate;
         insert patient;
-
+        Test.setCreatedDate(patient.Id, newCreateDate);
 
         Contact guarantor = TestUtility.generateGuarantorContact();
-        guarantor.CreatedDate = newCreateDate;
         insert guarantor;
-
+        Test.setCreatedDate(guarantor.Id, newCreateDate);
 
         Map<String, String> recordTypeMap = new Map<String, String>();
         for (RecordType recordType : [
@@ -31,18 +29,18 @@ public class PaymentPlanBalanceTest {
         }
 
         Payment_Method__c testPM = TestUtility.generatePaymentMethod(guarantor.Id, recordTypeMap.get('Credit Card'));
-        testPM.CreatedDate = newCreateDate;
         insert testPM;
+        Test.setCreatedDate(testPM.Id, newCreateDate);
 
         Payment_Plan__c testPP = TestUtility.generatePaymentPlan(guarantor);
-        testPP.CreatedDate = newCreateDate;
         testPP.Plan_Value_Modified_Date__c = newCreateDate;
         testPP.Original_Balance__c = TestUtility.generateRandomCurrency();
         insert testPP;
+        Test.setCreatedDate(testPP.Id, newCreateDate);
 
         Charge_Group__c testCG = TestUtility.generateChargeGroup(guarantor.Id, patient.Id, 887887, testPP.Id);
-        testCG.CreatedDate = newCreateDate;
         insert testCG;
+        Test.setCreatedDate(testCG.Id, newCreateDate);
 
         Service__c testService = TestUtility.generateService(testCG, TestUtility.generateRandomCurrency());
         testService.Post_Date__c = newCreateDate.date();

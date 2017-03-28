@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingOwnerRules>
-        <fullName>Case_Sirono_Partner</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Case: Sirono Partner</label>
-        <sharedTo>
-            <portalRoleAndSubordinates>SironoPartnerPartnerUser</portalRoleAndSubordinates>
-        </sharedTo>
-        <sharedFrom>
-            <portalRoleAndSubordinates>SironoPartnerPartnerUser</portalRoleAndSubordinates>
-        </sharedFrom>
-    </sharingOwnerRules>
-    <sharingOwnerRules>
         <fullName>Sirono_Internal</fullName>
         <accessLevel>Edit</accessLevel>
         <label>Sirono Internal</label>

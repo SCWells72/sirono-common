@@ -1,4 +1,4 @@
-<project name="Initial Deploy of Sirono SFDC metadata" default="help"
+<project name="init" default="help"
          basedir=".."
          xmlns:sf="antlib:com.salesforce"
          xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
@@ -7,15 +7,42 @@
         <echo message="Tasks to run for the initial deploy to a Dev org"/>
     </target>
 
-    <target name="deployPrep" description="Prep source for an initial deployment to a dev org">
-        <getUsernamePrefix text="${sf.target.username}" property="un_prefix" />
+    <target name="preDeploy" description="Deploy settings needed for the initial deploy to run successfully">
+        <echo level="info">Deploy settings needed for the initial source deploy to: ${sf.target.username} to run successfully</echo>
+        <delete dir="${basedir}/pre_deploy"/>
+        <mkdir dir="${basedir}/pre_deploy/settings"/>
+        <copy file="${basedir}/src/settings/Name.settings" tofile="${basedir}/pre_deploy/settings/Name.settings"/>
+        <echo level="info">Deploying Name settings to: ${sf.target.username}</echo>
+        <echo file="${basedir}/pre_deploy/package.xml" ><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Name</members>
+        <name>Settings</name>
+    </types>
+        <version>39.0</version>
+</Package>]]></echo>
+        <sf:deploy
+                username="${sf.target.username}"
+                password="${sf.target.password}"
+                serverurl="${sf.target.serverurl}"
+                deployRoot="${basedir}/pre_deploy"
+                pollWaitMillis="${sf.pollWaitMillis}"
+                maxPoll="${sf.maxPoll}"
+                testLevel="NoTestRun"
+                logType="Debugonly"/>
+        <delete dir="${basedir}/pre_deploy"/>
+    </target>
+
+    <target name="turnOffHistoryTracking">
         <echo message="Turn off history tracking in all objects"/>
         <replace dir="${basedir}/src/objects">
             <replacetoken><![CDATA[<trackHistory>true</trackHistory>]]></replacetoken>
             <replacevalue><![CDATA[<trackHistory>false</trackHistory>]]></replacevalue>
             <include name="*.object"/>
         </replace>
+    </target>
 
+    <target name="removePartnerQueue">
         <echo message="Remove the Sirono_Partner_Queue"/>
         <replace dir="${basedir}/src/objects">
             <replacetoken><![CDATA[    <listViews>
@@ -70,8 +97,13 @@
             <replacevalue><![CDATA[]]></replacevalue>
             <include name="Payment_Method__c.object"/>
         </replace>
+
         <replace file="${basedir}/src/package.xml">
-            <replacetoken><![CDATA[<members>Case.Sirono_Partner_Queue_Coverage</members>]]></replacetoken>
+            <replacetoken><![CDATA[<members>Case.Cases_in_Queue</members>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+        </replace>
+        <replace file="${basedir}/src/package.xml">
+            <replacetoken><![CDATA[<members>Case.Sirono_Partner_Queue_Case</members>]]></replacetoken>
             <replacevalue><![CDATA[]]></replacevalue>
         </replace>
         <replace file="${basedir}/src/package.xml">
@@ -79,30 +111,14 @@
             <replacevalue><![CDATA[]]></replacevalue>
         </replace>
         <replace file="${basedir}/src/package.xml">
-            <replacetoken><![CDATA[<members>Payment_Method__c.Sirono_Partner_Queue_Coverage</members>]]></replacetoken>
+            <replacetoken><![CDATA[<members>Payment_Method__c.Sirono_Partner_Queue_Credit_Card</members>]]></replacetoken>
             <replacevalue><![CDATA[]]></replacevalue>
         </replace>
+
         <move file="${basedir}/src/queues/Sirono_Partner_Queue.queue" tofile="${basedir}/src/queues/Sirono_Partner_Queue.queue.bak" overwrite="true"/>
+    </target>
 
-        <echo message="Make ${sf.target.username} admin for Guarantor_Portal and Partner_Community"/>
-        <replace dir="${basedir}/src/sites">
-            <replacetoken><![CDATA[<siteAdmin>sironodev@cloudcoop.io</siteAdmin>]]></replacetoken>
-            <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
-            <include name="Guarantor_Portal.site"/>
-        </replace>
-        <replace dir="${basedir}/src/sites">
-            <replacetoken><![CDATA[<siteAdmin>sirono@cloudcoop.io</siteAdmin>]]></replacetoken>
-            <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
-            <include name="Partner_Community.site"/>
-        </replace>
-
-        <echo message="Set subdomain for all sites to ${un_prefix}-community-1-developer-edition"/>
-        <replace dir="${basedir}/src/sites">
-            <replacetoken><![CDATA[<subdomain>sirono</subdomain>]]></replacetoken>
-            <replacevalue expandProperties="true"><![CDATA[<subdomain>${un_prefix}-community-1-developer-edition</subdomain>]]></replacevalue>
-            <include name="*.site"/>
-        </replace>
-
+    <target name="removeSharingRules">
         <echo message="Remove sharingRules"/>
         <move todir="${basedir}/src/sharingRules" includeemptydirs="false">
             <fileset dir="${basedir}/src/sharingRules">
@@ -110,6 +126,78 @@
             </fileset>
             <mapper type="glob" from="*" to="*.bak"/>
         </move>
+        <replace file="${basedir}/src/package.xml">
+            <replacetoken><![CDATA[    <types>
+        <members>Case.Sirono_Internal</members>
+        <members>Contact.Contact_Sirono_Internal</members>
+        <members>Coverage__c.Coverage_Sirono_Internal</members>
+        <members>Payment_Adjustments__c.PaymentAdj_Sirono_Internal</members>
+        <members>Payment_Method__c.Credit_Card_Sirono_Internal</members>
+        <members>Payment__c.Payment_Internal_Sirono</members>
+        <name>SharingOwnerRule</name>
+    </types>
+    <types>
+        <members>Account</members>
+        <members>Asset</members>
+        <members>Campaign</members>
+        <members>Case</members>
+        <members>Contact</members>
+        <members>Coverage__c</members>
+        <members>Encounter__c</members>
+        <members>Location__c</members>
+        <members>Payment_Adjustments__c</members>
+        <members>Payment_Arrangement__c</members>
+        <members>Payment_Method__c</members>
+        <members>Payment__c</members>
+        <members>Payor__c</members>
+        <members>Provider__c</members>
+        <members>Service_Rollup__c</members>
+        <members>Transaction_Type__c</members>
+        <members>User</members>
+        <name>SharingRules</name>
+    </types>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+        </replace>
+    </target>
+
+    <target name="updateSitesAdminAndDomain">
+
+        <getOrgName text="${sf.target.username}" property="orgName" />
+
+        <echo message="Make ${sf.target.username} admin for all sites"/>
+        <replace dir="${basedir}/src/sites">
+            <replacetoken><![CDATA[<siteAdmin>sironodev@cloudcoop.io</siteAdmin>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
+            <include name="*.site"/>
+        </replace>
+        <replace dir="${basedir}/src/sites">
+            <replacetoken><![CDATA[<siteAdmin>sirono@cloudcoop.io</siteAdmin>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
+            <include name="*.site"/>
+        </replace>
+
+        <echo message="Set subdomain for all community sites to: ${orgName}-sirono-community-developer-edition"/>
+        <replace dir="${basedir}/src/sites">
+            <replacetoken><![CDATA[<subdomain>sirono</subdomain>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<subdomain>${orgName}-sirono-community-developer-edition</subdomain>]]></replacevalue>
+            <include name="Guarantor_Portal.site"/>
+            <include name="Partner_Community.site"/>
+        </replace>
+
+        <echo message="Set subdomain for five9 site to force.com subdomain: ${orgName}-sirono-developer-edition"/>
+        <replace dir="${basedir}/src/sites">
+            <replacetoken><![CDATA[<subdomain>five9tosirono</subdomain>]]></replacetoken>
+            <replacevalue expandProperties="true"><![CDATA[<subdomain>${orgName}-sirono-developer-edition</subdomain>]]></replacevalue>
+            <include name="Five9CreateCallLogRecord.site"/>
+        </replace>
+    </target>
+
+    <target name="deployPrep" description="Prep source for deployment to a dev org">
+        <echo level="info">Perform prep on source in order to deploy to: ${sf.target.username}</echo>
+        <antcall target="turnOffHistoryTracking"/>
+        <antcall target="removePartnerQueue"/>
+        <antcall target="removeSharingRules"/>
+        <antcall target="updateSitesAdminAndDomain"/>
     </target>
 
     <target name="revertPrep">
@@ -119,24 +207,23 @@
             <arg value="--"/>
             <arg value="${basedir}/src"/>
         </exec>
-        <exec dir="${basedir}/src" executable="git">
-            <arg value="clean"/>
-            <arg value="-fd"/>
-        </exec>
+        <delete>
+            <fileset dir="${basedir}/src" includes="**/*.bak"/>
+        </delete>
     </target>
 
-    <scriptdef name="getUsernamePrefix" language="javascript">
+    <scriptdef name="getOrgName" language="javascript">
         <attribute name="text" />
         <attribute name="property" />
         <![CDATA[
        var str = attributes.get("text");
-       var end = str.indexOf("+");;
+       var end = str.indexOf("+");
        project.setProperty(attributes.get("property"), str.substring(0, end));
      ]]>
     </scriptdef>
 
-    <target name="test_getUsernamePrefix">
-        <getUsernamePrefix text="${sf.target.username}" property="un_prefix" />
-        <echo message="subtext = ${un_prefix}" />
+    <target name="testGetOrgName">
+        <getOrgName text="${sf.target.username}" property="orgName" />
+        <echo message="orgName = ${orgName}" />
     </target>
 </project>

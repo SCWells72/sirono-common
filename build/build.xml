@@ -3,7 +3,7 @@
          xmlns:sf="antlib:com.salesforce"
          xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
 
-    <include file="${basedir}/build/build_initial_deploy.xml" as="init"/>
+    <import file="${basedir}/build/build_initial_deploy.xml"/>
 
     <taskdef uri="antlib:com.salesforce"
              resource="com/salesforce/antlib.xml"
@@ -138,6 +138,20 @@
             <runTest>EncounterBalanceTest</runTest>
         </sf:deploy>
     </target>
+    
+    <!-- Deploy without tests -->
+    <target name="deployNoTests">
+        <echo level="info">Deploying to: ${sf.target.username} without tests</echo>
+        <sf:deploy
+                username="${sf.target.username}"
+                password="${sf.target.password}"
+                serverurl="${sf.target.serverurl}"
+                deployRoot="${basedir}/src"
+                pollWaitMillis="${sf.pollWaitMillis}"
+                maxPoll="${sf.maxPoll}"
+                testLevel="NoTestRun"
+                logType="Debugonly"/>
+    </target>
 
     <target name="echo_environment">
         <echoproperties prefix="sf."/>
@@ -165,7 +179,8 @@
             depends="stop_all_scheduled_jobs, deploy, initialize_custom_settings, schedule_all_jobs"/>
     
     <target name="initial_deploy" description="Deploy into a Dev org for the first time"
-            depends="init.deployPrep, deploy, init.revertPrep, deploy, initialize_custom_settings, schedule_all_jobs"/>
+            depends="preDeploy, deployPrep, deployNoTests, revertPrep, updateSitesAdminAndDomain,
+             deployNoTests, remove_sample_data, initialize_custom_settings, schedule_all_jobs, revertPrep"/>
 
     <target name="rename_prep" description="Stop all scheduled jobs and undeploy"
             depends="stop_all_scheduled_jobs, undeployCode, deploy"/>
@@ -199,6 +214,7 @@
     </target>
 
     <target name="schedule_all_jobs" depends="stop_all_scheduled_jobs">
+        <echo level="info">Schedule all jobs in: ${sf.target.username}</echo>
         <!-- schedule all jobs -->
         <executeAnonymous
                 username="${sf.target.username}"
@@ -217,6 +233,7 @@
     </target>
 
     <target name="initialize_custom_settings">
+        <echo level="info">Initialize custom settings in: ${sf.target.username}</echo>
         <!-- execute apex to initialize custom settings -->
         <executeAnonymous
                 username="${sf.target.username}"
@@ -224,6 +241,31 @@
                 serverurl="${sf.target.serverurl}">
             <![CDATA[
                 SironoSettingsUtil.initializeSironoSettings();
+            ]]>
+        </executeAnonymous>
+    </target>
+
+    <target name="remove_sample_data">
+        <echo level="info">Remove all sample data from dev org: ${sf.target.username}</echo>
+        <executeAnonymous
+                username="${sf.target.username}"
+                password="${sf.target.password}"
+                serverurl="${sf.target.serverurl}">
+            <![CDATA[
+                Opportunity[] opps = [SELECT Id FROM Opportunity];
+                DELETE opps;
+                Case[] cases = [SELECT Id FROM Case];
+                DELETE cases;
+                Lead[] leads = [SELECT Id FROM Lead];
+                DELETE leads;
+                Contact[] contacts = [SELECT Id FROM Contact];
+                DELETE contacts;
+                Campaign[] cmpns = [SELECT Id FROM Campaign];
+                DELETE cmpns;
+                Solution[] sols = [SELECT Id FROM Solution];
+                DELETE sols;
+                Account[] accts = [SELECT Id FROM Account];
+                DELETE accts;
             ]]>
         </executeAnonymous>
     </target>
