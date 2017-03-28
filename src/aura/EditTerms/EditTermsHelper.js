@@ -36,7 +36,7 @@
 		date.setMonth(date.getMonth() + 1);
 		return {
 			isSaved: false,
-			expirationMonth: '03',
+			expirationMonth: ("0" + (date.getMonth())).slice(-2),
 			expirationYear: date.getFullYear(),
 			cardHolderName:'',
 			creditCardNumber: '',
