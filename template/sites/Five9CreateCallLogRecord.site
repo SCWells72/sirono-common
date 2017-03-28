@@ -6,20 +6,20 @@
     <allowStandardIdeasPages>false</allowStandardIdeasPages>
     <allowStandardLookups>false</allowStandardLookups>
     <allowStandardSearch>false</allowStandardSearch>
-    <authorizationRequiredPage>CommunitiesLogin</authorizationRequiredPage>
+    <authorizationRequiredPage>Unauthorized</authorizationRequiredPage>
     <bandwidthExceededPage>BandwidthExceeded</bandwidthExceededPage>
     <clickjackProtectionLevel>SameOriginOnly</clickjackProtectionLevel>
     <fileNotFoundPage>FileNotFound</fileNotFoundPage>
     <genericErrorPage>Exception</genericErrorPage>
-    <inMaintenancePage>CommunitiesLogin</inMaintenancePage>
-    <inactiveIndexPage>CommunitiesLogin</inactiveIndexPage>
-    <indexPage>CommunitiesLanding</indexPage>
-    <masterLabel>Partner Community</masterLabel>
-    <requireHttps>true</requireHttps>
+    <inMaintenancePage>InMaintenance</inMaintenancePage>
+    <inactiveIndexPage>InMaintenance</inactiveIndexPage>
+    <indexPage>Five9CreateCallLogRecord</indexPage>
+    <masterLabel>Five9CreateCallLogRecord</masterLabel>
+    <requireHttps>false</requireHttps>
     <requireInsecurePortalAccess>false</requireInsecurePortalAccess>
-    <selfRegPage>CommunitiesSelfReg</selfRegPage>
-    <siteAdmin>sirono@cloudcoop.io</siteAdmin>
-    <siteType>ChatterNetwork</siteType>
-    <subdomain>sirono</subdomain>
-    <urlPathPrefix>partner</urlPathPrefix>
+    <siteAdmin>@SITE_ADMIN@</siteAdmin>
+    <siteTemplate>SiteTemplate</siteTemplate>
+    <siteType>Visualforce</siteType>
+    <subdomain>@SITE_SUBDOMAIN@</subdomain>
+    <urlPathPrefix>Five9CreateCallLogRecord</urlPathPrefix>
 </CustomSite>

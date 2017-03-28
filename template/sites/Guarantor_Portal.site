@@ -18,8 +18,8 @@
     <requireHttps>true</requireHttps>
     <requireInsecurePortalAccess>false</requireInsecurePortalAccess>
     <selfRegPage>CommunitiesSelfReg</selfRegPage>
-    <siteAdmin>sironodev@cloudcoop.io</siteAdmin>
+    <siteAdmin>@SITE_ADMIN@</siteAdmin>
     <siteType>ChatterNetwork</siteType>
-    <subdomain>sirono</subdomain>
+    <subdomain>@SITE_SUBDOMAIN@</subdomain>
     <urlPathPrefix>guarantor</urlPathPrefix>
 </CustomSite>

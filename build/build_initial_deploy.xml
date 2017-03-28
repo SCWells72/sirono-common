@@ -159,34 +159,26 @@
         </replace>
     </target>
 
-    <target name="updateSitesAdminAndDomain">
-
+    <target name="createSites">
         <getOrgName text="${sf.target.username}" property="orgName" />
+        <mkdir dir="${basedir}/src/sites"/>
+        <copy todir="${basedir}/src/sites" overwrite="true">
+            <fileset dir="${basedir}/template/sites"/>
+        </copy>
 
         <echo message="Make ${sf.target.username} admin for all sites"/>
-        <replace dir="${basedir}/src/sites">
-            <replacetoken><![CDATA[<siteAdmin>sironodev@cloudcoop.io</siteAdmin>]]></replacetoken>
-            <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
-            <include name="*.site"/>
-        </replace>
-        <replace dir="${basedir}/src/sites">
-            <replacetoken><![CDATA[<siteAdmin>sirono@cloudcoop.io</siteAdmin>]]></replacetoken>
-            <replacevalue expandProperties="true"><![CDATA[<siteAdmin>${sf.target.username}</siteAdmin>]]></replacevalue>
+        <replace dir="${basedir}/src/sites" token="@SITE_ADMIN@" value="${sf.target.username}">
             <include name="*.site"/>
         </replace>
 
         <echo message="Set subdomain for all community sites to: ${orgName}-sirono-community-developer-edition"/>
-        <replace dir="${basedir}/src/sites">
-            <replacetoken><![CDATA[<subdomain>sirono</subdomain>]]></replacetoken>
-            <replacevalue expandProperties="true"><![CDATA[<subdomain>${orgName}-sirono-community-developer-edition</subdomain>]]></replacevalue>
+        <replace dir="${basedir}/src/sites" token="@SITE_SUBDOMAIN@" value="${orgName}-sirono-community-developer-edition">
             <include name="Guarantor_Portal.site"/>
             <include name="Partner_Community.site"/>
         </replace>
 
         <echo message="Set subdomain for five9 site to force.com subdomain: ${orgName}-sirono-developer-edition"/>
-        <replace dir="${basedir}/src/sites">
-            <replacetoken><![CDATA[<subdomain>five9tosirono</subdomain>]]></replacetoken>
-            <replacevalue expandProperties="true"><![CDATA[<subdomain>${orgName}-sirono-developer-edition</subdomain>]]></replacevalue>
+        <replace dir="${basedir}/src/sites" token="@SITE_SUBDOMAIN@" value="${orgName}-sirono-developer-edition">
             <include name="Five9CreateCallLogRecord.site"/>
         </replace>
     </target>
@@ -196,7 +188,6 @@
         <antcall target="turnOffHistoryTracking"/>
         <antcall target="removePartnerQueue"/>
         <antcall target="removeSharingRules"/>
-        <antcall target="updateSitesAdminAndDomain"/>
     </target>
 
     <target name="revertPrep">

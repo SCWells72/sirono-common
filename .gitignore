@@ -6,6 +6,9 @@
 build.properties
 config
 
+# Assets created from templates
+src/sites/
+
 # Apex Log as optional
 apex-scripts/log
 
