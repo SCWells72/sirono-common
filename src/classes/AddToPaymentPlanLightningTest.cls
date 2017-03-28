@@ -32,6 +32,9 @@ private class AddToPaymentPlanLightningTest {
          */
         ppCon.submit();
 
+        //Check System Assert.
+        System.assertEquals(ppCon.errorMessage.contains('Please provide all details'), true);
+
         //Create Invoice record.
         Invoice__c i = TestUtility.generateInvoice(g.Id,p.Id);
         insert i;
@@ -61,7 +64,7 @@ private class AddToPaymentPlanLightningTest {
 
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
         ppCon = new AddToPaymentPlanLightning(g.Id);
-        for(ChargeGroupWrapper cgw :ppCon.chrageGroupList){
+        for(ChargeGroupWrapper cgw :ppCon.chargeGroupList){
             cgw.isSelected = true;
         }
 
@@ -78,9 +81,7 @@ private class AddToPaymentPlanLightningTest {
         ppCon.submit();
 
         //Check System Assert.
-        boolean isError = false;
-        if (ppCon.errorMessage.contains('Please provide all details')) isError  = true;
-        System.assertEquals(isError,true);
+        System.assertEquals(ppCon.errorMessage.contains('Please provide all details'), false);
     }
 
     //Code Coverage for pass all the validation
@@ -144,7 +145,7 @@ private class AddToPaymentPlanLightningTest {
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
         Apexpages.currentPage().getParameters().put('paymentPlanExtId','121212');
         ppCon = new AddToPaymentPlanLightning(g.Id);
-        for(ChargeGroupWrapper cgw :ppCon.chrageGroupList){
+        for(ChargeGroupWrapper cgw :ppCon.chargeGroupList){
             cgw.isSelected = true;
         }
 
@@ -231,7 +232,7 @@ private class AddToPaymentPlanLightningTest {
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
         Apexpages.currentPage().getParameters().put('paymentPlanExtId','121212');
         ppCon = new AddToPaymentPlanLightning(g.Id);
-        for(ChargeGroupWrapper cgw :ppCon.chrageGroupList){
+        for(ChargeGroupWrapper cgw :ppCon.chargeGroupList){
             cgw.isSelected = true;
         }
 
@@ -323,7 +324,7 @@ private class AddToPaymentPlanLightningTest {
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
         Apexpages.currentPage().getParameters().put('paymentPlanExtId','121212');
         ppCon = new AddToPaymentPlanLightning(g.Id);
-        for(ChargeGroupWrapper cgw :ppCon.chrageGroupList){
+        for(ChargeGroupWrapper cgw :ppCon.chargeGroupList){
             cgw.isSelected = true;
         }
 
