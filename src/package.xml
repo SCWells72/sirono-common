@@ -419,8 +419,6 @@
         <members>Patient_Coverage_Junction__c-Patient Coverage Junction Layout</members>
         <members>Payment_Adjustments__c-Adjustment Layout</members>
         <members>Payment_Adjustments__c-Adjustments</members>
-        <members>Payment_Arrangement__c-Payment Arrangement Layout</members>
-        <members>Payment_Arrangement__c-Payment Arrangements</members>
         <members>Payment_Method__c-ACH</members>
         <members>Payment_Method__c-Cash%2FCheck</members>
         <members>Payment_Method__c-Credit Card</members>
@@ -501,9 +499,6 @@
         <members>Location__c.All</members>
         <members>Patient_Coverage_Junction__c.All</members>
         <members>Payment_Adjustments__c.All</members>
-        <members>Payment_Arrangement__c.All</members>
-        <members>Payment_Arrangement__c.One_Time</members>
-        <members>Payment_Arrangement__c.Recurring</members>
         <members>Payment_Method__c.All</members>
         <members>Payment_Method__c.Sirono_Partner_Queue_Credit_Card</members>
         <members>Payment_Plan__c.All</members>
@@ -576,8 +571,6 @@
         <members>Contact.Guarantor</members>
         <members>Contact.Patient</members>
         <members>Contact.Staff</members>
-        <members>Payment_Arrangement__c.Deposit</members>
-        <members>Payment_Arrangement__c.Payment_Plan</members>
         <members>Payment_Method__c.ACH</members>
         <members>Payment_Method__c.Check_Cash</members>
         <members>Payment_Method__c.Credit_Card</members>
@@ -683,7 +676,6 @@
         <members>Encounter__c</members>
         <members>Location__c</members>
         <members>Payment_Adjustments__c</members>
-        <members>Payment_Arrangement__c</members>
         <members>Payment_Method__c</members>
         <members>Payment__c</members>
         <members>Payor__c</members>
@@ -716,7 +708,6 @@
         <members>Contact.Process_Payment</members>
 	<members>Contact.Pay_Estimate</members>
         <members>Contact.View_On_Portal</members>
-        <members>Encounter__c.New_Payment_Arrangement</members>
         <members>Payment_Method__c.Update_Credit_Card</members>
         <members>Payment_Plan__c.Add_to_Payment_Plan</members>
         <members>Payment_Plan__c.Canecl_Payment_Plan</members>
