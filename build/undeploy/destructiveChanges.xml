@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-		<members>PaymentArrangementTriggerHandler</members>
-		<members>PaymentArrangementTest</members>
-		<members>PaymentArrangement</members>
-		<members>PaymentArrangementSecurityContext</members>
-		<members>PaymentMethodSecurityContext</members>
+	<members>PaymentArrangementTriggerHandler</members>
+	<members>PaymentArrangementTest</members>
+	<members>PaymentArrangement</members>
+	<members>PaymentArrangementSecurityContext</members>
+	<members>PaymentMethodSecurityContext</members>
         <name>ApexClass</name>
     </types>
-	<types>
+    <types>
         <members>PaymentArrangement</members>
         <name>ApexPage</name>
     </types>
-	<types>
+    <types>
         <members>PaymentArrangementTrigger</members>
         <name>ApexTrigger</name>
     </types>
-	<types>
-		<members>Encounter__c.New_Payment_Arrangement</members>
-		<name>WebLink</name>
-	</types>
     <types>
-		<members>Payment_Arrangement__c</members>
+    	<members>Payment_Arrangement__c</members>
         <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Encounter__c.New_Payment_Arrangement</members>
+        <name>QuickAction</name>
+    </types>
+    <types>
+        <members>Encounter__c.New_Payment_Arrangement</members>
+        <name>WebLink</name>
     </types>
     <version>38.0</version>
 </Package>

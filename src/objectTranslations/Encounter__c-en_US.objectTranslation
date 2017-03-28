@@ -207,18 +207,10 @@
             <section>Estimates</section>
         </sections>
     </layouts>
-    <quickActions>
-        <label><!-- New Payment Arrangement --></label>
-        <name>New_Payment_Arrangement</name>
-    </quickActions>
     <startsWith>Vowel</startsWith>
     <webLinks>
         <label><!-- Add_Attachment --></label>
         <name>Add_Attachment</name>
-    </webLinks>
-    <webLinks>
-        <label><!-- New_Payment_Arrangement --></label>
-        <name>New_Payment_Arrangement</name>
     </webLinks>
     <webLinks>
         <label><!-- Pay_Estimate --></label>
