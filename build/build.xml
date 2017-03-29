@@ -19,6 +19,7 @@
          so unset values are treated as empty. Without this, ant expressions such as ${sf.blah.username}
          will be treated literally.
     -->
+
     <condition property="sf.target.username" value="">
         <not>
             <isset property="sf.target.username"/>
@@ -52,6 +53,32 @@
     <condition property="sf.testLevel" value="RunLocalTests">
         <not>
             <isset property="sf.testLevel"/>
+        </not>
+    </condition>
+
+
+    <getOrgName text="${sf.target.username}" property="derivedOrgName" />
+    <condition property="orgName" value="${sf.orgName}">
+        <isset property="sf.orgName"/>
+    </condition>
+    <condition property="orgName" value="${derivedOrgName}">
+        <not>
+            <isset property="sf.orgName"/>
+        </not>
+    </condition>
+    <condition property="sf.forceSubDomain" value="${orgName}-sirono-developer-edition">
+        <not>
+            <isset property="sf.forceSubDomain"/>
+        </not>
+    </condition>
+    <condition property="sf.commSubDomain" value="${orgName}-sirono-community-developer-edition">
+        <not>
+            <isset property="sf.commSubDomain"/>
+        </not>
+    </condition>
+    <condition property="sf.siteAdmin" value="${sf.target.username}">
+        <not>
+            <isset property="sf.siteAdmin"/>
         </not>
     </condition>
 
