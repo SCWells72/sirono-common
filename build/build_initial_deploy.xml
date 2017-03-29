@@ -160,25 +160,24 @@
     </target>
 
     <target name="createSites">
-        <getOrgName text="${sf.target.username}" property="orgName" />
         <mkdir dir="${basedir}/src/sites"/>
         <copy todir="${basedir}/src/sites" overwrite="true">
             <fileset dir="${basedir}/template/sites"/>
         </copy>
 
-        <echo message="Make ${sf.target.username} admin for all sites"/>
-        <replace dir="${basedir}/src/sites" token="@SITE_ADMIN@" value="${sf.target.username}">
+        <echo message="Make ${sf.siteAdmin} admin for all sites"/>
+        <replace dir="${basedir}/src/sites" token="@SITE_ADMIN@" value="${sf.siteAdmin}">
             <include name="*.site"/>
         </replace>
 
-        <echo message="Set subdomain for all community sites to: ${orgName}-sirono-community-developer-edition"/>
-        <replace dir="${basedir}/src/sites" token="@SITE_SUBDOMAIN@" value="${orgName}-sirono-community-developer-edition">
+        <echo message="Set subdomain for all community sites to: ${sf.commSubDomain}"/>
+        <replace dir="${basedir}/src/sites" token="@SITE_SUBDOMAIN@" value="${sf.commSubDomain}">
             <include name="Guarantor_Portal.site"/>
             <include name="Partner_Community.site"/>
         </replace>
 
-        <echo message="Set subdomain for five9 site to force.com subdomain: ${orgName}-sirono-developer-edition"/>
-        <replace dir="${basedir}/src/sites" token="@SITE_SUBDOMAIN@" value="${orgName}-sirono-developer-edition">
+        <echo message="Set subdomain for five9 site to force.com subdomain: ${sf.forceSubDomain}"/>
+        <replace dir="${basedir}/src/sites" token="@SITE_SUBDOMAIN@" value="${sf.forceSubDomain}">
             <include name="Five9CreateCallLogRecord.site"/>
         </replace>
     </target>
@@ -213,7 +212,7 @@
     </scriptdef>
 
     <target name="testGetOrgName">
-        <getOrgName text="${sf.target.username}" property="orgName" />
-        <echo message="orgName = ${orgName}" />
+        <getOrgName text="${sf.target.username}" property="testorgName" />
+        <echo message="testorgName = ${testorgName}" />
     </target>
 </project>
