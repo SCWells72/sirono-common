@@ -11,7 +11,7 @@
         <echo level="info">Deploy settings needed for the initial source deploy to: ${sf.target.username} to run successfully</echo>
         <delete dir="${basedir}/pre_deploy"/>
         <mkdir dir="${basedir}/pre_deploy/settings"/>
-        <copy file="${basedir}/src/settings/Name.settings" tofile="${basedir}/pre_deploy/settings/Name.settings"/>
+        <copy file="${basedir}/src/settings/Name.settings" tofile="${basedir}/pre_deploy/settings/Name.settings" encoding="UTF-8"/>
         <echo level="info">Deploying Name settings to: ${sf.target.username}</echo>
         <echo file="${basedir}/pre_deploy/package.xml" ><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
@@ -44,7 +44,7 @@
 
     <target name="removePartnerQueue">
         <echo message="Remove the Sirono_Partner_Queue"/>
-        <replace dir="${basedir}/src/objects">
+        <replace dir="${basedir}/src/objects" encoding="UTF-8">
             <replacetoken><![CDATA[    <listViews>
         <fullName>Sirono_Partner_Queue_Coverage</fullName>
         <filterScope>Queue</filterScope>
@@ -57,7 +57,7 @@
             <replacevalue><![CDATA[]]></replacevalue>
             <include name="Coverage__c.object"/>
         </replace>
-        <replace dir="${basedir}/src/objects">
+        <replace dir="${basedir}/src/objects" encoding="UTF-8">
             <replacetoken><![CDATA[    <listViews>
         <fullName>Cases_in_Queue</fullName>
         <filterScope>Queue</filterScope>
@@ -71,7 +71,7 @@
             <replacevalue><![CDATA[]]></replacevalue>
             <include name="Case.object"/>
         </replace>
-        <replace dir="${basedir}/src/objects">
+        <replace dir="${basedir}/src/objects" encoding="UTF-8">
             <replacetoken><![CDATA[    <listViews>
         <fullName>Sirono_Partner_Queue_Case</fullName>
         <filterScope>Queue</filterScope>
@@ -84,7 +84,7 @@
             <replacevalue><![CDATA[]]></replacevalue>
             <include name="Case.object"/>
         </replace>
-        <replace dir="${basedir}/src/objects">
+        <replace dir="${basedir}/src/objects" encoding="UTF-8">
             <replacetoken><![CDATA[    <listViews>
         <fullName>Sirono_Partner_Queue_Credit_Card</fullName>
         <filterScope>Queue</filterScope>
@@ -98,19 +98,19 @@
             <include name="Payment_Method__c.object"/>
         </replace>
 
-        <replace file="${basedir}/src/package.xml">
+        <replace file="${basedir}/src/package.xml" encoding="UTF-8">
             <replacetoken><![CDATA[<members>Case.Cases_in_Queue</members>]]></replacetoken>
             <replacevalue><![CDATA[]]></replacevalue>
         </replace>
-        <replace file="${basedir}/src/package.xml">
+        <replace file="${basedir}/src/package.xml" encoding="UTF-8">
             <replacetoken><![CDATA[<members>Case.Sirono_Partner_Queue_Case</members>]]></replacetoken>
             <replacevalue><![CDATA[]]></replacevalue>
         </replace>
-        <replace file="${basedir}/src/package.xml">
+        <replace file="${basedir}/src/package.xml" encoding="UTF-8">
             <replacetoken><![CDATA[<members>Coverage__c.Sirono_Partner_Queue_Coverage</members>]]></replacetoken>
             <replacevalue><![CDATA[]]></replacevalue>
         </replace>
-        <replace file="${basedir}/src/package.xml">
+        <replace file="${basedir}/src/package.xml" encoding="UTF-8">
             <replacetoken><![CDATA[<members>Payment_Method__c.Sirono_Partner_Queue_Credit_Card</members>]]></replacetoken>
             <replacevalue><![CDATA[]]></replacevalue>
         </replace>
@@ -126,7 +126,7 @@
             </fileset>
             <mapper type="glob" from="*" to="*.bak"/>
         </move>
-        <replace file="${basedir}/src/package.xml">
+        <replace file="${basedir}/src/package.xml" encoding="UTF-8">
             <replacetoken><![CDATA[    <types>
         <members>Case.Sirono_Internal</members>
         <members>Contact.Contact_Sirono_Internal</members>
@@ -161,23 +161,23 @@
 
     <target name="createSites">
         <mkdir dir="${basedir}/src/sites"/>
-        <copy todir="${basedir}/src/sites" overwrite="true">
+        <copy todir="${basedir}/src/sites" overwrite="true" encoding="UTF-8">
             <fileset dir="${basedir}/template/sites"/>
         </copy>
 
         <echo message="Make ${sf.siteAdmin} admin for all sites"/>
-        <replace dir="${basedir}/src/sites" token="@SITE_ADMIN@" value="${sf.siteAdmin}">
+        <replace dir="${basedir}/src/sites" token="@SITE_ADMIN@" value="${sf.siteAdmin}" encoding="UTF-8">
             <include name="*.site"/>
         </replace>
 
         <echo message="Set subdomain for all community sites to: ${sf.commSubDomain}"/>
-        <replace dir="${basedir}/src/sites" token="@SITE_SUBDOMAIN@" value="${sf.commSubDomain}">
+        <replace dir="${basedir}/src/sites" token="@SITE_SUBDOMAIN@" value="${sf.commSubDomain}" encoding="UTF-8">
             <include name="Guarantor_Portal.site"/>
             <include name="Partner_Community.site"/>
         </replace>
 
         <echo message="Set subdomain for five9 site to force.com subdomain: ${sf.forceSubDomain}"/>
-        <replace dir="${basedir}/src/sites" token="@SITE_SUBDOMAIN@" value="${sf.forceSubDomain}">
+        <replace dir="${basedir}/src/sites" token="@SITE_SUBDOMAIN@" value="${sf.forceSubDomain}" encoding="UTF-8">
             <include name="Five9CreateCallLogRecord.site"/>
         </replace>
     </target>
