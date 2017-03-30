@@ -5,7 +5,7 @@ To create a new org, log into the DevHub and click on the Environment Hub app. F
 
 ##### Follow these naming conventions:
 - Your Org name can be anything you want, but it cannot be a name that is already in use. (This will prevent errors when creating subdomains later on).
-- ** Note on creating domain names below: Domain names are limited to 22 characters. Therefore, your org name is limited to _5 characters_ or the domain names below won't be able to follow the standard naming convention. **
+- ** Note on creating domain names: Domain names are limited to 22 characters. Therefore, your org name is limited to _5 characters_ or the domain names below won't be able to follow the standard naming convention. **
 - Your username _**must**_ follow the naming convention: orgname+email@something.com. For instance, Justin Dove's username for the dev org "justinbox" is `justinbox+justin.dove@sirono.com`. If this convention is not followed, the initial deploy to the org will fail.
 
 ### _After_ creating your org but _before_ you deploy code, configure these setting (in this order!)
