@@ -167,8 +167,8 @@ public with sharing class AddCreditCard {
      *If we create using class than we can't send Web Request after insert so we use this method using VF page.
     */
     public void getPaymentPlanSettings(){
-         PaymentPlanSettings = new Sirono_Settings__c();
-         PaymentPlanSettings = SironoSettingsUtil.getPaymentPlanSettings();
+        PaymentPlanSettings = new Sirono_Settings__c();
+        PaymentPlanSettings = SironoSettingsUtil.getPaymentPlanSettings();
     }
 
     //Controller Method invoked from Visualforce page
@@ -210,7 +210,7 @@ public with sharing class AddCreditCard {
             List<Payment_Plan__c> lstPaymentPlan = [SELECT Id FROM Payment_Plan__c where Guarantor__c =: guarantorRecordId and Active__c = true];
             if (lstPaymentPlan.size() > 0) {
                 ApexPages.addMessage(new ApexPages.Message(apexpages.severity.warning,
-                    system.label.Payment_Plan_Error));
+                        system.label.Payment_Plan_Error));
                 blnIsError = true;
             }
         }
@@ -256,7 +256,7 @@ public with sharing class AddCreditCard {
 
             if(tempAmount < PaymentPlanSettings.Min_Installment_Amount__c){
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'Monthly amount must be equal to or greater than $' + PaymentPlanSettings.Min_Installment_Amount__c + '.'));
+                        'Monthly amount must be equal to or greater than $' + PaymentPlanSettings.Min_Installment_Amount__c + '.'));
                 blnIsError = true;
             }
 
@@ -275,8 +275,9 @@ public with sharing class AddCreditCard {
 
                 if (totalInstallment > PaymentPlanSettings.Max_Number_Plan_Installments__c) {
                     ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                        'This monthly amount would exceed ' + PaymentPlanSettings.Max_Number_Plan_Installments__c + ' installments.' +
-                        ' The minimum allowed installment amount is $' + minimumInstallmentAmount + '.'));
+                            'This monthly amount would exceed ' + PaymentPlanSettings.Max_Number_Plan_Installments__c + ' installments.' +
+                                    ' The minimum allowed installment amount is $' + minimumInstallmentAmount + '.'));
+
                     blnIsError = true;
                 }
             }
@@ -516,6 +517,7 @@ public with sharing class AddCreditCard {
             cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
             cg.Payment_Plan__c = paymentPlanObj.Id;
         }
+
         if (ChargeGroupSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
             UPDATE lstCG;
         }

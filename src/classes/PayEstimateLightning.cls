@@ -1,5 +1,5 @@
 public with sharing class PayEstimateLightning {
- 	// Constant variable.
+    // Constant variable.
     public static final String PAYMENTNAME = 'Payment';
 
     // Page Level Variables.
@@ -52,7 +52,7 @@ public with sharing class PayEstimateLightning {
         // Get/Set Contact/Guarantor Id.
         guarantorRecordId = controller.getId();
         this.encounterId = encounterId;
-		errorMessages = '';
+        errorMessages = '';
         if (guarantorRecordId != null) {
             // Fetch Guarantor Contact record based on Id.
             guarantorContact = PayStaffWSUtillLightning.fetchGuarantorContact(guarantorRecordId);
@@ -130,7 +130,7 @@ public with sharing class PayEstimateLightning {
                 payment.Amount__c = decimal.valueof(amount);
                 payment.Encounter__c = selectedEncounter.Id;
                 payment.Deposit_Date__c = system.now();
-				payment.Method__c = 'credit';
+                payment.Method__c = 'credit';
                 INSERT payment;
 
             } else {

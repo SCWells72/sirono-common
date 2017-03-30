@@ -352,6 +352,7 @@ private class CreateAdjustmentTest {
         }
     }
     
+
     /**
      * Coverage the code for the CreateAdjustment constructor, init the global veriables
      **/
@@ -363,7 +364,7 @@ private class CreateAdjustmentTest {
         User u = new User(Alias = 'standt', Email = 'adminuser@testorg1212.com',
             EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
             LocaleSidKey = 'en_US', ProfileId = p.Id,
-            TimeZoneSidKey = 'America/Los_Angeles', UserName = 'adminuser@testorg1212.com');
+            TimeZoneSidKey = 'America/Los_Angeles', UserName = 'standarduser@testorg1212.com');
 
         // Call Create Adjustment constructor as a System Administrator to cover code based on user.
         System.runAs(u) {

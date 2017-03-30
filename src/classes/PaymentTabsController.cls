@@ -300,6 +300,7 @@ public with sharing class PaymentTabsController
 		{
 			res = new Http().send(req);
 			responseBody = res.getBody();
+			System.debug('responseBody:'+responseBody);
 		}
 		catch (Exception e)
 		{
@@ -318,6 +319,7 @@ public with sharing class PaymentTabsController
 				paymentPlanObj.Cancellation_Date__c = System.today();
 
 				Boolean hasError = false;
+				System.debug('chargeGroups:'+chargeGroups);
 				for (Charge_Group__c cg : chargeGroups)
 				{
 					hasError = PaymentTabsController.callChargeGroupRequest(String.valueof(cg.Sirono_ID__c), jwtToken, cg);
