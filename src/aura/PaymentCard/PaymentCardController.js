@@ -6,14 +6,21 @@
 	},
     
     checkValidation : function(component, event,helper){
-        console.log('checkValidation');
-        helper.isValidateExpDate(component);
-        if(helper.checkValidation(component, event, helper) &&
-           helper.checkErrorMessages(component, event, helper)){
-            component.set('v.CheckValidation', true);
-    	}else{
-        	component.set('v.CheckValidation', false);    
-        }
+        try{
+			console.log('checkValidation');
+			helper.isValidateExpDate(component);
+			helper.isValidCutNOTNumber(component, "cvv");
+			helper.isValidCutNOTNumber(component, "zipcode");
+			helper.isValidateCVV(component, event);
+			if(helper.checkValidation(component, event, helper) &&
+			   helper.checkErrorMessages(component, event, helper)){
+				component.set('v.CheckValidation', true);
+    		}else{
+        		component.set('v.CheckValidation', false);    
+			}
+		}catch(e){
+			console.log('ERROR');
+		}
     },
 
     validateExpDate : function(cmp, e, hlpr) {
