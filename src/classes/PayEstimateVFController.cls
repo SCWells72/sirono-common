@@ -4,7 +4,7 @@
  * User can only make payment for one Encounter at a time.
  * Only display those Encounters whose balance is greater than zero.
  * Based on selected Encounter, Create a Payment Record.
- **/ 
+ **/    
 
 public with sharing class PayEstimateVFController extends PayEstimateController {
     /**

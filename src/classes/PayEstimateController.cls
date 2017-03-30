@@ -65,10 +65,10 @@ public virtual class PayEstimateController {
     public static final String PAYMENTNAME = 'Payment';
 
     /**
-	 * Init method is used to initialize main variables from child constructors
-	 * @param String objectType - object name of record Id that is used for getting encounters records
-	 * @param String recordId - record Id that is used for getting encounters records
- 	 **/
+     * Init method is used to initialize main variables from child constructors
+     * @param String objectType - object name of record Id that is used for getting encounters records
+     * @param String recordId - record Id that is used for getting encounters records
+     **/
     public void init(String objectType, String recordId) {
     	errorMessages = '';
     	if (guarantorRecordId != null) {
@@ -105,8 +105,8 @@ public virtual class PayEstimateController {
     /**
      * This method is use to Create/Insert Payment record based on Encounter, Contact and Amount.
      * It is create record if all validations are successfully pass out.
-	 * @param String paymentMethod - payment method
-	 * @return String - success/error message
+     * @param String paymentMethod - payment method
+     * @return String - success/error message
      **/
 	public String addPayment(String paymentMethod) {
         try {
@@ -120,11 +120,11 @@ public virtual class PayEstimateController {
         }
 	}
 
-	/**
-	 * This method is used to check selected record
-	 * @param List<EncounterWrapper> encounters - list of EncounterWrapper records
-	 * @return EncounterWrapper - selected EncounterWrapper record
- 	 **/
+    /**
+     * This method is used to check selected record
+     * @param List<EncounterWrapper> encounters - list of EncounterWrapper records
+     * @return EncounterWrapper - selected EncounterWrapper record
+     **/
     private EncounterWrapper checkNext(List<EncounterWrapper> encounters) {
     	Encounter__c selectedEncounter;
     	Boolean encounterSelected = false;
@@ -144,9 +144,9 @@ public virtual class PayEstimateController {
     }
 
     /**
-	 * This method is used to check selected record
-	 * @return Boolean - return result of credit card and amount validation
- 	 **/
+     * This method is used to check selected record
+     * @return Boolean - return result of credit card and amount validation
+     **/
 	private Boolean getCardAmountValidations() {
 		// Call creditCardValidation method that validate all informations/values for Credit Card.
         Boolean blnIsCCError = VisualForceValidations.creditCardValidation(creditCardNumber, expirationYear, expirationMonth,
@@ -156,13 +156,13 @@ public virtual class PayEstimateController {
         return (!blnIsCCError && !blnIsAmountError);
 	}
 
-	/**
-	 * This method is use to get Encounter Records based on Guarantor Id or Id and Balance is greater than zero.
-	 * These records add into List of Encounter Wrapper Class.
-	 * @param String idType - object name for where condition
-	 * @param String condId - record Id
-	 * @return List<EncounterWrapper> - list of encounter wrapper records
-	 **/
+    /**
+     * This method is use to get Encounter Records based on Guarantor Id or Id and Balance is greater than zero.
+     * These records add into List of Encounter Wrapper Class.
+     * @param String idType - object name for where condition
+     * @param String condId - record Id
+     * @return List<EncounterWrapper> - list of encounter wrapper records
+     **/
 	private List<EncounterWrapper> getEncounterRecords(String idType, String condId) {
 		List<EncounterWrapper> encounters = new List<EncounterWrapper>();
         List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(idType, condId);
@@ -173,18 +173,18 @@ public virtual class PayEstimateController {
 	}
 	
     /**
-	 * This Wrapper class is use to check how many Encounters select or which encounter select for Payment Process.
-	 **/
+     * This Wrapper class is use to check how many Encounters select or which encounter select for Payment Process.
+     **/
     public class EncounterWrapper {
         public Encounter__c en {get; set;}
         public Boolean isSelected {get; set;}
 
         /**
-	     * Constructor of Wrapper Class.
-	     *
-	     * @param Encounter__c en - encounter record
-	     * @param Boolean isSelected - check if record is selected or not
-	     **/
+         * Constructor of Wrapper Class.
+         *
+         * @param Encounter__c en - encounter record
+         * @param Boolean isSelected - check if record is selected or not
+         **/
         public EncounterWrapper(Encounter__c en, Boolean isSelected) {
             this.en = en;
             this.isSelected = isSelected;
