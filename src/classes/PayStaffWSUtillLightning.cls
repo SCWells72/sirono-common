@@ -557,7 +557,7 @@ public with sharing class PayStaffWSUtillLightning {
         if (isPayment) {
             objPayment = new Payment__c();
             objPayment = PaymentJSONParsing.parse(jsonStr);
-			System.debug('objPayment'+objPayment);
+            System.debug('objPayment'+objPayment);
         } else {
             lstPaymentAdjustment = PaymentAdjustmentJSONParsing.parse(jsonStr);
         }
@@ -578,9 +578,11 @@ public with sharing class PayStaffWSUtillLightning {
                     lstPaymentPlan.add(objPaymentAdjustmentwrapper.objPaymentPlan);
                 }
             }
-			System.debug('lstTransaction:'+lstTransaction);
 
-            //Save all Records if it is Take Adjustment/Discount.
+            System.debug('lstTransaction:'+lstTransaction);
+                
+            //Save all Records if it is Take Adjustment/Discount. 
+
             if (lstChargeGroup.size() > 0) {
                 update lstChargeGroup;
             }
@@ -592,8 +594,8 @@ public with sharing class PayStaffWSUtillLightning {
             if (lstTransaction.size() > 0) {
                 insert lstTransaction;
                 System.debug('lstTransaction DML:'+lstTransaction);
-
-				List<Transaction__c> lstTran = [SELECT Id, Sirono_ID__c FROM Transaction__c
+                
+                List<Transaction__c> lstTran = [SELECT Id, Sirono_ID__c FROM Transaction__c
                                             where Sirono_ID__c in : mapTranPayAdjId.values()];
 
                 map<Decimal, string> mapTran = new map<Decimal, string>();
@@ -607,9 +609,9 @@ public with sharing class PayStaffWSUtillLightning {
                 }
 
                 insert lstPaymentAdjustment;
-			}
-		}
-		return lstTransaction;
+            }
+        }
+        return lstTransaction;
     }
 
     /*
@@ -663,7 +665,7 @@ public with sharing class PayStaffWSUtillLightning {
                                     'RESPONSE : '+ res.toString() +
                                     '  RESPONSE BODY::' + responseBody));
         }
-		System.debug('C:'+objPaymentAdjustmentwrapper);
+        System.debug('C:'+objPaymentAdjustmentwrapper);
         return objPaymentAdjustmentwrapper;
     }
 
@@ -679,8 +681,7 @@ public with sharing class PayStaffWSUtillLightning {
         List<Transaction__c> lstTransaction = new List<Transaction__c>();
         List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
         List<Payment_Plan__c> lstPaymentPlan = new List<Payment_Plan__c>();
-		Set<Payment_Plan__c> setPaymentPlan = new Set<Payment_Plan__c>();
-
+        Set<Payment_Plan__c> setPaymentPlan = new Set<Payment_Plan__c>();
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
 
         if (objTransactionWrapper != null) {
@@ -725,7 +726,7 @@ public with sharing class PayStaffWSUtillLightning {
         }
         //Save all Records if it is Take Payment.
         if (isPayment) {
-			objPayment.Deposit_Date__c = DateTime.now();
+            objPayment.Deposit_Date__c = DateTime.now();
             insert objPayment;
             id paymentId = objPayment.Id;
 
@@ -742,12 +743,12 @@ public with sharing class PayStaffWSUtillLightning {
             }
 
             if (setPaymentPlan.size() > 0) {
-				lstPaymentPlan = new List<Payment_Plan__c>(setPaymentPlan);
+                lstPaymentPlan = new List<Payment_Plan__c>(setPaymentPlan);
                 update lstPaymentPlan;
             }
         } else {
             //It is used for Adjustment/Discount.
-			if (lsttransaction.size() > 0) {
+            if (lsttransaction.size() > 0) {
                 objPaymentAdjustmentwrapper.objTransaction = lsttransaction[0];
             }
             if (lstChargeGroup.size() > 0) {
@@ -757,7 +758,7 @@ public with sharing class PayStaffWSUtillLightning {
                 objPaymentAdjustmentwrapper.objPaymentPlan = lstPaymentPlan[0];
             }
         }
-		return objPaymentAdjustmentwrapper;
+        return objPaymentAdjustmentwrapper;
     }
 
      /*
@@ -875,7 +876,7 @@ public with sharing class PayStaffWSUtillLightning {
             objPaymentPlan = parsePaymentPlanResponse(responseBody, guarantorId);
 
         }else {
-			System.debug('ERROR 876: RESPONSE : '+ res.toString() +'RESPONSE BODY::' + responseBody);
+            System.debug('ERROR 876: RESPONSE : '+ res.toString() +'RESPONSE BODY::' + responseBody);
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
                                     //'RESPONSE : '+ res.toString() +
                                     //'  RESPONSE BODY::' + responseBody));

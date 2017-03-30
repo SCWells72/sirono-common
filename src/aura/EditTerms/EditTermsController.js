@@ -83,21 +83,43 @@
 		hlpr.toggleSections(cmp);
 	},
 	doCalcView: function (cmp, e, hlpr) {
+		console.log('doCalcView');
 		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
 		var PaymentInfo = cmp.get('v.PaymentInfo');
-		var newPlanValue = parseFloat(PaymentRequestInfo.planValue, 10);
-		cmp.set('v.sliderValue', Math.floor(newPlanValue));
-		cmp.set('v.sliderValuePart', (newPlanValue % 1).toFixed(2).toString().substring(2));
+		var maxAmount = cmp.get('v.maxAmount');
+		var newPlanValue = parseFloat(PaymentRequestInfo.planValue, 10);		
 		cmp.set('v.hasError', false);
-
 		var minInstallmentAmount = hlpr.getCalculatedMinInstallmentAmount(PaymentInfo.settings, PaymentRequestInfo.totalAmount);
-		cmp.set('v.minAmount', minInstallmentAmount);
-
+		
 		if (newPlanValue > PaymentRequestInfo.totalAmount) {
 			var message = "Monthly amount cannot exceed current payment plan balance";
 			hlpr.showError(cmp, message);
 		}
+		console.log('PaymentRequestInfo do', PaymentRequestInfo);
+		//fix lightning bug(position the cursor in the left corner)
+		if(maxAmount != PaymentRequestInfo.totalAmount) {
+			cmp.set('v.maxAmount', PaymentRequestInfo.totalAmount);
+			cmp.set('v.minAmount', minInstallmentAmount);
+			window.setTimeout(
+				$A.getCallback(function() {
+					if (cmp.isValid()) {
+						cmp.set('v.sliderValue', Math.ceil(newPlanValue));
+					}
+				}), 5
+			);
+		} else {		
+			cmp.set('v.sliderValue', Math.ceil(newPlanValue));	
+		}
 	},
+
+	recalculateTotalAmount : function(cmp, e, hlpr){
+		console.log('RTA');
+		var balance = e.getParam('paymentBalance');
+		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
+		console.log('Recalculate Total Amount:', balance, PaymentRequestInfo);
+		PaymentRequestInfo.totalAmount = balance;				
+	},
+
 	changeSlider: function(cmp, e, hlpr) {
 		var newPlanValue = parseFloat(e.srcElement.value || 0, 10);
 		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
@@ -134,5 +156,6 @@
 	showPopoverInfo: function(cmp, e, hlpr) {
 		var myPopoverInfo = cmp.find('sldsjsPopoverInfo');
 		$A.util.toggleClass(myPopoverInfo, 'slds-hide');
-	}
+	},
+
 })

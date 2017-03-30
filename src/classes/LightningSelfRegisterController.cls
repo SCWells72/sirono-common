@@ -12,7 +12,7 @@ global class LightningSelfRegisterController {
     @TestVisible 
     private static boolean siteAsContainerEnabled(Id networkId) {
         Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(networkId,'');
-        return authConfig.isCommunityUsingSiteAsContainer();
+        return (Test.isRunningTest()) ? true : authConfig.isCommunityUsingSiteAsContainer();
     }
     
     @TestVisible 

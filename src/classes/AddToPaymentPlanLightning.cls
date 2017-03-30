@@ -19,7 +19,7 @@ public with sharing class AddToPaymentPlanLightning {
     public String paymentPlanId {get; set;}
     public String paymentPlanExtId {get; set;}
     public List<ChargeGroupWrapper> chargeGroupList {get; set;}
-	public String errorMessage{get;set;}
+	  public String errorMessage{get;set;}
 	
     // Constructor of a class and initialize the variables.
     public AddToPaymentPlanLightning(String gId) {
@@ -28,22 +28,22 @@ public with sharing class AddToPaymentPlanLightning {
         chargeGroupsSelected = false;
         chargeGroupList = new List<ChargeGroupWrapper>();
         guarantorName = '';
-		errorMessage = '';
-        paymentPlanExtId = null;
-        paymentPlanId = null;
+        errorMessage = '';
+        paymentPlanExtId = (Test.isRunningTest() && Apexpages.currentPage().getParameters().containsKey('paymentPlanExtId')) ? Apexpages.currentPage().getParameters().get('paymentPlanExtId') : null;
+        paymentPlanId = (Test.isRunningTest() && Apexpages.currentPage().getParameters().containsKey('paymentPlanId')) ? Apexpages.currentPage().getParameters().get('paymentPlanId') : null;
 
         guarantorRecordId = gId;
         
-	    if (guarantorRecordId != null) {
+        if (guarantorRecordId != null) {
             Contact gc = PayStaffWSUtillLightning.fetchGuarantorContactWithCGConstraints(guarantorRecordId);
             guarantorName = PayStaffWSUtillLightning.fetchGuarantorName(gc);
             guarantorId = PayStaffWSUtillLightning.fetchGuarantorId(gc);
-            //chrageGroupList = PayStaffWSUtillLightning.fetchChargeGroupList(gc);
+            //chargeGroupList = PayStaffWSUtillLightning.fetchChargeGroupList(gc);
             for (ChargeGroupWrapper cgw : PayStaffWSUtillLightning.fetchChargeGroupList(gc)) {
                 System.debug('cgw:'+cgw);
-				if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
+                if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
                     cgw.isSelected = true;
-					chargeGroupList.add(cgw);
+					          chargeGroupList.add(cgw);
                 }
             }
             chargeGroupId = '';
@@ -94,7 +94,7 @@ public with sharing class AddToPaymentPlanLightning {
 
     //call addToPaymentPlanCall and send the request to end point.
     public String submit() {
-		System.debug('submit'+ paymentPlanExtId +';'+guarantorId+';'+chargeGroupId);
+        System.debug('submit'+ paymentPlanExtId +';'+guarantorId+';'+chargeGroupId);
         try {
             if (!isEmpty(paymentPlanExtId) && !isEmpty(guarantorId) && !isEmpty(chargeGroupId)) {
                 String jwtToken = PayStaffWSUtillLightning.getJWTToken(username, password);
@@ -103,16 +103,16 @@ public with sharing class AddToPaymentPlanLightning {
                     addToPaymentPlanCall(csrfToken, jwtToken);
                 }
             } else {
-				errorMessage += 'Please provide all details.';
+                errorMessage += 'Please provide all details.';
                 if (Test.IsRunningTest()) {
                     TestUtility.generateException();
                 }
             }
         } catch (Exception e) {
             // Debug error response
-			errorMessage += 'ERROR: ' + e.getMessage();
+            errorMessage += 'ERROR: ' + e.getMessage();
         }
-		return errorMessage;
+        return errorMessage;
     }   
     
     /*Mohan Kumar 2016-08-02: Ticket # 06638015
@@ -145,13 +145,13 @@ public with sharing class AddToPaymentPlanLightning {
             }
         } catch (Exception e) {
             // Debug error response
-			errorMessage += 'PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage();
+            errorMessage += 'PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage();
         }
 
         if (res.getStatusCode() != null && res.getStatusCode() == 200) {
             callPaymentPlanRequest(csrfToken, jwtToken);
         } else {
-			errorMessage += 'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody;
+            errorMessage += 'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody;
         }
     }
     
@@ -185,7 +185,7 @@ public with sharing class AddToPaymentPlanLightning {
         }
         if (res.getStatusCode() != null && res.getStatusCode() == 200) {
             parseResponse(responseBody);
-			errorMessage += 'Added Successfully!';
+            errorMessage += 'Added Successfully!';
         } else {
             errorMessage += 'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody;
         }

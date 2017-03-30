@@ -88,8 +88,12 @@ def update_story(current_branch, story_json):
 
         if 'unscheduled' != story_json[CURRENT_STATE].lower():
             if state_hierarchy[branch_state_map[current_branch]] > state_hierarchy.get(story_json[CURRENT_STATE], 0):
-                print("Update state for story: {} from: {} to: {}".format(story_id, story_json[CURRENT_STATE], branch_state_map[current_branch]))
-                request_body[CURRENT_STATE] = branch_state_map[current_branch]
+                new_state = branch_state_map[current_branch]
+                if 'chore' == story_json['story_type'].lower() and story_json[CURRENT_STATE].lower() == 'started':
+                    new_state = 'accepted'
+                print("Update state for story: {} from: {} to: {}".format(story_id, story_json[CURRENT_STATE], new_state))
+
+                request_body[CURRENT_STATE] = new_state
 
         if request_body:
             # print('\nstory retrieved: '+ json.dumps(story_json))
