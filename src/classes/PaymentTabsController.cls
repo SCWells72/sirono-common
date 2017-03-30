@@ -52,7 +52,9 @@ public with sharing class PaymentTabsController
 		if (paymentInfo.hasPaymentPlans)
 		{
 			paymentInfo.creditCards = PaymentTabsController.getCreditCards(guarantor.Id);
+			System.debug('paymentInfo.creditCards'+paymentInfo.creditCards);
 		}
+		System.debug('paymentInfo:'+paymentInfo);
 		return paymentInfo;
 	}
 
@@ -79,7 +81,7 @@ public with sharing class PaymentTabsController
 		                     '"active":true,' +
 		                     '"credit_card":{' +
 		                     '"method":"credit",' +
-		                     '"cardholder_name":"' + paymentInfo.creditCard.cardholderName + '",' +
+		                     '"cardholder_name":"' + paymentInfo.creditCard.cardHolderName + '",' +
 		                     '"expiration_year":"' + paymentInfo.creditCard.expirationYear + '",' +
 		                     '"expiration_month":"' + paymentInfo.creditCard.expirationMonth + '",' +
 		                     '"number":"' + paymentInfo.creditCard.creditCardNumber + '",' +
@@ -151,6 +153,7 @@ public with sharing class PaymentTabsController
 	@AuraEnabled
 	public static Payment_Plan__c doEditPaymentMethod(String paymentInfoStr)
 	{
+		System.debug('paymentInfoStr'+paymentInfoStr);
 		PaymentRequestInfo paymentInfo = (PaymentRequestInfo)JSON.deserialize(paymentInfoStr, PaymentRequestInfo.class);
 		Payment_Plan__c paymentPlanObj = PaymentTabsController.getPaymentPlanById(paymentInfo.sfId);
 		Payment_Method__c paymentMethod = null;
@@ -233,6 +236,7 @@ public with sharing class PaymentTabsController
 	@AuraEnabled
 	public static void deletePaymentPlan(String sfPaymentPlanId)
 	{
+		System.debug('deletePaymentPlan');
 		Payment_Plan__c paymentPlan = PaymentTabsController.getPaymentPlanById(sfPaymentPlanId);
 		String guarantorId = paymentPlan.Guarantor__c;
 		String paymentPlanExtId = String.valueOf(paymentPlan.Sirono_ID__c);
@@ -271,7 +275,7 @@ public with sharing class PaymentTabsController
 		return new Payment_Method__c (
 		           Card_Type__c = 'Visa',
 		           Type__c = 'Credit Card',
-		           Card_Holder_Name__c = info.creditCard.cardholderName,
+		           Card_Holder_Name__c = info.creditCard.cardHolderName,
 		           Expiration_Date__c = expDate,
 		           Guarantor__c = contactId,
 		           Last_4__c = lastDigits
@@ -283,6 +287,7 @@ public with sharing class PaymentTabsController
 	 */
 	private static void doDeletePaymentPlan(String csrfToken, String jwtToken, String guarantorId, String paymentPlanExtId)
 	{
+		PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper = PaymentTabsController.callPaymentPlanRequest(csrfToken, jwtToken, guarantorId, paymentPlanExtId);
 		HttpRequest req = new HttpRequest();
 		req.setMethod('DELETE');
 		req.setHeader('Authorization', 'JWT ' + jwtToken);
@@ -295,6 +300,7 @@ public with sharing class PaymentTabsController
 		{
 			res = new Http().send(req);
 			responseBody = res.getBody();
+			System.debug('responseBody:'+responseBody);
 		}
 		catch (Exception e)
 		{
@@ -303,16 +309,17 @@ public with sharing class PaymentTabsController
 
 		if (res.getStatusCode() != null && res.getStatusCode() == 204)
 		{
-			PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper = PaymentTabsController.callPaymentPlanRequest(csrfToken, jwtToken, guarantorId, paymentPlanExtId);
 			if (objPaymentPlanWrapper != null)
 			{
+				List<Charge_Group__c> chargeGroups = objPaymentPlanWrapper.chargeGroupRecords;
+				objPaymentPlanWrapper = PaymentTabsController.callPaymentPlanRequest(csrfToken, jwtToken, guarantorId, paymentPlanExtId);
 				Payment_Plan__c paymentPlanObj = new Payment_Plan__c();
 				paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
 				paymentPlanObj.Active__c = false;
 				paymentPlanObj.Cancellation_Date__c = System.today();
-				List<Charge_Group__c> chargeGroups = objPaymentPlanWrapper.chargeGroupRecords;
 
 				Boolean hasError = false;
+				System.debug('chargeGroups:'+chargeGroups);
 				for (Charge_Group__c cg : chargeGroups)
 				{
 					hasError = PaymentTabsController.callChargeGroupRequest(String.valueof(cg.Sirono_ID__c), jwtToken, cg);
@@ -374,6 +381,7 @@ public with sharing class PaymentTabsController
 	*/
 	private static Boolean callChargeGroupRequest(String chargeGroupId, String jwtToken, Charge_Group__c cg)
 	{
+		System.debug('callChargeGroupRequest');
 		Boolean hasError = false;
 		HttpRequest req = new HttpRequest();
 		req.setMethod('GET');
@@ -388,6 +396,8 @@ public with sharing class PaymentTabsController
 		{
 			res = new Http().send(req);
 			responseBody = res.getBody();
+			System.debug('res:'+res);
+			System.debug('responseBody:'+responseBody);
 		}
 		catch (Exception e)
 		{
@@ -493,6 +503,7 @@ public with sharing class PaymentTabsController
 				}
 			}
 		}
+		System.debug('chargeGroups:'+chargeGroups);
 		return chargeGroups;
 	}
 
@@ -576,15 +587,18 @@ public with sharing class PaymentTabsController
 		return null;
 	}
 
-	private  static List<CreditCardInfo> getCreditCards(Id guarantorContactId)
+	private  static List<MakeAPaymentController.CardInformation> getCreditCards(Id guarantorContactId)
 	{
-		List<CreditCardInfo> cards = new List<CreditCardInfo>();
+		System.debug('getCreditCards');
+		List<MakeAPaymentController.CardInformation> cards = new List<MakeAPaymentController.CardInformation>();
 		for (Payment_Method__c pCard : [SELECT Id, Account_Number__c, Card_Holder_Name__c, Card_Type__c, Display_Name__c, Expiration_Date__c, ID__c, Last_4__c,
 		                                Payment_Method_Token__c, Routing_Number__c, Sirono_ID__c, Type__c, Guarantor__c
 		                                FROM Payment_Method__c WHERE Guarantor__c = : guarantorContactId AND Display_Name__c != null])
 		{
-			cards.add(new CreditCardInfo(pCard));
+			System.debug('getCreditCards element'+pCard);
+			cards.add(new MakeAPaymentController.CardInformation(pCard));
 		}
+		System.debug('cards'+cards);
 		return cards;
 	}
 
@@ -620,7 +634,7 @@ public with sharing class PaymentTabsController
 		@AuraEnabled
 		public List<Charge_Group__c> chargeGroups {get; set;}
 		@AuraEnabled
-		public List<CreditCardInfo> creditCards {get; set;}
+		public List<MakeAPaymentController.CardInformation> creditCards {get; set;}
 
 		public GuarantorPaymentInfo()
 		{
@@ -629,7 +643,7 @@ public with sharing class PaymentTabsController
 			this.hasPaymentPlans = false;
 			this.addToPaymentAvail = false;
 			this.chargeGroups = new List<Charge_Group__c>();
-			this.creditCards = new List<CreditCardInfo>();
+			this.creditCards = new List<MakeAPaymentController.CardInformation>();
 		}
 	}
 
@@ -638,7 +652,7 @@ public with sharing class PaymentTabsController
 		@AuraEnabled
 		public String sfId {get; set;}
 		@AuraEnabled
-		public CreditCardInfo creditCard {get; set;}
+		public MakeAPaymentController.CardInformation creditCard {get; set;}
 		@AuraEnabled
 		public String paymentPlanId {get; set;}
 		@AuraEnabled
@@ -660,7 +674,7 @@ public with sharing class PaymentTabsController
 
 		public PaymentRequestInfo()
 		{
-			this.creditCard = new CreditCardInfo();
+			this.creditCard = new MakeAPaymentController.CardInformation();
 		}
 	}
 
@@ -696,15 +710,15 @@ public with sharing class PaymentTabsController
 		public CreditCardInfo()
 		{
 			this.isSaved = false;
-			this.cardholderName = 'Charles Green';
-			this.creditCardNumber = '4111111111111111';
+			this.cardholderName = '';
+			this.creditCardNumber = '';
 			this.expirationYear = String.ValueOf(Datetime.now().year());
 			this.expirationMonth = String.ValueOf(Datetime.now().month()).length() == 1 ? '0'+ String.ValueOf(Datetime.now().month()) :  String.ValueOf(Datetime.now().month());
-			this.cvv = '123';
-			this.address = '1221 Congress Ave';
-			this.city = 'Austin';
-			this.state = 'TX';
-			this.zip = '78701';
+			this.cvv = '';
+			this.address = '';
+			this.city = '';
+			this.state = '';
+			this.zip = '';
 		}
 		public CreditCardInfo(Payment_Method__c card)
 		{

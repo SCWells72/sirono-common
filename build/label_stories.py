@@ -16,14 +16,12 @@ state_hierarchy = {
 
 branch_state_map = {
     'master': 'finished',
-    'portal': 'finished',
     'qa': 'delivered',
     'prod': 'accepted'
 }
 
 branch_label_map = {
     'master': 'on_dev',
-    'portal': 'on_portalqa',
     'qa': 'on_qa',
     'prod': 'on_prod'
 }
@@ -55,21 +53,28 @@ def get_project_id(current_branch):
     return SF_PROJECT_ID
 
 
-def get_story(current_branch, tracker_id):
+def get_story(project_id, tracker_id):
     try:
-        get_url = TRACKER_STORY_URL.format(get_project_id(current_branch), tracker_id)
+        get_url = TRACKER_STORY_URL.format(project_id, tracker_id)
         response = requests.get(get_url, headers=HEADERS)
         response.raise_for_status()
+    except requests.exceptions.HTTPError as fourOfour:
+        if response.status_code == 404:
+            if project_id == SF_PROJECT_ID:
+                return get_story(PORTAL_PROJECT_ID, tracker_id)
+            else:
+                return None
     except requests.exceptions.RequestException as e:
-        if response.status_code != 404:
-            print e
+        print e
         return None
 
     return response.json()
 
 
 def update_story(current_branch, story_json):
+
     story_id = story_json["id"]
+    project_id = story_json["project_id"]
     branch_label = get_branch_label(current_branch)
 
     request_body = dict()
@@ -81,13 +86,19 @@ def update_story(current_branch, story_json):
             label_set.add(branch_label)
             request_body["labels"] = list(map((lambda x: {"name": x}), label_set))
 
-        if state_hierarchy[branch_state_map[current_branch]] > state_hierarchy.get(story_json[CURRENT_STATE], 0):
-            print("Update state for story: {} from: {} to: {}".format(story_id, story_json[CURRENT_STATE], branch_state_map[current_branch]))
-            request_body[CURRENT_STATE] = branch_state_map[current_branch]
+        if 'unscheduled' != story_json[CURRENT_STATE].lower():
+            if state_hierarchy[branch_state_map[current_branch]] > state_hierarchy.get(story_json[CURRENT_STATE], 0):
+                new_state = branch_state_map[current_branch]
+                if 'chore' == story_json['story_type'].lower() and story_json[CURRENT_STATE].lower() == 'started':
+                    new_state = 'accepted'
+                print("Update state for story: {} from: {} to: {}".format(story_id, story_json[CURRENT_STATE], new_state))
+
+                request_body[CURRENT_STATE] = new_state
 
         if request_body:
-            #print json.dumps(request_body)
-            response = requests.put(TRACKER_STORY_URL.format(get_project_id(current_branch), story_id), json=request_body, headers=HEADERS)
+            # print('\nstory retrieved: '+ json.dumps(story_json))
+            # print('\nstory to push: '+ json.dumps(request_body))
+            response = requests.put(TRACKER_STORY_URL.format(project_id, story_id), json=request_body, headers=HEADERS)
             response.raise_for_status()
 
 
@@ -100,7 +111,8 @@ def main():
         if branch_label_map.has_key(args.current_branch):
             print('Updating tracker stories addressed in branch: {}'.format(args.current_branch))
             for story_id in get_story_ids():
-                story_json = get_story(args.current_branch, story_id)
+                story_json = get_story(SF_PROJECT_ID, story_id)
+
                 if story_json:
                     update_story(args.current_branch, story_json)
         else:

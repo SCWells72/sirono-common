@@ -5,6 +5,7 @@
 	<aura:attribute name="dayOfMonthSelection" type="Integer[]" access="public"/>
 	<!-- plan Slider --> 
 	<aura:attribute name="minAmount" type="Decimal" access="private" default="0"/>
+	<aura:attribute name="maxAmount" type="Decimal" default="0"/>
 	<aura:attribute name="sliderValue" type="String" access="private" default="0"/>
 	<aura:attribute name="sliderValuePart" type="String" access="private" default="00"/>
 	<!-- plan Slider END -->
@@ -14,6 +15,7 @@
 	<aura:handler name="change" value="{!v.PaymentRequestInfo.planValue}" action="{!c.doCalcView}"/>
 	<aura:handler name="paymentMethodInit" event="c:CancelActionEvent" action="{!c.cancelEditCardAction}"/>
 	<aura:handler name="paymentPlanCreated" event="c:PaymentPlanCreatedEvent" action="{!c.resetCmp}"/>
+
 
     <aura:registerEvent name="initPlanInfo" type="c:CancelActionEvent"/>
 	<aura:registerEvent name="updatePaymentTerms" type="c:UpdatePaymentTermsEvent"/>
@@ -50,7 +52,7 @@
                         </span>
                         <div aura:id="sldsjsPopoverInfo" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-right slds-hide" role="tooltip" id="help" style="position:absolute;top:45px;right:-6px;">
                             <div class="slds-popover__body">
-                                Payment plan must be completed within {!v.PaymentInfo.settings.Max_Number_Plan_Installments__c} months with a minimum monthly amount of ${!v.PaymentInfo.settings.Min_Installment_Amount__c}
+                            	{! $Label.c.Payment_amount_and_time_tooltip_message_before_months}&nbsp;{!v.PaymentInfo.settings.Max_Number_Plan_Installments__c}&nbsp;{! $Label.c.Payment_amount_and_time_tooltip_message_after_months}&nbsp;${!v.PaymentInfo.settings.Min_Installment_Amount__c}
                             </div>
                         </div>
                     </div>
@@ -70,8 +72,9 @@
 				</div>
 			</div>
 			<div class="info">Adjust your monthly payments to estimate your payment over fewer months.</div>
-			<input type="range" min="{!v.minAmount}" max="{!v.PaymentRequestInfo.totalAmount}" step="0.01" value="{!v.PaymentRequestInfo.planValue}" class="payment-slider-circle" onchange="{!c.changeSlider}"/>
-			<div class="grid high-low range_slider">
+			<input type="range" min="{!v.minAmount}" max="{!v.maxAmount}" step="1" value="{!v.sliderValue}" class="payment-slider-circle" onchange="{!c.changeSlider}"/>
+			
+            <div class="grid high-low range_slider">
 				<div class="col">
 					<ui:outputcurrency value="{!v.minAmount}"/>
 				</div>

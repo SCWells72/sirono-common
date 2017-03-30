@@ -49,11 +49,4 @@ public with sharing class SironoSettingsSecurityContext extends SecurityContext 
     public override System.Type getObjectType() {
         return Sirono_Settings__c.class;
     }
-    
-    /**
-     * Override deleteActionAllowed method of SecurityContext class
-     **/
-    public override Boolean deleteActionAllowed() { 	
-        return Sirono_Settings__c.sObjectType.getDescribe().isDeletable();
-    }
 }

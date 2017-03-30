@@ -56,11 +56,4 @@ public with sharing class InvoiceSecurityContext extends SecurityContext {
     public override System.Type getObjectType() {
         return Invoice__c.class;
     }
-    
-    /**
-     * Override deleteActionAllowed method of SecurityContext class
-     **/
-    public override Boolean deleteActionAllowed() { 	
-        return Invoice__c.sObjectType.getDescribe().isDeletable();
-    }
 }

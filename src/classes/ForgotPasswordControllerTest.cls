@@ -1,22 +1,19 @@
-/* 
- * @author Sirono
- * @version 1.0.1
- * @Date: 05-03-2016
- * An apex page controller that exposes the site forgot password functionality
- * 
- * 14/09/2016 commented the code since it is not used into community/site for any business requirement 
- */
+/**
+ * This class tests methods implemented in ForgotPasswordController class.
+ **/
+
 @IsTest public with sharing class ForgotPasswordControllerTest {
 
+    /**
+     * This method checks logic implemented for Forgot Password.
+     **/
     @IsTest(SeeAllData=true) public static void testForgotPasswordController() {
 
-        ForgotPasswordController controller = new ForgotPasswordController();    //Delete this line when the below code is uncommented.
-        /* Instantiate a new controller with all parameters in the page
-    	ForgotPasswordController controller = new ForgotPasswordController();
-    	controller.username = 'test@gmail.com';     	
-    
-    	System.assertEquals(null,controller.forgotPassword()); 
-		*/
-    }
+        Test.startTest();
+        ForgotPasswordController controller = new ForgotPasswordController();
+        Test.stopTest();
 
+        // Check system assert, controller should not be null.
+        System.assertNotEquals(controller, null, 'Should we got controller null');
+    }
 }

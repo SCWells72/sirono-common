@@ -42,8 +42,8 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
     // The fields for updating a Payment_Plan__c in DeletePaymentPlan
     private static final Set<String> DP_UPDATE_FIELDS = new Set<String>{
 		ACTIVE, DELINQUENT, DELINQUENT_DATE, ERROR_DATE, EXECUTE_ON_DAY, GUARANTOR, HAS_ERROR, INSTALLMENT_AMOUNT, 
-        	NAME, NEXTPAYMENTDATE, ORIGINAL_BALANCE, ORIGINAL_INSTALLMENT_COUNT, PLAN_TYPE, REMAINING_BALANCE,
-        	SIRONO_ID, SKIP_PAYMENT_UNTIL, STATUS, CANCELLATION_DATE
+        NAME, NEXTPAYMENTDATE, ORIGINAL_BALANCE, ORIGINAL_INSTALLMENT_COUNT, PLAN_TYPE, REMAINING_BALANCE,
+        SIRONO_ID, SKIP_PAYMENT_UNTIL, STATUS, CANCELLATION_DATE
     };
 
     /**
@@ -82,12 +82,5 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
      **/
     public override System.Type getObjectType() {
         return Payment_Plan__c.class;
-    }
-
-    /**
-     * Override deleteActionAllowed method of SecurityContext class
-     **/
-    public override Boolean deleteActionAllowed() { 	
-        return Payment_Plan__c.sObjectType.getDescribe().isDeletable();
     }
 }

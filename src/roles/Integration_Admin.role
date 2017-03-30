@@ -5,6 +5,5 @@
     <description>Integration User</description>
     <mayForecastManagerShare>false</mayForecastManagerShare>
     <name>Integration Admin</name>
-    <opportunityAccessLevel>Edit</opportunityAccessLevel>
     <parentRole>CEO</parentRole>
 </Role>

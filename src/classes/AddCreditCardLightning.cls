@@ -73,8 +73,8 @@ public with sharing class AddCreditCardLightning {
 
     //Constructor for initializing variables 
     public AddCreditCardLightning() {
-    	
-    	System.debug('AddCreditCardLightning constructor');
+        
+        System.debug('AddCreditCardLightning constructor');
         dctotalAmount = 0;
         username = PayStaffWSUtillLightning.un;
         password = PayStaffWSUtillLightning.pw;
@@ -84,6 +84,8 @@ public with sharing class AddCreditCardLightning {
         guarantorName = '';
         planType = null;
         isActivePaymentPlan = false;
+        SironoLightningPageMessagesList = new List<ApexPages.Message>();
+        guarantorId = (Test.isRunningTest() && Apexpages.currentPage().getParameters().containsKey('guarantorId')) ? Apexpages.currentPage().getParameters().get('guarantorId') : guarantorId;
         if (String.IsNotBlank(guarantorId)) { // need to check if there is a difference between guarantorId and guarantorRecordId
             guarantorRecordId = guarantorId;
             gc = PayStaffWSUtillLightning.fetchGuarantorContact(guarantorId);
@@ -102,8 +104,6 @@ public with sharing class AddCreditCardLightning {
             isActivePaymentPlan = checkPaymentPlanExist(guarantorRecordId);
         }
         planValue = '32772'; //AB TODO check what is this
-        
-        SironoLightningPageMessagesList = new List<ApexPages.Message>();
     }
 
     //Controller Method invoked from Visualforce page

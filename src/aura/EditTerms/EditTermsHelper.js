@@ -13,7 +13,7 @@
 	getCalculatedMinInstallmentAmount: function(Settings, totalAmount) {
 		var minimumInstallmentAmount = Settings.Min_Installment_Amount__c || 0;
 		if (Settings.Max_Number_Plan_Installments__c && Settings.Max_Number_Plan_Installments__c > 0) {
-			minimumInstallmentAmount = parseFloat( totalAmount / Settings.Max_Number_Plan_Installments__c );
+			minimumInstallmentAmount = Math.ceil( totalAmount / Settings.Max_Number_Plan_Installments__c );
 			minimumInstallmentAmount.toFixed(2);
 			if(Settings.Min_Installment_Amount__c >= minimumInstallmentAmount){
 				minimumInstallmentAmount = Settings.Min_Installment_Amount__c;
@@ -36,15 +36,15 @@
 		date.setMonth(date.getMonth() + 1);
 		return {
 			isSaved: false,
-			expirationMonth: '02',
+			expirationMonth: ("0" + (date.getMonth())).slice(-2),
 			expirationYear: date.getFullYear(),
-			cardHolderName:'Charles Green',
-			creditCardNumber: '4111111111111111',
-			cvv: '123',
-			address: '1221 Congress Ave',
-			city: 'Austin',
-			zip: '78701',
-			state: 'TX'
+			cardHolderName:'',
+			creditCardNumber: '',
+			cvv: '',
+			address: '',
+			city: '',
+			zip: '',
+			state: ''
 		};
 	},
 })

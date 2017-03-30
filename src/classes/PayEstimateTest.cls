@@ -167,10 +167,10 @@ private class PayEstimateTest {
         // Check system assert, Payment is not create for encounter.
         System.assertEquals(payments.size(), 0);
     }
-    
+ 
     /**
-     * Check all access rights for a read only User using runAs.
-     **/
+    * Check all access rights for a read only User using runAs.
+    **/
     @isTest
     static void checkAccessRights() {
         List<PaymentSecurityContext> allContexts = new List<PaymentSecurityContext>{PaymentSecurityContext.CREATE_CONTEXT,
