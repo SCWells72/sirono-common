@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
     <applicationVisibilities>
-        <application>Main_Navigation</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
         <application>Sirono_Call_Center_Console</application>
         <default>true</default>
         <visible>true</visible>
@@ -24,11 +19,6 @@
         <application>standard__Content</application>
         <default>false</default>
         <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__DataAssessment</application>
-        <default>false</default>
-        <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
         <application>standard__LightningSales</application>
@@ -485,27 +475,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>PaymentArrangement</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PaymentArrangementSecurityContext</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PaymentArrangementTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PaymentArrangementTriggerHandler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>PaymentJSONParsing</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PaymentMethodSecurityContext</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2964,26 +2934,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Opportunity.Budget_Confirmed__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Opportunity.Discovery_Completed__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Opportunity.Loss_Reason__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Opportunity.ROI_Analysis_Completed__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Patient_Coverage_Junction__c.Display_Name__c</field>
         <readable>true</readable>
@@ -3077,56 +3027,6 @@
         <editable>false</editable>
         <field>Payment_Adjustments__c.Transaction__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Payment_Arrangement__c.Amount__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Payment_Arrangement__c.Arrangement_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Payment_Arrangement__c.Billed_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Payment_Arrangement__c.Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Payment_Arrangement__c.Encounter__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Payment_Arrangement__c.Installment_Amount__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Payment_Arrangement__c.Max_Amount__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Payment_Arrangement__c.Number_of_Installments__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Payment_Arrangement__c.Original_Installment_Count__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Payment_Arrangement__c.Payment_Method__c</field>
-        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -4111,17 +4011,6 @@
         <layout>Payment_Adjustments__c-Adjustments</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Payment_Arrangement__c-Payment Arrangement Layout</layout>
-        <recordType>Payment_Arrangement__c.Deposit</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Payment_Arrangement__c-Payment Arrangement Layout</layout>
-        <recordType>Payment_Arrangement__c.Payment_Plan</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Payment_Arrangement__c-Payment Arrangements</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Payment_Method__c-ACH</layout>
         <recordType>Payment_Method__c.ACH</recordType>
     </layoutAssignments>
@@ -4352,15 +4241,6 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
-        <object>Payment_Arrangement__c</object>
-        <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>false</allowEdit>
@@ -4559,10 +4439,6 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>PaymentArrangement</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
-    <pageAccesses>
         <apexPage>PaymentPlanGoodStanding</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
@@ -4690,16 +4566,6 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>true</default>
-        <recordType>Payment_Arrangement__c.Deposit</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>Payment_Arrangement__c.Payment_Plan</recordType>
-        <visible>false</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
         <default>false</default>
         <recordType>Payment_Method__c.ACH</recordType>
         <visible>true</visible>
@@ -4736,10 +4602,6 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>Field_Trip__Field_Analysis__c</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>Invoice__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
@@ -4753,10 +4615,6 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Payment_Adjustments__c</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>Payment_Arrangement__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -4907,10 +4765,6 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ManageCssUsers</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>OverrideForecasts</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

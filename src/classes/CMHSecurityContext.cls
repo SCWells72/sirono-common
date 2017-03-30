@@ -52,11 +52,4 @@ public with sharing class CMHSecurityContext extends SecurityContext {
     public override System.Type getObjectType() {
         return Campaign_Member_History__c.class;
     }
-    
-    /**
-     * Override deleteActionAllowed method of SecurityContext class
-     **/
-    public override Boolean deleteActionAllowed() { 	
-        return Campaign_Member_History__c.sObjectType.getDescribe().isDeletable();
-    }
 }

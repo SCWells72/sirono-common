@@ -3,6 +3,8 @@
          xmlns:sf="antlib:com.salesforce"
          xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
 
+    <import file="${basedir}/build/build_initial_deploy.xml"/>
+
     <taskdef uri="antlib:com.salesforce"
              resource="com/salesforce/antlib.xml"
              classpath="${basedir}/build/lib/ant-salesforce.jar"/>
@@ -17,6 +19,7 @@
          so unset values are treated as empty. Without this, ant expressions such as ${sf.blah.username}
          will be treated literally.
     -->
+
     <condition property="sf.target.username" value="">
         <not>
             <isset property="sf.target.username"/>
@@ -53,6 +56,32 @@
         </not>
     </condition>
 
+
+    <getOrgName text="${sf.target.username}" property="derivedOrgName" />
+    <condition property="orgName" value="${sf.orgName}">
+        <isset property="sf.orgName"/>
+    </condition>
+    <condition property="orgName" value="${derivedOrgName}">
+        <not>
+            <isset property="sf.orgName"/>
+        </not>
+    </condition>
+    <condition property="sf.forceSubDomain" value="${orgName}-sirono-developer-edition">
+        <not>
+            <isset property="sf.forceSubDomain"/>
+        </not>
+    </condition>
+    <condition property="sf.commSubDomain" value="${orgName}-sirono-community-developer-edition">
+        <not>
+            <isset property="sf.commSubDomain"/>
+        </not>
+    </condition>
+    <condition property="sf.siteAdmin" value="${sf.target.username}">
+        <not>
+            <isset property="sf.siteAdmin"/>
+        </not>
+    </condition>
+
     <target name="retrieve">
         <echo level="info">Retrieving from: ${sf.source.username} into: ${sf.retrieveTarget}</echo>
         <delete dir="${sf.retrieveTarget}"/>
@@ -65,7 +94,7 @@
                 unpackaged="${basedir}/src/package.xml"/>
     </target>
 
-    <target name="deploy">
+    <target name="deploy" depends="createSites">
         <echo level="info">Deploying to: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -78,7 +107,7 @@
                 logType="Debugonly"/>
     </target>
 
-    <target name="undeployCode">
+    <target name="undeployCode" depends="createSites">
         <echo level="info">Remove metadata from: ${sf.target.username}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -90,7 +119,7 @@
     </target>
 
     <!-- Check only; don't remove from server -->
-    <target name="undeployCheckOnly">
+    <target name="undeployCheckOnly" depends="createSites">
         <echo level="info">Validate removal of metadata from: ${sf.target.username}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -106,7 +135,7 @@
     </target>
 
     <!-- Check only; don't save to the server -->
-    <target name="deployCheckOnly">
+    <target name="deployCheckOnly" depends="createSites">
         <echo level="info">Validating in: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -121,7 +150,7 @@
     </target>
 
     <!-- Check only; only run specified tests -->
-    <target name="deployCheckSelectTests">
+    <target name="deployCheckSelectTests" depends="createSites">
         <echo level="info">Running select tests in: ${sf.target.username}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -135,6 +164,20 @@
                 testLevel="RunSpecifiedTests">
             <runTest>EncounterBalanceTest</runTest>
         </sf:deploy>
+    </target>
+    
+    <!-- Deploy without tests -->
+    <target name="deployNoTests" depends="createSites">
+        <echo level="info">Deploying to: ${sf.target.username} without tests</echo>
+        <sf:deploy
+                username="${sf.target.username}"
+                password="${sf.target.password}"
+                serverurl="${sf.target.serverurl}"
+                deployRoot="${basedir}/src"
+                pollWaitMillis="${sf.pollWaitMillis}"
+                maxPoll="${sf.maxPoll}"
+                testLevel="NoTestRun"
+                logType="Debugonly"/>
     </target>
 
     <target name="echo_environment">
@@ -161,6 +204,10 @@
 
     <target name="full_deploy" description="Full environment setup in target org"
             depends="stop_all_scheduled_jobs, deploy, initialize_custom_settings, schedule_all_jobs"/>
+    
+    <target name="initial_deploy" description="Deploy into a DE org for the first time"
+            depends="preDeploy, deployPrep, deployNoTests, revertPrep, deployNoTests, remove_sample_data,
+            initialize_custom_settings, revertPrep"/>
 
     <target name="rename_prep" description="Stop all scheduled jobs and undeploy"
             depends="stop_all_scheduled_jobs, undeployCode, deploy"/>
@@ -194,6 +241,7 @@
     </target>
 
     <target name="schedule_all_jobs" depends="stop_all_scheduled_jobs">
+        <echo level="info">Schedule all jobs in: ${sf.target.username}</echo>
         <!-- schedule all jobs -->
         <executeAnonymous
                 username="${sf.target.username}"
@@ -212,6 +260,7 @@
     </target>
 
     <target name="initialize_custom_settings">
+        <echo level="info">Initialize custom settings in: ${sf.target.username}</echo>
         <!-- execute apex to initialize custom settings -->
         <executeAnonymous
                 username="${sf.target.username}"
@@ -219,6 +268,31 @@
                 serverurl="${sf.target.serverurl}">
             <![CDATA[
                 SironoSettingsUtil.initializeSironoSettings();
+            ]]>
+        </executeAnonymous>
+    </target>
+
+    <target name="remove_sample_data">
+        <echo level="info">Remove all sample data from dev org: ${sf.target.username}</echo>
+        <executeAnonymous
+                username="${sf.target.username}"
+                password="${sf.target.password}"
+                serverurl="${sf.target.serverurl}">
+            <![CDATA[
+                Opportunity[] opps = [SELECT Id FROM Opportunity];
+                DELETE opps;
+                Case[] cases = [SELECT Id FROM Case];
+                DELETE cases;
+                Lead[] leads = [SELECT Id FROM Lead];
+                DELETE leads;
+                Contact[] contacts = [SELECT Id FROM Contact];
+                DELETE contacts;
+                Campaign[] cmpns = [SELECT Id FROM Campaign];
+                DELETE cmpns;
+                Solution[] sols = [SELECT Id FROM Solution];
+                DELETE sols;
+                Account[] accts = [SELECT Id FROM Account];
+                DELETE accts;
             ]]>
         </executeAnonymous>
     </target>

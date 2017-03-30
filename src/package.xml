@@ -29,7 +29,6 @@
     </types>
     <types>
         <members>Case</members>
-        <members>Lead</members>
         <name>AssignmentRules</name>
     </types>
     <types>
@@ -39,14 +38,6 @@
     <types>
         <members>*</members>
         <name>AuthProvider</name>
-    </types>
-    <types>
-        <members>Case.Internal Case</members>
-        <name>AutoResponseRule</name>
-    </types>
-    <types>
-        <members>Case</members>
-        <name>AutoResponseRules</name>
     </types>
     <types>
         <members>Case.Administrative</members>
@@ -274,10 +265,6 @@
     </types>
     <types>
         <members>*</members>
-        <name>CustomObjectTranslation</name>
-    </types>
-    <types>
-        <members>*</members>
         <name>CustomPageWebLink</name>
     </types>
     <types>
@@ -297,12 +284,6 @@
         <members>Service_Dashboards/Agent_Supervisor_Overview</members>
         <members>Service_Dashboards/Service_Exec_Overview</members>
         <members>Service_Dashboards/Service_KPIs</members>
-        <members>Sirono_Dashboards</members>
-        <members>Sirono_Dashboards/Agent_Dashboard</members>
-        <members>Sirono_Dashboards/Ops_Dashboard</members>
-        <members>Sirono_Dashboards/Sirono_Financial_Metrics</members>
-        <members>Sirono_Dashboards/Supervisor_Dashboard</members>
-        <members>Sirono_Dashboards/System_Use_Dashboard</members>
         <name>Dashboard</name>
     </types>
     <types>
@@ -330,6 +311,13 @@
         <members>SharedDocuments</members>
         <members>SharedDocuments/Sirono_Image_file.jpg</members>
         <name>Document</name>
+    </types>
+    <types>
+        <members>unfiled$public/Internal_Case_Comment_Update</members>
+        <members>unfiled$public/Internal_Case_Creation</members>
+        <members>unfiled$public/SUPPORTNewassignmentnotificationSAMPLE</members>
+        <members>unfiled$public/SUPPORTSelfServiceNewCommentSAMPLE</members>
+        <name>EmailTemplate</name>
     </types>
     <types>
         <members>Case.Administration Escalation Rules</members>
@@ -386,7 +374,6 @@
     <types>
         <members>Five9</members>
         <members>Informatica</members>
-        <members>ca_collab_2_0</members>
         <members>sf_chttr_apps</members>
         <members>sf_com_apps</members>
         <name>InstalledPackage</name>
@@ -428,8 +415,6 @@
         <members>Patient_Coverage_Junction__c-Patient Coverage Junction Layout</members>
         <members>Payment_Adjustments__c-Adjustment Layout</members>
         <members>Payment_Adjustments__c-Adjustments</members>
-        <members>Payment_Arrangement__c-Payment Arrangement Layout</members>
-        <members>Payment_Arrangement__c-Payment Arrangements</members>
         <members>Payment_Method__c-ACH</members>
         <members>Payment_Method__c-Cash%2FCheck</members>
         <members>Payment_Method__c-Credit Card</members>
@@ -480,8 +465,6 @@
         <members>Campaign.MyActiveCampaigns</members>
         <members>Case.AllOpenCases</members>
         <members>Case.Automated_Cases_Case</members>
-        <members>Case.Cases_in_Queue</members>
-        <members>Case.Cloud_CoOp_Case_Queue_Case</members>
         <members>Case.Demographic_Update</members>
         <members>Case.Encounter_Needed</members>
         <members>Case.Hospital_Staff_Billing_Case</members>
@@ -503,9 +486,7 @@
         <members>Contact.All_Guarantors</members>
         <members>Contact.All_Patients</members>
         <members>Contact.All_Staff</members>
-        <members>Contact.Contacts_w_TD_ID</members>
         <members>Contact.MyContacts</members>
-        <members>Contact.Test_View2</members>
         <members>Coverage__c.All</members>
         <members>Coverage__c.Sirono_Partner_Queue_Coverage</members>
         <members>Coverage__c.test_coverage_view</members>
@@ -514,9 +495,6 @@
         <members>Location__c.All</members>
         <members>Patient_Coverage_Junction__c.All</members>
         <members>Payment_Adjustments__c.All</members>
-        <members>Payment_Arrangement__c.All</members>
-        <members>Payment_Arrangement__c.One_Time</members>
-        <members>Payment_Arrangement__c.Recurring</members>
         <members>Payment_Method__c.All</members>
         <members>Payment_Method__c.Sirono_Partner_Queue_Credit_Card</members>
         <members>Payment_Plan__c.All</members>
@@ -589,8 +567,6 @@
         <members>Contact.Guarantor</members>
         <members>Contact.Patient</members>
         <members>Contact.Staff</members>
-        <members>Payment_Arrangement__c.Deposit</members>
-        <members>Payment_Arrangement__c.Payment_Plan</members>
         <members>Payment_Method__c.ACH</members>
         <members>Payment_Method__c.Check_Cash</members>
         <members>Payment_Method__c.Credit_Card</members>
@@ -674,10 +650,12 @@
         <name>Scontrol</name>
     </types>
     <types>
-        <members>Case.Case_Sirono_Partner</members>
+        <members>Name</members>
+        <name>Settings</name>
+    </types>
+    <types>
         <members>Case.Sirono_Internal</members>
         <members>Contact.Contact_Sirono_Internal</members>
-        <members>Contact.Contact_Sirono_Partner</members>
         <members>Coverage__c.Coverage_Sirono_Internal</members>
         <members>Payment_Adjustments__c.PaymentAdj_Sirono_Internal</members>
         <members>Payment_Method__c.Credit_Card_Sirono_Internal</members>
@@ -694,7 +672,6 @@
         <members>Encounter__c</members>
         <members>Location__c</members>
         <members>Payment_Adjustments__c</members>
-        <members>Payment_Arrangement__c</members>
         <members>Payment_Method__c</members>
         <members>Payment__c</members>
         <members>Payor__c</members>
@@ -727,7 +704,6 @@
         <members>Contact.Process_Payment</members>
 	<members>Contact.Pay_Estimate</members>
         <members>Contact.View_On_Portal</members>
-        <members>Encounter__c.New_Payment_Arrangement</members>
         <members>Payment_Method__c.Update_Credit_Card</members>
         <members>Payment_Plan__c.Add_to_Payment_Plan</members>
         <members>Payment_Plan__c.Canecl_Payment_Plan</members>

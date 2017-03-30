@@ -12,16 +12,6 @@
         <fullName>Internal Case</fullName>
         <active>true</active>
         <ruleEntry>
-            <assignedTo>Cloud_CoOp_Case_Queue</assignedTo>
-            <assignedToType>Queue</assignedToType>
-            <criteriaItems>
-                <field>Case.RecordTypeId</field>
-                <operation>equals</operation>
-                <value>Internal Case</value>
-            </criteriaItems>
-            <template>unfiled$public/Internal_Case_Creation</template>
-        </ruleEntry>
-        <ruleEntry>
             <assignedTo>Hospital_Staff</assignedTo>
             <assignedToType>Queue</assignedToType>
             <criteriaItems>

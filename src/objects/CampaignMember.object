@@ -17,10 +17,6 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>Create_Opportunity</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>Delete</actionName>
         <type>Default</type>
     </actionOverrides>

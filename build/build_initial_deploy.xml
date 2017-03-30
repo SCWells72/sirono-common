@@ -1,0 +1,218 @@
+<project name="init" default="help"
+         basedir=".."
+         xmlns:sf="antlib:com.salesforce"
+         xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
+
+    <target name="help" description="default">
+        <echo message="Tasks to run for the initial deploy to a Dev org"/>
+    </target>
+
+    <target name="preDeploy" description="Deploy settings needed for the initial deploy to run successfully">
+        <echo level="info">Deploy settings needed for the initial source deploy to: ${sf.target.username} to run successfully</echo>
+        <delete dir="${basedir}/pre_deploy"/>
+        <mkdir dir="${basedir}/pre_deploy/settings"/>
+        <copy file="${basedir}/src/settings/Name.settings" tofile="${basedir}/pre_deploy/settings/Name.settings" encoding="UTF-8"/>
+        <echo level="info">Deploying Name settings to: ${sf.target.username}</echo>
+        <echo file="${basedir}/pre_deploy/package.xml" ><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Name</members>
+        <name>Settings</name>
+    </types>
+        <version>39.0</version>
+</Package>]]></echo>
+        <sf:deploy
+                username="${sf.target.username}"
+                password="${sf.target.password}"
+                serverurl="${sf.target.serverurl}"
+                deployRoot="${basedir}/pre_deploy"
+                pollWaitMillis="${sf.pollWaitMillis}"
+                maxPoll="${sf.maxPoll}"
+                testLevel="NoTestRun"
+                logType="Debugonly"/>
+        <delete dir="${basedir}/pre_deploy"/>
+    </target>
+
+    <target name="turnOffHistoryTracking">
+        <echo message="Turn off history tracking in all objects"/>
+        <replace dir="${basedir}/src/objects">
+            <replacetoken><![CDATA[<trackHistory>true</trackHistory>]]></replacetoken>
+            <replacevalue><![CDATA[<trackHistory>false</trackHistory>]]></replacevalue>
+            <include name="*.object"/>
+        </replace>
+    </target>
+
+    <target name="removePartnerQueue">
+        <echo message="Remove the Sirono_Partner_Queue"/>
+        <replace dir="${basedir}/src/objects" encoding="UTF-8">
+            <replacetoken><![CDATA[    <listViews>
+        <fullName>Sirono_Partner_Queue_Coverage</fullName>
+        <filterScope>Queue</filterScope>
+        <label>Sirono Partner Queue</label>
+        <queue>Sirono_Partner_Queue</queue>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+    </listViews>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+            <include name="Coverage__c.object"/>
+        </replace>
+        <replace dir="${basedir}/src/objects" encoding="UTF-8">
+            <replacetoken><![CDATA[    <listViews>
+        <fullName>Cases_in_Queue</fullName>
+        <filterScope>Queue</filterScope>
+        <label>Cases in Queue</label>
+        <queue>Sirono_Partner_Queue</queue>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+            <portalRoleAndSubordinates>SironoPartnerPartnerUser</portalRoleAndSubordinates>
+        </sharedTo>
+    </listViews>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+            <include name="Case.object"/>
+        </replace>
+        <replace dir="${basedir}/src/objects" encoding="UTF-8">
+            <replacetoken><![CDATA[    <listViews>
+        <fullName>Sirono_Partner_Queue_Case</fullName>
+        <filterScope>Queue</filterScope>
+        <label>Sirono Partner Queue</label>
+        <queue>Sirono_Partner_Queue</queue>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+    </listViews>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+            <include name="Case.object"/>
+        </replace>
+        <replace dir="${basedir}/src/objects" encoding="UTF-8">
+            <replacetoken><![CDATA[    <listViews>
+        <fullName>Sirono_Partner_Queue_Credit_Card</fullName>
+        <filterScope>Queue</filterScope>
+        <label>Sirono Partner Queue</label>
+        <queue>Sirono_Partner_Queue</queue>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+    </listViews>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+            <include name="Payment_Method__c.object"/>
+        </replace>
+
+        <replace file="${basedir}/src/package.xml" encoding="UTF-8">
+            <replacetoken><![CDATA[<members>Case.Cases_in_Queue</members>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+        </replace>
+        <replace file="${basedir}/src/package.xml" encoding="UTF-8">
+            <replacetoken><![CDATA[<members>Case.Sirono_Partner_Queue_Case</members>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+        </replace>
+        <replace file="${basedir}/src/package.xml" encoding="UTF-8">
+            <replacetoken><![CDATA[<members>Coverage__c.Sirono_Partner_Queue_Coverage</members>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+        </replace>
+        <replace file="${basedir}/src/package.xml" encoding="UTF-8">
+            <replacetoken><![CDATA[<members>Payment_Method__c.Sirono_Partner_Queue_Credit_Card</members>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+        </replace>
+
+        <move file="${basedir}/src/queues/Sirono_Partner_Queue.queue" tofile="${basedir}/src/queues/Sirono_Partner_Queue.queue.bak" overwrite="true"/>
+    </target>
+
+    <target name="removeSharingRules">
+        <echo message="Remove sharingRules"/>
+        <move todir="${basedir}/src/sharingRules" includeemptydirs="false">
+            <fileset dir="${basedir}/src/sharingRules">
+                <exclude name="**/*.bak"/>
+            </fileset>
+            <mapper type="glob" from="*" to="*.bak"/>
+        </move>
+        <replace file="${basedir}/src/package.xml" encoding="UTF-8">
+            <replacetoken><![CDATA[    <types>
+        <members>Case.Sirono_Internal</members>
+        <members>Contact.Contact_Sirono_Internal</members>
+        <members>Coverage__c.Coverage_Sirono_Internal</members>
+        <members>Payment_Adjustments__c.PaymentAdj_Sirono_Internal</members>
+        <members>Payment_Method__c.Credit_Card_Sirono_Internal</members>
+        <members>Payment__c.Payment_Internal_Sirono</members>
+        <name>SharingOwnerRule</name>
+    </types>
+    <types>
+        <members>Account</members>
+        <members>Asset</members>
+        <members>Campaign</members>
+        <members>Case</members>
+        <members>Contact</members>
+        <members>Coverage__c</members>
+        <members>Encounter__c</members>
+        <members>Location__c</members>
+        <members>Payment_Adjustments__c</members>
+        <members>Payment_Method__c</members>
+        <members>Payment__c</members>
+        <members>Payor__c</members>
+        <members>Provider__c</members>
+        <members>Service_Rollup__c</members>
+        <members>Transaction_Type__c</members>
+        <members>User</members>
+        <name>SharingRules</name>
+    </types>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+        </replace>
+    </target>
+
+    <target name="createSites">
+        <mkdir dir="${basedir}/src/sites"/>
+        <copy todir="${basedir}/src/sites" overwrite="true" encoding="UTF-8">
+            <fileset dir="${basedir}/template/sites"/>
+        </copy>
+
+        <echo message="Make ${sf.siteAdmin} admin for all sites"/>
+        <replace dir="${basedir}/src/sites" token="@SITE_ADMIN@" value="${sf.siteAdmin}" encoding="UTF-8">
+            <include name="*.site"/>
+        </replace>
+
+        <echo message="Set subdomain for all community sites to: ${sf.commSubDomain}"/>
+        <replace dir="${basedir}/src/sites" token="@SITE_SUBDOMAIN@" value="${sf.commSubDomain}" encoding="UTF-8">
+            <include name="Guarantor_Portal.site"/>
+            <include name="Partner_Community.site"/>
+        </replace>
+
+        <echo message="Set subdomain for five9 site to force.com subdomain: ${sf.forceSubDomain}"/>
+        <replace dir="${basedir}/src/sites" token="@SITE_SUBDOMAIN@" value="${sf.forceSubDomain}" encoding="UTF-8">
+            <include name="Five9CreateCallLogRecord.site"/>
+        </replace>
+    </target>
+
+    <target name="deployPrep" description="Prep source for deployment to a dev org">
+        <echo level="info">Perform prep on source in order to deploy to: ${sf.target.username}</echo>
+        <antcall target="turnOffHistoryTracking"/>
+        <antcall target="removePartnerQueue"/>
+        <antcall target="removeSharingRules"/>
+    </target>
+
+    <target name="revertPrep">
+        <echo message="Revert all changes in ${basedir}/src"/>
+        <exec dir="${basedir}/src" executable="git">
+            <arg value="checkout"/>
+            <arg value="--"/>
+            <arg value="${basedir}/src"/>
+        </exec>
+        <delete>
+            <fileset dir="${basedir}/src" includes="**/*.bak"/>
+        </delete>
+    </target>
+
+    <scriptdef name="getOrgName" language="javascript">
+        <attribute name="text" />
+        <attribute name="property" />
+        <![CDATA[
+       var str = attributes.get("text");
+       var end = str.indexOf("+");
+       project.setProperty(attributes.get("property"), str.substring(0, end));
+     ]]>
+    </scriptdef>
+
+    <target name="testGetOrgName">
+        <getOrgName text="${sf.target.username}" property="testorgName" />
+        <echo message="testorgName = ${testorgName}" />
+    </target>
+</project>
