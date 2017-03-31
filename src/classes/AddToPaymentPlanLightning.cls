@@ -36,8 +36,8 @@ public with sharing class AddToPaymentPlanLightning {
         
         if (guarantorRecordId != null) {
             Contact gc = PayStaffWSUtillLightning.fetchGuarantorContactWithCGConstraints(guarantorRecordId);
-            guarantorName = PayStaffWSUtillLightning.fetchGuarantorName(gc);
-            guarantorId = PayStaffWSUtillLightning.fetchGuarantorId(gc);
+            guarantorName = GuarantorService.buildGuarantorDetailString(gc);
+            guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
             //chargeGroupList = PayStaffWSUtillLightning.fetchChargeGroupList(gc);
             for (ChargeGroupWrapper cgw : PayStaffWSUtillLightning.fetchChargeGroupList(gc)) {
                 System.debug('cgw:'+cgw);

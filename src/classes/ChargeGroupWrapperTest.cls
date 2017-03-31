@@ -23,7 +23,7 @@ public with sharing class ChargeGroupWrapperTest {
     @isTest
     public static void buildListTest(){
         Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
-        gt = GuarantorDao.getGuarantorAllActiveCG(gt.Id);
+        gt = GuarantorService.getGuarantorWithActiveCG(gt.Id);
 
         List<ChargeGroupWrapper> wrapperList = ChargeGroupWrapper.buildList(gt);
 

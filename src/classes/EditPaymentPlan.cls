@@ -120,8 +120,8 @@ public with sharing class EditPaymentPlan {
 
         if (Apexpages.currentPage().getParameters().containsKey('guarantorId')) {
             guarantorRecordId = Apexpages.currentPage().getParameters().get('guarantorId');
-            gc = PayStaffWSUtill.fetchGuarantorContact(guarantorRecordId);
-            guarantorName = PayStaffWSUtill.fetchGuarantorName(gc);
+            gc = GuarantorService.getGuarantorWithActiveCG(guarantorRecordId);
+            guarantorName = GuarantorService.buildGuarantorDetailString(gc);
             guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
 
             for (ChargeGroupWrapper cgw : ChargeGroupWrapper.buildList(gc)) {

@@ -90,8 +90,8 @@ public with sharing class AddCreditCard {
         isActivePaymentPlan = false;
         if (Apexpages.currentPage().getParameters().containsKey('guarantorId')) {
             guarantorRecordId = Apexpages.currentPage().getParameters().get('guarantorId');
-            gc = PayStaffWSUtill.fetchGuarantorContact(guarantorRecordId);
-            guarantorName = PayStaffWSUtill.fetchGuarantorName(gc);
+            gc = GuarantorService.getGuarantorWithActiveCG(guarantorRecordId);
+            guarantorName = GuarantorService.buildGuarantorDetailString(gc);
             guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
             //chargeGroupList = PayStaffWSUtill.fetchChargeGroupList(gc);
             //date: 11/22/2016 tracker #134300243 fetching charge group list based on account sub status : Preinvoiced, Due, Overdue, Delinquent, or Bad Debt

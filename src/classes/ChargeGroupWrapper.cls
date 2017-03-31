@@ -4,11 +4,30 @@
 
 public with sharing class ChargeGroupWrapper {
 
-    //Build a list of wrappers from the charge group list associated with the given guarantor
+    /*
+    * Build a list of wrappers from the charge group list associated with the given contact
+    * @param Contact gc - Contact with a list of associated chargegroups
+    * @returns List<ChargeGroupWrapper>
+    */
     public static List<ChargeGroupWrapper> buildList(Contact gc) {
+
+        if (gc != null && gc.Charge_Groups__r != null) {
+            return buildList(gc.Charge_Groups__r);
+        }
+
+        return new ChargeGroupWrapper[]{};
+    }
+
+    /*
+    * Build a list of wrappers from the supplied charge group list
+    * @param List<Charge_Group__c> cgs - list of chargegroups
+    * @returns List<ChargeGroupWrapper>
+    */
+    public static List<ChargeGroupWrapper> buildList(List<Charge_Group__c> cgs) {
+
         List<ChargeGroupWrapper> cgList = new List<ChargeGroupWrapper>();
-        if (gc != null && gc.Charge_Groups__r != null && gc.Charge_Groups__r.size() > 0) {
-            for (Charge_Group__c cg : gc.Charge_Groups__r) {
+        if (cgs != null) {
+            for (Charge_Group__c cg : cgs) {
                 cgList.add(new ChargeGroupWrapper(cg));
             }
         }

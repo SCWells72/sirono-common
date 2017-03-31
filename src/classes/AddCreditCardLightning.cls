@@ -88,9 +88,9 @@ public with sharing class AddCreditCardLightning {
         guarantorId = (Test.isRunningTest() && Apexpages.currentPage().getParameters().containsKey('guarantorId')) ? Apexpages.currentPage().getParameters().get('guarantorId') : guarantorId;
         if (String.IsNotBlank(guarantorId)) { // need to check if there is a difference between guarantorId and guarantorRecordId
             guarantorRecordId = guarantorId;
-            gc = PayStaffWSUtillLightning.fetchGuarantorContact(guarantorId);
-            guarantorName = PayStaffWSUtillLightning.fetchGuarantorName(gc);
-            guarantorId = PayStaffWSUtillLightning.fetchGuarantorId(gc);
+            gc = GuarantorService.getGuarantorWithActiveCG(guarantorId);
+            guarantorName = GuarantorService.buildGuarantorDetailString(gc);
+            guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
             //chargeGroupList = PayStaffWSUtillLightning.fetchChargeGroupList(gc);
             //date: 11/22/2016 tracker #134300243 fetching charge group list based on account sub status : Preinvoiced, Due, Overdue, Delinquent, or Bad Debt
             for (ChargeGroupWrapper cgw : PayStaffWSUtillLightning.fetchChargeGroupListByAccSubStatus(gc)) {

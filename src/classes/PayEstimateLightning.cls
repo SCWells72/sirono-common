@@ -55,9 +55,9 @@ public with sharing class PayEstimateLightning {
         errorMessages = '';
         if (guarantorRecordId != null) {
             // Fetch Guarantor Contact record based on Id.
-            guarantorContact = PayStaffWSUtillLightning.fetchGuarantorContact(guarantorRecordId);
+            guarantorContact = GuarantorService.getGuarantorWithActiveCG(guarantorRecordId);
             // Fetch Guarantor Name based on Contact record.
-            guarantorName = PayStaffWSUtillLightning.fetchGuarantorName(guarantorContact);
+            guarantorName = GuarantorService.buildGuarantorDetailString(guarantorContact);
             // Call getEncounterRecords method.
             getEncounterRecords();
         }

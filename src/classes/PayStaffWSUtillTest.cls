@@ -23,7 +23,6 @@ private class PayStaffWSUtillTest {
      **/
     @isTest
     static void checkExpYearPopulated() {
-        PayStaffWSUtill.fetchGuarantorContact('');
         PayStaffWSUtill.fetchGuarantorId(null);
         PayStaffWSUtill.fetchChargeGroupIds(ChargeGroupWrapper.buildList(null));
         PayStaffWSUtill.getCSRFToken();

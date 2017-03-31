@@ -120,7 +120,7 @@ public with sharing class GuarantorDaoTest {
         INSERT chargeGroup;
 
         Test.startTest();
-        Contact contact = GuarantorDao.getGuarantorAllActiveCG(gt.Id);
+        Contact contact = GuarantorDao.getGuarantorWithActiveCG(gt.Id);
         Test.stopTest();
 
         // Check system assert, Charge Group size of Contact.

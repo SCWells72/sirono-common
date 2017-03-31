@@ -81,8 +81,8 @@ public with sharing class ProcessPayment {
         guarantorRecordId = sc.getId();
 
         if (guarantorRecordId != null) {
-            gc = PayStaffWSUtill.fetchGuarantorContact(guarantorRecordId);
-            guarantorName = PayStaffWSUtill.fetchGuarantorName(gc);
+            gc = GuarantorService.getGuarantorWithActiveCG(guarantorRecordId);
+            guarantorName = GuarantorService.buildGuarantorDetailString(gc);
             guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
             //chargeGroupList = PayStaffWSUtill.fetchChargeGroupList(gc);
             //Collection of ChargeGroups that are active, balance not zero and who's account sub status is Preinvoiced, Due, Overdue, Delinquent, Bad Debt, or Payment Plan.

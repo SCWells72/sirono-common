@@ -60,7 +60,7 @@ public with sharing class CreateCaseManual {
                 }
             }
 
-            guarantorName = PayStaffWSUtill.fetchGuarantorName(gc);
+            guarantorName = GuarantorService.buildGuarantorDetailString(gc);
 
             caseObj.ContactId = gc.Id;
 
