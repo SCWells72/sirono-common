@@ -36,7 +36,7 @@ To create a new org, log into the DevHub and click on the Environment Hub app. F
 - [ ] Enable "Set Audit Fields upon Record Creation" and "Update Records with Inactive Owners" User Permissions in User Interface options
   - Setup > Customize > User Interface
 - [ ] Give your user (System Administrator) ability to log in as any user
-  - Setup > Security Controls > Login Access Policies > Adminstators Can Log in as Any User
+  - Setup > Security Controls > Login Access Policies > Adminstrators Can Log in as Any User
 
 ### Deploy code to new org
 - Sync master - be sure there are no local changes
