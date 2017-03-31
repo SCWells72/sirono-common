@@ -35,6 +35,8 @@ To create a new org, log into the DevHub and click on the Environment Hub app. F
   - Setup > Reports & Dashboards > Folder Sharing
 - [ ] Enable "Set Audit Fields upon Record Creation" and "Update Records with Inactive Owners" User Permissions in User Interface options
   - Setup > Customize > User Interface
+- [ ] Give your user (System Administrator) ability to log in as any user
+  - Setup > Security Controls > Login Access Policies > Adminstators Can Log in as Any User
 
 ### Deploy code to new org
 - Sync master - be sure there are no local changes
@@ -71,3 +73,10 @@ ant initial_deploy
 
 ### Post setup
 - Enabling My Domain and setting a My Domain value will allow you use SSO. You can set My Domain and SSO after your org is up and running, if you wish.
+
+### Creating users
+- Each new org needs to have a Sirono Integration user created.
+  - Username is {orgname}+integration@sirono.com
+  - Email is prod_sf@sirono.com
+  - Needs to be given both a role and the Sirono Integration Admin profile
+  - Login as the integration user, click settings, and reset the security token
