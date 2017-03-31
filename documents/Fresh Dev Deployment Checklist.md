@@ -31,7 +31,7 @@ To create a new org, log into the DevHub and click on the Environment Hub app. F
   - Setup -> Security Controls -> SharingSettings.
   - Update it for both internal and external access (two dropdowns).
 - [ ] Enable Notes
-- [ ] Enable Report and Dashboard Folder Sharing (available only in Salesfoce Classic setup menu)
+- [ ] Enable Report and Dashboard Folder Sharing (available only in Salesforce Classic setup menu)
   - Setup > Reports & Dashboards > Folder Sharing
 - [ ] Enable "Set Audit Fields upon Record Creation" and "Update Records with Inactive Owners" User Permissions in User Interface options
   - Setup > Customize > User Interface
