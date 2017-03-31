@@ -24,7 +24,7 @@ private class PayEstimateVFControllerTest {
         PayEstimateVFController objPayEstimate = new PayEstimateVFController(new ApexPages.StandardController(guarantorContact));        
         
         // Based on Encounter List, Select Encounter record.
-        for (PayEstimateController.EncounterWrapper enw: objPayEstimate.encounters) {
+        for (EncounterWrapper enw: objPayEstimate.encounters) {
             enw.isSelected = true;
         }
         

@@ -2,6 +2,9 @@
  * Payment Service with logic for working with Payment__c object.
  */
 public class PaymentService extends AbstractService {
+    // Constant variable.
+    public static final String PAYMENTNAME = 'Payment';
+
     /**
      * This method is used to Create/Insert Payment record based on Encounter, Contact and Amount.
      * @param String paymentName - name of the payment
@@ -11,10 +14,10 @@ public class PaymentService extends AbstractService {
      * @param Datetime depositeDate - payment deposite date
      * @param String paymentMethod - payment method
      **/
-    public static void createNewPayment(String paymentName, String guarantorRecordId, Decimal amount, String selectedEncounterId, Datetime depositeDate, String paymentMethod) {
+    public static void createNewPayment(String payName, String guarantorRecordId, Decimal amount, String selectedEncounterId, Datetime depositeDate, String paymentMethod) {
         // Initialize new Payment record
         Payment__c payment = new Payment__c(
-            Name = paymentName,
+            Name = payName,
             Guarantor__c = guarantorRecordId,
             Amount__c = amount,
             Encounter__c = selectedEncounterId,

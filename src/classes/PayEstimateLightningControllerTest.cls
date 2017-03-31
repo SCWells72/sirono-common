@@ -1,4 +1,4 @@
-@isTest
+ @isTest
 private class PayEstimateLightningControllerTest {
 
     /**
@@ -20,7 +20,7 @@ private class PayEstimateLightningControllerTest {
         PayEstimateLightningController objPayEstimate = new PayEstimateLightningController(new ApexPages.StandardController(guarantorContact), encounter.Id);
 
         // Based on Encounter List, Select Encounter record.
-        for (PayEstimateController.EncounterWrapper enw: objPayEstimate.encounters) {
+        for (EncounterWrapper enw: objPayEstimate.encounters) {
             enw.isSelected = true;
         }
 

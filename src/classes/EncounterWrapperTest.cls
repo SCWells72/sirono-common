@@ -1,5 +1,5 @@
 @isTest
-private class EncounterDaoTest {
+private class EncounterWrapperTest {
     public static final String GUARANTOR_CONTACT_ONE = 'guarantorContact1';
     public static final String GUARANTOR_CONTACT_TWO = 'guarantorContact2';
     public static final String GUARANTOR_CONTACT_THREE = 'guarantorContact3';
@@ -21,19 +21,19 @@ private class EncounterDaoTest {
     }
 
     /**
-     * This method is used to test EncounterDao.getEncounterRecordsById method with Guarantor Id
+     * This method is used to test EncounterWrapper.getEncounterRecords method with Guarantor Id
      **/
     static testMethod void getEncounterRecordsByGuarantorIdTest() {
         Test.startTest();
         Contact guarantorContact1 = [SELECT Id FROM Contact WHERE Name = :GUARANTOR_CONTACT_ONE LIMIT 1];
-        List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.ConditionObject.GUARANTOR.name(), guarantorContact1.Id);
+        List<EncounterWrapper> encounterList = EncounterWrapper.getEncounterRecords(EncounterDao.ConditionObject.GUARANTOR.name(), guarantorContact1.Id);
         // Check that record was selected
         System.assertEquals(encounterList.size(), 1);
         // Check that correct encounter was selected
-        System.assertEquals(encounterList[0].Patient_Portion__c, 500);
+        System.assertEquals(encounterList[0].en.Patient_Portion__c, 500);
 
         Contact guarantorContact3 = [SELECT Id FROM Contact WHERE Name = :GUARANTOR_CONTACT_THREE LIMIT 1];
-        encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.ConditionObject.GUARANTOR.name(), guarantorContact3.Id);
+        encounterList = EncounterWrapper.getEncounterRecords(EncounterDao.ConditionObject.GUARANTOR.name(), guarantorContact3.Id);
         // Check that Encounter List is empty
         System.assertEquals(encounterList.size(), 0);
 
@@ -41,16 +41,16 @@ private class EncounterDaoTest {
     }
 
     /**
-     * This method is used to test EncounterDao.getEncounterRecordsById method with Encounter Id
+     * This method is used to test EncounterWrapper.getEncounterRecords method with Encounter Id
      **/
     static testMethod void getEncounterRecordsByEncounterIdTest() {
         Test.startTest();
         Encounter__c encounter2 = [SELECT Id FROM Encounter__c WHERE Patient_Portion__c = 1000 LIMIT 1];
-        List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.ConditionObject.ENCOUNTER.name(), encounter2.Id);
+        List<EncounterWrapper> encounterList = EncounterWrapper.getEncounterRecords(EncounterDao.ConditionObject.ENCOUNTER.name(), encounter2.Id);
         // Check that record was selected
         System.assertEquals(encounterList.size(), 1);
         // Check that correct encounter was selected
-        System.assertEquals(encounterList[0].Patient_Portion__c, 1000);
+        System.assertEquals(encounterList[0].en.Patient_Portion__c, 1000);
         Test.stopTest();
     }
 }

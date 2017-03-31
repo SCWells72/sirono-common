@@ -21,7 +21,7 @@ private class PayEstimateControllerTest {
         objPayEstimate.init('guarantor', guarantorContact.Id);     
         
         // Based on Encounter List, Select Encounter record.
-        for (PayEstimateController.EncounterWrapper enw: objPayEstimate.encounters) {
+        for (EncounterWrapper enw: objPayEstimate.encounters) {
             enw.isSelected = true;
         }
         
@@ -139,7 +139,7 @@ private class PayEstimateControllerTest {
         objPayEstimate.init('guarantor', guarantorContact.Id); 
         
         // Based on Encounter List, Select Encounter record.
-        for (PayEstimateController.EncounterWrapper enw: objPayEstimate.encounters) {
+        for (EncounterWrapper enw: objPayEstimate.encounters) {
             enw.isSelected = true;
         }
         

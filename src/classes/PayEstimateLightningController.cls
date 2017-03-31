@@ -15,7 +15,7 @@ public with sharing class PayEstimateLightningController extends PayEstimateCont
     public PayEstimateLightningController(ApexPages.StandardController controller, String encounterId) {
         super();
         guarantorRecordId = controller.getId();
-        init('encounter', encounterId);
+        init(EncounterDao.ConditionObject.ENCOUNTER.name(), encounterId);
     }
 
     /**

@@ -4,34 +4,29 @@
  **/ 
 public virtual class PayEstimateController {
     // Page Level Variables.
-    public String            		address {get; set;}
-    public String                   amount {get; set;}
-    public String                   cardHolderName {get; set;}
-    public String                   city {get; set;}
-    public String                   creditCardNumber {get; set;}
-    public String                   cvv {get; set;}
-    public List<EncounterWrapper>	encounters {get; set;}
-    public Boolean                  encounterSelected {get; set;}
-    public String                   expirationMonth {get; set;}
-    public String                   expirationYear {get; set;}
-    public Contact                  guarantorContact {get; set;}
-    public String                   guarantorName {get; set;}
-    public String                   guarantorRecordId {get; set;}
-    public Encounter__c             selectedEncounter {get; set;}
-    public String                   state {get; set;}
-    public String                   zip {get; set;}
-    public String                   errorMessages{get;set;}
+    public String address {get; set;}
+    public String amount {get; set;}
+    public String cardHolderName {get; set;}
+    public String city {get; set;}
+    public String creditCardNumber {get; set;}
+    public String cvv {get; set;}
+    public List<EncounterWrapper> encounters {get; set;}
+    public Boolean encounterSelected {get; set;}
+    public String expirationMonth {get; set;}
+    public String expirationYear {get; set;}
+    public Contact guarantorContact {get; set;}
+    public String guarantorName {get; set;}
+    public String guarantorRecordId {get; set;}
+    public Encounter__c selectedEncounter {get; set;}
+    public String state {get; set;}
+    public String zip {get; set;}
+    public String errorMessages{get;set;}
 
     // Getter setter of expYearOptions
     public List<SelectOption> expYearOptions {
         get {
             if (expYearOptions == null) {
-                expYearOptions = new List<SelectOption>();
-                Integer currentYear = System.today().year();
-                for (Integer i = 0; i <= 10; i++) {
-                    String value = String.valueOf(currentYear++);
-                    expYearOptions.add(new SelectOption(value, value));
-                }
+                expYearOptions = PayStaffWSUtill.expYearOptions;
             }
             return expYearOptions;
         }
@@ -42,27 +37,12 @@ public virtual class PayEstimateController {
     public List<SelectOption> expMonthOptions {
         get {
             if (expMonthOptions == null) {
-                expMonthOptions = new List<SelectOption>();
-                expMonthOptions.add(new SelectOption('01', '01 (January)'));
-                expMonthOptions.add(new SelectOption('02', '02 (February)'));
-                expMonthOptions.add(new SelectOption('03', '03 (March)'));
-                expMonthOptions.add(new SelectOption('04', '04 (April)'));
-                expMonthOptions.add(new SelectOption('05', '05 (May)'));
-                expMonthOptions.add(new SelectOption('06', '06 (June)'));
-                expMonthOptions.add(new SelectOption('07', '07 (July)'));
-                expMonthOptions.add(new SelectOption('08', '08 (August)'));
-                expMonthOptions.add(new SelectOption('09', '09 (September)'));
-                expMonthOptions.add(new SelectOption('10', '10 (October)'));
-                expMonthOptions.add(new SelectOption('11', '11 (November)'));
-                expMonthOptions.add(new SelectOption('12', '12 (December)'));
+                expMonthOptions = PayStaffWSUtill.expMonthOptions;
             }
             return expMonthOptions;
         }
         protected set;
     }
-
-    // Constant variable.
-    public static final String PAYMENTNAME = 'Payment';
 
     /**
      * Init method is used to initialize main variables from child constructors
@@ -77,7 +57,7 @@ public virtual class PayEstimateController {
             // Fetch Guarantor Name based on Contact record.
             guarantorName = GuarantorService.buildGuarantorDetailString(guarantorContact);
             // Call getEncounterRecords method.
-            encounters = getEncounterRecords(objectType, recordId);
+            encounters = EncounterWrapper.getEncounterRecords(objectType, recordId);
         }
     }
 
@@ -111,7 +91,7 @@ public virtual class PayEstimateController {
 	public String addPayment(String paymentMethod) {
         try {
 	        if (getCardAmountValidations()) {
-	        	PaymentService.createNewPayment(PAYMENTNAME, guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod);
+	        	PaymentService.createNewPayment(PaymentService.PAYMENTNAME, guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod);
 	        	return (paymentMethod == null) ? Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY : 'Success;' + '0851' + ';$' + amount;
 	        }
 	        return null;
@@ -155,39 +135,4 @@ public virtual class PayEstimateController {
         Boolean blnIsAmountError = VisualForceValidations.amountValidation(amount, String.valueOf(selectedEncounter.Balance__c));
         return (!blnIsCCError && !blnIsAmountError);
 	}
-
-    /**
-     * This method is use to get Encounter Records based on Guarantor Id or Id and Balance is greater than zero.
-     * These records add into List of Encounter Wrapper Class.
-     * @param String idType - object name for where condition
-     * @param String condId - record Id
-     * @return List<EncounterWrapper> - list of encounter wrapper records
-     **/
-	private List<EncounterWrapper> getEncounterRecords(String idType, String condId) {
-		List<EncounterWrapper> encounters = new List<EncounterWrapper>();
-        List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(idType, condId);
-        for (Encounter__c en : encounterList) {
-            encounters.add(new EncounterWrapper(en, false));
-        }
-        return encounters;
-	}
-	
-    /**
-     * This Wrapper class is use to check how many Encounters select or which encounter select for Payment Process.
-     **/
-    public class EncounterWrapper {
-        public Encounter__c en {get; set;}
-        public Boolean isSelected {get; set;}
-
-        /**
-         * Constructor of Wrapper Class.
-         *
-         * @param Encounter__c en - encounter record
-         * @param Boolean isSelected - check if record is selected or not
-         **/
-        public EncounterWrapper(Encounter__c en, Boolean isSelected) {
-            this.en = en;
-            this.isSelected = isSelected;
-        }
-    }
 }
