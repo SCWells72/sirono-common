@@ -237,7 +237,6 @@ public abstract with sharing class SironoRestClient {
      * Utility for adding the default headers, compression & timeout to a request.
      */
     private void addDefaults() {
-        req.setCompressed(true);
         req.setHeader(RestClientConstants.AUTHORIZATION, getJwtHeaderValue());
         req.setHeader(RestClientConstants.CONTENT_TYPE, RestClientConstants.APPLICATION_JSON);
         req.setTimeout(RestClientConstants.DEFAULT_TIMEOUT);
