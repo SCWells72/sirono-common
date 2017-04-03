@@ -15,7 +15,12 @@ public with sharing class PayEstimateVFController extends PayEstimateController 
     public PayEstimateVFController(ApexPages.StandardController controller) {
         super();
         guarantorRecordId = controller.getId();
-        init(EncounterDao.ConditionObject.GUARANTOR.name(), guarantorRecordId);
+        init(guarantorRecordId);
+    }
+
+    protected override void loadEncounters(String recordId) {
+        Encounter__c[] encounterList = EncounterService.getEncounterRecordsByGuarantorId(recordId);
+        encounters = EncounterWrapper.buildList(encounterList);
     }
 
     /**

@@ -14,10 +14,10 @@ public class PaymentService extends AbstractService {
      * @param Datetime depositeDate - payment deposite date
      * @param String paymentMethod - payment method
      **/
-    public static void createNewPayment(String payName, String guarantorRecordId, Decimal amount, String selectedEncounterId, Datetime depositeDate, String paymentMethod) {
+    public static void createNewPayment(String guarantorRecordId, Decimal amount, String selectedEncounterId, Datetime depositeDate, String paymentMethod) {
         // Initialize new Payment record
         Payment__c payment = new Payment__c(
-            Name = payName,
+            Name = PAYMENTNAME,
             Guarantor__c = guarantorRecordId,
             Amount__c = amount,
             Encounter__c = selectedEncounterId,

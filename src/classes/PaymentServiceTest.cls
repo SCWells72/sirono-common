@@ -9,11 +9,11 @@ private class PaymentServiceTest {
         INSERT guarantorContact;
 
         // Create Encounter record.
-        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, system.today());
+        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
         INSERT encounter;
 
         Test.startTest();
-        PaymentService.createNewPayment('Test Payment', guarantorContact.Id, 123, encounter.Id, System.now(), null);
+        PaymentService.createNewPayment(guarantorContact.Id, 123, encounter.Id, System.now(), null);
         
         List<Payment__c> paymentList = [
         	SELECT Id, Name 

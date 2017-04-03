@@ -9,7 +9,7 @@ private class PaymentDaoTest {
         INSERT guarantorContact;
 
         // Create Encounter record.
-        Encounter__c selectedEncounter = TestUtility.generateEncounter(guarantorContact.Id, 500, system.today());
+        Encounter__c selectedEncounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
         INSERT selectedEncounter;
 
         Payment__c payment = new Payment__c(
@@ -31,5 +31,28 @@ private class PaymentDaoTest {
         // Check that record was created
         System.assertEquals(paymentList.size(), 1);
         Test.stopTest();
+    }
+
+    /**
+    * Check all access rights for a read only User using runAs.
+    **/
+    @isTest
+    static void checkAccessRights() {
+        List<PaymentSecurityContext> allContexts = new List<PaymentSecurityContext>{PaymentSecurityContext.CREATE_CONTEXT,
+            PaymentSecurityContext.PSWU_CREATE_CONTEXT, PaymentSecurityContext.UPDATE_CONTEXT
+        };
+
+        System.runAs(TestUtility.generateReadOnlyUser()) {
+            for (PaymentSecurityContext context: allContexts) {
+                try {
+                    context.actionAllowed();
+                    System.assert(false, 'Expected permission to be denied for ' + context);
+                } catch (SecurityUtils.SecurityException ex) {
+                    System.debug('SecurityException : ' + ex);
+                } catch (Exception e) {
+                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
+                }
+            }
+        }
     }
 }

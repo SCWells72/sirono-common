@@ -4,11 +4,19 @@
 public class EncounterService extends AbstractService {
 	/**
 	 * This method is use to get Encounter Records based on Guarantor Id or Id and Balance is greater than zero.
-     * @param String idType - object name for where condition
-     * @param String condId - record Id
+     * @param String encounterId - encounter record Id
 	 **/
-    public static List<Encounter__c> getEncounterRecordsById(String idType, String condId) {
-    	List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(idType, condId);
+    public static List<Encounter__c> getEncounterRecordsById(String encounterId) {
+    	List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.ConditionObject.ENCOUNTER, encounterId);
+        return encounterList;
+    }
+
+    /**
+	 * This method is use to get Encounter Records based on Guarantor Id or Id and Balance is greater than zero.
+     * @param String guarantorId - guarantor record Id
+	 **/
+    public static List<Encounter__c> getEncounterRecordsByGuarantorId(String guarantorId) {
+    	List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.ConditionObject.GUARANTOR, guarantorId);
         return encounterList;
     }
 }

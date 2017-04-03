@@ -14,8 +14,8 @@ private class EncounterDaoTest {
         INSERT guarantorContactList;
 
         // Create Encounter record.
-        Encounter__c encounter1 = TestUtility.generateEncounter(guarantorContact1.Id, 500, system.today());
-        Encounter__c encounter2 = TestUtility.generateEncounter(guarantorContact2.Id, 1000, system.today());
+        Encounter__c encounter1 = TestUtility.generateEncounter(guarantorContact1.Id, 500, System.today());
+        Encounter__c encounter2 = TestUtility.generateEncounter(guarantorContact2.Id, 1000, System.today());
         List<Encounter__c> encounterList = new List<Encounter__c>{encounter1, encounter2};
         INSERT encounterList;
     }
@@ -26,14 +26,14 @@ private class EncounterDaoTest {
     static testMethod void getEncounterRecordsByGuarantorIdTest() {
         Test.startTest();
         Contact guarantorContact1 = [SELECT Id FROM Contact WHERE Name = :GUARANTOR_CONTACT_ONE LIMIT 1];
-        List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.ConditionObject.GUARANTOR.name(), guarantorContact1.Id);
+        List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.ConditionObject.GUARANTOR, guarantorContact1.Id);
         // Check that record was selected
         System.assertEquals(encounterList.size(), 1);
         // Check that correct encounter was selected
         System.assertEquals(encounterList[0].Patient_Portion__c, 500);
 
         Contact guarantorContact3 = [SELECT Id FROM Contact WHERE Name = :GUARANTOR_CONTACT_THREE LIMIT 1];
-        encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.ConditionObject.GUARANTOR.name(), guarantorContact3.Id);
+        encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.ConditionObject.GUARANTOR, guarantorContact3.Id);
         // Check that Encounter List is empty
         System.assertEquals(encounterList.size(), 0);
 
@@ -46,7 +46,7 @@ private class EncounterDaoTest {
     static testMethod void getEncounterRecordsByEncounterIdTest() {
         Test.startTest();
         Encounter__c encounter2 = [SELECT Id FROM Encounter__c WHERE Patient_Portion__c = 1000 LIMIT 1];
-        List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.ConditionObject.ENCOUNTER.name(), encounter2.Id);
+        List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.ConditionObject.ENCOUNTER, encounter2.Id);
         // Check that record was selected
         System.assertEquals(encounterList.size(), 1);
         // Check that correct encounter was selected

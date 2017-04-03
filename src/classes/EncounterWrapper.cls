@@ -8,13 +8,11 @@ public class EncounterWrapper {
 	/**
 	 * This method is use to get Encounter Records based on Guarantor Id or Id and Balance is greater than zero.
 	 * These records add into List of Encounter Wrapper Class.
-	 * @param String idType - object name for where condition
-	 * @param String condId - record Id
+	 * @param List<Encounter__c> encounterList - list of encounters
 	 * @return List<EncounterWrapper> - list of encounter wrapper records
 	 **/
-	public static List<EncounterWrapper> getEncounterRecords(String idType, String condId) {
+	public static List<EncounterWrapper> buildList(List<Encounter__c> encounterList) {
 		List<EncounterWrapper> encounters = new List<EncounterWrapper>();
-		List<Encounter__c> encounterList = EncounterService.getEncounterRecordsById(idType, condId);
 		for (Encounter__c en : encounterList) {
 		    encounters.add(new EncounterWrapper(en, false));
 		}

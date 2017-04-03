@@ -2,7 +2,7 @@
  * PayEstimateController is a virtual class 
  * that is used by PayEstimateVFController and PayEstimateLightningController classes.
  **/ 
-public virtual class PayEstimateController {
+public abstract class PayEstimateController {
     // Page Level Variables.
     public String address {get; set;}
     public String amount {get; set;}
@@ -46,10 +46,9 @@ public virtual class PayEstimateController {
 
     /**
      * Init method is used to initialize main variables from child constructors
-     * @param String objectType - object name of record Id that is used for getting encounters records
      * @param String recordId - record Id that is used for getting encounters records
      **/
-    public void init(String objectType, String recordId) {
+    public void init(String recordId) {
     	errorMessages = '';
     	if (guarantorRecordId != null) {
             // Fetch Guarantor Contact record based on Id.
@@ -57,9 +56,11 @@ public virtual class PayEstimateController {
             // Fetch Guarantor Name based on Contact record.
             guarantorName = GuarantorService.buildGuarantorDetailString(guarantorContact);
             // Call getEncounterRecords method.
-            encounters = EncounterWrapper.getEncounterRecords(objectType, recordId);
+            loadEncounters(recordId);
         }
     }
+
+    protected abstract void loadEncounters(String recordId);
 
     /**
      * This method is used to get selected record
@@ -90,8 +91,8 @@ public virtual class PayEstimateController {
      **/
 	public String addPayment(String paymentMethod) {
         try {
-	        if (getCardAmountValidations()) {
-	        	PaymentService.createNewPayment(PaymentService.PAYMENTNAME, guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod);
+	        if (isValidCard() && isValidAmount()) {
+	        	PaymentService.createNewPayment(guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod);
 	        	return (paymentMethod == null) ? Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY : 'Success;' + '0851' + ';$' + amount;
 	        }
 	        return null;
@@ -125,14 +126,22 @@ public virtual class PayEstimateController {
 
     /**
      * This method is used to check selected record
-     * @return Boolean - return result of credit card and amount validation
+     * @return Boolean - return result of credit card validation
      **/
-	private Boolean getCardAmountValidations() {
+	private Boolean isValidCard() {
 		// Call creditCardValidation method that validate all informations/values for Credit Card.
         Boolean blnIsCCError = VisualForceValidations.creditCardValidation(creditCardNumber, expirationYear, expirationMonth,
                 zip, cardHolderName, cvv, address);
+        return !blnIsCCError;
+	}
+
+    /**
+     * This method is used to check selected record
+     * @return Boolean - return result of amount validation
+     **/
+    private Boolean isValidAmount() {
         // Call amountValidation method that validate amount.
         Boolean blnIsAmountError = VisualForceValidations.amountValidation(amount, String.valueOf(selectedEncounter.Balance__c));
-        return (!blnIsCCError && !blnIsAmountError);
-	}
+        return !blnIsAmountError;
+    }
 }
