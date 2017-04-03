@@ -25,6 +25,19 @@ public with sharing class GuarantorServiceTest {
         gt.Profile_Pointer_ID__c = Decimal.valueOf(SIRONO_ID);
         INSERT gt;
 
+        Contact pt = TestUtility.generatePatientContact();
+        pt.Patient_Id__c = Decimal.valueOf(SIRONO_ID);
+        INSERT pt;
+
+        // Create Charge Group Record.
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(gt.Id, pt.Id, 12345);
+        chargeGroup.Active__c = true;
+        INSERT chargeGroup;
+
+        // Create Charge Group Record.
+        chargeGroup = TestUtility.generateChargeGroup(gt.Id, pt.Id, 67890);
+        chargeGroup.Active__c = false;
+        INSERT chargeGroup;
     }
 
     /*
@@ -62,5 +75,63 @@ public with sharing class GuarantorServiceTest {
         } catch (SironoServiceException ex) {
             System.assertEquals(ex.getMessage(), 'Invalid request - Contact required to retrieve SironoId');
         }
+    }
+
+    @isTest
+    public static void getGTBySironoIdTest() {
+        Contact gt = GuarantorService.getGuarantorBySironoId(SIRONO_ID);
+        System.assertNotEquals(gt, null, 'Expected guarantor but got null');
+        System.assertEquals(SIRONO_ID, String.valueOf(gt.Profile_Pointer_ID__c),
+                'Expected Sirono_ID__c of ' + SIRONO_ID + ' but got: ' + gt.Profile_Pointer_ID__c);
+        System.assertEquals(RecordTypeUtil.guarantorRt, gt.RecordTypeId,
+                'Expected RecordTypeId of ' + RecordTypeUtil.guarantorRt + ' but got: ' + gt.RecordTypeId);
+    }
+
+    /**
+     * Test the logic of getGuarantorFilterCGByAcctSubStatus
+     * CG account substatus is "Preinvoiced" so we get contact with 1 CG.
+     **/
+    @isTest
+    public static void getGuarantorFilterCGByAcctSubStatusTest() {
+        Contact gt = [
+                SELECT Id
+                FROM Contact
+                WHERE RecordTypeId = :RecordTypeUtil.guarantorRt
+                LIMIT 1
+        ];
+
+        // Call getGuarantorFilterCGByAcctSubStatus method.
+        Test.startTest();
+        Contact contact = GuarantorService.getGuarantorFilterCGByAcctSubStatus(gt.Id, Constants.CGConstraintsForDiscount);
+        Test.stopTest();
+
+        // Check system assert, Charge Group size of Contact.
+        System.assertEquals(contact.Charge_Groups__r.size(), 1);
+        System.assertEquals(gt.Id, contact.Id);
+        System.assertEquals(contact.Charge_Groups__r.get(0).Account_Sub_Status__c, Constants.ACCT_SUBSTATUS_PREINVOICED);
+    }
+
+    /**
+     * Test the logic of getGuarantorWithActiveCG
+     * Only one CG is active, so should return 1 CG
+     **/
+    @isTest
+    public static void getGuarantorWithActiveCGTest() {
+        Contact gt = [
+                SELECT Id
+                FROM Contact
+                WHERE RecordTypeId = :RecordTypeUtil.guarantorRt
+                LIMIT 1
+        ];
+
+        // Call getGuarantorFilterCGByAcctSubStatus method.
+        Test.startTest();
+        Contact contact = GuarantorService.getGuarantorWithActiveCG(gt.Id);
+        Test.stopTest();
+
+        // Check system assert, Charge Group size of Contact.
+        System.assertEquals(contact.Charge_Groups__r.size(), 1);
+        System.assertEquals(gt.Id, contact.Id);
+        System.assert(contact.Charge_Groups__r.get(0).Active__c);
     }
 }

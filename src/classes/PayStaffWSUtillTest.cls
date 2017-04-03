@@ -4,7 +4,21 @@
 
 @isTest
 private class PayStaffWSUtillTest {
-	
+    @TestSetup
+    public static void setup() {
+        Contact gt = TestUtility.generateGuarantorContact();
+        gt.Profile_Pointer_ID__c = 12345;
+        INSERT gt;
+
+        Contact pt = TestUtility.generatePatientContact();
+        pt.Patient_Id__c = 67890;
+        INSERT pt;
+
+        // Create Charge Group Record.
+        List<Charge_Group__c> cgs = TestUtility.generateChargeGroupList(gt.Id);
+        INSERT cgs;
+    }
+
     /**
      * This method is used to setup preliminary data to let's all testmethods to execute as expected.
      **/
@@ -23,9 +37,11 @@ private class PayStaffWSUtillTest {
      **/
     @isTest
     static void checkExpYearPopulated() {
-        PayStaffWSUtill.fetchGuarantorContact('');
-        PayStaffWSUtill.fetchGuarantorId(null);
-        PayStaffWSUtill.fetchChargeGroupIds(ChargeGroupWrapper.buildList(null));
+        Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+        gt = GuarantorService.getGuarantorWithActiveCG(gt.Id);
+
+        PayStaffWSUtill.fetchGuarantorId(gt);
+        PayStaffWSUtill.fetchChargeGroupIds(ChargeGroupWrapper.buildList(gt));
         PayStaffWSUtill.getCSRFToken();
         PayStaffWSUtill.getJWTToken(PayStaffWSUtill.un, PayStaffWSUtill.pw);
         PayStaffWSUtill.buildChargeGroupsURL('1,2');

@@ -85,9 +85,9 @@ public with sharing class ProcessPaymentLightning {
         guarantorRecordId = sc.getId();
 
         if (guarantorRecordId != null) {
-            gc = PayStaffWSUtillLightning.fetchGuarantorContact(guarantorRecordId);
-            guarantorName = PayStaffWSUtillLightning.fetchGuarantorName(gc);
-            guarantorId = PayStaffWSUtillLightning.fetchGuarantorId(gc);
+            gc = GuarantorService.getGuarantorWithActiveCG(guarantorRecordId);
+            guarantorName = GuarantorService.buildGuarantorDetailString(gc);
+            guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
             Boolean once = false;
             //chargeGroupList = PayStaffWSUtillLightning.fetchChargeGroupList(gc);
             //Collection of ChargeGroups that are active, balance not zero and who's account sub status is Preinvoiced, Due, Overdue, Delinquent, Bad Debt, or Payment Plan.

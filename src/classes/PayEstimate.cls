@@ -62,9 +62,9 @@ public with sharing class PayEstimate {
 
         if (guarantorRecordId != null) {
             // Fetch Guarantor Contact record based on Id.
-            guarantorContact = PayStaffWSUtill.fetchGuarantorContact(guarantorRecordId);
+            guarantorContact = GuarantorService.getGuarantorWithActiveCG(guarantorRecordId);
             // Fetch Guarantor Name based on Contact record.
-            guarantorName = PayStaffWSUtill.fetchGuarantorName(guarantorContact);
+            guarantorName = GuarantorService.buildGuarantorDetailString(guarantorContact);
             // Call getEncounterRecords method.
             getEncounterRecords();
         }

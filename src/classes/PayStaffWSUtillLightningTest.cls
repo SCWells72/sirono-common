@@ -5,8 +5,7 @@ private class PayStaffWSUtillLightningTest {
     }
 
     static testMethod void myUnitTest() {
-        PayStaffWSUtillLightning.fetchGuarantorContact('');
-        PayStaffWSUtillLightning.fetchGuarantorId(null);
+
         PayStaffWSUtillLightning.fetchChargeGroupIds(PayStaffWSUtillLightning.fetchChargeGroupList(null));
         PayStaffWSUtillLightning.getCSRFToken();
         PayStaffWSUtillLightning.getJWTToken(PayStaffWSUtillLightning.un, PayStaffWSUtillLightning.pw);

@@ -76,30 +76,6 @@ public with sharing class PayStaffWSUtillLightning {
         }
         protected set;
     }
-    //get the Guarantor contact with charge groups
-    public static Contact fetchGuarantorContact(String contactId) {
-        Contact ob = null;
-        for (Contact c : [
-                Select Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
-                        Medical_Record_Number__c, Name,
-                        Profile_Pointer_Id__c, MailingStreet,
-                        MailingCity, MailingState, MailingPostalCode, (
-                        Select Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
-                                External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
-                                Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
-                                Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
-                                Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
-                                Provider__c, Provider__r.Name, Location__c, Location__r.Name, Account_Sub_Status__c
-                        From Charge_Groups__r
-                        Where Sirono_ID__c != null AND Active__c = true
-                )
-                From Contact
-                Where Id = :contactId
-        ]) {
-            ob = c;
-        }
-        return ob;
-    }
 
     //Fetch the contact record
     public static Contact fetchContact(String contactId) {
@@ -220,17 +196,6 @@ public with sharing class PayStaffWSUtillLightning {
         return ob;
     }
 
-    //get the Guarantor Id from pass contact.
-    public static String fetchGuarantorId(Contact gc) {
-        String guarantorId = '';
-        if (gc != null && gc.Profile_Pointer_Id__c != null) {
-            guarantorId = String.valueOf(gc.Profile_Pointer_Id__c);
-        } else if (Apexpages.currentPage() != null) {
-            handleErrorMessages(ApexPages.SEVERITY.ERROR, 'Guarantor Id does not exist!');
-        }
-        return guarantorId;
-    }
-
     //get the Patient Id from passed contact.
     public static String fetchPatientId(Contact gc) {
         String patientId = '';
@@ -240,18 +205,6 @@ public with sharing class PayStaffWSUtillLightning {
             handleErrorMessages(ApexPages.SEVERITY.ERROR, 'Patient Id does not exist!');
         }
         return patientId;
-    }
-
-    //get the Guarantor Name from passed contact.
-    public static String fetchGuarantorName(Contact gc) {
-        String guarantorName = '';
-        guarantorName = gc.FirstName + (gc.MiddleName != null ? ' ' + gc.MiddleName : '')
-                + (gc.LastName != null ? ' ' + gc.LastName : '')
-                + (gc.Suffix != null ? ' ' + gc.Suffix : '')
-                + ' (DOB: ' + (gc.Birthdate != null ? gc.Birthdate.format() : '')
-                + ', MRN: ' + (gc.Medical_Record_Number__c != null ? gc.Medical_Record_Number__c : '')
-                + ')';
-        return guarantorName;
     }
 
     //get the charge group list

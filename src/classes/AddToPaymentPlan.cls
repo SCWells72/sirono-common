@@ -32,8 +32,9 @@ public with sharing class AddToPaymentPlan {
         }
 
         if (guarantorRecordId != null) {
-            Contact gc = GuarantorDao.getGuarantorFilterCGByAcctSubStatus(guarantorRecordId, Constants.CGConstraints);
+            Contact gc = GuarantorService.getGuarantorFilterCGByAcctSubStatus(guarantorRecordId, Constants.CGConstraints);
             guarantorName = GuarantorService.buildGuarantorDetailString(gc);
+            //TODO move this out of PayStaffWSUtil into some sort of VF-Specific util class?
             guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
             for (ChargeGroupWrapper cgw : ChargeGroupWrapper.buildList(gc)) {
                 if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {

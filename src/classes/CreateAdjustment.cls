@@ -75,8 +75,8 @@ public with sharing class CreateAdjustment {
             adjustmentTypeOptions.add(new SelectOption(aType.Code__c, aType.Description__c));
         }
         if (guarantorRecordId != null) {
-            Contact gc = PayStaffWSUtill.fetchGuarantorContact(guarantorRecordId);
-            guarantorName = PayStaffWSUtill.fetchGuarantorName(gc);
+            Contact gc = GuarantorService.getGuarantorWithActiveCG(guarantorRecordId);
+            guarantorName = GuarantorService.buildGuarantorDetailString(gc);
             guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
             chargeGroupList = ChargeGroupWrapper.buildList(gc);
             chargeGroupId = '';
