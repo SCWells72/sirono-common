@@ -11,7 +11,7 @@ public with sharing class ChargeGroupWrapper {
     */
     public static List<ChargeGroupWrapper> buildList(Contact gc) {
 
-        if (gc != null && gc.Charge_Groups__r != null) {
+        if (gc != null) {
             return buildList(gc.Charge_Groups__r);
         }
 

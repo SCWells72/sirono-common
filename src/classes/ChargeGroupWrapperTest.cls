@@ -43,9 +43,18 @@ public with sharing class ChargeGroupWrapperTest {
 
     @isTest
     public static void buildEmptyListNullTest(){
-        Contact gt = TestUtility.generateGuarantorContact();
+        Contact gt = null;
 
-        List<ChargeGroupWrapper> wrapperList = ChargeGroupWrapper.buildList(null);
+        List<ChargeGroupWrapper> wrapperList = ChargeGroupWrapper.buildList(gt);
+
+        System.assertEquals(wrapperList.size(), 0, 'Expected 0 cg wrappers but got: '+wrapperList.size());
+    }
+
+    @isTest
+    public static void buildEmptyListNullTest2(){
+        Charge_Group__c[] cgList = null;
+
+        List<ChargeGroupWrapper> wrapperList = ChargeGroupWrapper.buildList(cgList);
 
         System.assertEquals(wrapperList.size(), 0, 'Expected 0 cg wrappers but got: '+wrapperList.size());
     }
