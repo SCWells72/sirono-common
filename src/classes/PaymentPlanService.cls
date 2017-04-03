@@ -225,6 +225,22 @@ public with sharing class PaymentPlanService extends AbstractService {
         updateObjects(response.getBody(), chargegroupIds);
     }
 
+	public static Payment_Plan__c getActivePaymentPlan(String quarantorId){
+		return PaymentPlanDAO.getActivePaymentPlan(quarantorId);
+	}
+
+	public static Payment_Plan__c getPaymentPlanBySironoId(String sironoId){
+		return PaymentPlanDAO.getPaymentPlanBySironoId(sironoId);
+	}
+
+	public static Payment_Plan__c getPaymentPlanBySironoId(Decimal sironoId){
+		return PaymentPlanDAO.getPaymentPlanBySironoId(sironoId);
+	}
+
+	public static void upsertPlans(List<Payment_Plan__c> paymentPlans){
+		PaymentPlanDAO.upsertPlans(paymentPlans);
+	}
+
     private static void validatePlanId(String planId) {
         Payment_Plan__c pp = PaymentPlanDao.getPaymentPlanBySironoId(planId);
         if (pp == null) {

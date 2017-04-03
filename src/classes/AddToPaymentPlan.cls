@@ -92,7 +92,7 @@ public with sharing class AddToPaymentPlan {
     //Get the current guarantor's active PaymentPlan id
     private String getActivePaymentPlanId(String guarantorRecordId) {
 
-        Payment_Plan__c activePaymentPlan = PaymentPlanDao.getActivePaymentPlan(guarantorRecordId);
+      	Payment_Plan__c activePaymentPlan = PaymentPlanService.getActivePaymentPlan(guarantorRecordId);
         if (activePaymentPlan != null) {
             return activePaymentPlan.Sirono_ID__c.toPlainString();
         }
