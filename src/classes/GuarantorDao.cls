@@ -33,7 +33,7 @@ public with sharing class GuarantorDao extends AbstractDao {
     }
 
     //get the Guarantor contact with all active charge groups
-    public static Contact getGuarantorAllActiveCG(String contactId) {
+    public static Contact getGuarantorWithActiveCG(String contactId) {
         Contact ob = null;
         for (Contact c : [
                 SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,

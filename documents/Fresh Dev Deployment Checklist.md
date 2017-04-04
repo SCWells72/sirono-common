@@ -8,7 +8,7 @@ To create a new org, log into the DevHub and click on the Environment Hub app. F
 - ** Note on creating domain names: Domain names are limited to 22 characters. Therefore, your org name is limited to _5 characters_ or the domain names below won't be able to follow the standard naming convention. **
 - Your username _**must**_ follow the naming convention: orgname+email@something.com. For instance, Justin Dove's username for the dev org "justinbox" is `justinbox+justin.dove@sirono.com`. If this convention is not followed, the initial deploy to the org will fail.
 
-### _After_ creating your org but _before_ you deploy code, configure these setting (in this order!)
+### _After_ creating your org but _before_ you deploy code, configure these settings (in this order!)
 - [ ] Enable Chatter
   - [ ] Enable Users to edit posts
 - [ ] Create a Force.com Site domain name
@@ -31,10 +31,12 @@ To create a new org, log into the DevHub and click on the Environment Hub app. F
   - Setup -> Security Controls -> SharingSettings.
   - Update it for both internal and external access (two dropdowns).
 - [ ] Enable Notes
-- [ ] Enable Report and Dashboard Folder Sharing (available only in Salesfoce Classic setup menu)
+- [ ] Enable Report and Dashboard Folder Sharing (available only in Salesforce Classic setup menu)
   - Setup > Reports & Dashboards > Folder Sharing
 - [ ] Enable "Set Audit Fields upon Record Creation" and "Update Records with Inactive Owners" User Permissions in User Interface options
   - Setup > Customize > User Interface
+- [ ] Give your user (System Administrator) ability to log in as any user
+  - Setup > Security Controls > Login Access Policies > Adminstrators Can Log in as Any User
 
 ### Deploy code to new org
 - Sync master - be sure there are no local changes
@@ -71,3 +73,10 @@ ant initial_deploy
 
 ### Post setup
 - Enabling My Domain and setting a My Domain value will allow you use SSO. You can set My Domain and SSO after your org is up and running, if you wish.
+
+### Creating users
+- Each new org needs to have a Sirono Integration user created.
+  - Username is {orgname}+integration@sirono.com
+  - Email is prod_sf@sirono.com
+  - Needs to be given both a role and the Sirono Integration Admin profile
+  - Login as the integration user, click settings, and reset the security token

@@ -1,10 +1,13 @@
 /**
  * GuarantorService
- */
-
+ **/
 public with sharing class GuarantorService extends AbstractService {
-
-    //Get the Guarantor's Profile_Pointer_Id__c from the given contact.
+    /**
+     * Get the Guarantor's Profile_Pointer_Id__c from the given contact.
+     * @param Contact contact - the Guarantor Contact
+     * @returns String - the guarantor's sironoId
+     * @throws SironoServiceException if the contact doesn't exist
+     **/
     public static String getGuarantorSironoId(Contact contact) {
         String guarantorId = '';
         if (contact == null) {
@@ -23,7 +26,12 @@ public with sharing class GuarantorService extends AbstractService {
         return guarantorId;
     }
 
-    //Cet the Guarantor details string from the given contact.
+    /**
+     * Get the Guarantor details string from the given contact.
+     *
+     * @param Contact gc - a Guarantor Contact TODO (Is this applicable to any Sirono Contact?)
+     * @returns String - a formatted string of the Guarantor's PII
+     **/
     public static String buildGuarantorDetailString(Contact gc) {
         String details = '';
         details = gc.FirstName + (gc.MiddleName != null ? ' ' + gc.MiddleName : '')
@@ -34,5 +42,50 @@ public with sharing class GuarantorService extends AbstractService {
                 + ')';
 
         return details;
+    }
+
+    /**
+     * Get Contact details with active Charge Groups filtered by Account Sub Status
+     *
+     * @param String contactId - The Contact RecordId.
+     * @param Set<String> cgSubStatusFilters - A set of CG Account Sub Statuses.
+     * @returns Contact contact - The requested Contact and all active Charge Groups that meet the criteria
+     **/
+    public static Contact getGuarantorFilterCGByAcctSubStatus(String contactId, Set<String> cgSubStatusFilters) {
+
+        return GuarantorDao.getGuarantorFilterCGByAcctSubStatus(contactId, cgSubStatusFilters);
+    }
+
+    /**
+     * Get Guarantor Contact by sirono Id
+     *
+     * @param String guarantor's sirono Id
+     * @return Contact - the requested Contact
+     **/
+    public static Contact getGuarantorBySironoId(String sironoId) {
+
+        return GuarantorDao.getGuarantorBySironoId(sironoId);
+    }
+
+    /**
+     * Get Guarantor Contact by record Id
+     *
+     * @param String guarantor's record Id
+     * @return Contact - the requested Contact
+     **/
+    public static Contact getGuarantor(String recordId) {
+
+        return GuarantorDao.getGuarantor(recordId);
+    }
+
+    /**
+     * Get Guarantor Contact by record Id and all it's active charge groups
+     *
+     * @param String guarantor's record Id
+     * @return Contact - the requested Contact
+     **/
+    public static Contact getGuarantorWithActiveCG(String recordId) {
+
+        return GuarantorDao.getGuarantorWithActiveCG(recordId);
     }
 }
