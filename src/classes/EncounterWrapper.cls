@@ -13,9 +13,12 @@ public class EncounterWrapper {
 	 **/
 	public static List<EncounterWrapper> buildList(List<Encounter__c> encounterList) {
 		List<EncounterWrapper> encounters = new List<EncounterWrapper>();
-		for (Encounter__c en : encounterList) {
-		    encounters.add(new EncounterWrapper(en, false));
+		if (! encounterList.isEmpty()) {
+			for (Encounter__c en : encounterList) {
+			    encounters.add(new EncounterWrapper(en, false));
+			}	
 		}
+		
 		return encounters;
 	}
 

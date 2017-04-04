@@ -7,7 +7,7 @@ public class EncounterService extends AbstractService {
      * @param String encounterId - encounter record Id
 	 **/
     public static List<Encounter__c> getEncounterRecordsById(String encounterId) {
-    	List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.ConditionObject.ENCOUNTER, encounterId);
+    	List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.IdType.ENCOUNTER, encounterId);
         return encounterList;
     }
 
@@ -16,7 +16,7 @@ public class EncounterService extends AbstractService {
      * @param String guarantorId - guarantor record Id
 	 **/
     public static List<Encounter__c> getEncounterRecordsByGuarantorId(String guarantorId) {
-    	List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.ConditionObject.GUARANTOR, guarantorId);
+    	List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.IdType.GUARANTOR, guarantorId);
         return encounterList;
     }
 }

@@ -22,18 +22,18 @@ private class EncounterWrapperTest {
     /**
      * This method is used to test EncounterWrapper.buildList method with Guarantor Id
      **/
-    static testMethod void getEncounterRecordsByGuarantorIdTest() {
+    static testMethod void testBuildList() {
         Test.startTest();
         List<Encounter__c> encounterList = [SELECT Id, Patient_Portion__c FROM Encounter__c WHERE Patient_Portion__c = 500];
         List<EncounterWrapper> encounterWrapperList = EncounterWrapper.buildList(encounterList);
-        // Check that record was selected
+        // Check that EncounterWrapper List is not empty
         System.assertEquals(encounterWrapperList.size(), 1);
-        // Check that correct encounter was selected
+        // Check that correct encounter was returned
         System.assertEquals(encounterWrapperList[0].en.Patient_Portion__c, 500);
 
         encounterList = [SELECT Id, Patient_Portion__c FROM Encounter__c WHERE Patient_Portion__c = 1500];
         List<EncounterWrapper> encounterEmptyWrapperList = EncounterWrapper.buildList(encounterList);
-        // Check that Encounter List is empty
+        // Check that EncounterWrapper List is empty
         System.assertEquals(encounterEmptyWrapperList.size(), 0);
 
         Test.stopTest();
