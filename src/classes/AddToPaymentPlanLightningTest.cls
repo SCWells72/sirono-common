@@ -17,11 +17,7 @@ private class AddToPaymentPlanLightningTest {
 		t.Sirono_ID__c = 2876;
         insert t;
 		system.debug('Active Payment Plan:' + t);
-        //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor and submit method.
-        //Apexpages.currentPage().getParameters().put('guarantorId',g.Id);
-        //Apexpages.currentPage().getParameters().put('paymentPlanExtId','121212');
-        //AddToPaymentPlan ppCon = new AddToPaymentPlan();
-
+        
 		//Create Invoice record.
         Invoice__c i = TestUtility.generateInvoice(g.Id,p.Id);
         insert i;
@@ -53,15 +49,14 @@ private class AddToPaymentPlanLightningTest {
 		Test.startTest();
 		AddToPaymentPlanLightning ppCon = new AddToPaymentPlanLightning(g.id);
 
-         /* Call Submit method and It will give an error "Please provide all details".
-         * beacuse of we can't enter Charge Group.
-         * It will cover code coverage of Else part in submit method.
-         */
-		Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         ppCon.submit();
-		List<Charge_Group__c> checkResults = [SELECT id, Account_Sub_Status__c FROM Charge_Group__c];
+		List<Charge_Group__c> checkResults = [SELECT id, 
+													 Account_Sub_Status__c 
+											  FROM Charge_Group__c];
+		Test.stopTest();
 		System.assertEquals('On Payment Plan', checkResults[0].Account_Sub_Status__c);
 		System.assertEquals('On Payment Plan', checkResults[1].Account_Sub_Status__c);
-		Test.stopTest();
+		
 	}
 }

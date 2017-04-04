@@ -17,7 +17,9 @@ public with sharing class AddToPaymentPlanLightning {
     public List<String> chargeGroupsIds{get;set;}
 	public String errorMessage{get;set;}
 	
-    // Constructor of a class and initialize the variables.
+	/**
+	 * Constructor of a class and initialize the variables. Get list of ChargeGroups and Id of active plan
+	 **/
     public AddToPaymentPlanLightning(String gId) {
         chargeGroupsIds = new List<String>();
         errorMessage = '';
@@ -26,19 +28,17 @@ public with sharing class AddToPaymentPlanLightning {
 
         guarantorRecordId = gId;
         
-	    if (guarantorRecordId != null) {
+		if (guarantorRecordId != null) {
             Contact gc = PayStaffWSUtillLightning.fetchGuarantorContactWithCGConstraints(guarantorRecordId);
             for (ChargeGroupWrapper cgw : PayStaffWSUtillLightning.fetchChargeGroupList(gc)) {
-		if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
+                if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
                     chargeGroupsIds.add(String.ValueOf(cgw.cg.Sirono_ID__c));
                 }
             }
         }
 
-        //Mohan Kumar 08-16-2016: launch Add to Payment Plan from contact Guarantor record 
         if (String.isBlank(paymentPlanExtId)) {
-			System.debug('guarantorRecordId:'+guarantorRecordId);
-            Payment_Plan__c currentPaymentPlan = PaymentPlanService.getActivePaymentPlan(guarantorRecordId);
+			Payment_Plan__c currentPaymentPlan = PaymentPlanService.getActivePaymentPlan(guarantorRecordId);
 			if(currentPaymentPlan != null){
 				paymentPlanExtId = currentPaymentPlan.Sirono_ID__c.format();
 			}
@@ -47,21 +47,14 @@ public with sharing class AddToPaymentPlanLightning {
             }
         }
     }
-   
-    //call addToPaymentPlanCall and send the request to end point.
-    public String submit() {
-	paymentPlanExtId = paymentPlanExtId.replace(',', '');
-	PaymentPlanService.addChargeGroups(paymentPlanExtId, chargeGroupsIds);
-	return null;
+
+    /**
+     * Call addChargeGroups and send the request to end point.
+     **/
+	public String submit() {
+		paymentPlanExtId = paymentPlanExtId.replace(',', '');
+		PaymentPlanService.addChargeGroups(paymentPlanExtId, chargeGroupsIds);
+		return null;
     }   
-    
-    /*
-    * 09-16-2016: Viraj Rana 
-    *  Call this method to test
-    */
-    Public void doTesting() {
-        String str = PaymentPlanJSONParsing.testResponse();
-       // parseResponse(str);
-    }
     
 }
