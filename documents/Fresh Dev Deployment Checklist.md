@@ -68,6 +68,29 @@ ant initial_deploy
 - Go to Setup > Data.com Administration > Duplicate Management > Matching Rules
 - Deactivate 'Standard Contact Matching Rule'
 
+##### Set named credentials for your org
+- [Review this configuration map](https://github.com/blueprinthealth/sirono-salesforce/wiki/Sandbox-%E2%80%90%E2%80%BA-Server-Configuration-Map) to determine which backend is correct for your development org
+- Create a new named credential in your org
+  - Setup > Security Controls > Named Credentials
+  - Add the URL from the configuration map mentioned above
+  - Under "Callout Options" make these changes:
+    - Deselect _Generate Authorization Header_
+    - Select _Allow Merge Fields in HTTP Header_
+    - Select _Allow Merge Fields in HTTP Body_
+  - Save
+
+### Scheduled jobs and deployment
+- We have a group of Batch jobs that run and so to deploy to your org you need to either:
+  - Stop the jobs completely
+    ```
+    ant stop_all_scheduled_jobs
+    ```
+
+  ***OR***
+  
+  - Allow deploys while scheduled jobs are running
+    - Setup > Deployment Settings > Allow deployments of components when ...  
+
 ### Request data load
 - Create a tracker ticket, assigned to Margaret, with your new dev org username, pwd & security token requesting a data load
 
