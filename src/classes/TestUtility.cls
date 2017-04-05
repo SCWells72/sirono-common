@@ -61,6 +61,17 @@ public class TestUtility {
         return guarantorContact;
     }
 
+    // Return Guarantor Contact record
+    public static Contact generateGuarantorContactByName(String gurantorName) {
+        Contact guarantorContact = new Contact();
+        guarantorContact.RecordTypeId = RecordTypeUtil.guarantorRt;
+        guarantorContact.LastName = gurantorName;
+        guarantorContact.Profile_Pointer_Id__c = getUniqueId();
+        guarantorContact.HomePhone = '111';
+        guarantorContact.MobilePhone = '111';
+        return guarantorContact;
+    }
+
     // Return Patient Contact record
     public static Contact generatePatientContact() {
         Contact patientContact = new Contact();
