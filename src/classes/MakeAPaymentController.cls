@@ -119,7 +119,7 @@ public with sharing class MakeAPaymentController {
         User currentUser = [SELECT Id, ContactId FROM User WHERE Id = :userInfo.getUserId()];
         Contact guarantor = [SELECT id FROM Contact WHERE id = :currentUser.ContactId];
         ApexPages.StandardController sc = new ApexPages.StandardController(guarantor);
-        PayEstimateLightning onePayment = new PayEstimateLightning(sc, estimateId);
+        PayEstimateLightningController onePayment = new PayEstimateLightningController(sc, estimateId);
         onePayment.creditCardNumber = cInfo.creditCardNumber;
         onePayment.cardHolderName = cInfo.cardHolderName;
         onePayment.expirationYear = cInfo.expirationYear;

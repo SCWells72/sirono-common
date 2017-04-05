@@ -1,6 +1,7 @@
 ({
     checkValidation : function(component, event, helper){
         console.log('checkValidation');
+
         var cardName = component.find("cardName").get("v.validity");
         var cardNumber = component.find("cardNumber").get("v.validity");
         var cvv = component.find("cvv").get("v.validity");
@@ -8,18 +9,18 @@
         var year = component.find("year").get("v.validity");
         var address = component.find("address").get("v.validity"); 
         var zipcode = component.find("zipcode").get("v.validity");
-        
-        if(cardName.valid &&
-           cardNumber.valid &&
-           cvv.valid &&
-           month.valid &&
-           year.valid &&
-           address.valid &&
-		   zipcode.valid           
-          ){
+
+        if ((cardName != null && cardName.valid) &&
+           (cardNumber != null && cardNumber.valid) &&
+           (cvv != null && cvv.valid) &&
+           (month != null && month.valid) &&
+           (year != null && year.valid) &&
+           (address != null && address.valid) &&
+		   (zipcode != null && zipcode.valid)           
+        ) {
             console.log('checkValidation true');
            return true;
-        }else{
+        } else {
             console.log('checkValidation false');
             return false;
         }        
