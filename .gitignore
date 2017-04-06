@@ -8,6 +8,7 @@ config
 
 # Assets created from templates
 src/sites/
+src/namedCredentials/
 
 # Apex Log as optional
 apex-scripts/log
