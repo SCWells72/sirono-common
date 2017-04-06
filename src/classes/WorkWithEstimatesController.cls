@@ -5,10 +5,12 @@ public without sharing class WorkWithEstimatesController {
 	@AuraEnabled
     public static List<EstimateWrapper> getAllEstimates(String groupFilter, String additionalFilter) {
 		String selectedPatients = '';
+		List<String> additionalFilters = new List<String>();
 		if(!String.isBlank(additionalFilter)) {
-			selectedPatients += ' AND Patient__c IN (';
-			selectedPatients += additionalFilter.removeEnd(',') + ')';
+			additionalFilters = additionalFilter.replace('\'', '').split(',');
+			selectedPatients += ' AND Patient__c IN :additionalFilters';
 		}
+
 		List<EstimateWrapper> allEstimates = new List<EstimateWrapper>();
 		User u = [
 			SELECT	ContactId
@@ -26,7 +28,7 @@ public without sharing class WorkWithEstimatesController {
 
 			if (groupFilter != null && groupFilter != '') {
 				if (groupFilter == 'Unpaid') {
-					query += ' AND Encounter__c.Balance__c > 0 AND (Encounter__c.Total_Payments__c = null OR Encounter__c.Total_Payments__c = 0)';
+					query += ' AND Encounter__c.Balance__c > 0 AND (Encounter__c.Total_Payments__c = null OR Encounter__c.Total_Payments__c = 0) '; 
 				}
 				if (groupFilter == 'Paid') {
 					query += ' AND ((Encounter__c.Balance__c > 0 AND Encounter__c.Total_Payments__c > 0 ) OR Encounter__c.Balance__c <= 0) ';
