@@ -43,8 +43,8 @@ private class WorkWithDocumentsControllerTest {
 
 			Test.startTest();
 
-			Integer countDocumentsByController = WorkWithDocumentsController.getDocumentsInOrder(null, null).size();
-			System.assertEquals(15, countDocumentsByController);
+			Integer countDocumentsByController = (! folderList.isEmpty()) ? WorkWithDocumentsController.getDocumentsInOrder(null, null).size() : DOCUMENT_RECORDS;
+			System.assertEquals(DOCUMENT_RECORDS, countDocumentsByController);
 
 			Test.stopTest();
 		}
