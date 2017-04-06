@@ -62,8 +62,8 @@ public with sharing class PayStaffWSUtill {
     }
 
     //This is just being added back in order to fix a QA build break. DO NOT USE
-    public static Contact fetchGuarantorContact(String contactId) {
-        return GuarantorService.getGuarantor(contactId);
+    public static String fetchGuarantorName(Contact gt) {
+        return GuarantorService.buildGuarantorDetailString(gt);
     }
 
     //Fetch the contact record
