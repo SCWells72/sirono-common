@@ -82,6 +82,22 @@
         </not>
     </condition>
 
+    <condition property="sirono.endpoint" value="https://toledo.stage.sirono.com">
+        <not>
+            <isset property="sirono.endpoint"/>
+        </not>
+    </condition>
+    <condition property="sirono.user" value="sgullapali">
+        <not>
+            <isset property="sirono.user"/>
+        </not>
+    </condition>
+    <condition property="sirono.pw" value="p@ssw0rd">
+        <not>
+            <isset property="sirono.pw"/>
+        </not>
+    </condition>
+
     <target name="retrieve">
         <echo level="info">Retrieving from: ${sf.source.username} into: ${sf.retrieveTarget}</echo>
         <delete dir="${sf.retrieveTarget}"/>
@@ -94,7 +110,7 @@
                 unpackaged="${basedir}/src/package.xml"/>
     </target>
 
-    <target name="deploy" depends="createSites">
+    <target name="deploy" depends="processTemplates">
         <echo level="info">Deploying to: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -107,7 +123,7 @@
                 logType="Debugonly"/>
     </target>
 
-    <target name="undeployCode" depends="createSites">
+    <target name="undeployCode" depends="processTemplates">
         <echo level="info">Remove metadata from: ${sf.target.username}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -119,7 +135,7 @@
     </target>
 
     <!-- Check only; don't remove from server -->
-    <target name="undeployCheckOnly" depends="createSites">
+    <target name="undeployCheckOnly" depends="processTemplates">
         <echo level="info">Validate removal of metadata from: ${sf.target.username}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -135,7 +151,7 @@
     </target>
 
     <!-- Check only; don't save to the server -->
-    <target name="deployCheckOnly" depends="createSites">
+    <target name="deployCheckOnly" depends="processTemplates">
         <echo level="info">Validating in: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -150,7 +166,7 @@
     </target>
 
     <!-- Check only; only run specified tests -->
-    <target name="deployCheckSelectTests" depends="createSites">
+    <target name="deployCheckSelectTests" depends="processTemplates">
         <echo level="info">Running select tests in: ${sf.target.username}</echo>
         <sf:deploy
                 username="${sf.target.username}"
@@ -167,7 +183,7 @@
     </target>
     
     <!-- Deploy without tests -->
-    <target name="deployNoTests" depends="createSites">
+    <target name="deployNoTests" depends="processTemplates">
         <echo level="info">Deploying to: ${sf.target.username} without tests</echo>
         <sf:deploy
                 username="${sf.target.username}"
