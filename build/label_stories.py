@@ -96,6 +96,11 @@ def update_story(current_branch, story_json):
                 request_body[CURRENT_STATE] = new_state
 
         if request_body:
+            if 'chore' == story_json['story_type'].lower():
+                if 'estimate' not in story_json:
+                    request_body['estimate'] = 3
+
+        if request_body:
             # print('\nstory retrieved: '+ json.dumps(story_json))
             # print('\nstory to push: '+ json.dumps(request_body))
             response = requests.put(TRACKER_STORY_URL.format(project_id, story_id), json=request_body, headers=HEADERS)
