@@ -1,8 +1,8 @@
 public with sharing class LightningValidations {
 	
-    public static Boolean blnIsAmountError = false;
-    public static Boolean blnIsCCError = false;
-    public static Boolean blnIsError = false;
+    public static String blnIsAmountError = '';
+    public static String blnIsCCError = '';
+    public static String blnIsError = '';
 
     /**
      * This method is use to check String is empty or null for Validation.
@@ -19,33 +19,33 @@ public with sharing class LightningValidations {
      *
      * @param String amount - That contains amount.
      * @param String balance - That contains balance.
-     * @returns Boolean blnIsAmountError - That contains true or false.
+     * @returns String blnIsAmountError - That contains error messages.
      **/
-    public static Boolean amountValidation(String amount, String balance) {
-        blnIsAmountError = false;
+    public static String amountValidation(String amount, String balance) {
+        blnIsAmountError = '';
         
         // Call checkAmountNotEmpty method to check amount is empty or not.
         blnIsAmountError = checkAmountNotEmpty(amount);
         
-        if (!blnIsAmountError) {
+        if (String.isEmpty(blnIsAmountError)) {
             // Call checkAmountGreaterThanZero method to check amount is greater than zero or not.
             blnIsAmountError = checkAmountGreaterThanZero(amount);
             // Call checkAmountExceedBalance method to check amount is exceed the balance or not.
             blnIsAmountError = checkAmountExceedBalance(amount, balance);
         }
-        return blnIsAmountError;
+        return blnIsAmountError.removeEnd('\n');
     }
     
     /**
      * This method is used to check amount is empty or not and it is numeric or not.
      *
      * @param String amount - That contains amount.
-     * @returns Boolean blnIsError - That contains true or false value.
+     * @returns String blnIsError - That contains error messages.
      **/
-    public static Boolean checkAmountNotEmpty(String amount) {
+    public static String checkAmountNotEmpty(String amount) {
         blnIsError = blnIsAmountError;        
         if (isEmpty(amount) || (amount.isNumeric() && Decimal.valueOf(amount) == 0)) {
-            blnIsError = true;
+            blnIsError += Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO +'\n';
         }
         return blnIsError;
     }
@@ -54,12 +54,12 @@ public with sharing class LightningValidations {
      * This method is used to check amount is greater than zero or not.
      *
      * @param String amount - That contains amount.
-     * @returns Boolean blnIsError - That contains true or false value.
+     * @returns String blnIsError - That contains error messages.
      **/
-    public static Boolean checkAmountGreaterThanZero(String amount) {
+    public static String checkAmountGreaterThanZero(String amount) {
         blnIsError = blnIsAmountError;
         if (Decimal.valueOf(amount) < 0) {
-            blnIsError = true;
+            blnIsError += Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO +'\n';
         }
         return blnIsError;
     }
@@ -69,12 +69,12 @@ public with sharing class LightningValidations {
      *
      * @param String amount - That contains amount.
      * @param String balance - That contains balance.
-     * @returns Boolean blnIsError - That contains true or false value.
+     * @returns String blnIsError - That contains error messages.
      **/
-    public static Boolean checkAmountExceedBalance(String amount, String balance) {
+    public static String checkAmountExceedBalance(String amount, String balance) {
         blnIsError = blnIsAmountError;
         if (Decimal.valueOf(amount) > Decimal.valueOf(balance)) {
-            blnIsError = true;
+            blnIsError += Constants.PAGE_MESSAGE_AMOUNT_EXCEED_BALANCE +'\n';
         }
         return blnIsError;
     }
@@ -89,11 +89,11 @@ public with sharing class LightningValidations {
      * @param String cardHolderName - That contains card holder name.
      * @param String cvv - That contains cvv number of card.
      * @param String address - That contains address.
-     * @returns Boolean blnIsError - That contains true or false.
+     * @returns String blnIsError - That contains true or false.
      **/
-    public static Boolean creditCardValidation(String ccNumber, String expirationYear, String expirationMonth, String zip,
+    public static String creditCardValidation(String ccNumber, String expirationYear, String expirationMonth, String zip,
                 String cardHolderName, String cvv, String address) {
-        blnIsCCError = false;
+        blnIsCCError = '';
         
         // Call checkCcNumberDigit method to check cc number is 12 to 19 digit or not.
         blnIsCCError = checkCcNumberDigit(ccNumber);
@@ -115,20 +115,19 @@ public with sharing class LightningValidations {
         blnIsCCError = checkAddressNotEmpty(address);
         // Call checkZipNotEmpty method to check zip is empty or not.
         blnIsCCError = checkZipNotEmpty(zip);
-        
-        return blnIsCCError;
+        return blnIsCCError.removeEnd('\n');
     }
     
     /**
      * This method is used to check cc number is 12 to 19 digit or not.
      *
      * @param String ccNumber - That contains credit card number.
-     * @returns Boolean blnIsError - That contains true or false value.
+     * @returns String blnIsError - That contains error messages.
      **/
-    public static Boolean checkCcNumberDigit(String ccNumber) {
+    public static String checkCcNumberDigit(String ccNumber) {
         blnIsError = blnIsCCError;
         if (ccNumber.length() < 12 || ccNumber.Length() > 19) {
-            blnIsError = true;
+            blnIsError += Constants.PAGE_MESSAGE_CC_NUMBER_12_19_DIGITS +'\n';
         }
         return blnIsError;
     }
@@ -137,12 +136,12 @@ public with sharing class LightningValidations {
      * This method is used to check cc number is empty or not.
      *
      * @param String ccNumber - That contains credit card number.
-     * @returns Boolean blnIsError - That contains true or false value.
+     * @returns String blnIsError - That contains error messages.
      **/
-    public static Boolean checkCcNumberNotEmpty(String ccNumber) {
+    public static String checkCcNumberNotEmpty(String ccNumber) {
         blnIsError = blnIsCCError;
         if (isEmpty(ccNumber)) {
-            blnIsError = true;
+            blnIsError += Constants.PAGE_MESSAGE_CC_NUMBER_REQUIRE +'\n';
         }
         return blnIsError;
     }
@@ -152,14 +151,14 @@ public with sharing class LightningValidations {
      *
      * @param String expirationYear - That contains expiration year of card.
      * @param String expirationMonth - That contains expiration month of card.
-     * @returns Boolean blnIsError - That contains true or false value.
+     * @returns String blnIsError - That contains error messages.
      **/
-    public static Boolean checkExpirationDate(String expirationYear, String expirationMonth) {
+    public static String checkExpirationDate(String expirationYear, String expirationMonth) {
         blnIsError = blnIsCCError;
         if (Integer.valueof(expirationYear) < system.today().year() ||
                 (Integer.valueof(expirationYear) == system.today().year() &&
                         Integer.valueof(expirationMonth) < system.today().Month())) {
-            blnIsError = true;
+            blnIsError += Constants.PAGE_MESSAGE_CC_EXPIRATION_DATE_FUTURE +'\n';
         }
         return blnIsError;
     }
@@ -168,12 +167,12 @@ public with sharing class LightningValidations {
      * This method is used to check zip code number is 5 digit or not.
      *
      * @param String zip - That contains zip code.
-     * @returns Boolean blnIsError - That contains true or false value.
+     * @returns String blnIsError - That contains error messages.
      **/
-    public static Boolean checkZipCodeDigit(String zip) {
+    public static String checkZipCodeDigit(String zip) {
         blnIsError = blnIsCCError;
         if (!isEmpty(zip) && zip.length() != 5) {
-            blnIsError = true;
+            blnIsError += Constants.PAGE_MESSAGE_ZIP_CODE_FIVE_DIGIT +'\n';
         }
         return blnIsError;
     }
@@ -182,12 +181,12 @@ public with sharing class LightningValidations {
      * This method is used to check zip code number is numeric or not.
      *
      * @param String zip - That contains zip code.
-     * @returns Boolean blnIsError - That contains true or false value.
+     * @returns String blnIsError - That contains error messages.
      **/
-    public static Boolean checkZipCodeIsNumeric(String zip) {
+    public static String checkZipCodeIsNumeric(String zip) {
         blnIsError = blnIsCCError;
         if (!isEmpty(zip) && !zip.isNumeric()) {
-            blnIsError = true;
+            blnIsError += Constants.PAGE_MESSAGE_ZIP_CODE_ONLY_NUMERIC +'\n';
         }
         return blnIsError;
     }
@@ -196,12 +195,12 @@ public with sharing class LightningValidations {
      * This method is used to check card holder name is empty or not.
      *
      * @param String cardHolderName - That contains card holder name.
-     * @returns Boolean blnIsError - That contains true or false value.
+     * @returns String blnIsError - That contains error messages.
      **/
-    public static Boolean checkCardHolderNameNotEmpty(String cardHolderName) {
+    public static String checkCardHolderNameNotEmpty(String cardHolderName) {
         blnIsError = blnIsCCError;
         if (isEmpty(cardHolderName)) {
-            blnIsError = true;
+            blnIsError += Constants.PAGE_MESSAGE_CC_NAME_REQUIRE +'\n';
         }
         return blnIsError;
     }
@@ -210,12 +209,12 @@ public with sharing class LightningValidations {
      * This method is used to check cvv number is 3 or 4 digit or not.
      *
      * @param String cvv - That contains cvv number of card.
-     * @returns Boolean blnIsError - That contains true or false value.
+     * @returns String blnIsError - That contains error messages.
      **/
-    public static Boolean checkCvvDigit(String cvv) {
+    public static String checkCvvDigit(String cvv) {
         blnIsError = blnIsCCError;
         if (!isEmpty(cvv) && (cvv.length() < 3 || cvv.length() > 4)) {
-            blnIsError = true;
+            blnIsError += Constants.PAGE_MESSAGE_CC_CVV_4_OR_3_DIGIT +'\n';
         }
         return blnIsError;
     }
@@ -224,12 +223,12 @@ public with sharing class LightningValidations {
      * This method is used to check cvv number is empty or not.
      *
      * @param String cvv - That contains cvv number of card.
-     * @returns Boolean blnIsError - That contains true or false value.
+     * @returns String blnIsError - That contains error messages.
      **/
-    public static Boolean checkCvvNotEmpty(String cvv) {
+    public static String checkCvvNotEmpty(String cvv) {
         blnIsError = blnIsCCError;
         if (isEmpty(cvv)) {
-            blnIsError = true;
+            blnIsError += Constants.PAGE_MESSAGE_CC_CVV_REQUIRE +'\n';
         }
         return blnIsError;
     }
@@ -238,12 +237,12 @@ public with sharing class LightningValidations {
      * This method is used to check address is empty or not.
      *
      * @param String address - That contains address.
-     * @returns Boolean blnIsError - That contains true or false value.
+     * @returns String blnIsError - That contains error messages.
      **/
-    public static Boolean checkAddressNotEmpty(String address) {
+    public static String checkAddressNotEmpty(String address) {
         blnIsError = blnIsCCError;
         if (isEmpty(address)) {
-            blnIsError = true;
+            blnIsError += Constants.PAGE_MESSAGE_BILLING_ADDRESS_REQUIRE +'\n';
         }
         return blnIsError;
     }
@@ -252,12 +251,12 @@ public with sharing class LightningValidations {
      * This method is used to check zip code is empty or not.
      *
      * @param String zip - That contains zip code.
-     * @returns Boolean blnIsError - That contains true or false value.
+     * @returns String blnIsError - That contains error messages.
      **/
-    public static Boolean checkZipNotEmpty(String zip) {
+    public static String checkZipNotEmpty(String zip) {
         blnIsError = blnIsCCError;
         if (isEmpty(zip)) {
-            blnIsError = true;
+            blnIsError += Constants.PAGE_MESSAGE_ZIP_CODE_REQUIRE +'\n';
         }
         return blnIsError;
     }

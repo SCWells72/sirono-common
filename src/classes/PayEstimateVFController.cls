@@ -33,4 +33,25 @@ public with sharing class PayEstimateVFController extends PayEstimateController 
             ApexPages.addMessage(new ApexPages.Message((errorMessages.contains('ERROR')) ? ApexPages.SEVERITY.ERROR : ApexPages.SEVERITY.INFO, errorMessages));
         }
     }
+
+    /**
+     * This method is used to check selected record
+     * @return Boolean - return result of credit card validation
+     **/
+    protected override Boolean isValidCard() {
+        // Call creditCardValidation method that validate all informations/values for Credit Card.
+        Boolean blnIsCCError = VisualForceValidations.creditCardValidation(creditCardNumber, expirationYear, expirationMonth,
+                zip, cardHolderName, cvv, address);
+        return !blnIsCCError;
+    }
+
+    /**
+     * This method is used to check selected record
+     * @return Boolean - return result of amount validation
+     **/
+    protected override Boolean isValidAmount() {
+        // Call amountValidation method that validate amount.
+        Boolean blnIsAmountError = VisualForceValidations.amountValidation(amount, String.valueOf(selectedEncounter.Balance__c));
+        return !blnIsAmountError;
+    }
 }

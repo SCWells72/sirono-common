@@ -32,4 +32,27 @@ public with sharing class PayEstimateLightningController extends PayEstimateCont
         errorMessages = addPayment('credit');
         return errorMessages;
     }
+
+    /**
+     * This method is used to check selected record
+     * @return Boolean - return result of credit card validation
+     **/
+    protected override Boolean isValidCard() {
+        // Call creditCardValidation method that validate all informations/values for Credit Card.
+        String blnIsCCError = LightningValidations.creditCardValidation(creditCardNumber, expirationYear, expirationMonth,
+                zip, cardHolderName, cvv, address);
+        errorMessages += blnIsCCError;
+        return String.isEmpty(blnIsCCError);
+    }
+
+    /**
+     * This method is used to check selected record
+     * @return Boolean - return result of amount validation
+     **/
+    protected override Boolean isValidAmount() {
+        // Call amountValidation method that validate amount.
+        String blnIsAmountError = LightningValidations.amountValidation(amount, String.valueOf(selectedEncounter.Balance__c));
+        errorMessages += blnIsAmountError;
+        return String.isEmpty(blnIsAmountError);
+    }
 }
