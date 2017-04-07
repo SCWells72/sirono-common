@@ -29,7 +29,7 @@ private class AddToPaymentPlanTest {
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor and submit method.
         Apexpages.currentPage().getParameters().put('guarantorId',g.Id);
         Apexpages.currentPage().getParameters().put('paymentPlanExtId','121212');
-        AddToPaymentPlan ppCon = new AddToPaymentPlan();
+        AddToPaymentPlanVF ppCon = new AddToPaymentPlanVF();
 
          /* Call Submit method and It will give an error "Please provide all details".
          * beacuse of we can't enter Charge Group.
@@ -66,7 +66,7 @@ private class AddToPaymentPlanTest {
 
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
         Apexpages.currentPage().getParameters().put('guarantorId',g.Id);
-        ppCon = new AddToPaymentPlan();
+        ppCon = new AddToPaymentPlanVF();
         for(ChargeGroupWrapper cgw :ppCon.chargeGroupList){
             cgw.isSelected = true;
         }
@@ -119,7 +119,7 @@ private class AddToPaymentPlanTest {
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
         Apexpages.currentPage().getParameters().put('guarantorId',g.Id);
         Apexpages.currentPage().getParameters().put('paymentPlanExtId','121212');
-        AddToPaymentPlan ppCon = new AddToPaymentPlan();
+        AddToPaymentPlanVF ppCon = new AddToPaymentPlanVF();
 
         //Create Invoice record.
         Invoice__c i = TestUtility.generateInvoice(g.Id,p.Id);
@@ -151,7 +151,7 @@ private class AddToPaymentPlanTest {
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
         Apexpages.currentPage().getParameters().put('guarantorId',g.Id);
         Apexpages.currentPage().getParameters().put('paymentPlanExtId','121212');
-        ppCon = new AddToPaymentPlan();
+        ppCon = new AddToPaymentPlanVF();
         for(ChargeGroupWrapper cgw :ppCon.chargeGroupList){
             cgw.isSelected = true;
         }
@@ -208,7 +208,7 @@ private class AddToPaymentPlanTest {
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor and submit method.
         Apexpages.currentPage().getParameters().put('guarantorId',g.Id);
         Apexpages.currentPage().getParameters().put('paymentPlanExtId','121212');
-        AddToPaymentPlan ppCon = new AddToPaymentPlan();
+        AddToPaymentPlanVF ppCon = new AddToPaymentPlanVF();
 
         /* Call Submit method and It will give an error "Please provide all details".
          * because we didn't enter Charge Group.
@@ -246,7 +246,7 @@ private class AddToPaymentPlanTest {
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
         Apexpages.currentPage().getParameters().put('guarantorId',g.Id);
         Apexpages.currentPage().getParameters().put('paymentPlanExtId','121212');
-        ppCon = new AddToPaymentPlan();
+        ppCon = new AddToPaymentPlanVF();
         for(ChargeGroupWrapper cgw :ppCon.chargeGroupList){
             cgw.isSelected = true;
         }
@@ -290,7 +290,7 @@ private class AddToPaymentPlanTest {
 
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
         Apexpages.currentPage().getParameters().put('paymentPlanId','121212');
-        AddToPaymentPlan ppCon = new AddToPaymentPlan();
+        AddToPaymentPlanVF ppCon = new AddToPaymentPlanVF();
 
         //Call cancel method and it will redirect to Contact page.
         PageReference pageRef = ppCon.cancel();
@@ -307,7 +307,7 @@ private class AddToPaymentPlanTest {
         TestUtility objTestUtility = new TestUtility();
 
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
-        AddToPaymentPlan ppCon = new AddToPaymentPlan();
+        AddToPaymentPlanVF ppCon = new AddToPaymentPlanVF();
 
         //Call cancel method and it will give an error beacuse of we can't add GuarantorId
         PageReference pageRef = ppCon.cancel();
@@ -316,4 +316,3 @@ private class AddToPaymentPlanTest {
         System.assertEquals('/home/home.jsp', pageRef.getUrl());
     }
 }
-

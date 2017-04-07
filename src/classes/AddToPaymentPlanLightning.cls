@@ -8,19 +8,12 @@
 * 
 */
 
-public with sharing class AddToPaymentPlanLightning {
-    public String guarantorRecordId {get; set;}
-    public String guarantorId {get; set;}
-    public String guarantorName {get; set;}
-    public String paymentPlanId {get; set;}
-    public String paymentPlanExtId {get; set;}
-    public List<String> chargeGroupsIds{get;set;}
-	public String errorMessage{get;set;}
-	
-	/**
+public with sharing class AddToPaymentPlanLightning extends AddToPaymentPlan {
+    /**
 	 * Constructor of a class and initialize the variables. Get list of ChargeGroups and Id of active plan
 	 **/
     public AddToPaymentPlanLightning(String gId) {
+        super();
         chargeGroupsIds = new List<String>();
         errorMessage = '';
         paymentPlanExtId = null;
@@ -29,8 +22,8 @@ public with sharing class AddToPaymentPlanLightning {
         guarantorRecordId = gId;
         
 		if (guarantorRecordId != null) {
-            Contact gc = PayStaffWSUtillLightning.fetchGuarantorContactWithCGConstraints(guarantorRecordId);
-            for (ChargeGroupWrapper cgw : PayStaffWSUtillLightning.fetchChargeGroupList(gc)) {
+            Contact gc = GuarantorService.getGuarantorFilterCGByAcctSubStatus(guarantorRecordId);
+            for (ChargeGroupWrapper cgw : ChargeGroupWrapper.buildList(gc)) {
                 if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
                     chargeGroupsIds.add(String.ValueOf(cgw.cg.Sirono_ID__c));
                 }

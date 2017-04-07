@@ -9,7 +9,7 @@
 * Sirono 08-22-2016: 127323475 when Record Saved Successfully return to the contact after few Sec.
 *-->
 
-<apex:page controller="AddToPaymentPlan" id="pg">
+<apex:page controller="AddToPaymentPlanVF" id="pg">
     <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
     <apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>
 
