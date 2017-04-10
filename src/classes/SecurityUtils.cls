@@ -38,7 +38,7 @@ public with sharing class SecurityUtils {
         }
         
         if (SecurityContext.ACTION.OBJ_UPSERT == objAction) {
-            if (!objectResult.isCreateable() && !objectResult.isUpdateable()) {
+            if (!(objectResult.isCreateable() && objectResult.isUpdateable())) {
             	throw new SecurityException('You do not have Upsert rights on ' + objName);
             }
         }
@@ -54,8 +54,8 @@ public with sharing class SecurityUtils {
                     && !mapObjectFields.get(fieldToCheck).getDescribe().isUpdateable()) {
                 throw new SecurityException('You do not have Update rights on ' + fieldToCheck + ' field.');
             } else if (SecurityContext.ACTION.OBJ_UPSERT == objAction) {
-            	if (!mapObjectFields.get(fieldToCheck).getDescribe().isCreateable() &&
-        				!mapObjectFields.get(fieldToCheck).getDescribe().isUpdateable()) {
+            	if (!(mapObjectFields.get(fieldToCheck).getDescribe().isCreateable() &&
+        				mapObjectFields.get(fieldToCheck).getDescribe().isUpdateable())) {
             	    throw new SecurityException('You do not have Upsert rights on ' + fieldToCheck + ' field.');
             	}
             }
