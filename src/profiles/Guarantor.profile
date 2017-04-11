@@ -407,16 +407,20 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>PayEstimate</apexClass>
-        <enabled>false</enabled>
+        <apexClass>PayEstimateLightningController</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>PayEstimateLightning</apexClass>
-        <enabled>false</enabled>
+        <apexClass>PayEstimateLightningControllerTest</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>PayEstimateTest</apexClass>
-        <enabled>false</enabled>
+        <apexClass>PayEstimateVFController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PayEstimateVFControllerTest</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>PayStaffWSUtill</apexClass>
