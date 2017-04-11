@@ -15,7 +15,7 @@ public class EncounterWrapper {
 		List<EncounterWrapper> encounters = new List<EncounterWrapper>();
 		if (! encounterList.isEmpty()) {
 			for (Encounter__c en : encounterList) {
-			    encounters.add(new EncounterWrapper(en, false));
+			    encounters.add(new EncounterWrapper(en, true));
 			}	
 		}
 		

@@ -95,7 +95,7 @@ public abstract class PayEstimateController {
 	        	PaymentService.createNewPayment(guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod);
 	        	return (paymentMethod == null) ? Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY : 'Success;' + '0851' + ';$' + amount;
 	        }
-	        return null;
+	        return errorMessages;
         } catch (Exception e) {
         	return 'ERROR: ' + e.getMessage();
         }
@@ -128,20 +128,11 @@ public abstract class PayEstimateController {
      * This method is used to check selected record
      * @return Boolean - return result of credit card validation
      **/
-	private Boolean isValidCard() {
-		// Call creditCardValidation method that validate all informations/values for Credit Card.
-        Boolean blnIsCCError = VisualForceValidations.creditCardValidation(creditCardNumber, expirationYear, expirationMonth,
-                zip, cardHolderName, cvv, address);
-        return !blnIsCCError;
-	}
+	protected abstract Boolean isValidCard();
 
     /**
      * This method is used to check selected record
      * @return Boolean - return result of amount validation
      **/
-    private Boolean isValidAmount() {
-        // Call amountValidation method that validate amount.
-        Boolean blnIsAmountError = VisualForceValidations.amountValidation(amount, String.valueOf(selectedEncounter.Balance__c));
-        return !blnIsAmountError;
-    }
+    protected abstract Boolean isValidAmount();
 }
