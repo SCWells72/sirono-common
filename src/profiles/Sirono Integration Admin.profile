@@ -443,15 +443,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>PayEstimate</apexClass>
+        <apexClass>PayEstimateLightningController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>PayEstimateLightning</apexClass>
-        <enabled>false</enabled>
+        <apexClass>PayEstimateLightningControllerTest</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>PayEstimateTest</apexClass>
+        <apexClass>PayEstimateVFController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PayEstimateVFControllerTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
