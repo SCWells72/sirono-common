@@ -6,7 +6,9 @@
         <members>PaymentArrangement</members>
         <members>PaymentArrangementSecurityContext</members>
         <members>PayEstimate</members>
+        <members>PayEstimateTest</members>
         <members>PayEstimateLightning</members>
+        <members>PayEstimateLightningTest</members>
         <name>ApexClass</name>
     </types>
     <types>
