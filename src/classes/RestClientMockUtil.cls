@@ -25,14 +25,14 @@ public with sharing class RestClientMockUtil {
 
         if (method == RestClientConstants.GET) {
 
-            if (url == urls.get(RestClientConstants.CSRF_KEY)) {
+            if (url.endsWith(urls.get(RestClientConstants.CSRF_KEY).substringAfter(RestClientConstants.SIRONO_BASE_URL))) {
                 found = true;
                 body = CSRF_BODY;
             }
 
         } else if (method == RestClientConstants.POST) {
 
-            if (url == urls.get(RestClientConstants.TOKEN_KEY)) {
+            if (url.endsWith(urls.get(RestClientConstants.TOKEN_KEY).substringAfter(RestClientConstants.SIRONO_BASE_URL))) {
                 found = true;
                 body = generateTokenBody();
             }
