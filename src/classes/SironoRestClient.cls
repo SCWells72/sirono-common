@@ -4,6 +4,8 @@
 
 public abstract with sharing class SironoRestClient {
 
+    //TODO make this private once everything is moved to the restclient framework & there is another way to force creds reload
+    public static String endpointURL;
     private static final String HTTP_EXCEPTION_MSG = 'An error occurred when calling the Sirono service ' +
             '[METHOD: {0}] [ENDPOINT: {1}] [STATUS_CODE: {2}].';
     private static final String HTTP_DEBUG_MSG = 'Non-200 status returned when calling the Sirono service ' +
@@ -15,7 +17,6 @@ public abstract with sharing class SironoRestClient {
     private String jwtToken;
     private String csrfToken;
     private Set<Integer> validStatuses;
-	private String endpointURL;
 
     {
         req = new HttpRequest();
@@ -394,9 +395,10 @@ public abstract with sharing class SironoRestClient {
     }
 
     /**
-     * Retrieve the actual endpointURL from the sirono_server named creds in order to resolve the urls in the JSON
+     * Get the actual endpointURL from the sirono_server named creds in order to resolve the urls in the JSON payloads
+     * @TODO make this protected when everything is using the restclient framework
      */
-    protected String getEndpointString() {
+    public static String getEndpointString() {
         if (endpointURL == null) {
             NamedCredential nc = [
                     SELECT DeveloperName, Endpoint, Id, MasterLabel, PrincipalType
