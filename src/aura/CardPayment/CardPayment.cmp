@@ -6,7 +6,6 @@
     <aura:attribute name="selectedPaymentSum"   type="Decimal"  />
     <aura:attribute name="IsMakePaymentTab"     type="Boolean"  />
     <aura:attribute name="CardTypes"            type="String[]" />
-    <aura:attribute name="states" type="String[]" default="AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY" access="private" />
 
     <aura:attribute name="messages"             type="String[]" />
     <aura:attribute name="IsIcon"               type="Boolean"  default="false"/>    
@@ -76,7 +75,7 @@
 
 
         <div class="credit-card-form grid slds-wrap">
-            <c:PaymentCard CheckValidation="{!v.IsValid}" CreditCard="{!v.cardInformation}" months="{!v.months}" years="{!v.years}" states="{!v.states}" /> 
+            <c:PaymentCard CheckValidation="{!v.IsValid}" CreditCard="{!v.cardInformation}" months="{!v.months}" years="{!v.years}"/> 
         	<div class="col slds-size--1-of-1">
                 <div class="float-right">
                     {!v.isValid}
