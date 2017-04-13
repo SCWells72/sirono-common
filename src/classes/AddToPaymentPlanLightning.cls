@@ -18,12 +18,13 @@ public with sharing class AddToPaymentPlanLightning extends AddToPaymentPlan {
         errorMessage = '';
         paymentPlanExtId = null;
         paymentPlanId = null;
-
+		
         guarantorRecordId = gId;
         
 		if (guarantorRecordId != null) {
             Contact gc = GuarantorService.getGuarantorFilterCGByAcctSubStatus(guarantorRecordId);
-            for (ChargeGroupWrapper cgw : ChargeGroupWrapper.buildList(gc)) {
+            chargeGroupList = ChargeGroupWrapper.buildList(gc);
+			for (ChargeGroupWrapper cgw : chargeGroupList) {
                 if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
                     chargeGroupsIds.add(String.ValueOf(cgw.cg.Sirono_ID__c));
                 }
@@ -33,7 +34,7 @@ public with sharing class AddToPaymentPlanLightning extends AddToPaymentPlan {
         if (String.isBlank(paymentPlanExtId)) {
 			Payment_Plan__c currentPaymentPlan = PaymentPlanService.getActivePaymentPlan(guarantorRecordId);
 			if(currentPaymentPlan != null){
-				paymentPlanExtId = currentPaymentPlan.Sirono_ID__c.format();
+				paymentPlanExtId = currentPaymentPlan.Sirono_ID__c.toPlainString();
 			}
 			if (String.isBlank(paymentPlanExtId)) {
                 errorMessage += 'No active Payment Plan exist for this Guarantor. Please click Cancel to go previous page.';
@@ -41,6 +42,7 @@ public with sharing class AddToPaymentPlanLightning extends AddToPaymentPlan {
         }
     }
 
+	
     /**
      * Call addChargeGroups and send the request to end point.
      **/
