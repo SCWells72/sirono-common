@@ -133,7 +133,7 @@ public with sharing class AddDiscount {
         req.setMethod('POST');
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/adjustments/create-discount/');
+        req.setEndpoint('callout:sirono_server/paystaff/api/adjustments/create-discount/');
 
         req.setBody(requestData);
         //For APEX Test
@@ -167,6 +167,10 @@ public with sharing class AddDiscount {
             PayStaffWSUtill.parsePaymentReponse(csrfToken, jwtToken, responseBody, false);
             
         } else {
+            System.debug('AddDiscount req: '+req);
+            System.debug('AddDiscount req body: '+req.getBody());
+            System.debug('AddDiscount response: '+res);
+            System.debug('AddDiscount res body: '+res.getBody());
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'CSRF_Token : '+ csrfToken));
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'JWT_Token : '+ jwtToken));
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,

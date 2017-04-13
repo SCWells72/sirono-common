@@ -11,19 +11,18 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
     private static final String EXPORT_DATE = 'Export_Date__c';
     private static final String FAIL_DATE = 'Fail_Date__c';
     private static final String NAME = 'Name';
-    private static final String NOTES = 'Notes__c';
     private static final String PAYMENT = 'Payment__c';
     private static final String POST_DATE = 'Post_Date__c';
     private static final String SIRONO_ID = 'Sirono_ID__c';
 	
     // The fields for inserting Transaction in PayStaffWSUtill
     private static final Set<String> CREATE_FIELDS = new Set<String>{
-    	SIRONO_ID, NAME, AMOUNT, POST_DATE, FAIL_DATE, EXPORT_DATE, NOTES, CREDIT_BALANCE, CHARGE_GROUP
+    	SIRONO_ID, NAME, AMOUNT, POST_DATE, FAIL_DATE, EXPORT_DATE, CREDIT_BALANCE, CHARGE_GROUP
     };
     
     // The fields for inserting Transaction with Payment in PayStaffWSUtill
     private static final Set<String> CREATE_WITH_PAYMENT_FIELDS = new Set<String>{
-    	SIRONO_ID, NAME, AMOUNT, POST_DATE, FAIL_DATE, EXPORT_DATE, NOTES, CREDIT_BALANCE, CHARGE_GROUP, PAYMENT
+    	SIRONO_ID, NAME, AMOUNT, POST_DATE, FAIL_DATE, EXPORT_DATE, CREDIT_BALANCE, CHARGE_GROUP, PAYMENT
     };
     
     /**

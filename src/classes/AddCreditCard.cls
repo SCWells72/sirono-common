@@ -374,7 +374,7 @@ public with sharing class AddCreditCard {
                     '"installment_amount":' + PayStaffWSUtill.convertToCents(amount) + ',' +
                     '"execute_on_day":' + executeOnDay + ',' +
                     '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + ',' +
-                    '"guarantor":" ' + 'callout:sirono_server/paystaff/api/guarantors/' + guarantorId + '/",' +
+                    '"guarantor":" ' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/",' +
                     '"active":true,' +
                     '"credit_card":{' +
                     '"method":"credit",' +
@@ -393,7 +393,7 @@ public with sharing class AddCreditCard {
                     '"plan_value":' + planValue + ',' +
                     '"installment_amount":' + PayStaffWSUtill.convertToCents(promiseAmount) + ',' +
                     '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + ',' +
-                    '"guarantor":" ' + 'callout:sirono_server/paystaff/api/guarantors/' + guarantorId + '/",' +
+                    '"guarantor":" ' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/",' +
                     '"active":true}';
         }
 
