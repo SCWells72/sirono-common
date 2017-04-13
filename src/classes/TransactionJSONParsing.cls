@@ -60,7 +60,6 @@ public class TransactionJSONParsing {
                 if (!String.isBlank(objJson.export_date)) {
                     objTransaction.Export_Date__c = Date.valueOf(objJson.export_date);
                 }
-                objTransaction.Notes__c = objJson.notes;
                 objTransaction.Credit_Balance__c = objJson.credit_balance;
 
                 if (objJson.chargegroup != null) {
