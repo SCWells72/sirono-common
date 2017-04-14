@@ -1,4 +1,4 @@
-public with sharing class AttachmentController {
+public class AttachmentController {
     
 	public Attachment attachment {
 	  get {
