@@ -155,18 +155,13 @@ public with sharing class MakeAPaymentController {
     }
 
     @AuraEnabled
-    public static List<String> getStatesFromCustomSettings() {
-        if(!StatesList__c.getall().isEmpty()){
-            List<StatesList__c> statesList = StatesList__c.getall().values();
-            List<String> states = new List<String>();
-            for(Integer i = 0; i < statesList.size(); i++){
-                states.add(statesList[i].Name);
-            }
-            states.sort();
-            return states;
-        } else{
-            return null;
+    public static List<String> getStates() {
+        List<State__mdt> statesList = [SELECT Label FROM State__mdt LIMIT 1000];
+        List<String> states = new List<String>();
+        for(Integer i = 0; i < statesList.size(); i++){
+            states.add(statesList[i].Label);
         }
-        
+        states.sort();
+        return states;      
     }
 }

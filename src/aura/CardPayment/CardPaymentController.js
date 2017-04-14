@@ -29,18 +29,9 @@
 			}
 		});
 		$A.enqueueAction(credtCardSelections);
-		
-		var states = ['Alaska', 'Alabama'];
 		helper.getCardInformation(component, event, helper);
-		component.set('v.States', states);
 		var curr = component.find("amount");
 		curr.set("v.format", '$#,###.00');
-        console.log('qwertyuil');
-	 	//var formField = component.find('field');
-        //formField.set('autocomplete', 'off');
-        //formField.value = 'off';
-		//console.log('input + ',formField);
-		//formField.setAttribute('autocomplete','off');
 	},
 
 	changePaymentBalance: function(component, event, helper){
@@ -62,6 +53,11 @@
 			component.set('v.selectedPaymentSum', currentBalance - changeSum);
 		}else{
 			component.set('v.selectedPaymentSum', balance);
+			var creditCardInformation = component.get('v.cardInformation');
+			if(creditCardInformation != undefined){
+				creditCardInformation.amount = balance;
+				component.set('v.cardInformation', creditCardInformation);
+			}
 		}
 
 		if(allInvoices != undefined && allInvoices.length != 0){
