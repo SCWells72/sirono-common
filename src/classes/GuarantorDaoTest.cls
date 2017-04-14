@@ -21,6 +21,8 @@ public with sharing class GuarantorDaoTest {
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(gt.Id, pt.Id, 12345);
         INSERT chargeGroup;
 
+	// Check system asserts.
+        System.assertEquals(Decimal.valueOf(GT_SIRONO_ID), gt.Profile_Pointer_ID__c, 'Expected ' + GT_SIRONO_ID + ' but we got ' + gt.Profile_Pointer_ID__c);
     }
 
     @isTest

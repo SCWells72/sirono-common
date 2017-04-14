@@ -22,7 +22,8 @@ private class PaymentDaoTest {
         );
 
         Test.startTest();
-        PaymentDao.insertPayment(payment);
+        // Pass list of payment object because of Security Scan issue
+        PaymentDao.insertPayment(new List<Payment__c>{payment});
         
         List<Payment__c> paymentList = [
         	SELECT Id, Name 

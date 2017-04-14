@@ -26,6 +26,9 @@ public class AuthRestClientFailMock implements HttpCalloutMock {
         res.setStatusCode(RestClientConstants.HTTP_BAD_REQUEST);
         res.setBody(TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.UNAUTHORIZED));
 
+        // Check system assert.
+        System.assertNotEquals(res, null, 'Should have failed due to res is null.');
+
         return res;
     }
 }

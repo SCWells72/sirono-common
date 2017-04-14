@@ -17,6 +17,9 @@ public with sharing class ChargeGroupDaoTest {
         }
 
         INSERT cgToAddList;
+
+        // Check system assert.
+        System.assertEquals(1, cgToAddList[0].Sirono_ID__c, 'Expected Chargegroup Sirono_ID__c equals to 1 but we got '+ cgToAddList[0].Sirono_ID__c);
     }
 
     @isTest

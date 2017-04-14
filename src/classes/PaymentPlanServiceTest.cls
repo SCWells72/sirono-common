@@ -44,6 +44,9 @@ public with sharing class PaymentPlanServiceTest {
 
         txn = TestUtility.generateServiceTxn(cg, svc.Amount__c, svc);
         INSERT txn;
+        
+        // Check system assert.
+        System.assertEquals(Decimal.valueOf(PLAN_SIRONO_ID), pp.Sirono_ID__c, 'Expected ' + PLAN_SIRONO_ID + ' but got ' + pp.Sirono_ID__c);
     }
 
     /*

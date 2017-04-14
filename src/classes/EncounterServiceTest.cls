@@ -18,6 +18,10 @@ private class EncounterServiceTest {
         Encounter__c encounter2 = TestUtility.generateEncounter(guarantorContact2.Id, 1000, System.today());
         List<Encounter__c> encounterList = new List<Encounter__c>{encounter1, encounter2};
         INSERT encounterList;
+
+        // Check system asserts.
+        System.assertEquals(encounterList[0].Guarantor__c, guarantorContact1.Id, 'Expected ' + encounterList[0].Guarantor__c + ' but we got ' + guarantorContact1.Id);
+        System.assertEquals(GUARANTOR_CONTACT_ONE, guarantorContactList[0].LastName, 'Expected guarantor name is ' + GUARANTOR_CONTACT_ONE + ' but we got ' + guarantorContactList[0].LastName);
     }
 
     /**

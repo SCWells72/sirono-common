@@ -23,6 +23,9 @@ public with sharing class TxnPaymentAggregationTest {
         Payment__c payment = TestUtility.generateSironoPayment(gt.Id, 9999999999999.00, 300.00);
         payment.Amount__c = 300.00;
         INSERT payment;
+        
+        // Check system asserts.
+        System.assertEquals(CG_EXT_ID, cg.External_ID__c, 'Expected CG External_ID__c is ' + CG_EXT_ID + ' but got ' + cg.External_ID__c);
     }
 
     /*

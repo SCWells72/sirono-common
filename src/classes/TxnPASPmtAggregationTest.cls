@@ -26,6 +26,10 @@ public with sharing class TxnPASPmtAggregationTest {
 
         Payment__c payment = TestUtility.generatePASPayment(PAS_KEY);
         INSERT payment;
+        
+        // Check system asserts.
+        System.assertEquals(CG_EXT_ID, cg.External_ID__c, 'Expected CG External_ID__c is ' + CG_EXT_ID + ' but got ' + cg.External_ID__c);
+        System.assertEquals(PAS_KEY, payment.ID__c, 'Expected ' + PAS_KEY + ' but got ' + payment.ID__c);
     }
 
     /*

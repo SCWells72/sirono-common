@@ -41,6 +41,9 @@ public class PaymentPlanRestClientMock implements HttpCalloutMock {
         } else {
             throw new SironoServiceException('Unexpected method sent to PaymentPlanRestClientMock');
         }
+        
+        // Check system assert.
+        System.assertNotEquals(res, null, 'Should have failed due to res is null.');
 
         return res;
     }

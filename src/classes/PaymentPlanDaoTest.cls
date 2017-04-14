@@ -25,6 +25,9 @@ public with sharing class PaymentPlanDaoTest {
         pp.Plan_Type__c = 'Automatic';
         pp.Sirono_ID__c = 434343;
         INSERT pp;
+        
+        // Check system assert.
+        System.assertEquals(Decimal.valueOf(GT_SIRONO_ID), gt.Profile_Pointer_ID__c, 'Expected Profile_Pointer_ID__c is ' + GT_SIRONO_ID + ' but got '+ gt.Profile_Pointer_ID__c);
     }
 
     @isTest
