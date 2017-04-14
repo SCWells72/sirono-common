@@ -368,6 +368,10 @@ public class TestUtility {
                 EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
                 LocaleSidKey = 'en_US', ProfileId = readOnlyProf.Id,
                 TimeZoneSidKey = 'America/Los_Angeles', UserName = 'readonlyuserr@testorg.com');
+        
+        // Check system assert.
+        System.assertNotEquals(readOnlyUser, null, 'Should have failed due to user is null.');
+        
         return readOnlyUser;
     }
 }

@@ -42,6 +42,8 @@ public class InvoiceUtilTest {
         }
         insert testTransactionsList;
 
+	// Check system assert for GuarantorUser.
+        System.assertEquals(INACTIVE, testChargeGroupList[0].Account_Sub_Status__c, 'Expected CG sub status equals to ' + INACTIVE + ' but we got ' + testChargeGroupList[0].Account_Sub_Status__c);
     }
 
     @isTest

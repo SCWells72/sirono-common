@@ -17,6 +17,9 @@ private class PayStaffWSUtillTest {
         // Create Charge Group Record.
         List<Charge_Group__c> cgs = TestUtility.generateChargeGroupList(gt.Id);
         INSERT cgs;
+        
+        // Check system assert.
+        System.assertEquals(12345, gt.Profile_Pointer_ID__c, 'Expected Profile_Pointer_ID__c equals to "12345" but got ' + gt.Profile_Pointer_ID__c);
     }
 
     /**

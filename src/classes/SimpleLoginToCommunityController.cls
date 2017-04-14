@@ -1,4 +1,4 @@
-public class SimpleLoginToCommunityController {
+public with sharing class SimpleLoginToCommunityController {
     Id userId = null;
     String username = null;
     

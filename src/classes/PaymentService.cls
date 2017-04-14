@@ -25,6 +25,7 @@ public class PaymentService extends AbstractService {
             Method__c = paymentMethod
         );
         // Insert new Payment record
-        PaymentDao.insertPayment(payment);
+        // Pass list of payment object because of Security Scan issue
+        PaymentDao.insertPayment(new List<Payment__c>{payment});
     }
 }

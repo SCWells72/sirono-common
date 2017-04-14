@@ -50,6 +50,10 @@ public class PaymentPlanBalanceTest {
         testTransaction.Post_Date__c = newCreateDate;
         testTransaction.Transaction_Date__c = testPP.Plan_Value_Modified_Date__c.date();
         insert testTransaction;
+        
+        // Check system asserts.
+        System.assertEquals(newCreateDate, testPP.Plan_Value_Modified_Date__c,
+                'Expected PP modified date ' + newCreateDate + ' but got ' + testPP.Plan_Value_Modified_Date__c);
     }
 
     /*
