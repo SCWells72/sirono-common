@@ -4,11 +4,10 @@
 		window.setTimeout(
 			$A.getCallback(function() {
 				if (component.isValid()) {	
-					var stateSelections = component.get('c.getStatesFromCustomSettings');
+					var stateSelections = component.get('c.getStates');
 					stateSelections.setCallback(this, function(response){
 						if(response.getState() === 'SUCCESS'){
 							var states = response.getReturnValue();
-							console.log('states', states);
 							var stateSelection = component.find('state');
 							if(states.length > 0) {			
 								helper.initOptions(component, states, stateSelection);
