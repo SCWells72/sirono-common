@@ -2268,15 +2268,4 @@ CASE(Invoice_Status_Rollup__c,
         <page>ProcessPayment</page>
         <protected>false</protected>
     </webLinks>
-    <webLinks>
-        <fullName>View_On_Portal</fullName>
-        <availability>online</availability>
-        <description>View as the guarantor in the portal</description>
-        <displayType>button</displayType>
-        <linkType>javascript</linkType>
-        <masterLabel>View On Portal</masterLabel>
-        <openType>onClickJavaScript</openType>
-        <protected>false</protected>
-        <url>window.open(&quot;{!$Setup.Sirono_Settings__c.Server_Endpoint_URL__c}/portal/staff/login/?next=/portal/staff/guarantor-mask/{!SUBSTITUTE(TEXT( Contact.Profile_Pointer_ID__c ), &apos;,&apos;, &apos;&apos;) }&quot;, &quot;_blank&quot;)</url>
-    </webLinks>
 </CustomObject>

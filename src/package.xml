@@ -701,8 +701,7 @@
         <members>Contact.Create_Payment_Plan</members>
         <members>Contact.Pay_Estimate</members>
         <members>Contact.Process_Payment</members>
-	<members>Contact.Pay_Estimate</members>
-        <members>Contact.View_On_Portal</members>
+        <members>Contact.Pay_Estimate</members>
         <members>Payment_Method__c.Update_Credit_Card</members>
         <members>Payment_Plan__c.Add_to_Payment_Plan</members>
         <members>Payment_Plan__c.Canecl_Payment_Plan</members>
