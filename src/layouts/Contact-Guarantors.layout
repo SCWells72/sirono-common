@@ -397,6 +397,11 @@
         <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
+        <excludeButtons>LogCall</excludeButtons>
+        <excludeButtons>MailMerge</excludeButtons>
+        <excludeButtons>RequestUpdate</excludeButtons>
+        <excludeButtons>SendEmail</excludeButtons>
+        <excludeButtons>ViewAll</excludeButtons>
         <fields>TASK.SUBJECT</fields>
         <fields>TASK.WHAT_NAME</fields>
         <fields>ACTIVITY.TASK</fields>
