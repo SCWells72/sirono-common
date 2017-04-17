@@ -32,6 +32,7 @@
         <name>QuickAction</name>
     </types>
     <types>
+        <members>Contact.View_On_Portal</members>
         <members>Encounter__c.New_Payment_Arrangement</members>
         <name>WebLink</name>
     </types>
