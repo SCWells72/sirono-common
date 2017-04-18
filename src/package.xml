@@ -252,7 +252,6 @@
         <members>Case</members>
         <members>CaseContactRole</members>
         <members>Contact</members>
-        <members>Contract</members>
         <members>Discount_Type__mdt</members>
         <members>Exhausted_Criteria__mdt</members>
         <members>Sirono_Settings__c</members>
