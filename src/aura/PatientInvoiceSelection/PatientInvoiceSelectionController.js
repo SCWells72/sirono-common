@@ -5,16 +5,18 @@
 		if (invoiceId == null) {
 			helper.init(component);
 		} else if(!isEstimate) {
-            var filtes = component.find('filtes');
-            $A.util.toggleClass(filtes, 'slds-hide');
+            var filters = component.find('filters');
+            $A.util.toggleClass(filters, 'slds-hide');
 			helper.getInvoice(component, invoiceId);
-		}else{
+		} else {
 			var sort = component.find('sort');
             $A.util.toggleClass(sort, 'slds-hide');
 			helper.getEstimate(component, invoiceId);
 		}
     },
-    selectAllInvoices : function(component, event, helper) {
+    selectAllInvoices : function(component, event, helper) {	
+		$A.util.removeClass(component.find('filters'), 'slds-hide');
+		$A.util.removeClass(component.find('invoicesNotOnPaymentPlanSection'), 'slds-hide');
 		console.log('SELECT ALL INVOICES');
         var areAllInvoicesSelected = component.get('v.AreAllInvoicesSelected');
         $A.get("e.c:SelectInvoicesEvent").setParams({"SelectAll" : !areAllInvoicesSelected}).fire();
@@ -30,7 +32,9 @@
         component.set('v.AreAllInvoicesSelected', areAllinvoicesSelected);
     },
 
-    filterInvoices : function(component, event, helper) {
+    filterInvoices : function(component, event, helper) {	
+		$A.util.removeClass(component.find('filters'), 'slds-hide');
+		$A.util.removeClass(component.find('invoicesNotOnPaymentPlanSection'), 'slds-hide');
         if(event.target.id){
             component.set('v.groupFilter', event.target.id);
             helper.getAllInvoices(component);
@@ -38,12 +42,24 @@
 
     },
 
-	checkSize  : function(component, event, helper){
-		console.log('Size', component.get('v.invoices').length);
+	hideSections: function(component, event, helper) {	
+		$A.util.toggleClass(component.find('filters'), 'slds-hide');
+		$A.util.toggleClass(component.find('invoicesNotOnPaymentPlanSection'), 'slds-hide');
+		var calculatePaymentBalance  = $A.get("e.c:calculatePaymentBalanceEvent");
+		var selectedBalance = 0;
+		var blockInvoices = component.get('v.blockInvoices');
+		for(var i = 0; i < blockInvoices.length; i++){
+			selectedBalance += blockInvoices[i].get('v.invoice').balanceDue;
+		}
+		calculatePaymentBalance.setParams({
+			"paymentBalance" : selectedBalance
+		});
+		calculatePaymentBalance.fire();
 	},
 
-	reInitData : function(component, event, helper){
-		
+	reInitData : function(component, event, helper){	
+		$A.util.removeClass(component.find('filters'), 'slds-hide');
+		$A.util.removeClass(component.find('invoicesNotOnPaymentPlanSection'), 'slds-hide');	
 		var activeTab = event.getParam('tabName');
 		component.set('v.selectedTab', activeTab);
 		var invoiceId = component.get('v.invoiceId');
@@ -52,8 +68,8 @@
 		if (invoiceId == null || activeTab == 'CreatePaymentPlan') {
 			helper.getAllInvoices(component);
 		} else if(!isEstimate) {
-            var filtes = component.find('filtes');
-            $A.util.addClass(filtes, 'slds-hide');
+            var filters = component.find('filters');
+            $A.util.addClass(filters, 'slds-hide');
 			helper.getInvoice(component, invoiceId);
 		}else{
 			var sort = component.find('sort');

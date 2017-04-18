@@ -1,8 +1,4 @@
 ({
-	helperMethod: function () {
-
-	},
-
 	getCardInformation : function(component, event, helper){
 		var action = component.get('c.getCardInformation');
 		action.setCallback(this, function(response){
@@ -21,35 +17,31 @@
 	},
 
 	makePaymentHelper : function(component, event, helper){
-		console.log('t:', JSON.stringify(component.get('v.cardInformation')));
+		var sum = component.get('v.selectedPaymentSum');
+		var creditCardInformation = component.get('v.cardInformation');
+		if(creditCardInformation != undefined){
+			creditCardInformation.amount = sum;
+		}
 		var isEstimate = component.get('v.isEstimate');
 		var encounterId = component.get('v.estimateId');
 		var action = isEstimate ? component.get('c.makeNewEstimatePayment') : component.get('c.makeNewPayment');
-		console.log('action', action);
 		if(!isEstimate){
-			console.log('!isEstimate');
 			action.setParams({
-				jsonPayment: JSON.stringify(component.get('v.cardInformation')),
+				jsonPayment: JSON.stringify(creditCardInformation),
 				listIds: JSON.stringify(component.get('v.selectedInvoices'))
 			});
 		} else {
-			console.log('isEstimate');
 			action.setParams({
-				jsonPayment: JSON.stringify(component.get('v.cardInformation')),
+				jsonPayment: JSON.stringify(creditCardInformation),
 				estimateId : component.get('v.invoiceId')
 			});
 		}
-		console.log('action', action.getParams());
 
         action.setCallback(this, function(response){
-            console.log('makePayment');
             if(component.isValid() && response.getState() == 'SUCCESS'){
-                console.log('response', response);
                 if(!response.getReturnValue().includes('Success')){
-                	console.log('Return value', response.getReturnValue());
 					var info = response.getReturnValue().split('.');
 					var arraySplit = [];
-					//arraySplit.push('Errors');
 					for(var i = 0;  i < info.length; i++){
 						if( info[i].length>2 ){
 							arraySplit.push(info[i]);
@@ -74,9 +66,6 @@
 					var appEventSummary = $A.get("e.c:UpdateSummaryWidget");
 					appEventSummary.fire();
 				}
-				console.log('messages', component.get('v.messages'));
-				console.log('IsIcon', component.get('v.IsIcon'));
-				console.log('IsIcon2', component.get('v.IsIcon2'));
             }else{
 
                 console.error(response.getError()[0].message);
@@ -96,7 +85,6 @@
 	showValidError: function(cmp, message) {
 		var errMesscmp = cmp.find("cardValidError");
 		var errMessage = errMesscmp.get("v.value");
-		console.log('errMessage ' , errMessage);
 		errMessage = !errMessage ? message : errMessage + '\n' + message;
 		errMesscmp.set("v.value", errMessage);
 	},
@@ -128,8 +116,6 @@
 		var cvvcmp = cmp.find("cvv");
 		var cvvValue = cvvcmp.get("v.value") || '';
 		var errMesscmp = cmp.find("cardValidError");
-		// console.log('cvvValue ', cvvValue);
-		// console.log('valid ', cncmp.get('v.validity').valid);
 		var isValid = false;
 		if (! cvvValue ) {
 			errMesscmp.set("v.value", '');
@@ -137,7 +123,6 @@
 		}
 		if ((cncmp.get('v.validity') == null || cncmp.get('v.validity').valid) && cnValue) {
 			var cardno = /^(?:3[47][0-9]{13})$/;
-			//console.log("match = ", cnValue.match(cardno));
 			if (cnValue.match(cardno)) {
 				if (cvvValue.toString().length != 4) {
 					errMesscmp.set("v.value", "CVV must be 4 digits for American Express and 3 digits for other card types.");
@@ -155,10 +140,8 @@
 			}
 
 		} else {
-			//console.log("Please fill in card number");
 			//set error "please fill card number"
 			errMesscmp.set("v.value", "Please fill in card number");
-			//errMesscmp.set("v.value", '');
 		}
 		
 		return isValid;
@@ -170,7 +153,6 @@
 			value = value.toString().substring(0, value.toString().length - 1);
 			numberCmp.set("v.value", value);
 		}
-		//numberCmp.showHelpMessageIfInvalid();
 		return numberCmp.get('v.validity') !== null && numberCmp.get('v.validity').valid;
 	}
 })

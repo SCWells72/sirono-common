@@ -11,12 +11,12 @@
 			}
 			$A.util.removeClass(component.find(tabToActivate), 'display_false');
 			$A.util.addClass(component.find(tabToActivate+'_tab'), 'active');
-			component.set("v.activeTab",tabToActivate);
+			component.set("v.activeTab", tabToActivate);
+			var appEvent = $A.get("e.c:switchTab");
+			appEvent.setParams({ "tabName" : component.get('v.activeTab')});
+			appEvent.fire();
 		}
 
-		var appEvent = $A.get("e.c:switchTab");
-		appEvent.setParams({ "tabName" : component.get('v.activeTab')});
-        appEvent.fire();
 	},
 	doInit: function(cmp, e, hlpr) {
 		var activeTab = cmp.get("v.activeTab");
@@ -31,7 +31,7 @@
 			$A.util.addClass(cmp.find(activeTab + '_tab'), 'active');
 			$A.util.removeClass(cmp.find(activeTab), 'display_false');
 		}
-
+		
 		var checkPPAction = cmp.get("c.getPaymentPlanInfo");
 		checkPPAction.setCallback(this, function(response) {
 			var state = response.getState();
@@ -39,9 +39,8 @@
 				try {
 				var paymentInfo = response.getReturnValue();
 				var PaymentRequestInfo = hlpr.getInitPaymentRequestInfo(paymentInfo);
-				// console.info('PaymentInfo', paymentInfo);
-				// console.info('PaymentRequestInfo', PaymentRequestInfo);
 				cmp.set('v.PaymentInfo', paymentInfo);
+				console.log('paymentInfo', paymentInfo, PaymentRequestInfo);
 				cmp.find('paymentPlanCmp').doCmpInit(paymentInfo, PaymentRequestInfo);
 				} catch(e) {console.log(e);}
 			}
@@ -55,8 +54,9 @@
 			if (paymentInfo) {
 				paymentInfo = hlpr.getAdjustedPaymentInfo(paymentInfo, params);
 				var PaymentRequestInfo = hlpr.getInitPaymentRequestInfo(paymentInfo);
-				// console.info('PaymentInfo', paymentInfo);
-				// console.info('PaymentRequestInfo', PaymentRequestInfo);
+				console.info('PaymentInfooo', paymentInfo, params.paymentBalance);
+				PaymentRequestInfo.totalAmount = params.paymentBalance || PaymentRequestInfo.totalAmount;
+				console.info('PaymentRequestInfo', PaymentRequestInfo);
 				cmp.set('v.PaymentInfo', paymentInfo);
 				cmp.find('paymentPlanCmp').doCmpInit(paymentInfo, PaymentRequestInfo);
 			}

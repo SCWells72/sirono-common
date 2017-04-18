@@ -10,7 +10,7 @@
 	<aura:handler name="init" value="{!this}" action="{!c.doInitInfo}" />
 	<aura:handler name="initPlanInfo" event="c:CancelActionEvent" action="{!c.doInitInfo}" />
 	<aura:handler name="updatePaymentMethod" event="c:UpdatePaymentMethodEvent" action="{!c.showSuccess}" />
-	<aura:handler name="updatePaymentTerms" event="c:UpdatePaymentTermsEvent" action="{!c.showSuccess}" />
+	<aura:handler event="c:UpdatePaymentTermsEvent" action="{!c.showSuccess}" />
 	<aura:handler name="paymentPlanCreated" event="c:PaymentPlanCreatedEvent" action="{!c.showSuccess}" />
     <aura:handler name="change" value="{!v.addInvoiceVisible}" action="{!c.hideBlocks}" /> 
 	<aura:registerEvent name="resetPaymentTabs" type="c:CancelActionEvent"/>
@@ -56,7 +56,6 @@
 		</aura:if>
 	</section>
 	<!-- payment plan Total Info section  END-->
-
 	<section aura:id="editTerms" class="{!v.editTermsVisible ? 'pp-step-edit-terms payment-plan-content' : 'pp-step-edit-terms payment-plan-content  slds-hide'}">
 		<c:EditTerms PaymentInfo="{!v.PaymentInfo}" PaymentRequestInfo="{!v.PaymentRequestInfo}"/>
 	</section>
