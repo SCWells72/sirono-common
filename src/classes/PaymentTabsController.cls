@@ -96,7 +96,7 @@ public with sharing class PaymentTabsController
 		req.setMethod('POST');
 		req.setHeader('Authorization', 'JWT ' + jwtToken);
 		req.setHeader('Content-type', 'application/json');
-		req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paymentplan/');
+		req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/');
 		System.debug('RequestData:' + requestData);
 		req.setBody(requestData);
 
@@ -201,7 +201,7 @@ public with sharing class PaymentTabsController
 		                     '}';
 
 		HttpRequest req = new HttpRequest();
-		req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paymentplan/' + paymentInfo.paymentPlanId + '/');
+		req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/' + paymentInfo.paymentPlanId + '/');
 		req.setMethod('POST');
 		req.setHeader('X-HTTP-Method-Override', 'PATCH');
 		req.setHeader('Authorization', 'JWT ' + jwtToken);
@@ -292,7 +292,7 @@ public with sharing class PaymentTabsController
 		req.setMethod('DELETE');
 		req.setHeader('Authorization', 'JWT ' + jwtToken);
 		req.setHeader('Content-type', 'application/json');
-		req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paymentplan/' + PayStaffWSUtill.trimCommas(paymentPlanExtId) + '/');
+		req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/' + PayStaffWSUtill.trimCommas(paymentPlanExtId) + '/');
 
 		HttpResponse res = new HttpResponse();
 		String responseBody;
@@ -346,7 +346,7 @@ public with sharing class PaymentTabsController
 		req.setMethod('GET');
 		req.setHeader('Authorization', 'JWT ' + jwtToken);
 		req.setHeader('Content-type', 'application/json');
-		req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paymentplan/' + PayStaffWSUtill.trimCommas(paymentPlanExtId) + '/');
+		req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/' + PayStaffWSUtill.trimCommas(paymentPlanExtId) + '/');
 		req.setTimeout(120000);
 
 		String responseBody;
@@ -387,7 +387,7 @@ public with sharing class PaymentTabsController
 		req.setMethod('GET');
 		req.setHeader('Authorization', 'JWT ' + jwtToken);
 		req.setHeader('Content-type', 'application/json');
-		req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/chargegroups/' + PayStaffWSUtill.trimCommas(chargeGroupId) + '/');
+		req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/chargegroups/' + PayStaffWSUtill.trimCommas(chargeGroupId) + '/');
 		req.setTimeout(120000);
 
 		String responseBody;

@@ -131,7 +131,7 @@ public with sharing class AddToPaymentPlanLightning {
         req.setMethod('POST');
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paymentplan/'
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/'
                 + PayStaffWSUtillLightning.trimCommas(paymentPlanExtId) + '/add_chargegroups/');
         req.setTimeout(120000);
         req.setBody(requestData);
@@ -169,7 +169,7 @@ public with sharing class AddToPaymentPlanLightning {
         req.setMethod('GET');
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paymentplan/'
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/'
                 + PayStaffWSUtillLightning.trimCommas(paymentPlanExtId) + '/');
         req.setTimeout(120000);
         try {

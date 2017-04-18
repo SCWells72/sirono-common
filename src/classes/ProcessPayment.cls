@@ -289,7 +289,7 @@ public with sharing class ProcessPayment {
         req.setMethod('POST');
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paychargegroups/');
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paychargegroups/');
 
         req.setBody(requestData);
         system.debug('requestData : ' + requestData);

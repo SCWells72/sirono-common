@@ -98,7 +98,7 @@ public with sharing class DeletePaymentPlan {
         req.setMethod('GET');
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paymentplan/'
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/'
                 + PayStaffWSUtill.trimCommas(paymentPlanExtId) + '/');
         req.setTimeout(120000);
         try {
@@ -163,7 +163,7 @@ public with sharing class DeletePaymentPlan {
         req.setMethod('GET');
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/chargegroups/'
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/chargegroups/'
                 + PayStaffWSUtill.trimCommas(chargeGroupId) + '/');
 
         req.setTimeout(120000);
@@ -218,7 +218,7 @@ public with sharing class DeletePaymentPlan {
         req.setMethod('DELETE');
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paymentplan/' +
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/' +
                 PayStaffWSUtill.trimCommas(paymentPlanExtId) + '/');
 
         try {

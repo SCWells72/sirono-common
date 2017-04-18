@@ -11,7 +11,7 @@
 public with sharing class PayStaffWSUtillLightning {
     //TODO replace use of endpoint with SironoSettingsUtil.getServerEndpoint()
     // @deprecated
-    public static final String ENDPOINT = SironoSettingsUtil.getServerEndpoint();
+    public static final String ENDPOINT = RestClientConstants.SIRONO_BASE_URL;
     public static final String STMTURL = '{0}/paystaff/api/guarantors/{1}/statements/';
     public static final String UN = 'sgullapali';
     public static final String PW = 'p@ssw0rd';
@@ -262,7 +262,7 @@ public with sharing class PayStaffWSUtillLightning {
         String jwtToken;
         String responseBody;
         req.setMethod('POST');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/token-auth/');
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/token-auth/');
         req.setBody('username=' + username + '&password=' + password);
         System.debug(SironoSettingsUtil.getServerEndpoint() + '/paystaff/token-auth/');
         System.debug('username=' + username + '&password=' + password);
@@ -287,7 +287,7 @@ public with sharing class PayStaffWSUtillLightning {
         String csrfToken = '';
         String responseBody;
         req.setMethod('GET');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/portal/account/forgot-password/');
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/portal/account/forgot-password/');
 
         try {
             res = http.send(req);
@@ -355,7 +355,7 @@ public with sharing class PayStaffWSUtillLightning {
                     req.setMethod('POST');
                     req.setHeader('Authorization', 'JWT ' + jwtToken);
                     req.setHeader('Content-type', 'application/json');
-                    req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/chargegroupnotes/');
+                    req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/chargegroupnotes/');
                     req.setBody(requestData);
                     try {
                         res = http.send(req);
@@ -595,10 +595,10 @@ public with sharing class PayStaffWSUtillLightning {
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
         if (isPayment) {
-            req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/payments/'
+            req.setEndpoint(RestClientConstants.SIRONO_BASE_URL+'/paystaff/api/payments/'
                         + String.valueOf(payments.get(0).Sirono_ID__c) +'/transactions/');
         } else {
-            req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/adjustments/'
+            req.setEndpoint(RestClientConstants.SIRONO_BASE_URL+'/paystaff/api/adjustments/'
                         + paymentAdjustmentSironoId +'/transactions/');
         }
 
@@ -740,7 +740,7 @@ public with sharing class PayStaffWSUtillLightning {
         req.setMethod('GET');
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/chargegroups/'
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL+'/paystaff/api/chargegroups/'
                         +PayStaffWSUtill.trimCommas(chargeGroupId)+'/');
 
         req.setTimeout(120000);
@@ -819,7 +819,7 @@ public with sharing class PayStaffWSUtillLightning {
         req.setMethod('GET');
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/paymentplan/'
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL+'/paystaff/api/paymentplan/'
                         +PayStaffWSUtill.trimCommas(paymentPlanExternalId)+'/');
         req.setTimeout(120000);
         try {
