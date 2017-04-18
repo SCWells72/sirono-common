@@ -25,10 +25,7 @@
 		<div class="grid slds-p-bottom--large">
 			<aura:if isTrue="{!and(v.PaymentInfo.creditCards, v.PaymentInfo.creditCards.length > 0)}">
 				<div class="col slds-m-right--medium">
-					<lightning:select name="state" aura:id="state" label="Currently paying with card on file:" required="true" value="{!v.selectedCardId}" onchange="{!c.changeCard}">
-						<!--<aura:iteration items="{!v.PaymentInfo.creditCards}" var="card">
-							<option value="{!card.sfId}">{!card.displayName}</option>
-						</aura:iteration>-->
+					<lightning:select name="state" aura:id="state" label="Currently paying with card on file:" required="true" value="{!v.selectedCardId}">
 						<option value="0" name="loading..."/>
 					</lightning:select>
 				</div>

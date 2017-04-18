@@ -12,7 +12,7 @@
     <aura:attribute name="selectedTab" type="String" default="MakeAPayment" />
     <aura:handler event="c:calculatePaymentBalanceEvent" action="{!c.refreshAllInvoicesSelected}" />
     <aura:handler event="c:switchTab" action="{!c.reInitData}" />
-    <aura:handler name="change" value="{!v.invoices}" action="{!c.checkSize}"/>
+    <aura:handler event="c:editTermsAction" action="{!c.hideSections}" />
     <aura:registerEvent name="selectAllInvoices" type="c:SelectInvoicesEvent"/>
     <div class="invoice-listing-wrapper">
         <header>
@@ -55,7 +55,7 @@
                         <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}"  category="standard" size="small" class="slds-button__icon" name="Check" />
                     </div>{!v.AreAllInvoicesSelected ? 'Deselect All' : 'Select All'}
                 </button>
-                <div class="float-right" aura:id="filtes">
+                <div class="float-right" aura:id="filters">
                     <div class="slds-radio--button-group">
                         <span class="slds-button slds-radio--button">
                             <input type="radio" name="radio" id="unpaid" checked="{!v.groupFilter == 'Unpaid'}"   onchange="{!c.filterInvoices}"/>
@@ -90,10 +90,12 @@
         <!--Loop of invoices-->
         <!--<c:singleinvoice />-->
         <!--Loop of invoices-->
-        <aura:if isTrue="{!v.invoices.length != 0 ? v.selectedTab == 'CreatePaymentPlan' ? true : false : false}">
-            <div class="box_gray">These invoices are not on a payment plan</div>
-        </aura:if>
-        {!v.invoices}
+        <div aura:id="invoicesNotOnPaymentPlanSection"> 
+            <aura:if isTrue="{!v.invoices.length != 0 ? v.selectedTab == 'CreatePaymentPlan' ? true : false : false}">
+                <div class="box_gray">These invoices are not on a payment plan</div>
+            </aura:if>           
+            {!v.invoices}
+        </div>
         <input type="hidden" name="fixedBug" value="{!v.blockInvoices.length}" />
         <aura:if isTrue="{!v.blockInvoices.length != 0}">
             <div class="box_gray">Invoices on current payment plan</div>

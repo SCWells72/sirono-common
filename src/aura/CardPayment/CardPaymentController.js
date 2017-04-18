@@ -53,11 +53,6 @@
 			component.set('v.selectedPaymentSum', currentBalance - changeSum);
 		}else{
 			component.set('v.selectedPaymentSum', balance);
-			var creditCardInformation = component.get('v.cardInformation');
-			if(creditCardInformation != undefined){
-				creditCardInformation.amount = balance;
-				component.set('v.cardInformation', creditCardInformation);
-			}
 		}
 
 		if(allInvoices != undefined && allInvoices.length != 0){
@@ -84,20 +79,11 @@
 		curr.set("v.format", '$#,###.00');
 	},
 
-	makePayment : function(component, event, helper){
-		
-		helper.makePaymentHelper(component, event, helper);   
-       
+	makePayment : function(component, event, helper){		
+		helper.makePaymentHelper(component, event, helper);          
 	},
 
 	updateAmountInformation : function(component, event, helper){
-		var sum = component.get('v.selectedPaymentSum');
-		var creditCardInformation = component.get('v.cardInformation');
-		console.log('Sum', sum);
-		if(creditCardInformation != undefined){
-			creditCardInformation.amount = sum;
-			component.set('v.cardInformation', creditCardInformation);
-		}
 		var curr = component.find("amount");
 		curr.set("v.format", '$#,###.00');
 	},

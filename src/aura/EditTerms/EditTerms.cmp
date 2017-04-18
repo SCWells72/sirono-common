@@ -18,11 +18,10 @@
 
 
     <aura:registerEvent name="initPlanInfo" type="c:CancelActionEvent"/>
-	<aura:registerEvent name="updatePaymentTerms" type="c:UpdatePaymentTermsEvent"/>
-
+	
 	<aura:if isTrue="{!v.PaymentInfo.hasPaymentPlans}">
 		<div class="intro">
-			<h2 class="txt_h2">Edit Payment Amount and Terms
+			<h2 class="txt_h2">Edit Payment Plan Terms
 				<div class="status info sldsjs-popover">
 					<span class="slds-icon_container sldsjs-popover-action" onclick="{!c.showPopoverInfo}">
 						<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="utility" size="small" name="info" class="slds-icon slds-icon--x-small" />
@@ -87,10 +86,7 @@
 		<div class="pay-date grid">
 			<div class="col slds-align-middle">Pay on day </div>
 			<div class="col">
-				<lightning:select name="dayOfMonth" label="Day of month" aura:id="dayOfMonth" value="{!v.PaymentRequestInfo.executeOnDay}" class="payment-plan-day--select">
-					<!--<aura:iteration items="{!v.dayOfMonthSelection}" var="day">
-						<ui:inputSelectOption text="{!day}" label="{!day}"/>
-					</aura:iteration>-->
+				<lightning:select name="dayOfMonth" label="Day of month" aura:id="dayOfMonth" value="{!v.PaymentRequestInfo.executeOnDay}" class="payment-plan-day--select">					
 					<option value="0" name="loading..."/>
 				</lightning:select>
 			</div>

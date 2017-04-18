@@ -114,7 +114,7 @@
             'url' : '/payments'
         }).fire();        
     },
-    putInvoucePaument: function(component, event, helper) {
+    putInvoicePayment: function(component, event, helper) {
 		console.log('Put params');
         var invoiceId = component.get('v.invoiceId');
         var activeTab = component.get('v.activeTab');
@@ -135,4 +135,19 @@
         });
         appEvent.fire();
     },
+	updateHeaderAmountAndDate : function(component, event, helper) {
+		var plan = event.getParam('paymentPlan');
+		var amount = parseFloat(plan.Installment_Amount__c.toFixed(2));
+		var delimiterPos = amount.toString().indexOf('.');
+		if(delimiterPos >= 0){
+			component.set('v.invoiceValue', '$' + Math.floor(amount));
+			component.set('v.invoiceValuePart', parseFloat((amount % 1).toFixed(2)) * 100);
+		}else{
+			component.set('v.invoiceValue', '$' + amount);
+		}
+		
+		var guarantorWrapper = component.get('v.guarantorWrapper');
+		guarantorWrapper.paymentPlan.NextPaymentDate__c = plan.NextPaymentDate__c;
+		component.set('v.guarantorWrapper', guarantorWrapper);
+	}
 })

@@ -27,8 +27,9 @@
 
 	<!-- transfers invoiceId betweem components -->
     <aura:handler event="c:payNowRequest" action="{!c.setInvoice}"/>    
-    <aura:handler event="c:payCall" action="{!c.putInvoucePaument}" />
+    <aura:handler event="c:payCall" action="{!c.putInvoicePayment}" />
     <aura:handler event="c:ToggleHeader" action="{!c.toggleHeader}" />
+    <aura:handler event="c:UpdatePaymentTermsEvent" action="{!c.updateHeaderAmountAndDate}"/>
 
     <aura:attribute name='invoiceId' type="String" />
     <aura:attribute name='activeTab' type="String" />

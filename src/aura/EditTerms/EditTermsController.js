@@ -2,6 +2,7 @@
 	doCmpInit: function(cmp, e, hlpr) {
 		console.log('doCmpInit');
 		var PaymentInfo = cmp.get('v.PaymentInfo');
+		console.log('PaymentInfo editterms', PaymentInfo);
 		console.log('CreditCard');
 		var CreditCard = hlpr.getDefaultCard(cmp);
 		console.log('CreditCard Init:', CreditCard);
@@ -49,6 +50,7 @@
 	cancelAction: function (cmp, e, hlpr) {
 		cmp.getEvent("initPlanInfo").fire();
 		cmp.set('v.hasError', false);
+		$A.get("e.c:editTermsAction").fire();
 	},
 	cancelEditCardAction: function(cmp, e, hlpr) {
 		e.stopPropagation();
@@ -65,7 +67,7 @@
 		updateTermsAction.setCallback(this, function(response) {
 			if (response.getState() === 'SUCCESS') {
 				var plan = response.getReturnValue();
-				cmp.getEvent('updatePaymentTerms').setParams({
+				$A.get("e.c:UpdatePaymentTermsEvent").setParams({
 					paymentPlan: plan,
 					isEditTerms: true
 				}).fire();
