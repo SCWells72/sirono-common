@@ -12,9 +12,10 @@ public without sharing class WorkWithInvoicesController {
 			return new List<InvoicesWrapper>();
 		}
 		String selectedPatients = '';
+		List<String> additionalFilters = new List<String>();
 		if(!String.isBlank(additionalFilter)) {
-			selectedPatients += ' AND Patient__c IN (';
-			selectedPatients += additionalFilter.removeEnd(',') + ')';
+			additionalFilters = additionalFilter.replace('\'', '').split(',');
+			selectedPatients += ' AND Patient__c IN :additionalFilters';
 		}
 		List<InvoicesWrapper> allInvoices = new List<InvoicesWrapper>();
 		User u = [
@@ -24,7 +25,7 @@ public without sharing class WorkWithInvoicesController {
 		];
 		if (u.ContactId != null) {
 			List<Invoice__c> listOfInvoices = new List<Invoice__c>();
-			String query = 'SELECT Id, Name, Patient__r.Name, Patient__r.Medical_Record_Number__c, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, '+
+			String query = 'SELECT Id, Name, Invoice_Balance__c, Patient__r.Name, Patient__r.Medical_Record_Number__c, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, '+
 							'Due_Date__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Add_to_Payment_Plan__c, Guarantor__r.Invoiced_Balance__c, '+
 							'Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c, Partial_Payment_Plan__c, ' + 
 							'Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Pre_Invoiced_Balance__c, ' +
@@ -37,7 +38,7 @@ public without sharing class WorkWithInvoicesController {
 			Overdue (Invoice Status = Overdue), 
 			Delinquent (Invoice Status = Delinquent), 
 			and On Payment Plan (Invoice Status = On Payment Plan).*/
-			if(groupFilter != null && groupFilter != '') {
+			if(groupFilter != null && groupFilter != '' && groupFilter != 'All') {
 				if(groupFilter == INVOICE_UNPAID_STATUS){
 					query += ' AND Invoice_Status__c IN (\'Delinquent\', \'Overdue\', \'Due\', \'On Payment Plan\')';
 				} else if(groupFilter == INVOICE_PAID_STATUS) {
@@ -81,9 +82,9 @@ public without sharing class WorkWithInvoicesController {
 						Date_Of_Service_End_Date__c,
 						(
 							SELECT 
-									Adjustment__r.Name,
-									Payment__r.Name,
-									Service__r.Name,
+									Adjustment__r.Custom_Name__c,
+									Payment__r.Display_Name__c,
+									Service__r.Display_Name__c,
 									Amount__c,
 									Txn_Method__c
 							FROM	Transactions__r
@@ -162,7 +163,7 @@ public without sharing class WorkWithInvoicesController {
 		];
 		if (u.ContactId != null) {
 			List<Invoice__c> listOfInvoices = new List<Invoice__c>();
-			String query = 'SELECT Id, Name, Patient__r.Name, Patient__r.Medical_Record_Number__c, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, '+
+			String query = 'SELECT Id, Name, Invoice_Balance__c, Patient__r.Name, Patient__r.Medical_Record_Number__c, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, '+
 							'Due_Date__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Invoiced_Balance__c, '+
 							'Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c, Partial_Payment_Plan__c, ' + 
 							'Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Add_to_Payment_Plan__c, Guarantor__r.Pre_Invoiced_Balance__c, ' +
@@ -199,10 +200,10 @@ public without sharing class WorkWithInvoicesController {
 						Date_Of_Service_End_Date__c,
 						(
 							SELECT 
-									Adjustment__r.Name,
-									Payment__r.Name,
+									Adjustment__r.Custom_Name__c,
+									Payment__r.Display_Name__c,
 									Amount__c,
-									Service__r.Name,
+									Service__r.Display_Name__c,
 									Txn_Method__c
 							FROM	Transactions__r
 						),
@@ -260,6 +261,7 @@ public without sharing class WorkWithInvoicesController {
 					this.nextDate = cGroup.Payment_Plan__r.NextPaymentDate__c;
 				}
 			}
+			balanceDue = invoice.Invoice_Balance__c;
 		}
 	}
 
@@ -311,12 +313,12 @@ public without sharing class WorkWithInvoicesController {
 		}
 		private String getName(Transaction__c pa) {
 			String displayName = SERVICE_DEFAULT_NAME;
-			if(pa.Adjustment__r.Name != null) {
-				displayName = pa.Adjustment__r.Name;
-			} else if(pa.Payment__r.Name != null) {
-				displayName = pa.Payment__r.Name;
-			} else if(pa.Service__r.Name != null) {
-				displayName = pa.Service__r.Name;
+			if(pa.Adjustment__r.Custom_Name__c != null) {
+				displayName = pa.Adjustment__r.Custom_Name__c;
+			} else if(pa.Payment__r.Display_Name__c != null) {
+				displayName = pa.Payment__r.Display_Name__c;
+			} else if(pa.Service__r.Display_Name__c != null) {
+				displayName = pa.Service__r.Display_Name__c;
 				displayName = displayName.split('-')[0]; //get Name e.g. Aetna Payment - 1/14/2016  finded(Aetna Payment )
 			}
 			
@@ -326,12 +328,15 @@ public without sharing class WorkWithInvoicesController {
 	}
 
 	public class ServiceWrapper {
-		@AuraEnabled public String displayName {get;set;}
-		@AuraEnabled public Decimal amount {get;set;}
+		@AuraEnabled public String  displayName {get;set;}
+		@AuraEnabled public String  serviceDate {get;set;}
+		@AuraEnabled public Decimal amount		{get;set;}
 		
 		public ServiceWrapper(String displayName, Decimal amount) {
-			this.displayName = displayName;
 			this.amount = amount;
+			List<String> nameParts = displayName.split('-');
+			this.displayName = nameParts[0];
+			this.serviceDate = nameParts.size() > 1 ? nameParts[1] : '';
 		}
 	}
 

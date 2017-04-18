@@ -1,10 +1,6 @@
-/**
- * Test class for the PayEstimate Class.
- **/
- 
 @isTest
-private class PayEstimateTest {
-    
+private class PayEstimateLightningControllerTest {
+
     /**
      * This method test the whole scenario of Pay Estimate Process.
      **/
@@ -13,26 +9,24 @@ private class PayEstimateTest {
         // Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         INSERT guarantorContact;
-        
+
         // Create Encounter record.
-        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, system.today());
+        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
         INSERT encounter;
-        
+
         Test.startTest();
-        
+
         // Create PayEstimate class object with guarantorContact.
-        PayEstimate objPayEstimate = new PayEstimate(new ApexPages.StandardController(guarantorContact));        
-        // Call getEncounterRecords method to Populate Encounter List.
-        objPayEstimate.getEncounterRecords();
-        
+        PayEstimateLightningController objPayEstimate = new PayEstimateLightningController(new ApexPages.StandardController(guarantorContact), encounter.Id);
+
         // Based on Encounter List, Select Encounter record.
-        for (PayEstimate.EncounterWrapper enw: objPayEstimate.encounters) {
+        for (EncounterWrapper enw: objPayEstimate.encounters) {
             enw.isSelected = true;
         }
-        
+
         // Call doNext Method.
         objPayEstimate.doNext();
-        
+
         // Set page level variables based on criteria.
         objPayEstimate.expirationYear = String.valueof(System.today().Year() + 1);
         objPayEstimate.expirationMonth = '07';
@@ -47,16 +41,16 @@ private class PayEstimateTest {
         // Call below parameters for Code Coverage.
         List<SelectOption> expYearOptions = objPayEstimate.expYearOptions;
         List<SelectOption> expMonthOptions = objPayEstimate.expMonthOptions;
-        
+
         // Call submit method. that take/create payment for Encounter Record.
         objPayEstimate.submit();
-        
+
         Test.stopTest();
-        
+
         // Get List of Payment based on Encounter.
         List<Payment__c> payments = [SELECT Id, Amount__c, Guarantor__c, Encounter__c
-                        FROM Payment__c
-                        WHERE Encounter__c = :encounter.Id
+        FROM Payment__c
+        WHERE Encounter__c = :encounter.Id
         ];
         // Check system assert, Encounter Look up set in Payment Record or not.
         System.assertEquals(payments[0].Encounter__c, encounter.Id);
@@ -64,18 +58,18 @@ private class PayEstimateTest {
         System.assertEquals(payments[0].Guarantor__c, guarantorContact.Id);
         // Check system assert, We insert/set amount in object/record is assign into Payment.
         System.assertEquals(payments[0].Amount__c, decimal.valueof(objPayEstimate.amount));
-        
+
         // Get List of Encounter based on Id.
         List<Encounter__c> encounters = [SELECT Id, Balance__c
-                        FROM Encounter__c
-                        WHERE Id = :encounter.Id
+        FROM Encounter__c
+        WHERE Id = :encounter.Id
         ];
         // Set variable 500(Existing Balance in Encounter) minus Amount of Payment.
         Decimal encounterAmount = 500 - payments[0].Amount__c;
         // Check system assert, Enconter balance is decreases by the Amount of Payment.
         System.assertEquals(encounters[0].Balance__c, encounterAmount);
     }
-    
+
     /**
      * This method test the FillNameAndAddress method functionality.
      * Based on Contact populate address, city, pincode, etc...
@@ -85,11 +79,19 @@ private class PayEstimateTest {
         // Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         INSERT guarantorContact;
+
+        // Create Encounter record.
+        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
+        INSERT encounter;
         
         Test.startTest();
         
-        // Create PayEstimate class object with guarantorContact.
-        PayEstimate objPayEstimate = new PayEstimate(new ApexPages.StandardController(guarantorContact));
+        // Create PayEstimateLightningController class object with guarantorContact.
+        PayEstimateLightningController objPayEstimate = new PayEstimateLightningController(new ApexPages.StandardController(guarantorContact), encounter.Id);  
+        objPayEstimate.guarantorRecordId = guarantorContact.Id;  
+        objPayEstimate.init(guarantorContact.Id);
+        Encounter__c[] encounterList = EncounterService.getEncounterRecordsByGuarantorId(guarantorContact.id);
+        objPayEstimate.encounters = EncounterWrapper.buildList(encounterList); 
         
         // Check system asserts, all fields are null of objPayEstimate.
         System.assertEquals(objPayEstimate.cardHolderName, null);
@@ -103,8 +105,8 @@ private class PayEstimateTest {
         guarantorContact.MailingPostalCode = '12345';
         UPDATE guarantorContact;
         
-        // Create PayEstimate class object with updated guarantorContact.
-        objPayEstimate = new PayEstimate(new ApexPages.StandardController(guarantorContact));
+        // Create PayEstimateLightningController class object with updated guarantorContact.
+        objPayEstimate = new PayEstimateLightningController(new ApexPages.StandardController(guarantorContact), encounter.Id);
         // Call fillNameAndAddress method that set/assign address, city, zip, etc in Page Level variables.
         objPayEstimate.fillNameAndAddress();
         
@@ -132,15 +134,19 @@ private class PayEstimateTest {
         INSERT guarantorContact;
         
         // Create Encounter record.
-        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, system.today());
+        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
         INSERT encounter;
         
         Test.startTest();
-        // Create PayEstimate class object with guarantorContact.
-        PayEstimate objPayEstimate = new PayEstimate(new ApexPages.StandardController(guarantorContact));
+        // Create PayEstimateLightningController class object with guarantorContact.
+        PayEstimateLightningController objPayEstimate = new PayEstimateLightningController(new ApexPages.StandardController(guarantorContact), encounter.Id); 
+        objPayEstimate.guarantorRecordId = guarantorContact.Id;  
+        objPayEstimate.init(guarantorContact.Id); 
+        Encounter__c[] encounterList = EncounterService.getEncounterRecordsByGuarantorId(guarantorContact.id);
+        objPayEstimate.encounters = EncounterWrapper.buildList(encounterList); 
         
         // Based on Encounter List, Select Encounter record.
-        for (PayEstimate.EncounterWrapper enw: objPayEstimate.encounters) {
+        for (EncounterWrapper enw: objPayEstimate.encounters) {
             enw.isSelected = true;
         }
         
@@ -154,8 +160,8 @@ private class PayEstimateTest {
         objPayEstimate.expirationYear = String.valueof(System.today().Year());
         objPayEstimate.expirationMonth = String.valueof(System.today().Month() - 1);
         
-        // Call submit method.
-        objPayEstimate.submit();
+        // Call addPayment method.
+        objPayEstimate.addPayment('credit');
         
         Test.stopTest();
         
@@ -166,28 +172,5 @@ private class PayEstimateTest {
         ];
         // Check system assert, Payment is not create for encounter.
         System.assertEquals(payments.size(), 0);
-    }
- 
-    /**
-    * Check all access rights for a read only User using runAs.
-    **/
-    @isTest
-    static void checkAccessRights() {
-        List<PaymentSecurityContext> allContexts = new List<PaymentSecurityContext>{PaymentSecurityContext.CREATE_CONTEXT,
-        	PaymentSecurityContext.PSWU_CREATE_CONTEXT, PaymentSecurityContext.UPDATE_CONTEXT
-        };
-
-        System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (PaymentSecurityContext context: allContexts) {
-                try {
-                    context.actionAllowed();
-                    System.assert(false, 'Expected permission to be denied for ' + context);
-                } catch (SecurityUtils.SecurityException ex) {
-                    System.debug('SecurityException : ' + ex);
-                } catch (Exception e) {
-                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
-                }
-            }
-        }
     }
 }

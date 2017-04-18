@@ -32,6 +32,9 @@ public class GuarantorsRestClientMock implements HttpCalloutMock {
         } else {
             throw new SironoServiceException('Unexpected method in GuarantorsRestClientMock');
         }
+        
+        // Check system assert.
+        System.assertNotEquals(res, null, 'Should have failed due to res is null.');
 
         return res;
     }

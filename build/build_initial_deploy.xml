@@ -159,6 +159,8 @@
         </replace>
     </target>
 
+    <target name="processTemplates" depends="createSites, createSironoNamedCreds"/>
+
     <target name="createSites">
         <mkdir dir="${basedir}/src/sites"/>
         <copy todir="${basedir}/src/sites" overwrite="true" encoding="UTF-8">
@@ -179,6 +181,26 @@
         <echo message="Set subdomain for five9 site to force.com subdomain: ${sf.forceSubDomain}"/>
         <replace dir="${basedir}/src/sites" token="@SITE_SUBDOMAIN@" value="${sf.forceSubDomain}" encoding="UTF-8">
             <include name="Five9CreateCallLogRecord.site"/>
+        </replace>
+    </target>
+
+    <target name="createSironoNamedCreds">
+        <mkdir dir="${basedir}/src/namedCredentials"/>
+        <copy todir="${basedir}/src/namedCredentials" overwrite="true" encoding="UTF-8">
+            <fileset dir="${basedir}/template/namedCredentials"/>
+        </copy>
+
+        <echo message="Set ${sirono.endpoint} as the Sirono_Server NamedCredential endpoint"/>
+        <replace dir="${basedir}/src/namedCredentials" token="@ENDPOINT@" value="${sirono.endpoint}" encoding="UTF-8">
+            <include name="sirono_server.namedCredential"/>
+        </replace>
+
+        <echo message="Set username and password for Sirono_Server NamedCredential"/>
+        <replace dir="${basedir}/src/namedCredentials" token="@USERNAME@" value="${sirono.user}" encoding="UTF-8">
+            <include name="sirono_server.namedCredential"/>
+        </replace>
+        <replace dir="${basedir}/src/namedCredentials" token="@PASSWORD@" value="${sirono.pw}" encoding="UTF-8">
+            <include name="sirono_server.namedCredential"/>
         </replace>
     </target>
 

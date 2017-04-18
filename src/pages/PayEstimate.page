@@ -5,7 +5,7 @@
 * Standard Controller of this page is Contact and Controller/Extensions is PayEstimate Class.
 -->
 
-<apex:page standardController="Contact" Extensions="PayEstimate" id="sirono-pay-estimate-page">
+<apex:page standardController="Contact" Extensions="PayEstimateVFController" id="sirono-pay-estimate-page">
     <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
     <apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>
     <apex:includeScript value="{!URLFOR($Resource.Jquery, 'jquery-3.0.0.min.js')}"/>

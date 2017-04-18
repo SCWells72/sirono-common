@@ -6,7 +6,6 @@
     <customButtons>Process_Payment</customButtons>
     <customButtons>Add_Case</customButtons>
     <customButtons>Add_to_Payment_Plan</customButtons>
-    <customButtons>View_On_Portal</customButtons>
     <customButtons>Pay_Estimate</customButtons>
     <customConsoleComponents>
         <primaryTabComponents>
@@ -397,6 +396,11 @@
         <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
+        <excludeButtons>LogCall</excludeButtons>
+        <excludeButtons>MailMerge</excludeButtons>
+        <excludeButtons>RequestUpdate</excludeButtons>
+        <excludeButtons>SendEmail</excludeButtons>
+        <excludeButtons>ViewAll</excludeButtons>
         <fields>TASK.SUBJECT</fields>
         <fields>TASK.WHAT_NAME</fields>
         <fields>ACTIVITY.TASK</fields>

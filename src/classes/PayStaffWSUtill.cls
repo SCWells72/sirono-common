@@ -12,7 +12,7 @@ public with sharing class PayStaffWSUtill {
     //TODO replace use of endpoint/UN/PW with Named Credentials
     // @deprecated
     public static final String ENDPOINT = SironoSettingsUtil.getServerEndpoint();
-    public static final String STMTURL = 'callout:sirono_server/paystaff/api/guarantors/{1}/statements/';
+    public static final String STMTURL = 'callout:sirono_server/paystaff/api/guarantors/{0}/statements/';
     // @deprecated
 	public static final String UN = 'sgullapali';
 	// @deprecated
@@ -59,6 +59,14 @@ public with sharing class PayStaffWSUtill {
             return expMonthOptions;
         }
         protected set;
+    }
+
+    //These are just being added back in order to fix a QA build break. DO NOT USE
+    public static String fetchGuarantorName(Contact gt) {
+        return GuarantorService.buildGuarantorDetailString(gt);
+    }
+    public static Contact fetchGuarantorContact(String contactId) {
+        return GuarantorService.getGuarantor(contactId);
     }
 
     //Fetch the contact record
@@ -220,30 +228,22 @@ public with sharing class PayStaffWSUtill {
     }
 
     public static String buildChargeGroupsURL(List<String> chargeGroupIds) {
-        String urlToReturn = '[';
-        String glue = '';
+
+        String cgUrl = '';
         if (chargeGroupIds != null) {
+            List<String> urls = new List<String>();
             for (String cgId : chargeGroupIds) {
-                cgId = cgId.trim();
-                urlToReturn += glue + 'callout:sirono_server/paystaff/api/chargegroups/' + cgId + '/"';
-                glue = ',';
+                urls.add(String.format('"{0}/paystaff/api/chargegroups/{1}/"',
+                        new String[]{SironoSettingsUtil.getServerEndpoint(), cgId}));
             }
+            cgUrl = String.join(urls, ',');
         }
-        return urlToReturn += ']';
+
+        return '[' + cgUrl + ']';
     }
 
-
     public static String buildChargeGroupsURL(String chargeGroupIds) {
-        String urlToReturn = '[';
-        String glue = '';
-        if (chargeGroupIds != null) {
-            for (String cgId : chargeGroupIds.split(',')) {
-                cgId = cgId.trim();
-                urlToReturn += glue + 'callout:sirono_server/paystaff/api/chargegroups/' + cgId + '/"';
-                glue = ',';
-            }
-        }
-        return urlToReturn += ']';
+        return buildChargeGroupsURL(new String[]{chargeGroupIds});
     }
 
     @Future(callout=true)
@@ -309,11 +309,7 @@ public with sharing class PayStaffWSUtill {
 
     public static HttpResponse getStatementUrls(String guarantorId) {
         //Make sure there aren't any commas in the guarantor id
-        String fullUrl = String.format(STMTURL,
-                new String[]{
-                        SironoSettingsUtil.getServerEndpoint(),
-                        trimCommas(guarantorId)
-                });
+        String fullUrl = String.format(STMTURL, new String[]{trimCommas(guarantorId)});
         System.debug('check enter');
         String jwtToken = getJWTToken();
         HttpRequest req = new HttpRequest();

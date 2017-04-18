@@ -38,6 +38,9 @@ public with sharing class GuarantorServiceTest {
         chargeGroup = TestUtility.generateChargeGroup(gt.Id, pt.Id, 67890);
         chargeGroup.Active__c = false;
         INSERT chargeGroup;
+        
+        // Check system asserts.
+        System.assertEquals(Decimal.valueOf(SIRONO_ID), gt.Profile_Pointer_ID__c, 'Expected ' + SIRONO_ID + ' but we got ' + gt.Profile_Pointer_ID__c);
     }
 
     /*

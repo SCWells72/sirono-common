@@ -1,4 +1,4 @@
-import os, subprocess, re, requests, argparse
+import os, subprocess, re, requests, argparse, json
 
 SF_PROJECT_ID = 1608481
 PORTAL_PROJECT_ID = 1930765
@@ -94,6 +94,11 @@ def update_story(current_branch, story_json):
                 print("Update state for story: {} from: {} to: {}".format(story_id, story_json[CURRENT_STATE], new_state))
 
                 request_body[CURRENT_STATE] = new_state
+
+        if request_body:
+            if project_id == PORTAL_PROJECT_ID and 'chore' == story_json['story_type'].lower():
+                if 'estimate' not in story_json:
+                    request_body['estimate'] = 1
 
         if request_body:
             # print('\nstory retrieved: '+ json.dumps(story_json))

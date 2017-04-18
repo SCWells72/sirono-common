@@ -11,7 +11,7 @@
 public with sharing class PayStaffWSUtillLightning {
     //TODO replace use of endpoint with SironoSettingsUtil.getServerEndpoint()
     // @deprecated
-    public static final String ENDPOINT = SironoSettingsUtil.getServerEndpoint();
+    public static final String ENDPOINT = RestClientConstants.SIRONO_BASE_URL;
     public static final String STMTURL = '{0}/paystaff/api/guarantors/{1}/statements/';
     public static final String UN = 'sgullapali';
     public static final String PW = 'p@ssw0rd';
@@ -76,7 +76,14 @@ public with sharing class PayStaffWSUtillLightning {
         }
         protected set;
     }
-
+    //These are just being added back in order to fix a QA build break. DO NOT USE
+    public static String fetchGuarantorName(Contact gt) {
+        return GuarantorService.buildGuarantorDetailString(gt);
+    }
+    public static Contact fetchGuarantorContact(String contactId) {
+        return GuarantorService.getGuarantor(contactId);
+    }
+    
     //Fetch the contact record
     public static Contact fetchContact(String contactId) {
         Contact ob = null;
@@ -255,7 +262,7 @@ public with sharing class PayStaffWSUtillLightning {
         String jwtToken;
         String responseBody;
         req.setMethod('POST');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/token-auth/');
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/token-auth/');
         req.setBody('username=' + username + '&password=' + password);
         System.debug(SironoSettingsUtil.getServerEndpoint() + '/paystaff/token-auth/');
         System.debug('username=' + username + '&password=' + password);
@@ -280,7 +287,7 @@ public with sharing class PayStaffWSUtillLightning {
         String csrfToken = '';
         String responseBody;
         req.setMethod('GET');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/portal/account/forgot-password/');
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/portal/account/forgot-password/');
 
         try {
             res = http.send(req);
@@ -348,7 +355,7 @@ public with sharing class PayStaffWSUtillLightning {
                     req.setMethod('POST');
                     req.setHeader('Authorization', 'JWT ' + jwtToken);
                     req.setHeader('Content-type', 'application/json');
-                    req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/chargegroupnotes/');
+                    req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/chargegroupnotes/');
                     req.setBody(requestData);
                     try {
                         res = http.send(req);
@@ -498,7 +505,9 @@ public with sharing class PayStaffWSUtillLightning {
     */
     public static List<Transaction__c> parsePaymentReponse(String csrfToken, String jwtToken, string jsonStr, boolean isPayment){
 
-        Payment__c objPayment;
+        // We have change Payment__c object to List of Payment__c and this list pass in Methods as a parameter.
+        // This changes do to resolve Security Scan related issue.
+        List<Payment__c> payments = new List<Payment__c>();
         List<Payment_Adjustments__c> lstPaymentAdjustment = new List<Payment_Adjustments__c>();
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
 
@@ -508,18 +517,18 @@ public with sharing class PayStaffWSUtillLightning {
         Map<Decimal,Decimal> mapTranPayAdjId = new Map<Decimal,Decimal>();
 
         if (isPayment) {
-            objPayment = new Payment__c();
+            Payment__c objPayment = new Payment__c();
             objPayment = PaymentJSONParsing.parse(jsonStr);
-            System.debug('objPayment'+objPayment);
+            payments.add(objPayment);
         } else {
             lstPaymentAdjustment = PaymentAdjustmentJSONParsing.parse(jsonStr);
         }
 
-        if (objPayment != null) {
-            callTransactionRequest(csrfToken, jwtToken, objPayment, null, isPayment);
+        if (payments.size() > 0) {
+            callTransactionRequest(csrfToken, jwtToken, payments, null, isPayment);
         } else if (lstPaymentAdjustment.size() > 0) {
             for (Payment_Adjustments__c objPaymentAdjustment : lstPaymentAdjustment) {
-                objPaymentAdjustmentwrapper = callTransactionRequest(csrfToken, jwtToken, null, objPaymentAdjustment, isPayment);
+                objPaymentAdjustmentwrapper = callTransactionRequest(csrfToken, jwtToken, null, String.valueOf(objPaymentAdjustment.Sirono_ID__c), isPayment);
 
                 lstTransaction.add(objPaymentAdjustmentwrapper.objTransaction);
                 mapTranPayAdjId.put(objPaymentAdjustment.Sirono_ID__c, objPaymentAdjustmentwrapper.objTransaction.Sirono_ID__c);
@@ -572,7 +581,7 @@ public with sharing class PayStaffWSUtillLightning {
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * call Transaction Request and get all Transactions based on Payment.
     */
-    private static PaymentAdjustmentwrapper callTransactionRequest(String csrfToken, String jwtToken, Payment__c objPayment, Payment_Adjustments__c objPaymentAdjustment, boolean isPayment){
+    private static PaymentAdjustmentwrapper callTransactionRequest(String csrfToken, String jwtToken, List<Payment__c> payments, String paymentAdjustmentSironoId, boolean isPayment){
 
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
 
@@ -586,11 +595,11 @@ public with sharing class PayStaffWSUtillLightning {
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
         if (isPayment) {
-            req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/payments/'
-                        + string.valueof(objPayment.Sirono_ID__c) +'/transactions/');
+            req.setEndpoint(RestClientConstants.SIRONO_BASE_URL+'/paystaff/api/payments/'
+                        + String.valueOf(payments.get(0).Sirono_ID__c) +'/transactions/');
         } else {
-            req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/adjustments/'
-                        + string.valueof(objPaymentAdjustment.Sirono_ID__c) +'/transactions/');
+            req.setEndpoint(RestClientConstants.SIRONO_BASE_URL+'/paystaff/api/adjustments/'
+                        + paymentAdjustmentSironoId +'/transactions/');
         }
 
         req.setTimeout(120000);
@@ -612,7 +621,7 @@ public with sharing class PayStaffWSUtillLightning {
         }
 
         if (res.getStatusCode() != null && res.getStatusCode() == 200) {
-            objPaymentAdjustmentwrapper = parseTransactionResponse(csrfToken, jwtToken, responseBody, objPayment, objPaymentAdjustment, isPayment);
+            objPaymentAdjustmentwrapper = parseTransactionResponse(csrfToken, jwtToken, responseBody, payments, isPayment);
         }else {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
                                     'RESPONSE : '+ res.toString() +
@@ -627,7 +636,7 @@ public with sharing class PayStaffWSUtillLightning {
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * Parse Transaction response and based on Charge group call Charge group request.
     */
-    private static PaymentAdjustmentwrapper parseTransactionResponse(String csrfToken, String jwtToken, string jsonStr, Payment__c objPayment, Payment_Adjustments__c objPaymentAdjustment, boolean isPayment){
+    private static PaymentAdjustmentwrapper parseTransactionResponse(String csrfToken, String jwtToken, string jsonStr, List<Payment__c> payments, boolean isPayment){
         TransactionJSONParsing.TransactionWrapper objTransactionWrapper;
         objTransactionWrapper = TransactionJSONParsing.parse(jsonStr);
 
@@ -679,9 +688,9 @@ public with sharing class PayStaffWSUtillLightning {
         }
         //Save all Records if it is Take Payment.
         if (isPayment) {
-            objPayment.Deposit_Date__c = DateTime.now();
-            insert objPayment;
-            id paymentId = objPayment.Id;
+            payments.get(0).Deposit_Date__c = DateTime.now();
+            insert payments;
+            Id paymentId = payments.get(0).Id;
 
             if (lsttransaction.size() > 0) {
                 for (Transaction__c objTran : lsttransaction) {
@@ -731,7 +740,7 @@ public with sharing class PayStaffWSUtillLightning {
         req.setMethod('GET');
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/chargegroups/'
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL+'/paystaff/api/chargegroups/'
                         +PayStaffWSUtill.trimCommas(chargeGroupId)+'/');
 
         req.setTimeout(120000);
@@ -810,7 +819,7 @@ public with sharing class PayStaffWSUtillLightning {
         req.setMethod('GET');
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint()+'/paystaff/api/paymentplan/'
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL+'/paystaff/api/paymentplan/'
                         +PayStaffWSUtill.trimCommas(paymentPlanExternalId)+'/');
         req.setTimeout(120000);
         try {

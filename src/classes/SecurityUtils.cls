@@ -38,7 +38,7 @@ public with sharing class SecurityUtils {
         }
         
         if (SecurityContext.ACTION.OBJ_UPSERT == objAction) {
-            if (!objectResult.isCreateable() && !objectResult.isUpdateable()) {
+            if (!(objectResult.isCreateable() && objectResult.isUpdateable())) {
             	throw new SecurityException('You do not have Upsert rights on ' + objName);
             }
         }
@@ -49,14 +49,14 @@ public with sharing class SecurityUtils {
         for (String fieldToCheck: fieldsToCheck) {
             if (SecurityContext.ACTION.OBJ_CREATE == objAction
                     && !mapObjectFields.get(fieldToCheck).getDescribe().isCreateable()) {
-                throw new SecurityException('You do not have Create rights on ' + fieldToCheck + ' field.');
+                throw new SecurityException(String.format('You do not have Create rights on {0}.{1} field.', new String[]{objName, fieldToCheck}));
             } else if (SecurityContext.ACTION.OBJ_UPDATE == objAction
                     && !mapObjectFields.get(fieldToCheck).getDescribe().isUpdateable()) {
-                throw new SecurityException('You do not have Update rights on ' + fieldToCheck + ' field.');
+                throw new SecurityException(String.format('You do not have Update rights on {0}.{1} field.', new String[]{objName, fieldToCheck}));
             } else if (SecurityContext.ACTION.OBJ_UPSERT == objAction) {
-            	if (!mapObjectFields.get(fieldToCheck).getDescribe().isCreateable() &&
-        				!mapObjectFields.get(fieldToCheck).getDescribe().isUpdateable()) {
-            	    throw new SecurityException('You do not have Upsert rights on ' + fieldToCheck + ' field.');
+            	if (!(mapObjectFields.get(fieldToCheck).getDescribe().isCreateable() &&
+        				mapObjectFields.get(fieldToCheck).getDescribe().isUpdateable())) {
+                    throw new SecurityException(String.format('You do not have Upsert rights on {0}.{1} field.', new String[]{objName, fieldToCheck}));
             	}
             }
         }   

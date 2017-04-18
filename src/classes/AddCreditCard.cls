@@ -105,7 +105,6 @@ public with sharing class AddCreditCard {
             //10-12-2016: Viraj Rana - Tracker #131459561: Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
             isActivePaymentPlan = checkPaymentPlanExist(guarantorRecordId);
         }
-        planValue = '32772';
         /*guarantorId = '141623';
         chargeGroupId = '1072113, 1064709, 1054046';
         planType = 'auto';
@@ -370,11 +369,11 @@ public with sharing class AddCreditCard {
         String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '",';
         if (planType != null && planType.trim().equalsIgnoreCase('auto')) {
             requestData += '"plan_type":"' + planType + '",' +
-                    '"plan_value":' + planValue + ',' +
+                    '"plan_value":"' + planValue + '",' +
                     '"installment_amount":' + PayStaffWSUtill.convertToCents(amount) + ',' +
-                    '"execute_on_day":' + executeOnDay + ',' +
-                    '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + ',' +
-                    '"guarantor":" ' + 'callout:sirono_server/paystaff/api/guarantors/' + guarantorId + '/",' +
+                    '"execute_on_day":"' + executeOnDay + '",' +
+                    '"chargegroups":' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + ',' +
+                    '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/",' +
                     '"active":true,' +
                     '"credit_card":{' +
                     '"method":"credit",' +
@@ -390,11 +389,11 @@ public with sharing class AddCreditCard {
                     '}' + '}';
         } else if (planType != null && planType.trim().equalsIgnoreCase('promise')) {
             requestData += '"plan_type":"' + planType + '",' +
-                    '"plan_value":' + planValue + ',' +
-                    '"installment_amount":' + PayStaffWSUtill.convertToCents(promiseAmount) + ',' +
-                    '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + ',' +
-                    '"guarantor":" ' + 'callout:sirono_server/paystaff/api/guarantors/' + guarantorId + '/",' +
-                    '"active":true}';
+                    '"plan_value":"' + planValue + '",' +
+                    '"installment_amount":"' + PayStaffWSUtill.convertToCents(promiseAmount) + '",' +
+                    '"chargegroups":' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + ',' +
+                    '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/",' +
+                    '"active":"true"}';
         }
 
         HttpRequest req = new HttpRequest();

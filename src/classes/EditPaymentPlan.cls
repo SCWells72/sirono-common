@@ -414,7 +414,7 @@ public with sharing class EditPaymentPlan {
         }
         Http http = new Http();
         String responseBody;
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paymentplan/' + paymentPlanId + '/');
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/' + paymentPlanId + '/');
         //req.setMethod('PUT');
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
