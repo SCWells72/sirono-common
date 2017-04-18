@@ -85,7 +85,7 @@ public with sharing class PaymentPlanGoodStanding {
         req.setMethod('POST');
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paymentplan/' +
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/' +
                 PayStaffWSUtill.trimCommas(paymentPlanExtId) + '/unset_delinquent/');
         req.setBody(requestData);
 

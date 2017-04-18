@@ -59,7 +59,7 @@ public with sharing class AddNote {
         req.setMethod('POST');
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/chargegroupnotes/');
+        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/chargegroupnotes/');
         req.setBody(requestData);
 
         try {
