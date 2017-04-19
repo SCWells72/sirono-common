@@ -51,7 +51,7 @@ public with sharing class EditPaymentPlan {
     public List<SelectOption> expYearOptions {
         get {
             if (expYearOptions == null) {
-                expYearOptions = PayStaffWSUtill.expYearOptions;
+                expYearOptions = UIUtils.expYearOptions;
             }
             return expYearOptions;
         }
@@ -62,7 +62,7 @@ public with sharing class EditPaymentPlan {
     public List<SelectOption> expMonthOptions {
         get {
             if (expMonthOptions == null) {
-                expMonthOptions = PayStaffWSUtill.expMonthOptions;
+                expMonthOptions = UIUtils.expMonthOptions;
             }
             return expMonthOptions;
         }
@@ -360,10 +360,10 @@ public with sharing class EditPaymentPlan {
             requestData += '"plan_type":"' + planType + '",' +
                     '"url": "' + (SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paymentplan/' + paymentPlanId + '/') + '",' +
                     '"active":true,' +
-                    '"installment_amount":' + PayStaffWSUtill.convertToCents(amount) + ',' +
+                    '"installment_amount":' + PaymentPlanService.convertToCents(amount) + ',' +
                     '"number_installments":' + numberInstallments + ',' +
                     '"plan_value":' + planValue + ',' +
-                    '"payable_amount":' + PayStaffWSUtill.convertToCents(payableAmount) + ',' +
+                    '"payable_amount":' + PaymentPlanService.convertToCents(payableAmount) + ',' +
                     '"execute_on_day":' + executeOnDay + ',' +
                     '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/",' +
                     '"next_payment_date": "' + nextPaymentDate + '",' +
@@ -406,7 +406,7 @@ public with sharing class EditPaymentPlan {
             '"encounters": [],' +
             '"authorized_amount": 0' +
             '}';*/
-            requestData += '"installment_amount":' + PayStaffWSUtill.convertToCents(promiseAmount) + ',' +
+            requestData += '"installment_amount":' + PaymentPlanService.convertToCents(promiseAmount) + ',' +
                     '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/"' +
                     '}';
             req.setMethod('POST');

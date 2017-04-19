@@ -17,8 +17,6 @@ private class PayStaffWSUtillLightningTest {
         PayStaffWSUtillLightning.getCSRFToken();
         PayStaffWSUtillLightning.getJWTToken(PayStaffWSUtillLightning.un, PayStaffWSUtillLightning.pw);
         PayStaffWSUtillLightning.buildChargeGroupsURL('1,2');
-        List<SelectOption> expYearOptions = PayStaffWSUtillLightning.expYearOptions;
-        List<SelectOption> expMonthOptions = PayStaffWSUtillLightning.expMonthOptions;
 
         PayStaffWSUtillLightning.TokenAuthResponse tokenAuthResponse = new PayStaffWSUtillLightning.TokenAuthResponse();
         tokenAuthResponse.token = 'testToken';
@@ -78,12 +76,6 @@ private class PayStaffWSUtillLightningTest {
         
         // Check system assert.
         System.assertEquals('1.00', dollarAmount);
-    }
-    @isTest
-    static void testConvertToCents() {
-        String inputDollars = '100';
-        String outputCents = PayStaffWSUtillLightning.convertToCents(inputDollars);
-        System.assert('10000'.equals(outputCents), 'Expected 10000, but got ' + outputCents);
     }
 
     @isTest

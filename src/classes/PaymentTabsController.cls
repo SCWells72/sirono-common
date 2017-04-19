@@ -5,14 +5,14 @@ public with sharing class PaymentTabsController
 	{
 		Map<String, Map<String, String>> outputMap = new Map<String, Map<String, String>> ();
 		Map<String, String> yearOptions = new Map<String, String>();
-		for (SelectOption selection : PayStaffWSUtill.expYearOptions)
+		for (SelectOption selection : UIUtils.expYearOptions)
 		{
 			yearOptions.put(selection.getValue(), selection.getLabel());
 		}
 		outputMap.put('YEARS', yearOptions);
 
 		Map<String, String> monthsOptions = new Map<String, String>();
-		for (SelectOption selection : PayStaffWSUtill.expMonthOptions)
+		for (SelectOption selection : UIUtils.expMonthOptions)
 		{
 			monthsOptions.put(selection.getValue(), selection.getLabel());
 		}

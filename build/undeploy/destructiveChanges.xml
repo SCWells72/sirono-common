@@ -9,10 +9,15 @@
         <members>PayEstimateTest</members>
         <members>PayEstimateLightning</members>
         <members>PayEstimateLightningTest</members>
+		<members>AddCreditCard</members>
+        <members>AddCreditCardLightning</members>
+        <members>AddCreditCardLightningTest</members>
+        <members>AddCreditCardTest</members>
         <name>ApexClass</name>
     </types>
     <types>
         <members>PaymentArrangement</members>
+		<members>AddCreditCard</members>
         <name>ApexPage</name>
     </types>
     <types>
@@ -38,3 +43,4 @@
     </types>
     <version>38.0</version>
 </Package>
+
