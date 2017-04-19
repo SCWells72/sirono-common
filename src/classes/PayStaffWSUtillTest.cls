@@ -60,6 +60,32 @@ private class PayStaffWSUtillTest {
         System.assertNotEquals(expYearOptions, null, 'Should have failed due to expYearOptions are null.');
     }
 
+
+    /**
+     * Verify the build charge group method can handle a comma delimited list.
+     */
+    @isTest
+    static void testBuildChargeGroupsURL() {
+        Test.startTest();
+        String urlJSONString = PayStaffWSUtill.buildChargeGroupsURL('1,2');
+        Test.stopTest();
+        Integer urlCount = urlJSONString.countMatches(SironoSettingsUtil.getServerEndpoint());
+        System.assert(urlCount == 2, 'Expected 2 urls but got ' + urlCount);
+    }
+
+    /**
+     * Verify the build charge group method when param is null
+     */
+    @isTest
+    static void testBuildChargeGroupsURL_nullParam() {
+        String itsNull;
+        Test.startTest();
+        String urlJSONString = PayStaffWSUtill.buildChargeGroupsURL(itsNull);
+        Test.stopTest();
+
+        System.assert(urlJSONString == '[]', 'Should have gotten an empty List for a null parameter.');
+    }
+
     /**
      * This method tests the logic of Statement Url.
      **/

@@ -156,12 +156,11 @@ public with sharing class MakeAPaymentController {
 
     @AuraEnabled
     public static List<String> getStates() {
-        List<State__mdt> statesList = [SELECT Label FROM State__mdt LIMIT 1000];
+        List<State__mdt> statesList = [SELECT Label FROM State__mdt ORDER BY Label LIMIT 1000];
         List<String> states = new List<String>();
-        for(Integer i = 0; i < statesList.size(); i++){
-            states.add(statesList[i].Label);
-        }
-        states.sort();
+        for (State__mdt state : statesList) {
+			states.add(state.Label);
+		}
         return states;      
     }
 }
