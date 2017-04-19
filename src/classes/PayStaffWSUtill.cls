@@ -242,8 +242,16 @@ public with sharing class PayStaffWSUtill {
         return '[' + cgUrl + ']';
     }
 
+    /**
+     * Build the charge group URL(s) for a single change group id or a comma delimited list of
+     * change group ids.
+     *
+     * @param String changeGroupIds - A single charge groupd id or a comma delimited list of change group ids.
+     * @return String - The stringify JSON charge group URL(s).
+     **/
     public static String buildChargeGroupsURL(String chargeGroupIds) {
-        return buildChargeGroupsURL(new String[]{chargeGroupIds});
+        // Handle the case where we have a single charge group id or a comma delimited list.
+        return buildChargeGroupsURL(chargeGroupIds.split(','));
     }
 
     @Future(callout=true)
