@@ -1,8 +1,8 @@
 # sirono-salesforce
-<a href="https://githubsfdeploy.herokuapp.com?owner=blueprinthealth&repo=sirono-salesforce&ref=master">
+<!--a href="https://githubsfdeploy.herokuapp.com?owner=blueprinthealth&repo=sirono-salesforce&ref=master">
   <img alt="Deploy to Salesforce"
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
-</a>
+</a-->
 
 ## Getting set up
 #### Get the Code
