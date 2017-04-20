@@ -107,6 +107,7 @@ public with sharing class PaymentPlanService extends AbstractService {
                     'guarantor' => asGuarantorURL(ppInfo.guarantorId),
                     'active' => 'true'
             };
+
             if (ppInfo.planType.trim().equalsIgnoreCase(Constants.PLANTYPE_AUTO)) {
                 rawData.put('execute_on_day', ppInfo.executeOnDay);
                 rawData.put('credit_card', new Map<String, Object> {
@@ -232,7 +233,7 @@ public with sharing class PaymentPlanService extends AbstractService {
                         paymentPlanObj.Name = strPaymentPlan;
                     }
                 }
-            } else { // VR: We thing “else condition” not needed because of “URL” Cannot be null in response. 
+            } else { // VR: We thing Â“else conditionÂ” not needed because of Â“URLÂ” Cannot be null in response. 
                 //I don't really see how this is possible with valid JSON & if the JSON is not valid, we should have already puked
                 paymentPlanObj = new Payment_Plan__c();
             }
@@ -301,20 +302,24 @@ public with sharing class PaymentPlanService extends AbstractService {
         updateObjects(response.getBody(), ppInfo.chargeGroupIds);
     }
 
-	public static Payment_Plan__c getActivePaymentPlan(String quarantorId){
-		return PaymentPlanDAO.getActivePaymentPlan(quarantorId);
-	}
-
+    /**
+     * Return the payment plan for the given sironoId, null if there is none
+     *
+     * @param - String sironoId  The sironoId of the plan.
+     * @return - Payment_Plan__c The active plan.
+     **/
 	public static Payment_Plan__c getPaymentPlanBySironoId(String sironoId){
-		return PaymentPlanDAO.getPaymentPlanBySironoId(sironoId);
+		return PaymentPlanDao.getPaymentPlanBySironoId(sironoId);
 	}
 
+    /**
+     * Return the payment plan for the given sironoId, null if there is none
+     *
+     * @param - Decimal sironoId  The sironoId of the plan.
+     * @return - Payment_Plan__c The active plan.
+     **/
 	public static Payment_Plan__c getPaymentPlanBySironoId(Decimal sironoId){
-		return PaymentPlanDAO.getPaymentPlanBySironoId(sironoId);
-	}
-
-	public static void upsertPlans(List<Payment_Plan__c> paymentPlans){
-		PaymentPlanDAO.upsertPlans(paymentPlans);
+		return PaymentPlanDao.getPaymentPlanBySironoId(sironoId);
 	}
 
     private static void validatePlanId(String planId) {
