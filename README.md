@@ -1,5 +1,5 @@
 # sirono-salesforce
-<a href="https://githubsfdeploy.herokuapp.com?owner=blueprinthealth&repo=sirono-saleforce&ref=master">
+<a href="https://githubsfdeploy.herokuapp.com?owner=blueprinthealth&repo=sirono-salesforce&ref=master">
   <img alt="Deploy to Salesforce"
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
 </a>
