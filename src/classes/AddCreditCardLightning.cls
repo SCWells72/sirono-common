@@ -53,7 +53,7 @@ public with sharing class AddCreditCardLightning {
     public List<SelectOption> expYearOptions {
         get {
             if (expYearOptions == null) {
-                expYearOptions = PayStaffWSUtillLightning.expYearOptions;
+                expYearOptions = UIUtils.expYearOptions;
             }
             return expYearOptions;
         }
@@ -64,7 +64,7 @@ public with sharing class AddCreditCardLightning {
     public List<SelectOption> expMonthOptions {
         get {
             if (expMonthOptions == null) {
-                expMonthOptions = PayStaffWSUtillLightning.expMonthOptions;
+                expMonthOptions = UIUtils.expMonthOptions;
             }
             return expMonthOptions;
         }
@@ -88,16 +88,10 @@ public with sharing class AddCreditCardLightning {
         guarantorId = (Test.isRunningTest() && Apexpages.currentPage().getParameters().containsKey('guarantorId')) ? Apexpages.currentPage().getParameters().get('guarantorId') : guarantorId;
         if (String.IsNotBlank(guarantorId)) { // need to check if there is a difference between guarantorId and guarantorRecordId
             guarantorRecordId = guarantorId;
-            gc = GuarantorService.getGuarantorWithActiveCG(guarantorId);
+            gc = GuarantorService.getGuarantorFilterCGByAcctSubStatus(guarantorRecordId, Constants.CGConstraints);
             guarantorName = GuarantorService.buildGuarantorDetailString(gc);
             guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
-            //chargeGroupList = PayStaffWSUtillLightning.fetchChargeGroupList(gc);
-            //date: 11/22/2016 tracker #134300243 fetching charge group list based on account sub status : Preinvoiced, Due, Overdue, Delinquent, or Bad Debt
-            for (ChargeGroupWrapper cgw : PayStaffWSUtillLightning.fetchChargeGroupListByAccSubStatus(gc)) {
-                if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
-                    chargeGroupList.add(cgw);
-                }
-            }
+            chargeGroupList = ChargeGroupWrapper.buildList(gc);
             chargeGroupId = '';
             
             //10-12-2016: Viraj Rana - Tracker #131459561: Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
@@ -339,7 +333,7 @@ public with sharing class AddCreditCardLightning {
             planValue = '32772';
             requestData += '"plan_type":"' + planType + '",' +
                     '"plan_value":' + planValue + ',' +
-                    '"installment_amount":' + PayStaffWSUtillLightning.convertToCents(amount) + ',' +
+                    '"installment_amount":' + PaymentPlanService.convertToCents(amount) + ',' +
                     '"execute_on_day":' + executeOnDay + ',' +
                     '"chargegroups": ' + PayStaffWSUtillLightning.buildChargeGroupsURL(chargeGroupId) + ',' +
                     '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/",' +
@@ -360,7 +354,7 @@ public with sharing class AddCreditCardLightning {
             planValue = '1700';
             requestData += '"plan_type":"' + planType + '",' +
                     '"plan_value":' + planValue + ',' +
-                    '"installment_amount":' + PayStaffWSUtillLightning.convertToCents(promiseAmount) + ',' +
+                    '"installment_amount":' + PaymentPlanService.convertToCents(promiseAmount) + ',' +
                     '"chargegroups": ' + PayStaffWSUtillLightning.buildChargeGroupsURL(chargeGroupId) + ',' +
                     '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/",' +
                     '"active":true}';

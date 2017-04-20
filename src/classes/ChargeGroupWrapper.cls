@@ -1,6 +1,6 @@
-/*
-* ChargeGroupWrapper class used for selection in the UI
-*/
+/**
+ * ChargeGroupWrapper class used for selection in the UI
+ **/
 
 public with sharing class ChargeGroupWrapper {
 
@@ -32,6 +32,22 @@ public with sharing class ChargeGroupWrapper {
             }
         }
         return cgList;
+    }
+
+    /**
+     * Prepare a list of selected charge group ids based on charge group wrapper list.
+     *
+     * @param List<ChargeGroupWrapper> chargeGroupList - That contains charge group list.
+     * @returns List<String> - That contains list of selected charge group ids.
+     **/
+    public static List<String> getSelectedChargeGroupIds(List<ChargeGroupWrapper> chargeGroupList) {
+        Set<String> idSet = new Set<String>();
+        for (ChargeGroupWrapper cgw : chargeGroupList) {
+            if (cgw.isSelected) {
+                idSet.add(cgw.cg.Sirono_ID__c.toPlainString());
+            }
+        }
+        return new List<String>(idSet);
     }
 
     public Charge_Group__c cg {get; set;}

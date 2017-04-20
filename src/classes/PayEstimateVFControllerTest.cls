@@ -160,8 +160,8 @@ private class PayEstimateVFControllerTest {
         objPayEstimate.expirationYear = String.valueof(System.today().Year());
         objPayEstimate.expirationMonth = String.valueof(System.today().Month() - 1);
         
-        // Call addPayment method.
-        objPayEstimate.addPayment('credit');
+        // Call submit method.
+        objPayEstimate.submit();
         
         Test.stopTest();
         

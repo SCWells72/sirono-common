@@ -65,38 +65,31 @@ public with sharing class CreatePaymentPlan {
 	public static String createPaymentPlan(String jsonPayment, Id guarantorId){
 		system.debug('jsonPayment:'+jsonPayment);
 		CardInformation cInfo = (CardInformation)JSON.deserialize(jsonPayment, CardInformation.class);
-		//Create instance of AddCreditCard
-		AddCreditCardLightning addCreditCardInstance = new AddCreditCardLightning();
+		//Create instance of AddPaymentPlanLightningController
+		AddPaymentPlanLightningController addPaymentPlanInstance = new AddPaymentPlanLightningController(guarantorId);
 		//Fill common fields like executeOnDay, cardHolderName, guarantorId
-		addCreditCardInstance.username = cInfo.username;
-	    addCreditCardInstance.password = cInfo.password;
-	    addCreditCardInstance.guarantorId = guarantorId;	    
-	    addCreditCardInstance.planType = '';//TODO
-	    addCreditCardInstance.planValue = '';//TODO
-	    addCreditCardInstance.amount = cInfo.amount;
-	    addCreditCardInstance.promiseAmount = cInfo.amount;
-	    addCreditCardInstance.executeOnDay = cInfo.executeOnDay;
-	    addCreditCardInstance.cardHolderName = cInfo.cardHolderName;
-	    addCreditCardInstance.expirationYear = cInfo.expirationYear;
-	    addCreditCardInstance.expirationMonth = cInfo.expirationMonth;
-	    addCreditCardInstance.creditCardNumber = cInfo.creditCardNumber;
-	    addCreditCardInstance.cvv = cInfo.cvv;
-	    addCreditCardInstance.state = cInfo.state;
-	    addCreditCardInstance.zip = cInfo.zip;
-	    addCreditCardInstance.address = cInfo.address;
-	    addCreditCardInstance.city = cInfo.city;
-	    addCreditCardInstance.dctotalAmount = 0;
-	    addCreditCardInstance.getPaymentPlanSettings();
-		//Call methods for creating new payment plan
+		addPaymentPlanInstance.guarantorId = guarantorId;	    
+	    	addPaymentPlanInstance.planType = '';//TODO
+	    	addPaymentPlanInstance.planValue = '';//TODO
+	    	addPaymentPlanInstance.amount = cInfo.amount;
+	    	addPaymentPlanInstance.promiseAmount = cInfo.amount;
+	    	addPaymentPlanInstance.executeOnDay = cInfo.executeOnDay;
+	    	addPaymentPlanInstance.cardHolderName = cInfo.cardHolderName;
+	    	addPaymentPlanInstance.expirationYear = cInfo.expirationYear;
+	    	addPaymentPlanInstance.expirationMonth = cInfo.expirationMonth;
+	    	addPaymentPlanInstance.creditCardNumber = cInfo.creditCardNumber;
+	    	addPaymentPlanInstance.cvv = cInfo.cvv;
+	    	addPaymentPlanInstance.state = cInfo.state;
+	    	addPaymentPlanInstance.zip = cInfo.zip;
+	    	addPaymentPlanInstance.address = cInfo.address;
+	    	addPaymentPlanInstance.city = cInfo.city;
+	    	//Call methods for creating new payment plan
 		
 		//fill in ChargeGroups.isSelected
-		for (ChargeGroupWrapper cgw: addCreditCardInstance.chargeGroupList)
+		for (ChargeGroupWrapper cgw: addPaymentPlanInstance.chargeGroupList)
 			cgw.isSelected = true; //TODO check which groups are to be selected 
 		
-		addCreditCardInstance.getPaymentPlanSettings();
-		addCreditCardInstance.CreatePaymentPlan();
-		//getPaymentPlanSettings() and doSubmit();
-		
-		return null;
+		addPaymentPlanInstance.getPaymentPlanSettings();
+		return addPaymentPlanInstance.addPaymentPlan();
 	}
 }

@@ -6,8 +6,10 @@ public with sharing class RestClientConstants {
     // Specific call constants
     public final static String SIRONO_NAMED_CREDS_ID = 'sirono_server';
     public final static String ADD_CHARGEGROUP_KEY = 'add_chargegroup';
+    public final static String ADD_PAYMENTPLAN_KEY = 'add_paymentplan';    
     public final static String CHARGEGROUP_KEY = 'chargegroup';
     public final static String CSRF_KEY = 'csrf';
+    public final static String GUARANTOR_KEY = 'guarantor';
     public final static String PAYMENT_PLAN_KEY = 'payment_plan';
     public final static String SIRONO_BASE_URL = 'callout:sirono_server';
     public final static String STATEMENTS = 'statements';
@@ -21,6 +23,8 @@ public with sharing class RestClientConstants {
     };
 
     public final static Map<String, String> GUARANTOR_URLS = new Map<String, String>{
+            // 0 - the guarantor sirono id
+            GUARANTOR_KEY => 'callout:sirono_server/paystaff/api/guarantors/{0}/',
             // 0 - the guarantor id
             STATEMENTS => 'callout:sirono_server/paystaff/api/guarantors/{0}/statements/'
     };
@@ -28,6 +32,7 @@ public with sharing class RestClientConstants {
     public final static Map<String, String> PAYMENT_PLAN_URLS = new Map<String, String>{
             // 0 - the payment plan external id
             ADD_CHARGEGROUP_KEY => 'callout:sirono_server/paystaff/api/paymentplan/{0}/add_chargegroups/',
+            ADD_PAYMENTPLAN_KEY => 'callout:sirono_server/paystaff/api/paymentplan/',
             // 0 - playmentPlanExtId
             PAYMENT_PLAN_KEY => 'callout:sirono_server/paystaff/api/paymentplan/{0}/'
     };

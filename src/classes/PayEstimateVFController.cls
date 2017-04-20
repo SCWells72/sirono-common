@@ -28,30 +28,57 @@ public with sharing class PayEstimateVFController extends PayEstimateController 
      * It is create record when all validations are successfully pass out.
      **/
     public void submit() {
-        errorMessages = addPayment(null);
-        if (errorMessages != null) {
-            ApexPages.addMessage(new ApexPages.Message((errorMessages.contains('ERROR')) ? ApexPages.SEVERITY.ERROR : ApexPages.SEVERITY.INFO, errorMessages));
+        try {
+            if (isValidCard() && isValidAmount()) {
+                addPayment(null);
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY));
+            }
+        } catch (SironoServiceException se) {
+            for (String err: se.errors) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+                        'SERVER ERROR RESPONSE:: ' + err));
+            }
+        } catch (Exception e) {
+            // Debug error response
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+                    'ERROR: ' + e.getMessage()));
         }
     }
 
     /**
-     * This method is used to check selected record
-     * @return Boolean - return result of credit card validation
+     * This method is use to check credit card validations successfully pass out or not.
+     *
+     * @returns Boolean - That contains true or false based on errorMessages.
      **/
     protected override Boolean isValidCard() {
         // Call creditCardValidation method that validate all informations/values for Credit Card.
-        Boolean blnIsCCError = VisualForceValidations.creditCardValidation(creditCardNumber, expirationYear, expirationMonth,
-                zip, cardHolderName, cvv, address);
-        return !blnIsCCError;
+        errorMessages.addAll(VisualForceValidations.creditCardValidation(creditCardNumber, expirationYear, expirationMonth,
+                zip, cardHolderName, cvv, address));
+
+        if (errorMessages.size() > 0) {
+            for (String str: errorMessages) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, str));
+            }
+            return false;
+        }
+        return true;
     }
 
     /**
-     * This method is used to check selected record
-     * @return Boolean - return result of amount validation
+     * This method is use to check amount validations successfully pass out or not.
+     *
+     * @returns Boolean - That contains true or false based on errorMessages.
      **/
     protected override Boolean isValidAmount() {
         // Call amountValidation method that validate amount.
-        Boolean blnIsAmountError = VisualForceValidations.amountValidation(amount, String.valueOf(selectedEncounter.Balance__c));
-        return !blnIsAmountError;
+        errorMessages.addAll(VisualForceValidations.amountValidation(amount, String.valueOf(selectedEncounter.Balance__c)));
+
+        if (errorMessages.size() > 0) {
+            for (String str: errorMessages) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, str));
+            }
+            return false;
+        }
+        return true;
     }
 }

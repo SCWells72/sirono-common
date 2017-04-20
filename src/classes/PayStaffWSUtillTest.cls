@@ -36,20 +36,18 @@ private class PayStaffWSUtillTest {
     }
 
     /**
-     * This method tests the logic of expYearOptions is populate or not.
+     * This method tests the logic of fetchGuarantorId.
      **/
     @isTest
-    static void checkExpYearPopulated() {
+    static void checkGuarantorIdPopulated() {
         Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
         gt = GuarantorService.getGuarantorWithActiveCG(gt.Id);
 
-        PayStaffWSUtill.fetchGuarantorId(gt);
+        String guarantorSironoId = PayStaffWSUtill.fetchGuarantorId(gt);
         PayStaffWSUtill.fetchChargeGroupIds(ChargeGroupWrapper.buildList(gt));
         PayStaffWSUtill.getCSRFToken();
         PayStaffWSUtill.getJWTToken(PayStaffWSUtill.un, PayStaffWSUtill.pw);
         PayStaffWSUtill.buildChargeGroupsURL('1,2');
-        List<SelectOption> expYearOptions = PayStaffWSUtill.expYearOptions;
-        List<SelectOption> expMonthOptions = PayStaffWSUtill.expMonthOptions;
 
         Test.startTest();
         PayStaffWSUtill.TokenAuthResponse tokenAuthResponse = new PayStaffWSUtill.TokenAuthResponse();
@@ -57,7 +55,7 @@ private class PayStaffWSUtillTest {
         Test.stopTest();
         
         // Check System assert.
-        System.assertNotEquals(expYearOptions, null, 'Should have failed due to expYearOptions are null.');
+        System.assertEquals(guarantorSironoId, String.valueOf(gt.Profile_Pointer_ID__c), 'Expected Sirono Id ' + guarantorSironoId + ' but got ' + gt.Profile_Pointer_ID__c);
     }
 
 
@@ -150,20 +148,6 @@ private class PayStaffWSUtillTest {
         
         // Check system assert.
         System.assert('1.00'.equals(dollarAmount), 'Expected 1.00, but got ' + dollarAmount);
-    }
-    
-    /**
-     * This method tests the logic of Dollar to Cent Convert.
-     **/
-    @isTest
-    static void convertDollarToCents() {
-        String inputDollars = '100';
-        Test.startTest();
-        String outputCents = PayStaffWSUtill.convertToCents(inputDollars);
-        Test.stopTest();
-        
-        // Check system assert.
-        System.assert('10000'.equals(outputCents), 'Expected 10000, but got ' + outputCents);
     }
 
     /**
