@@ -20,13 +20,13 @@ public abstract class PayEstimateController {
     public Encounter__c selectedEncounter {get; set;}
     public String state {get; set;}
     public String zip {get; set;}
-    public List<String> errorMessages{get;set;}
+    public String errorMessages{get;set;}
 
     // Getter setter of expYearOptions
     public List<SelectOption> expYearOptions {
         get {
             if (expYearOptions == null) {
-                expYearOptions = UIUtils.expYearOptions;
+                expYearOptions = PayStaffWSUtill.expYearOptions;
             }
             return expYearOptions;
         }
@@ -37,7 +37,7 @@ public abstract class PayEstimateController {
     public List<SelectOption> expMonthOptions {
         get {
             if (expMonthOptions == null) {
-                expMonthOptions = UIUtils.expMonthOptions;
+                expMonthOptions = PayStaffWSUtill.expMonthOptions;
             }
             return expMonthOptions;
         }
@@ -49,7 +49,7 @@ public abstract class PayEstimateController {
      * @param String recordId - record Id that is used for getting encounters records
      **/
     public void init(String recordId) {
-    	errorMessages = new List<String>();
+    	errorMessages = '';
     	if (guarantorRecordId != null) {
             // Fetch Guarantor Contact record based on Id.
             guarantorContact = GuarantorDao.getGuarantor(guarantorRecordId);
@@ -61,8 +61,6 @@ public abstract class PayEstimateController {
     }
 
     protected abstract void loadEncounters(String recordId);
-    protected abstract Boolean isValidCard();
-    protected abstract Boolean isValidAmount();
 
     /**
      * This method is used to get selected record
@@ -87,12 +85,21 @@ public abstract class PayEstimateController {
 
     /**
      * This method is use to Create/Insert Payment record based on Encounter, Contact and Amount.
+     * It is create record if all validations are successfully pass out.
      * @param String paymentMethod - payment method
+     * @return String - success/error message
      **/
-    public void addPayment(String paymentMethod) {
-        // Call createNewPayment method.
-        PaymentService.createNewPayment(guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod);
-    }
+	public String addPayment(String paymentMethod) {
+        try {
+	        if (isValidCard() && isValidAmount()) {
+	        	String transactionId = PaymentService.createNewPayment(guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod);
+	        	return (paymentMethod == null) ? Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY : 'Success;' + transactionId + ';$' + amount;
+	        }
+	        return errorMessages;
+        } catch (Exception e) {
+        	return 'ERROR: ' + e.getMessage();
+        }
+	}
 
     /**
      * This method is used to check selected record
@@ -116,4 +123,16 @@ public abstract class PayEstimateController {
         }
         return new EncounterWrapper(selectedEncounter, encounterSelected);
     }
+
+    /**
+     * This method is used to check selected record
+     * @return Boolean - return result of credit card validation
+     **/
+	protected abstract Boolean isValidCard();
+
+    /**
+     * This method is used to check selected record
+     * @return Boolean - return result of amount validation
+     **/
+    protected abstract Boolean isValidAmount();
 }
