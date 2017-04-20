@@ -2206,7 +2206,7 @@ CASE(Invoice_Status_Rollup__c,
         <masterLabel>Create Payment Plan</masterLabel>
         <openType>noSidebar</openType>
         <protected>false</protected>
-        <url>/apex/AddCreditCard?guarantorId={!Contact.Id}</url>
+        <url>/apex/AddPaymentPlan?guarantorId={!Contact.Id}</url>
     </webLinks>
     <webLinks>
         <fullName>GoogleMaps</fullName>

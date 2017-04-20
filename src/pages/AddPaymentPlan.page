@@ -1,0 +1,341 @@
+<!--
+* AddPaymentPlan VF page is use to create/add payment plan record.
+-->
+
+<apex:page controller="AddPaymentPlanVFController" id="pg" action="{!getPaymentPlanSettings}">
+    <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>
+
+    <apex:includeScript value="{!URLFOR($Resource.Jquery, 'jquery-3.0.0.min.js')}"/>
+
+    <apex:sectionHeader title="Create Payment Plan"/>
+    <apex:form id="frm">
+        <apex:outputPanel id="errorPanel">
+            <apex:pageMessages/>
+        </apex:outputPanel>
+        <apex:outputPanel id="statusPanel" styleClass="pay-staff-outer_block" style="display:none;">
+            <div class="pay-staff-inner_block">
+                <apex:image value="{!$Resource.ajax_loader}" height="36px" width="36px"/>
+                <br/>
+                <span class="pay-staff-custom_message">Refreshing...</span><br/>
+                <br/><br/><br/>
+            </div>
+        </apex:outputPanel>
+        <apex:actionFunction name="refreshJS" action="{!doNext}"/>
+        <apex:actionFunction name="doNothingJS"/>
+        <apex:pageBlock title="{!guarantorName}">
+            <apex:outputPanel styleClass="pay-staff-table-wrap" rendered="{!if(chargeGroupList.size != 0 && isActivePaymentPlan == false, true, false)}">
+                <table class="list">
+                    <tr class="headerRow">
+                        <td class="headerRow">
+                            <apex:outputPanel styleClass="selectAllHeader">
+                                <apex:inputCheckbox title="Select All" selected="false" styleClass="selectAllCBK"
+                                                    onclick="selectAllCheckboxes(this,'inputId');startAjaxLoader('pg:frm:statusPanel');refreshJS();"/>
+                                <apex:outputLabel value="Select All"/>
+                            </apex:outputPanel>
+                        </td>
+                        <td class="headerRow">Account</td>
+                        <td class="headerRow">Type</td>
+                        <td class="headerRow">Service Dates</td>
+                        <td class="headerRow">Provider or Location</td>
+                        <td class="headerRow">Balance</td>
+                        <td class="headerRow">Invoice Date</td>
+                        <td class="headerRow">Status</td>
+                        <td class="headerRow">Sub Status</td>
+                    </tr>
+                </table>
+                <div class="pay-staff-inner-table">
+                    <table class="list">
+                        <apex:repeat value="{!chargeGroupList}" var="cgw">
+                            <tr class="dataRow">
+                                <td class="dataCell">
+                                    <apex:inputCheckbox value="{!cgw.isSelected}" id="inputId" styleClass="selectCBK"
+                                                        onclick="checkBoxStatus();startAjaxLoader('pg:frm:statusPanel');refreshJS();"/>
+                                </td>
+                                <td class="dataCell">
+                                    <apex:outputField value="{!cgw.cg.External_ID__c}"/>
+                                </td>
+                                <td class="dataCell">
+                                    <apex:outputField value="{!cgw.cg.Account_Type__c}"/>
+                                </td>
+                                <td class="dataCell">
+                                    <apex:outputField value="{!cgw.cg.Date_Of_Service_Start_Date__c}"/>
+                                    -
+                                    <apex:outputField value="{!cgw.cg.Date_Of_Service_End_Date__c}"/>
+                                </td>
+                                <td class="dataCell">
+                                    <apex:outputField value="{!cgw.cg.Provider__r.Name}"
+                                                      rendered="{!cgw.cg.Account_Type__c == 'PB'}"/>
+                                    <apex:outputField value="{!cgw.cg.Location__r.Name}"
+                                                      rendered="{!cgw.cg.Account_Type__c == 'HB'}"/>
+                                </td>
+                                <td class="dataCell">
+                                    <apex:outputField value="{!cgw.cg.Balance__c}"/>
+                                </td>
+                                <td class="dataCell">
+                                    <apex:outputField value="{!cgw.cg.Invoice__r.Invoice_Date__c}"/>
+                                </td>
+                                <td class="dataCell">
+                                    <apex:outputField value="{!cgw.cg.Account_Status__c}"/>
+                                </td>
+				<td class="dataCell">
+				    <apex:outputField value="{!cgw.cg.Account_Sub_Status__c}"/>
+				</td>
+                            </tr>
+                        </apex:repeat>
+                    </table>
+                </div>
+            </apex:outputPanel>
+            <apex:outputLabel value="There are no charge groups" rendered="{!if(chargeGroupList.size == 0 && isActivePaymentPlan == false, true, false)}"/>
+        </apex:pageBlock>
+        <br/>
+        <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
+        <br/>
+        <apex:outputPanel id="op" rendered="{!isActivePaymentPlan == false}">
+            <apex:selectRadio value="{!planType}"
+                              onChange="startAjaxLoader('pg:frm:statusPanel');doNothingJS();return false;">
+                <apex:selectOptions value="{!paymentPlanTypeOptions}"/>
+            </apex:selectRadio>
+        </apex:outputPanel>
+        <br/>
+        <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
+        <br/>
+        <apex:outputPanel id="op1" rendered="{!planType != null}">
+            <div class="pay-staff-full-width pay-staff-clear-both">
+                <table class="pay-staff-tabale-right">
+                    <apex:variable var="totalAmount" value="{!0}"/>
+                    <apex:repeat value="{!chargeGroupList}" var="cgw">
+                        <apex:outputPanel rendered="{!cgw.isSelected}">
+                            <apex:variable var="totalAmount" value="{!totalAmount + cgw.cg.Balance__c}"/>
+                            <tr class="pay-staff-cg-detail-row">
+                                <td>
+                                    Account {!cgw.cg.External_ID__c}
+                                </td>
+                                <td class="pay-staff-text-right">
+				    {!cgw.cg.Balance__c}
+				</td>
+                            </tr>
+                        </apex:outputPanel>
+                    </apex:repeat>
+                    <tr class="pay-staff-cg-total-row">
+                        <td>
+                            Total
+                        </td>
+                        <td class="pay-staff-text-right">
+			    ${!totalAmount}
+			</td>
+                    </tr>
+                </table>
+
+                <!-- PROMISE TO PAY PAYMENTS -->
+                <table class="pay-staff-tabale-left" style="display:{!IF(planType == 'promise', '','none')};">
+                    <tr>
+                        <td colspan="2">
+                            <apex:outputLabel styleClass="pay-staff-message"
+                                              value="Total Payment Plan: ${!totalAmount}"/>
+                        </td>
+                        <td colspan="2"> &nbsp; </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+                            <apex:outputLabel styleClass="pay-staff-lable" value="Monthly Installment Amount"
+                                              for="amount2"/>
+                        </td>
+                        <td colspan="2"> &nbsp; </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <apex:inputText styleClass="pay-staff-input" onkeypress="return isDecimalNumberKey(event)"
+                                            maxlength="15" value="{!promiseAmount}" id="amount2"/>
+                        </td>
+                        <td colspan="2"> &nbsp; </td>
+                    </tr>
+                </table>
+
+                <!-- AUTO DRAFT PAYMENTS -->
+                <apex:outputPanel id="opAuto">
+                    <table class="pay-staff-tabale-left" style="display:{!IF(planType == 'auto', '','none')};">
+                        <tr>
+                            <td colspan="3">
+                                <apex:outputLabel styleClass="pay-staff-message"
+                                                  value="Total Payment Plan: ${!totalAmount}"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <apex:outputLabel styleClass="pay-staff-lable" value="Monthly Installment Amount"
+                                                  for="amount"/>
+                            </td>
+                            <td> &nbsp; </td>
+                            <td>
+                                <apex:outputLabel styleClass="pay-staff-lable" value="Date to Charge (each month)"
+                                                  for="executeOnDay"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <apex:inputText styleClass="pay-staff-input"
+                                                onkeypress="return isDecimalNumberKey(event)" maxlength="15"
+                                                value="{!amount}" id="amount"/>
+                            </td>
+                            <td> &nbsp; </td>
+                	    <td>
+                                <apex:inputText styleClass="pay-staff-input" onkeypress="return isDecimalNumberKey(event)" value="{!executeOnDay}" id="executeOnDay"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <apex:outputLabel styleClass="pay-staff-lable" style="display:inline !important;"
+                                                  value="Name on Card" for="cardholderName"/>
+                                <apex:commandLink style="float: right;color: blue;text-decoration: none;"
+                                                  value="Fill Name and Address on File" action="{!fillNameAndAddress}"
+                                                  reRender="opAuto"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <apex:inputText styleClass="pay-staff-input" value="{!cardholderName}"
+                                                id="cardholderName"/>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <apex:outputLabel styleClass="pay-staff-lable" value="Card Number" for="cardNumber"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <apex:inputText styleClass="pay-staff-input" maxlength="19" value="{!creditCardNumber}"
+                                                onkeypress="return isNumberKey(event)" id="cardNumber"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <apex:outputLabel styleClass="pay-staff-lable" value="Expiration Date" for="expYr"/>
+                            </td>
+                            <td>
+                                <apex:outputLabel styleClass="pay-staff-lable" value="CVV" for="ccv"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <apex:selectList styleClass="pay-staff-input" value="{!expirationMonth}"
+                                                 multiselect="false" size="1" id="expMonth">
+                                    <apex:selectOptions value="{!UIUtils.expMonthOptions}"/>
+                                </apex:selectList>
+                            </td>
+                            <td>
+                                <apex:selectList styleClass="pay-staff-input" value="{!expirationYear}"
+                                                 multiselect="false" size="1" id="expYr">
+                                    <apex:selectOptions value="{!UIUtils.expYearOptions}"/>
+                                </apex:selectList>
+                            </td>
+                            <td>
+                                <apex:inputText styleClass="pay-staff-input" maxlength="4"
+                                                onkeypress="return isNumberKey(event)" value="{!cvv}" id="ccv"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+                                <apex:outputLabel styleClass="pay-staff-lable" value="Billing Address" for="billAddr"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <apex:inputText styleClass="pay-staff-input" value="{!address}" id="billAddr"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <apex:outputLabel styleClass="pay-staff-lable" value="City" for="city"/>
+                            </td>
+                            <td>
+                                <apex:outputLabel styleClass="pay-staff-lable" value="State" for="state"/>
+                            </td>
+                            <td>
+                                <apex:outputLabel styleClass="pay-staff-lable" value="Zip Code" for="zip"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <apex:inputText styleClass="pay-staff-input" value="{!city}" id="city"/>
+                            </td>
+                            <td>
+                                <apex:inputText styleClass="pay-staff-input" value="{!state}" id="state"/>
+                            </td>
+                            <td>
+                                <apex:inputText styleClass="pay-staff-input" onkeypress="return isNumberKey(event)"
+                                                maxlength="5" value="{!zip}" id="zip"/>
+                            </td>
+                        </tr>
+                    </table>
+                </apex:outputPanel>
+            </div>
+            <br/>
+            <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
+            <br/>
+            <div class="pay-staff-clear-both">
+                <table class="pay-staff-tabale-left">
+                    <tr>
+                        <td>
+                            <apex:commandButton action="{!doCancel}" value="Cancel Set Up"
+                                                styleClass="pay-staff-button pay-staff-cancel-button"/>
+                        </td>
+                        <td>
+                            <apex:commandButton action="{!doSubmit}" value="Set Up Payment Plan"
+                                                styleClass="pay-staff-button" rendered="{!chargeGroupsSelected}"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </apex:outputPanel>
+    <apex:outputPanel rendered="{!isActivePaymentPlan}">
+            <div class="pay-staff-clear-both">
+                <table class="pay-staff-tabale-left">
+                    <tr>
+                        <td><apex:commandButton action="{!doCancel}" value="Cancel Set Up" styleClass="pay-staff-button pay-staff-cancel-button"/></td>                        
+                    </tr>
+                </table>
+            </div>
+        </apex:outputPanel>
+
+    </apex:form>
+
+    <Script>
+        var delaymessage = 2000;
+        $(document).ready(function () {
+            returnToContact();
+        });
+
+        function returnToContact() {
+            $('img[title="INFO"]').each(function () {
+                setTimeout(function () {
+                    window.location = '/{!guarantorRecordId}';
+                }, delaymessage);
+            });
+        }
+
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+
+        function isDecimalNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode == 46 || charCode == 62) return true;
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+    </Script>
+</apex:page>

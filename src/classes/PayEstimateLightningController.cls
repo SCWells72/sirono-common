@@ -6,6 +6,9 @@
  * Based on selected Encounter, Create a Payment Record.
  **/ 
 public with sharing class PayEstimateLightningController extends PayEstimateController {
+
+    public String message;
+
     /**
      * Constructor of Class with standard controller.
      *
@@ -29,30 +32,50 @@ public with sharing class PayEstimateLightningController extends PayEstimateCont
      * @return String - error/success message
      **/
     public String submit() {
-        errorMessages = addPayment('credit');
-        return errorMessages;
+        try {
+            if (isValidCard() && isValidAmount()) {
+                addPayment('credit');
+                message = Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY;
+            }
+        } catch (SironoServiceException se) {
+            message = 'SERVER ERROR RESPONSE:: ' + String.join(se.errors, '');
+        } catch (Exception e) {
+            // Debug error response
+            message = 'ERROR: ' + e.getMessage();
+        }
+        return message;
     }
 
     /**
-     * This method is used to check selected record
-     * @return Boolean - return result of credit card validation
+     * This method is use to check credit card validations successfully pass out or not.
+     *
+     * @returns Boolean - That contains true or false based on errorMessages.
      **/
     protected override Boolean isValidCard() {
         // Call creditCardValidation method that validate all informations/values for Credit Card.
-        String blnIsCCError = LightningValidations.creditCardValidation(creditCardNumber, expirationYear, expirationMonth,
-                zip, cardHolderName, cvv, address);
-        errorMessages += blnIsCCError;
-        return String.isEmpty(blnIsCCError);
+        errorMessages.addAll(VisualForceValidations.creditCardValidation(creditCardNumber, expirationYear, expirationMonth,
+                zip, cardHolderName, cvv, address));
+
+        if (errorMessages.size() > 0) {
+            message = String.join(errorMessages, '');
+            return false;
+        }
+        return true;
     }
 
     /**
-     * This method is used to check selected record
-     * @return Boolean - return result of amount validation
+     * This method is use to check amount validations successfully pass out or not.
+     *
+     * @returns Boolean - That contains true or false based on errorMessages.
      **/
     protected override Boolean isValidAmount() {
         // Call amountValidation method that validate amount.
-        String blnIsAmountError = LightningValidations.amountValidation(amount, String.valueOf(selectedEncounter.Balance__c));
-        errorMessages += blnIsAmountError;
-        return String.isEmpty(blnIsAmountError);
+        errorMessages.addAll(VisualForceValidations.amountValidation(amount, String.valueOf(selectedEncounter.Balance__c)));
+
+        if (errorMessages.size() > 0) {
+            message = String.join(errorMessages, '');
+            return false;
+        }
+        return true;
     }
 }

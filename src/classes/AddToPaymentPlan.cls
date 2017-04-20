@@ -32,20 +32,9 @@ public abstract class AddToPaymentPlan{
     public PageReference doNext() {
 
         chargeGroupsSelected = false;
-        chargeGroupIds = getSelectedChargeGroupIds();
+        // getSelectedChargeGroupIds method created in ChargeGroupWrapper class because of it is use in more than one class.
+        chargeGroupIds = ChargeGroupWrapper.getSelectedChargeGroupIds(chargeGroupList);
         chargeGroupsSelected = !chargeGroupIds.isEmpty();
 
         return null;
     }
-
-    private List<String> getSelectedChargeGroupIds() {
-        Set<String> idSet = new Set<String>();
-        for (ChargeGroupWrapper cgw : chargeGroupList) {
-            if (cgw.isSelected) {
-                idSet.add(cgw.cg.Sirono_ID__c.toPlainString());
-            }
-        }
-        return new List<String>(idSet);
-    }
-
-}

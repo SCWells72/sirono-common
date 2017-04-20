@@ -446,6 +446,6 @@ CASE(Type__c,
         <masterLabel>Update Credit Card</masterLabel>
         <openType>sidebar</openType>
         <protected>false</protected>
-        <url>/apex/AddCreditCard?guarantorId={!Payment_Method__c.GuarantorId__c}</url>
+        <url>/apex/AddPaymentPlan?guarantorId={!Payment_Method__c.GuarantorId__c}</url>
     </webLinks>
 </CustomObject>

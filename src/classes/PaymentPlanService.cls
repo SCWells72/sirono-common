@@ -33,6 +33,21 @@ public with sharing class PaymentPlanService extends AbstractService {
         }
 
         /**
+         * Make the call to add a Credit Card/Payment Plan.
+         *
+         * @param PaymentPlanInformation ppInfo - It as an object that holds the information required to create a payment plan.
+         * @returns - HttpResponse The response to the call.
+         **/
+        @TestVisible
+        private HttpResponse createPaymentPlan(PaymentPlanInformation ppInfo) {
+
+            return postRequestor()
+                    .url(RestClientConstants.ADD_PAYMENTPLAN_KEY, new String[] {})
+                    .body(buildCreatePaymentPlanBody(ppInfo))
+                    .call();
+        }
+
+        /**
          * Get the payment plan by id from the sirono server.
          *
          * @param - String planId The sirono id for the payment plan.
@@ -67,6 +82,48 @@ public with sharing class PaymentPlanService extends AbstractService {
 
             String body = JSON.serializePretty(rawData);
             //System.debug('buildAddToPaymentPlanBody: '+body);
+            return body;
+        }
+        
+        /**
+         * Build the JSON structure required for the Create Payment Plan post.
+         *
+         * @param PaymentPlanInformation ppInfo - It as an object that holds the information required to create a payment plan.
+         * @returns String body - The Json payload.
+         **/
+        @TestVisible
+        private String buildCreatePaymentPlanBody(PaymentPlanInformation ppInfo) {
+            List<String> cgUrls = new List<String>();
+            for (String chargeGroupId: ppInfo.chargeGroupIds) {
+                cgUrls.add(asChargeGroupURL(chargeGroupId));
+            }
+            
+            Map<String, Object> rawData = new Map<String,Object>{                    
+                    RestClientConstants.CSRF_JSON_KEY => getCsrf(),
+                    'plan_type' => ppInfo.planType,
+                    'plan_value' => ppInfo.planValue,
+                    'installment_amount' => convertToCents(ppInfo.amount),                    
+                    RestClientConstants.CHARGE_GROUPS => cgUrls,
+                    'guarantor' => asGuarantorURL(ppInfo.guarantorId),
+                    'active' => 'true'
+            };
+            if (ppInfo.planType.trim().equalsIgnoreCase(Constants.PLANTYPE_AUTO)) {
+                rawData.put('execute_on_day', ppInfo.executeOnDay);
+                rawData.put('credit_card', new Map<String, Object> {
+                    'method' => 'credit',
+                    'cardholder_name' => ppInfo.cardholderName,
+                    'expiration_year' => ppInfo.expirationYear,
+                    'expiration_month' => ppInfo.expirationMonth,
+                    'number' => ppInfo.creditCardNumber,
+                    'cvv' => ppInfo.cvv,
+                    'state' => ppInfo.state,
+                    'zipcode' => ppInfo.zip,
+                    'address_1' => ppInfo.address,
+                    'city' => ppInfo.city
+                });
+            }
+
+            String body = JSON.serializePretty(rawData);
             return body;
         }
     }
@@ -163,15 +220,19 @@ public with sharing class PaymentPlanService extends AbstractService {
         @TestVisible
         private Payment_Plan__c parseAsPaymentPlan() {
 
-            Payment_Plan__c paymentPlanObj = null;
+            Payment_Plan__c paymentPlanObj = new Payment_Plan__c();
 
             if (!String.isBlank(objJson.url)) {
                 String strPaymentPlan = parseSironoId(objJson.url, 'paymentplan');
                 if (!String.isBlank(strPaymentPlan)) {
                     paymentPlanObj = PaymentPlanDao.getPaymentPlanBySironoId(strPaymentPlan);
-                    paymentPlanObj.Name = String.valueOf(paymentPlanObj.Sirono_ID__c);
+                    if (paymentPlanObj == null) {
+                        paymentPlanObj = new Payment_Plan__c();
+                        paymentPlanObj.Sirono_ID__c = Decimal.valueOf(strPaymentPlan);
+                        paymentPlanObj.Name = strPaymentPlan;
+                    }
                 }
-            } else {
+            } else { // VR: We thing “else condition” not needed because of “URL” Cannot be null in response. 
                 //I don't really see how this is possible with valid JSON & if the JSON is not valid, we should have already puked
                 paymentPlanObj = new Payment_Plan__c();
             }
@@ -223,6 +284,21 @@ public with sharing class PaymentPlanService extends AbstractService {
         client = new PaymentPlanRestClient();
         HttpResponse response = client.getPlan(planId);
         updateObjects(response.getBody(), chargegroupIds);
+    }
+    
+    /**
+     * Call the sirono server to add payment plan & then
+     * insert/update the SF copy of the data.
+     *
+     * @param PaymentPlanInformation ppInfo - It as an object that holds the information required to create a payment plan.
+     **/
+    public static void addPaymentPlan(PaymentPlanInformation ppInfo) {
+        validateChargeGroupIds(ppInfo.chargeGroupIds);
+
+        PaymentPlanRestClient client = new PaymentPlanRestClient();
+        HttpResponse response = client.createPaymentPlan(ppInfo);
+
+        updateObjects(response.getBody(), ppInfo.chargeGroupIds);
     }
 
 	public static Payment_Plan__c getActivePaymentPlan(String quarantorId){
@@ -291,5 +367,26 @@ public with sharing class PaymentPlanService extends AbstractService {
         }
 
         ChargeGroupDao.updateChargeGroups(cgList);
+    }
+
+    /**
+     * Return the active payment plan for the given guarantorId, null if there is none
+     *
+     * @param - String guarantorId  The guarantorId of the plan.
+     * @return - Payment_Plan__c The active plan.
+     **/
+    public static Payment_Plan__c getActivePaymentPlan(String guarantorId) {
+        return PaymentPlanDao.getActivePaymentPlan(guarantorId);
+    }
+
+    /**
+     * This method is use to convert amount into cents.
+     *
+     * @param String amount - That contains amount value.
+     * @returns String centAmount - That contains cent amount value.
+     **/
+    public static String convertToCents(String amount) {
+        String centAmount = (String.isNotBlank(amount) ? String.valueOf(Decimal.valueOf(amount) * 100) : amount);
+        return centAmount;
     }
 }

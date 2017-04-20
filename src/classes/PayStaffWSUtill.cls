@@ -22,45 +22,6 @@ public with sharing class PayStaffWSUtill {
     //It is used to verified that Charge Group have longer Payment Plan Look up or not.
     static boolean hasChargeGroupPaymentPlan = false;
 
-    //get the current + 10 Years list
-    public static List<SelectOption> expYearOptions {
-        get {
-            if (expYearOptions == null) {
-                expYearOptions = new List<SelectOption>();
-                Integer currentYear = System.today().year();
-                for (Integer i = 0; i <= 10; i++) {
-                    String value = String.valueOf(currentYear++);
-                    expYearOptions.add(new SelectOption(value, value));
-                }
-            }
-            return expYearOptions;
-        }
-        protected set;
-    }
-
-    //get the All month list
-    public static List<SelectOption> expMonthOptions {
-        get {
-            if (expMonthOptions == null) {
-                expMonthOptions = new List<SelectOption>();
-                expMonthOptions.add(new SelectOption('01', '01 (January)'));
-                expMonthOptions.add(new SelectOption('02', '02 (February)'));
-                expMonthOptions.add(new SelectOption('03', '03 (March)'));
-                expMonthOptions.add(new SelectOption('04', '04 (April)'));
-                expMonthOptions.add(new SelectOption('05', '05 (May)'));
-                expMonthOptions.add(new SelectOption('06', '06 (June)'));
-                expMonthOptions.add(new SelectOption('07', '07 (July)'));
-                expMonthOptions.add(new SelectOption('08', '08 (August)'));
-                expMonthOptions.add(new SelectOption('09', '09 (September)'));
-                expMonthOptions.add(new SelectOption('10', '10 (October)'));
-                expMonthOptions.add(new SelectOption('11', '11 (November)'));
-                expMonthOptions.add(new SelectOption('12', '12 (December)'));
-            }
-            return expMonthOptions;
-        }
-        protected set;
-    }
-
     //These are just being added back in order to fix a QA build break. DO NOT USE
     public static String fetchGuarantorName(Contact gt) {
         return GuarantorService.buildGuarantorDetailString(gt);
@@ -343,15 +304,6 @@ public with sharing class PayStaffWSUtill {
         } else {
             System.debug('[' + messageSeverity + '] ' + messageText);
         }
-    }
-
-    /*Mohan Kumar 07-28-2016: Convert the amount in cents before sending it to Sirono on Take Payment,
-    *Add Adjustment, Add Discount actions
-    */
-    public static String convertToCents(String amount) {
-        String centAmount = (String.isNotBlank(amount) ? String.valueOf(Decimal.valueOf(amount) * 100) : amount);
-        System.debug('converted cent amount: ' + centAmount);
-        return centAmount;
     }
 
     //Mohan Kumar 08-18-2016: Convert the amount in dollars
@@ -757,18 +709,5 @@ public with sharing class PayStaffWSUtill {
         paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
 
         return paymentPlanObj;
-    }
-
-    //Fetch Charge Group list based on Account sub status values Preinvoiced,Due,Delinquent,Bad Debt and Overdue
-    public static List<ChargeGroupWrapper> fetchChargeGroupListByAccSubStatus(Contact gc) {
-        List<ChargeGroupWrapper> cgList = new List<ChargeGroupWrapper>();
-        if (gc != null && gc.Charge_Groups__r != null && gc.Charge_Groups__r.size() > 0) {
-            for (Charge_Group__c cg : gc.Charge_Groups__r) {
-                if (Constants.CGConstraints.contains(cg.Account_Sub_Status__c)) {
-                   cgList.add(new ChargeGroupWrapper(cg, false));
-               }
-            }
-        }
-        return cgList;
     }
 }

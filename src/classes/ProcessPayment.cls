@@ -41,7 +41,7 @@ public with sharing class ProcessPayment {
     public List<SelectOption> expYearOptions {
         get {
             if (expYearOptions == null) {
-                expYearOptions = PayStaffWSUtill.expYearOptions;
+                expYearOptions = UIUtils.expYearOptions;
             }
             return expYearOptions;
         }
@@ -51,7 +51,7 @@ public with sharing class ProcessPayment {
     public List<SelectOption> expMonthOptions {
         get {
             if (expMonthOptions == null) {
-                expMonthOptions = PayStaffWSUtill.expMonthOptions;
+                expMonthOptions = UIUtils.expMonthOptions;
             }
             return expMonthOptions;
         }
@@ -270,14 +270,14 @@ public with sharing class ProcessPayment {
                 '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + ',' +
                 '"expiration_year":"' + expirationYear + '",' +
                 '"cvv":"' + cvv + '",' +
-                '"amount":' + PayStaffWSUtill.convertToCents(amount) + ',' +
+                '"amount":' + PaymentPlanService.convertToCents(amount) + ',' +
                 '"expiration_month":"' + expirationMonth + '",' +
                 '"cardholder_name":"' + cardHolderName + '",' +
                 '"state":"' + state + '",' +
                 '"address_1":"' + address + '",' +
                 '"zipcode":"' + zip + '",' +
                 '"city":"' + city + '",' +
-                '"total-amount":' + PayStaffWSUtill.convertToCents(amount) + ',' +
+                '"total-amount":' + PaymentPlanService.convertToCents(amount) + ',' +
                 '"method":"credit"}';
 
         HttpRequest req = new HttpRequest();

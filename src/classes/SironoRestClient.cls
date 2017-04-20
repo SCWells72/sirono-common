@@ -388,6 +388,18 @@ public abstract with sharing class SironoRestClient {
     }
 
     /**
+     *
+     * Return the given sironoId formatted as a guarantor absolute URI
+     **/
+    protected String asGuarantorURL(String guarantorId) {
+        String guarantorUrl =  String.format(RestClientConstants.GUARANTOR_URLS.get(RestClientConstants.GUARANTOR_KEY), new String[]{
+                stripCommas(guarantorId)
+        });
+
+        return resolveBaseURL(guarantorUrl);
+    }
+
+    /**
      * Replace the named creds server placeholder with the actual endpointURL from the sirono_server named creds
      */
     protected String resolveBaseURL(String newURL) {

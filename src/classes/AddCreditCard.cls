@@ -59,7 +59,7 @@ public with sharing class AddCreditCard {
     public List<SelectOption> expYearOptions {
         get {
             if (expYearOptions == null) {
-                expYearOptions = PayStaffWSUtill.expYearOptions;
+                expYearOptions = UIUtils.expYearOptions;
             }
             return expYearOptions;
         }
@@ -70,7 +70,7 @@ public with sharing class AddCreditCard {
     public List<SelectOption> expMonthOptions {
         get {
             if (expMonthOptions == null) {
-                expMonthOptions = PayStaffWSUtill.expMonthOptions;
+                expMonthOptions = UIUtils.expMonthOptions;
             }
             return expMonthOptions;
         }
@@ -90,16 +90,10 @@ public with sharing class AddCreditCard {
         isActivePaymentPlan = false;
         if (Apexpages.currentPage().getParameters().containsKey('guarantorId')) {
             guarantorRecordId = Apexpages.currentPage().getParameters().get('guarantorId');
-            gc = GuarantorService.getGuarantorWithActiveCG(guarantorRecordId);
+            gc = GuarantorService.getGuarantorFilterCGByAcctSubStatus(guarantorRecordId, Constants.CGConstraints);
             guarantorName = GuarantorService.buildGuarantorDetailString(gc);
             guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
-            //chargeGroupList = PayStaffWSUtill.fetchChargeGroupList(gc);
-            //date: 11/22/2016 tracker #134300243 fetching charge group list based on account sub status : Preinvoiced, Due, Overdue, Delinquent, or Bad Debt
-            for (ChargeGroupWrapper cgw : PayStaffWSUtill.fetchChargeGroupListByAccSubStatus(gc)) {
-                if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
-                    chargeGroupList.add(cgw);
-                }
-            }
+            chargeGroupList = ChargeGroupWrapper.buildList(gc);            
             chargeGroupId = '';
 
             //10-12-2016: Viraj Rana - Tracker #131459561: Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
@@ -370,7 +364,7 @@ public with sharing class AddCreditCard {
         if (planType != null && planType.trim().equalsIgnoreCase('auto')) {
             requestData += '"plan_type":"' + planType + '",' +
                     '"plan_value":"' + planValue + '",' +
-                    '"installment_amount":' + PayStaffWSUtill.convertToCents(amount) + ',' +
+                    '"installment_amount":' + PaymentPlanService.convertToCents(amount) + ',' +
                     '"execute_on_day":"' + executeOnDay + '",' +
                     '"chargegroups":' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + ',' +
                     '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/",' +
@@ -390,7 +384,7 @@ public with sharing class AddCreditCard {
         } else if (planType != null && planType.trim().equalsIgnoreCase('promise')) {
             requestData += '"plan_type":"' + planType + '",' +
                     '"plan_value":"' + planValue + '",' +
-                    '"installment_amount":"' + PayStaffWSUtill.convertToCents(promiseAmount) + '",' +
+                    '"installment_amount":"' + PaymentPlanService.convertToCents(promiseAmount) + '",' +
                     '"chargegroups":' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + ',' +
                     '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/",' +
                     '"active":"true"}';

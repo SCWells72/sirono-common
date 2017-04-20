@@ -25,7 +25,12 @@ public class Constants {
     public static final String PAGE_MESSAGE_AMOUNT_EXCEED_BALANCE = 'Amount cannot exceed balance.';
     public static final String PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO = 'Amount must be greater than zero.';
     public static final String PAGE_MESSAGE_BILLING_ADDRESS_REQUIRE = 'Billing Address is a required field.';
+    public static final String PAGE_MESSAGE_CG_REQUIRE = 'Charge Group is a required field.';
     public static final String PAGE_MESSAGE_CREATED_SUCCESSFULLY = 'Created Successfully.';
+    public static final String PAGE_MESSAGE_EXECUTE_ON_DAY = 'Date to Charge (each month) must be a number between 1 and 31.';
+    public static final String PAGE_MESSAGE_MAX_INSTALLMENT = 'This monthly amount would exceed {0} installments.' +
+    		' The minimum allowed installment amount is ${1}.';
+    public static final String PAGE_MESSAGE_MONTHLY_AMOUNT = 'Monthly amount must be equal to or greater than ${0}.';
     public static final String PAGE_MESSAGE_ZIP_CODE_FIVE_DIGIT = 'Zip code must be 5 digits.';
     public static final String PAGE_MESSAGE_ZIP_CODE_ONLY_NUMERIC = 'Zip code can only contain numeric values.';
     public static final String PAGE_MESSAGE_ZIP_CODE_REQUIRE = 'Zip Code is a required field.';
@@ -47,6 +52,10 @@ public class Constants {
     //Constants for PaymentPlans
     public static final String AUTOMATIC = 'Automatic';
     public static final String MANUAL = 'Manual';
+    public static final String PLANTYPE_AUTO = 'auto';
+    public static final String PLANTYPE_AUTO_VALUE = 'Auto Draft';
+    public static final String PLANTYPE_PROMISE = 'promise';
+    public static final String PLANTYPE_PROMISE_VALUE = 'Promise To Pay';
     
     // Constant variable for Security Context Unit Testing Negative Profile.
     public static final String READ_ONLY_PROFILE = 'Read Only';
