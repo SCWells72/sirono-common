@@ -26,7 +26,6 @@ public with sharing class PaymentTabsController
 		User currentUser = [SELECT Id, ContactId FROM User WHERE Id = :userInfo.getUserId()];
 		Contact guarantor = [SELECT id FROM Contact WHERE id = :currentUser.ContactId];
 		AddToPaymentPlanLightning addToPlan = new AddToPaymentPlanLightning(guarantor.id);
-		addToPlan.doNext();
 		return addToPlan.submit();
 	}
 
@@ -319,7 +318,6 @@ public with sharing class PaymentTabsController
 				paymentPlanObj.Cancellation_Date__c = System.today();
 
 				Boolean hasError = false;
-				System.debug('chargeGroups:'+chargeGroups);
 				for (Charge_Group__c cg : chargeGroups)
 				{
 					hasError = PaymentTabsController.callChargeGroupRequest(String.valueof(cg.Sirono_ID__c), jwtToken, cg);

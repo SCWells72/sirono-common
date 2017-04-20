@@ -44,6 +44,10 @@ public with sharing class GuarantorService extends AbstractService {
         return details;
     }
 
+	public static Contact getGuarantorFilterCGByAcctSubStatus(String guarantorRecordId){
+		return GuarantorDao.getGuarantorFilterCGByAcctSubStatus(guarantorRecordId, Constants.CGConstraints);
+	}
+
     /**
      * Get Contact details with active Charge Groups filtered by Account Sub Status
      *
