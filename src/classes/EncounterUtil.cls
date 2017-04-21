@@ -44,7 +44,9 @@ public with sharing class EncounterUtil {
         }
 
         if (EncounterSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+            EncounterTriggerHandler.disableRecalculation = true;
             UPDATE encountersToUpdate.values();
+            EncounterTriggerHandler.disableRecalculation = false;
 	}
         updateAssociatedGuarantors(encounterIds);
     }

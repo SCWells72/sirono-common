@@ -162,4 +162,34 @@ private class EncounterTriggerTest {
             }
         }
     }
+
+
+    /**
+     * Check recalculation of payments.
+     **/
+    @isTest
+    static void checkPaymentsRecalculation() {
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        insert guarantorContact;
+        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 100, System.Today());
+        insert encounter;
+
+        Payment__c pmt1 = new Payment__c();
+        pmt1.Amount__c = 600.00;
+        pmt1.Encounter__c = encounter.Id;
+
+        Payment__c pmt2 = new Payment__c();
+        pmt2.Amount__c = 400.00;
+        pmt2.Encounter__c = encounter.Id;
+
+        insert new Payment__c[]{pmt1, pmt2};
+
+        Test.startTest();
+        encounter.Total_Payments__c = 0;
+        update encounter;
+        Test.stopTest();
+
+        // Check system assert.
+        System.assertEquals(1000, [SELECT Total_Payments__c FROM Encounter__c WHERE Id = :encounter.Id].Total_Payments__c);
+    }
 }
