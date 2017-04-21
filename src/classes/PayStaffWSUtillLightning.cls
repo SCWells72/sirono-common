@@ -7,8 +7,8 @@
  * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
  * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
  */
-
-public with sharing class PayStaffWSUtillLightning {
+//TODO remove without sharing
+public without sharing class PayStaffWSUtillLightning {
     //TODO replace use of endpoint with SironoSettingsUtil.getServerEndpoint()
     // @deprecated
     public static final String ENDPOINT = RestClientConstants.SIRONO_BASE_URL;
