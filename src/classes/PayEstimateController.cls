@@ -89,9 +89,10 @@ public abstract class PayEstimateController {
      * This method is use to Create/Insert Payment record based on Encounter, Contact and Amount.
      * @param String paymentMethod - payment method
      **/
-    public void addPayment(String paymentMethod) {
+    public String addPayment(String paymentMethod) {
         // Call createNewPayment method.
-        PaymentService.createNewPayment(guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod);
+        String transactionId = PaymentService.createNewPayment(guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod); 
+        return (paymentMethod == null) ? Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY : 'Success;' + transactionId + ';$' + amount;
     }
 
     /**
