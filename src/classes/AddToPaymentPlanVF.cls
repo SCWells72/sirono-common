@@ -38,10 +38,10 @@ public with sharing class AddToPaymentPlanVF extends AddToPaymentPlan {
         }
 
         if (String.isBlank(paymentPlanExtId)) {
-			Payment_Plan__c currentPaymentPlan = PaymentPlanService.getActivePaymentPlan(guarantorRecordId);
-			if(currentPaymentPlan != null){
-				paymentPlanExtId = currentPaymentPlan.Sirono_ID__c.format();
-			}
+	    Payment_Plan__c currentPaymentPlan = PaymentPlanService.getActivePaymentPlan(guarantorRecordId);
+	    if(currentPaymentPlan != null){
+	    	paymentPlanExtId = currentPaymentPlan.Sirono_ID__c.toPlainString();
+	    }
             if (String.isBlank(paymentPlanExtId)) {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
                         'No active Payment Plan exists for this Guarantor. Please click Cancel to go previous page.'));
