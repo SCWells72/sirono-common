@@ -41,6 +41,11 @@
         <members>Encounter__c.New_Payment_Arrangement</members>
         <name>WebLink</name>
     </types>
+	<types>
+        <members>IPayX_Demo</members>
+        <members>PayStaffWS_Demo</members>
+        <name>RemoteSiteSetting</name>
+    </types>
     <version>38.0</version>
 </Package>
 

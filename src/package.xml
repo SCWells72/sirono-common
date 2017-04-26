@@ -574,8 +574,6 @@
     </types>
     <types>
         <members>Five9WebServices</members>
-        <members>IPayX_Demo</members>
-        <members>PayStaffWS_Demo</members>
         <members>PhoneNumberVerification</members>
         <name>RemoteSiteSetting</name>
     </types>
