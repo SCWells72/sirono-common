@@ -1,4 +1,5 @@
-public with sharing class MakeAPaymentController { 
+//TODO remove without sharing
+public without sharing class MakeAPaymentController { 
     public CardInformation cInfo{get;set;}
     
     public class CardInformation{

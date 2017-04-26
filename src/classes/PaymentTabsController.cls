@@ -1,4 +1,4 @@
-public with sharing class PaymentTabsController
+public without sharing class PaymentTabsController
 {
 	@AuraEnabled
 	public static Map<String, Map<String, String>> getCardSelectOptions()
