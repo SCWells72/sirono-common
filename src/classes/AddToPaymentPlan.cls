@@ -1,6 +1,6 @@
 public abstract class AddToPaymentPlan{
-	
-	public String guarantorRecordId {get; set;}
+
+    public String guarantorRecordId {get; set;}
     public Boolean chargeGroupsSelected {get; set;}
     public String guarantorId {get; set;}
     public String guarantorName {get; set;}
@@ -8,9 +8,7 @@ public abstract class AddToPaymentPlan{
     public String paymentPlanId {get; set;}
     public String paymentPlanExtId {get; set;}
     public List<ChargeGroupWrapper> chargeGroupList {get; set;}
-	public List<String> chargeGroupsIds {get;set;}
-	public String errorMessage{get;set;}
-
+    public String errorMessage{get;set;}
 
    /**
     * Set the proper page on cancel

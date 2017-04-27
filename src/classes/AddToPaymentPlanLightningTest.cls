@@ -46,8 +46,13 @@ private class AddToPaymentPlanLightningTest {
         //Create Transaction record.
         transactionObj = TestUtility.generateTransaction(cg ,100,'Automatic');
         insert transactionObj;
-		Test.startTest();
-		AddToPaymentPlanLightning ppCon = new AddToPaymentPlanLightning(g.id);
+	Test.startTest();
+	AddToPaymentPlanLightning ppCon = new AddToPaymentPlanLightning(g.id);
+        for (ChargeGroupWrapper cgw: ppCon.chargeGroupList) {
+            cgw.isSelected = true;
+        }
+
+        ppCon.doNext();
 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         ppCon.submit();
