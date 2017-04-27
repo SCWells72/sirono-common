@@ -23,12 +23,13 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
     private static final String SIRONO_ID = 'Sirono_ID__c';
     private static final String SKIP_PAYMENT_UNTIL = 'Skip_Payment_Until__c';
     private static final String STATUS = 'Status__c';
+    private static final String PLAN_VALUE_MODIFIED_DATE = 'Plan_Value_Modified_Date__c';
 
     // The fields for upserting a Payment_Plan__c in AddToPaymentPlan, AddCreditCard, EditPaymentPlan, PaymentPlanGoodStanding & SkipPaymentPlan
     private static final Set<String> UPSERT_FIELDS = new Set<String>{
         ACTIVE, DELINQUENT, DELINQUENT_DATE, ERROR_DATE, EXECUTE_ON_DAY, GUARANTOR, HAS_ERROR, INSTALLMENT_AMOUNT, 
         NAME, NEXTPAYMENTDATE, ORIGINAL_BALANCE, ORIGINAL_INSTALLMENT_COUNT, PLAN_TYPE, REMAINING_BALANCE,
-        SIRONO_ID, SKIP_PAYMENT_UNTIL, STATUS
+        SIRONO_ID, SKIP_PAYMENT_UNTIL, STATUS, PLAN_VALUE_MODIFIED_DATE
     };
 
     // The fields for updating a Payment_Plan__c in PayStaffWSUtill
