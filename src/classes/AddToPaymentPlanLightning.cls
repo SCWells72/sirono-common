@@ -5,7 +5,6 @@
 * 08-16-2016: launch Add to Payment Plan from contact Guarantor record 
 * Ticket # 06638015 - Updated the request parameter value to send the Sirono External ID and NOT salesforce record Id.
 * 08-01-2016: Ticket # 06638016 - Updated the QueryString parameter value to fix the "URL No Longer Exists" error.
-* 
 */
 
 public with sharing class AddToPaymentPlanLightning extends AddToPaymentPlan {
