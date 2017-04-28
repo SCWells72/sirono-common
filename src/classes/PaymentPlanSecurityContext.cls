@@ -25,6 +25,9 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
     private static final String STATUS = 'Status__c';
     private static final String PLAN_VALUE_MODIFIED_DATE = 'Plan_Value_Modified_Date__c';
 
+    // Below field(s) are use for Select/Read permission.
+    private static final String ID = 'Id';
+
     // The fields for upserting a Payment_Plan__c in AddToPaymentPlan, AddCreditCard, EditPaymentPlan, PaymentPlanGoodStanding & SkipPaymentPlan
     private static final Set<String> UPSERT_FIELDS = new Set<String>{
         ACTIVE, DELINQUENT, DELINQUENT_DATE, ERROR_DATE, EXECUTE_ON_DAY, GUARANTOR, HAS_ERROR, INSTALLMENT_AMOUNT, 
@@ -45,6 +48,11 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
 		ACTIVE, DELINQUENT, DELINQUENT_DATE, ERROR_DATE, EXECUTE_ON_DAY, GUARANTOR, HAS_ERROR, INSTALLMENT_AMOUNT, 
         NAME, NEXTPAYMENTDATE, ORIGINAL_BALANCE, ORIGINAL_INSTALLMENT_COUNT, PLAN_TYPE, REMAINING_BALANCE,
         SIRONO_ID, SKIP_PAYMENT_UNTIL, STATUS, CANCELLATION_DATE
+    };
+
+    // The fields for selecting a Payment_Plan__c in PaymentPlanDao
+    private static final Set<String> SELECT_FIELDS = new Set<String>{
+        ID, SIRONO_ID, ACTIVE, GUARANTOR
     };
 
     /**
@@ -77,6 +85,11 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
      * The update context for Payment_Plan__c in PaymentPlanUtil
      **/
     public static final PaymentPlanSecurityContext PPU_UPDATE_CONTEXT = new PaymentPlanSecurityContext(PPU_UPDATE_FIELDS, ACTION.OBJ_UPDATE);
+
+    /**
+     * The select context for Payment_Plan__c in PaymentPlanDao
+     **/
+    public static final PaymentPlanSecurityContext SELECT_CONTEXT = new PaymentPlanSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

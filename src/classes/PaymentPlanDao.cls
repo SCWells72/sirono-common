@@ -12,17 +12,19 @@ public with sharing class PaymentPlanDao extends AbstractDao{
      */
     public static Payment_Plan__c getActivePaymentPlan(String guarantorId) {
 
-        List<Payment_Plan__c> plans = [
-                SELECT Id, Sirono_ID__c, Active__c
-                FROM Payment_Plan__c
-                WHERE Active__c = true
-                AND Sirono_ID__c != null
-                AND Guarantor__c = :guarantorId
-                LIMIT 1
-        ];
+        if (PaymentPlanSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            List<Payment_Plan__c> plans = [
+                    SELECT Id, Sirono_ID__c, Active__c
+                    FROM Payment_Plan__c
+                    WHERE Active__c = true
+                    AND Sirono_ID__c != null
+                    AND Guarantor__c = :guarantorId
+                    LIMIT 1
+            ];
 
-        if (plans.size() > 0) {
-            return plans.get(0);
+            if (plans.size() > 0) {
+                return plans.get(0);
+            }
         }
 
         return null;
@@ -44,15 +46,17 @@ public with sharing class PaymentPlanDao extends AbstractDao{
      */
     public static Payment_Plan__c getPaymentPlanBySironoId(Decimal sironoId) {
 
-        List<Payment_Plan__c> plans = [
-                SELECT Id, Sirono_ID__c, Active__c
-                FROM Payment_Plan__c
-                WHERE Sirono_ID__c = :sironoId
-                LIMIT 1
-        ];
+        if (PaymentPlanSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            List<Payment_Plan__c> plans = [
+                    SELECT Id, Sirono_ID__c, Active__c
+                    FROM Payment_Plan__c
+                    WHERE Sirono_ID__c = :sironoId
+                    LIMIT 1
+            ];
 
-        if (plans.size() > 0) {
-            return plans.get(0);
+            if (plans.size() > 0) {
+                return plans.get(0);
+            }
         }
 
         return null;

@@ -7,7 +7,18 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
     // Field constants for Encounter__c object
     private static final String HAS_CHARGEGROUP = 'Has_Chargegroup__c';
     private static final String TOTAL_PAYMENTS = 'Total_Payments__c';
-    
+
+    // Below field(s) are use for Select/Read permission.
+    private static final String BALANCE = 'Balance__c';
+    private static final String DATE_OF_SERVICE = 'Date_of_Service__c';
+    private static final String GUARANTOR = 'Guarantor__c';
+    private static final String ID = 'Id';
+    private static final String LOCATION = 'Location__c';
+    private static final String NAME = 'Name';
+    private static final String PATIENT = 'Patient__c';
+    private static final String PATIENT_PORTION = 'Patient_Portion__c';
+    private static final String PROCEDURE = 'Procedure__c';
+
     // The fields for updating a Encounter__c's Total_Payments__c field in EncounterUtil.
     private static final Set<String> UPDATE_FIELDS = new Set<String>{
     	TOTAL_PAYMENTS
@@ -17,7 +28,12 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
     private static final Set<String> UPDATE_HAS_CHARGEGROUP_FIELDS = new Set<String>{
     	HAS_CHARGEGROUP
     };
-    
+
+    // The fields for selecting a Encounter__c in EncounterDao
+    private static final Set<String> SELECT_FIELDS = new Set<String>{
+        ID, NAME, PATIENT, DATE_OF_SERVICE, PROCEDURE, LOCATION, PATIENT_PORTION, GUARANTOR, BALANCE
+    };
+
     /**
      * Constructor of class that assign variables based on parameters
      *
@@ -38,7 +54,12 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
      * The update context for Encounter__c's Has_Chargegroup__c field in EncounterUtil
      **/
     public static final EncounterSecurityContext UPDATE_HAS_CHARGEGROUP_CONTEXT = new EncounterSecurityContext(UPDATE_HAS_CHARGEGROUP_FIELDS, ACTION.OBJ_UPDATE);
-    
+
+    /**
+     * The select context for Encounter__c in EncounterDao
+     **/
+    public static final EncounterSecurityContext SELECT_CONTEXT = new EncounterSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
+
     /**
      * Override getObjectType method of SecurityContext class
      **/
