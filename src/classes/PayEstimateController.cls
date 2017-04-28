@@ -91,8 +91,8 @@ public abstract class PayEstimateController {
      **/
     public String addPayment(String paymentMethod) {
         // Call createNewPayment method.
-        String transactionId = PaymentService.createNewPayment(guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod); 
-        return (transactionId == null) ? Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY : 'Success;' + transactionId + ';$' + amount;
+        Payment__c payment = PaymentService.createNewPayment(guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod); 
+        return (payment == null) ? 'ERROR: ' + Constants.PAGE_MESSAGE_CREATED_FAIL : 'Success;' + payment.Payment_Id__c + ';$' + amount;
     }
 
     /**
