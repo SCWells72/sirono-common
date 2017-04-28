@@ -43,6 +43,10 @@ public with sharing class SecurityUtils {
             }
         }
 
+        if (SecurityContext.ACTION.OBJ_READ == objAction && !objectResult.isAccessible()) {
+            throw new SecurityException('You do not have Read rights on ' + objName);
+        }
+
         // Get object fields.
         Map<String, Schema.SObjectField> mapObjectFields = objectResult.fields.getMap();
 
@@ -58,8 +62,11 @@ public with sharing class SecurityUtils {
         				mapObjectFields.get(fieldToCheck).getDescribe().isUpdateable())) {
                     throw new SecurityException(String.format('You do not have Upsert rights on {0}.{1} field.', new String[]{objName, fieldToCheck}));
             	}
+            } else if (SecurityContext.ACTION.OBJ_READ == objAction
+                    && !mapObjectFields.get(fieldToCheck).getDescribe().isAccessible()) {
+                throw new SecurityException(String.format('You do not have Read rights on {0}.{1} field.', new String[]{objName, fieldToCheck}));
             }
-        }   
+        }
         return true;
     }
 

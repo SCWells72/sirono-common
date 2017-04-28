@@ -6,7 +6,7 @@ public virtual with sharing class SecurityContext {
 
     // Create Enum for Create, Update, Delete and Undelete
     public enum ACTION {
-        OBJ_CREATE, OBJ_UPDATE, OBJ_DELETE, OBJ_UNDELETE, OBJ_UPSERT
+        OBJ_CREATE, OBJ_UPDATE, OBJ_DELETE, OBJ_UNDELETE, OBJ_UPSERT, OBJ_READ
     }
 
     /**
