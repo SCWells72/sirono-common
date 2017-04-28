@@ -4,12 +4,12 @@
 public class PaymentDao {
 	/**
 	 * This method is used to Insert Payment record.
-	 * @param Payment__c payment - payment record for insert
+	 * @param List<Payment__c> payments - List of payment record for insert
 	 **/
-    public static Payment__c insertPayment(Payment__c payment) {
+    public static List<Payment__c> insertPayment(List<Payment__c> payments) {
     	if (PaymentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-            INSERT payment; 
+            INSERT payments; 
         }
-        return payment;
+        return payments;
     }
 }

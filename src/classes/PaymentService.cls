@@ -25,9 +25,9 @@ public class PaymentService extends AbstractService {
             Method__c = paymentMethod
         );
         // Insert new Payment record
-        payment = PaymentDao.insertPayment(payment);
-        if (payment.Id != null) {
-            Payment__c dbPayment = [SELECT Payment_Id__c FROM Payment__c WHERE Id = :payment.Id];
+        List<Payment__c> payments = PaymentDao.insertPayment(new List<Payment__c>{payment});
+        if (payments[0].Id != null) {
+            Payment__c dbPayment = [SELECT Payment_Id__c FROM Payment__c WHERE Id = :payments[0].Id];
             return dbPayment.Payment_Id__c;
         }
         return null;

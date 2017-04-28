@@ -6,18 +6,6 @@
 */
 public with sharing class EncounterTriggerHandler {
 
-    public static Boolean disableRecalculation = false;
-
-    /*
-     * Before Updating an encounter, perform the following:
-     *   Compare new Total Payments with calculated from related Payment records and replace wrong totals in Encounters with payments
-     */
-    public static void beforeUpdate(Map<Id, Encounter__c> newMap, Map<Id, Encounter__c> oldMap) {
-        if (!disableRecalculation) {
-            checkRealTotalPayments(newMap, oldMap);
-        }
-    }
-
     /*
      * After Inserting an encounter, perform the following:
      *   Check whether or not the guarantor can be removed from a call list
@@ -48,33 +36,6 @@ public with sharing class EncounterTriggerHandler {
      */
     public static void afterDelete(List<Encounter__c> oldList) {
         updateEstimateBalances(oldList);
-    }
-
-    /*
-     * Recalculate total payments.
-     * Replace wrong totals in Encounters with payments
-     */
-    public static void checkRealTotalPayments(Map<Id, Encounter__c> newMap, Map<Id, Encounter__c> oldMap) {
-        Set<Id> encountersWithChangedPayments = new Set<Id>();
-        for (Encounter__c enc: newMap.values()) {
-            if (enc.Total_Payments__c != oldMap.get(enc.Id).Total_Payments__c) {
-                encountersWithChangedPayments.add(enc.Id);
-            }
-        }
-        if (!encountersWithChangedPayments.isEmpty()) {
-            // Get the SUM of all the associated payments
-            AggregateResult[] results = [
-                    SELECT Encounter__c encId, SUM(Amount__c) total
-                    FROM Payment__c
-                    WHERE Encounter__c IN :encountersWithChangedPayments
-                    GROUP BY Encounter__c
-                    LIMIT 50000
-            ];
-
-            for (AggregateResult ar : results) {
-                newMap.get((Id) ar.get('encId')).Total_Payments__c = (Decimal) ar.get('total');
-            }
-        }
     }
 
     //METHOD THAT COLLECTS THE ID OF GUARANTOR 
