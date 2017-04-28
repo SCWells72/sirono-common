@@ -334,6 +334,10 @@ public class TestUtility {
             Payment_Adjustments__c adj) {
         Transaction__c objTransaction = generateTxn(chargeGroup, amount);
         objTransaction.Adjustment__c = adj.Id;
+
+        // Check system assert.
+        System.assertNotEquals(objTransaction, null, 'Should have failed due to Transaction object is null.');
+
         return objTransaction;
     }
 
