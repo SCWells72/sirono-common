@@ -14,7 +14,7 @@ public class PaymentService extends AbstractService {
      * @param Datetime depositeDate - payment deposite date
      * @param String paymentMethod - payment method
      **/
-    public static void createNewPayment(String guarantorRecordId, Decimal amount, String selectedEncounterId, Datetime depositeDate, String paymentMethod) {
+    public static Payment__c createNewPayment(String guarantorRecordId, Decimal amount, String selectedEncounterId, Datetime depositeDate, String paymentMethod) {
         // Initialize new Payment record
         Payment__c payment = new Payment__c(
             Name = PAYMENTNAME,
@@ -25,7 +25,7 @@ public class PaymentService extends AbstractService {
             Method__c = paymentMethod
         );
         // Insert new Payment record
-        // Pass list of payment object because of Security Scan issue
         PaymentDao.insertPayment(new List<Payment__c>{payment});
+        return PaymentDao.getPayment(payment.Id);
     }
 }

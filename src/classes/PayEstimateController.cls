@@ -49,8 +49,8 @@ public abstract class PayEstimateController {
      * @param String recordId - record Id that is used for getting encounters records
      **/
     public void init(String recordId) {
-    	errorMessages = new List<String>();
-    	if (guarantorRecordId != null) {
+        errorMessages = new List<String>();
+        if (guarantorRecordId != null) {
             // Fetch Guarantor Contact record based on Id.
             guarantorContact = GuarantorDao.getGuarantor(guarantorRecordId);
             // Fetch Guarantor Name based on Contact record.
@@ -89,9 +89,10 @@ public abstract class PayEstimateController {
      * This method is use to Create/Insert Payment record based on Encounter, Contact and Amount.
      * @param String paymentMethod - payment method
      **/
-    public void addPayment(String paymentMethod) {
+    public String addPayment(String paymentMethod) {
         // Call createNewPayment method.
-        PaymentService.createNewPayment(guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod);
+        Payment__c payment = PaymentService.createNewPayment(guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod); 
+        return (payment == null) ? 'ERROR: ' + Constants.PAGE_MESSAGE_CREATED_FAIL : 'Success;' + payment.Payment_Id__c + ';$' + amount;
     }
 
     /**
@@ -100,8 +101,8 @@ public abstract class PayEstimateController {
      * @return EncounterWrapper - selected EncounterWrapper record
      **/
     private EncounterWrapper checkNext(List<EncounterWrapper> encounters) {
-    	Encounter__c selectedEncounter;
-    	Boolean encounterSelected = false;
+        Encounter__c selectedEncounter;
+        Boolean encounterSelected = false;
         Integer count = 0;
         if (encounters != null && encounters.size() > 0) {
             for (EncounterWrapper enw: encounters) {

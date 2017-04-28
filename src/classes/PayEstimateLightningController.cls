@@ -34,8 +34,7 @@ public with sharing class PayEstimateLightningController extends PayEstimateCont
     public String submit() {
         try {
             if (isValidCard() && isValidAmount()) {
-                addPayment('credit');
-                message = Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY;
+                message = addPayment('credit');
             }
         } catch (SironoServiceException se) {
             message = 'SERVER ERROR RESPONSE:: ' + String.join(se.errors, '');
