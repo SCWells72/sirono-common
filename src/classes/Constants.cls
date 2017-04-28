@@ -27,7 +27,7 @@ public class Constants {
     public static final String PAGE_MESSAGE_BILLING_ADDRESS_REQUIRE = 'Billing Address is a required field.';
     public static final String PAGE_MESSAGE_CG_REQUIRE = 'Charge Group is a required field.';
     public static final String PAGE_MESSAGE_CREATED_SUCCESSFULLY = 'Created Successfully.';
-    public static final String PAGE_MESSAGE_CREATED_FAIL = 'Payment has not created.';
+    public static final String PAGE_MESSAGE_CREATED_FAIL = 'Payment was not created.';
     public static final String PAGE_MESSAGE_EXECUTE_ON_DAY = 'Date to Charge (each month) must be a number between 1 and 31.';
     public static final String PAGE_MESSAGE_MAX_INSTALLMENT = 'This monthly amount would exceed {0} installments.' +
     		' The minimum allowed installment amount is ${1}.';
