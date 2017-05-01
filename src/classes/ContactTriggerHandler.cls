@@ -88,16 +88,18 @@ public with sharing class ContactTriggerHandler {
         }
 
         if (contactId.size() > 0) {
-            List<Payment_Plan__c> paymentPlan = [
-                    Select
-                            Id, Guarantor__c, Plan_Type__c,
-                            Execute_on_Day__c, NextPaymentDate__c,
-                            Skip_Payment_Until__c
-                    From Payment_Plan__c
-                    where Guarantor__c in :contactId
-            ];
-            if (!paymentPlan.IsEmpty()) {
-                PaymentPlanTriggerHandler.populateNextPaymentDate(paymentPlan, false);
+            if (PaymentPlanSecurityContext.CTH_SELECT_CONTEXT.actionAllowed()) {
+                List<Payment_Plan__c> paymentPlan = [
+                        SELECT
+                                Id, Guarantor__c, Plan_Type__c,
+                                Execute_on_Day__c, NextPaymentDate__c,
+                                Skip_Payment_Until__c
+                        FROM Payment_Plan__c
+                        WHERE Guarantor__c IN :contactId
+                ];
+                if (!paymentPlan.IsEmpty()) {
+                    PaymentPlanTriggerHandler.populateNextPaymentDate(paymentPlan, false);
+                }
             }
         }
     }
@@ -139,23 +141,25 @@ public with sharing class ContactTriggerHandler {
      */
     @future(callout = true)
     public static void verifyNumber(Set<Id> ids) {
-    	try {
-        	//12-09-2016: Viraj Rana : Check Sirono Settings is exists or not. If empty than create default Setting.
-	        SironoSettingsUtil.generatePhoneNumVerification();
-	        List<Contact> contacts = [
-	                                  SELECT 
-	                                  Id, OtherPhone, MobilePhone, HomePhone, Home_Phone_Type__c, 
-	                                  Mobile_Phone_Type__c, Other_Phone_Type__c, CTINumber1__c, CTINumber2__c, 
-	                                  CTINumber3__c 
-	                                  FROM Contact WHERE Id IN :ids
-	                                 ];
+        try {
+            //12-09-2016: Viraj Rana : Check Sirono Settings is exists or not. If empty than create default Setting.
+            SironoSettingsUtil.generatePhoneNumVerification();
+            if (ContactSecurityContext.CTH_SELECT_CONTEXT.actionAllowed()) {
+                List<Contact> contacts = [
+                                          SELECT 
+                                          Id, OtherPhone, MobilePhone, HomePhone, Home_Phone_Type__c, 
+                                          Mobile_Phone_Type__c, Other_Phone_Type__c, CTINumber1__c, CTINumber2__c, 
+                                          CTINumber3__c 
+                                          FROM Contact WHERE Id IN :ids
+                                         ];
 
-	        for (Contact con : contacts) {
-                verifyContactPhoneNumbers(con);
-                setCTINumbers(con);
+                for (Contact con: contacts) {
+                    verifyContactPhoneNumbers(con);
+                    setCTINumbers(con);
+                }
+                UPDATE contacts;
+                System.debug('===:landline ' + contacts[0].CTINumber1__c);
             }
-	        update contacts;
-	        System.debug('===:landline ' + contacts[0].CTINumber1__c);
         } catch(Exception ex) {
         	System.debug('ex.getMessage(): ' + ex.getMessage());
         }

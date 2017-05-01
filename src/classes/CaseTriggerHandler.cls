@@ -47,25 +47,27 @@ public with sharing class CaseTriggerHandler {
     private static void checkAndDoAddNoteCallout(List<Case> newCases) {      
         //Tracker # 130687155 REMOVED CONDITION TO CHECK FOR CASE RECORD TYPE 
         if (newCases.get(0).Description != null) {
-            //CHECK IF CASE DID NOT CREATED BY SIRONO INTEGRATION USER
-            
-            // We have removed Loop and take List Variable because of we need only one record based on Case Id.
-            // This changes do for Security Scan's "Async Future Method Inside Loops" related Error.
-            List<Case> cases = new List<Case>([
-	            		SELECT Id, Description, Charge_Group_IDs__c
-	            		FROM Case
-	            		WHERE Id = :newCases.get(0).Id
-	            		AND CreatedBy.Name != 'Sirono Integration'
-	            		AND Charge_Group_IDs__c != null
-    	    ]);
-    	    if (cases.size() > 0) {
-    		//CALL FUTURE METHOD FOR ADD NOTE CALLOUT
-                //split the Charge_Group_IDs__c parameter to pass it as a List in the method
-                PayStaffWSUtill.addNoteFuture(cases[0].Charge_Group_IDs__c.split(','), cases[0].Description);
-    	    }
+            // CHECK IF CASE DID NOT CREATED BY SIRONO INTEGRATION USER
+
+            if (CaseSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                // We have removed Loop and take List Variable because of we need only one record based on Case Id.
+                // This changes do for Security Scan's "Async Future Method Inside Loops" related Error.
+                List<Case> cases = new List<Case>([
+                            SELECT Id, Description, Charge_Group_IDs__c
+                            FROM Case
+                            WHERE Id = :newCases.get(0).Id
+                            AND CreatedBy.Name != 'Sirono Integration'
+                            AND Charge_Group_IDs__c != null
+                ]);
+                if (cases.size() > 0) {
+                    //CALL FUTURE METHOD FOR ADD NOTE CALLOUT
+                    //split the Charge_Group_IDs__c parameter to pass it as a List in the method
+                    PayStaffWSUtill.addNoteFuture(cases[0].Charge_Group_IDs__c.split(','), cases[0].Description);
+                }
+            }
         }
     }
-                                                        
+
    /*
     * 08-11-2016: Sirono - Tracker # 128030957 For Removal from Early-out campaign
     *
@@ -115,15 +117,17 @@ public with sharing class CaseTriggerHandler {
             });
             string earlyOut = mapCampaignMapping.get('Early-out');
             string earlyOutMobile = mapCampaignMapping.get('Early-out M');
-						
-	    if (cmpnMemSecurityContext.deleteActionAllowed()) {
-	    	DELETE [
-                    	SELECT Id, ContactId
-                    	FROM CampaignMember
-                    	WHERE (Campaign.Name = :earlyOut OR Campaign.Name = :earlyOutMobile)
-                    	AND ContactId IN :earlyOutGuarantors
-            	];
-	    }
+
+            if (cmpnMemSecurityContext.deleteActionAllowed()) {
+                if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                    DELETE [
+                            SELECT Id, ContactId
+                            FROM CampaignMember
+                            WHERE (Campaign.Name = :earlyOut OR Campaign.Name = :earlyOutMobile)
+                            AND ContactId IN :earlyOutGuarantors
+                    ];
+                }
+            }
         }
 
         if (preCollectionGuarantors.size() > 0) {
@@ -134,12 +138,14 @@ public with sharing class CaseTriggerHandler {
             string preCollectionMobile = mapCampaignMapping.get('PreCollections M');
 
             if (cmpnMemSecurityContext.deleteActionAllowed()) {
-	        DELETE [
-	        	SELECT Id, ContactId
-	                FROM CampaignMember
-	                WHERE (Campaign.Name = :preCollection OR Campaign.Name = :preCollectionMobile)
-	                AND ContactId IN :preCollectionGuarantors
-	        ];
+                if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                    DELETE [
+                            SELECT Id, ContactId
+                            FROM CampaignMember
+                            WHERE (Campaign.Name = :preCollection OR Campaign.Name = :preCollectionMobile)
+                            AND ContactId IN :preCollectionGuarantors
+                    ];
+                }
             }
         }
 
@@ -155,12 +161,14 @@ public with sharing class CaseTriggerHandler {
             string delinquentMobile = mapCampaignMapping.get('Delinquent M');
 
             if (cmpnMemSecurityContext.deleteActionAllowed()) {
-            	DELETE [
-                    	SELECT Id, ContactId
-                    	FROM CampaignMember
-                    	WHERE (Campaign.Name = :delinquent OR Campaign.Name = :delinquentMobile)
-                    	AND ContactId IN :delinquentGuarantors
-            	];	
+                if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                    DELETE [
+                            SELECT Id, ContactId
+                            FROM CampaignMember
+                            WHERE (Campaign.Name = :delinquent OR Campaign.Name = :delinquentMobile)
+                            AND ContactId IN :delinquentGuarantors
+                    ];
+                }
             }
         }
 
@@ -172,12 +180,14 @@ public with sharing class CaseTriggerHandler {
             string ccErrorMobile = mapCampaignMapping.get('CC Error M');
 
             if (cmpnMemSecurityContext.deleteActionAllowed()) {
-                DELETE [
-                        SELECT Id, ContactId
-                        FROM CampaignMember
-                        WHERE (Campaign.Name = :ccError OR Campaign.Name = :ccErrorMobile )
-                        AND ContactId IN :ccErrorGuarantors
-                ];
+                if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                    DELETE [
+                            SELECT Id, ContactId
+                            FROM CampaignMember
+                            WHERE (Campaign.Name = :ccError OR Campaign.Name = :ccErrorMobile )
+                            AND ContactId IN :ccErrorGuarantors
+                    ];
+                }
             }
         }
     }
