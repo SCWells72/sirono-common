@@ -22,6 +22,7 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
     private static final String LOCATION = 'Location__c';
     private static final String NAME = 'Name';
     private static final String PATIENT = 'Patient__c';
+    private static final String PRE_COLLECTION_SENT = 'Pre_Collection_Sent__c';
     private static final String PROVIDER = 'Provider__c';
     private static final String REPORTED_INSURANCE_BALANCE = 'Reported_Insurance_Balance__c';
     private static final String REPORTED_PREBILL_BALANCE = 'Reported_Prebill_Balance__c';
@@ -38,7 +39,7 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
     	ACCOUNT_STATUS, ACCOUNT_SUB_STATUS, PAYMENT_PLAN
     };
 
-    // The fields for selecting a Charge Group in ChargeGroupDao.
+    // The fields for selecting a Charge Group in ChargeGroupDao, CaseCommentTriggerHandler.
     private static final Set<String> SELECT_FIELDS = new Set<String>{
         ID, SIRONO_ID
     };
@@ -49,6 +50,11 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
         REPORTED_PREBILL_BALANCE, REPORTED_SELFPAY_BALANCE, PATIENT, ACCOUNT_TYPE,
         DATE_OF_SERVICE_START_DATE, DATE_OF_SERVICE_END_DATE, BALANCE, INVOICE,
         ACCOUNT_STATUS, PROVIDER, LOCATION, ACCOUNT_SUB_STATUS
+    };
+
+    // The fields for selecting a Charge Group in CallListUtilities
+    private static final Set<String> CLU_SELECT_FIELDS = new Set<String>{
+        ID, PRE_COLLECTION_SENT
     };
 
     /**
@@ -73,7 +79,7 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
     public static final ChargeGroupSecurityContext UPDATE_WITH_STATUS_CONTEXT = new ChargeGroupSecurityContext(UPDATE_WITH_STATUS_FIELDS, ACTION.OBJ_UPDATE);
 
     /**
-     * The select context for Charge Group in ChargeGroupDao.
+     * The select context for Charge Group in ChargeGroupDao, CaseCommentTriggerHandler.
      **/
     public static final ChargeGroupSecurityContext SELECT_CONTEXT = new ChargeGroupSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
 
@@ -81,6 +87,11 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
      * The select context for Charge Group in GuarantorDao.
      **/
     public static final ChargeGroupSecurityContext GD_SELECT_CONTEXT = new ChargeGroupSecurityContext(GD_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Charge Group in CallListUtilities.
+     **/
+    public static final ChargeGroupSecurityContext CLU_SELECT_CONTEXT = new ChargeGroupSecurityContext(CLU_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class.

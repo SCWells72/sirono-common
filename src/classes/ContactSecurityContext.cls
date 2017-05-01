@@ -10,8 +10,13 @@ public with sharing class ContactSecurityContext extends SecurityContext {
 
     // Below field(s) are use for Select/Read permission.
     private static final String BIRTHDATE = 'Birthdate';
+    private static final String CTINUMBER1 = 'CTINumber1__c';
+    private static final String CTINUMBER2 = 'CTINumber2__c';
+    private static final String CTINUMBER3 = 'CTINumber3__c';
+    private static final String DELINQUENT_BALANCE = 'Delinquent_Balance__c';
     private static final String FIRSTNAME = 'FirstName';
     private static final String HOMEPHONE = 'HomePhone';
+    private static final String HOME_PHONE_TYPE = 'Home_Phone_Type__c';
     private static final String ID = 'Id';
     private static final String LASTNAME = 'LastName';
     private static final String MAILINGCITY = 'MailingCity';
@@ -22,8 +27,11 @@ public with sharing class ContactSecurityContext extends SecurityContext {
     private static final String MEDICAL_RECORD_NUMBER = 'Medical_Record_Number__c';
     private static final String MIDDLENAME = 'MiddleName';
     private static final String MOBILEPHONE = 'MobilePhone';
+    private static final String MOBILE_PHONE_TYPE = 'Mobile_Phone_Type__c';
     private static final String NAME = 'Name';
     private static final String OTHERPHONE = 'OtherPhone';
+    private static final String OTHER_PHONE_TYPE = 'Other_Phone_Type__c';
+    private static final String OVERDUE_BALANCE = 'Overdue_Balance__c';
     private static final String PATIENT_ID = 'Patient_Id__c';
     private static final String PROFILE_POINTER_ID = 'Profile_Pointer_Id__c';
     private static final String SALUTATION = 'Salutation';
@@ -47,6 +55,22 @@ public with sharing class ContactSecurityContext extends SecurityContext {
         PROFILE_POINTER_ID, MAILINGSTREET, MAILINGCITY, MAILINGSTATE, MAILINGPOSTALCODE, RECORDTYPEID,
         SALUTATION, SOCIAL_SECURITY_NUMBER, PATIENT_ID, HOMEPHONE, MOBILEPHONE,
         OTHERPHONE, MAILINGCOUNTRY
+    };
+
+    // The fields for selecting a Contact in CallListUtilities
+    private static final Set<String> CLU_SELECT_FIELDS = new Set<String>{
+        ID, OVERDUE_BALANCE, DELINQUENT_BALANCE
+    };
+
+    // The fields for selecting a Contact in CallListUtilities
+    private static final Set<String> SELECT_ONLY_ID = new Set<String>{
+        ID
+    };
+
+    // The fields for selecting a Contact in ContactTriggerHandler
+    private static final Set<String> CTH_SELECT_FIELDS = new Set<String>{
+        ID, OTHERPHONE, MOBILEPHONE, HOMEPHONE, HOME_PHONE_TYPE, MOBILE_PHONE_TYPE,
+        OTHER_PHONE_TYPE, CTINUMBER1, CTINUMBER2, CTINUMBER3
     };
 
     /**
@@ -74,6 +98,21 @@ public with sharing class ContactSecurityContext extends SecurityContext {
      * The select context for Contact with Charge Groups in GuarantorDao
      **/
     public static final ContactSecurityContext SELECT_CONTEXT_WITH_CG = new ContactSecurityContext(SELECT_FIELDS_WITH_CG, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Contact in CallListUtilities
+     **/
+    public static final ContactSecurityContext CLU_SELECT_CONTEXT = new ContactSecurityContext(CLU_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Contact in CallListUtilities
+     **/
+    public static final ContactSecurityContext SELECT_CONTEXT_FOR_ID = new ContactSecurityContext(SELECT_ONLY_ID, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Contact in ContactTriggerHandler
+     **/
+    public static final ContactSecurityContext CTH_SELECT_CONTEXT = new ContactSecurityContext(CTH_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

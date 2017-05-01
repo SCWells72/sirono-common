@@ -55,6 +55,16 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
         ID, SIRONO_ID, ACTIVE, GUARANTOR
     };
 
+    // The fields for selecting a Payment_Plan__c in CallListUtilities
+    private static final Set<String> CLU_SELECT_FIELDS = new Set<String>{
+        ID, DELINQUENT_DATE, ACTIVE
+    };
+
+    // The fields for selecting a Payment_Plan__c in ContactTriggerHandler
+    private static final Set<String> CTH_SELECT_FIELDS = new Set<String>{
+        ID, GUARANTOR, PLAN_TYPE, EXECUTE_ON_DAY, NEXTPAYMENTDATE, SKIP_PAYMENT_UNTIL
+    };
+
     /**
      * Constructor of class that assign variables based on parameters
      *
@@ -90,6 +100,16 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
      * The select context for Payment_Plan__c in PaymentPlanDao
      **/
     public static final PaymentPlanSecurityContext SELECT_CONTEXT = new PaymentPlanSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Payment_Plan__c in CallListUtilities
+     **/
+    public static final PaymentPlanSecurityContext CLU_SELECT_CONTEXT = new PaymentPlanSecurityContext(CLU_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Payment_Plan__c in ContactTriggerHandler
+     **/
+    public static final PaymentPlanSecurityContext CTH_SELECT_CONTEXT = new PaymentPlanSecurityContext(CTH_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

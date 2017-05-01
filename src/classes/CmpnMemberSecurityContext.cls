@@ -10,6 +10,9 @@ public with sharing class CmpnMemberSecurityContext extends SecurityContext {
     private static final String CONTACTID = 'ContactId';
     private static final String STATUS = 'Status';
 
+    // Below field(s) are use for Select/Read permission.
+    private static final String ID = 'Id';
+
     // The fields for inserting CampaignMember in CaseUtil
     private static final Set<String> CREATE_FIELDS = new Set<String>{
     	CAMPAIGNID, CASE_ID, CONTACTID
@@ -23,6 +26,11 @@ public with sharing class CmpnMemberSecurityContext extends SecurityContext {
     // The fields for updating CampaignMember in CaseUtil
     private static final Set<String> UPDATE_FIELDS = new Set<String>{
     	CASE_ID
+    };
+
+    // The fields for selecting a Campaign Member in CallListUtilities
+    private static final Set<String> SELECT_FIELDS = new Set<String>{
+        ID, CONTACTID, CAMPAIGNID
     };
 
     /**
@@ -57,7 +65,12 @@ public with sharing class CmpnMemberSecurityContext extends SecurityContext {
      * The delete context for CampaignMember in CampaignMemberTriggerHandler, TaskTriggerHandler & CaseTriggerHandler
      **/
     public static final CmpnMemberSecurityContext DELETE_CONTEXT = new CmpnMemberSecurityContext(null, ACTION.OBJ_DELETE);
-    
+
+    /**
+     * The select context for Campaign Member in CallListUtilities
+     **/
+    public static final CmpnMemberSecurityContext SELECT_CONTEXT = new CmpnMemberSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
+
     /**
      * Override getObjectType method of SecurityContext class
      **/

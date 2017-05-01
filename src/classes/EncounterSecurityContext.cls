@@ -10,9 +10,11 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
 
     // Below field(s) are use for Select/Read permission.
     private static final String BALANCE = 'Balance__c';
+    private static final String CANCELLED = 'Cancelled__c';
     private static final String DATE_OF_SERVICE = 'Date_of_Service__c';
     private static final String GUARANTOR = 'Guarantor__c';
     private static final String ID = 'Id';
+    private static final String LIABILITY = 'Liability__c';
     private static final String LOCATION = 'Location__c';
     private static final String NAME = 'Name';
     private static final String PATIENT = 'Patient__c';
@@ -32,6 +34,11 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
     // The fields for selecting a Encounter__c in EncounterDao
     private static final Set<String> SELECT_FIELDS = new Set<String>{
         ID, NAME, PATIENT, DATE_OF_SERVICE, PROCEDURE, LOCATION, PATIENT_PORTION, GUARANTOR, BALANCE
+    };
+
+    // The fields for selecting a Encounter__c in CallListUtilities
+    private static final Set<String> CLU_SELECT_FIELDS = new Set<String>{
+        ID, DATE_OF_SERVICE, LIABILITY, CANCELLED
     };
 
     /**
@@ -59,6 +66,11 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
      * The select context for Encounter__c in EncounterDao
      **/
     public static final EncounterSecurityContext SELECT_CONTEXT = new EncounterSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Encounter__c in CallListUtilities
+     **/
+    public static final EncounterSecurityContext CLU_SELECT_CONTEXT = new EncounterSecurityContext(CLU_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class
