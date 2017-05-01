@@ -42,7 +42,6 @@ public with sharing class AddToPaymentPlanLightning extends AddToPaymentPlan {
     public String submit() {
         String returnMessage = '';
         try {
-            paymentPlanExtId = paymentPlanExtId.replace(',', '');
             PaymentPlanService.addChargeGroups(paymentPlanExtId, chargeGroupIds);
             returnMessage = 'Added Successfully!';
         } catch (Exception e) {
