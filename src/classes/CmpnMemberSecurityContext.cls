@@ -28,7 +28,7 @@ public with sharing class CmpnMemberSecurityContext extends SecurityContext {
     	CASE_ID
     };
 
-    // The fields for selecting a Campaign Member in CallListUtilities
+    // The fields for selecting a Campaign Member in CallListUtilities, PreServiceSchedulerBatch, PreCollectionSchedulerBatch
     private static final Set<String> SELECT_FIELDS = new Set<String>{
         ID, CONTACTID, CAMPAIGNID
     };
@@ -67,7 +67,7 @@ public with sharing class CmpnMemberSecurityContext extends SecurityContext {
     public static final CmpnMemberSecurityContext DELETE_CONTEXT = new CmpnMemberSecurityContext(null, ACTION.OBJ_DELETE);
 
     /**
-     * The select context for Campaign Member in CallListUtilities
+     * The select context for Campaign Member in CallListUtilities, PreServiceSchedulerBatch, PreCollectionSchedulerBatch
      **/
     public static final CmpnMemberSecurityContext SELECT_CONTEXT = new CmpnMemberSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
 

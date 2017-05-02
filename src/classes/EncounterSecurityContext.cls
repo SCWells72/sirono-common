@@ -41,6 +41,21 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
         ID, DATE_OF_SERVICE, LIABILITY, CANCELLED
     };
 
+    // The fields for selecting a Encounter__c in EncounterUtil.
+    private static final Set<String> EU_SELECT_FIELDS = new Set<String>{
+        ID, GUARANTOR
+    };
+
+    // The fields for selecting Encounter__c in EncounterUtil.
+    private static final Set<String> EU_SELECT_FIELDS_AGG = new Set<String>{
+        GUARANTOR, BALANCE
+    };
+
+    // The fields for selecting Encounter__c in PreServiceSchedulerBatch
+    private static final Set<String> PSS_SELECT_FIELDS = new Set<String>{
+        ID, NAME, GUARANTOR, LIABILITY, DATE_OF_SERVICE, CANCELLED
+    };
+
     /**
      * Constructor of class that assign variables based on parameters
      *
@@ -71,6 +86,21 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
      * The select context for Encounter__c in CallListUtilities
      **/
     public static final EncounterSecurityContext CLU_SELECT_CONTEXT = new EncounterSecurityContext(CLU_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Encounter__c in EncounterUtil
+     **/
+    public static final EncounterSecurityContext EU_SELECT_CONTEXT = new EncounterSecurityContext(EU_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Encounter__c in EncounterUtil
+     **/
+    public static final EncounterSecurityContext EU_SELECT_CONTEXT_AGG = new EncounterSecurityContext(EU_SELECT_FIELDS_AGG, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Encounter__c in PreServiceSchedulerBatch
+     **/
+    public static final EncounterSecurityContext PSS_SELECT_CONTEXT = new EncounterSecurityContext(PSS_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

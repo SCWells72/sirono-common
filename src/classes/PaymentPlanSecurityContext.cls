@@ -27,6 +27,7 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
 
     // Below field(s) are use for Select/Read permission.
     private static final String ID = 'Id';
+    private static final String REMAINING_INSTALLMENT_COUNT = 'Remaining_Installment_Count__c';
 
     // The fields for upserting a Payment_Plan__c in AddToPaymentPlan, AddCreditCard, EditPaymentPlan, PaymentPlanGoodStanding & SkipPaymentPlan
     private static final Set<String> UPSERT_FIELDS = new Set<String>{
@@ -60,9 +61,30 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
         ID, DELINQUENT_DATE, ACTIVE
     };
 
-    // The fields for selecting a Payment_Plan__c in ContactTriggerHandler
+    // The fields for selecting a Payment_Plan__c in ContactTriggerHandler, PopulateNextPaymentDateBatch
     private static final Set<String> CTH_SELECT_FIELDS = new Set<String>{
         ID, GUARANTOR, PLAN_TYPE, EXECUTE_ON_DAY, NEXTPAYMENTDATE, SKIP_PAYMENT_UNTIL
+    };
+
+    // The fields for selecting a Payment_Plan__c in DelinquentPaymentPlansSchedulerBatch
+    private static final Set<String> DPPSB_SELECT_FIELDS = new Set<String>{
+        ID, NAME, GUARANTOR, DELINQUENT_DATE, REMAINING_BALANCE, ACTIVE
+    };
+
+    // The fields for selecting a Payment_Plan__c in EditPaymentPlan
+    private static final Set<String> EPP_SELECT_FIELDS = new Set<String>{
+        ID, NAME, ORIGINAL_INSTALLMENT_COUNT, REMAINING_BALANCE, NEXTPAYMENTDATE,
+        PLAN_TYPE, REMAINING_INSTALLMENT_COUNT, EXECUTE_ON_DAY, SIRONO_ID
+    };
+
+    // The fields for selecting a Payment_Plan__c in SkipPaymentPlan
+    private static final Set<String> SPP_SELECT_FIELDS = new Set<String>{
+        ID, SIRONO_ID, NEXTPAYMENTDATE
+    };
+
+    // The fields for selecting a Payment_Plan__c in PaymentPlanJSONParsing
+    private static final Set<String> PP_SELECT_FIELDS = new Set<String>{
+        ID, SIRONO_ID
     };
 
     /**
@@ -107,9 +129,29 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
     public static final PaymentPlanSecurityContext CLU_SELECT_CONTEXT = new PaymentPlanSecurityContext(CLU_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
-     * The select context for Payment_Plan__c in ContactTriggerHandler
+     * The select context for Payment_Plan__c in ContactTriggerHandler, PopulateNextPaymentDateBatch
      **/
     public static final PaymentPlanSecurityContext CTH_SELECT_CONTEXT = new PaymentPlanSecurityContext(CTH_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Payment_Plan__c in DelinquentPaymentPlansSchedulerBatch
+     **/
+    public static final PaymentPlanSecurityContext DPPSB_SELECT_CONTEXT = new PaymentPlanSecurityContext(DPPSB_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Payment_Plan__c in EditPaymentPlan
+     **/
+    public static final PaymentPlanSecurityContext EPP_SELECT_CONTEXT = new PaymentPlanSecurityContext(EPP_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Payment_Plan__c in SkipPaymentPlan
+     **/
+    public static final PaymentPlanSecurityContext SPP_SELECT_CONTEXT = new PaymentPlanSecurityContext(SPP_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Payment_Plan__c in PaymentPlanJSONParsing
+     **/
+    public static final PaymentPlanSecurityContext PP_SELECT_CONTEXT = new PaymentPlanSecurityContext(PP_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

@@ -73,6 +73,26 @@ public with sharing class ContactSecurityContext extends SecurityContext {
         OTHER_PHONE_TYPE, CTINUMBER1, CTINUMBER2, CTINUMBER3
     };
 
+    // The fields for selecting a Contact in DelinquentPaymentPlansSchedulerBatch, EarlyOutSchedulerBatch, PreServiceSchedulerBatch
+    private static final Set<String> SB_SELECT_FIELDS = new Set<String>{
+        ID, FIRSTNAME, LASTNAME, RECORDTYPEID
+    };
+
+    // The fields for selecting a Contact in PaymentJSONParsing
+    private static final Set<String> PJP_SELECT_FIELDS = new Set<String>{
+        ID, PROFILE_POINTER_ID
+    };
+
+    // The fields for selecting a Contact in PaymentPlanJSONParsing
+    private static final Set<String> PP_SELECT_FIELDS = new Set<String>{
+        ID, RECORDTYPEID, PROFILE_POINTER_ID
+    };
+
+    // The fields for selecting a Contact in PreCollectionSchedulerBatch
+    private static final Set<String> PCS_SELECT_FIELDS = new Set<String>{
+        ID, FIRSTNAME, RECORDTYPEID
+    };
+
     /**
      * Constructor of class that assign variables based on parameters
      *
@@ -113,6 +133,26 @@ public with sharing class ContactSecurityContext extends SecurityContext {
      * The select context for Contact in ContactTriggerHandler
      **/
     public static final ContactSecurityContext CTH_SELECT_CONTEXT = new ContactSecurityContext(CTH_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Contact in DelinquentPaymentPlansSchedulerBatch, EarlyOutSchedulerBatch, PreServiceSchedulerBatch
+     **/
+    public static final ContactSecurityContext SB_SELECT_CONTEXT = new ContactSecurityContext(SB_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Contact in PaymentJSONParsing
+     **/
+    public static final ContactSecurityContext PJP_SELECT_CONTEXT = new ContactSecurityContext(PJP_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Contact in PaymentPlanJSONParsing
+     **/
+    public static final ContactSecurityContext PP_SELECT_CONTEXT = new ContactSecurityContext(PP_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Contact in PreCollectionSchedulerBatch
+     **/
+    public static final ContactSecurityContext PCS_SELECT_CONTEXT = new ContactSecurityContext(PCS_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class
