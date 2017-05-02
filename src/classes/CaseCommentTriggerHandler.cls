@@ -30,25 +30,31 @@ public with sharing class CaseCommentTriggerHandler {
             //AND Have ChargeGroups ASSOCIATED with Case
             Id caseId;
             string caseCommentBody = '';
-            //Removed Internal Case record type check in the query 
-            for (CaseComment ob: [SELECT Id, CommentBody, ParentId
-            			FROM CaseComment
-            			WHERE Id = :caseComments.get(0).Id
-            			AND CreatedBy.Name != 'Sirono Integration'
-	    ]) {
-                caseId = ob.ParentId;
-                caseCommentBody = ob.CommentBody;
+            if (CaseCommentSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                // Removed Internal Case record type check in the query 
+                for (CaseComment ob: [SELECT Id, CommentBody, ParentId
+                            FROM CaseComment
+                            WHERE Id = :caseComments.get(0).Id
+                            AND CreatedBy.Name != 'Sirono Integration'
+                ]) {
+                    caseId = ob.ParentId;
+                    caseCommentBody = ob.CommentBody;
+                }
             }
+
             List<String> chargeGroupIds = new List<String>();
             //Tracker # 130687155  Query to get the Charge Groups from Case Charge Group object.
-            for (Charge_Group__c cg: [SELECT Id, Sirono_ID__c
-            			FROM Charge_Group__c
-            			WHERE Id IN (SELECT Charge_Group__c
-            				FROM Case_Charge_Group_Junction__c
-            				WHERE Case__c = :caseId)
-	    ]) {         
-                if (cg != null) {
-                    chargeGroupIds.add(cg.Sirono_ID__c + '');
+            if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed() &&
+                    CaseCGJunctionSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                for (Charge_Group__c cg: [SELECT Id, Sirono_ID__c
+                            FROM Charge_Group__c
+                            WHERE Id IN (SELECT Charge_Group__c
+                                FROM Case_Charge_Group_Junction__c
+                                WHERE Case__c = :caseId)
+                ]) {
+                    if (cg != null) {
+                        chargeGroupIds.add(cg.Sirono_ID__c + '');
+                    }
                 }
             }
             //CALL FUTURE METHOD FOR ADD NOTE CALLOUT

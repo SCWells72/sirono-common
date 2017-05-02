@@ -14,17 +14,43 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
     private static final String PAYMENT = 'Payment__c';
     private static final String POST_DATE = 'Post_Date__c';
     private static final String SIRONO_ID = 'Sirono_ID__c';
-	
+
+    // Below field(s) are use for Select/Read permission.
+    private static final String ADJUSTMENT = 'Adjustment__c';
+    private static final String CODE = 'Code__c';
+    private static final String ID = 'Id';
+    private static final String SERVICE = 'Service__c';
+
     // The fields for inserting Transaction in PayStaffWSUtill
     private static final Set<String> CREATE_FIELDS = new Set<String>{
-    	SIRONO_ID, NAME, AMOUNT, POST_DATE, FAIL_DATE, EXPORT_DATE, CREDIT_BALANCE, CHARGE_GROUP
+        SIRONO_ID, NAME, AMOUNT, POST_DATE, FAIL_DATE, EXPORT_DATE, CREDIT_BALANCE, CHARGE_GROUP
     };
-    
+
     // The fields for inserting Transaction with Payment in PayStaffWSUtill
     private static final Set<String> CREATE_WITH_PAYMENT_FIELDS = new Set<String>{
-    	SIRONO_ID, NAME, AMOUNT, POST_DATE, FAIL_DATE, EXPORT_DATE, CREDIT_BALANCE, CHARGE_GROUP, PAYMENT
+        SIRONO_ID, NAME, AMOUNT, POST_DATE, FAIL_DATE, EXPORT_DATE, CREDIT_BALANCE, CHARGE_GROUP, PAYMENT
     };
-    
+
+    // The fields for selecting a Transaction__c in TxnAggregationUtils
+    private static final Set<String> SELECT_FIELDS = new Set<String>{
+       AMOUNT, ADJUSTMENT
+    };
+
+    // The fields for selecting a Transaction__c in TxnAggregationUtils
+    private static final Set<String> SELECT_WITH_PAYMENT_FIELDS = new Set<String>{
+       AMOUNT, PAYMENT
+    };
+
+    // The fields for selecting a Transaction__c in TxnAggregationUtils
+    private static final Set<String> SELECT_WITH_SERVICE_FIELDS = new Set<String>{
+       AMOUNT, SERVICE
+    };
+
+    // The fields for selecting a Transaction__c in PaymentAdjustmentJSONParsing
+    private static final Set<String> SELECT_FIELDS_WITH_CODE = new Set<String>{
+       ID, CODE
+    };
+
     /**
      * Constructor of class that assign variables based on parameters
      *
@@ -45,7 +71,27 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
      * The context used to create a Transaction with Payment in the PayStaffWSUtill
      **/
     public static final TransactionSecurityContext CREATE_WITH_PAYMENT_CONTEXT = new TransactionSecurityContext(CREATE_WITH_PAYMENT_FIELDS, ACTION.OBJ_CREATE);
-    
+
+    /**
+     * The select context for Transaction__c in TxnAggregationUtils
+     **/
+    public static final TransactionSecurityContext SELECT_CONTEXT = new TransactionSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Transaction__c in TxnAggregationUtils
+     **/
+    public static final TransactionSecurityContext SELECT_CONTEXT_WITH_PAYMENT = new TransactionSecurityContext(SELECT_WITH_PAYMENT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Transaction__c in TxnAggregationUtils
+     **/
+    public static final TransactionSecurityContext SELECT_CONTEXT_WITH_SERVICE = new TransactionSecurityContext(SELECT_WITH_SERVICE_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Transaction__c in PaymentAdjustmentJSONParsing
+     **/
+    public static final TransactionSecurityContext SELECT_CONTEXT_WITH_CODE = new TransactionSecurityContext(SELECT_FIELDS_WITH_CODE, ACTION.OBJ_READ);
+
     /**
      * Override getObjectType method of SecurityContext class
      **/

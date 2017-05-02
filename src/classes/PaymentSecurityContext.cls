@@ -17,6 +17,9 @@ public with sharing class PaymentSecurityContext extends SecurityContext {
     private static final String PROCESSOR_TRANSACTION_ID = 'Processor_Transaction_ID__c';
     private static final String SIRONO_ID = 'Sirono_ID__c';
 
+    // Below field(s) are use for Select/Read permission.
+    private static final String ID = 'Id';
+
     // The fields for inserting a Payment in PayEstimate
     private static final Set<String> CREATE_FIELDS = new Set<String>{
     	AMOUNT, DEPOSIT_DATE, ENCOUNTER, GUARANTOR, NAME
@@ -29,8 +32,18 @@ public with sharing class PaymentSecurityContext extends SecurityContext {
 
     // The fields for updating a Payment__c in TxnAggregationUtils
     private static final Set<String> UPDATE_FIELDS = new Set<String>{
-    	AMOUNT, POSTED_AMOUNT
-    };	
+        AMOUNT, POSTED_AMOUNT
+    };
+
+    // The fields for selecting a Payment__c in TxnAggregationUtils
+    private static final Set<String> SELECT_FIELDS = new Set<String>{
+        ID, SIRONO_ID
+    };
+
+    // The fields for selecting a Payment__c in EncounterUtil
+    private static final Set<String> EU_SELECT_FIELDS = new Set<String>{
+        ENCOUNTER, AMOUNT
+    };
 
     /**
      * Constructor of class that assign variables based on parameters
@@ -57,6 +70,16 @@ public with sharing class PaymentSecurityContext extends SecurityContext {
      * The update context for Payment__c in TxnAggregationUtils
      **/
     public static final PaymentSecurityContext UPDATE_CONTEXT = new PaymentSecurityContext(UPDATE_FIELDS, ACTION.OBJ_UPDATE);
+
+    /**
+     * The select context for Payment__c in TxnAggregationUtils
+     **/
+    public static final PaymentSecurityContext SELECT_CONTEXT = new PaymentSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Payment__c in EncounterUtil
+     **/
+    public static final PaymentSecurityContext EU_SELECT_CONTEXT = new PaymentSecurityContext(EU_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

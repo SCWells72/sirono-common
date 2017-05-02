@@ -28,68 +28,88 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<s
         });
         string earlyOut = mapCampaignMapping.get('Early-out');
 
-        for (Campaign cl : [Select Id, Name From Campaign Where Name = :earlyOut and isActive = true]) {
-            callList = cl;
+        if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            for (Campaign cl: [SELECT Id, Name
+                               FROM Campaign
+                               WHERE Name = :earlyOut
+                               AND isActive = true
+            ]) {
+                callList = cl;
+            }
         }
+
         if (callList != null) {
             existingMembers = new Set<Id>();
-            for (CampaignMember cm : [
-                    Select Id, ContactId
-                    From CampaignMember
-                    Where CampaignId = :callList.Id
-                    AND ContactId != null
-            ]) {
-                existingMembers.add(cm.ContactId);
+            if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                for (CampaignMember cm: [
+                        SELECT Id, ContactId
+                        FROM CampaignMember
+                        WHERE CampaignId = :callList.Id
+                        AND ContactId != null
+                ]) {
+                    existingMembers.add(cm.ContactId);
+                }
             }
 
-            return Database.getQueryLocator([
-                    Select Id, FirstName, LastName
-                    From Contact
-                    Where RecordType.Name = 'Guarantor'
-                    AND ID NOT IN :existingMembers
-            ]);
+            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
+                return Database.getQueryLocator([
+                        SELECT Id, FirstName, LastName
+                        FROM Contact
+                        WHERE RecordType.Name = 'Guarantor'
+                        AND ID NOT IN :existingMembers
+                ]);
+            }
         } else {
-            return Database.getQueryLocator([
-                    Select Id, FirstName
-                    From Contact
-                    Where RecordType.Name = 'Guarantor-DO-NOT-EXIST'
-            ]);
+            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
+                return Database.getQueryLocator([
+                        SELECT Id, FirstName
+                        FROM Contact
+                        WHERE RecordType.Name = 'Guarantor-DO-NOT-EXIST'
+                ]);
+            }
         }
+        return null;
     }
 
     //Adding Guarantors based on their overdue balance and creates to new CampaignMember list 
     public void execute(Database.BatchableContext bc, List<sObject> scope) {
         List<Contact> guarantors = (List<Contact>) scope;
-        Map<Id, Contact> guarantorMap = new Map<Id, Contact>([
-                Select Id, (
-                        Select Id, Name, Statement_Date__c
-                        From Statements__r
-                        Order By Statement_Date__c DESC
-                        Limit 1
-                )
-                From Contact
-                Where Id IN :guarantors
-        ]);
+        Map<Id, Contact> guarantorMap = new Map<Id, Contact>();
+        if (ContactSecurityContext.SELECT_CONTEXT_FOR_ID.actionAllowed() &&
+                StatementSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            guarantorMap = new Map<Id, Contact>([
+                    SELECT Id, (
+                            SELECT Id, Name, Statement_Date__c
+                            FROM Statements__r
+                            ORDER BY Statement_Date__c DESC
+                            LIMIT 1
+                    )
+                    FROM Contact
+                    WHERE Id IN :guarantors
+            ]);
+        }
         Date dt = System.today().addDays(-50);
         if (callList != null) {
             List<CampaignMember> memberList = new List<CampaignMember>();
-            for (Invoice__c invoice : [
-                    Select Id, Name, Guarantor__c, Invoice_Date__c,
-                            Guarantor__r.Overdue_Balance__c, Guarantor__r.Delinquent_Balance__c
-                    From Invoice__c
-                    WHERE Guarantor__c IN :guarantors
-                    AND Invoice_Date__c = :dt
-            ]) {
-                Double bal = invoice.Guarantor__r.Overdue_Balance__c + invoice.Guarantor__r.Delinquent_Balance__c;
-                if (invoice.Guarantor__r.Overdue_Balance__c < 0 && bal <= -100 && bal > -5000
-                        && guarantorMap.containsKey(invoice.Guarantor__c)
-                        && guarantorMap.get(invoice.Guarantor__c).Statements__r != null
-                        && guarantorMap.get(invoice.Guarantor__c).Statements__r.size() != 0
-                        && guarantorMap.get(invoice.Guarantor__c).Statements__r.get(0).Statement_Date__c > invoice.Invoice_Date__c
-                        && !existingMembers.contains(invoice.Guarantor__c)) {
-                    existingMembers.add(invoice.Guarantor__c);
-                    memberList.add(new CampaignMember(CampaignId = callList.Id,
-                            ContactId = invoice.Guarantor__c, Status = 'Sent'));
+            if (InvoiceSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                for (Invoice__c invoice : [
+                        Select Id, Name, Guarantor__c, Invoice_Date__c,
+                                Guarantor__r.Overdue_Balance__c, Guarantor__r.Delinquent_Balance__c
+                        From Invoice__c
+                        WHERE Guarantor__c IN :guarantors
+                        AND Invoice_Date__c = :dt
+                ]) {
+                    Double bal = invoice.Guarantor__r.Overdue_Balance__c + invoice.Guarantor__r.Delinquent_Balance__c;
+                    if (invoice.Guarantor__r.Overdue_Balance__c < 0 && bal <= -100 && bal > -5000
+                            && guarantorMap.containsKey(invoice.Guarantor__c)
+                            && guarantorMap.get(invoice.Guarantor__c).Statements__r != null
+                            && guarantorMap.get(invoice.Guarantor__c).Statements__r.size() != 0
+                            && guarantorMap.get(invoice.Guarantor__c).Statements__r.get(0).Statement_Date__c > invoice.Invoice_Date__c
+                            && !existingMembers.contains(invoice.Guarantor__c)) {
+                        existingMembers.add(invoice.Guarantor__c);
+                        memberList.add(new CampaignMember(CampaignId = callList.Id,
+                                ContactId = invoice.Guarantor__c, Status = 'Sent'));
+                    }
                 }
             }
 

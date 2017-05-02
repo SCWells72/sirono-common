@@ -18,6 +18,11 @@ public with sharing class CaseSecurityContext extends SecurityContext {
     private static final String SUBJECT = 'Subject';
     private static final String TYPE = 'Type';
 
+    // Below field(s) are use for Select/Read permission.
+    private static final String CHARGE_GROUP_IDS = 'Charge_Group_IDs__c';
+    private static final String DESCRIPTION = 'Description';
+    private static final String ID = 'Id';
+
     // The fields for inserting a Case in Campaign Member Trigger Handler
     private static final Set<String> CMT_CREATE_FIELDS = new Set<String>{
         CONTACTID, ORIGIN, RECORDTYPEID, STATUS, SUBJECT, TYPE
@@ -41,6 +46,11 @@ public with sharing class CaseSecurityContext extends SecurityContext {
     // The fields for upserting a Case in CreateCaseManual
     private static final Set<String> UPSERT_FIELDS = new Set<String>{
         CONTACTID, GUARANTOR_INFORMATION, PATIENT, REASON, RECORDTYPEID, SUBJECT
+    };
+
+    // The fields for selecting a Case in CaseTriggerHandler
+    private static final Set<String> SELECT_FIELDS = new Set<String>{
+        ID, DESCRIPTION, CHARGE_GROUP_IDS
     };
 
     /**
@@ -83,6 +93,11 @@ public with sharing class CaseSecurityContext extends SecurityContext {
      * The delete context for a Case in SecurityUtilsTest.
      **/
     public static final CaseSecurityContext DELETE_CONTEXT = new CaseSecurityContext(null, ACTION.OBJ_DELETE);
+
+    /**
+     * The select context for Case in CaseTriggerHandler
+     **/
+    public static final CaseSecurityContext SELECT_CONTEXT = new CaseSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

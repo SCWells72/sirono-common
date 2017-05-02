@@ -139,6 +139,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CampaignSecurityContext</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CaseCGJunctionSecurityContext</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -640,6 +644,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SkipPaymentPlanTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StatementSecurityContext</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
