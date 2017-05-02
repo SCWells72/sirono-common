@@ -84,36 +84,38 @@ public with sharing class EditPaymentPlan {
         totalAmount = 0;
         if (Apexpages.currentPage().getParameters().containsKey('paymentPlanId')) {
             paymentPlanRecordId = Apexpages.currentPage().getParameters().get('paymentPlanId');
-            for (Payment_Plan__c p : [
-                    Select Id, Name, Original_Installment_Count__c, Remaining_Balance__c, Next_Payment_Date__c,
-                            Plan_Type__c, Remaining_Installment_Count__c, Execute_on_Day__c, Sirono_ID__c
-                    FROM Payment_Plan__c
-                    Where id = :paymentPlanRecordId
-            ]) {
-                System.debug('23' + p);
-                paymentPlanId = String.valueOf(p.Sirono_ID__c);
-                numberInstallments = String.valueOf(p.Original_Installment_Count__c);
-                if (p.Remaining_Balance__c != null) {
-                    payableAmount = String.valueOf(p.Remaining_Balance__c);
-                } else {
-                    payableAmount = '0';
-                }
-                nextPaymentDate = String.valueOf(p.Next_Payment_Date__c);
-                installmentsTotal = numberInstallments;
-                if (p.Remaining_Installment_Count__c != null && installmentsTotal != null) {
-                    installmentsPaid = String.valueOf(
-                            Integer.valueOf(installmentsTotal) - Integer.valueOf(p.Remaining_Installment_Count__c)
-                    );
-                } else {
-                    installmentsPaid = '0';
-                }
-                if (p.Execute_on_Day__c != null && p.Execute_on_Day__c != 0) {
-                    executeOnDayExisting = String.valueOf(p.Execute_on_Day__c);
-                } else {
-                    executeOnDayExisting = '1';
-                }
-                if (p.Plan_Type__c != null && p.Plan_Type__c.trim().equalsIgnoreCase('Manual')) {
-                    planType = 'promise';
+            if (PaymentPlanSecurityContext.EPP_SELECT_CONTEXT.actionAllowed()) {
+                for (Payment_Plan__c p: [
+                        SELECT Id, Name, Original_Installment_Count__c, Remaining_Balance__c, NextPaymentDate__c,
+                                Plan_Type__c, Remaining_Installment_Count__c, Execute_on_Day__c, Sirono_ID__c
+                        FROM Payment_Plan__c
+                        WHERE Id = :paymentPlanRecordId
+                ]) {
+                    System.debug('23' + p);
+                    paymentPlanId = String.valueOf(p.Sirono_ID__c);
+                    numberInstallments = String.valueOf(p.Original_Installment_Count__c);
+                    if (p.Remaining_Balance__c != null) {
+                        payableAmount = String.valueOf(p.Remaining_Balance__c);
+                    } else {
+                        payableAmount = '0';
+                    }
+                    nextPaymentDate = String.valueOf(p.NextPaymentDate__c);
+                    installmentsTotal = numberInstallments;
+                    if (p.Remaining_Installment_Count__c != null && installmentsTotal != null) {
+                        installmentsPaid = String.valueOf(
+                                Integer.valueOf(installmentsTotal) - Integer.valueOf(p.Remaining_Installment_Count__c)
+                        );
+                    } else {
+                        installmentsPaid = '0';
+                    }
+                    if (p.Execute_on_Day__c != null && p.Execute_on_Day__c != 0) {
+                        executeOnDayExisting = String.valueOf(p.Execute_on_Day__c);
+                    } else {
+                        executeOnDayExisting = '1';
+                    }
+                    if (p.Plan_Type__c != null && p.Plan_Type__c.trim().equalsIgnoreCase('Manual')) {
+                        planType = 'promise';
+                    }
                 }
             }
         }

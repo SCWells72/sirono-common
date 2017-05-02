@@ -29,25 +29,27 @@ public without sharing class EncounterUtil {
         for (Id id : encounterIds) {
         	encountersToUpdate.put(id, new Encounter__c(Id = id, Total_Payments__c = 0));
         }
-        // Get the SUM of all the associated payments
-        AggregateResult[] results = [
-                SELECT Encounter__c obj, SUM(Amount__c) Total
-                FROM Payment__c
-                WHERE Encounter__c IN :encounterIds
-                GROUP BY Encounter__c
-        ];
+        if (PaymentSecurityContext.EU_SELECT_CONTEXT.actionAllowed()) {
+            // Get the SUM of all the associated payments
+            AggregateResult[] results = [
+                    SELECT Encounter__c obj, SUM(Amount__c) Total
+                    FROM Payment__c
+                    WHERE Encounter__c IN :encounterIds
+                    GROUP BY Encounter__c
+            ];
 
-        for (AggregateResult ar : results) {
-            Encounter__c enc = new Encounter__c(Id=(Id)ar.get(OBJ));
-            enc.Total_Payments__c = (Decimal) ar.get(TOTAL);
+            for (AggregateResult ar : results) {
+                Encounter__c enc = new Encounter__c(Id=(Id)ar.get(OBJ));
+                enc.Total_Payments__c = (Decimal) ar.get(TOTAL);
 
-            encountersToUpdate.put(enc.Id, enc);
+                encountersToUpdate.put(enc.Id, enc);
+            }
+
+            if (EncounterSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+                UPDATE encountersToUpdate.values();
+            }
+            updateAssociatedGuarantors(encounterIds);
         }
-
-        if (EncounterSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-            UPDATE encountersToUpdate.values();
-	}
-        updateAssociatedGuarantors(encounterIds);
     }
 
     /**
@@ -63,30 +65,32 @@ public without sharing class EncounterUtil {
             return;
         }
 
-        List<Charge_Group__c> cgsWithEncounters = [
-                SELECT Id, Encounter__c
-                FROM Charge_Group__c
-                WHERE Encounter__c IN :encounterIds
-                AND Encounter__c != null
-        ];
+        if (ChargeGroupSecurityContext.EU_SELECT_CONTEXT.actionAllowed()) {
+            List<Charge_Group__c> cgsWithEncounters = [
+                    SELECT Id, Encounter__c
+                    FROM Charge_Group__c
+                    WHERE Encounter__c IN :encounterIds
+                    AND Encounter__c != null
+            ];
 
-        Set<Id> hasChargeGroup = new Set<Id>();
-        for (Charge_Group__c cg : cgsWithEncounters) {
-            hasChargeGroup.add(cg.Encounter__c);
+            Set<Id> hasChargeGroup = new Set<Id>();
+            for (Charge_Group__c cg: cgsWithEncounters) {
+                hasChargeGroup.add(cg.Encounter__c);
+            }
+
+            encounterIds.removeAll(hasChargeGroup);
+
+            if (encounterIds.size() > 0) {
+                setHasChargeGroupFlag(encounterIds, false);
+            }
+
+            if (hasChargeGroup.size() > 0) {
+                setHasChargeGroupFlag(hasChargeGroup, true);
+            }
+
+            encounterIds.addAll(hasChargeGroup);
+            updateAssociatedGuarantors(encounterIds);
         }
-
-        encounterIds.removeAll(hasChargeGroup);
-
-        if (encounterIds.size() > 0) {
-            setHasChargeGroupFlag(encounterIds, false);
-        }
-
-        if (hasChargeGroup.size() > 0) {
-            setHasChargeGroupFlag(hasChargeGroup, true);
-        }
-
-        encounterIds.addAll(hasChargeGroup);
-        updateAssociatedGuarantors(encounterIds);
     }
 
     /*
@@ -113,18 +117,20 @@ public without sharing class EncounterUtil {
      * Estimate_Balance on each guarantor
      */
     private static void updateAssociatedGuarantors(Set<Id> encounterIds) {
-        List<Encounter__c> encountersWithGts = [
-                SELECT Id, Guarantor__c
-                FROM Encounter__c
-                WHERE Id IN :encounterIds
-                AND Guarantor__c != null
-        ];
+        if (EncounterSecurityContext.EU_SELECT_CONTEXT.actionAllowed()) {
+            List<Encounter__c> encountersWithGts = [
+                    SELECT Id, Guarantor__c
+                    FROM Encounter__c
+                    WHERE Id IN :encounterIds
+                    AND Guarantor__c != null
+            ];
 
-        Set<Id> gtIds = new Set<Id>();
-        for (Encounter__c encounter : encountersWithGts) {
-            gtIds.add(encounter.Guarantor__c);
+            Set<Id> gtIds = new Set<Id>();
+            for (Encounter__c encounter: encountersWithGts) {
+                gtIds.add(encounter.Guarantor__c);
+            }
+            updateGTEstimateBalances(gtIds);
         }
-        updateGTEstimateBalances(gtIds);
     }
 
     /**
@@ -140,36 +146,38 @@ public without sharing class EncounterUtil {
             return;
         }
 
-        // Get the SUM of the balances of the associated Encounters
-        // there are no results for gtIds with no Encounters
-        AggregateResult[] results = [
-                SELECT Guarantor__c obj, SUM(Balance__c) Total
-                FROM Encounter__c
-                WHERE Guarantor__c IN :gtIds
-                AND Guarantor__c != null
-                GROUP BY Guarantor__c
-        ];
+        if (EncounterSecurityContext.EU_SELECT_CONTEXT_AGG.actionAllowed()) {
+            // Get the SUM of the balances of the associated Encounters
+            // there are no results for gtIds with no Encounters
+            AggregateResult[] results = [
+                    SELECT Guarantor__c obj, SUM(Balance__c) Total
+                    FROM Encounter__c
+                    WHERE Guarantor__c IN :gtIds
+                    AND Guarantor__c != null
+                    GROUP BY Guarantor__c
+            ];
 
-        Map<Id, Decimal> resultsMap = new Map<Id, Decimal>();
-        for (AggregateResult ar : results) {
-            resultsMap.put((Id) ar.get(OBJ), (Decimal)ar.get(TOTAL));
-        }
-
-        List<Contact> toUpdate = new List<Contact>();
-        for (Id gtId : gtIds) {
-            Contact gt = new Contact(Id = gtId);
-            gt.RecordTypeId = RecordTypeUtil.guarantorRt;
-
-            if (resultsMap.containsKey(gtId)) {
-                gt.Estimate_Balance__c = resultsMap.get(gtId);
-            } else {
-                gt.Estimate_Balance__c = 0;
+            Map<Id, Decimal> resultsMap = new Map<Id, Decimal>();
+            for (AggregateResult ar : results) {
+                resultsMap.put((Id) ar.get(OBJ), (Decimal)ar.get(TOTAL));
             }
 
-            toUpdate.add(gt);
+            List<Contact> toUpdate = new List<Contact>();
+            for (Id gtId : gtIds) {
+                Contact gt = new Contact(Id = gtId);
+                gt.RecordTypeId = RecordTypeUtil.guarantorRt;
+
+                if (resultsMap.containsKey(gtId)) {
+                    gt.Estimate_Balance__c = resultsMap.get(gtId);
+                } else {
+                    gt.Estimate_Balance__c = 0;
+                }
+
+                toUpdate.add(gt);
+            }
+            if (ContactSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+                UPDATE toUpdate;
+            }
         }
-	if (ContactSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-	    UPDATE toUpdate;
-	}
     }
 }

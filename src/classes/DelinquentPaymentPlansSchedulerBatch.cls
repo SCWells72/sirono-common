@@ -26,32 +26,46 @@ public with sharing class DelinquentPaymentPlansSchedulerBatch
         });
         string delinquent = mapCampaignMapping.get('Delinquent');
 
-        for (Campaign cl : [Select Id, Name From Campaign Where Name = :delinquent and isActive = true]) {
-            callList = cl;
+        if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            for (Campaign cl: [SELECT Id, Name
+                               FROM Campaign
+                               WHERE Name = :delinquent
+                               AND isActive = true
+            ]) {
+                callList = cl;
+            }
         }
+
         if (callList != null) {
             existingMembers = new Set<Id>();
-            for (CampaignMember cm : [
-                    Select Id, ContactId
-                    From CampaignMember
-                    Where CampaignId = :callList.Id AND ContactId != null
-            ]) {
-                existingMembers.add(cm.ContactId);
+            if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                for (CampaignMember cm: [
+                        SELECT Id, ContactId
+                        FROM CampaignMember
+                        WHERE CampaignId = :callList.Id AND ContactId != null
+                ]) {
+                    existingMembers.add(cm.ContactId);
+                }
             }
 
-            return Database.getQueryLocator([
-                    Select Id, FirstName, LastName
-                    From Contact
-                    Where RecordType.Name = 'Guarantor'
-                    AND ID NOT IN :existingMembers
-            ]);
+            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
+                return Database.getQueryLocator([
+                        SELECT Id, FirstName, LastName
+                        FROM Contact
+                        WHERE RecordType.Name = 'Guarantor'
+                        AND ID NOT IN :existingMembers
+                ]);
+            }
         } else {
-            return Database.getQueryLocator([
-                    Select Id, FirstName
-                    From Contact
-                    Where RecordType.Name = 'Guarantor-DO-NOT-EXIST'
-            ]);
+            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
+                return Database.getQueryLocator([
+                        SELECT Id, FirstName
+                        FROM Contact
+                        WHERE RecordType.Name = 'Guarantor-DO-NOT-EXIST'
+                ]);
+            }
         }
+        return null;
     }
     //Checks if the members exist if not Creates new Campaign members
     public void execute(Database.BatchableContext bc, List<sObject> scope) {
@@ -59,22 +73,24 @@ public with sharing class DelinquentPaymentPlansSchedulerBatch
         Date dt = System.today().addDays(-10);
         if (callList != null) {
             List<CampaignMember> memberList = new List<CampaignMember>();
-            for (Payment_Plan__c pp : [
-                    Select Id, Name, Guarantor__c, Delinquent_Date__c, Remaining_Balance__c, Active__c
-                    From Payment_Plan__c
-                    WHERE Guarantor__c IN :guarantors
-                    AND Delinquent_Date__c = :dt
-                    AND Remaining_Balance__c < :-100 AND Active__c = true
-            ]) {
-                if (!existingMembers.contains(pp.Guarantor__c)) {
-                    existingMembers.add(pp.Guarantor__c);
-                    memberList.add(new CampaignMember(CampaignId = callList.Id,
-                            ContactId = pp.Guarantor__c, Status = 'Sent'));
+            if (PaymentPlanSecurityContext.DPPSB_SELECT_CONTEXT.actionAllowed()) {
+                for (Payment_Plan__c pp: [
+                        SELECT Id, Name, Guarantor__c, Delinquent_Date__c, Remaining_Balance__c, Active__c
+                        FROM Payment_Plan__c
+                        WHERE Guarantor__c IN :guarantors
+                        AND Delinquent_Date__c = :dt
+                        AND Remaining_Balance__c < :-100 AND Active__c = true
+                ]) {
+                    if (!existingMembers.contains(pp.Guarantor__c)) {
+                        existingMembers.add(pp.Guarantor__c);
+                        memberList.add(new CampaignMember(CampaignId = callList.Id,
+                                ContactId = pp.Guarantor__c, Status = 'Sent'));
+                    }
                 }
-            }
 
-            if (memberList.size() > 0) {
-                insert memberList;
+                if (memberList.size() > 0) {
+                    insert memberList;
+                }
             }
         }
     }

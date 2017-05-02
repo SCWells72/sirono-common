@@ -31,10 +31,12 @@ public class PaymentJSONParsing {
         Payment__c objPayment = new Payment__c();
                 
         Integer guarantor = Integer.valueof(getExternalID(objJson.guarantor,'guarantors'));
-        
-        Contact guarantorContact = [SELECT Id FROM Contact WHERE Profile_Pointer_ID__c =: guarantor limit 1];
-        objPayment.Guarantor__c = guarantorContact.Id;
-        
+
+        if (ContactSecurityContext.PJP_SELECT_CONTEXT.actionAllowed()) {
+            Contact guarantorContact = [SELECT Id FROM Contact WHERE Profile_Pointer_ID__c = :guarantor LIMIT 1];
+            objPayment.Guarantor__c = guarantorContact.Id;
+        }
+
         if (!String.isBlank(objJson.payment_date)) {
             objPayment.Charge_Date__c = Date.valueof(objJson.payment_date);
             objPayment.Deposit_Date__c = Date.valueof(objJson.payment_date);
