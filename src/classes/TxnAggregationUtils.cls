@@ -14,16 +14,18 @@ public with sharing class TxnAggregationUtils {
     public static void aggregateAdjustmentTxns(Set<Id> ids) {
 
         if (ids.size() > 0) {
-            // Get the SUM of the associated transaction amounts
-            AggregateResult[] results = [
+            if (TransactionSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                // Get the SUM of the associated transaction amounts
+                AggregateResult[] results = [
                     SELECT Adjustment__c obj, SUM(Amount__c) Total
                     FROM Transaction__c
                     WHERE Adjustment__c IN :ids
                     GROUP BY Adjustment__c
-            ];
+                ];
 
-            Map<Id, Decimal> resultsMap = mapAggregateResults(ids, results);
-            updateAdjustments(resultsMap);
+                Map<Id, Decimal> resultsMap = mapAggregateResults(ids, results);
+                updateAdjustments(resultsMap);   
+            }
         }
     }
 
@@ -53,21 +55,23 @@ public with sharing class TxnAggregationUtils {
      */
     public static void aggregatePaymentTxns(Set<Id> ids) {
         //Determine which are Sirono payments
-        List<Id> sironoPmtIds = new List<Id>(new Map<Id, Payment__c>([
+        if (PaymentSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            List<Id> sironoPmtIds = new List<Id>(new Map<Id, Payment__c>([
                 SELECT Id
                 FROM Payment__c
                 WHERE Id IN :ids AND Sirono_ID__c != null]).keySet());
 
-        if (sironoPmtIds.size() > 0) {
-            Set<Id> idSet = new Set<Id>();
-            idSet.addAll(sironoPmtIds);
-            aggregatePayments(idSet, false);
-        }
+            if (sironoPmtIds.size() > 0) {
+                Set<Id> idSet = new Set<Id>();
+                idSet.addAll(sironoPmtIds);
+                aggregatePayments(idSet, false);
+            }
 
-        // Any left are PAS payments
-        ids.removeAll(sironoPmtIds);
-        if (ids.size() > 0) {
-            aggregatePayments(ids, true);
+            // Any left are PAS payments
+            ids.removeAll(sironoPmtIds);
+            if (ids.size() > 0) {
+                aggregatePayments(ids, true);
+            }
         }
     }
 
@@ -78,15 +82,17 @@ public with sharing class TxnAggregationUtils {
     private static void aggregatePayments(Set<id> ids, boolean isPASPmt) {
 
         if (ids.size() > 0) {
-            AggregateResult[] results = [
-                    SELECT Payment__c obj, SUM(Amount__c) Total
-                    FROM Transaction__c
-                    WHERE Payment__c IN :ids
-                    GROUP BY Payment__c
-            ];
+            if (TransactionSecurityContext.SELECT_CONTEXT_WITH_PAYMENT.actionAllowed()) {
+                AggregateResult[] results = [
+                        SELECT Payment__c obj, SUM(Amount__c) Total
+                        FROM Transaction__c
+                        WHERE Payment__c IN :ids
+                        GROUP BY Payment__c
+                ];
 
-            Map<Id, Decimal> resultsMap = mapAggregateResults(ids, results);
-            updatePayments(resultsMap, isPASPmt);
+                Map<Id, Decimal> resultsMap = mapAggregateResults(ids, results);
+                updatePayments(resultsMap, isPASPmt);
+            }
         }
     }
 
@@ -121,16 +127,18 @@ public with sharing class TxnAggregationUtils {
     public static void aggregateServiceTxns(Set<Id> ids) {
 
         if (ids.size() > 0) {
-            // Get the SUM of the associated transaction amounts
-            AggregateResult[] results = [
+            if (TransactionSecurityContext.SELECT_CONTEXT_WITH_SERVICE.actionAllowed()) {
+                // Get the SUM of the associated transaction amounts
+                AggregateResult[] results = [
                     SELECT Service__c obj, SUM(Amount__c) Total
                     FROM Transaction__c
                     WHERE Service__c IN :ids
                     GROUP BY Service__c
-            ];
+                ];
 
-            Map<Id, Decimal> resultsMap = mapAggregateResults(ids, results);
-            updateServices(resultsMap);
+                Map<Id, Decimal> resultsMap = mapAggregateResults(ids, results);
+                updateServices(resultsMap);
+            }
         }
     }
 

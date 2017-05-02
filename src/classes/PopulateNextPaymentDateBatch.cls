@@ -14,15 +14,17 @@ public with sharing class PopulateNextPaymentDateBatch implements Database.Batch
     }
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        return Database.getQueryLocator([
-                SELECT
-                        Id, Guarantor__c, Plan_Type__c,
-                        Execute_on_Day__c, NextPaymentDate__c,
-                        Skip_Payment_Until__c
-                FROM Payment_Plan__c
-                WHERE Guarantor__c != null
-        ]);
-
+        if (PaymentPlanSecurityContext.CTH_SELECT_CONTEXT.actionAllowed()) {
+            return Database.getQueryLocator([
+                    SELECT
+                            Id, Guarantor__c, Plan_Type__c,
+                            Execute_on_Day__c, NextPaymentDate__c,
+                            Skip_Payment_Until__c
+                    FROM Payment_Plan__c
+                    WHERE Guarantor__c != null
+            ]);
+        }
+        return null;
     }
 
     //pass the payment plan list to the method.

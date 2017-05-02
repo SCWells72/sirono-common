@@ -25,19 +25,28 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
         });
         string preCollection = mapCampaignMapping.get('PreCollections');
 
-        for (Campaign cl : [Select Id, Name From Campaign Where Name = :preCollection and isActive = true]) {
-            callList = cl;
+        if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            for (Campaign cl: [SELECT  Id, Name FROM Campaign WHERE Name = :preCollection AND isActive = true]) {
+                callList = cl;
+            }
         }
+
         if (callList != null) {
             existingMembers = new Set<Id>();
-            for (CampaignMember cm : [Select Id, ContactId From CampaignMember Where CampaignId = :callList.Id AND ContactId != null]) {
-                existingMembers.add(cm.ContactId);
+            if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                for (CampaignMember cm: [SELECT Id, ContactId FROM CampaignMember WHERE CampaignId = :callList.Id AND ContactId != null]) {
+                    existingMembers.add(cm.ContactId);
+                }
             }
-
-            return Database.getQueryLocator([Select Id, FirstName From Contact Where RecordType.Name = 'Guarantor' AND ID NOT IN :existingMembers]);
+            if (ContactSecurityContext.PCS_SELECT_CONTEXT.actionAllowed()) {
+                return Database.getQueryLocator([SELECT Id, FirstName FROM Contact WHERE RecordType.Name = 'Guarantor' AND ID NOT IN :existingMembers]);
+            }
         } else {
-            return Database.getQueryLocator([Select Id, FirstName From Contact Where RecordType.Name = 'Guarantor-DO-NOT-EXIST']);
+            if (ContactSecurityContext.PCS_SELECT_CONTEXT.actionAllowed()) {
+                return Database.getQueryLocator([SELECT Id, FirstName FROM Contact WHERE RecordType.Name = 'Guarantor-DO-NOT-EXIST']);
+            }
         }
+        return null;
     }
 
     //adding new campaign members
@@ -46,19 +55,20 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
         Date dt = System.today();
         if (callList != null) {
             List<CampaignMember> memberList = new List<CampaignMember>();
-            for (Charge_Group__c cg : [
-                    Select Id, Name, Guarantor__c, Pre_Collection_Sent__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Delinquent_Balance__c
-                    From Charge_Group__c
-                    WHERE Guarantor__c IN :guarantors AND Pre_Collection_Sent__c = :dt
-            ]) {
-                Double bal = cg.Guarantor__r.Overdue_Balance__c + cg.Guarantor__r.Delinquent_Balance__c;
-                System.debug('bal' + bal);
-                if (bal <= -100 && bal > -5000 && !existingMembers.contains(cg.Guarantor__c)) {
-                    existingMembers.add(cg.Guarantor__c);
-                    memberList.add(new CampaignMember(CampaignId = callList.Id, ContactId = cg.Guarantor__c, Status = 'Sent'));
+            if (ChargeGroupSecurityContext.PCS_SELECT_CONTEXT.actionAllowed()) {
+                for (Charge_Group__c cg: [
+                        SELECT Id, Name, Guarantor__c, Pre_Collection_Sent__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Delinquent_Balance__c
+                        FROM Charge_Group__c
+                        WHERE Guarantor__c IN :guarantors AND Pre_Collection_Sent__c = :dt
+                ]) {
+                    Double bal = cg.Guarantor__r.Overdue_Balance__c + cg.Guarantor__r.Delinquent_Balance__c;
+                    System.debug('bal' + bal);
+                    if (bal <= -100 && bal > -5000 && !existingMembers.contains(cg.Guarantor__c)) {
+                        existingMembers.add(cg.Guarantor__c);
+                        memberList.add(new CampaignMember(CampaignId = callList.Id, ContactId = cg.Guarantor__c, Status = 'Sent'));
+                    }
                 }
             }
-
             if (memberList.size() > 0) {
                 if (CmpnMemberSecurityContext.SB_CREATE_CONTEXT.actionAllowed()) {
                     INSERT memberList;
