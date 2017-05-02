@@ -91,6 +91,10 @@
                 <behavior>Edit</behavior>
                 <field>Has_Chargegroup__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Status__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

@@ -2603,6 +2603,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Encounter__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Encounter__c.Total_Charges__c</field>
         <readable>true</readable>
     </fieldPermissions>
