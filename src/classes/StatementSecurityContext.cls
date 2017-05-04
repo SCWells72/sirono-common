@@ -5,13 +5,19 @@
 public with sharing class StatementSecurityContext extends SecurityContext {
 
     // Below field(s) are use for Select/Read permission.
+    private static final String GUARANTOR = 'Guarantor__c';
     private static final String ID = 'Id';
     private static final String NAME = 'Name';
     private static final String STATEMENT_DATE = 'Statement_Date__c';
 
-    // The fields for selecting a Campaign in DelinquentPaymentPlansSchedulerBatch
+    // The fields for selecting a Statement in DelinquentPaymentPlansSchedulerBatch
     private static final Set<String> SELECT_FIELDS = new Set<String>{
         ID, NAME, STATEMENT_DATE
+    };
+
+    // The fields for selecting a Statement in CaseUtil
+    private static final Set<String> CU_SELECT_FIELDS = new Set<String>{
+        ID, GUARANTOR, STATEMENT_DATE
     };
 
     /**
@@ -26,9 +32,14 @@ public with sharing class StatementSecurityContext extends SecurityContext {
     }
 
     /**
-     * The select context for Campaign in DelinquentPaymentPlansSchedulerBatch
+     * The select context for Statement in DelinquentPaymentPlansSchedulerBatch
      **/
     public static final StatementSecurityContext SELECT_CONTEXT = new StatementSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Statement in CaseUtil
+     **/
+    public static final StatementSecurityContext CU_SELECT_CONTEXT = new StatementSecurityContext(CU_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

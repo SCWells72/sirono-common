@@ -72,10 +72,12 @@ public class TransactionJSONParsing {
 
             if (mapTransactionChargeGroup.size() > 0) {
 
-                lstChargeGroup = [SELECT Id, Sirono_ID__c, Account_Sub_Status__c,
-                        Payment_Plan__c, Payment_Plan__r.Sirono_ID__c, Payment_Plan__r.Guarantor__c
-                        FROM Charge_Group__c
-                        where Sirono_ID__c in: mapTransactionChargeGroup.values()];
+                if (ChargeGroupSecurityContext.TJP_SELECT_CONTEXT.actionAllowed()) {
+                    lstChargeGroup = [SELECT Id, Sirono_ID__c, Account_Sub_Status__c,
+                            Payment_Plan__c, Payment_Plan__r.Sirono_ID__c, Payment_Plan__r.Guarantor__c
+                            FROM Charge_Group__c
+                            WHERE Sirono_ID__c IN :mapTransactionChargeGroup.values()];
+                }
 
                 Map<Decimal, String> mapChargeGroup = new Map<Decimal, String>();
                 for(Charge_Group__c cg : lstChargeGroup){

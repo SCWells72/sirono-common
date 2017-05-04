@@ -21,34 +21,46 @@ public with sharing class PreServiceSchedulerBatch implements Database.Batchable
                 'PreService'
         });
         string preService = mapCampaignMapping.get('PreService');
-        for (Campaign cl : [
-                Select Id, Name
-                From Campaign
-                Where Name = :preService and isActive = true
-        ]) {
-            callList = cl;
+
+        if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            for (Campaign cl: [
+                    SELECT Id, Name
+                    FROM Campaign
+                    WHERE Name = :preService AND isActive = true
+            ]) {
+                callList = cl;
+            }
         }
+
         if (callList != null) {
             existingMembers = new Set<Id>();
-            for (CampaignMember cm : [
-                    Select Id, ContactId
-                    From CampaignMember
-                    Where CampaignId = :callList.Id AND ContactId != null
-            ]) {
-                existingMembers.add(cm.ContactId);
+            if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                for (CampaignMember cm: [
+                    SELECT Id, ContactId
+                    FROM CampaignMember
+                    WHERE CampaignId = :callList.Id AND ContactId != null
+                ]) {
+                    existingMembers.add(cm.ContactId);
+                }
             }
-            return Database.getQueryLocator([
-                    Select Id, FirstName, LastName
-                    From Contact
-                    Where RecordType.Name = 'Guarantor' AND ID NOT IN :existingMembers
-            ]);
+
+            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
+                return Database.getQueryLocator([
+                    SELECT Id, FirstName, LastName
+                    FROM Contact
+                    WHERE RecordType.Name = 'Guarantor' AND ID NOT IN :existingMembers
+                ]);
+            }
         } else {
-            return Database.getQueryLocator([
-                    Select Id, FirstName
-                    From Contact
-                    Where RecordType.Name = 'Guarantor-DO-NOT-EXIST'
-            ]);
+            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
+                return Database.getQueryLocator([
+                     SELECT Id, FirstName
+                     FROM Contact
+                     WHERE RecordType.Name = 'Guarantor-DO-NOT-EXIST'
+                ]);
+            }
         }
+        return null;
     }
 
     //adding new campaign members
@@ -58,23 +70,25 @@ public with sharing class PreServiceSchedulerBatch implements Database.Batchable
         Date dt = System.today();
         if (callList != null) {
             List<CampaignMember> memberList = new List<CampaignMember>();
-            for (Encounter__c ps : [
-                    Select Id, Name, Guarantor__c, Liability__c, Date_of_Service__c
-                    From Encounter__c
-                    WHERE Patient__r.Guarantor__c IN :guarantors
-                    AND Date_of_Service__c > :dt AND Date_of_Service__c <= :dt14
-                    AND Liability__c > :100 AND Cancelled__c = false
-            ]) {
-                /*if(!existingMembers.contains(ps.Patient__r.Guarantor__c)){
-                    existingMembers.add(ps.Patient__r.Guarantor__c);
-                    memberList.add(new CampaignMember(CampaignId = callList.Id, ContactId = ps.Patient__r.Guarantor__c, Status = 'Sent'));
-                }*/
-                System.debug('ps' + ps);
-                System.debug('existingMembers' + existingMembers);
+            if (EncounterSecurityContext.PSS_SELECT_CONTEXT.actionAllowed()) {
+                for (Encounter__c ps: [
+                        SELECT Id, Name, Guarantor__c, Liability__c, Date_of_Service__c
+                        FROM Encounter__c
+                        WHERE Patient__r.Guarantor__c IN :guarantors
+                        AND Date_of_Service__c > :dt AND Date_of_Service__c <= :dt14
+                        AND Liability__c > :100 AND Cancelled__c = false
+                ]) {
+                    /*if(!existingMembers.contains(ps.Patient__r.Guarantor__c)){
+                        existingMembers.add(ps.Patient__r.Guarantor__c);
+                        memberList.add(new CampaignMember(CampaignId = callList.Id, ContactId = ps.Patient__r.Guarantor__c, Status = 'Sent'));
+                   }*/
+                    System.debug('ps' + ps);
+                    System.debug('existingMembers' + existingMembers);
 
-                if (!existingMembers.contains(ps.Guarantor__c)) {
-                    existingMembers.add(ps.Guarantor__c);
-                    memberList.add(new CampaignMember(CampaignId = callList.Id, ContactId = ps.Guarantor__c, Status = 'Sent'));
+                    if (!existingMembers.contains(ps.Guarantor__c)) {
+                        existingMembers.add(ps.Guarantor__c);
+                        memberList.add(new CampaignMember(CampaignId = callList.Id, ContactId = ps.Guarantor__c, Status = 'Sent'));
+                    }
                 }
             }
 

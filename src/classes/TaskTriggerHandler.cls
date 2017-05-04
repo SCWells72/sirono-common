@@ -62,12 +62,14 @@ public with sharing class TaskTriggerHandler {
         get {
             if (callListNameMap == null) {
                 callListNameMap = new Map<String, String>();
-                for (Campaign cm : [
-                        Select Id, Name, IsActive
-                        From Campaign
-                        Where isActive = true
-                ]) {
-                    callListNameMap.put(cm.Name, String.valueOf(cm.Id));
+                if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                    for (Campaign cm: [
+                            SELECT Id, Name, IsActive
+                            FROM Campaign
+                            WHERE isActive = true
+                    ]) {
+                        callListNameMap.put(cm.Name, String.valueOf(cm.Id));
+                    }
                 }
             }
             return callListNameMap;
@@ -88,14 +90,15 @@ public with sharing class TaskTriggerHandler {
         Map<String,String> mapCampaignMapping = new Map<String,String>();
         
         Map<String,Task> mapTask = new Map<String,Task>();
-        
-        for (Campaign_Mapping__mdt cm: [SELECT MasterLabel, Salesforce_Campaign_Name__c
-                                            FROM Campaign_Mapping__mdt
-					    WHERE Salesforce_Campaign_Name__c != null
-	]) {
-            mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
+
+        if (CampaignMappingMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            for (Campaign_Mapping__mdt cm: [SELECT MasterLabel, Salesforce_Campaign_Name__c
+                                                FROM Campaign_Mapping__mdt
+                            WHERE Salesforce_Campaign_Name__c != null
+            ]) {
+                mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
+            }
         }
-        
         for (Task t : newList) {
             string strFive9Campaign;
             
@@ -119,19 +122,21 @@ public with sharing class TaskTriggerHandler {
                 }
             }
         }
-        
+
         if (setContactId.size() > 0) {
-            for (Campaign_Member_History__c cmh : [SELECT Id, Campaign__c, Campaign__r.Name, Contact__c, Case_ID__c
-                                                    FROM Campaign_Member_History__c
-                                                    WHERE Campaign__r.Name in: setFive9Campaign
-                                                        and Contact__c in: setContactId
-                                                        and Case_ID__c != null
-                                                    order by createddate desc]) {
-                                            
-                if (mapTask.containsKey(cmh.Contact__c + '-' + cmh.Campaign__r.Name)) {
-                    mapTask.get(cmh.Contact__c + '-' + cmh.Campaign__r.Name).WhatId = cmh.Case_ID__c;
-                    mapTask.remove(cmh.Contact__c + '-' + cmh.Campaign__r.Name);
-                }                       
+            if (CMHSecurityContext.TTH_SELECT_CONTEXT.actionAllowed()) {
+                for (Campaign_Member_History__c cmh: [SELECT Id, Campaign__c, Campaign__r.Name, Contact__c, Case_ID__c
+                                                        FROM Campaign_Member_History__c
+                                                        WHERE Campaign__r.Name IN :setFive9Campaign
+                                                            AND Contact__c IN :setContactId
+                                                            AND Case_ID__c != null
+                                                        ORDER BY createddate DESC]) {
+
+                    if (mapTask.containsKey(cmh.Contact__c + '-' + cmh.Campaign__r.Name)) {
+                        mapTask.get(cmh.Contact__c + '-' + cmh.Campaign__r.Name).WhatId = cmh.Case_ID__c;
+                        mapTask.remove(cmh.Contact__c + '-' + cmh.Campaign__r.Name);
+                    }
+                }
             }
         }
     }
@@ -168,12 +173,14 @@ public with sharing class TaskTriggerHandler {
         Set<String> five9Campaigns = new Set<String>();
         
         Map<String,String> mapCampaignMapping = new Map<String,String>();
-        
-        for (Campaign_Mapping__mdt cm: [SELECT MasterLabel, Salesforce_Campaign_Name__c
-                                            FROM Campaign_Mapping__mdt
-					    WHERE Salesforce_Campaign_Name__c != null
-	]) {
-            mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
+
+        if (CampaignMappingMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            for (Campaign_Mapping__mdt cm: [SELECT MasterLabel, Salesforce_Campaign_Name__c
+                                                FROM Campaign_Mapping__mdt
+                            WHERE Salesforce_Campaign_Name__c != null
+            ]) {
+                mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
+            }
         }
 
         for (Task t: newList) {
@@ -210,82 +217,87 @@ public with sharing class TaskTriggerHandler {
             Set<String> exhaustedCaseIds = new Set<String>();
             
             // Get Exhausted Criteria data from Custom Meta Data.
-            for (Exhausted_Criteria__mdt ec: [SELECT MasterLabel, Disposition_Type__c
-            		FROM Exhausted_Criteria__mdt
-			WHERE Disposition_Type__c != null
-	    ]) {
-                if (ec.Disposition_Type__c.equals(FINAL_DISPOSITION)) {
-                    finalDispositions.add(ec.MasterLabel);
-                } else if (ec.Disposition_Type__c.equals(RETRY_DISPOSITION)) {
-                    retryDispositions.add(ec.MasterLabel);
-                } else if (ec.Disposition_Type__c.equals(ERROR_DISPOSITION)) {
-                    errorDispositions.add(ec.MasterLabel);
+            if (ExhaustedCriteriaMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                for (Exhausted_Criteria__mdt ec: [SELECT MasterLabel, Disposition_Type__c
+                        FROM Exhausted_Criteria__mdt
+                        WHERE Disposition_Type__c != null
+                ]) {
+                    if (ec.Disposition_Type__c.equals(FINAL_DISPOSITION)) {
+                        finalDispositions.add(ec.MasterLabel);
+                    } else if (ec.Disposition_Type__c.equals(RETRY_DISPOSITION)) {
+                        retryDispositions.add(ec.MasterLabel);
+                    } else if (ec.Disposition_Type__c.equals(ERROR_DISPOSITION)) {
+                        errorDispositions.add(ec.MasterLabel);
+                    }
                 }
             }
-            
-            for (Contact c: [
-                            SELECT Id, FirstName, LastName, 
-                                (SELECT Id, CallDisposition, Five9__Five9Campaign__c, WhatId
-                                FROM Tasks
-                                WHERE WhatId != null
-                                AND CallDisposition != null
-                                AND WhoId != null
-                                AND WhatId IN :caseIds
-                                AND Five9__Five9Campaign__c IN :five9Campaigns)
-                             FROM Contact WHERE Id IN :contactIds
-                             ]) {
-                
-                Map<Id, ExhaustedCriteriaCounts> mapDispositionCounts = new Map<Id, ExhaustedCriteriaCounts>();
-                for (Task t: c.Tasks) {
-                    if (finalDispositions.contains(t.CallDisposition)) {
-                        finalCaseIds.add(t.WhatId);
-                        // Remove Case Id in set of Exhausted Case Ids.
-                        // If any task contains Final Disposition value than we need to closed the case with Final.
-                        exhaustedCaseIds.remove(t.WhatId);
-                    } else if (retryDispositions.contains(t.CallDisposition) && !finalCaseIds.contains(t.WhatId)
-                            && !exhaustedCaseIds.contains(t.WhatId)) {
-                        if (!mapDispositionCounts.containsKey(t.WhatId)) {
-                            mapDispositionCounts.put(t.WhatId, new ExhaustedCriteriaCounts());
-                        }
-                        mapDispositionCounts.get(t.WhatId).retryCount++;
 
-                        if (mapDispositionCounts.get(t.WhatId).retryCount >= MAX_RETRY_COUNT) {
-                            exhaustedCaseIds.add(t.WhatId);
-                        }
-                    } else if (errorDispositions.contains(t.CallDisposition) && !finalCaseIds.contains(t.WhatId)
-                            && !exhaustedCaseIds.contains(t.WhatId)) {
-                        if (!mapDispositionCounts.containsKey(t.WhatId)) {
-                            mapDispositionCounts.put(t.WhatId, new ExhaustedCriteriaCounts());
-                        }
-                        mapDispositionCounts.get(t.WhatId).errorCount++;
+            if (ContactSecurityContext.TTH_SELECT_CONTEXT.actionAllowed() && TaskSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                for (Contact c: [
+                                SELECT Id, FirstName, LastName, 
+                                    (SELECT Id, CallDisposition, Five9__Five9Campaign__c, WhatId
+                                        FROM Tasks
+                                        WHERE WhatId != null
+                                        AND CallDisposition != null
+                                        AND WhoId != null
+                                        AND WhatId IN :caseIds
+                                        AND Five9__Five9Campaign__c IN :five9Campaigns)
+                                 FROM Contact WHERE Id IN :contactIds
+                     ]) {
 
-                        if (mapDispositionCounts.get(t.WhatId).errorCount >= MAX_ERROR_COUNT) {
-                            exhaustedCaseIds.add(t.WhatId);
+                    Map<Id, ExhaustedCriteriaCounts> mapDispositionCounts = new Map<Id, ExhaustedCriteriaCounts>();
+                    for (Task t: c.Tasks) {
+                        if (finalDispositions.contains(t.CallDisposition)) {
+                            finalCaseIds.add(t.WhatId);
+                            // Remove Case Id in set of Exhausted Case Ids.
+                            // If any task contains Final Disposition value than we need to closed the case with Final.
+                            exhaustedCaseIds.remove(t.WhatId);
+                        } else if (retryDispositions.contains(t.CallDisposition) && !finalCaseIds.contains(t.WhatId)
+                                && !exhaustedCaseIds.contains(t.WhatId)) {
+                            if (!mapDispositionCounts.containsKey(t.WhatId)) {
+                                mapDispositionCounts.put(t.WhatId, new ExhaustedCriteriaCounts());
+                            }
+                            mapDispositionCounts.get(t.WhatId).retryCount++;
+
+                            if (mapDispositionCounts.get(t.WhatId).retryCount >= MAX_RETRY_COUNT) {
+                                exhaustedCaseIds.add(t.WhatId);
+                            }
+                        } else if (errorDispositions.contains(t.CallDisposition) && !finalCaseIds.contains(t.WhatId)
+                                && !exhaustedCaseIds.contains(t.WhatId)) {
+                            if (!mapDispositionCounts.containsKey(t.WhatId)) {
+                                mapDispositionCounts.put(t.WhatId, new ExhaustedCriteriaCounts());
+                            }
+                            mapDispositionCounts.get(t.WhatId).errorCount++;
+
+                            if (mapDispositionCounts.get(t.WhatId).errorCount >= MAX_ERROR_COUNT) {
+                                exhaustedCaseIds.add(t.WhatId);
+                            }
                         }
                     }
                 }
             }
-            
             if (finalCaseIds.size() > 0 || exhaustedCaseIds.size() > 0) {
-                Set<String> allCaseIds = new Set<String>();                
+                Set<String> allCaseIds = new Set<String>();
                 allCaseIds.addAll(finalCaseIds);
                 allCaseIds.addAll(exhaustedCaseIds);
-                
-                List<Case> lstCase = [SELECT Id, Status, Reason FROM Case
+
+                if (CaseSecurityContext.TTH_SELECT_CONTEXT.actionAllowed()) {
+                    List<Case> lstCase = [SELECT Id, Status, Reason FROM Case
                                         WHERE Id IN :allCaseIds AND Status != :CASE_STATUS_CLOSED];
-                                        
-                if (lstCase.size() > 0) {
-                    for (Case c: lstCase) {
-                        if (finalCaseIds.contains(c.Id)) {
-                            c.Status = CASE_STATUS_CLOSED;
-                            c.Reason = CASE_REASON_FINAL;
-                        } else if (exhaustedCaseIds.contains(c.Id)) {
-                            c.Status = CASE_STATUS_CLOSED;
-                            c.Reason = CASE_REASON_EXHAUSTED;
+
+                    if (lstCase.size() > 0) {
+                        for (Case c: lstCase) {
+                            if (finalCaseIds.contains(c.Id)) {
+                                c.Status = CASE_STATUS_CLOSED;
+                                c.Reason = CASE_REASON_FINAL;
+                            } else if (exhaustedCaseIds.contains(c.Id)) {
+                                c.Status = CASE_STATUS_CLOSED;
+                                c.Reason = CASE_REASON_EXHAUSTED;
+                            }
                         }
-                    }
-                    if (CaseSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                    	UPDATE lstCase;	
+                        if (CaseSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+                            UPDATE lstCase; 
+                        }
                     }
                 }
             }
@@ -309,50 +321,53 @@ public with sharing class TaskTriggerHandler {
         if (contactIds.size() > 0) {
             Map<String, ActivityCounterWrapper> counterMap = new Map<String, ActivityCounterWrapper>();
             Map<String, CampaignMember> cmMap = new Map<String, CampaignMember>();
-            for (CampaignMember cm : [
-                    Select Id, ContactId, CampaignId
-                    From CampaignMember
-                    Where ContactId IN :contactIds
-                    AND CampaignId IN :callListNameMap.values()
-            ]) {
-                String keyStr = String.valueOf(cm.ContactId).substring(0, 15) + '-'
-                        + String.valueOf(cm.CampaignId).substring(0, 15);
-                cmMap.put(keyStr, cm);
+            if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                for (CampaignMember cm: [
+                        SELECT Id, ContactId, CampaignId
+                        FROM CampaignMember
+                        WHERE ContactId IN :contactIds
+                        AND CampaignId IN :callListNameMap.values()
+                ]) {
+                    String keyStr = String.valueOf(cm.ContactId).substring(0, 15) + '-'
+                            + String.valueOf(cm.CampaignId).substring(0, 15);
+                    cmMap.put(keyStr, cm);
+                }
             }
 
-            for (Contact c : [
-                    Select Id, FirstName, LastName, (
-                            Select Id, CallDisposition, Five9__Five9Campaign__c
-                            From Tasks
-                            WHERE Five9__Five9Campaign__c != null
-                            AND Five9__Five9Campaign__c IN :callListNameMap.KeySet()
-                            AND CallDisposition IN ('Final', 'Retry', 'Error')
-                    )
-                    From Contact
-                    Where Id IN :contactIds
-            ]) {
-                for (Task t : c.Tasks) {
-                    if (callListNameMap.containsKey(t.Five9__Five9Campaign__c)) {
-                        String keyStr = String.valueOf(c.Id).substring(0, 15) + '-'
-                                + callListNameMap.get(t.Five9__Five9Campaign__c).substring(0, 15);
-                        if (!counterMap.containsKey(keyStr)) {
-                            counterMap.put(keyStr,
-                                    new ActivityCounterWrapper(c.Id,
-                                            callListNameMap.get(t.Five9__Five9Campaign__c)));
-                        }
-                        if (t.CallDisposition.trim().equalsIgnoreCase('Final')) {
-                            counterMap.get(keyStr).finalCount++;
-                        }
-                        if (t.CallDisposition.trim().equalsIgnoreCase('Retry')) {
-                            counterMap.get(keyStr).retryCount++;
-                        }
-                        if (t.CallDisposition.trim().equalsIgnoreCase('Error')) {
-                            counterMap.get(keyStr).errorCount++;
+            if (ContactSecurityContext.TTH_SELECT_CONTEXT.actionAllowed() && TaskSecurityContext.TTH_SELECT_CONTEXT.actionAllowed()) {
+                for (Contact c: [
+                        SELECT Id, FirstName, LastName, (
+                                SELECT Id, CallDisposition, Five9__Five9Campaign__c
+                                FROM Tasks
+                                WHERE Five9__Five9Campaign__c != null
+                                AND Five9__Five9Campaign__c IN :callListNameMap.KeySet()
+                                AND CallDisposition IN ('Final', 'Retry', 'Error')
+                        )
+                        FROM Contact
+                        WHERE Id IN :contactIds
+                ]) {
+                    for (Task t: c.Tasks) {
+                        if (callListNameMap.containsKey(t.Five9__Five9Campaign__c)) {
+                            String keyStr = String.valueOf(c.Id).substring(0, 15) + '-'
+                                    + callListNameMap.get(t.Five9__Five9Campaign__c).substring(0, 15);
+                            if (!counterMap.containsKey(keyStr)) {
+                                counterMap.put(keyStr,
+                                        new ActivityCounterWrapper(c.Id,
+                                                callListNameMap.get(t.Five9__Five9Campaign__c)));
+                            }
+                            if (t.CallDisposition.trim().equalsIgnoreCase('Final')) {
+                                counterMap.get(keyStr).finalCount++;
+                            }
+                            if (t.CallDisposition.trim().equalsIgnoreCase('Retry')) {
+                                counterMap.get(keyStr).retryCount++;
+                            }
+                            if (t.CallDisposition.trim().equalsIgnoreCase('Error')) {
+                                counterMap.get(keyStr).errorCount++;
+                            }
                         }
                     }
                 }
             }
-
             List<CampaignMember> cmListToRemove = new List<CampaignMember>();
             for (String keyStr : counterMap.keySet()) {
                 ActivityCounterWrapper acw = counterMap.get(keyStr);
@@ -381,32 +396,33 @@ public with sharing class TaskTriggerHandler {
     private static void callHoursOfDay(List<Task> newList, Boolean isUpdate) {
         if (isRecursive) return;
 
-        List<User_Timezone_Setting__mdt> lstUserSetting = [Select id, Timezone_Name__c
-                                                           From User_Timezone_Setting__mdt 
-                                                           where DeveloperName = 'Default' limit 1];
-        List<Task> lstTask = new List<Task>();
+        if (UserTimezoneMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            List<User_Timezone_Setting__mdt> lstUserSetting = [SELECT Id, Timezone_Name__c
+                                                               FROM User_Timezone_Setting__mdt 
+                                                               WHERE DeveloperName = 'Default' LIMIT 1];
+            List<Task> lstTask = new List<Task>();
 
-        for (Task objTask : newList) {
-            if(!lstUserSetting.IsEmpty() && !String.isblank(lstUserSetting[0].Timezone_Name__c)){
-                String selectedTimeZone = lstUserSetting[0].Timezone_Name__c;
-                String strConvertedDate = objTask.Createddate.format('MM/dd/yyyy HH:mm:ss', selectedTimeZone );
-                String strHours = objTask.Createddate.format('HH', selectedTimeZone );
-                if (isUpdate) {
-                    objTask.Hours_of_Day__c = Integer.Valueof(strHours);
-                } else {
-                    Task tempTask = objTask.Clone(true);
-                    tempTask.Hours_of_Day__c = Integer.Valueof(strHours);
-                    lstTask.add(tempTask);
+            for (Task objTask: newList) {
+                if(!lstUserSetting.IsEmpty() && !String.isblank(lstUserSetting[0].Timezone_Name__c)){
+                    String selectedTimeZone = lstUserSetting[0].Timezone_Name__c;
+                    String strConvertedDate = objTask.Createddate.format('MM/dd/yyyy HH:mm:ss', selectedTimeZone );
+                    String strHours = objTask.Createddate.format('HH', selectedTimeZone );
+                    if (isUpdate) {
+                        objTask.Hours_of_Day__c = Integer.Valueof(strHours);
+                    } else {
+                        Task tempTask = objTask.Clone(true);
+                        tempTask.Hours_of_Day__c = Integer.Valueof(strHours);
+                        lstTask.add(tempTask);
+                    }
                 }
             }
-        }
-
-        if (!lstTask.Isempty()) {
-            isRecursive = true;
-            if (TaskSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-            	UPDATE lstTask;	
+            if (!lstTask.Isempty()) {
+                isRecursive = true;
+                if (TaskSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+                    UPDATE lstTask; 
+                }
+                isRecursive = false;
             }
-            isRecursive = false;
         }
     }
 

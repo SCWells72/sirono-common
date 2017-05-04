@@ -110,13 +110,15 @@ public class PaymentPlanJSONParsing {
             paymentPlanObj.Guarantor__c = contactId;
         } else {
             String gtId = getExternalId(objJson.guarantor, 'guarantors');
-            Contact gt = [
-                    SELECT Id
-                    FROM Contact
-                    WHERE RecordTypeId =: RecordTypeUtil.guarantorRt
-                    AND Profile_Pointer_Id__c =: Decimal.valueOf(gtId)
-                    LIMIT 1];
-            paymentPlanObj.Guarantor__c = gt.Id;
+            if (ContactSecurityContext.PP_SELECT_CONTEXT.actionAllowed()) {
+                Contact gt = [
+                        SELECT Id
+                        FROM Contact
+                        WHERE RecordTypeId =: RecordTypeUtil.guarantorRt
+                        AND Profile_Pointer_Id__c =: Decimal.valueOf(gtId)
+                        LIMIT 1];
+                paymentPlanObj.Guarantor__c = gt.Id;
+            }
         }
 
         paymentPlanObj.Status__c = objJson.status;
@@ -126,9 +128,11 @@ public class PaymentPlanJSONParsing {
             if (!String.isBlank(strPaymentPlan)) {
                 paymentPlanObj.Sirono_ID__c = paymentPlanExternalID;
                 paymentPlanObj.Name = String.valueof(paymentPlanObj.Sirono_ID__c);
-                List<Payment_Plan__c> paymentPlan = [Select Id, Sirono_ID__c from Payment_Plan__c where Sirono_ID__c =: paymentPlanExternalID ];
-                if (paymentPlan.Size() > 0) {
-                    paymentPlanObj.Id = paymentPlan[0].Id ;
+                if (PaymentPlanSecurityContext.PP_SELECT_CONTEXT.actionAllowed()) {
+                    List<Payment_Plan__c> paymentPlan = [SELECT Id, Sirono_ID__c FROM Payment_Plan__c WHERE Sirono_ID__c = :paymentPlanExternalID ];
+                    if (paymentPlan.Size() > 0) {
+                        paymentPlanObj.Id = paymentPlan[0].Id ;
+                    }
                 }
             }
         }
@@ -147,11 +151,13 @@ public class PaymentPlanJSONParsing {
 
         System.debug('setchargeGroupID' + setchargeGroupID);
         if (setchargeGroupID.Size() > 0) {
-            List<Charge_Group__c> chargeGroup = [Select id,Sirono_ID__c from Charge_Group__c where Sirono_ID__c in : setchargeGroupID];
-            for (Charge_Group__c objCG : chargeGroup) {
-                objCG.Payment_Plan__c = paymentPlanObj.ID;
+            if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                List<Charge_Group__c> chargeGroup = [SELECT Id, Sirono_ID__c FROM Charge_Group__c WHERE Sirono_ID__c IN :setchargeGroupID];
+                for (Charge_Group__c objCG: chargeGroup) {
+                    objCG.Payment_Plan__c = paymentPlanObj.ID;
+                }
+                objPaymentPlanWrapper.chargeGroupRecords = chargeGroup;
             }
-            objPaymentPlanWrapper.chargeGroupRecords = chargeGroup;
         }
 
         objPaymentPlanWrapper.paymentPlanRecord = paymentPlanObj;

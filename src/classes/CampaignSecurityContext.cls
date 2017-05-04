@@ -9,7 +9,8 @@ public with sharing class CampaignSecurityContext extends SecurityContext {
     private static final String ISACTIVE = 'isActive';
     private static final String NAME = 'Name';
 
-    // The fields for selecting a Campaign in DelinquentPaymentPlansSchedulerBatch, TaskTriggerHandler, PreServiceSchedulerBatch, PreCollectionSchedulerBatch
+    // The fields for selecting a Campaign in DelinquentPaymentPlansSchedulerBatch, TaskTriggerHandler,
+    // PreServiceSchedulerBatch, PreCollectionSchedulerBatch, CaseUtil
     private static final Set<String> SELECT_FIELDS = new Set<String>{
         ID, NAME, ISACTIVE
     };
@@ -26,7 +27,8 @@ public with sharing class CampaignSecurityContext extends SecurityContext {
     }
 
     /**
-     * The select context for Campaign in DelinquentPaymentPlansSchedulerBatch, TaskTriggerHandler, PreServiceSchedulerBatch, PreCollectionSchedulerBatch
+     * The select context for Campaign in DelinquentPaymentPlansSchedulerBatch, TaskTriggerHandler,
+     * PreServiceSchedulerBatch, PreCollectionSchedulerBatch, CaseUtil
      **/
     public static final CampaignSecurityContext SELECT_CONTEXT = new CampaignSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
 

@@ -80,13 +80,14 @@ public with sharing class AddDiscount {
     //10-03-2016: Viraj Rana - Tracker #127404597: Use custom setting for discount to calculate discount amount based on Adjustment Rate.
     public decimal getDiscountRate(){
         decimal rate = 0;
-        
-        List<Discount_Type__mdt> discountType = [select Rate__c from Discount_Type__mdt where MasterLabel = 'Adjustment'];
-        
-        if (discountType.size() > 0) {            
-            rate = discountType[0].Rate__c;
+        if (DiscountTypeMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            List<Discount_Type__mdt> discountType = [SELECT Rate__c FROM Discount_Type__mdt WHERE MasterLabel = 'Adjustment'];
+
+            if (discountType.size() > 0) {            
+                rate = discountType[0].Rate__c;
+            }
         }
-        
+
         return rate;
     }
     

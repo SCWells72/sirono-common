@@ -135,14 +135,16 @@ public with sharing class CreateCaseManual {
                     setChargeGroupId.add(cg.cg.id);
                 }
             }
-            List<Charge_Group__c> lstChargeGroup = [
-                    Select id, Guarantor__c, Patient__c
-                    From Charge_Group__c
-                    Where Id in :setChargeGroupId
-                    order by CreatedDate desc
-            ];
-            if (lstChargeGroup.size() > 0) {
-                chargeGroup = lstChargeGroup[0];
+            if (ChargeGroupSecurityContext.CCM_SELECT_CONTEXT.actionAllowed()) {
+                List<Charge_Group__c> lstChargeGroup = [
+                        SELECT Id, Guarantor__c, Patient__c
+                        FROM Charge_Group__c
+                        WHERE Id IN :setChargeGroupId
+                        ORDER BY CreatedDate DESC
+                ];
+                if (lstChargeGroup.size() > 0) {
+                    chargeGroup = lstChargeGroup[0];
+                }
             }
 
             if (gc.RecordType.DeveloperName == 'Patient') {
@@ -177,12 +179,14 @@ public with sharing class CreateCaseManual {
             }
             caseObj.Subject = caseObj.Reason;
             AssignmentRule ar = new AssignmentRule();
-            ar = [
-                    Select id
-                    From AssignmentRule
-                    Where SobjectType = 'Case' and Active = true
-                    limit 1
-            ];
+            if (AssignmentRuleSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                ar = [
+                        SELECT Id
+                        FROM AssignmentRule
+                        WHERE SobjectType = 'Case' AND Active = true
+                        LIMIT 1
+                ];
+            }
 
             Database.DMLOptions dmlOpts = new Database.DMLOptions();
             dmlOpts.assignmentRuleHeader.assignmentRuleId = AR.id;
@@ -238,37 +242,42 @@ public with sharing class CreateCaseManual {
              * Populating coverage data using the selected Chargegroup with the oldest "Date Of Service Start" field.
             */            
             Charge_Group__c cg = new Charge_Group__c();
-            List<Charge_Group__c> lstChargeGroup  = [
-                                                        Select id
-                                                        From Charge_Group__c
-                                                        Where Id in :setChargeGroupId
-                                                        order by Date_Of_Service_Start_Date__c
+            if (ChargeGroupSecurityContext.CCM_SELECT_CONTEXT_WITH_DATE.actionAllowed()) {
+                List<Charge_Group__c> lstChargeGroup  = [
+                                                            SELECT Id
+                                                            FROM Charge_Group__c
+                                                            WHERE Id IN :setChargeGroupId
+                                                            ORDER BY Date_Of_Service_Start_Date__c
                                                     ];
-            if (lstChargeGroup.size() > 0) {
-                cg = lstChargeGroup[0];
+                if (lstChargeGroup.size() > 0) {
+                    cg = lstChargeGroup[0];
+                }
             }
-            
+
             /* 10-19-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
              * Get Coverage detail based on Selected Charge Group.
-            */            
-            List<Charge_Group_Coverage_Junction__c> coverageDetail = 
+             */
+            if (CGCoverageJunctionSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                List<Charge_Group_Coverage_Junction__c> coverageDetail = 
                     [SELECT Coverage__c, Coverage__r.Payor__c, Coverage__r.Payor__r.Name, Coverage__r.Plan_Name__c,
                         Coverage__r.Date_Effective__c, Coverage__r.Subscriber_Name__c, Coverage__r.Subscriber_ID__c
                         FROM Charge_Group_Coverage_Junction__c
-                        where Charge_Group__c =: cg.Id
-                        order by LastModifiedDate desc limit 1];
-                        
-            if (coverageDetail.size() > 0) {
-                coverageJson = json.serialize(coverageDetail[0]);
+                        WHERE Charge_Group__c = :cg.Id
+                        ORDER BY LastModifiedDate DESC LIMIT 1];
+                if (coverageDetail.size() > 0) {
+                    coverageJson = json.serialize(coverageDetail[0]);
+                }
             }
-            
+
             //Get Transaction detail based on Selected Charge Group.
-            List<Transaction__c> transactionDetail = 
-                    [SELECT Sirono_ID__c, Amount__c FROM Transaction__c where Charge_Group__c =: chargeGroup.Id
-                    order by LastModifiedDate desc limit 1];
-                    
-            if (transactionDetail.size() > 0) {
-                transactionJson = json.serialize(transactionDetail[0]);
+            if (TransactionSecurityContext.CCM_SELECT_CONTEXT.actionAllowed()) {
+                List<Transaction__c> transactionDetail = 
+                        [SELECT Sirono_ID__c, Amount__c FROM Transaction__c WHERE Charge_Group__c = :chargeGroup.Id
+                        ORDER BY LastModifiedDate DESC LIMIT 1];
+                        
+                if (transactionDetail.size() > 0) {
+                    transactionJson = json.serialize(transactionDetail[0]);
+                }
             }
         }
     }

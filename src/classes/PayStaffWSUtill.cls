@@ -33,15 +33,17 @@ public with sharing class PayStaffWSUtill {
     //Fetch the contact record
     public static Contact fetchContact(String contactId) {
         Contact ob = null;
-        for (Contact c : [
-                Select Id, FirstName, MiddleName, LastName, Name, Suffix, Birthdate, Social_Security_Number__c,
-                        Medical_Record_Number__c, RecordType.DeveloperName, HomePhone, MobilePhone, OtherPhone, Salutation,
-                        MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet,
-                        Profile_Pointer_Id__c
-                From Contact
-                Where Id = :contactId
-        ]) {
-            ob = c;
+        if (ContactSecurityContext.PSWSU_SELECT_CONTEXT.actionAllowed()) {
+            for (Contact c: [
+                    SELECT Id, FirstName, MiddleName, LastName, Name, Suffix, Birthdate, Social_Security_Number__c,
+                            Medical_Record_Number__c, RecordType.DeveloperName, HomePhone, MobilePhone, OtherPhone, Salutation,
+                            MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet,
+                            Profile_Pointer_Id__c
+                    FROM Contact
+                    WHERE Id = :contactId
+            ]) {
+                ob = c;
+            }
         }
         return ob;
     }
@@ -49,24 +51,27 @@ public with sharing class PayStaffWSUtill {
     //08-09-2016: This is method is used to get the CG records of Patient Contact type
     public static Contact fetchPatientContactWithCGConstraints(String contactId) {
         Contact ob = null;
-        for (Contact c : [
-                Select Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
-                        Medical_Record_Number__c, RecordType.DeveloperName,
-                        Profile_Pointer_Id__c, Patient_Id__c, (
-                        Select Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
-                                External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
-                                Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
-                                Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
-                                Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
-                                Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
-                        From Charge_Groups_Patient__r
-                        Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
-                        AND Account_Sub_Status__c IN :Constants.CGConstraints
-                )
-                From Contact
-                Where Id = :contactId
-        ]) {
-            ob = c;
+        if (ContactSecurityContext.SELECT_CONTEXT_WITH_CG_PATIENT.actionAllowed() &&
+                ChargeGroupSecurityContext.GD_SELECT_CONTEXT.actionAllowed()) {
+            for (Contact c: [
+                    SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
+                            Medical_Record_Number__c, RecordType.DeveloperName,
+                            Profile_Pointer_Id__c, Patient_Id__c, (
+                            SELECT Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
+                                    External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
+                                    Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
+                                    Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
+                                    Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
+                                    Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
+                            FROM Charge_Groups_Patient__r
+                            WHERE Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
+                            AND Account_Sub_Status__c IN :Constants.CGConstraints
+                    )
+                    FROM Contact
+                    WHERE Id = :contactId
+            ]) {
+                ob = c;
+            }
         }
         return ob;
     }
@@ -74,24 +79,27 @@ public with sharing class PayStaffWSUtill {
     //08-09-2016: This is method is used to get the CG records of Patient Contact type
     public static Contact fetchPatientContactWithCGConstraintsForCase(String contactId) {
         Contact ob = null;
-        for (Contact c : [
-                Select Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
-                        Medical_Record_Number__c, RecordType.DeveloperName,
-                        Profile_Pointer_Id__c, Patient_Id__c, (
-                        Select Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
-                                External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
-                                Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
-                                Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
-                                Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
-                                Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
-                        From Charge_Groups_Patient__r
-                        Where Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
-                        AND Account_Sub_Status__c IN :Constants.CGConstraintsForCase
-                )
-                From Contact
-                Where Id = :contactId
-        ]) {
-            ob = c;
+        if (ContactSecurityContext.SELECT_CONTEXT_WITH_CG_PATIENT.actionAllowed() &&
+                ChargeGroupSecurityContext.GD_SELECT_CONTEXT.actionAllowed()) {
+            for (Contact c: [
+                    SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
+                            Medical_Record_Number__c, RecordType.DeveloperName,
+                            Profile_Pointer_Id__c, Patient_Id__c, (
+                            SELECT Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
+                                    External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
+                                    Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
+                                    Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
+                                    Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
+                                    Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
+                            FROM Charge_Groups_Patient__r
+                            WHERE Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
+                            AND Account_Sub_Status__c IN :Constants.CGConstraintsForCase
+                    )
+                    FROM Contact
+                    WHERE Id = :contactId
+            ]) {
+                ob = c;
+            }
         }
         return ob;
     }
@@ -426,17 +434,19 @@ public with sharing class PayStaffWSUtill {
                     INSERT lstTransaction;
                 }
 
-                List<Transaction__c> lstTran = [SELECT Id, Sirono_ID__c FROM Transaction__c
-                                            where Sirono_ID__c in : mapTranPayAdjId.values()];
+                if (TransactionSecurityContext.PSWSU_SELECT_CONTEXT.actionAllowed()) {
+                    List<Transaction__c> lstTran = [SELECT Id, Sirono_ID__c FROM Transaction__c
+                                                WHERE Sirono_ID__c IN :mapTranPayAdjId.values()];
 
-                map<Decimal, string> mapTran = new map<Decimal, string>();
-                for(Transaction__c t : lstTran){
-                    mapTran.put(t.Sirono_ID__c, t.Id);
-                }
+                    Map<Decimal, String> mapTran = new Map<Decimal, String>();
+                    for (Transaction__c t: lstTran) {
+                        mapTran.put(t.Sirono_ID__c, t.Id);
+                    }
 
-                for(Payment_Adjustments__c pa : lstPaymentAdjustment) {
-                    decimal tranId = mapTranPayAdjId.get(pa.Sirono_ID__c);
-                    pa.Transaction__c = mapTran.get(tranId);
+                    for (Payment_Adjustments__c pa: lstPaymentAdjustment) {
+                        Decimal tranId = mapTranPayAdjId.get(pa.Sirono_ID__c);
+                        pa.Transaction__c = mapTran.get(tranId);
+                    }
                 }
 
                 if (PaymentAdjustmentsSecurityContext.CREATE_CONTEXT.actionAllowed()) {

@@ -55,25 +55,28 @@ public with sharing class SkipPaymentPlan {
     * to process the skip payment else return a message user
     */
     private void validatePaymentPlanType() {
-        List<Payment_Plan__c> automaticPaymentPlans = [
-                Select Id, Sirono_ID__c, Next_Payment_Date__c, NextPaymentDate__c
-                From Payment_Plan__c
-                Where Id = :paymentPlanId and Plan_Type__c = 'Automatic'
-        ];
-        if (automaticPaymentPlans.size() > 0) {
-            isAutomatic = true;
+        if (PaymentPlanSecurityContext.SPP_SELECT_CONTEXT.actionAllowed()) {
+            List<Payment_Plan__c> automaticPaymentPlans = [
+                    SELECT Id, Sirono_ID__c, NextPaymentDate__c
+                    FROM Payment_Plan__c
+                    WHERE Id = :paymentPlanId AND Plan_Type__c = 'Automatic'
+            ];
 
-            //Sirono 2016-08-24: (127945719) Text and dates are correct in the message.
-            Date nextPaymentDate = automaticPaymentPlans[0].NextPaymentDate__c;
-            if (nextPaymentDate != null) {
-                messageToShow = 'Clicking skip payment installment will skip the next installment date of '
-                        + nextPaymentDate.format() + '. The next installment will charge on '
-                        + nextPaymentDate.addMonths(1).format() + '.';
+            if (automaticPaymentPlans.size() > 0) {
+                isAutomatic = true;
+
+                //Sirono 2016-08-24: (127945719) Text and dates are correct in the message.
+                Date nextPaymentDate = automaticPaymentPlans[0].NextPaymentDate__c;
+                if (nextPaymentDate != null) {
+                    messageToShow = 'Clicking skip payment installment will skip the next installment date of '
+                            + nextPaymentDate.format() + '. The next installment will charge on '
+                            + nextPaymentDate.addMonths(1).format() + '.';
+                }
+            } else {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
+                        'Sorry, the Skip Payment Plan is not of type Automatic. ' +
+                                'Please click Cancel to go previous page.'));
             }
-        } else {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
-                    'Sorry, the Skip Payment Plan is not of type Automatic. ' +
-                            'Please click Cancel to go previous page.'));
         }
     }
 

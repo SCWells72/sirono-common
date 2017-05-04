@@ -99,7 +99,19 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AdjustmentTypeMdtSecurityContext</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AssignmentRuleSecurityContext</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AttachmentController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CGCoverageJunctionSecurityContext</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -128,6 +140,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CallPrecollectionsAutoCaseTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CampaignMappingMdtSecurityContext</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -295,6 +311,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DiscountTypeMdtSecurityContext</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EarlyOutSchedulerBatch</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -331,6 +351,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ExhaustedCriteriaMdtSecurityContext</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Five9CreateCallLogRecord</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -344,6 +368,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ForgotPasswordControllerTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GroupSecurityContext</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -447,6 +475,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>NamedCredentialSecurityContext</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>NumVerifyValidator</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -492,6 +524,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PaymentJSONParsing</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PaymentMethodSecurityContext</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -584,6 +620,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ProcessPaymentTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ProfileSecurityContext</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RecordTypeSecurityContext</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -692,6 +736,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>UIUtils</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UserSecurityContext</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UserTimezoneMdtSecurityContext</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
