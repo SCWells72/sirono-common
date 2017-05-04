@@ -19,11 +19,11 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
     private static final String ORIGINAL_BALANCE = 'Original_Balance__c';
     private static final String ORIGINAL_INSTALLMENT_COUNT = 'Original_Installment_Count__c';
     private static final String PLAN_TYPE = 'Plan_Type__c';
+    private static final String PLAN_VALUE_MODIFIED_DATE = 'Plan_Value_Modified_Date__c';
     private static final String REMAINING_BALANCE = 'Remaining_Balance__c';
     private static final String SIRONO_ID = 'Sirono_ID__c';
     private static final String SKIP_PAYMENT_UNTIL = 'Skip_Payment_Until__c';
     private static final String STATUS = 'Status__c';
-    private static final String PLAN_VALUE_MODIFIED_DATE = 'Plan_Value_Modified_Date__c';
 
     // Below field(s) are use for Select/Read permission.
     private static final String ID = 'Id';
@@ -85,6 +85,16 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
     // The fields for selecting a Payment_Plan__c in PaymentPlanJSONParsing
     private static final Set<String> PP_SELECT_FIELDS = new Set<String>{
         ID, SIRONO_ID
+    };
+
+    // The fields for selecting a Payment_Plan__c in CaseUtil
+    private static final Set<String> CU_SELECT_FIELDS = new Set<String>{
+        ID, GUARANTOR, ACTIVE, DELINQUENT
+    };
+
+    // The fields for selecting a Payment_Plan__c in CaseUtil
+    private static final Set<String> SELECT_FIELDS_FOR_CLOSE = new Set<String>{
+        ID, GUARANTOR, ACTIVE, HAS_ERROR, REMAINING_BALANCE
     };
 
     /**
@@ -152,6 +162,16 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
      * The select context for Payment_Plan__c in PaymentPlanJSONParsing
      **/
     public static final PaymentPlanSecurityContext PP_SELECT_CONTEXT = new PaymentPlanSecurityContext(PP_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Payment_Plan__c in CaseUtil
+     **/
+    public static final PaymentPlanSecurityContext CU_SELECT_CONTEXT = new PaymentPlanSecurityContext(CU_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Payment_Plan__c in CaseUtil
+     **/
+    public static final PaymentPlanSecurityContext SELECT_CONTEXT_FOR_CLOSE = new PaymentPlanSecurityContext(SELECT_FIELDS_FOR_CLOSE, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

@@ -17,9 +17,12 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
 
     // Below field(s) are use for Select/Read permission.
     private static final String ADJUSTMENT = 'Adjustment__c';
+    private static final String CHARGE_ADDED_SINCE_PLAN_START = 'Charge_added_since_plan_start__c';
     private static final String CODE = 'Code__c';
     private static final String ID = 'Id';
+    private static final String LASTMODIFIEDDATE = 'LastModifiedDate';
     private static final String SERVICE = 'Service__c';
+    private static final String TXN_METHOD = 'Txn_Method__c';
 
     // The fields for inserting Transaction in PayStaffWSUtill
     private static final Set<String> CREATE_FIELDS = new Set<String>{
@@ -49,6 +52,21 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
     // The fields for selecting a Transaction__c in PaymentAdjustmentJSONParsing
     private static final Set<String> SELECT_FIELDS_WITH_CODE = new Set<String>{
        ID, CODE
+    };
+
+    // The fields for selecting a Transaction__c in PaymentPlanUtil
+    private static final Set<String> PPU_SELECT_FIELDS = new Set<String>{
+       AMOUNT, CHARGE_ADDED_SINCE_PLAN_START, TXN_METHOD
+    };
+
+    // The fields for selecting a Transaction__c in PayStaffWSUtill
+    private static final Set<String> PSWSU_SELECT_FIELDS = new Set<String>{
+       ID, SIRONO_ID
+    };
+
+    // The fields for selecting a Transaction__c in CreateCaseManual
+    private static final Set<String> CCM_SELECT_FIELDS = new Set<String>{
+       AMOUNT, CHARGE_GROUP, LASTMODIFIEDDATE, SIRONO_ID
     };
 
     /**
@@ -91,6 +109,21 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
      * The select context for Transaction__c in PaymentAdjustmentJSONParsing
      **/
     public static final TransactionSecurityContext SELECT_CONTEXT_WITH_CODE = new TransactionSecurityContext(SELECT_FIELDS_WITH_CODE, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Transaction__c in PaymentPlanUtil
+     **/
+    public static final TransactionSecurityContext PPU_SELECT_CONTEXT = new TransactionSecurityContext(PPU_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Transaction__c in PayStaffWSUtill
+     **/
+    public static final TransactionSecurityContext PSWSU_SELECT_CONTEXT = new TransactionSecurityContext(PSWSU_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Transaction__c in CreateCaseManual
+     **/
+    public static final TransactionSecurityContext CCM_SELECT_CONTEXT = new TransactionSecurityContext(CCM_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

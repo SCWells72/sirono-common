@@ -13,6 +13,7 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
     private static final String ACCOUNT_TYPE = 'Account_Type__c';
     private static final String ACTIVE = 'Active__c';
     private static final String BALANCE = 'Balance__c';
+    private static final String CREATEDDATE = 'CreatedDate';
     private static final String DATE_OF_SERVICE_END_DATE = 'Date_Of_Service_End_Date__c';
     private static final String DATE_OF_SERVICE_START_DATE = 'Date_Of_Service_Start_Date__c';
     private static final String ENCOUNTER = 'Encounter__c';
@@ -46,7 +47,7 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
         ID, SIRONO_ID
     };
 
-    // The fields for selecting a Charge Group in GuarantorDao.
+    // The fields for selecting a Charge Group in GuarantorDao, PayStaffWSUtill.
     private static final Set<String> GD_SELECT_FIELDS = new Set<String>{
         ID, NAME, SIRONO_ID, GUARANTOR, EXTERNAL_ID, ACTIVE, REPORTED_INSURANCE_BALANCE,
         REPORTED_PREBILL_BALANCE, REPORTED_SELFPAY_BALANCE, PATIENT, ACCOUNT_TYPE,
@@ -89,6 +90,26 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
         ID, NAME, GUARANTOR, PRE_COLLECTION_SENT
     };
 
+    // The fields for selecting a Charge Group in PaymentPlanUtil.
+    private static final Set<String> PPU_SELECT_FIELDS = new Set<String>{
+        BALANCE, PAYMENT_PLAN
+    };
+
+    // The fields for selecting a Charge Group in CreateCaseManual.
+    private static final Set<String> CCM_SELECT_FIELDS = new Set<String>{
+        CREATEDDATE, ID, GUARANTOR, PATIENT
+    };
+
+    // The fields for selecting a Charge Group in CreateCaseManual.
+    private static final Set<String> CCM_SELECT_FIELDS_WITH_DATE = new Set<String>{
+        ID, DATE_OF_SERVICE_START_DATE
+    };
+
+    // The fields for selecting a Charge Group in CaseUtil.
+    private static final Set<String> CU_SELECT_FIELDS = new Set<String>{
+        ID, GUARANTOR, ACCOUNT_SUB_STATUS
+    };
+
     /**
      * Constructor of class that assign variables based on parameters
      *
@@ -116,7 +137,7 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
     public static final ChargeGroupSecurityContext SELECT_CONTEXT = new ChargeGroupSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
-     * The select context for Charge Group in GuarantorDao.
+     * The select context for Charge Group in GuarantorDao, PayStaffWSUtill.
      **/
     public static final ChargeGroupSecurityContext GD_SELECT_CONTEXT = new ChargeGroupSecurityContext(GD_SELECT_FIELDS, ACTION.OBJ_READ);
 
@@ -154,6 +175,26 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
      * The select context for Charge Group in PreCollectionSchedulerBatch.
      **/
     public static final ChargeGroupSecurityContext PCS_SELECT_CONTEXT = new ChargeGroupSecurityContext(PCS_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Charge Group in PaymentPlanUtil.
+     **/
+    public static final ChargeGroupSecurityContext PPU_SELECT_CONTEXT = new ChargeGroupSecurityContext(PPU_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Charge Group in CreateCaseManual.
+     **/
+    public static final ChargeGroupSecurityContext CCM_SELECT_CONTEXT = new ChargeGroupSecurityContext(CCM_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Charge Group in CreateCaseManual.
+     **/
+    public static final ChargeGroupSecurityContext CCM_SELECT_CONTEXT_WITH_DATE = new ChargeGroupSecurityContext(CCM_SELECT_FIELDS_WITH_DATE, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Charge Group in CaseUtil.
+     **/
+    public static final ChargeGroupSecurityContext CU_SELECT_CONTEXT = new ChargeGroupSecurityContext(CU_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class.

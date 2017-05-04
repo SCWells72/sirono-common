@@ -18,6 +18,7 @@ public with sharing class ContactSecurityContext extends SecurityContext {
     private static final String HOMEPHONE = 'HomePhone';
     private static final String HOME_PHONE_TYPE = 'Home_Phone_Type__c';
     private static final String ID = 'Id';
+    private static final String INVOICE_OFFSET_DATE = 'Invoice_Offset_Date__c';
     private static final String LASTNAME = 'LastName';
     private static final String MAILINGCITY = 'MailingCity';
     private static final String MAILINGCOUNTRY = 'MailingCountry';
@@ -36,6 +37,7 @@ public with sharing class ContactSecurityContext extends SecurityContext {
     private static final String PROFILE_POINTER_ID = 'Profile_Pointer_Id__c';
     private static final String SALUTATION = 'Salutation';
     private static final String SOCIAL_SECURITY_NUMBER = 'Social_Security_Number__c';
+    private static final String STATEMENT_PREFERENCE = 'Statement_Preference__c';
     private static final String SUFFIX = 'Suffix';
 
     // The fields for updating a Contact in EncounterUtil
@@ -91,6 +93,40 @@ public with sharing class ContactSecurityContext extends SecurityContext {
     // The fields for selecting a Contact in PreCollectionSchedulerBatch
     private static final Set<String> PCS_SELECT_FIELDS = new Set<String>{
         ID, FIRSTNAME, RECORDTYPEID
+    };
+
+    // The fields for selecting a Contact in PayStaffWSUtill
+    private static final Set<String> PSWSU_SELECT_FIELDS = new Set<String>{
+        ID, FIRSTNAME, MIDDLENAME, LASTNAME, SUFFIX, BIRTHDATE, MEDICAL_RECORD_NUMBER, NAME,
+        PROFILE_POINTER_ID, MAILINGSTREET, MAILINGCITY, MAILINGSTATE, MAILINGPOSTALCODE, RECORDTYPEID,
+        SALUTATION, SOCIAL_SECURITY_NUMBER, HOMEPHONE, MOBILEPHONE, OTHERPHONE, MAILINGCOUNTRY
+    };
+
+    // The fields for selecting a Patient Contact with Charge Groups in PayStaffWSUtill
+    private static final Set<String> SELECT_FIELDS_WITH_CG_PATIENT = new Set<String>{
+        ID, FIRSTNAME, MIDDLENAME, LASTNAME, SUFFIX, BIRTHDATE, MEDICAL_RECORD_NUMBER,
+        PROFILE_POINTER_ID, RECORDTYPEID, PATIENT_ID
+    };
+
+    // The fields for selecting a Contact in PaymentPlanTriggerHandler
+    private static final Set<String> PPTH_SELECT_FIELDS = new Set<String>{
+        ID, INVOICE_OFFSET_DATE
+    };
+
+    // The fields for selecting a Contact in CaseUtil
+    private static final Set<String> CU_SELECT_FIELDS = new Set<String>{
+        ID, NAME, STATEMENT_PREFERENCE, OVERDUE_BALANCE, DELINQUENT_BALANCE,
+        RECORDTYPEID, HOMEPHONE, MOBILEPHONE, OTHERPHONE
+    };
+
+    // The fields for selecting a Contact in TaskTriggerHandler
+    private static final Set<String> TTH_SELECT_FIELDS = new Set<String>{
+        ID, FIRSTNAME, LASTNAME
+    };
+
+    // The fields for selecting a Contact in CaseUtil
+    private static final Set<String> CU_CCERROR_SELECT_FIELDS = new Set<String>{
+        ID, NAME, RECORDTYPEID, HOMEPHONE, MOBILEPHONE, OTHERPHONE
     };
 
     /**
@@ -153,6 +189,36 @@ public with sharing class ContactSecurityContext extends SecurityContext {
      * The select context for Contact in PreCollectionSchedulerBatch
      **/
     public static final ContactSecurityContext PCS_SELECT_CONTEXT = new ContactSecurityContext(PCS_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Contact in PayStaffWSUtill
+     **/
+    public static final ContactSecurityContext PSWSU_SELECT_CONTEXT = new ContactSecurityContext(PSWSU_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Contact in PayStaffWSUtill
+     **/
+    public static final ContactSecurityContext SELECT_CONTEXT_WITH_CG_PATIENT = new ContactSecurityContext(SELECT_FIELDS_WITH_CG_PATIENT, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Contact in PaymentPlanTriggerHandler
+     **/
+    public static final ContactSecurityContext PPTH_SELECT_CONTEXT = new ContactSecurityContext(PPTH_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Contact in CaseUtil
+     **/
+    public static final ContactSecurityContext CU_SELECT_CONTEXT = new ContactSecurityContext(CU_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Contact in TaskTriggerHandler
+     **/
+    public static final ContactSecurityContext TTH_SELECT_CONTEXT = new ContactSecurityContext(TTH_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Contact in CaseUtil
+     **/
+    public static final ContactSecurityContext CU_CCERROR_SELECT_CONTEXT = new ContactSecurityContext(CU_CCERROR_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

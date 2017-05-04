@@ -28,9 +28,19 @@ public with sharing class CmpnMemberSecurityContext extends SecurityContext {
     	CASE_ID
     };
 
-    // The fields for selecting a Campaign Member in CallListUtilities, PreServiceSchedulerBatch, PreCollectionSchedulerBatch
+    // The fields for selecting a Campaign Member in CallListUtilities, PreServiceSchedulerBatch, PreCollectionSchedulerBatch, CaseUtil, TaskTriggerHandler
     private static final Set<String> SELECT_FIELDS = new Set<String>{
         ID, CONTACTID, CAMPAIGNID
+    };
+
+    // The fields for selecting a Campaign Member in CampaignMemberTriggerHandler
+    private static final Set<String> CMTH_SELECT_FIELDS = new Set<String>{
+        ID, CONTACTID, CAMPAIGNID, CASE_ID
+    };
+
+    // The fields for selecting a Campaign Member in CaseUtil
+    private static final Set<String> CU_SELECT_FIELDS = new Set<String>{
+        ID, CONTACTID
     };
 
     /**
@@ -67,9 +77,19 @@ public with sharing class CmpnMemberSecurityContext extends SecurityContext {
     public static final CmpnMemberSecurityContext DELETE_CONTEXT = new CmpnMemberSecurityContext(null, ACTION.OBJ_DELETE);
 
     /**
-     * The select context for Campaign Member in CallListUtilities, PreServiceSchedulerBatch, PreCollectionSchedulerBatch
+     * The select context for Campaign Member in CallListUtilities, PreServiceSchedulerBatch, PreCollectionSchedulerBatch, CaseUtil, TaskTriggerHandler
      **/
     public static final CmpnMemberSecurityContext SELECT_CONTEXT = new CmpnMemberSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Campaign Member in CampaignMemberTriggerHandler
+     **/
+    public static final CmpnMemberSecurityContext CMTH_SELECT_CONTEXT = new CmpnMemberSecurityContext(CMTH_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Campaign Member in CaseUtil
+     **/
+    public static final CmpnMemberSecurityContext CU_SELECT_CONTEXT = new CmpnMemberSecurityContext(CU_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

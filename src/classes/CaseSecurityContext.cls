@@ -22,6 +22,7 @@ public with sharing class CaseSecurityContext extends SecurityContext {
     private static final String CHARGE_GROUP_IDS = 'Charge_Group_IDs__c';
     private static final String DESCRIPTION = 'Description';
     private static final String ID = 'Id';
+    private static final String ISCLOSED = 'IsClosed';
 
     // The fields for inserting a Case in Campaign Member Trigger Handler
     private static final Set<String> CMT_CREATE_FIELDS = new Set<String>{
@@ -51,6 +52,31 @@ public with sharing class CaseSecurityContext extends SecurityContext {
     // The fields for selecting a Case in CaseTriggerHandler
     private static final Set<String> SELECT_FIELDS = new Set<String>{
         ID, DESCRIPTION, CHARGE_GROUP_IDS
+    };
+
+    // The fields for selecting a Case in CaseUtil
+    private static final Set<String> CU_SELECT_FIELDS = new Set<String>{
+        ID, GUARANTOR_INFORMATION, REASON, ISCLOSED
+    };
+
+    // The fields for selecting a Case in CaseUtil
+    private static final Set<String> SELECT_FIELDS_WITH_TYPE = new Set<String>{
+        ID, TYPE, GUARANTOR_INFORMATION, ISCLOSED
+    };
+
+    // The fields for selecting a Case in CaseUtil
+    private static final Set<String> SELECT_FIELDS_FOR_CLOSE = new Set<String>{
+        ID, STATUS, REASON, GUARANTOR_INFORMATION, TYPE, ISCLOSED
+    };
+
+    // The fields for selecting a Case in CaseUtil
+    private static final Set<String> CU_ENCOUNTER_SELECT_FIELDS = new Set<String>{
+        ID, STATUS, REASON, GUARANTOR_INFORMATION, TYPE, ENCOUNTER
+    };
+
+    // The fields for selecting a Case in TaskTriggerHandler
+    private static final Set<String> TTH_SELECT_FIELDS = new Set<String>{
+        ID, STATUS, REASON
     };
 
     /**
@@ -98,6 +124,31 @@ public with sharing class CaseSecurityContext extends SecurityContext {
      * The select context for Case in CaseTriggerHandler
      **/
     public static final CaseSecurityContext SELECT_CONTEXT = new CaseSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Case in CaseUtil
+     **/
+    public static final CaseSecurityContext CU_SELECT_CONTEXT = new CaseSecurityContext(CU_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Case in CaseUtil
+     **/
+    public static final CaseSecurityContext SELECT_CONTEXT_WITH_TYPE = new CaseSecurityContext(SELECT_FIELDS_WITH_TYPE, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Case in CaseUtil
+     **/
+    public static final CaseSecurityContext SELECT_CONTEXT_FOR_CLOSE = new CaseSecurityContext(SELECT_FIELDS_FOR_CLOSE, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Case in CaseUtil
+     **/
+    public static final CaseSecurityContext CU_ENCOUNTER_SELECT_CONTEXT = new CaseSecurityContext(CU_ENCOUNTER_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Case in TaskTriggerHandler
+     **/
+    public static final CaseSecurityContext TTH_SELECT_CONTEXT = new CaseSecurityContext(TTH_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

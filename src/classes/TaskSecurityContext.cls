@@ -17,6 +17,10 @@ public with sharing class TaskSecurityContext extends SecurityContext {
     private static final String STATUS = 'Status';
     private static final String WHOID = 'WhoId';
 
+    // Below field(s) are use for Select/Read permission.
+    private static final String ID = 'Id';
+    private static final String WHATID = 'WhatId';
+
     // The fields for inserting a Task in Five9CreateCallLogRecord
     private static final Set<String> CREATE_FIELDS = new Set<String>{
     	ACTIVITYDATE, CALLDISPOSITION, FIVE9_FIVE9AGENTNAME, FIVE9_FIVE9ANI,
@@ -26,6 +30,16 @@ public with sharing class TaskSecurityContext extends SecurityContext {
     // The fields for updating a Task in TaskTriggerHandler
     private static final Set<String> UPDATE_FIELDS = new Set<String>{
     	HOURS_OF_DAY
+    };
+
+    // The fields for selecting a Task in TaskTriggerHandler
+    private static final Set<String> SELECT_FIELDS = new Set<String>{
+        CALLDISPOSITION, WHOID, FIVE9_FIVE9CAMPAIGN, WHATID, ID
+    };
+
+    // The fields for selecting a Task in TaskTriggerHandler
+    private static final Set<String> TTH_SELECT_FIELDS = new Set<String>{
+        ID, CALLDISPOSITION, FIVE9_FIVE9CAMPAIGN
     };
 
     /**
@@ -48,6 +62,16 @@ public with sharing class TaskSecurityContext extends SecurityContext {
      * The update context for Task in TaskTriggerHandler
      **/
     public static final TaskSecurityContext UPDATE_CONTEXT = new TaskSecurityContext(UPDATE_FIELDS, ACTION.OBJ_UPDATE);
+
+    /**
+     * The select context for Task in TaskTriggerHandler
+     **/
+    public static final TaskSecurityContext SELECT_CONTEXT = new TaskSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Task in TaskTriggerHandler
+     **/
+    public static final TaskSecurityContext TTH_SELECT_CONTEXT = new TaskSecurityContext(TTH_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class
