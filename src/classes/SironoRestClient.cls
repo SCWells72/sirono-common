@@ -412,13 +412,15 @@ public abstract with sharing class SironoRestClient {
      */
     public static String getEndpointString() {
         if (endpointURL == null) {
-            NamedCredential nc = [
-                    SELECT DeveloperName, Endpoint, Id, MasterLabel, PrincipalType
-                    FROM NamedCredential
-                    WHERE DeveloperName = :RestClientConstants.SIRONO_NAMED_CREDS_ID
-                    LIMIT 1
-            ];
-            endpointURL = nc.Endpoint;
+            if (NamedCredentialSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                NamedCredential nc = [
+                        SELECT DeveloperName, Endpoint, Id, MasterLabel, PrincipalType
+                        FROM NamedCredential
+                        WHERE DeveloperName = :RestClientConstants.SIRONO_NAMED_CREDS_ID
+                        LIMIT 1
+                ];
+                endpointURL = nc.Endpoint;
+            }
         }
         return endpointURL;
     }

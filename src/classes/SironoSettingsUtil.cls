@@ -25,18 +25,19 @@ public with sharing class SironoSettingsUtil {
 
             sironoSettings = Sirono_Settings__c.getOrgDefaults();
 
+            if (ProfileSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                Set<Id> ids = (new Map<Id, Profile>([SELECT Id FROM Profile WHERE name = 'System Administrator' OR name = 'Operations Manager'])).keySet();
+                for (Id id: ids) {
+                    sironoSettings = Sirono_Settings__c.getValues(id);
+                    if (sironoSettings == null) {
+                        Sirono_Settings__c PaymentPlanSettings = new Sirono_Settings__c(SetupOwnerId = id);
+                        PaymentPlanSettings.Max_Number_Plan_Installments__c = null;
+                        PaymentPlanSettings.Min_Installment_Amount__c = 1;
+                        PaymentPlanSettings.Min_Number_Plan_Installments__c = null;
 
-            Set<Id> ids = (new Map<Id, Profile>([SELECT Id FROM Profile where name = 'System Administrator' or name = 'Operations Manager'])).keySet();
-            for (Id id : ids) {
-                sironoSettings = Sirono_Settings__c.getValues(id);
-                if (sironoSettings == null) {
-                    Sirono_Settings__c PaymentPlanSettings = new Sirono_Settings__c(SetupOwnerId = id);
-                    PaymentPlanSettings.Max_Number_Plan_Installments__c = null;
-                    PaymentPlanSettings.Min_Installment_Amount__c = 1;
-                    PaymentPlanSettings.Min_Number_Plan_Installments__c = null;
-                    
-                    if (SironoSettingsSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                        INSERT PaymentPlanSettings;
+                        if (SironoSettingsSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+                            INSERT PaymentPlanSettings;
+                        }
                     }
                 }
             }

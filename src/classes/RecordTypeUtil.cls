@@ -15,16 +15,17 @@ public with sharing class RecordTypeUtil {
     static {
         rtMap = new Map<String, Id>();
 
-        for (RecordType rt : [SELECT Id, Name FROM RecordType WHERE sObjectType = 'Contact']) {
-            if ('Guarantor'.equalsIgnoreCase(rt.Name)) {
-                guarantorRt = rt.id;
-            } else if ('Patient'.equalsIgnoreCase(rt.Name)) {
-                patientRt = rt.id;
-            } else if ('Staff'.equalsIgnoreCase(rt.Name)) {
-                staffRt = rt.id;
+        if (RecordTypeSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            for (RecordType rt: [SELECT Id, Name FROM RecordType WHERE sObjectType = 'Contact']) {
+                if ('Guarantor'.equalsIgnoreCase(rt.Name)) {
+                    guarantorRt = rt.id;
+                } else if ('Patient'.equalsIgnoreCase(rt.Name)) {
+                    patientRt = rt.id;
+                } else if ('Staff'.equalsIgnoreCase(rt.Name)) {
+                    staffRt = rt.id;
+                }
+                rtMap.put(rt.Name, rt.Id);
             }
-            rtMap.put(rt.Name, rt.Id);
         }
-
     }
 }

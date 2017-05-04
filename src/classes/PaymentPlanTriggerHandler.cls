@@ -76,19 +76,23 @@ public with sharing class PaymentPlanTriggerHandler {
     public static void populateNextPaymentDate(List<Payment_Plan__c> newList, Boolean fromPaymentPlanTrigger) {
         List<Payment_Plan__c> newListToUpdate = new List<Payment_Plan__c>();
         Set<String> setContactId = new Set<String>();
+        Map<Id, Contact> mapContacts = new Map<Id, Contact>();
+
         for (Payment_Plan__c plan:newList) {
             //System.assert(plan.Guarantor__c != null);
             if (plan.Guarantor__c != null) {
                 setContactId.add(plan.Guarantor__c);
             }
         }
-        Map<Id, Contact> mapContacts = new Map<Id, Contact>([
-                Select Id, Invoice_Offset_Date__c
-                from Contact
-                Where Id IN:setContactId
-        ]);
+        if (ContactSecurityContext.PPTH_SELECT_CONTEXT.actionAllowed()) {
+            mapContacts = new Map<Id, Contact>([
+                    SELECT Id, Invoice_Offset_Date__c
+                    FROM Contact
+                    WHERE Id IN :setContactId
+            ]);
+        }
 
-        for (Payment_Plan__c plan:newList) {
+        for (Payment_Plan__c plan: newList) {
             Contact guarantor = new Contact();
             if (plan.Guarantor__c != null && mapContacts.containsKey(plan.Guarantor__c)) {
                 guarantor = mapContacts.get(plan.Guarantor__c);
