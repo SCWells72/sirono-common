@@ -137,7 +137,7 @@ private class PaymentPlanTriggerTest {
         System.assertEquals(cases.size(), 1, 'Number of Case records created is not equals to 1');
         System.assertEquals(cases[0].Subject, 'CC Error', 'Case record created with different Subject');
     }
-
+	
     /**
      * This method checks Execute on day date field value is getting populated.
      **/
@@ -162,6 +162,35 @@ private class PaymentPlanTriggerTest {
         // Check system assert, Execute_on_Day__c should be populated with '0' value.
         List<Payment_Plan__c> paymentPlans = [SELECT Id, Execute_on_Day__c FROM Payment_Plan__c
                 WHERE Guarantor__c = :guarantorContact.Id];
-        System.assertEquals(paymentPlans[0].Execute_on_Day__c, 0, 'Execute_on_Day__c should be 0 for Payment Plan.');
+        System.assertEquals(paymentPlans[0].Execute_on_Day__c, 1, 'Execute_on_Day__c should be 1 for Payment Plan.');
+    }
+
+    /**
+     * This method tests the logic of Next Payment Plan date is populated or not.
+     **/
+    @isTest
+    static void checkNextPaymentDatePopulatedForManualPlan() {
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        guarantorContact.RecordTypeId = Schema.SObjectType.Contact.getRecordTypeInfosByName().get('Guarantor').getRecordTypeId();
+        INSERT guarantorContact;
+
+        Test.startTest();
+        Payment_Plan__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan1.active__c = true;
+        paymentPlan1.Plan_Type__c = Constants.MANUAL;
+        paymentPlan1.Remaining_Balance__c = 200;
+        paymentPlan1.Has_Error__c = false;
+        INSERT paymentPlan1;
+        Test.stopTest();
+
+        paymentPlan1 = [
+							SELECT	
+									Id,
+									NextPaymentDate__c 
+							FROM	Payment_Plan__c
+							WHERE	Guarantor__c = :guarantorContact.Id
+							LIMIT	1
+		];
+        System.assertNotEquals(paymentPlan1, null, 'NextPaymentDate__c should be null for Payment Plan');
     }
 }
