@@ -43,18 +43,20 @@ public with sharing class CreateAdjustment {
          */
 
         isAdmin = true;
-        List<User> lstUser = new List<User>(
-        [
-                Select Id, ProfileId
-                From User
-                Where id = :UserInfo.getUserId()
-                and Profile.Name = 'System Administrator'
-        ]
-        );
-        if (lstUser.size() == 0) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
-                    System.Label.Adjustment_for_Admin));
-            isAdmin = false;
+        if (UserSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            List<User> lstUser = new List<User>(
+            [
+                    SELECT Id, ProfileId
+                    FROM User
+                    WHERE Id = :UserInfo.getUserId()
+                    AND Profile.Name = 'System Administrator'
+            ]
+            );
+            if (lstUser.size() == 0) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
+                        System.Label.Adjustment_for_Admin));
+                isAdmin = false;
+            }
         }
 
         username = PayStaffWSUtill.un;
@@ -67,12 +69,14 @@ public with sharing class CreateAdjustment {
         //Mohan Kumar 2016-08-16: fetch only those metadata type which are marked as enabled
         adjustmentTypeOptions = new List<SelectOption>();
         adjustmentTypeOptions.add(new SelectOption('', '--None--'));
-        for (Adjustment_Type__mdt aType : [
-                Select a.Id, a.Enabled__c, a.Description__c, a.Code__c
-                From Adjustment_Type__mdt a
-                Where Enabled__c = true
-        ]) {
-            adjustmentTypeOptions.add(new SelectOption(aType.Code__c, aType.Description__c));
+        if (AdjustmentTypeMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            for (Adjustment_Type__mdt aType: [
+                    SELECT a.Id, a.Enabled__c, a.Description__c, a.Code__c
+                    FROM Adjustment_Type__mdt a
+                    WHERE Enabled__c = true
+            ]) {
+                adjustmentTypeOptions.add(new SelectOption(aType.Code__c, aType.Description__c));
+            }
         }
         if (guarantorRecordId != null) {
             Contact gc = GuarantorService.getGuarantorWithActiveCG(guarantorRecordId);
