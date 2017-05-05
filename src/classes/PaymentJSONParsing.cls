@@ -32,7 +32,7 @@ public class PaymentJSONParsing {
                 
         Integer guarantor = Integer.valueof(getExternalID(objJson.guarantor,'guarantors'));
 
-        if (ContactSecurityContext.PJP_SELECT_CONTEXT.actionAllowed()) {
+        if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
             Contact guarantorContact = [SELECT Id FROM Contact WHERE Profile_Pointer_ID__c = :guarantor LIMIT 1];
             objPayment.Guarantor__c = guarantorContact.Id;
         }

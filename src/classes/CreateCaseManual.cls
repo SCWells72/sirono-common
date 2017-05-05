@@ -135,7 +135,7 @@ public with sharing class CreateCaseManual {
                     setChargeGroupId.add(cg.cg.id);
                 }
             }
-            if (ChargeGroupSecurityContext.CCM_SELECT_CONTEXT.actionAllowed()) {
+            if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                 List<Charge_Group__c> lstChargeGroup = [
                         SELECT Id, Guarantor__c, Patient__c
                         FROM Charge_Group__c
@@ -242,7 +242,7 @@ public with sharing class CreateCaseManual {
              * Populating coverage data using the selected Chargegroup with the oldest "Date Of Service Start" field.
             */            
             Charge_Group__c cg = new Charge_Group__c();
-            if (ChargeGroupSecurityContext.CCM_SELECT_CONTEXT_WITH_DATE.actionAllowed()) {
+            if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                 List<Charge_Group__c> lstChargeGroup  = [
                                                             SELECT Id
                                                             FROM Charge_Group__c

@@ -17,7 +17,7 @@ public with sharing class PaymentPlanUtil {
 
             //update the paymentplan with the sum of its chargegroup balances
             // Get the SUM of the associated chargegroup balances
-            if (ChargeGroupSecurityContext.PPU_SELECT_CONTEXT.actionAllowed()) {
+            if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
                 results = [
                         SELECT Payment_Plan__c pp, SUM(Balance__c) planBalance
                         FROM Charge_Group__c

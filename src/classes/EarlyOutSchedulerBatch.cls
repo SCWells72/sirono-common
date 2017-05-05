@@ -75,7 +75,7 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<s
     public void execute(Database.BatchableContext bc, List<sObject> scope) {
         List<Contact> guarantors = (List<Contact>) scope;
         Map<Id, Contact> guarantorMap = new Map<Id, Contact>();
-        if (ContactSecurityContext.SELECT_CONTEXT_FOR_ID.actionAllowed() &&
+        if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed() &&
                 StatementSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             guarantorMap = new Map<Id, Contact>([
                     SELECT Id, (

@@ -12,8 +12,8 @@ public with sharing class CallListUtilities {
     //Remove the Campaign Members for the pre collection
     public static void preCollectionCallListRemoval(Set<Id> contactIds) {
         Set<Id> membersToremove = new Set<Id>();
-        if (ContactSecurityContext.CLU_SELECT_CONTEXT.actionAllowed() &&
-                ChargeGroupSecurityContext.CLU_SELECT_CONTEXT.actionAllowed()) {
+        if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed() &&
+                ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             for (Contact c: [
                     SELECT Id, Overdue_Balance__c, Delinquent_Balance__c, (
                             SELECT Id, Pre_Collection_Sent__c
@@ -90,7 +90,7 @@ public with sharing class CallListUtilities {
     //Remove the Campaign Members for the Delinquent case.
     public static void delinquentPaymentPlanCallListRemoval(Set<Id> contactIds) {
         Set<Id> membersToremove = new Set<Id>();
-        if (ContactSecurityContext.SELECT_CONTEXT_FOR_ID.actionAllowed() &&
+        if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed() &&
                 PaymentPlanSecurityContext.CLU_SELECT_CONTEXT.actionAllowed()) {
             for (Contact c: [
                     SELECT Id, (
@@ -129,7 +129,7 @@ public with sharing class CallListUtilities {
     //Remove the Campaign Members for the Pre-Service case.
     public static void preServiceCallListRemoval(Set<Id> contactIds) {
         Set<Id> membersToremove = new Set<Id>();
-        if (ContactSecurityContext.SELECT_CONTEXT_FOR_ID.actionAllowed() &&
+        if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed() &&
                 EncounterSecurityContext.CLU_SELECT_CONTEXT.actionAllowed()) {
             for (Contact c: [
                     SELECT Id, (

@@ -77,7 +77,7 @@ public with sharing class GuarantorDao extends AbstractDao {
      **/
     public static Contact getGuarantorFilterCGByAcctSubStatus(String contactId, Set<String> cgSubStatusFilters) {
         Contact contact = null;
-        if (ContactSecurityContext.SELECT_CONTEXT_WITH_CG.actionAllowed() &&
+        if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed() &&
                 ChargeGroupSecurityContext.GD_SELECT_CONTEXT.actionAllowed()) {
             for (Contact c: [
                     SELECT Id, Name, FirstName, MiddleName, LastName, Suffix, Birthdate, Salutation,

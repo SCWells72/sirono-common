@@ -232,7 +232,7 @@ public with sharing class TaskTriggerHandler {
                 }
             }
 
-            if (ContactSecurityContext.TTH_SELECT_CONTEXT.actionAllowed() && TaskSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed() && TaskSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                 for (Contact c: [
                                 SELECT Id, FirstName, LastName, 
                                     (SELECT Id, CallDisposition, Five9__Five9Campaign__c, WhatId
@@ -281,7 +281,7 @@ public with sharing class TaskTriggerHandler {
                 allCaseIds.addAll(finalCaseIds);
                 allCaseIds.addAll(exhaustedCaseIds);
 
-                if (CaseSecurityContext.TTH_SELECT_CONTEXT.actionAllowed()) {
+                if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
                     List<Case> lstCase = [SELECT Id, Status, Reason FROM Case
                                         WHERE Id IN :allCaseIds AND Status != :CASE_STATUS_CLOSED];
 
@@ -334,7 +334,7 @@ public with sharing class TaskTriggerHandler {
                 }
             }
 
-            if (ContactSecurityContext.TTH_SELECT_CONTEXT.actionAllowed() && TaskSecurityContext.TTH_SELECT_CONTEXT.actionAllowed()) {
+            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed() && TaskSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                 for (Contact c: [
                         SELECT Id, FirstName, LastName, (
                                 SELECT Id, CallDisposition, Five9__Five9Campaign__c
