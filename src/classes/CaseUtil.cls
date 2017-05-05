@@ -120,7 +120,7 @@ public class CaseUtil {
                 ];
             }
 
-            if (CaseSecurityContext.SELECT_CONTEXT_WITH_TYPE.actionAllowed()) {
+            if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
                 //Check Any Early Out Case is exist if exist the closed it and creted new one.
                 List<Case> lstEarlyOutCases = [
                         SELECT Id, Type
@@ -193,7 +193,7 @@ public class CaseUtil {
 
                 //Insert the Case Charge Group
                 List<Case_Charge_Group_Junction__c> lstCCG = new List<Case_Charge_Group_Junction__c>();
-                if (ChargeGroupSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
+                if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                     for (Charge_Group__c cg: [
                             SELECT Id, Guarantor__c
                             FROM Charge_Group__c
@@ -293,7 +293,7 @@ public class CaseUtil {
 
         if (mapContact.size() > 0) {
             List<Case> earlyOutCases = new List<Case>();
-            if (CaseSecurityContext.SELECT_CONTEXT_FOR_CLOSE.actionAllowed()) {
+            if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
                 earlyOutCases = [
                         SELECT Id, Status, Reason, Guarantor_Information__c
                         FROM Case
@@ -428,7 +428,7 @@ public class CaseUtil {
                 ];
             }
 
-            if (CaseSecurityContext.SELECT_CONTEXT_WITH_TYPE.actionAllowed()) {
+            if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
                 //Check if any Early Out Case exists; if so, the close it and create a new one
                 List<Case> lstCloseCases = [
                         SELECT Id, Type
@@ -501,7 +501,7 @@ public class CaseUtil {
 
                 //Insert the Case Charge Group
                 List<Case_Charge_Group_Junction__c> lstCCG = new List<Case_Charge_Group_Junction__c>();
-                if (ChargeGroupSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
+                if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                     for (Charge_Group__c cg: [
                             SELECT Id, Guarantor__c
                             FROM Charge_Group__c
@@ -606,7 +606,7 @@ public class CaseUtil {
         }
         if (mapContact.size() > 0) {
             List<Case> precollections = new List<Case>();
-            if (CaseSecurityContext.SELECT_CONTEXT_FOR_CLOSE.actionAllowed()) {
+            if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
                 precollections = [
                         SELECT Id, Status, Reason, Guarantor_Information__c
                         FROM Case
@@ -843,7 +843,7 @@ public class CaseUtil {
             Set<String> setContact, Boolean skipEncounterCaseUpdate) {
         if (!skipEncounterCaseUpdate) {
             List<Case> encounterCase = new List<Case>();
-            if (CaseSecurityContext.CU_ENCOUNTER_SELECT_CONTEXT.actionAllowed()) {
+            if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
                 encounterCase = [
                         SELECT Id, Status, Reason, Guarantor_Information__c
                         FROM Case
@@ -863,7 +863,7 @@ public class CaseUtil {
         }
 
         Set<String> contactWithoutOpenEncounters = new Set<String>();
-        if (CaseSecurityContext.SELECT_CONTEXT_WITH_TYPE.actionAllowed()) {
+        if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
             List<Case> openEncounterCases = [
                     SELECT Id, Guarantor_Information__c
                     FROM Case
@@ -917,7 +917,7 @@ public class CaseUtil {
         Map<String, Set<String>> mapCampaignMembers = new Map<String, Set<String>>();
         Map<String, CampaignMember> mapUpdateCampaignMembers = new Map<String, CampaignMember>();
 
-        if (CaseSecurityContext.SELECT_CONTEXT_FOR_CLOSE.actionAllowed()) {
+        if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
             for (Case objCase: [
                     SELECT Id, Guarantor_Information__c
                     FROM Case
@@ -1074,7 +1074,7 @@ public class CaseUtil {
             }
         }
 
-        if (CaseSecurityContext.SELECT_CONTEXT_WITH_TYPE.actionAllowed()) {
+        if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
             List<Case> lstCase = [
                     SELECT Id, Guarantor_Information__c
                     FROM Case
@@ -1114,7 +1114,7 @@ public class CaseUtil {
         List<RecordType> rt = new List<RecordType>();
         Map<Id, Contact> mapContact = new Map<Id, Contact>();
 
-        if (CaseSecurityContext.SELECT_CONTEXT_FOR_CLOSE.actionAllowed()) {
+        if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
             for (Case objCase: [
                     SELECT Id, Guarantor_Information__c
                     FROM Case
@@ -1140,7 +1140,7 @@ public class CaseUtil {
                     WHERE SobjectType = 'Case' AND DeveloperName = 'Automated_Cases'
             ];
         }
-        if (ContactSecurityContext.CU_CCERROR_SELECT_CONTEXT.actionAllowed()) {
+        if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
             mapContact = new Map<Id, Contact>([
                     SELECT Id, Name, RecordType.DeveloperName, HomePhone, MobilePhone, OtherPhone
                     FROM Contact
@@ -1280,7 +1280,7 @@ public class CaseUtil {
         }
 
         List<Case> lstCase = new List<Case>();
-        if (CaseSecurityContext.SELECT_CONTEXT_WITH_TYPE.actionAllowed()) {
+        if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
             lstCase = [
                     SELECT Id, Guarantor_Information__c
                     FROM Case

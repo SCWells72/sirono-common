@@ -33,7 +33,7 @@ public with sharing class PayStaffWSUtill {
     //Fetch the contact record
     public static Contact fetchContact(String contactId) {
         Contact ob = null;
-        if (ContactSecurityContext.PSWSU_SELECT_CONTEXT.actionAllowed()) {
+        if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             for (Contact c: [
                     SELECT Id, FirstName, MiddleName, LastName, Name, Suffix, Birthdate, Social_Security_Number__c,
                             Medical_Record_Number__c, RecordType.DeveloperName, HomePhone, MobilePhone, OtherPhone, Salutation,
@@ -51,7 +51,7 @@ public with sharing class PayStaffWSUtill {
     //08-09-2016: This is method is used to get the CG records of Patient Contact type
     public static Contact fetchPatientContactWithCGConstraints(String contactId) {
         Contact ob = null;
-        if (ContactSecurityContext.SELECT_CONTEXT_WITH_CG_PATIENT.actionAllowed() &&
+        if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed() &&
                 ChargeGroupSecurityContext.GD_SELECT_CONTEXT.actionAllowed()) {
             for (Contact c: [
                     SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
@@ -79,7 +79,7 @@ public with sharing class PayStaffWSUtill {
     //08-09-2016: This is method is used to get the CG records of Patient Contact type
     public static Contact fetchPatientContactWithCGConstraintsForCase(String contactId) {
         Contact ob = null;
-        if (ContactSecurityContext.SELECT_CONTEXT_WITH_CG_PATIENT.actionAllowed() &&
+        if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed() &&
                 ChargeGroupSecurityContext.GD_SELECT_CONTEXT.actionAllowed()) {
             for (Contact c: [
                     SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,

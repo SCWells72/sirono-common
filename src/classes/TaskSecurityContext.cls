@@ -37,11 +37,6 @@ public with sharing class TaskSecurityContext extends SecurityContext {
         CALLDISPOSITION, WHOID, FIVE9_FIVE9CAMPAIGN, WHATID, ID
     };
 
-    // The fields for selecting a Task in TaskTriggerHandler
-    private static final Set<String> TTH_SELECT_FIELDS = new Set<String>{
-        ID, CALLDISPOSITION, FIVE9_FIVE9CAMPAIGN
-    };
-
     /**
      * Constructor of class that assign variables based on parameters
      *
@@ -67,11 +62,6 @@ public with sharing class TaskSecurityContext extends SecurityContext {
      * The select context for Task in TaskTriggerHandler
      **/
     public static final TaskSecurityContext SELECT_CONTEXT = new TaskSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
-
-    /**
-     * The select context for Task in TaskTriggerHandler
-     **/
-    public static final TaskSecurityContext TTH_SELECT_CONTEXT = new TaskSecurityContext(TTH_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

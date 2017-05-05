@@ -65,7 +65,7 @@ public without sharing class EncounterUtil {
             return;
         }
 
-        if (ChargeGroupSecurityContext.EU_SELECT_CONTEXT.actionAllowed()) {
+        if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             List<Charge_Group__c> cgsWithEncounters = [
                     SELECT Id, Encounter__c
                     FROM Charge_Group__c

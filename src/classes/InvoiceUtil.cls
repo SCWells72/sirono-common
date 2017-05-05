@@ -56,7 +56,7 @@ public without sharing class InvoiceUtil {
      */
     public static void updateAllSubstatusInvoiceField(Set<Id> chargeGroupInvoiceIds) {
         if (chargeGroupInvoiceIds.size() > 0) {
-            if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT_WITH_STATUS.actionAllowed()) {
+            if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
                 // Query for distinct Invoice/Account Substatus values using group by
                 AggregateResult[] queryResults = [
                         SELECT Invoice__c, Account_Sub_Status__c
@@ -114,7 +114,7 @@ public without sharing class InvoiceUtil {
                 invoicesToUpdate.put(invoiceId, tempInvoice);
             }
 
-            if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT_WITH_BALANCE.actionAllowed()) {
+            if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
                 AggregateResult[] queryResults = [
                         SELECT Invoice__c, SUM(Balance__c) sumBalances
                         FROM Charge_Group__c

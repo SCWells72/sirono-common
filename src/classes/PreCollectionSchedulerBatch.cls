@@ -38,11 +38,11 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
                     existingMembers.add(cm.ContactId);
                 }
             }
-            if (ContactSecurityContext.PCS_SELECT_CONTEXT.actionAllowed()) {
+            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
                 return Database.getQueryLocator([SELECT Id, FirstName FROM Contact WHERE RecordType.Name = 'Guarantor' AND ID NOT IN :existingMembers]);
             }
         } else {
-            if (ContactSecurityContext.PCS_SELECT_CONTEXT.actionAllowed()) {
+            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
                 return Database.getQueryLocator([SELECT Id, FirstName FROM Contact WHERE RecordType.Name = 'Guarantor-DO-NOT-EXIST']);
             }
         }
@@ -55,7 +55,7 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
         Date dt = System.today();
         if (callList != null) {
             List<CampaignMember> memberList = new List<CampaignMember>();
-            if (ChargeGroupSecurityContext.PCS_SELECT_CONTEXT.actionAllowed()) {
+            if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                 for (Charge_Group__c cg: [
                         SELECT Id, Name, Guarantor__c, Pre_Collection_Sent__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Delinquent_Balance__c
                         FROM Charge_Group__c

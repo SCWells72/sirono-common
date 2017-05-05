@@ -110,7 +110,7 @@ public class PaymentPlanJSONParsing {
             paymentPlanObj.Guarantor__c = contactId;
         } else {
             String gtId = getExternalId(objJson.guarantor, 'guarantors');
-            if (ContactSecurityContext.PP_SELECT_CONTEXT.actionAllowed()) {
+            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
                 Contact gt = [
                         SELECT Id
                         FROM Contact

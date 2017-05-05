@@ -60,6 +60,7 @@ public class Constants {
     
     // Constant variable for Security Context Unit Testing Negative Profile.
     public static final String READ_ONLY_PROFILE = 'Read Only';
+    public static final String CHATTER_ONLY_USER_PROFILE = 'Chatter Only User';
 
     // Account Substatus constraints used for Cases
     public static final Set<String> CGConstraintsForCase = new Set<String> {

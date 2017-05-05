@@ -378,4 +378,22 @@ public class TestUtility {
         
         return readOnlyUser;
     }
+
+    /**
+     * This method is use to create/generate Chatter Only User.
+     *
+     * @returns User chatterOnlyUser - That contains User as a Chatter Only (Read/Write/Update/Delete rights are not there).
+     **/
+    public static User generateChatterOnlyUser() {
+        Profile chatterOnlyProf = [SELECT Id FROM Profile WHERE Name = :Constants.CHATTER_ONLY_USER_PROFILE];
+        User chatterOnlyUser = new User(Alias = 'ctronly', Email = 'chatteronlyuserr@testorg.com',
+                EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
+                LocaleSidKey = 'en_US', ProfileId = chatterOnlyProf.Id,
+                TimeZoneSidKey = 'America/Los_Angeles', UserName = 'chatteronlyuserr@testorg.com');
+        
+        // Check system assert.
+        System.assertNotEquals(chatterOnlyUser, null, 'Should have failed due to user is null.');
+        
+        return chatterOnlyUser;
+    }
 }

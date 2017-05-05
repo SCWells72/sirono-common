@@ -34,17 +34,19 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
 
     // The fields for updating a Charge Group in AddToPaymentPlan & AddCreditCard.
     private static final Set<String> UPDATE_FIELDS = new Set<String>{
-    	ACCOUNT_SUB_STATUS, PAYMENT_PLAN
+        ACCOUNT_SUB_STATUS, PAYMENT_PLAN
     };
     
     // The fields for updating a Charge Group in PayStaffWSUtill & DeletePaymentPlan.
     private static final Set<String> UPDATE_WITH_STATUS_FIELDS = new Set<String>{
-    	ACCOUNT_STATUS, ACCOUNT_SUB_STATUS, PAYMENT_PLAN
+        ACCOUNT_STATUS, ACCOUNT_SUB_STATUS, PAYMENT_PLAN
     };
 
-    // The fields for selecting a Charge Group in ChargeGroupDao, CaseCommentTriggerHandler, PaymentPlanJSONParsing.
+    // The fields for selecting a Charge Group in ChargeGroupDao, CaseCommentTriggerHandler, PaymentPlanJSONParsing,
+    // CallListUtilities, TransactionJSONParsing, EncounterUtil, PreCollectionSchedulerBatch, CreateCaseManual, CaseUtil.
     private static final Set<String> SELECT_FIELDS = new Set<String>{
-        ID, SIRONO_ID
+        ID, SIRONO_ID, PRE_COLLECTION_SENT, ACCOUNT_SUB_STATUS, PAYMENT_PLAN, ENCOUNTER,
+        NAME, GUARANTOR, CREATEDDATE, PATIENT, DATE_OF_SERVICE_START_DATE
     };
 
     // The fields for selecting a Charge Group in GuarantorDao, PayStaffWSUtill.
@@ -55,59 +57,9 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
         ACCOUNT_STATUS, PROVIDER, LOCATION, ACCOUNT_SUB_STATUS
     };
 
-    // The fields for selecting a Charge Group in CallListUtilities
-    private static final Set<String> CLU_SELECT_FIELDS = new Set<String>{
-        ID, PRE_COLLECTION_SENT
-    };
-
-    // The fields for selecting a Charge Group in TransactionJSONParsing
-    private static final Set<String> TJP_SELECT_FIELDS = new Set<String>{
-        ID, SIRONO_ID, ACCOUNT_SUB_STATUS, PAYMENT_PLAN
-    };
-
-    // The fields for selecting a Charge Group in EncounterUtil.
-    private static final Set<String> EU_SELECT_FIELDS = new Set<String>{
-        ID, ENCOUNTER
-    };
-
-    // The fields for selecting a Charge Group in InvoiceUtil.
+    // The fields for selecting a Charge Group in InvoiceUtil, PaymentPlanUtil
     private static final Set<String> IU_SELECT_FIELDS = new Set<String>{
-        INVOICE, SUB_STATUS_INDEX, ACTIVE
-    };
-
-    // The fields for selecting a Charge Group with status in InvoiceUtil.
-    private static final Set<String> IU_SELECT_FIELDS_WITH_STATUS = new Set<String>{
-        INVOICE, ACCOUNT_SUB_STATUS
-    };
-
-    // The fields for selecting a Charge Group with balance in InvoiceUtil.
-    private static final Set<String> IU_SELECT_FIELDS_WITH_BALANCE = new Set<String>{
-        INVOICE, BALANCE, ACTIVE
-    };
-
-    // The fields for selecting a Charge Group in PreCollectionSchedulerBatch.
-    private static final Set<String> PCS_SELECT_FIELDS = new Set<String>{
-        ID, NAME, GUARANTOR, PRE_COLLECTION_SENT
-    };
-
-    // The fields for selecting a Charge Group in PaymentPlanUtil.
-    private static final Set<String> PPU_SELECT_FIELDS = new Set<String>{
-        BALANCE, PAYMENT_PLAN
-    };
-
-    // The fields for selecting a Charge Group in CreateCaseManual.
-    private static final Set<String> CCM_SELECT_FIELDS = new Set<String>{
-        CREATEDDATE, ID, GUARANTOR, PATIENT
-    };
-
-    // The fields for selecting a Charge Group in CreateCaseManual.
-    private static final Set<String> CCM_SELECT_FIELDS_WITH_DATE = new Set<String>{
-        ID, DATE_OF_SERVICE_START_DATE
-    };
-
-    // The fields for selecting a Charge Group in CaseUtil.
-    private static final Set<String> CU_SELECT_FIELDS = new Set<String>{
-        ID, GUARANTOR, ACCOUNT_SUB_STATUS
+        INVOICE, SUB_STATUS_INDEX, ACTIVE, ACCOUNT_SUB_STATUS, BALANCE, PAYMENT_PLAN
     };
 
     /**
@@ -132,7 +84,8 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
     public static final ChargeGroupSecurityContext UPDATE_WITH_STATUS_CONTEXT = new ChargeGroupSecurityContext(UPDATE_WITH_STATUS_FIELDS, ACTION.OBJ_UPDATE);
 
     /**
-     * The select context for Charge Group in ChargeGroupDao, CaseCommentTriggerHandler, PaymentPlanJSONParsing.
+     * The select context for Charge Group in ChargeGroupDao, CaseCommentTriggerHandler, PaymentPlanJSONParsing,
+     * CallListUtilities, TransactionJSONParsing, EncounterUtil, PreCollectionSchedulerBatch, CreateCaseManual, CaseUtil.
      **/
     public static final ChargeGroupSecurityContext SELECT_CONTEXT = new ChargeGroupSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
 
@@ -142,59 +95,9 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
     public static final ChargeGroupSecurityContext GD_SELECT_CONTEXT = new ChargeGroupSecurityContext(GD_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
-     * The select context for Charge Group in CallListUtilities.
-     **/
-    public static final ChargeGroupSecurityContext CLU_SELECT_CONTEXT = new ChargeGroupSecurityContext(CLU_SELECT_FIELDS, ACTION.OBJ_READ);
-
-    /**
-     * The select context for Charge Group in TransactionJSONParsing.
-     **/
-    public static final ChargeGroupSecurityContext TJP_SELECT_CONTEXT = new ChargeGroupSecurityContext(TJP_SELECT_FIELDS, ACTION.OBJ_READ);
-
-    /**
-     * The select context for Charge Group in EncounterUtil.
-     **/
-    public static final ChargeGroupSecurityContext EU_SELECT_CONTEXT = new ChargeGroupSecurityContext(EU_SELECT_FIELDS, ACTION.OBJ_READ);
-
-    /**
-     * The select context for Charge Group in InvoiceUtil.
+     * The select context for Charge Group in InvoiceUtil, PaymentPlanUtil.
      **/
     public static final ChargeGroupSecurityContext IU_SELECT_CONTEXT = new ChargeGroupSecurityContext(IU_SELECT_FIELDS, ACTION.OBJ_READ);
-
-    /**
-     * The select context for Charge Group in InvoiceUtil.
-     **/
-    public static final ChargeGroupSecurityContext IU_SELECT_CONTEXT_WITH_STATUS = new ChargeGroupSecurityContext(IU_SELECT_FIELDS_WITH_STATUS, ACTION.OBJ_READ);
-
-    /**
-     * The select context for Charge Group in InvoiceUtil.
-     **/
-    public static final ChargeGroupSecurityContext IU_SELECT_CONTEXT_WITH_BALANCE = new ChargeGroupSecurityContext(IU_SELECT_FIELDS_WITH_BALANCE, ACTION.OBJ_READ);
-
-    /**
-     * The select context for Charge Group in PreCollectionSchedulerBatch.
-     **/
-    public static final ChargeGroupSecurityContext PCS_SELECT_CONTEXT = new ChargeGroupSecurityContext(PCS_SELECT_FIELDS, ACTION.OBJ_READ);
-
-    /**
-     * The select context for Charge Group in PaymentPlanUtil.
-     **/
-    public static final ChargeGroupSecurityContext PPU_SELECT_CONTEXT = new ChargeGroupSecurityContext(PPU_SELECT_FIELDS, ACTION.OBJ_READ);
-
-    /**
-     * The select context for Charge Group in CreateCaseManual.
-     **/
-    public static final ChargeGroupSecurityContext CCM_SELECT_CONTEXT = new ChargeGroupSecurityContext(CCM_SELECT_FIELDS, ACTION.OBJ_READ);
-
-    /**
-     * The select context for Charge Group in CreateCaseManual.
-     **/
-    public static final ChargeGroupSecurityContext CCM_SELECT_CONTEXT_WITH_DATE = new ChargeGroupSecurityContext(CCM_SELECT_FIELDS_WITH_DATE, ACTION.OBJ_READ);
-
-    /**
-     * The select context for Charge Group in CaseUtil.
-     **/
-    public static final ChargeGroupSecurityContext CU_SELECT_CONTEXT = new ChargeGroupSecurityContext(CU_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class.
