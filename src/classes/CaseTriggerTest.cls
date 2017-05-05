@@ -111,4 +111,27 @@ private class CaseTriggerTest {
             }
         }
     }
+
+    /**
+     * Check all Read rights for a Chatter User using runAs.
+     **/
+    @isTest
+    static void checkAccessRightsForRead() {
+        List<CaseSecurityContext> allContexts = new List<CaseSecurityContext>{CaseSecurityContext.SELECT_CONTEXT,
+                CaseSecurityContext.CU_SELECT_CONTEXT
+        };
+
+        System.runAs(TestUtility.generateChatterOnlyUser()) {
+            for (CaseSecurityContext context: allContexts) {
+                try {
+                    context.actionAllowed();
+                    System.assert(false, 'Expected permission to be denied for ' + context);
+                } catch (SecurityUtils.SecurityException ex) {
+                    System.debug('SecurityException : ' + ex);
+                } catch (Exception e) {
+                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
+                }
+            }
+        }
+    }
 }

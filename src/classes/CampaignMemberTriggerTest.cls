@@ -56,4 +56,27 @@ private class CampaignMemberTriggerTest {
             }
         }
     }
+
+    /**
+     * Check all Read rights for a Chatter User using runAs.
+     **/
+    @isTest
+    static void checkAccessRightsForRead() {
+        List<CMHSecurityContext> allContexts = new List<CMHSecurityContext>{CMHSecurityContext.SELECT_CONTEXT,
+                CMHSecurityContext.TTH_SELECT_CONTEXT
+        };
+
+        System.runAs(TestUtility.generateChatterOnlyUser()) {
+            for (CMHSecurityContext context: allContexts) {
+                try {
+                    context.actionAllowed();
+                    System.assert(false, 'Expected permission to be denied for ' + context);
+                } catch (SecurityUtils.SecurityException ex) {
+                    System.debug('SecurityException : ' + ex);
+                } catch (Exception e) {
+                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
+                }
+            }
+        }
+    }
 }

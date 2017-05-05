@@ -95,4 +95,27 @@ public class ChargeGroupTriggerTest {
             }
         }
     }
+
+    /**
+     * Check all Read rights for a Chatter User using runAs.
+     **/
+    @isTest
+    static void checkAccessRightsForRead() {
+        List<ChargeGroupSecurityContext> allContexts = new List<ChargeGroupSecurityContext>{ChargeGroupSecurityContext.SELECT_CONTEXT,
+                ChargeGroupSecurityContext.GD_SELECT_CONTEXT, ChargeGroupSecurityContext.IU_SELECT_CONTEXT
+        };
+
+        System.runAs(TestUtility.generateChatterOnlyUser()) {
+            for (ChargeGroupSecurityContext context: allContexts) {
+                try {
+                    context.actionAllowed();
+                    System.assert(false, 'Expected permission to be denied for ' + context);
+                } catch (SecurityUtils.SecurityException ex) {
+                    System.debug('SecurityException : ' + ex);
+                } catch (Exception e) {
+                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
+                }
+            }
+        }
+    }
 }

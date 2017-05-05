@@ -141,4 +141,28 @@ public with sharing class GuarantorDaoTest {
         System.assertEquals(RecordTypeUtil.guarantorRt, gt2.RecordTypeId,
                 'Expected RecordTypeId of ' + RecordTypeUtil.guarantorRt + ' but got: ' + gt2.RecordTypeId);
     }
+
+    /**
+     * Check all Read rights for a Chatter User using runAs.
+     **/
+    @isTest
+    static void checkAccessRightsForRead() {
+        List<ContactSecurityContext> allContexts = new List<ContactSecurityContext>{ContactSecurityContext.SELECT_CONTEXT,
+                ContactSecurityContext.CTH_SELECT_CONTEXT, ContactSecurityContext.SB_SELECT_CONTEXT,
+                ContactSecurityContext.PPTH_SELECT_CONTEXT, ContactSecurityContext.CU_SELECT_CONTEXT
+        };
+
+        System.runAs(TestUtility.generateChatterOnlyUser()) {
+            for (ContactSecurityContext context: allContexts) {
+                try {
+                    context.actionAllowed();
+                    System.assert(false, 'Expected permission to be denied for ' + context);
+                } catch (SecurityUtils.SecurityException ex) {
+                    System.debug('SecurityException : ' + ex);
+                } catch (Exception e) {
+                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
+                }
+            }
+        }
+    }
 }

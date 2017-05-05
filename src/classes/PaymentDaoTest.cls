@@ -56,4 +56,27 @@ private class PaymentDaoTest {
             }
         }
     }
+
+    /**
+     * Check all Read rights for a Chatter User using runAs.
+     **/
+    @isTest
+    static void checkAccessRightsForRead() {
+        List<PaymentSecurityContext> allContexts = new List<PaymentSecurityContext>{PaymentSecurityContext.SELECT_CONTEXT,
+                PaymentSecurityContext.EU_SELECT_CONTEXT
+        };
+
+        System.runAs(TestUtility.generateChatterOnlyUser()) {
+            for (PaymentSecurityContext context: allContexts) {
+                try {
+                    context.actionAllowed();
+                    System.assert(false, 'Expected permission to be denied for ' + context);
+                } catch (SecurityUtils.SecurityException ex) {
+                    System.debug('SecurityException : ' + ex);
+                } catch (Exception e) {
+                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
+                }
+            }
+        }
+    }
 }

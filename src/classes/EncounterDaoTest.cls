@@ -57,4 +57,28 @@ private class EncounterDaoTest {
         System.assertEquals(encounterList[0].Patient_Portion__c, 1000);
         Test.stopTest();
     }
+
+    /**
+     * Check all Read rights for a Chatter User using runAs.
+     **/
+    @isTest
+    static void checkAccessRightsForRead() {
+        List<EncounterSecurityContext> allContexts = new List<EncounterSecurityContext>{EncounterSecurityContext.SELECT_CONTEXT,
+                EncounterSecurityContext.CLU_SELECT_CONTEXT, EncounterSecurityContext.EU_SELECT_CONTEXT,
+                EncounterSecurityContext.EU_SELECT_CONTEXT_AGG, EncounterSecurityContext.PSS_SELECT_CONTEXT
+        };
+
+        System.runAs(TestUtility.generateChatterOnlyUser()) {
+            for (EncounterSecurityContext context: allContexts) {
+                try {
+                    context.actionAllowed();
+                    System.assert(false, 'Expected permission to be denied for ' + context);
+                } catch (SecurityUtils.SecurityException ex) {
+                    System.debug('SecurityException : ' + ex);
+                } catch (Exception e) {
+                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
+                }
+            }
+        }
+    }
 }
