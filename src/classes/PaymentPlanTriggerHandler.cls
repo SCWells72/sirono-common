@@ -7,6 +7,11 @@
  * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases
 */
 public with sharing class PaymentPlanTriggerHandler {
+	
+	public static final Integer START_DAY = 1;
+	public static final Integer START_LAST_MONTH = -1;
+	public static final Integer OVERDUE_DAY_LIMIT = 21;
+
     //static method invoked after insert event
     public static void afterInsert(List<Payment_Plan__c> newList) {
         checkCallListRemove(newList, null);
@@ -91,7 +96,7 @@ public with sharing class PaymentPlanTriggerHandler {
                     WHERE Id IN :setContactId
             ]);
         }
-
+		
         for (Payment_Plan__c plan: newList) {
             Contact guarantor = new Contact();
             if (plan.Guarantor__c != null && mapContacts.containsKey(plan.Guarantor__c)) {
@@ -109,41 +114,40 @@ public with sharing class PaymentPlanTriggerHandler {
 
             // Figure out the next payment date relative to the reference date.
             Date nextDt;
-            if (plan.Plan_Type__c == 'Automatic') {
-                //System.assert(plan.Execute_on_Day__c != null);
-                if (plan.Execute_on_Day__c == null) {
-                    plan.Execute_on_Day__c = 0;
-                }
-
-                // The next payment is due on the Execute Day of the month.
-                nextDt = Date.newInstance(refDt.year(), refDt.month(), integer.valueof(plan.Execute_on_Day__c));
-
-                // Keep adding months until the next payment date is past the reference date.
-                while (nextDt < refDt) {
-                    nextDt = nextDt.addMonths(1);
-                    }
-                }
-                else {
-                //System.assert(guarantor.Invoice_Offset_Date__c != null);
-                if (guarantor.Invoice_Offset_Date__c == null) {
-                    guarantor.Invoice_Offset_Date__c = 0;
-                }
-
-                // The next payment is due 21 days beyond the statement date.
-                // Start with last month's statement date.
-                Date stmtDt = Date.newInstance(refDt.year(), refDt.month() - 1, integer.valueof(guarantor.Invoice_Offset_Date__c));
-		nextDt = stmtDt.addDays(21);
-                // Keep adding months until the next payment date is past the reference date.
-                while (nextDt < refDt) {
-                    stmtDt = stmtDt.addMonths(1);
-		    nextDt = stmtDt.addDays(21);
-                }
+            if (plan.Plan_Type__c == Constants.AUTOMATIC) {
+				if(plan.Execute_on_Day__c == null || plan.Execute_on_Day__c == 0) {
+					plan.Execute_on_Day__c = START_DAY;
+				}
+				nextDt = calculateNextPaymentDate(Integer.valueof(plan.Execute_on_Day__c), 0, refDt);
+            } else {
+				if(guarantor.Invoice_Offset_Date__c == null || guarantor.Invoice_Offset_Date__c == 0) {
+					guarantor.Invoice_Offset_Date__c = START_DAY;
+				}
+				nextDt = calculateNextPaymentDate(Integer.valueof(guarantor.Invoice_Offset_Date__c), OVERDUE_DAY_LIMIT, refDt);
             }
             plan.NextPaymentDate__c = nextDt;
             if (!fromPaymentPlanTrigger) newListToUpdate.add(plan);
         }
         if (newListToUpdate.size() > 0) update newListToUpdate;
     }
+
+	private static Date calculateNextPaymentDate(Integer selectedDay, Integer step, Date refDt) {
+		Integer addMonths = START_LAST_MONTH;
+		Date nextDt = Date.newInstance(refDt.year(), refDt.month() + addMonths, checkBordersOfTheMonth(refDt.year(), refDt.month() + addMonths, selectedDay)).addDays(step);
+		while (nextDt <= refDt) {
+			addMonths++;
+			nextDt = Date.newInstance(refDt.year(), refDt.month() + addMonths, checkBordersOfTheMonth(refDt.year(), refDt.month() + addMonths, selectedDay)).addDays(step);	
+		}
+		return nextDt;
+	}
+
+	private static Integer checkBordersOfTheMonth(Integer year, Integer month, Integer checkDay) {
+		Integer maxDay = Date.daysInMonth(year, month);
+		if(checkDay < maxDay) {
+			return checkDay;
+		}
+		return maxDay;
+	}
 
     //Sirono 08-22-2016 : 127401841 Create a Delinquent Payment Plan Case
     Private static void callDelinquentPaymentPlanCaseCreation(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap) {
