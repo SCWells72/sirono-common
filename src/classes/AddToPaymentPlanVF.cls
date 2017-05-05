@@ -9,7 +9,6 @@ public with sharing class AddToPaymentPlanVF extends AddToPaymentPlan {
         super();
         chargeGroupsSelected = false;
         chargeGroupList = new List<ChargeGroupWrapper>();
-		chargeGroupsIds = new List<String>();
         guarantorName = '';
         paymentPlanExtId = null;
         paymentPlanId = null;
@@ -28,20 +27,15 @@ public with sharing class AddToPaymentPlanVF extends AddToPaymentPlan {
             Contact gc = GuarantorService.getGuarantorFilterCGByAcctSubStatus(guarantorRecordId);
             guarantorName = GuarantorService.buildGuarantorDetailString(gc);
             guarantorId = GuarantorService.getGuarantorSironoId(gc);
-            for (ChargeGroupWrapper cgw : ChargeGroupWrapper.buildList(gc)) {
-                if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
-                    chargeGroupList.add(cgw);
-					chargeGroupsIds.add(String.ValueOf(cgw.cg.Sirono_ID__c));
-                }
-            }
+            chargeGroupList = ChargeGroupWrapper.buildList(gc);
             chargeGroupIds = new String[]{};
         }
 
         if (String.isBlank(paymentPlanExtId)) {
-	    Payment_Plan__c currentPaymentPlan = PaymentPlanService.getActivePaymentPlan(guarantorRecordId);
-	    if(currentPaymentPlan != null){
-	    	paymentPlanExtId = currentPaymentPlan.Sirono_ID__c.toPlainString();
-	    }
+            Payment_Plan__c currentPaymentPlan = PaymentPlanService.getActivePaymentPlan(guarantorRecordId);
+            if(currentPaymentPlan != null){
+                paymentPlanExtId = currentPaymentPlan.Sirono_ID__c.toPlainString();
+            }
             if (String.isBlank(paymentPlanExtId)) {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
                         'No active Payment Plan exists for this Guarantor. Please click Cancel to go previous page.'));
@@ -61,7 +55,9 @@ public with sharing class AddToPaymentPlanVF extends AddToPaymentPlan {
                     TestUtility.generateException();
                 }
             } else {
-                PaymentPlanService.addChargeGroups(paymentPlanExtId, chargeGroupsIds);
+                PaymentPlanService.addChargeGroups(paymentPlanExtId, chargeGroupIds);
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
+                        'Added Successfully!'));
             }
         } catch (Exception e) {
             // Debug error response
@@ -69,6 +65,4 @@ public with sharing class AddToPaymentPlanVF extends AddToPaymentPlan {
                     'ERROR: ' + e.getMessage()));
         }
     }
-
-   
 }

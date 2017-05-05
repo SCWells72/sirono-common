@@ -96,6 +96,7 @@ public with sharing class GuarantorDao extends AbstractDao {
                             AND Active__c = true
                             AND Account_Status__c = 'Billed'
                             AND Account_Sub_Status__c IN :cgSubStatusFilters
+							AND Balance__c != 0
                         )
                     FROM Contact
                     WHERE Id = :contactId

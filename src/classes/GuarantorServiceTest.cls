@@ -34,6 +34,9 @@ public with sharing class GuarantorServiceTest {
         chargeGroup.Active__c = true;
         INSERT chargeGroup;
 
+        Transaction__c  transactionObj = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        INSERT transactionObj;
+
         // Create Charge Group Record.
         chargeGroup = TestUtility.generateChargeGroup(gt.Id, pt.Id, 67890);
         chargeGroup.Active__c = false;
