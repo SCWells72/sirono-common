@@ -40,7 +40,7 @@ public class PaymentAdjustmentJSONParsing {
                 lstPaymentAdjustment.add(objPaymentAdjustment);
             }
 
-            if (TransactionSecurityContext.SELECT_CONTEXT_WITH_CODE.actionAllowed()) {
+            if (TransactionTypeSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                 //To Get Transaction Type Id based on Code.
                 List<Transaction_Type__c> lstTransactionType = [SELECT Id, Code__c
                         FROM Transaction_Type__c
