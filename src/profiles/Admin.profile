@@ -723,6 +723,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TransactionTypeSecurityContext</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TxnAggregationUtils</apexClass>
         <enabled>true</enabled>
     </classAccesses>
