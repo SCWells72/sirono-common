@@ -3,7 +3,7 @@
  **/
  
 public with sharing class TransactionSecurityContext extends SecurityContext {
-	
+    
     // Field constants for Transaction object.
     private static final String AMOUNT = 'Amount__c';
     private static final String CHARGE_GROUP = 'Charge_Group__c';
@@ -18,7 +18,6 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
     // Below field(s) are use for Select/Read permission.
     private static final String ADJUSTMENT = 'Adjustment__c';
     private static final String CHARGE_ADDED_SINCE_PLAN_START = 'Charge_added_since_plan_start__c';
-    private static final String CODE = 'Code__c';
     private static final String ID = 'Id';
     private static final String LASTMODIFIEDDATE = 'LastModifiedDate';
     private static final String SERVICE = 'Service__c';
@@ -47,11 +46,6 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
     // The fields for selecting a Transaction__c in TxnAggregationUtils
     private static final Set<String> SELECT_WITH_SERVICE_FIELDS = new Set<String>{
        AMOUNT, SERVICE
-    };
-
-    // The fields for selecting a Transaction__c in PaymentAdjustmentJSONParsing
-    private static final Set<String> SELECT_FIELDS_WITH_CODE = new Set<String>{
-       ID, CODE
     };
 
     // The fields for selecting a Transaction__c in PaymentPlanUtil
@@ -104,11 +98,6 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
      * The select context for Transaction__c in TxnAggregationUtils
      **/
     public static final TransactionSecurityContext SELECT_CONTEXT_WITH_SERVICE = new TransactionSecurityContext(SELECT_WITH_SERVICE_FIELDS, ACTION.OBJ_READ);
-
-    /**
-     * The select context for Transaction__c in PaymentAdjustmentJSONParsing
-     **/
-    public static final TransactionSecurityContext SELECT_CONTEXT_WITH_CODE = new TransactionSecurityContext(SELECT_FIELDS_WITH_CODE, ACTION.OBJ_READ);
 
     /**
      * The select context for Transaction__c in PaymentPlanUtil
