@@ -214,7 +214,7 @@ private class PayStaffWSUtillTest {
     }
 
     /**
-     * Check all Read rights for a Chatter User using runAs.
+     * Check all Read rights on TransactionType for a Chatter User using runAs.
      **/
     @isTest
     static void checkAccessRightsForRead() {
@@ -227,6 +227,7 @@ private class PayStaffWSUtillTest {
                     System.assert(false, 'Expected permission to be denied for ' + context);
                 } catch (SecurityUtils.SecurityException ex) {
                     System.debug('SecurityException : ' + ex);
+                    System.assertEquals('You do not have Read rights on Transaction_Type__c', ex.getMessage(), 'Expected to find a message about TransactionType.');
                 } catch (Exception e) {
                     System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
                 }
