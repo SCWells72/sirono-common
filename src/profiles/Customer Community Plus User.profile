@@ -283,6 +283,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EncounterBilledCGCountTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EncounterTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -2325,6 +2329,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Encounter__c.Balance__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Encounter__c.Billed_Charge_Group_Count__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
