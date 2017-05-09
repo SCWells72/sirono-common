@@ -20,7 +20,11 @@ public class Constants {
     public static final String ACCT_SUBSTATUS_CREDIT = 'Credit';
     public static final String ACCT_SUBSTATUS_PAID = 'Paid';
     public static final String ACCT_SUBSTATUS_PREINVOICED = 'Pre-Invoiced';
-    
+
+    // Constant variables for CG account status values.
+    public static final String ACCT_STATUS_BILLED = 'Billed';
+    public static final String ACCT_STATUS_PENDING = 'Pending';
+
     // Constant variables for Page Level Messages.
     public static final String PAGE_MESSAGE_AMOUNT_EXCEED_BALANCE = 'Amount cannot exceed balance.';
     public static final String PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO = 'Amount must be greater than zero.';

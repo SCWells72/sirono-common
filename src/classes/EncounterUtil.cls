@@ -9,8 +9,9 @@
 //TODO remove without sharing
 public without sharing class EncounterUtil {
 
-    private static String TOTAL = 'Total';
+    private static String ENCOUNTERID = 'encounterId';
     private static String OBJ = 'obj';
+    private static String TOTAL = 'Total';
 
     /**
       * Update the Total_Payments field in the Encounters with the total of
@@ -177,6 +178,48 @@ public without sharing class EncounterUtil {
             }
             if (ContactSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
                 UPDATE toUpdate;
+            }
+        }
+    }
+
+    /**
+     * Update the Billed_Charge_Group_Count__c field in the Encounters with the total of
+     * all associated Encounters in Charge Groups where Account_Status__c equals to Billed.
+     *
+     * @param Set<Id> encounterIds - That contains encounter ids.
+     **/
+    public static void setBilledCGCount(Set<Id> encounterIds) {
+        if (encounterIds.contains(null)) {
+            encounterIds.remove(null);
+        }
+
+        if (encounterIds.size() == 0) {
+            return;
+        }
+
+        Map<Id, Encounter__c> encountersToUpdate = new Map<Id, Encounter__c>();
+        for (Id id: encounterIds) {
+            encountersToUpdate.put(id, new Encounter__c(Id = id, Billed_Charge_Group_Count__c = 0));
+        }
+        if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            // Get the COUNT of all the associated Encounters
+            AggregateResult[] results = [
+                    SELECT Encounter__r.Id encounterId, COUNT(Encounter__c) Total
+                    FROM Charge_Group__c
+                    WHERE Account_Status__c = :Constants.ACCT_STATUS_BILLED
+                    AND Encounter__c IN :encounterIds
+                    GROUP BY Encounter__r.Id
+            ];
+
+            for (AggregateResult ar: results) {
+                Encounter__c enc = new Encounter__c(Id = (Id) ar.get(ENCOUNTERID));
+                enc.Billed_Charge_Group_Count__c = (Integer) ar.get(TOTAL);
+
+                encountersToUpdate.put(enc.Id, enc);
+            }
+
+            if (EncounterSecurityContext.UPDATE_BILLED_CG_COUNT_CONTEXT.actionAllowed()) {
+                UPDATE encountersToUpdate.values();
             }
         }
     }
