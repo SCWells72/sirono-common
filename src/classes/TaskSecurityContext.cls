@@ -21,12 +21,6 @@ public with sharing class TaskSecurityContext extends SecurityContext {
     private static final String ID = 'Id';
     private static final String WHATID = 'WhatId';
 
-    // The fields for inserting a Task in Five9CreateCallLogRecord
-    private static final Set<String> CREATE_FIELDS = new Set<String>{
-    	ACTIVITYDATE, CALLDISPOSITION, FIVE9_FIVE9AGENTNAME, FIVE9_FIVE9ANI,
-        FIVE9_FIVE9CALLTYPE, FIVE9_FIVE9CAMPAIGN, FIVE9_FIVE9DNIS, FIVE9_FIVE9SESSIONID, STATUS, WHOID
-    };
-
     // The fields for updating a Task in TaskTriggerHandler
     private static final Set<String> UPDATE_FIELDS = new Set<String>{
     	HOURS_OF_DAY
@@ -47,11 +41,6 @@ public with sharing class TaskSecurityContext extends SecurityContext {
         this.fieldsToCheck = fields;
         this.objectAction = actionToPerform;
     }
-
-    /**
-     * The context used to create a Task in Five9CreateCallLogRecord
-     **/
-    public static final TaskSecurityContext CREATE_CONTEXT = new TaskSecurityContext(CREATE_FIELDS, ACTION.OBJ_CREATE);
 
     /**
      * The update context for Task in TaskTriggerHandler
