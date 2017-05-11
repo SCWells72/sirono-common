@@ -66,11 +66,6 @@
             <isset property="sf.orgName"/>
         </not>
     </condition>
-    <condition property="sf.forceSubDomain" value="${orgName}-sirono-developer-edition">
-        <not>
-            <isset property="sf.forceSubDomain"/>
-        </not>
-    </condition>
     <condition property="sf.commSubDomain" value="${orgName}-sirono-community-developer-edition">
         <not>
             <isset property="sf.commSubDomain"/>
