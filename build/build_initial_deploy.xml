@@ -175,7 +175,6 @@
         <echo message="Set subdomain for all community sites to: ${sf.commSubDomain}"/>
         <replace dir="${basedir}/src/sites" token="@SITE_SUBDOMAIN@" value="${sf.commSubDomain}" encoding="UTF-8">
             <include name="Guarantor_Portal.site"/>
-            <include name="Partner_Community.site"/>
         </replace>
     </target>
 
