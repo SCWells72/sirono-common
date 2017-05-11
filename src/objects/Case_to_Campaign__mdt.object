@@ -30,7 +30,7 @@
         <type>Text</type>
         <unique>false</unique>
     </fields>
-    <label>case-to-campaign</label>
-    <pluralLabel>case-to-campaigns</pluralLabel>
+    <label>Case-to-Campaign</label>
+    <pluralLabel>Case-to-Campaigns</pluralLabel>
     <visibility>Public</visibility>
 </CustomObject>
