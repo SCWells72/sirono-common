@@ -211,6 +211,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ChargeGroupService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ChargeGroupTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
