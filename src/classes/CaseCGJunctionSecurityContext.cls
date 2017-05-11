@@ -13,9 +13,6 @@ public with sharing class CaseCGJunctionSecurityContext extends SecurityContext 
     	CASE_OBJ, CHARGE_GROUP
     };
     
-    // The fields for upserting CaseCGJunction in CreateCaseManual
-    private static final Set<String> UPSERT_FIELDS = CREATE_FIELDS;
-
     // The fields for selecting a CaseCGJunction in CaseCommentTriggerHandler
     private static final Set<String> SELECT_FIELDS = new Set<String>{
         CHARGE_GROUP, CASE_OBJ
@@ -36,11 +33,6 @@ public with sharing class CaseCGJunctionSecurityContext extends SecurityContext 
      * The create context for Case_Charge_Group_Junction__c in CaseUtil
      **/
     public static final CaseCGJunctionSecurityContext CREATE_CONTEXT = new CaseCGJunctionSecurityContext(CREATE_FIELDS, ACTION.OBJ_CREATE);
-
-    /**
-     * The upsert context for Case_Charge_Group_Junction__c in CreateCaseManual
-     **/
-    public static final CaseCGJunctionSecurityContext UPSERT_CONTEXT = new CaseCGJunctionSecurityContext(UPSERT_FIELDS, ACTION.OBJ_UPSERT);
 
     /**
      * The delete context for Case_Charge_Group_Junction__c in CampaignMemberTriggerHandler

@@ -27,7 +27,7 @@ public with sharing class CreateCaseManual {
     public Charge_Group__c  chargeGroup = new Charge_Group__c();
     public string coverageJson {get;set;}
     public string transactionJson {get;set;}
-    
+
     //11-23-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
     //This set is also used whenever we got Coverage record based on Charge Group's "Date Of Service Start" field.
     Set<String> setChargeGroupId = new Set<String>();
@@ -192,8 +192,8 @@ public with sharing class CreateCaseManual {
             dmlOpts.assignmentRuleHeader.assignmentRuleId = AR.id;
             caseObj.setOptions(dmlOpts);
 
-            if (CaseSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
-            	UPSERT caseObj;	
+            if (CaseSecurityContext.CREATE_WITH_GT_CONTEXT.actionAllowed()) {
+            	INSERT caseObj;
             }
 
             //create case comments
@@ -202,8 +202,8 @@ public with sharing class CreateCaseManual {
                 cc.ParentId = caseObj.Id;
                 cc.CommentBody = caseNotes;
 
-                if (CaseCommentSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
-                    UPSERT cc;
+                if (CaseCommentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+                    INSERT cc;
                 }
             }
 
@@ -217,8 +217,8 @@ public with sharing class CreateCaseManual {
                     caseCGs.add(ccg);
                 }
             }
-	    if (CaseCGJunctionSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
-	        UPSERT caseCGs;
+	    if (CaseCGJunctionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+	        INSERT caseCGs;
 	    }
 
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'Created Successfully!'));
@@ -240,7 +240,7 @@ public with sharing class CreateCaseManual {
             
             /* 11-23-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
              * Populating coverage data using the selected Chargegroup with the oldest "Date Of Service Start" field.
-            */            
+            */
             Charge_Group__c cg = new Charge_Group__c();
             if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                 List<Charge_Group__c> lstChargeGroup  = [
@@ -258,7 +258,7 @@ public with sharing class CreateCaseManual {
              * Get Coverage detail based on Selected Charge Group.
              */
             if (CGCoverageJunctionSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                List<Charge_Group_Coverage_Junction__c> coverageDetail = 
+                List<Charge_Group_Coverage_Junction__c> coverageDetail =
                     [SELECT Coverage__c, Coverage__r.Payor__c, Coverage__r.Payor__r.Name, Coverage__r.Plan_Name__c,
                         Coverage__r.Date_Effective__c, Coverage__r.Subscriber_Name__c, Coverage__r.Subscriber_ID__c
                         FROM Charge_Group_Coverage_Junction__c
@@ -271,10 +271,10 @@ public with sharing class CreateCaseManual {
 
             //Get Transaction detail based on Selected Charge Group.
             if (TransactionSecurityContext.CCM_SELECT_CONTEXT.actionAllowed()) {
-                List<Transaction__c> transactionDetail = 
+                List<Transaction__c> transactionDetail =
                         [SELECT Sirono_ID__c, Amount__c FROM Transaction__c WHERE Charge_Group__c = :chargeGroup.Id
                         ORDER BY LastModifiedDate DESC LIMIT 1];
-                        
+
                 if (transactionDetail.size() > 0) {
                     transactionJson = json.serialize(transactionDetail[0]);
                 }
