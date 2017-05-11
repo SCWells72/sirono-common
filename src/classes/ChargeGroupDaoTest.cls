@@ -87,6 +87,51 @@ public with sharing class ChargeGroupDaoTest {
     }
 
     /**
+     * This method tests the logic of getBilledCGCountByEncounterIds method positive.
+     **/
+    @isTest
+    public static void getBilledCGCountPositiveTest(){
+
+        Contact guarantorContact = [SELECT Id FROM Contact];
+
+        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
+        INSERT encounter;
+
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1214);
+        chargeGroup.Encounter__c = encounter.Id;
+        INSERT chargeGroup;
+
+        Test.startTest();
+        List<AggregateResult> results = ChargeGroupDao.getBilledCGCountByEncounterIds(new Set<Id>{encounter.Id});
+        Test.stopTest();
+
+        // Check system assert.
+        System.assertEquals(1, results.size(), 'Expected AggregateResult size to be 1 but we got ' + results.size());
+    }
+
+    /**
+     * This method tests the logic of getBilledCGCountByEncounterIds method negative.
+     **/
+    @isTest
+    public static void getBilledCGCountNegativeTest(){
+
+        Contact guarantorContact = [SELECT Id FROM Contact];
+
+        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
+        INSERT encounter;
+
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1214);
+        INSERT chargeGroup;
+
+        Test.startTest();
+        List<AggregateResult> results = ChargeGroupDao.getBilledCGCountByEncounterIds(new Set<Id>{encounter.Id});
+        Test.stopTest();
+
+        // Check system assert.
+        System.assertEquals(0, results.size(), 'AggregateResult size should have 0 but we got ' + results.size());
+    }
+
+    /**
      * Check all Read rights for a Chatter User using runAs.
      **/
     @isTest

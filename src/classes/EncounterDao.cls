@@ -22,4 +22,15 @@ public class EncounterDao {
         }
         return null;
     }
+
+    /**
+     * This method is use to update Billed CG Count in Encounters.
+     *
+     * @param List<Encounter__c> encounters - That contains list of Encounters.
+     **/
+    public static void updateBilledCGCount(List<Encounter__c> encounters) {
+        if (EncounterSecurityContext.UPDATE_BILLED_CG_COUNT_CONTEXT.actionAllowed()) {
+            UPDATE encounters;
+        }
+    }
 }

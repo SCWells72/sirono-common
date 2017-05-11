@@ -51,9 +51,9 @@ public with sharing class EncounterBilledCGCountTest {
         Test.stopTest();
 
         // Check system assert.
-        System.assertEquals(encounter.Billed_Charge_Group_Count__c, 0, 'Expected Billed_Charge_Group_Count__c to be 0 but we got ' + encounter.Billed_Charge_Group_Count__c);
+        System.assertEquals(0, encounter.Billed_Charge_Group_Count__c, 'Bill_Charge_Group should have defaulted to 0 but we got ' + encounter.Billed_Charge_Group_Count__c);
         encounter = getTestEncounter();
-        System.assertEquals(encounter.Billed_Charge_Group_Count__c, 1, 'Expected Billed_Charge_Group_Count__c to be 1 but we got ' + encounter.Billed_Charge_Group_Count__c);
+        System.assertEquals(1, encounter.Billed_Charge_Group_Count__c, 'Expected Billed_Charge_Group_Count__c to be 1 but we got ' + encounter.Billed_Charge_Group_Count__c);
     }
 
     /**
@@ -73,7 +73,7 @@ public with sharing class EncounterBilledCGCountTest {
 
         // Check system assert.
         encounter = getTestEncounter();
-        System.assertEquals(encounter.Billed_Charge_Group_Count__c, 1, 'Expected Billed_Charge_Group_Count__c to be 1 but we got ' + encounter.Billed_Charge_Group_Count__c);
+        System.assertEquals(1, encounter.Billed_Charge_Group_Count__c, 'Expected Billed_Charge_Group_Count__c to be 1 but we got ' + encounter.Billed_Charge_Group_Count__c);
 
         // Update CG record and set Account_Status__c equals to Pending.
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_PENDING;
@@ -81,7 +81,7 @@ public with sharing class EncounterBilledCGCountTest {
 
         // Check system assert.
         encounter = getTestEncounter();
-        System.assertEquals(encounter.Billed_Charge_Group_Count__c, 0, 'Expected Billed_Charge_Group_Count__c to be 0 but we got ' + encounter.Billed_Charge_Group_Count__c);
+        System.assertEquals(0, encounter.Billed_Charge_Group_Count__c, 'Bill_Charge_Group should have 0 but we got ' + encounter.Billed_Charge_Group_Count__c);
     }
 
     /**
@@ -105,13 +105,13 @@ public with sharing class EncounterBilledCGCountTest {
 
         // Check system assert.
         encounter = getTestEncounter();
-        System.assertEquals(encounter.Billed_Charge_Group_Count__c, 2, 'Expected Billed_Charge_Group_Count__c to be 2 but we got ' + encounter.Billed_Charge_Group_Count__c);
+        System.assertEquals(2, encounter.Billed_Charge_Group_Count__c, 'Expected Billed_Charge_Group_Count__c to be 2 but we got ' + encounter.Billed_Charge_Group_Count__c);
 
         // Delete one CG record.
         DELETE chargeGroup1;
 
         // Check system assert.
         encounter = getTestEncounter();
-        System.assertEquals(encounter.Billed_Charge_Group_Count__c, 1, 'Expected Billed_Charge_Group_Count__c to be 1 but we got ' + encounter.Billed_Charge_Group_Count__c);
+        System.assertEquals(1, encounter.Billed_Charge_Group_Count__c, 'Expected Billed_Charge_Group_Count__c to be 1 but we got ' + encounter.Billed_Charge_Group_Count__c);
     }
 }

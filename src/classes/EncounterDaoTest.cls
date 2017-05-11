@@ -59,6 +59,27 @@ private class EncounterDaoTest {
     }
 
     /**
+     * This method checks logic for Update Billed_Charge_Group_Count__c field.
+     **/
+    @isTest
+    public static void testUpdateBilledCGCount() {
+        Contact guarantorContact = [SELECT Id FROM Contact WHERE Name = :GUARANTOR_CONTACT_ONE LIMIT 1];
+        List<Encounter__c> encounterList = [SELECT Id, Billed_Charge_Group_Count__c FROM Encounter__c WHERE Guarantor__c = :guarantorContact.Id];
+
+        Test.startTest();
+        // Insert CG record.
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1214);
+        chargeGroup.Encounter__c = encounterList[0].Id;
+        INSERT chargeGroup;
+        Test.stopTest();
+
+        // Check system assert.
+        System.assertEquals(0, encounterList[0].Billed_Charge_Group_Count__c, 'Bill_Charge_Group should have defaulted to 0 but we got ' + encounterList[0].Billed_Charge_Group_Count__c);
+        encounterList = [SELECT Id, Billed_Charge_Group_Count__c FROM Encounter__c WHERE Guarantor__c = :guarantorContact.Id];
+        System.assertEquals(1, encounterList[0].Billed_Charge_Group_Count__c, 'Expected Billed_Charge_Group_Count__c to be 1 but we got ' + encounterList[0].Billed_Charge_Group_Count__c);
+    }
+
+    /**
      * Check all Read rights for a Chatter User using runAs.
      **/
     @isTest

@@ -201,26 +201,18 @@ public without sharing class EncounterUtil {
         for (Id id: encounterIds) {
             encountersToUpdate.put(id, new Encounter__c(Id = id, Billed_Charge_Group_Count__c = 0));
         }
-        if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            // Get the COUNT of all the associated Encounters
-            AggregateResult[] results = [
-                    SELECT Encounter__r.Id encounterId, COUNT(Encounter__c) Total
-                    FROM Charge_Group__c
-                    WHERE Account_Status__c = :Constants.ACCT_STATUS_BILLED
-                    AND Encounter__c IN :encounterIds
-                    GROUP BY Encounter__r.Id
-            ];
 
-            for (AggregateResult ar: results) {
-                Encounter__c enc = new Encounter__c(Id = (Id) ar.get(ENCOUNTERID));
-                enc.Billed_Charge_Group_Count__c = (Integer) ar.get(TOTAL);
+        // Get Billed CG Count based on Encounter Ids. 
+        List<AggregateResult> results = ChargeGroupService.getBilledCGCountByEncounterIds(encounterIds);
 
-                encountersToUpdate.put(enc.Id, enc);
-            }
+        for (AggregateResult ar: results) {
+            Encounter__c enc = new Encounter__c(Id = (Id) ar.get(ENCOUNTERID));
+            enc.Billed_Charge_Group_Count__c = (Integer) ar.get(TOTAL);
 
-            if (EncounterSecurityContext.UPDATE_BILLED_CG_COUNT_CONTEXT.actionAllowed()) {
-                UPDATE encountersToUpdate.values();
-            }
+            encountersToUpdate.put(enc.Id, enc);
         }
+
+        // Update Encounter records.
+        EncounterService.updateBilledCGCount(encountersToUpdate.values());
     }
 }
