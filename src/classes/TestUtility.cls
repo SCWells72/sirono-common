@@ -396,4 +396,26 @@ public class TestUtility {
         
         return chatterOnlyUser;
     }
+
+    /**
+     * This method is use to create/generate a User using the given profile.
+     *
+     * @returns User newUser - That contains User
+     **/
+    //TODO refactor the other generate user methods to use this
+    public static User generateUser(String profileName, Id gtId) {
+        Profile prof = [SELECT Id FROM Profile WHERE Name = :profileName];
+        String prefix = profileName.deleteWhitespace();
+        prefix = prefix.substring(0, Math.min(8, prefix.length()));
+        User newUser = new User(Alias = prefix, Email = prefix+'_user@testorg.com',
+                EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
+                LocaleSidKey = 'en_US', ProfileId = prof.Id,
+                ContactId = gtId,
+                TimeZoneSidKey = 'America/Los_Angeles', UserName = prefix+'_user@testorg.com');
+
+        // Check system assert.
+        System.assertNotEquals(newUser, null, 'Expected valid user, but is null.');
+
+        return newUser;
+    }
 }
