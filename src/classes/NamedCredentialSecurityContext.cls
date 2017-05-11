@@ -8,12 +8,10 @@ public with sharing class NamedCredentialSecurityContext extends SecurityContext
     private static final String DEVELOPERNAME = 'DeveloperName';
     private static final String ENDPOINT = 'Endpoint';
     private static final String ID = 'Id';
-    private static final String MASTERLABEL = 'MasterLabel';
-    private static final String PRINCIPALTYPE = 'PrincipalType';
 
     // The fields for selecting a NamedCredential in SironoRestClient
     private static final Set<String> SELECT_FIELDS = new Set<String>{
-        DEVELOPERNAME, ENDPOINT, ID, MASTERLABEL, PRINCIPALTYPE
+        DEVELOPERNAME, ENDPOINT, ID
     };
 
     /**
