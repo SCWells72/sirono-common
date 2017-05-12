@@ -9,9 +9,6 @@
 
 public with sharing class CallListUtilities {
 
-    // Create instant of CmpnMemberSecurityContext class. It is use to check Delete access on Object.
-    public static CmpnMemberSecurityContext cmpnMemSecurityContext = new CmpnMemberSecurityContext();
-
     //Remove the Campaign Members for the pre collection
     public static void preCollectionCallListRemoval(Set<Id> contactIds) {
         Set<Id> membersToremove = new Set<Id>();
@@ -52,7 +49,7 @@ public with sharing class CallListUtilities {
                 AND Campaign.Name = :preCollection
             ]);
             if (cmListToRemove.size() > 0) {
-                if (cmpnMemSecurityContext.deleteActionAllowed()) {
+                if (CmpnMemberSecurityContext.DELETE_CONTEXT.deleteActionAllowed()) {
                     DELETE cmListToRemove;
                 }
             }
@@ -87,7 +84,7 @@ public with sharing class CallListUtilities {
                 AND Campaign.Name = :earlyOut
             ]);
             if (cmListToRemove.size() > 0) {
-                if (cmpnMemSecurityContext.deleteActionAllowed()) {
+                if (CmpnMemberSecurityContext.DELETE_CONTEXT.deleteActionAllowed()) {
                     DELETE cmListToRemove;
                 }
             }
@@ -128,7 +125,7 @@ public with sharing class CallListUtilities {
                 AND Campaign.Name = :delinquent
             ]);
             if (cmListToRemove.size() > 0) {
-                if (cmpnMemSecurityContext.deleteActionAllowed()) {
+                if (CmpnMemberSecurityContext.DELETE_CONTEXT.deleteActionAllowed()) {
                     DELETE cmListToRemove;
                 }
             }
@@ -169,7 +166,7 @@ public with sharing class CallListUtilities {
                 AND Campaign.Name = :preService
             ]);
             if (cmListToRemove.size() > 0) {
-                if (cmpnMemSecurityContext.deleteActionAllowed()) {
+                if (CmpnMemberSecurityContext.DELETE_CONTEXT.deleteActionAllowed()) {
                     DELETE cmListToRemove;
                 }
             }
