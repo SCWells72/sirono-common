@@ -248,9 +248,10 @@
         <members>Adjustment_Type__mdt</members>
         <members>Campaign</members>
         <members>CampaignMember</members>
-        <members>Campaign_Mapping__mdt</members>
+        <members>Campaign_Mapping__mdt</members>	
         <members>Case</members>
         <members>CaseContactRole</members>
+        <members>Case_to_Campaign__mdt</members>
         <members>Contact</members>
         <members>Discount_Type__mdt</members>
         <members>Exhausted_Criteria__mdt</members>
