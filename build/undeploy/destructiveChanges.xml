@@ -20,7 +20,6 @@
     <types>
         <members>PaymentArrangement</members>
 		<members>AddCreditCard</members>
-		<members>Five9CreateCallLogRecord</members>		
         <name>ApexPage</name>
     </types>
     <types>
