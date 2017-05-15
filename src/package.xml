@@ -537,9 +537,6 @@
         <members>Guarantor Community Plus</members>
         <members>Guarantor</members>
         <members>Operations Manager</members>
-        <members>Partner - Hospital Staff</members>
-        <members>Partner Community Profile</members>
-        <members>Partner Community User</members>
         <members>Sirono Integration Admin</members>
         <name>Profile</name>
     </types>

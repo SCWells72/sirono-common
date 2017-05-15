@@ -34,6 +34,8 @@ private class EncounterWrapperTest {
         System.assertEquals(encounterWrapperList.size(), 1);
         // Check that correct encounter was returned
         System.assertEquals(encounterWrapperList[0].en.Patient_Portion__c, 500);
+        // Verify that the object is not selected by default.
+        System.assertEquals(false, encounterWrapperList[0].isSelected, 'EncoutnerWrapper objects should default to false.');
 
         encounterList = [SELECT Id, Patient_Portion__c FROM Encounter__c WHERE Patient_Portion__c = 1500];
         List<EncounterWrapper> encounterEmptyWrapperList = EncounterWrapper.buildList(encounterList);

@@ -36,7 +36,7 @@ public with sharing class CaseSecurityContext extends SecurityContext {
     
     // The fields for inserting Case in CaseUtil
     private static final Set<String> CU_CREATE_FIELDS = new Set<String>{
-        CONTACTID, GUARANTOR_INFORMATION, OWNERID, RECORDTYPEID, STATUS, SUBJECT, TYPE
+        CONTACTID, GUARANTOR_INFORMATION, OWNERID, PATIENT, REASON, RECORDTYPEID, STATUS, SUBJECT, TYPE
     };
     
     // The fields for updating Case in CaseUtil & TaskTriggerHandler

@@ -13,6 +13,8 @@
         <members>AddCreditCardLightning</members>
         <members>AddCreditCardLightningTest</members>
         <members>AddCreditCardTest</members>
+		<members>Five9CreateCallLogRecord</members>
+		<members>Five9CreateCallLogRecordTest</members>
         <name>ApexClass</name>
     </types>
     <types>

@@ -11,8 +11,8 @@ public with sharing class CaseCommentSecurityContext extends SecurityContext {
     // Below field(s) are use for Select/Read permission.
     private static final String ID = 'Id';
 
-    // The fields for upserting a CaseComment in CreateCaseManual
-    private static final Set<String> UPSERT_FIELDS = new Set<String>{
+    // The fields for creating a CaseComment in CreateCaseManual
+    private static final Set<String> CREATE_FIELDS = new Set<String>{
     	PARENTID, COMMENTBODY
     };
 
@@ -33,9 +33,9 @@ public with sharing class CaseCommentSecurityContext extends SecurityContext {
     }
 
     /**
-     * The context used to upsert a CaseComment in CreateCaseManual
+     * The context used to create a CaseComment in CreateCaseManual
      **/
-    public static final CaseCommentSecurityContext UPSERT_CONTEXT = new CaseCommentSecurityContext(UPSERT_FIELDS, ACTION.OBJ_UPSERT);
+    public static final CaseCommentSecurityContext CREATE_CONTEXT = new CaseCommentSecurityContext(CREATE_FIELDS, ACTION.OBJ_CREATE);
 
     /**
      * The select context for CaseComment in CaseCommentTriggerHandler

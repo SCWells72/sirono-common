@@ -82,10 +82,10 @@ public with sharing class Five9CreateCallLogRecord {
                     t.Five9__Five9AgentName__c = fullName;
                     t.ActivityDate = Date.today();
                     t.status = 'Completed';
-                    if (TaskSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+                    //if (TaskSecurityContext.CREATE_CONTEXT.actionAllowed()) {
                         INSERT t;
                         System.debug('======================= t: ' + t);    
-                    }
+                    //}
                 } else {
                     ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'Salesforce Id must be of Contact Type'));
                     if (Test.IsRunningTest()) {

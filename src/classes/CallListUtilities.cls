@@ -49,7 +49,9 @@ public with sharing class CallListUtilities {
                 AND Campaign.Name = :preCollection
             ]);
             if (cmListToRemove.size() > 0) {
-                DELETE cmListToRemove;
+                if (CmpnMemberSecurityContext.DELETE_CONTEXT.deleteActionAllowed()) {
+                    DELETE cmListToRemove;
+                }
             }
         }
     }
@@ -82,7 +84,9 @@ public with sharing class CallListUtilities {
                 AND Campaign.Name = :earlyOut
             ]);
             if (cmListToRemove.size() > 0) {
-                DELETE cmListToRemove;
+                if (CmpnMemberSecurityContext.DELETE_CONTEXT.deleteActionAllowed()) {
+                    DELETE cmListToRemove;
+                }
             }
         }
     }
@@ -121,7 +125,9 @@ public with sharing class CallListUtilities {
                 AND Campaign.Name = :delinquent
             ]);
             if (cmListToRemove.size() > 0) {
-                DELETE cmListToRemove;
+                if (CmpnMemberSecurityContext.DELETE_CONTEXT.deleteActionAllowed()) {
+                    DELETE cmListToRemove;
+                }
             }
         }
     }
@@ -160,7 +166,9 @@ public with sharing class CallListUtilities {
                 AND Campaign.Name = :preService
             ]);
             if (cmListToRemove.size() > 0) {
-                DELETE cmListToRemove;
+                if (CmpnMemberSecurityContext.DELETE_CONTEXT.deleteActionAllowed()) {
+                    DELETE cmListToRemove;
+                }
             }
         }
     }
