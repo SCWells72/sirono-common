@@ -19,4 +19,13 @@ public class EncounterService extends AbstractService {
     	List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.IdType.GUARANTOR, guarantorId);
         return encounterList;
     }
+
+    /**
+     * This method is use to update Billed CG Count in Encounters.
+     *
+     * @param List<Encounter__c> encounters - That contains list of Encounters.
+     **/
+    public static void updateBilledCGCount(List<Encounter__c> encounters) {
+        EncounterDao.updateBilledCGCount(encounters);
+    }
 }

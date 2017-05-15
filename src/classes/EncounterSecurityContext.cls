@@ -5,6 +5,7 @@
 public with sharing class EncounterSecurityContext extends SecurityContext {
 	
     // Field constants for Encounter__c object
+    private static final String BILLED_CHARGE_GROUP_COUNT = 'Billed_Charge_Group_Count__c';
     private static final String HAS_CHARGEGROUP = 'Has_Chargegroup__c';
     private static final String TOTAL_PAYMENTS = 'Total_Payments__c';
 
@@ -29,6 +30,11 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
     // The fields for updating a Encounter__c's Has_Chargegroup__c field in EncounterUtil.
     private static final Set<String> UPDATE_HAS_CHARGEGROUP_FIELDS = new Set<String>{
     	HAS_CHARGEGROUP
+    };
+
+    // The fields for updating a Encounter__c's Billed_Charge_Group_Count__c field in EncounterUtil.
+    private static final Set<String> UPDATE_BILLED_CG_COUNT_FIELDS = new Set<String>{
+        BILLED_CHARGE_GROUP_COUNT
     };
 
     // The fields for selecting a Encounter__c in EncounterDao
@@ -76,6 +82,11 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
      * The update context for Encounter__c's Has_Chargegroup__c field in EncounterUtil
      **/
     public static final EncounterSecurityContext UPDATE_HAS_CHARGEGROUP_CONTEXT = new EncounterSecurityContext(UPDATE_HAS_CHARGEGROUP_FIELDS, ACTION.OBJ_UPDATE);
+
+    /**
+     * The update context for Encounter__c's Billed_Charge_Group_Count__c field in EncounterUtil
+     **/
+    public static final EncounterSecurityContext UPDATE_BILLED_CG_COUNT_CONTEXT = new EncounterSecurityContext(UPDATE_BILLED_CG_COUNT_FIELDS, ACTION.OBJ_UPDATE);
 
     /**
      * The select context for Encounter__c in EncounterDao

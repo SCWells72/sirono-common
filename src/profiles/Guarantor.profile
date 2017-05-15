@@ -171,6 +171,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ChargeGroupService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ChargeGroupTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -280,6 +284,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>EncounterBalanceTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EncounterBilledCGCountTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -2332,6 +2340,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Encounter__c.Balance__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Encounter__c.Billed_Charge_Group_Count__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

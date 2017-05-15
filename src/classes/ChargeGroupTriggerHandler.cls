@@ -60,6 +60,7 @@ public without sharing class ChargeGroupTriggerHandler {
 
         if(encounterIds.size() > 0) {
             EncounterUtil.setHasChargeGroup(encounterIds);
+            EncounterUtil.setBilledCGCount(encounterIds);
         }
     }
 
@@ -72,6 +73,7 @@ public without sharing class ChargeGroupTriggerHandler {
         Set<Id> paymentPlanIds = new Set<Id>();
         Set<Id> invoiceIds = new Set<Id>();
         Set<Id> encounterIds = new Set<Id>();
+        Set<Id> encounterIdsForCGCount = new Set<Id>();
 
         for (Charge_Group__c cg : newList) {
             if (cg.Pre_Collection_Sent__c == null && cg.Guarantor__c != null
@@ -102,13 +104,20 @@ public without sharing class ChargeGroupTriggerHandler {
                     if (cg.Encounter__c != oldMap.get(cg.Id).Encounter__c) {
                         encounterIds.add(cg.Encounter__c);
                         encounterIds.add(oldMap.get(cg.Id).Encounter__c);
+
+                        encounterIdsForCGCount.add(cg.Encounter__c);
+                        encounterIdsForCGCount.add(oldMap.get(cg.Id).Encounter__c);
+                    } else {
+                        encounterIdsForCGCount.add(cg.Encounter__c);
                     }
                 } else {
                     encounterIds.add(cg.Encounter__c);
+                    encounterIdsForCGCount.add(cg.Encounter__c);
                 }
             } else {
                 if (oldMap.get(cg.Id).Encounter__c != null) {
                     encounterIds.add(oldMap.get(cg.Id).Encounter__c);
+                    encounterIdsForCGCount.add(oldMap.get(cg.Id).Encounter__c);
                 }
             }
 
@@ -136,6 +145,10 @@ public without sharing class ChargeGroupTriggerHandler {
 
         if (encounterIds.size() > 0) {
             EncounterUtil.setHasChargeGroup(encounterIds);
+        }
+
+        if (encounterIdsForCGCount.size() > 0) {
+            EncounterUtil.setBilledCGCount(encounterIdsForCGCount);
         }
     }
 
@@ -169,6 +182,7 @@ public without sharing class ChargeGroupTriggerHandler {
 
         if (encounterIds.size() > 0) {
             EncounterUtil.setHasChargeGroup(encounterIds);
+            EncounterUtil.setBilledCGCount(encounterIds);
         }
 
         if (paymentPlanIds.size() > 0){
