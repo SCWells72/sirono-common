@@ -208,6 +208,24 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Encounter_Substatus__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(OR(ISPICKVAL(Status__c, &quot;In Process&quot;), ISPICKVAL(Status__c, &quot;Error&quot;)), &quot;Unavailable&quot;,
+IF(ISPICKVAL(Status__c, &quot;Cancelled&quot;), &quot;Cancelled&quot;,
+IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Billed_Charge_Group_Count__c &gt; 0), &quot;Serviced&quot;,
+IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &gt; 0, Billed_Charge_Group_Count__c == 0), &quot;Payment Due&quot;,
+IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charge_Group_Count__c == 0), &quot;Paid&quot;, &quot;&quot;)
+)
+)
+)
+)</formula>
+        <label>Encounter Substatus</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Estimate_ID__c</fullName>
         <externalId>false</externalId>
         <label>Estimate ID</label>
