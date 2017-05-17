@@ -37,6 +37,7 @@
         <profile>Partner Community User</profile>
         <profile>Guarantor</profile>
         <profile>Guarantor Community Plus</profile>
+        <profile>Guarantor Community</profile>
     </networkMemberGroups>
     <picassoSite>Guarantor_Portal1</picassoSite>
     <selfRegistration>false</selfRegistration>
