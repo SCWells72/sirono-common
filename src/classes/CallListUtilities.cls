@@ -1,11 +1,11 @@
-/*
-* @author: Sirono
-* @version 1.0.1
-* @Date: 06-06-2016
-*
-* Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
-*/
-
+/**
+ * Call List utilities.
+ *
+ * There are Security Context Select and Delete exceptions in this class primarilly around Campaign Members.
+ * The methods here are use in trigger handlers that can be fired due to portal users executing actions on payment
+ * plans (Pay/create/delete/etc).  The SecurityContext check were removed b/c it is an intentional action that any user
+ * should be able update the associated object when interacting with PaymentPlans from the portal.
+ */
 
 public with sharing class CallListUtilities {
 
@@ -41,18 +41,17 @@ public with sharing class CallListUtilities {
         });
         string preCollection = mapCampaignMapping.get('PreCollections');
 
-        if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            List<CampaignMember> cmListToRemove = new List<CampaignMember>([
-                SELECT Id, ContactId, CampaignId
-                FROM CampaignMember
-                WHERE ContactId = :membersToremove
-                AND Campaign.Name = :preCollection
-            ]);
-            if (cmListToRemove.size() > 0) {
-                if (CmpnMemberSecurityContext.DELETE_CONTEXT.deleteActionAllowed()) {
-                    DELETE cmListToRemove;
-                }
-            }
+        // NOTE: The read access check for CampaignMember is skipped here in order allow Community Profile users
+        // to create/delete Payment plans.
+        List<CampaignMember> cmListToRemove = new List<CampaignMember>([
+            SELECT Id, ContactId, CampaignId
+            FROM CampaignMember
+            WHERE ContactId = :membersToremove
+            AND Campaign.Name = :preCollection
+        ]);
+        if (cmListToRemove.size() > 0) {
+            // NOTE: could be triggered for portal user so removing delete check
+            DELETE cmListToRemove;
         }
     }
 
@@ -76,18 +75,17 @@ public with sharing class CallListUtilities {
         });
         string earlyOut = mapCampaignMapping.get('Early-out');
 
-        if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            List<CampaignMember> cmListToRemove = new List<CampaignMember>([
-                SELECT Id, ContactId, CampaignId
-                FROM CampaignMember
-                WHERE ContactId = :membersToremove
-                AND Campaign.Name = :earlyOut
-            ]);
-            if (cmListToRemove.size() > 0) {
-                if (CmpnMemberSecurityContext.DELETE_CONTEXT.deleteActionAllowed()) {
-                    DELETE cmListToRemove;
-                }
-            }
+        // NOTE: The read access check for CampaignMember is skipped here in order allow Community Profile users
+        // to create/delete Payment plans.
+        List<CampaignMember> cmListToRemove = new List<CampaignMember>([
+            SELECT Id, ContactId, CampaignId
+            FROM CampaignMember
+            WHERE ContactId = :membersToremove
+            AND Campaign.Name = :earlyOut
+        ]);
+        if (cmListToRemove.size() > 0) {
+            // NOTE: could be triggered for portal user so removing delete check
+            DELETE cmListToRemove;
         }
     }
 
@@ -117,18 +115,17 @@ public with sharing class CallListUtilities {
         });
         string delinquent = mapCampaignMapping.get('Delinquent Payment Plans');
 
-        if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            List<CampaignMember> cmListToRemove = new List<CampaignMember>([
-                SELECT Id, ContactId, CampaignId
-                FROM CampaignMember
-                WHERE ContactId = :membersToremove
-                AND Campaign.Name = :delinquent
-            ]);
-            if (cmListToRemove.size() > 0) {
-                if (CmpnMemberSecurityContext.DELETE_CONTEXT.deleteActionAllowed()) {
-                    DELETE cmListToRemove;
-                }
-            }
+        // NOTE: The read access check for CampaignMember is skipped here in order allow Community Profile users
+        // to create/delete Payment plans.
+        List<CampaignMember> cmListToRemove = new List<CampaignMember>([
+            SELECT Id, ContactId, CampaignId
+            FROM CampaignMember
+            WHERE ContactId = :membersToremove
+            AND Campaign.Name = :delinquent
+        ]);
+        if (cmListToRemove.size() > 0) {
+            // NOTE: could be triggered for portal user so removing delete check
+            DELETE cmListToRemove;
         }
     }
 
@@ -156,20 +153,19 @@ public with sharing class CallListUtilities {
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 'PreService'
         });
-        string preService = mapCampaignMapping.get('PreService');
+        String preService = mapCampaignMapping.get('PreService');
 
-        if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            List<CampaignMember> cmListToRemove = new List<CampaignMember>([
-                SELECT Id, ContactId, CampaignId
-                FROM CampaignMember
-                WHERE ContactId = :membersToremove
-                AND Campaign.Name = :preService
-            ]);
-            if (cmListToRemove.size() > 0) {
-                if (CmpnMemberSecurityContext.DELETE_CONTEXT.deleteActionAllowed()) {
-                    DELETE cmListToRemove;
-                }
-            }
+        // NOTE: The read access check for CampaignMember is skipped here in order allow Community Profile users
+        // to create/delete/pay Payment plans.
+        List<CampaignMember> cmListToRemove = new List<CampaignMember>([
+            SELECT Id, ContactId, CampaignId
+            FROM CampaignMember
+            WHERE ContactId = :membersToremove
+            AND Campaign.Name = :preService
+        ]);
+        if (cmListToRemove.size() > 0) {
+            // NOTE: could be triggered for portal user so removing delete check
+            DELETE cmListToRemove;
         }
     }
 }
