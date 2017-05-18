@@ -2543,6 +2543,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Encounter__c.Encounter_Substatus__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Encounter__c.Estimate_ID__c</field>
         <readable>true</readable>
