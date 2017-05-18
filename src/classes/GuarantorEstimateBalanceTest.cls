@@ -15,6 +15,7 @@ public with sharing class GuarantorEstimateBalanceTest {
         Encounter__c encounter = new Encounter__c();
         encounter.Patient_Portion__c = 3000.00;
         encounter.Department__c = 'Test Dept';
+        encounter.Status__c = 'Ready';
         INSERT encounter;
 
         Contact gt1 = TestUtility.generateGuarantorContact();
@@ -58,6 +59,38 @@ public with sharing class GuarantorEstimateBalanceTest {
 	gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE Id = :gt.Id];
         System.assert(gt.Estimate_Balance__c == 2000.00,
                 'Expected Estimate_Balance__c to be 2000.00, but was: '+gt.Estimate_Balance__c);
+    }
+
+    /**
+     * This method tests the logic for estimate balance of Guarantor contact negative.
+     * Set Encounter status equals to "In Process" so Encounter Substatus set with "Unavailable" and Guarantor's estimate balance becomes 0.
+     **/
+    @isTest
+    public static void testGTEstimateBalanceNegative() {
+        Encounter__c encounter = [SELECT Id, Patient_Portion__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
+        Contact gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE LastName = 'GT1'];
+
+        encounter.Guarantor__c = gt.Id;
+        UPDATE encounter;
+
+        // Check system assert.
+        gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE Id = :gt.Id];
+        System.assert(gt.Estimate_Balance__c == 3000.00,
+                'Expected Estimate_Balance__c to be 3000.00, but was: '+gt.Estimate_Balance__c);
+
+        Test.startTest();
+
+        // Update Encounter with "In Process" Status.
+        encounter = [SELECT Id, Patient_Portion__c, Status__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
+        encounter.Status__c = 'In Process';
+        UPDATE encounter;
+
+        Test.stopTest();
+
+        // Check system assert.
+        gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE Id = :gt.Id];
+        System.assert(gt.Estimate_Balance__c == 0,
+                'Expected Estimate_Balance__c to be 0, but was: '+gt.Estimate_Balance__c);
     }
 
     /**

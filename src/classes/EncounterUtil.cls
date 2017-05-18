@@ -155,6 +155,7 @@ public without sharing class EncounterUtil {
                     FROM Encounter__c
                     WHERE Guarantor__c IN :gtIds
                     AND Guarantor__c != null
+                    AND Encounter_Substatus__c = :Constants.EN_SUBSTATUS_PAYMENT_DUE
                     GROUP BY Guarantor__c
             ];
 
