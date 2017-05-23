@@ -196,17 +196,6 @@ public with sharing class CreateCaseManual {
         INSERT caseObj;
       }
 
-      //create case comments
-      if (String.isNotBlank(caseNotes)) {
-        CaseComment cc = new CaseComment();
-        cc.ParentId = caseObj.Id;
-        cc.CommentBody = caseNotes;
-
-        if (CaseCommentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-          INSERT cc;
-        }
-      }
-
       //add selected Charge Groups to Case
       List<Case_Charge_Group_Junction__c> caseCGs = new List<Case_Charge_Group_Junction__c>();
       for (ChargeGroupWrapper cg : chargeGroupList) {
@@ -219,6 +208,17 @@ public with sharing class CreateCaseManual {
       }
       if (CaseCGJunctionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
         INSERT caseCGs;
+      }
+
+      //create case comments
+      if (String.isNotBlank(caseNotes)) {
+        CaseComment cc = new CaseComment();
+        cc.ParentId = caseObj.Id;
+        cc.CommentBody = caseNotes;
+
+        if (CaseCommentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+          INSERT cc;
+        }
       }
 
       ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'Created Successfully!'));
