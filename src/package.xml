@@ -188,6 +188,7 @@
         <members>Contact.CTINumber2__c</members>
         <members>Contact.CTINumber3__c</members>
         <members>Contact.Campaign__c</members>
+	<members>Contact.Credit_Balance__c</members>
         <members>Contact.Deleted__c</members>
         <members>Contact.Delinquent_Balance__c</members>
         <members>Contact.Due_Balance__c</members>
