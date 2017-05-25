@@ -18,7 +18,7 @@ public with sharing class ContactInvoicedBalanceTest {
         Contact guarantorContact = TestUtility.generateGuarantorContactByName(GUARANTOR_CONTACT);
         INSERT guarantorContact;
 
-        // Create Charge Group record with "Overdue" Sub Status.
+        // Create Charge Group record with 'Overdue' Sub Status.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, CG_SIRONO_ID);
         chargeGroup.Sirono_ID__c = CG_SIRONO_ID;
         INSERT chargeGroup;
