@@ -172,6 +172,10 @@
                 <behavior>Readonly</behavior>
                 <field>Delinquent_Invoices__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Credit_Balance__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
