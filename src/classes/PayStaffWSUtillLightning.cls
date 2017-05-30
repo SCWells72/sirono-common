@@ -178,22 +178,14 @@ public without sharing class PayStaffWSUtillLightning {
 
     //get the charge group list
     public static List<ChargeGroupWrapper> fetchChargeGroupList(Contact gc) {
-        List<ChargeGroupWrapper> cgList = new List<ChargeGroupWrapper>();
-        if (gc != null && gc.Charge_Groups__r != null && gc.Charge_Groups__r.size() > 0) {
-            for (Charge_Group__c cg : gc.Charge_Groups__r) {
-                cgList.add(new ChargeGroupWrapper(cg, false));
-            }
-        }
-        return cgList;
+        return ChargeGroupWrapper.buildList(gc);
     }
 
     //get the charge group list based on the record type
     public static List<ChargeGroupWrapper> fetchChargeGroupList(Contact gc, String recordType) {
         List<ChargeGroupWrapper> cgList = new List<ChargeGroupWrapper>();
-        if (gc != null && gc.Charge_Groups__r != null && gc.Charge_Groups__r.size() > 0 && recordType == 'Guarantor') {
-            for (Charge_Group__c cg : gc.Charge_Groups__r) {
-                cgList.add(new ChargeGroupWrapper(cg, false));
-            }
+        if (recordType == 'Guarantor') {
+            return ChargeGroupWrapper.buildList(gc);
         } else if (gc != null && gc.Charge_Groups_Patient__r != null
                 && gc.Charge_Groups_Patient__r.size() > 0 && recordType == 'Patient') {
             for (Charge_Group__c cg : gc.Charge_Groups_Patient__r) {
@@ -499,7 +491,7 @@ public without sharing class PayStaffWSUtillLightning {
             //Save all Records if it is Take Adjustment/Discount. 
 
             if (lstChargeGroup.size() > 0) {
-                update lstChargeGroup;
+                ChargeGroupService.updateChargeGroupsWithStatus(lstChargeGroup);
             }
 
             if (lstPaymentPlan.size() > 0) {
@@ -654,7 +646,7 @@ public without sharing class PayStaffWSUtillLightning {
             }
 
             if (lstChargeGroup.size() > 0) {
-                update lstChargeGroup;
+                ChargeGroupService.updateChargeGroupsWithStatus(lstChargeGroup);
             }
 
             if (setPaymentPlan.size() > 0) {

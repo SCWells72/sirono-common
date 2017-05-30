@@ -249,9 +249,7 @@ public with sharing class DeletePaymentPlan {
             	if (PaymentPlanSecurityContext.DP_UPDATE_CONTEXT.actionAllowed()) {
             	    UPDATE paymentPlanObj;
             	}
-            	if (ChargeGroupSecurityContext.UPDATE_WITH_STATUS_CONTEXT.actionAllowed()) {
-            	    UPDATE lstCG;
-            	}
+                ChargeGroupService.updateChargeGroupsWithStatus(lstCG);
             }
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
                     'Payment plan was successfully cancelled.'));

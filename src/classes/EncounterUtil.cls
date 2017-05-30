@@ -66,32 +66,23 @@ public without sharing class EncounterUtil {
             return;
         }
 
-        if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            List<Charge_Group__c> cgsWithEncounters = [
-                    SELECT Id, Encounter__c
-                    FROM Charge_Group__c
-                    WHERE Encounter__c IN :encounterIds
-                    AND Encounter__c != null
-            ];
-
-            Set<Id> hasChargeGroup = new Set<Id>();
-            for (Charge_Group__c cg: cgsWithEncounters) {
-                hasChargeGroup.add(cg.Encounter__c);
-            }
-
-            encounterIds.removeAll(hasChargeGroup);
-
-            if (encounterIds.size() > 0) {
-                setHasChargeGroupFlag(encounterIds, false);
-            }
-
-            if (hasChargeGroup.size() > 0) {
-                setHasChargeGroupFlag(hasChargeGroup, true);
-            }
-
-            encounterIds.addAll(hasChargeGroup);
-            updateAssociatedGuarantors(encounterIds);
+        Set<Id> hasChargeGroup = new Set<Id>();
+        for (Charge_Group__c cg: ChargeGroupService.getCGBasedOnEncounter(encounterIds)) {
+            hasChargeGroup.add(cg.Encounter__c);
         }
+
+        encounterIds.removeAll(hasChargeGroup);
+
+        if (encounterIds.size() > 0) {
+            setHasChargeGroupFlag(encounterIds, false);
+        }
+
+        if (hasChargeGroup.size() > 0) {
+            setHasChargeGroupFlag(hasChargeGroup, true);
+        }
+
+        encounterIds.addAll(hasChargeGroup);
+        updateAssociatedGuarantors(encounterIds);
     }
 
     /*

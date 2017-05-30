@@ -418,9 +418,7 @@ public with sharing class PayStaffWSUtill {
 
             //Save all Records if it is Take Adjustment/Discount.
             if (lstChargeGroup.size() > 0) {
-                if (ChargeGroupSecurityContext.UPDATE_WITH_STATUS_CONTEXT.actionAllowed()) {
-                    UPDATE lstChargeGroup;
-                }
+                ChargeGroupService.updateChargeGroupsWithStatus(lstChargeGroup);
             }
 
             if (lstPaymentPlan.size() > 0) {
@@ -575,9 +573,7 @@ public with sharing class PayStaffWSUtill {
             }
 
             if (lstChargeGroup.size() > 0) {
-                if (ChargeGroupSecurityContext.UPDATE_WITH_STATUS_CONTEXT.actionAllowed()) {
-                    UPDATE lstChargeGroup;
-                }
+                ChargeGroupService.updateChargeGroupsWithStatus(lstChargeGroup);
             }
 
             if (lstPaymentPlan.size() > 0) {
