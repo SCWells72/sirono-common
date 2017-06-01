@@ -148,6 +148,47 @@ public with sharing class ContactInvoicedBalanceTest {
     }
 
     /**
+     * This method checks logic for update Invoiced_Balance__c as well as Credit_Balance__c fields.
+     * We have consider one positive balance CG and one negative balance CG.
+     **/
+    @isTest
+    public static void testContactBalanceWithPositiveNegativeCG() {
+        Contact guarantorContact = getTestContact();
+        Charge_Group__c chargeGroup = getTestChargeGroup();
+
+        Test.startTest();
+        // Update CG record with 'Overdue' sub status.
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
+        UPDATE chargeGroup;
+        Test.stopTest();
+
+        // Check system assert.
+        guarantorContact = getTestContact();
+        chargeGroup = getTestChargeGroup();
+        System.assertEquals(1000, guarantorContact.Invoiced_Balance__c, 'Expected Contact’s Invoiced_Balance__c equals to 1000 but we got ' + guarantorContact.Invoiced_Balance__c);
+        System.assertEquals(true, chargeGroup.Has_Invoiced_Balance__c, 'Expected CG’s Has_Invoiced_Balance__c equals to true but we got ' + chargeGroup.Has_Invoiced_Balance__c);
+        System.assertEquals(0, guarantorContact.Credit_Balance__c, 'Default Contact’s Credit_Balance__c is 0 but we got ' + guarantorContact.Credit_Balance__c);
+        System.assertEquals(false, chargeGroup.Has_Credit_Balance__c, 'Default CG’s Has_Credit_Balance__c is false but we got ' + chargeGroup.Has_Credit_Balance__c);
+
+        // Create Charge Group record with "Credit" Sub Status.
+        Charge_Group__c cg = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1234);
+        cg.Sirono_ID__c = 1234;
+        cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_CREDIT;
+        INSERT cg;
+
+        // Create Transaction Record with negative balance.
+        Transaction__c transactionObj = TestUtility.generateTransaction(cg, -200, 'Automatic');
+        INSERT transactionObj;
+
+        // Check system assert.
+        guarantorContact = getTestContact();
+        chargeGroup = getTestChargeGroup();
+        System.assertEquals(800, guarantorContact.Invoiced_Balance__c, 'Expected Contact’s Invoiced_Balance__c equals to 800 but we got ' + guarantorContact.Invoiced_Balance__c);
+        System.assertEquals(true, chargeGroup.Has_Invoiced_Balance__c, 'Expected CG’s Has_Invoiced_Balance__c equals to true but we got ' + chargeGroup.Has_Invoiced_Balance__c);
+        System.assertEquals(-200, guarantorContact.Credit_Balance__c, 'Expected Contact’s Credit_Balance__c equals to -200 but we got ' + guarantorContact.Credit_Balance__c);
+    }
+
+    /**
      * This method checks logic for update Invoiced_Balance__c field negative.
      **/
     @isTest
