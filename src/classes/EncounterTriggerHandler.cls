@@ -70,6 +70,10 @@ public with sharing class EncounterTriggerHandler {
                     if (oldMap.get(e.Id).Guarantor__c != null) {
                         contactIds.add(oldMap.get(e.Id).Guarantor__c);
                     }
+                } else {
+                    if (e.Encounter_Substatus__c != oldMap.get(e.Id).Encounter_Substatus__c) {
+                        contactIds.add(e.Guarantor__c);
+                    }
                 }
             } else {
                 if (oldMap.get(e.Id).Guarantor__c != null) {
