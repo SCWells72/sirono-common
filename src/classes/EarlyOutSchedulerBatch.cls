@@ -50,23 +50,9 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<s
                     existingMembers.add(cm.ContactId);
                 }
             }
-
-            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
-                return Database.getQueryLocator([
-                        SELECT Id, FirstName, LastName
-                        FROM Contact
-                        WHERE RecordType.Name = 'Guarantor'
-                        AND ID NOT IN :existingMembers
-                ]);
-            }
+            return Database.getQueryLocator(GuarantorService.getContactsByRecordType(existingMembers, 'Guarantor'));
         } else {
-            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
-                return Database.getQueryLocator([
-                        SELECT Id, FirstName
-                        FROM Contact
-                        WHERE RecordType.Name = 'Guarantor-DO-NOT-EXIST'
-                ]);
-            }
+            return Database.getQueryLocator(GuarantorService.getContactsByRecordType(null, 'Guarantor-DO-NOT-EXIST'));
         }
         return null;
     }
@@ -74,20 +60,8 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<s
     //Adding Guarantors based on their overdue balance and creates to new CampaignMember list 
     public void execute(Database.BatchableContext bc, List<sObject> scope) {
         List<Contact> guarantors = (List<Contact>) scope;
-        Map<Id, Contact> guarantorMap = new Map<Id, Contact>();
-        if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed() &&
-                StatementSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            guarantorMap = new Map<Id, Contact>([
-                    SELECT Id, (
-                            SELECT Id, Name, Statement_Date__c
-                            FROM Statements__r
-                            ORDER BY Statement_Date__c DESC
-                            LIMIT 1
-                    )
-                    FROM Contact
-                    WHERE Id IN :guarantors
-            ]);
-        }
+        Map<Id, Contact> guarantorMap = new Map<Id, Contact>(GuarantorService.getGuarantorsWithStatement(guarantors));
+
         Date dt = System.today().addDays(-50);
         if (callList != null) {
             List<CampaignMember> memberList = new List<CampaignMember>();

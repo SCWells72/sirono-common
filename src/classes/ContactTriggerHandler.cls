@@ -144,22 +144,16 @@ public with sharing class ContactTriggerHandler {
         try {
             //12-09-2016: Viraj Rana : Check Sirono Settings is exists or not. If empty than create default Setting.
             SironoSettingsUtil.generatePhoneNumVerification();
-            if (ContactSecurityContext.CTH_SELECT_CONTEXT.actionAllowed()) {
-                List<Contact> contacts = [
-                                          SELECT 
-                                          Id, OtherPhone, MobilePhone, HomePhone, Home_Phone_Type__c, 
-                                          Mobile_Phone_Type__c, Other_Phone_Type__c, CTINumber1__c, CTINumber2__c, 
-                                          CTINumber3__c 
-                                          FROM Contact WHERE Id IN :ids
-                                         ];
 
-                for (Contact con: contacts) {
-                    verifyContactPhoneNumbers(con);
-                    setCTINumbers(con);
-                }
-                UPDATE contacts;
-                System.debug('===:landline ' + contacts[0].CTINumber1__c);
+            List<Contact> contacts = GuarantorService.getGuarantorsWithNumbers(ids);
+
+            for (Contact con: contacts) {
+                verifyContactPhoneNumbers(con);
+                setCTINumbers(con);
             }
+            // Update contacts.
+            GuarantorService.updateGuarantors(contacts);
+            System.debug('===:landline ' + contacts[0].CTINumber1__c);
         } catch(Exception ex) {
         	System.debug('ex.getMessage(): ' + ex.getMessage());
         }
