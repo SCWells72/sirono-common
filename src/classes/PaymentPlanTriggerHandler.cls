@@ -80,7 +80,7 @@ public with sharing class PaymentPlanTriggerHandler {
 
     public static void populateNextPaymentDate(List<Payment_Plan__c> newList, Boolean fromPaymentPlanTrigger) {
         List<Payment_Plan__c> newListToUpdate = new List<Payment_Plan__c>();
-        Set<String> setContactId = new Set<String>();
+        Set<Id> setContactId = new Set<Id>();
         Map<Id, Contact> mapContacts = new Map<Id, Contact>();
 
         for (Payment_Plan__c plan:newList) {
@@ -89,14 +89,9 @@ public with sharing class PaymentPlanTriggerHandler {
                 setContactId.add(plan.Guarantor__c);
             }
         }
-        if (ContactSecurityContext.PPTH_SELECT_CONTEXT.actionAllowed()) {
-            mapContacts = new Map<Id, Contact>([
-                    SELECT Id, Invoice_Offset_Date__c
-                    FROM Contact
-                    WHERE Id IN :setContactId
-            ]);
-        }
-		
+
+        mapContacts = new Map<Id, Contact>(GuarantorService.getGuarantorsWithInvoiceOffsetDt(setContactId));
+
         for (Payment_Plan__c plan: newList) {
             Contact guarantor = new Contact();
             if (plan.Guarantor__c != null && mapContacts.containsKey(plan.Guarantor__c)) {

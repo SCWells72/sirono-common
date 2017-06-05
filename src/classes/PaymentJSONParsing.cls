@@ -29,13 +29,11 @@ public class PaymentJSONParsing {
         PaymentJSONParsing objJson = (PaymentJSONParsing) System.JSON.deserialize(json, PaymentJSONParsing.class);
 
         Payment__c objPayment = new Payment__c();
-                
-        Integer guarantor = Integer.valueof(getExternalID(objJson.guarantor,'guarantors'));
 
-        if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
-            Contact guarantorContact = [SELECT Id FROM Contact WHERE Profile_Pointer_ID__c = :guarantor LIMIT 1];
-            objPayment.Guarantor__c = guarantorContact.Id;
-        }
+        String guarantorSironoId = getExternalID(objJson.guarantor, 'guarantors');
+
+        Contact guarantorContact = GuarantorService.getGuarantorBySironoId(guarantorSironoId);
+        objPayment.Guarantor__c = guarantorContact.Id;
 
         if (!String.isBlank(objJson.payment_date)) {
             objPayment.Charge_Date__c = Date.valueof(objJson.payment_date);

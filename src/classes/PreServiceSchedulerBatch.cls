@@ -43,22 +43,9 @@ public with sharing class PreServiceSchedulerBatch implements Database.Batchable
                     existingMembers.add(cm.ContactId);
                 }
             }
-
-            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
-                return Database.getQueryLocator([
-                    SELECT Id, FirstName, LastName
-                    FROM Contact
-                    WHERE RecordType.Name = 'Guarantor' AND ID NOT IN :existingMembers
-                ]);
-            }
+            return Database.getQueryLocator(GuarantorService.getContactsByRecordType(existingMembers, 'Guarantor'));
         } else {
-            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
-                return Database.getQueryLocator([
-                     SELECT Id, FirstName
-                     FROM Contact
-                     WHERE RecordType.Name = 'Guarantor-DO-NOT-EXIST'
-                ]);
-            }
+            return Database.getQueryLocator(GuarantorService.getContactsByRecordType(null, 'Guarantor-DO-NOT-EXIST'));
         }
         return null;
     }

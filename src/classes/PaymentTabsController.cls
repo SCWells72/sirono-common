@@ -24,7 +24,7 @@ public without sharing class PaymentTabsController
 	public static String addToPaymentPlan()
 	{
 		User currentUser = [SELECT Id, ContactId FROM User WHERE Id = :userInfo.getUserId()];
-		Contact guarantor = [SELECT id FROM Contact WHERE id = :currentUser.ContactId];
+            	Contact guarantor = GuarantorService.getContactById(currentUser.ContactId);
 		AddToPaymentPlanLightning addToPlan = new AddToPaymentPlanLightning(guarantor.id);
 		return addToPlan.submit();
 	}
@@ -519,27 +519,8 @@ public without sharing class PaymentTabsController
 	//get the Guarantor contact with charge groups
 	private static Contact fetchGuarantorContact(String contactId)
 	{
-		Contact ob = null;
-		for (Contact c : [
-		            Select Id, FirstName, MiddleName, LastName, Suffix, Birthdate, Medical_Record_Number__c, Name,
-		            Profile_Pointer_Id__c, MailingStreet, Add_to_Payment_Plan__c, Non_Payment_Plan_Invoices__c,
-		            MailingCity, MailingState, MailingPostalCode, (
-		                Select Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
-		                External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
-		                Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
-		                Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
-		                Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
-		                Provider__c, Provider__r.Name, Location__c, Location__r.Name, Account_Sub_Status__c
-		                From Charge_Groups__r
-		                Where Sirono_ID__c != null AND Active__c = true
-		            )
-		            From Contact
-		            Where Id = :contactId
-		        ])
-		{
-			ob = c;
-		}
-		return ob;
+		// Get Contact details with all active charge groups.
+        	return GuarantorService.getGuarantorWithActiveCGForLightning(contactId);
 	}
 
 	private static Payment_Plan__c getPaymentPlanById(Id planId)
