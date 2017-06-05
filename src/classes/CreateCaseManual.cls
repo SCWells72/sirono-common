@@ -49,13 +49,13 @@ public with sharing class CreateCaseManual {
       guarantorRecordId = Apexpages.currentPage().getParameters().get('guarantorId');
     }
     if (guarantorRecordId != null) {
-      Contact objContact = PayStaffWSUtill.fetchContact(guarantorRecordId);
+      Contact objContact = ContactService.getContactDetails(guarantorRecordId);
       if (objContact != null) {
         if (objContact.RecordType.DeveloperName == 'Guarantor') {
-          gc = GuarantorDao.getGuarantorFilterCGByAcctSubStatus(guarantorRecordId, Constants.CGConstraintsForCase);
+          gc = GuarantorService.getGuarantorFilterCGByAcctSubStatus(guarantorRecordId, Constants.CGConstraintsForCase);
           guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
         } else if (objContact.RecordType.DeveloperName == 'Patient') {
-          gc = PayStaffWSUtill.fetchPatientContactWithCGConstraintsForCase(guarantorRecordId);
+          gc = PatientService.getPatientFilterCGByAcctSubStatus(guarantorRecordId, Constants.CGConstraintsForCase);
           guarantorId = PayStaffWSUtill.fetchPatientId(gc);
         }
       }
@@ -152,14 +152,14 @@ public with sharing class CreateCaseManual {
         if (chargeGroup != null) {
           caseObj.Guarantor_Information__c = chargeGroup.Guarantor__c;
         }
-        guarantorContact = PayStaffWSUtill.fetchContact(caseObj.Guarantor_Information__c);
+        guarantorContact = ContactService.getContactDetails(caseObj.Guarantor_Information__c);
         patientContact = gc;
       } else if (gc.RecordType.DeveloperName == 'Guarantor') {
         caseObj.Guarantor_Information__c = gc.id;
         if (chargeGroup != null) {
           caseObj.Patient__c = chargeGroup.Patient__c;
         }
-        patientContact = PayStaffWSUtill.fetchContact(caseObj.Patient__c);
+        patientContact = ContactService.getContactDetails(caseObj.Patient__c);
         guarantorContact = gc;
       }
 

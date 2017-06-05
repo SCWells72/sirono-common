@@ -260,7 +260,7 @@ public with sharing class PaymentPlanService extends AbstractService {
             paymentPlanObj.Status__c = objJson.status;
 
             String gtId = parseSironoId(objJson.guarantor, 'guarantors');
-            Contact gt = GuarantorDao.getGuarantorBySironoId(gtId);
+            Contact gt = GuarantorService.getGuarantorBySironoId(gtId);
             paymentPlanObj.Guarantor__c = gt.Id;
 
             return paymentPlanObj;
