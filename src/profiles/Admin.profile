@@ -267,7 +267,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ContactDao</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContactDaoTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ContactSecurityContext</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContactService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -484,6 +496,18 @@
     </classAccesses>
     <classAccesses>
         <apexClass>NumVerifyValidatorTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientDao</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientDaoTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
