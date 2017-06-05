@@ -22,6 +22,7 @@ public without sharing class InvoiceUtil {
                 invoicesToUpdate.put(invoiceId, tempInvoice);
             }
 
+            //TODO: This query should move into ChargeGroupDao class.
             if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
                 AggregateResult[] queryResults = [
                         SELECT Invoice__c, MAX(Sub_Status_Index__c) maxStatusValue
@@ -56,6 +57,7 @@ public without sharing class InvoiceUtil {
      */
     public static void updateAllSubstatusInvoiceField(Set<Id> chargeGroupInvoiceIds) {
         if (chargeGroupInvoiceIds.size() > 0) {
+            //TODO: This query should move into ChargeGroupDao class.
             if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
                 // Query for distinct Invoice/Account Substatus values using group by
                 AggregateResult[] queryResults = [
@@ -114,6 +116,7 @@ public without sharing class InvoiceUtil {
                 invoicesToUpdate.put(invoiceId, tempInvoice);
             }
 
+            //TODO: This query should move into ChargeGroupDao class.
             if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
                 AggregateResult[] queryResults = [
                         SELECT Invoice__c, SUM(Balance__c) sumBalances
