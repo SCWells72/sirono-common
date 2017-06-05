@@ -93,7 +93,8 @@ public without sharing class MakeAPaymentController {
         List<String> invIds = (List<String>)JSON.deserialize(listIds, List<String>.class);
         system.debug(invIds);
         User currentUser = [SELECT Id, ContactId FROM User WHERE Id = :userInfo.getUserId()];
-        Contact guarantor = [SELECT id FROM Contact WHERE id = :currentUser.ContactId];
+        Contact guarantor = GuarantorService.getContactById(currentUser.ContactId);
+
         ApexPages.StandardController sc = new ApexPages.StandardController(guarantor);
         ProcessPaymentLightning onePayment = new ProcessPaymentLightning(sc, invIds);
         //onePayment.password = cInfo.password;
@@ -118,7 +119,8 @@ public without sharing class MakeAPaymentController {
         CardInformation cInfo = (CardInformation)JSON.deserialize(jsonPayment, CardInformation.class);
         system.debug(cInfo);
         User currentUser = [SELECT Id, ContactId FROM User WHERE Id = :userInfo.getUserId()];
-        Contact guarantor = [SELECT id FROM Contact WHERE id = :currentUser.ContactId];
+        Contact guarantor = GuarantorService.getContactById(currentUser.ContactId);
+
         ApexPages.StandardController sc = new ApexPages.StandardController(guarantor);
         PayEstimateLightningController onePayment = new PayEstimateLightningController(sc, estimateId);
         onePayment.creditCardNumber = cInfo.creditCardNumber;

@@ -168,29 +168,6 @@ private class PayStaffWSUtillTest {
     }
 
     /**
-     * This method tests the logic of fetch CG with acc sub status and fetch patient contact with CG.
-     **/
-    @isTest
-    static void testChargeGroupByAccSubStatus() {
-        Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
-        
-        Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
-        
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12345);
-        INSERT chargeGroup;
-        
-        Test.startTest();
-        PayStaffWSUtill.fetchChargeGroupListbyaccountsubstatus(guarantorContact);
-        Contact objContact = PayStaffWSUtill.fetchPatientContactWithCGConstraints(patientContact.Id);
-        Test.stopTest();
-        
-        // Check system assert.
-        System.assertEquals(objContact.Id, patientContact.Id, 'Should have failed due to Contact Id differ.');
-    }
-    
-    /**
      * Check all access rights for a read only User using runAs.
      **/
     @isTest

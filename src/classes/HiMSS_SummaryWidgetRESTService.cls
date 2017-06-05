@@ -157,20 +157,8 @@ global without sharing class HiMSS_SummaryWidgetRESTService {
     }
 
     public static Map<Id, Guarantor.GuarantorContact> getGrtContact(Set<Id> contactIds) {
-    	Map<Id, Guarantor.GuarantorContact> guarantorContactMap = new Map<Id, Guarantor.GuarantorContact>();
-    	Map<Id, Contact> contactMap = new Map<Id, Contact>([
-							SELECT 
-									Id,
-									Guarantor__c,
-									Guarantor_Status__c,
-									Invoiced_Balance__c,
-									Overdue_Invoices__c,
-									Outstanding_Invoices__c,
-									Delinquent_Invoices__c,
-									Add_to_Payment_Plan__c
-							FROM 	Contact
-							WHERE 	Id IN :contactIds
-		]);
+        Map<Id, Guarantor.GuarantorContact> guarantorContactMap = new Map<Id, Guarantor.GuarantorContact>();
+        Map<Id, Contact> contactMap = new Map<Id, Contact>(GuarantorService.getContactsForLightning(contactIds));
 
 		for (Id contactId : contactIds) {
 			if (contactMap.containsKey(contactId)) {

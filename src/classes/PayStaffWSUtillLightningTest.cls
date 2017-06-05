@@ -77,35 +77,4 @@ private class PayStaffWSUtillLightningTest {
         // Check system assert.
         System.assertEquals('1.00', dollarAmount);
     }
-
-    @isTest
-    static void main() {
-        Test.startTest();
-        Contact con = new Contact(LastName = 'Sirono', Patient_Id__c = 123456);
-        INSERT con;
-        String patientId = PayStaffWSUtillLightning.fetchPatientId(con);
-        PayStaffWSUtillLightning.addNoteWSCallout(null, null);
-        Test.stopTest();
-        
-        // Check system assert.
-        System.assertNotEquals(patientId, null, 'Should have failed due to patientId is null.');
-    }
-
-    @isTest
-    static void testChargeGroupByAccountSubStatus() {
-        Test.startTest();
-        Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
-        Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12345);
-        INSERT chargeGroup;
-        PayStaffWSUtillLightning.fetchChargeGroupListbyaccountsubstatus(guarantorContact);
-        Contact objContact = PayStaffWSUtillLightning.fetchPatientContactWithCGConstraints(patientContact.Id);
-        Test.stopTest();
-
-	// Check system assert.
-        System.assertEquals(objContact.Id, patientContact.Id);
-    }
-
 }

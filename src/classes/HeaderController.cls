@@ -45,20 +45,9 @@ public with sharing class HeaderController {
 			this.invoiceOverdue = new Invoice__c();
 			User user = [SELECT Id, ContactId FROM User WHERE Id = :userId];
 			if(user.ContactId != null) {
-				this.contact = [
-									SELECT 
-											Id,
-											FirstName,
-											Guarantor__c,
-											Guarantor_Status__c,
-											Invoiced_Balance__c,
-											Overdue_Invoices__c,
-											Outstanding_Invoices__c,
-											Delinquent_Invoices__c,
-											Add_to_Payment_Plan__c
-									FROM 	Contact
-									WHERE 	Id = :user.ContactId
-				];
+				// Get Contact Details.
+                    		List<Contact> contacts = GuarantorService.getContactsForLightning(new Set<Id>{user.ContactId});
+                    		this.contact = contacts.get(0);
 
 				List<Invoice__c> listInvoices = [
 													SELECT
