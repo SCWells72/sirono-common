@@ -2484,11 +2484,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Encounter__c.Billed_Charge_Group_Count__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Encounter__c.Cancelled__c</field>
         <readable>false</readable>
     </fieldPermissions>
