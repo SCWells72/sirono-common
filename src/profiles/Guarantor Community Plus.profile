@@ -1235,7 +1235,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.Guarantor_Information__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -1935,7 +1935,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Delinquent_Balance__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2030,7 +2030,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Invoice_Offset_Date__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2110,7 +2110,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Overdue_Balance__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2180,7 +2180,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Statement_Preference__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3700,6 +3700,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Transaction__c.Export_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Transaction__c.Charge_added_since_plan_start__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -19,11 +19,6 @@ private class PayEstimateLightningControllerTest {
         // Create PayEstimate class object with guarantorContact.
         PayEstimateLightningController objPayEstimate = new PayEstimateLightningController(new ApexPages.StandardController(guarantorContact), encounter.Id);
 
-        // Based on Encounter List, Select Encounter record.
-        for (EncounterWrapper enw: objPayEstimate.encounters) {
-            enw.isSelected = true;
-        }
-
         // Call doNext Method.
         objPayEstimate.doNext();
 
@@ -172,5 +167,30 @@ private class PayEstimateLightningControllerTest {
         ];
         // Check system assert, Payment is not create for encounter.
         System.assertEquals(payments.size(), 0);
+    }
+
+    /**
+     * Verify the encounter associated with the estimatePayment gets selected.
+     **/
+    @isTest
+    static void verifyEncounterIsSelected() {
+        // Create Guarantor Contact record.
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        INSERT guarantorContact;
+
+        // Create Encounter record.
+        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
+        INSERT encounter;
+
+        Test.startTest();
+
+        // Create PayEstimate class object with guarantorContact.
+        PayEstimateLightningController objPayEstimate = new PayEstimateLightningController(new ApexPages.StandardController(guarantorContact), encounter.Id);
+        Test.stopTest();
+
+        // Verify that the encounter is selected
+        System.assert(objPayEstimate.encounters != null, 'Should have populated the encounters object');
+        System.assert(objPayEstimate.encounters.size() == 1, 'Should have found a single encounter.');
+        System.assert(objPayEstimate.encounters.get(0).isSelected, 'Encounter should be selected.');
     }
 }

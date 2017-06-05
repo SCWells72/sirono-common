@@ -24,6 +24,13 @@ public with sharing class PayEstimateLightningController extends PayEstimateCont
     protected override void loadEncounters(String recordId) {
         Encounter__c[] encounterList = EncounterService.getEncounterRecordsById(recordId);
         encounters = EncounterWrapper.buildList(encounterList);
+
+        // For the lightning flow there should only ever be a single encounter.  Make it selected.
+        if (encounters != null && encounters.size() == 1) {
+            encounters.get(0).isSelected = true;
+        } else {
+            System.debug('WARNING: Found more then a single encounter in the loadEncounters method for PayEstimateLightningController. Size: ' + encounters.size());
+        }
     }
 
     /**
