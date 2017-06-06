@@ -221,12 +221,9 @@ public with sharing class GuarantorDao extends AbstractDao {
     /**
      * Get Contacts based on filterBy and contactIds
      *
-     * @param Set<Id> existingMembers - A set of Contact Ids.
-     *  FYI: Don't change this name because of �existingMembers� use in query and we have returns the query and that contains same field in the class.
-     * @param String recordTypeName - That contains Contact's Record Type.
      * @returns String - That contains query in a string.
      **/
-    public static String getContactsByRecordType(Set<Id> existingMembers, String recordTypeName) {
+    public static String getContactsByRecordType() {
         if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
             String queryString = 'SELECT Id, FirstName, LastName ';
             queryString += 'FROM Contact ';

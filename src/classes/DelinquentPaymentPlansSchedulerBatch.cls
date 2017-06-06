@@ -48,7 +48,7 @@ public with sharing class DelinquentPaymentPlansSchedulerBatch
                 }
             }
 
-            return Database.getQueryLocator(GuarantorService.getContactsByRecordType(existingMembers, 'Guarantor'));
+            return Database.getQueryLocator(GuarantorService.getContactsByRecordType());
         } else {
             return Database.getQueryLocator(GuarantorService.getConactsNoResults());
         }

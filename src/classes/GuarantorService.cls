@@ -156,12 +156,10 @@ public with sharing class GuarantorService extends AbstractService {
     /**
      * Get Contacts based on filterBy and contactIds
      *
-     * @param Set<Id> existingMembers - A set of Contact Ids.
-     * @param String recordTypeName - That contains Contact's Record Type.
      * @returns String - That contains query in a string.
      **/
-    public static String getContactsByRecordType(Set<Id> existingMembers, String recordTypeName) {
-        return GuarantorDao.getContactsByRecordType(existingMembers, recordTypeName);
+    public static String getContactsByRecordType() {
+        return GuarantorDao.getContactsByRecordType();
     }
 
     /**

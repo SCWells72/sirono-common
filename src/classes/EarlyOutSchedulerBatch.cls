@@ -50,7 +50,7 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<s
                     existingMembers.add(cm.ContactId);
                 }
             }
-            return Database.getQueryLocator(GuarantorService.getContactsByRecordType(existingMembers, 'Guarantor'));
+            return Database.getQueryLocator(GuarantorService.getContactsByRecordType());
         } else {
             return Database.getQueryLocator(GuarantorService.getConactsNoResults());
         }
