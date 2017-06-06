@@ -43,21 +43,22 @@ public with sharing class CreateAdjustment {
          */
 
         isAdmin = true;
-        if (UserSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            List<User> lstUser = new List<User>(
-            [
-                    SELECT Id, ProfileId
-                    FROM User
-                    WHERE Id = :UserInfo.getUserId()
-                    AND Profile.Name = 'System Administrator'
-            ]
-            );
-            if (lstUser.size() == 0) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
-                        System.Label.Adjustment_for_Admin));
-                isAdmin = false;
-            }
-        }
+//TODO Figure out how to identify the user that can make adjustments in the final release
+//        if (UserSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+//            List<User> lstUser = new List<User>(
+//            [
+//                    SELECT Id, ProfileId
+//                    FROM User
+//                    WHERE Id = :UserInfo.getUserId()
+//                    AND Profile.Name = 'System Administrator'
+//            ]
+//            );
+//            if (lstUser.size() == 0) {
+//                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
+//                        System.Label.Adjustment_for_Admin));
+//                isAdmin = false;
+//            }
+//        }
 
         username = PayStaffWSUtill.un;
         password = PayStaffWSUtill.pw;

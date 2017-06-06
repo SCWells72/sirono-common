@@ -3,13 +3,13 @@
  **/
  
 @isTest
-private class PayEstimateVFControllerTest {
-    
+public class PayEstimateVFControllerTest {
+
     /**
      * This method test the whole scenario of Pay Estimate Process.
      **/
     @isTest
-    static void checkPayEstimateProcess() {
+    public static void checkPayEstimateProcess() {
         // Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         INSERT guarantorContact;

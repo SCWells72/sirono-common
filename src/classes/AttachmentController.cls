@@ -1,3 +1,4 @@
+//TODO why doesn't this have sharing?
 public class AttachmentController {
     
 	public Attachment attachment {

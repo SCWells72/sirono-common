@@ -1,12 +1,9 @@
 @isTest
 private class PayStaffWSUtillLightningTest {
     @testSetup static void setupSironoSettings(){
-        Test.startTest();
-        SironoSettingsUtil.initializeSironoSettings();
-        Test.stopTest();
-        
+
         // Check system assert.
-        Sirono_Settings__c sironoSettings = Sirono_Settings__c.getValues(UserInfo.getOrganizationId());
+        Sirono_Settings__c sironoSettings = SironoSettingsUtil.getPaymentPlanSettings();
         System.assertNotEquals(sironoSettings, null, 'Should have failed due to sironoSettings are null.');
     }
 

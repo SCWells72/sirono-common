@@ -4,6 +4,9 @@
 
 public class Constants {
 
+    public static final String CALL_CENTER_PS = 'Sirono_Call_Center';
+    public static final String CALL_CENTER_LOCAL_PS = 'Sirono_Call_Center_Local';
+
     // Constant variables for account substatus values.
     public static final String ACCT_SUBSTATUS_DUE_BY = 'Due By';
     public static final String ACCT_SUBSTATUS_PAYMENT_PLAN = 'On Payment Plan';

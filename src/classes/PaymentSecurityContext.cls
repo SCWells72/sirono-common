@@ -13,6 +13,7 @@ public with sharing class PaymentSecurityContext extends SecurityContext {
     private static final String LAST_4 = 'Last_4__c';
     private static final String METHOD = 'Method__c';
     private static final String NAME = 'Name';
+    private static final String PAYMENT_ID = 'Payment_Id__c';
     private static final String POSTED_AMOUNT = 'Posted_Amount__c';
     private static final String PROCESSOR_TRANSACTION_ID = 'Processor_Transaction_ID__c';
     private static final String SIRONO_ID = 'Sirono_ID__c';
@@ -39,6 +40,12 @@ public with sharing class PaymentSecurityContext extends SecurityContext {
     private static final Set<String> SELECT_FIELDS = new Set<String>{
         ID, SIRONO_ID
     };
+
+    // The fields for selecting a Payment__c in PaymentDao
+    private static final Set<String> DAO_SELECT_FIELDS = new Set<String>{
+            ID, AMOUNT, DEPOSIT_DATE, ENCOUNTER, GUARANTOR, METHOD, NAME, PAYMENT_ID
+    };
+
 
     // The fields for selecting a Payment__c in EncounterUtil
     private static final Set<String> EU_SELECT_FIELDS = new Set<String>{
@@ -80,6 +87,11 @@ public with sharing class PaymentSecurityContext extends SecurityContext {
      * The select context for Payment__c in EncounterUtil
      **/
     public static final PaymentSecurityContext EU_SELECT_CONTEXT = new PaymentSecurityContext(EU_SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Payment__c in PaymentDao
+     **/
+    public static final PaymentSecurityContext DAO_SELECT_CONTEXT = new PaymentSecurityContext(DAO_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

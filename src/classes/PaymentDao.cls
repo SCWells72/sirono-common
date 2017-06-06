@@ -17,22 +17,26 @@ public class PaymentDao {
      * @param Id paymentId - id of payment record
      **/
     public static Payment__c getPayment(Id paymentId) {
-        try {
-            Payment__c payment = [
-                    SELECT  Id,
-                            Amount__c,
-                            Deposit_Date__c,
-                            Encounter__c,
-                            Guarantor__c,
-                            Method__c,
-                            Name,
-                            Payment_Id__c 
-                    FROM Payment__c 
-                    WHERE Id = :paymentId
-            ];
-            return payment;
-        } catch (QueryException ex) {
-            return null;
+        if (PaymentSecurityContext.DAO_SELECT_CONTEXT.actionAllowed()) {
+            try {
+                Payment__c payment = [
+                        SELECT Id,
+                                Amount__c,
+                                Deposit_Date__c,
+                                Encounter__c,
+                                Guarantor__c,
+                                Method__c,
+                                Name,
+                                Payment_Id__c
+                        FROM Payment__c
+                        WHERE Id = :paymentId
+                ];
+                return payment;
+            } catch (QueryException ex) {
+                return null;
+            }
         }
+
+        return null;
     }
 }

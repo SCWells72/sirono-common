@@ -246,15 +246,6 @@ CASE(Type__c,
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
-    <listViews>
-        <fullName>Sirono_Partner_Queue_Credit_Card</fullName>
-        <filterScope>Queue</filterScope>
-        <label>Sirono Partner Queue</label>
-        <queue>Sirono_Partner_Queue</queue>
-        <sharedTo>
-            <allInternalUsers></allInternalUsers>
-        </sharedTo>
-    </listViews>
     <nameField>
         <label>Name</label>
         <type>Text</type>
@@ -446,6 +437,6 @@ CASE(Type__c,
         <masterLabel>Update Credit Card</masterLabel>
         <openType>sidebar</openType>
         <protected>false</protected>
-        <url>/apex/AddPaymentPlan?guarantorId={!Payment_Method__c.GuarantorId__c}</url>
+        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}AddPaymentPlan?guarantorId={!Payment_Method__c.GuarantorId__c}</url>
     </webLinks>
 </CustomObject>

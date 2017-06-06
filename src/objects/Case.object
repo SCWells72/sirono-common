@@ -3242,15 +3242,6 @@
         <label>Recently Created Cases</label>
     </listViews>
     <listViews>
-        <fullName>Sirono_Partner_Queue_Case</fullName>
-        <filterScope>Queue</filterScope>
-        <label>Sirono Partner Queue</label>
-        <queue>Sirono_Partner_Queue</queue>
-        <sharedTo>
-            <allInternalUsers></allInternalUsers>
-        </sharedTo>
-    </listViews>
-    <listViews>
         <fullName>Sirono_Review_Case</fullName>
         <filterScope>Queue</filterScope>
         <label>Queue: Sirono Review</label>

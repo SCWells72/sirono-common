@@ -179,7 +179,7 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Readonly</behavior>
+                <behavior>Edit</behavior>
                 <field>HomePhone</field>
             </layoutItems>
             <layoutItems>

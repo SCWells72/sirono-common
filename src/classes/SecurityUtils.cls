@@ -5,7 +5,28 @@
 public with sharing class SecurityUtils {
     // This class is used to create/generate custom Exception.
     public class SecurityException extends Exception {}
-    
+
+    public static String nsPrefix = null;
+
+    /**
+     * When running as a managed package, we need the namespace appended to the field names.
+     * Use a known object description to determine what it is. When looking for the match in the objectFields map,
+     * it only matches lowercase namespaces (fields seem to be case-insensitive, go figure), so go ahead and lowercase it
+     * here
+     */
+    private static String getNSPrefix() {
+
+        if (nsPrefix == null) {
+            DescribeSObjectResult describe = Charge_Group__c.SObjectType.getDescribe();
+
+            String name = describe.getName();
+            String localName = describe.getLocalName();
+            nsPrefix = name.replace(localName, '').toLowerCase();
+        }
+
+        return nsPrefix;
+    }
+
     /**
      * This method is used to check Object rights and Fields Level Permission.
      *
@@ -50,7 +71,9 @@ public with sharing class SecurityUtils {
         // Get object fields.
         Map<String, Schema.SObjectField> mapObjectFields = objectResult.fields.getMap();
 
-        for (String fieldToCheck: fieldsToCheck) {
+        for (String field : fieldsToCheck) {
+            String fieldToCheck = getNSPrefix()+field;
+
             if (SecurityContext.ACTION.OBJ_CREATE == objAction
                     && !mapObjectFields.get(fieldToCheck).getDescribe().isCreateable()) {
                 throw new SecurityException(String.format('You do not have Create rights on {0}.{1} field.', new String[]{objName, fieldToCheck}));

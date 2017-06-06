@@ -3,7 +3,7 @@
  **/
 
 @isTest
-private class EditPaymentPlanTest {
+public class EditPaymentPlanTest {
     
     /**
      * This method tests the logic of Amount Validation.
@@ -229,7 +229,7 @@ private class EditPaymentPlanTest {
     /**
      * This method tests the logic of Amount validation with Monthly Amount.
      **/
-    static testMethod void checkAmountForCGMonthlyAmountAndDevideByZero() {
+    static testMethod void checkAmountForCGMonthlyAmountAndDivideByZero() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         INSERT guarantorContact;
         
@@ -240,14 +240,20 @@ private class EditPaymentPlanTest {
         INSERT paymentPlan;
         
         Charge_Group__c   chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         INSERT chargeGroup;
-        
-        Transaction__c  objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
+
+        Service__c svc = TestUtility.generateService(chargeGroup, 300);
+        INSERT svc;
+
+        Transaction__c  objTransaction = TestUtility.generateServiceTxn(chargeGroup, svc.Amount__c, svc);
         INSERT objTransaction;
-        
+
+        chargeGroup = [SELECT Id, Balance__c FROM Charge_Group__c WHERE Id = :chargeGroup.Id];
+
         Sirono_Settings__c PaymentPlanSettings = new Sirono_Settings__c(SetupOwnerId = userinfo.getProfileId());
         PaymentPlanSettings.Max_Number_Plan_Installments__c = 2;
-        PaymentPlanSettings.Min_Installment_Amount__c = 101;
+        PaymentPlanSettings.Min_Installment_Amount__c = 100;
         PaymentPlanSettings.Min_Number_Plan_Installments__c = 1;
         INSERT PaymentPlanSettings;
         
@@ -267,7 +273,7 @@ private class EditPaymentPlanTest {
         objEditPaymentPlan.creditCardNumber= '1234567891113';
         objEditPaymentPlan.cardHolderName= '1234567891113';
         objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.amount = '101';
+        objEditPaymentPlan.amount = '100';
         objEditPaymentPlan.payableAmount = '1000';
         objEditPaymentPlan.planType = 'auto';
         objEditPaymentPlan.planValue= '301';
@@ -286,7 +292,9 @@ private class EditPaymentPlanTest {
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
         for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('This monthly amount would exceed')) isError  = true;
+            if (msg.getDetail().contains('This monthly amount would exceed')) {
+                isError  = true;
+            }
         }
         System.assert(isError, 'Should have failed due to monthly amount exceed');
         
@@ -580,11 +588,11 @@ private class EditPaymentPlanTest {
         }
         System.assert(isError, 'May be amount exceed the balance.');
     }
-    
+
     /**
      * This method tests the logic of Submit method with Promise Plan Type. 
      **/
-    static testMethod void submitForPromisePlan() {
+    public static testMethod void submitForPromisePlan() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         INSERT guarantorContact;
 

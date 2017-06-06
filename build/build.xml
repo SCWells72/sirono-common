@@ -105,6 +105,18 @@
                 unpackaged="${basedir}/src/package.xml"/>
     </target>
 
+    <target name="retrievePkg">
+        <echo level="info">Retrieving ${sf.pkgName} from: ${sf.source.username} into: ${sf.retrieveTarget}</echo>
+        <delete dir="${sf.retrieveTarget}"/>
+        <mkdir dir="${sf.retrieveTarget}"/>
+        <sf:retrieve
+                retrieveTarget="${sf.retrieveTarget}"
+                username="${sf.source.username}"
+                password="${sf.source.password}"
+                serverurl="${sf.source.serverurl}"
+                packagenames="${sf.pkgName}"/>
+    </target>
+
     <target name="deploy" depends="processTemplates">
         <echo level="info">Deploying to: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
@@ -112,6 +124,37 @@
                 password="${sf.target.password}"
                 serverurl="${sf.target.serverurl}"
                 deployRoot="${basedir}/src"
+                pollWaitMillis="${sf.pollWaitMillis}"
+                maxPoll="${sf.maxPoll}"
+                testLevel="${sf.testLevel}"
+                logType="Debugonly"/>
+    </target>
+
+
+    <target name="createPostInstallZip">
+        <delete dir="${basedir}/post_install_zip"/>
+        <mkdir dir="${basedir}/post_install_zip"/>
+        <property name="zip_dest" value="${basedir}/post_install_zip/sirono_PRS_post_install.zip"/>
+        <zip destfile="${zip_dest}"
+             basedir="${basedir}/post_install"
+             excludes="**/.DS_Store, __MACOSX/*"
+        />
+    </target>
+
+    <target name="deployPostInstall" depends="createPostInstallZip">
+        <antcall target="deployZip">
+            <param name="sf.zipFile" value="${zip_dest}"/>
+            <param name="sf.testLevel" value="NoTestRun"/>
+        </antcall>
+    </target>
+
+    <target name="deployZip" >
+        <echo level="info">Deploying zip from ${sf.zipFile} to: ${sf.target.username} with test level: ${sf.testLevel}</echo>
+        <sf:deploy
+                username="${sf.target.username}"
+                password="${sf.target.password}"
+                serverurl="${sf.target.serverurl}"
+                zipfile="${sf.zipFile}"
                 pollWaitMillis="${sf.pollWaitMillis}"
                 maxPoll="${sf.maxPoll}"
                 testLevel="${sf.testLevel}"

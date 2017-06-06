@@ -36,10 +36,6 @@
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
-        <members>*</members>
-        <name>AuthProvider</name>
-    </types>
-    <types>
         <members>Case.Administrative</members>
         <members>Case.General</members>
         <members>Case.Internal Cases Process</members>
@@ -448,10 +444,6 @@
         <name>Layout</name>
     </types>
     <types>
-        <members>*</members>
-        <name>Letterhead</name>
-    </types>
-    <types>
         <members>Account.AllAccounts</members>
         <members>Account.MyAccounts</members>
         <members>Activity.All_Activities</members>
@@ -477,7 +469,6 @@
         <members>Case.MyOpenCases</members>
         <members>Case.Quality_of_Care_Case</members>
         <members>Case.Recently_Created_Cases</members>
-        <members>Case.Sirono_Partner_Queue_Case</members>
         <members>Case.Sirono_Review_Case</members>
         <members>Charge_Group_Coverage_Junction__c.All</members>
         <members>Charge_Group__c.All</members>
@@ -488,7 +479,6 @@
         <members>Contact.All_Staff</members>
         <members>Contact.MyContacts</members>
         <members>Coverage__c.All</members>
-        <members>Coverage__c.Sirono_Partner_Queue_Coverage</members>
         <members>Coverage__c.test_coverage_view</members>
         <members>Encounter__c.All</members>
         <members>Invoice__c.All</members>
@@ -496,7 +486,6 @@
         <members>Patient_Coverage_Junction__c.All</members>
         <members>Payment_Adjustments__c.All</members>
         <members>Payment_Method__c.All</members>
-        <members>Payment_Method__c.Sirono_Partner_Queue_Credit_Card</members>
         <members>Payment_Plan__c.All</members>
         <members>Payment__c.All</members>
         <members>Payor__c.All</members>
@@ -509,17 +498,7 @@
         <members>User.ActiveUsers</members>
         <members>User.AdminUsers</members>
         <members>User.AllUsers</members>
-        <members>User.All_Partner_Users</members>
         <name>ListView</name>
-    </types>
-    <types>
-        <members>Partner Community</members>
-        <name>ManagedTopics</name>
-    </types>
-    <types>
-        <members>Account</members>
-        <members>Contact</members>
-        <name>MatchingRules</name>
     </types>
     <types>
         <members>*</members>
@@ -533,15 +512,15 @@
         <members>Admin</members>
         <members>Call Center Agent</members>
         <members>Call Center Manager</members>
-        <members>Customer Community User</members>
-        <members>Customer Community Plus User</members>
-        <members>Five9CreateCallLogRecord Profile</members>
         <members>Guarantor Community Plus</members>
         <members>Guarantor Community</members>
-        <members>Guarantor</members>
         <members>Operations Manager</members>
         <members>Sirono Integration Admin</members>
         <name>Profile</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>PermissionSet</name>
     </types>
     <types>
         <members>*</members>
@@ -638,20 +617,12 @@
         <name>Role</name>
     </types>
     <types>
-        <members>*</members>
-        <name>SamlSsoConfig</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>Scontrol</name>
-    </types>
-    <types>
         <members>Name</members>
         <name>Settings</name>
     </types>
     <types>
-        <members>Case.Sirono_Internal</members>
-        <members>Contact.Contact_Sirono_Internal</members>
+        <members>Case.*</members>
+        <members>Contact.*</members>
         <members>Coverage__c.Coverage_Sirono_Internal</members>
         <members>Payment_Adjustments__c.PaymentAdj_Sirono_Internal</members>
         <members>Payment_Method__c.Credit_Card_Sirono_Internal</members>
@@ -659,22 +630,12 @@
         <name>SharingOwnerRule</name>
     </types>
     <types>
-        <members>Account</members>
-        <members>Asset</members>
-        <members>Campaign</members>
         <members>Case</members>
         <members>Contact</members>
         <members>Coverage__c</members>
-        <members>Encounter__c</members>
-        <members>Location__c</members>
+        <members>Payment__c</members>
         <members>Payment_Adjustments__c</members>
         <members>Payment_Method__c</members>
-        <members>Payment__c</members>
-        <members>Payor__c</members>
-        <members>Provider__c</members>
-        <members>Service_Rollup__c</members>
-        <members>Transaction_Type__c</members>
-        <members>User</members>
         <name>SharingRules</name>
     </types>
     <types>
@@ -686,9 +647,6 @@
         <name>StaticResource</name>
     </types>
     <types>
-        <members>Account.GoogleMaps</members>
-        <members>Account.GoogleNews</members>
-        <members>Account.GoogleSearch</members>
         <members>Campaign.ViewAllCampaignMembers</members>
         <members>Campaign.ViewCampaignInfluenceReport</members>
         <members>Contact.Add_Adjustment</members>

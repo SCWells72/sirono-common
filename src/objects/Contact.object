@@ -2209,7 +2209,7 @@ CASE(Invoice_Status_Rollup__c,
         <masterLabel>Add to Payment Plan</masterLabel>
         <openType>replace</openType>
         <protected>false</protected>
-        <url>/apex/AddToPaymentPlan?guarantorId={!Contact.Id}</url>
+        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}AddToPaymentPlan?guarantorId={!Contact.Id}</url>
     </webLinks>
     <webLinks>
         <fullName>Create_Payment_Plan</fullName>
@@ -2221,45 +2221,7 @@ CASE(Invoice_Status_Rollup__c,
         <masterLabel>Create Payment Plan</masterLabel>
         <openType>noSidebar</openType>
         <protected>false</protected>
-        <url>/apex/AddPaymentPlan?guarantorId={!Contact.Id}</url>
-    </webLinks>
-    <webLinks>
-        <fullName>GoogleMaps</fullName>
-        <availability>online</availability>
-        <displayType>link</displayType>
-        <encodingKey>UTF-8</encodingKey>
-        <hasMenubar>false</hasMenubar>
-        <hasScrollbars>true</hasScrollbars>
-        <hasToolbar>false</hasToolbar>
-        <height>600</height>
-        <isResizable>true</isResizable>
-        <linkType>url</linkType>
-        <masterLabel>Google Maps</masterLabel>
-        <openType>newWindow</openType>
-        <position>none</position>
-        <protected>false</protected>
-        <showsLocation>false</showsLocation>
-        <showsStatus>false</showsStatus>
-        <url>http://maps.google.com/maps?f=q&amp;hl=en&amp;q={!Contact_MailingStreet}+{!Contact_MailingCity}+{!Contact_MailingState}&amp;om=1</url>
-    </webLinks>
-    <webLinks>
-        <fullName>GoogleSearch</fullName>
-        <availability>online</availability>
-        <displayType>link</displayType>
-        <encodingKey>UTF-8</encodingKey>
-        <hasMenubar>false</hasMenubar>
-        <hasScrollbars>true</hasScrollbars>
-        <hasToolbar>false</hasToolbar>
-        <height>600</height>
-        <isResizable>true</isResizable>
-        <linkType>url</linkType>
-        <masterLabel>Google Search</masterLabel>
-        <openType>newWindow</openType>
-        <position>none</position>
-        <protected>false</protected>
-        <showsLocation>false</showsLocation>
-        <showsStatus>false</showsStatus>
-        <url>http://www.google.com/search?q={!Contact_FirstName} {!Contact_LastName}</url>
+        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}AddPaymentPlan?guarantorId={!Contact.Id}</url>
     </webLinks>
     <webLinks>
         <fullName>Pay_Estimate</fullName>

@@ -1,5 +1,5 @@
 /**
- * Created by mmartin on 5/10/17.
+ * Test that a user with the GuarantorProfile can do all the things a guarantor needs to do
  */
 
 @isTest
@@ -76,6 +76,7 @@ public with sharing class GuarantorProfilePermissionTest {
                 usr.Username = TEST_USERNAME;
                 usr.PortalRole = gr.PortalRole;
 
+                System.debug('PortalRole: '+gr.PortalRole);
                 INSERT usr;
 
                 usr = null;
@@ -177,7 +178,7 @@ public with sharing class GuarantorProfilePermissionTest {
             try {
                 hasAccess = TransactionSecurityContext.PPU_SELECT_CONTEXT.actionAllowed();
             } catch(Exception e) {
-                System.assert(hasAccess, 'Should have had read access to Case.');
+                System.assert(hasAccess, 'Should have had read access to Transaction.');
             }
             System.assert(hasAccess, 'Should have access to the case fields.');
         }

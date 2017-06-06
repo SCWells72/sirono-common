@@ -23,7 +23,7 @@ public class PaymentPlanBalanceTest {
         for (RecordType recordType : [
                 Select Id, Name
                 From RecordType
-                Where sObjectType = 'Payment_Method__c'
+                Where sObjectType = :Payment_Method__c.class.getName()
         ]) {
             recordTypeMap.put(recordType.Name, recordType.Id);
         }

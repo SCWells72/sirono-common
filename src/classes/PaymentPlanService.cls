@@ -391,7 +391,7 @@ public with sharing class PaymentPlanService extends AbstractService {
      * @returns String centAmount - That contains cent amount value.
      **/
     public static String convertToCents(String amount) {
-        String centAmount = (String.isNotBlank(amount) ? String.valueOf(Decimal.valueOf(amount) * 100) : amount);
+        String centAmount = (String.isNotBlank(amount) ? String.valueOf((Decimal.valueOf(amount) * 100).intValue()) : amount);
         return centAmount;
     }
 }

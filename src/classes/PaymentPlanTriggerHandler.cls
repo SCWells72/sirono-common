@@ -121,9 +121,16 @@ public with sharing class PaymentPlanTriggerHandler {
 				nextDt = calculateNextPaymentDate(Integer.valueof(guarantor.Invoice_Offset_Date__c), OVERDUE_DAY_LIMIT, refDt);
             }
             plan.NextPaymentDate__c = nextDt;
-            if (!fromPaymentPlanTrigger) newListToUpdate.add(plan);
+            if (!fromPaymentPlanTrigger) {
+                newListToUpdate.add(plan);
+            }
         }
-        if (newListToUpdate.size() > 0) update newListToUpdate;
+
+        if (newListToUpdate.size() > 0) {
+            if (PaymentPlanSecurityContext.PP_UPDATE_DATES_CONTEXT.actionAllowed()) {
+                UPDATE newListToUpdate;
+            }
+        }
     }
 
 	private static Date calculateNextPaymentDate(Integer selectedDay, Integer step, Date refDt) {
@@ -220,6 +227,4 @@ public with sharing class PaymentPlanTriggerHandler {
             }
         }
     }
-
-
 }

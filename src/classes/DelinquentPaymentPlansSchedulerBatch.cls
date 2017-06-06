@@ -60,7 +60,8 @@ public with sharing class DelinquentPaymentPlansSchedulerBatch
         Date dt = System.today().addDays(-10);
         if (callList != null) {
             List<CampaignMember> memberList = new List<CampaignMember>();
-            if (PaymentPlanSecurityContext.DPPSB_SELECT_CONTEXT.actionAllowed()) {
+            if (PaymentPlanSecurityContext.DPPSB_SELECT_CONTEXT.actionAllowed() &&
+                    CmpnMemberSecurityContext.SB_CREATE_CONTEXT.actionAllowed()) {
                 for (Payment_Plan__c pp: [
                         SELECT Id, Name, Guarantor__c, Delinquent_Date__c, Remaining_Balance__c, Active__c
                         FROM Payment_Plan__c

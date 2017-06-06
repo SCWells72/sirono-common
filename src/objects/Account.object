@@ -287,9 +287,6 @@
         <type>Picklist</type>
     </fields>
     <fields>
-        <fullName>IsPartner</fullName>
-    </fields>
-    <fields>
         <fullName>Jigsaw</fullName>
     </fields>
     <fields>

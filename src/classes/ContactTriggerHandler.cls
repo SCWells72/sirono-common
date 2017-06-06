@@ -1,14 +1,7 @@
 /*
-* @author Sirono 
-* @version 1.0.1
-* @Date: 06-06-2016
-* @ContactTriggerHandler Class used as a ContactTrigger Handler.
-* 
-* 08-11-2016: Sirono - Tracker # 127517097 For Automatic Early-out Case Closure
 *
-* 08-11-2016: Sirono - Tracker # 128030957 For Removal from Early-out campaign
+* ContactTriggerHandler - ContactTrigger Handler.
 *
-* 10/31/2016: Sirono - Tracker #127517419  Callout to verify phone numbers
 */
 
 public with sharing class ContactTriggerHandler {
@@ -142,9 +135,6 @@ public with sharing class ContactTriggerHandler {
     @future(callout = true)
     public static void verifyNumber(Set<Id> ids) {
         try {
-            //12-09-2016: Viraj Rana : Check Sirono Settings is exists or not. If empty than create default Setting.
-            SironoSettingsUtil.generatePhoneNumVerification();
-
             List<Contact> contacts = GuarantorService.getGuarantorsWithNumbers(ids);
 
             for (Contact con: contacts) {

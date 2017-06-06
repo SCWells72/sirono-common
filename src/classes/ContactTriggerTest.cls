@@ -6,20 +6,6 @@
 public class ContactTriggerTest {
 
     /**
-     * This method is used to setup preliminary data to let's all testmethods to execute as expected.
-     **/
-    @testSetup
-    public static void setup() {
-        Test.startTest();
-        SironoSettingsUtil.generatePhoneNumVerification();
-        Test.stopTest();
-
-        // Check system assert, Sirono settings initialized with some value & its not null.
-        Sirono_Settings__c sironoSettings = Sirono_Settings__c.getOrgDefaults();
-        System.assertNotEquals(sironoSettings.Apikey__c, null, 'Should not Sirono settings null.');
-    }
-
-    /**
      * This method checks logic for validate phone number after insert contact record.
      **/
     static testMethod void testAfterInsert() {

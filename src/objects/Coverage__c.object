@@ -321,15 +321,6 @@
         <label>All</label>
     </listViews>
     <listViews>
-        <fullName>Sirono_Partner_Queue_Coverage</fullName>
-        <filterScope>Queue</filterScope>
-        <label>Sirono Partner Queue</label>
-        <queue>Sirono_Partner_Queue</queue>
-        <sharedTo>
-            <allInternalUsers></allInternalUsers>
-        </sharedTo>
-    </listViews>
-    <listViews>
         <fullName>test_coverage_view</fullName>
         <columns>NAME</columns>
         <columns>Subscriber_SSN__c</columns>

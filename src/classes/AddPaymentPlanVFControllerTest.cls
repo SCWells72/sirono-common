@@ -3,7 +3,7 @@
  **/
 
 @isTest
-private class AddPaymentPlanVFControllerTest {
+public class AddPaymentPlanVFControllerTest {
 
     /**
      * This method tests the logic of constructor, init, doCancel, doNothing, doNext and getPaymentPlanSettings methods.
@@ -100,7 +100,7 @@ private class AddPaymentPlanVFControllerTest {
      * This method tests the logic of doSubmit method with all necessary parameters.
      **/
     @isTest
-    static void testCreatePaymentPlan() {
+    public static void testCreatePaymentPlan() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_Id__c = 23232323;
         INSERT guarantorContact;
