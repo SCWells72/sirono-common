@@ -359,4 +359,23 @@ public with sharing class GuarantorDaoTest {
         List<Contact> contacts = Database.query(noConactsQuery);
         System.assertEquals(0, contacts.size(), 'Should have zero results.');
     }
+
+    /**
+     * Test to verify the query string provided by the getContactsByRecordType method is valid.
+     */
+    @isTest
+    static void getContactsByRecordTypeTest() {
+
+        // This varible is required as a limiting factor in the returned query string.
+        List<Id> existingMembers = new List<Id>{};
+        Test.startTest();
+        String getContactQueryString = GuarantorDao.getContactsByRecordType();
+        Test.stopTest();
+
+        System.assert(getContactQueryString != null, 'Query string should not be null.');
+        System.assert(getContactQueryString.length() != 0, 'Query string should not be zero length.');
+
+        List<Contact> contacts = Database.query(getContactQueryString);
+        System.assert(contacts != null, 'Should be a query to get contacts.');
+    }
 }
