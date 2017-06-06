@@ -275,6 +275,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ContactInvoicedBalanceTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ContactSecurityContext</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -356,6 +360,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>EncounterSecurityContext</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EncounterSubstatusTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1873,6 +1881,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Charge_Group__c.Has_Credit_Balance__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Charge_Group__c.Has_Delinquent_Balance__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2089,6 +2102,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Campaign__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Credit_Balance__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2564,6 +2582,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Encounter__c.Encounter_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Encounter__c.Encounter_Substatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

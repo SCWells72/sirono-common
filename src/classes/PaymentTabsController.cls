@@ -131,7 +131,8 @@ public without sharing class PaymentTabsController
 				cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
 				cg.Payment_Plan__c = paymentPlanObj.Id;
 			}
-			update chargeGroups;
+			// Update the Charge Groups using ChargeGroupService.
+        		ChargeGroupService.updateChargeGroups(chargeGroups);
 			//@DOTO: waiting for Payment Method API implementatio
 			Payment_Method__c paymentMethod = PaymentTabsController.generatePaymentMethod(paymentInfo, paymentPlanObj.Guarantor__c);
 			paymentPlanObj.Payment_Method__r = paymentMethod;
@@ -325,7 +326,8 @@ public without sharing class PaymentTabsController
 				if (!hasError)
 				{
 					update paymentPlanObj;
-					update chargeGroups;
+                    			// Update the Charge Groups using ChargeGroupService.
+                    			ChargeGroupService.updateChargeGroupsWithStatus(chargeGroups);
 				}
 				return;
 			}

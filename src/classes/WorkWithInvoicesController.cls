@@ -52,7 +52,7 @@ public without sharing class WorkWithInvoicesController {
 			
 			listOfInvoices = Database.query(query);
 
-			Set<String> allChargeGroupIds = new Set<String>();
+			Set<Id> allChargeGroupIds = new Set<Id>();
 			
 			for(Integer i = 0; i < listOfInvoices.size(); i++) {
 				Invoice__c invoice = listOfInvoices[i];
@@ -61,46 +61,9 @@ public without sharing class WorkWithInvoicesController {
 					allChargeGroupIds.add(cGroup.Id);
 				}
 			}
-			List<Charge_Group__c> allGroups = [
-				SELECT
-						Id,
-						Name,
-						Balance__c,
-						Active__c,
-						Sirono_ID__c,
-						Location__c,
-						Location__r.Name,
-						Provider__r.Name,
-						Account_Type__c,
-						External_ID__c,
-						Payment_Plan__c,
-						Payment_Plan__r.Active__c,
-						Payment_Plan__r.Installment_Amount__c,
-						Payment_Plan__r.NextPaymentDate__c,
-						Sirono_Assigned_Date__c,
-						Date_Of_Service_Start_Date__c,
-						Date_Of_Service_End_Date__c,
-						(
-							SELECT 
-									Adjustment__r.Custom_Name__c,
-									Payment__r.Display_Name__c,
-									Service__r.Display_Name__c,
-									Amount__c,
-									Txn_Method__c
-							FROM	Transactions__r
-							ORDER BY Post_Date__c
-						),
-						(
-							SELECT 
-									Id,
-									Name,
-									Coverage__r.Payor__r.Name 
-							FROM	Charge_Group_Coverages__r
-						)
-				FROM	Charge_Group__c
-				WHERE	Id IN: allChargeGroupIds
-				ORDER BY CreatedDate
-			];
+            		// Get Charge Group List from ChargeGroupService class. Second parameter is use to get the order by result.
+            		List<Charge_Group__c> allGroups = ChargeGroupService.getCGForInvoiceController(allChargeGroupIds, true);
+
 			Map<Id,Charge_Group__c> allGroupsMap = new Map<Id,Charge_Group__c>(allGroups);
 
 			for(Integer i = 0; i < listOfInvoices.size(); i++) {
@@ -172,7 +135,7 @@ public without sharing class WorkWithInvoicesController {
 							'FROM Invoice__c WHERE Guarantor__c = \'' + u.ContactId + '\'' + ' AND Id =\'' + invoiceId + '\'';
 			listOfInvoices = Database.query(query);
 
-			Set<String> allChargeGroupIds = new Set<String>();
+			Set<Id> allChargeGroupIds = new Set<Id>();
 			for(Integer i = 0; i < listOfInvoices.size(); i++) {
 				Invoice__c invoice = listOfInvoices[i];
 				for(Integer j = 0; j < invoice.Charge_Groups__r.size(); j++) {
@@ -180,43 +143,9 @@ public without sharing class WorkWithInvoicesController {
 					allChargeGroupIds.add(cGroup.Id);
 				}
 			}
-			List<Charge_Group__c> allGroups = [
-				SELECT
-						Id,
-						Name,
-						Balance__c,
-						Sirono_ID__c,
-						Location__c,
-						Location__r.Name,
-						Provider__r.Name,
-						Account_Type__c,
-						External_ID__c,
-						Payment_Plan__c,
-						Payment_Plan__r.Active__c,
-						Payment_Plan__r.Installment_Amount__c,
-						Payment_Plan__r.NextPaymentDate__c,
-						Sirono_Assigned_Date__c,
-						Date_Of_Service_Start_Date__c,
-						Date_Of_Service_End_Date__c,
-						(
-							SELECT 
-									Adjustment__r.Custom_Name__c,
-									Payment__r.Display_Name__c,
-									Amount__c,
-									Service__r.Display_Name__c,
-									Txn_Method__c
-							FROM	Transactions__r
-						),
-						(
-							SELECT 
-									Id,
-									Name,
-									Coverage__r.Payor__r.Name 
-							FROM	Charge_Group_Coverages__r
-						)
-				FROM	Charge_Group__c
-				WHERE	Id IN: allChargeGroupIds
-			];
+            		// Get Charge Group List from ChargeGroupService class. Second parameter is use to get the order by result.
+            		List<Charge_Group__c> allGroups = ChargeGroupService.getCGForInvoiceController(allChargeGroupIds, false);
+
 			Map<Id,Charge_Group__c> allGroupsMap = new Map<Id,Charge_Group__c>(allGroups);
 			for(Integer i = 0; i < listOfInvoices.size(); i++) {
 				Invoice__c invoice = listOfInvoices[i];

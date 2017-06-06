@@ -231,6 +231,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ContactInvoicedBalanceTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ContactService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1733,6 +1737,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Charge_Group__c.Has_Credit_Balance__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Charge_Group__c.Has_Delinquent_Balance__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1950,6 +1959,11 @@
         <editable>true</editable>
         <field>Contact.Campaign__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Credit_Balance__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2364,11 +2378,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Encounter__c.Balance__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Encounter__c.Billed_Charge_Group_Count__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

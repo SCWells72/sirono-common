@@ -655,6 +655,21 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Credit_Balance__c</fullName>
+        <externalId>false</externalId>
+        <label>Credit Balance</label>
+        <summarizedField>Charge_Group__c.Balance__c</summarizedField>
+        <summaryFilterItems>
+            <field>Charge_Group__c.Has_Credit_Balance__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Charge_Group__c.Guarantor__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <type>Summary</type>
+    </fields>
+    <fields>
         <fullName>Deleted__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>

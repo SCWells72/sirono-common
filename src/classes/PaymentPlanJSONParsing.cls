@@ -144,13 +144,11 @@ public class PaymentPlanJSONParsing {
 
         System.debug('setchargeGroupID' + setchargeGroupID);
         if (setchargeGroupID.Size() > 0) {
-            if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                List<Charge_Group__c> chargeGroup = [SELECT Id, Sirono_ID__c FROM Charge_Group__c WHERE Sirono_ID__c IN :setchargeGroupID];
-                for (Charge_Group__c objCG: chargeGroup) {
-                    objCG.Payment_Plan__c = paymentPlanObj.ID;
-                }
-                objPaymentPlanWrapper.chargeGroupRecords = chargeGroup;
+            List<Charge_Group__c> chargeGroups = ChargeGroupService.getBySironoIds(new List<Decimal>(setchargeGroupID));
+            for (Charge_Group__c objCG: chargeGroups) {
+                objCG.Payment_Plan__c = paymentPlanObj.ID;
             }
+            objPaymentPlanWrapper.chargeGroupRecords = chargeGroups;
         }
 
         objPaymentPlanWrapper.paymentPlanRecord = paymentPlanObj;

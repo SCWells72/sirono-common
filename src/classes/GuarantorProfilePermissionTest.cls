@@ -128,6 +128,20 @@ public with sharing class GuarantorProfilePermissionTest {
     }
 
     @isTest
+    public static void readCaseRelatedContact() {
+        User usr = getGuarantorCommunityPlusUser();
+        System.runAs(usr) {
+            Boolean hasAccess = false;
+            try {
+                hasAccess = ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed();
+            } catch(Exception e) {
+                System.assert(hasAccess, 'Should have had read access to Case related Contact.');
+            }
+            System.assert(hasAccess, 'Should have read access to the Case related Contact fields.');
+        }
+    }
+
+    @isTest
     public static void readChargeGroup() {
         User usr = getGuarantorCommunityPlusUser();
         System.runAs(usr) {
@@ -138,6 +152,34 @@ public with sharing class GuarantorProfilePermissionTest {
                 System.assert(hasAccess, 'Should have had read access to ChargeGroup.');
             }
             System.assert(hasAccess, 'Should have access to the ChargeGroup fields.');
+        }
+    }
+
+    @isTest
+    public static void readCase() {
+        User usr = getGuarantorCommunityPlusUser();
+        System.runAs(usr) {
+            Boolean hasAccess = false;
+            try {
+                hasAccess = CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed();
+            } catch(Exception e) {
+                System.assert(hasAccess, 'Should have had read access to Case.');
+            }
+            System.assert(hasAccess, 'Should have access to the case fields.');
+        }
+    }
+
+    @isTest
+    public static void readTransaction() {
+        User usr = getGuarantorCommunityPlusUser();
+        System.runAs(usr) {
+            Boolean hasAccess = false;
+            try {
+                hasAccess = TransactionSecurityContext.PPU_SELECT_CONTEXT.actionAllowed();
+            } catch(Exception e) {
+                System.assert(hasAccess, 'Should have had read access to Case.');
+            }
+            System.assert(hasAccess, 'Should have access to the case fields.');
         }
     }
 }

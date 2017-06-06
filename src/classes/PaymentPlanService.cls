@@ -207,7 +207,7 @@ public with sharing class PaymentPlanService extends AbstractService {
             System.debug('chargeGroupIdSet' + chargeGroupIdSet);
             //Get SF chargeGroups & link to paymentPlan
             if (!chargeGroupIdSet.isEmpty()) {
-                List<Charge_Group__c> chargeGroup = ChargeGroupDao.getBySironoIds(new List<Decimal>(chargeGroupIdSet));
+                List<Charge_Group__c> chargeGroup = ChargeGroupService.getBySironoIds(new List<Decimal>(chargeGroupIdSet));
                 for (Charge_Group__c objCG : chargeGroup) {
                     objCG.Payment_Plan__c = paymentPlanObj.ID;
                 }
@@ -331,7 +331,7 @@ public with sharing class PaymentPlanService extends AbstractService {
     }
 
     private static void validateChargeGroupIds(List<String> chargegroupIds) {
-        Charge_Group__c[] cgs = ChargeGroupDao.getBySironoIds(new List<Decimal>(AbstractSironoJSONParser.asDecimalSet(chargegroupIds)));
+        Charge_Group__c[] cgs = ChargeGroupService.getBySironoIds(new List<Decimal>(AbstractSironoJSONParser.asDecimalSet(chargegroupIds)));
 
         Map<String, Charge_Group__c> foundCGMap = new Map<String, Charge_Group__c>();
         for (Charge_Group__c cg : cgs) {
@@ -371,7 +371,7 @@ public with sharing class PaymentPlanService extends AbstractService {
             cg.Payment_Plan__c = pmtPlan.Id;
         }
 
-        ChargeGroupDao.updateChargeGroups(cgList);
+        ChargeGroupService.updateChargeGroups(cgList);
     }
 
     /**

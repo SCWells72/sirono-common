@@ -51,18 +51,12 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
         Date dt = System.today();
         if (callList != null) {
             List<CampaignMember> memberList = new List<CampaignMember>();
-            if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                for (Charge_Group__c cg: [
-                        SELECT Id, Name, Guarantor__c, Pre_Collection_Sent__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Delinquent_Balance__c
-                        FROM Charge_Group__c
-                        WHERE Guarantor__c IN :guarantors AND Pre_Collection_Sent__c = :dt
-                ]) {
-                    Double bal = cg.Guarantor__r.Overdue_Balance__c + cg.Guarantor__r.Delinquent_Balance__c;
-                    System.debug('bal' + bal);
-                    if (bal <= -100 && bal > -5000 && !existingMembers.contains(cg.Guarantor__c)) {
-                        existingMembers.add(cg.Guarantor__c);
-                        memberList.add(new CampaignMember(CampaignId = callList.Id, ContactId = cg.Guarantor__c, Status = 'Sent'));
-                    }
+            for (Charge_Group__c cg: ChargeGroupService.getCGBasedOnGuarantorAndPreCollDate(guarantors, dt)) {
+                Double bal = cg.Guarantor__r.Overdue_Balance__c + cg.Guarantor__r.Delinquent_Balance__c;
+                System.debug('bal' + bal);
+                if (bal <= -100 && bal > -5000 && !existingMembers.contains(cg.Guarantor__c)) {
+                    existingMembers.add(cg.Guarantor__c);
+                    memberList.add(new CampaignMember(CampaignId = callList.Id, ContactId = cg.Guarantor__c, Status = 'Sent'));
                 }
             }
             if (memberList.size() > 0) {

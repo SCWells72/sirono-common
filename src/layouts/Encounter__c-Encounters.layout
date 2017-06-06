@@ -93,7 +93,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Billed_Charge_Group_Count__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Status__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Encounter_Substatus__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

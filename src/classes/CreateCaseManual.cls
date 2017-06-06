@@ -15,7 +15,7 @@ public with sharing class CreateCaseManual {
   public Boolean chargeGroupsSelected { get; set; }
   public String guarantorId { get; set; }
   public String guarantorName { get; set; }
-  public String chargeGroupId { get; set; }
+  public String[] chargeGroupIds { get; set; }
   public List<ChargeGroupWrapper> chargeGroupList { get; set; }
   public Case caseObj { get; set; }
   public String caseType { get; set; }
@@ -30,7 +30,7 @@ public with sharing class CreateCaseManual {
 
   //11-23-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
   //This set is also used whenever we got Coverage record based on Charge Group's "Date Of Service Start" field.
-  Set<String> setChargeGroupId = new Set<String>();
+  Set<Id> setChargeGroupId = new Set<Id>();
 
     /*
      * Constructor to get the guarantor and charge group details.
@@ -69,7 +69,7 @@ public with sharing class CreateCaseManual {
           chargeGroupList.add(cgw);
         }
       }
-      chargeGroupId = '';
+      chargeGroupIds = new String[]{};
     }
   }
 
@@ -92,15 +92,12 @@ public with sharing class CreateCaseManual {
     */
   public Pagereference doNext() {
     chargeGroupsSelected = false;
+    chargeGroupIds = ChargeGroupWrapper.getSelectedChargeGroupIds(chargeGroupList);
 
-    //validate to see if user have selected Case Type
-    chargeGroupId = PayStaffWSUtill.fetchChargeGroupIds(chargeGroupList);
-
-    if (!isEmpty(chargeGroupId)) {
+    if (!chargeGroupIds.isEmpty()) {
       chargeGroupsSelected = true;
     } else {
-      ApexPages.Message myMsg = new ApexPages.Message(ApexPages.Severity.ERROR, label.Charge_Groups_Require);
-      ApexPages.addMessage(myMsg);
+      ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, label.Charge_Groups_Require));
     }
     return null;
   }
@@ -135,17 +132,8 @@ public with sharing class CreateCaseManual {
           setChargeGroupId.add(cg.cg.id);
         }
       }
-      if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-        List<Charge_Group__c> lstChargeGroup = [
-            SELECT Id, Guarantor__c, Patient__c
-            FROM Charge_Group__c
-            WHERE Id IN :setChargeGroupId
-            ORDER BY CreatedDate DESC
-        ];
-        if (lstChargeGroup.size() > 0) {
-          chargeGroup = lstChargeGroup[0];
-        }
-      }
+
+      chargeGroup = ChargeGroupService.getCGOrderByCreatedDate(setChargeGroupId);
 
       if (gc.RecordType.DeveloperName == 'Patient') {
         caseObj.Patient__c = gc.id;
@@ -196,17 +184,6 @@ public with sharing class CreateCaseManual {
         INSERT caseObj;
       }
 
-      //create case comments
-      if (String.isNotBlank(caseNotes)) {
-        CaseComment cc = new CaseComment();
-        cc.ParentId = caseObj.Id;
-        cc.CommentBody = caseNotes;
-
-        if (CaseCommentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-          INSERT cc;
-        }
-      }
-
       //add selected Charge Groups to Case
       List<Case_Charge_Group_Junction__c> caseCGs = new List<Case_Charge_Group_Junction__c>();
       for (ChargeGroupWrapper cg : chargeGroupList) {
@@ -219,6 +196,17 @@ public with sharing class CreateCaseManual {
       }
       if (CaseCGJunctionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
         INSERT caseCGs;
+      }
+
+      //create case comments
+      if (String.isNotBlank(caseNotes)) {
+        CaseComment cc = new CaseComment();
+        cc.ParentId = caseObj.Id;
+        cc.CommentBody = caseNotes;
+
+        if (CaseCommentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+          INSERT cc;
+        }
       }
 
       ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'Created Successfully!'));
@@ -238,20 +226,13 @@ public with sharing class CreateCaseManual {
     if (Apexpages.currentPage().getParameters().containsKey('reason')) {
       caseObj.Reason = Apexpages.currentPage().getParameters().get('reason');
             
-            /* 11-23-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
-             * Populating coverage data using the selected Chargegroup with the oldest "Date Of Service Start" field.
-            */
+      /* 11-23-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
+       * Populating coverage data using the selected Chargegroup with the oldest "Date Of Service Start" field.
+       */
       Charge_Group__c cg = new Charge_Group__c();
-      if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-        List<Charge_Group__c> lstChargeGroup = [
-            SELECT Id
-            FROM Charge_Group__c
-            WHERE Id IN :setChargeGroupId
-            ORDER BY Date_Of_Service_Start_Date__c
-        ];
-        if (lstChargeGroup.size() > 0) {
+      List<Charge_Group__c> lstChargeGroup = ChargeGroupService.getCGOrderByServiceDate(setChargeGroupId);
+      if (lstChargeGroup.size() > 0) {
           cg = lstChargeGroup[0];
-        }
       }
 
             /* 10-19-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.

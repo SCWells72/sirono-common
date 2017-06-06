@@ -188,24 +188,17 @@ public class CaseUtil {
 
                 //Insert the Case Charge Group
                 List<Case_Charge_Group_Junction__c> lstCCG = new List<Case_Charge_Group_Junction__c>();
-                if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                    for (Charge_Group__c cg: [
-                            SELECT Id, Guarantor__c
-                            FROM Charge_Group__c
-                            WHERE Account_Status__c = 'Billed'
-                            AND Guarantor__c = :mapContactCase.keyset()
-                    ]) {
-                        if (mapContactCase.Containskey(cg.Guarantor__c)) {
-                            Case objCase = mapContactCase.get(cg.Guarantor__c);
-                            Case_Charge_Group_Junction__c ccg = new Case_Charge_Group_Junction__c();
-                            ccg.Case__c = objCase.Id;
-                            ccg.Charge_Group__c = cg.Id;
-                            lstCCG.add(ccg);
-                        }
+                for (Charge_Group__c cg: ChargeGroupService.getCGBasedOnGuarantor(mapContactCase.keyset())) {
+                    if (mapContactCase.Containskey(cg.Guarantor__c)) {
+                        Case objCase = mapContactCase.get(cg.Guarantor__c);
+                        Case_Charge_Group_Junction__c ccg = new Case_Charge_Group_Junction__c();
+                        ccg.Case__c = objCase.Id;
+                        ccg.Charge_Group__c = cg.Id;
+                        lstCCG.add(ccg);
                     }
-                    if (CaseCGJunctionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                        INSERT lstCCG;
-                    }
+                }
+                if (CaseCGJunctionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+                    INSERT lstCCG;
                 }
             }
 
@@ -472,24 +465,17 @@ public class CaseUtil {
 
                 //Insert the Case Charge Group
                 List<Case_Charge_Group_Junction__c> lstCCG = new List<Case_Charge_Group_Junction__c>();
-                if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                    for (Charge_Group__c cg: [
-                            SELECT Id, Guarantor__c
-                            FROM Charge_Group__c
-                            WHERE Account_Status__c = 'Billed'
-                            AND Guarantor__c = :mapContactCase.keyset()
-                    ]) {
-                        if (mapContactCase.Containskey(cg.Guarantor__c)) {
-                            Case objCase = mapContactCase.get(cg.Guarantor__c);
-                            Case_Charge_Group_Junction__c ccg = new Case_Charge_Group_Junction__c();
-                            ccg.Case__c = objCase.Id;
-                            ccg.Charge_Group__c = cg.Id;
-                            lstCCG.add(ccg);
-                        }
+                for (Charge_Group__c cg: ChargeGroupService.getCGBasedOnGuarantor(mapContactCase.keyset())) {
+                    if (mapContactCase.Containskey(cg.Guarantor__c)) {
+                        Case objCase = mapContactCase.get(cg.Guarantor__c);
+                        Case_Charge_Group_Junction__c ccg = new Case_Charge_Group_Junction__c();
+                        ccg.Case__c = objCase.Id;
+                        ccg.Charge_Group__c = cg.Id;
+                        lstCCG.add(ccg);
                     }
-                    if (CaseCGJunctionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                        INSERT lstCCG;
-                    }
+                }
+                if (CaseCGJunctionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+                    INSERT lstCCG;
                 }
             }
 

@@ -42,21 +42,8 @@ public with sharing class CaseCommentTriggerHandler {
                 }
             }
 
-            List<String> chargeGroupIds = new List<String>();
-            //Tracker # 130687155  Query to get the Charge Groups from Case Charge Group object.
-            if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed() &&
-                    CaseCGJunctionSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                for (Charge_Group__c cg: [SELECT Id, Sirono_ID__c
-                            FROM Charge_Group__c
-                            WHERE Id IN (SELECT Charge_Group__c
-                                FROM Case_Charge_Group_Junction__c
-                                WHERE Case__c = :caseId)
-                ]) {
-                    if (cg != null) {
-                        chargeGroupIds.add(cg.Sirono_ID__c + '');
-                    }
-                }
-            }
+            List<String> chargeGroupIds = ChargeGroupService.getCGIdsFromCaseCGJun(caseId);
+
             //CALL FUTURE METHOD FOR ADD NOTE CALLOUT
             PayStaffWSUtill.addNoteFuture(chargeGroupIds, caseCommentBody);
         }
