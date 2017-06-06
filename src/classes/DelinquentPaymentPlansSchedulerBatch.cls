@@ -50,7 +50,7 @@ public with sharing class DelinquentPaymentPlansSchedulerBatch
 
             return Database.getQueryLocator(GuarantorService.getContactsByRecordType());
         } else {
-            return Database.getQueryLocator(GuarantorService.getConactsNoResults());
+            return Database.getQueryLocator(GuarantorService.getContactsNoResults());
         }
         return null;
     }

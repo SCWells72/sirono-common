@@ -40,7 +40,7 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
             }
             return Database.getQueryLocator(GuarantorService.getContactsByRecordType());
         } else {
-            return Database.getQueryLocator(GuarantorService.getConactsNoResults());
+            return Database.getQueryLocator(GuarantorService.getContactsNoResults());
         }
         return null;
     }

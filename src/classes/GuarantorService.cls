@@ -167,7 +167,7 @@ public with sharing class GuarantorService extends AbstractService {
      *
      * @returns String - A query string that will result in zero records.
      */
-    public static String getConactsNoResults() {
+    public static String getContactsNoResults() {
         return GuarantorDao.getContactsNoResults();
     }
 
