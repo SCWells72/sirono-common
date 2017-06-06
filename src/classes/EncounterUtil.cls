@@ -168,9 +168,8 @@ public without sharing class EncounterUtil {
 
                 toUpdate.add(gt);
             }
-            if (ContactSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                UPDATE toUpdate;
-            }
+            // Update Contacts.
+            GuarantorService.updateGuarantorsWithEstimateBal(toUpdate);
         }
     }
 

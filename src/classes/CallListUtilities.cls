@@ -12,26 +12,14 @@ public with sharing class CallListUtilities {
     //Remove the Campaign Members for the pre collection
     public static void preCollectionCallListRemoval(Set<Id> contactIds) {
         Set<Id> membersToremove = new Set<Id>();
-        if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed() &&
-                ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            for (Contact c: [
-                    SELECT Id, Overdue_Balance__c, Delinquent_Balance__c, (
-                            SELECT Id, Pre_Collection_Sent__c
-                            FROM Charge_Groups__r
-                            WHERE Pre_Collection_Sent__c != null
-                    )
-                    FROM Contact
-                    WHERE Id IN :contactIds
-            ]) {
+        for (Contact c: GuarantorService.getGuarantorsWithCG(contactIds)) {
+            Decimal balToCheck = 0;
+            if (c.Overdue_Balance__c != null) balToCheck += c.Overdue_Balance__c;
+            if (c.Delinquent_Balance__c != null) balToCheck += c.Delinquent_Balance__c;
 
-                Decimal balToCheck = 0;
-                if (c.Overdue_Balance__c != null) balToCheck += c.Overdue_Balance__c;
-                if (c.Delinquent_Balance__c != null) balToCheck += c.Delinquent_Balance__c;
-    
-                if (c.Charge_Groups__r.size() == 0
-                        || balToCheck > -100 || balToCheck < -5000) {
-                    membersToremove.add(c.Id);
-                }
+            if (c.Charge_Groups__r.size() == 0
+                    || balToCheck > -100 || balToCheck < -5000) {
+                membersToremove.add(c.Id);
             }
         }
 
@@ -91,21 +79,10 @@ public with sharing class CallListUtilities {
 
     //Remove the Campaign Members for the Delinquent case.
     public static void delinquentPaymentPlanCallListRemoval(Set<Id> contactIds) {
-        Set<Id> membersToremove = new Set<Id>();
-        if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed() &&
-                PaymentPlanSecurityContext.CLU_SELECT_CONTEXT.actionAllowed()) {
-            for (Contact c: [
-                    SELECT Id, (
-                            SELECT Id, Delinquent_Date__c, Active__c
-                            FROM Payment_Plans__r
-                            WHERE Delinquent_Date__c != null OR Active__c = true
-                    )
-                    FROM Contact
-                    WHERE Id IN :contactIds
-            ]) {
-                if (c.Payment_Plans__r.size() == 0) {
-                    membersToremove.add(c.Id);
-                }
+        Set<Id> membersToremove = new Set<Id>();        
+        for (Contact c: GuarantorService.getGuarantorsWithPmtPlan(contactIds)) {
+            if (c.Payment_Plans__r.size() == 0) {
+                membersToremove.add(c.Id);
             }
         }
 
@@ -132,20 +109,9 @@ public with sharing class CallListUtilities {
     //Remove the Campaign Members for the Pre-Service case.
     public static void preServiceCallListRemoval(Set<Id> contactIds) {
         Set<Id> membersToremove = new Set<Id>();
-        if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed() &&
-                EncounterSecurityContext.CLU_SELECT_CONTEXT.actionAllowed()) {
-            for (Contact c: [
-                    SELECT Id, (
-                            SELECT Id, Date_of_Service__c, Liability__c, Cancelled__c
-                            FROM Encounters__r
-                            WHERE Liability__c < 100 OR Date_of_Service__c != Today OR Cancelled__c = false
-                    )
-                    FROM Contact
-                    WHERE Id IN :contactIds
-            ]) {
-                if (c.Encounters__r.size() == 0) {
-                    membersToremove.add(c.Id);
-                }
+        for (Contact c: GuarantorService.getGuarantorsWithEncounters(contactIds)) {
+            if (c.Encounters__r.size() == 0) {
+                membersToremove.add(c.Id);
             }
         }
 

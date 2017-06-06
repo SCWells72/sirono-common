@@ -52,7 +52,7 @@ public abstract class PayEstimateController {
         errorMessages = new List<String>();
         if (guarantorRecordId != null) {
             // Fetch Guarantor Contact record based on Id.
-            guarantorContact = GuarantorDao.getGuarantor(guarantorRecordId);
+            guarantorContact = GuarantorService.getGuarantor(guarantorRecordId);
             // Fetch Guarantor Name based on Contact record.
             guarantorName = GuarantorService.buildGuarantorDetailString(guarantorContact);
             // Call getEncounterRecords method.

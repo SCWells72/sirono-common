@@ -48,22 +48,9 @@ public with sharing class DelinquentPaymentPlansSchedulerBatch
                 }
             }
 
-            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
-                return Database.getQueryLocator([
-                        SELECT Id, FirstName, LastName
-                        FROM Contact
-                        WHERE RecordType.Name = 'Guarantor'
-                        AND ID NOT IN :existingMembers
-                ]);
-            }
+            return Database.getQueryLocator(GuarantorService.getBatchContactsQuery());
         } else {
-            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
-                return Database.getQueryLocator([
-                        SELECT Id, FirstName
-                        FROM Contact
-                        WHERE RecordType.Name = 'Guarantor-DO-NOT-EXIST'
-                ]);
-            }
+            return Database.getQueryLocator(GuarantorService.getNoContactsQuery());
         }
         return null;
     }

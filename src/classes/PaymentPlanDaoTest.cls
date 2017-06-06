@@ -32,7 +32,7 @@ public with sharing class PaymentPlanDaoTest {
 
     @isTest
     public static void getActivePaymentPlanTest() {
-        Contact gt = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
+        Contact gt = GuarantorService.getGuarantorBySironoId(GT_SIRONO_ID);
         System.assertNotEquals(gt, null);
 
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan((String) gt.Id);
@@ -43,7 +43,7 @@ public with sharing class PaymentPlanDaoTest {
 
     @isTest
     public static void getActivePaymentPlanUseWrongIdTest() {
-        Contact gt = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
+        Contact gt = GuarantorService.getGuarantorBySironoId(GT_SIRONO_ID);
         System.assertNotEquals(gt, null);
 
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(GT_SIRONO_ID);
@@ -71,7 +71,7 @@ public with sharing class PaymentPlanDaoTest {
 
     @isTest
     public static void upsertPlansTest() {
-        Contact gt = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
+        Contact gt = GuarantorService.getGuarantorBySironoId(GT_SIRONO_ID);
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
 
         pp.Active__c = false;

@@ -22,88 +22,6 @@ public with sharing class PayStaffWSUtill {
     //It is used to verified that Charge Group have longer Payment Plan Look up or not.
     static boolean hasChargeGroupPaymentPlan = false;
 
-    //These are just being added back in order to fix a QA build break. DO NOT USE
-    public static String fetchGuarantorName(Contact gt) {
-        return GuarantorService.buildGuarantorDetailString(gt);
-    }
-    public static Contact fetchGuarantorContact(String contactId) {
-        return GuarantorService.getGuarantor(contactId);
-    }
-
-    //Fetch the contact record
-    public static Contact fetchContact(String contactId) {
-        Contact ob = null;
-        if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            for (Contact c: [
-                    SELECT Id, FirstName, MiddleName, LastName, Name, Suffix, Birthdate, Social_Security_Number__c,
-                            Medical_Record_Number__c, RecordType.DeveloperName, HomePhone, MobilePhone, OtherPhone, Salutation,
-                            MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet,
-                            Profile_Pointer_Id__c
-                    FROM Contact
-                    WHERE Id = :contactId
-            ]) {
-                ob = c;
-            }
-        }
-        return ob;
-    }
-
-    //08-09-2016: This is method is used to get the CG records of Patient Contact type
-    public static Contact fetchPatientContactWithCGConstraints(String contactId) {
-        Contact ob = null;
-        if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed() &&
-                ChargeGroupSecurityContext.GD_SELECT_CONTEXT.actionAllowed()) {
-            for (Contact c: [
-                    SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
-                            Medical_Record_Number__c, RecordType.DeveloperName,
-                            Profile_Pointer_Id__c, Patient_Id__c, (
-                            SELECT Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
-                                    External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
-                                    Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
-                                    Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
-                                    Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
-                                    Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
-                            FROM Charge_Groups_Patient__r
-                            WHERE Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
-                            AND Account_Sub_Status__c IN :Constants.CGConstraints
-                    )
-                    FROM Contact
-                    WHERE Id = :contactId
-            ]) {
-                ob = c;
-            }
-        }
-        return ob;
-    }
-
-    //08-09-2016: This is method is used to get the CG records of Patient Contact type
-    public static Contact fetchPatientContactWithCGConstraintsForCase(String contactId) {
-        Contact ob = null;
-        if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed() &&
-                ChargeGroupSecurityContext.GD_SELECT_CONTEXT.actionAllowed()) {
-            for (Contact c: [
-                    SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
-                            Medical_Record_Number__c, RecordType.DeveloperName,
-                            Profile_Pointer_Id__c, Patient_Id__c, (
-                            SELECT Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
-                                    External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
-                                    Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
-                                    Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
-                                    Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
-                                    Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
-                            FROM Charge_Groups_Patient__r
-                            WHERE Sirono_ID__c != null AND Active__c = true AND Account_Status__c = 'Billed'
-                            AND Account_Sub_Status__c IN :Constants.CGConstraintsForCase
-                    )
-                    FROM Contact
-                    WHERE Id = :contactId
-            ]) {
-                ob = c;
-            }
-        }
-        return ob;
-    }
-
     //get the Guarantor Id from given contact.
     public static String fetchGuarantorId(Contact gc) {
         String sironoId = '';
@@ -119,13 +37,15 @@ public with sharing class PayStaffWSUtill {
 
     //get the Patient Id from passed contact.
     public static String fetchPatientId(Contact gc) {
-        String patientId = '';
-        if (gc != null && gc.Patient_Id__c != null) {
-            patientId = String.valueOf(gc.Patient_Id__c);
-        } else if (ApexPages.currentPage() != null) {
-            handleErrorMessages(ApexPages.SEVERITY.ERROR, 'Patient Id does not exist!');
+        String sironoId = '';
+        try{
+            sironoId = PatientService.getPatientSironoId(gc);
+        } catch (SironoServiceException ex) {
+            if (ApexPages.currentPage() != null) {
+                handleErrorMessages(ApexPages.SEVERITY.ERROR, 'Patient Id does not exist!');
+            }
         }
-        return patientId;
+        return sironoId;
     }
 
     //get the charge group list

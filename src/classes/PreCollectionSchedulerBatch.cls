@@ -23,7 +23,7 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 'PreCollections'
         });
-        string preCollection = mapCampaignMapping.get('PreCollections');
+        String preCollection = mapCampaignMapping.get('PreCollections');
 
         if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             for (Campaign cl: [SELECT  Id, Name FROM Campaign WHERE Name = :preCollection AND isActive = true]) {
@@ -38,13 +38,9 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
                     existingMembers.add(cm.ContactId);
                 }
             }
-            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
-                return Database.getQueryLocator([SELECT Id, FirstName FROM Contact WHERE RecordType.Name = 'Guarantor' AND ID NOT IN :existingMembers]);
-            }
+            return Database.getQueryLocator(GuarantorService.getBatchContactsQuery());
         } else {
-            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
-                return Database.getQueryLocator([SELECT Id, FirstName FROM Contact WHERE RecordType.Name = 'Guarantor-DO-NOT-EXIST']);
-            }
+            return Database.getQueryLocator(GuarantorService.getNoContactsQuery());
         }
         return null;
     }

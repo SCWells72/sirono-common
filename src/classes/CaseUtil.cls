@@ -7,7 +7,13 @@ public class CaseUtil {
     public static Boolean executeRemoveCampaignTrigger = True;
     
     public static Boolean createCaseInTrigger = true;
-    
+
+    // Final variables for Contact Query filter.
+    public static final String Delinquent_Bal_GT = 'Delinquent_Bal_GT';
+    public static final String Delinquent_Bal_LT = 'Delinquent_Bal_LT';
+    public static final String Overdue_Bal_GT = 'Overdue_Bal_GT';
+    public static final String Overdue_Bal_LT = 'Overdue_Bal_LT';
+
     // Create instant of CmpnMemberSecurityContext class. It is use to check Delete access on Object.
     public static CmpnMemberSecurityContext cmpnMemSecurityContext = new CmpnMemberSecurityContext();
 
@@ -41,18 +47,7 @@ public class CaseUtil {
             setContact.add(objStatement.Guarantor__c);
         }
 
-        if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-            mapContact = new Map<Id, Contact>(
-            [
-                    SELECT Id, Name, Statement_Preference__c,
-                            Overdue_Balance__c, Delinquent_Balance__c,
-                            RecordType.DeveloperName,
-                            HomePhone, MobilePhone, OtherPhone
-                    FROM Contact
-                    WHERE Id IN :setContact
-                    AND Overdue_Balance__c > 0
-            ]);
-        }
+        mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(setContact, Overdue_Bal_GT));
 
         if (mapContact.size() > 0) {
             Map<Id, Id> mapComplianceContact = new Map<Id, Id>();
@@ -271,18 +266,7 @@ public class CaseUtil {
     */
     Public Static void closeEarlyOutAutoCase(Set<String> setContact) {
 
-        Map<Id, Contact> mapContact = new Map<Id, Contact>();
-        if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-            mapContact = new Map<Id, Contact>([
-                    SELECT Id, Name, Statement_Preference__c,
-                            Overdue_Balance__c, Delinquent_Balance__c,
-                            RecordType.DeveloperName,
-                            HomePhone, MobilePhone, OtherPhone
-                    FROM Contact
-                    WHERE Id IN :setContact
-                    OR Overdue_Balance__c <= 0
-            ]);
-        }
+        Map<Id, Contact> mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(setContact, Overdue_Bal_LT));
 
         if (mapContact.size() > 0) {
             List<Case> earlyOutCases = new List<Case>();
@@ -339,20 +323,7 @@ public class CaseUtil {
             setContact.add(objStatement.Guarantor__c);
         }
 
-        if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-            mapContact = new Map<Id, Contact>(
-            [
-                    SELECT Id, Name, Statement_Preference__c,
-                            Overdue_Balance__c,
-                            Delinquent_Balance__c,
-                            RecordType.DeveloperName,
-                            HomePhone, MobilePhone,
-                            OtherPhone
-                    FROM Contact
-                    WHERE Id IN :setContact
-                    AND Delinquent_Balance__c > 0
-            ]);
-        }
+        mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(setContact, Delinquent_Bal_GT));
 
         if (mapContact.size() > 0) {
             Map<Id, Id> mapComplianceContact = new Map<Id, Id>();
@@ -575,21 +546,8 @@ public class CaseUtil {
     * Campaign.
     */
     public static void closePrecollectionsAutoCase(Set<String> setContact) {
-        Map<Id, Contact> mapContact = new Map<Id, Contact>();
-        if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-            mapContact = new Map<Id, Contact>(
-            [
-                    SELECT Id, Name,
-                            Statement_Preference__c,
-                            Overdue_Balance__c,
-                            Delinquent_Balance__c,
-                            RecordType.DeveloperName, HomePhone,
-                            MobilePhone, OtherPhone
-                    FROM Contact
-                    WHERE Id IN :setContact
-                    OR Delinquent_Balance__c < 0
-            ]);
-        }
+        Map<Id, Contact> mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(setContact, Delinquent_Bal_LT));
+
         if (mapContact.size() > 0) {
             List<Case> precollections = new List<Case>();
             if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
@@ -635,17 +593,7 @@ public class CaseUtil {
                 }
             }
         }
-        if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-            mapContact = new Map<Id, Contact>([
-                    SELECT Id, Name,
-                            Statement_Preference__c, Overdue_Balance__c,
-                            Delinquent_Balance__c,
-                            RecordType.DeveloperName, HomePhone,
-                            MobilePhone, OtherPhone
-                    FROM Contact
-                    WHERE Id IN :setContact
-            ]);
-        }
+        mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(setContact, null));
 
         if (mapContact.size() > 0) {
             Map<Id, Id> mapComplianceContact = new Map<Id, Id>();
@@ -915,19 +863,7 @@ public class CaseUtil {
             }
         }
 
-        Map<Id, Contact> mapContact = new Map<Id, Contact>();
-        if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-            mapContact = new Map<Id, Contact>(
-            [
-                    SELECT Id, Name,
-                            Statement_Preference__c, Overdue_Balance__c,
-                            Delinquent_Balance__c,
-                            RecordType.DeveloperName, HomePhone,
-                            MobilePhone, OtherPhone
-                    FROM Contact
-                    WHERE Id IN :contactIds
-            ]);
-        }
+        Map<Id, Contact> mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(contactIds, null));
 
         Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
                 'Delinquent', 'Delinquent M'
@@ -1126,13 +1062,8 @@ public class CaseUtil {
                     WHERE SobjectType = 'Case' AND DeveloperName = 'Automated_Cases'
             ];
         }
-        if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-            mapContact = new Map<Id, Contact>([
-                    SELECT Id, Name, RecordType.DeveloperName, HomePhone, MobilePhone, OtherPhone
-                    FROM Contact
-                    WHERE Id IN :contactIds
-            ]);
-        }
+        mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(contactIds, null));
+
         Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
                 'CC Error', 'CC Error M'
         });

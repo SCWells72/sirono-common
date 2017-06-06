@@ -110,15 +110,8 @@ public class PaymentPlanJSONParsing {
             paymentPlanObj.Guarantor__c = contactId;
         } else {
             String gtId = getExternalId(objJson.guarantor, 'guarantors');
-            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
-                Contact gt = [
-                        SELECT Id
-                        FROM Contact
-                        WHERE RecordTypeId =: RecordTypeUtil.guarantorRt
-                        AND Profile_Pointer_Id__c =: Decimal.valueOf(gtId)
-                        LIMIT 1];
-                paymentPlanObj.Guarantor__c = gt.Id;
-            }
+            Contact gt = GuarantorService.getGuarantorBySironoId(gtId);
+            paymentPlanObj.Guarantor__c = gt.Id;
         }
 
         paymentPlanObj.Status__c = objJson.status;

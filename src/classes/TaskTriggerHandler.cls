@@ -232,46 +232,33 @@ public with sharing class TaskTriggerHandler {
                 }
             }
 
-            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed() && TaskSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                for (Contact c: [
-                                SELECT Id, FirstName, LastName, 
-                                    (SELECT Id, CallDisposition, Five9__Five9Campaign__c, WhatId
-                                        FROM Tasks
-                                        WHERE WhatId != null
-                                        AND CallDisposition != null
-                                        AND WhoId != null
-                                        AND WhatId IN :caseIds
-                                        AND Five9__Five9Campaign__c IN :five9Campaigns)
-                                 FROM Contact WHERE Id IN :contactIds
-                     ]) {
+            for (Contact c: GuarantorService.getGuarantorsWithTask(contactIds, caseIds, five9Campaigns, null)) {
+                Map<Id, ExhaustedCriteriaCounts> mapDispositionCounts = new Map<Id, ExhaustedCriteriaCounts>();
+                for (Task t: c.Tasks) {
+                    if (finalDispositions.contains(t.CallDisposition)) {
+                        finalCaseIds.add(t.WhatId);
+                        // Remove Case Id in set of Exhausted Case Ids.
+                        // If any task contains Final Disposition value than we need to closed the case with Final.
+                        exhaustedCaseIds.remove(t.WhatId);
+                    } else if (retryDispositions.contains(t.CallDisposition) && !finalCaseIds.contains(t.WhatId)
+                            && !exhaustedCaseIds.contains(t.WhatId)) {
+                        if (!mapDispositionCounts.containsKey(t.WhatId)) {
+                            mapDispositionCounts.put(t.WhatId, new ExhaustedCriteriaCounts());
+                        }
+                        mapDispositionCounts.get(t.WhatId).retryCount++;
 
-                    Map<Id, ExhaustedCriteriaCounts> mapDispositionCounts = new Map<Id, ExhaustedCriteriaCounts>();
-                    for (Task t: c.Tasks) {
-                        if (finalDispositions.contains(t.CallDisposition)) {
-                            finalCaseIds.add(t.WhatId);
-                            // Remove Case Id in set of Exhausted Case Ids.
-                            // If any task contains Final Disposition value than we need to closed the case with Final.
-                            exhaustedCaseIds.remove(t.WhatId);
-                        } else if (retryDispositions.contains(t.CallDisposition) && !finalCaseIds.contains(t.WhatId)
-                                && !exhaustedCaseIds.contains(t.WhatId)) {
-                            if (!mapDispositionCounts.containsKey(t.WhatId)) {
-                                mapDispositionCounts.put(t.WhatId, new ExhaustedCriteriaCounts());
-                            }
-                            mapDispositionCounts.get(t.WhatId).retryCount++;
+                        if (mapDispositionCounts.get(t.WhatId).retryCount >= MAX_RETRY_COUNT) {
+                            exhaustedCaseIds.add(t.WhatId);
+                        }
+                    } else if (errorDispositions.contains(t.CallDisposition) && !finalCaseIds.contains(t.WhatId)
+                            && !exhaustedCaseIds.contains(t.WhatId)) {
+                        if (!mapDispositionCounts.containsKey(t.WhatId)) {
+                            mapDispositionCounts.put(t.WhatId, new ExhaustedCriteriaCounts());
+                        }
+                        mapDispositionCounts.get(t.WhatId).errorCount++;
 
-                            if (mapDispositionCounts.get(t.WhatId).retryCount >= MAX_RETRY_COUNT) {
-                                exhaustedCaseIds.add(t.WhatId);
-                            }
-                        } else if (errorDispositions.contains(t.CallDisposition) && !finalCaseIds.contains(t.WhatId)
-                                && !exhaustedCaseIds.contains(t.WhatId)) {
-                            if (!mapDispositionCounts.containsKey(t.WhatId)) {
-                                mapDispositionCounts.put(t.WhatId, new ExhaustedCriteriaCounts());
-                            }
-                            mapDispositionCounts.get(t.WhatId).errorCount++;
-
-                            if (mapDispositionCounts.get(t.WhatId).errorCount >= MAX_ERROR_COUNT) {
-                                exhaustedCaseIds.add(t.WhatId);
-                            }
+                        if (mapDispositionCounts.get(t.WhatId).errorCount >= MAX_ERROR_COUNT) {
+                            exhaustedCaseIds.add(t.WhatId);
                         }
                     }
                 }
@@ -334,36 +321,24 @@ public with sharing class TaskTriggerHandler {
                 }
             }
 
-            if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed() && TaskSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                for (Contact c: [
-                        SELECT Id, FirstName, LastName, (
-                                SELECT Id, CallDisposition, Five9__Five9Campaign__c
-                                FROM Tasks
-                                WHERE Five9__Five9Campaign__c != null
-                                AND Five9__Five9Campaign__c IN :callListNameMap.KeySet()
-                                AND CallDisposition IN ('Final', 'Retry', 'Error')
-                        )
-                        FROM Contact
-                        WHERE Id IN :contactIds
-                ]) {
-                    for (Task t: c.Tasks) {
-                        if (callListNameMap.containsKey(t.Five9__Five9Campaign__c)) {
-                            String keyStr = String.valueOf(c.Id).substring(0, 15) + '-'
-                                    + callListNameMap.get(t.Five9__Five9Campaign__c).substring(0, 15);
-                            if (!counterMap.containsKey(keyStr)) {
-                                counterMap.put(keyStr,
-                                        new ActivityCounterWrapper(c.Id,
-                                                callListNameMap.get(t.Five9__Five9Campaign__c)));
-                            }
-                            if (t.CallDisposition.trim().equalsIgnoreCase('Final')) {
-                                counterMap.get(keyStr).finalCount++;
-                            }
-                            if (t.CallDisposition.trim().equalsIgnoreCase('Retry')) {
-                                counterMap.get(keyStr).retryCount++;
-                            }
-                            if (t.CallDisposition.trim().equalsIgnoreCase('Error')) {
-                                counterMap.get(keyStr).errorCount++;
-                            }
+            for (Contact c: GuarantorService.getGuarantorsWithTask(contactIds, null, callListNameMap.KeySet(), new Set<String>{'Final', 'Retry', 'Error'})) {
+                for (Task t: c.Tasks) {
+                    if (callListNameMap.containsKey(t.Five9__Five9Campaign__c)) {
+                        String keyStr = String.valueOf(c.Id).substring(0, 15) + '-'
+                                + callListNameMap.get(t.Five9__Five9Campaign__c).substring(0, 15);
+                        if (!counterMap.containsKey(keyStr)) {
+                            counterMap.put(keyStr,
+                                    new ActivityCounterWrapper(c.Id,
+                                            callListNameMap.get(t.Five9__Five9Campaign__c)));
+                        }
+                        if (t.CallDisposition.trim().equalsIgnoreCase('Final')) {
+                            counterMap.get(keyStr).finalCount++;
+                        }
+                        if (t.CallDisposition.trim().equalsIgnoreCase('Retry')) {
+                            counterMap.get(keyStr).retryCount++;
+                        }
+                        if (t.CallDisposition.trim().equalsIgnoreCase('Error')) {
+                            counterMap.get(keyStr).errorCount++;
                         }
                     }
                 }

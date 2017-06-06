@@ -45,6 +45,12 @@ public with sharing class ContactSecurityContext extends SecurityContext {
         ESTIMATE_BALANCE, RECORDTYPEID
     };
 
+    // The fields for updating a Contact in ContactTriggerHandler
+    private static final Set<String> CTH_UPDATE_FIELDS = new Set<String>{
+        HOME_PHONE_TYPE, MOBILE_PHONE_TYPE, OTHER_PHONE_TYPE,
+        CTINUMBER1, CTINUMBER2, CTINUMBER3
+    };
+
     // The fields for selecting a Contact in GuarantorDao, PayStaffWSUtill
     private static final Set<String> SELECT_FIELDS = new Set<String>{
         ID, FIRSTNAME, MIDDLENAME, LASTNAME, SUFFIX, BIRTHDATE, MEDICAL_RECORD_NUMBER, NAME,
@@ -91,6 +97,11 @@ public with sharing class ContactSecurityContext extends SecurityContext {
      * The update context for Contact in EncounterUtil
      **/
     public static final ContactSecurityContext UPDATE_CONTEXT = new ContactSecurityContext(UPDATE_FIELDS, ACTION.OBJ_UPDATE);
+
+    /**
+     * The update context for Contact in ContactTriggerHandler
+     **/
+    public static final ContactSecurityContext CTH_UPDATE_CONTEXT = new ContactSecurityContext(CTH_UPDATE_FIELDS, ACTION.OBJ_UPDATE);
 
     /**
      * The select context for Contact in GuarantorDao, PayStaffWSUtill
