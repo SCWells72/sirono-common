@@ -219,11 +219,11 @@ public with sharing class GuarantorDao extends AbstractDao {
     }
 
     /**
-     * Get Contacts based on filterBy and contactIds
+     * Get query for Contacts based on filterBy and contactIds
      *
      * @returns String - That contains query in a string.
      **/
-    public static String getContactsByRecordType() {
+    public static String getBatchContactsQuery() {
         if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
             String queryString = 'SELECT Id, FirstName, LastName ';
             queryString += 'FROM Contact ';
@@ -241,7 +241,7 @@ public with sharing class GuarantorDao extends AbstractDao {
      *
      * @returns String - A contact query string that will return no results.
      */
-    public static String getContactsNoResults() {
+    public static String getNoContactsQuery() {
       if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
         // Limit 0 ensures a zero result response.
         return 'SELECT Id, FirstName, LastName From Contact Limit 0';

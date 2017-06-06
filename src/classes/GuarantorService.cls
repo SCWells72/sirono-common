@@ -154,12 +154,12 @@ public with sharing class GuarantorService extends AbstractService {
     }
 
     /**
-     * Get Contacts based on filterBy and contactIds
+     * Get query for Contacts based on filterBy and contactIds
      *
      * @returns String - That contains query in a string.
      **/
-    public static String getContactsByRecordType() {
-        return GuarantorDao.getContactsByRecordType();
+    public static String getBatchContactsQuery() {
+        return GuarantorDao.getBatchContactsQuery();
     }
 
     /**
@@ -167,8 +167,8 @@ public with sharing class GuarantorService extends AbstractService {
      *
      * @returns String - A query string that will result in zero records.
      */
-    public static String getContactsNoResults() {
-        return GuarantorDao.getContactsNoResults();
+    public static String getNoContactsQuery() {
+        return GuarantorDao.getNoContactsQuery();
     }
 
     /**

@@ -351,7 +351,7 @@ public with sharing class GuarantorDaoTest {
     static void verifyNoContacts() {
 
         Test.startTest();
-        String noConactsQuery = GuarantorDao.getContactsNoResults();
+        String noConactsQuery = GuarantorDao.getNoContactsQuery();
         Test.stopTest();
 
         System.assert(noConactsQuery != null, 'Should have a query string.');
@@ -369,7 +369,7 @@ public with sharing class GuarantorDaoTest {
         // This varible is required as a limiting factor in the returned query string.
         List<Id> existingMembers = new List<Id>{};
         Test.startTest();
-        String getContactQueryString = GuarantorDao.getContactsByRecordType();
+        String getContactQueryString = GuarantorDao.getBatchContactsQuery();
         Test.stopTest();
 
         System.assert(getContactQueryString != null, 'Query string should not be null.');

@@ -43,9 +43,9 @@ public with sharing class PreServiceSchedulerBatch implements Database.Batchable
                     existingMembers.add(cm.ContactId);
                 }
             }
-            return Database.getQueryLocator(GuarantorService.getContactsByRecordType());
+            return Database.getQueryLocator(GuarantorService.getBatchContactsQuery());
         } else {
-            return Database.getQueryLocator(GuarantorService.getContactsNoResults());
+            return Database.getQueryLocator(GuarantorService.getNoContactsQuery());
         }
         return null;
     }
