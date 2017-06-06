@@ -131,6 +131,19 @@ public with sharing class GuarantorService extends AbstractService {
     }
 
     /**
+     * Get Contacts based on filterBy and contactIds
+     *
+     * @param Set<Id> contactIds - A set of Contact Ids.
+     * @param String filterBy - That contains filter value.
+     * @returns List<Contact> - The requested Contacts that meet the criteria.
+     **/
+    public static List<Contact> getGuarantorsByFilter(Set<Id> contactIds, String filterBy) {
+        // Convert the set of Ids into a Set of Strings.
+        Set<String> stringIds = (Set<String>)JSON.deserialize(JSON.serialize(contactIds), Set<String>.class);
+        return GuarantorDao.getGuarantorsByFilter(stringIds, filterBy);
+    }
+
+    /**
      * Get Contacts with Phone Types and Numbers filtered by contactIds
      *
      * @param Set<Id> contactIds - A set of Contact Ids.
@@ -149,6 +162,15 @@ public with sharing class GuarantorService extends AbstractService {
      **/
     public static String getContactsByRecordType(Set<Id> existingMembers, String recordTypeName) {
         return GuarantorDao.getContactsByRecordType(existingMembers, recordTypeName);
+    }
+
+    /**
+     * Get a queryString that will result in no results.
+     *
+     * @returns String - A query string that will result in zero records.
+     */
+    public static String getConactsNoResults() {
+        return GuarantorDao.getContactsNoResults();
     }
 
     /**

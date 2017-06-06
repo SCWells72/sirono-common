@@ -222,7 +222,7 @@ public with sharing class GuarantorDao extends AbstractDao {
      * Get Contacts based on filterBy and contactIds
      *
      * @param Set<Id> existingMembers - A set of Contact Ids.
-     *  FYI: Don't change this name because of “existingMembers” use in query and we have returns the query and that contains same field in the class.
+     *  FYI: Don't change this name because of ï¿½existingMembersï¿½ use in query and we have returns the query and that contains same field in the class.
      * @param String recordTypeName - That contains Contact's Record Type.
      * @returns String - That contains query in a string.
      **/
@@ -230,12 +230,27 @@ public with sharing class GuarantorDao extends AbstractDao {
         if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
             String queryString = 'SELECT Id, FirstName, LastName ';
             queryString += 'FROM Contact ';
-            queryString += (recordTypeName == 'Guarantor') ? 'WHERE RecordType.Name = \'Guarantor\' AND ID NOT IN :existingMembers' : 'WHERE RecordType.Name = \'Guarantor-DO-NOT-EXIST\'';
+            queryString += 'WHERE RecordType.Name = \'Guarantor\' AND ID NOT IN :existingMembers';
 
             return queryString;
         }
 
         return null;
+    }
+
+    /**
+     * Get a query that will return no results for use in batch APEX as the QueryLocator value when you want to get no
+     * results.
+     *
+     * @returns String - A contact query string that will return no results.
+     */
+    public static String getContactsNoResults() {
+      if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed()) {
+        // Limit 0 ensures a zero result response.
+        return 'SELECT Id, FirstName, LastName From Contact Limit 0';
+      }
+
+      return null;
     }
 
     /**

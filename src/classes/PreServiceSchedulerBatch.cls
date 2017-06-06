@@ -45,7 +45,7 @@ public with sharing class PreServiceSchedulerBatch implements Database.Batchable
             }
             return Database.getQueryLocator(GuarantorService.getContactsByRecordType(existingMembers, 'Guarantor'));
         } else {
-            return Database.getQueryLocator(GuarantorService.getContactsByRecordType(null, 'Guarantor-DO-NOT-EXIST'));
+            return Database.getQueryLocator(GuarantorService.getConactsNoResults());
         }
         return null;
     }

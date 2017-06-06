@@ -52,7 +52,7 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<s
             }
             return Database.getQueryLocator(GuarantorService.getContactsByRecordType(existingMembers, 'Guarantor'));
         } else {
-            return Database.getQueryLocator(GuarantorService.getContactsByRecordType(null, 'Guarantor-DO-NOT-EXIST'));
+            return Database.getQueryLocator(GuarantorService.getConactsNoResults());
         }
         return null;
     }

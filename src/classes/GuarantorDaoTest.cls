@@ -343,4 +343,20 @@ public with sharing class GuarantorDaoTest {
             }
         }
     }
+
+    /**
+     * Verify the getContactsNoResults query returns zero results.
+     */
+    @isTest
+    static void verifyNoContacts() {
+
+        Test.startTest();
+        String noConactsQuery = GuarantorDao.getContactsNoResults();
+        Test.stopTest();
+
+        System.assert(noConactsQuery != null, 'Should have a query string.');
+
+        List<Contact> contacts = Database.query(noConactsQuery);
+        System.assertEquals(0, contacts.size(), 'Should have zero results.');
+    }
 }

@@ -23,7 +23,7 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 'PreCollections'
         });
-        string preCollection = mapCampaignMapping.get('PreCollections');
+        String preCollection = mapCampaignMapping.get('PreCollections');
 
         if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             for (Campaign cl: [SELECT  Id, Name FROM Campaign WHERE Name = :preCollection AND isActive = true]) {
@@ -40,7 +40,7 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
             }
             return Database.getQueryLocator(GuarantorService.getContactsByRecordType(existingMembers, 'Guarantor'));
         } else {
-            return Database.getQueryLocator(GuarantorService.getContactsByRecordType(null, 'Guarantor-DO-NOT-EXIST'));
+            return Database.getQueryLocator(GuarantorService.getConactsNoResults());
         }
         return null;
     }

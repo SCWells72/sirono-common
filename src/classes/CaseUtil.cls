@@ -863,7 +863,7 @@ public class CaseUtil {
             }
         }
 
-        Map<Id, Contact> mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter((Set<String>)JSON.deserialize(JSON.serialize(contactIds), Set<String>.class), null));
+        Map<Id, Contact> mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(contactIds, null));
 
         Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
                 'Delinquent', 'Delinquent M'
@@ -1062,7 +1062,7 @@ public class CaseUtil {
                     WHERE SobjectType = 'Case' AND DeveloperName = 'Automated_Cases'
             ];
         }
-        mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter((Set<String>)JSON.deserialize(JSON.serialize(contactIds), Set<String>.class), null));
+        mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(contactIds, null));
 
         Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
                 'CC Error', 'CC Error M'
