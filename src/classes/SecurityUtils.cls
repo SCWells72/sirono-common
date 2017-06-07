@@ -76,18 +76,18 @@ public with sharing class SecurityUtils {
 
             if (SecurityContext.ACTION.OBJ_CREATE == objAction
                     && !mapObjectFields.get(fieldToCheck).getDescribe().isCreateable()) {
-                throw new SecurityException(String.format('You do not have Create rights on {0}.{1} field.', new String[]{objName, fieldToCheck}));
+                throw new SecurityException(String.format(UserInfo.getUserName()+' does not have Create rights on {0}.{1} field.', new String[]{objName, fieldToCheck}));
             } else if (SecurityContext.ACTION.OBJ_UPDATE == objAction
                     && !mapObjectFields.get(fieldToCheck).getDescribe().isUpdateable()) {
-                throw new SecurityException(String.format('You do not have Update rights on {0}.{1} field.', new String[]{objName, fieldToCheck}));
+                throw new SecurityException(String.format(UserInfo.getUserName()+' does not have Update rights on {0}.{1} field.', new String[]{objName, fieldToCheck}));
             } else if (SecurityContext.ACTION.OBJ_UPSERT == objAction) {
             	if (!(mapObjectFields.get(fieldToCheck).getDescribe().isCreateable() &&
         				mapObjectFields.get(fieldToCheck).getDescribe().isUpdateable())) {
-                    throw new SecurityException(String.format('You do not have Upsert rights on {0}.{1} field.', new String[]{objName, fieldToCheck}));
+                    throw new SecurityException(String.format(UserInfo.getUserName()+' does not have Upsert rights on {0}.{1} field.', new String[]{objName, fieldToCheck}));
             	}
             } else if (SecurityContext.ACTION.OBJ_READ == objAction
                     && !mapObjectFields.get(fieldToCheck).getDescribe().isAccessible()) {
-                throw new SecurityException(String.format('You do not have Read rights on {0}.{1} field.', new String[]{objName, fieldToCheck}));
+                throw new SecurityException(String.format(UserInfo.getUserName()+' does not have Read rights on {0}.{1} field.', new String[]{objName, fieldToCheck}));
             }
         }
         return true;
