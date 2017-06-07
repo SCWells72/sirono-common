@@ -10,7 +10,7 @@ public class NumVerifyValidator  {
     public static final String MOBILE = 'mobile';
     public static final String INVALID = 'Invalid';
 
-    private static final String NUM_VERIFY_URL = 'http://apilayer.net/api/validate?access_key={0}&country_code={1}&format={2}&number={3}';
+    private static final String NUM_VERIFY_URL = 'https://apilayer.net/api/validate?access_key={0}&country_code={1}&format={2}&number={3}';
     private static final Integer LENGTH_TOO_SHORT = 9;
     private static final Integer LENGTH_TOO_LONG = 12;
 
@@ -64,8 +64,7 @@ public class NumVerifyValidator  {
 
     @TestVisible
     private static HttpRequest buildRequest(VerifiedNumber nbr) {
-        //TODO replace with SironoSettingsUtil.getOrgSettings()
-        Sirono_Settings__c ss = Sirono_Settings__c.getOrgDefaults();
+        Sirono_Settings__c ss = SironoSettingsUtil.getPaymentPlanSettings();
 
         //TODO do country_code & format belong in settings or just in the url constant?
         List<String> params = new String[]{ss.Apikey__c, ss.Country_Code__c, ss.Format__c.format(), nbr.cleanedPhoneNumber};

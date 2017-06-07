@@ -1,6 +1,0 @@
-<!--
-* @author: Sirono
-* @version 1.0.1
-* @Date: 05-03-2016
--->
-<apex:page action="{!URLFOR('/answers/answersHome.apexp')}"/>

@@ -199,13 +199,13 @@
         <style>CustomLinks</style>
     </layoutSections>
     <quickActionList>
-        <quickActionListItems>
+        <!--quickActionListItems>
             <quickActionName>FeedItem.TextPost</quickActionName>
-        </quickActionListItems>
+        </quickActionListItems-->
         <quickActionListItems>
-            <quickActionName>Case.LogACall</quickActionName>
+            <quickActionName>LogACall</quickActionName>
         </quickActionListItems>
-        <quickActionListItems>
+        <!--quickActionListItems>
             <quickActionName>Case.CaseComment</quickActionName>
         </quickActionListItems>
         <quickActionListItems>
@@ -219,7 +219,7 @@
         </quickActionListItems>
         <quickActionListItems>
             <quickActionName>FeedItem.PollPost</quickActionName>
-        </quickActionListItems>
+        </quickActionListItems-->
     </quickActionList>
     <relatedContent>
         <relatedContentItems>

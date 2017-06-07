@@ -9,7 +9,8 @@ public class ViewStatementExtensionTest {
     /**
      * This method is used to setup preliminary data to let's all testmethods to execute as expected.
      **/
-    @testSetup static void setupData() {
+    @testSetup
+    static void setupData() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         INSERT guarantorContact;
 
@@ -24,15 +25,8 @@ public class ViewStatementExtensionTest {
         statement.Statement_Date__c = Date.parse('05/22/2016');
         lstStatement.add(statement);
 
-        Test.startTest();
-        SironoSettingsUtil.initializeSironoSettings();
-
         INSERT lstStatement;
-        Test.stopTest();
 
-        // Check system assert, Sirono_Settings__c should be initialized.
-        Sirono_Settings__c sironoSettings = Sirono_Settings__c.getOrgDefaults();
-        System.assertNotEquals(sironoSettings, null, 'Sirono_Settings__c should not be null');
     }
 
     /**

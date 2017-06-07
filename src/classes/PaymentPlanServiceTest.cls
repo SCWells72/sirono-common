@@ -127,7 +127,7 @@ public with sharing class PaymentPlanServiceTest {
 
         Test.stopTest();
 
-	// We have commented this line because of We can’t update Payment Plan name when Payment Plan already exists.
+	// We have commented this line because of We can't update Payment Plan name when Payment Plan already exists.
 	// When we create new payment plan at that time we assign name in it.
 	// As per below assert, we already insert payment plan with same sirono Id in set up data.
         // System.assertEquals(pp.Name, '2876', 'Plan Name is: '+pp.Name);
@@ -206,7 +206,7 @@ public with sharing class PaymentPlanServiceTest {
      **/
     @isTest
     public static void testConvertDollarToCents() {
-        String inputDollars = '100';
+        String inputDollars = '100.00';
         Test.startTest();
         String outputCents = PaymentPlanService.convertToCents(inputDollars);
         Test.stopTest();

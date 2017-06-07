@@ -38,7 +38,7 @@ public with sharing class AddPaymentPlanVFController extends AddPaymentPlanContr
         } catch (Exception e) {
             // Debug error response
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'PROCESS PAYMENT EXCEPTION:: ' + e.getMessage()));
+                    'ADD PAYMENT PLAN EXCEPTION:: ' + e.getMessage()));
         }
     }
 

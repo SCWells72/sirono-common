@@ -25,7 +25,7 @@ public without sharing class InvoiceUtil {
             //TODO: This query should move into ChargeGroupDao class.
             if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
                 AggregateResult[] queryResults = [
-                        SELECT Invoice__c, MAX(Sub_Status_Index__c) maxStatusValue
+                        SELECT Invoice__c inv, MAX(Sub_Status_Index__c) maxStatusValue
                         FROM Charge_Group__c
                         WHERE Invoice__c IN :chargeGroupInvoiceIds
                         AND Active__c = TRUE
@@ -34,11 +34,11 @@ public without sharing class InvoiceUtil {
 
                 if(queryResults.size() > 0) {
                     for(AggregateResult qr: queryResults) {
-                        system.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('Invoice__c')
+                        system.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('inv')
                                 + '[Max Status Value]: ' + qr.get('maxStatusValue'));
 
                         // Update the Invoice Status Index field directly within the map, else the field remains 0
-                        invoicesToUpdate.get((Id) qr.get('Invoice__c')).Invoice_Status_Index__c = Integer.valueOf(qr.get('maxStatusValue'));
+                        invoicesToUpdate.get((Id) qr.get('inv')).Invoice_Status_Index__c = Integer.valueOf(qr.get('maxStatusValue'));
                     }
                 }
                 if (InvoiceSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
@@ -61,7 +61,7 @@ public without sharing class InvoiceUtil {
             if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
                 // Query for distinct Invoice/Account Substatus values using group by
                 AggregateResult[] queryResults = [
-                        SELECT Invoice__c, Account_Sub_Status__c
+                        SELECT Invoice__c inv, Account_Sub_Status__c acctSS
                         FROM Charge_Group__c
                         WHERE Invoice__c IN :chargeGroupInvoiceIds
                         GROUP BY Invoice__c, Account_Sub_Status__c
@@ -71,15 +71,15 @@ public without sharing class InvoiceUtil {
                 Map<Id, Invoice__c> idWithStatusValuesMap = new Map<Id, Invoice__c>();
 
                 // Loop through each invoice Id in the invoiceIdSet and add each associated Substatus value to a list
-                // Concatnate the substatus list and assign to Invoice__c.All_Substatus__c
+                // Concatenate the substatus list and assign to Invoice__c.All_Substatus__c
                 for (Id invoiceId : chargeGroupInvoiceIds) {
                     List<String> tempStatusList = new List<String>();
                     Invoice__c tempInvoice = new Invoice__c();
 
                     for (AggregateResult ar : queryResults) {
-                        if ((Id) ar.get('Invoice__c') == invoiceId) {
-                            tempStatusList.add((String) ar.get('Account_Sub_Status__c'));
-                            system.debug('>>>>> Adding Acct Substatus to list: ' + ar.get('Account_Sub_Status__c') + ' for ' +
+                        if ((Id) ar.get('inv') == invoiceId) {
+                            tempStatusList.add((String) ar.get('acctSS'));
+                            system.debug('>>>>> Adding Acct Substatus to list: ' + ar.get('acctSS') + ' for ' +
                                     'invoice Id: ' + invoiceId);
                         }
                     }
@@ -119,7 +119,7 @@ public without sharing class InvoiceUtil {
             //TODO: This query should move into ChargeGroupDao class.
             if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
                 AggregateResult[] queryResults = [
-                        SELECT Invoice__c, SUM(Balance__c) sumBalances
+                        SELECT Invoice__c inv, SUM(Balance__c) sumBalances
                         FROM Charge_Group__c
                         WHERE Invoice__c IN :chargeGroupInvoiceIds
                         AND Active__c = TRUE
@@ -128,12 +128,12 @@ public without sharing class InvoiceUtil {
 
                 if (queryResults.size() > 0) {
                     for (AggregateResult qr: queryResults) {
-                        system.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('Invoice__c')
+                        system.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('inv')
                                 + '[Invoice Balance]: ' + qr.get('sumBalances'));
 
                         if ((Decimal) qr.get('sumBalances') != 0 || (Decimal) qr.get('sumBalances') != null) {
                             // Update the Invoice Balance field directly within the map, else the balance will remain 0.00
-                            invoicesToUpdate.get((Id) qr.get('Invoice__c')).Invoice_Balance__c = (Decimal) qr.get('sumBalances');
+                            invoicesToUpdate.get((Id) qr.get('inv')).Invoice_Balance__c = (Decimal) qr.get('sumBalances');
                         }
                     }
                 }

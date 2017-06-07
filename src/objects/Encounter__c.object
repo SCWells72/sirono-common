@@ -59,7 +59,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>Private</externalSharingModel>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fields>
         <fullName>Allowed_Amount__c</fullName>
         <externalId>false</externalId>
@@ -641,7 +641,7 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <masterLabel>Add Attachment</masterLabel>
         <openType>sidebar</openType>
         <protected>false</protected>
-        <url>/apex/UploadAttachmentPage?id={!Encounter__c.Id }</url>
+        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}UploadAttachmentPage?id={!Encounter__c.Id }</url>
     </webLinks>
     <webLinks>
         <fullName>Pay_Estimate</fullName>
@@ -653,6 +653,6 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <openType>replace</openType>
         <protected>false</protected>
         <requireRowSelection>false</requireRowSelection>
-        <url>&quot;/apex/PayEstimate?id={!Contact.Id}&quot;</url>
+        <url>&quot;/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}PayEstimate?id={!Contact.Id}&quot;</url>
     </webLinks>
 </CustomObject>

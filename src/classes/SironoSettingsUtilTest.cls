@@ -4,19 +4,6 @@
 
 @IsTest
 private class SironoSettingsUtilTest {
-    
-    /**
-     * This method is used to setup preliminary data to let's all testmethods to execute as expected.
-     **/
-    @testSetup static void setupSironoSettings(){
-        Test.startTest();
-        SironoSettingsUtil.initializeSironoSettings();
-        Test.stopTest();
-        
-        // Check system assert.
-        Sirono_Settings__c sironoSettings = Sirono_Settings__c.getValues(UserInfo.getOrganizationId());
-        System.assertNotEquals(sironoSettings, null, 'Should have failed due to sironoSettings are null.');
-    }
 
     /**
      * This method tests the logic of PaymentPlanSettings are create or not.
@@ -70,28 +57,5 @@ private class SironoSettingsUtilTest {
             System.assert(SironoSettingsUtil.getServerEndpoint() != null, 'No endpoint for this org');
         }
         Test.stopTest();
-    }
-    
-    /**
-     * Check all access rights for a read only User using runAs.
-     **/
-    @isTest
-    static void checkAccessRights() {
-        List<SironoSettingsSecurityContext> allContexts = new List<SironoSettingsSecurityContext>{SironoSettingsSecurityContext.CREATE_CONTEXT,
-        	SironoSettingsSecurityContext.UPSERT_CONTEXT
-        };
-
-        System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (SironoSettingsSecurityContext context: allContexts) {
-                try {
-                    context.actionAllowed();
-                    System.assert(false, 'Expected permission to be denied for ' + context);
-                } catch (SecurityUtils.SecurityException ex) {
-                    System.debug('SecurityException : ' + ex);
-                } catch (Exception e) {
-                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
-                }
-            }
-        }
     }
 }

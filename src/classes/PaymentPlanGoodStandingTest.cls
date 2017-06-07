@@ -6,7 +6,7 @@
  */
 
 @isTest
-private class PaymentPlanGoodStandingTest {
+public class PaymentPlanGoodStandingTest {
 
     static testMethod void myUnitTest1() {
         PaymentPlanGoodStanding con = new PaymentPlanGoodStanding();
@@ -55,7 +55,7 @@ private class PaymentPlanGoodStandingTest {
         con.cancel();
     }
 
-    static testMethod void myUnitTest3() {
+    public static testMethod void testSuccess() {
         TestUtility objTestUtil = new TestUtility();
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();

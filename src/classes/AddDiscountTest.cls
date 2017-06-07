@@ -6,7 +6,7 @@
 */
 
 @isTest
-private class AddDiscountTest{
+public class AddDiscountTest{
 
     /* Coverage the code for the AddDiscount class and
      * call the doNext, getDiscountRate,submit and addDiscountRequest (else condition) method
@@ -70,11 +70,7 @@ private class AddDiscountTest{
         objAddDiscount.submit();  
         
         //Check System Assert.
-        Boolean isError = false;
-        if(objAddDiscount.messageToShow.contains('Clicking add discount will app')){
-            isError  = true;
-        }
-        System.assertEquals(isError,true);
+        System.assert(objAddDiscount.messageToShow.contains('Clicking add discount will app'), 'Unexpected error: '+objAddDiscount.messageToShow);
         Test.stopTest(); 
     }
     
@@ -165,7 +161,7 @@ private class AddDiscountTest{
      * Coverage the code for the AddDiscount class and
      * call the doNext Method,getDiscountRate Method,Submit method and addDiscountRequest Method
      */                    
-    static testMethod void webServiceCallout() {
+    public static testMethod void webServiceCallout() {
         TestUtility objTestUtility = new TestUtility();
         
         //Create Guarantor Contact record.

@@ -7,6 +7,9 @@
         <echo message="Tasks to run for the initial deploy to a Dev org"/>
     </target>
 
+    <!--
+        Deploy just the settings needed in order to deploy the app
+    -->
     <target name="preDeploy" description="Deploy settings needed for the initial deploy to run successfully">
         <echo level="info">Deploy settings needed for the initial source deploy to: ${sf.target.username} to run successfully</echo>
         <delete dir="${basedir}/pre_deploy"/>
@@ -42,82 +45,7 @@
         </replace>
     </target>
 
-    <target name="removePartnerQueue">
-        <echo message="Remove the Sirono_Partner_Queue"/>
-        <replace dir="${basedir}/src/objects" encoding="UTF-8">
-            <replacetoken><![CDATA[    <listViews>
-        <fullName>Sirono_Partner_Queue_Coverage</fullName>
-        <filterScope>Queue</filterScope>
-        <label>Sirono Partner Queue</label>
-        <queue>Sirono_Partner_Queue</queue>
-        <sharedTo>
-            <allInternalUsers></allInternalUsers>
-        </sharedTo>
-    </listViews>]]></replacetoken>
-            <replacevalue><![CDATA[]]></replacevalue>
-            <include name="Coverage__c.object"/>
-        </replace>
-        <replace dir="${basedir}/src/objects" encoding="UTF-8">
-            <replacetoken><![CDATA[    <listViews>
-        <fullName>Cases_in_Queue</fullName>
-        <filterScope>Queue</filterScope>
-        <label>Cases in Queue</label>
-        <queue>Sirono_Partner_Queue</queue>
-        <sharedTo>
-            <allInternalUsers></allInternalUsers>
-            <portalRoleAndSubordinates>SironoPartnerPartnerUser</portalRoleAndSubordinates>
-        </sharedTo>
-    </listViews>]]></replacetoken>
-            <replacevalue><![CDATA[]]></replacevalue>
-            <include name="Case.object"/>
-        </replace>
-        <replace dir="${basedir}/src/objects" encoding="UTF-8">
-            <replacetoken><![CDATA[    <listViews>
-        <fullName>Sirono_Partner_Queue_Case</fullName>
-        <filterScope>Queue</filterScope>
-        <label>Sirono Partner Queue</label>
-        <queue>Sirono_Partner_Queue</queue>
-        <sharedTo>
-            <allInternalUsers></allInternalUsers>
-        </sharedTo>
-    </listViews>]]></replacetoken>
-            <replacevalue><![CDATA[]]></replacevalue>
-            <include name="Case.object"/>
-        </replace>
-        <replace dir="${basedir}/src/objects" encoding="UTF-8">
-            <replacetoken><![CDATA[    <listViews>
-        <fullName>Sirono_Partner_Queue_Credit_Card</fullName>
-        <filterScope>Queue</filterScope>
-        <label>Sirono Partner Queue</label>
-        <queue>Sirono_Partner_Queue</queue>
-        <sharedTo>
-            <allInternalUsers></allInternalUsers>
-        </sharedTo>
-    </listViews>]]></replacetoken>
-            <replacevalue><![CDATA[]]></replacevalue>
-            <include name="Payment_Method__c.object"/>
-        </replace>
-
-        <replace file="${basedir}/src/package.xml" encoding="UTF-8">
-            <replacetoken><![CDATA[<members>Case.Cases_in_Queue</members>]]></replacetoken>
-            <replacevalue><![CDATA[]]></replacevalue>
-        </replace>
-        <replace file="${basedir}/src/package.xml" encoding="UTF-8">
-            <replacetoken><![CDATA[<members>Case.Sirono_Partner_Queue_Case</members>]]></replacetoken>
-            <replacevalue><![CDATA[]]></replacevalue>
-        </replace>
-        <replace file="${basedir}/src/package.xml" encoding="UTF-8">
-            <replacetoken><![CDATA[<members>Coverage__c.Sirono_Partner_Queue_Coverage</members>]]></replacetoken>
-            <replacevalue><![CDATA[]]></replacevalue>
-        </replace>
-        <replace file="${basedir}/src/package.xml" encoding="UTF-8">
-            <replacetoken><![CDATA[<members>Payment_Method__c.Sirono_Partner_Queue_Credit_Card</members>]]></replacetoken>
-            <replacevalue><![CDATA[]]></replacevalue>
-        </replace>
-
-        <move file="${basedir}/src/queues/Sirono_Partner_Queue.queue" tofile="${basedir}/src/queues/Sirono_Partner_Queue.queue.bak" overwrite="true"/>
-    </target>
-
+    <!-- Remove the sharing rules from the source tree & the references to them from package.xml -->
     <target name="removeSharingRules">
         <echo message="Remove sharingRules"/>
         <move todir="${basedir}/src/sharingRules" includeemptydirs="false">
@@ -137,22 +65,12 @@
         <name>SharingOwnerRule</name>
     </types>
     <types>
-        <members>Account</members>
-        <members>Asset</members>
-        <members>Campaign</members>
         <members>Case</members>
         <members>Contact</members>
         <members>Coverage__c</members>
-        <members>Encounter__c</members>
-        <members>Location__c</members>
+        <members>Payment__c</members>
         <members>Payment_Adjustments__c</members>
         <members>Payment_Method__c</members>
-        <members>Payment__c</members>
-        <members>Payor__c</members>
-        <members>Provider__c</members>
-        <members>Service_Rollup__c</members>
-        <members>Transaction_Type__c</members>
-        <members>User</members>
         <name>SharingRules</name>
     </types>]]></replacetoken>
             <replacevalue><![CDATA[]]></replacevalue>
@@ -198,16 +116,28 @@
         </replace>
     </target>
 
-    <target name="deployPrep" description="Prep source for deployment to a dev org">
+    <!--
+        We can't deploy the sharing rules or deploy objects with history tracking turned on until the objects
+        that they reference are deployed. Turn off history tracking across the board & hide the sharing rules
+    -->
+    <target name="deployPrep" description="Prep source for initial deployment to a dev org">
         <echo level="info">Perform prep on source in order to deploy to: ${sf.target.username}</echo>
         <antcall target="turnOffHistoryTracking"/>
-        <antcall target="removePartnerQueue"/>
         <antcall target="removeSharingRules"/>
     </target>
 
+    <!--
+        Use git to revert the sweeping history tracking changes we made.
+        Remove the backup copies of the sharing rules
+    -->
     <target name="revertPrep">
-        <echo message="Revert all changes in ${basedir}/src"/>
-        <exec dir="${basedir}/src" executable="git">
+        <echo message="Revert all changes made in deployPrep"/>
+        <exec dir="${basedir}/src/objects" executable="git">
+            <arg value="checkout"/>
+            <arg value="--"/>
+            <arg value="${basedir}/src"/>
+        </exec>
+        <exec dir="${basedir}/src/sharingRules" executable="git">
             <arg value="checkout"/>
             <arg value="--"/>
             <arg value="${basedir}/src"/>

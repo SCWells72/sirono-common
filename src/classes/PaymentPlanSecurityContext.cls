@@ -44,6 +44,11 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
     	REMAINING_BALANCE
     };
 
+    // The fields for updating a Payment_Plan__c in PaymentPlanTriggerHandler
+    private static final Set<String> PP_UPDATE_DATES = new Set<String>{
+            NEXTPAYMENTDATE, SKIP_PAYMENT_UNTIL, EXECUTE_ON_DAY
+    };
+
     // The fields for updating a Payment_Plan__c in DeletePaymentPlan
     private static final Set<String> DP_UPDATE_FIELDS = new Set<String>{
 		ACTIVE, DELINQUENT, DELINQUENT_DATE, ERROR_DATE, EXECUTE_ON_DAY, GUARANTOR, HAS_ERROR, INSTALLMENT_AMOUNT, 
@@ -127,6 +132,12 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
      * The update context for Payment_Plan__c in PaymentPlanUtil
      **/
     public static final PaymentPlanSecurityContext PPU_UPDATE_CONTEXT = new PaymentPlanSecurityContext(PPU_UPDATE_FIELDS, ACTION.OBJ_UPDATE);
+
+
+    /**
+     * The update context for Payment_Plan__c in PaymentPlanTriggerHandler
+     **/
+    public static final PaymentPlanSecurityContext PP_UPDATE_DATES_CONTEXT = new PaymentPlanSecurityContext(PP_UPDATE_DATES, ACTION.OBJ_UPDATE);
 
     /**
      * The select context for Payment_Plan__c in PaymentPlanDao

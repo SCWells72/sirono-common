@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <!--sharingCriteriaRules>
+        <fullName>Share_Contacts_w_Call_Center_Agents</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Any contact with a Sirono ID (Patient, External Guarantor, Guarantor IDs) will be shared with Call Center Agents.</description>
+        <label>Share Contacts w Call Center Agents</label>
+        <sharedTo>
+            <group>Call_Center_Agents</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>External Patient,Guarantor,Patient,External Guarantor</value>
+        </criteriaItems>
+    </sharingCriteriaRules-->
     <sharingOwnerRules>
         <fullName>Contact_Sirono_Internal</fullName>
         <accessLevel>Edit</accessLevel>
@@ -9,40 +23,6 @@
         </sharedTo>
         <sharedFrom>
             <roleAndSubordinatesInternal>CEO</roleAndSubordinatesInternal>
-        </sharedFrom>
-    </sharingOwnerRules>
-    <sharingOwnerRules>
-        <fullName>temp_agent_all_contacts</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>temp_agent_all_contacts</label>
-        <sharedTo>
-            <allInternalUsers></allInternalUsers>
-        </sharedTo>
-        <sharedFrom>
-            <allInternalUsers></allInternalUsers>
-        </sharedFrom>
-    </sharingOwnerRules>
-    <sharingOwnerRules>
-        <fullName>temp_partners_all_contacts</fullName>
-        <accessLevel>Read</accessLevel>
-        <description>temporary to allow all partner users to see contacts</description>
-        <label>temp_partners_all_contacts</label>
-        <sharedTo>
-            <allPartnerUsers></allPartnerUsers>
-        </sharedTo>
-        <sharedFrom>
-            <allInternalUsers></allInternalUsers>
-        </sharedFrom>
-    </sharingOwnerRules>
-    <sharingOwnerRules>
-        <fullName>temp_partners_with_partners</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>temp_partners_with_partners</label>
-        <sharedTo>
-            <allPartnerUsers></allPartnerUsers>
-        </sharedTo>
-        <sharedFrom>
-            <allPartnerUsers></allPartnerUsers>
         </sharedFrom>
     </sharingOwnerRules>
 </SharingRules>

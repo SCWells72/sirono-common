@@ -179,7 +179,7 @@ public with sharing class PayStaffWSUtill {
                         }
                     } catch (Exception e) {
                         // Debug error response
-                        handleErrorMessages(ApexPages.SEVERITY.ERROR, 'PROCESS PAYMENT EXCEPTION RESPONSE : ' +
+                        handleErrorMessages(ApexPages.SEVERITY.ERROR, 'ADD NOTE EXCEPTION RESPONSE : ' +
                                 res.toString() + '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage());
                     }
 

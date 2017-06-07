@@ -38,15 +38,14 @@ public class NumVerifyValidatorTest {
         //Set up a valid number
         String phoneNumber = '+1 (852) 999-3451';
 
-        SironoSettingsUtil.generatePhoneNumVerification();
         Sirono_Settings__c sironoSettings = Sirono_Settings__c.getOrgDefaults();
         sironoSettings.Country_Code__c = 'GB';
         sironoSettings.Format__c = 3;
         sironoSettings.Apikey__c = 'thisisthetestapikey';
-        upsert sironoSettings;
+        UPSERT sironoSettings;
 
         //Make sure the query parameters are in alpha order to match the way HttpRequest constructs them
-        String validUrl = 'http://apilayer.net/api/validate?access_key=thisisthetestapikey&country_code=GB&format=3&number=18529993451';
+        String validUrl = 'https://apilayer.net/api/validate?access_key=thisisthetestapikey&country_code=GB&format=3&number=18529993451';
 
         NumVerifyValidator.VerifiedNumber vnbr =  new NumVerifyValidator.VerifiedNumber(phoneNumber);
         HttpRequest request = NumVerifyValidator.buildRequest(vnbr);
@@ -56,13 +55,13 @@ public class NumVerifyValidatorTest {
         System.assert(String.isEmpty(request.getBody()), 'Expected empty body');
         System.assert('application/json'.equalsIgnoreCase(request.getHeader('Content-Type')), 'Content-Type should be json');
 
-        delete sironoSettings;
+        DELETE sironoSettings;
     }
 
     //test to verify a number with an invalid line type
     @isTest
     public static void testVerifyInvalidLineType() {
-        SironoSettingsUtil.generatePhoneNumVerification();
+
         TestUtility.statusCode = 200;
         TestUtility.body = PhoneNumberCalloutResponseBody.responseInvalid();
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());

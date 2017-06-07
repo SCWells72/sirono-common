@@ -73,15 +73,41 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Server_Endpoint_URL__c</fullName>
-        <defaultValue>&quot;https://demo.stage.sirono.com&quot;</defaultValue>
-        <description>Server endpoint for Sirono application.</description>
+        <fullName>NS_Bar_Prefix__c</fullName>
+        <defaultValue>&quot;&quot;</defaultValue>
+        <description>Namespace prefix used to address Objects, Fields &amp; Pages</description>
         <externalId>false</externalId>
-        <label>Server Endpoint URL</label>
+        <label>Namespace Bar Prefix</label>
+        <length>12</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
-        <type>Url</type>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
-    <label>Sirono Settings New</label>
-    <visibility>Public</visibility>
+    <fields>
+        <fullName>NS_Dot_Prefix__c</fullName>
+        <defaultValue>&quot;&quot;</defaultValue>
+        <description>Namespace prefix used for classes</description>
+        <externalId>false</externalId>
+        <label>Namespace Dot Prefix</label>
+        <length>11</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>NS_Prefix__c</fullName>
+        <defaultValue>&quot;&quot;</defaultValue>
+        <description>Raw namespace prefix for the package</description>
+        <externalId>false</externalId>
+        <label>Namespace Prefix</label>
+        <length>10</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Sirono Settings</label>
+    <visibility>Protected</visibility>
 </CustomObject>

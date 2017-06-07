@@ -23,19 +23,6 @@ private class PayStaffWSUtillTest {
     }
 
     /**
-     * This method is used to setup preliminary data to let's all testmethods to execute as expected.
-     **/
-    @testSetup static void setupSironoSettings(){
-        Test.startTest();
-        SironoSettingsUtil.initializeSironoSettings();
-        Test.stopTest();
-        
-        // Check system assert.
-        Sirono_Settings__c sironoSettings = Sirono_Settings__c.getOrgDefaults();
-        System.assertNotEquals(sironoSettings, null, 'Should have failed due to sironoSettings are null.');
-    }
-
-    /**
      * This method tests the logic of fetchGuarantorId.
      **/
     @isTest
@@ -204,7 +191,7 @@ private class PayStaffWSUtillTest {
                     System.assert(false, 'Expected permission to be denied for ' + context);
                 } catch (SecurityUtils.SecurityException ex) {
                     System.debug('SecurityException : ' + ex);
-                    System.assertEquals('You do not have Read rights on Transaction_Type__c', ex.getMessage(), 'Expected to find a message about TransactionType.');
+                    System.assert(ex.getMessage().contains('Transaction_Type__c'), 'Expected to find a message about TransactionType.');
                 } catch (Exception e) {
                     System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
                 }

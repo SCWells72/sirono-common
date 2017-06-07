@@ -1,12 +1,12 @@
 /**
- * Created by mmartin on 5/10/17.
+ * Test that a user with the GuarantorProfile can do all the things a guarantor needs to do
  */
 
 @isTest
 public with sharing class GuarantorProfilePermissionTest {
 
-    private static final String TEST_USERNAME = 'testGTUser_' + System.now().millisecond() + '_@test.io';
-    private static final String TEST_ADMIN_USERNAME = System.now().millisecond() + 'test2@test.com';
+    private static final String TEST_USERNAME = UserInfo.getOrganizationId()+'-'+'testGTUser_' + System.now().millisecond() + '_@test.io';
+    private static final String TEST_ADMIN_USERNAME = UserInfo.getOrganizationId()+'-'+System.now().millisecond() + '-test2@test.com';
 
     /**
      * Utilty for getting a Guarantor Community Plus user.
@@ -53,7 +53,7 @@ public with sharing class GuarantorProfilePermissionTest {
             LIMIT 1
         ];
 
-        if(users.size() > 0) {
+        if (users.size() > 0) {
             usr = users.get(0);
         } else {
 
@@ -76,6 +76,7 @@ public with sharing class GuarantorProfilePermissionTest {
                 usr.Username = TEST_USERNAME;
                 usr.PortalRole = gr.PortalRole;
 
+                System.debug('PortalRole: '+gr.PortalRole);
                 INSERT usr;
 
                 usr = null;
@@ -177,7 +178,7 @@ public with sharing class GuarantorProfilePermissionTest {
             try {
                 hasAccess = TransactionSecurityContext.PPU_SELECT_CONTEXT.actionAllowed();
             } catch(Exception e) {
-                System.assert(hasAccess, 'Should have had read access to Case.');
+                System.assert(hasAccess, 'Should have had read access to Transaction.');
             }
             System.assert(hasAccess, 'Should have access to the case fields.');
         }

@@ -418,4 +418,16 @@ public class TestUtility {
 
         return newUser;
     }
+
+    /**
+     * Assign the specified PermissionSet to the given User
+     *
+     **/
+    public static void assignPermissionSet(String psName, User newUser) {
+
+        PermissionSet ps = [SELECT ID From PermissionSet WHERE Name = :psName];
+        System.assert(ps != null, 'Unable to retrieve permission set: '+psName);
+
+        INSERT new PermissionSetAssignment(AssigneeId = newUser.Id, PermissionSetId = ps.Id );
+    }
 }
