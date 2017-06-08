@@ -47,8 +47,8 @@ public without sharing class ChargeGroupTriggerHandler {
             Map<Id, Payment_Plan__c> plansToUpdate = PaymentPlanUtil.setBalanceAndCharges(paymentPlanIds);
             if (plansToUpdate.size() > 0) {
                 if (PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT.actionAllowed()) {
-		    UPDATE plansToUpdate.values();
-		}
+					UPDATE plansToUpdate.values();
+                }
             }
         }
 
@@ -58,7 +58,7 @@ public without sharing class ChargeGroupTriggerHandler {
             InvoiceUtil.updateAllSubstatusInvoiceField(invoiceIds);
         }
 
-        if(encounterIds.size() > 0) {
+        if (encounterIds.size() > 0) {
             EncounterUtil.setHasChargeGroup(encounterIds);
             EncounterUtil.setBilledCGCount(encounterIds);
         }
@@ -132,12 +132,12 @@ public without sharing class ChargeGroupTriggerHandler {
             Map<Id, Payment_Plan__c> plansToUpdate = PaymentPlanUtil.setBalanceAndCharges(paymentPlanIds);
             if (plansToUpdate.size() > 0) {
                 if (PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT.actionAllowed()) {
-		    UPDATE plansToUpdate.values();
-		}
+                    UPDATE plansToUpdate.values();
+                }
             }
         }
 
-        if(invoiceIds.size() > 0){
+        if (invoiceIds.size() > 0) {
             InvoiceUtil.updateInvoiceStatusIndex(invoiceIds);
             InvoiceUtil.updateInvoiceBalances(invoiceIds);
             InvoiceUtil.updateAllSubstatusInvoiceField(invoiceIds);
@@ -174,7 +174,7 @@ public without sharing class ChargeGroupTriggerHandler {
             }
         }
 
-        if(invoiceIds.size() > 0){
+        if (invoiceIds.size() > 0) {
             InvoiceUtil.updateInvoiceStatusIndex(invoiceIds);
             InvoiceUtil.updateInvoiceBalances(invoiceIds);
             InvoiceUtil.updateAllSubstatusInvoiceField(invoiceIds);
@@ -185,12 +185,12 @@ public without sharing class ChargeGroupTriggerHandler {
             EncounterUtil.setBilledCGCount(encounterIds);
         }
 
-        if (paymentPlanIds.size() > 0){
+        if (paymentPlanIds.size() > 0) {
             Map<Id, Payment_Plan__c> plansToUpdate = PaymentPlanUtil.setBalanceAndCharges(paymentPlanIds);
             if (plansToUpdate.size() > 0) {
                 if (PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT.actionAllowed()) {
-		    UPDATE plansToUpdate.values();
-		}
+                    UPDATE plansToUpdate.values();
+                }
             }
         }
     }

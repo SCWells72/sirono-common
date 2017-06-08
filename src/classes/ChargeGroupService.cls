@@ -89,7 +89,7 @@ public class ChargeGroupService extends AbstractService {
      * This method is use to get Charge_Group__c records associated with the given Charge Group Ids.
      *
      * @param Set<Id> chargeGroupIds - That contains Charge Group Ids.
-     * @param Boolean hasOrderBy - That contains true or false value because of same query use two times in ‘WorkWithInvoicesController’ class
+     * @param Boolean hasOrderBy - indicate whether or not to order the cgs by Post_Date__c
      *  only Order By related changes are there so we use this variable and set order by filter.
      * @returns List<Charge_Group__c> - That contains CG records based on Charge Group Ids.
      **/

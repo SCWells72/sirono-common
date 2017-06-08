@@ -167,10 +167,11 @@ public with sharing class ChargeGroupDao extends AbstractDao {
      * Return the Charge_Group__c records associated with the given Charge Group Ids.
      *
      * @param Set<Id> chargeGroupIds - That contains Charge Group Ids.
-     * @param Boolean hasOrderBy - That contains true or false value because of same query use two times in ‘WorkWithInvoicesController’ class
+     * @param Boolean hasOrderBy - indicates whether or not to order by Post_Date__c
      *  only Order By related changes are there so we use this variable and set order by filter.
      * @returns List<Charge_Group__c> - That contains CG records based on Charge Group Ids.
      **/
+	//TODO can both uses of this method work with the cgs ordered?
     public static List<Charge_Group__c> getCGForInvoiceController(Set<Id> chargeGroupIds, Boolean hasOrderBy) {
         String queryString = 'SELECT Id, Name, Balance__c, Active__c, Sirono_ID__c, Location__c, Location__r.Name, Provider__r.Name, Account_Type__c, ';
         queryString += 'External_ID__c, Payment_Plan__c, Payment_Plan__r.Active__c, Payment_Plan__r.Installment_Amount__c, Payment_Plan__r.NextPaymentDate__c, ';
