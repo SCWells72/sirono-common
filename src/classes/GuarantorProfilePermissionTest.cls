@@ -91,15 +91,4 @@ public with sharing class GuarantorProfilePermissionTest {
             System.assert(hasAccess, 'Should have access to the Transaction fields.');
         }
     }
-
-    @isTest
-    public static void insertPayment() {
-        User usr = TestUtility.getGuarantorCommunityUser();
-        System.runAs(usr) {
-            Contact gt = GuarantorService.getPortalGuarantor(usr.Id);
-
-            Payment__c pmt = TestUtility.generateSironoPayment(gt.Id, gt.Profile_Pointer_ID__c, 500.00);
-            PaymentDao.insertPayment(new Payment__c[] { pmt });
-        }
-    }
 }
