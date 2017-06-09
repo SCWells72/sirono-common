@@ -430,4 +430,95 @@ public class TestUtility {
 
         INSERT new PermissionSetAssignment(AssigneeId = newUser.Id, PermissionSetId = ps.Id );
     }
+
+    /**
+     * Utilty for getting a Guarantor Portal Community user.
+      *
+      * @return User - The User object assigned the profile of a user using the Guarantor Portal.
+     */
+    public static User getGuarantorCommunityUser() {
+        String testUsername = UserInfo.getOrganizationId()+'-'+'testGTUser_' + System.now().millisecond() + '_@test.io';
+        String testAdminUsername = UserInfo.getOrganizationId()+'-'+System.now().millisecond() + '-test2@test.com';
+
+        UserRole portalRole = [Select Id From UserRole Where DeveloperName = 'CEO' Limit 1];
+        Profile profile1 = [Select Id from Profile where name = 'System Administrator'];
+        User portalAdminUser = new User(
+                UserRoleId = portalRole.Id,
+                ProfileId = profile1.Id,
+                Username = testAdminUsername,
+                Alias = 'batman',
+                Email = 'bruce.wayne@wayneenterprises.com',
+                EmailEncodingKey = 'UTF-8',
+                Firstname = 'Bruce',
+                Lastname = 'Wayne',
+                LanguageLocaleKey = 'en_US',
+                LocaleSidKey = 'en_US',
+                TimeZoneSidKey = 'America/Chicago'
+        );
+
+        Account a = null;
+        User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
+        System.runAs(thisUser) {
+            //Create portal account owner
+            Database.insert(portalAdminUser);
+            //Create account
+            a = new Account(Name = 'TestAccount', OwnerId = portalAdminUser.Id);
+            Database.insert(a);
+        }
+
+        User usr;
+
+        // Sometimes the user hasn't been cleared from the previous test, so if it still exists use it.
+        List<User> users = [
+                SELECT Alias, Email, EmailEncodingKey, LastName, LanguageLocaleKey,
+                        LocaleSidKey, ProfileId, ContactId,
+                        TimeZoneSidKey, Username
+                FROM User
+                WHERE Username = :testUsername
+                LIMIT 1
+        ];
+
+        if (users.size() > 0) {
+            usr = users.get(0);
+        } else {
+
+            System.runAs(portalAdminUser) {
+                //Create Guarantor Contact record
+                Contact gt = TestUtility.generateGuarantorContact();
+                gt.Profile_Pointer_Id__c = 999;
+                gt.AccountId = a.Id;
+                gt.OwnerId = portalAdminUser.Id;
+                Database.insert(gt);
+
+                UserRole gr = [
+                        SELECT Id, DeveloperName, PortalRole
+                        FROM UserRole
+                        WHERE DeveloperName = 'MakanaHealthCustomerUser'
+                        LIMIT 1
+                ];
+
+                usr = TestUtility.generateUser(Constants.GUARANTOR_PORTAL_PROFILE, gt.Id);
+                usr.Username = testUsername;
+                usr.PortalRole = gr.PortalRole;
+
+                System.debug('PortalRole: '+gr.PortalRole);
+                INSERT usr;
+
+                usr = null;
+                usr = [
+                        SELECT Id, Alias, Email, EmailEncodingKey, LastName, LanguageLocaleKey,
+                                LocaleSidKey, ProfileId, ContactId,
+                                TimeZoneSidKey, Username
+                        FROM User
+                        WHERE Username = :testUsername
+                        LIMIT 1
+                ];
+
+                System.assertNotEquals(usr, null, 'User with username: ' + testUsername + ' not found');
+            }
+
+            System.assertNotEquals(usr, null, 'User with username: ' + testUsername + ' not found');
+        }
+        return usr;
+    }
 }

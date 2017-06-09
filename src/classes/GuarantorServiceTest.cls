@@ -140,4 +140,59 @@ public with sharing class GuarantorServiceTest {
         System.assertEquals(gt.Id, contact.Id);
         System.assert(contact.Charge_Groups__r.get(0).Active__c);
     }
+
+    /*
+     * Test retrieval of a portal user's associated  guarantor contact
+     *
+     */
+    @IsTest
+    public static void getPortalGuarantorTest() {
+        Test.startTest();
+        User usr = TestUtility.getGuarantorCommunityUser();
+        Contact gt = GuarantorService.getPortalGuarantor(usr.Id);
+        Test.stopTest();
+
+        System.assert(gt != null, 'Guarantor contact not found for user: '+usr.Username);
+    }
+
+    /*
+     * Negative test: retrieve a non-portal user's associated guarantor contact (which he doesn't have)
+     *
+     */
+    @IsTest
+    public static void nonPortalUserGetGuarantorTest() {
+        User usr = TestUtility.generateUser(Constants.STANDARD_USER, null);
+        INSERT usr;
+        System.assert(usr.Id != null, 'No user created for test');
+
+        try {
+            Test.startTest();
+            Contact gt = GuarantorService.getPortalGuarantor(usr.Id);
+            Test.stopTest();
+
+            System.assert(gt == null, 'Unexpected guarantor contact found for user'+usr.Username);
+
+        } catch (SironoServiceException ex) {
+            System.assert(ex.getMessage().startsWith('No Guarantor associated with user '), 'Unexpected exception caught: '+ex.getMessage());
+        }
+    }
+
+        /*
+     * Negative test: retrieve a non-portal user's associated guarantor contact (which he doesn't have)
+     *
+     */
+    @IsTest
+    public static void invalidUserGetGuarantorTest() {
+
+        try {
+            Test.startTest();
+            Contact gt = GuarantorService.getPortalGuarantor('12324');
+            Test.stopTest();
+
+            System.assert(gt == null, 'Unexpected guarantor contact found for user');
+
+        } catch (SironoServiceException ex) {
+            System.assert(ex.getMessage().startsWith('No user with id'), 'Unexpected exception caught: '+ex.getMessage());
+        }
+    }
 }

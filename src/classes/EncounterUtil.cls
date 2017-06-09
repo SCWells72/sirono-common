@@ -99,9 +99,9 @@ public without sharing class EncounterUtil {
             enc.Has_Chargegroup__c = flagValue;
             encountersToUpdate.add(enc);
         }
-	if (EncounterSecurityContext.UPDATE_HAS_CHARGEGROUP_CONTEXT.actionAllowed()) {
-	    UPDATE encountersToUpdate;
-	}
+        if (EncounterSecurityContext.UPDATE_HAS_CHARGEGROUP_CONTEXT.actionAllowed()) {
+            UPDATE encountersToUpdate;
+        }
     }
 
     /*
@@ -169,7 +169,7 @@ public without sharing class EncounterUtil {
                 toUpdate.add(gt);
             }
             // Update Contacts.
-            GuarantorService.updateGuarantorsWithEstimateBal(toUpdate);
+            GuarantorDao.updateGuarantorsWithEstimateBal(toUpdate);
         }
     }
 
