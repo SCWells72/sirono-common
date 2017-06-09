@@ -251,4 +251,22 @@ public with sharing class GuarantorService extends AbstractService {
     public static void updateGuarantorsWithEstimateBal(List<Contact> contacts) {
         GuarantorDao.updateGuarantorsWithEstimateBal(contacts);
     }
+
+    /**
+     * Retrieve the guarantor associated with the given user.
+     *
+     * @param Contact - the Guarantor/Contact record
+     **/
+    public static Contact getPortalGuarantor(String userId) {
+        User[] users = [SELECT Id, ContactId, Username FROM User WHERE Id = :userId];
+
+        if (users.isEmpty()) {
+            throw new SironoServiceException('No user with id '+userId);
+        }
+
+        if (users[0].ContactId == null) {
+            throw new SironoServiceException('No Guarantor associated with user '+users[0].Username);
+        }
+        return GuarantorDao.getContactById(users[0].ContactId);
+    }
 }

@@ -1,5 +1,4 @@
-//TODO remove without sharing
-public without sharing class MakeAPaymentController { 
+public with sharing class MakeAPaymentController {
     public CardInformation cInfo{get;set;}
     
     public class CardInformation{
@@ -11,10 +10,6 @@ public without sharing class MakeAPaymentController {
         public String cardType {get; set;}
         @AuraEnabled
         public Boolean isSaved {get; set;}
-
-
-        
-        
         @AuraEnabled
         public String password { get; set; }
         @AuraEnabled
@@ -86,14 +81,14 @@ public without sharing class MakeAPaymentController {
 
     @AuraEnabled
     public static String makeNewPayment(String jsonPayment, String listIds){
-        system.debug('jssonPaymen:'+jsonPayment);
-        system.debug('listIds' + listIds);
+        System.debug('jsonPayment: '+jsonPayment);
+        System.debug('listIds: ' + listIds);
         CardInformation cInfo = (CardInformation)JSON.deserialize(jsonPayment, CardInformation.class);
         system.debug(cInfo);
         List<String> invIds = (List<String>)JSON.deserialize(listIds, List<String>.class);
-        system.debug(invIds);
-        User currentUser = [SELECT Id, ContactId FROM User WHERE Id = :userInfo.getUserId()];
-        Contact guarantor = GuarantorService.getContactById(currentUser.ContactId);
+        System.debug(invIds);
+
+        Contact guarantor = GuarantorService.getPortalGuarantor(UserInfo.getUserId());
 
         ApexPages.StandardController sc = new ApexPages.StandardController(guarantor);
         ProcessPaymentLightning onePayment = new ProcessPaymentLightning(sc, invIds);
@@ -114,12 +109,14 @@ public without sharing class MakeAPaymentController {
 
     @AuraEnabled
     public static String makeNewEstimatePayment(String jsonPayment, String estimateId) {
-        system.debug('Estimate jssonPaymen:'+jsonPayment);
-        System.debug('EstimateId:' + estimateId);
+
+        System.debug('Estimate jsonPayment: '+jsonPayment);
+        System.debug('EstimateId: ' + estimateId);
+
         CardInformation cInfo = (CardInformation)JSON.deserialize(jsonPayment, CardInformation.class);
-        system.debug(cInfo);
-        User currentUser = [SELECT Id, ContactId FROM User WHERE Id = :userInfo.getUserId()];
-        Contact guarantor = GuarantorService.getContactById(currentUser.ContactId);
+        System.debug(cInfo);
+
+        Contact guarantor = GuarantorService.getPortalGuarantor(UserInfo.getUserId());
 
         ApexPages.StandardController sc = new ApexPages.StandardController(guarantor);
         PayEstimateLightningController onePayment = new PayEstimateLightningController(sc, estimateId);
@@ -141,29 +138,13 @@ public without sharing class MakeAPaymentController {
     public static Map<String, Map<String, String>> getCardSelectOptions()
     {
         Map<String, Map<String, String>> outputMap = new Map<String, Map<String, String>> ();
-        Map<String, String> yearOptions = new Map<String, String>();
-        for (SelectOption selection : UIUtils.expYearOptions)
-        {
-            yearOptions.put(selection.getValue(), selection.getLabel());
-        }
-        outputMap.put('YEARS', yearOptions);
-
-        Map<String, String> monthsOptions = new Map<String, String>();
-        for (SelectOption selection : UIUtils.expMonthOptions)
-        {
-            monthsOptions.put(selection.getValue(), selection.getLabel());
-        }
-        outputMap.put('MONTHS', monthsOptions);
+        outputMap.put('YEARS', PortalUIConstants.yearOptions);
+        outputMap.put('MONTHS', PortalUIConstants.expMonthOptions);
         return outputMap;
     }
 
     @AuraEnabled
     public static List<String> getStates() {
-        List<State__mdt> statesList = [SELECT Label FROM State__mdt ORDER BY Label LIMIT 1000];
-        List<String> states = new List<String>();
-        for (State__mdt state : statesList) {
-			states.add(state.Label);
-		}
-        return states;      
+        return PortalUIConstants.states;
     }
 }

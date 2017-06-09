@@ -2,8 +2,8 @@
  * Access Guarantor contact data
  * TODO when we create a PatientDao, pull up a virtual ContactDao with common functionality
  */
-
-public with sharing class GuarantorDao extends AbstractDao {
+//TODO fix our sharing model for Guarantors
+public without sharing class GuarantorDao extends AbstractDao {
 
     public static Contact getGuarantor(String recordId) {
         if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed()) {
@@ -297,7 +297,7 @@ public with sharing class GuarantorDao extends AbstractDao {
      **/
     public static Contact getContactById(Id contactId) {
         Contact gt = [
-                        SELECT Id
+                        SELECT Id, Profile_Pointer_ID__c
                         FROM Contact
                         WHERE Id = :contactId
                         LIMIT 1

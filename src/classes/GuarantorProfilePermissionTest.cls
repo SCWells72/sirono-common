@@ -1,101 +1,9 @@
 /**
- * Test that a user with the GuarantorProfile can do all the things a guarantor needs to do
+ * Test that a Guarantor Portal user can do all the things they need to
  */
 
 @isTest
 public with sharing class GuarantorProfilePermissionTest {
-
-    private static final String TEST_USERNAME = UserInfo.getOrganizationId()+'-'+'testGTUser_' + System.now().millisecond() + '_@test.io';
-    private static final String TEST_ADMIN_USERNAME = UserInfo.getOrganizationId()+'-'+System.now().millisecond() + '-test2@test.com';
-
-    /**
-     * Utilty for getting a Guarantor Community Plus user.
-      *
-      * @return User - The User object assigned the Guarantor Community Plus profile.
-     */
-    private static User getGuarantorCommunityPlusUser() {
-        UserRole portalRole = [Select Id From UserRole Where DeveloperName = 'CEO' Limit 1];
-        Profile profile1 = [Select Id from Profile where name = 'System Administrator'];
-        User portalAdminUser = new User(
-            UserRoleId = portalRole.Id,
-            ProfileId = profile1.Id,
-            Username = TEST_ADMIN_USERNAME,
-            Alias = 'batman',
-            Email = 'bruce.wayne@wayneenterprises.com',
-            EmailEncodingKey = 'UTF-8',
-            Firstname = 'Bruce',
-            Lastname = 'Wayne',
-            LanguageLocaleKey = 'en_US',
-            LocaleSidKey = 'en_US',
-            TimeZoneSidKey = 'America/Chicago'
-        );
-
-
-        Account a = null;
-        User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
-        System.runAs(thisUser) {
-            //Create portal account owner
-            Database.insert(portalAdminUser);
-            //Create account
-            a = new Account(Name = 'TestAccount', OwnerId = portalAdminUser.Id);
-            Database.insert(a);
-        }
-
-        User usr;
-
-        // Sometimes the user hasn't been cleared from the previous test, so if it still exists use it.
-        List<User> users = [
-            SELECT Alias, Email, EmailEncodingKey, LastName, LanguageLocaleKey,
-                LocaleSidKey, ProfileId, ContactId,
-                TimeZoneSidKey, Username
-            FROM User
-            WHERE Username = :TEST_USERNAME
-            LIMIT 1
-        ];
-
-        if (users.size() > 0) {
-            usr = users.get(0);
-        } else {
-
-            System.runAs(portalAdminUser) {
-                //Create Guarantor Contact record
-                Contact gt = TestUtility.generateGuarantorContact();
-                gt.Profile_Pointer_Id__c = 999;
-                gt.AccountId = a.Id;
-                gt.OwnerId = portalAdminUser.Id;
-                Database.insert(gt);
-
-                UserRole gr = [
-                    SELECT Id, DeveloperName, PortalRole
-                    FROM UserRole
-                    WHERE DeveloperName = 'MakanaHealthCustomerUser'
-                    LIMIT 1
-                ];
-
-                usr = TestUtility.generateUser(Constants.GUARANTOR_PORTAL_PROFILE, gt.Id);
-                usr.Username = TEST_USERNAME;
-                usr.PortalRole = gr.PortalRole;
-
-                System.debug('PortalRole: '+gr.PortalRole);
-                INSERT usr;
-
-                usr = null;
-                usr = [
-                    SELECT Alias, Email, EmailEncodingKey, LastName, LanguageLocaleKey,
-                        LocaleSidKey, ProfileId, ContactId,
-                        TimeZoneSidKey, Username
-                    FROM User
-                    WHERE Username = :TEST_USERNAME
-                    LIMIT 1
-                ];
-
-                System.assertNotEquals(usr, null, 'User with username: ' + TEST_USERNAME + ' not found');
-            }
-
-            System.assertNotEquals(usr, null, 'User with username: ' + TEST_USERNAME + ' not found');
-        }
-        return usr;
-    }
 
     @isTest
     // If I create the user in a setup method I cannot retrieve it in the test.
@@ -103,7 +11,7 @@ public with sharing class GuarantorProfilePermissionTest {
     // Verify that the user can read the sirono server NamedCredentials
     public static void readNamedCredentialsTest() {
 
-        User usr = getGuarantorCommunityPlusUser();
+        User usr = TestUtility.getGuarantorCommunityUser();
 
         System.runAs(usr) {
             Profile prof = [Select Id, Name from Profile where Id = :UserInfo.getProfileId()];
@@ -116,7 +24,7 @@ public with sharing class GuarantorProfilePermissionTest {
 
     @isTest
     public static void readContact() {
-        User usr = getGuarantorCommunityPlusUser();
+        User usr = TestUtility.getGuarantorCommunityUser();
         System.runAs(usr) {
             Boolean hasAccess = false;
             try {
@@ -130,7 +38,7 @@ public with sharing class GuarantorProfilePermissionTest {
 
     @isTest
     public static void readCaseRelatedContact() {
-        User usr = getGuarantorCommunityPlusUser();
+        User usr = TestUtility.getGuarantorCommunityUser();
         System.runAs(usr) {
             Boolean hasAccess = false;
             try {
@@ -144,7 +52,7 @@ public with sharing class GuarantorProfilePermissionTest {
 
     @isTest
     public static void readChargeGroup() {
-        User usr = getGuarantorCommunityPlusUser();
+        User usr = TestUtility.getGuarantorCommunityUser();
         System.runAs(usr) {
             Boolean hasAccess = false;
             try {
@@ -158,7 +66,7 @@ public with sharing class GuarantorProfilePermissionTest {
 
     @isTest
     public static void readCase() {
-        User usr = getGuarantorCommunityPlusUser();
+        User usr = TestUtility.getGuarantorCommunityUser();
         System.runAs(usr) {
             Boolean hasAccess = false;
             try {
@@ -172,7 +80,7 @@ public with sharing class GuarantorProfilePermissionTest {
 
     @isTest
     public static void readTransaction() {
-        User usr = getGuarantorCommunityPlusUser();
+        User usr = TestUtility.getGuarantorCommunityUser();
         System.runAs(usr) {
             Boolean hasAccess = false;
             try {
@@ -180,7 +88,18 @@ public with sharing class GuarantorProfilePermissionTest {
             } catch(Exception e) {
                 System.assert(hasAccess, 'Should have had read access to Transaction.');
             }
-            System.assert(hasAccess, 'Should have access to the case fields.');
+            System.assert(hasAccess, 'Should have access to the Transaction fields.');
+        }
+    }
+
+    @isTest
+    public static void insertPayment() {
+        User usr = TestUtility.getGuarantorCommunityUser();
+        System.runAs(usr) {
+            Contact gt = GuarantorService.getPortalGuarantor(usr.Id);
+
+            Payment__c pmt = TestUtility.generateSironoPayment(gt.Id, gt.Profile_Pointer_ID__c, 500.00);
+            PaymentDao.insertPayment(new Payment__c[] { pmt });
         }
     }
 }

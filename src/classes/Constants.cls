@@ -71,6 +71,7 @@ public class Constants {
     // Constant variable for Security Context Unit Testing Negative Profile.
     public static final String READ_ONLY_PROFILE = 'Read Only';
     public static final String CHATTER_ONLY_USER_PROFILE = 'Chatter Only User';
+    public static final String STANDARD_USER = 'Standard User';
     public static final String GUARANTOR_PORTAL_PROFILE = 'Guarantor Community Plus';
 
     // Account Substatus constraints used for Cases

@@ -5,8 +5,25 @@
  * Only display those Encounters whose balance is greater than zero.
  * Based on selected Encounter, Create a Payment Record.
  **/ 
-public with sharing class PayEstimateLightningController extends PayEstimateController {
-
+public with sharing class PayEstimateLightningController {
+    // Page Level Variables.
+    public String address {get; set;}
+    public String amount {get; set;}
+    public String cardHolderName {get; set;}
+    public String city {get; set;}
+    public String creditCardNumber {get; set;}
+    public String cvv {get; set;}
+    public List<EncounterWrapper> encounters {get; set;}
+    public Boolean encounterSelected {get; set;}
+    public String expirationMonth {get; set;}
+    public String expirationYear {get; set;}
+    public Contact guarantorContact {get; set;}
+    public String guarantorName {get; set;}
+    public String guarantorRecordId {get; set;}
+    public Encounter__c selectedEncounter {get; set;}
+    public String state {get; set;}
+    public String zip {get; set;}
+    public List<String> errorMessages{get;set;}
     public String message;
 
     /**
@@ -16,21 +33,50 @@ public with sharing class PayEstimateLightningController extends PayEstimateCont
      * @param String encounterId - Encounter record ID.
      **/
     public PayEstimateLightningController(ApexPages.StandardController controller, String encounterId) {
-        super();
         guarantorRecordId = controller.getId();
-        init(encounterId);
+        errorMessages = new List<String>();
+        if (guarantorRecordId != null) {
+            // Fetch Guarantor Contact record based on Id.
+            guarantorContact = GuarantorService.getGuarantor(guarantorRecordId);
+            // Fetch Guarantor Name based on Contact record.
+            guarantorName = GuarantorService.buildGuarantorDetailString(guarantorContact);
+            // Call getEncounterRecords method.
+            loadEncounters(encounterId);
+        }
     }
 
-    protected override void loadEncounters(String recordId) {
+    private void loadEncounters(String recordId) {
         Encounter__c[] encounterList = EncounterService.getEncounterRecordsById(recordId);
         encounters = EncounterWrapper.buildList(encounterList);
 
-        // For the lightning flow there should only ever be a single encounter.  Make it selected.
+        // We just selected encounters by Id, there should only be one.  Make it selected.
         if (encounters != null && encounters.size() == 1) {
             encounters.get(0).isSelected = true;
         } else {
-            System.debug('WARNING: Found more then a single encounter in the loadEncounters method for PayEstimateLightningController. Size: ' + encounters.size());
+            System.debug('WARNING: Found more then a single encounter with id: '+recordId+' for PayEstimateLightningController. Size: ' + encounters.size());
         }
+    }
+
+    // Getter setter of expYearOptions
+    public List<SelectOption> expYearOptions {
+        get {
+            if (expYearOptions == null) {
+                expYearOptions = UIUtils.expYearOptions;
+            }
+            return expYearOptions;
+        }
+        protected set;
+    }
+
+    // Getter setter of expMonthOptions
+    public List<SelectOption> expMonthOptions {
+        get {
+            if (expMonthOptions == null) {
+                expMonthOptions = UIUtils.expMonthOptions;
+            }
+            return expMonthOptions;
+        }
+        protected set;
     }
 
     /**
@@ -49,7 +95,63 @@ public with sharing class PayEstimateLightningController extends PayEstimateCont
             // Debug error response
             message = 'ERROR: ' + e.getMessage();
         }
+
         return message;
+    }
+
+    /**
+     * This method is used to get selected record
+     **/
+    public void doNext() {
+        EncounterWrapper checkEncounter = checkNext(encounters);
+        selectedEncounter = (checkEncounter.en != null) ? checkEncounter.en : selectedEncounter;
+        encounterSelected = checkEncounter.isSelected;
+    }
+
+
+    /**
+     * This method is use/call from VF page.
+     * This method fill the data based on Contact in VF page.
+     **/
+    public void fillNameAndAddress() {
+        cardHolderName = guarantorContact.name;
+        address = guarantorContact.MailingStreet;
+        city = guarantorContact.MailingCity;
+        state = guarantorContact.MailingState;
+        zip = guarantorContact.MailingPostalCode;
+    }
+
+    /**
+     * This method is use to Create/Insert Payment record based on Encounter, Contact and Amount.
+     * @param String paymentMethod - payment method
+     **/
+    public String addPayment(String paymentMethod) {
+        // Call createNewPayment method.
+        Payment__c payment = PaymentService.createNewPayment(guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod);
+        return (payment == null) ? 'ERROR: ' + Constants.PAGE_MESSAGE_CREATED_FAIL : 'Success;' + payment.Payment_Id__c + ';$' + amount;
+    }
+
+    /**
+     * This method is used to check selected record
+     * @param List<EncounterWrapper> encounters - list of EncounterWrapper records
+     * @return EncounterWrapper - selected EncounterWrapper record
+     **/
+    private EncounterWrapper checkNext(List<EncounterWrapper> encounters) {
+        Encounter__c selectedEncounter;
+        Boolean encounterSelected = false;
+        Integer count = 0;
+        if (encounters != null && encounters.size() > 0) {
+            for (EncounterWrapper enw: encounters) {
+                if (enw.isSelected) {
+                    count++;
+                    selectedEncounter = enw.en;
+                }
+            }
+            if (count == 1) {
+                encounterSelected = true;
+            }
+        }
+        return new EncounterWrapper(selectedEncounter, encounterSelected);
     }
 
     /**
@@ -57,7 +159,7 @@ public with sharing class PayEstimateLightningController extends PayEstimateCont
      *
      * @returns Boolean - That contains true or false based on errorMessages.
      **/
-    protected override Boolean isValidCard() {
+    private Boolean isValidCard() {
         // Call creditCardValidation method that validate all informations/values for Credit Card.
         errorMessages.addAll(VisualForceValidations.creditCardValidation(creditCardNumber, expirationYear, expirationMonth,
                 zip, cardHolderName, cvv, address));
@@ -74,7 +176,7 @@ public with sharing class PayEstimateLightningController extends PayEstimateCont
      *
      * @returns Boolean - That contains true or false based on errorMessages.
      **/
-    protected override Boolean isValidAmount() {
+    private Boolean isValidAmount() {
         // Call amountValidation method that validate amount.
         errorMessages.addAll(VisualForceValidations.amountValidation(amount, String.valueOf(selectedEncounter.Balance__c)));
 
