@@ -147,8 +147,10 @@ public with sharing class GuarantorServiceTest {
      */
     @IsTest
     public static void getPortalGuarantorTest() {
+        Test.startTest();
         User usr = TestUtility.getGuarantorCommunityUser();
         Contact gt = GuarantorService.getPortalGuarantor(usr.Id);
+        Test.stopTest();
 
         System.assert(gt != null, 'Guarantor contact not found for user: '+usr.Username);
     }
@@ -164,8 +166,10 @@ public with sharing class GuarantorServiceTest {
         System.assert(usr.Id != null, 'No user created for test');
 
         try {
-
+            Test.startTest();
             Contact gt = GuarantorService.getPortalGuarantor(usr.Id);
+            Test.stopTest();
+
             System.assert(gt == null, 'Unexpected guarantor contact found for user'+usr.Username);
 
         } catch (SironoServiceException ex) {
@@ -181,8 +185,10 @@ public with sharing class GuarantorServiceTest {
     public static void invalidUserGetGuarantorTest() {
 
         try {
-
+            Test.startTest();
             Contact gt = GuarantorService.getPortalGuarantor('12324');
+            Test.stopTest();
+
             System.assert(gt == null, 'Unexpected guarantor contact found for user');
 
         } catch (SironoServiceException ex) {
