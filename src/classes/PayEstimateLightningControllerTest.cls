@@ -33,9 +33,6 @@ public class PayEstimateLightningControllerTest {
             objPayEstimate.state = 'Test State';
             objPayEstimate.address = 'Test Address';
             objPayEstimate.city = 'Test City';
-            // Call below parameters for Code Coverage.
-            List<SelectOption> expYearOptions = objPayEstimate.expYearOptions;
-            List<SelectOption> expMonthOptions = objPayEstimate.expMonthOptions;
 
             // Call submit method. that take/create payment for Encounter Record.
             String message = objPayEstimate.submit();
@@ -102,9 +99,6 @@ public class PayEstimateLightningControllerTest {
         objPayEstimate.state = 'Test State';
         objPayEstimate.address = 'Test Address';
         objPayEstimate.city = 'Test City';
-        // Call below parameters for Code Coverage.
-        List<SelectOption> expYearOptions = objPayEstimate.expYearOptions;
-        List<SelectOption> expMonthOptions = objPayEstimate.expMonthOptions;
 
         // Call submit method. that take/create payment for Encounter Record.
         objPayEstimate.submit();
@@ -132,59 +126,6 @@ public class PayEstimateLightningControllerTest {
         Decimal encounterAmount = 500 - payments[0].Amount__c;
         // Check system assert, Enconter balance is decreases by the Amount of Payment.
         System.assertEquals(encounters[0].Balance__c, encounterAmount);
-    }
-
-    /**
-     * This method test the FillNameAndAddress method functionality.
-     * Based on Contact populate address, city, pincode, etc...
-     **/
-    @isTest
-    static void checkFillNameAndAddress() {
-        // Create Guarantor Contact record.
-        Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
-
-        // Create Encounter record.
-        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
-        INSERT encounter;
-
-        Test.startTest();
-
-        // Create PayEstimateLightningController class object with guarantorContact.
-        PayEstimateLightningController objPayEstimate = new PayEstimateLightningController(new ApexPages.StandardController(guarantorContact), encounter.Id);
-        objPayEstimate.guarantorRecordId = guarantorContact.Id;
-        Encounter__c[] encounterList = EncounterService.getEncounterRecordsByGuarantorId(guarantorContact.id);
-        objPayEstimate.encounters = EncounterWrapper.buildList(encounterList);
-
-        // Check system asserts, all fields are null of objPayEstimate.
-        System.assertEquals(objPayEstimate.cardHolderName, null);
-        System.assertEquals(objPayEstimate.address, null);
-        System.assertEquals(objPayEstimate.city, null);
-        System.assertEquals(objPayEstimate.state, null);
-        System.assertEquals(objPayEstimate.zip, null);
-
-        // Update contact to set city, postal code.
-        guarantorContact.MailingCity = 'Test City';
-        guarantorContact.MailingPostalCode = '12345';
-        UPDATE guarantorContact;
-
-        // Create PayEstimateLightningController class object with updated guarantorContact.
-        objPayEstimate = new PayEstimateLightningController(new ApexPages.StandardController(guarantorContact), encounter.Id);
-        // Call fillNameAndAddress method that set/assign address, city, zip, etc in Page Level variables.
-        objPayEstimate.fillNameAndAddress();
-
-        Test.stopTest();
-
-        // Get Contact record.
-        List<Contact> contacts = [SELECT Id, Name, MailingCity, MailingPostalCode
-                    FROM Contact
-                    WHERE Id = :guarantorContact.Id
-        ];
-
-        // Check system asserts that set/assign Page Level Variables based on Contact fields value.
-        System.assertEquals(objPayEstimate.cardHolderName, contacts[0].name);
-        System.assertEquals(objPayEstimate.city, contacts[0].MailingCity);
-        System.assertEquals(objPayEstimate.zip, contacts[0].MailingPostalCode);
     }
 
     /**

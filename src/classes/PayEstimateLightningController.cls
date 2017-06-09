@@ -14,11 +14,9 @@ public with sharing class PayEstimateLightningController {
     public String creditCardNumber {get; set;}
     public String cvv {get; set;}
     public List<EncounterWrapper> encounters {get; set;}
-    public Boolean encounterSelected {get; set;}
     public String expirationMonth {get; set;}
     public String expirationYear {get; set;}
     public Contact guarantorContact {get; set;}
-    public String guarantorName {get; set;}
     public String guarantorRecordId {get; set;}
     public Encounter__c selectedEncounter {get; set;}
     public String state {get; set;}
@@ -38,45 +36,22 @@ public with sharing class PayEstimateLightningController {
         if (guarantorRecordId != null) {
             // Fetch Guarantor Contact record based on Id.
             guarantorContact = GuarantorService.getGuarantor(guarantorRecordId);
-            // Fetch Guarantor Name based on Contact record.
-            guarantorName = GuarantorService.buildGuarantorDetailString(guarantorContact);
+
             // Call getEncounterRecords method.
             loadEncounters(encounterId);
         }
     }
 
-    private void loadEncounters(String recordId) {
-        Encounter__c[] encounterList = EncounterService.getEncounterRecordsById(recordId);
+    private void loadEncounters(String encounterRecordId) {
+        Encounter__c[] encounterList = EncounterService.getEncounterRecordsById(encounterRecordId);
         encounters = EncounterWrapper.buildList(encounterList);
 
         // We just selected encounters by Id, there should only be one.  Make it selected.
         if (encounters != null && encounters.size() == 1) {
             encounters.get(0).isSelected = true;
         } else {
-            System.debug('WARNING: Found more then a single encounter with id: '+recordId+' for PayEstimateLightningController. Size: ' + encounters.size());
+            System.debug('WARNING: Found more then a single encounter with id: '+encounterRecordId+' in PayEstimateLightningController. Size: ' + encounters.size());
         }
-    }
-
-    // Getter setter of expYearOptions
-    public List<SelectOption> expYearOptions {
-        get {
-            if (expYearOptions == null) {
-                expYearOptions = UIUtils.expYearOptions;
-            }
-            return expYearOptions;
-        }
-        protected set;
-    }
-
-    // Getter setter of expMonthOptions
-    public List<SelectOption> expMonthOptions {
-        get {
-            if (expMonthOptions == null) {
-                expMonthOptions = UIUtils.expMonthOptions;
-            }
-            return expMonthOptions;
-        }
-        protected set;
     }
 
     /**
@@ -105,20 +80,6 @@ public with sharing class PayEstimateLightningController {
     public void doNext() {
         EncounterWrapper checkEncounter = checkNext(encounters);
         selectedEncounter = (checkEncounter.en != null) ? checkEncounter.en : selectedEncounter;
-        encounterSelected = checkEncounter.isSelected;
-    }
-
-
-    /**
-     * This method is use/call from VF page.
-     * This method fill the data based on Contact in VF page.
-     **/
-    public void fillNameAndAddress() {
-        cardHolderName = guarantorContact.name;
-        address = guarantorContact.MailingStreet;
-        city = guarantorContact.MailingCity;
-        state = guarantorContact.MailingState;
-        zip = guarantorContact.MailingPostalCode;
     }
 
     /**
