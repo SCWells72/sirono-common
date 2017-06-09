@@ -84,7 +84,7 @@ public with sharing class MakeAPaymentController {
         System.debug('jsonPayment: '+jsonPayment);
         System.debug('listIds: ' + listIds);
         CardInformation cInfo = (CardInformation)JSON.deserialize(jsonPayment, CardInformation.class);
-        system.debug(cInfo);
+        System.debug(cInfo);
         List<String> invIds = (List<String>)JSON.deserialize(listIds, List<String>.class);
         System.debug(invIds);
 
@@ -135,16 +135,15 @@ public with sharing class MakeAPaymentController {
     }
 
     @AuraEnabled
-    public static Map<String, Map<String, String>> getCardSelectOptions()
-    {
+    public static Map<String, Map<String, String>> getCardSelectOptions() {
         Map<String, Map<String, String>> outputMap = new Map<String, Map<String, String>> ();
-        outputMap.put('YEARS', PortalUIConstants.yearOptions);
-        outputMap.put('MONTHS', PortalUIConstants.expMonthOptions);
+        outputMap.put('YEARS', PortalUIConstants.getYears());
+        outputMap.put('MONTHS', PortalUIConstants.getExpMonths());
         return outputMap;
     }
 
     @AuraEnabled
     public static List<String> getStates() {
-        return PortalUIConstants.states;
+        return PortalUIConstants.getStates();
     }
 }
