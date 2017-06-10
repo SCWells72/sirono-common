@@ -24,6 +24,12 @@ public class Constants {
     public static final String ACCT_SUBSTATUS_PAID = 'Paid';
     public static final String ACCT_SUBSTATUS_PREINVOICED = 'Pre-Invoiced';
 
+    // Guarantor Status
+    public static final String GUARANTOR_STATUS_DUE = 'Due';
+    public static final String GUARANTOR_STATUS_DELINQUENT = 'Delinquent';
+    public static final String GUARANTOR_STATUS_ON_PAYMENT_PLAN = 'On Payment Plan';
+    public static final String GUARANTOR_STATUS_OVERDUE = 'Overdue';
+
     // Constant variables for CG account status values.
     public static final String ACCT_STATUS_BILLED = 'Billed';
     public static final String ACCT_STATUS_PENDING = 'Pending';
@@ -62,12 +68,16 @@ public class Constants {
 
     //Constants for PaymentPlans
     public static final String AUTOMATIC = 'Automatic';
+    public static final String DUE = 'Due';
+    public static final String IN_ERROR = 'In Error';
     public static final String MANUAL = 'Manual';
+    public static final String PAST_DUE = 'Past Due';
     public static final String PLANTYPE_AUTO = 'auto';
     public static final String PLANTYPE_AUTO_VALUE = 'Auto Draft';
+    public static final String PLANTYPE_GOOD_STANDING = 'Good Standing';
     public static final String PLANTYPE_PROMISE = 'promise';
     public static final String PLANTYPE_PROMISE_VALUE = 'Promise To Pay';
-    
+
     // Constant variable for Security Context Unit Testing Negative Profile.
     public static final String READ_ONLY_PROFILE = 'Read Only';
     public static final String CHATTER_ONLY_USER_PROFILE = 'Chatter Only User';
@@ -100,5 +110,12 @@ public class Constants {
             Constants.ACCT_SUBSTATUS_OVERDUE,
             Constants.ACCT_SUBSTATUS_PAYMENT_PLAN,
             Constants.ACCT_SUBSTATUS_PREINVOICED
+    };
+
+    // Guarantor Status Overdue
+    public static final Set<String> GuarantorStatusOverdue = new Set<String> {
+        Constants.GUARANTOR_STATUS_DUE,
+        Constants.GUARANTOR_STATUS_DELINQUENT,
+        Constants.GUARANTOR_STATUS_OVERDUE
     };
 }

@@ -28,4 +28,14 @@ public class EncounterService extends AbstractService {
     public static void updateBilledCGCount(List<Encounter__c> encounters) {
         EncounterDao.updateBilledCGCount(encounters);
     }
+
+    /**
+     * This method is used to get a count of Encounters found for the Contact from the
+     * provided startDate to now.
+     *
+     * @param Integer - The number of Encounters.
+     **/
+    public static Integer getCountByDate(Id guarantorId, DateTime startDate) {
+      return EncounterDao.getCountByDate(guarantorId, startDate);
+    }
 }
