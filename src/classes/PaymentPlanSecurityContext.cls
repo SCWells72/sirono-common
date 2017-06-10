@@ -23,6 +23,7 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
     private static final String REMAINING_BALANCE = 'Remaining_Balance__c';
     private static final String SIRONO_ID = 'Sirono_ID__c';
     private static final String SKIP_PAYMENT_UNTIL = 'Skip_Payment_Until__c';
+    private static final String STANDING = 'Payment_Plan_Standing__c';
     private static final String STATUS = 'Status__c';
 
     // Below field(s) are use for Select/Read permission.
@@ -58,7 +59,7 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
 
     // The fields for selecting a Payment_Plan__c in PaymentPlanDao
     private static final Set<String> SELECT_FIELDS = new Set<String>{
-        ID, SIRONO_ID, ACTIVE, GUARANTOR
+        ID, SIRONO_ID, ACTIVE, GUARANTOR, STANDING, PLAN_TYPE
     };
 
     // The fields for selecting a Payment_Plan__c in CallListUtilities

@@ -10,10 +10,12 @@ public with sharing class InvoiceSecurityContext extends SecurityContext {
     private static final String INVOICE_STATUS_INDEX = 'Invoice_Status_Index__c';
 
     // Below field(s) are use for Select/Read permission.
+    private static final String DUE_DATE = 'Due_Date__c';
     private static final String GUARANTOR = 'Guarantor__c';
     private static final String ID = 'Id';
     private static final String INVOICE_DATE = 'Invoice_Date__c';
     private static final String NAME = 'Name';
+    private static final String STATUS = 'Invoice_Status__c';
 
     // The fields for updating a Invoice__c's Invoice_Status_Index__c field in InvoiceUtil
     private static final Set<String> UPDATE_FIELDS = new Set<String>{
@@ -32,7 +34,7 @@ public with sharing class InvoiceSecurityContext extends SecurityContext {
 
     // The fields for selecting a Invoice__c in EarlyOutSchedulerBatch
     private static final Set<String> SELECT_FIELDS = new Set<String>{
-        ID, NAME, GUARANTOR, INVOICE_DATE
+        ID, NAME, GUARANTOR, INVOICE_DATE, DUE_DATE, STATUS
     };
 
     /**

@@ -14,7 +14,7 @@ public with sharing class PaymentPlanDao extends AbstractDao{
 
         if (PaymentPlanSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             List<Payment_Plan__c> plans = [
-                    SELECT Id, Sirono_ID__c, Active__c
+                    SELECT Id, Sirono_ID__c, Active__c, Payment_Plan_Standing__c, Plan_Type__c
                     FROM Payment_Plan__c
                     WHERE Active__c = true
                     AND Sirono_ID__c != null

@@ -30,7 +30,17 @@ public class EncounterService extends AbstractService {
     }
 
     /**
-	 * This method is use to get Encounters based on Guarantor 
+     * This method is used to get a count of Encounters found for the Contact from the
+     * provided startDate to now.
+     *
+     * @param Integer - The number of Encounters.
+     **/
+    public static Integer getCountByDate(Id guarantorId, DateTime startDate) {
+      return EncounterDao.getCountByDate(guarantorId, startDate);
+    }
+
+    /**
+	 * This method is use to get Encounters based on Guarantor
 	 * optional filter limits the returned Encounters to only that subset
 	 * optional list of Ids limits the results to those for the given patient Ids.
      * @param Contact - the guarantor to retrieve Encounter__c for
