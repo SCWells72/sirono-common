@@ -11,233 +11,70 @@
 @isTest
 public class CaseUtilTest {
     Public Static List<CampaignMember> lst ;
-    //Method to code coverage for Create Early Out Case, And Close the Early Out case
-    @isTest
-    public static void checkCallEarlyOutAutoCase() {
-        TestUtility objUtility = new TestUtility();
-        CaseUtil obj = new CaseUtil();
 
+    /**
+     * This method tests the logic of Create Early Out Case using Process Builder Positively.
+     **/
+    @isTest
+    public static void checkCreateEarlyOutCase() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        insert guarantorContact;
+        INSERT guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        insert patientContact;
+        INSERT patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
-        insert chargeGroup;
-
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
-        chargeGroup.Account_Status__c = 'Billed';
+        chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
-        insert chargeGroup;
+        INSERT chargeGroup;
 
-        //10-19-2016: Viraj - Tracker # 132105543-Change "Overdue_Balance__c = '< 0' to '> 0'" in condition.
-        //Change transaction amount -100 to 100.
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
-        insert objTransaction;
-
-        List<Statement__c> lstStatement = new List<Statement__c>();
-        Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-
-
-        statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-        insert lstStatement;
+        INSERT objTransaction;
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
-        });
-
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out'));
-        lstCampaign.add(objCampaign);
-
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out M'));
-        lstCampaign.add(objCampaign);
-
-        insert lstCampaign;
-
-        List<CampaignMember> lstCamp = new list<CampaignMember>();
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
-
-        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
-
-        insert lstCamp;
-
-        //Test coverage for Auto case to manually closing the case [CaseTriggerHandler.removeCampaignMembers method]
-        CaseUtil.ExecuteRemoveCampaignTrigger = true;
-        Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
-            caseRecordTypeMap.put(recordType.Name, recordType.Id);
-        }
-
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
-        objCase.Reason = 'Compliance Issue';
-        insert objCase;
-
-        CaseUtil.callEarlyOutAutoCase();
+        Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
+        INSERT statement;
         Test.stopTest();
 
         // Retrive Case record.
         List<Case> cases = [SELECT Id, Type, status FROM Case WHERE Guarantor_Information__c = :guarantorContact.Id];
 
-        // Check system assert, Number of auto created case records.
-        System.assertEquals(1, cases.size());
-        System.assertEquals('Early Out', cases[0].Type);
+        // Check system assert.
+        System.assertEquals(1, cases.size(), 'Case size should have 1 but we got ' + cases.size());
+        System.assertEquals(Constants.CASE_TYPE_OVERDUE, cases[0].Type, 'Expected Case Type equals to "Early Out" but we got ' + cases[0].Type);
     }
 
-    //Method to code coverage for Create Early Out Case, And Close the Early Out case
+    /**
+     * This method tests the logic of Create Early Out Case using Process Builder Negatively.
+     **/
     @isTest
-    public static void callEarlyOutAutoCaseWithoutComplianIssue() {
-        TestUtility objUtility = new TestUtility();
-
+    public static void checkEarlyOutCaseNegative() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        insert guarantorContact;
+        INSERT guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        insert patientContact;
+        INSERT patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
-        insert chargeGroup;
-
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
-        chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
-        insert chargeGroup;
+        chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_BAD_DEBT;
+        INSERT chargeGroup;
 
-        //10-19-2016: Viraj - Tracker # 132105543-Change "Overdue_Balance__c = '< 0' to '> 0'" in condition.
-        //Change transaction amount -100 to 100.
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
-        insert objTransaction;
-
-        List<Statement__c> lstStatement = new List<Statement__c>();
-        Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-
-
-        statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-        insert lstStatement;
-
-        Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
-            caseRecordTypeMap.put(recordType.Name, recordType.Id);
-        }
+        INSERT objTransaction;
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
-        });
-
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out'));
-        lstCampaign.add(objCampaign);
-
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out M'));
-        lstCampaign.add(objCampaign);
-
-        insert lstCampaign;
-
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
-        objCase.Type = 'Early Out';
-        insert objCase;
-
-        CaseUtil.callEarlyOutAutoCase();
+        Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
+        INSERT statement;
         Test.stopTest();
 
         // Retrive Case record.
-        List<Case> cases = [SELECT Id, Reason, status FROM Case WHERE Guarantor_Information__c = :guarantorContact.Id];
+        List<Case> cases = [SELECT Id, Type, status FROM Case WHERE Guarantor_Information__c = :guarantorContact.Id];
 
-        //TODO: verify number of cases returned
-        // Check system assert, Case is closed automatically.
-        System.assertEquals('Closed - Automated', cases[0].Reason);
-    }
-
-    // 12-02-2016 Viraj Rana: #133707065: Case to Call Activiy
-    // Increse Code Coverage.
-    @isTest
-    public static void assignCampaignMemberCaseIdWithEarlyOut() {
-        TestUtility objUtility = new TestUtility();
-        CaseUtil obj = new CaseUtil();
-
-        Contact guarantorContact = TestUtility.generateGuarantorContact();
-        insert guarantorContact;
-
-        Contact patientContact = TestUtility.generatePatientContact();
-        insert patientContact;
-
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id,patientContact.id,121343);
-        insert chargeGroup;
-
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id,patientContact.id,12134323);
-        chargeGroup.Reported_Selfpay_Balance__c = 10;
-        chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c= 'Overdue';
-        insert chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
-        insert objTransaction;
-
-        List<Statement__c> lstStatement = new List<Statement__c>();
-        Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-
-
-        statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-        insert lstStatement;
-
-        Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
-        });
-
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out'));
-        lstCampaign.add(objCampaign);
-
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out M'));
-        lstCampaign.add(objCampaign);
-
-        insert lstCampaign;
-
-        List<CampaignMember> lstCamp = new list<CampaignMember>();
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
-
-        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
-
-        insert lstCamp;
-
-        Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
-            caseRecordTypeMap.put(recordType.Name, recordType.Id);
-        }
-
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
-        objCase.Reason = 'Early Out';
-        insert objCase;
-
-        //Check System assert "Case_ID__c = null before calling callEarlyOutAutoCase() method".
-        System.assertEquals(lstCamp[0].Case_ID__c, null);
-
-        CaseUtil.callEarlyOutAutoCase();
-        Test.stopTest();
-
-        // Check System assert "Case_ID__c != null after calling callEarlyOutAutoCase() method".
-        // Case Id assign into the Campaign Member.
-        List<CampaignMember> lstCM = [SELECT Id, CampaignId, ContactId, Case_ID__c FROM CampaignMember where Id =: lstCamp[0].Id];
-        System.assertNotEquals(lstCM[0].Case_ID__c, null);
+        // Check system assert.
+        System.assertEquals(0, cases.size(), 'Case size should have 0 but we got ' + cases.size());
     }
 
     //Method to code coverage for callEarlyOutAutoCaseCloser
