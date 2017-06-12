@@ -2,7 +2,7 @@
  * Wrapper class for the Guarantor.
  */
 
-public with sharing class GuarantorWrapper {
+public virtual with sharing class GuarantorWrapper {
   @AuraEnabled public Contact contact { get; set; }
   @AuraEnabled public Invoice__c invoiceOverdue { get; set; }
   @AuraEnabled public String messageInfo { get; set; }
@@ -14,6 +14,7 @@ public with sharing class GuarantorWrapper {
   @AuraEnabled public Boolean balanceDueOrError { get; set; }
   @AuraEnabled public Boolean isInstallAmountView { get; set; }
 
+  public GuarantorWrapper() {}
   public GuarantorWrapper(Contact contact, Invoice__c invoice, Payment_Plan__c paymentPlan, Integer estimateCount) {
     this.messageInfo = '';
 
@@ -22,5 +23,29 @@ public with sharing class GuarantorWrapper {
     this.contact = contact;
     this.newEstimatesCount = estimateCount;
 
+  }
+
+  public virtual String getGuarantorStatus() {
+    return this.contact.Guarantor_Status__c;
+  }
+
+  public virtual Boolean hasAddToPaymentPlan() {
+    return this.contact.Add_to_Payment_Plan__c == true;
+  }
+
+  public virtual String getPaymentPlanStanding() {
+    return this.paymentPlan.Payment_Plan_Standing__c;
+  }
+
+  public virtual Boolean getPaymentPlanActive() {
+    return this.paymentPlan.Active__c == true;
+  }
+
+  public virtual String getPaymentPlanType() {
+    return this.paymentPlan.Plan_Type__c;
+  }
+
+  public virtual Boolean hasPaymentPlan() {
+    return this.paymentPlan != null;
   }
 }

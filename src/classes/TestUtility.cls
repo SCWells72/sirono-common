@@ -54,6 +54,7 @@ public class TestUtility {
     public static Contact generateGuarantorContact() {
         Contact guarantorContact = new Contact();
         guarantorContact.RecordTypeId = RecordTypeUtil.guarantorRt;
+        guarantorContact.FirstName = 'TestFirst';
         guarantorContact.LastName = 'Test Guarantor';
         guarantorContact.Profile_Pointer_Id__c = getUniqueId();
         guarantorContact.HomePhone = '111';
@@ -470,9 +471,9 @@ public class TestUtility {
 
         // Sometimes the user hasn't been cleared from the previous test, so if it still exists use it.
         List<User> users = [
-                SELECT Alias, Email, EmailEncodingKey, LastName, LanguageLocaleKey,
+                SELECT Alias, Email, EmailEncodingKey, FirstName, LastName, LanguageLocaleKey,
                         LocaleSidKey, ProfileId, ContactId,
-                        TimeZoneSidKey, Username
+                        TimeZoneSidKey, Username, Contact.Profile_Pointer_ID__c
                 FROM User
                 WHERE Username = :testUsername
                 LIMIT 1
@@ -506,9 +507,9 @@ public class TestUtility {
 
                 usr = null;
                 usr = [
-                        SELECT Id, Alias, Email, EmailEncodingKey, LastName, LanguageLocaleKey,
+                        SELECT Id, Alias, Email, EmailEncodingKey, FirstName, LastName, LanguageLocaleKey,
                                 LocaleSidKey, ProfileId, ContactId,
-                                TimeZoneSidKey, Username
+                                TimeZoneSidKey, Username, Contact.Profile_Pointer_ID__c
                         FROM User
                         WHERE Username = :testUsername
                         LIMIT 1
