@@ -9,7 +9,7 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
     private static final String HAS_CHARGEGROUP = 'Has_Chargegroup__c';
     private static final String TOTAL_PAYMENTS = 'Total_Payments__c';
 
-    // Below field(s) are use for Select/Read permission.
+    // Below field(s) are used for Select/Read permission.
     private static final String BALANCE = 'Balance__c';
     private static final String CANCELLED = 'Cancelled__c';
     private static final String DATE_OF_SERVICE = 'Date_of_Service__c';
