@@ -6,7 +6,7 @@ public with sharing class HeaderController {
   public static String WARNING_MESSAGE = 'Your account has overdue invoices. Please pay the balance now or set up a payment plan to avoid becoming delinquent.\n If you have any questions about the bill, please contact the Customer Service Center at ' + Label.Customer_Service_Center_Phone + '.';
   public static String DELINQUENT_MESSAGE = 'This account has delinquent invoices. Delinquent invoices will be sent to a collection agency if payment arrangements are not made within the next 30 days. Please pay the balance now or set up a payment plan.';
   public static String PASTDUE_MESSAGE = ' We have not received your latest payment plan installment. Please pay your previous installment amount now or pay your account in full to avoid payment plan cancellation.';
-  public static String PASTDUE_MANUAL_MESSAGE = ' We have not received your latest payment plan installment. Please pay your previous installment amount now or pay your account in full to avoid payment plan cancellation. If you have any questions about the bill, call the Customer Service Center at ' + Label.Customer_Service_Center_Phone + '.';
+  public static String PASTDUE_MANUAL_MESSAGE = ' If you have any questions about the bill, call the Customer Service Center at ' + Label.Customer_Service_Center_Phone + '.';
   public static String ERROR_MESSAGE = ' Your latest payment plan installment failed. Please update your payment method or pay your previous installment amount now to keep your account current.';
 
 	/**
@@ -38,10 +38,10 @@ public with sharing class HeaderController {
     // If contact was found for the user check on states and error messages.
     if (user.contactId != null) {
       gWrapper.messageInfo = getMessageInfo(gWrapper);
-      gWrapper.balanceNoPaymentPlan = hasBalanceNoPaymentPlan(gWrapper);
-      gWrapper.balanceHasPaymentPlan = hasBalanceAndPaymentPlan(gWrapper);
+      gWrapper.balanceNoPaymentPlan = hasBalanceAndNotAddPaymentPlan(gWrapper);
+      gWrapper.balanceHasPaymentPlan = hasPaymentPlanInGoodStanding(gWrapper);
       gWrapper.balanceDueOrError = balanceDueOrError(gWrapper);
-      gWrapper.isInstallAmountView = isInstallAmountview(gWrapper);
+      gWrapper.isInstallAmountView = onPaymentPlan(gWrapper);
     }
 
     return gWrapper;
@@ -62,28 +62,28 @@ public with sharing class HeaderController {
 	 *
 	 * @returns String - The string with messages related to any detected error conditions.
 	 */
+  @TestVisible
   private static String getMessageInfo(GuarantorWrapper guarantorWrapper) {
-    String messageInfo;
+    String messageInfo = '';
 
     // Guanator overdue or delinquent check.
-    if (guarantorWrapper.contact.Guarantor_Status__c == Constants.GUARANTOR_STATUS_OVERDUE) {
+    if (guarantorWrapper.getGuarantorStatus() ==  Constants.GUARANTOR_STATUS_OVERDUE) {
       messageInfo = WARNING_MESSAGE;
-    } else if (guarantorWrapper.contact.Guarantor_Status__c == Constants.GUARANTOR_STATUS_DELINQUENT) {
+    } else if (guarantorWrapper.getGuarantorStatus() == Constants.GUARANTOR_STATUS_DELINQUENT) {
       messageInfo = DELINQUENT_MESSAGE;
     }
 
-    if (guarantorWrapper.paymentPlan.Active__c && guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == Constants.PAST_DUE) {
+    if (guarantorWrapper.hasPaymentPlan() && guarantorWrapper.getPaymentPlanStanding() == Constants.PAST_DUE) {
 
-      if (guarantorWrapper.paymentPlan.Plan_Type__c == Constants.AUTOMATIC) { // Automatic Past Due
-        messageInfo += PASTDUE_MESSAGE;
-      } else if (guarantorWrapper.paymentPlan.Plan_Type__c == Constants.MANUAL) { // Manual Past Due
+      messageInfo += PASTDUE_MESSAGE;
+      if (guarantorWrapper.getPaymentPlanType() == Constants.MANUAL) { // Manual Past Due
         messageInfo += PASTDUE_MANUAL_MESSAGE;
       }
     }
 
     // Case of an automatic payment plan with an in error Standing.
-    if (guarantorWrapper.paymentPlan.Active__c && guarantorWrapper.paymentPlan.Plan_Type__c == Constants.AUTOMATIC
-        && guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == Constants.IN_ERROR) {
+    if (guarantorWrapper.getPaymentPlanActive() && guarantorWrapper.getPaymentPlanType() == Constants.AUTOMATIC
+        && guarantorWrapper.getPaymentPlanStanding() == Constants.IN_ERROR) {
       messageInfo += ERROR_MESSAGE;
     }
 
@@ -91,25 +91,35 @@ public with sharing class HeaderController {
   }
 
 	/**
-	 * Check for the state where the user has a balance but no payment plan.
+	 * Check for the state where the user has a balance but no add to payment plan.
 	 *
 	 * @returns Boolean - True if condition is met, false otherwise.
 	 */
-  private static Boolean hasBalanceNoPaymentPlan(GuarantorWrapper guarantorWrapper) {
-    return (Constants.GuarantorStatusOverdue.contains(guarantorWrapper.contact.Guarantor_Status__c)
-        && guarantorWrapper.contact.Add_to_Payment_Plan__c == false);
+  @TestVisible
+  private static Boolean hasBalanceAndNotAddPaymentPlan(GuarantorWrapper guarantorWrapper) {
+    return hasBalance(guarantorWrapper) && !guarantorWrapper.hasAddToPaymentPlan();
   }
 
-	/**
-	 * Check for the state where the user has a balance and a payment plan.
+  /**
+   * Check for the state where the user has a balance and add to payment plan.
+   *
+   * @returns Boolean - True if condition is met, false otherwise.
+   */
+  @TestVisible
+  private static Boolean hasBalanceAndAddPaymentPlan(GuarantorWrapper guarantorWrapper) {
+    return hasBalance(guarantorWrapper) && guarantorWrapper.hasAddToPaymentPlan();
+  }
+
+  /**
+	 * User has a balance and is on a payment plan in good standing.
 	 *
-	 * @returns Boolean - True if condition is met, false otherwise.
+	 * @returns Boolean - True if condition is met.
 	 */
-  private static Boolean hasBalanceAndPaymentPlan(GuarantorWrapper guarantorWrapper) {
-    return ((isOverdueAndOnPaymentPlan(guarantorWrapper)
-        || guarantorWrapper.contact.Guarantor_Status__c == Constants.GUARANTOR_STATUS_ON_PAYMENT_PLAN)
-        && (guarantorWrapper.paymentPlan != null
-        && guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == Constants.GUARANTOR_STATUS_ON_PAYMENT_PLAN));
+  @TestVisible
+  private static Boolean hasPaymentPlanInGoodStanding(GuarantorWrapper guarantorWrapper) {
+    return hasBalanceAndAddPaymentPlan(guarantorWrapper)
+        && guarantorWrapper.hasPaymentPlan()
+        && guarantorWrapper.getPaymentPlanStanding() == Constants.PLANTYPE_GOOD_STANDING;
   }
 
 	/**
@@ -117,30 +127,31 @@ public with sharing class HeaderController {
 	 *
 	 * @returns Boolean - True if condition is met, false otherwise.
 	 */
+  @TestVisible
   private static Boolean balanceDueOrError(GuarantorWrapper guarantorWrapper) {
-    return ((isOverdueAndOnPaymentPlan(guarantorWrapper)
-        || guarantorWrapper.contact.Guarantor_Status__c == Constants.GUARANTOR_STATUS_ON_PAYMENT_PLAN)
-        && (guarantorWrapper.paymentPlan != null
-        && guarantorWrapper.paymentPlan.Payment_Plan_Standing__c != Constants.PLANTYPE_GOOD_STANDING));
+    return onPaymentPlan(guarantorWrapper)
+       || (guarantorWrapper.hasPaymentPlan() && guarantorWrapper.getPaymentPlanStanding() != Constants.PLANTYPE_GOOD_STANDING);
   }
 
-	/**
-	 * Show the installment amount view.
-	 *
-	 * @returns Boolean - True if it should be shown.
-	 */
-  private static Boolean isInstallAmountView(GuarantorWrapper guarantorWrapper) {
-    return isOverdueAndOnPaymentPlan(guarantorWrapper)
-        || guarantorWrapper.contact.Guarantor_Status__c == Constants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
+  /**
+   * Is the user on a payment plan.
+   *
+   * @returns Boolean - True if the users is on
+   */
+  @TestVisible
+  private static Boolean onPaymentPlan(GuarantorWrapper guarantorWrapper) {
+    return hasBalanceAndAddPaymentPlan(guarantorWrapper) || guarantorWrapper.getGuarantorStatus() == Constants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
   }
 
-	/**
-	 * Is the balance overdue and on a payment plan.
-	 *
-	 * @return Boolean - True if condition is met.
-	 */
-  private static Boolean isOverdueAndOnPaymentPlan(GuarantorWrapper guarantorWrapper) {
-    return Constants.GuarantorStatusOverdue.contains(guarantorWrapper.contact.Guarantor_Status__c)
-        && guarantorWrapper.contact.Add_to_Payment_Plan__c == true;
+  /**
+   * Utiltiy to deteremine if the GuarantorWrapper data indicates that the user has an owned balance.
+   *
+   * @params GuarantorWrapper guarantorWrapper - The guarantorWrapper.
+   * @returns Boolean - True is the user is in a state that indicates having a balance that is in in the State indicating
+   * it should be paid.
+   */
+  private static Boolean hasBalance(GuarantorWrapper guarantorWrapper) {
+    return Constants.GuarantorStatusOverdue.contains(guarantorWrapper.getGuarantorStatus());
   }
+
 }
