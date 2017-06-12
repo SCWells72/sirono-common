@@ -225,6 +225,8 @@
     </types>
     <types>
         <members>Adjustment_for_Admin</members>
+	<members>Automated_Case_Record_Type_Id</members>
+	<members>Business_Hours_Id</members>
         <members>Case_Type_Require</members>
         <members>Charge_Groups_Require</members>
         <members>Payment_Plan_Error</members>
@@ -354,6 +356,14 @@
     <types>
         <members>*</members>
         <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>flowDefinition</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Flow</name>
     </types>
     <types>
         <members>*</members>
