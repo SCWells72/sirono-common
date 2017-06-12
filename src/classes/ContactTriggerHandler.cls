@@ -5,21 +5,27 @@
 */
 
 public with sharing class ContactTriggerHandler {
+    public static boolean isRecursive = false;
 
     // Call checkCallListRemove method when the contact is inserted.        
     public static void afterInsert(List<Contact> newList) {
+        System.debug('Entering ContactTriggerHandler.afterInsert: '+UserInfo.getUserName());
         checkCallListRemove(newList, null);
-        //10/31/2016 tracker #127517419  after Insert verify Guarantor phone number
         validatePhoneNumbers(newList, null);
+        System.debug('Leaving ContactTriggerHandler.afterInsert: '+UserInfo.getUserName());
     }
 
     // Call checkCallListRemove, caseEarlyOutClose methods when the contact is updated.
     public static void afterUpdate(List<Contact> newList, Map<Id, Contact> oldMap) {
+        System.debug('Entering ContactTriggerHandler.afterUpdate: '+UserInfo.getUserName());
+        if (isRecursive) {
+            return;
+        }
         checkCallListRemove(newList, oldMap);
         caseEarlyOutClose(newList, oldMap);
         callPopulateNextPaymentDate(newList, oldMap);
-        //10/31/2016 tracker #127517419  after Update verify Guarantor phone number
         validatePhoneNumbers(newList,oldMap);
+        System.debug('Leaving ContactTriggerHandler.afterUpdate: '+UserInfo.getUserName());
     }
 
     // Call checkCallListRemove method when the contact is inserted.
@@ -40,10 +46,7 @@ public with sharing class ContactTriggerHandler {
 
     /*
      * Call caseEarlyOutClose method when the contact is updated.
-     * 
-     * 08-11-2016: Sirono - Tracker # 127517097 For Automatic Early-out Case Closure
      *
-     * 08-11-2016: Sirono - Tracker # 128030957 For Removal from Early-out campaign
      */
     private static void caseEarlyOutClose(List<Contact> newList, Map<Id, Contact> oldMap) {
         System.debug('In');
@@ -69,8 +72,8 @@ public with sharing class ContactTriggerHandler {
     }
     
     /*
-     * 09-26-2016: Viraj Rana - Tracker # 127404425 
-     * If contacts Offset is changed then we have to update the next payment date of playment plan object.
+ 
+     * If contacts Offset is changed then we have to update the next payment date of payment plan object.
      */
     private static void callPopulateNextPaymentDate(List<Contact> newList, Map<Id, Contact> oldMap) {
         Set<String> contactId = new Set<String>();
@@ -96,44 +99,70 @@ public with sharing class ContactTriggerHandler {
             }
         }
     }
-    
-    //10/31/2016 tracker #127517419  after Insert or Update verify Guarantor phone number
+
+    /*
+     * Determine if oldVal and newVal are different
+     */
+    @TestVisible
+    private static boolean valueChanged(String oldVal, String newVal) {
+        if (!String.isEmpty(oldVal) && !String.isEmpty(newVal)) {
+            return !oldVal.equals(newVal);
+        }
+
+        return !String.isEmpty(oldVal) || !String.isEmpty(newVal);
+    }
+
+    /**
+     * After Insert or Update, if a phone number has changed, invoke NumVerify to
+     * determine what numbers to use to contact the Guarantor
+     */
     private static void validatePhoneNumbers(List<Contact> newContacts, Map<Id, Contact> oldMap) {
+        System.debug('At the top of ContactTriggerHandler.validatePhoneNumbers: '+UserInfo.getUserName());
         Set<Id> contactIds = new Set<Id>();
-        for(Contact con : newContacts) {
+        for (Contact con : newContacts) {
             //Check Contact Record Type is Guarantor.
             if (con.RecordTypeId.equals(RecordTypeUtil.guarantorRt)) {
-            	/* We change below conditions based on below criteria.
-        	 * 1. If Contact is inserted check only number is not empty.
-        	 * 2. If Contact is Updated Check Old and Updated number is different?
-        	 * 3. We do this changes bz of If Contact have Phone number and update the contact with Phone number is empty.
-        	 * at that time we need to change Pick List Value becomes Null/Empty.
-        	 */
-        	if (oldMap == null) {
-        	    if (!String.isEmpty(con.MobilePhone) || !String.isEmpty(con.OtherPhone) || !String.isEmpty(con.HomePhone)) {
-			contactIds.add(con.Id);
-        	    }
-        	} else if (oldMap.get(con.Id).MobilePhone != con.MobilePhone ||
-				oldMap.get(con.Id).OtherPhone != con.OtherPhone ||
-                        	oldMap.get(con.Id).HomePhone != con.HomePhone) {
-		    contactIds.add(con.Id);
-        	}
+            	/* We change below conditions based on these criteria:
+                 * 1. If Contact is inserted check only number is not empty.
+                 * 2. If Contact is updated check old and new number are different
+                 * 3. If Contact is updated with an empty number, change pickList value to Null/Empty.
+                 */
+                if (oldMap == null) {
+                    System.debug('oldMap is empty & usrInfo: ');
+                    if (!String.isEmpty(con.MobilePhone) || !String.isEmpty(con.OtherPhone) || !String.isEmpty(con.HomePhone)) {
+                        contactIds.add(con.Id);
+                    }
+                } else if (valueChanged(oldMap.get(con.Id).MobilePhone, con.MobilePhone) ||
+                            valueChanged(oldMap.get(con.Id).OtherPhone, con.OtherPhone) ||
+                            valueChanged(oldMap.get(con.Id).HomePhone, con.HomePhone)) {
+                    System.debug('oldMap.get(con.Id).MobilePhone: '+oldMap.get(con.Id).MobilePhone+' con.MobilePhone: '+con.MobilePhone
+                            + ' value changed? '+valueChanged(oldMap.get(con.Id).MobilePhone, con.MobilePhone));
+                    System.debug('oldMap.get(con.Id).OtherPhone: '+oldMap.get(con.Id).OtherPhone+' con.OtherPhone: '+con.OtherPhone
+                    + ' value changed? '+valueChanged(oldMap.get(con.Id).OtherPhone, con.OtherPhone));
+                    System.debug('oldMap.get(con.Id).HomePhone: '+oldMap.get(con.Id).HomePhone+' con.HomePhone: '+con.HomePhone
+                            + ' value changed? '+valueChanged(oldMap.get(con.Id).HomePhone, con.HomePhone));
+                    contactIds.add(con.Id);
+                }
             }
         }
+
         if (contactIds.size() > 0) {
-            verifyNumber(contactIds);
+            System.debug('ContactTriggerHandler invoking verifyNumbers: '+UserInfo.getUserName());
+            System.debug('for id: '+new List<Id>(contactIds)[0]);
+            verifyNumbers(contactIds);
         }
     }
-    
-    //10/31/2016 tracker #127517419 future method that perfoms a callout to verify Guarantor phone number
+
     /*
-    	This method get the numbers and phone types of Contacts based on given(Inserted, Updated) contact Ids.
-    	After get contact list, we call methods to verify number and assign number into CTINumber field based on
-    	    conditions for contacts.
-	    When process was completed than update contact list. 
+     * This method get the numbers and phone types of Contacts based on given contact Ids.
+     * After get contact list, we call methods to verify number and assign number into CTINumber field based on
+     * conditions for contacts.
+     * When complete, update the contacts.
      */
     @future(callout = true)
-    public static void verifyNumber(Set<Id> ids) {
+    public static void verifyNumbers(Set<Id> ids) {
+        System.debug('Entering @future method ContactTriggerHandler.verifyNumbers: '+UserInfo.getUserName());
+        isRecursive = true;
         try {
             List<Contact> contacts = GuarantorService.getGuarantorsWithNumbers(ids);
 
@@ -145,18 +174,19 @@ public with sharing class ContactTriggerHandler {
             GuarantorService.updateGuarantors(contacts);
             System.debug('===:landline ' + contacts[0].CTINumber1__c);
         } catch(Exception ex) {
-        	System.debug('ex.getMessage(): ' + ex.getMessage());
+            System.debug('ContactTriggerHandler.verifyNumber: ' + ex.getMessage());
+        } finally {
+            isRecursive = false;
         }
+        System.debug('Leaving @future method ContactTriggerHandler.verifyNumbers: '+UserInfo.getUserName());
     }
 
     /*
         Send each of the contact's numbers to NumVerify to determine if the number is valid and what type it is
         (ie landline or mobile or invalid)
         TODO Should we be checking for duplicate numbers somewhere?
-        We make Pick List value Null, based on NumVerifyValidator response we set Pick List value.
-        NumVerifyValidator verify the number and return the line types and based on it we assign this value in pick list.
-        If any one number(Home) is there in Contact at that time it will make request for all. (Home, Mobile, Other)
-        	thats why we need to check particular number is empty or not.
+        Set Pick List value based on NumVerifyValidator response.
+        NumVerifyValidator verifies the number and returns the line type. Based on lineType, assign the number to pick list.
      */
     @TestVisible
     private static void verifyContactPhoneNumbers(Contact con) {
@@ -189,17 +219,16 @@ public with sharing class ContactTriggerHandler {
     }
 
     /*
-        Based on the this algorithm:
-            IF HomePhone Type = "Landline"
+        Based on this algorithm:
+        IF HomePhone Type = "Landline"
 	        THEN Number1 = HomePhone
 	    IF MobilePhone Type = "Mobile"
 	        THEN Number2 = MobilePhone
 	    IF OtherPhone Type = "Landline"
-	        Then Number3 = OtherPhone
+	        THEN Number3 = OtherPhone
 	    IF HomePhone Type = "Mobile" and Number2 is empty
-		THEN Number2 = HomePhone
-	    IF MobilePhone Type = "Landline"
-	    	IF Number1 is empty
+		    THEN Number2 = HomePhone
+	    IF MobilePhone Type = "Landline" and Number1 is empty
 		    THEN Number1 = MobilePhone
 		ELSE IF Number3 is empty
 		    THEN Number3 = MobilePhone			
@@ -214,27 +243,27 @@ public with sharing class ContactTriggerHandler {
         con.CTINumber2__c = '';
         con.CTINumber3__c = '';
 
-        if(con.Home_Phone_Type__c == NumVerifyValidator.LANDLINE) {
+        if (con.Home_Phone_Type__c == NumVerifyValidator.LANDLINE) {
             con.CTINumber1__c = con.HomePhone;
             System.debug('===:landline ' + con.CTINumber1__c);
         }
 
-        if(con.Mobile_Phone_Type__c == NumVerifyValidator.MOBILE) {
+        if (con.Mobile_Phone_Type__c == NumVerifyValidator.MOBILE) {
             con.CTINumber2__c = con.MobilePhone;
             System.debug('===:mobile ' + con.CTINumber2__c);
         }
 
-        if(con.Other_Phone_Type__c == NumVerifyValidator.LANDLINE) {
+        if (con.Other_Phone_Type__c == NumVerifyValidator.LANDLINE) {
             con.CTINumber3__c = con.OtherPhone;
             System.debug('===:other ' + con.CTINumber3__c);
         }
 
-        if(con.Home_Phone_Type__c == NumVerifyValidator.MOBILE && String.isEmpty(con.CTINumber2__c)) {
+        if (con.Home_Phone_Type__c == NumVerifyValidator.MOBILE && String.isEmpty(con.CTINumber2__c)) {
             con.CTINumber2__c = con.HomePhone;
             System.debug('home-->mobile ' + con.CTINumber2__c);
         }
 
-        if(con.Mobile_Phone_Type__c == NumVerifyValidator.LANDLINE) {
+        if (con.Mobile_Phone_Type__c == NumVerifyValidator.LANDLINE) {
             if(String.isEmpty(con.CTINumber1__c)) {
                 con.CTINumber1__c =  con.MobilePhone;
                 System.debug('mobile-->landline ' + con.CTINumber1__c);
@@ -244,7 +273,7 @@ public with sharing class ContactTriggerHandler {
             }
         }
 
-        if(con.Other_Phone_Type__c == NumVerifyValidator.MOBILE && String.isEmpty(con.CTINumber2__c)) {
+        if (con.Other_Phone_Type__c == NumVerifyValidator.MOBILE && String.isEmpty(con.CTINumber2__c)) {
             con.CTINumber2__c = con.OtherPhone;
             System.debug('mobile-->other' + con.CTINumber2__c);
         }
