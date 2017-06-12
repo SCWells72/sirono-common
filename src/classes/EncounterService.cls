@@ -34,11 +34,11 @@ public class EncounterService extends AbstractService {
 	 * optional filter limits the returned Encounters to only that subset
 	 * optional list of Ids limits the results to those for the given patient Ids.
      * @param Contact - the guarantor to retrieve Encounter__c for
-     * @param String groupFilter - filter to return only 'Paid', 'Unpaid' or 'All' encounters. null == 'All'
-     * @param List<String> patientIds - limit the returned ENcounter__c records to those associated with these patients
+     * @param String paidFilter - filter to return only 'Paid', 'Unpaid' encounters. If null == 'All'
+     * @param List<String> patientIds - limit the returned Encounter__c records to those associated with these patients
 	 **/
-    public static List<Encounter__c> getEncountersByGuarantor(Contact guarantor, String groupFilter, List<String> patientIds) {
-        return EncounterDao.getAllEncounters(guarantor, groupFilter, patientIds);
+    public static List<Encounter__c> getEncountersByGuarantor(Contact guarantor, String paidFilter, List<String> patientIds) {
+        return EncounterDao.getAllEncounters(guarantor, paidFilter, patientIds);
     }
 
     /**

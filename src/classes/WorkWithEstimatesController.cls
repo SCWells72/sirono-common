@@ -2,19 +2,24 @@ public without sharing class WorkWithEstimatesController {
     //TODO dynamic domain
     public static final String FILE_PREFIX = '/guarantor/servlet/servlet.FileDownload?file=';
 
+    /**
+     * Return all the Estimates for the current user. They can also be filtered by whether or not the Encounter is paid,
+     * and by patientId
+     *
+     */
     @AuraEnabled
-    public static List<EstimateWrapper> getAllEstimates(String groupFilter, String additionalFilter) {
+    public static List<EstimateWrapper> getAllEstimates(String paidFilter, String patientFilter) {
         List<EstimateWrapper> allEstimates = new List<EstimateWrapper>();
         Contact guarantor = GuarantorService.getPortalGuarantor(UserInfo.getUserId());
 
         if (guarantor != null) {
             List<String> patientIds = null;
-            if (!String.isBlank(additionalFilter)) {
-                //additionalFilter is a string of the format:  '00346000004KwR8AAK','00346000004KwRBAA0',
-                patientIds = additionalFilter.replace('\'', '').split(',');
+            if (!String.isBlank(patientFilter)) {
+                //patientFilter is a string of Ids in the format:  '00346000004KwR8AAK','00346000004KwRBAA0',
+                patientIds = patientFilter.replace('\'', '').split(',');
             }
 
-            List<Encounter__c> listOfEncounters = EncounterService.getEncountersByGuarantor(guarantor, groupFilter, patientIds);
+            List<Encounter__c> listOfEncounters = EncounterService.getEncountersByGuarantor(guarantor, paidFilter, patientIds);
             System.debug('listOfEncounters :' + listOfEncounters);
             for (Encounter__c encounter : listOfEncounters) {
                 EstimateWrapper estimate = new EstimateWrapper(encounter);
@@ -24,6 +29,10 @@ public without sharing class WorkWithEstimatesController {
         return allEstimates;
     }
 
+    /**
+     * Return all the patients associated with the current user's Encounters
+     *
+     */
     @AuraEnabled
     public static List<WorkWithInvoicesController.PatientWrapper> getPatientList() {
         List<WorkWithInvoicesController.PatientWrapper> result = new List<WorkWithInvoicesController.PatientWrapper>();
@@ -33,10 +42,10 @@ public without sharing class WorkWithEstimatesController {
             return new List<WorkWithInvoicesController.PatientWrapper>();
         }
 
-        List<Encounter__c> estimateList = EncounterService.getAllPatients(guarantor);
+        List<Encounter__c> encounterList = EncounterService.getAllPatients(guarantor);
 
-        for (Integer i = 0; i < estimateList.size(); i++) {
-            result.add(new WorkWithInvoicesController.PatientWrapper(estimateList[i]));
+        for (Encounter__c encounter : encounterList) {
+            result.add(new WorkWithInvoicesController.PatientWrapper(encounter));
         }
         return result;
     }

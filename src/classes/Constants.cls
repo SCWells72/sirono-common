@@ -101,4 +101,7 @@ public class Constants {
             Constants.ACCT_SUBSTATUS_PAYMENT_PLAN,
             Constants.ACCT_SUBSTATUS_PREINVOICED
     };
+
+    public static final String PAID = 'Paid';
+    public static final String UNPAID = 'Unpaid';
 }

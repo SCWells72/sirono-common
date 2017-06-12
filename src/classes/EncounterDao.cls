@@ -39,12 +39,12 @@ public class EncounterDao {
      * payments. If the guarantor is not supplied, just return an empty list
      *
      * @param Contact - the guarantor to retrieve Encounter__c for
-     * @param String groupFilter - filter to return only 'Paid', 'Unpaid' or 'All' encounters. null == 'All'
-     * @param List<String> patientIds - limit the returned ENcounter__c records to those associated with these patients
+     * @param String paidFilter - filter to return only 'Paid', 'Unpaid' or 'All' encounters. null == 'All'
+     * @param List<String> patientIds - limit the returned Encounter__c records to those associated with these patients
      *
      */
     //TODO Add FLS/CRUD check
-    public static List<Encounter__c> getAllEncounters(Contact guarantor, String groupFilter, List<String> patientIds) {
+    public static List<Encounter__c> getAllEncounters(Contact guarantor, String paidFilter, List<String> patientIds) {
 
         if (guarantor == null) {
             return new List<Encounter__c>();
@@ -64,17 +64,17 @@ public class EncounterDao {
                 '(SELECT Id  FROM Attachments ORDER BY CreatedDate DESC LIMIT 1)' +
                 'FROM Encounter__c WHERE Guarantor__c = \'' + guarantor.Id + '\'' + patientClause;
 
-        if (!String.isEmpty(groupFilter)) {
-            if ('Unpaid'.equalsIgnoreCase(groupFilter)) {
+        if (!String.isEmpty(paidFilter)) {
+            if (Constants.UNPAID.equalsIgnoreCase(paidFilter)) {
                 query += ' AND Encounter__c.Balance__c > 0 AND (Encounter__c.Total_Payments__c = null OR Encounter__c.Total_Payments__c = 0) ';
             }
-            if ('Paid'.equalsIgnoreCase(groupFilter)) {
+            if (Constants.PAID.equalsIgnoreCase(paidFilter)) {
                 query += ' AND ((Encounter__c.Balance__c > 0 AND Encounter__c.Total_Payments__c > 0 ) OR Encounter__c.Balance__c <= 0) ';
             }
         }
 
         System.debug('SOQL query: ' + query);
-        System.debug('groupFilter: ' + groupFilter);
+        System.debug('paidFilter: ' + paidFilter);
 
         return Database.query(query);
     }
