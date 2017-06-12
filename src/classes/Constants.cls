@@ -31,6 +31,13 @@ public class Constants {
     // Constant variables for Encounter Substatus values.
     public static final String EN_SUBSTATUS_PAYMENT_DUE = 'Payment Due';
 
+    // Constant variables for Case Type values.
+    public static final String CASE_TYPE_OVERDUE = 'Overdue';
+
+    // Constant variables for Campaign values.
+    public static final String CAMPAIGN_NAME_OVERDUE = 'Overdue';
+    public static final String CAMPAIGN_NAME_OVERDUE_M = 'Overdue M';
+
     // Constant variables for Page Level Messages.
     public static final String PAGE_MESSAGE_AMOUNT_EXCEED_BALANCE = 'Amount cannot exceed balance.';
     public static final String PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO = 'Amount must be greater than zero.';

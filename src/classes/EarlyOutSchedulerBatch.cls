@@ -24,9 +24,9 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<s
     public Database.QueryLocator start(Database.BatchableContext bc) {
         //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out'
+                Constants.CAMPAIGN_NAME_OVERDUE
         });
-        string earlyOut = mapCampaignMapping.get('Early-out');
+        string earlyOut = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE);
 
         if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             for (Campaign cl: [SELECT Id, Name

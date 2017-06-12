@@ -90,7 +90,7 @@ public with sharing class CaseTriggerHandler {
         Set<Id> ccErrorGuarantors = new Set<Id>();
         for (Case c : newList) {
             if (c.IsClosed && !oldMap.get(c.Id).IsClosed) {
-                if (c.Type == 'Early Out' && c.Guarantor_Information__c != null) {
+                if (c.Type == Constants.CASE_TYPE_OVERDUE && c.Guarantor_Information__c != null) {
                     earlyOutGuarantors.add(c.Guarantor_Information__c);
                 }
                 if (c.Type == 'Precollections' && c.Guarantor_Information__c != null) {
@@ -113,10 +113,10 @@ public with sharing class CaseTriggerHandler {
 
         if (earlyOutGuarantors.size() > 0) {
             Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                    'Early-out', 'Early-out M'
+                    Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M
             });
-            string earlyOut = mapCampaignMapping.get('Early-out');
-            string earlyOutMobile = mapCampaignMapping.get('Early-out M');
+            string earlyOut = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE);
+            string earlyOutMobile = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE_M);
 
             if (cmpnMemSecurityContext.deleteActionAllowed()) {
                 if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
