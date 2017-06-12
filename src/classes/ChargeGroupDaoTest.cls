@@ -196,7 +196,7 @@ public with sharing class ChargeGroupDaoTest {
         for (RecordType recordType: [SELECT Id, Name FROM RecordType WHERE sObjectType = 'Case']) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         INSERT objCase;
 
         Case_Charge_Group_Junction__c caseCGJun = new Case_Charge_Group_Junction__c (Case__c = objCase.Id, Charge_Group__c = chargeGroup.Id);
@@ -228,7 +228,7 @@ public with sharing class ChargeGroupDaoTest {
         for (RecordType recordType: [SELECT Id, Name FROM RecordType WHERE sObjectType = 'Case']) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         INSERT objCase;
 
         Test.startTest();

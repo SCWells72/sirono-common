@@ -44,7 +44,7 @@ public class CallListUtilitiesTest {
         insert transactionObj ;
 
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -52,7 +52,7 @@ public class CallListUtilitiesTest {
         Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreCollections'));
         lstCampaign.add(objCampaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out'));
+        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE));
         lstCampaign.add(objCampaign);
 
         insert lstCampaign;
@@ -105,7 +105,7 @@ public class CallListUtilitiesTest {
         insert transactionObj ;
 
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -137,13 +137,13 @@ public class CallListUtilitiesTest {
         insert guarantorContact ;
 
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
         Test.startTest();
         List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out'));
+        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE));
         lstCampaign.add(objCampaign);
         insert lstCampaign;
 
@@ -173,7 +173,7 @@ public class CallListUtilitiesTest {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
         Test.startTest();
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         objCase.Type = 'Delinquent';
         insert objCase;
 
@@ -230,7 +230,7 @@ public class CallListUtilitiesTest {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
         Test.startTest();
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         insert objCase;
 
         objCase.Status = 'Closed';
@@ -317,7 +317,7 @@ public class CallListUtilitiesTest {
                 caseRecordTypeMap.put(recordType.Name, recordType.Id);
             }
             Test.startTest();
-            Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Internal Case'), 'Early Out', guarantorContact.Id);
+            Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Internal Case'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
             objCase.Type = 'Delinquent';
             objCase.Description = 'Delinquent';
             objCase.Charge_Group_IDs__c = '121';

@@ -45,7 +45,7 @@ public class EarlyOutSchedulerBatchTest {
         i.Guarantor__c = con1.Id;
         insert i;
 
-        Campaign c = TestUtility.generateCampaign('Early-out');
+        Campaign c = TestUtility.generateCampaign(Constants.CAMPAIGN_NAME_OVERDUE);
         c.isActive = true;
         insert c;
 
