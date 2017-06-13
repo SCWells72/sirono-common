@@ -35,6 +35,24 @@ public without sharing class EncounterDao {
     }
 
     /**
+     * Get the number of Encounters for a contact from a startdate to now.
+     *
+     * @returns Integer - The number of Encounters found.
+     */
+    public static Integer getCountByDate(Id contactId, DateTime startDate) {
+        if (EncounterSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            return [
+                SELECT
+                    COUNT()
+                FROM Encounter__c
+                WHERE Guarantor__c = :contactId AND
+                CreatedDate >= :startDate
+            ];
+        }
+        return null;
+    }
+
+    /**
      * Return all encounters for the given guarantor. Include the first attachment for each and its associated
      * payments. If the guarantor is not supplied, just return an empty list
      *
@@ -93,4 +111,5 @@ public without sharing class EncounterDao {
                 LIMIT 50000
         ];
     }
+
 }

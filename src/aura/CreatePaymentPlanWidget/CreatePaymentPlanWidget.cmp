@@ -1,5 +1,5 @@
 <aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
-    <aura:attribute name="guarantorWrapper" type="HeaderController.GuarantorWrapper" />
+    <aura:attribute name="guarantorWrapper" type="HeaderWrapper" />
     <aura:registerevent name="payRequest" type="c:payNowRequest" />
         <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.Active__c}">
             <!--Automatic-->

@@ -3,7 +3,7 @@
     <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/main.css'}" />
     <aura:registerEvent name="activateTab" type="c:ActivateTab"/>
     <aura:registerEvent name="toggleHeader" type="c:ToggleHeader"/>
-    <aura:attribute name="guarantorWrapper" type="HeaderController.GuarantorWrapper" />
+    <aura:attribute name="guarantorWrapper" type="HeaderWrapper" />
     <aura:attribute name="isLanding" type="Boolean" default="true" description="Check where component is displayed." />
     <!-- Invoiced_Balance__c -->
     <aura:attribute name="invoiceValue" type="Decimal" access="public" default="0"/>
@@ -109,7 +109,7 @@
         <!-- estimate notification END -->
 
         <!-- Version #3 Outstanding balance, payment plan, good standing -->
-        <aura:if isTrue="{! and(v.guarantorWrapper.version3, v.guarantorWrapper.contact.Guarantor_Status__c != 'Due')}">
+        <aura:if isTrue="{! and(v.guarantorWrapper.balanceHasPaymentPlan, v.guarantorWrapper.contact.Guarantor_Status__c != 'Due')}">
             <div class="no-small">
                 <div class="section_header_Payment">
                     <div class="title">
@@ -121,7 +121,7 @@
         <!-- Version #3 Outstanding balance, payment plan, good standing END-->
 
         <!-- Version #4 Outstanding balance, payment plan, in error or past due -->
-        <aura:if isTrue="{! v.guarantorWrapper.version4}">
+        <aura:if isTrue="{! v.guarantorWrapper.balanceDueOrError}">
             <div class="no-small">
                 <div class="title error">
                     <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info"/> Latest payment plan installment was missed!

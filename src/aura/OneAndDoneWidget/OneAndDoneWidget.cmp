@@ -1,5 +1,5 @@
 <aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
-    <aura:attribute name="guarantorWrapper" type="HeaderController.GuarantorWrapper" />
+    <aura:attribute name="guarantorWrapper" type="HeaderWrapper" />
 	<div class="col payment-actions">
         <div class="no-small main-body">
             <img src="{!$Resource.SironoData + '/assets/images/one-and-done.png'}" alt="One and Done" />

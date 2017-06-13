@@ -8,14 +8,14 @@
 		});
         action.setCallback(this, function(response) {
         	var state = response.getState();
-	    	if (state === 'SUCCESS') {
-	    		var guarantorWrapper = response.getReturnValue();
-                if (typeof(guarantorWrapper.contact) != "undefined") {
-                    component.set('v.guarantorWrapper', guarantorWrapper);
-                    component.set('v.invoiceValue', formatter.format(Math.floor(guarantorWrapper.contact.Invoiced_Balance__c)));
-                    component.set('v.invoiceValuePart', (guarantorWrapper.contact.Invoiced_Balance__c % 1).toFixed(2).toString().substring(2));
-                }
-	    	}
+          if (state === 'SUCCESS') {
+            var guarantorWrapper = response.getReturnValue();
+            if (typeof(guarantorWrapper.contact) != "undefined") {
+              component.set('v.guarantorWrapper', guarantorWrapper);
+              component.set('v.invoiceValue', formatter.format(Math.floor(guarantorWrapper.contact.Invoiced_Balance__c)));
+              component.set('v.invoiceValuePart', (guarantorWrapper.contact.Invoiced_Balance__c % 1).toFixed(2).toString().substring(2));
+            }
+          }
         });
         $A.enqueueAction(action);
 	},

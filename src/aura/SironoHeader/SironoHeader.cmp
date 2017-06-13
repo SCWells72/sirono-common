@@ -8,7 +8,7 @@
     <aura:attribute name="arrowToggleHeader" type="Boolean" default="true" />    
     <aura:attribute name="statusHeader" type="Boolean" default="false" />
     <aura:attribute name="statusAlert" type="Boolean" default="false" />
-    <aura:attribute name="guarantorWrapper" type="HeaderController.GuarantorWrapper" />
+    <aura:attribute name="guarantorWrapper" type="HeaderWrapper" />
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler event="force:navigateToURL" action="{!c.navigateToURLEvent}"/>
