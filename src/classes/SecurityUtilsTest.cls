@@ -17,7 +17,7 @@ public class SecurityUtilsTest {
 	    }
 	    catch (exception ex) {
 	        // Check System assert
-	        System.assert(ex.getMessage().contains('You do not have Create rights'), 'Check Create Rights');
+	        System.assert(ex.getMessage().contains('not have Create rights'), 'Check Create Rights');
 	    }
 	}
 		
@@ -39,7 +39,7 @@ public class SecurityUtilsTest {
 	    }
 	    catch (exception ex) {
 	        // Check System assert
-	        System.assert(ex.getMessage().contains('You do not have Update rights'), 'Check Update Rights');
+	        System.assert(ex.getMessage().contains('not have Update rights'), 'Check Update Rights');
 	    }
         }
         
@@ -61,7 +61,7 @@ public class SecurityUtilsTest {
 	    }
 	    catch (exception ex) {
 	        // Check System assert
-	        System.assert(ex.getMessage().contains('You do not have Delete rights'), 'Check Delete Rights');
+	        System.assert(ex.getMessage().contains('not have Delete rights'), 'Check Delete Rights');
 	    }
         }
         
@@ -83,7 +83,7 @@ public class SecurityUtilsTest {
 	    }
 	    catch (exception ex) {
 	    	// Check System assert.
-	        System.assert(ex.getMessage().contains('You do not have Upsert rights'), 'Check Upsert Rights');
+	        System.assert(ex.getMessage().contains('not have Upsert rights'), 'Check Upsert Rights');
 	    }
         }
         
