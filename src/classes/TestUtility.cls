@@ -59,7 +59,6 @@ public class TestUtility {
     public static Contact generateGuarantorContactByName(String gurantorName) {
         Contact guarantorContact = new Contact();
         guarantorContact.RecordTypeId = RecordTypeUtil.guarantorRt;
-        guarantorContact.firstName = 'firstName';
         guarantorContact.LastName = gurantorName;
         guarantorContact.Profile_Pointer_Id__c = getUniqueId();
         guarantorContact.HomePhone = '111';
