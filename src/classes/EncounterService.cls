@@ -30,6 +30,28 @@ public class EncounterService extends AbstractService {
     }
 
     /**
+	 * This method is use to get Encounters based on Guarantor
+	 * optional filter limits the returned Encounters to only that subset
+	 * optional list of Ids limits the results to those for the given patient Ids.
+     * @param Contact - the guarantor to retrieve Encounter__c for
+     * @param String paidFilter - filter to return only 'Paid', 'Unpaid' encounters. If null == 'All'
+     * @param List<String> patientIds - limit the returned Encounter__c records to those associated with these patients
+	 **/
+    public static List<Encounter__c> getEncountersByGuarantor(Contact guarantor, String paidFilter, List<String> patientIds) {
+        return EncounterDao.getAllEncounters(guarantor, paidFilter, patientIds);
+    }
+
+    /**
+     * Return the patient MRN and Name for all encounters for the given guarantor
+     *
+     * @param Contact - the guarantor to retrieve Encounter__c for
+     *
+     */
+    public static List<Encounter__c> getAllPatients(Contact guarantor) {
+        return EncounterDao.getAllPatients(guarantor);
+    }
+
+    /**
      * This method is used to get a count of Encounters found for the Contact from the
      * provided startDate to now.
      *

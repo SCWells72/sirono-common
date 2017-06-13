@@ -59,9 +59,9 @@ public with sharing class CallListUtilities {
 
         //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out'
+                Constants.CAMPAIGN_NAME_OVERDUE
         });
-        string earlyOut = mapCampaignMapping.get('Early-out');
+        string earlyOut = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE);
 
         // NOTE: The read access check for CampaignMember is skipped here in order allow Community Profile users
         // to create/delete Payment plans.

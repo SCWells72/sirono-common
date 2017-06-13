@@ -52,20 +52,14 @@ public class TestUtility {
 
     // Return Guarantor Contact record
     public static Contact generateGuarantorContact() {
-        Contact guarantorContact = new Contact();
-        guarantorContact.RecordTypeId = RecordTypeUtil.guarantorRt;
-        guarantorContact.FirstName = 'TestFirst';
-        guarantorContact.LastName = 'Test Guarantor';
-        guarantorContact.Profile_Pointer_Id__c = getUniqueId();
-        guarantorContact.HomePhone = '111';
-        guarantorContact.MobilePhone = '111';
-        return guarantorContact;
+        return generateGuarantorContactByName('Test Guarantor');
     }
 
     // Return Guarantor Contact record
     public static Contact generateGuarantorContactByName(String gurantorName) {
         Contact guarantorContact = new Contact();
         guarantorContact.RecordTypeId = RecordTypeUtil.guarantorRt;
+        guarantorContact.firstName = 'firstName';
         guarantorContact.LastName = gurantorName;
         guarantorContact.Profile_Pointer_Id__c = getUniqueId();
         guarantorContact.HomePhone = '111';
@@ -438,14 +432,14 @@ public class TestUtility {
       * @return User - The User object assigned the profile of a user using the Guarantor Portal.
      */
     public static User getGuarantorCommunityUser() {
-        String testUsername = UserInfo.getOrganizationId()+'-'+'testGTUser_' + System.now().millisecond() + '_@test.io';
-        String testAdminUsername = UserInfo.getOrganizationId()+'-'+System.now().millisecond() + '-test2@test.com';
+        String testUsername = UserInfo.getOrganizationId()+'-'+ System.now().millisecond()+'-testGTUser@test.io';
+        String testAdminUsername = UserInfo.getOrganizationId()+'-'+System.now().millisecond() + '-testAdmin@test.com';
 
         UserRole portalRole = [Select Id From UserRole Where DeveloperName = 'CEO' Limit 1];
-        Profile profile1 = [Select Id from Profile where name = 'System Administrator'];
+        Profile adminProfile = [Select Id from Profile where name = 'System Administrator'];
         User portalAdminUser = new User(
                 UserRoleId = portalRole.Id,
-                ProfileId = profile1.Id,
+                ProfileId = adminProfile.Id,
                 Username = testAdminUsername,
                 Alias = 'batman',
                 Email = 'bruce.wayne@wayneenterprises.com',

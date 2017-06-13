@@ -48,15 +48,15 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out'));
+        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE));
         lstCampaign.add(objCampaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out M'));
+        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE_M));
         lstCampaign.add(objCampaign);
 
         insert lstCampaign;
@@ -77,7 +77,7 @@ public class CaseUtilTest {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         objCase.Reason = 'Compliance Issue';
         insert objCase;
 
@@ -89,7 +89,7 @@ public class CaseUtilTest {
 
         // Check system assert, Number of auto created case records.
         System.assertEquals(1, cases.size());
-        System.assertEquals('Early Out', cases[0].Type);
+        System.assertEquals(Constants.CASE_TYPE_OVERDUE, cases[0].Type);
     }
 
     //Method to code coverage for Create Early Out Case, And Close the Early Out case
@@ -133,21 +133,21 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out'));
+        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE));
         lstCampaign.add(objCampaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out M'));
+        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE_M));
         lstCampaign.add(objCampaign);
 
         insert lstCampaign;
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
-        objCase.Type = 'Early Out';
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
+        objCase.Type = Constants.CASE_TYPE_OVERDUE;
         insert objCase;
 
         CaseUtil.callEarlyOutAutoCase();
@@ -197,15 +197,15 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out'));
+        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE));
         lstCampaign.add(objCampaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out M'));
+        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE_M));
         lstCampaign.add(objCampaign);
 
         insert lstCampaign;
@@ -224,8 +224,8 @@ public class CaseUtilTest {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
-        objCase.Reason = 'Early Out';
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
+        objCase.Reason = Constants.CASE_TYPE_OVERDUE;
         insert objCase;
 
         //Check System assert "Case_ID__c = null before calling callEarlyOutAutoCase() method".
@@ -274,15 +274,15 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out'));
+        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE));
         lstCampaign.add(objCampaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out M'));
+        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE_M));
         lstCampaign.add(objCampaign);
 
         insert lstCampaign;
@@ -303,7 +303,7 @@ public class CaseUtilTest {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         objCase.Reason = 'Compliance Issue';
         insert objCase;
 
@@ -352,15 +352,15 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out'));
+        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE));
         lstCampaign.add(objCampaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Early-out M'));
+        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE_M));
         lstCampaign.add(objCampaign);
 
         insert lstCampaign;
@@ -381,7 +381,7 @@ public class CaseUtilTest {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         objCase.Reason = 'Compliance Issue';
         insert objCase;
 
@@ -482,7 +482,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -504,7 +504,7 @@ public class CaseUtilTest {
 
         insert lstCamp;
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         objCase.Type = 'Precollections';
         insert objCase;
 
@@ -560,7 +560,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -573,7 +573,7 @@ public class CaseUtilTest {
 
         insert lstCampaign;
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         objCase.Type = 'Precollections';
         objCase.Reason = 'Compliance Issue';
         insert objCase;
@@ -630,7 +630,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -643,7 +643,7 @@ public class CaseUtilTest {
 
         insert lstCampaign;
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         objCase.Type = 'Precollections';
         insert objCase;
 
@@ -739,7 +739,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -752,7 +752,7 @@ public class CaseUtilTest {
 
         insert lstCampaign;
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         objCase.Type = 'Precollections';
         insert objCase;
 
@@ -860,7 +860,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -882,7 +882,7 @@ public class CaseUtilTest {
 
         insert lstCamp;
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         objCase.Type = 'PreService';
         objCase.Reason = 'Compliance Issue';
         insert objCase;
@@ -943,7 +943,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -1013,7 +1013,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -1035,7 +1035,7 @@ public class CaseUtilTest {
 
         insert lstCamp;
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Early Out', guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         objCase.Type = 'PreService';
         insert objCase;
 
@@ -1082,7 +1082,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -1138,7 +1138,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -1207,7 +1207,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -1277,7 +1277,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -1358,7 +1358,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -1417,7 +1417,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -1468,7 +1468,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -1523,7 +1523,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -1565,7 +1565,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 
@@ -1637,7 +1637,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Early-out', 'Early-out M', 'PreCollections', 'PreCollections M',
+                Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
                 'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
         });
 

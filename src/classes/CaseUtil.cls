@@ -78,10 +78,10 @@ public class CaseUtil {
             Map<String,CampaignMember> mapUpdateCampaignMembers = new Map<String,CampaignMember>();
             
             Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
-                    'Early-out', 'Early-out M'
+                    Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M
             });
-            string earlyOut = mapCampaignMapping.get('Early-out');
-            string earlyOutMobile = mapCampaignMapping.get('Early-out M');
+            string earlyOut = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE);
+            string earlyOutMobile = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE_M);
 
             if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed() &&
                     CmpnMemberSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
@@ -120,7 +120,7 @@ public class CaseUtil {
                 List<Case> lstEarlyOutCases = [
                         SELECT Id, Type
                         FROM Case
-                        WHERE Type = 'Early Out'
+                        WHERE Type = :Constants.CASE_TYPE_OVERDUE
                         AND Guarantor_Information__c IN :mapContact.keyset()
                         AND Guarantor_Information__c NOT IN :mapComplianceContact.keyset()
                         AND IsClosed = false
@@ -142,9 +142,9 @@ public class CaseUtil {
                     Case objCase = new Case();
                     objCase.Guarantor_Information__c = objContact.Id;
                     objCase.ContactId = objContact.Id;
-                    objCase.Type = 'Early Out';
+                    objCase.Type = Constants.CASE_TYPE_OVERDUE;
                     objCase.Status = 'New';
-                    objCase.Subject = 'Early Out';
+                    objCase.Subject = Constants.CASE_TYPE_OVERDUE;
                     objCase.RecordTypeID = rt[0].Id;
                     if (lstGroup.size() > 0) {
                         objCase.ownerId = lstGroup[0].Id;
@@ -274,7 +274,7 @@ public class CaseUtil {
                 earlyOutCases = [
                         SELECT Id, Status, Reason, Guarantor_Information__c
                         FROM Case
-                        WHERE Type = 'Early Out' AND
+                        WHERE Type = :Constants.CASE_TYPE_OVERDUE AND
                         Guarantor_Information__c IN :mapContact.keyset()
                         AND IsClosed = false
                 ];
@@ -291,7 +291,7 @@ public class CaseUtil {
             }
 
             Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
-                    'Early-out', 'Early-out M'
+                    Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M
             });
 
             deleteCampaignMembers(setContactWithEarlyOutCase, mapCampaignMapping.values());
