@@ -91,6 +91,9 @@ public class Constants {
     public static final String STANDARD_USER = 'Standard User';
     public static final String GUARANTOR_PORTAL_PROFILE = 'Guarantor Community Plus';
 
+    public static final String PAID = 'Paid';
+    public static final String UNPAID = 'Unpaid';
+
     // Account Substatus constraints used for Cases
     public static final Set<String> CGConstraintsForCase = new Set<String> {
             Constants.ACCT_SUBSTATUS_BAD_DEBT,
@@ -125,7 +128,4 @@ public class Constants {
         Constants.GUARANTOR_STATUS_DELINQUENT,
         Constants.GUARANTOR_STATUS_OVERDUE
     };
-
-    public static final String PAID = 'Paid';
-    public static final String UNPAID = 'Unpaid';
 }
