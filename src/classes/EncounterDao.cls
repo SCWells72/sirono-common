@@ -1,7 +1,7 @@
 /**
  * Payment DAO for Encounter__c object SOQL/DML operations
  */
-public class EncounterDao {
+public without sharing class EncounterDao {
     public enum IdType {
         GUARANTOR, ENCOUNTER
     }
