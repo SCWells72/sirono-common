@@ -12,10 +12,10 @@ public with sharing class HeaderController {
     /**
      * Gather all information reqiured for loading the portal.
      *
-     * @returns GuarantorWrapper - A populated GuarantorWrapper.
+     * @returns HeaderWrapper - A populated HeaderWrapper.
      */
     @AuraEnabled
-    public static GuarantorWrapper getAllHeaderInfo() {
+    public static HeaderWrapper getAllHeaderInfo() {
         UserWrapper user = getUserInfo();
         Contact contact;
         List<Invoice__c> invoices = new List<Invoice__c>();
@@ -33,18 +33,18 @@ public with sharing class HeaderController {
 
         Invoice__c invoice = (invoices.size() > 0) ? invoices[0] : new Invoice__c();
 
-        Guarantorwrapper gWrapper = new GuarantorWrapper(contact, invoice, paymentPlan, estimateCount);
+        HeaderWrapper hWrapper = new HeaderWrapper(contact, invoice, paymentPlan, estimateCount);
 
         // If contact was found for the user check on states and error messages.
         if (user.contactId != null) {
-            gWrapper.messageInfo = getMessageInfo(gWrapper);
-            gWrapper.balanceNoPaymentPlan = hasBalanceAndNotAddPaymentPlan(gWrapper);
-            gWrapper.balanceHasPaymentPlan = hasPaymentPlanInGoodStanding(gWrapper);
-            gWrapper.balanceDueOrError = balanceDueOrError(gWrapper);
-            gWrapper.isInstallAmountView = onPaymentPlan(gWrapper);
+            hWrapper.messageInfo = getMessageInfo(hWrapper);
+            hWrapper.balanceNoPaymentPlan = hasBalanceAndNotAddPaymentPlan(hWrapper);
+            hWrapper.balanceHasPaymentPlan = hasPaymentPlanInGoodStanding(hWrapper);
+            hWrapper.balanceDueOrError = balanceDueOrError(hWrapper);
+            hWrapper.isInstallAmountView = onPaymentPlan(hWrapper);
         }
 
-        return gWrapper;
+        return hWrapper;
     }
 
     /**
@@ -58,32 +58,32 @@ public with sharing class HeaderController {
     }
 
     /**
-     * Populate the message info based on the GuarantorWrapper status.
+     * Populate the message info based on the HeaderWrapper status.
      *
      * @returns String - The string with messages related to any detected error conditions.
      */
     @TestVisible
-    private static String getMessageInfo(GuarantorWrapper guarantorWrapper) {
+    private static String getMessageInfo(HeaderWrapper headerWrapper) {
         String messageInfo = '';
 
         // Guanator overdue or delinquent check.
-        if (guarantorWrapper.getGuarantorStatus() == Constants.GUARANTOR_STATUS_OVERDUE) {
+        if (headerWrapper.getGuarantorStatus() == Constants.GUARANTOR_STATUS_OVERDUE) {
             messageInfo = WARNING_MESSAGE;
-        } else if (guarantorWrapper.getGuarantorStatus() == Constants.GUARANTOR_STATUS_DELINQUENT) {
+        } else if (headerWrapper.getGuarantorStatus() == Constants.GUARANTOR_STATUS_DELINQUENT) {
             messageInfo = DELINQUENT_MESSAGE;
         }
 
-        if (guarantorWrapper.hasPaymentPlan() && guarantorWrapper.getPaymentPlanStanding() == Constants.PAST_DUE) {
+        if (headerWrapper.hasPaymentPlan() && headerWrapper.getPaymentPlanStanding() == Constants.PAST_DUE) {
 
             messageInfo += PASTDUE_MESSAGE;
-            if (guarantorWrapper.getPaymentPlanType() == Constants.MANUAL) { // Manual Past Due
+            if (headerWrapper.getPaymentPlanType() == Constants.MANUAL) { // Manual Past Due
                 messageInfo += PASTDUE_MANUAL_MESSAGE;
             }
         }
 
         // Case of an automatic payment plan with an in error Standing.
-        if (guarantorWrapper.getPaymentPlanActive() && guarantorWrapper.getPaymentPlanType() == Constants.AUTOMATIC
-                && guarantorWrapper.getPaymentPlanStanding() == Constants.IN_ERROR) {
+        if (headerWrapper.getPaymentPlanActive() && headerWrapper.getPaymentPlanType() == Constants.AUTOMATIC
+                && headerWrapper.getPaymentPlanStanding() == Constants.IN_ERROR) {
             messageInfo += ERROR_MESSAGE;
         }
 
@@ -96,8 +96,8 @@ public with sharing class HeaderController {
      * @returns Boolean - True if condition is met, false otherwise.
      */
     @TestVisible
-    private static Boolean hasBalanceAndNotAddPaymentPlan(GuarantorWrapper guarantorWrapper) {
-        return hasBalance(guarantorWrapper) && !guarantorWrapper.hasAddToPaymentPlan();
+    private static Boolean hasBalanceAndNotAddPaymentPlan(HeaderWrapper headerWrapper) {
+        return hasBalance(headerWrapper) && !headerWrapper.hasAddToPaymentPlan();
     }
 
   /**
@@ -106,8 +106,8 @@ public with sharing class HeaderController {
    * @returns Boolean - True if condition is met, false otherwise.
    */
     @TestVisible
-    private static Boolean hasBalanceAndAddPaymentPlan(GuarantorWrapper guarantorWrapper) {
-        return hasBalance(guarantorWrapper) && guarantorWrapper.hasAddToPaymentPlan();
+    private static Boolean hasBalanceAndAddPaymentPlan(HeaderWrapper headerWrapper) {
+        return hasBalance(headerWrapper) && headerWrapper.hasAddToPaymentPlan();
     }
 
   /**
@@ -116,10 +116,10 @@ public with sharing class HeaderController {
      * @returns Boolean - True if condition is met.
      */
     @TestVisible
-    private static Boolean hasPaymentPlanInGoodStanding(GuarantorWrapper guarantorWrapper) {
-        return hasBalanceAndAddPaymentPlan(guarantorWrapper)
-                && guarantorWrapper.hasPaymentPlan()
-                && guarantorWrapper.getPaymentPlanStanding() == Constants.PLANTYPE_GOOD_STANDING;
+    private static Boolean hasPaymentPlanInGoodStanding(HeaderWrapper headerWrapper) {
+        return hasBalanceAndAddPaymentPlan(headerWrapper)
+                && headerWrapper.hasPaymentPlan()
+                && headerWrapper.getPaymentPlanStanding() == Constants.PLANTYPE_GOOD_STANDING;
     }
 
     /**
@@ -128,9 +128,9 @@ public with sharing class HeaderController {
      * @returns Boolean - True if condition is met, false otherwise.
      */
     @TestVisible
-    private static Boolean balanceDueOrError(GuarantorWrapper guarantorWrapper) {
-        return onPaymentPlan(guarantorWrapper)
-                || (guarantorWrapper.hasPaymentPlan() && guarantorWrapper.getPaymentPlanStanding() != Constants.PLANTYPE_GOOD_STANDING);
+    private static Boolean balanceDueOrError(HeaderWrapper headerWrapper) {
+        return onPaymentPlan(headerWrapper)
+                || (headerWrapper.hasPaymentPlan() && headerWrapper.getPaymentPlanStanding() != Constants.PLANTYPE_GOOD_STANDING);
     }
 
   /**
@@ -139,19 +139,19 @@ public with sharing class HeaderController {
    * @returns Boolean - True if the users is on
    */
     @TestVisible
-    private static Boolean onPaymentPlan(GuarantorWrapper guarantorWrapper) {
-        return hasBalanceAndAddPaymentPlan(guarantorWrapper) || guarantorWrapper.getGuarantorStatus() == Constants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
+    private static Boolean onPaymentPlan(HeaderWrapper headerWrapper) {
+        return hasBalanceAndAddPaymentPlan(headerWrapper) || headerWrapper.getGuarantorStatus() == Constants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
     }
 
   /**
-   * Utiltiy to deteremine if the GuarantorWrapper data indicates that the user has an owned balance.
+   * Utiltiy to deteremine if the HeaderWrapper data indicates that the user has an owned balance.
    *
-   * @params GuarantorWrapper guarantorWrapper - The guarantorWrapper.
+   * @params HeaderWrapper headerWrapper - The headerWrapper.
    * @returns Boolean - True is the user is in a state that indicates having a balance that is in in the State indicating
    * it should be paid.
    */
-    private static Boolean hasBalance(GuarantorWrapper guarantorWrapper) {
-        return Constants.GuarantorStatusOverdue.contains(guarantorWrapper.getGuarantorStatus());
+    private static Boolean hasBalance(HeaderWrapper headerWrapper) {
+        return Constants.GuarantorStatusOverdue.contains(headerWrapper.getGuarantorStatus());
     }
 
 }

@@ -3,7 +3,7 @@
     <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/main.css'}" />
     <aura:registerEvent name="activateTab" type="c:ActivateTab"/>
     <aura:registerEvent name="toggleHeader" type="c:ToggleHeader"/>
-    <aura:attribute name="guarantorWrapper" type="HeaderController.GuarantorWrapper" />
+    <aura:attribute name="guarantorWrapper" type="HeaderWrapper" />
     <aura:attribute name="isLanding" type="Boolean" default="true" description="Check where component is displayed." />
     <!-- Invoiced_Balance__c -->
     <aura:attribute name="invoiceValue" type="Decimal" access="public" default="0"/>
