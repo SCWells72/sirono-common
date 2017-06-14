@@ -39,10 +39,13 @@ public class Constants {
 
     // Constant variables for Case Type values.
     public static final String CASE_TYPE_OVERDUE = 'Overdue';
+    public static final String CASE_TYPE_PAST_DUE_PAYMENT_PLANS = 'Past Due Payment Plans';
 
     // Constant variables for Campaign values.
     public static final String CAMPAIGN_NAME_OVERDUE = 'Overdue';
     public static final String CAMPAIGN_NAME_OVERDUE_M = 'Overdue M';
+    public static final String CAMPAIGN_NAME_PAST_DUE = 'Past Due';
+    public static final String CAMPAIGN_NAME_PAST_DUE_M = 'Past Due M';
 
     // Constant variables for Page Level Messages.
     public static final String PAGE_MESSAGE_AMOUNT_EXCEED_BALANCE = 'Amount cannot exceed balance.';

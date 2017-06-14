@@ -856,7 +856,7 @@ public class CaseUtil {
                     SELECT Id, Guarantor_Information__c
                     FROM Case
                     WHERE Guarantor_Information__c IN :contactIds
-                    AND (Type = 'Delinquent Payment Plans' OR Reason = 'Compliance Issue')
+                    AND (Type = :Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS OR Reason = 'Compliance Issue')
                     AND IsClosed = false
             ]) {
                 contactIds.Remove(objCase.Guarantor_Information__c);
@@ -866,10 +866,10 @@ public class CaseUtil {
         Map<Id, Contact> mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(contactIds, null));
 
         Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
-                'Delinquent', 'Delinquent M'
+                Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M
         });
-        string delinquent = mapCampaignMapping.get('Delinquent');
-        string delinquentMobile = mapCampaignMapping.get('Delinquent M');
+        string delinquent = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE);
+        string delinquentMobile = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M);
 
         if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed() &&
                 CmpnMemberSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
@@ -901,9 +901,9 @@ public class CaseUtil {
             Case objCase = new Case();
             objCase.Guarantor_Information__c = strContactId;
             objCase.ContactId = strContactId;
-            objCase.Type = 'Delinquent Payment Plans';
+            objCase.Type = Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS;
             objCase.Status = 'New';
-            objCase.Subject = 'Delinquent Payment Plans';
+            objCase.Subject = Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS;
             objCase.RecordTypeID = rt[0].Id;
             if (lstGroup.size() > 0) {
                 objCase.ownerId = lstGroup[0].Id;
@@ -1001,7 +1001,7 @@ public class CaseUtil {
                     SELECT Id, Guarantor_Information__c
                     FROM Case
                     WHERE Guarantor_Information__c IN :contactIds
-                    AND Type = 'Delinquent Payment Plans'
+                    AND Type = :Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS
                     AND IsClosed = false
             ];
             contactIds = new Set<Id>();
@@ -1016,7 +1016,7 @@ public class CaseUtil {
         }
 
         Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
-                'Delinquent', 'Delinquent M'
+                Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M
         });
 
         deleteCampaignMembers(contactIds, mapCampaignMapping.values());

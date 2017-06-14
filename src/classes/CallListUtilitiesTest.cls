@@ -45,7 +45,7 @@ public class CallListUtilitiesTest {
 
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -106,7 +106,7 @@ public class CallListUtilitiesTest {
 
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -138,7 +138,7 @@ public class CallListUtilitiesTest {
 
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         Test.startTest();
@@ -174,7 +174,7 @@ public class CallListUtilitiesTest {
         }
         Test.startTest();
         Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
-        objCase.Type = 'Delinquent';
+        objCase.Type = Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS;
         insert objCase;
 
         objCase.Status = 'Closed';
@@ -318,8 +318,8 @@ public class CallListUtilitiesTest {
             }
             Test.startTest();
             Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Internal Case'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
-            objCase.Type = 'Delinquent';
-            objCase.Description = 'Delinquent';
+            objCase.Type = Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS;
+            objCase.Description = Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS;
             objCase.Charge_Group_IDs__c = '121';
             insert objCase;
             Test.stopTest();
