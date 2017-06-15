@@ -146,6 +146,25 @@ public with sharing class ChargeGroupDao extends AbstractDao {
     }
 
     /**
+     * Return the Charge_Group__c records associated with the given Invoices.
+     *
+     * @param Set<Id> invoiceIds - the Invoice ids.
+     * @returns List<Charge_Group__c> - the CG records based on invoiceIds.
+     **/
+    public static List<Charge_Group__c> getPayableByInvoiceId(Set<String> invoiceIds) {
+        if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
+            return [
+                    SELECT Id, Invoice__c, Balance__c, Active__c, Sirono_ID__c
+                    FROM Charge_Group__c
+                    WHERE Invoice__c IN :invoiceIds
+                    AND Active__c = True
+                    AND Balance__c != 0
+            ];
+        }
+        return null;
+    }
+
+    /**
      * Return the Charge_Group__c records associated with the given Guarantors and Pre_Collection_Sent__c equals to preCollDate.
      *
      * @param List<Contact> guarantors - That contains list of Contacts.

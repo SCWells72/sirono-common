@@ -11,6 +11,8 @@
         <members>PayEstimateTest</members>
         <members>PayEstimateLightning</members>
         <members>PayEstimateLightningTest</members>
+        <members>ProcessPaymentLightning</members>
+        <members>ProcessPaymentLightningTest</members>
 		<members>AddCreditCard</members>
         <members>AddCreditCardLightning</members>
         <members>AddCreditCardLightningTest</members>

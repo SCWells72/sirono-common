@@ -423,6 +423,17 @@ public abstract with sharing class SironoRestClient {
         return endpointURL;
     }
 
+    /**
+     * This method is use to convert amount into cents.
+     *
+     * @param String amount - That contains amount value.
+     * @returns String centAmount - That contains cent amount value.
+     **/
+    public static String convertToCents(String amount) {
+        String centAmount = (String.isNotBlank(amount) ? String.valueOf((Decimal.valueOf(amount) * 100).intValue()) : amount);
+        return centAmount;
+    }
+
 
     /**
      * Class used for making authentication based calls against the Sirono Server.

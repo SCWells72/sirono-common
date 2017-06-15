@@ -383,15 +383,4 @@ public with sharing class PaymentPlanService extends AbstractService {
     public static Payment_Plan__c getActivePaymentPlan(String guarantorId) {
         return PaymentPlanDao.getActivePaymentPlan(guarantorId);
     }
-
-    /**
-     * This method is use to convert amount into cents.
-     *
-     * @param String amount - That contains amount value.
-     * @returns String centAmount - That contains cent amount value.
-     **/
-    public static String convertToCents(String amount) {
-        String centAmount = (String.isNotBlank(amount) ? String.valueOf((Decimal.valueOf(amount) * 100).intValue()) : amount);
-        return centAmount;
-    }
 }

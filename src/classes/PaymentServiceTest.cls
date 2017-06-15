@@ -1,9 +1,10 @@
 @isTest
-private class PaymentServiceTest {
+public class PaymentServiceTest {
 	/**
      * This method is used to test PaymentService.createNewPayment method
      **/
-    static testMethod void createNewPaymentTest() {
+    @IsTest
+    static void createNewPaymentTest() {
     	// Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         INSERT guarantorContact;
@@ -22,5 +23,21 @@ private class PaymentServiceTest {
         // Check that record was created
         System.assertEquals(paymentList.size(), 1);
         Test.stopTest();
+    }
+
+    @IsTest
+    public static void payChargeGroupsBuildRequestBodyTest {
+
+        PaymentRequest pmtRequest = new PaymentRequest();
+        pmtRequest.creditCardNumber = '';
+        pmtRequest.cardHolderName = cInfo.cardHolderName;
+        pmtRequest.expirationYear = cInfo.expirationYear.substring(2);
+        pmtRequest.expirationMonth = cInfo.expirationMonth.substring(0,2);
+        pmtRequest.cvv = cInfo.cvv;
+        pmtRequest.amount = cInfo.amount;
+        pmtRequest.address = cInfo.address;
+        pmtRequest.city = cInfo.city;
+        pmtRequest.state = cInfo.state;
+        pmtRequest.zip = cInfo.zip;
     }
 }

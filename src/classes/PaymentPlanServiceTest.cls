@@ -208,7 +208,7 @@ public with sharing class PaymentPlanServiceTest {
     public static void testConvertDollarToCents() {
         String inputDollars = '100.00';
         Test.startTest();
-        String outputCents = PaymentPlanService.convertToCents(inputDollars);
+        String outputCents = SironoRestClient.convertToCents(inputDollars);
         Test.stopTest();
         
         // Check system assert.
