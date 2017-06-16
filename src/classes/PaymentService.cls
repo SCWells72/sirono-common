@@ -17,23 +17,6 @@ public class PaymentService extends AbstractService {
         }
 
         /**
-         * Get the payment by id from the sirono server.
-         *
-         * @param - String paymentId The sirono id for the payment.
-         * @returns - HttpResponse The response to the call.
-         */
-        @TestVisible
-        private HttpResponse getPayment(String paymentId) {
-
-            return getRequestor()
-                    .url(RestClientConstants.PAYMENT_KEY, new String[]{
-                            stripCommas(paymentId)
-                    })
-                    .call();
-
-        }
-
-        /**
          * Make the call to pay on the given chargegroups
          *
          * @param - String planId The sirono id of the payment plan
@@ -86,16 +69,16 @@ public class PaymentService extends AbstractService {
                     RestClientConstants.CHARGE_GROUPS => cgUrls,
                     RestClientConstants.CSRF_JSON_KEY => getCsrf(),
                     'guarantor' => asGuarantorURL(pmtRequest.guarantor.Profile_Pointer_ID__c.toPlainString()),
-                    'number' => pmtRequest.creditCardNumber,
-                    'expiration_year' => pmtRequest.expirationYear,
-                    'cvv' => pmtRequest.cvv,
-                    'amount' => convertToCents(pmtRequest.amount),
-                    'expiration_month' => pmtRequest.expirationMonth,
-                    'cardholder_name' => pmtRequest.cardHolderName,
-                    'state' => pmtRequest.state,
-                    'address_1' => pmtRequest.address,
-                    'zipcode' => pmtRequest.zip,
-                    'city' => pmtRequest.city,
+                    'number' => pmtRequest.chargeInfo.creditCardNumber,
+                    'expiration_year' => pmtRequest.chargeInfo.expirationYear,
+                    'cvv' => pmtRequest.chargeInfo.cvv,
+                    'amount' => convertToCents(pmtRequest.chargeInfo.amount),
+                    'expiration_month' => pmtRequest.chargeInfo.expirationMonth,
+                    'cardholder_name' => pmtRequest.chargeInfo.cardHolderName,
+                    'state' => pmtRequest.chargeInfo.state,
+                    'address_1' => pmtRequest.chargeInfo.address,
+                    'zipcode' => pmtRequest.chargeInfo.zip,
+                    'city' => pmtRequest.chargeInfo.city,
 //This doesn't appear to be required - remove and confirm
 //                    'total-amount' => convertToCents(data.amount),
                     'method' => 'credit'
@@ -108,22 +91,22 @@ public class PaymentService extends AbstractService {
     }
 
     private class PaymentSironoJSON {
-        public String url;
-        public String guarantor;
-        public Integer amount;
-        public String transaction_number;
-        public String payment_date;
-        public String method;
-        public String last_4;
-        public String processor_transaction_id;
-        public String receipt_link;
-        public String payment_info;
-        public String payment_type;
-        public String account_number;
-        public String routing_number;
-        public String bank_account_type;
-        public String is_voidable;
-        public String post_date;
+        String url;
+        String guarantor;
+        Integer amount;
+        String transaction_number;
+        String payment_date;
+        String method;
+        String last_4;
+        String processor_transaction_id;
+        String receipt_link;
+        String payment_info;
+        String payment_type;
+        String account_number;
+        String routing_number;
+        String bank_account_type;
+        String is_voidable;
+        String post_date;
     }
 
     public class PaymentJSONParser extends AbstractSironoJSONParser {
@@ -133,10 +116,11 @@ public class PaymentService extends AbstractService {
 
         @TestVisible
         PaymentJSONParser(String jsonBody) {
-            if (jsonBody.contains('[')){
+            if (jsonBody.startsWith('[')){
                 System.debug('PaymentJSONParser jsonBody: ' + jsonBody);
-                json = jsonBody.replace('[','');
-                json = json.replace(']','');
+                json = jsonBody.substring(1);
+                if (json.endsWith(']'))
+                    json = json.substring(0, json.lastIndexOf(']'));
             } else {
                 this.json = jsonBody;
             }
@@ -150,7 +134,7 @@ public class PaymentService extends AbstractService {
             Payment__c paymentObj = new Payment__c(Guarantor__c = gt.Id);
 
             if (!String.isBlank(objJson.url)) {
-                String pmtIdStr = parseSironoId(objJson.url, 'payment');
+                String pmtIdStr = parseSironoId(objJson.url, 'payments');
                 if (!String.isBlank(pmtIdStr)) {
                     paymentObj = PaymentDao.getPaymentBySironoId(Decimal.valueOf(pmtIdStr));
                     if (paymentObj == null) {
@@ -177,40 +161,37 @@ public class PaymentService extends AbstractService {
             paymentObj.Processor_Transaction_ID__c = objJson.processor_transaction_id;
             paymentObj.Amount__c = convertToDollars(objJson.amount);
 
-            //TODO remove this when we clean up the Payment__c object
-            paymentObj.Name = parseSironoId(objJson.url,'payments');
             return paymentObj;
         }
     }
 
     private class TransactionSironoJSON {
-        public String url;
-        public Integer amount;
-        public String post_date;
-        public String fail_date;
-        public String export_date;
-        public String created_at;
-        public String modified_at;
-        public String method;
-        public String notes;
-        public Boolean credit_balance;
-        public String payment;
-        public String chargegroup;
+        String url;
+        Integer amount;
+        String post_date;
+        String fail_date;
+        String export_date;
+        String created_at;
+        String modified_at;
+        String method;
+        String notes;
+        Boolean credit_balance;
+        String payment;
+        String chargegroup;
     }
 
-    public class TransactionJSONParser extends AbstractSironoJSONParser {
-        private String json;
-        @TestVisible
+    private class TransactionJSONParser extends AbstractSironoJSONParser {
+        String json;
         List<TransactionSironoJSON> txnJsons;
-        Payment__c pmt;
+        Payment__c payment;
         //Resulting list of Transaction__c objects
         List<Transaction__c> transactions = new List<Transaction__c>();
         //Map of ChargeGroup Sirono Id => txn
         Map<Decimal, Transaction__c> cgIdTxnMap = new Map<Decimal, Transaction__c>();
 
         @TestVisible
-        TransactionJSONParser(Payment__c payment, String jsonBody) {
-            this.pmt = payment;
+        TransactionJSONParser(Payment__c newPayment, String jsonBody) {
+            this.payment = newPayment;
             this.json = jsonBody.replace('_credit_balance','credit_balance');
 
             if (!json.startsWith('[') || !json.endsWith(']')){
@@ -230,7 +211,7 @@ public class PaymentService extends AbstractService {
         private void createTransactionObjects() {
             for (TransactionSironoJSON txnJson : txnJsons) {
                 Transaction__c txnObj = new Transaction__c();
-                txnObj.Payment__c = pmt.Id;
+                txnObj.Payment__r = new Payment__c(Sirono_ID__c=payment.Sirono_ID__c);
                 String transactionExternalId = parseSironoId(txnJson.url, 'transaction');
 
                 txnObj.Sirono_ID__c = Decimal.valueOf(transactionExternalId);
@@ -280,9 +261,9 @@ public class PaymentService extends AbstractService {
     /**
      * Make a payment for one or more chargegroups
      * This is a two-step process:
-     *  1) Make the payment in Sirono & save it to SF,
-     *  2) Retrieve the resulting transactions for that payment, associate them with it, resolve their chargegroups &
-     *  save them to SF
+     *  1) Make the payment in Sirono
+     *  2) Retrieve the resulting transactions for that payment
+     *  3) Save the Payment & txns to SF
      *
      * @param PaymentsRequestData pmtRequest - the data needed to make a payment for chargegroups
      */
@@ -291,26 +272,37 @@ public class PaymentService extends AbstractService {
             throw new SironoServiceException('Valid PaymentRequestData is required');
         }
 
-        List<String> errors = pmtRequest.validateCardData();
-        errors.addAll(pmtRequest.validateAmount());
+        List<String> errors = pmtRequest.validate();
         if (!errors.isEmpty()) {
             throw new SironoServiceException('Invalid PaymentRequest data: ' + String.join(errors, '\n '));
         }
 
+        Payment__c newPayment = makeSironoPayment(pmtRequest);
+        List<Transaction__c> transactions = retrieveSironoTransactions(newPayment);
+
+        savePaymentAndTransactions(newPayment, transactions);
+
+        return newPayment;
+    }
+
+    private static void savePaymentAndTransactions(Payment__c payment, List<Transaction__c> transactions) {
+        List<SObject> pmtAndTxns = new List<SObject>{payment};
+        pmtAndTxns.addAll((List<SObject>) transactions);
+        PaymentDao.insertPaymentAndTransactions(pmtAndTxns);
+    }
+
+    private static Payment__c makeSironoPayment(PaymentRequest pmtRequest) {
         PaymentRestClient client = new PaymentRestClient();
         HttpResponse response = client.payChargeGroups(pmtRequest);
         PaymentJSONParser parser = new PaymentJSONParser(response.getBody());
-        Payment__c newPayment = parser.parse(pmtRequest.guarantor);
+        return parser.parse(pmtRequest.guarantor);
+    }
 
-        PaymentDao.insertPayment(new List<Payment__c>{newPayment});
-
-        client = new PaymentRestClient();
-        response = client.getPaymentTransactions(newPayment.Sirono_ID__c.toPlainString());
+    private static List<Transaction__c> retrieveSironoTransactions(Payment__c newPayment){
+        PaymentRestClient client = new PaymentRestClient();
+        HttpResponse response = client.getPaymentTransactions(newPayment.Sirono_ID__c.toPlainString());
         TransactionJSONParser txnParser = new TransactionJSONParser(newPayment, response.getBody());
-        List<Transaction__c> transactions = txnParser.parse();
-        TransactionDao.insertTransactions(transactions);
-
-        return newPayment;
+        return txnParser.parse();
     }
 
     /**

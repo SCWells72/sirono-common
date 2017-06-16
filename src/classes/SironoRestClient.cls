@@ -190,7 +190,10 @@ public abstract with sharing class SironoRestClient {
         } catch (SironoServiceException e) {
             // If we get a Service exception just rethrow
             throw e;
-        } catch (Exception e) {
+        } catch (CalloutException e) {
+            // If we get a CalloutException just rethrow
+            throw e;
+        } catch(Exception e) {
             System.debug('Exception encountered when calling Sirono service: ' + e.getMessage());
             System.debug('>>>>>req.method: '+req.getMethod());
             System.debug('>>>>>req.endpoint: '+req.getEndpoint());

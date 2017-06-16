@@ -13,6 +13,13 @@ public without sharing class PaymentDao {
         }
     }
 
+    public static void insertPaymentAndTransactions(List<SObject> paymentsAndTransactions) {
+        if (PaymentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+            // Create the Payment and associated Transactions
+            Database.SaveResult[] results = Database.insert(paymentsAndTransactions);
+        }
+    }
+
     /**
      * This method returns payment record by Id.
      * @param Id paymentId - id of payment record

@@ -84,20 +84,17 @@ public with sharing class MakeAPaymentController {
         CardInformation cInfo = (CardInformation)JSON.deserialize(jsonPayment, CardInformation.class);
         System.debug(cInfo);
 
-        List<String> invIds = (List<String>)JSON.deserialize(listIds, List<String>.class);
-        System.debug(invIds);
+        List<String> invoiceIds = (List<String>)JSON.deserialize(listIds, List<String>.class);
+        System.debug(invoiceIds);
 
         Contact guarantor = GuarantorService.getPortalGuarantor(UserInfo.getUserId());
 
         ApexPages.StandardController sc = new ApexPages.StandardController(guarantor);
-        //ProcessPaymentLightning onePayment = new ProcessPaymentLightning(sc, invIds);
-        List<Charge_Group__c> chargeGroups = ChargeGroupService.getPayableByInvoiceId(invIds);
+        List<Charge_Group__c> chargeGroups = ChargeGroupService.getPayableByInvoiceId(invoiceIds);
 
-        PaymentRequest pmtRequest = buildPaymentRequest(cInfo);
-        pmtRequest.chargeGroups = chargeGroups;
+        PaymentRequest pmtRequest = buildPaymentRequest(guarantor, chargeGroups, cInfo);
+        List<String> errors = pmtRequest.validate();
 
-        List<String> errors = pmtRequest.validateAmount();
-        errors.addAll(pmtRequest.validateCardData());
         if (errors.isEmpty()) {
             try {
                 Payment__c pmt = PaymentService.makePayment(pmtRequest);
@@ -108,23 +105,24 @@ public with sharing class MakeAPaymentController {
                 return ex.getMessage();
             }
         } else {
-            String errorMsg = String.join(errors, ' ');
+            //TODO Does it make more sense to return JSON array?
+            String errorMsg = String.join(errors, '\n ');
             return errorMsg;
         }
     }
 
-    private static PaymentRequest buildPaymentRequest(CardInformation cInfo) {
-        PaymentRequest pmtRequest = new PaymentRequest();
-        pmtRequest.creditCardNumber = cInfo.creditCardNumber;
-        pmtRequest.cardHolderName = cInfo.cardHolderName;
-        pmtRequest.expirationYear = cInfo.expirationYear.substring(2);
-        pmtRequest.expirationMonth = cInfo.expirationMonth.substring(0,2);
-        pmtRequest.cvv = cInfo.cvv;
-        pmtRequest.amount = cInfo.amount;
-        pmtRequest.address = cInfo.address;
-        pmtRequest.city = cInfo.city;
-        pmtRequest.state = cInfo.state;
-        pmtRequest.zip = cInfo.zip;
+    private static PaymentRequest buildPaymentRequest(Contact guarantor, Charge_Group__c[] chargeGroups, CardInformation cInfo) {
+        PaymentRequest pmtRequest = new PaymentRequest(guarantor, chargeGroups);
+        pmtRequest.chargeInfo.creditCardNumber = cInfo.creditCardNumber;
+        pmtRequest.chargeInfo.cardHolderName = cInfo.cardHolderName;
+        pmtRequest.chargeInfo.expirationYear = cInfo.expirationYear.substring(2);
+        pmtRequest.chargeInfo.expirationMonth = cInfo.expirationMonth.substring(0,2);
+        pmtRequest.chargeInfo.cvv = cInfo.cvv;
+        pmtRequest.chargeInfo.amount = cInfo.amount;
+        pmtRequest.chargeInfo.address = cInfo.address;
+        pmtRequest.chargeInfo.city = cInfo.city;
+        pmtRequest.chargeInfo.state = cInfo.state;
+        pmtRequest.chargeInfo.zip = cInfo.zip;
         return pmtRequest;
     }
 
