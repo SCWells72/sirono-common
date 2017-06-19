@@ -69,9 +69,10 @@ public class PaymentServiceTest {
                 SELECT Id, Name
                 FROM Payment__c
         ];
-        // Check that record was created
-        System.assertEquals(paymentList.size(), 1);
         Test.stopTest();
+        // Confirm that record was created
+        System.assertEquals(paymentList.size(), 1);
+
     }
 
     @IsTest
