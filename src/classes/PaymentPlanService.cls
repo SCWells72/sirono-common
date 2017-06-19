@@ -383,4 +383,10 @@ public with sharing class PaymentPlanService extends AbstractService {
     public static Payment_Plan__c getActivePaymentPlan(String guarantorId) {
         return PaymentPlanDao.getActivePaymentPlan(guarantorId);
     }
+
+    //TODO this is just here until ProcessPaymentLightning can be removed
+    @deprecated
+    public static String convertToCents(String amount) {
+        return SironoRestClient.convertToCents(amount);
+    }
 }
