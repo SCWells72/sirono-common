@@ -401,6 +401,55 @@ public with sharing class ChargeGroupDaoTest {
     }
 
     /**
+     * This method tests the logic of getCGBasedOnGuarantorFilterByStatus method Positive.
+     **/
+    @isTest
+    public static void getCGBasedOnGuarantorFilterByStatusPositiveTest(){
+
+        Contact guarantorContact = [SELECT Id FROM Contact];
+
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1234);
+        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
+        INSERT chargeGroup;
+
+        Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, null, 12345);
+        chargeGroup1.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_BAD_DEBT;
+        INSERT chargeGroup1;
+
+        Test.startTest();
+        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnGuarantorFilterByStatus(new Set<Id>{guarantorContact.Id}, new Set<String>{Constants.ACCT_SUBSTATUS_OVERDUE});
+        Test.stopTest();
+
+        // Check system assert.
+        System.assertEquals(guarantorContact.Id, chargeGroups[0].Guarantor__c, 'Expected CG Guarantor__c equals to ' + guarantorContact.Id + ' but we got ' + chargeGroups[0].Guarantor__c);
+        System.assertEquals(1, chargeGroups.size(), 'Expected chargeGroups size to be 1 but we got ' + chargeGroups.size());
+    }
+
+    /**
+     * This method tests the logic of getCGBasedOnGuarantorFilterByStatus method negative.
+     **/
+    @isTest
+    public static void getCGBasedOnGuarantorFilterByStatusNegativeTest(){
+
+        Contact guarantorContact = [SELECT Id FROM Contact];
+
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 12345);
+        chargeGroup.Account_Status__c = Constants.ACCT_STATUS_PENDING;
+        INSERT chargeGroup;
+
+        Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1234);
+        chargeGroup1.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_BAD_DEBT;
+        INSERT chargeGroup1;
+
+        Test.startTest();
+        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnGuarantorFilterByStatus(new Set<Id>{guarantorContact.Id}, new Set<String>{Constants.ACCT_SUBSTATUS_OVERDUE});
+        Test.stopTest();
+
+        // Check system assert.
+        System.assertEquals(0, chargeGroups.size(), 'chargeGroups size should have 0 but we got ' + chargeGroups.size());
+    }
+
+    /**
      * Check all Read rights for a Chatter User using runAs.
      **/
     @isTest

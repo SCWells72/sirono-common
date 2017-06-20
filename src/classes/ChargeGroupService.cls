@@ -98,6 +98,17 @@ public class ChargeGroupService extends AbstractService {
     }
 
     /**
+     * Return the Charge_Group__c records associated with the given Guarantor Ids and cgSubStatuses.
+     *
+     * @param Set<Id> guarantorIds - That contains Guarantor Ids.
+     * @param Set<String> cgSubStatuses - That contains CG Sub Statuses.
+     * @returns List<Charge_Group__c> - That contains CG records based on guarantorIds and cgSubStatuses.
+     **/
+    public static List<Charge_Group__c> getCGBasedOnGuarantorFilterByStatus(Set<Id> guarantorIds, Set<String> cgSubStatuses) {
+        return ChargeGroupDao.getCGBasedOnGuarantorFilterByStatus(guarantorIds, cgSubStatuses);
+    }
+
+    /**
      * This method is use to update Charge Groups.
      *
      * @param List<Charge_Group__c> chargeGroups - That contains CG records.
@@ -113,5 +124,44 @@ public class ChargeGroupService extends AbstractService {
      **/
     public static void updateChargeGroupsWithStatus(List<Charge_Group__c> chargeGroups) {
         ChargeGroupDao.updateChargeGroupsWithStatus(chargeGroups);
+    }
+
+    /**
+     * This method is use to insert Case CG Junction records.
+     *
+     * @param Map<Id, List<Charge_Group__c>> chargeGroups - That contains contact id and it's ChargeGroups.
+     * @param List<Case> cases - That contains newly added cases.
+     **/
+    public static void insertCaseCGJunRecords(Map<Id, List<Charge_Group__c>> chargeGroups, List<Case> cases) {
+        List<Case_Charge_Group_Junction__c> lstCaseCGJun = new List<Case_Charge_Group_Junction__c>();
+
+        for (Case objCase: cases) {
+            if (chargeGroups.containsKey(objCase.Guarantor_Information__c)) {
+                if (objCase.Type == Constants.CASE_TYPE_OVERDUE) {
+                    for (Charge_Group__c cg: chargeGroups.get(objCase.Guarantor_Information__c)) {
+                        if (cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_OVERDUE) {
+                            lstCaseCGJun.add(new Case_Charge_Group_Junction__c(Case__c = objCase.Id, Charge_Group__c = cg.Id));
+                        }
+                    }
+                } else if (objCase.Type == Constants.CASE_TYPE_PRECOLLECTIONS) {
+                    for (Charge_Group__c cg: chargeGroups.get(objCase.Guarantor_Information__c)) {
+                        if (cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_DELINQUENT) {
+                            lstCaseCGJun.add(new Case_Charge_Group_Junction__c(Case__c = objCase.Id, Charge_Group__c = cg.Id));
+                        }
+                    }
+                } else if (objCase.Type == Constants.CASE_TYPE_CC_ERROR) {
+                    for (Charge_Group__c cg: chargeGroups.get(objCase.Guarantor_Information__c)) {
+                        if (cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_PAYMENT_PLAN) {
+                            lstCaseCGJun.add(new Case_Charge_Group_Junction__c(Case__c = objCase.Id, Charge_Group__c = cg.Id));
+                        }
+                    }
+                }
+            }
+        }
+        if (lstCaseCGJun.size() > 0) {
+            if (CaseCGJunctionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+                INSERT lstCaseCGJun;
+            }
+        }
     }
 }

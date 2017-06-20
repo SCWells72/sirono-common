@@ -197,15 +197,34 @@ public with sharing class CaseTriggerHandler {
     private static void createCaseCGRecords(List<Case> newList) {
         if (newList.size() > 0) {
             Set<Id> contactIds = new Set<Id>();
+            Set<String> cgSubStatuses = new Set<String>();
             Map<Id, List<Charge_Group__c>> chargeGroups = new Map<Id, List<Charge_Group__c>>();
-            List<Case_Charge_Group_Junction__c> lstCaseCGJun = new List<Case_Charge_Group_Junction__c>();
 
-            for (Case objCase: newList) {
-                contactIds.add(objCase.Guarantor_Information__c);
+            List<RecordType> rt = new List<RecordType>();
+            if (RecordTypeSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
+                rt = [
+                        SELECT Id
+                        FROM RecordType
+                        WHERE SobjectType = 'Case'
+                        AND DeveloperName = 'Automated_Cases'
+                ];
             }
 
-            for (Charge_Group__c cg: ChargeGroupService.getCGBasedOnGuarantor(contactIds)) {
-                if (chargeGroups.Containskey(cg.Guarantor__c)) {
+            for (Case objCase: newList) {
+                if (!String.isEmpty(objCase.Guarantor_Information__c) && objCase.RecordTypeID == rt[0].Id) {
+                    contactIds.add(objCase.Guarantor_Information__c);
+                    if (objCase.Type == Constants.CASE_TYPE_OVERDUE) {
+                        cgSubStatuses.add(Constants.ACCT_SUBSTATUS_OVERDUE);
+                    } else if (objCase.Type == Constants.CASE_TYPE_PRECOLLECTIONS) {
+                        cgSubStatuses.add(Constants.ACCT_SUBSTATUS_DELINQUENT);
+                    } else if (objCase.Type == Constants.CASE_TYPE_CC_ERROR) {
+                        cgSubStatuses.add(Constants.ACCT_SUBSTATUS_PAYMENT_PLAN);
+                    }
+                }
+            }
+
+            for (Charge_Group__c cg: ChargeGroupService.getCGBasedOnGuarantorFilterByStatus(contactIds, cgSubStatuses)) {
+                if (chargeGroups.containsKey(cg.Guarantor__c)) {
                     chargeGroups.get(cg.Guarantor__c).add(cg);
                 } else {
                     chargeGroups.put(cg.Guarantor__c, new List<Charge_Group__c>{cg});
@@ -213,43 +232,7 @@ public with sharing class CaseTriggerHandler {
             }
 
             if (chargeGroups.size() > 0) {
-                for (Case objCase: newList) {
-                    if (chargeGroups.Containskey(objCase.Guarantor_Information__c)) {
-                        if (objCase.Type == Constants.CASE_TYPE_OVERDUE) {
-                            for (Charge_Group__c cg: chargeGroups.get(objCase.Guarantor_Information__c)) {
-                                if (cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_OVERDUE) {
-                                    Case_Charge_Group_Junction__c caseCG = new Case_Charge_Group_Junction__c();
-                                    caseCG.Case__c = objCase.Id;
-                                    caseCG.Charge_Group__c = cg.Id;
-                                    lstCaseCGJun.add(caseCG);
-                                }
-                            }
-                        } else if (objCase.Type == Constants.CASE_TYPE_PRECOLLECTIONS) {
-                            for (Charge_Group__c cg: chargeGroups.get(objCase.Guarantor_Information__c)) {
-                                if (cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_DELINQUENT) {
-                                    Case_Charge_Group_Junction__c caseCG = new Case_Charge_Group_Junction__c();
-                                    caseCG.Case__c = objCase.Id;
-                                    caseCG.Charge_Group__c = cg.Id;
-                                    lstCaseCGJun.add(caseCG);
-                                }
-                            }
-                        } else if (objCase.Type == Constants.CASE_TYPE_CC_ERROR) {
-                            for (Charge_Group__c cg: chargeGroups.get(objCase.Guarantor_Information__c)) {
-                                if (cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_PAYMENT_PLAN) {
-                                    Case_Charge_Group_Junction__c caseCG = new Case_Charge_Group_Junction__c();
-                                    caseCG.Case__c = objCase.Id;
-                                    caseCG.Charge_Group__c = cg.Id;
-                                    lstCaseCGJun.add(caseCG);
-                                }
-                            }
-                        }
-                    }
-                }
-                if (lstCaseCGJun.size() > 0) {
-                    if (CaseCGJunctionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                        INSERT lstCaseCGJun;
-                    }
-                }
+                ChargeGroupService.insertCaseCGJunRecords(chargeGroups, newList);
             }
         }
     }

@@ -194,6 +194,25 @@ public with sharing class ChargeGroupDao extends AbstractDao {
     }
 
     /**
+     * Return the Charge_Group__c records associated with the given Guarantor Ids and cgSubStatuses.
+     *
+     * @param Set<Id> guarantorIds - That contains Guarantor Ids.
+     * @param Set<String> cgSubStatuses - That contains CG Sub Statuses.
+     * @returns List<Charge_Group__c> - That contains CG records based on guarantorIds and cgSubStatuses.
+     **/
+    public static List<Charge_Group__c> getCGBasedOnGuarantorFilterByStatus(Set<Id> guarantorIds, Set<String> cgSubStatuses) {
+        if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            return [
+                    SELECT Id, Guarantor__c, Account_Sub_Status__c
+                    FROM Charge_Group__c
+                    WHERE Account_Sub_Status__c IN :cgSubStatuses
+                    AND Guarantor__c IN :guarantorIds
+            ];
+        }
+        return null;
+    }
+
+    /**
      * This method is use to update Charge Groups.
      *
      * @param List<Charge_Group__c> chargeGroups - That contains CG records.
