@@ -39,22 +39,19 @@
 	
 	getAllInvoices : function(component) {
 		var action = component.get("c.getAllInvoices");
-		var additionalFilter = '';
+		var additionalFilter = [];
 		
 		var selectedPatients = component.get('v.patientSet');
 		if(selectedPatients != null && selectedPatients.length > 0) {
 			for(var i = 0; i < selectedPatients.length; i++) {
 				if(selectedPatients[i].isSelected == true) {
-					additionalFilter += "'" + selectedPatients[i].id + "',";
-				}
-				if(additionalFilter == '') {
-					additionalFilter = 'null';
+					additionalFilter.push(selectedPatients[i].id);
 				}
 			}
 		}
 		action.setParams({
 			'groupFilter' : component.get("v.groupFilter"),
-			'additionalFilter' : additionalFilter
+			'patientsFilter' : additionalFilter
 		});
 		
 		action.setCallback(this, function(response) {

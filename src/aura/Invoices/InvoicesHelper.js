@@ -1,22 +1,26 @@
 ({
 	getAllInvoices : function(component) {
 		var action = component.get("c.getAllInvoices");
-		var additionalFilter = '';
+		var patientsFilter = [];
 		
 		var selectedPatients = component.get('v.patientSet');
 		if(selectedPatients != null && selectedPatients.length > 0) {
 			for(var i = 0; i < selectedPatients.length; i++) {
 				if(selectedPatients[i].isSelected == true) {
-					additionalFilter += "'" + selectedPatients[i].id + "',";
+					patientsFilter.push(selectedPatients[i].id);
 				}
 			}
-			if(additionalFilter == '') {
-				additionalFilter = 'null';
-			}
+		}
+
+		// If no patients are selected bypass the call to the server
+		// and just populate the empty list.
+		if (patientsFilter.length === 0) {
+      component.set("v.listOfInvoices", []);
+      this.createTiles(component, []);
 		}
 		action.setParams({
 			'groupFilter' : component.get("v.groupFilter"),
-			'additionalFilter' : additionalFilter
+			'patientsFilter' : patientsFilter
 		});
 		
 		action.setCallback(this, function(response) {
@@ -24,7 +28,7 @@
 			if (state === "SUCCESS") {
 				var listOfInvoices = response.getReturnValue();
 				component.set("v.listOfInvoices", listOfInvoices);
-				this.createTiles(component,listOfInvoices);
+				this.createTiles(component, listOfInvoices);
 			} else if (state === "ERROR") {
 				var errors = response.getError();
 				if (errors) {
@@ -81,7 +85,7 @@
 		component.set('v.patientLabel', 'All Patients');
 	},
 
-	createTiles : function(component,listOfInvoices) {
+	createTiles : function(component, listOfInvoices) {
 		
 		component.set('v.invoices',[]);
 
@@ -126,5 +130,5 @@
 				}
 			}
 		);
-	},
+	}
 })
