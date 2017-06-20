@@ -66,7 +66,7 @@ public class EncounterService extends AbstractService {
      *
      * @param Id contanctId - The Guarantor for the Encounter.
      * @param String invoiceId - The invoiceId associated with the Encounter.
-     * @returns List<Encounter__C> - The list of encounters.
+     * @returns List<Encounter__c> - The list of encounters.
      */
     public static List<Encounter__c> getForInvoice(Id contactId, String invoiceId) {
         return EncounterDao.getForInvoice(contactId, invoiceId);

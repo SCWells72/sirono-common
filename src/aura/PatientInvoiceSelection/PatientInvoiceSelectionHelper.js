@@ -150,7 +150,6 @@
                 for (var i = 0; i < listOfInvoices.length; i++) {
                     console.log('invoice balance', listOfInvoices[i]);
                     selectedBalance += listOfInvoices[i].singleEncounter.Balance__c;
-                    ;
                 }
                 console.log('selectedBalance', selectedBalance);
                 var calculatePaymentBalance = $A.get("e.c:calculatePaymentBalanceEvent");

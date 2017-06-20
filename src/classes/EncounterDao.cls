@@ -101,7 +101,7 @@ public without sharing class EncounterDao {
      * Return the patient MRN and Name for all encounters for the given guarantor
      *
      * @param Contact - the guarantor to retrieve Encounter__c for
-     * @returns List<Encoutner__c> - The list of encounters.
+     * @returns List<Encounter__c> - The list of encounters.
      */
     //TODO Add FLS/CRUD check
     public static List<Encounter__c> getAllPatients(Contact guarantor) {
@@ -115,8 +115,8 @@ public without sharing class EncounterDao {
     /**
      * Get a list of Encounters for a particular invoice.
      *
-     * @params Id contactId - The contact id for the user associated with the encounters.
-     * @params String invoiceId - The invoice id for which to get the encounters.
+     * @param Id contactId - The contact id for the user associated with the encounters.
+     * @param String invoiceId - The invoice id for which to get the encounters.
      * @returns List<Encounter__c> - The encounters.
      */
     public static List<Encounter__c> getForInvoice(Id contactId, String invoiceId) {

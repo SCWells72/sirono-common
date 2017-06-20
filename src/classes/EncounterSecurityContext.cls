@@ -13,7 +13,7 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
     private static final String BALANCE = 'Balance__c';
     private static final String CANCELLED = 'Cancelled__c';
     private static final String DATE_OF_SERVICE = 'Date_of_Service__c';
-    private static final String ESTIMATE_ID = 'Estimate_ID__C';
+    private static final String ESTIMATE_ID = 'Estimate_ID__c';
     private static final String GUARANTOR = 'Guarantor__c';
     private static final String ID = 'Id';
     private static final String INSURANCE_DISCOUNT = 'Insurance_Discount__c';

@@ -40,7 +40,8 @@ public without sharing class InvoiceDao extends AbstractDao {
                 SELECT Id, Name, Invoice_Balance__c, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, Due_Date__c, Partial_Payment_Plan__c,
                     Patient__r.Name, Patient__r.Medical_Record_Number__c,
                     Guarantor__r.Overdue_Balance__c, Guarantor__r.Invoiced_Balance__c, Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c,
-                    Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Add_to_Payment_Plan__c, Guarantor__r.Pre_Invoiced_Balance__c, (SELECT Id, Payment_Plan__c, Payment_Plan__r.Active__c, Payment_Plan__r.Installment_Amount__c, Payment_Plan__r.NextPaymentDate__c FROM Charge_Groups__r)
+                    Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Add_to_Payment_Plan__c, Guarantor__r.Pre_Invoiced_Balance__c,
+                    (SELECT Id, Payment_Plan__c, Payment_Plan__r.Active__c, Payment_Plan__r.Installment_Amount__c, Payment_Plan__r.NextPaymentDate__c FROM Charge_Groups__r)
                 FROM Invoice__c
                 WHERE Guarantor__c = :contactId AND Id = :invoiceId
             ];
@@ -66,11 +67,11 @@ public without sharing class InvoiceDao extends AbstractDao {
             'Payment_Plan__r.NextPaymentDate__c FROM Charge_Groups__r) ' +
             'FROM Invoice__c WHERE Guarantor__c = :userId';
 
-        if (patients.size() > 0) {
+        if (patients != null && patients.size() > 0) {
             query += ' AND Patient__c IN :patients';
         }
 
-        if (statuses.size() != 0) {
+        if (statuses != null && statuses.size() != 0) {
             query += ' AND Invoice_Status__c in :statuses';
         }
 

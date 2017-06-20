@@ -33,8 +33,8 @@ public class Constants {
     // Guarantor Status
     public static final String GUARANTOR_STATUS_DUE = 'Due';
     public static final String GUARANTOR_STATUS_DELINQUENT = 'Delinquent';
-    public static final String GUARANTOR_STATUS_ON_PAYMENT_PLAN = Constants.ON_PAYMENT_PLAN;
-    public static final String GUARANTOR_STATUS_OVERDUE = Constants.OVERDUE;
+    public static final String GUARANTOR_STATUS_ON_PAYMENT_PLAN = ON_PAYMENT_PLAN;
+    public static final String GUARANTOR_STATUS_OVERDUE = OVERDUE;
 
     // Constant variables for CG account status values.
     public static final String ACCT_STATUS_BILLED = 'Billed';
@@ -48,7 +48,7 @@ public class Constants {
     public static final String CASE_TYPE_PAST_DUE_PAYMENT_PLANS = 'Past Due Payment Plans';
 
     // Constant variables for Campaign values.
-    public static final String CAMPAIGN_NAME_OVERDUE = Constants.OVERDUE;
+    public static final String CAMPAIGN_NAME_OVERDUE = OVERDUE;
     public static final String CAMPAIGN_NAME_OVERDUE_M = 'Overdue M';
     public static final String CAMPAIGN_NAME_PAST_DUE = 'Past Due';
     public static final String CAMPAIGN_NAME_PAST_DUE_M = 'Past Due M';
@@ -105,49 +105,49 @@ public class Constants {
 
     // Account Substatus constraints used for Cases
     public static final Set<String> CGConstraintsForCase = new Set<String> {
-            Constants.ACCT_SUBSTATUS_BAD_DEBT,
-            Constants.ACCT_SUBSTATUS_DELINQUENT,
-            Constants.ACCT_SUBSTATUS_DUE_BY,
-            Constants.ACCT_SUBSTATUS_OVERDUE,
-            Constants.ACCT_SUBSTATUS_PAYMENT_PLAN,
-            Constants.ACCT_SUBSTATUS_PREINVOICED
+            ACCT_SUBSTATUS_BAD_DEBT,
+            ACCT_SUBSTATUS_DELINQUENT,
+            ACCT_SUBSTATUS_DUE_BY,
+            ACCT_SUBSTATUS_OVERDUE,
+            ACCT_SUBSTATUS_PAYMENT_PLAN,
+            ACCT_SUBSTATUS_PREINVOICED
     };
 
     // Account Substatus constraints used for making Payments & adding to PPlans
     public static final Set<String> CGConstraints = new Set<String> {
-            Constants.ACCT_SUBSTATUS_BAD_DEBT,
-            Constants.ACCT_SUBSTATUS_DELINQUENT,
-            Constants.ACCT_SUBSTATUS_DUE_BY,
-            Constants.ACCT_SUBSTATUS_OVERDUE,
-            Constants.ACCT_SUBSTATUS_PREINVOICED
+            ACCT_SUBSTATUS_BAD_DEBT,
+            ACCT_SUBSTATUS_DELINQUENT,
+            ACCT_SUBSTATUS_DUE_BY,
+            ACCT_SUBSTATUS_OVERDUE,
+            ACCT_SUBSTATUS_PREINVOICED
     };
 
     // Account Substatus constraints used for adding Discounts
     public static final Set<String> CGConstraintsForDiscount = new Set<String> {
-            Constants.ACCT_SUBSTATUS_DELINQUENT,
-            Constants.ACCT_SUBSTATUS_DUE_BY,
-            Constants.ACCT_SUBSTATUS_OVERDUE,
-            Constants.ACCT_SUBSTATUS_PAYMENT_PLAN,
-            Constants.ACCT_SUBSTATUS_PREINVOICED
+            ACCT_SUBSTATUS_DELINQUENT,
+            ACCT_SUBSTATUS_DUE_BY,
+            ACCT_SUBSTATUS_OVERDUE,
+            ACCT_SUBSTATUS_PAYMENT_PLAN,
+            ACCT_SUBSTATUS_PREINVOICED
     };
 
     // Guarantor Status Overdue
     public static final Set<String> GuarantorStatusOverdue = new Set<String> {
-        Constants.GUARANTOR_STATUS_DUE,
-        Constants.GUARANTOR_STATUS_DELINQUENT,
-        Constants.GUARANTOR_STATUS_OVERDUE
+        GUARANTOR_STATUS_DUE,
+        GUARANTOR_STATUS_DELINQUENT,
+        GUARANTOR_STATUS_OVERDUE
     };
 
     // Invoice status groups
     public static final Set<String> INVOICE_UNPAID_STATUSES = new Set<String> {
-        Constants.DELIQUENT,
-        Constants.OVERDUE,
-        Constants.DUE,
-        Constants.ON_PAYMENT_PLAN
+        DELIQUENT,
+        OVERDUE,
+        DUE,
+        ON_PAYMENT_PLAN
     };
 
     public static final Set<String> INVOICE_PAID_STATUSES = new Set<String> {
-        Constants.PAID,
-        Constants.INVOICE_VOIDED
+        PAID,
+        INVOICE_VOIDED
     };
 }

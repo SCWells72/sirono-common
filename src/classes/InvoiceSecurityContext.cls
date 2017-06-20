@@ -40,7 +40,7 @@ public with sharing class InvoiceSecurityContext extends SecurityContext {
         ID, NAME, GUARANTOR, INVOICE_DATE, DUE_DATE, STATUS
     };
 
-    // The fields for selecting the guarantor details on Invoices
+    // The fields for selecting the details on Invoices
     private static final Set<String> DETAIL_FIELDS = new Set<String> {
         ID, NAME, INVOICE_BALANCE, SIRONO_ID, INVOICE_DATE, INVOICE_AGE, STATUS, DUE_DATE, PARTIAL_PAYMENT_PLAN
     };

@@ -3,73 +3,21 @@ private class WorkWithInvoicesControllerTest {
     @isTest static void invoicesTest() {
         Contact guarantorContact;
         Contact patientContact;
-        User internalUser;
         Invoice__c invoice1;
+        User portalUser = TestUtility.getGuarantorCommunityUser();
+        User adminUser = TestUtility.getAdminUser();
 
-        UserRole usrRole = [
-            SELECT Id
-            FROM UserRole
-            WHERE Name = 'CEO'
-        ];
-
-        Profile testProfile = [
-            SELECT Id, Name
-            FROM Profile
-            WHERE Name = 'System Administrator'
-        ];
-
-        User testUser = new User(
-            LastName = 'test user 1',
-            Username = String.valueOf(System.now().millisecond()) + 'test.user.invoice@example.com',
-            Email = 'test.1@example.com',
-            Alias = 'testu1',
-            TimeZoneSidKey = 'GMT',
-            LocaleSidKey = 'en_GB',
-            EmailEncodingKey = 'ISO-8859-1',
-            ProfileId = testProfile.Id,
-            UserRoleId = usrRole.Id,
-            LanguageLocaleKey = 'en_US'
-        );
-        insert testUser;
-
-        System.runAs(testUser) {
-            Profile profile = [
-                SELECT Id, Name
-                FROM Profile
-                WHERE Name = 'Guarantor Community Plus'
-            ];
-
-            Account testAcc = new Account(
-                Name = 'Test Account Name'
-            );
-            insert testAcc;
-
-            guarantorContact = TestUtility.generateGuarantorContact();
-            guarantorContact.AccountId = testAcc.Id;
-            insert guarantorContact;
+        System.runAs(adminUser) {
+            Account testAcc = TestUtility.getAccount();
+            guarantorContact = TestUtility.getGuarantor();
 
             patientContact = TestUtility.generatePatientContact();
             patientContact.AccountId = testAcc.Id;
             patientContact.Medical_Record_Number__c = '1234512345';
-            insert patientContact;
-
-            internalUser = new User(
-                Username = profile.Id + String.valueOf(System.now().millisecond()) + '@example.com',
-                ProfileId = profile.Id,
-                ContactId = guarantorContact.Id,
-                Alias = 'user' + System.now().millisecond(),
-                Email = profile.Id + '@example.com',
-                EmailEncodingKey = 'UTF-8',
-                LastName = 'Test',
-                CommunityNickname = profile.Id,
-                TimeZoneSidKey = 'America/Los_Angeles',
-                LocaleSidKey = 'en_US',
-                LanguageLocaleKey = 'en_US'
-            );
-            insert internalUser;
+            INSERT patientContact;
 
             Payment_Plan__c pPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-            insert pPlan;
+            INSERT pPlan;
 
             List<Invoice__c> lstInvoice = new List<Invoice__c>();
             invoice1 = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
@@ -82,7 +30,7 @@ private class WorkWithInvoicesControllerTest {
             invoice3.Invoice_Status_Index__c = 2;
             lstInvoice.add(invoice3);
 
-            insert lstInvoice;
+            INSERT lstInvoice;
 
             List<Charge_Group__c> lstChrgGroup = new List<Charge_Group__c>();
             Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 1234, pPlan.Id);
@@ -92,36 +40,36 @@ private class WorkWithInvoicesControllerTest {
             Charge_Group__c chargeGroup2 = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 1234, pPlan.Id);
             chargeGroup2.Invoice__c = invoice2.Id;
             lstChrgGroup.add(chargeGroup2);
-            insert lstChrgGroup;
+            INSERT lstChrgGroup;
 
             Payor__c payorTest = new Payor__c(
                 Name = 'payotTest'
             );
-            insert payorTest;
+            INSERT payorTest;
 
             Coverage__c objcoverage = new Coverage__c(
                 Name = 'Test',
                 Payor__c = payorTest.Id
             );
-            insert objcoverage;
+            INSERT objcoverage;
 
             Charge_Group_Coverage_Junction__c objCGCoverage = new Charge_Group_Coverage_Junction__c();
             objCGCoverage.Name = 'Test';
             objCGCoverage.Charge_Group__c = chargeGroup1.Id;
             objCGCoverage.Coverage__c = objcoverage.Id;
-            insert objCGCoverage;
+            INSERT objCGCoverage;
 
             Service__c serviceTest = new Service__c(
                 Name = 'serviceTest',
                 Charge_Group__c = chargeGroup2.Id
             );
-            insert serviceTest;
+            INSERT serviceTest;
 
             Payment_Adjustments__c paymentAdjTest = new Payment_Adjustments__c(
                 Name = 'paymentAdjTest',
                 Charge_Group__c = chargeGroup2.Id
             );
-            insert paymentAdjTest;
+            INSERT paymentAdjTest;
 
             Payment__c payment1 = TestUtility.generateSironoPayment(guarantorContact.Id, 1234, 12);
             Payment__c payment2 = TestUtility.generateSironoPayment(guarantorContact.Id, 1235, 25);
@@ -147,7 +95,7 @@ private class WorkWithInvoicesControllerTest {
 
             Transaction__c transaction5 = TestUtility.generateAdjTxn(chargeGroup2, 200, paymentAdjTest);
             lstTransaction.add(transaction5);
-            insert lstTransaction;
+            INSERT lstTransaction;
 
             List<Transaction__c> txns = [Select Id from Transaction__c];
 
@@ -156,41 +104,34 @@ private class WorkWithInvoicesControllerTest {
             List<Invoice__c> lstInvoiceUpdate = new List<Invoice__c>{
                 invoice1, invoice2
             };
-            update lstInvoiceUpdate;
+            UPDATE lstInvoiceUpdate;
         }
 
         List<WorkWithInvoicesController.PatientWrapper> patientList = WorkWithInvoicesController.getPatientList();
-        System.assertEquals(patientList.size(), 0);
+        System.assertEquals(0, patientList.size());
 
-        System.runAs(internalUser) {
+        System.runAs(portalUser) {
             Test.startTest();
-            List<String> patients = new List<String>{
-                patientContact.Id
-            };
-            List<Invoice__c> invoiceTestList = [
-                SELECT Id, Name, Invoice_Balance__c, Patient__r.Id, Patient__r.Name, Patient__r.Medical_Record_Number__c, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, Due_Date__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Add_to_Payment_Plan__c, Guarantor__r.Invoiced_Balance__c, Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c, Partial_Payment_Plan__c, Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Pre_Invoiced_Balance__c, (SELECT Id, Payment_Plan__c, Payment_Plan__r.Active__c, Payment_Plan__r.Installment_Amount__c, Payment_Plan__r.NextPaymentDate__c FROM Charge_Groups__r)
-                FROM Invoice__c
-            ];
 
             List<WorkWithInvoicesController.InvoicesWrapper> invoiceList = WorkWithInvoicesController.getAllInvoices(Constants.UNPAID, new List<String>{
                 patientContact.Id
             });
-            System.assertEquals(invoiceList.size(), 1);
+            System.assertEquals(1, invoiceList.size(), 'Should have found Unpaid invoice.');
             invoiceList = WorkWithInvoicesController.getAllInvoices(Constants.PAID, new List<String>{
                 patientContact.Id
             });
-            System.assertEquals(invoiceList.size(), 1);
+            System.assertEquals(1, invoiceList.size(), 'Should have found Paid Invoice.');
             invoiceList = WorkWithInvoicesController.getAllInvoices(Constants.UNKNOWN, new List<String>{
                 patientContact.Id
             });
-            System.assertEquals(invoiceList.size(), 1);
+            System.assertEquals(1, invoiceList.size(), 'Should have found Unknown Invoice for patient.');
             invoiceList = WorkWithInvoicesController.getAllInvoices(Constants.UNKNOWN, new List<String>());
-            System.assertEquals(invoiceList.size(), 1);
+            System.assertEquals(1, invoiceList.size(), 'Should have found Unknown Invoice for any patient.');
             invoiceList = WorkWithInvoicesController.getInvoice(invoice1.Id);
-            System.assertEquals(invoiceList.size(), 1);
+            System.assertEquals(1, invoiceList.size(), 'Should be able to look up Invoice.');
 
             patientList = WorkWithInvoicesController.getPatientList();
-            System.assertEquals(patientList.size(), 3);
+            System.assertEquals(3, patientList.size(), 'Should find the patients.');
 
             Test.stopTest();
         }
@@ -199,70 +140,18 @@ private class WorkWithInvoicesControllerTest {
     @isTest static void estimatesTest() {
         Contact guarantorContact;
         Contact patientContact;
-        User internalUser;
+        User portalUser = TestUtility.getGuarantorCommunityUser();
+        User adminUser = TestUtility.getAdminUser();
         Encounter__c encounter1;
 
-        UserRole usrRole = [
-            SELECT Id
-            FROM UserRole
-            WHERE Name = 'CEO'
-        ];
-
-        Profile testProfile = [
-            SELECT Id, Name
-            FROM Profile
-            WHERE Name = 'System Administrator'
-        ];
-
-        User testUser = new User(
-            LastName = 'test user 1',
-            Username = String.valueOf(System.now().millisecond()) + 'test.user.invoice2@example.com',
-            Email = 'test.1@example.com',
-            Alias = 'testu1',
-            TimeZoneSidKey = 'GMT',
-            LocaleSidKey = 'en_GB',
-            EmailEncodingKey = 'ISO-8859-1',
-            ProfileId = testProfile.Id,
-            UserRoleId = usrRole.Id,
-            LanguageLocaleKey = 'en_US'
-        );
-        insert testUser;
-
-        System.runAs(testUser) {
-            Profile profile = [
-                SELECT Id, Name
-                FROM Profile
-                WHERE name = 'Guarantor Community Plus'
-            ];
-
-            Account testAcc = new Account(
-                Name = 'Test Account Name'
-            );
-            insert testAcc;
-
-            guarantorContact = TestUtility.generateGuarantorContact();
-            guarantorContact.AccountId = testAcc.Id;
-            insert guarantorContact;
+        System.runAs(adminUser) {
+            Account testAcc = TestUtility.getAccount();
+            guarantorContact = TestUtility.getGuarantor();
 
             patientContact = TestUtility.generatePatientContact();
             patientContact.AccountId = testAcc.Id;
             patientContact.Medical_Record_Number__c = '1234512345';
-            insert patientContact;
-
-            internalUser = new User(
-                Username = profile.Id + String.valueOf(System.now().millisecond()) + '@example.com',
-                ProfileId = profile.Id,
-                ContactId = guarantorContact.Id,
-                Alias = 'user' + System.now().millisecond(),
-                Email = profile.Id + '@example.com',
-                EmailEncodingKey = 'UTF-8',
-                LastName = 'Test',
-                CommunityNickname = profile.Id,
-                TimeZoneSidKey = 'America/Los_Angeles',
-                LocaleSidKey = 'en_US',
-                LanguageLocaleKey = 'en_US'
-            );
-            insert internalUser;
+            INSERT patientContact;
 
             List<Encounter__c> lstEncounter = new List<Encounter__c>();
             encounter1 = TestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
@@ -277,17 +166,17 @@ private class WorkWithInvoicesControllerTest {
             encounter2.Insurance_Portion__c = 2;
             lstEncounter.add(encounter2);
 
-            insert lstEncounter;
+            INSERT lstEncounter;
 
             Attachment testAttach = new Attachment(
                 Body = Blob.valueOf('Test string'),
                 Name = 'test attach',
                 ParentId = encounter1.Id
             );
-            insert testAttach;
+            INSERT testAttach;
         }
 
-        System.runAs(internalUser) {
+        System.runAs(portalUser) {
             Test.startTest();
 
             List<WorkWithEstimatesController.EstimateWrapper> estimateList = WorkWithInvoicesController.getAllEstimates(Constants.UNPAID, patientContact.Id);
