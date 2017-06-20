@@ -25,4 +25,15 @@
             <roleAndSubordinatesInternal>CEO</roleAndSubordinatesInternal>
         </sharedFrom>
     </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Portal_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Portal Sharing</label>
+        <sharedTo>
+            <portalRoleAndSubordinates>MakanaHealthCustomerUser</portalRoleAndSubordinates>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinatesInternal>CEO</roleAndSubordinatesInternal>
+        </sharedFrom>
+    </sharingOwnerRules>
 </SharingRules>
