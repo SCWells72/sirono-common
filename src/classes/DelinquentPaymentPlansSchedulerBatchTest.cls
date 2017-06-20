@@ -30,7 +30,7 @@ public class DelinquentPaymentPlansSchedulerBatchTest {
         t1.Delinquent_Date__c = dt;
         insert t1;
 
-        Campaign c = TestUtility.generateCampaign('Delinquent');
+        Campaign c = TestUtility.generateCampaign(Constants.CAMPAIGN_NAME_PAST_DUE);
         c.isActive = true;
         insert c;
 

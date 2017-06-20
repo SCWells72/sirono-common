@@ -22,9 +22,9 @@ public with sharing class DelinquentPaymentPlansSchedulerBatch
     public Database.QueryLocator start(Database.BatchableContext sc) {
         //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Delinquent'
+                Constants.CAMPAIGN_NAME_PAST_DUE
         });
-        string delinquent = mapCampaignMapping.get('Delinquent');
+        string delinquent = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE);
 
         if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             for (Campaign cl: [SELECT Id, Name
