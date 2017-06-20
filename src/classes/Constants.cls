@@ -9,10 +9,10 @@ public class Constants {
 
     // Constant variables for account substatus values.
     public static final String ACCT_SUBSTATUS_DUE_BY = 'Due By';
-    public static final String ACCT_SUBSTATUS_PAYMENT_PLAN = 'On Payment Plan';
+    public static final String ACCT_SUBSTATUS_PAYMENT_PLAN = Constants.ON_PAYMENT_PLAN;
     public static final String ACCT_SUBSTATUS_INACTIVE = 'Inactive';
-    public static final String ACCT_SUBSTATUS_OVERDUE = 'Overdue';
-    public static final String ACCT_SUBSTATUS_DELINQUENT = 'Delinquent';
+    public static final String ACCT_SUBSTATUS_OVERDUE = Constants.OVERDUE;
+    public static final String ACCT_SUBSTATUS_DELINQUENT = Constants.DELIQUENT;
     public static final String ACCT_SUBSTATUS_BAD_DEBT = 'Bad Debt';
     public static final String ACCT_SUBSTATUS_OPEN = 'Open';
     public static final String ACCT_SUBSTATUS_DNFB = 'Pending Billing';
@@ -24,11 +24,17 @@ public class Constants {
     public static final String ACCT_SUBSTATUS_PAID = 'Paid';
     public static final String ACCT_SUBSTATUS_PREINVOICED = 'Pre-Invoiced';
 
+    // Generic Status values
+    public static final String DELIQUENT = 'Delinquent';
+    public static final String INVOICE_VOIDED = 'Invoice Voided';
+    public static final String ON_PAYMENT_PLAN = 'On Payment Plan';
+    public static final String OVERDUE = 'Overdue';
+
     // Guarantor Status
     public static final String GUARANTOR_STATUS_DUE = 'Due';
     public static final String GUARANTOR_STATUS_DELINQUENT = 'Delinquent';
-    public static final String GUARANTOR_STATUS_ON_PAYMENT_PLAN = 'On Payment Plan';
-    public static final String GUARANTOR_STATUS_OVERDUE = 'Overdue';
+    public static final String GUARANTOR_STATUS_ON_PAYMENT_PLAN = Constants.ON_PAYMENT_PLAN;
+    public static final String GUARANTOR_STATUS_OVERDUE = Constants.OVERDUE;
 
     // Constant variables for CG account status values.
     public static final String ACCT_STATUS_BILLED = 'Billed';
@@ -38,10 +44,10 @@ public class Constants {
     public static final String EN_SUBSTATUS_PAYMENT_DUE = 'Payment Due';
 
     // Constant variables for Case Type values.
-    public static final String CASE_TYPE_OVERDUE = 'Overdue';
+    public static final String CASE_TYPE_OVERDUE = Constants.OVERDUE;
 
     // Constant variables for Campaign values.
-    public static final String CAMPAIGN_NAME_OVERDUE = 'Overdue';
+    public static final String CAMPAIGN_NAME_OVERDUE = Constants.OVERDUE;
     public static final String CAMPAIGN_NAME_OVERDUE_M = 'Overdue M';
 
     // Constant variables for Page Level Messages.
@@ -127,5 +133,18 @@ public class Constants {
         Constants.GUARANTOR_STATUS_DUE,
         Constants.GUARANTOR_STATUS_DELINQUENT,
         Constants.GUARANTOR_STATUS_OVERDUE
+    };
+
+    // Invoice status groups
+    public static final Set<String> INVOICE_UNPAID_STATUSES = new Set<String> {
+        Constants.DELIQUENT,
+        Constants.OVERDUE,
+        Constants.DUE,
+        Constants.ON_PAYMENT_PLAN
+    };
+
+    public static final Set<String> INVOICE_PAID_STATUSES = new Set<String> {
+        Constants.PAID,
+        Constants.INVOICE_VOIDED
     };
 }

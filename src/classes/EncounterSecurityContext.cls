@@ -13,14 +13,20 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
     private static final String BALANCE = 'Balance__c';
     private static final String CANCELLED = 'Cancelled__c';
     private static final String DATE_OF_SERVICE = 'Date_of_Service__c';
+    private static final String ESTIMATE_ID = 'Estimate_ID__C';
     private static final String GUARANTOR = 'Guarantor__c';
     private static final String ID = 'Id';
+    private static final String INSURANCE_DISCOUNT = 'Insurance_Discount__c';
+    private static final String INSURANCE_PORTION = 'Insurance_Portion__c';
     private static final String LIABILITY = 'Liability__c';
     private static final String LOCATION = 'Location__c';
     private static final String NAME = 'Name';
+    private static final String ORDERING_PHYSICIAN = 'Ordering_Physician__c';
     private static final String PATIENT = 'Patient__c';
     private static final String PATIENT_PORTION = 'Patient_Portion__c';
     private static final String PROCEDURE = 'Procedure__c';
+    private static final String TOTAL_CHARGES = 'Total_Charges__c';
+    private static final String TYPE = 'Type__c';
 
     // The fields for updating a Encounter__c's Total_Payments__c field in EncounterUtil.
     private static final Set<String> UPDATE_FIELDS = new Set<String>{
@@ -39,7 +45,8 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
 
     // The fields for selecting a Encounter__c in EncounterDao
     private static final Set<String> SELECT_FIELDS = new Set<String>{
-        ID, NAME, PATIENT, DATE_OF_SERVICE, PROCEDURE, LOCATION, PATIENT_PORTION, GUARANTOR, BALANCE
+        ID, NAME, PATIENT, DATE_OF_SERVICE, INSURANCE_DISCOUNT, INSURANCE_PORTION, ORDERING_PHYSICIAN, PROCEDURE,
+        LOCATION, PATIENT_PORTION, PROCEDURE, GUARANTOR, BALANCE, TOTAL_PAYMENTS, BALANCE, TYPE
     };
 
     // The fields for selecting a Encounter__c in CallListUtilities

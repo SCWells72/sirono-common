@@ -91,4 +91,18 @@ public with sharing class GuarantorProfilePermissionTest {
             System.assert(hasAccess, 'Should have access to the Transaction fields.');
         }
     }
+
+    @isTest
+    public static void readInvoiceDetail() {
+        User usr = TestUtility.getGuarantorCommunityUser();
+        System.runAs(usr) {
+            Boolean hasAccess = false;
+            try {
+                hasAccess = InvoiceSecurityContext.DETAIL_CONTEXT.actionAllowed();
+            } catch(Exception e) {
+                System.assert(hasAccess, 'Should have had read access to Invoice details.');
+            }
+            System.assert(hasAccess, 'Should have access to the Invoice details fields.');
+        }
+    }
 }

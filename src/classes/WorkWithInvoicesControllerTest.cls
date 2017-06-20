@@ -36,7 +36,7 @@ private class WorkWithInvoicesControllerTest {
 			Profile profile = [
 	            SELECT Id, Name
 	            FROM Profile 
-	            WHERE Name = 'Guarantor'
+	            WHERE Name = 'Guarantor Community Plus'
 	        ];
 
 	        Account testAcc = new Account (
@@ -126,7 +126,10 @@ private class WorkWithInvoicesControllerTest {
 	        Payment__c payment1 = TestUtility.generateSironoPayment(guarantorContact.Id, 1234, 12);
 	        Payment__c payment2 = TestUtility.generateSironoPayment(guarantorContact.Id, 1235, 25);
 	        List<Payment__c> lstPayment = new List<Payment__c>{payment1, payment2};
-	        insert lstPayment;
+	        INSERT lstPayment;
+
+			List<Payment__c> pays = [SELECT Id from Payment__c];
+//			System.assertEquals(2, pays.size(), 'Should have had two payments.');
 
 	        List<Transaction__c> lstTransaction = new List<Transaction__c>();
 	        Transaction__c transaction1 = TestUtility.generatePaymentTxn(chargeGroup1, 20, payment1);
@@ -145,6 +148,8 @@ private class WorkWithInvoicesControllerTest {
 	        lstTransaction.add(transaction5);
 	        insert lstTransaction;
 
+			List<Transaction__c> txns = [Select Id from Transaction__c];
+
 	        invoice1.Invoice_Status_Index__c = 9;
 	        invoice2.Invoice_Status_Index__c = 4;
 	        List<Invoice__c> lstInvoiceUpdate = new List<Invoice__c>{invoice1, invoice2};
@@ -152,19 +157,23 @@ private class WorkWithInvoicesControllerTest {
 		}
 
 		List<WorkWithInvoicesController.PatientWrapper> patientList = WorkWithInvoicesController.getPatientList();
-		System.assertEquals(patientList.size(), 0);	
+		System.assertEquals(patientList.size(), 0);
 
 		System.runAs(internalUser) {
         	Test.startTest();
+			List<String> patients = new List<String> {patientContact.Id};
+			List<Invoice__c> invoiceTestList = [
+				SELECT Id, Name, Invoice_Balance__c, Patient__r.Id, Patient__r.Name, Patient__r.Medical_Record_Number__c, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, Due_Date__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Add_to_Payment_Plan__c, Guarantor__r.Invoiced_Balance__c, Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c, Partial_Payment_Plan__c, Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Pre_Invoiced_Balance__c, (SELECT Id, Payment_Plan__c, Payment_Plan__r.Active__c, Payment_Plan__r.Installment_Amount__c, Payment_Plan__r.NextPaymentDate__c FROM Charge_Groups__r) FROM Invoice__c
+			];
 
-        	List<WorkWithInvoicesController.InvoicesWrapper> invoiceList = WorkWithInvoicesController.getAllInvoices('Unpaid', patientContact.Id);
+        	List<WorkWithInvoicesController.InvoicesWrapper> invoiceList = WorkWithInvoicesController.getAllInvoices(Constants.UNPAID, new List<String> {patientContact.Id});
         	System.assertEquals(invoiceList.size(), 1);
-        	invoiceList = WorkWithInvoicesController.getAllInvoices('Paid', patientContact.Id);
+        	invoiceList = WorkWithInvoicesController.getAllInvoices(Constants.PAID, new List<String>{patientContact.Id});
         	System.assertEquals(invoiceList.size(), 1);
-        	invoiceList = WorkWithInvoicesController.getAllInvoices('Unknown', patientContact.Id);
+        	invoiceList = WorkWithInvoicesController.getAllInvoices(Constants.UNKNOWN, new List<String>{patientContact.Id});
         	System.assertEquals(invoiceList.size(), 1);
-        	invoiceList = WorkWithInvoicesController.getAllInvoices('Unknown', 'null');
-        	System.assertEquals(invoiceList.size(), 0);
+        	invoiceList = WorkWithInvoicesController.getAllInvoices(Constants.UNKNOWN, new List<String>());
+        	System.assertEquals(invoiceList.size(), 1);
         	invoiceList = WorkWithInvoicesController.getInvoice(invoice1.Id);
         	System.assertEquals(invoiceList.size(), 1);
 
@@ -211,7 +220,7 @@ private class WorkWithInvoicesControllerTest {
 			Profile profile = [
 	            SELECT Id, Name
 	            FROM Profile 
-	            WHERE name = 'Guarantor'
+	            WHERE name = 'Guarantor Community Plus'
 	        ];
 
 	        Account testAcc = new Account (
@@ -269,9 +278,9 @@ private class WorkWithInvoicesControllerTest {
         System.runAs(internalUser) {
         	Test.startTest();
 
-        	List<WorkWithEstimatesController.EstimateWrapper> estimateList = WorkWithInvoicesController.getAllEstimates('Unpaid', patientContact.Id);
+        	List<WorkWithEstimatesController.EstimateWrapper> estimateList = WorkWithInvoicesController.getAllEstimates(Constants.UNPAID, patientContact.Id);
         	System.assertEquals(estimateList.size(), 1);
-        	estimateList = WorkWithInvoicesController.getAllEstimates('Paid', 'null');
+        	estimateList = WorkWithInvoicesController.getAllEstimates(Constants.PAID, 'null');
         	System.assertEquals(estimateList.size(), 0);
         	estimateList = WorkWithInvoicesController.getEstimate(encounter1.Id);
         	System.assertEquals(estimateList.size(), 1);
