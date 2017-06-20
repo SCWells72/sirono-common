@@ -69,6 +69,9 @@ public with sharing class InvoiceStatusTest {
         chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_CREDIT;
         INSERT chargeGroup;
+
+        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 5000, 'Automatic');
+        INSERT objTransaction;
         Test.stopTest();
 
         // Check system assert
@@ -86,8 +89,6 @@ public with sharing class InvoiceStatusTest {
     public static void cgUpdateTest() {
         Contact guarantor = getTestContact();
         Invoice__c invoice = getTestInvoice();
-
-        
 
         // Create Charge Group record.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantor.Id, null, CG_SIRONO_ID);
