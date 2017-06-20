@@ -7,7 +7,7 @@ public without sharing class WorkWithInvoicesController {
     /**
      * Get all invoices for the current user.
      *
-     * @param {String} groupFilter - A String intdicating which invoice status values to filter by.  Valud values are ALL,
+     * @param {String} groupFilter - A optional String intdicating which invoice status values to filter by.  Valid values are ALL,
      * Paid, UnPaid, or a specfic status.
      * @param {List<String>} partientsFilter - A list of patient ids for which to include invoices.
      *
