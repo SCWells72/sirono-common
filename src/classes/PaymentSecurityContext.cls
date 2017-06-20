@@ -10,6 +10,7 @@ public with sharing class PaymentSecurityContext extends SecurityContext {
     private static final String DEPOSIT_DATE = 'Deposit_Date__c';
     private static final String ENCOUNTER = 'Encounter__c';
     private static final String GUARANTOR = 'Guarantor__c';
+    private static final String ID_C = 'Id__c';
     private static final String LAST_4 = 'Last_4__c';
     private static final String METHOD = 'Method__c';
     private static final String NAME = 'Name';
@@ -43,7 +44,7 @@ public with sharing class PaymentSecurityContext extends SecurityContext {
 
     // The fields for selecting a Payment__c in PaymentDao
     private static final Set<String> DAO_SELECT_FIELDS = new Set<String>{
-            ID, AMOUNT, DEPOSIT_DATE, ENCOUNTER, GUARANTOR, METHOD, NAME, PAYMENT_ID
+            ID, AMOUNT, DEPOSIT_DATE, ENCOUNTER, GUARANTOR, METHOD, NAME, PAYMENT_ID, SIRONO_ID, ID_C
     };
 
 

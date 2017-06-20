@@ -10,6 +10,10 @@ public with sharing class RestClientConstants {
     public final static String CHARGEGROUP_KEY = 'chargegroup';
     public final static String CSRF_KEY = 'csrf';
     public final static String GUARANTOR_KEY = 'guarantor';
+    public final static String PAY_CHARGEGROUPS_KEY = 'pay_chargegroups';
+    public final static String PAYMENT_KEY = 'payment';
+    public final static String PAYMENT_TXNS_KEY = 'payment_txns';
+
     public final static String PAYMENT_PLAN_KEY = 'payment_plan';
     public final static String SIRONO_BASE_URL = 'callout:sirono_server';
     public final static String STATEMENTS = 'statements';
@@ -25,16 +29,22 @@ public with sharing class RestClientConstants {
     public final static Map<String, String> GUARANTOR_URLS = new Map<String, String>{
             // 0 - the guarantor sirono id
             GUARANTOR_KEY => 'callout:sirono_server/paystaff/api/guarantors/{0}/',
-            // 0 - the guarantor id
+            // 0 - the guarantor sirono id
             STATEMENTS => 'callout:sirono_server/paystaff/api/guarantors/{0}/statements/'
     };
 
     public final static Map<String, String> PAYMENT_PLAN_URLS = new Map<String, String>{
-            // 0 - the payment plan external id
+            // 0 - the payment plan sirono id
             ADD_CHARGEGROUP_KEY => 'callout:sirono_server/paystaff/api/paymentplan/{0}/add_chargegroups/',
             ADD_PAYMENTPLAN_KEY => 'callout:sirono_server/paystaff/api/paymentplan/',
             // 0 - playmentPlanExtId
             PAYMENT_PLAN_KEY => 'callout:sirono_server/paystaff/api/paymentplan/{0}/'
+    };
+
+    public final static Map<String, String> PAYMENT_URLS = new Map<String, String>{
+            PAY_CHARGEGROUPS_KEY => 'callout:sirono_server/paystaff/api/paychargegroups/',
+            // 0 - payment sirono Id
+            PAYMENT_TXNS_KEY => 'callout:sirono_server/paystaff/api/payments/{0}/transactions/'
     };
 
     public final static Map<String, String> AUTH_URLS = new Map<String, String>{
@@ -73,7 +83,7 @@ public with sharing class RestClientConstants {
 
     // Test Constants
     public final static String CHARGE_GROUP_ID = 'charg3gr0up1d';
-    public final static String GUARANTOR_ID = 'guanant0r1d';
+    public final static String GUARANTOR_ID = 'guarant0r1d';
     public final static String PAYMENT_PLAN_EXT_ID = 'paym3ntplan1d';
-
+    public final static String PAYMENT_EXT_ID = 'paym3nt1d';
 }

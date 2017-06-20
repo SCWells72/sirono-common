@@ -384,14 +384,8 @@ public with sharing class PaymentPlanService extends AbstractService {
         return PaymentPlanDao.getActivePaymentPlan(guarantorId);
     }
 
-    /**
-     * This method is use to convert amount into cents.
-     *
-     * @param String amount - That contains amount value.
-     * @returns String centAmount - That contains cent amount value.
-     **/
+    //TODO this is just here until ProcessPaymentLightning can be removed
     public static String convertToCents(String amount) {
-        String centAmount = (String.isNotBlank(amount) ? String.valueOf((Decimal.valueOf(amount) * 100).intValue()) : amount);
-        return centAmount;
+        return SironoRestClient.convertToCents(amount);
     }
 }

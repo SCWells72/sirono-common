@@ -98,6 +98,18 @@ public class ChargeGroupService extends AbstractService {
     }
 
     /**
+     * Get Charge_Group__c by the given Invoice Ids.
+     *
+     * @param Set<Id> invoiceIds - That contains Charge Group Ids.
+     * @param Boolean hasOrderBy - indicate whether or not to order the cgs by Post_Date__c
+     *  only Order By related changes are there so we use this variable and set order by filter.
+     * @returns List<Charge_Group__c> - That contains CG records based on Charge Group Ids.
+     **/
+    public static List<Charge_Group__c> getPayableByInvoiceId(List<String> invoiceIds) {
+        return ChargeGroupDao.getPayableByInvoiceId(new Set<String>(invoiceIds));
+    }
+
+    /**
      * This method is use to update Charge Groups.
      *
      * @param List<Charge_Group__c> chargeGroups - That contains CG records.

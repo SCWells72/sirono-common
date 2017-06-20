@@ -270,14 +270,14 @@ public with sharing class ProcessPayment {
                 '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + ',' +
                 '"expiration_year":"' + expirationYear + '",' +
                 '"cvv":"' + cvv + '",' +
-                '"amount":' + PaymentPlanService.convertToCents(amount) + ',' +
+                '"amount":' + SironoRestClient.convertToCents(amount) + ',' +
                 '"expiration_month":"' + expirationMonth + '",' +
                 '"cardholder_name":"' + cardHolderName + '",' +
                 '"state":"' + state + '",' +
                 '"address_1":"' + address + '",' +
                 '"zipcode":"' + zip + '",' +
                 '"city":"' + city + '",' +
-                '"total-amount":' + PaymentPlanService.convertToCents(amount) + ',' +
+                '"total-amount":' + SironoRestClient.convertToCents(amount) + ',' +
                 '"method":"credit"}';
 
         HttpRequest req = new HttpRequest();
