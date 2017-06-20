@@ -88,9 +88,9 @@ public with sharing class CallListUtilities {
 
         //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'Delinquent Payment Plans'
+                Constants.CAMPAIGN_NAME_PAST_DUE
         });
-        string delinquent = mapCampaignMapping.get('Delinquent Payment Plans');
+        string delinquent = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE);
 
         // NOTE: The read access check for CampaignMember is skipped here in order allow Community Profile users
         // to create/delete Payment plans.

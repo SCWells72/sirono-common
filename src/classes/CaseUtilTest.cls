@@ -49,7 +49,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -134,7 +134,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -198,7 +198,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -275,7 +275,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -353,7 +353,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -483,7 +483,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -561,7 +561,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -631,7 +631,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -740,7 +740,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -861,7 +861,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -944,7 +944,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -1014,7 +1014,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -1083,14 +1083,14 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Delinquent'));
+        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE));
         lstCampaign.add(objCampaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Delinquent M'));
+        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M));
         lstCampaign.add(objCampaign);
 
         insert lstCampaign;
@@ -1105,7 +1105,7 @@ public class CaseUtilTest {
 
         // Check system assert, new case record created with type.
         System.assertEquals(1, cases.size());
-        System.assertEquals('Delinquent Payment Plans', cases[0].Type);
+        System.assertEquals(Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS, cases[0].Type);
     }
 
     //Method to code coverage for createDelinquentPaymentCase
@@ -1139,14 +1139,14 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Delinquent'));
+        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE));
         lstCampaign.add(objCampaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Delinquent M'));
+        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M));
         lstCampaign.add(objCampaign);
 
         insert lstCampaign;
@@ -1160,7 +1160,7 @@ public class CaseUtilTest {
 
         insert lstCamp;
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Delinquent Payment Plans', guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS, guarantorContact.Id);
         objCase.Reason = 'Compliance Issue';
         insert objCase;
 
@@ -1174,7 +1174,7 @@ public class CaseUtilTest {
 
         // Check system assert, New case record created with Type.
         System.assertEquals(1, cases.size());
-        System.assertEquals('Delinquent Payment Plans', cases[0].Type);
+        System.assertEquals(Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS, cases[0].Type);
     }
 
     //Method to code coverage for createDelinquentPaymentCase
@@ -1208,14 +1208,14 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Delinquent'));
+        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE));
         lstCampaign.add(objCampaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Delinquent M'));
+        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M));
         lstCampaign.add(objCampaign);
 
         insert lstCampaign;
@@ -1278,14 +1278,14 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Delinquent'));
+        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE));
         lstCampaign.add(objCampaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Delinquent M'));
+        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M));
         lstCampaign.add(objCampaign);
 
         insert lstCampaign;
@@ -1359,14 +1359,14 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Delinquent'));
+        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE));
         lstCampaign.add(objCampaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('Delinquent M'));
+        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M));
         lstCampaign.add(objCampaign);
 
         insert lstCampaign;
@@ -1418,7 +1418,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -1469,7 +1469,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -1524,7 +1524,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -1566,7 +1566,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -1638,7 +1638,7 @@ public class CaseUtilTest {
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', 'Delinquent', 'Delinquent M', 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();

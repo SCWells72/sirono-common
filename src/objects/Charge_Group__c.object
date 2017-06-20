@@ -646,7 +646,7 @@
     <fields>
         <fullName>Sub_Status_Index__c</fullName>
         <externalId>false</externalId>
-        <formula>IF(Balance__c = 0, 5,
+        <formula>IF(Balance__c = 0, 4,
 CASE(Account_Sub_Status__c,
 &quot;Delinquent&quot;, 9,
 &quot;Overdue&quot;, 8,

@@ -59,7 +59,7 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
 
     // The fields for selecting a Charge Group in InvoiceUtil, PaymentPlanUtil
     private static final Set<String> IU_SELECT_FIELDS = new Set<String>{
-        INVOICE, SUB_STATUS_INDEX, ACTIVE, ACCOUNT_SUB_STATUS, BALANCE, PAYMENT_PLAN
+        INVOICE, SUB_STATUS_INDEX, ACTIVE, ACCOUNT_SUB_STATUS, BALANCE, PAYMENT_PLAN, SIRONO_ID
     };
 
     /**

@@ -201,17 +201,4 @@ public with sharing class PaymentPlanServiceTest {
         System.assertNotEquals(pp, null, 'Expected Payment Plan not null');
     }
 
-    /**
-     * This method tests the logic of Dollar to Cent Convert.
-     **/
-    @isTest
-    public static void testConvertDollarToCents() {
-        String inputDollars = '100.00';
-        Test.startTest();
-        String outputCents = PaymentPlanService.convertToCents(inputDollars);
-        Test.stopTest();
-        
-        // Check system assert.
-        System.assert('10000'.equals(outputCents), 'Expected 10000, but got ' + outputCents);
-    }
 }

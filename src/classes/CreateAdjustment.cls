@@ -136,7 +136,7 @@ public with sharing class CreateAdjustment {
     private void createAdjustmetWSCall(String csrfToken, String jwtToken) {
         String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '",' +
                 '"chargegroup":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/chargegroups/' + chargeGroupId + '/",' +
-                '"amount":' + PaymentPlanService.convertToCents(amount) + ',' +
+                '"amount":' + SironoRestClient.convertToCents(amount) + ',' +
                 '"code":"' + adjustmentTypeSelected + '"}';
 
         HttpRequest req = new HttpRequest();

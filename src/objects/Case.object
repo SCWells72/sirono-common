@@ -3005,7 +3005,7 @@
                 <default>false</default>
             </picklistValues>
             <picklistValues>
-                <fullName>Delinquent Payment Plans</fullName>
+                <fullName>Past Due Payment Plans</fullName>
                 <default>false</default>
             </picklistValues>
             <picklistValues>
@@ -4872,11 +4872,11 @@
                 <default>false</default>
             </values>
             <values>
-                <fullName>Delinquent Payment Plans</fullName>
+                <fullName>Overdue</fullName>
                 <default>false</default>
             </values>
             <values>
-                <fullName>Overdue</fullName>
+                <fullName>Past Due Payment Plans</fullName>
                 <default>false</default>
             </values>
             <values>

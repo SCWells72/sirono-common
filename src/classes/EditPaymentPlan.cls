@@ -362,10 +362,10 @@ public with sharing class EditPaymentPlan {
             requestData += '"plan_type":"' + planType + '",' +
                     '"url": "' + (SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paymentplan/' + paymentPlanId + '/') + '",' +
                     '"active":true,' +
-                    '"installment_amount":' + PaymentPlanService.convertToCents(amount) + ',' +
+                    '"installment_amount":' + SironoRestClient.convertToCents(amount) + ',' +
                     '"number_installments":' + numberInstallments + ',' +
                     '"plan_value":' + planValue + ',' +
-                    '"payable_amount":' + PaymentPlanService.convertToCents(payableAmount) + ',' +
+                    '"payable_amount":' + SironoRestClient.convertToCents(payableAmount) + ',' +
                     '"execute_on_day":' + executeOnDay + ',' +
                     '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/",' +
                     '"next_payment_date": "' + nextPaymentDate + '",' +
@@ -408,7 +408,7 @@ public with sharing class EditPaymentPlan {
             '"encounters": [],' +
             '"authorized_amount": 0' +
             '}';*/
-            requestData += '"installment_amount":' + PaymentPlanService.convertToCents(promiseAmount) + ',' +
+            requestData += '"installment_amount":' + SironoRestClient.convertToCents(promiseAmount) + ',' +
                     '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/"' +
                     '}';
             req.setMethod('POST');

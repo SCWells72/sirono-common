@@ -693,8 +693,8 @@ public without sharing class PaymentTabsController
 			this.isSaved = false;
 			this.cardholderName = '';
 			this.creditCardNumber = '';
-			this.expirationYear = String.ValueOf(Datetime.now().year());
-			this.expirationMonth = String.ValueOf(Datetime.now().month()).length() == 1 ? '0'+ String.ValueOf(Datetime.now().month()) :  String.ValueOf(Datetime.now().month());
+			this.expirationYear = String.valueOf(Datetime.now().year());
+			this.expirationMonth = String.valueOf(Datetime.now().month()).length() == 1 ? '0'+ String.valueOf(Datetime.now().month()) :  String.valueOf(Datetime.now().month());
 			this.cvv = '';
 			this.address = '';
 			this.city = '';

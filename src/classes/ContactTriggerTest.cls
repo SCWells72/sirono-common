@@ -316,7 +316,17 @@ public class ContactTriggerTest {
         System.assert(mobilePhone.equals(contact.CTINumber2__c), 'Expected CTINumber2 to be 5128823444');
         System.assert(String.isEmpty(contact.CTINumber1__c), 'Expected CTINumber1 to be empty');
         System.assert(String.isEmpty(contact.CTINumber3__c), 'Expected CTINumber3 to be empty');
-        // Homephone and Otherphone is not assign in any CTI number bz of Home_Phone_Type__c and Other_Phone_Type__c are MOBILE
+        // Homephone and Otherphone is not assign in any CTI number bz Home_Phone_Type__c and Other_Phone_Type__c are MOBILE
         // and CTINumber2 is not empty.
+    }
+
+    @IsTest
+    static void valueChangedTest(){
+        System.assert(!ContactTriggerHandler.valueChanged(null, null), 'Expected valueChanged to be false but was true');
+        System.assert(!ContactTriggerHandler.valueChanged('12345', '12345'), 'Expected valueChanged to be false but was true');
+        System.assert(ContactTriggerHandler.valueChanged(null, '12345'), 'Expected valueChanged to be true but was false');
+        System.assert(ContactTriggerHandler.valueChanged('12345', null), 'Expected valueChanged to be true but was false');
+        System.assert(ContactTriggerHandler.valueChanged('12345', '123456'), 'Expected valueChanged to be true but was false');
+        System.assert(ContactTriggerHandler.valueChanged('123456', '12345'), 'Expected valueChanged to be true but was false');
     }
 }
