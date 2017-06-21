@@ -180,10 +180,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ProcessPaymentLightning</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>SimpleLoginToCommunityController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
