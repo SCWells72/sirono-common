@@ -2007,12 +2007,12 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Encounter__c.Insurance_Discount__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Encounter__c.Insurance_Portion__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>

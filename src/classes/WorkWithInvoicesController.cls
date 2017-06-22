@@ -1,323 +1,288 @@
-//TODO remove without sharing
+/**
+ * WorkWithInvoicesController for Lightning components dealing with Invoices.
+ */
+
 public without sharing class WorkWithInvoicesController {
-	public static final String TRANSACTION_SERVICE_METHOD				= 'Service';
-	public static final String SERVICE_DEFAULT_NAME						= 'Unknown';
-	public static final String INVOICE_PAID_STATUS						= 'Paid';
-	public static final String INVOICE_UNPAID_STATUS					= 'Unpaid';
-	public static final String DEFAULT_ORDER							= ' ORDER BY Invoice_Date__c DESC';
-	
-	@AuraEnabled
-    public static List<InvoicesWrapper> getAllInvoices(String groupFilter, String additionalFilter) {
-		if(additionalFilter == 'null') {
-			return new List<InvoicesWrapper>();
-		}
-		String selectedPatients = '';
-		List<String> additionalFilters = new List<String>();
-		if(!String.isBlank(additionalFilter)) {
-			additionalFilters = additionalFilter.replace('\'', '').split(',');
-			selectedPatients += ' AND Patient__c IN :additionalFilters';
-		}
-		List<InvoicesWrapper> allInvoices = new List<InvoicesWrapper>();
-		User u = [
-			SELECT	ContactId
-			FROM	User
-			WHERE	Id =: UserInfo.getUserId()
-		];
-		if (u.ContactId != null) {
-			List<Invoice__c> listOfInvoices = new List<Invoice__c>();
-			String query = 'SELECT Id, Name, Invoice_Balance__c, Patient__r.Name, Patient__r.Medical_Record_Number__c, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, '+
-							'Due_Date__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Add_to_Payment_Plan__c, Guarantor__r.Invoiced_Balance__c, '+
-							'Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c, Partial_Payment_Plan__c, ' + 
-							'Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Pre_Invoiced_Balance__c, ' +
-							'(SELECT Id, Payment_Plan__c, Payment_Plan__r.Active__c, Payment_Plan__r.Installment_Amount__c, ' +
-							'Payment_Plan__r.NextPaymentDate__c FROM Charge_Groups__r) ' +
-							'FROM Invoice__c WHERE Guarantor__c = \'' + u.ContactId + '\'' + selectedPatients;
-			
-			/*Unpaid (Invoice Status = Delinquent, Overdue, Due, or On Payment Plan), 
-			Paid (Invoice Status = Paid or Invoice Voided), 
-			Overdue (Invoice Status = Overdue), 
-			Delinquent (Invoice Status = Delinquent), 
-			and On Payment Plan (Invoice Status = On Payment Plan).*/
-			if(groupFilter != null && groupFilter != '' && groupFilter != 'All') {
-				if(groupFilter == INVOICE_UNPAID_STATUS){
-					query += ' AND Invoice_Status__c IN (\'Delinquent\', \'Overdue\', \'Due\', \'On Payment Plan\')';
-				} else if(groupFilter == INVOICE_PAID_STATUS) {
-					query += ' AND Invoice_Status__c IN (\'Paid\', \'Invoice Voided\')';
-				} else {
-					query += ' AND Invoice_Status__c = \'' + groupFilter + '\'';
-				}
-			}
 
-			query += DEFAULT_ORDER;
-			
-			listOfInvoices = Database.query(query);
+    /**
+     * Get all invoices for the current user.
+     *
+     * @param {String} groupFilter - A optional String intdicating which invoice status values to filter by.  Valid values are ALL,
+     * Paid, UnPaid, or a specfic status.
+     * @param {List<String>} partientsFilter - A list of patient ids for which to include invoices.
+     *
+     * @returns List<InvoicesWrapper> - The List of InvoicesWrapper objects.
+     */
+    @AuraEnabled
+    public static List<InvoicesWrapper> getAllInvoices(String groupFilter, List<String> patientsFilter) {
+        System.debug('getAllInvoices: [groupFilter: ' + groupFilter + '] [patientFilters: ' + patientsFilter + ']' );
+        List<InvoicesWrapper> allInvoices = new List<InvoicesWrapper>();
 
-			Set<Id> allChargeGroupIds = new Set<Id>();
-			
-			for(Integer i = 0; i < listOfInvoices.size(); i++) {
-				Invoice__c invoice = listOfInvoices[i];
-				for(Integer j = 0; j < invoice.Charge_Groups__r.size(); j++) {
-					Charge_Group__c cGroup = invoice.Charge_Groups__r[j];
-					allChargeGroupIds.add(cGroup.Id);
-				}
-			}
-            		// Get Charge Group List from ChargeGroupService class. Second parameter is use to get the order by result.
-            		List<Charge_Group__c> allGroups = ChargeGroupService.getCGForInvoiceController(allChargeGroupIds, true);
+        UserWrapper user = UserService.getCurrentUser();
 
-			Map<Id,Charge_Group__c> allGroupsMap = new Map<Id,Charge_Group__c>(allGroups);
+        if (user.contactId != null) {
+            allInvoices = getInvoicesForUser(user, groupFilter, patientsFilter);
+        }
+        return allInvoices;
+    }
 
-			for(Integer i = 0; i < listOfInvoices.size(); i++) {
-				Invoice__c invoice = listOfInvoices[i];
-				allInvoices.add(
-					new InvoicesWrapper(
-						invoice,
-						allGroupsMap
-					)
-				);
-			}
-		}
-		return allInvoices;
-	}
-
-	@AuraEnabled
+    /**
+     * Get the Estimates for the current user.
+     *
+     * @param {String} groupFilter - filter to return only 'Paid', 'Unpaid' encounters. If null == 'All'
+     * @param {String} additionFilter - comma delimited list of patient ids.
+     * @returns {List<EstimateWrapper>} - The list of wrapped estimates.
+     */
+    @AuraEnabled
     public static List<WorkWithEstimatesController.EstimateWrapper> getAllEstimates(String groupFilter, String additionalFilter) {
-		if(additionalFilter == 'null') {
-			return new List<WorkWithEstimatesController.EstimateWrapper>();
-		}
-		return WorkWithEstimatesController.getAllEstimates(groupFilter, additionalFilter);
-	}
+        if (additionalFilter == 'null') {
+            return new List<WorkWithEstimatesController.EstimateWrapper>();
+        }
+        return WorkWithEstimatesController.getAllEstimates(groupFilter, additionalFilter);
+    }
 
-	@AuraEnabled
-	public static List<WorkWithEstimatesController.EstimateWrapper> getEstimate(String invoiceId){
-		List<WorkWithEstimatesController.EstimateWrapper> allEstimates = new List<WorkWithEstimatesController.EstimateWrapper>();
-		User u = [
-			SELECT	ContactId
-			FROM	User
-			WHERE	Id =: UserInfo.getUserId()
-		];
-		if (u.ContactId != null) {
-			String query = 'SELECT Id, Name, Patient__r.Name, Estimate_ID__c, Patient_Portion__c, '+
-							'Date_of_Service__c, Patient__r.Medical_Record_Number__c, Procedure__c, '+
-							'Location__c, Encounter_ID__c, Total_Charges__c, Insurance_Discount__c, '+
-							'Insurance_Portion__c, Total_Payments__c, Balance__c, Type__c, Ordering_Physician__c, '+
-							'(SELECT Amount__c, Deposit_Date__c FROM Payments__r) '+
-							'FROM Encounter__c WHERE Guarantor__c = \'' + u.ContactId + '\'' + ' AND Id =\'' + invoiceId + '\'';
-			List<Encounter__c> listOfEncounters = Database.query(query);
+    /**
+     * Get the list of estimates for an invoice.
+     *
+     * @param String invoiceId - The invoice id.
+     * @returns List<WorkWithEstimatesController.EstimateWrapper> - The list of estimate wrapper object related to the invoice.
+     */
+    @AuraEnabled
+    public static List<WorkWithEstimatesController.EstimateWrapper> getEstimate(String invoiceId) {
+        List<WorkWithEstimatesController.EstimateWrapper> allEstimates = new List<WorkWithEstimatesController.EstimateWrapper>();
+        UserWrapper user = UserService.getCurrentUser();
 
-			for (Encounter__c encounter : listOfEncounters) {
-				allEstimates.add(
-					new WorkWithEstimatesController.EstimateWrapper(
-						encounter
-					)
-				);
-			}
-		}
-		return allEstimates;
-	}
+        if (user.contactId != null) {
+            List<Encounter__c> listOfEncounters = EncounterService.getForInvoice(user.contactId, invoiceId);
+
+            for (Encounter__c encounter : listOfEncounters) {
+                allEstimates.add(new WorkWithEstimatesController.EstimateWrapper(encounter));
+            }
+        }
+        return allEstimates;
+    }
 
 
-	@AuraEnabled
+    /**
+     * Get an InvoiceWrapper by invoice id.
+     *
+     * @params String invoiceId - The invoice id.
+     * @returns InvoicesWrapper - The InvoicesWrapper object for the associated Invoice.
+     */
+    @AuraEnabled
     public static List<InvoicesWrapper> getInvoice(String invoiceId) {
-		List<InvoicesWrapper> allInvoices = new List<InvoicesWrapper>();
-		User u = [
-			SELECT	ContactId
-			FROM	User
-			WHERE	Id =: UserInfo.getUserId()
-		];
-		if (u.ContactId != null) {
-			List<Invoice__c> listOfInvoices = new List<Invoice__c>();
-			String query = 'SELECT Id, Name, Invoice_Balance__c, Patient__r.Name, Patient__r.Medical_Record_Number__c, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, '+
-							'Due_Date__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Invoiced_Balance__c, '+
-							'Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c, Partial_Payment_Plan__c, ' + 
-							'Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Add_to_Payment_Plan__c, Guarantor__r.Pre_Invoiced_Balance__c, ' +
-							'(SELECT Id, Payment_Plan__c, Payment_Plan__r.Active__c, Payment_Plan__r.Installment_Amount__c, ' +
-							'Payment_Plan__r.NextPaymentDate__c FROM Charge_Groups__r) ' +
-							'FROM Invoice__c WHERE Guarantor__c = \'' + u.ContactId + '\'' + ' AND Id =\'' + invoiceId + '\'';
-			listOfInvoices = Database.query(query);
+        List<InvoicesWrapper> allInvoices = new List<InvoicesWrapper>();
+        UserWrapper user = UserService.getCurrentUser();
 
-			Set<Id> allChargeGroupIds = new Set<Id>();
-			for(Integer i = 0; i < listOfInvoices.size(); i++) {
-				Invoice__c invoice = listOfInvoices[i];
-				for(Integer j = 0; j < invoice.Charge_Groups__r.size(); j++) {
-					Charge_Group__c cGroup = invoice.Charge_Groups__r[j];
-					allChargeGroupIds.add(cGroup.Id);
-				}
-			}
-            		// Get Charge Group List from ChargeGroupService class. Second parameter is use to get the order by result.
-            		List<Charge_Group__c> allGroups = ChargeGroupService.getCGForInvoiceController(allChargeGroupIds, false);
+        if (user.contactId != null) {
+            List<Invoice__c> listOfInvoices = InvoiceService.getInvoiceDetails(user.contactId, invoiceId);
+            allInvoices = convertToInvoiceWrappers(listOfInvoices);
+        }
 
-			Map<Id,Charge_Group__c> allGroupsMap = new Map<Id,Charge_Group__c>(allGroups);
-			for(Integer i = 0; i < listOfInvoices.size(); i++) {
-				Invoice__c invoice = listOfInvoices[i];
-				allInvoices.add(
-					new InvoicesWrapper(
-						invoice,
-						allGroupsMap
-					)
-				);
-			}
-		}
-		return allInvoices;
-	}
+        return allInvoices;
+    }
 
-	public class InvoicesWrapper {
-		@AuraEnabled Invoice__c singleInvoice {get;set;}
-		@AuraEnabled Decimal balanceDue {get;set;}
-		//@AuraEnabled Boolean isPaid {get;set;}
-		//@AuraEnabled Boolean isOverdue {get;set;}
-		@AuraEnabled 
-		public List<ChargeGroupWrapper> allGroups {get;set;}
-		@AuraEnabled Decimal nextPayment {get;set;}
-		@AuraEnabled Date nextDate {get;set;}
+    /**
+     * Convert a list of Invoice__c object to InvoicesWrappers.
+     *
+     * @param {List<Invoice__c> invoices - The list of invoice objects.
+     * @returns {List<InvoicesWrapper> - The list of InvoicesWrapper objects.
+     */
+    public static List<InvoicesWrapper> convertToInvoiceWrappers(List<Invoice__c> invoices) {
+        List<InvoicesWrapper> invoiceWrappers = new List<InvoicesWrapper>();
 
-		public InvoicesWrapper(Invoice__c invoice, Map<Id,Charge_Group__c> allGroupsMap) {
-			this.singleInvoice = invoice;
-			this.balanceDue = 0;
-			//this.balanceDue = invoice.Guarantor__r.Due_Balance__c;
-			allGroups = new List<ChargeGroupWrapper>();
-			for(Integer i = 0; i < invoice.Charge_Groups__r.size(); i++) {
-				Charge_Group__c cGroup = invoice.Charge_Groups__r[i];
-				allGroups.add(
-					new ChargeGroupWrapper(
-						allGroupsMap.get(cGroup.Id)
-					)
-				);
-				if (allGroupsMap.get(cGroup.Id).Balance__c != null)
-					balanceDue += allGroupsMap.get(cGroup.Id).Balance__c;
-				//if (cGroup.Payment_Plan__c != null && cGroup.Payment_Plan__r.Active__c) {
-				if (cGroup.Payment_Plan__c != null) {
-					this.nextPayment = cGroup.Payment_Plan__r.Installment_Amount__c;
-					this.nextDate = cGroup.Payment_Plan__r.NextPaymentDate__c;
-				}
-			}
-			balanceDue = invoice.Invoice_Balance__c;
-		}
-	}
+        if (invoices.size() > 0) {
 
-	public class ChargeGroupWrapper {
-		@AuraEnabled 
-		public Charge_Group__c cGroup {get;set;}
-		@AuraEnabled Decimal totalCharges {get;set;}
-		@AuraEnabled Decimal totalCredits {get;set;}
-		@AuraEnabled List<ServiceWrapper> services {get;set;}
-		@AuraEnabled List<ServiceWrapper> adjusts {get;set;}
-		@AuraEnabled Boolean validPayer {get;set;}
+            Set<Id> allChargeGroupIds = InvoiceService.getChargeGroupIds(invoices);
 
-		public ChargeGroupWrapper(Charge_Group__c cGroup) {
-			this.cGroup = cGroup;
-			totalCharges = 0;
-			totalCredits = 0;
-			Map<String, ServiceWrapper> adjustMap = new Map<String, ServiceWrapper>();
-			Map<String, ServiceWrapper> serviceMap = new Map<String, ServiceWrapper>();
-			validPayer = false;
-			for(Integer i = 0; i < cGroup.Charge_Group_Coverages__r.size(); i++) {
-				Charge_Group_Coverage_Junction__c coverageJunction = cGroup.Charge_Group_Coverages__r[i];
-				if(coverageJunction.Coverage__r.Payor__r != null) {
-					validPayer = true;
-					break;
-				}
-			}
-			for(Integer i = 0; i < cGroup.Transactions__r.size(); i ++) {
-				Transaction__c pa = cGroup.Transactions__r[i];
-				if(pa.Txn_Method__c == TRANSACTION_SERVICE_METHOD) {
-					totalCharges += pa.Amount__c;
-					String displayName = getName(pa);
-					if(serviceMap.containsKey(displayName)) {
-						serviceMap.get(displayName).Amount += pa.Amount__c;
-					} else {
-						serviceMap.put(displayName, new ServiceWrapper(displayName, pa.Amount__c));
-					}
-				} else {
-					totalCredits += pa.Amount__c;
-					String displayName = getName(pa);
-					if(adjustMap.containsKey(displayName)) {
-						adjustMap.get(displayName).Amount += pa.Amount__c;
-					} else {
-						adjustMap.put(displayName, new ServiceWrapper(displayName, pa.Amount__c));
-					}
-				}
-			}
-			this.adjusts = adjustMap.values();
-			this.services = serviceMap.values();
-		}
-		private String getName(Transaction__c pa) {
-			String displayName = SERVICE_DEFAULT_NAME;
-			if(pa.Adjustment__r.Custom_Name__c != null) {
-				displayName = pa.Adjustment__r.Custom_Name__c;
-			} else if(pa.Payment__r.Display_Name__c != null) {
-				displayName = pa.Payment__r.Display_Name__c;
-			} else if(pa.Service__r.Display_Name__c != null) {
-				displayName = pa.Service__r.Display_Name__c;
-				displayName = displayName.split('-')[0]; //get Name e.g. Aetna Payment - 1/14/2016  finded(Aetna Payment )
-			}
-			
-			displayName = displayName.replace('- //', '');
-			return displayName;
-		}
-	}
+            // Get Charge Group List from ChargeGroupService class. Second parameter is use to get the order by result.
+            List<Charge_Group__c> allGroups = ChargeGroupService.getCGForInvoiceController(allChargeGroupIds, true);
 
-	public class ServiceWrapper {
-		@AuraEnabled public String  displayName {get;set;}
-		@AuraEnabled public String  serviceDate {get;set;}
-		@AuraEnabled public Decimal amount		{get;set;}
-		
-		public ServiceWrapper(String displayName, Decimal amount) {
-			this.amount = amount;
-			List<String> nameParts = displayName.split('-');
-			this.displayName = nameParts[0];
-			this.serviceDate = nameParts.size() > 1 ? nameParts[1] : '';
-		}
-	}
+            Map<Id, Charge_Group__c> allGroupsMap = new Map<Id, Charge_Group__c>(allGroups);
 
-	@AuraEnabled
-	public static List<PatientWrapper> getPatientList() {
-		User u = [
-				SELECT	ContactId
-				FROM	User
-				WHERE	Id =: UserInfo.getUserId()
-		];
-		if(u.ContactId == null) {
-			return new List<PatientWrapper>();
-		}
-		List<Invoice__c> invoiceList = [
-											SELECT
-													Patient__r.Medical_Record_Number__c,
-													Patient__r.Name
-											FROM	Invoice__c
-											WHERE	Guarantor__c = :u.ContactId
-											LIMIT   50000
-		];
-	    List<PatientWrapper> result = new List<PatientWrapper>();
-		for(Integer i = 0; i < invoiceList.size(); i++) {
-			result.add(new PatientWrapper(invoiceList[i]));
-		}
-		return result;
-	}
+            for (Invoice__c invoice: invoices) {
+                invoiceWrappers.add(new InvoicesWrapper(invoice, allGroupsMap));
+            }
+        }
 
-	public class PatientWrapper {
-		@AuraEnabled public String MRN  {get;set;}
-		@AuraEnabled public String name {get;set;}
-		@AuraEnabled public String id {get;set;}
-		@AuraEnabled public Boolean isSelected {get;set;}
+        return invoiceWrappers;
+    }
 
-		public PatientWrapper(Invoice__c invoice) {
-			this.name       = invoice.Patient__r.Name;
-			this.id         = invoice.Patient__r.Id;
-			this.isSelected = true;
-			this.MRN        = '';
-			if(invoice.Patient__r.Medical_Record_Number__c != null) {
-				this.MRN = ' (MRN: ' + invoice.Patient__r.Medical_Record_Number__c + ')';
-			}
-		}
-		public PatientWrapper(Encounter__c estimate) {
-			this.name       = estimate.Patient__r.Name;
-			this.id         = estimate.Patient__r.Id;
-			this.isSelected = true;
-			this.MRN        = '';
-			if(estimate.Patient__r.Medical_Record_Number__c != null) {
-				this.MRN = ' (MRN: ' + estimate.Patient__r.Medical_Record_Number__c + ')';
-			}
-		}
-	}
+    /**
+     * Get the List of PatientWrappsers for the current user.
+     */
+    @AuraEnabled
+    public static List<PatientWrapper> getPatientList() {
+        List<PatientWrapper> patients = new List<PatientWrapper>();
+
+        UserWrapper user = UserService.getCurrentUser();
+
+        if (user.contactId == null) {
+            return patients;
+        }
+
+        List<Invoice__c> invoiceList = InvoiceService.getPatientInvoices(user.contactId);
+        for (Invoice__c inv: invoiceList) {
+            patients.add(new PatientWrapper(inv));
+        }
+        return patients;
+    }
+
+    /**
+     * Get the List of InvoicesWrapper for the a user.
+     *
+     * @param UserWrapper user - The user for which to get the invoices.
+     * @param String groupFilter - The status to filter by.  Options are All, Constants.UNPAID, Constants.PAID, or a particular status value.
+     * @param List<String> patients - A list of the Ids of the patients to filter by.
+     *
+     * @returns List<InvoicesWrapper> - The list of wrapped Invoices.
+     */
+    private static List<InvoicesWrapper> getInvoicesForUser(UserWrapper user, String groupFilter, List<String> patients) {
+
+        List<Invoice__c> listOfInvoices = new List<Invoice__c>();
+        Set<String> invoiceStatuses = new Set<String>();
+        if (groupFilter != null && groupFilter != '' && groupFilter != 'All') {
+            if (groupFilter == Constants.UNPAID) {
+                invoiceStatuses = Constants.INVOICE_UNPAID_STATUSES;
+            } else if (groupFilter == Constants.PAID) {
+                invoiceStatuses = Constants.INVOICE_PAID_STATUSES;
+            } else {
+                invoiceStatuses.add(groupFilter);
+            }
+        }
+
+        listOfInvoices = InvoiceService.getInvoicesForUser(user.contactId, invoiceStatuses, patients);
+
+        return convertToInvoiceWrappers(listOfInvoices);
+    }
+
+    public class InvoicesWrapper {
+        @AuraEnabled Invoice__c singleInvoice { get; set; }
+        @AuraEnabled Decimal balanceDue { get; set; }
+        @AuraEnabled public List<ChargeGroupWrapper> allGroups { get; set; }
+        @AuraEnabled Decimal nextPayment { get; set; }
+        @AuraEnabled Date nextDate { get; set; }
+
+        public InvoicesWrapper(Invoice__c invoice, Map<Id, Charge_Group__c> allGroupsMap) {
+            this.singleInvoice = invoice;
+            this.balanceDue = invoice.Invoice_Balance__c;
+
+            allGroups = new List<ChargeGroupWrapper>();
+
+            for (Charge_Group__c cGroup: invoice.Charge_Groups__r) {
+                allGroups.add(new ChargeGroupWrapper(allGroupsMap.get(cGroup.Id)));
+
+                if (cGroup.Payment_Plan__c != null) {
+                    this.nextPayment = cGroup.Payment_Plan__r.Installment_Amount__c;
+                    this.nextDate = cGroup.Payment_Plan__r.NextPaymentDate__c;
+                }
+            }
+        }
+    }
+
+    public class ChargeGroupWrapper {
+        @AuraEnabled
+        public Charge_Group__c cGroup {
+            get;
+            set;
+        }
+        @AuraEnabled Decimal totalCharges { get; set; }
+        @AuraEnabled Decimal totalCredits { get; set; }
+        @AuraEnabled List<ServiceWrapper> services { get; set; }
+        @AuraEnabled List<ServiceWrapper> adjusts { get; set; }
+        @AuraEnabled Boolean validPayer { get; set; }
+
+        public ChargeGroupWrapper(Charge_Group__c cGroup) {
+            this.cGroup = cGroup;
+            totalCharges = 0;
+            totalCredits = 0;
+            Map<String, ServiceWrapper> adjustMap = new Map<String, ServiceWrapper>();
+            Map<String, ServiceWrapper> serviceMap = new Map<String, ServiceWrapper>();
+            validPayer = false;
+            for (Integer i = 0; i < cGroup.Charge_Group_Coverages__r.size(); i++) {
+                Charge_Group_Coverage_Junction__c coverageJunction = cGroup.Charge_Group_Coverages__r[i];
+                if (coverageJunction.Coverage__r.Payor__r != null) {
+                    validPayer = true;
+                    break;
+                }
+            }
+            for (Integer i = 0; i < cGroup.Transactions__r.size(); i++) {
+                Transaction__c pa = cGroup.Transactions__r[i];
+                if (pa.Txn_Method__c == Constants.SERVICE) {
+                    totalCharges += pa.Amount__c;
+                    String displayName = getName(pa);
+                    if (serviceMap.containsKey(displayName)) {
+                        serviceMap.get(displayName).Amount += pa.Amount__c;
+                    } else {
+                        serviceMap.put(displayName, new ServiceWrapper(displayName, pa.Amount__c));
+                    }
+                } else {
+                    totalCredits += pa.Amount__c;
+                    String displayName = getName(pa);
+                    if (adjustMap.containsKey(displayName)) {
+                        adjustMap.get(displayName).Amount += pa.Amount__c;
+                    } else {
+                        adjustMap.put(displayName, new ServiceWrapper(displayName, pa.Amount__c));
+                    }
+                }
+            }
+            this.adjusts = adjustMap.values();
+            this.services = serviceMap.values();
+        }
+
+        private String getName(Transaction__c pa) {
+            String displayName = Constants.UNKNOWN;
+            if (pa.Adjustment__r.Custom_Name__c != null) {
+                displayName = pa.Adjustment__r.Custom_Name__c;
+            } else if (pa.Payment__r.Display_Name__c != null) {
+                displayName = pa.Payment__r.Display_Name__c;
+            } else if (pa.Service__r.Display_Name__c != null) {
+                displayName = pa.Service__r.Display_Name__c;
+                displayName = displayName.split('-')[0]; //get Name e.g. Aetna Payment - 1/14/2016  finded(Aetna Payment )
+            }
+
+            displayName = displayName.replace('- //', '');
+            return displayName;
+        }
+    }
+
+    public class ServiceWrapper {
+        @AuraEnabled public String displayName { get; set; }
+        @AuraEnabled public String serviceDate { get; set; }
+        @AuraEnabled public Decimal amount { get; set; }
+
+        public ServiceWrapper(String displayName, Decimal amount) {
+            this.amount = amount;
+            List<String> nameParts = displayName.split('-');
+            this.displayName = nameParts[0];
+            this.serviceDate = nameParts.size() > 1 ? nameParts[1] : '';
+        }
+    }
+
+    public class PatientWrapper {
+        @AuraEnabled public String MRN { get; set; }
+        @AuraEnabled public String name { get; set; }
+        @AuraEnabled public String id { get; set; }
+        @AuraEnabled public Boolean isSelected { get; set; }
+
+        public PatientWrapper(Invoice__c invoice) {
+            this.name = invoice.Patient__r.Name;
+            this.id = invoice.Patient__r.Id;
+            this.isSelected = true;
+            this.MRN = '';
+            if (invoice.Patient__r.Medical_Record_Number__c != null) {
+                this.MRN = ' (MRN: ' + invoice.Patient__r.Medical_Record_Number__c + ')';
+            }
+        }
+        public PatientWrapper(Encounter__c estimate) {
+            this.name = estimate.Patient__r.Name;
+            this.id = estimate.Patient__r.Id;
+            this.isSelected = true;
+            this.MRN = '';
+            if (estimate.Patient__r.Medical_Record_Number__c != null) {
+                this.MRN = ' (MRN: ' + estimate.Patient__r.Medical_Record_Number__c + ')';
+            }
+        }
+    }
 
 }

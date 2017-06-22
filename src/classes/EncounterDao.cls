@@ -101,7 +101,7 @@ public without sharing class EncounterDao {
      * Return the patient MRN and Name for all encounters for the given guarantor
      *
      * @param Contact - the guarantor to retrieve Encounter__c for
-     *
+     * @returns List<Encounter__c> - The list of encounters.
      */
     //TODO Add FLS/CRUD check
     public static List<Encounter__c> getAllPatients(Contact guarantor) {
@@ -110,6 +110,29 @@ public without sharing class EncounterDao {
                 WHERE Guarantor__c = :guarantor.Id
                 LIMIT 50000
         ];
+    }
+
+    /**
+     * Get a list of Encounters for a particular invoice.
+     *
+     * @param Id contactId - The contact id for the user associated with the encounters.
+     * @param String invoiceId - The invoice id for which to get the encounters.
+     * @returns List<Encounter__c> - The encounters.
+     */
+    public static List<Encounter__c> getForInvoice(Id contactId, String invoiceId) {
+
+        if (EncounterSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            return [
+                SELECT Id, Name, Patient__r.Name, Estimate_ID__c, Patient_Portion__c,
+                    Date_of_Service__c, Patient__r.Medical_Record_Number__c, Procedure__c,
+                    Location__c, Encounter_ID__c, Total_Charges__c, Insurance_Discount__c,
+                    Insurance_Portion__c, Total_Payments__c, Balance__c, Type__c, Ordering_Physician__c,
+                    (SELECT Amount__c, Deposit_Date__c FROM Payments__r)
+                FROM Encounter__c
+                WHERE Guarantor__c = :contactId  AND Id = :invoiceId
+            ];
+        }
+        return null;
     }
 
 }

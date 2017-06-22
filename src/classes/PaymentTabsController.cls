@@ -492,7 +492,7 @@ public without sharing class PaymentTabsController
 		////tracker #134300243 fetching charge group list based on account sub status : Preinvoiced, Due, Overdue, Delinquent, or Bad Debt
 		//for (ChargeGroupWrapper cgw : PayStaffWSUtill.fetchChargeGroupListByAccSubStatus(guarantor))
 		//if (cgw.cg.Active__c && cgw.cg.Balance__c != 0)
-		List<WorkWithInvoicesController.InvoicesWrapper> invoicesWithGroups = WorkWithInvoicesController.getAllInvoices(WorkWithInvoicesController.INVOICE_UNPAID_STATUS, '');
+		List<WorkWithInvoicesController.InvoicesWrapper> invoicesWithGroups = WorkWithInvoicesController.getAllInvoices(Constants.UNPAID, new List<String>());
 		for (WorkWithInvoicesController.InvoicesWrapper invoice : invoicesWithGroups)
 		{
 			for (WorkWithInvoicesController.ChargeGroupWrapper chargeGroupW : invoice.allGroups)

@@ -21,6 +21,9 @@ public class TestUtility {
     public static String planType = 'auto';
     public static String errorDate = '2016-05-13';
     public static String delinquentDate = '2016-05-13';
+    public static final String ACCOUNT_NAME = 'TestAccount';
+    public static final String ADMIN_EMAIL = 'bruce.wayne@wayneenterprises.com';
+    public static final Decimal PROFILE_POINTER = 999;
 
     public static String url = 'http://127.0.0.1:8000/paystaff/api/paymentplan/2876/';
 
@@ -427,8 +430,8 @@ public class TestUtility {
 
     /**
      * Utilty for getting a Guarantor Portal Community user.
-      *
-      * @return User - The User object assigned the profile of a user using the Guarantor Portal.
+     *
+     * @return User - The User object assigned the profile of a user using the Guarantor Portal.
      */
     public static User getGuarantorCommunityUser() {
         String testUsername = UserInfo.getOrganizationId()+'-'+ System.now().millisecond()+'-testGTUser@test.io';
@@ -441,7 +444,7 @@ public class TestUtility {
                 ProfileId = adminProfile.Id,
                 Username = testAdminUsername,
                 Alias = 'batman',
-                Email = 'bruce.wayne@wayneenterprises.com',
+                Email = ADMIN_EMAIL,
                 EmailEncodingKey = 'UTF-8',
                 Firstname = 'Bruce',
                 Lastname = 'Wayne',
@@ -456,7 +459,7 @@ public class TestUtility {
             //Create portal account owner
             Database.insert(portalAdminUser);
             //Create account
-            a = new Account(Name = 'TestAccount', OwnerId = portalAdminUser.Id);
+            a = new Account(Name = ACCOUNT_NAME, OwnerId = portalAdminUser.Id);
             Database.insert(a);
         }
 
@@ -479,7 +482,7 @@ public class TestUtility {
             System.runAs(portalAdminUser) {
                 //Create Guarantor Contact record
                 Contact gt = TestUtility.generateGuarantorContact();
-                gt.Profile_Pointer_Id__c = 999;
+                gt.Profile_Pointer_Id__c = PROFILE_POINTER;
                 gt.AccountId = a.Id;
                 gt.OwnerId = portalAdminUser.Id;
                 Database.insert(gt);
@@ -514,5 +517,42 @@ public class TestUtility {
             System.assertNotEquals(usr, null, 'User with username: ' + testUsername + ' not found');
         }
         return usr;
+    }
+
+    /**
+     * Get the admin user associated with the getGuarantorCommunityUser user.
+     *
+     * @return Contact - The User used to created the GuarantorCommunityUser.
+     */
+    public static User getAdminUser() {
+        List<User> admin = [ SELECT Id FROM USER WHERE email = :ADMIN_EMAIL limit 1];
+
+        System.assert(admin.size() != 0, 'Could not find the admin user that created the community user.');
+        return admin[0];
+    }
+
+
+    /**
+     * Get the guarantor associated with the Guarantor Community User.
+     *
+     * @return Contact - The Guarantor.
+     */
+    public static Contact getGuarantor() {
+        List<Contact> contacts = [SELECT Id from Contact WHERE Profile_Pointer_ID__c = :PROFILE_POINTER];
+
+        System.assert(contacts.size() != 0, 'Could not find the guarantor for the community user.');
+        return contacts[0];
+    }
+
+    /**
+     * Get the account assoicated with the GuarantorCommunityUser.
+     *
+     * @return Account - The account.
+     */
+    public static Account getAccount() {
+        List<Account> accounts = [SELECT Id from Account where name = :ACCOUNT_NAME limit 1];
+
+        System.assert(accounts.size() != 0, 'Could not find the account for the community user.');
+        return accounts[0];
     }
 }

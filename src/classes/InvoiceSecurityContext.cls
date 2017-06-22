@@ -13,8 +13,11 @@ public with sharing class InvoiceSecurityContext extends SecurityContext {
     private static final String DUE_DATE = 'Due_Date__c';
     private static final String GUARANTOR = 'Guarantor__c';
     private static final String ID = 'Id';
+    private static final String INVOICE_AGE = 'Invoice_Age__c';
     private static final String INVOICE_DATE = 'Invoice_Date__c';
     private static final String NAME = 'Name';
+    private static final String PARTIAL_PAYMENT_PLAN = 'Partial_Payment_Plan__c';
+    private static final String SIRONO_ID = 'Sirono_ID__c';
     private static final String STATUS = 'Invoice_Status__c';
 
     // The fields for updating a Invoice__c's Invoice_Status_Index__c field in InvoiceUtil
@@ -37,6 +40,11 @@ public with sharing class InvoiceSecurityContext extends SecurityContext {
         ID, NAME, GUARANTOR, INVOICE_DATE, DUE_DATE, STATUS
     };
 
+    // The fields for selecting the details on Invoices
+    private static final Set<String> DETAIL_FIELDS = new Set<String> {
+        ID, NAME, INVOICE_BALANCE, SIRONO_ID, INVOICE_DATE, INVOICE_AGE, STATUS, DUE_DATE, PARTIAL_PAYMENT_PLAN
+    };
+
     /**
      * Constructor of class that assign variables based on parameters
      *
@@ -52,7 +60,8 @@ public with sharing class InvoiceSecurityContext extends SecurityContext {
      * The update context for Invoice__c's Invoice_Status_Index__c field in InvoiceUtil
      **/
     public static final InvoiceSecurityContext UPDATE_CONTEXT = new InvoiceSecurityContext(UPDATE_FIELDS, ACTION.OBJ_UPDATE);
-    
+
+    public static final InvoiceSecurityContext DETAIL_CONTEXT = new InvoiceSecurityContext(DETAIL_FIELDS, ACTION.OBJ_READ);
     /**
      * The update context for Invoice__c's All_Substatus__c field in InvoiceUtil
      **/
