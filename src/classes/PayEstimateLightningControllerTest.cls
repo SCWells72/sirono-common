@@ -202,4 +202,59 @@ public class PayEstimateLightningControllerTest {
         System.assert(objPayEstimate.encounters.size() == 1, 'Should have found a single encounter.');
         System.assert(objPayEstimate.encounters.get(0).isSelected, 'Encounter should be selected.');
     }
+
+    /**
+     * This method tests the logic of errorMessages/message is empty or not.
+     **/
+    @isTest
+    static void errorMessageTest() {
+        // Create Guarantor Contact record.
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        INSERT guarantorContact;
+
+        // Create Encounter record.
+        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
+        INSERT encounter;
+
+        Test.startTest();
+        // Create PayEstimateLightningController class object with guarantorContact.
+        PayEstimateLightningController objPayEstimate = new PayEstimateLightningController(new ApexPages.StandardController(guarantorContact), encounter.Id);
+        objPayEstimate.guarantorRecordId = guarantorContact.Id;
+
+        Encounter__c[] encounterList = EncounterService.getEncounterRecordsByGuarantorId(guarantorContact.id);
+        objPayEstimate.encounters = EncounterWrapper.buildList(encounterList);
+
+        // Based on Encounter List, Select Encounter record.
+        for (EncounterWrapper enw: objPayEstimate.encounters) {
+            enw.isSelected = true;
+        }
+
+        // Call doNext Method.
+        objPayEstimate.doNext();
+
+        // Set variables to generate errors.
+        objPayEstimate.amount = '';
+        objPayEstimate.cvv = '';
+        objPayEstimate.creditCardNumber = '1234';
+        objPayEstimate.expirationYear = String.valueof(System.today().Year());
+        objPayEstimate.expirationMonth = String.valueof(System.today().Month() - 1);
+
+        System.assert(String.isEmpty(objPayEstimate.message), 'Default message is empty/null.');
+
+        // Call submit method.
+        objPayEstimate.submit();
+
+        Test.stopTest();
+
+        // Check system assert.
+        System.assert(!String.isEmpty(objPayEstimate.message), 'Expected message is not empty/null.');
+
+        // Check Amount validation related error.
+        System.assert(objPayEstimate.message.contains(Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO),
+            'Expected ' + Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO + ' error message.');
+
+        // Check Credit Card validation related error.
+        System.assert(objPayEstimate.message.contains(Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO),
+            'Expected ' + Constants.PAGE_MESSAGE_CC_NUMBER_12_19_DIGITS + ' error message.');
+    }
 }

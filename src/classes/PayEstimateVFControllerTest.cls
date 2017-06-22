@@ -1,5 +1,5 @@
 /**
- * Test class for the PayEstimateVFController Class.
+ * Test class for the PayEstimateVFController Class
  **/
  
 @isTest
@@ -172,5 +172,71 @@ public class PayEstimateVFControllerTest {
         ];
         // Check system assert, Payment is not create for encounter.
         System.assertEquals(payments.size(), 0);
+    }
+
+    /**
+     * This method tests the logic of errorMessages is empty or not.
+     **/
+    @isTest
+    static void errorMessagesTest() {
+        // Create Guarantor Contact record.
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        INSERT guarantorContact;
+
+        // Create Encounter record.
+        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
+        INSERT encounter;
+
+        Test.startTest();
+        // Create PayEstimateVFController class object with guarantorContact.
+        PayEstimateVFController objPayEstimate = new PayEstimateVFController(new ApexPages.StandardController(guarantorContact)); 
+        objPayEstimate.guarantorRecordId = guarantorContact.Id;  
+        objPayEstimate.init(guarantorContact.Id); 
+        Encounter__c[] encounterList = EncounterService.getEncounterRecordsByGuarantorId(guarantorContact.id);
+        objPayEstimate.encounters = EncounterWrapper.buildList(encounterList); 
+
+        // Based on Encounter List, Select Encounter record.
+        for (EncounterWrapper enw: objPayEstimate.encounters) {
+            enw.isSelected = true;
+        }
+
+        // Call doNext Method.
+        objPayEstimate.doNext();
+
+        // Set variables to generate errors.
+        objPayEstimate.amount = '';
+        objPayEstimate.cvv = '';
+        objPayEstimate.creditCardNumber = '1234';
+        objPayEstimate.expirationYear = String.valueof(System.today().Year());
+        objPayEstimate.expirationMonth = String.valueof(System.today().Month() - 1);
+
+        System.assertEquals(objPayEstimate.errorMessages.size(), 0, 'Default size of errorMessages is zero.');
+
+        // Call submit method.
+        objPayEstimate.submit();
+
+        Test.stopTest();
+
+        // Check system assert.
+        List<String> msgList = objPayEstimate.errorMessages;
+        System.assert(msgList.size() > 0, 'Expected errorMessages size should greater than zero.');
+
+        Boolean isError = false;
+        for (String msg: msgList) {
+            if (msg.equals(Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO)){
+                isError  = true;
+            }
+        }
+        // Check Amount validation related error.
+        System.assert(isError, 'Expected ' + Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO + ' error message.');
+
+        isError = false;
+        for (String msg: msgList) {
+            if (msg.equals(Constants.PAGE_MESSAGE_CC_NUMBER_12_19_DIGITS)){
+                isError  = true;
+            }
+        }
+        // Check Credit Card validation related error.
+        System.assert(isError, 'Expected ' + Constants.PAGE_MESSAGE_CC_NUMBER_12_19_DIGITS + ' error message.');
     }
 }

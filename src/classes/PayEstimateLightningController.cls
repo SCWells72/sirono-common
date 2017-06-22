@@ -61,7 +61,11 @@ public with sharing class PayEstimateLightningController {
      **/
     public String submit() {
         try {
-            if (isValidCard() && isValidAmount()) {
+            errorMessages = new List<String>();
+            message = '';
+            Boolean validAmount = isValidAmount();
+            Boolean validCard = isValidCard();
+            if (validAmount && validCard) {
                 message = addPayment('credit');
             }
         } catch (SironoServiceException se) {
