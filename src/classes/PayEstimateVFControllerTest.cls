@@ -1,5 +1,5 @@
 /**
- * Test class for the PayEstimateVFController Class.
+ * Test class for the PayEstimateVFController Class
  **/
  
 @isTest
