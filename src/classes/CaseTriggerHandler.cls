@@ -102,7 +102,7 @@ public with sharing class CaseTriggerHandler {
                 if (c.Type == Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS && c.Guarantor_Information__c != null) {
                     delinquentGuarantors.add(c.Guarantor_Information__c);
                 }
-                if (c.Type == 'CC Error' && c.Guarantor_Information__c != null) {
+                if (c.Type == Constants.CASE_TYPE_PAYMENT_PLAN_ERROR && c.Guarantor_Information__c != null) {
                     ccErrorGuarantors.add(c.Guarantor_Information__c);
                 }
             }
@@ -174,10 +174,10 @@ public with sharing class CaseTriggerHandler {
 
         if (ccErrorGuarantors.size() > 0) {
             Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                    'CC Error', 'CC Error M'
+                    Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR, Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M
             });
-            string ccError = mapCampaignMapping.get('CC Error');
-            string ccErrorMobile = mapCampaignMapping.get('CC Error M');
+            string ccError = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR);
+            string ccErrorMobile = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M);
 
             if (cmpnMemSecurityContext.deleteActionAllowed()) {
                 if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {

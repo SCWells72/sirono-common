@@ -135,7 +135,7 @@ private class PaymentPlanTriggerTest {
         List<Case> cases = [SELECT Id, Reason, Guarantor_Information__c, Subject FROM Case
                 WHERE Guarantor_Information__c = :guarantorContact.Id];
         System.assertEquals(cases.size(), 1, 'Number of Case records created is not equals to 1');
-        System.assertEquals(cases[0].Subject, 'CC Error', 'Case record created with different Subject');
+        System.assertEquals(cases[0].Subject, Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, 'Case record created with different Subject');
     }
 	
     /**
