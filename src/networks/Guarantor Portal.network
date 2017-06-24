@@ -34,7 +34,6 @@
     </navigationLinkSet>
     <networkMemberGroups>
         <profile>Admin</profile>
-        <profile>Guarantor</profile>
         <profile>Guarantor Community Plus</profile>
         <profile>Guarantor Community</profile>
     </networkMemberGroups>

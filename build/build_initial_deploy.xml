@@ -56,8 +56,8 @@
         </move>
         <replace file="${basedir}/src/package.xml" encoding="UTF-8">
             <replacetoken><![CDATA[    <types>
-        <members>Case.Sirono_Internal</members>
-        <members>Contact.Contact_Sirono_Internal</members>
+        <members>Case.*</members>
+        <members>Contact.*</members>
         <members>Coverage__c.Coverage_Sirono_Internal</members>
         <members>Payment_Adjustments__c.PaymentAdj_Sirono_Internal</members>
         <members>Payment_Method__c.Credit_Card_Sirono_Internal</members>
