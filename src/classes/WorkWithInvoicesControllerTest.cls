@@ -5,11 +5,11 @@ private class WorkWithInvoicesControllerTest {
         Contact patientContact;
         Invoice__c invoice1;
         User portalUser = TestUtility.getGuarantorCommunityUser();
-        User adminUser = TestUtility.getAdminUser();
+        User adminUser = TestUtility.getPortalAdminUser();
 
         System.runAs(adminUser) {
-            Account testAcc = TestUtility.getAccount();
-            guarantorContact = TestUtility.getGuarantor();
+            Account testAcc = TestUtility.getPortalAccount();
+            guarantorContact = TestUtility.getPortalGuarantor();
 
             patientContact = TestUtility.generatePatientContact();
             patientContact.AccountId = testAcc.Id;
@@ -141,12 +141,12 @@ private class WorkWithInvoicesControllerTest {
         Contact guarantorContact;
         Contact patientContact;
         User portalUser = TestUtility.getGuarantorCommunityUser();
-        User adminUser = TestUtility.getAdminUser();
+        User adminUser = TestUtility.getPortalAdminUser();
         Encounter__c encounter1;
 
         System.runAs(adminUser) {
-            Account testAcc = TestUtility.getAccount();
-            guarantorContact = TestUtility.getGuarantor();
+            Account testAcc = TestUtility.getPortalAccount();
+            guarantorContact = TestUtility.getPortalGuarantor();
 
             patientContact = TestUtility.generatePatientContact();
             patientContact.AccountId = testAcc.Id;

@@ -42,4 +42,28 @@ public with sharing class UIUtils {
         }
         protected set;
     }
+
+    /**
+     * Get a map containing the YEAR and Month data used for credit cards.
+     *
+     * @return Map<String, Map<String, String>> - A Map with two keys, YEARS and MONTH.  The value is a Map of label->value
+     * pairs to be used for providing a UI around credit card expiration.
+     */
+    public static Map<String, Map<String, String>> getCardDateOptions() {
+        Map<String, Map<String, String>> outputMap = new Map<String, Map<String, String>> ();
+        Map<String, String> yearOptions = new Map<String, String>();
+        for (SelectOption selection: expYearOptions)
+        {
+            yearOptions.put(selection.getValue(), selection.getLabel());
+        }
+        outputMap.put(Constants.YEARS, yearOptions);
+
+        Map<String, String> monthsOptions = new Map<String, String>();
+        for (SelectOption selection : UIUtils.expMonthOptions)
+        {
+            monthsOptions.put(selection.getValue(), selection.getLabel());
+        }
+        outputMap.put(Constants.MONTHS, monthsOptions);
+        return outputMap;
+    }
 }

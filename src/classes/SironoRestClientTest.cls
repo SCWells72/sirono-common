@@ -182,4 +182,18 @@ private class SironoRestClientTest {
         // Check system assert.
         System.assert('10000'.equals(outputCents), 'Expected 10000, but got ' + outputCents);
     }
+
+    /**
+     * Test converting dollars as a Decimal.
+     **/
+    @isTest
+    public static void testConvertDecDollarToCents() {
+        Decimal inputDollars = 100.00;
+        Test.startTest();
+        String outputCents = SironoRestClient.convertToCents(inputDollars);
+        Test.stopTest();
+
+        // Check system assert.
+        System.assert('10000'.equals(outputCents), 'Expected 10000, but got ' + outputCents);
+    }
 }
