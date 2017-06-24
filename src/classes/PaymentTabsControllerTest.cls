@@ -151,7 +151,6 @@ public with sharing class PaymentTabsControllerTest {
             System.assertEquals(1, cards.size(), 'Should have a single result as Display_Name is dependant on Type.');
         }
 
-
     }
 
     @isTest
