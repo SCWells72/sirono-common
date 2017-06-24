@@ -328,4 +328,35 @@ public class PaymentService extends AbstractService {
         PaymentDao.insertPayment(new List<Payment__c>{payment});
         return PaymentDao.getPayment(payment.Id);
     }
+
+    /**
+     * Get a list of Payment_Method__c object for a Guarantor.
+     *
+     * @param Id guarantorid - The Guarantor Id.
+     * @return List<Payment_Method__c> - The list of payment methods associated with the Guarantor.
+     */
+    public static List<Payment_Method__c> getPaymentMethods(Id guarantorId) {
+        return PaymentDao.getPaymentMethods(guarantorId);
+    }
+
+    /**
+     * Get a credit card by id.
+     *
+     * @param String cardId - The credit card id.
+     * @return Payment_Method__c - The credit card Payment_Method__c object.
+     */
+    public static Payment_Method__c getCreditCard(String cardId) {
+        List<Payment_Method__C> cards = PaymentDao.getCreditCard(cardId);
+        return (!cards.isEmpty()) ? cards[0] : null;
+    }
+
+    public static Payment_Plan__c getActivePaymentPlan(Id guarantorId) {
+        List<Payment_Plan__c> plans = PaymentDao.getActivePaymentPlan(guarantorId);
+        return (!plans.isEmpty()) ? plans[0] : null;
+    }
+
+    public static Payment_Plan__c getPaymentPlan(Id planId) {
+        List<Payment_Plan__c> plans = PaymentDao.getPaymentPlan(planId);
+        return (!plans.isEmpty()) ? plans[0] : null;
+    }
 }

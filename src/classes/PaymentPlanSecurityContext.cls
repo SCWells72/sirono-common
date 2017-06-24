@@ -7,6 +7,7 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
     // Field constants for Payment_Plan__c object
     private static final String ACTIVE = 'Active__c';
     private static final String CANCELLATION_DATE = 'Cancellation_Date__c';
+    private static final String CREATED_DATE = 'CreatedDate';
     private static final String DELINQUENT = 'Delinquent__c';
     private static final String DELINQUENT_DATE = 'Delinquent_Date__c';
     private static final String ERROR_DATE = 'Error_Date__c';
@@ -18,6 +19,7 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
     private static final String NEXTPAYMENTDATE = 'NextPaymentDate__c';
     private static final String ORIGINAL_BALANCE = 'Original_Balance__c';
     private static final String ORIGINAL_INSTALLMENT_COUNT = 'Original_Installment_Count__c';
+    private static final String PAYMENT_METHOD = 'Payment_Method__c';
     private static final String PLAN_TYPE = 'Plan_Type__c';
     private static final String PLAN_VALUE_MODIFIED_DATE = 'Plan_Value_Modified_Date__c';
     private static final String REMAINING_BALANCE = 'Remaining_Balance__c';
@@ -103,6 +105,13 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
         ID, GUARANTOR, ACTIVE, HAS_ERROR, REMAINING_BALANCE
     };
 
+    // Guarantor select
+    private static final Set<String> GUARANTOR_SELECT = new Set<String> {
+        ID, NAME, ORIGINAL_INSTALLMENT_COUNT, REMAINING_BALANCE, INSTALLMENT_AMOUNT, CREATED_DATE,
+        NEXTPAYMENTDATE, PLAN_TYPE, REMAINING_INSTALLMENT_COUNT, EXECUTE_ON_DAY, SIRONO_ID,
+        PAYMENT_METHOD
+    };
+
     /**
      * Constructor of class that assign variables based on parameters
      *
@@ -184,6 +193,11 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
      * The select context for Payment_Plan__c in CaseUtil
      **/
     public static final PaymentPlanSecurityContext SELECT_CONTEXT_FOR_CLOSE = new PaymentPlanSecurityContext(SELECT_FIELDS_FOR_CLOSE, ACTION.OBJ_READ);
+
+    /**
+     * The select context for Guarantors
+     **/
+    public static final PaymentPlanSecurityContext GUARNATOR_SELECT = new PaymentPlanSecurityContext(GUARANTOR_SELECT, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

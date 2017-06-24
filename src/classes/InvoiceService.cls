@@ -48,7 +48,7 @@ public with sharing class InvoiceService extends AbstractService {
      * @param Id userId - The Guarantor id associated with the invoices.
      * @param Set<String> statuses - An optional set of invoice statuses to filter the result.
      * @param List<String> patients - An optional list of Patient ids used to limit the query.
-     * @returns List<Invoice__C> - The list of invoices.
+     * @returns List<Invoice__c> - The list of invoices.
      */
     public static List<Invoice__c> getInvoicesForUser(Id userId, Set<String> statuses, List<String> patients) {
         return InvoiceDao.getInvoicesForUser(userId, statuses, patients);
@@ -64,5 +64,20 @@ public with sharing class InvoiceService extends AbstractService {
         return InvoiceDao.getPatientInvoices(userId);
     }
 
+    /**
+     * Get the list of charge groups associated with invoices for a user.
+     *
+     * @param Id userId - The Guarantor id associated with the invoices.
+     * @param Set<String> statuses - An optional set of invoice statuses to filter the result.
+     * @param List<String> patients - An optional list of Patient ids used to limit the query.
+     * @returns List<Charge_Group__c> - The list of invoices.
+     */
+    public static List<Charge_Group__c> getAllChargeGroups(Id userId, Set<String> statuses, List<String> patients) {
+        List<Invoice__c> invoices = getInvoicesForUser(userId, statuses, patients);
+        Set<Id> allChargeGroupIds = getChargeGroupIds(invoices);
+        List<Charge_Group__c> allChargeGroups = ChargeGroupService.getCGForInvoiceController(allChargeGroupIds, true);
+
+        return allChargeGroups;
+    }
 
 }
