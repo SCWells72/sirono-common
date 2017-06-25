@@ -87,7 +87,7 @@ public with sharing class RestClientConstants {
 
     // Test Constants
     public final static String CHARGE_GROUP_ID = 'charg3gr0up1d';
-    public final static String GUARANTOR_ID = '111222333444555';
+    public final static String GUARANTOR_ID = String.valueOf(TestUtility.PROFILE_POINTER);
     public final static String PAYMENT_PLAN_EXT_ID = 'paym3ntplan1d';
     public final static String PAYMENT_EXT_ID = 'paym3nt1d';
 }

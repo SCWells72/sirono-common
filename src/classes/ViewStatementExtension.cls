@@ -27,9 +27,9 @@ public with sharing class ViewStatementExtension {
 
     //Method called from the Visual Force page action attribute
     public PageReference viewPdf() {
-        stmtUrlMap = GuarantorService.getStatementUrlMap(guarantorId);
+        stmtUrlMap = GuarantorService.getStatementMap(guarantorId);
         PageReference pageRef = null;
-        if (stmtUrlMap.containsKey(stmtDate.format())) {
+        if (stmtUrlMap.containsKey(stmtDate.format()) && stmtUrlMap.get(stmtDate.format()) != null) {
             pageRef = new PageReference(stmtUrlMap.get(stmtDate.format()));
             pageRef.setRedirect(true);
         } else {

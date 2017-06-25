@@ -12,9 +12,9 @@ private class WorkWithStatementsControllerTest {
 	      	Contact guarantorContact = GuarantorService.getPortalGuarantor(gtUser.Id);
 
 			List<Statement__c> statements = new List<Statement__c>();
-			for (String stmtDate :  new String[]{'2016/10/07', '2016/11/07', '2016/12/07', '2017/01/07', '2017/02/07'}) {
+			for (String stmtDate :  new String[]{'10/07/2016', '11/07/2016', '12/07/2016', '01/07/2017', '02/07/2017'}) {
 				Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-				statement.Statement_Date__c = Date.valueOf(stmtDate);
+				statement.Statement_Date__c = Date.parse(stmtDate);
 				statements.add(statement);
 			}
 
@@ -28,7 +28,7 @@ private class WorkWithStatementsControllerTest {
         	Test.startTest();
 
 			List<WorkWithStatementsController.StatementWrapper> statements = WorkWithStatementsController.getAllInfo();
-        	System.assertEquals(statements.size(), 5);
+        	System.assertEquals(5, statements.size(), 'Expected 5 statements');
 
         	Test.stopTest();
         }

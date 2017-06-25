@@ -7,7 +7,7 @@ public class ViewStatementExtensionTest {
     Public Static List<Statement__c> lstStatement = new List<Statement__c>();
 
     /**
-     * This method is used to setup preliminary data to let's all testmethods to execute as expected.
+     * Setup data common to all tests.
      **/
     @testSetup
     static void setupData() {
@@ -94,6 +94,6 @@ public class ViewStatementExtensionTest {
         Test.stopTest();
 
         // Check system assert, Returned PageReference should be null & therefore we are not being redirected.
-        System.assert(nextPage == null, 'Returned PageReference should must be null, found: ' + nextPage);
+        System.assert(nextPage == null, 'Returned PageReference should be null, found: ' + nextPage);
     }
 }

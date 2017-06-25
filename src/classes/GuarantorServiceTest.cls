@@ -213,7 +213,7 @@ public with sharing class GuarantorServiceTest {
         }
     }
 
-        /*
+    /*
      * Negative test: retrieve a non-portal user's associated guarantor contact (which he doesn't have)
      *
      */
@@ -236,7 +236,7 @@ public with sharing class GuarantorServiceTest {
      * Test the retrieval of the statement pdf urls
      */
     @isTest
-    static void getStatementsSuccess() {
+    static void testGetStatementsSuccess() {
 
         Test.setMock(HttpCalloutMock.class, new GuarantorRestClientMock());
 
@@ -247,5 +247,7 @@ public with sharing class GuarantorServiceTest {
         for (String key : urlMap.keySet()) {
             System.debug('key: '+key+' url: '+urlMap.get(key));
         }
+
+        System.assertEquals(urlMap.size(), 5, 'Expected 5 entries in the url map');
     }
 }
