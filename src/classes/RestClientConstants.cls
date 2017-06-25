@@ -27,9 +27,9 @@ public with sharing class RestClientConstants {
     };
 
     public final static Map<String, String> GUARANTOR_URLS = new Map<String, String>{
-            // 0 - the guarantor sirono id
+            // 0 - the guarantor's sirono id
             GUARANTOR_KEY => 'callout:sirono_server/paystaff/api/guarantors/{0}/',
-            // 0 - the guarantor sirono id
+            // 0 - the guarantor's sirono id
             STATEMENTS => 'callout:sirono_server/paystaff/api/guarantors/{0}/statements/'
     };
 
@@ -52,7 +52,6 @@ public with sharing class RestClientConstants {
             TOKEN_KEY => 'callout:sirono_server/paystaff/token-auth/'
     };
 
-
     // JSON and body values
     public final static String CHARGE_GROUPS = 'chargegroups';
     public final static String CSRF_BODY_KEY = '<input type=\'hidden\' name=\'csrfmiddlewaretoken\' value=\'';
@@ -61,7 +60,12 @@ public with sharing class RestClientConstants {
 
     // 0 - The JWT token
     public final static String JWT_HEADER = 'JWT {0}';
-    public final static String STATEMENTS_JSON = '{"statements": ["go", "here"]}';
+    public final static String STATEMENTS_JSON =
+            '[{"statement_date": "2016-10-07", "pdf_url": "https://accudoc-dev.s3.amazonaws.com/20161007/13_55_13_sir.0x1355137f.pdf?Signature=E5pZzByCMFcRraYK102YGi6lbhE%3D&Expires=1497709690&AWSAccessKeyId=AKIAIG3KNVYUQ4EURDHA"}, '+
+            '{"statement_date": "2016-11-07", "pdf_url": "https://accudoc-dev.s3.amazonaws.com/20161107/13_b6_4f_sir.0x13b64f16.pdf?Signature=wMNtKw8X7YepSUH%2FNiJyHE%2FEKBE%3D&Expires=1497709690&AWSAccessKeyId=AKIAIG3KNVYUQ4EURDHA"}, '+
+            '{"statement_date": "2016-12-07", "pdf_url": "https://accudoc-dev.s3.amazonaws.com/20161207/14_22_ad_sir.0x1422ad09.pdf?Signature=DQ0kcBk0qnGYo1h7eCjqWrYsg6Q%3D&Expires=1497709690&AWSAccessKeyId=AKIAIG3KNVYUQ4EURDHA"}, ' +
+            '{"statement_date": "2017-01-07", "pdf_url": "https://accudoc-dev.s3.amazonaws.com/20170107/14_8c_c7_sir.0x148cc7bb.pdf?Signature=RxHWw3DmeRO9jqpVX4%2FutuCiLiY%3D&Expires=1497709690&AWSAccessKeyId=AKIAIG3KNVYUQ4EURDHA"}, ' +
+            '{"statement_date": "2017-02-07", "pdf_url": null}]';
 
     // HTTP Status Code constants
     public final static Integer HTTP_SUCCESS = 200;
@@ -83,7 +87,7 @@ public with sharing class RestClientConstants {
 
     // Test Constants
     public final static String CHARGE_GROUP_ID = 'charg3gr0up1d';
-    public final static String GUARANTOR_ID = 'guarant0r1d';
+    public final static String GUARANTOR_ID = '111222333444555';
     public final static String PAYMENT_PLAN_EXT_ID = 'paym3ntplan1d';
     public final static String PAYMENT_EXT_ID = 'paym3nt1d';
 }

@@ -2,6 +2,59 @@
  * GuarantorService
  **/
 public with sharing class GuarantorService extends AbstractService {
+
+    /**
+     * Class used for making guarantor calls against the Sirono Rest service.
+     */
+    private with sharing class GuarantorRestClient extends SironoRestClient {
+
+        /**
+         * Provides the URL map to the SironoRestClient class for looking up urls.
+         */
+        private Map<String, String> getUrls() {
+            return RestClientConstants.GUARANTOR_URLS;
+        }
+
+        /**
+         * Get the statement urls for the guarantor from the sirono server.
+         *
+         * @param - The guarantorId.
+         */
+        private HttpResponse getStatementUrls(String guarantorId) {
+
+            return getRequestor()
+                    .url(RestClientConstants.STATEMENTS, new String[]{stripCommas(guarantorId)})
+                    .call();
+
+        }
+    }
+
+    /**
+     * Object representation of the statementUrl JSON returned from sirono
+     */
+    private class StatementURLJSON {
+        public Date statement_date;
+        public String pdf_url;
+    }
+
+    /**
+     * StatementUrl JSON parser
+     *
+     */
+    private class StatementURLJSONParser extends AbstractSironoJSONParser {
+        private String json;
+        private List<StatementURLJSON> statementUrls;
+
+        /*
+         * StatementURLJSONParser
+         * @param jsonBody contains 0-n statement urls in JSON format
+         */
+        StatementURLJSONParser(String jsonBody) {
+            this.json = SironoRestClient.ensureJsonList(jsonBody);
+            this.statementUrls = (List<StatementURLJSON>) System.JSON.deserialize(json, List<StatementURLJSON>.class);
+        }
+    }
+
     /**
      * Get the Guarantor's Profile_Pointer_Id__c from the given contact.
      * @param Contact contact - the Guarantor Contact
@@ -44,7 +97,7 @@ public with sharing class GuarantorService extends AbstractService {
         return details;
     }
 
-    public static Contact getGuarantorFilterCGByAcctSubStatus(String guarantorRecordId){
+    public static Contact getGuarantorFilterCGByAcctSubStatus(String guarantorRecordId) {
         return GuarantorDao.getGuarantorFilterCGByAcctSubStatus(guarantorRecordId, Constants.CGConstraints);
     }
 
@@ -139,7 +192,7 @@ public with sharing class GuarantorService extends AbstractService {
      **/
     public static List<Contact> getGuarantorsByFilter(Set<Id> contactIds, String filterBy) {
         // Convert the set of Ids into a Set of Strings.
-        Set<String> stringIds = (Set<String>)JSON.deserialize(JSON.serialize(contactIds), Set<String>.class);
+        Set<String> stringIds = (Set<String>) JSON.deserialize(JSON.serialize(contactIds), Set<String>.class);
         return GuarantorDao.getGuarantorsByFilter(stringIds, filterBy);
     }
 
@@ -261,12 +314,33 @@ public with sharing class GuarantorService extends AbstractService {
         User[] users = [SELECT Id, ContactId, Username FROM User WHERE Id = :userId];
 
         if (users.isEmpty()) {
-            throw new SironoServiceException('No user with id '+userId);
+            throw new SironoServiceException('No user with id ' + userId);
         }
 
         if (users[0].ContactId == null) {
-            throw new SironoServiceException('No Guarantor associated with user '+users[0].Username);
+            throw new SironoServiceException('No Guarantor associated with user ' + users[0].Username);
         }
         return GuarantorDao.getContactById(users[0].ContactId);
+    }
+
+    /**
+     * Get a map of statement urls for the Guarantor
+     *
+     * @param guarantorId - the guarantor's sironoId
+     * @returns Map of statment pdf urls, keyed by formatted statement date
+     **/
+    public static Map<String, String> getStatementMap(String guarantorId) {
+        Map<String, String> stmtUrlMmap = new Map<String, String>();
+
+        GuarantorRestClient client = new GuarantorRestClient();
+        HttpResponse response = client.getStatementUrls(guarantorId);
+System.debug('responseBody: '+response.getBody());
+        StatementURLJSONParser parser = new StatementURLJSONParser(response.getBody());
+        for (GuarantorService.StatementURLJSON stmt : parser.statementUrls) {
+            String pdfURL = stmt.pdf_url;
+            stmtUrlMmap.put(stmt.statement_date.format(), pdfURL);
+        }
+
+        return stmtUrlMmap;
     }
 }

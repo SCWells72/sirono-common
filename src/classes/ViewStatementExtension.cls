@@ -27,7 +27,7 @@ public with sharing class ViewStatementExtension {
 
     //Method called from the Visual Force page action attribute
     public PageReference viewPdf() {
-        stmtUrlMap = getStatementUrlMap(guarantorId);
+        stmtUrlMap = GuarantorService.getStatementUrlMap(guarantorId);
         PageReference pageRef = null;
         if (stmtUrlMap.containsKey(stmtDate.format())) {
             pageRef = new PageReference(stmtUrlMap.get(stmtDate.format()));
@@ -39,44 +39,5 @@ public with sharing class ViewStatementExtension {
         return pageRef;
     }
 
-    //Parsing the response from external Webservice callout
-    private Map<String, String> getStatementUrlMap(String guarantorId) {
-        Map<String, String> stmtUrlMmap = new Map<String, String>();
-        GuarantorsRestClient guarantorsRestClient;
-        try {
-            guarantorsRestClient = new guarantorsRestClient();
-            guarantorsRestClient.getStatements(guarantorId.replace(',', ''));
 
-            if (guarantorsRestClient.getStatusCode() == RestClientConstants.HTTP_SUCCESS) {
-                // Parse JSON response to get all the statement date/url pairs
-                JSONParser parser = JSON.createParser(guarantorsRestClient.getResponseBody());
-
-                while (parser.nextToken() != null) {
-                    if (parser.getCurrentToken() == JSONToken.START_OBJECT) {
-                        // Get the value.
-                        StatementURL inv = (StatementURL) parser.readValueAs(StatementURL.class);
-                        if (inv.pdf_url != null) {
-                            System.debug(inv.statement_date.format() + ' url: ' + inv.pdf_url);
-                            stmtUrlMmap.put(inv.statement_date.format(), inv.pdf_url);
-                        }
-                    }
-                }
-            }
-        } catch (Exception ex) {
-            if (Apexpages.currentPage() != null) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'ERROR: ' + ex.getMessage()));
-            } else {
-                System.debug('[' + ApexPages.SEVERITY.ERROR + '] ' + ex.getMessage());
-            }
-        }
-
-        return stmtUrlMmap;
-    }
-
-    //Inner Class
-
-    private class StatementURL {
-        public Date statement_date;
-        public String pdf_url;
-    }
 }

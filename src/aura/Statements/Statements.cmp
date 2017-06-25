@@ -12,7 +12,7 @@
                 <div class="col">
                     <h2>View Your Statements</h2>
                     <aura:if isTrue="{!v.statementsSortItems.length > 0}">
-                        <p>Click on the statement date to download a PDF version of the account statement.</p>
+                        <p>Click on the statement date to view a PDF version of the account statement.</p>
                     <aura:set attribute="else">
                         <p>You don't have any statements to view yet.</p>
                     </aura:set>
@@ -47,7 +47,7 @@
                             <a href="{!stateLengthItemOne.pdf_Url}" target="_blank">
                                 <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/doctype-sprite/svg/symbols.svg#pdf'}" category="standard" size="medium" name="pdf" />
                                 <span class="slds-assistive-text">Download</span>
-                                <ui:outputdate format="MMMM d, YYYY" value="{!stateLengthItemOne.statement.Statement_Date__c}" /> Statement
+                                <ui:outputdate format="MMMM d, YYYY" value="{!stateLengthItemOne.statement_date}" /> Statement
                             </a>
                         </div>
                     </aura:iteration> 

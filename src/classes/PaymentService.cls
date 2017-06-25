@@ -192,18 +192,7 @@ public class PaymentService extends AbstractService {
         @TestVisible
         TransactionJSONParser(Payment__c newPayment, String jsonBody) {
             this.payment = newPayment;
-            this.json = jsonBody.replace('_credit_balance','credit_balance');
-
-            if (!json.startsWith('[') || !json.endsWith(']')){
-                System.debug('TransactionJSONParser jsonBody: ' + jsonBody);
-                if(!json.endsWith(']')) {
-                    json = json + ']';
-                }
-
-                if (!json.startsWith('[')) {
-                    json = '[' + json;
-                }
-            }
+            this.json = SironoRestClient.ensureJsonList(jsonBody.replace('_credit_balance','credit_balance'));
 
             txnJsons = (List<TransactionSironoJSON>) System.JSON.deserialize(json, List<TransactionSironoJSON>.class);
         }

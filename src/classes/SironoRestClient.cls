@@ -427,14 +427,33 @@ public abstract with sharing class SironoRestClient {
     }
 
     /**
-     * This method is use to convert amount into cents.
+     * This method is use to convert an amount to cents.
      *
-     * @param String amount - That contains amount value.
+     * @param amount - the contains amount value.
      * @returns String centAmount - That contains cent amount value.
      **/
     public static String convertToCents(String amount) {
         String centAmount = (String.isNotBlank(amount) ? String.valueOf((Decimal.valueOf(amount) * 100).intValue()) : amount);
         return centAmount;
+    }
+
+    /**
+     * Take the given jsonBody and make sure it is formatted as a JSON List
+     *
+     * @param jsonBody - the json that needs to be a list
+     */
+    public static String ensureJsonList(String jsonBody) {
+        String json = jsonBody;
+        if (!json.startsWith('[') || !json.endsWith(']')) {
+            if (!json.endsWith(']')) {
+                json = json + ']';
+            }
+
+            if (!json.startsWith('[')) {
+                json = '[' + json;
+            }
+        }
+        return json;
     }
 
 
