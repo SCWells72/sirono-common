@@ -91,7 +91,7 @@ public without sharing class PaymentDao {
      * @return List<Payment_Method__c> - The payment methods associated with the Guarantor.
      */
     public static List<Payment_Method__c> getPaymentMethods(Id guarantorId) {
-        List<Payment_Method__c> paymentMethods;
+        List<Payment_Method__c> paymentMethods = new List<Payment_Method__c>();
 
         if (PaymentMethodSecurityContext.GUARANTOR_SELECT.actionAllowed()) {
             paymentMethods = [
@@ -112,7 +112,7 @@ public without sharing class PaymentDao {
      * @return List<Payment_Method__c> - The cards.
      */
     public static List<Payment_Method__c> getCreditCard(String cardId) {
-        List<Payment_Method__c> paymentMethods;
+        List<Payment_Method__c> paymentMethods = new List<Payment_Method__c>();
 
         if (PaymentMethodSecurityContext.GUARANTOR_SELECT.actionAllowed()) {
             paymentMethods = [
@@ -132,9 +132,9 @@ public without sharing class PaymentDao {
      * @return List<Payment_Plan__c> - The List containing Active Paymen_Plan__c objects.
      */
     public static List<Payment_Plan__c> getActivePaymentPlan(Id guarantorId) {
-        List<Payment_Plan__c> plans;
+        List<Payment_Plan__c> plans = new List<Payment_Plan__c>();
 
-        if (PaymentPlanSecurityContext.GUARNATOR_SELECT.actionAllowed() && PaymentMethodSecurityContext.GUARANTOR_SELECT.actionAllowed()) {
+        if (PaymentPlanSecurityContext.GUARANTOR_SELECT.actionAllowed() && PaymentMethodSecurityContext.GUARANTOR_SELECT.actionAllowed()) {
             plans = [
                 SELECT Id, Name, Original_Installment_Count__c, Remaining_Balance__c, Installment_Amount__c, CreatedDate,
                     NextPaymentDate__c, Plan_Type__c, Remaining_Installment_Count__c, Execute_on_Day__c, Sirono_ID__c,
@@ -155,9 +155,9 @@ public without sharing class PaymentDao {
      * @return List<Payment_Plan__c> - The List containing the single payment plan if it was found.
      */
     public static List<Payment_Plan__c> getPaymentPlan(Id planId) {
-        List<Payment_Plan__c> plans;
+        List<Payment_Plan__c> plans = new List<Payment_Plan__c>();
 
-        if (PaymentPlanSecurityContext.GUARNATOR_SELECT.actionAllowed() && PaymentMethodSecurityContext.GUARANTOR_SELECT.actionAllowed()) {
+        if (PaymentPlanSecurityContext.GUARANTOR_SELECT.actionAllowed() && PaymentMethodSecurityContext.GUARANTOR_SELECT.actionAllowed()) {
             plans = [
                 SELECT Id, Name, Original_Installment_Count__c, Remaining_Balance__c, Installment_Amount__c, CreatedDate,
                     NextPaymentDate__c, Plan_Type__c, Remaining_Installment_Count__c, Execute_on_Day__c, Sirono_ID__c, Guarantor__c,

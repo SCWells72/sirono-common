@@ -126,7 +126,7 @@ public with sharing class GuarantorProfilePermissionTest {
         System.runAs(usr) {
             Boolean hasAccess = false;
             try {
-                hasAccess = PaymentPlanSecurityContext.GUARNATOR_SELECT.actionAllowed();
+                hasAccess = PaymentPlanSecurityContext.GUARANTOR_SELECT.actionAllowed();
             } catch(Exception e) {
                 System.assert(hasAccess, 'Should have had read access to PaymentPlan.');
             }

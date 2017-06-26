@@ -106,7 +106,7 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
     };
 
     // Guarantor select
-    private static final Set<String> GUARANTOR_SELECT = new Set<String> {
+    private static final Set<String> GUARANTOR_SELECT_FIELDS = new Set<String> {
         ID, NAME, ORIGINAL_INSTALLMENT_COUNT, REMAINING_BALANCE, INSTALLMENT_AMOUNT, CREATED_DATE,
         NEXTPAYMENTDATE, PLAN_TYPE, REMAINING_INSTALLMENT_COUNT, EXECUTE_ON_DAY, SIRONO_ID,
         PAYMENT_METHOD
@@ -197,7 +197,7 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
     /**
      * The select context for Guarantors
      **/
-    public static final PaymentPlanSecurityContext GUARNATOR_SELECT = new PaymentPlanSecurityContext(GUARANTOR_SELECT, ACTION.OBJ_READ);
+    public static final PaymentPlanSecurityContext GUARANTOR_SELECT = new PaymentPlanSecurityContext(GUARANTOR_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * Override getObjectType method of SecurityContext class

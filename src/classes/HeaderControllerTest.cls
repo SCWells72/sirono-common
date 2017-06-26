@@ -6,7 +6,7 @@
 public with sharing class HeaderControllerTest {
 
     @isTest
-    public static void getUserInfo() {
+    public static void getUserInfoTest() {
         User usr = TestUtility.getGuarantorCommunityUser();
 
         System.runAs(usr) {
@@ -26,7 +26,7 @@ public with sharing class HeaderControllerTest {
     }
 
     @isTest
-    public static void getHeaderInfo() {
+    public static void getHeaderInfoTest() {
         Contact guarantorContact;
         Contact patientContact;
         Invoice__c invoice1;
@@ -70,7 +70,7 @@ public with sharing class HeaderControllerTest {
             INSERT lstChrgGroup;
 
             Payor__c payorTest = new Payor__c(
-                Name = 'payotTest'
+                Name = 'payorTest'
             );
             INSERT payorTest;
 

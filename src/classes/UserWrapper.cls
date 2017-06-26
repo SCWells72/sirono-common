@@ -4,11 +4,11 @@
 
 public with sharing class UserWrapper {
 
-  @AuraEnabled public Id contactId {get;set;}
-  @AuraEnabled public Id id {get;set;}
-  @AuraEnabled public String firstName {get;set;}
-  @AuraEnabled public Decimal profilePointerId {get;set;}
-  @AuraEnabled public String sironoId {get;set;}
+  @AuraEnabled public Id contactId {get; private set;}
+  @AuraEnabled public Id id {get; private set;}
+  @AuraEnabled public String firstName {get; private set;}
+  @AuraEnabled public Decimal profilePointerId {get; private set;}
+  @AuraEnabled public String sironoId {get; private set;}
 
   public UserWrapper(User user) {
     this.id = user.Id;

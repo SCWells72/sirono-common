@@ -3,7 +3,7 @@
 public with sharing class PaymentTabsControllerTest {
 
     @isTest
-    public static void getCardSelectOptions() {
+    public static void getCardSelectOptionsTest() {
         Test.startTest();
         Map<String, Map<String, String>> opts = PaymentTabsController.getCardSelectOptions();
         Test.stopTest();
@@ -112,7 +112,7 @@ public with sharing class PaymentTabsControllerTest {
     }
 
     @isTest
-    public static void getCreditCards_NoResults() {
+    public static void getCreditCardsNoResultsTest() {
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
         Contact guarantorContact = TestUtility.getPortalGuarantor();
@@ -129,7 +129,7 @@ public with sharing class PaymentTabsControllerTest {
     }
 
     @isTest
-    public static void getCreditCards_verifyResults() {
+    public static void getCreditCardsVerifyResultsTes() {
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
         Contact guarantorContact = TestUtility.getPortalGuarantor();
@@ -154,7 +154,7 @@ public with sharing class PaymentTabsControllerTest {
     }
 
     @isTest
-    public static void getCreditCards_verifyMultipleResults() {
+    public static void getCreditCardsVerifyMultipleResultsTest() {
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
         Contact guarantorContact = TestUtility.getPortalGuarantor();

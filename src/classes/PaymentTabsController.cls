@@ -59,7 +59,7 @@ public without sharing class PaymentTabsController {
     @AuraEnabled
     public static Payment_Plan__c createPaymentPlan(String paymentInfoStr) {
         Payment_Plan__c paymentPlanObj = null;
-        PaymentRequestInfo paymentInfo = (PaymentRequestInfo) JSON.deserialize(paymentInfoStr, PaymentRequestInfo.class);
+        PaymentPlanRequestInfo paymentInfo = (PaymentPlanRequestInfo) JSON.deserialize(paymentInfoStr, PaymentPlanRequestInfo.class);
         String jwtToken = PayStaffWSUtill.getJWTToken(PayStaffWSUtill.un, PayStaffWSUtill.pw);
         String csrfToken = PayStaffWSUtill.getCSRFToken();
         if (csrfToken == null || jwtToken == null) {
@@ -122,7 +122,7 @@ public without sharing class PaymentTabsController {
                 cg.Payment_Plan__c = paymentPlanObj.Id;
             }
             // Update the Charge Groups using ChargeGroupService.
-            ChargeGroupService.UPDATEChargeGroups(chargeGroups);
+            ChargeGroupService.updateChargeGroups(chargeGroups);
             //@DOTO: waiting for Payment Method API implementatio
             Payment_Method__c paymentMethod = PaymentTabsController.generatePaymentMethod(paymentInfo, paymentPlanObj.Guarantor__c);
             paymentPlanObj.Payment_Method__r = paymentMethod;
@@ -142,7 +142,7 @@ public without sharing class PaymentTabsController {
     @AuraEnabled
     public static Payment_Plan__c doEditPaymentMethod(String paymentInfoStr) {
         System.debug('paymentInfoStr' + paymentInfoStr);
-        PaymentRequestInfo paymentInfo = (PaymentRequestInfo) JSON.deserialize(paymentInfoStr, PaymentRequestInfo.class);
+        PaymentPlanRequestInfo paymentInfo = (PaymentPlanRequestInfo) JSON.deserialize(paymentInfoStr, PaymentPlanRequestInfo.class);
         Payment_Plan__c paymentPlanObj = PaymentService.getPaymentPlan(paymentInfo.sfId);
         Payment_Method__c paymentMethod = null;
         //@DOTO: waiting for Payment Method API implementation
@@ -167,7 +167,7 @@ public without sharing class PaymentTabsController {
     //Send an request to end point
     public static Payment_Plan__c doEditPaymentPlan(String paymentInfoStr) {
         Payment_Plan__c paymentPlanObj = null;
-        PaymentRequestInfo paymentInfo = (PaymentRequestInfo) JSON.deserialize(paymentInfoStr, PaymentRequestInfo.class);
+        PaymentPlanRequestInfo paymentInfo = (PaymentPlanRequestInfo) JSON.deserialize(paymentInfoStr, PaymentPlanRequestInfo.class);
         String jwtToken = PayStaffWSUtill.getJWTToken(PayStaffWSUtill.un, PayStaffWSUtill.pw);
         String csrfToken = PayStaffWSUtill.getCSRFToken();
         if (csrfToken == null || jwtToken == null || String.isBlank(paymentInfo.sfId)) {
@@ -229,7 +229,7 @@ public without sharing class PaymentTabsController {
         }
     }
 
-    private static Payment_Method__c generatePaymentMethod(PaymentRequestInfo info, String contactId) {
+    private static Payment_Method__c generatePaymentMethod(PaymentPlanRequestInfo info, String contactId) {
         Date expDate = null;
         if (info.creditCard != null && String.isNotBlank(info.creditCard.expirationMonth) && String.isNotBlank(info.creditCard.expirationYear)) {
             expDate = Date.newInstance(Integer.valueOf(info.creditCard.expirationYear), Integer.valueOf(info.creditCard.expirationMonth), 1);
@@ -288,7 +288,7 @@ public without sharing class PaymentTabsController {
                 if (!hasError) {
                     UPDATE paymentPlanObj;
                     // Update the Charge Groups using ChargeGroupService.
-                    ChargeGroupService.UPDATEChargeGroupsWithStatus(chargeGroups);
+                    ChargeGroupService.updateChargeGroupsWithStatus(chargeGroups);
                 }
                 return;
             }
@@ -509,7 +509,7 @@ public without sharing class PaymentTabsController {
         }
     }
 
-    public class PaymentRequestInfo {
+    public class PaymentPlanRequestInfo {
         @AuraEnabled
         public String sfId {
             get;
@@ -563,7 +563,7 @@ public without sharing class PaymentTabsController {
             set;
         }
 
-        public PaymentRequestInfo() {
+        public PaymentPlanRequestInfo() {
             this.creditCard = new MakeAPaymentController.CardInformation();
         }
     }
