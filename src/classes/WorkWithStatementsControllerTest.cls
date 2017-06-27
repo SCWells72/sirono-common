@@ -1,35 +1,35 @@
 @isTest
 private class WorkWithStatementsControllerTest {
-	
-	@isTest
-	static void getStatementsTest() {
-		User gtUser = TestUtility.getGuarantorCommunityUser();
-		User adminUser = TestUtility.getAdminUser();
+
+    @isTest
+    static void getStatementsTest() {
+        User gtUser = TestUtility.getGuarantorCommunityUser();
+        User adminUser = TestUtility.getAdminUser();
 
 
-		System.runAs(adminUser) {
-	        Account testAcc = TestUtility.getAccount();
+        System.runAs(adminUser) {
+            Account testAcc = TestUtility.getAccount();
 
-	      	Contact guarantorContact = GuarantorService.getPortalGuarantor(gtUser.Id);
+            Contact guarantorContact = GuarantorService.getPortalGuarantor(gtUser.Id);
 
-			List<Statement__c> statements = new List<Statement__c>();
-			for (String stmtDate :  RestClientConstants.STATEMENT_DATES) {
-				Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-				statement.Statement_Date__c = Date.parse(stmtDate);
-				statements.add(statement);
-			}
+            List<Statement__c> statements = new List<Statement__c>();
+            for (String stmtDate : RestClientConstants.STATEMENT_DATES) {
+                Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
+                statement.Statement_Date__c = Date.parse(stmtDate);
+                statements.add(statement);
+            }
 
-	  		insert statements;
-	  	}
+            insert statements;
+        }
 
         System.runAs(gtUser) {
-			Test.setMock(HttpCalloutMock.class, new GuarantorServiceTest.GuarantorRestClientMock());
-			Test.startTest();
+            Test.setMock(HttpCalloutMock.class, new GuarantorServiceTest.GuarantorRestClientMock());
+            Test.startTest();
 
-			List<WorkWithStatementsController.StatementWrapper> statements = WorkWithStatementsController.getStatements();
-			Test.stopTest();
+            List<WorkWithStatementsController.StatementWrapper> statements = WorkWithStatementsController.getStatements();
+            Test.stopTest();
 
-			System.assertEquals(5, statements.size(), 'Expected 5 statements');
+            System.assertEquals(5, statements.size(), 'Expected 5 statements');
         }
-	}	
+    }
 }
