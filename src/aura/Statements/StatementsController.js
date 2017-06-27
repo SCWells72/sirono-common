@@ -5,7 +5,7 @@
 	},
 
 	doInit : function(component, event, helper) {
-		helper.getAllInfo(component);
+		helper.getStatements(component);
 	},
     
 

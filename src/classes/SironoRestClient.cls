@@ -444,14 +444,12 @@ public abstract with sharing class SironoRestClient {
      */
     public static String ensureJsonList(String jsonBody) {
         String json = jsonBody;
-        if (!json.startsWith('[') || !json.endsWith(']')) {
-            if (!json.endsWith(']')) {
-                json = json + ']';
-            }
+        if (!json.endsWith(']')) {
+            json = json + ']';
+        }
 
-            if (!json.startsWith('[')) {
-                json = '[' + json;
-            }
+        if (!json.startsWith('[')) {
+            json = '[' + json;
         }
         return json;
     }

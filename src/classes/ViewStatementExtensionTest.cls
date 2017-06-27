@@ -19,11 +19,11 @@ public class ViewStatementExtensionTest {
         lstStatement.add(statement);
 
         statement = TestUtility.generateStatement(guarantorContact.Id);
-        statement.Statement_Date__c = Date.parse('10/07/2016');
+        statement.Statement_Date__c = Date.parse(RestClientConstants.STATEMENT_DATES[0]);
         lstStatement.add(statement);
 
         statement = TestUtility.generateStatement(guarantorContact.Id);
-        statement.Statement_Date__c = Date.parse('02/07/2017');
+        statement.Statement_Date__c = Date.parse(RestClientConstants.STATEMENT_DATES[RestClientConstants.STATEMENT_DATES.size()-1]);
         lstStatement.add(statement);
 
         INSERT lstStatement;
@@ -34,8 +34,8 @@ public class ViewStatementExtensionTest {
      * This method verifies provided Statement Has PDF to view.
      **/
     @isTest public static void testStatementHasPDF() {
-        // Find the statement for 2016-10-07
-        Date stmtDate = Date.parse('10/07/2016');
+        // Find the statement for the first statement date
+        Date stmtDate = Date.parse(RestClientConstants.STATEMENT_DATES[0]);
         Statement__c stmt = [
                 SELECT ID, Guarantor__r.Profile_Pointer_ID__c, Statement_Date__c
                 FROM Statement__c
@@ -73,8 +73,8 @@ public class ViewStatementExtensionTest {
      **/
     @isTest public static void testStatementNoPDF() {
 
-        // Find the statement for 2017-02-07
-        Date stmtDate = Date.parse('02/07/2017');
+        // Find the statement for the last statement date (it doesn't have a url)
+        Date stmtDate = Date.parse(RestClientConstants.STATEMENT_DATES[RestClientConstants.STATEMENT_DATES.size()-1]);
         Statement__c stmt = [
                 SELECT ID, Guarantor__r.Profile_Pointer_ID__c, Statement_Date__c
                 FROM Statement__c

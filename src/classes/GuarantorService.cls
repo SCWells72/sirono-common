@@ -23,7 +23,9 @@ public with sharing class GuarantorService extends AbstractService {
         private HttpResponse getStatementUrls(String guarantorId) {
 
             return getRequestor()
-                    .url(RestClientConstants.STATEMENTS, new String[]{stripCommas(guarantorId)})
+                    .url(RestClientConstants.STATEMENTS, new String[]{
+                            stripCommas(guarantorId)
+                    })
                     .call();
 
         }
@@ -327,20 +329,20 @@ public with sharing class GuarantorService extends AbstractService {
      * Get a map of statement urls for the Guarantor
      *
      * @param guarantorId - the guarantor's sironoId
-     * @returns Map of statment pdf urls, keyed by formatted statement date
+     * @returns Map of statment pdf urls, keyed by statement date
      **/
-    public static Map<String, String> getStatementMap(String guarantorId) {
-        Map<String, String> stmtUrlMmap = new Map<String, String>();
+    public static Map<Date, String> getStatementMap(String guarantorId) {
+        Map<Date, String> stmtUrlMap = new Map<Date, String>();
 
         GuarantorRestClient client = new GuarantorRestClient();
         HttpResponse response = client.getStatementUrls(guarantorId);
-System.debug('responseBody: '+response.getBody());
+
         StatementURLJSONParser parser = new StatementURLJSONParser(response.getBody());
         for (GuarantorService.StatementURLJSON stmt : parser.statementUrls) {
             String pdfURL = stmt.pdf_url;
-            stmtUrlMmap.put(stmt.statement_date.format(), pdfURL);
+            stmtUrlMap.put(stmt.statement_date, pdfURL);
         }
 
-        return stmtUrlMmap;
+        return stmtUrlMap;
     }
 }

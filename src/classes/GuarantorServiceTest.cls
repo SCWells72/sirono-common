@@ -241,11 +241,11 @@ public with sharing class GuarantorServiceTest {
         Test.setMock(HttpCalloutMock.class, new GuarantorRestClientMock());
 
         Test.startTest();
-        Map<String, String> urlMap = GuarantorService.getStatementMap(RestClientConstants.GUARANTOR_ID);
+        Map<Date, String> urlMap = GuarantorService.getStatementMap(RestClientConstants.GUARANTOR_ID);
         Test.stopTest();
 
-        for (String key : urlMap.keySet()) {
-            System.debug('key: '+key+' url: '+urlMap.get(key));
+        for (Date key : urlMap.keySet()) {
+            System.debug('key: '+key.format()+' url: '+urlMap.get(key));
         }
 
         System.assertEquals(urlMap.size(), 5, 'Expected 5 entries in the url map');

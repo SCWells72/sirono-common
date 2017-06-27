@@ -1,40 +1,47 @@
 public with sharing class WorkWithStatementsController {
+
 	public class StatementWrapper {
 		@AuraEnabled
-		public String pdf_Url 			{get;set;}
+		public String pdf_url {get;set;}
 		@AuraEnabled
-		public Date statement_date 	{get;set;}
+		public Date statement_date {get;set;}
 
 		public StatementWrapper(Date stmtDate, String stmtUrl) {
-			this.statement_date 	= stmtDate;
-			this.pdf_Url = stmtUrl;
+			this.statement_date = stmtDate;
+			this.pdf_url = stmtUrl;
 		}
 	}
 
+	/**
+	 *
+	 * Return a list of StatementWrappers containing the statements for the current guarantor user. A wrapper is
+	 * returned for every statement date, even if the pdf url is empty
+	 *
+	 */
 	@AuraEnabled
-	public static List<StatementWrapper> getAllInfo() {
+	public static List<StatementWrapper> getStatements() {
 		System.debug('At the top of WorkWithStatementsController.getAllInfo');
-		List<StatementWrapper> result = new List<StatementWrapper>();
+		List<StatementWrapper> statements = new List<StatementWrapper>();
 
 		try {
 			Contact gt = GuarantorService.getPortalGuarantor(UserInfo.getUserId());
 
-			Map<String, String> statementUrlMap = GuarantorService.getStatementMap(gt.Profile_Pointer_ID__c.toPlainString());
+			Map<Date, String> statementUrlMap = GuarantorService.getStatementMap(gt.Profile_Pointer_ID__c.toPlainString());
 
 			System.debug('UrlMap retrieved: '+statementUrlMap);
 
-			List<String> statementDates = new List<String>(statementUrlMap.keySet());
+			List<Date> statementDates = new List<Date>(statementUrlMap.keySet());
 			statementDates.sort();
 
 			for (Integer i = statementDates.size() - 1; i >= 0; i--){
-				String stmtDate = statementDates.get(i);
-				System.debug('Wrapper date: '+stmtDate+ ' url: '+statementUrlMap.get(stmtDate));
-				result.add(new StatementWrapper(Date.parse(stmtDate), statementUrlMap.get(stmtDate)));
+				Date stmtDate = statementDates.get(i);
+				System.debug('Wrapper date: '+stmtDate.format()+ ' url: '+statementUrlMap.get(stmtDate));
+				statements.add(new StatementWrapper(stmtDate, statementUrlMap.get(stmtDate)));
 			}
 		} catch (Exception ex) {
 			System.debug(ex.getStackTraceString());
 			System.debug('Error retrieving statements: '+ex.getMessage());
 		}
-		return result;
+		return statements;
 	}
 }

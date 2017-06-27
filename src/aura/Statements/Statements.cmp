@@ -44,7 +44,8 @@
                 <div class="container">
                     <aura:iteration items="{!stateLengthItem}" var="stateLengthItemOne" indexVar="positionIn">
                         <div class="col">
-                            <a href="{!stateLengthItemOne.pdf_Url}" target="_blank">
+                            <!-- TODO make this smarter so that it doesn't render a link when there is no URL -->
+                            <a href="{!stateLengthItemOne.pdf_url}" target="_blank">
                                 <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/doctype-sprite/svg/symbols.svg#pdf'}" category="standard" size="medium" name="pdf" />
                                 <span class="slds-assistive-text">Download</span>
                                 <ui:outputdate format="MMMM d, YYYY" value="{!stateLengthItemOne.statement_date}" /> Statement

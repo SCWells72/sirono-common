@@ -1,6 +1,6 @@
 ({
-    getAllInfo: function (component) {
-        var action = component.get("c.getAllInfo");
+    getStatements: function (component) {
+        var action = component.get("c.getStatements");
         action.setCallback(this, function (response) {
             var state = response.getState();
             if (state === 'SUCCESS') {
