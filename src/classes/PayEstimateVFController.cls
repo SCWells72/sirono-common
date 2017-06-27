@@ -29,7 +29,10 @@ public with sharing class PayEstimateVFController extends PayEstimateController 
      **/
     public void submit() {
         try {
-            if (isValidCard() && isValidAmount()) {
+            errorMessages = new List<String>();
+            Boolean validAmount = isValidAmount();
+            Boolean validCard = isValidCard();
+            if (validAmount  && validCard) {
                 addPayment(null);
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY));
             }

@@ -3001,7 +3001,7 @@
                 <default>false</default>
             </picklistValues>
             <picklistValues>
-                <fullName>CC Error</fullName>
+                <fullName>Payment Plan Error</fullName>
                 <default>false</default>
             </picklistValues>
             <picklistValues>
@@ -4864,10 +4864,6 @@
         <picklistValues>
             <picklist>Type</picklist>
             <values>
-                <fullName>CC Error</fullName>
-                <default>false</default>
-            </values>
-            <values>
                 <fullName>Credit Card Failure</fullName>
                 <default>false</default>
             </values>
@@ -4877,6 +4873,10 @@
             </values>
             <values>
                 <fullName>Past Due Payment Plans</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Payment Plan Error</fullName>
                 <default>false</default>
             </values>
             <values>

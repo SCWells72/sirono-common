@@ -45,7 +45,8 @@ public class CallListUtilitiesTest {
 
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M,
+                Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M, Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -106,7 +107,8 @@ public class CallListUtilitiesTest {
 
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M,
+                Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M, Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
@@ -138,7 +140,8 @@ public class CallListUtilitiesTest {
 
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M, 'CC Error M', 'CC Error'
+                'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M,
+                Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M, Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
         Test.startTest();
@@ -258,7 +261,7 @@ public class CallListUtilitiesTest {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
         Test.startTest();
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'CC Error', guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, guarantorContact.Id);
         insert objCase;
 
         objCase.Status = 'Closed';

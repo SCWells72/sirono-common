@@ -1041,7 +1041,7 @@ public class CaseUtil {
                     SELECT Id, Guarantor_Information__c
                     FROM Case
                     WHERE Guarantor_Information__c IN :contactIds
-                    AND (Type = 'CC Error' OR Reason = 'Compliance Issue')
+                    AND (Type = :Constants.CASE_TYPE_PAYMENT_PLAN_ERROR OR Reason = 'Compliance Issue')
                     AND IsClosed = false
             ]) {
                 contactIds.Remove(objCase.Guarantor_Information__c);
@@ -1065,10 +1065,10 @@ public class CaseUtil {
         mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(contactIds, null));
 
         Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
-                'CC Error', 'CC Error M'
+                Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR, Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M
         });
-        string ccError = mapCampaignMapping.get('CC Error');
-        string ccErrorMobile = mapCampaignMapping.get('CC Error M');
+        string ccError = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR);
+        string ccErrorMobile = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M);
 
         if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed() &&
                 CmpnMemberSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
@@ -1099,9 +1099,9 @@ public class CaseUtil {
             Case objCase = new Case();
             objCase.Guarantor_Information__c = strContactId;
             objCase.ContactId = strContactId;
-            objCase.Type = 'CC Error';
+            objCase.Type = Constants.CASE_TYPE_PAYMENT_PLAN_ERROR;
             objCase.Status = 'New';
-            objCase.Subject = 'CC Error';
+            objCase.Subject = Constants.CASE_TYPE_PAYMENT_PLAN_ERROR;
             objCase.RecordTypeID = rt[0].Id;
             if (lstGroup.size() > 0) {
                 objCase.ownerId = lstGroup[0].Id;
@@ -1202,7 +1202,7 @@ public class CaseUtil {
                     SELECT Id, Guarantor_Information__c
                     FROM Case
                     WHERE Guarantor_Information__c IN :contactIds
-                    AND Type = 'CC Error' AND IsClosed = false
+                    AND Type = :Constants.CASE_TYPE_PAYMENT_PLAN_ERROR AND IsClosed = false
             ];
         }
         contactIds = new Set<Id>();
@@ -1216,7 +1216,7 @@ public class CaseUtil {
         }
 
         Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
-                'CC Error', 'CC Error M'
+                Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR, Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M
         });
 
         deleteCampaignMembers(contactIds, mapCampaignMapping.values());
