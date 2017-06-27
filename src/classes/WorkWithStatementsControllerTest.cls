@@ -24,12 +24,12 @@ private class WorkWithStatementsControllerTest {
 
         System.runAs(gtUser) {
 			Test.setMock(HttpCalloutMock.class, new GuarantorServiceTest.GuarantorRestClientMock());
-        	Test.startTest();
+			Test.startTest();
 
 			List<WorkWithStatementsController.StatementWrapper> statements = WorkWithStatementsController.getStatements();
 			Test.stopTest();
 
-        	System.assertEquals(5, statements.size(), 'Expected 5 statements');
+			System.assertEquals(5, statements.size(), 'Expected 5 statements');
         }
 	}	
 }
