@@ -89,10 +89,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Has_Chargegroup__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Billed_Charge_Group_Count__c</field>
             </layoutItems>
             <layoutItems>

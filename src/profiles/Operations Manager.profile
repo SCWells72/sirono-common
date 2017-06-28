@@ -1977,11 +1977,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Encounter__c.Has_Chargegroup__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Encounter__c.Individual_Deductible_Remaining__c</field>
         <readable>true</readable>
     </fieldPermissions>
