@@ -1,47 +1,47 @@
 public with sharing class WorkWithStatementsController {
-	public static final String VIEW_URL_SUFFIX = '/guarantor/servlet/servlet.FileDownload?file=';
 
 	public class StatementWrapper {
 		@AuraEnabled
-		public String pdf_Url 			{get;set;}
+		public String pdf_url {get;set;}
 		@AuraEnabled
-		public Statement__c statement 	{get;set;}
+		public Date statement_date {get;set;}
 
-		public StatementWrapper(Statement__c statement) {
-			this.statement 	= statement;
-			if(statement.Attachments != null && statement.Attachments.size() > 0) {
-				this.pdf_Url = WorkWithStatementsController.VIEW_URL_SUFFIX + statement.Attachments[0].Id;
-			}
+		public StatementWrapper(Date stmtDate, String stmtUrl) {
+			this.statement_date = stmtDate;
+			this.pdf_url = stmtUrl;
 		}
 	}
 
+	/**
+	 *
+	 * Return a list of StatementWrappers containing the statements for the current guarantor user. A wrapper is
+	 * returned for every statement date, even if the pdf url is empty
+	 *
+	 */
 	@AuraEnabled
-	public static List<StatementWrapper> getAllInfo() {
-		List<StatementWrapper> result = new List<StatementWrapper>();
-		User currentUser = [SELECT Id, ContactId FROM User WHERE Id = :userInfo.getUserId()];
-		if(currentUser.ContactId == null) {
-			return result;
+	public static List<StatementWrapper> getStatements() {
+		System.debug('At the top of WorkWithStatementsController.getAllInfo');
+		List<StatementWrapper> statements = new List<StatementWrapper>();
+
+		try {
+			Contact gt = GuarantorService.getPortalGuarantor(UserInfo.getUserId());
+
+			Map<Date, String> statementUrlMap = GuarantorService.getStatementMap(gt.Profile_Pointer_ID__c.toPlainString());
+
+			System.debug('UrlMap retrieved: '+statementUrlMap);
+
+			List<Date> statementDates = new List<Date>(statementUrlMap.keySet());
+			statementDates.sort();
+
+			for (Integer i = statementDates.size() - 1; i >= 0; i--){
+				Date stmtDate = statementDates.get(i);
+				System.debug('Wrapper date: '+stmtDate.format()+ ' url: '+statementUrlMap.get(stmtDate));
+				statements.add(new StatementWrapper(stmtDate, statementUrlMap.get(stmtDate)));
+			}
+		} catch (Exception ex) {
+			System.debug(ex.getStackTraceString());
+			System.debug('Error retrieving statements: '+ex.getMessage());
 		}
-		List<Statement__c> statementList = [
-												SELECT 
-															Id, 
-															PdfUrl__c, 
-															Statement_Date__c,
-															(
-																SELECT
-																		 Id
-																FROM	 Attachments
-																ORDER BY CreatedDate DESC
-																LIMIT	 1
-															)
-												FROM 		Statement__c 
-												WHERE 		Guarantor__c = :currentUser.ContactId
-												ORDER BY 	Statement_Date__c DESC 
-												LIMIT 50000
-											];
-		for(Integer i = 0; i < statementList.size(); i++) {
-			result.add(new StatementWrapper(statementList.get(i)));
-		}
-		return result;
+		return statements;
 	}
 }

@@ -72,25 +72,6 @@ private class PayStaffWSUtillTest {
     }
 
     /**
-     * This method tests the logic of Statement Url.
-     **/
-    @isTest
-    static void checkStatementUrlMap() {
-        TestUtility.status = 'CREATED';
-        TestUtility.statusCode = 200;
-        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-
-        Test.startTest();
-        HttpResponse res = PayStaffWSUtill.getStatementUrls('12345');
-        String contentType = res.getHeader('Content-Type');
-        Test.stopTest();
-        
-        // Check system assert.
-        System.assert(contentType == 'application/json', 'Should have failed due to contentType is null.');
-        System.assertEquals(200, res.getStatusCode(), 'Should have failed due to status code is not 200.');
-    }
-
-    /**
      * This method tests the logic of get CSRF Token.
      **/
     @isTest

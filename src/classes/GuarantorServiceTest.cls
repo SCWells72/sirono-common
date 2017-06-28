@@ -12,6 +12,42 @@ public with sharing class GuarantorServiceTest {
     private static Date BIRTHDATE = Date.today().addYears(-20);
     private static String MRN = 'TEST_MRN_12345';
 
+    public class GuarantorRestClientMock implements HttpCalloutMock {
+
+        public HTTPResponse respond(HTTPRequest req) {
+            HttpResponse res;
+
+            // First see if the req matches any of the auth routes
+            res = RestClientMockUtil.handleAuthRequest(req);
+            if (res != null) {
+                return res;
+            }
+
+            String method = req.getMethod();
+            String url = req.getEndpoint();
+            Map<String, String> urls = RestClientConstants.GUARANTOR_URLS;
+
+            res = new HttpResponse();
+            if (method == RestClientConstants.GET) {
+                if (url == RestClientMockUtil.urlBuilder(urls.get(RestClientConstants.STATEMENTS), new String[]{RestClientConstants.GUARANTOR_ID})) {
+                    res.setStatusCode(RestClientConstants.HTTP_SUCCESS);
+                    res.setBody(RestClientConstants.STATEMENTS_JSON);
+                } else {
+                    throw new SironoServiceException('Unexpected GET url in GuarantorRestClientMock');
+                }
+
+            } else {
+                throw new SironoServiceException('Unexpected method in GuarantorRestClientMock');
+            }
+
+            // Check system assert.
+            System.assertNotEquals(res, null, 'Should have failed due to res is null.');
+
+            return res;
+        }
+
+    }
+
     @TestSetup
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
@@ -177,7 +213,7 @@ public with sharing class GuarantorServiceTest {
         }
     }
 
-        /*
+    /*
      * Negative test: retrieve a non-portal user's associated guarantor contact (which he doesn't have)
      *
      */
@@ -194,5 +230,24 @@ public with sharing class GuarantorServiceTest {
         } catch (SironoServiceException ex) {
             System.assert(ex.getMessage().startsWith('No user with id'), 'Unexpected exception caught: '+ex.getMessage());
         }
+    }
+
+    /**
+     * Test the retrieval of the statement pdf urls
+     */
+    @isTest
+    static void testGetStatementsSuccess() {
+
+        Test.setMock(HttpCalloutMock.class, new GuarantorRestClientMock());
+
+        Test.startTest();
+        Map<Date, String> urlMap = GuarantorService.getStatementMap(RestClientConstants.GUARANTOR_ID);
+        Test.stopTest();
+
+        for (Date key : urlMap.keySet()) {
+            System.debug('key: '+key.format()+' url: '+urlMap.get(key));
+        }
+
+        System.assertEquals(urlMap.size(), 5, 'Expected 5 entries in the url map');
     }
 }
