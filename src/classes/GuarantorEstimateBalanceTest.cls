@@ -130,41 +130,6 @@ public with sharing class GuarantorEstimateBalanceTest {
     }
 
     /**
-     * This method validates guarantor's Estimate Balance for zero amount.
-     **/
-    @isTest
-    public static void testGTEstimateZeroBalance() {
-        Encounter__c encounter = [SELECT Id FROM Encounter__c WHERE Department__c = 'Test Dept'];
-        Contact gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE LastName = 'GT1'];
-        encounter.Guarantor__c = gt.Id;
-        UPDATE encounter;
-
-        // Check system assert.
-	gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE Id = :gt.Id];
-        System.assert(gt.Estimate_Balance__c == 3000.00,
-                'Expected Estimate_Balance__c to be 3000, but was: '+gt.Estimate_Balance__c);
-
-        Test.startTest();
-
-        Contact pt = TestUtility.generatePatientContact();
-        INSERT pt;
-
-        Charge_Group__c cg = TestUtility.generateChargeGroupWithExternalId(gt.Id, pt.Id, 12345);
-        cg.Encounter__c = encounter.Id;
-        INSERT cg;
-
-        Test.stopTest();
-
-	// Check system assert.
-        encounter = [SELECT Id, Has_Chargegroup__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
-        System.assert(encounter.Has_Chargegroup__c, 'Expected Encounter Has_Chargegroup__c to be true');
-
-        gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE Id = :gt.Id];
-        System.assert(gt.Estimate_Balance__c == 0,
-                'Expected Estimate_Balance__c to be 0 for gt: '+gt.Id+', but was: '+gt.Estimate_Balance__c);
-    }
-
-    /**
      * This method checks validates Estimate Balance after Encounter record gets deleted.
      **/
     @isTest

@@ -28,7 +28,7 @@ public without sharing class EncounterUtil {
 
         Map<Id, Encounter__c> encountersToUpdate = new Map<Id, Encounter__c>();
         for (Id id : encounterIds) {
-        	encountersToUpdate.put(id, new Encounter__c(Id = id, Total_Payments__c = 0));
+            encountersToUpdate.put(id, new Encounter__c(Id = id, Total_Payments__c = 0));
         }
         if (PaymentSecurityContext.EU_SELECT_CONTEXT.actionAllowed()) {
             // Get the SUM of all the associated payments
@@ -50,57 +50,6 @@ public without sharing class EncounterUtil {
                 UPDATE encountersToUpdate.values();
             }
             updateAssociatedGuarantors(encounterIds);
-        }
-    }
-
-    /**
-      * Determine which of the given Encounters have associated
-      * Charge_Groups and set Has_ChargeGroup flag accordingly.
-     */
-    public static void setHasChargeGroup(Set<Id> encounterIds) {
-        if (encounterIds.contains(null)) {
-            encounterIds.remove(null);
-        }
-
-        if (encounterIds.size() == 0) {
-            return;
-        }
-
-        Set<Id> hasChargeGroup = new Set<Id>();
-        for (Charge_Group__c cg: ChargeGroupService.getCGBasedOnEncounter(encounterIds)) {
-            hasChargeGroup.add(cg.Encounter__c);
-        }
-
-        encounterIds.removeAll(hasChargeGroup);
-
-        if (encounterIds.size() > 0) {
-            setHasChargeGroupFlag(encounterIds, false);
-        }
-
-        if (hasChargeGroup.size() > 0) {
-            setHasChargeGroupFlag(hasChargeGroup, true);
-        }
-
-        encounterIds.addAll(hasChargeGroup);
-        updateAssociatedGuarantors(encounterIds);
-    }
-
-    /*
-     * Set the Has_Chargegroup__c flag on the given encounters to the given boolean value
-     */
-    private static void setHasChargeGroupFlag(Set<Id> encounterIds, boolean flagValue) {
-        if (encounterIds.size() == 0) {
-            return;
-        }
-
-        List<Encounter__c> encountersToUpdate = new List<Encounter__c>();
-        for (Id id : encounterIds) {
-            Encounter__c enc = new Encounter__c(Id=id);
-            enc.Has_Chargegroup__c = flagValue;
-            encountersToUpdate.add(enc);
-        }
-        if (EncounterSecurityContext.UPDATE_HAS_CHARGEGROUP_CONTEXT.actionAllowed()) {
-            UPDATE encountersToUpdate;
         }
     }
 
@@ -169,7 +118,7 @@ public without sharing class EncounterUtil {
                 toUpdate.add(gt);
             }
             // Update Contacts.
-            GuarantorDao.updateGuarantorsWithEstimateBal(toUpdate);
+            GuarantorService.updateGuarantorsWithEstimateBal(toUpdate);
         }
     }
 

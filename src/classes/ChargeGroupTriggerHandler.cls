@@ -25,7 +25,7 @@ public without sharing class ChargeGroupTriggerHandler {
     public static void afterInsert(List<Charge_Group__c> newList) {
         Set<Id> paymentPlanIds = new Set<Id>();
         Set<Id> invoiceIds = new Set<Id>();
-        Set<Id> encounterIds = new Set<Id>();
+        Set<Id> encounterIdsForBilledCount = new Set<Id>();
 
         for (Charge_Group__c cg : newList) {
             //If this chargegroup is associated with a paymentPlan, calc the pp balance
@@ -39,7 +39,9 @@ public without sharing class ChargeGroupTriggerHandler {
             }
 
             if (cg.Encounter__c != null) {
-                encounterIds.add(cg.Encounter__c);
+                if (cg.Account_Status__c == Constants.ACCT_STATUS_BILLED) {
+                    encounterIdsForBilledCount.add(cg.Encounter__c);
+                }
             }
         }
 
@@ -47,7 +49,7 @@ public without sharing class ChargeGroupTriggerHandler {
             Map<Id, Payment_Plan__c> plansToUpdate = PaymentPlanUtil.setBalanceAndCharges(paymentPlanIds);
             if (plansToUpdate.size() > 0) {
                 if (PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT.actionAllowed()) {
-					UPDATE plansToUpdate.values();
+                    UPDATE plansToUpdate.values();
                 }
             }
         }
@@ -58,9 +60,8 @@ public without sharing class ChargeGroupTriggerHandler {
             InvoiceUtil.updateAllSubstatusInvoiceField(invoiceIds);
         }
 
-        if (encounterIds.size() > 0) {
-            EncounterUtil.setHasChargeGroup(encounterIds);
-            EncounterUtil.setBilledCGCount(encounterIds);
+        if(encounterIdsForBilledCount.size() > 0) {
+            EncounterUtil.setBilledCGCount(encounterIdsForBilledCount);
         }
     }
 
@@ -72,8 +73,7 @@ public without sharing class ChargeGroupTriggerHandler {
         //Collect Ids of the PaymentPlans to recalc their balances
         Set<Id> paymentPlanIds = new Set<Id>();
         Set<Id> invoiceIds = new Set<Id>();
-        Set<Id> encounterIds = new Set<Id>();
-        Set<Id> encounterIdsForCGCount = new Set<Id>();
+        Set<Id> encounterIdsForBilledCount = new Set<Id>();
 
         for (Charge_Group__c cg : newList) {
             if (cg.Pre_Collection_Sent__c == null && cg.Guarantor__c != null
@@ -98,30 +98,33 @@ public without sharing class ChargeGroupTriggerHandler {
                 invoiceIds.add(oldMap.get(cg.Id).Invoice__c);
             }
 
-            // If the Charge_Group is associated with an Encounter, update the Encounter Has_Chargegroup flag
+            // If the Charge_Group is associated with an Encounter.
             if (cg.Encounter__c != null) {
                 if (oldMap.get(cg.Id).Encounter__c != null) {
                     if (cg.Encounter__c != oldMap.get(cg.Id).Encounter__c) {
-                        encounterIds.add(cg.Encounter__c);
-                        encounterIds.add(oldMap.get(cg.Id).Encounter__c);
-
-                        encounterIdsForCGCount.add(cg.Encounter__c);
-                        encounterIdsForCGCount.add(oldMap.get(cg.Id).Encounter__c);
+                        if (cg.Account_Status__c != oldMap.get(cg.Id).Account_Status__c) {
+                            if (cg.Account_Status__c == Constants.ACCT_STATUS_BILLED || oldMap.get(cg.Id).Account_Status__c == Constants.ACCT_STATUS_BILLED) {
+                                encounterIdsForBilledCount.add(cg.Encounter__c);
+                                encounterIdsForBilledCount.add(oldMap.get(cg.Id).Encounter__c);
+                            }
+                        }
                     } else {
-                        encounterIdsForCGCount.add(cg.Encounter__c);
+                        if (cg.Account_Status__c != oldMap.get(cg.Id).Account_Status__c || cg.Account_Status__c == Constants.ACCT_STATUS_BILLED) {
+                            encounterIdsForBilledCount.add(cg.Encounter__c);
+                        }
                     }
                 } else {
-                    encounterIds.add(cg.Encounter__c);
-                    encounterIdsForCGCount.add(cg.Encounter__c);
+                    if (cg.Account_Status__c == Constants.ACCT_STATUS_BILLED) {
+                        encounterIdsForBilledCount.add(cg.Encounter__c);
+                    }
                 }
             } else {
                 if (oldMap.get(cg.Id).Encounter__c != null) {
-                    encounterIds.add(oldMap.get(cg.Id).Encounter__c);
-                    encounterIdsForCGCount.add(oldMap.get(cg.Id).Encounter__c);
+                    if (oldMap.get(cg.Id).Account_Status__c == Constants.ACCT_STATUS_BILLED) {
+                        encounterIdsForBilledCount.add(oldMap.get(cg.Id).Encounter__c);
+                    }
                 }
             }
-
-
         }
 
         if (contactIds.size() > 0) {
@@ -143,12 +146,8 @@ public without sharing class ChargeGroupTriggerHandler {
             InvoiceUtil.updateAllSubstatusInvoiceField(invoiceIds);
         }
 
-        if (encounterIds.size() > 0) {
-            EncounterUtil.setHasChargeGroup(encounterIds);
-        }
-
-        if (encounterIdsForCGCount.size() > 0) {
-            EncounterUtil.setBilledCGCount(encounterIdsForCGCount);
+        if (encounterIdsForBilledCount.size() > 0) {
+            EncounterUtil.setBilledCGCount(encounterIdsForBilledCount);
         }
     }
 
@@ -156,7 +155,7 @@ public without sharing class ChargeGroupTriggerHandler {
     public static void afterDelete(List<Charge_Group__c> oldList) {
         Set<Id> paymentPlanIds = new Set<ID>();
         Set<Id> invoiceIds = new Set<Id>();
-        Set<Id> encounterIds = new Set<Id>();
+        Set<Id> encounterIdsForBilledCount = new Set<Id>();
 
         for (Charge_Group__c cg : oldList) {
             //If this chargegroup was associated with a paymentPlan, recalc the pp balance
@@ -170,7 +169,9 @@ public without sharing class ChargeGroupTriggerHandler {
             }
 
             if (cg.Encounter__c != null) {
-                encounterIds.add(cg.Encounter__c);
+                if (cg.Account_Status__c == Constants.ACCT_STATUS_BILLED) {
+                    encounterIdsForBilledCount.add(cg.Encounter__c);
+                }
             }
         }
 
@@ -180,9 +181,8 @@ public without sharing class ChargeGroupTriggerHandler {
             InvoiceUtil.updateAllSubstatusInvoiceField(invoiceIds);
         }
 
-        if (encounterIds.size() > 0) {
-            EncounterUtil.setHasChargeGroup(encounterIds);
-            EncounterUtil.setBilledCGCount(encounterIds);
+        if (encounterIdsForBilledCount.size() > 0) {
+            EncounterUtil.setBilledCGCount(encounterIdsForBilledCount);
         }
 
         if (paymentPlanIds.size() > 0) {
