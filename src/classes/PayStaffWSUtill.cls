@@ -207,21 +207,6 @@ public with sharing class PayStaffWSUtill {
         }
     }
 
-    public static HttpResponse getStatementUrls(String guarantorId) {
-        //Make sure there aren't any commas in the guarantor id
-        String fullUrl = String.format(STMTURL, new String[]{trimCommas(guarantorId)});
-        System.debug('check enter');
-        String jwtToken = getJWTToken();
-        HttpRequest req = new HttpRequest();
-        req.setMethod('GET');
-        req.setEndpoint(fullUrl);
-        req.setHeader('Authorization', 'JWT ' + jwtToken);
-        req.setHeader('Content-type', 'application/json');
-
-        Http http = new Http();
-        return http.send(req);
-    }
-
     public static Boolean isEmpty(String str) {
         return (str == null || str.trim().equals(''));
     }

@@ -196,4 +196,18 @@ private class SironoRestClientTest {
         // Check system assert.
         System.assert('10000'.equals(outputCents), 'Expected 10000, but got ' + outputCents);
     }
+
+    public class JSONTestObj {
+        public String tag;
+        public String tag_date;
+    }
+
+    @isTest
+    public static void testEnsureJSONList() {
+        String json = '{"Tag": "something", "tag_date": "2016-10-07"}';
+
+        String listJson = SironoRestClient.ensureJsonList(json);
+        List<JSONTestObj> objs = (List<JSONTestObj>) System.JSON.deserialize(listJson, List<JSONTestObj>.class);
+        System.assert(objs.size() == 1, 'Expected 1 JSONTestObj in the list');
+    }
 }

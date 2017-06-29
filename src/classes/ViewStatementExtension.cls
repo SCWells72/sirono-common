@@ -9,12 +9,12 @@ public with sharing class ViewStatementExtension {
     public Id id;
     public Date stmtDate;
     public String guarantorId;
-    public Map<String, String> stmtUrlMap;
+    public Map<Date, String> stmtUrlMap;
 
     //Constructor initializing the member variables
     public ViewStatementExtension(ApexPages.StandardController controller) {
         if (!Test.isRunningTest()) {
-            controller.addFields(new List<String>{
+            controller.addFields(new List<String> {
                     'Statement_Date__c', 'Guarantor__r.Profile_Pointer_ID__c'
             });
         }
@@ -22,15 +22,15 @@ public with sharing class ViewStatementExtension {
         id = stmt.Id;
         stmtDate = stmt.Statement_Date__c;
         guarantorId = stmt.Guarantor__r.Profile_Pointer_ID__c.format();
-        stmtUrlMap = new Map<String, String>();
+        stmtUrlMap = new Map<Date, String>();
     }
 
     //Method called from the Visual Force page action attribute
     public PageReference viewPdf() {
-        stmtUrlMap = getStatementUrlMap(guarantorId);
+        stmtUrlMap = GuarantorService.getStatementMap(guarantorId);
         PageReference pageRef = null;
-        if (stmtUrlMap.containsKey(stmtDate.format())) {
-            pageRef = new PageReference(stmtUrlMap.get(stmtDate.format()));
+        if (stmtUrlMap.containsKey(stmtDate) && !String.isEmpty(stmtUrlMap.get(stmtDate))) {
+            pageRef = new PageReference(stmtUrlMap.get(stmtDate));
             pageRef.setRedirect(true);
         } else {
             errorMsg = 'Statement PDF not found';
@@ -39,44 +39,5 @@ public with sharing class ViewStatementExtension {
         return pageRef;
     }
 
-    //Parsing the response from external Webservice callout
-    private Map<String, String> getStatementUrlMap(String guarantorId) {
-        Map<String, String> stmtUrlMmap = new Map<String, String>();
-        GuarantorsRestClient guarantorsRestClient;
-        try {
-            guarantorsRestClient = new guarantorsRestClient();
-            guarantorsRestClient.getStatements(guarantorId.replace(',', ''));
 
-            if (guarantorsRestClient.getStatusCode() == RestClientConstants.HTTP_SUCCESS) {
-                // Parse JSON response to get all the statement date/url pairs
-                JSONParser parser = JSON.createParser(guarantorsRestClient.getResponseBody());
-
-                while (parser.nextToken() != null) {
-                    if (parser.getCurrentToken() == JSONToken.START_OBJECT) {
-                        // Get the value.
-                        StatementURL inv = (StatementURL) parser.readValueAs(StatementURL.class);
-                        if (inv.pdf_url != null) {
-                            System.debug(inv.statement_date.format() + ' url: ' + inv.pdf_url);
-                            stmtUrlMmap.put(inv.statement_date.format(), inv.pdf_url);
-                        }
-                    }
-                }
-            }
-        } catch (Exception ex) {
-            if (Apexpages.currentPage() != null) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'ERROR: ' + ex.getMessage()));
-            } else {
-                System.debug('[' + ApexPages.SEVERITY.ERROR + '] ' + ex.getMessage());
-            }
-        }
-
-        return stmtUrlMmap;
-    }
-
-    //Inner Class
-
-    private class StatementURL {
-        public Date statement_date;
-        public String pdf_url;
-    }
 }
