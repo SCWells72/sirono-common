@@ -62,7 +62,6 @@ public without sharing class WorkWithInvoicesController {
         return allEstimates;
     }
 
-
     /**
      * Get an InvoiceWrapper by invoice id.
      *

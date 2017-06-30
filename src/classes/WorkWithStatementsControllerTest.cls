@@ -4,11 +4,11 @@ private class WorkWithStatementsControllerTest {
     @isTest
     static void getStatementsTest() {
         User gtUser = TestUtility.getGuarantorCommunityUser();
-        User adminUser = TestUtility.getAdminUser();
+        User adminUser = TestUtility.getPortalAdminUser();
 
 
         System.runAs(adminUser) {
-            Account testAcc = TestUtility.getAccount();
+            Account testAcc = TestUtility.getPortalAccount();
 
             Contact guarantorContact = GuarantorService.getPortalGuarantor(gtUser.Id);
 

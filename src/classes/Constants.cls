@@ -103,8 +103,11 @@ public class Constants {
     public static final String STANDARD_USER = 'Standard User';
     public static final String GUARANTOR_PORTAL_PROFILE = 'Guarantor Community Plus';
 
+    public static final String CREDIT_CARD = 'Credit Card';
+    public static final String MONTHS = 'MONTHS';
     public static final String PAID = 'Paid';
     public static final String UNPAID = 'Unpaid';
+    public static final String YEARS = 'YEARS';
 
     // Account Substatus constraints used for Cases
     public static final Set<String> CGConstraintsForCase = new Set<String> {

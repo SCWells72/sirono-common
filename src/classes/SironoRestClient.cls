@@ -433,7 +433,21 @@ public abstract with sharing class SironoRestClient {
      * @returns String centAmount - That contains cent amount value.
      **/
     public static String convertToCents(String amount) {
-        String centAmount = (String.isNotBlank(amount) ? String.valueOf((Decimal.valueOf(amount) * 100).intValue()) : amount);
+        if (String.isNotBlank(amount) ) {
+            return convertToCents(Decimal.valueOf(amount));
+        } else {
+            return amount;
+        }
+    }
+
+    /**
+     * Convert an amount in dollars to cents.
+     *
+     * @param Decimal amount - The amount in dollars.
+     * @return String - The amount in cents as a String.
+     */
+    public static String convertToCents(Decimal amount) {
+        String centAmount = String.valueOf((amount * 100).intValue());
         return centAmount;
     }
 

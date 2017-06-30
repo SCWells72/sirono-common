@@ -6,7 +6,7 @@
 public with sharing class HeaderControllerTest {
 
     @isTest
-    public static void getUserInfo() {
+    public static void getUserInfoTest() {
         User usr = TestUtility.getGuarantorCommunityUser();
 
         System.runAs(usr) {
@@ -22,6 +22,108 @@ public with sharing class HeaderControllerTest {
             System.assertEquals(usr.ContactId, userWrapper.contactId, 'Should find contactId.');
             //TODO: figure out why this is null.
 //          System.assert(userWrapper.profilePointerId != null, 'Should find profile pointer id.');
+        }
+    }
+
+    @isTest
+    public static void getHeaderInfoTest() {
+        Contact guarantorContact;
+        Contact patientContact;
+        Invoice__c invoice1;
+        User portalUser = TestUtility.getGuarantorCommunityUser();
+        User adminUser = TestUtility.getPortalAdminUser();
+
+        System.runAs(adminUser) {
+            Account testAcc = TestUtility.getPortalAccount();
+            guarantorContact = TestUtility.getPortalGuarantor();
+
+            patientContact = TestUtility.generatePatientContact();
+            patientContact.AccountId = testAcc.Id;
+            patientContact.Medical_Record_Number__c = '1234512345';
+            INSERT patientContact;
+
+            Payment_Plan__c pPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+            INSERT pPlan;
+
+            List<Invoice__c> lstInvoice = new List<Invoice__c>();
+            invoice1 = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+            lstInvoice.add(invoice1);
+
+            Invoice__c invoice2 = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+            lstInvoice.add(invoice2);
+
+            Invoice__c invoice3 = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+            invoice3.Invoice_Status_Index__c = 2;
+            lstInvoice.add(invoice3);
+
+            INSERT lstInvoice;
+
+            List<Charge_Group__c> lstChrgGroup = new List<Charge_Group__c>();
+            Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 1234, pPlan.Id);
+            chargeGroup1.Invoice__c = invoice1.Id;
+            lstChrgGroup.add(chargeGroup1);
+
+            Charge_Group__c chargeGroup2 = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 1234, pPlan.Id);
+            chargeGroup2.Invoice__c = invoice2.Id;
+            lstChrgGroup.add(chargeGroup2);
+
+            INSERT lstChrgGroup;
+
+            Payor__c payorTest = new Payor__c(
+                Name = 'payorTest'
+            );
+            INSERT payorTest;
+
+            Coverage__c objcoverage = new Coverage__c(
+                Name = 'Test',
+                Payor__c = payorTest.Id
+            );
+            INSERT objcoverage;
+
+            Charge_Group_Coverage_Junction__c objCGCoverage = new Charge_Group_Coverage_Junction__c();
+            objCGCoverage.Name = 'Test';
+            objCGCoverage.Charge_Group__c = chargeGroup1.Id;
+            objCGCoverage.Coverage__c = objcoverage.Id;
+            INSERT objCGCoverage;
+
+            Payment__c payment1 = TestUtility.generateSironoPayment(guarantorContact.Id, 1234, 12);
+            Payment__c payment2 = TestUtility.generateSironoPayment(guarantorContact.Id, 1235, 25);
+            List<Payment__c> lstPayment = new List<Payment__c>{
+                payment1, payment2
+            };
+            INSERT lstPayment;
+
+            List<Transaction__c> lstTransaction = new List<Transaction__c>();
+            Transaction__c transaction1 = TestUtility.generatePaymentTxn(chargeGroup1, 20, payment1);
+            lstTransaction.add(transaction1);
+
+            Transaction__c transaction2 = TestUtility.generatePaymentTxn(chargeGroup1, 200, payment2);
+            lstTransaction.add(transaction2);
+
+            INSERT lstTransaction;
+
+
+            invoice1.Invoice_Status_Index__c = 9;
+            invoice2.Invoice_Status_Index__c = 4;
+            List<Invoice__c> lstInvoiceUpdate = new List<Invoice__c>{
+                invoice1, invoice2
+            };
+            UPDATE lstInvoiceUpdate;
+
+            List<WorkWithInvoicesController.PatientWrapper> patientList = WorkWithInvoicesController.getPatientList();
+            System.assertEquals(0, patientList.size());
+        }
+
+        System.runAs(portalUser) {
+            Test.startTest();
+            HeaderWrapper wrapper = HeaderController.getAllHeaderInfo();
+            Test.stopTest();
+
+            System.assertEquals(guarantorContact.Id, wrapper.contact.Id, 'Should have found info for Guarantor.');
+            System.assertEquals(Constants.DELIQUENT, wrapper.contact.Guarantor_Status__c, 'Should be deliquent.');
+            System.assertEquals(null, wrapper.pastDueMessage, 'Should not have a past due message.');
+            System.assertEquals(null, wrapper.paymentPlan, 'Should not have a paymentPlan.');
+            System.assertEquals(0, wrapper.newEstimatesCount, 'Should not have new estimates.');
         }
     }
 

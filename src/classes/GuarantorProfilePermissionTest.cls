@@ -105,4 +105,32 @@ public with sharing class GuarantorProfilePermissionTest {
             System.assert(hasAccess, 'Should have access to the Invoice details fields.');
         }
     }
+
+    @isTest
+    public static void selectPaymentMethod() {
+        User usr = TestUtility.getGuarantorCommunityUser();
+        System.runAs(usr) {
+            Boolean hasAccess = false;
+            try {
+                hasAccess = PaymentMethodSecurityContext.GUARANTOR_SELECT.actionAllowed();
+            } catch(Exception e) {
+                System.assert(hasAccess, 'Should have had read access to Payment_Method__c.');
+            }
+            System.assert(hasAccess, 'Should have read access to the Payment_Method__c fields.');
+        }
+    }
+
+    @isTest
+    public static void selectPaymentPlan() {
+        User usr = TestUtility.getGuarantorCommunityUser();
+        System.runAs(usr) {
+            Boolean hasAccess = false;
+            try {
+                hasAccess = PaymentPlanSecurityContext.GUARANTOR_SELECT.actionAllowed();
+            } catch(Exception e) {
+                System.assert(hasAccess, 'Should have had read access to PaymentPlan.');
+            }
+            System.assert(hasAccess, 'Should have access to the PaymentPlan fields.');
+        }
+    }
 }

@@ -524,7 +524,7 @@ public class TestUtility {
      *
      * @return Contact - The User used to created the GuarantorCommunityUser.
      */
-    public static User getAdminUser() {
+    public static User getPortalAdminUser() {
         List<User> admin = [ SELECT Id FROM USER WHERE email = :ADMIN_EMAIL limit 1];
 
         System.assert(admin.size() != 0, 'Could not find the admin user that created the community user.');
@@ -537,7 +537,7 @@ public class TestUtility {
      *
      * @return Contact - The Guarantor.
      */
-    public static Contact getGuarantor() {
+    public static Contact getPortalGuarantor() {
         List<Contact> contacts = [SELECT Id from Contact WHERE Profile_Pointer_ID__c = :PROFILE_POINTER];
 
         System.assert(contacts.size() != 0, 'Could not find the guarantor for the community user.');
@@ -549,7 +549,7 @@ public class TestUtility {
      *
      * @return Account - The account.
      */
-    public static Account getAccount() {
+    public static Account getPortalAccount() {
         List<Account> accounts = [SELECT Id from Account where name = :ACCOUNT_NAME limit 1];
 
         System.assert(accounts.size() != 0, 'Could not find the account for the community user.');
