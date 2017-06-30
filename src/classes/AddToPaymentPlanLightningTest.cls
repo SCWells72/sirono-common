@@ -27,6 +27,7 @@ private class AddToPaymentPlanLightningTest {
         cg.Payment_Plan__c = t.Id;
         cg.Charge_Group_External_ID__c = true;
         cg.Sirono_ID__c = Math.round(cg.Sirono_ID__c * 100);
+        cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         INSERT cg;
 
         // Create Transaction record.
@@ -39,6 +40,7 @@ private class AddToPaymentPlanLightningTest {
         cg.Payment_Plan__c = t.Id;
         cg.Sirono_ID__c = 124;
         cg.Charge_Group_External_ID__c = true;
+        cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         INSERT cg;
 
         // Create Transaction record.

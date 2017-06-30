@@ -67,6 +67,7 @@ private class AddPaymentPlanLightningControllerTest {
 
         Charge_Group__c objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1321212);
         objCG.Sirono_ID__c = 1321212;
+        objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         INSERT objCG;
 
         Transaction__c transactionObj = TestUtility.generateTransaction(objCG, 100, 'Automatic');
