@@ -555,4 +555,14 @@ public class TestUtility {
         System.assert(accounts.size() != 0, 'Could not find the account for the community user.');
         return accounts[0];
     }
+
+    public static void createAllCampaigns() {
+
+        for (String caseType : Constants.CASE_CG_SUBSTATUS.keySet()) {
+            Set<String> cmpnNames = CampaignMemberDao.getSFCampaignNames(caseType);
+            for (String cmpnName : cmpnNames) {
+                TestUtility.generateCampaign(cmpnName);
+            }
+        }
+    }
 }

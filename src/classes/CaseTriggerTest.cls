@@ -89,6 +89,73 @@ private class CaseTriggerTest {
     }
 
     /**
+     * This method tests the logic to add contact as a campaign member.
+     **/
+    static testMethod void createCampaignMemberRecordsTest() {
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        INSERT guarantorContact;
+
+        List<Campaign> lstCampaign = new List<Campaign>();
+        Campaign objCampaign = TestUtility.generateCampaign(Constants.CAMPAIGN_NAME_OVERDUE);
+        lstCampaign.add(objCampaign);
+
+        objCampaign = TestUtility.generateCampaign(Constants.CAMPAIGN_NAME_OVERDUE_M);
+        lstCampaign.add(objCampaign);
+        INSERT lstCampaign;
+
+        // Check system assert.
+        List<CampaignMember> campaignMembers = [SELECT Id FROM CampaignMember WHERE ContactId = :guarantorContact.Id];
+        System.assertEquals(0, campaignMembers.size(), 'Should be campaignMembers size is zero but we got ' + campaignMembers.size());
+
+        Test.startTest();
+        Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
+        INSERT objCase;
+        Test.stopTest();
+
+        // Check system assert.
+        campaignMembers = [SELECT Id FROM CampaignMember WHERE ContactId = :guarantorContact.Id];
+        System.assertEquals(2, campaignMembers.size(), 'Expected campaignMembers size equals to 2 but we got ' + campaignMembers.size());
+    }
+
+    /**
+     * This method tests the logic for Contact already exist as a member and do not add contact as a campaign member.
+     **/
+    static testMethod void cmpnMemberWithExistCmpnMemberTest() {
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        INSERT guarantorContact;
+
+        List<Campaign> lstCampaign = new List<Campaign>();
+        Campaign objCampaign = TestUtility.generateCampaign(Constants.CASE_TYPE_PAYMENT_PLAN_ERROR);
+        lstCampaign.add(objCampaign);
+
+        objCampaign = TestUtility.generateCampaign(Constants.CASE_TYPE_PAYMENT_PLAN_ERROR);
+        lstCampaign.add(objCampaign);
+        INSERT lstCampaign;
+
+        List<CampaignMember> lstCamp = new list<CampaignMember>();
+        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        lstCamp.add(cmm);
+
+        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        lstCamp.add(cmm);
+
+        INSERT lstCamp;
+
+        // Check system assert.
+        List<CampaignMember> campaignMembers = [SELECT Id FROM CampaignMember WHERE ContactId = :guarantorContact.Id];
+        System.assertEquals(2, campaignMembers.size(), 'Should be campaignMembers size is 2 but we got ' + campaignMembers.size());
+
+        Test.startTest();
+        Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, guarantorContact.Id);
+        INSERT objCase;
+        Test.stopTest();
+
+        // Check system assert.
+        campaignMembers = [SELECT Id FROM CampaignMember WHERE ContactId = :guarantorContact.Id];
+        System.assertEquals(2, campaignMembers.size(), 'Expected campaignMembers size equals to 2 same as earlier due to \'Contact already exist\' but we got ' + campaignMembers.size());
+    }
+
+    /**
      * Check all access rights for a read only User using runAs.
      **/
     @isTest

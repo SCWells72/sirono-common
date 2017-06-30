@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <members>CampaignMemberTriggerHandler</members>
+        <members>CampaignMemberTriggerHandlerTest</members>
+        <members>CMHSecurityContext</members>
         <members>GuarantorsRestClient</members>
         <members>GuarantorsRestClientMock</members>
         <members>GuarantorsRestClientTest</members>
@@ -16,27 +19,33 @@
         <members>PayEstimateLightningTest</members>
         <members>ProcessPaymentLightning</members>
         <members>ProcessPaymentLightningTest</members>
-		<members>AddCreditCard</members>
+        <members>AddCreditCard</members>
         <members>AddCreditCardLightning</members>
         <members>AddCreditCardLightningTest</members>
         <members>AddCreditCardTest</members>
-		<members>Five9CreateCallLogRecord</members>
-		<members>Five9CreateCallLogRecordTest</members>
-		<members>AddToPaymentPlanLightning</members>
-		<members>AddToPaymentPlanLightningTest</members>
+        <members>Five9CreateCallLogRecord</members>
+        <members>Five9CreateCallLogRecordTest</members>
+        <members>AddToPaymentPlanLightning</members>
+        <members>AddToPaymentPlanLightningTest</members>
         <name>ApexClass</name>
     </types>
     <types>
+        <members>AddCreditCard</members>
         <members>PaymentArrangement</members>
-		<members>AddCreditCard</members>
         <name>ApexPage</name>
     </types>
     <types>
+        <members>CampaignMemberTrigger</members>
         <members>PaymentArrangementTrigger</members>
         <name>ApexTrigger</name>
     </types>
     <types>
-    	<members>Payment_Arrangement__c</members>
+        <members>Encounter__c.Has_Chargegroup__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Campaign_Member_History__c</members>
+        <members>Payment_Arrangement__c</members>
         <name>CustomObject</name>
     </types>
     <types>
@@ -44,22 +53,25 @@
         <name>CustomObjectTranslation</name>
     </types>
     <types>
+        <members>Campaign_Member_History__c-Campaign Member History Layout</members>
+        <members>Payment_Arrangement__c-Payment Arrangement Layout</members>
+        <members>Payment_Arrangement__c-Payment Arrangements</members>
+        <members>Transaction_Type__c-Transactions</members>
+        <name>Layout</name>
+    </types>
+    <types>
         <members>Encounter__c.New_Payment_Arrangement</members>
         <name>QuickAction</name>
+    </types>
+    <types>
+        <members>IPayX_Demo</members>
+        <members>PayStaffWS_Demo</members>
+        <name>RemoteSiteSetting</name>
     </types>
     <types>
         <members>Contact.View_On_Portal</members>
         <members>Encounter__c.New_Payment_Arrangement</members>
         <name>WebLink</name>
-    </types>
-	<types>
-        <members>IPayX_Demo</members>
-        <members>PayStaffWS_Demo</members>
-        <name>RemoteSiteSetting</name>
-    </types>
-	<types>
-		<members>Encounter__c.Has_Chargegroup__c</members>
-        <name>CustomField</name>
     </types>
     <version>38.0</version>
 </Package>

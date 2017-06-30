@@ -10,7 +10,7 @@ public with sharing class RecordTypeSecurityContext extends SecurityContext {
     private static final String NAME = 'Name';
     private static final String SOBJECTTYPE = 'sObjectType';
 
-    // The fields for selecting a RecordType in CampaignMemberTriggerHandler, RecordTypeUtil
+    // The fields for selecting a RecordType in RecordTypeUtil
     private static final Set<String> SELECT_FIELDS = new Set<String>{
         ID, NAME, SOBJECTTYPE
     };

@@ -44,9 +44,19 @@ public class Constants {
     public static final String EN_SUBSTATUS_PAYMENT_DUE = 'Payment Due';
 
     // Constant variables for Case Type values.
+    public static final String CASE_TYPE_ENCOUNTER = 'Encounter';
     public static final String CASE_TYPE_OVERDUE = 'Overdue';
     public static final String CASE_TYPE_PAST_DUE_PAYMENT_PLANS = 'Past Due Payment Plans';
     public static final String CASE_TYPE_PAYMENT_PLAN_ERROR = 'Payment Plan Error';
+    public static final String CASE_TYPE_PRECOLLECTIONS = 'Precollections';
+
+    //Map of CaseType to ChargeGroup substatus (TODO should this go in the metadata instead?)
+    public static final Map<String, String> CASE_CG_SUBSTATUS = new Map<String, String>{
+            // 0 - the chargegroup sirono id
+            CASE_TYPE_OVERDUE => ACCT_SUBSTATUS_OVERDUE,
+            CASE_TYPE_PRECOLLECTIONS => ACCT_SUBSTATUS_DELINQUENT,
+            CASE_TYPE_PAYMENT_PLAN_ERROR => ACCT_SUBSTATUS_PAYMENT_PLAN
+    };
 
     // Constant variables for Campaign values.
     public static final String CAMPAIGN_NAME_OVERDUE = OVERDUE;
@@ -55,6 +65,13 @@ public class Constants {
     public static final String CAMPAIGN_NAME_PAST_DUE_M = 'Past Due M';
     public static final String CAMPAIGN_NAME_PAYMENT_PLAN_ERROR = 'Payment Plan Error';
     public static final String CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M = 'Payment Plan Error M';
+    public static final String CAMPAIGN_NAME_PRECOLLECTIONS = 'PreCollections';
+    public static final String CAMPAIGN_NAME_PRECOLLECTIONS_M = 'PreCollections M';
+
+    // Constant variables for Process Builder.
+    // NOTE: this EXACT value is hard-coded in our Process Builder flows as a static Id. Do NOT change this value.
+    //TODO once the PB flows are checked in, replace use of this constant with Label.Automated_Case_Record_Type_Id
+    public static final String PB_AUTO_CASE = '01m46000000mcrz';
 
     // Constant variables for Page Level Messages.
     public static final String PAGE_MESSAGE_AMOUNT_EXCEED_BALANCE = 'Amount cannot exceed balance.';

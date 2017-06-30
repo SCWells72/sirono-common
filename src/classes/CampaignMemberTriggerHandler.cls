@@ -13,6 +13,7 @@ public with sharing class CampaignMemberTriggerHandler {
     }
 
     private static void createCampaignHistoryObject(List<CampaignMember> newList) {
+
         Id callListCaseRtId = null;
         if (RecordTypeSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             for (RecordType rt: [
@@ -70,6 +71,7 @@ public with sharing class CampaignMemberTriggerHandler {
     }
 
     private static void updateCampaignHistoryObject(List<CampaignMember> oldList) {
+
         Set<Id> contactIds = new Set<Id>();
         Set<Id> campaignIds = new Set<Id>();
         for (CampaignMember cm : oldList) {

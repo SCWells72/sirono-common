@@ -4,11 +4,11 @@
 
 @isTest
 private class AddNoteTest {
-	
+
     /**
      * This method tests the logic of Error message when necessary parameters are not pass.
      **/
-    static testMethod void SubmitElse() {
+    static testMethod void submitElse() {
         // Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         INSERT guarantorContact;
