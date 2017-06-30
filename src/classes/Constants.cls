@@ -121,11 +121,9 @@ public class Constants {
 
     // Account Substatus constraints used for making Payments & adding to PPlans
     public static final Set<String> CGConstraints = new Set<String> {
-            ACCT_SUBSTATUS_BAD_DEBT,
             ACCT_SUBSTATUS_DELINQUENT,
             ACCT_SUBSTATUS_DUE_BY,
-            ACCT_SUBSTATUS_OVERDUE,
-            ACCT_SUBSTATUS_PREINVOICED
+            ACCT_SUBSTATUS_OVERDUE
     };
 
     // Account Substatus constraints used for adding Discounts
