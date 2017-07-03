@@ -325,7 +325,7 @@ public class PaymentService extends AbstractService {
      * @return List<Payment_Method__c> - The list of payment methods associated with the Guarantor.
      */
     public static List<Payment_Method__c> getPaymentMethods(Id guarantorId) {
-        return PaymentDao.getPaymentMethods(guarantorId);
+        return PaymentMethodDao.getPaymentMethods(guarantorId);
     }
 
     /**
@@ -335,17 +335,8 @@ public class PaymentService extends AbstractService {
      * @return Payment_Method__c - The credit card Payment_Method__c object.
      */
     public static Payment_Method__c getCreditCard(String cardId) {
-        List<Payment_Method__C> cards = PaymentDao.getCreditCard(cardId);
+        List<Payment_Method__C> cards = PaymentMethodDao.getCreditCard(cardId);
         return (!cards.isEmpty()) ? cards[0] : null;
     }
 
-    public static Payment_Plan__c getActivePaymentPlan(Id guarantorId) {
-        List<Payment_Plan__c> plans = PaymentDao.getActivePaymentPlan(guarantorId);
-        return (!plans.isEmpty()) ? plans[0] : null;
-    }
-
-    public static Payment_Plan__c getPaymentPlan(Id planId) {
-        List<Payment_Plan__c> plans = PaymentDao.getPaymentPlan(planId);
-        return (!plans.isEmpty()) ? plans[0] : null;
-    }
 }

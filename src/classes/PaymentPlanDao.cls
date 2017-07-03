@@ -14,7 +14,7 @@ public with sharing class PaymentPlanDao extends AbstractDao{
 
         if (PaymentPlanSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             List<Payment_Plan__c> plans = [
-                    SELECT Id, Sirono_ID__c, Active__c, Payment_Plan_Standing__c, Plan_Type__c
+                    SELECT Id, Sirono_ID__c, Active__c, Payment_Plan_Standing__c, Plan_Type__c, NextPaymentDate__c, Installment_Amount__c
                     FROM Payment_Plan__c
                     WHERE Active__c = true
                     AND Sirono_ID__c != null
@@ -70,5 +70,50 @@ public with sharing class PaymentPlanDao extends AbstractDao{
         if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
             UPSERT paymentPlans;
         }
+    }
+
+    /**
+     * Get Active Payment Plans.
+     *
+     * @param Id guarantorId - The contact guarantor id associated with the plan.
+     * @return List<Payment_Plan__c> - The List containing Active Paymen_Plan__c objects.
+     */
+    public static List<Payment_Plan__c> getActivePaymentPlanWithMethod(Id guarantorId) {
+        List<Payment_Plan__c> plans = new List<Payment_Plan__c>();
+
+        if (PaymentPlanSecurityContext.GUARANTOR_SELECT.actionAllowed() && PaymentMethodSecurityContext.GUARANTOR_SELECT.actionAllowed()) {
+            plans = [
+                SELECT Id, Name, Original_Installment_Count__c, Remaining_Balance__c, Installment_Amount__c, CreatedDate,
+                    NextPaymentDate__c, Plan_Type__c, Remaining_Installment_Count__c, Execute_on_Day__c, Sirono_ID__c,
+                    Payment_Method__c, Payment_Method__r.Sirono_ID__c, Payment_Method__r.Display_Name__c,
+                    Payment_Method__r.Card_Type__c, Payment_Method__r.Last_4__c
+                FROM Payment_Plan__c
+                WHERE Guarantor__c = :guarantorId AND Active__c = true
+            ];
+        }
+
+        return plans;
+    }
+
+    /**
+     * Get a PaymentPlay by id.
+     *
+     * @param Id planId - The payment plan Id.
+     * @return List<Payment_Plan__c> - The List containing the single payment plan if it was found.
+     */
+    public static List<Payment_Plan__c> getPaymentPlan(Id planId) {
+        List<Payment_Plan__c> plans = new List<Payment_Plan__c>();
+
+        if (PaymentPlanSecurityContext.GUARANTOR_SELECT.actionAllowed() && PaymentMethodSecurityContext.GUARANTOR_SELECT.actionAllowed()) {
+            plans = [
+                SELECT Id, Name, Original_Installment_Count__c, Remaining_Balance__c, Installment_Amount__c, CreatedDate,
+                    NextPaymentDate__c, Plan_Type__c, Remaining_Installment_Count__c, Execute_on_Day__c, Sirono_ID__c, Guarantor__c,
+                    Payment_Method__c, Payment_Method__r.Sirono_ID__c, Payment_Method__r.Display_Name__c,
+                    Payment_Method__r.Card_Type__c, Payment_Method__r.Last_4__c
+                FROM Payment_Plan__c
+                WHERE Id = :planId
+            ];
+        }
+        return plans;
     }
 }

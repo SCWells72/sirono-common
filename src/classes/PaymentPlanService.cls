@@ -384,6 +384,28 @@ public with sharing class PaymentPlanService extends AbstractService {
         return PaymentPlanDao.getActivePaymentPlan(guarantorId);
     }
 
+    /**
+     * Get Active PaymentPlan and assoicated payment methods.
+     *
+     * @param Id guarantorId - The plan owner.
+     * @return Payment_Plan__c - The payment plan. null if no payment plan was found.
+     */
+    public static Payment_Plan__c getActivePaymentPlanWithMethod(Id guarantorId) {
+        List<Payment_Plan__c> plans = PaymentPlanDao.getActivePaymentPlanWithMethod(guarantorId);
+        return (!plans.isEmpty()) ? plans[0] : null;
+    }
+
+    /**
+     * Get a payment plan by id.
+     *
+     * @param Id planId - The plan id.
+     * @return Payment_Plan__c - The payment plan. null if no payment plan was found.
+     */
+    public static Payment_Plan__c getPaymentPlan(Id planId) {
+        List<Payment_Plan__c> plans = PaymentPlanDao.getPaymentPlan(planId);
+        return (!plans.isEmpty()) ? plans[0] : null;
+    }
+
     //TODO this is just here until ProcessPaymentLightning can be removed
     public static String convertToCents(String amount) {
         return SironoRestClient.convertToCents(amount);

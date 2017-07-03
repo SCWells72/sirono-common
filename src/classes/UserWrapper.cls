@@ -8,7 +8,7 @@ public with sharing class UserWrapper {
   @AuraEnabled public Id id {get; private set;}
   @AuraEnabled public String firstName {get; private set;}
   @AuraEnabled public Decimal profilePointerId {get; private set;}
-  @AuraEnabled public String sironoId {get; private set;}
+  @AuraEnabled public String guarantorSironoId {get; private set;}
 
   public UserWrapper(User user) {
     this.id = user.Id;
@@ -17,7 +17,7 @@ public with sharing class UserWrapper {
     this.profilePointerId = user.Contact.Profile_Pointer_ID__c;
 
     if (this.profilePointerId != null) {
-      this.sironoId = this.profilePointerId.toPlainString();
+      this.guarantorSironoId = this.profilePointerId.toPlainString();
     }
   }
 }

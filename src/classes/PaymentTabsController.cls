@@ -3,22 +3,17 @@
  */
 public without sharing class PaymentTabsController {
 
+    public static final String ADD_SUCCESS = 'Added Successfully!';
+    public static final String NO_PPLAN_MSG = 'No active Payment Plan exist for this Guarantor. Please click Cancel to go previous page.';
+
     /**
      * Get the Map used to populate the credit card expiration month and year fields.
      *
-     * @returns Map<String, Map<String, String>> - The expiration data valid values.
      * @returns Map<String, Map<String, String>> - The expiration data valid values.
      */
     @AuraEnabled
     public static Map<String, Map<String, String>> getCardSelectOptions() {
         return UIUtils.getCardDateOptions();
-    }
-
-    @AuraEnabled
-    public static String addToPaymentPlan() {
-        UserWrapper user = UserService.getCurrentUser();
-        AddToPaymentPlanLightning addToPlan = new AddToPaymentPlanLightning(user.contactId);
-        return addToPlan.submit();
     }
 
     @AuraEnabled
@@ -37,25 +32,23 @@ public without sharing class PaymentTabsController {
         GuarantorPaymentInfo paymentInfo = new GuarantorPaymentInfo();
         paymentInfo.guarantor = guarantor;
         paymentInfo.addToPaymentAvail = guarantor.Add_to_Payment_Plan__c;
-        paymentInfo.sironoId = user.sironoId;
+        paymentInfo.guarantorSironoId = user.guarantorSironoId;
         paymentInfo.chargeGroups = getChargeGroups(user.contactId);
         paymentInfo.settings = SironoSettingsUtil.getPaymentPlanSettings();
-        paymentInfo.paymentPlan = PaymentService.getActivePaymentPlan(user.contactId);
+        paymentInfo.paymentPlan = PaymentPlanService.getActivePaymentPlanWithMethod(user.contactId);
 
         // Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
-        paymentInfo.hasPaymentPlans = (paymentInfo.paymentPlan != null);
+        paymentInfo.hasPaymentPlan = (paymentInfo.paymentPlan != null);
 
-        if (paymentInfo.hasPaymentPlans) {
+        if (paymentInfo.hasPaymentPlan) {
             paymentInfo.creditCards = getCreditCards(user.contactId);
-            System.debug('paymentInfo.creditCards' + paymentInfo.creditCards);
         }
-        System.debug('paymentInfo:' + paymentInfo);
 
         return paymentInfo;
     }
 
     // Method for add credit card / payment plan creation
-    // right now using onlu AUTO plan types
+    // right now using only AUTO plan types
     @AuraEnabled
     public static Payment_Plan__c createPaymentPlan(String paymentInfoStr) {
         Payment_Plan__c paymentPlanObj = null;
@@ -123,7 +116,7 @@ public without sharing class PaymentTabsController {
             }
             // Update the Charge Groups using ChargeGroupService.
             ChargeGroupService.updateChargeGroups(chargeGroups);
-            //@DOTO: waiting for Payment Method API implementatio
+            //@TODO: waiting for Payment Method API implementatio
             Payment_Method__c paymentMethod = PaymentTabsController.generatePaymentMethod(paymentInfo, paymentPlanObj.Guarantor__c);
             paymentPlanObj.Payment_Method__r = paymentMethod;
             if (paymentInfo.creditCard.isSaved) {
@@ -143,9 +136,9 @@ public without sharing class PaymentTabsController {
     public static Payment_Plan__c doEditPaymentMethod(String paymentInfoStr) {
         System.debug('paymentInfoStr' + paymentInfoStr);
         PaymentPlanRequestInfo paymentInfo = (PaymentPlanRequestInfo) JSON.deserialize(paymentInfoStr, PaymentPlanRequestInfo.class);
-        Payment_Plan__c paymentPlanObj = PaymentService.getPaymentPlan(paymentInfo.sfId);
+        Payment_Plan__c paymentPlanObj = PaymentPlanService.getPaymentPlan(paymentInfo.sfId);
         Payment_Method__c paymentMethod = null;
-        //@DOTO: waiting for Payment Method API implementation
+        //@TODO: waiting for Payment Method API implementation
         if (String.isBlank(paymentInfo.creditCard.sfId)) {
             paymentMethod = PaymentTabsController.generatePaymentMethod(paymentInfo, paymentPlanObj.Guarantor__c);
             if (paymentInfo.creditCard.isSaved) {
@@ -202,7 +195,7 @@ public without sharing class PaymentTabsController {
             PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(responseBody, paymentInfo.contactId, null, paymentInfo.chargeGroupId);
             paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
             UPDATE paymentPlanObj;
-            return PaymentService.getPaymentPlan(paymentPlanObj.Id);
+            return PaymentPlanService.getPaymentPlan(paymentPlanObj.Id);
         }
 
         String errorMessage = PaymentTabsController.getErrorMessage(responseBody, res);
@@ -213,7 +206,7 @@ public without sharing class PaymentTabsController {
     @AuraEnabled
     public static void deletePaymentPlan(String sfPaymentPlanId) {
         System.debug('deletePaymentPlan');
-        Payment_Plan__c paymentPlan = PaymentService.getPaymentPlan(sfPaymentPlanId);
+        Payment_Plan__c paymentPlan = PaymentPlanService.getPaymentPlan(sfPaymentPlanId);
         String guarantorId = paymentPlan.Guarantor__c;
         String paymentPlanExtId = String.valueOf(paymentPlan.Sirono_ID__c);
 
@@ -230,6 +223,7 @@ public without sharing class PaymentTabsController {
     }
 
     private static Payment_Method__c generatePaymentMethod(PaymentPlanRequestInfo info, String contactId) {
+        //TODO: does the intro logic belong somewhere else? CreditCardInfo?
         Date expDate = null;
         if (info.creditCard != null && String.isNotBlank(info.creditCard.expirationMonth) && String.isNotBlank(info.creditCard.expirationYear)) {
             expDate = Date.newInstance(Integer.valueOf(info.creditCard.expirationYear), Integer.valueOf(info.creditCard.expirationMonth), 1);
@@ -241,6 +235,7 @@ public without sharing class PaymentTabsController {
             lastDigits = fullNumber.substring(fullNumber.length() - 4, fullNumber.length());
         }
 
+        //TODO: Visa should not be hardcoded
         return new Payment_Method__c(
             Card_Type__c = 'Visa',
             Type__c = 'Credit Card',
@@ -417,7 +412,7 @@ public without sharing class PaymentTabsController {
     }
 
     /**
-     * Get the list of active non-zero balance charge groups for the curernt guarantor user.
+     * Get the list of invoiced active non-zero balance charge groups for the curernt guarantor user.
      *
      * @param UserWrapper user - The user for which to get the charge groups.
      * @return List<Charge_Group__c> - The list of Charge_Group__c objects.
@@ -427,7 +422,7 @@ public without sharing class PaymentTabsController {
         List<Charge_Group__c> chargeGroups = new List<Charge_Group__c>();
 
         if (user.contactId != null) {
-            List<Charge_Group__c> allGroups = InvoiceService.getAllChargeGroups(contactId, Constants.INVOICE_UNPAID_STATUSES, new List<String>());
+            List<Charge_Group__c> allGroups = InvoiceService.getInvoicedChargeGroups(contactId, Constants.INVOICE_UNPAID_STATUSES, new List<String>());
 
             for (Charge_Group__c chgGroup: allGroups) {
                 if (chgGroup.Active__c && chgGroup.Balance__c != 0) {
@@ -474,7 +469,7 @@ public without sharing class PaymentTabsController {
             set;
         }
         @AuraEnabled
-        public String sironoId {
+        public String guarantorSironoId {
             get;
             set;
         }
@@ -484,7 +479,7 @@ public without sharing class PaymentTabsController {
             set;
         }
         @AuraEnabled
-        public Boolean hasPaymentPlans {
+        public Boolean hasPaymentPlan {
             get;
             set;
         }
@@ -502,7 +497,7 @@ public without sharing class PaymentTabsController {
         public GuarantorPaymentInfo() {
             this.guarantor = new Contact();
             this.settings = new Sirono_Settings__c();
-            this.hasPaymentPlans = false;
+            this.hasPaymentPlan = false;
             this.addToPaymentAvail = false;
             this.chargeGroups = new List<Charge_Group__c>();
             this.creditCards = new List<MakeAPaymentController.CardInformation>();

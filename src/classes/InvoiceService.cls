@@ -72,7 +72,7 @@ public with sharing class InvoiceService extends AbstractService {
      * @param List<String> patients - An optional list of Patient ids used to limit the query.
      * @returns List<Charge_Group__c> - The list of invoices.
      */
-    public static List<Charge_Group__c> getAllChargeGroups(Id userId, Set<String> statuses, List<String> patients) {
+    public static List<Charge_Group__c> getInvoicedChargeGroups(Id userId, Set<String> statuses, List<String> patients) {
         List<Invoice__c> invoices = getInvoicesForUser(userId, statuses, patients);
         Set<Id> allChargeGroupIds = getChargeGroupIds(invoices);
         List<Charge_Group__c> allChargeGroups = ChargeGroupService.getCGForInvoiceController(allChargeGroupIds, true);
