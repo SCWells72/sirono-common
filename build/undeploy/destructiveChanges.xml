@@ -22,6 +22,8 @@
         <members>AddCreditCardTest</members>
 		<members>Five9CreateCallLogRecord</members>
 		<members>Five9CreateCallLogRecordTest</members>
+		<members>AddToPaymentPlanLightning</members>
+		<members>AddToPaymentPlanLightningTest</members>
         <name>ApexClass</name>
     </types>
     <types>

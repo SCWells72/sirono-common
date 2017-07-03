@@ -61,7 +61,7 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
 
     // The fields for selecting a Payment_Plan__c in PaymentPlanDao
     private static final Set<String> SELECT_FIELDS = new Set<String>{
-        ID, SIRONO_ID, ACTIVE, GUARANTOR, STANDING, PLAN_TYPE
+        ID, SIRONO_ID, ACTIVE, GUARANTOR, STANDING, PLAN_TYPE, NEXTPAYMENTDATE, INSTALLMENT_AMOUNT
     };
 
     // The fields for selecting a Payment_Plan__c in CallListUtilities
