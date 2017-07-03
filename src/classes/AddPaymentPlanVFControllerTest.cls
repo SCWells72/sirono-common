@@ -1,5 +1,5 @@
 /**
- * AddPaymentPlanVFControllerTest Class for the AddPaymentPlanVFController.
+ * AddPaymentPlanVFControllerTest Class for the AddPaymentPlanVFController
  **/
 
 @isTest
