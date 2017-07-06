@@ -49,6 +49,7 @@
 			    <button class="slds-button slds-button--brand" onclick="{!c.updatePaymentMethod}">Update Payment Method</button>
             </aura:if>
             <aura:if isTrue="{!v.updatePlan}">
+				<!--TODO: This is never rendered, should it be?-->
                 <button class="slds-button slds-button--brand" onclick="{!c.setupPlan}">Update Payment Plan</button>
             </aura:if>
 		</div>

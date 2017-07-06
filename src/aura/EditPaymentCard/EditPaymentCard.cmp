@@ -41,7 +41,7 @@
 				</div>
 			</aura:if>
 			<div class="slds-size--1-of-1 grid slds-wrap slds-p-bottom--large">
-				<aura:if isTrue="{!and(v.PaymentInfo, not(v.PaymentInfo.hasPaymentPlans))}">
+				<aura:if isTrue="{!and(v.PaymentInfo, not(v.PaymentInfo.hasPaymentPlan))}">
 					<div class="col slds-size--1-of-1 border-top slds-p-around--large">
 						<div class="title">
 							<em>Your payment plan will start on {!v.nextPaymentDate}. <ui:outputCurrency value="{!v.PaymentRequestInfo.planValue}"/>/month will be charged on day {!v.PaymentRequestInfo.executeOnDay} of each month for the next {!v.PaymentRequestInfo.totalInstallments - 1} months. The {!v.PaymentRequestInfo.totalInstallments}th and final installment will be <ui:outputCurrency value="{!v.PaymentRequestInfo.totalAmount- v.PaymentRequestInfo.planValue * (v.PaymentRequestInfo.totalInstallments-1)}"/>.</em>

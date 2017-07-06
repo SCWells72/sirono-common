@@ -21,7 +21,7 @@
 			</aura:if>
             <div class="{!v.hideCreatePaymentPlanTab ? 'slds-hide' : 'create'}">
                 <div aura:id="CreatePaymentPlan_tab" id="CreatePaymentPlan" class="col make-payment-nav" onclick="{!c.activateTab}">
-                    <aura:if isTrue="{!v.PaymentInfo.hasPaymentPlans}">
+                    <aura:if isTrue="{!v.PaymentInfo.hasPaymentPlan}">
                         Edit Payment Plan
                         <aura:set attribute="else">Create Payment Plan</aura:set>
                     </aura:if>

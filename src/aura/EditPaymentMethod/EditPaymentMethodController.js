@@ -71,37 +71,7 @@
 	},
 
 	setupPlan: function(cmp, e, hlpr) {
-		console.log('setUpPlan');
-		cmp.set('v.hasError', false);
-		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
-		console.log('PRI', PaymentRequestInfo);
-		var CreditCard = cmp.get('v.CreditCard');
-		console.log('CC:', CreditCard);
-		PaymentRequestInfo.creditCard = CreditCard;
-
-		var createPlan = cmp.get('c.addToPaymentPlan');
-		createPlan.setCallback(this, function(response) {
-			if (response.getState() === 'SUCCESS') {
-				var appEvent = $A.get("e.c:switchTab");
-				appEvent.setParams({ "tabName" : 'CreatePaymentPlan'});
-				appEvent.fire();
-				
-				setTimeout(function() { 
-					var plan = response.getReturnValue();
-					cmp.getEvent('updatePaymentMethod').fire();
-					return;
-				}, 2500);
-
-				
-			}
-
-			var errors = response.getError();
-			console.log('errors', errors);
-			if (errors) {
-				hlpr.showError(cmp, errors? errors[0].message : 'Error has been occurred');
-			}
-		});
-		$A.enqueueAction(createPlan);
+		console.log('WARNING: function removed!!!');
 	},
 
 	updatePaymentMethod: function(cmp, e, hlpr) {
@@ -128,7 +98,7 @@
 
 			var errors = response.getError();
 			if (errors) {
-				hlpr.showError(cmp, errors? errors[0].message : 'Error has been occurred');
+				hlpr.showError(cmp, errors? errors[0].message : 'Error has occurred');
 			}
 		});
 		$A.enqueueAction(createPlan);

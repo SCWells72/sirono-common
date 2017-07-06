@@ -60,10 +60,10 @@
 			return initInfo;
 		}
 
-		initInfo.sironoId = paymentInfo.sironoId;
+		initInfo.sironoId = paymentInfo.guarantorSironoId;
 		initInfo.contactId = paymentInfo.guarantor.Id;
 
-		if (paymentInfo.hasPaymentPlans) {
+		if (paymentInfo.hasPaymentPlan) {
 			initInfo.sfId = paymentInfo.paymentPlan.Id;
 			initInfo.paymentPlanId = paymentInfo.paymentPlan.Sirono_ID__c;
 			initInfo.totalAmount = paymentInfo.paymentPlan.Remaining_Balance__c;
