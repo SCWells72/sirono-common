@@ -216,4 +216,159 @@ public class AddPaymentPlanVFControllerTest {
         }
         System.assert(isError, 'Expected ' + Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO + ' error message');
     }
+
+    /**
+     * This method tests the logic of Charge Group List.
+     **/
+    @isTest
+    static void testChargeGroupList() {
+        // Create contact record.
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        INSERT guarantorContact;
+
+        List<Charge_Group__c> lstCGs = new List<Charge_Group__c>();
+        // Create charge group record with account sub status equals to overdue.
+        Charge_Group__c objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1321212);
+        objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
+        lstCGs.add(objCG);
+
+        // Create charge group record with account sub status equals to Paid.
+        objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 13);
+        objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAID;
+        lstCGs.add(objCG);
+
+        INSERT lstCGs;
+
+        // Create transaction records to populate balance in CG.
+        List<Transaction__c> lstTransactions = new List<Transaction__c>();
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[0], 10, 'Automatic'));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[1], 20, 'Automatic'));
+        INSERT lstTransactions;
+
+        Test.startTest();
+        // Create AddPaymentPlanVFController class object.
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        AddPaymentPlanVFController objAddPaymentPlan = new AddPaymentPlanVFController();
+        List<ChargeGroupWrapper> chargeGroups = objAddPaymentPlan.chargeGroupList;
+        Test.stopTest();
+
+        // Check system assert.
+        System.assertEquals(1, chargeGroups.size(), 'Expected Charge Groups size equals to 1 but we got ' + chargeGroups.size());
+        System.assertEquals(Constants.ACCT_SUBSTATUS_OVERDUE, chargeGroups[0].cg.Account_Sub_Status__c,
+            'Expected Charge Groups sub status equals to Overdue but we got ' + chargeGroups[0].cg.Account_Sub_Status__c);
+    }
+
+    /**
+     * This method tests the logic of build Charge Group List negative.
+     **/
+    @isTest
+    static void testChargeGroupListNegative() {
+        // Create contact record.
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        INSERT guarantorContact;
+
+        List<Charge_Group__c> lstCGs = new List<Charge_Group__c>();
+        // Create charge group record with account sub status equals to Credit.
+        Charge_Group__c objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 13);
+        objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_CREDIT;
+        lstCGs.add(objCG);
+
+        // Create charge group record with account sub status equals to Pre-Invoiced.
+        objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1321212);
+        objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PREINVOICED;
+        lstCGs.add(objCG);
+
+        // Create charge group record with account sub status equals to Bad Debt.
+        objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1321212);
+        objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_BAD_DEBT;
+        lstCGs.add(objCG);
+
+        INSERT lstCGs;
+
+        // Create transaction records to populate balance in CG.
+        List<Transaction__c> lstTransactions = new List<Transaction__c>();
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[0], 100, 'Automatic'));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[1], 500, 'Automatic'));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[2], 200, 'Automatic'));
+        INSERT lstTransactions;
+
+        Test.startTest();
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        AddPaymentPlanVFController objAddPaymentPlan = new AddPaymentPlanVFController();
+        List<ChargeGroupWrapper> chargeGroups = objAddPaymentPlan.chargeGroupList;
+        Test.stopTest();
+
+        // Check system assert.
+        System.assertEquals(0, chargeGroups.size(), 'Should be Charge Group list size is 0 but we got ' + chargeGroups.size());
+    }
+
+    /**
+     * This method tests the logic of Charge Group List with multiple CGs.
+     **/
+    @isTest
+    static void testChargeGroupListWithMultiple() {
+        Set<String> accountSubStatuses = new Set<String>{Constants.ACCT_SUBSTATUS_DELINQUENT,
+                Constants.ACCT_SUBSTATUS_OVERDUE,
+                Constants.ACCT_SUBSTATUS_DUE_BY};
+
+        // Create contact record.
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        INSERT guarantorContact;
+
+        List<Charge_Group__c> lstCGs = new List<Charge_Group__c>();
+        // Create charge group record with account sub status equals to Delinquent.
+        Charge_Group__c objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 13);
+        objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
+        lstCGs.add(objCG);
+
+        // Create charge group record with account sub status equals to overdue.
+        objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1321212);
+        objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
+        lstCGs.add(objCG);
+
+        // Create charge group record with account sub status equals to Due By.
+        objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1123);
+        objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DUE_BY;
+        lstCGs.add(objCG);
+
+        // Create charge group record with account sub status equals to Pre-Invoiced.
+        objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 131);
+        objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PREINVOICED;
+        lstCGs.add(objCG);
+
+        // Create charge group record with account sub status equals to Credit.
+        objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 153);
+        objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_CREDIT;
+        lstCGs.add(objCG);
+
+        // Create charge group record with account sub status equals to Paid.
+        objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 15345);
+        objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAID;
+        lstCGs.add(objCG);
+
+        INSERT lstCGs;
+
+        // Create transaction records to populate balance in CG.
+        List<Transaction__c> lstTransactions = new List<Transaction__c>();
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[0], 100, 'Automatic'));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[1], 500, 'Automatic'));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[2], 200, 'Automatic'));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[3], 10, 'Automatic'));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[4], 250, 'Automatic'));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[5], 300, 'Automatic'));
+        INSERT lstTransactions;
+
+        Test.startTest();
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        AddPaymentPlanVFController objAddPaymentPlan = new AddPaymentPlanVFController();
+        List<ChargeGroupWrapper> chargeGroups = objAddPaymentPlan.chargeGroupList;
+        Test.stopTest();
+
+        // Check system assert.
+        System.assertEquals(3, chargeGroups.size(), 'Expected Charge Groups size equals to 1 but we got ' + chargeGroups.size());
+        for (ChargeGroupWrapper cgw: chargeGroups) {
+            System.assert(accountSubStatuses.contains(cgw.cg.Account_Sub_Status__c),
+                'We got different Charge Group that sub status not exist in set ' + cgw.cg.Account_Sub_Status__c);
+        }
+    }
 }
