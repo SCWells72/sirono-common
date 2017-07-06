@@ -23,11 +23,11 @@ public with sharing class EncounterBalanceTest {
 
     private static Encounter__c getTestEncounter() {
         return [
-                SELECT Id, Patient_Portion__c, Balance__c, Has_Chargegroup__c
+                SELECT Id, Patient_Portion__c, Balance__c
                 FROM Encounter__c
                 WHERE Department__c = 'Test Dept'];
     }
-    
+
     /**
      * This method checks logic for Partial Payment of Encounter's balance.
      **/
@@ -49,7 +49,6 @@ public with sharing class EncounterBalanceTest {
 
 	// Check system assert.
         encounter = getTestEncounter();
-	System.assert(!encounter.Has_Chargegroup__c, 'Expected Has_Chargegroup__c to be false');
         System.assert(encounter.Balance__c == 2000.00,
                 'Expected Balance__c to be 2000.00, but was: '+encounter.Balance__c);
     }
@@ -78,16 +77,15 @@ public with sharing class EncounterBalanceTest {
 
 	// Check system assert.
         encounter = getTestEncounter();
-        System.assert(!encounter.Has_Chargegroup__c, 'Expected Has_Chargegroup__c to be false');
         System.assert(encounter.Balance__c == 2200.00,
                 'Expected Balance__c to be 2200.00, but was: '+encounter.Balance__c);
     }
 
     /**
-     * This method checks logic for Encounter zero balance with charge group.
+     * This method checks logic for Encounter balance.
      **/
     @isTest
-    public static void testEncounterZeroBalanceChargeGroup() {
+    public static void testEncounterBalance() {
         Encounter__c encounter = getTestEncounter();
 
         Test.startTest();
@@ -96,43 +94,11 @@ public with sharing class EncounterBalanceTest {
 
         Contact pt = TestUtility.generatePatientContact();
         INSERT pt;
-
-        Charge_Group__c cg = TestUtility.generateChargeGroupWithExternalId(gt.Id, pt.Id, 12345);
-        cg.Encounter__c = encounter.Id;
-        INSERT cg;
 
         Test.stopTest();
 
 	// Check system assert.
         encounter = getTestEncounter();
-        System.assert(encounter.Has_Chargegroup__c, 'Expected Has_Chargegroup__c to be true');
-        System.assert(encounter.Balance__c == 0.00, 'Expected Balance__c to be 0, but was: '+encounter.Balance__c);
-    }
-
-    /**
-     * This method checks logic for Encounter's balance after delete charge group.
-     **/
-    @isTest
-    public static void testEncounterBalanceAfterDeleteChargeGroup() {
-        Encounter__c encounter = getTestEncounter();
-
-        Test.startTest();
-        Contact gt = TestUtility.generateGuarantorContact();
-        INSERT gt;
-
-        Contact pt = TestUtility.generatePatientContact();
-        INSERT pt;
-
-        Charge_Group__c cg = TestUtility.generateChargeGroupWithExternalId(gt.Id, pt.Id, 12345);
-        cg.Encounter__c = encounter.Id;
-        INSERT cg;
-        List<Charge_Group__c> cgs = [SELECT Id FROM Charge_Group__c WHERE Encounter__c = :encounter.Id];
-        DELETE cgs;
-        Test.stopTest();
-
-        // Check system assert.
-	encounter = [SELECT Id, Balance__c, Has_Chargegroup__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
-        System.assert(!encounter.Has_Chargegroup__c, 'Expected Has_Chargegroup__c to be false');
         System.assert(encounter.Balance__c == 3000.00, 'Expected Balance__c to be 3000, but was: '+encounter.Balance__c);
     }
 
@@ -155,15 +121,15 @@ public with sharing class EncounterBalanceTest {
         INSERT pmt2;
 
         // Check system assert.
-	encounter = getTestEncounter();
+        encounter = getTestEncounter();
         System.assert(encounter.Balance__c == 2500.00,
                 'Expected encounter balance of 2500.00, but got ' + encounter.Balance__c);
         Delete pmt2;
 
         Test.stopTest();
-	
+
         // Check system assert.
-	encounter = getTestEncounter();
+        encounter = getTestEncounter();
         System.assert(encounter.Balance__c == 2700.00,
                 'Expected encounter balance of 2700.00, but got ' + encounter.Balance__c);
     }
@@ -182,7 +148,7 @@ public with sharing class EncounterBalanceTest {
         INSERT pmt1;
 
         // Check system assert.
-	encounter = getTestEncounter();
+        encounter = getTestEncounter();
         System.assert(encounter.Balance__c == 2700.00,
                 'Expected encounter balance of 2700.00, but got ' + encounter.Balance__c);
         Delete pmt1;

@@ -145,9 +145,7 @@ private class EncounterTriggerTest {
      **/
     @isTest
     static void checkAccessRights() {
-        List<EncounterSecurityContext> allContexts = new List<EncounterSecurityContext>{EncounterSecurityContext.UPDATE_CONTEXT,
-        	EncounterSecurityContext.UPDATE_HAS_CHARGEGROUP_CONTEXT
-        };
+        List<EncounterSecurityContext> allContexts = new List<EncounterSecurityContext>{EncounterSecurityContext.UPDATE_CONTEXT};
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
             for (EncounterSecurityContext context: allContexts) {
