@@ -1,8 +1,6 @@
 /**
-  * Utility class for setting the fields used in Encounter Balance calculation:
-  * Total_Payments and Has_Chargegroup
+  * Utility class for setting the Total_Payments and BilledChargeGroupCount
   *
-  * Balance calculation is: IF(Has_Chargegroup, 0, Patient_Portion - Total_Payments)
   *
   * These methods are invoked when either a Charge_Group or Payment's Encounter changes
  */
@@ -123,17 +121,17 @@ public without sharing class EncounterUtil {
     }
 
     /**
-     * Update the Billed_Charge_Group_Count__c field in the Encounters with the total of
-     * all associated Encounters in Charge Groups where Account_Status__c equals to Billed.
+     * Update the Billed_Charge_Group_Count__c field in the Encounters with the number of
+     * all associated Charge Groups where Account_Status__c is Billed.
      *
-     * @param Set<Id> encounterIds - That contains encounter ids.
+     * @param Set<Id> encounterIds - the encounters to update
      **/
     public static void setBilledCGCount(Set<Id> encounterIds) {
         if (encounterIds.contains(null)) {
             encounterIds.remove(null);
         }
 
-        if (encounterIds.size() == 0) {
+        if (encounterIds.isEmpty()) {
             return;
         }
 
