@@ -1,0 +1,13 @@
+<!--
+ - PaymentPlanService component used to execute common PaymentPlan functions.
+ -->
+
+<aura:component description="PaymentPlanService">
+    <aura:method name="getPaymentPlanInfoMap"
+                 access="public"
+                 action="{!c.populatePaymentPlanInfo}">
+        <aura:attribute name="PaymentRequestInfo" type="Object"/>
+        <aura:attribute name="CreditCard" type="Object"/>
+        <aura:attribute name="callback" type="function"/>
+    </aura:method>
+</aura:component>

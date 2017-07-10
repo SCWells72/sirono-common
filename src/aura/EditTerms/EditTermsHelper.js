@@ -1,7 +1,7 @@
 ({
 	showError: function(cmp, message) {
 		cmp.set('v.hasError', true);
-		var supportCmp = cmp.find('notificationCmp');
+		cmp.find('notificationCmp').showError(message);
 		
 	},
 	toggleSections: function(cmp) {
@@ -22,11 +22,9 @@
 		return parseFloat(minimumInstallmentAmount, 10);
 	},
 	getCalculatedIntallments: function(total, part) {
-		console.log('Calculate:', total, part);
 		var _total = Math.round(total * 100) / 100;
 		var _part = Math.round(part * 100) / 100;
 		var totalInstallment = Math.round( _total / _part );
-		console.log('Data:', _total, _part, totalInstallment);
 		totalInstallment = Math.round(totalInstallment * _part * 100) / 100 < Math.round(_total * 100) / 100 ? totalInstallment + 1: totalInstallment;
 		return totalInstallment;
 	},

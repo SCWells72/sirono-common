@@ -66,12 +66,6 @@
 			<c:EditPaymentMethod PaymentInfo="{!v.PaymentInfo}" PaymentRequestInfo="{!v.PaymentRequestInfo}"/>
 		</aura:if>
 	</section>
-	<!--TODO: Fairly sure that addInvoicesVisible is never true-->
-    <!--<section aura:id="addInvoices" class="{!v.addInvoiceVisible ? 'pp-edit-method payment-plan-content' :'pp-edit-method payment-plan-content slds-hide'}">-->
-        <!--<aura:if isTrue="{!v.PaymentInfo.hasPaymentPlan ? (v.addInvoiceVisible ? true : false) : false}">-->
-            <!--<c:AddInvoices PaymentInfo="{!v.PaymentInfo}" PaymentRequestInfo="{!v.PaymentRequestInfo}"/>-->
-        <!--</aura:if>-->
-    <!--</section>-->
 	<section aura:id="message" class="pp-step-three payment-plan-content">
 		<c:SuccessMessage PlanInfoRecord="{!v.PlanInfoRecord}" isEditTerms="{!v.showEditTermsMessage}" isSuccess="true"/>
 		<div class="slds-p-horizontal--medium border-top">

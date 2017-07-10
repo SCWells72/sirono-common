@@ -17,7 +17,8 @@
 	<aura:registerEvent name="paymentPlanCreated" type="c:PaymentPlanCreatedEvent"/>
 	<aura:registerEvent name="updatePaymentMethod" type="c:UpdatePaymentMethodEvent"/>
 
-	<div class="payment-info">
+    <c:PaymentPlanService aura:id="paymentPlanService"/>
+    <div class="payment-info">
 		<aura:if isTrue="{!v.hasError}">
             <c:SuccessMessage isSuccess="false" aura:id="notificationCmp" />
 		</aura:if>

@@ -20,7 +20,7 @@
 	initCardSelectOptions: function(cmp, e, hlpr) {
 		var PaymentInfo = cmp.get('v.PaymentInfo');
 		var cardSelection = cmp.find('state');
-		if(cardSelection != undefined){
+		if(cardSelection !== undefined){
 			cardSelection.set('v.body', []);
 			var body = cardSelection.get('v.body');
 			PaymentInfo.creditCards.forEach(function(card){
@@ -70,37 +70,43 @@
 		$A.util.toggleClass(cmp.find('editCreditCard'), 'slds-hide');
 	},
 
-	setupPlan: function(cmp, e, hlpr) {
-		console.log('WARNING: function removed!!!');
-	},
-
+    /**
+	 * Update the payment method.
+     */
 	updatePaymentMethod: function(cmp, e, hlpr) {
-		cmp.set('v.hasError', false);
-		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
-		var CreditCard = cmp.get('v.CreditCard');
-		PaymentRequestInfo.creditCard = CreditCard;
-		console.info('Update Payment Plan: info', JSON.parse(JSON.stringify(PaymentRequestInfo)));
+		var paymentPlanService = cmp.find('paymentPlanService'),
+        	PaymentRequestInfo = cmp.get('v.PaymentRequestInfo'),
+        	CreditCard = cmp.get('v.CreditCard');
 
-		var createPlan = cmp.get('c.doEditPaymentMethod');
-		createPlan.setParams({
-			'paymentInfoStr': JSON.stringify( PaymentRequestInfo )
-		});
-		createPlan.setCallback(this, function(response) {
-			if (response.getState() === 'SUCCESS') {
-				var plan = response.getReturnValue();
-				console.log('responseresponse: ' , plan);
-				cmp.getEvent('updatePaymentMethod').setParams({
-					paymentPlan: plan,
-					isEditTerms: true
-				}).fire();
-				return;
-			}
+        cmp.set('v.hasError', false);
 
-			var errors = response.getError();
-			if (errors) {
-				hlpr.showError(cmp, errors? errors[0].message : 'Error has occurred');
-			}
-		});
-		$A.enqueueAction(createPlan);
+		paymentPlanService.getPaymentPlanInfoMap(PaymentRequestInfo, CreditCard, function(planInfo) {
+
+			var doEditPaymentMethod = cmp.get('c.doEditPaymentMethod');
+            doEditPaymentMethod.setParams({
+                'ppInfoMap': planInfo,
+                'isCreditCardSaved': CreditCard.isSaved
+            });
+            doEditPaymentMethod.setCallback(this, function(response) {
+                if (response.getState() === 'SUCCESS') {
+                    var plan = response.getReturnValue();
+
+                    cmp.getEvent('updatePaymentMethod').setParams({
+                        paymentPlan: plan,
+                        isEditTerms: true
+                    }).fire();
+
+                    return;
+                }
+
+                var errors = response.getError();
+                if (errors) {
+                    hlpr.showError(cmp, errors? errors[0].message : 'Error has occurred');
+                }
+            });
+            $A.enqueueAction(doEditPaymentMethod);
+
+        });
+
 	}
 })

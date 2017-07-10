@@ -24,7 +24,6 @@
 	showValidError: function(cmp, message) {
 		var errMesscmp = cmp.find("cardValidError");
 		var errMessage = errMesscmp.get("v.value");
-		console.log('errMessage ' , errMessage);
 		errMessage = !errMessage ? message : errMessage + '\n' + message;
 		errMesscmp.set("v.value", errMessage);
 	},
@@ -57,40 +56,29 @@
 		var cvvcmp = cmp.find("cvv");
 		var cvvValue = cvvcmp.get("v.value") || '';
 		var errMesscmp = cmp.find("cardValidError");
-		// console.log('cvvValue ', cvvValue);
-		// console.log('valid ', cncmp.get('v.validity').valid);
 		var isValid = false;
 		if (!cvvValue) {
 			//errMesscmp.set("v.value", '');
 			return isValid;
 		}
-		console.log('Check CVV', cncmp, cncmp.get('v.validity'), cncmp.get('v.validity').valid, cnValue);
-		if ((cncmp.get('v.validity') == null || cncmp.get('v.validity').valid) && cnValue != undefined && cnValue != '') {
-			console.log('Inside cvv block');
+		if ((cncmp.get('v.validity') == null || cncmp.get('v.validity').valid) && cnValue !== undefined && cnValue !== '') {
 			var cardno = /^(?:3[47][0-9]{13})$/;
-			//console.log("match = ", cnValue.match(cardno));
 			if (cnValue.match(cardno)) {
-				console.log('1');
-				if (cvvValue.toString().length != 4) {
-					console.log('2');
+				if (cvvValue.toString().length !== 4) {
 					//errMesscmp.set("v.value", "CVV must be 4 digits for American Express and 3 digits for other card types.");
 					cvvcmp.set("v.errors", [{message:"CVV must be 4 digits for American Express and 3 digits for other card types."}]);
 					cmp.set('v.cvvError', 'CVV must be 4 digits for American Express and 3 digits for other card types.');
 				} else {
-				console.log('3');
 					isValid = true;
 					cmp.set('v.cvvError', '');
 					//errMesscmp.set("v.value", '');
 				}
 			} else {
-				console.log('4');
-				if (cvvValue.toString().length != 3) {
-					console.log('5');
+				if (cvvValue.toString().length !== 3) {
 					//errMesscmp.set("v.value", "CVV must be 4 digits for American Express and 3 digits for other card types.");
 					cvvcmp.set("v.errors", [{message:"CVV must be 4 digits for American Express and 3 digits for other card types."}]);
 					cmp.set('v.cvvError', 'CVV must be 4 digits for American Express and 3 digits for other card types.');
 				} else {
-				console.log('6');
 					isValid = true;
 					cmp.set('v.cvvError', '');
 					//errMesscmp.set("v.value", '');
@@ -117,7 +105,7 @@
 			errMesscmp.set("v.value", '');
 		}
 		*/
-		//cncmp.showHelpMessageIfInvalid();
+		//cncmp.s	howHelpMessageIfInvalid();
 		//cvvcmp.showHelpMessageIfInvalid();
 		return isValid;
 	},
@@ -145,7 +133,6 @@
 		// } else
 		if (cnValue && (isNaN(cnValue) || cnValue.includes(' '))) {
 			cnValue = cnValue.toString().substring(0, cnValue.toString().length - 1);
-			console.log('cnValue --- > ', cnValue);
 			cncmp.set("v.value", cnValue);
 		} 
 		// else if (cnValue.toString().length < 12 || cnValue.toString().length > 19) {

@@ -1,11 +1,7 @@
 ({
 	doCmpInit: function(cmp, e, hlpr) {
-		console.log('doCmpInit');
 		var PaymentInfo = cmp.get('v.PaymentInfo');
-		console.log('PaymentInfo editterms', PaymentInfo);
-		console.log('CreditCard');
 		var CreditCard = hlpr.getDefaultCard(cmp);
-		console.log('CreditCard Init:', CreditCard);
 		if (PaymentInfo && PaymentInfo.creditCards.length) {
 			PaymentInfo.creditCards.forEach(function(card) {
 				CreditCard = card;
@@ -56,36 +52,49 @@
 		e.stopPropagation();
 		hlpr.toggleSections(cmp);
 	},
-	updatePaymenTerms: function(cmp, e, hlpr) {
-		cmp.set('v.hasError', false);
-		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
 
-		var updateTermsAction = cmp.get('c.doEditPaymentPlan');
-		updateTermsAction.setParams({
-			'paymentInfoStr': JSON.stringify( PaymentRequestInfo )
-		});
-		updateTermsAction.setCallback(this, function(response) {
-			if (response.getState() === 'SUCCESS') {
-				var plan = response.getReturnValue();
-				$A.get("e.c:UpdatePaymentTermsEvent").setParams({
-					paymentPlan: plan,
-					isEditTerms: true
-				}).fire();
-				return;
-			}
+    /**
+	 * Update the current users payment plan terms.
+     */
+	updatePaymentTerms: function(cmp, e, hlpr) {
+        var paymentPlanService = cmp.find('paymentPlanService'),
+            paymentRequestInfo = cmp.get('v.PaymentRequestInfo');
 
-			var errors = response.getError();
-			if (errors) {
-				hlpr.showError(cmp, errors? errors[0].message : 'Error has been occurred');
-			}
-		});
-		$A.enqueueAction(updateTermsAction);
+        cmp.set('v.hasError', false);
+
+        paymentPlanService.getPaymentPlanInfoMap(paymentRequestInfo, {}, function(planInfo) {
+
+            var updateTermsAction = cmp.get('c.doEditPaymentPlan');
+            updateTermsAction.setParams({
+                ppInfoMap: planInfo
+            });
+
+            updateTermsAction.setCallback(this, function(response) {
+                if (response.getState() === 'SUCCESS') {
+                    var plan = response.getReturnValue();
+                    $A.get("e.c:UpdatePaymentTermsEvent").setParams({
+                        paymentPlan: plan,
+                        isEditTerms: true
+                    }).fire();
+                    return;
+                }
+
+                var errors = response.getError();
+                if (errors) {
+                    hlpr.showError(cmp, errors? errors[0].message : 'Error has occurred');
+                }
+            });
+            $A.enqueueAction(updateTermsAction);
+
+        });
+
 	},
+
 	createPaymenTerms: function(cmp, e, hlpr) {
 		hlpr.toggleSections(cmp);
 	},
+
 	doCalcView: function (cmp, e, hlpr) {
-		console.log('doCalcView');
 		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
 		var PaymentInfo = cmp.get('v.PaymentInfo');
 		var maxAmount = cmp.get('v.maxAmount');
@@ -97,9 +106,8 @@
 			var message = "Monthly amount cannot exceed current payment plan balance";
 			hlpr.showError(cmp, message);
 		}
-		console.log('PaymentRequestInfo do', PaymentRequestInfo);
 		//fix lightning bug(position the cursor in the left corner)
-		if(maxAmount != PaymentRequestInfo.totalAmount) {
+		if(maxAmount !== PaymentRequestInfo.totalAmount) {
 			cmp.set('v.maxAmount', PaymentRequestInfo.totalAmount);
 			cmp.set('v.minAmount', minInstallmentAmount);
 			window.setTimeout(
@@ -115,11 +123,9 @@
 	},
 
 	recalculateTotalAmount : function(cmp, e, hlpr){
-		console.log('RTA');
 		var balance = e.getParam('paymentBalance');
 		var PaymentRequestInfo = cmp.get('v.PaymentRequestInfo');
-		console.log('Recalculate Total Amount:', balance, PaymentRequestInfo);
-		PaymentRequestInfo.totalAmount = balance;				
+		PaymentRequestInfo.totalAmount = balance;
 	},
 
 	changeSlider: function(cmp, e, hlpr) {
@@ -135,8 +141,9 @@
 		}
 
 		function validateInstallments(planValue, totalAmount, Settings) {
+			var message;
 			if (planValue < Settings.Min_Installment_Amount__c) {
-				var message = 'Monthly amount must be equal to or greater than $' + Settings.Min_Installment_Amount__c + '.';
+				message = 'Monthly amount must be equal to or greater than $' + Settings.Min_Installment_Amount__c + '.';
 				hlpr.showError(cmp, message);
 				return false;
 			}
@@ -146,7 +153,7 @@
 
 				if (totalInstallment > Settings.Max_Number_Plan_Installments__c) {
 					var minimumInstallmentAmount = hlpr.getCalculatedMinInstallmentAmount(Settings, totalAmount);
-					var message = 'This monthly amount would exceed ' + Settings.Max_Number_Plan_Installments__c + ' installments.' +
+					message = 'This monthly amount would exceed ' + Settings.Max_Number_Plan_Installments__c + ' installments.' +
 						' The minimum allowed installment amount is $' + minimumInstallmentAmount.toFixed(2) + '.';
 					hlpr.showError(cmp, message);
 					return false;
@@ -158,6 +165,6 @@
 	showPopoverInfo: function(cmp, e, hlpr) {
 		var myPopoverInfo = cmp.find('sldsjsPopoverInfo');
 		$A.util.toggleClass(myPopoverInfo, 'slds-hide');
-	},
+	}
 
 })
