@@ -77,8 +77,26 @@
         </replace>
     </target>
 
+    <target name="deactivateAndDeleteFlows" depends="checkDeactivateAndDeleteFlows" if="flows.present">
+        <!-- NOTE: This is required to allow us to ignore errors if the flows aren't present -->
+        <subant buildpath="${basedir}/build"
+                antfile="build_initial_deploy.xml"
+                target="deactivateAndDeleteFlowsIgnoreErrors"
+                inheritall="true"
+                failonerror="false"/>
+    </target>
+
+    <target name="checkDeactivateAndDeleteFlows">
+        <condition property="flows.present">
+            <resourcecount when="greater" count="0">
+                <fileset dir="${basedir}/build/deactivateAndDeleteFlows" includes="**/*.flowDefinition"/>
+            </resourcecount>
+        </condition>
+        <echo>${flows.present}</echo>
+    </target>
+
     <!-- TODO: Make this dynamic based on the flows present under src -->
-    <target name="deactivateAndDeleteFlows">
+    <target name="deactivateAndDeleteFlowsIgnoreErrors">
         <echo level="info">Deactivate and remove flows from: ${sf.target.username}</echo>
         <sf:deploy
             username="${sf.target.username}"
