@@ -74,6 +74,15 @@ public abstract with sharing class SironoRestClient {
     }
 
     /**
+     * Configure the request for the POST method with PATCH override.
+     *
+     * @returns - SironoRestClient The SironoRestClient object, allows chaining.
+     */
+    public SironoRestClient patchRequestor() {
+        return postRequestor(true).addPatchHeader();
+    }
+
+    /**
      * Configure the request for the POST method.
      *
      * @params - Boolean addDefaults If true, include the default request settings.
@@ -244,6 +253,16 @@ public abstract with sharing class SironoRestClient {
         req.setHeader(RestClientConstants.AUTHORIZATION, getJwtHeaderValue());
         req.setHeader(RestClientConstants.CONTENT_TYPE, RestClientConstants.APPLICATION_JSON);
         req.setTimeout(RestClientConstants.DEFAULT_TIMEOUT);
+    }
+
+    /**
+     * Add the header indicating this request is a PATCH.
+     *
+     * @returns - SironoRestClient The SironoRestClient object, allows chaining.
+     */
+    private SironoRestClient addPatchHeader() {
+        req.setHeader(RestClientConstants.METHOD_OVERRIDE, RestClientConstants.PATCH);
+        return this;
     }
 
     /**

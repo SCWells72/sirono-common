@@ -319,16 +319,6 @@ public class PaymentService extends AbstractService {
     }
 
     /**
-     * Get a list of Payment_Method__c object for a Guarantor.
-     *
-     * @param Id guarantorid - The Guarantor Id.
-     * @return List<Payment_Method__c> - The list of payment methods associated with the Guarantor.
-     */
-    public static List<Payment_Method__c> getPaymentMethods(Id guarantorId) {
-        return PaymentMethodDao.getPaymentMethods(guarantorId);
-    }
-
-    /**
      * Get a credit card by id.
      *
      * @param String cardId - The credit card id.

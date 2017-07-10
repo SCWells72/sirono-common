@@ -201,4 +201,293 @@ public with sharing class PaymentPlanServiceTest {
         System.assertNotEquals(pp, null, 'Expected Payment Plan not null');
     }
 
+    /**
+     * Test to verify the call to the Sirono Server for updating a Payment Plan.
+     */
+    @isTest
+    public static void testUpdatePaymentPlanTerms() {
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+        Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+        Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
+
+        System.assertNotEquals(pp, null, 'Expected Payment Plan not null');
+
+        PaymentPlanInformation ppInfo = new PaymentPlanInformation();
+        ppInfo.planType = Constants.PLANTYPE_AUTO;
+        ppInfo.amount = '9999';
+        ppInfo.executeOnDay = '1';
+
+        Test.startTest();
+        Payment_Plan__c updatedPlan = PaymentPlanService.updatePaymentPlanTerms(PLAN_SIRONO_ID, ppInfo);
+        Test.stopTest();
+
+        System.assertNotEquals(null, updatedPlan, 'Should find updated plan');
+        System.assertEquals(pp.Id, updatedPlan.Id, 'Should be the the same plan.');
+    }
+
+    /**
+     * Create a new payment plan and associated payment method without persisting the payment method.
+     */
+    @isTest
+    public static void testAddPaymentPlanWithPaymentMethodNoSave() {
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+
+        Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+
+        PaymentPlanInformation objPPInfo = new PaymentPlanInformation();
+        objPPInfo.chargeGroupIds = new String[]{String.valueOf(CG_TO_ADD_ID)};
+        objPPInfo.guarantorId = gt.Id;
+        objPPInfo.planType = Constants.PLANTYPE_AUTO;
+        objPPInfo.expirationYear = String.valueof(System.today().Year() + 1);
+        objPPInfo.expirationMonth = '07';
+        objPPInfo.creditCardNumber = '1234567891113';
+        objPPInfo.cardHolderName = '1234567891113';
+        objPPInfo.zip = '07897';
+        objPPInfo.amount = '100';
+        objPPInfo.planValue = '1000';
+        objPPInfo.executeOnDay = '10';
+        objPPInfo.cvv = 'test';
+        objPPInfo.state = 'test';
+        objPPInfo.address = 'test';
+        objPPInfo.city = 'test';
+
+        Test.startTest();
+        Payment_Plan__c newPlan = PaymentPlanService.addPaymentPlanWithPaymentMethod(objPPInfo, false, gt.Id);
+        Test.stopTest();
+
+        System.assertNotEquals(newPlan, null, 'Expected Payment Plan not null');
+        System.assertNotEquals(null, newPlan.Payment_Method__r, 'Returned plan should have a defined pay method.');
+
+        List<Payment_Plan__c> plans = PaymentPlanDao.getActivePaymentPlanWithMethod(gt.Id);
+        System.assertNotEquals(0, plans.size(), 'Should have found a plan.');
+        Payment_plan__c pp = plans.get(0);
+        System.assertEquals(null, pp.Payment_Method__r, 'Should not have persisted the Payment method.');
+    }
+
+    /**
+     * Create a new payment plan and associated payment method, persisting the payment method.
+     */
+    @isTest
+    public static void testAddPaymentPlanWithPaymentMethodSave() {
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+
+        Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+
+        PaymentPlanInformation objPPInfo = new PaymentPlanInformation();
+        objPPInfo.chargeGroupIds = new String[]{String.valueOf(CG_TO_ADD_ID)};
+        objPPInfo.guarantorId = gt.Id;
+        objPPInfo.planType = Constants.PLANTYPE_AUTO;
+        objPPInfo.expirationYear = String.valueof(System.today().Year() + 1);
+        objPPInfo.expirationMonth = '07';
+        objPPInfo.creditCardNumber = '1234567891113';
+        objPPInfo.cardHolderName = '1234567891113';
+        objPPInfo.zip = '07897';
+        objPPInfo.amount = '100';
+        objPPInfo.planValue = '1000';
+        objPPInfo.executeOnDay = '10';
+        objPPInfo.cvv = 'test';
+        objPPInfo.state = 'test';
+        objPPInfo.address = 'test';
+        objPPInfo.city = 'test';
+
+        Test.startTest();
+        Payment_Plan__c newPlan = PaymentPlanService.addPaymentPlanWithPaymentMethod(objPPInfo, true, gt.Id);
+        Test.stopTest();
+
+        System.assertNotEquals(newPlan, null, 'Expected Payment Plan not null');
+        System.assertNotEquals(null, newPlan.Payment_Method__r, 'Returned plan should have a defined pay method.');
+
+        List<Payment_Plan__c> plans = PaymentPlanDao.getActivePaymentPlanWithMethod(gt.Id);
+        System.assertNotEquals(0, plans.size(), 'Should have found a plan.');
+        Payment_plan__c pp = plans.get(0);
+        System.assertNotEquals(null, pp.Payment_Method__r, 'Should have persisted the Payment method.');
+    }
+
+    /**
+     * Get the play by sirono id.
+     */
+    @isTest
+    public static void testGetBySironoId() {
+
+        Test.startTest();
+        Payment_Plan__c plan = PaymentPlanService.getPaymentPlanBySironoId(PLAN_SIRONO_ID);
+        Test.stopTest();
+
+        System.assertNotEquals(null, plan, 'Should have been able to lookup payment plan by sirono id.');
+    }
+
+    @isTest
+    public static void testGetBySironoIdDecimal() {
+
+        Decimal sid = Decimal.valueOf(PLAN_SIRONO_ID);
+        Test.startTest();
+        Payment_Plan__c plan = PaymentPlanService.getPaymentPlanBySironoId(sid);
+        Test.stopTest();
+
+        System.assertNotEquals(null, plan, 'Should have been able to lookup payment plan by sirono id.');
+    }
+
+    /**
+     * Ensure we can look up active plan by guarantor id.
+     */
+    @isTest
+    public static void testGetActivePaymentPlan() {
+        Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+
+        Test.startTest();
+        Payment_Plan__c activePlan = PaymentPlanService.getActivePaymentPlan(gt.Id);
+        Test.stopTest();
+
+        System.assertNotEquals(null, activePlan, 'Should have found an active plan.');
+        System.assertEquals(true, activePlan.Active__c, 'Should be active.');
+    }
+
+    /**
+     * Test if we can find a Payment plan by plan id.
+     */
+    @isTest
+    public static void testGetPaymentPlanByPlanId() {
+        Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+
+        Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
+        System.assertNotEquals(null, pp, 'Should find an existing plan.');
+
+        Test.startTest();
+        Payment_Plan__c plan = PaymentPlanService.getPaymentPlan(pp.Id);
+        Test.stopTest();
+
+        System.assertNotEquals(null, plan, 'Should find the plan.');
+        System.assertEquals(pp.Id, plan.Id, 'Should be the same plan.');
+    }
+
+    /**
+     * Add a Payment Method to an existing plan, without saving.
+     */
+    @isTest
+    public static void testAddPaymentMethod_NewNoSave() {
+        Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+        String cardNumber = '378282246310005';
+        String lastFour = '0005';
+
+        Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
+        System.assertNotEquals(null, pp, 'Should find an existing plan.');
+
+        PaymentPlanInformation objPPInfo = new PaymentPlanInformation();
+        objPPInfo.expirationYear = String.valueof(System.today().Year() + 1);
+        objPPInfo.expirationMonth = '07';
+        objPPInfo.creditCardNumber = '1234567891113';
+        objPPInfo.cardHolderName = '1234567891113';
+
+        List<Payment_Method__c> originalMethods = PaymentMethodDao.getPaymentMethods(gt.Id);
+
+        Test.startTest();
+        Payment_Plan__c plan = PaymentPlanService.addPaymentMethod(pp.Id, '', objPPInfo, false);
+        Test.stopTest();
+
+        System.assertNotEquals(null, plan, 'Should return a plan.');
+        System.assertNotEquals(null, plan.Payment_Method__r, 'Should include payment method on returned plan.');
+
+        List<Payment_Method__c> updatedMethods = PaymentMethodDao.getPaymentMethods(gt.Id);
+        System.assertEquals(originalMethods.size(), updatedMethods.size(), 'Should no have a new payment method.');
+
+        List<Payment_Plan__c> plans = PaymentPlanDao.getActivePaymentPlanWithMethod(gt.Id);
+        System.assertNotEquals(0, plans.size(), 'Should have found a plan.');
+        Payment_plan__c planWithMethod = plans.get(0);
+
+        System.assertNotEquals(lastFour, plan.Payment_Method__r.Last_4__c, 'Should not have the new method.');
+    }
+
+    /**
+     * Add a Payment Method to an existing plan, without saving.
+     */
+    @isTest
+    public static void testAddPaymentMethod_NewSave() {
+        Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+        String cardNumber = '378282246310005';
+        String lastFour = '0005';
+
+        Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
+        System.assertNotEquals(null, pp, 'Should find an existing plan.');
+
+        PaymentPlanInformation objPPInfo = new PaymentPlanInformation();
+        objPPInfo.expirationYear = String.valueof(System.today().Year() + 1);
+        objPPInfo.expirationMonth = '07';
+        objPPInfo.creditCardNumber = cardNumber;
+        objPPInfo.cardHolderName = '1234567891113';
+
+        List<Payment_Method__c> originalMethods = PaymentMethodDao.getPaymentMethods(gt.Id);
+
+        Test.startTest();
+        Payment_Plan__c plan = PaymentPlanService.addPaymentMethod(pp.Id, '', objPPInfo, true);
+        Test.stopTest();
+
+        System.assertNotEquals(null, plan, 'Should return a plan.');
+        System.assertNotEquals(null, plan.Payment_Method__r, 'Should include payment method on returned plan.');
+
+        List<Payment_Method__c> updatedMethods = PaymentMethodDao.getPaymentMethods(gt.Id);
+        System.assertEquals(originalMethods.size() + 1, updatedMethods.size(), 'Should have one new plan.');
+
+        List<Payment_Plan__c> plans = PaymentPlanDao.getActivePaymentPlanWithMethod(gt.Id);
+        System.assertNotEquals(0, plans.size(), 'Should have found a plan.');
+        Payment_plan__c planWithMethod = plans.get(0);
+
+        System.assertEquals(lastFour, planWithMethod.Payment_Method__r.Last_4__c, 'Should have the new method.');
+    }
+
+    /**
+     * Add an existing Payment Method to existing plan, without saving.
+     */
+    @isTest
+    public static void testAddPaymentMethod_ExistingSave() {
+        Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+        String cardNumber = '378282246310005';
+        String lastFour = '0005';
+
+        Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
+        System.assertNotEquals(null, pp, 'Should find an existing plan.');
+
+        PaymentPlanInformation objPPInfo = new PaymentPlanInformation();
+        objPPInfo.expirationYear = String.valueof(System.today().Year() + 1);
+        objPPInfo.expirationMonth = '07';
+        objPPInfo.creditCardNumber = cardNumber;
+        objPPInfo.cardHolderName = '1234567891113';
+
+        Payment_Method__c newMethod = PaymentMethodService.generatePaymentMethod(objPPInfo, gt.Id);
+        PaymentMethodDao.insertPaymentMethod(newMethod);
+
+        Test.startTest();
+        Payment_Plan__c plan = PaymentPlanService.addPaymentMethod(pp.Id, newMethod.Id, new PaymentPlanInformation(), true);
+        Test.stopTest();
+
+        System.assertNotEquals(null, plan, 'Should return a plan.');
+        System.assertNotEquals(null, plan.Payment_Method__r, 'Should include payment method on returned plan.');
+
+        List<Payment_Plan__c> plans = PaymentPlanDao.getActivePaymentPlanWithMethod(gt.Id);
+        System.assertNotEquals(0, plans.size(), 'Should have found a plan.');
+        Payment_plan__c planWithMethod = plans.get(0);
+
+        System.assertEquals(lastFour, planWithMethod.Payment_Method__r.Last_4__c, 'Should have the new method.');
+    }
+
+    /**
+     * Test the Patch requestor setup.
+     */
+    @isTest
+    public static void testPatchRequestor() {
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+
+        Test.startTest();
+        PaymentPlanService.PaymentPlanRestClient patchRequest = new PaymentPlanService.PaymentPlanRestClient();
+        patchRequest.patchRequestor();
+        HttpRequest req = patchRequest.getRequest();
+        Test.stopTest();
+
+        System.assert(req != null, 'Should have built a request.');
+
+        String overrideValue = req.getHeader(RestClientConstants.METHOD_OVERRIDE);
+        System.assert(overrideValue != null, 'Should have the override header.');
+        System.assertEquals(RestClientConstants.PATCH, overrideValue, 'Should set override header to patch.');
+
+    }
+
 }

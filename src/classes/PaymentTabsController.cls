@@ -16,6 +16,11 @@ public without sharing class PaymentTabsController {
         return UIUtils.getCardDateOptions();
     }
 
+    /**
+     * Get the payment plan information for the current guarantor.
+     *
+     * @return GuarantorPaymentInfo - a payment info object populated with the uses data.
+     */
     @AuraEnabled
     public static GuarantorPaymentInfo getPaymentPlanInfo() {
         Contact guarantor;
@@ -47,160 +52,67 @@ public without sharing class PaymentTabsController {
         return paymentInfo;
     }
 
-    // Method for add credit card / payment plan creation
-    // right now using only AUTO plan types
+    /**
+     * Method for add credit card and payment plan creation. Using only AUTO plan types.
+     *
+     * @param Map<String, Object> ppInfoMap - A map of the data required to create a PaymentPlanInformation object.
+     * @param Boolean isCreditCardSaved - Should the Payment_Method__c generated be saved.
+     * @return Payment_Plan__c The newly created payment plan.
+     */
     @AuraEnabled
-    public static Payment_Plan__c createPaymentPlan(String paymentInfoStr) {
-        Payment_Plan__c paymentPlanObj = null;
-        PaymentPlanRequestInfo paymentInfo = (PaymentPlanRequestInfo) JSON.deserialize(paymentInfoStr, PaymentPlanRequestInfo.class);
-        String jwtToken = PayStaffWSUtill.getJWTToken(PayStaffWSUtill.un, PayStaffWSUtill.pw);
-        String csrfToken = PayStaffWSUtill.getCSRFToken();
-        if (csrfToken == null || jwtToken == null) {
-            return paymentPlanObj;
-        }
-
-        String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '","plan_type":"auto",' +
-            '"plan_value":32772,' +
-            '"installment_amount":' + SironoRestClient.convertToCents(paymentInfo.planValue) + ',' +
-            '"execute_on_day":' + String.valueOf(paymentInfo.executeOnDay) + ',' +
-            '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(paymentInfo.chargeGroupId) + ',' +
-            '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + paymentInfo.sironoId + '/",' +
-            '"active":true,' +
-            '"credit_card":{' +
-            '"method":"credit",' +
-            '"cardholder_name":"' + paymentInfo.creditCard.cardHolderName + '",' +
-            '"expiration_year":"' + paymentInfo.creditCard.expirationYear + '",' +
-            '"expiration_month":"' + paymentInfo.creditCard.expirationMonth + '",' +
-            '"number":"' + paymentInfo.creditCard.creditCardNumber + '",' +
-            '"cvv":"' + paymentInfo.creditCard.cvv + '",' +
-            '"state":"' + paymentInfo.creditCard.state + '",' +
-            '"zipcode":"' + paymentInfo.creditCard.zip + '",' +
-            '"address_1":"' + paymentInfo.creditCard.address + '",' +
-            '"city":"' + paymentInfo.creditCard.city + '"' +
-            '}}';
-
-        HttpRequest req = new HttpRequest();
-        req.setMethod('POST');
-        req.setHeader('Authorization', 'JWT ' + jwtToken);
-        req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/');
-        System.debug('RequestData:' + requestData);
-        req.setBody(requestData);
-
-        String responseBody = '';
-        HttpResponse res = new HttpResponse();
-        try {
-            System.debug(req.getBody());
-            res = new Http().send(req);
-            responseBody = res.getBody();
-
-        } catch (Exception e) {
-            System.debug('e: ' + e.getMessage() + '\n' + e.getStackTraceString());
-            throw new AuraHandledException('PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage());
-        }
-
-        if (res.getStatus() != null && res.getStatus().trim().equalsIgnoreCase('CREATED') && res.getStatusCode() == 201) {
-            /*
-            * 08-17-2016: Sirono - Tracker # 127940071
-            *  parse the Response and create a payment plan record.
-            */
-            PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(responseBody, paymentInfo.contactId, null, paymentInfo.chargeGroupId);
-            paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
-            paymentPlanObj.Name = String.valueof(paymentPlanObj.Sirono_ID__c);
-            upsert paymentPlanObj;
-
-            List<Charge_Group__c> chargeGroups = objPaymentPlanWrapper.chargeGroupRecords;
-            for (Charge_Group__c cg : chargeGroups) {
-                cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
-                cg.Payment_Plan__c = paymentPlanObj.Id;
-            }
-            // Update the Charge Groups using ChargeGroupService.
-            ChargeGroupService.updateChargeGroups(chargeGroups);
-            //@TODO: waiting for Payment Method API implementatio
-            Payment_Method__c paymentMethod = PaymentTabsController.generatePaymentMethod(paymentInfo, paymentPlanObj.Guarantor__c);
-            paymentPlanObj.Payment_Method__r = paymentMethod;
-            if (paymentInfo.creditCard.isSaved) {
-                INSERT paymentMethod;
-                paymentPlanObj.Payment_Method__c = paymentMethod.Id;
-                UPDATE paymentPlanObj;
-            }
-            return paymentPlanObj;
-        }
-        System.debug('responseBody:' + responseBody);
-        String errorMessage = PaymentTabsController.getErrorMessage(responseBody, res);
-        throw new AuraHandledException(errorMessage);
+    public static Payment_Plan__c createPaymentPlan(Map<String, Object> ppInfoMap, Boolean isCreditCardSaved) {
+        PaymentPlanInformation ppInfo = new PaymentPlanInformation(ppInfoMap);
+        UserWrapper user = UserService.getCurrentUser();
+        Payment_Plan__c paymentPlanObj = PaymentPlanService.addPaymentPlanWithPaymentMethod(ppInfo, isCreditCardSaved, user.contactId);
         return paymentPlanObj;
     }
 
+    /**
+     * Edit the current payment method on a payment plan.
+     *
+     * @param Map<String, Object> ppInfoMap - A map containing info about the payment plan and credit card.
+     */
     @AuraEnabled
-    public static Payment_Plan__c doEditPaymentMethod(String paymentInfoStr) {
-        System.debug('paymentInfoStr' + paymentInfoStr);
-        PaymentPlanRequestInfo paymentInfo = (PaymentPlanRequestInfo) JSON.deserialize(paymentInfoStr, PaymentPlanRequestInfo.class);
-        Payment_Plan__c paymentPlanObj = PaymentPlanService.getPaymentPlan(paymentInfo.sfId);
-        Payment_Method__c paymentMethod = null;
-        //@TODO: waiting for Payment Method API implementation
-        if (String.isBlank(paymentInfo.creditCard.sfId)) {
-            paymentMethod = PaymentTabsController.generatePaymentMethod(paymentInfo, paymentPlanObj.Guarantor__c);
-            if (paymentInfo.creditCard.isSaved) {
-                INSERT paymentMethod;
-            }
-        } else {
-            paymentMethod = PaymentService.getCreditCard(paymentInfo.creditCard.sfId);
-        }
-        paymentPlanObj.Payment_Method__r = paymentMethod;
+    public static Payment_Plan__c doEditPaymentMethod(Map<String, Object> ppInfoMap, Boolean isCreditCardSaved) {
+        String planId = ppInfoMap.containsKey('id') ? String.valueOf(ppInfoMap.get('id')) : '';
+        String creditCardId = ppInfoMap.containsKey('creditCardId') ? String.valueOf(ppInfoMap.get('creditCardId')) : '';
 
-        if (paymentInfo.creditCard.isSaved) {
-            UPDATE paymentPlanObj;
-            paymentPlanObj.Payment_Method__c = paymentMethod.Id;
+        if (String.isBlank(planId)) {
+            throw new AuraHandledException('Payment Plan id must be provided.');
         }
-        return paymentPlanObj;
+
+        PaymentPlanInformation ppInfo = new PaymentPlanInformation(ppInfoMap);
+
+
+        return PaymentPlanService.addPaymentMethod(planId, creditCardId, ppInfo, isCreditCardSaved);
     }
 
+    /**
+     * Edit the current users payment plan.
+     *
+     * @param Map<String, Object> ppInfoMap - A map of the data required to create a PaymentPlanInformation object.
+     * @return Payment_Plan__c The newly created payment plan.
+
+     */
     @AuraEnabled
-    //Send an request to end point
-    public static Payment_Plan__c doEditPaymentPlan(String paymentInfoStr) {
-        Payment_Plan__c paymentPlanObj = null;
-        PaymentPlanRequestInfo paymentInfo = (PaymentPlanRequestInfo) JSON.deserialize(paymentInfoStr, PaymentPlanRequestInfo.class);
-        String jwtToken = PayStaffWSUtill.getJWTToken(PayStaffWSUtill.un, PayStaffWSUtill.pw);
-        String csrfToken = PayStaffWSUtill.getCSRFToken();
-        if (csrfToken == null || jwtToken == null || String.isBlank(paymentInfo.sfId)) {
-            return paymentPlanObj;
+    public static Payment_Plan__c doEditPaymentPlan(Map<String, Object> ppInfoMap) {
+
+        Payment_Plan__c paymentPlan = null;
+        PaymentPlanInformation planInfo = new PaymentPlanInformation(ppInfoMap);
+        String sironoPaymentPlanId = ppInfoMap.containsKey('sironoPaymentPlanId') ? String.valueOf(ppInfoMap.get('sironoPaymentPlanId')) : '';
+
+        if (String.isBlank(sironoPaymentPlanId)) {
+            throw new AuraHandledException('sironoPaymentPlanId must be provided.');
         }
-
-        String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '","plan_type":"auto",' +
-            '"url": "' + (SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paymentplan/' + paymentInfo.paymentPlanId + '/') + '",' +
-            '"active":true,' +
-            '"installment_amount":' + SironoRestClient.convertToCents(paymentInfo.planValue) + ',' +
-            '"execute_on_day":' + paymentInfo.executeOnDay +
-            '}';
-
-        HttpRequest req = new HttpRequest();
-        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/' + paymentInfo.paymentPlanId + '/');
-        req.setMethod('POST');
-        req.setHeader('X-HTTP-Method-Override', 'PATCH');
-        req.setHeader('Authorization', 'JWT ' + jwtToken);
-        req.setHeader('Content-type', 'application/json');
-        req.setBody(requestData);
-
-        String responseBody = '';
-        HttpResponse res = new HttpResponse();
         try {
-            res = new Http().send(req);
-            responseBody = res.getBody();
+            paymentPlan = PaymentPlanService.updatePaymentPlanTerms(sironoPaymentPlanId, planInfo);
         } catch (Exception e) {
-            throw new AuraHandledException('PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage());
+            System.debug('ERROR: ' + e.getMessage());
+            throw new AuraHandledException(e.getMessage());
         }
 
-        if (res.getStatusCode() != null && res.getStatusCode() == 200) {
-            PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(responseBody, paymentInfo.contactId, null, paymentInfo.chargeGroupId);
-            paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
-            UPDATE paymentPlanObj;
-            return PaymentPlanService.getPaymentPlan(paymentPlanObj.Id);
-        }
+        return paymentPlan;
 
-        String errorMessage = PaymentTabsController.getErrorMessage(responseBody, res);
-        throw new AuraHandledException(errorMessage);
-        return paymentPlanObj;
     }
 
     @AuraEnabled
@@ -220,30 +132,6 @@ public without sharing class PaymentTabsController {
         } else {
             throw new AuraHandledException('Payment Plan Id is missing.');
         }
-    }
-
-    private static Payment_Method__c generatePaymentMethod(PaymentPlanRequestInfo info, String contactId) {
-        //TODO: does the intro logic belong somewhere else? CreditCardInfo?
-        Date expDate = null;
-        if (info.creditCard != null && String.isNotBlank(info.creditCard.expirationMonth) && String.isNotBlank(info.creditCard.expirationYear)) {
-            expDate = Date.newInstance(Integer.valueOf(info.creditCard.expirationYear), Integer.valueOf(info.creditCard.expirationMonth), 1);
-        }
-
-        String lastDigits = '';
-        if (String.isNotBlank(info.creditCard.creditCardNumber)) {
-            String fullNumber = info.creditCard.creditCardNumber;
-            lastDigits = fullNumber.substring(fullNumber.length() - 4, fullNumber.length());
-        }
-
-        //TODO: Visa should not be hardcoded
-        return new Payment_Method__c(
-            Card_Type__c = 'Visa',
-            Type__c = 'Credit Card',
-            Card_Holder_Name__c = info.creditCard.cardHolderName,
-            Expiration_Date__c = expDate,
-            Guarantor__c = contactId,
-            Last_4__c = lastDigits
-        );
     }
 
     /*Mohan Kumar 08-02-2016: Ticket # 06638015 -
@@ -445,7 +333,7 @@ public without sharing class PaymentTabsController {
     private static List<MakeAPaymentController.CardInformation> getCreditCards(Id guarantorContactId) {
 
         List<MakeAPaymentController.CardInformation> cards = new List<MakeAPaymentController.CardInformation>();
-        for (Payment_Method__c pCard: PaymentService.getPaymentMethods(guarantorContactId)) {
+        for (Payment_Method__c pCard: PaymentMethodService.getPaymentMethods(guarantorContactId)) {
             cards.add(new MakeAPaymentController.CardInformation(pCard));
         }
 

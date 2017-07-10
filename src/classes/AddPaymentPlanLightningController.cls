@@ -1,7 +1,8 @@
 /**
  * AddPaymentPlanLightningController class is lightning controller of CreatePaymentPlan class.
  **/
- 
+
+//TODO: delete me...unused
 public with sharing class AddPaymentPlanLightningController extends AddPaymentPlanController {
 
     public String message;
