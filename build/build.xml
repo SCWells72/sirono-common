@@ -57,7 +57,7 @@
     </condition>
 
 
-    <getOrgName text="${sf.target.username}" property="derivedOrgName" />
+    <getOrgName text="${sf.target.username}" property="derivedOrgName"/>
     <condition property="orgName" value="${sf.orgName}">
         <isset property="sf.orgName"/>
     </condition>
@@ -98,11 +98,11 @@
         <delete dir="${sf.retrieveTarget}"/>
         <mkdir dir="${sf.retrieveTarget}"/>
         <sf:retrieve
-                retrieveTarget="${sf.retrieveTarget}"
-                username="${sf.source.username}"
-                password="${sf.source.password}"
-                serverurl="${sf.source.serverurl}"
-                unpackaged="${basedir}/src/package.xml"/>
+            retrieveTarget="${sf.retrieveTarget}"
+            username="${sf.source.username}"
+            password="${sf.source.password}"
+            serverurl="${sf.source.serverurl}"
+            unpackaged="${basedir}/src/package.xml"/>
     </target>
 
     <target name="retrievePkg">
@@ -110,24 +110,24 @@
         <delete dir="${sf.retrieveTarget}"/>
         <mkdir dir="${sf.retrieveTarget}"/>
         <sf:retrieve
-                retrieveTarget="${sf.retrieveTarget}"
-                username="${sf.source.username}"
-                password="${sf.source.password}"
-                serverurl="${sf.source.serverurl}"
-                packagenames="${sf.pkgName}"/>
+            retrieveTarget="${sf.retrieveTarget}"
+            username="${sf.source.username}"
+            password="${sf.source.password}"
+            serverurl="${sf.source.serverurl}"
+            packagenames="${sf.pkgName}"/>
     </target>
 
-    <target name="deploy" depends="processTemplates">
+    <target name="deploy" depends="processTemplates, deactivateAndDeleteFlows">
         <echo level="info">Deploying to: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
-                username="${sf.target.username}"
-                password="${sf.target.password}"
-                serverurl="${sf.target.serverurl}"
-                deployRoot="${basedir}/src"
-                pollWaitMillis="${sf.pollWaitMillis}"
-                maxPoll="${sf.maxPoll}"
-                testLevel="${sf.testLevel}"
-                logType="Debugonly"/>
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${basedir}/src"
+            pollWaitMillis="${sf.pollWaitMillis}"
+            maxPoll="${sf.maxPoll}"
+            testLevel="${sf.testLevel}"
+            logType="Debugonly"/>
     </target>
 
 
@@ -148,90 +148,90 @@
         </antcall>
     </target>
 
-    <target name="deployZip" >
+    <target name="deployZip">
         <echo level="info">Deploying zip from ${sf.zipFile} to: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
-                username="${sf.target.username}"
-                password="${sf.target.password}"
-                serverurl="${sf.target.serverurl}"
-                zipfile="${sf.zipFile}"
-                pollWaitMillis="${sf.pollWaitMillis}"
-                maxPoll="${sf.maxPoll}"
-                testLevel="${sf.testLevel}"
-                logType="Debugonly"/>
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            zipfile="${sf.zipFile}"
+            pollWaitMillis="${sf.pollWaitMillis}"
+            maxPoll="${sf.maxPoll}"
+            testLevel="${sf.testLevel}"
+            logType="Debugonly"/>
     </target>
 
-    <target name="undeployCode" depends="processTemplates">
+    <target name="undeployCode" depends="processTemplates, deactivateAndDeleteFlows">
         <echo level="info">Remove metadata from: ${sf.target.username}</echo>
         <sf:deploy
-                username="${sf.target.username}"
-                password="${sf.target.password}"
-                serverurl="${sf.target.serverurl}"
-                deployRoot="${basedir}/build/undeploy"
-                testLevel="${sf.testLevel}"
-                ignoreWarnings="true"/>
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${basedir}/build/undeploy"
+            testLevel="${sf.testLevel}"
+            ignoreWarnings="true"/>
     </target>
 
     <!-- Check only; don't remove from server -->
-    <target name="undeployCheckOnly" depends="processTemplates">
+    <target name="undeployCheckOnly" depends="processTemplates, deactivateAndDeleteFlows">
         <echo level="info">Validate removal of metadata from: ${sf.target.username}</echo>
         <sf:deploy
-                username="${sf.target.username}"
-                password="${sf.target.password}"
-                serverurl="${sf.target.serverurl}"
-                deployRoot="${basedir}/build/undeploy"
-                ignoreWarnings="true"
-                pollWaitMillis="${sf.pollWaitMillis}"
-                maxPoll="${sf.maxPoll}"
-                testLevel="${sf.testLevel}"
-                logType="Debugonly"
-                checkOnly="true"/>
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${basedir}/build/undeploy"
+            ignoreWarnings="true"
+            pollWaitMillis="${sf.pollWaitMillis}"
+            maxPoll="${sf.maxPoll}"
+            testLevel="${sf.testLevel}"
+            logType="Debugonly"
+            checkOnly="true"/>
     </target>
 
     <!-- Check only; don't save to the server -->
-    <target name="deployCheckOnly" depends="processTemplates">
+    <target name="deployCheckOnly" depends="processTemplates, deactivateAndDeleteFlows">
         <echo level="info">Validating in: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
-                username="${sf.target.username}"
-                password="${sf.target.password}"
-                serverurl="${sf.target.serverurl}"
-                deployRoot="${basedir}/src"
-                pollWaitMillis="${sf.pollWaitMillis}"
-                maxPoll="${sf.maxPoll}"
-                testLevel="${sf.testLevel}"
-                logType="Debugonly"
-                checkOnly="true"/>
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${basedir}/src"
+            pollWaitMillis="${sf.pollWaitMillis}"
+            maxPoll="${sf.maxPoll}"
+            testLevel="${sf.testLevel}"
+            logType="Debugonly"
+            checkOnly="true"/>
     </target>
 
     <!-- Check only; only run specified tests -->
-    <target name="deployCheckSelectTests" depends="processTemplates">
+    <target name="deployCheckSelectTests" depends="processTemplates, deactivateAndDeleteFlows">
         <echo level="info">Running select tests in: ${sf.target.username}</echo>
         <sf:deploy
-                username="${sf.target.username}"
-                password="${sf.target.password}"
-                serverurl="${sf.target.serverurl}"
-                deployRoot="${basedir}/src"
-                pollWaitMillis="${sf.pollWaitMillis}"
-                maxPoll="${sf.maxPoll}"
-                logType="Debugonly"
-                checkOnly="true"
-                testLevel="RunSpecifiedTests">
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${basedir}/src"
+            pollWaitMillis="${sf.pollWaitMillis}"
+            maxPoll="${sf.maxPoll}"
+            logType="Debugonly"
+            checkOnly="true"
+            testLevel="RunSpecifiedTests">
             <runTest>EncounterBalanceTest</runTest>
         </sf:deploy>
     </target>
-    
+
     <!-- Deploy without tests -->
-    <target name="deployNoTests" depends="processTemplates">
+    <target name="deployNoTests" depends="processTemplates, deactivateAndDeleteFlows">
         <echo level="info">Deploying to: ${sf.target.username} without tests</echo>
         <sf:deploy
-                username="${sf.target.username}"
-                password="${sf.target.password}"
-                serverurl="${sf.target.serverurl}"
-                deployRoot="${basedir}/src"
-                pollWaitMillis="${sf.pollWaitMillis}"
-                maxPoll="${sf.maxPoll}"
-                testLevel="NoTestRun"
-                logType="Debugonly"/>
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${basedir}/src"
+            pollWaitMillis="${sf.pollWaitMillis}"
+            maxPoll="${sf.maxPoll}"
+            testLevel="NoTestRun"
+            logType="Debugonly"/>
     </target>
 
     <target name="echo_environment">
@@ -248,17 +248,18 @@
     <target name="listMetadata">
         <echo level="info">List metadata type: ${metadata_type} from: ${sf.source.username} into: ${basedir}/listMetadata/list_${metadata_type}.log</echo>
         <mkdir dir="${basedir}/listMetadata"/>
-      <sf:listMetadata
-        username="${sf.source.username}"
-        password="${sf.source.password}"
-        serverurl="${sf.source.serverurl}"
-        metadataType="${metadata_type}"
-        resultFilePath="${basedir}/listMetadata/list_${metadata_type}.log"/>
+        <sf:listMetadata
+            username="${sf.source.username}"
+            password="${sf.source.password}"
+            serverurl="${sf.source.serverurl}"
+            metadataType="${metadata_type}"
+            resultFilePath="${basedir}/listMetadata/list_${metadata_type}.log"/>
     </target>
 
     <target name="full_deploy" description="Full environment setup in target org"
             depends="stop_all_scheduled_jobs, deploy, initialize_custom_settings, schedule_all_jobs"/>
-    
+
+    <!-- TODO: This could be quite a bit more efficient by only deploying what's needed in the second deployNoTests -->
     <target name="initial_deploy" description="Deploy into a DE org for the first time"
             depends="preDeploy, deployPrep, deployNoTests, revertPrep, deployNoTests, remove_sample_data,
             initialize_custom_settings, revertPrep"/>
@@ -267,28 +268,28 @@
             depends="stop_all_scheduled_jobs, undeployCode, deploy"/>
 
     <target name="rename_metadata">
-       <java classname="com.sirono.sf_tools.MetadataUpdater"
-               fork="true"
-               failonerror="true">
-                <arg value="${sf.rename.input}"/>
-                <arg value="${sf.target.username}"/>
-                <arg value="${sf.target.password}"/>
-                <arg value="${sf.target.metadataurl}"/>
-             <classpath>
+        <java classname="com.sirono.sf_tools.MetadataUpdater"
+              fork="true"
+              failonerror="true">
+            <arg value="${sf.rename.input}"/>
+            <arg value="${sf.target.username}"/>
+            <arg value="${sf.target.password}"/>
+            <arg value="${sf.target.metadataurl}"/>
+            <classpath>
                 <fileset dir="${basedir}/build/lib">
                     <include name="**/*.jar"/>
                 </fileset>
-             </classpath>
-       </java>
+            </classpath>
+        </java>
     </target>
 
     <target name="stop_all_scheduled_jobs" description="Stops all scheduled jobs in the target org">
         <!-- stop all scheduled jobs -->
         <executeAnonymous
-                username="${sf.target.username}"
-                password="${sf.target.password}"
-                serverurl="${sf.target.serverurl}">
-                <![CDATA[
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}">
+            <![CDATA[
                     for (SObject j : [SELECT Id FROM CronTrigger]) System.abortJob(j.Id);
                 ]]>
         </executeAnonymous>
@@ -298,9 +299,9 @@
         <echo level="info">Schedule all jobs in: ${sf.target.username}</echo>
         <!-- schedule all jobs -->
         <executeAnonymous
-                username="${sf.target.username}"
-                password="${sf.target.password}"
-                serverurl="${sf.target.serverurl}">
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}">
             <![CDATA[
                 System.schedule('PopulateNextPaymentDateBatch', '0 0 1 * * ?', new PopulateNextPaymentDateBatch());
                 System.schedule('CallEarlyOutAutoCase', '0 0 1 * * ?', new CallEarlyOutAutoCase());
@@ -317,9 +318,9 @@
         <echo level="info">Initialize custom settings in: ${sf.target.username}</echo>
         <!-- execute apex to initialize custom settings -->
         <executeAnonymous
-                username="${sf.target.username}"
-                password="${sf.target.password}"
-                serverurl="${sf.target.serverurl}">
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}">
             <![CDATA[
                 SironoSettingsUtil.initializeSironoSettings();
             ]]>
@@ -329,9 +330,9 @@
     <target name="remove_sample_data">
         <echo level="info">Remove all sample data from dev org: ${sf.target.username}</echo>
         <executeAnonymous
-                username="${sf.target.username}"
-                password="${sf.target.password}"
-                serverurl="${sf.target.serverurl}">
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}">
             <![CDATA[
                 Opportunity[] opps = [SELECT Id FROM Opportunity];
                 DELETE opps;
