@@ -28,7 +28,13 @@ public with sharing class TaskSecurityContext extends SecurityContext {
 
     // The fields for selecting a Task in TaskTriggerHandler
     private static final Set<String> SELECT_FIELDS = new Set<String>{
-        CALLDISPOSITION, WHOID, FIVE9_FIVE9CAMPAIGN, WHATID, ID
+        CALLDISPOSITION, WHOID, FIVE9_FIVE9CAMPAIGN, WHATID, ID, FIVE9_FIVE9SESSIONID
+    };
+
+    // The fields for inserting a Task in MissedCallReportProcessor
+    private static final Set<String> INSERT_FIELDS = new Set<String>{
+        WHOID, FIVE9_FIVE9ANI, FIVE9_FIVE9DNIS, CALLDISPOSITION, FIVE9_FIVE9SESSIONID, FIVE9_FIVE9CALLTYPE,
+            FIVE9_FIVE9CAMPAIGN, FIVE9_FIVE9AGENTNAME, ACTIVITYDATE, STATUS
     };
 
     /**
@@ -51,6 +57,11 @@ public with sharing class TaskSecurityContext extends SecurityContext {
      * The select context for Task in TaskTriggerHandler
      **/
     public static final TaskSecurityContext SELECT_CONTEXT = new TaskSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);
+
+    /**
+     * The upsert context for Task in MissedCallReportHandler
+     **/
+    public static final TaskSecurityContext INSERT_CONTEXT = new TaskSecurityContext(INSERT_FIELDS, ACTION.OBJ_UPSERT);
 
     /**
      * Override getObjectType method of SecurityContext class
