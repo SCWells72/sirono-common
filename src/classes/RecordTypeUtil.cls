@@ -1,13 +1,11 @@
 /*
-* @author Sirono
-* @version 1.0.1
-* @Date: 09-01-2016
-* Created by mmartin on 08-18-2016.
+* RecordType constants
 */
 
 public with sharing class RecordTypeUtil {
-    Public Static Map<String, Id> rtMap = null;
+    public static Map<String, Id> rtMap = null;
 
+    public static Id automatedCaseRt;
     public static Id guarantorRt;
     public static Id patientRt;
     public static Id staffRt;
@@ -26,6 +24,17 @@ public with sharing class RecordTypeUtil {
                 }
                 rtMap.put(rt.Name, rt.Id);
             }
+
+            for (RecordType rt: [
+                    SELECT Id, Name
+                    FROM RecordType
+                    WHERE sObjectType = 'Case'
+                    AND DeveloperName = 'Automated_Cases'
+            ]) {
+                automatedCaseRt = rt.id;
+            }
         }
+
+
     }
 }

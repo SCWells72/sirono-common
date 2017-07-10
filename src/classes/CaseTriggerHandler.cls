@@ -1,37 +1,44 @@
-/*
-* @author: Sirono
-* @version 1.0.1
-* @Date: 05-05-2016 
-*
-* 08-11-2016: Sirono - Tracker # 128030957 For Removal from Early-out campaign
-*
-* 08-12-2016: Sirono - Tracker # 127517133 For Removal from Precollections campaign
-*
-* 08-18-2016: Sirono - Tracker # 128457157 For Encounter: Remove Guarantor to the Preservice Call list
-*    
-* 08-22-2016: Sirono - Tracker # 128197107 For Remove Guarantor to the Delinquent Payment Plan Call list
-*
-* 08-25-2016: Sirono - Tracker # 127517003 For Add/Remove Guarantor to the CC Error Call list
-* 
-* 09-22-2016 Sirono - Tracker # 130687155 REMOVED CONDITION TO CHECK FOR CASE RECORD TYPE
-*/
+/**
+ * TriggerHandler class for CaseTrigger.
+ **/
 
 public with sharing class CaseTriggerHandler {
 
-    /* PUBLIC METHOD CALLED FROM TRIGGER
-    * Call the method checkAndDoAddNoteCallout
-    */
+    /**
+     * This method is use before insert the case.
+     *
+     * @param List<Case> newList - That contains List of Case.
+     **/
+    public static void beforeInsert(List<Case> newList) {
+        // Call setCaseIdsForPB method to set Ids in Case.
+        setCaseIdsForPB(newList);
+    }
+
+    /**
+     * This method is use after insert the case.
+     *
+     * @param List<Case> newList - That contains List of Case.
+     **/
     public static void afterInsert(List<Case> newList) {
-        //ONLY DOING CALLOUT WHEN BATCH SIZE IS ONE (It's Created from UI)
+        if (newList.isEmpty()) {
+            return;
+        }
+
         if (newList.size() == 1) {
             // Passing parameter change Case single record to List of Case to resolve Security Scan Issue.
             checkAndDoAddNoteCallout(newList);
         }
+
+        createCaseCGJunctions(newList);
+        createCampaignMemberRecords(newList);
     }
-        
-    /* PUBLIC METHOD CALLED FROM TRIGGER
-    * Call the method removeCampaignMembers
-    */
+
+    /**
+     * This method is use after update the case.
+     *
+     * @param List<Case> newList - That contains List of Case.
+     * @param Map<Id, Case> oldMap - That contains Map of Case.
+     **/
     public static void afterUpdate(List<Case> newList, Map<Id, Case> oldMap) {
         removeCampaignMembers(newList, oldMap);
     }
@@ -44,11 +51,8 @@ public with sharing class CaseTriggerHandler {
      *
      * Parameter change Case object to List of Case to resolve Security Scan Issue.
      **/
-    private static void checkAndDoAddNoteCallout(List<Case> newCases) {      
-        //Tracker # 130687155 REMOVED CONDITION TO CHECK FOR CASE RECORD TYPE 
+    private static void checkAndDoAddNoteCallout(List<Case> newCases) { 
         if (newCases.get(0).Description != null) {
-            // CHECK IF CASE DID NOT CREATED BY SIRONO INTEGRATION USER
-
             if (CaseSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                 // We have removed Loop and take List Variable because of we need only one record based on Case Id.
                 // This changes do for Security Scan's "Async Future Method Inside Loops" related Error.
@@ -60,134 +64,105 @@ public with sharing class CaseTriggerHandler {
                             AND Charge_Group_IDs__c != null
                 ]);
                 if (cases.size() > 0) {
-                    //CALL FUTURE METHOD FOR ADD NOTE CALLOUT
-                    //split the Charge_Group_IDs__c parameter to pass it as a List in the method
+                    // CALL FUTURE METHOD FOR ADD NOTE CALLOUT
                     PayStaffWSUtill.addNoteFuture(cases[0].Charge_Group_IDs__c.split(','), cases[0].Description);
                 }
             }
         }
     }
 
-   /*
-    * 08-11-2016: Sirono - Tracker # 128030957 For Removal from Early-out campaign
+   /**
+    * Remove campaign members associated with the given guarantorId/Case.Type combos
     *
-    * 08-12-2016: Sirono - Tracker # 127517133 For Removal from Precollections campaign
-    *
-    * 08-18-2016: Sirono - Tracker # 128457157 For Encounter: Remove Guarantor to the Preservice Call list
-    *    
-    * 08-22-2016: Sirono - Tracker # 128197107 For Remove Guarantor to the Delinquent Payment Plan Call list
-    *
-    * 08-25-2016: Sirono - Tracker # 127517003 For Add/Remove Guarantor to the CC Error Call list
-    */
-    private static void removeCampaignMembers(List<Case> newList,
-            Map<Id, Case> oldMap) {
-        if (!CaseUtil.executeRemoveCampaignTrigger) return;
+    * @param List<Case> newList - That contains List of Case.
+    * @param Map<Id, Case> oldMap - That contains Map of Case.
+    **/
+    private static void removeCampaignMembers(List<Case> newList, Map<Id, Case> oldMap) {
+        if (!CaseUtil.executeRemoveCampaignTrigger) {
+            return;
+        }
 
-        Set<Id> earlyOutGuarantors = new Set<Id>();
-        Set<Id> preCollectionGuarantors = new Set<Id>();
-        Set<String> encounterGuarantors = new Set<String>();
-        Set<Id> delinquentGuarantors = new Set<Id>();
-        Set<Id> ccErrorGuarantors = new Set<Id>();
-        for (Case c : newList) {
-            if (c.IsClosed && !oldMap.get(c.Id).IsClosed) {
-                if (c.Type == Constants.CASE_TYPE_OVERDUE && c.Guarantor_Information__c != null) {
-                    earlyOutGuarantors.add(c.Guarantor_Information__c);
+        Map<String, Set<Id>> caseCmpnMemberMap = new Map<String, Set<Id>> ();
+
+        for (Case c: newList) {
+            if ((c.IsClosed && !oldMap.get(c.Id).IsClosed) &&
+                    c.Guarantor_Information__c != null) {
+
+                if (!caseCmpnMemberMap.containsKey(c.Type)) {
+                    caseCmpnMemberMap.put(c.Type, new Set<Id>());
                 }
-                if (c.Type == 'Precollections' && c.Guarantor_Information__c != null) {
-                    preCollectionGuarantors.add(c.Guarantor_Information__c);
-                }
-                if (c.Type == 'Encounter' && c.Guarantor_Information__c != null) {
-                    encounterGuarantors.add(c.Guarantor_Information__c);
-                }
-                if (c.Type == Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS && c.Guarantor_Information__c != null) {
-                    delinquentGuarantors.add(c.Guarantor_Information__c);
-                }
-                if (c.Type == Constants.CASE_TYPE_PAYMENT_PLAN_ERROR && c.Guarantor_Information__c != null) {
-                    ccErrorGuarantors.add(c.Guarantor_Information__c);
-                }
+
+                caseCmpnMemberMap.get(c.Type).add(c.Guarantor_Information__c);
             }
         }
-        
-        // Create instant of CmpnMemberSecurityContext class. It is use to check Delete access on Object.
-	CmpnMemberSecurityContext cmpnMemSecurityContext = new CmpnMemberSecurityContext();
 
-        if (earlyOutGuarantors.size() > 0) {
-            Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                    Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M
-            });
-            string earlyOut = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE);
-            string earlyOutMobile = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE_M);
+        CampaignMemberService.deleteMembers(caseCmpnMemberMap);
+    }
 
-            if (cmpnMemSecurityContext.deleteActionAllowed()) {
-                if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                    DELETE [
-                            SELECT Id, ContactId
-                            FROM CampaignMember
-                            WHERE (Campaign.Name = :earlyOut OR Campaign.Name = :earlyOutMobile)
-                            AND ContactId IN :earlyOutGuarantors
-                    ];
+    /**
+     * Create Case_CG Junction records.
+     *
+     * @param List<Case> newList - That contains List of Case.
+     **/
+    private static void createCaseCGJunctions(List<Case> newList) {
+        Map<String, List<Case>> filteredCases = new Map<String, List<Case>>();
+
+        Map<Id, List<Charge_Group__c>> chargeGroups = new Map<Id, List<Charge_Group__c>>();
+
+        for (Case objCase: newList) {
+            if (!String.isEmpty(objCase.Guarantor_Information__c)) {
+                if (Constants.CASE_CG_SUBSTATUS.containsKey(objCase.Type)) {
+
+                    if (!filteredCases.containsKey(objCase.Type)) {
+                        filteredCases.put(objCase.Type, new List<Case>());
+                    }
+                    filteredCases.get(objCase.Type).add(objCase);
                 }
             }
         }
 
-        if (preCollectionGuarantors.size() > 0) {
-            Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                    'PreCollections', 'PreCollections M'
-            });
-            string preCollection = mapCampaignMapping.get('PreCollections');
-            string preCollectionMobile = mapCampaignMapping.get('PreCollections M');
+        if (!filteredCases.isEmpty()) {
+            CaseService.createCaseCGJunctions(filteredCases);
+        }
+    }
 
-            if (cmpnMemSecurityContext.deleteActionAllowed()) {
-                if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                    DELETE [
-                            SELECT Id, ContactId
-                            FROM CampaignMember
-                            WHERE (Campaign.Name = :preCollection OR Campaign.Name = :preCollectionMobile)
-                            AND ContactId IN :preCollectionGuarantors
-                    ];
+    /**
+     * Create campaign members for the guarantor associated with the case for all
+     * campaigns associated with the case's type. If there is a mapping, create a campaign member.
+     *
+     * @param newCases the cases to create campaign members for
+     **/
+    private static void createCampaignMemberRecords(List<Case> newCases) {
+        // Collect the guarantorIds from the new cases & group by caseType
+        Map<String, Set<Id>> caseTypeGTMap = new Map<String, Set<Id>> ();
+
+        for (Case objCase: newCases) {
+            if (!String.isEmpty(objCase.Guarantor_Information__c)) {
+                if (!caseTypeGTMap.containsKey(objCase.Type)) {
+                    caseTypeGTMap.put(objCase.Type, new Set<Id>());
                 }
+                caseTypeGTMap.get(objCase.Type).add(objCase.Guarantor_Information__c);
             }
         }
 
-        if (encounterGuarantors.size() > 0) {
-            CaseUtil.closeEncounterAutoCase(null, encounterGuarantors, true);
-        }
+        CampaignMemberService.createCampaignMembers(caseTypeGTMap);
+    }
 
-        if (delinquentGuarantors.size() > 0) {
-            Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                    Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M
-            });
-            string delinquent = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE);
-            string delinquentMobile = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M);
+    /**
+     * This method is use to assign the correct Business Hour Id and record type Id for the current org to the case.
+     * Only update cases which were built with our PB flows (indicated by having the constant value for BusinessHoursId
+     * that we use in the flows)
+     *
+     * @param newList - the Cases to update.
+     **/
+    public static void setCaseIdsForPB(List<Case> newList) {
+        // Get the default business hours Id. 
+        BusinessHours businessHrs = [SELECT Id FROM BusinessHours WHERE IsDefault=true];
 
-            if (cmpnMemSecurityContext.deleteActionAllowed()) {
-                if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                    DELETE [
-                            SELECT Id, ContactId
-                            FROM CampaignMember
-                            WHERE (Campaign.Name = :delinquent OR Campaign.Name = :delinquentMobile)
-                            AND ContactId IN :delinquentGuarantors
-                    ];
-                }
-            }
-        }
-
-        if (ccErrorGuarantors.size() > 0) {
-            Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                    Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR, Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M
-            });
-            string ccError = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR);
-            string ccErrorMobile = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M);
-
-            if (cmpnMemSecurityContext.deleteActionAllowed()) {
-                if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                    DELETE [
-                            SELECT Id, ContactId
-                            FROM CampaignMember
-                            WHERE (Campaign.Name = :ccError OR Campaign.Name = :ccErrorMobile )
-                            AND ContactId IN :ccErrorGuarantors
-                    ];
-                }
+        for (Case objCase: newList) {
+            if (objCase.BusinessHoursId == Constants.PB_AUTO_CASE) {
+                objCase.BusinessHoursId = businessHrs.Id;
+                objCase.RecordTypeID = RecordTypeUtil.automatedCaseRt;
             }
         }
     }

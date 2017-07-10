@@ -73,38 +73,7 @@ public class CaseUtil {
             }
 
             Map<Id, Case> mapContactCase = new Map<Id, Case>();
-            Map<String, String> mapCampaignName = new Map<String, String>();
-            Map<String, Set<String>> mapCampaignMembers = new Map<String, Set<String>>();
-            Map<String,CampaignMember> mapUpdateCampaignMembers = new Map<String,CampaignMember>();
-            
-            Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
-                    Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M
-            });
-            string earlyOut = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE);
-            string earlyOutMobile = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE_M);
 
-            if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed() &&
-                    CmpnMemberSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-                for (Campaign objCampaign: [
-                        SELECT Id, Name, (
-                                SELECT Id, ContactId
-                                FROM CampaignMembers
-                                WHERE ContactId IN :mapContact.keyset()
-                        )
-                        FROM Campaign
-                        WHERE Name = :earlyOut OR Name = :earlyOutMobile
-                ]) {
-                    mapCampaignName.Put(objCampaign.Name, objCampaign.Id);
-                    mapCampaignMembers.Put(objCampaign.Name, New Set<String>());
-                    for (CampaignMember objCM: objCampaign.CampaignMembers) {
-                        mapCampaignMembers.get(objCampaign.Name).Add(objCM.ContactId);
-                        mapUpdateCampaignMembers.put(objCM.ContactId + '-' + objCampaign.Name, objCM);
-                    }
-                }
-            }
-
-            List<CampaignMember> lstCampaignMember = new List<CampaignMember>();
-            List<CampaignMember> lstUpdateCampaignMember = new List<CampaignMember>();
             List<RecordType> rt = new List<RecordType>();
             if (RecordTypeSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
                 rt = [
@@ -150,34 +119,6 @@ public class CaseUtil {
                         objCase.ownerId = lstGroup[0].Id;
                     }
                     mapContactCase.Put(objContact.Id, objCase);
-
-                    //Add CampaignMember
-                    if (objContact.HomePhone != null || objContact.OtherPhone != null) {
-                        if (mapCampaignName.containsKey(earlyOut)) {
-                    	    if (mapCampaignMembers.get(earlyOut).contains(objContact.Id)) {
-                                CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + earlyOut);
-                                lstUpdateCampaignMember.add(cm);
-                    	    } else {
-                                CampaignMember cm = new CampaignMember();
-                                cm.CampaignId = mapCampaignName.get(earlyOut);
-                                cm.ContactId = objContact.Id;
-                                lstCampaignMember.add(cm);
-                    	    }
-                        }
-                    }
-                    if (objContact.MobilePhone != null) {
-                        if (mapCampaignName.containsKey(earlyOutMobile)) {
-                            if (mapCampaignMembers.get(earlyOutMobile).contains(objContact.Id)) {
-                                CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + earlyOutMobile);
-                                lstUpdateCampaignMember.add(cm);
-                            } else {
-                                CampaignMember cm = New CampaignMember();
-	                        cm.CampaignId = mapCampaignName.get(earlyOutMobile);
-	                        cm.ContactId = objContact.Id;
-	                        lstCampaignMember.add(cm);
-                            }
-                        }                        
-                    }
                 }
             }
             
@@ -199,37 +140,6 @@ public class CaseUtil {
                 }
                 if (CaseCGJunctionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
                     INSERT lstCCG;
-                }
-            }
-
-            // Assign Case Id in Campaign Member.
-            if (lstCampaignMember.size() > 0) {
-                for (CampaignMember cm : lstCampaignMember) {
-                    if (mapContactCase.Containskey(cm.ContactId)) {
-                        Case objCase = mapContactCase.get(cm.ContactId);
-                        cm.Case_ID__c = objCase.Id;
-                    }
-                }
-                /* Set createCaseInTrigger flag to false to prevent CampaignMemberTrigger
-                 * from creating a case with "Call List Case" record type.
-                */
-                createCaseInTrigger = false;
-                if (CmpnMemberSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                    INSERT lstCampaignMember;
-                }
-                createCaseInTrigger = true;
-            }
-
-            // Update Case Id in Old Campaign Member.
-            if (lstUpdateCampaignMember.size() > 0) {
-                for (CampaignMember cm : lstUpdateCampaignMember) {
-                    if (mapContactCase.Containskey(cm.ContactId)) {
-                        Case objCase = mapContactCase.get(cm.ContactId);
-                        cm.Case_ID__c = objCase.Id;
-                    }
-                }
-                if (SecurityUtils.verify(CmpnMemberSecurityContext.UPDATE_CONTEXT)) {
-                    UPDATE lstUpdateCampaignMember;
                 }
             }
         }
@@ -349,39 +259,7 @@ public class CaseUtil {
             }
 
             Map<Id, Case> mapContactCase = new Map<Id, Case>();
-            Map<String, String> mapCampaignName = new Map<String, String>();
-            Map<String, Set<String>> mapCampaignMembers = new Map<String, Set<String>>();
-            Map<String,CampaignMember> mapUpdateCampaignMembers = new Map<String,CampaignMember>();
-            
-            Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
-                    'PreCollections', 'PreCollections M'
-            });
-            String preCollection = mapCampaignMapping.get('PreCollections');
-            String preCollectionMobile = mapCampaignMapping.get('PreCollections M');
 
-            if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed() &&
-                    CmpnMemberSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-                for (Campaign objCampaign: [
-                        SELECT Id, Name, (
-                                SELECT Id, ContactId
-                                FROM CampaignMembers
-                                WHERE ContactId IN :mapContact.keyset()
-                        )
-                        FROM Campaign
-                        WHERE Name = :preCollection
-                        OR Name = :preCollectionMobile
-                ]) {
-                    mapCampaignName.Put(objCampaign.Name, objCampaign.Id);
-                    mapCampaignMembers.Put(objCampaign.Name, New Set<String>());
-                    for (CampaignMember objCM : objCampaign.CampaignMembers) {
-                        mapCampaignMembers.get(objCampaign.Name).add(objCM.ContactId);
-                        mapUpdateCampaignMembers.put(objCM.ContactId + '-' + objCampaign.Name, objCM);
-                    }
-                }
-            }
-
-            List<CampaignMember> lstCampaignMember = new List<CampaignMember>();
-            List<CampaignMember> lstUpdateCampaignMember = new List<CampaignMember>();
             List<RecordType> rt = new List<RecordType>();
             if (RecordTypeSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
                 rt = [
@@ -427,34 +305,6 @@ public class CaseUtil {
                         objCase.ownerId = lstGroup[0].Id;
                     }
                     mapContactCase.Put(objContact.Id, objCase);
-
-                    //Add CampaignMember
-                    if (objContact.HomePhone != null || objContact.OtherPhone != null) {
-                        if (mapCampaignName.containsKey(preCollection)) {
-                            if (mapCampaignMembers.get(preCollection).contains(objContact.Id)) {
-                                CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + preCollection);                            
-                                lstUpdateCampaignMember.add(cm);
-                            } else {
-                                CampaignMember cm = New CampaignMember();
-	                        cm.CampaignId = mapCampaignName.get(preCollection);
-	                        cm.ContactId = objContact.Id;
-	                        lstCampaignMember.add(cm);
-                            }
-                    	}
-                    }
-                    if (objContact.MobilePhone != null) {
-                        if (mapCampaignName.containsKey(preCollectionMobile)) {
-                            if (mapCampaignMembers.get(preCollectionMobile).contains(objContact.Id)) {
-                                CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id  + '-' + preCollectionMobile);
-                                lstUpdateCampaignMember.add(cm);
-                            } else {
-                                CampaignMember cm = New CampaignMember();
-	                        cm.CampaignId = mapCampaignName.get(preCollectionMobile);
-	                        cm.ContactId = objContact.Id;
-	                        lstCampaignMember.add(cm);
-                            }
-                    	}
-                    }
                 }
             }
             
@@ -476,39 +326,6 @@ public class CaseUtil {
                 }
                 if (CaseCGJunctionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
                     INSERT lstCCG;
-                }
-            }
-
-            // 11-25-2016 Viraj Rana: #133707065: Case to Call Activiy
-            // Assign Case Id in Campaign Member.
-            if (lstCampaignMember.size() > 0) {                
-                for (CampaignMember cm : lstCampaignMember) {
-                    if (mapContactCase.Containskey(cm.ContactId)) {
-                        Case objCase = mapContactCase.get(cm.ContactId);
-                        cm.Case_ID__c = objCase.Id;
-                    }
-                }
-                /* 11-29-2016 Viraj Rana: Set flag variable false. This variable is used in Campaign Member Trigger.
-                 * If this variable is true than Trigger also create one case with "Call List Case" record type.
-                 * To control of it we set it false.
-                */
-                createCaseInTrigger = false;
-                if (CmpnMemberSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                    INSERT lstCampaignMember;
-                }
-                createCaseInTrigger = true;
-            }
-            
-            //11-25-2016: Viraj Rana - Update Case Id in Old Campaign Member.
-            if (lstUpdateCampaignMember.size() > 0) {                
-                for (CampaignMember cm : lstUpdateCampaignMember) {
-                    if (mapContactCase.Containskey(cm.ContactId)) {
-                        Case objCase = mapContactCase.get(cm.ContactId);
-                        cm.Case_ID__c = objCase.Id;
-                    }
-                }
-                if (CmpnMemberSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                    UPDATE lstUpdateCampaignMember;
                 }
             }
         }
@@ -619,39 +436,7 @@ public class CaseUtil {
             }
 
             Map<Id, Case> mapContactCase = new Map<Id, Case>();
-            Map<String, String> mapCampaignName = new Map<String, String>();
-            Map<String, Set<String>> mapCampaignMembers = new Map<String, Set<String>>();
-            Map<String,CampaignMember> mapUpdateCampaignMembers = new Map<String,CampaignMember>();
-            
-            Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
-                    'PreService', 'PreService M'
-            });
-            String preService = mapCampaignMapping.get('PreService');
-            String preServiceMobile = mapCampaignMapping.get('PreService M');
 
-            if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed() &&
-                    CmpnMemberSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-                for (Campaign objCampaign: [
-                        SELECT Id, Name, (
-                                SELECT Id, ContactId
-                                FROM CampaignMembers
-                                WHERE ContactId IN :mapContact.keyset()
-                        )
-                        FROM Campaign
-                        WHERE IsActive = true
-                        AND (Name = :preService OR Name = :preServiceMobile)
-                ]) {
-                    mapCampaignName.Put(objCampaign.Name, objCampaign.Id);
-                    mapCampaignMembers.Put(objCampaign.Name, New Set<String>());
-                    for (CampaignMember objCM: objCampaign.CampaignMembers) {
-                        mapCampaignMembers.get(objCampaign.Name).add(objCM.ContactId);
-                        mapUpdateCampaignMembers.put(objCM.ContactId + '-' + objCampaign.Name, objCM);
-                    }
-                }
-            }
-
-            List<CampaignMember> lstCampaignMember = new List<CampaignMember>();
-            List<CampaignMember> lstUpdateCampaignMember = new List<CampaignMember>();
             List<RecordType> rt = new List<RecordType>();
             if (RecordTypeSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
                 rt = [
@@ -682,72 +467,12 @@ public class CaseUtil {
                         objCase.ownerId = lstGroup[0].Id;
                     }
                     mapContactCase.Put(objContact.Id, objCase);
-
-                    //Add CampaignMember
-                    if (objContact.HomePhone != null || objContact.OtherPhone != null) {
-                        if (mapCampaignName.containsKey(preService)) {
-                            if (mapCampaignMembers.get(preService).contains(objContact.Id)) {
-                                CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + preService);                            
-                                lstUpdateCampaignMember.add(cm);
-                            } else {
-                                CampaignMember cm = New CampaignMember();
-	                        cm.CampaignId = mapCampaignName.get(preService);
-	                        cm.ContactId = objContact.Id;
-	                        lstCampaignMember.add(cm);
-                            }
-                    	}
-                    }
-                    if (objContact.MobilePhone != null) {
-                        if (mapCampaignName.containsKey(preServiceMobile)) {
-                            if (mapCampaignMembers.get(preServiceMobile).contains(objContact.Id)) {
-                                CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id  + '-' + preServiceMobile);
-                                lstUpdateCampaignMember.add(cm);
-                            } else {
-                                CampaignMember cm = New CampaignMember();
-	                        cm.CampaignId = mapCampaignName.get(preServiceMobile);
-	                        cm.ContactId = objContact.Id;
-	                        lstCampaignMember.add(cm);
-                            }
-                    	}
-                    }
                 }
             }
             if (mapContactCase.size() > 0) {
                 if (CaseSecurityContext.CU_CREATE_WITH_ENCOUNTER_CONTEXT.actionAllowed()) {
-	            INSERT mapContactCase.values();
-		}
-            }
-
-            // Assign Case Id in Campaign Member.
-            if (lstCampaignMember.size() > 0) {                
-                for (CampaignMember cm : lstCampaignMember) {
-                    if (mapContactCase.Containskey(cm.ContactId)) {
-                        Case objCase = mapContactCase.get(cm.ContactId);
-                        cm.Case_ID__c = objCase.Id;
-                    }
+                    INSERT mapContactCase.values();
                 }
-                /* 11-29-2016 Viraj Rana: Set flag variable false. This variable is used in Campaign Member Trigger.
-                 * If this variable is true than Trigger also create one case with "Call List Case" record type.
-                 * To control of it we set it false.
-                */
-                createCaseInTrigger = false;
-                if (CmpnMemberSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-	            INSERT lstCampaignMember;
-		}
-                createCaseInTrigger = true;
-            }
-            
-            //11-29-2016: Viraj Rana - Update Case Id in Old Campaign Member.
-            if (lstUpdateCampaignMember.size() > 0) {                
-                for (CampaignMember cm : lstUpdateCampaignMember) {
-                    if (mapContactCase.Containskey(cm.ContactId)) {
-                        Case objCase = mapContactCase.get(cm.ContactId);
-                        cm.Case_ID__c = objCase.Id;
-                    }
-                }
-                if (CmpnMemberSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-	            UPDATE lstUpdateCampaignMember;
-		}
             }
         }
     }
@@ -847,9 +572,6 @@ public class CaseUtil {
             ];
         }
         Map<String, Case> mapContactCase = new Map<String, Case>();
-        Map<String, String> mapCampaignName = new Map<String, String>();
-        Map<String, Set<String>> mapCampaignMembers = new Map<String, Set<String>>();
-        Map<String, CampaignMember> mapUpdateCampaignMembers = new Map<String, CampaignMember>();
 
         if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
             for (Case objCase: [
@@ -864,36 +586,6 @@ public class CaseUtil {
         }
 
         Map<Id, Contact> mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(contactIds, null));
-
-        Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
-                Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M
-        });
-        string delinquent = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE);
-        string delinquentMobile = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M);
-
-        if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed() &&
-                CmpnMemberSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-            for (Campaign objCampaign: [
-                    SELECT Id, Name, (
-                            SELECT Id, ContactId
-                            FROM CampaignMembers
-                            WHERE ContactId IN :contactIds
-                    )
-                    FROM Campaign
-                    WHERE Name = :delinquent
-                    OR Name = :delinquentMobile
-            ]) {
-                mapCampaignName.Put(objCampaign.Name, objCampaign.Id);
-                mapCampaignMembers.Put(objCampaign.Name, New Set<String>());
-                for (CampaignMember objCM: objCampaign.CampaignMembers) {
-                    mapCampaignMembers.get(objCampaign.Name).Add(objCM.ContactId);
-                    mapUpdateCampaignMembers.put(objCM.ContactId + '-' + objCampaign.Name, objCM);
-                }
-            }
-        }
-
-        List<CampaignMember> lstCampaignMember = new List<CampaignMember>();
-        List<CampaignMember> lstUpdateCampaignMember = new List<CampaignMember>();
         
         for (String strContactId : mapContact.keyset()) {
             Contact objContact = mapContact.get(strContactId);
@@ -909,70 +601,10 @@ public class CaseUtil {
                 objCase.ownerId = lstGroup[0].Id;
             }
             mapContactCase.Put(strContactId, objCase);
-
-            //Add CampaignMember
-            if (objContact.HomePhone != null || objContact.OtherPhone != null) {
-                if (mapCampaignName.containsKey(delinquent)) {
-                    if (mapCampaignMembers.get(delinquent).contains(objContact.Id)) {
-                        CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + delinquent);                            
-                    	lstUpdateCampaignMember.add(cm);
-                    } else {
-                        CampaignMember cm = New CampaignMember();
-	                cm.CampaignId = mapCampaignName.get(delinquent);
-	                cm.ContactId = objContact.Id;
-	                lstCampaignMember.add(cm);
-                    }
-            	}
-            }
-            if (objContact.MobilePhone != null) {
-                if (mapCampaignName.containsKey(delinquentMobile)) {
-                    if (mapCampaignMembers.get(delinquentMobile).contains(objContact.Id)) {
-                        CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id  + '-' + delinquentMobile);
-                    	lstUpdateCampaignMember.add(cm);
-                    } else {
-                        CampaignMember cm = New CampaignMember();
-	                cm.CampaignId = mapCampaignName.get(delinquentMobile);
-	                cm.ContactId = objContact.Id;
-	                lstCampaignMember.add(cm);
-                    }
-            	}
-            }
         }
-        
+
         if (CaseSecurityContext.CREATE_WITH_GT_CONTEXT.actionAllowed()) {
             INSERT mapContactCase.Values();
-	}
-
-        // Assign CaseId to new CampaignMember.
-        if (lstCampaignMember.size() > 0) {                
-            for (CampaignMember cm : lstCampaignMember) {
-                if (mapContactCase.Containskey(cm.ContactId)) {
-                    Case objCase = mapContactCase.get(cm.ContactId);
-                    cm.Case_ID__c = objCase.Id;
-                }
-            }
-            /* 11-29-2016 Viraj Rana: Set flag variable false. This variable is used in Campaign Member Trigger.
-             * If this variable is true than Trigger also create one case with "Call List Case" record type.
-             * To control of it we set it false.
-            */
-            createCaseInTrigger = false;
-            if (CmpnMemberSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-            	INSERT lstCampaignMember;
-	    }
-            createCaseInTrigger = true;
-        }
-        
-        //Update CaseId in old CampaignMember.
-        if (lstUpdateCampaignMember.size() > 0) {                
-            for (CampaignMember cm : lstUpdateCampaignMember) {
-                if (mapContactCase.Containskey(cm.ContactId)) {
-                    Case objCase = mapContactCase.get(cm.ContactId);
-                    cm.Case_ID__c = objCase.Id;
-                }
-            }
-            if (CmpnMemberSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-            	update lstUpdateCampaignMember;
-	    }
         }
     }
 
@@ -1029,9 +661,6 @@ public class CaseUtil {
     */
     Public static void createCCErrorCase(Set<Id> contactIds) {
         Map<String, Case> mapContactCase = new Map<String, Case>();
-        Map<String, String> mapCampaignName = new Map<String, String>();
-        Map<String, Set<String>> mapCampaignMembers = new Map<String, Set<String>>();
-        Map<String,CampaignMember> mapUpdateCampaignMembers = new Map<String,CampaignMember>();
         List<Group> lstGroup = new List<Group>();
         List<RecordType> rt = new List<RecordType>();
         Map<Id, Contact> mapContact = new Map<Id, Contact>();
@@ -1063,36 +692,6 @@ public class CaseUtil {
             ];
         }
         mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(contactIds, null));
-
-        Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
-                Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR, Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M
-        });
-        string ccError = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR);
-        string ccErrorMobile = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M);
-
-        if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed() &&
-                CmpnMemberSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-            for (Campaign objCampaign: [
-                    SELECT Id, Name, (
-                            SELECT Id, ContactId
-                            FROM CampaignMembers
-                            WHERE ContactId IN :contactIds
-                    )
-                    FROM Campaign
-                    WHERE Name = :ccError
-                    OR Name = :ccErrorMobile
-            ]) {
-                mapCampaignName.Put(objCampaign.Name, objCampaign.Id);
-                mapCampaignMembers.Put(objCampaign.Name, New Set<String>());
-                for (CampaignMember objCM: objCampaign.CampaignMembers) {
-                    mapCampaignMembers.get(objCampaign.Name).Add(objCM.ContactId);
-                    mapUpdateCampaignMembers.put(objCM.ContactId + '-' + objCampaign.Name, objCM);
-                }
-            }
-        }
-
-        List<CampaignMember> lstCampaignMember = new List<CampaignMember>();
-        List<CampaignMember> lstUpdateCampaignMember = new List<CampaignMember>();
         for (String strContactId : mapContact.keyset()) {
             Contact objContact = mapContact.get(strContactId);
 
@@ -1107,71 +706,9 @@ public class CaseUtil {
                 objCase.ownerId = lstGroup[0].Id;
             }
             mapContactCase.Put(strContactId, objCase);
-
-            //Add CampaignMember
-            if (objContact.HomePhone != null || objContact.OtherPhone != null) {
-                if (mapCampaignName.containsKey(ccError)) {
-                    if (mapCampaignMembers.get(ccError).contains(objContact.Id)) {
-                        CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id + '-' + ccError);                            
-                    	lstUpdateCampaignMember.add(cm);
-                    } else {
-                        CampaignMember cm = New CampaignMember();
-	                cm.CampaignId = mapCampaignName.get(ccError);
-	                cm.ContactId = objContact.Id;
-	                lstCampaignMember.add(cm);
-                    }
-            	}
-            }
-            if (objContact.MobilePhone != null) {
-                if (mapCampaignName.containsKey(ccErrorMobile)) {
-                    if (mapCampaignMembers.get(ccErrorMobile).contains(objContact.Id)) {
-                        CampaignMember cm = mapUpdateCampaignMembers.get(objContact.Id  + '-' + ccErrorMobile);
-                    	lstUpdateCampaignMember.add(cm);
-                    } else {
-                        CampaignMember cm = New CampaignMember();
-	                cm.CampaignId = mapCampaignName.get(ccErrorMobile);
-	                cm.ContactId = objContact.Id;
-	                lstCampaignMember.add(cm);
-                    }
-            	}
-            }
-
         }
         if (CaseSecurityContext.CREATE_CONTEXT.actionAllowed()) {
             INSERT mapContactCase.values();
-	}
-        
-        // 11-29-2016 Viraj Rana: #133707065: Case to Call Activiy
-        // Assign Case Id in Campaign Member.
-        if (lstCampaignMember.size() > 0) {                
-            for (CampaignMember cm : lstCampaignMember) {
-                if (mapContactCase.Containskey(cm.ContactId)) {
-                    Case objCase = mapContactCase.get(cm.ContactId);
-                    cm.Case_ID__c = objCase.Id;
-                }
-            }
-            /* 11-29-2016 Viraj Rana: Set flag variable false. This variable is used in Campaign Member Trigger.
-             * If this variable is true than Trigger also create one case with "Call List Case" record type.
-             * To control of it we set it false.
-            */
-            createCaseInTrigger = false;
-            if (CmpnMemberSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-            	INSERT lstCampaignMember;
-	    }
-            createCaseInTrigger = true;
-        }
-        
-        //11-29-2016: Viraj Rana - Update Case Id in Old Campaign Member.
-        if (lstUpdateCampaignMember.size() > 0) {                
-            for (CampaignMember cm : lstUpdateCampaignMember) {
-                if (mapContactCase.Containskey(cm.ContactId)) {
-                    Case objCase = mapContactCase.get(cm.ContactId);
-                    cm.Case_ID__c = objCase.Id;
-                }
-            }
-            if (CmpnMemberSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-            	UPDATE lstUpdateCampaignMember;
-            }
         }
     }
 

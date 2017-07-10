@@ -122,23 +122,6 @@ public with sharing class TaskTriggerHandler {
                 }
             }
         }
-
-        if (setContactId.size() > 0) {
-            if (CMHSecurityContext.TTH_SELECT_CONTEXT.actionAllowed()) {
-                for (Campaign_Member_History__c cmh: [SELECT Id, Campaign__c, Campaign__r.Name, Contact__c, Case_ID__c
-                                                        FROM Campaign_Member_History__c
-                                                        WHERE Campaign__r.Name IN :setFive9Campaign
-                                                            AND Contact__c IN :setContactId
-                                                            AND Case_ID__c != null
-                                                        ORDER BY createddate DESC]) {
-
-                    if (mapTask.containsKey(cmh.Contact__c + '-' + cmh.Campaign__r.Name)) {
-                        mapTask.get(cmh.Contact__c + '-' + cmh.Campaign__r.Name).WhatId = cmh.Case_ID__c;
-                        mapTask.remove(cmh.Contact__c + '-' + cmh.Campaign__r.Name);
-                    }
-                }
-            }
-        }
     }
     
     /** 
