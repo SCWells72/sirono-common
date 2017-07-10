@@ -16,7 +16,7 @@
         <mkdir dir="${basedir}/pre_deploy/settings"/>
         <copy file="${basedir}/src/settings/Name.settings" tofile="${basedir}/pre_deploy/settings/Name.settings" encoding="UTF-8"/>
         <echo level="info">Deploying Name settings to: ${sf.target.username}</echo>
-        <echo file="${basedir}/pre_deploy/package.xml" ><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+        <echo file="${basedir}/pre_deploy/package.xml"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>Name</members>
@@ -25,14 +25,14 @@
         <version>39.0</version>
 </Package>]]></echo>
         <sf:deploy
-                username="${sf.target.username}"
-                password="${sf.target.password}"
-                serverurl="${sf.target.serverurl}"
-                deployRoot="${basedir}/pre_deploy"
-                pollWaitMillis="${sf.pollWaitMillis}"
-                maxPoll="${sf.maxPoll}"
-                testLevel="NoTestRun"
-                logType="Debugonly"/>
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${basedir}/pre_deploy"
+            pollWaitMillis="${sf.pollWaitMillis}"
+            maxPoll="${sf.maxPoll}"
+            testLevel="NoTestRun"
+            logType="Debugonly"/>
         <delete dir="${basedir}/pre_deploy"/>
     </target>
 
@@ -75,6 +75,18 @@
     </types>]]></replacetoken>
             <replacevalue><![CDATA[]]></replacevalue>
         </replace>
+    </target>
+
+    <!-- TODO: Make this dynamic based on the flows present under src -->
+    <target name="deactivateAndDeleteFlows">
+        <echo level="info">Deactivate and remove flows from: ${sf.target.username}</echo>
+        <sf:deploy
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${basedir}/build/deactivateAndDeleteFlows"
+            testLevel="NoTestRun"
+            ignoreWarnings="true"/>
     </target>
 
     <target name="processTemplates" depends="createSites, createSironoNamedCreds"/>
@@ -148,8 +160,8 @@
     </target>
 
     <scriptdef name="getOrgName" language="javascript">
-        <attribute name="text" />
-        <attribute name="property" />
+        <attribute name="text"/>
+        <attribute name="property"/>
         <![CDATA[
        var str = attributes.get("text");
        var end = str.indexOf("+");
@@ -158,7 +170,7 @@
     </scriptdef>
 
     <target name="testGetOrgName">
-        <getOrgName text="${sf.target.username}" property="testorgName" />
-        <echo message="testorgName = ${testorgName}" />
+        <getOrgName text="${sf.target.username}" property="testorgName"/>
+        <echo message="testorgName = ${testorgName}"/>
     </target>
 </project>
