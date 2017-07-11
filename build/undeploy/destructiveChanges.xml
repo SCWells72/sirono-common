@@ -17,6 +17,8 @@
         <members>PayEstimateTest</members>
         <members>PayEstimateLightning</members>
         <members>PayEstimateLightningTest</members>
+        <members>PayStaffWSUtillLightning</members>
+        <members>PayStaffWSUtillLightningTest</members>
         <members>ProcessPaymentLightning</members>
         <members>ProcessPaymentLightningTest</members>
         <members>AddCreditCard</members>
@@ -41,12 +43,14 @@
     </types>
     <types>
         <members>Encounter__c.Has_Chargegroup__c</members>
+        <members>Payment_Adjustment__c.Transaction_Type__c</members>
         <name>CustomField</name>
     </types>
     <types>
         <members>Campaign_Member_History__c</members>
         <members>Encounter_Coverage_Junction__c</members>
         <members>Payment_Arrangement__c</members>
+        <members>Transaction_Type__c</members>
         <name>CustomObject</name>
     </types>
     <types>
