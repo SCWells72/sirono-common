@@ -33,7 +33,7 @@ private class WorkWithPaymentsControllerTest {
 			Profile profile = [
 	            SELECT Id, Name
 	            FROM Profile 
-	            WHERE Name = 'Guarantor'
+	            WHERE Name = :Constants.GUARANTOR_PORTAL_PROFILE
 	        ];
 
 	        Account testAcc = new Account (
