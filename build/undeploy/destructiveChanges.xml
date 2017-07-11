@@ -45,6 +45,7 @@
     </types>
     <types>
         <members>Campaign_Member_History__c</members>
+        <members>Encounter_Coverage_Junction__c</members>
         <members>Payment_Arrangement__c</members>
         <name>CustomObject</name>
     </types>

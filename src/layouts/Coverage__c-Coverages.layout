@@ -16,14 +16,6 @@
                 </sidebarComponents>
                 <sidebarComponents>
                     <componentType>RelatedList</componentType>
-                    <label>ENCOUNTER COVERAGE JUNCTION</label>
-                    <relatedLists>
-                        <hideOnDetail>true</hideOnDetail>
-                        <name>Encounter_Coverage_Junction__c.Coverage__c</name>
-                    </relatedLists>
-                </sidebarComponents>
-                <sidebarComponents>
-                    <componentType>RelatedList</componentType>
                     <label>ENCOUNTERS</label>
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>

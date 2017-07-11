@@ -3332,9 +3332,6 @@
         <layout>Discount_Type__mdt-Discount Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Encounter_Coverage_Junction__c-Encounter Coverage Junction Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Encounter__c-Encounters</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3505,15 +3502,6 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Coverage__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>Encounter_Coverage_Junction__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
