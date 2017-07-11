@@ -8,22 +8,6 @@
         <value>Only Administrator Users can add Adjustments.</value>
     </labels>
     <labels>
-        <fullName>Automated_Case_Record_Type_Id</fullName>
-        <categories>Process Builder</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Automated Case Record Type Id</shortDescription>
-        <value>01246000000MUU0</value>
-    </labels>
-    <labels>
-        <fullName>Business_Hours_Id</fullName>
-        <categories>Process Builder</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Business Hours Id</shortDescription>
-        <value>01m46000000mBrz</value>
-    </labels>
-    <labels>
         <fullName>Case_Type_Require</fullName>
         <categories>CreateCaseManual</categories>
         <language>en_US</language>

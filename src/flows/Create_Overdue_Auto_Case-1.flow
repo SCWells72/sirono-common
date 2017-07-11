@@ -73,23 +73,23 @@
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>$Label.Business_Hours_Id </stringValue>
+                <stringValue>$Setup.Sirono_Settings__c.Business_Hours_Id__c</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_2_myRule_1_A1_4457466427</name>
         <dataType>String</dataType>
-        <expression>$Label.Business_Hours_Id</expression>
+        <expression>$Setup.Sirono_Settings__c.Business_Hours_Id__c</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>$Label.Automated_Case_Record_Type_Id </stringValue>
+                <stringValue>$Setup.Sirono_Settings__c.Automated_Case_Record_Type_Id__c</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_3_myRule_1_A1_7800225528</name>
         <dataType>String</dataType>
-        <expression>$Label.Automated_Case_Record_Type_Id</expression>
+        <expression>$Setup.Sirono_Settings__c.Automated_Case_Record_Type_Id__c</expression>
     </formulas>
     <interviewLabel>Create_Overdue_Auto_Case-1_InterviewLabel</interviewLabel>
     <label>Create Overdue Auto Case</label>

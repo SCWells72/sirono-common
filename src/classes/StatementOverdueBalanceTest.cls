@@ -4,6 +4,11 @@
 
 @IsTest
 public class StatementOverdueBalanceTest {
+    @TestSetup
+    private static void setup() {
+        ProcessBuilderTestUtil.populateSironoSettings();
+    }
+
     @IsTest
     private static void testStatementsWithOverdueBalances() {
         Contact guarantor = TestUtility.generateGuarantorContact();
