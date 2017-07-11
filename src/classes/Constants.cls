@@ -52,10 +52,10 @@ public class Constants {
 
     //Map of CaseType to ChargeGroup substatus (TODO should this go in the metadata instead?)
     public static final Map<String, String> CASE_CG_SUBSTATUS = new Map<String, String>{
-            // 0 - the chargegroup sirono id
-            CASE_TYPE_OVERDUE => ACCT_SUBSTATUS_OVERDUE,
-            CASE_TYPE_PRECOLLECTIONS => ACCT_SUBSTATUS_DELINQUENT,
-            CASE_TYPE_PAYMENT_PLAN_ERROR => ACCT_SUBSTATUS_PAYMENT_PLAN
+        // 0 - the chargegroup sirono id
+        CASE_TYPE_OVERDUE => ACCT_SUBSTATUS_OVERDUE,
+        CASE_TYPE_PRECOLLECTIONS => ACCT_SUBSTATUS_DELINQUENT,
+        CASE_TYPE_PAYMENT_PLAN_ERROR => ACCT_SUBSTATUS_PAYMENT_PLAN
     };
 
     // Constant variables for Campaign values.
@@ -68,11 +68,6 @@ public class Constants {
     public static final String CAMPAIGN_NAME_PRECOLLECTIONS = 'PreCollections';
     public static final String CAMPAIGN_NAME_PRECOLLECTIONS_M = 'PreCollections M';
 
-    // Constant variables for Process Builder.
-    // NOTE: this EXACT value is hard-coded in our Process Builder flows as a static Id. Do NOT change this value.
-    //TODO once the PB flows are checked in, replace use of this constant with Label.Automated_Case_Record_Type_Id
-    public static final String PB_AUTO_CASE = '01m46000000mcrz';
-
     // Constant variables for Page Level Messages.
     public static final String PAGE_MESSAGE_AMOUNT_EXCEED_BALANCE = 'Amount cannot exceed balance.';
     public static final String PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO = 'Amount must be greater than zero.';
@@ -82,19 +77,19 @@ public class Constants {
     public static final String PAGE_MESSAGE_CREATED_FAIL = 'Payment was not created.';
     public static final String PAGE_MESSAGE_EXECUTE_ON_DAY = 'Date to Charge (each month) must be a number between 1 and 31.';
     public static final String PAGE_MESSAGE_MAX_INSTALLMENT = 'This monthly amount would exceed {0} installments.' +
-    		' The minimum allowed installment amount is ${1}.';
+        ' The minimum allowed installment amount is ${1}.';
     public static final String PAGE_MESSAGE_MONTHLY_AMOUNT = 'Monthly amount must be equal to or greater than ${0}.';
     public static final String PAGE_MESSAGE_ZIP_CODE_FIVE_DIGIT = 'Zip code must be 5 digits.';
     public static final String PAGE_MESSAGE_ZIP_CODE_ONLY_NUMERIC = 'Zip code can only contain numeric values.';
     public static final String PAGE_MESSAGE_ZIP_CODE_REQUIRE = 'Zip Code is a required field.';
-    
+
     // Constant variables for Credit Card Validation Messages.
     public static final String PAGE_MESSAGE_CC_NUMBER_12_19_DIGITS = 'Credit card number must be 12-19 digits.';
     public static final String PAGE_MESSAGE_CC_NUMBER_REQUIRE = 'Card Number is a required field.';
     public static final String PAGE_MESSAGE_CC_CVV_4_OR_3_DIGIT = 'CVV must be 4 digits for American Express and 3 digits for other card types.';
-    public static final String PAGE_MESSAGE_CC_CVV_REQUIRE = 'CVV is a required field.';    
+    public static final String PAGE_MESSAGE_CC_CVV_REQUIRE = 'CVV is a required field.';
     public static final String PAGE_MESSAGE_CC_EXPIRATION_DATE_FUTURE = 'Expiration date must be in the future.';
-    public static final String PAGE_MESSAGE_CC_NAME_REQUIRE = 'Name is a required field.';    
+    public static final String PAGE_MESSAGE_CC_NAME_REQUIRE = 'Name is a required field.';
 
     // Constant variables for transaction method (txn_method) values.
     public static final String ADJUSTMENT = 'Adjustment';
@@ -127,47 +122,47 @@ public class Constants {
     public static final String YEARS = 'YEARS';
 
     // Account Substatus constraints used for Cases
-    public static final Set<String> CGConstraintsForCase = new Set<String> {
-            ACCT_SUBSTATUS_BAD_DEBT,
-            ACCT_SUBSTATUS_DELINQUENT,
-            ACCT_SUBSTATUS_DUE_BY,
-            ACCT_SUBSTATUS_OVERDUE,
-            ACCT_SUBSTATUS_PAYMENT_PLAN,
-            ACCT_SUBSTATUS_PREINVOICED
+    public static final Set<String> CGConstraintsForCase = new Set<String>{
+        ACCT_SUBSTATUS_BAD_DEBT,
+        ACCT_SUBSTATUS_DELINQUENT,
+        ACCT_SUBSTATUS_DUE_BY,
+        ACCT_SUBSTATUS_OVERDUE,
+        ACCT_SUBSTATUS_PAYMENT_PLAN,
+        ACCT_SUBSTATUS_PREINVOICED
     };
 
     // Account Substatus constraints used for making Payments & adding to PPlans
-    public static final Set<String> CGConstraints = new Set<String> {
-            ACCT_SUBSTATUS_DELINQUENT,
-            ACCT_SUBSTATUS_DUE_BY,
-            ACCT_SUBSTATUS_OVERDUE
+    public static final Set<String> CGConstraints = new Set<String>{
+        ACCT_SUBSTATUS_DELINQUENT,
+        ACCT_SUBSTATUS_DUE_BY,
+        ACCT_SUBSTATUS_OVERDUE
     };
 
     // Account Substatus constraints used for adding Discounts
-    public static final Set<String> CGConstraintsForDiscount = new Set<String> {
-            ACCT_SUBSTATUS_DELINQUENT,
-            ACCT_SUBSTATUS_DUE_BY,
-            ACCT_SUBSTATUS_OVERDUE,
-            ACCT_SUBSTATUS_PAYMENT_PLAN,
-            ACCT_SUBSTATUS_PREINVOICED
+    public static final Set<String> CGConstraintsForDiscount = new Set<String>{
+        ACCT_SUBSTATUS_DELINQUENT,
+        ACCT_SUBSTATUS_DUE_BY,
+        ACCT_SUBSTATUS_OVERDUE,
+        ACCT_SUBSTATUS_PAYMENT_PLAN,
+        ACCT_SUBSTATUS_PREINVOICED
     };
 
     // Guarantor Status Overdue
-    public static final Set<String> GuarantorStatusOverdue = new Set<String> {
+    public static final Set<String> GuarantorStatusOverdue = new Set<String>{
         GUARANTOR_STATUS_DUE,
         GUARANTOR_STATUS_DELINQUENT,
         GUARANTOR_STATUS_OVERDUE
     };
 
     // Invoice status groups
-    public static final Set<String> INVOICE_UNPAID_STATUSES = new Set<String> {
+    public static final Set<String> INVOICE_UNPAID_STATUSES = new Set<String>{
         DELIQUENT,
         OVERDUE,
         DUE,
         ON_PAYMENT_PLAN
     };
 
-    public static final Set<String> INVOICE_PAID_STATUSES = new Set<String> {
+    public static final Set<String> INVOICE_PAID_STATUSES = new Set<String>{
         PAID,
         INVOICE_VOIDED
     };

@@ -52,6 +52,11 @@ public with sharing class SironoSettingsUtil {
         sironoSettings.NS_Bar_Prefix__c = SObjectType.Charge_Group__c.Name.substringBefore('Charge_Group__c');
     }
 
+    /**
+     * Queries and populates the IDs used in process builder flows in the specified settings object.
+     *
+     * @param sironoSettings the settings object
+     */
     public static void setProcessBuilderIds(Sirono_Settings__c sironoSettings) {
         if (sironoSettings != null) {
             List<BusinessHours> businessHours = [
@@ -77,5 +82,39 @@ public with sharing class SironoSettingsUtil {
 
             upsert sironoSettings;
         }
+    }
+
+    /**
+     * Returns the business hours ID for the specified settings object.
+     *
+     * @param sironoSettings the settings object
+     * @returns the business hours ID, or null if not found
+     */
+    public static String getBusinessHoursId(Sirono_Settings__c sironoSettings) {
+        if (sironoSettings != null) {
+            if (String.isBlank(sironoSettings.Business_Hours_Id__c)) {
+                setProcessBuilderIds(sironoSettings);
+                return sironoSettings.Business_Hours_Id__c;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the automated case record type ID for the specified settings object.
+     *
+     * @param sironoSettings the settings object
+     * @returns the automated case record type ID, or null if not found
+     */
+    public static String getAutomatedCaseRecordTypeId(Sirono_Settings__c sironoSettings) {
+        if (sironoSettings != null) {
+            if (String.isBlank(sironoSettings.Automated_Case_Record_Type_Id__c)) {
+                setProcessBuilderIds(sironoSettings);
+                return sironoSettings.Automated_Case_Record_Type_Id__c;
+            }
+        }
+
+        return null;
     }
 }
