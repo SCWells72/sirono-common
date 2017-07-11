@@ -359,11 +359,11 @@
     </types>
     <types>
         <members>*</members>
-        <name>flowDefinition</name>
+        <name>Flow</name>
     </types>
     <types>
         <members>*</members>
-        <name>Flow</name>
+        <name>FlowDefinition</name>
     </types>
     <types>
         <members>*</members>
