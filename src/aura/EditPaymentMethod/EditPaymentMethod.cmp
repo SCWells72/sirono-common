@@ -1,55 +1,55 @@
 <aura:component controller="PaymentTabsController">
-	<aura:attribute name="PaymentInfo" type="Object" access="public"/>
-	<aura:attribute name="PaymentRequestInfo" type="Object" access="public"/>
-	<aura:attribute name="CreditCard" type="Object" access="public"/>
-	<aura:attribute name="selectedCardId" type="String" access="private"/>
-	<aura:attribute name="hasError" type="Boolean" access="private" default="false"/>
+    <aura:attribute name="PaymentInfo" type="Object" access="public"/>
+    <aura:attribute name="PaymentRequestInfo" type="Object" access="public"/>
+    <aura:attribute name="CreditCard" type="Object" access="public"/>
+    <aura:attribute name="selectedCardId" type="String" access="private"/>
+    <aura:attribute name="hasError" type="Boolean" access="private" default="false"/>
 
-	<aura:handler name="change" value="{!v.PaymentInfo.paymentPlan}" action="{!c.doCmpInit}"/>
-	<aura:handler name="change" value="{!v.PaymentInfo.creditCards}" action="{!c.initCardSelectOptions}"/>
-	<aura:handler name="paymentMethodInit" event="c:CancelActionEvent" action="{!c.cancelEditCardAction}"/>
-	<aura:registerEvent name="initPlanInfo" type="c:CancelActionEvent"/>
-	<aura:registerEvent name="updatePaymentMethod" type="c:UpdatePaymentMethodEvent"/>
+    <aura:handler name="change" value="{!v.PaymentInfo.paymentPlan}" action="{!c.doCmpInit}"/>
+    <aura:handler name="change" value="{!v.PaymentInfo.creditCards}" action="{!c.initCardSelectOptions}"/>
+    <aura:handler name="paymentMethodInit" event="c:CancelActionEvent" action="{!c.cancelEditCardAction}"/>
+    <aura:registerEvent name="initPlanInfo" type="c:CancelActionEvent"/>
+    <aura:registerEvent name="updatePaymentMethod" type="c:UpdatePaymentMethodEvent"/>
 
-	<c:PaymentPlanService aura:id="paymentPlanService"/>
-	<div class="payment-plan-edit">
-		<h2>Edit Payment Method</h2>
-		<c:EditPlanInfo PaymentInfo="{!v.PaymentInfo}"/>
-	</div>
+    <c:PaymentPlanService aura:id="paymentPlanService"/>
+    <div class="payment-plan-edit">
+        <h2>Edit Payment Method</h2>
+        <c:EditPlanInfo PaymentInfo="{!v.PaymentInfo}"/>
+    </div>
 
-	<div aura:id="editPaymentMethod" class="slds-p-top--medium slds-p-horizontal--large border-top">
-		<aura:if isTrue="{!v.hasError}">
+    <div aura:id="editPaymentMethod" class="slds-p-top--medium slds-p-horizontal--large border-top">
+        <aura:if isTrue="{!v.hasError}">
             <c:SuccessMessage isSuccess="false" aura:id="notificationCmp" />
-		</aura:if>
+        </aura:if>
 
-		<div class="grid slds-p-bottom--large">
-			<aura:if isTrue="{!and(v.PaymentInfo.creditCards, v.PaymentInfo.creditCards.length > 0)}">
-				<div class="col slds-m-right--medium">
-					<lightning:select name="state" aura:id="state" label="Currently paying with card on file:" required="true" value="{!v.selectedCardId}">
-						<option value="0" name="loading..."/>
-					</lightning:select>
-				</div>
-				<div class="col slds-align-middle">
-					<div class="title">
-						<a href="javascript:void(0);" onclick="{!c.editCreditCard}">Edit</a> or <a href="javascript:void(0);" onclick="{!c.addNewCreditCard}">Add New Card</a>
-					</div>
-				</div>
-				<aura:set attribute="else">
-					<div class="col slds-align-middle">
-						<div class="title">
-							<a href="javascript:void(0);" onclick="{!c.addNewCreditCard}">Add New Card</a>
-						</div>
-					</div>
-				</aura:set>
-			</aura:if>
-		</div>
-		<div class="float-right slds-p-top--large">
-			<button class="slds-button slds-button--neutral" onclick="{!c.cancelAction}">Cancel</button>
-			<button class="slds-button slds-button--brand" onclick="{!c.updatePaymentMethod}">Update Payment Method</button>
-		</div>
-	</div>
+        <div class="grid slds-p-bottom--large">
+            <aura:if isTrue="{!and(v.PaymentInfo.creditCards, v.PaymentInfo.creditCards.length > 0)}">
+                <div class="col slds-m-right--medium">
+                    <lightning:select name="state" aura:id="state" label="Currently paying with card on file:" required="true" value="{!v.selectedCardId}">
+                        <option value="0" name="loading..."/>
+                    </lightning:select>
+                </div>
+                <div class="col slds-align-middle">
+                    <div class="title">
+                        <a href="javascript:void(0);" onclick="{!c.editCreditCard}">Edit</a> or <a href="javascript:void(0);" onclick="{!c.addNewCreditCard}">Add New Card</a>
+                    </div>
+                </div>
+                <aura:set attribute="else">
+                    <div class="col slds-align-middle">
+                        <div class="title">
+                            <a href="javascript:void(0);" onclick="{!c.addNewCreditCard}">Add New Card</a>
+                        </div>
+                    </div>
+                </aura:set>
+            </aura:if>
+        </div>
+        <div class="float-right slds-p-top--large">
+            <button class="slds-button slds-button--neutral" onclick="{!c.cancelAction}">Cancel</button>
+            <button class="slds-button slds-button--brand" onclick="{!c.updatePaymentMethod}">Update Payment Method</button>
+        </div>
+    </div>
 
-	<div aura:id="editCreditCard" class="slds-p-horizontal--large border-top slds-hide">
-		<c:EditPaymentCard PaymentRequestInfo="{!v.PaymentRequestInfo}" CreditCard="{!v.CreditCard}"/>
-	</div>
+    <div aura:id="editCreditCard" class="slds-p-horizontal--large border-top slds-hide">
+        <c:EditPaymentCard PaymentRequestInfo="{!v.PaymentRequestInfo}" CreditCard="{!v.CreditCard}"/>
+    </div>
 </aura:component>

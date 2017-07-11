@@ -72,7 +72,7 @@
 
             cmp.set('v.hasError', false);
 
-            paymentPlanService.getPaymentPlanInfoMap(paymentRequestInfo, creditCard, function(planInfo) {
+            paymentPlanService.getPaymentPlanInfoMap(paymentRequestInfo, creditCard, function (planInfo) {
 
                 var editPaymentMethod = cmp.get('c.doEditPaymentMethod');
                 editPaymentMethod.setParams({
@@ -116,7 +116,7 @@
 
             cmp.set('v.hasError', false);
 
-            paymentPlanService.getPaymentPlanInfoMap(paymentRequestInfo, creditCard, function(planInfo) {
+            paymentPlanService.getPaymentPlanInfoMap(paymentRequestInfo, creditCard, function (planInfo) {
                 createPlan.setParams({
                     'ppInfoMap': planInfo,
                     'isCreditCardSaved': creditCard.isSaved
