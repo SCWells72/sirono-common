@@ -53,68 +53,37 @@ public with sharing class SironoSettingsUtil {
     }
 
     /**
-     * Queries and populates the IDs used in process builder flows in the specified settings object.
+     * Queries and populates the IDs used in Process Builder flows in the specified settings object.
      *
      * @param sironoSettings the settings object
      */
     public static void setProcessBuilderIds(Sirono_Settings__c sironoSettings) {
         if (sironoSettings != null) {
-            List<BusinessHours> businessHours = [
-                SELECT Id
-                FROM BusinessHours
-                WHERE Name = 'Default'
-                LIMIT 1
-            ];
-            if (!businessHours.isEmpty()) {
-                sironoSettings.Business_Hours_Id__c = businessHours[0].Id;
-            }
+            Boolean updateRequired = false;
 
-            List<RecordType> recordTypes = [
-                SELECT Id
-                FROM RecordType
-                WHERE SobjectType = :Case.SObjectType.getDescribe().getName()
-                AND Name = 'Automated Cases'
-                LIMIT 1
-            ];
-            if (!recordTypes.isEmpty()) {
-                sironoSettings.Automated_Case_Record_Type_Id__c = recordTypes[0].Id;
-            }
-
-            upsert sironoSettings;
-        }
-    }
-
-    /**
-     * Returns the business hours ID for the specified settings object.
-     *
-     * @param sironoSettings the settings object
-     * @returns the business hours ID, or null if not found
-     */
-    public static String getBusinessHoursId(Sirono_Settings__c sironoSettings) {
-        if (sironoSettings != null) {
             if (String.isBlank(sironoSettings.Business_Hours_Id__c)) {
-                setProcessBuilderIds(sironoSettings);
-                return sironoSettings.Business_Hours_Id__c;
+                // Query the default business hours
+                List<BusinessHours> businessHours = [
+                    SELECT Id
+                    FROM BusinessHours
+                    WHERE Name = 'Default'
+                    LIMIT 1
+                ];
+                if (!businessHours.isEmpty()) {
+                    sironoSettings.Business_Hours_Id__c = businessHours[0].Id;
+                    updateRequired = true;
+                }
             }
-        }
 
-        return null;
-    }
-
-    /**
-     * Returns the automated case record type ID for the specified settings object.
-     *
-     * @param sironoSettings the settings object
-     * @returns the automated case record type ID, or null if not found
-     */
-    public static String getAutomatedCaseRecordTypeId(Sirono_Settings__c sironoSettings) {
-        if (sironoSettings != null) {
             if (String.isBlank(sironoSettings.Automated_Case_Record_Type_Id__c)) {
-                setProcessBuilderIds(sironoSettings);
-                return sironoSettings.Automated_Case_Record_Type_Id__c;
+                // Grab the automated case record type ID
+                sironoSettings.Automated_Case_Record_Type_Id__c = RecordTypeUtil.automatedCaseRt;
+                updateRequired = true;
+            }
+
+            if (updateRequired) {
+                upsert sironoSettings;
             }
         }
-
-        return null;
     }
 }
