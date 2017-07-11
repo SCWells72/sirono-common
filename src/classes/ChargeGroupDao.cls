@@ -118,7 +118,7 @@ public without sharing class ChargeGroupDao extends AbstractDao {
     public static List<Charge_Group__c> getCGBasedOnGuarantor(Set<Id> guarantorIds) {
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
-                    SELECT Id, Guarantor__c
+                    SELECT Id, Guarantor__c, Account_Sub_Status__c
                     FROM Charge_Group__c
                     WHERE Account_Status__c = :Constants.ACCT_STATUS_BILLED
                     AND Guarantor__c = :guarantorIds
