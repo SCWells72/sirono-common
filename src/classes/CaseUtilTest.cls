@@ -37,14 +37,8 @@ public class CaseUtilTest {
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
         insert objTransaction;
 
-        List<Statement__c> lstStatement = new List<Statement__c>();
         Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-
-
-        statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-        insert lstStatement;
+        insert statement;
 
         Test.startTest();
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
@@ -77,12 +71,6 @@ public class CaseUtilTest {
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
-
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
-        objCase.Reason = 'Compliance Issue';
-        insert objCase;
-
-        CaseUtil.callEarlyOutAutoCase();
         Test.stopTest();
 
         // Retrive Case record.

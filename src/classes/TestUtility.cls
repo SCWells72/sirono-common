@@ -558,11 +558,13 @@ public class TestUtility {
 
     public static void createAllCampaigns() {
 
+        List<Campaign> campaigns = new List<Campaign>();
         for (String caseType : Constants.CASE_CG_SUBSTATUS.keySet()) {
             Set<String> cmpnNames = CampaignMemberDao.getSFCampaignNames(caseType);
             for (String cmpnName : cmpnNames) {
-                TestUtility.generateCampaign(cmpnName);
+                campaigns.add(TestUtility.generateCampaign(cmpnName));
             }
         }
+        INSERT campaigns;
     }
 }

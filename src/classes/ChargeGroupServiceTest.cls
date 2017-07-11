@@ -87,7 +87,7 @@ public with sharing class ChargeGroupServiceTest{
         UPDATE chargeGroup;
 
         Test.startTest();
-        Case objCase = TestUtility.generateCase(rt[0].Id, Constants.CASE_TYPE_CC_ERROR, gt.Id);
+        Case objCase = TestUtility.generateCase(rt[0].Id, Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, gt.Id);
         INSERT objCase;
         Test.stopTest();
 

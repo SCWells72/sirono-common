@@ -68,7 +68,7 @@
             <label>Overdue Balance</label>
         </rules>
     </decisions>
-    <description>It is use to create Overdue auto case.</description>
+    <description>Automatically logs a case for statements with an overdue balance.</description>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
