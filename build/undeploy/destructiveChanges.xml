@@ -27,6 +27,9 @@
         <members>Five9CreateCallLogRecordTest</members>
         <members>AddToPaymentPlanLightning</members>
         <members>AddToPaymentPlanLightningTest</members>
+        <members>AddPaymentPlanLightningController</members>
+        <members>AddPaymentPlanLightningControllerTest</members>
+        <members>CreatePaymentPlan</members>
         <name>ApexClass</name>
     </types>
     <types>

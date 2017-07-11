@@ -108,10 +108,6 @@
     </classAccesses>
     <!-- These are all portal-specific -->
     <classAccesses>
-        <apexClass>AddPaymentPlanLightningController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>CommunitiesLandingController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -125,10 +121,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CommunitiesSelfRegController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>CreatePaymentPlan</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
