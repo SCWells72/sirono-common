@@ -5,16 +5,6 @@
 public with sharing class CaseTriggerHandler {
 
     /**
-     * This method is use before insert the case.
-     *
-     * @param List<Case> newList - That contains List of Case.
-     **/
-    public static void beforeInsert(List<Case> newList) {
-        // Call setCaseIdsForPB method to set Ids in Case.
-        setCaseIdsForPB(newList);
-    }
-
-    /**
      * This method is use after insert the case.
      *
      * @param List<Case> newList - That contains List of Case.
@@ -51,17 +41,17 @@ public with sharing class CaseTriggerHandler {
      *
      * Parameter change Case object to List of Case to resolve Security Scan Issue.
      **/
-    private static void checkAndDoAddNoteCallout(List<Case> newCases) { 
+    private static void checkAndDoAddNoteCallout(List<Case> newCases) {
         if (newCases.get(0).Description != null) {
             if (CaseSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                 // We have removed Loop and take List Variable because of we need only one record based on Case Id.
                 // This changes do for Security Scan's "Async Future Method Inside Loops" related Error.
                 List<Case> cases = new List<Case>([
-                            SELECT Id, Description, Charge_Group_IDs__c
-                            FROM Case
-                            WHERE Id = :newCases.get(0).Id
-                            AND CreatedBy.Name != 'Sirono Integration'
-                            AND Charge_Group_IDs__c != null
+                    SELECT Id, Description, Charge_Group_IDs__c
+                    FROM Case
+                    WHERE Id = :newCases.get(0).Id
+                    AND CreatedBy.Name != 'Sirono Integration'
+                    AND Charge_Group_IDs__c != null
                 ]);
                 if (cases.size() > 0) {
                     // CALL FUTURE METHOD FOR ADD NOTE CALLOUT
@@ -82,11 +72,11 @@ public with sharing class CaseTriggerHandler {
             return;
         }
 
-        Map<String, Set<Id>> caseCmpnMemberMap = new Map<String, Set<Id>> ();
+        Map<String, Set<Id>> caseCmpnMemberMap = new Map<String, Set<Id>>();
 
         for (Case c: newList) {
             if ((c.IsClosed && !oldMap.get(c.Id).IsClosed) &&
-                    c.Guarantor_Information__c != null) {
+                c.Guarantor_Information__c != null) {
 
                 if (!caseCmpnMemberMap.containsKey(c.Type)) {
                     caseCmpnMemberMap.put(c.Type, new Set<Id>());
@@ -134,7 +124,7 @@ public with sharing class CaseTriggerHandler {
      **/
     private static void createCampaignMemberRecords(List<Case> newCases) {
         // Collect the guarantorIds from the new cases & group by caseType
-        Map<String, Set<Id>> caseTypeGTMap = new Map<String, Set<Id>> ();
+        Map<String, Set<Id>> caseTypeGTMap = new Map<String, Set<Id>>();
 
         for (Case objCase: newCases) {
             if (!String.isEmpty(objCase.Guarantor_Information__c)) {
@@ -146,24 +136,5 @@ public with sharing class CaseTriggerHandler {
         }
 
         CampaignMemberService.createCampaignMembers(caseTypeGTMap);
-    }
-
-    /**
-     * This method is use to assign the correct Business Hour Id and record type Id for the current org to the case.
-     * Only update cases which were built with our PB flows (indicated by having the constant value for BusinessHoursId
-     * that we use in the flows)
-     *
-     * @param newList - the Cases to update.
-     **/
-    public static void setCaseIdsForPB(List<Case> newList) {
-        // Get the default business hours Id. 
-        BusinessHours businessHrs = [SELECT Id FROM BusinessHours WHERE IsDefault=true];
-
-        for (Case objCase: newList) {
-            if (objCase.BusinessHoursId == Constants.PB_AUTO_CASE) {
-                objCase.BusinessHoursId = businessHrs.Id;
-                objCase.RecordTypeID = RecordTypeUtil.automatedCaseRt;
-            }
-        }
     }
 }

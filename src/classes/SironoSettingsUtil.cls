@@ -52,30 +52,38 @@ public with sharing class SironoSettingsUtil {
         sironoSettings.NS_Bar_Prefix__c = SObjectType.Charge_Group__c.Name.substringBefore('Charge_Group__c');
     }
 
+    /**
+     * Queries and populates the IDs used in Process Builder flows in the specified settings object.
+     *
+     * @param sironoSettings the settings object
+     */
     public static void setProcessBuilderIds(Sirono_Settings__c sironoSettings) {
         if (sironoSettings != null) {
-            List<BusinessHours> businessHours = [
-                SELECT Id
-                FROM BusinessHours
-                WHERE Name = 'Default'
-                LIMIT 1
-            ];
-            if (!businessHours.isEmpty()) {
-                sironoSettings.Business_Hours_Id__c = businessHours[0].Id;
+            Boolean updateRequired = false;
+
+            if (String.isBlank(sironoSettings.Business_Hours_Id__c)) {
+                // Query the default business hours
+                List<BusinessHours> businessHours = [
+                    SELECT Id
+                    FROM BusinessHours
+                    WHERE Name = 'Default'
+                    LIMIT 1
+                ];
+                if (!businessHours.isEmpty()) {
+                    sironoSettings.Business_Hours_Id__c = businessHours[0].Id;
+                    updateRequired = true;
+                }
             }
 
-            List<RecordType> recordTypes = [
-                SELECT Id
-                FROM RecordType
-                WHERE SobjectType = :Case.SObjectType.getDescribe().getName()
-                AND Name = 'Automated Cases'
-                LIMIT 1
-            ];
-            if (!recordTypes.isEmpty()) {
-                sironoSettings.Automated_Case_Record_Type_Id__c = recordTypes[0].Id;
+            if (String.isBlank(sironoSettings.Automated_Case_Record_Type_Id__c)) {
+                // Grab the automated case record type ID
+                sironoSettings.Automated_Case_Record_Type_Id__c = RecordTypeUtil.automatedCaseRt;
+                updateRequired = true;
             }
 
-            upsert sironoSettings;
+            if (updateRequired) {
+                upsert sironoSettings;
+            }
         }
     }
 }
