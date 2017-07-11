@@ -105,7 +105,7 @@ public without sharing class PaymentTabsController {
             throw new AuraHandledException('sironoPaymentPlanId must be provided.');
         }
         try {
-            paymentPlan = PaymentPlanService.updatePaymentPlanTerms(sironoPaymentPlanId, planInfo);
+            paymentPlan = PaymentPlanService.updateAutoPaymentPlanTerms(sironoPaymentPlanId, planInfo);
         } catch (Exception e) {
             System.debug('ERROR: ' + e.getMessage());
             throw new AuraHandledException(e.getMessage());

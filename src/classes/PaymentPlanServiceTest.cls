@@ -205,7 +205,7 @@ public with sharing class PaymentPlanServiceTest {
      * Test to verify the call to the Sirono Server for updating a Payment Plan.
      */
     @isTest
-    public static void testUpdatePaymentPlanTerms() {
+    public static void testUpdateAutoPaymentPlanTerms() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
@@ -218,11 +218,34 @@ public with sharing class PaymentPlanServiceTest {
         ppInfo.executeOnDay = '1';
 
         Test.startTest();
-        Payment_Plan__c updatedPlan = PaymentPlanService.updatePaymentPlanTerms(PLAN_SIRONO_ID, ppInfo);
+        Payment_Plan__c updatedPlan = PaymentPlanService.updateAutoPaymentPlanTerms(PLAN_SIRONO_ID, ppInfo);
         Test.stopTest();
 
         System.assertNotEquals(null, updatedPlan, 'Should find updated plan');
         System.assertEquals(pp.Id, updatedPlan.Id, 'Should be the the same plan.');
+    }
+
+    /**
+     * Verify exception is thrown for update call on PP that does not have type auto.
+     */
+    @isTest
+    public static void testUpdateAutoPaymentPlanTermsNotAuto() {
+
+
+        PaymentPlanInformation ppInfo = new PaymentPlanInformation();
+        ppInfo.planType = Constants.PLANTYPE_PROMISE;
+        ppInfo.amount = '9999';
+        ppInfo.executeOnDay = '1';
+
+        Test.startTest();
+        try {
+            Payment_Plan__c updatedPlan = PaymentPlanService.updateAutoPaymentPlanTerms(PLAN_SIRONO_ID, ppInfo);
+        } catch (AbstractService.ServiceException svcException) {
+            Test.stopTest();
+            System.assertNotEquals(null, svcException, 'Should have thrown the service exception');
+            System.assertEquals('This method only supports auto payment plans.', svcException.getMessage(), 'Should have auto plan message.');
+        }
+
     }
 
     /**

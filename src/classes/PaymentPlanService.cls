@@ -342,14 +342,18 @@ public with sharing class PaymentPlanService extends AbstractService {
     }
 
     /**
-     * Call the sirono server to update payment plan & then
+     * Call the sirono server to update auto payment plan & then
      * insert/update the SF copy of the data.
      *
      * @param String sironoPaymentPlanId - The id of the Payment Plan to update.
      * @param PaymentPlanInformation ppInfo - It as an object that holds the information required to create a payment plan.
      * @return Payment_Plan__c The updated payment plan.
      **/
-    public static Payment_Plan__c updatePaymentPlanTerms(String sironoPaymentPlanId, PaymentPlanInformation ppInfo) {
+    public static Payment_Plan__c updateAutoPaymentPlanTerms(String sironoPaymentPlanId, PaymentPlanInformation ppInfo) {
+
+        if (ppInfo.planType != Constants.PLANTYPE_AUTO) {
+            throw new ServiceException('This method only supports auto payment plans.');
+        }
 
         PaymentPlanRestClient client = new PaymentPlanRestClient();
         HttpResponse response = client.updatePaymentPlan(sironoPaymentPlanId, ppInfo);
@@ -545,4 +549,5 @@ public with sharing class PaymentPlanService extends AbstractService {
     public static String convertToCents(String amount) {
         return SironoRestClient.convertToCents(amount);
     }
+
 }

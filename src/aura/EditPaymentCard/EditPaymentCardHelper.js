@@ -105,7 +105,7 @@
          errMesscmp.set("v.value", '');
          }
          */
-        //cncmp.s	howHelpMessageIfInvalid();
+        //cncmp.showHelpMessageIfInvalid();
         //cvvcmp.showHelpMessageIfInvalid();
         return isValid;
     },
