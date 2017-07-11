@@ -226,19 +226,6 @@ TEXT(YEAR(Post_Date__c))</formula>
         <unique>true</unique>
     </fields>
     <fields>
-        <fullName>Transaction_Type__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <externalId>false</externalId>
-        <label>Code (Deprecated)</label>
-        <referenceTo>Transaction_Type__c</referenceTo>
-        <relationshipLabel>Adjustments</relationshipLabel>
-        <relationshipName>Payments_Adjustments</relationshipName>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
-    </fields>
-    <fields>
         <fullName>Transaction__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>

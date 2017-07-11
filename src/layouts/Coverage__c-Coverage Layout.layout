@@ -129,10 +129,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Encounter_Coverage_Junction__c.Coverage__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
         <fields>Patient__c</fields>
         <fields>Guarantor__c</fields>
         <fields>Procedure__c</fields>
