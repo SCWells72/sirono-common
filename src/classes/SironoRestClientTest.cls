@@ -210,4 +210,5 @@ private class SironoRestClientTest {
         List<JSONTestObj> objs = (List<JSONTestObj>) System.JSON.deserialize(listJson, List<JSONTestObj>.class);
         System.assert(objs.size() == 1, 'Expected 1 JSONTestObj in the list');
     }
+
 }

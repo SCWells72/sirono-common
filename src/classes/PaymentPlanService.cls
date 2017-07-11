@@ -35,7 +35,7 @@ public with sharing class PaymentPlanService extends AbstractService {
         /**
          * Make the call to add a Credit Card/Payment Plan.
          *
-         * @param PaymentPlanInformation ppInfo - It as an object that holds the information required to create a payment plan.
+         * @param PaymentPlanInformation ppInfo - An object that holds the information required to create a payment plan.
          * @returns - HttpResponse The response to the call.
          **/
         @TestVisible
@@ -45,6 +45,22 @@ public with sharing class PaymentPlanService extends AbstractService {
                     .url(RestClientConstants.ADD_PAYMENTPLAN_KEY, new String[] {})
                     .body(buildCreatePaymentPlanBody(ppInfo))
                     .call();
+        }
+
+
+        /**
+         * Make the call to update a Payment plan.
+         *
+         * @param String sironoPaymentPlanId - The id of the Payment Plan to update.
+         * @param PaymentPlanInformation ppInfo - An object that holds the information required to update a payment plan.
+         * @returns - HttpResponse The response to the call.
+         **/
+        private HttpResponse updatePaymentPlan(String sironoPaymentPlanId, PaymentPlanInformation ppInfo) {
+
+            return patchRequestor()
+                .url(RestClientConstants.PAYMENT_PLAN_KEY, new String[] {sironoPaymentPlanId})
+                .body(buildUpdatePaymentPlanBody(ppInfo))
+                .call();
         }
 
         /**
@@ -122,6 +138,29 @@ public with sharing class PaymentPlanService extends AbstractService {
                     'address_1' => ppInfo.address,
                     'city' => ppInfo.city
                 });
+            }
+
+            String body = JSON.serializePretty(rawData);
+            return body;
+        }
+
+        /**
+         * Build the JSON structure required for the Update Payment Plan post.
+         *
+         * @param PaymentPlanInformation ppInfo - It as an object that holds the information required to create a payment plan.
+         * @returns String body - The Json payload.
+         **/
+        @TestVisible
+        private String buildUpdatePaymentPlanBody(PaymentPlanInformation ppInfo) {
+            Map<String, Object> rawData = new Map<String,Object> {
+                'plan_type' => ppInfo.planType,
+                 RestClientConstants.CSRF_JSON_KEY => getCsrf(),
+                'active' => 'true',
+                'installment_amount' => convertToCents(ppInfo.amount)
+            };
+
+            if (ppInfo.planType.trim().equalsIgnoreCase(Constants.PLANTYPE_AUTO)) {
+                rawData.put('execute_on_day', ppInfo.executeOnDay);
             }
 
             String body = JSON.serializePretty(rawData);
@@ -303,6 +342,47 @@ public with sharing class PaymentPlanService extends AbstractService {
     }
 
     /**
+     * Call the sirono server to update auto payment plan & then
+     * insert/update the SF copy of the data.
+     *
+     * @param String sironoPaymentPlanId - The id of the Payment Plan to update.
+     * @param PaymentPlanInformation ppInfo - It as an object that holds the information required to create a payment plan.
+     * @return Payment_Plan__c The updated payment plan.
+     **/
+    public static Payment_Plan__c updateAutoPaymentPlanTerms(String sironoPaymentPlanId, PaymentPlanInformation ppInfo) {
+
+        if (ppInfo.planType != Constants.PLANTYPE_AUTO) {
+            throw new ServiceException('This method only supports auto payment plans.');
+        }
+
+        PaymentPlanRestClient client = new PaymentPlanRestClient();
+        HttpResponse response = client.updatePaymentPlan(sironoPaymentPlanId, ppInfo);
+        return updatePaymentPlan(response.getBody());
+    }
+
+    /**
+     * Add a new Payment Plan and associated Payment Method.
+     *
+     * @param PaymentPlanInformation ppInfo - Information object populated with initial values for Payment Plan.
+     * @param Boolean persistPaymentMethod - Boolean that indicates if the Payment Method should be persisted in SF.
+     * @param String guarantorId - The guarantor Id assoicated with the plan and payment method.
+     */
+    public static Payment_Plan__c addPaymentPlanWithPaymentMethod(PaymentPlanInformation ppInfo, Boolean persistPaymentMethod, String guarantorId) {
+        addPaymentPlan(ppInfo);
+        Payment_Method__c payMethod = PaymentMethodService.generatePaymentMethod(ppInfo, guarantorId);
+        Payment_Plan__c payPlan = getActivePaymentPlanWithMethod(guarantorId);
+        payPlan.Payment_Method__r = payMethod;
+
+        if (persistPaymentMethod) {
+            PaymentMethodDao.insertPaymentMethod(payMethod);
+            payPlan.Payment_Method__c = payMethod.Id;
+            PaymentPlanDao.upsertPlans(new List<Payment_Plan__c>{payPlan});
+        }
+
+        return payPlan;
+    }
+
+    /**
      * Return the payment plan for the given sironoId, null if there is none
      *
      * @param - String sironoId  The sironoId of the plan.
@@ -333,6 +413,7 @@ public with sharing class PaymentPlanService extends AbstractService {
     private static void validateChargeGroupIds(List<String> chargegroupIds) {
         Charge_Group__c[] cgs = ChargeGroupService.getBySironoIds(new List<Decimal>(AbstractSironoJSONParser.asDecimalSet(chargegroupIds)));
 
+        System.debug('validateChargeGroupIds: ' + cgs);
         Map<String, Charge_Group__c> foundCGMap = new Map<String, Charge_Group__c>();
         for (Charge_Group__c cg : cgs) {
             foundCGMap.put(String.valueOf(cg.Sirono_ID__c), cg);
@@ -360,9 +441,7 @@ public with sharing class PaymentPlanService extends AbstractService {
         PaymentPlanJSONParser parser = new PaymentPlanJSONParser(jsonStr);
         PaymentPlanWrapper wrapper = parser.parse(null, chargegroupIds);
 
-        Payment_Plan__c pmtPlan = wrapper.paymentPlanRecord;
-        pmtPlan.Plan_Value_Modified_Date__c = Datetime.now();
-        PaymentPlanDao.upsertPlans(new Payment_Plan__c[]{pmtPlan});
+        Payment_Plan__c pmtPlan = upsertPaymentPlan(wrapper);
 
         List<Charge_Group__c> cgList = wrapper.chargeGroupRecords;
         //TODO this should move into a method like: ChargeGroupService.putOnPlan(pmtPlan, wrapper.chargeGroupRecords)
@@ -372,6 +451,34 @@ public with sharing class PaymentPlanService extends AbstractService {
         }
 
         ChargeGroupService.updateChargeGroups(cgList);
+    }
+
+    /**
+     * Parse the response from the Sirono service and update the Payment Plan object returned.  This is used to process
+     * the response from the update call to the Sirono service.
+     *
+     * @param String jsonStr - The JSON reponse from the http update request.
+     * @return Payment_Plan__c - The updated Payment Plan.
+     */
+    private static Payment_Plan__c updatePaymentPlan(String jsonStr) {
+        PaymentPlanJSONParser parser = new PaymentPlanJSONParser(jsonStr);
+        PaymentPlanWrapper wrapper = parser.parse(null, new List<String>());
+
+        return upsertPaymentPlan(wrapper);
+    }
+
+    /**
+     * Upsert an existing Payment Plan.
+     *
+     * @param PaymentPlanWrapper wrapper - A payment plan wrapper.
+     * @return Payment_Plan__c - The upserted Payment Plan.
+     */
+    private static Payment_Plan__c upsertPaymentPlan(PaymentPlanWrapper wrapper) {
+        Payment_Plan__c pmtPlan = wrapper.paymentPlanRecord;
+        pmtPlan.Plan_Value_Modified_Date__c = Datetime.now();
+        PaymentPlanDao.upsertPlans(new Payment_Plan__c[]{pmtPlan});
+
+        return pmtPlan;
     }
 
     /**
@@ -406,8 +513,41 @@ public with sharing class PaymentPlanService extends AbstractService {
         return (!plans.isEmpty()) ? plans[0] : null;
     }
 
+    /**
+     * Update the Payment_Method__c on a payment plan.
+     *
+     * @param String planId - The payment plan id.
+     * @param String creditCardId - The credit card id. Empty string for a new credit card.
+     * @param PaymentPlanInformation paymentInfo - The payment plan information object.
+     * @param Boolean persistPaymentMethod - If true the generated Payment_Method__c with be saved as well as the payment plan updated.
+     */
+    public static Payment_Plan__c addPaymentMethod(String planId, String creditCardId, PaymentPlanInformation paymentInfo, Boolean persistPaymentMethod) {
+        Payment_Plan__c payPlan = getPaymentPlan(planId);
+        Payment_Method__c payMethod = null;
+
+        if (String.isBlank(creditCardId)) {
+            payMethod = PaymentMethodService.generatePaymentMethod(paymentInfo, payPlan.Guarantor__c);
+        } else {
+            payMethod = PaymentMethodService.getCreditCard(creditCardId);
+        }
+
+        payPlan.Payment_Method__r = payMethod;
+
+        if (persistPaymentMethod) {
+            // If this is a new paymentMethod save it.
+            if (payMethod.Id == null) {
+                PaymentMethodDao.insertPaymentMethod(payMethod);
+            }
+            payPlan.Payment_Method__c = payMethod.Id;
+            PaymentPlanDao.upsertPlans(new List<Payment_Plan__c>{payPlan});
+        }
+
+        return payPlan;
+    }
+
     //TODO this is just here until ProcessPaymentLightning can be removed
     public static String convertToCents(String amount) {
         return SironoRestClient.convertToCents(amount);
     }
+
 }

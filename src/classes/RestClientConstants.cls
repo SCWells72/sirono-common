@@ -71,6 +71,7 @@ public with sharing class RestClientConstants {
     // HTTP types.
     public static final String GET = 'GET';
     public static final String POST = 'POST';
+    public static final String PATCH = 'PATCH';
     public static final String PUT = 'PUT';
     public static final String REMOVE = 'DELETE';
 
@@ -79,6 +80,7 @@ public with sharing class RestClientConstants {
     public static final String AUTHORIZATION = 'Authorization';
     public static final String CONTENT_TYPE = 'Content-type';
     public static final Integer DEFAULT_TIMEOUT = 120000;
+    public static final String METHOD_OVERRIDE = 'X-HTTP-Method-Override';
 
     // Test Constants
     public static final String CHARGE_GROUP_ID = 'charg3gr0up1d';

@@ -1,5 +1,5 @@
 /**
- * Created by gbockus on 6/29/17.
+ * The Payment_Method__c DAO.
  */
 
 public without sharing class PaymentMethodDao {
@@ -43,6 +43,38 @@ public without sharing class PaymentMethodDao {
             ];
         }
         return paymentMethods;
+    }
+
+    /**
+     * Generate a Payment_Method__c object.
+     *
+     * @param String cardType - The credit card type.
+     * @param String paymentType - The payment type.
+     * @param String cardholderName - The credit card holder name.
+     * @param Date expDate - The expireation date.
+     * @param String guarantorId - The guarantor id.
+     * @param String lastFour - The last four digits of the credit card.
+     * @return Payment_Method__c - The Payment Method object.
+     */
+    public static Payment_Method__c generatePaymentMethod(String cardType, String paymentType, String cardholderName, Date expDate,
+        String guarantorId, String lastFour) {
+        return new Payment_Method__c(
+            Card_Type__c = cardType,
+            Type__c = paymentType,
+            Card_Holder_Name__c = cardHolderName,
+            Expiration_Date__c = expDate,
+            Guarantor__c = guarantorId,
+            Last_4__c = lastFour
+        );
+    }
+
+    /**
+     * Insert a Payment_Method__c object.
+     * @param Payment_Method__c payMethod - A Payment Method object.
+     */
+    public static void insertPaymentMethod(Payment_Method__c payMethod) {
+        //TODO INSERT SecurityContext
+        INSERT payMethod;
     }
 
 }

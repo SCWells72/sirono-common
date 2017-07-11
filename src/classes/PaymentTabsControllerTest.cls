@@ -133,7 +133,7 @@ public with sharing class PaymentTabsControllerTest {
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
         Contact guarantorContact = TestUtility.getPortalGuarantor();
-        String CCardRecordType = getPayMethodRecordTypes().get(Constants.CREDIT_CARD);
+        String CCardRecordType = TestUtility.getPayMethodRecordTypes().get(Constants.CREDIT_CARD);
         List<Payment_Method__c> payMethods = new List<Payment_Method__c>();
         payMethods.add(TestUtility.generatePaymentMethod(guarantorContact.Id, CCardRecordType));
         payMethods.add(TestUtility.generatePaymentMethod(guarantorContact.Id, CCardRecordType));
@@ -158,7 +158,7 @@ public with sharing class PaymentTabsControllerTest {
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
         Contact guarantorContact = TestUtility.getPortalGuarantor();
-        String CCardRecordType = getPayMethodRecordTypes().get(Constants.CREDIT_CARD);
+        String CCardRecordType = TestUtility.getPayMethodRecordTypes().get(Constants.CREDIT_CARD);
         List<Payment_Method__c> payMethods = new List<Payment_Method__c>();
 
         Payment_Method__c pm1 = TestUtility.generatePaymentMethod(guarantorContact.Id, CCardRecordType);
@@ -188,18 +188,4 @@ public with sharing class PaymentTabsControllerTest {
 
     }
 
-    @isTest
-    private static Map<String, String> getPayMethodRecordTypes() {
-        Map<String, String> recordTypeMap = new Map<String, String>();
-        for (RecordType recordType : [
-            Select Id, Name
-            From RecordType
-            Where sObjectType = :Payment_Method__c.class.getName()
-        ]) {
-            recordTypeMap.put(recordType.Name, recordType.Id);
-        }
-
-        System.assert(recordTypeMap.size() != 0);
-        return recordTypeMap;
-    }
 }

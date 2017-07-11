@@ -213,6 +213,26 @@ public class TestUtility {
         return paymentMethod;
     }
 
+
+    /**
+     * Get the record types for Payment_Method__c.
+     *
+     * @return Map<String, String> - The keys are the record type names and the value is the id.
+     */
+    public static Map<String, String> getPayMethodRecordTypes() {
+        Map<String, String> recordTypeMap = new Map<String, String>();
+        for (RecordType recordType : [
+            Select Id, Name
+            From RecordType
+            Where sObjectType = :Payment_Method__c.class.getName()
+        ]) {
+            recordTypeMap.put(recordType.Name, recordType.Id);
+        }
+
+        System.assert(recordTypeMap.size() != 0);
+        return recordTypeMap;
+    }
+
     // return list of charge_group__c records
     public static List<Charge_Group__c> generateChargeGroupList(ID contID) {
         list<Charge_Group__c> lstChargeGroup = new list<Charge_Group__c>();

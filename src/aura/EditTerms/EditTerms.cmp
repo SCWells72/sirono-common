@@ -18,8 +18,9 @@
 
 
     <aura:registerEvent name="initPlanInfo" type="c:CancelActionEvent"/>
-	
-	<aura:if isTrue="{!v.PaymentInfo.hasPaymentPlan}">
+
+    <c:PaymentPlanService aura:id="paymentPlanService"/>
+    <aura:if isTrue="{!v.PaymentInfo.hasPaymentPlan}">
 		<div class="intro">
 			<h2 class="txt_h2">Edit Payment Plan Terms
 				<div class="status info sldsjs-popover">
@@ -96,7 +97,7 @@
 			<aura:if isTrue="{!v.PaymentInfo.hasPaymentPlan}">
 				<button class="slds-button slds-button--neutral" onclick="{!c.cancelAction}">Cancel</button>
 				<aura:if isTrue="{!not(v.hasError)}">
-					<button class="slds-button slds-button--brand pp-step-two-button" onclick="{!c.updatePaymenTerms}">Update Terms</button>
+					<button class="slds-button slds-button--brand pp-step-two-button" onclick="{!c.updatePaymentTerms}">Update Terms</button>
 					<aura:set attribute="else">
 						<button class="slds-button slds-button--brand pp-step-two-button" disabled="disabled">Update Terms</button>
 					</aura:set>
