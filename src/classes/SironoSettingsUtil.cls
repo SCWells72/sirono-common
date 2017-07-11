@@ -9,13 +9,13 @@ public with sharing class SironoSettingsUtil {
     }
 
     //get settings specific to the user's profileId
-    public static Sirono_Settings__c getPaymentPlanSettings(){
+    public static Sirono_Settings__c getPaymentPlanSettings() {
         if (Test.isRunningTest()) {
             //if there are settings already out there for this user profile, return them
             Sirono_Settings__c sironoSettings = Sirono_Settings__c.getInstance(UserInfo.getProfileId());
 
             if (sironoSettings == null || sironoSettings.Apikey__c == null) {
-				sironoSettings = Sirono_Settings__c.getValues(UserInfo.getOrganizationId());
+                sironoSettings = Sirono_Settings__c.getValues(UserInfo.getOrganizationId());
                 if (sironoSettings == null) {
                     sironoSettings = new Sirono_Settings__c();
                     setNamespacePrefixes(sironoSettings);
@@ -50,5 +50,32 @@ public with sharing class SironoSettingsUtil {
         sironoSettings.NS_Dot_Prefix__c = SironoSettingsUtil.class.getName().substringBefore('SironoSettingsUtil');
         //Single token to qualify Salesforce Objects, fields & pages
         sironoSettings.NS_Bar_Prefix__c = SObjectType.Charge_Group__c.Name.substringBefore('Charge_Group__c');
+    }
+
+    public static void setProcessBuilderIds(Sirono_Settings__c sironoSettings) {
+        if (sironoSettings != null) {
+            List<BusinessHours> businessHours = [
+                SELECT Id
+                FROM BusinessHours
+                WHERE Name = 'Default'
+                LIMIT 1
+            ];
+            if (!businessHours.isEmpty()) {
+                sironoSettings.Business_Hours_Id__c = businessHours[0].Id;
+            }
+
+            List<RecordType> recordTypes = [
+                SELECT Id
+                FROM RecordType
+                WHERE SobjectType = :Case.SObjectType.getDescribe().getName()
+                AND Name = 'Automated Cases'
+                LIMIT 1
+            ];
+            if (!recordTypes.isEmpty()) {
+                sironoSettings.Automated_Case_Record_Type_Id__c = recordTypes[0].Id;
+            }
+
+            upsert sironoSettings;
+        }
     }
 }

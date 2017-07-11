@@ -2,7 +2,7 @@
  * Perform setup needed after installing the package
  */
 
-public with sharing class SironoPRSPostInstallHandler  implements InstallHandler {
+public with sharing class SironoPRSPostInstallHandler implements InstallHandler {
 
     public void onInstall(InstallContext context) {
         initializeSironoSettings();
@@ -14,6 +14,7 @@ public with sharing class SironoPRSPostInstallHandler  implements InstallHandler
             sironoSettings = new Sirono_Settings__c();
 
             SironoSettingsUtil.setNamespacePrefixes(sironoSettings);
+            SironoSettingsUtil.setProcessBuilderIds(sironoSettings);
 
             INSERT sironoSettings;
         }

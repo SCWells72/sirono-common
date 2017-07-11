@@ -6,7 +6,7 @@
 public class StatementOverdueBalanceTest {
     @TestSetup
     private static void setup() {
-        ProcessBuilderTestUtil.populateSironoSettings();
+        SironoSettingsUtil.setProcessBuilderIds(Sirono_Settings__c.getInstance());
     }
 
     @IsTest

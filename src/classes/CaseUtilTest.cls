@@ -14,14 +14,13 @@ public class CaseUtilTest {
 
     @TestSetup
     private static void setup() {
-        ProcessBuilderTestUtil.populateSironoSettings();
+        SironoSettingsUtil.setProcessBuilderIds(Sirono_Settings__c.getInstance());
     }
 
     //Method to code coverage for Create Early Out Case, And Close the Early Out case
     @isTest
     public static void checkCallEarlyOutAutoCase() {
         TestUtility objUtility = new TestUtility();
-        CaseUtil obj = new CaseUtil();
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
@@ -92,83 +91,6 @@ public class CaseUtilTest {
         // Check system assert, Number of auto created case records.
         System.assertEquals(1, cases.size());
         System.assertEquals(Constants.CASE_TYPE_OVERDUE, cases[0].Type);
-    }
-
-    //Method to code coverage for Create Early Out Case, And Close the Early Out case
-    @isTest
-    public static void callEarlyOutAutoCaseWithoutComplianIssue() {
-        TestUtility objUtility = new TestUtility();
-
-        Contact guarantorContact = TestUtility.generateGuarantorContact();
-        insert guarantorContact;
-
-        Contact patientContact = TestUtility.generatePatientContact();
-        insert patientContact;
-
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
-        insert chargeGroup;
-
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
-        chargeGroup.Reported_Selfpay_Balance__c = 10;
-        chargeGroup.Account_Status__c = 'Billed';
-        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
-        insert chargeGroup;
-
-        //10-19-2016: Viraj - Tracker # 132105543-Change "Overdue_Balance__c = '< 0' to '> 0'" in condition.
-        //Change transaction amount -100 to 100.
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
-        insert objTransaction;
-
-        List<Statement__c> lstStatement = new List<Statement__c>();
-        Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-
-
-        statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-        insert lstStatement;
-
-        Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
-            caseRecordTypeMap.put(recordType.Name, recordType.Id);
-        }
-
-        Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-            Constants.CAMPAIGN_NAME_OVERDUE,
-            Constants.CAMPAIGN_NAME_OVERDUE_M,
-            'PreCollections',
-            'PreCollections M',
-            'PreService',
-            'PreService M',
-            Constants.CAMPAIGN_NAME_PAST_DUE,
-            Constants.CAMPAIGN_NAME_PAST_DUE_M,
-            Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M,
-            Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
-        });
-
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE));
-        lstCampaign.add(objCampaign);
-
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE_M));
-        lstCampaign.add(objCampaign);
-
-        insert lstCampaign;
-
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
-        objCase.Type = Constants.CASE_TYPE_OVERDUE;
-        insert objCase;
-
-        CaseUtil.callEarlyOutAutoCase();
-        Test.stopTest();
-
-        // Retrive Case record.
-        List<Case> cases = [SELECT Id, Reason, status FROM Case WHERE Guarantor_Information__c = :guarantorContact.Id];
-
-        //TODO: verify number of cases returned
-        // Check system assert, Case is closed automatically.
-        System.assertEquals('Closed - Automated', cases[0].Reason);
     }
 
     //Method to code coverage for callEarlyOutAutoCaseCloser
@@ -364,29 +286,19 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 
-        //10-19-2016: Viraj - Tracker # 132105543-Change "Delinquent_Balance__c = '< 0' to '> 0'" in condition.
-        //Change transaction amount -100 to 100.
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
+        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
         insert objTransaction;
 
         Test.startTest();
-        List<Statement__c> lstStatement = new List<Statement__c>();
         Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-
-
-        statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-        insert lstStatement;
-
-        CaseUtil.callPrecollectionsAutoCase();
+        INSERT statement;
         Test.stopTest();
 
         // Retrive Case record.
         List<Case> cases = [SELECT Id, status FROM Case WHERE Guarantor_Information__c = :guarantorContact.Id];
 
         // Check system assert, to see no case records get created.
-        System.assert(cases.isEmpty());
+        System.assertEquals(0, cases.size());
     }
 
     //Method to code coverage for createPrecollectionsAutoCase
