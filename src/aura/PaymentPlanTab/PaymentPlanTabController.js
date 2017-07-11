@@ -4,7 +4,6 @@
 		cmp.find('cancelPlanCmp').showCancelDialog();
 	},
 	editTerms: function(cmp, e, hlpr) {
-		debugger;
 		$A.get("e.c:editTermsAction").fire();
 		var editTerms = cmp.find('editTerms');
 		$A.util.removeClass(editTerms, 'slds-hide');

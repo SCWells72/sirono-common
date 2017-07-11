@@ -63,7 +63,7 @@ public with sharing class PaymentMethodService extends AbstractService {
      */
     public static String getLastFour(String ccNumber) {
         String lastFour = '';
-        if (String.isNotBlank(ccNumber)) {
+        if (String.isNotBlank(ccNumber) && ccNumber.length() >= 4) {
             lastFour = ccNumber.substring(ccNumber.length() - 4, ccNumber.length());
         }
         return lastFour;
