@@ -428,7 +428,6 @@
         <members>Service_Rollup__c.All</members>
         <members>Service__c.All</members>
         <members>Statement__c.All</members>
-        <members>Transaction_Type__c.All</members>
         <members>Transaction__c.All</members>
         <members>User.ActiveUsers</members>
         <members>User.AdminUsers</members>

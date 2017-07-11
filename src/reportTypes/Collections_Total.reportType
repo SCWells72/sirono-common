@@ -345,11 +345,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Transaction_Type__c</field>
-            <table>Charge_Group__c.Payment_Adjustments__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Payment__c</field>
             <table>Charge_Group__c.Payment_Adjustments__r</table>
         </columns>
