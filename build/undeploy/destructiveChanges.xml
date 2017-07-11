@@ -54,10 +54,15 @@
         <name>CustomObjectTranslation</name>
     </types>
     <types>
+        <members>Transaction_Type__c</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
         <members>Campaign_Member_History__c-Campaign Member History Layout</members>
         <members>Campaign_Member_History__c-Campaign Members History</members>
         <members>Payment_Arrangement__c-Payment Arrangement Layout</members>
         <members>Payment_Arrangement__c-Payment Arrangements</members>
+        <members>Transaction_Type__c-Transaction Type Layout</members>
         <members>Transaction_Type__c-Transactions</members>
         <name>Layout</name>
     </types>

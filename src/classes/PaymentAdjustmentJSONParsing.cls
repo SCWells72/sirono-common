@@ -40,23 +40,6 @@ public class PaymentAdjustmentJSONParsing {
                 lstPaymentAdjustment.add(objPaymentAdjustment);
             }
 
-            if (TransactionTypeSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                //To Get Transaction Type Id based on Code.
-                List<Transaction_Type__c> lstTransactionType = [SELECT Id, Code__c
-                        FROM Transaction_Type__c
-                        WHERE Code__c IN :mapCode.values()
-                ];
-
-                map<String, String> mapTranType = new map<String, String>();
-                for (Transaction_Type__c tt: lstTransactionType) {
-                    mapTranType.put(tt.Code__c, tt.Id);
-                }
-
-                for (Payment_Adjustments__c pa: lstPaymentAdjustment) {
-                    String strCode = mapCode.get(pa.Sirono_ID__c);
-                    pa.Transaction_Type__c = mapTranType.get(strCode);
-                }
-            }
         }
         return lstPaymentAdjustment;
     }

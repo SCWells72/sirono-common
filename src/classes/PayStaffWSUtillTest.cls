@@ -157,26 +157,4 @@ private class PayStaffWSUtillTest {
             }
         }
     }
-
-    /**
-     * Check all Read rights on TransactionType for a Chatter User using runAs.
-     **/
-    @isTest
-    static void checkAccessRightsForRead() {
-        List<TransactionTypeSecurityContext> allContexts = new List<TransactionTypeSecurityContext>{TransactionTypeSecurityContext.SELECT_CONTEXT};
-
-        System.runAs(TestUtility.generateChatterOnlyUser()) {
-            for (TransactionTypeSecurityContext context: allContexts) {
-                try {
-                    context.actionAllowed();
-                    System.assert(false, 'Expected permission to be denied for ' + context);
-                } catch (SecurityUtils.SecurityException ex) {
-                    System.debug('SecurityException : ' + ex);
-                    System.assert(ex.getMessage().contains('Transaction_Type__c'), 'Expected to find a message about TransactionType.');
-                } catch (Exception e) {
-                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
-                }
-            }
-        }
-    }
 }
