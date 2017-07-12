@@ -11,6 +11,7 @@ public class PaymentPlanProcessBuilderFlowTest {
         SironoSettingsUtil.setProcessBuilderIds(Sirono_Settings__c.getInstance());
     }
 
+    // NOTE: Keeping this out of setup method because it might be parameterized per-test
     private static Contact createPaymentPlanPrereqs() {
         Contact guarantor = TestUtility.generateGuarantorContact();
         guarantor.Profile_Pointer_ID__c = 100.0;
@@ -24,7 +25,7 @@ public class PaymentPlanProcessBuilderFlowTest {
             Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(
                 guarantor.Id,
                 patientContact.Id,
-                200.0
+                200.0 + i
             );
             chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
             chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
@@ -58,7 +59,7 @@ public class PaymentPlanProcessBuilderFlowTest {
         }
     }
 
-    private static void verifyPaymentPlanNoErrorsResults() {
+    private static void verifyPaymentPlanWithoutErrorsResults() {
         List<Case> cases = [
             SELECT Id, Type, (
                 SELECT Id, Charge_Group__r.Account_Status__c, Charge_Group__r.Account_Sub_Status__c
@@ -90,7 +91,7 @@ public class PaymentPlanProcessBuilderFlowTest {
     }
 
     @IsTest
-    private static void testPaymentPlanCreatedNoErrors() {
+    private static void testPaymentPlanCreatedWithoutErrors() {
         Contact guarantor = createPaymentPlanPrereqs();
 
         Test.startTest();
@@ -103,11 +104,11 @@ public class PaymentPlanProcessBuilderFlowTest {
         }
         Test.stopTest();
 
-        verifyPaymentPlanNoErrorsResults();
+        verifyPaymentPlanWithoutErrorsResults();
     }
 
     @IsTest
-    private static void testPaymentPlanUpdatedWithErrors() {
+    private static void testPaymentPlanUpdatedToAddErrors() {
         Contact guarantor = createPaymentPlanPrereqs();
 
         Payment_Plan__c paymentPlan = new Payment_Plan__c(
@@ -127,7 +128,7 @@ public class PaymentPlanProcessBuilderFlowTest {
     }
 
     @IsTest
-    private static void testPaymentPlanUpdatedNoErrors() {
+    private static void testPaymentPlanUpdatedToClearErrors() {
         Contact guarantor = createPaymentPlanPrereqs();
 
         Payment_Plan__c paymentPlan = new Payment_Plan__c(
@@ -151,6 +152,56 @@ public class PaymentPlanProcessBuilderFlowTest {
         Test.stopTest();
 
         // TODO: Case closure should have removed the case above when the errors were cleared
-        verifyPaymentPlanNoErrorsResults();
+        verifyPaymentPlanWithoutErrorsResults();
+    }
+
+    @IsTest
+    private static void testPaymentPlanWithErrorsUpdatedBenignChange() {
+        Contact guarantor = createPaymentPlanPrereqs();
+
+        // Start with errors
+        Payment_Plan__c paymentPlan = new Payment_Plan__c(
+            Name = 'Before',
+            Guarantor__c = guarantor.Id,
+            Has_Error__c = true
+        );
+        insert paymentPlan;
+
+        verifyPaymentPlanWithErrorsResults();
+
+        Test.startTest();
+        {
+            // Make a change other than clearing the errors field and make sure no new case is added
+            paymentPlan.Name = 'After';
+            update paymentPlan;
+        }
+        Test.stopTest();
+
+        verifyPaymentPlanWithErrorsResults();
+    }
+
+    @IsTest
+    private static void testPaymentPlanWithoutErrorsUpdatedBenignChange() {
+        Contact guarantor = createPaymentPlanPrereqs();
+
+        // Start without errors
+        Payment_Plan__c paymentPlan = new Payment_Plan__c(
+            Name = 'Before',
+            Guarantor__c = guarantor.Id,
+            Has_Error__c = false
+        );
+        insert paymentPlan;
+
+        verifyPaymentPlanWithoutErrorsResults();
+
+        Test.startTest();
+        {
+            // Make a change other than setting the errors field and make sure no new case is added
+            paymentPlan.Name = 'After';
+            update paymentPlan;
+        }
+        Test.stopTest();
+
+        verifyPaymentPlanWithoutErrorsResults();
     }
 }
