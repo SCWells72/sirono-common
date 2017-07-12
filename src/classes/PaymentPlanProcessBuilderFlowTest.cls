@@ -4,6 +4,7 @@
 
 @IsTest
 public class PaymentPlanProcessBuilderFlowTest {
+    private static final String CASE_SUBJECT_PAYMENT_PLAN_ERROR = 'Payment Plan Error';
     private static final Integer NUM_CHARGE_GROUPS = 2;
 
     @TestSetup
@@ -43,7 +44,7 @@ public class PaymentPlanProcessBuilderFlowTest {
                 FROM Case_Charge_Groups__r
             )
             FROM Case
-            WHERE Subject = 'Payment Plan Error'
+            WHERE Subject = :CASE_SUBJECT_PAYMENT_PLAN_ERROR
         ];
 
         // Verify the cases
@@ -66,7 +67,7 @@ public class PaymentPlanProcessBuilderFlowTest {
                 FROM Case_Charge_Groups__r
             )
             FROM Case
-            WHERE Subject = 'Payment Plan Error'
+            WHERE Subject = :CASE_SUBJECT_PAYMENT_PLAN_ERROR
         ];
 
         // There should be no matches
@@ -138,7 +139,7 @@ public class PaymentPlanProcessBuilderFlowTest {
         insert paymentPlan;
 
         // TODO: Delete the case that was created above to simulate case closure
-        List<Case> cases = [SELECT Id, Type FROM Case WHERE Subject = 'Payment Plan Error'];
+        List<Case> cases = [SELECT Id, Type FROM Case WHERE Subject = :CASE_SUBJECT_PAYMENT_PLAN_ERROR];
         System.assertEquals(1, cases.size());
         System.assertEquals(Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, cases[0].Type);
         delete cases;
