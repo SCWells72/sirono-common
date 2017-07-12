@@ -903,9 +903,9 @@ public class CaseUtilTest {
 
         insert campaignMembers;
 
-        Case overdueCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS, guarantorContact.Id);
-        overdueCase.Reason = 'Compliance Issue';
-        insert overdueCase;
+        Case pastDuePaymentPlansCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS, guarantorContact.Id);
+        pastDuePaymentPlansCase.Reason = 'Compliance Issue';
+        insert pastDuePaymentPlansCase;
 
         Set<Id> setId = new Set<Id>();
         setId.add(guarantorContact.Id);
@@ -1276,9 +1276,9 @@ public class CaseUtilTest {
         Set<Id> setId = new Set<Id>();
         setId.add(guarantorContact.Id);
 
-        Case overdueCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, guarantorContact.Id);
-        overdueCase.Reason = 'Compliance Issue';
-        insert overdueCase;
+        Case paymentPlanErrorCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, guarantorContact.Id);
+        paymentPlanErrorCase.Reason = 'Compliance Issue';
+        insert paymentPlanErrorCase;
 
         CaseUtil.createCCErrorCase(setId);
         Test.stopTest();
@@ -1404,9 +1404,8 @@ public class CaseUtilTest {
         setpaymentPlan.add(paymentPlan.Id);
         setpaymentPlan.add(paymentPlan1.Id);
 
-
-        Case overdueCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, guarantorContact.Id);
-        insert overdueCase;
+        Case paymentPlanErrorCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, guarantorContact.Id);
+        insert paymentPlanErrorCase;
 
         lst = [Select id from CampaignMember where ContactId = :guarantorContact.Id];
         System.assertEquals(2, lst.Size());
