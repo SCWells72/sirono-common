@@ -5,6 +5,7 @@
         Add flows here with version number as part of the member name.
         -->
         <members>Create_Overdue_Auto_Case-1</members>
+        <members>Create_Precollection_Auto_Case-1</members>
         <name>Flow</name>
     </types>
 </Package>
