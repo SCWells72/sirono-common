@@ -130,6 +130,35 @@
             logType="Debugonly"/>
     </target>
 
+    <target name="deactivateAndDeleteFlows" depends="checkDeactivateAndDeleteFlows" if="flows.present">
+        <!-- NOTE: This is required to allow us to ignore deployment errors if the flows aren't present in the target org yet -->
+        <subant buildpath="${basedir}/build"
+                antfile="build.xml"
+                target="deactivateAndDeleteFlowsIgnoreErrors"
+                inheritall="true"
+                failonerror="false"/>
+    </target>
+
+    <target name="checkDeactivateAndDeleteFlows">
+        <condition property="flows.present">
+            <resourcecount when="greater" count="0">
+                <fileset dir="${basedir}/build/deactivateAndDeleteFlows" includes="**/*.flowDefinition"/>
+            </resourcecount>
+        </condition>
+    </target>
+
+    <!-- TODO: Make this dynamic based on the flows found under src -->
+    <target name="deactivateAndDeleteFlowsIgnoreErrors">
+        <echo level="info">Deactivate and remove flows from: ${sf.target.username}</echo>
+        <echo level="info">NOTE: Errors here can be safely ignored</echo>
+        <sf:deploy
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${basedir}/build/deactivateAndDeleteFlows"
+            testLevel="NoTestRun"
+            ignoreWarnings="true"/>
+    </target>
 
     <target name="createPostInstallZip">
         <delete dir="${basedir}/post_install_zip"/>
