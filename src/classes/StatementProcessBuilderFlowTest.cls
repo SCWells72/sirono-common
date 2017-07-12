@@ -53,6 +53,8 @@ public class StatementProcessBuilderFlowTest {
         System.assertEquals(2, campaignMembers.size());
     }
 
+    // TODO: Add negative test verifying no cases when no overdue balance
+
     @IsTest
     private static void testStatementsWithDelinquentBalances() {
         Contact guarantor = TestUtility.generateGuarantorContact();
@@ -96,4 +98,6 @@ public class StatementProcessBuilderFlowTest {
         List<CampaignMember> campaignMembers = [SELECT Id FROM CampaignMember];
         System.assertEquals(2, campaignMembers.size());
     }
+
+    // TODO: Add negative test verifying no cases when no delinquent balance
 }
