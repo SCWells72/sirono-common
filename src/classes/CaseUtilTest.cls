@@ -20,8 +20,6 @@ public class CaseUtilTest {
     //Method to code coverage for callEarlyOutAutoCaseCloser
     @isTest
     public static void callEarlyOutAutoCaseCloser() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -37,19 +35,19 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        insert txn;
 
-        List<Statement__c> lstStatement = new List<Statement__c>();
+        List<Statement__c> statements = new List<Statement__c>();
         Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
+        statements.add(statement);
 
         statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-        insert lstStatement;
+        statements.add(statement);
+        insert statements;
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -62,23 +60,23 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE_M));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE_M));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
-        List<CampaignMember> lstCamp = new list<CampaignMember>();
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        campaignMember = new CampaignMember(CampaignId = campaigns[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        insert lstCamp;
+        insert campaignMembers;
 
         //Test coverage for Auto case to manually closing the case [CaseTriggerHandler.removeCampaignMembers method]
         CaseUtil.ExecuteRemoveCampaignTrigger = true;
@@ -87,9 +85,9 @@ public class CaseUtilTest {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
-        objCase.Reason = 'Compliance Issue';
-        insert objCase;
+        Case overdueCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
+        overdueCase.Reason = 'Compliance Issue';
+        insert overdueCase;
 
         CaseUtil.callEarlyOutAutoCaseCloser();
         Test.stopTest();
@@ -105,8 +103,6 @@ public class CaseUtilTest {
     //Method to code coverage for callCloseEarlyOutAutoCase
     @isTest
     public static void closeEarlyOutAutoCase() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -122,20 +118,20 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        insert txn;
 
-        List<Statement__c> lstStatement = new List<Statement__c>();
+        List<Statement__c> statements = new List<Statement__c>();
         Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
+        statements.add(statement);
 
 
         statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-        insert lstStatement;
+        statements.add(statement);
+        insert statements;
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -148,23 +144,23 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE_M));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE_M));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
-        List<CampaignMember> lstCamp = new list<CampaignMember>();
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        campaignMember = new CampaignMember(CampaignId = campaigns[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        insert lstCamp;
+        insert campaignMembers;
 
         //Test coverage for Auto case to manually closing the case [CaseTriggerHandler.removeCampaignMembers method]
         CaseUtil.ExecuteRemoveCampaignTrigger = true;
@@ -173,11 +169,11 @@ public class CaseUtilTest {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
-        objCase.Reason = 'Compliance Issue';
-        insert objCase;
+        Case overdueCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
+        overdueCase.Reason = 'Compliance Issue';
+        insert overdueCase;
 
-        CaseUtil.callCloseEarlyOutAutoCase(lstStatement);
+        CaseUtil.callCloseEarlyOutAutoCase(statements);
         Test.stopTest();
 
         // Retrive Case record.
@@ -192,8 +188,6 @@ public class CaseUtilTest {
     //Method to code coverage for callPrecollectionsAutoCase
     @isTest
     public static void preCollCaseWithoutDelinquentBalance() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -209,8 +203,8 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        insert txn;
 
         Test.startTest();
         Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
@@ -246,16 +240,16 @@ public class CaseUtilTest {
 
         // 10-19-2016: Viraj - Tracker # 132105543-Change "Delinquent_Balance__c = '< 0' to '> 0'" in condition.
         // Change transaction amount -100 to 100.
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
+        insert txn;
 
-        List<Statement__c> lstStatement = new List<Statement__c>();
+        List<Statement__c> statements = new List<Statement__c>();
         Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
+        statements.add(statement);
 
         statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-        insert lstStatement;
+        statements.add(statement);
+        insert statements;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
@@ -263,7 +257,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -276,39 +270,41 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreCollections'));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get('PreCollections'));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreCollections M'));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get('PreCollections M'));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
-        List<CampaignMember> lstCamp = new list<CampaignMember>();
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        campaignMember = new CampaignMember(CampaignId = campaigns[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        insert lstCamp;
+        insert campaignMembers;
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
-        objCase.Type = 'Precollections';
-        insert objCase;
+        Case overdueCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
+        overdueCase.Type = 'Precollections';
+        insert overdueCase;
 
-        CaseUtil.createPrecollectionsAutoCase(lstStatement);
+        CaseUtil.createPrecollectionsAutoCase(statements);
         Test.stopTest();
 
         // Retrive Case record.
-        List<Case> cases = [SELECT Id, status FROM Case WHERE Guarantor_Information__c = :guarantorContact.Id];
+        List<Case> cases = [SELECT Id, status FROM Case WHERE Guarantor_Information__c = :guarantorContact.Id ORDER BY Status ASC];
 
         // Check system assert, existing Case is closed and another record created with Status = 'New'.
+        System.assertEquals(2, cases.size());
         System.assertEquals('Closed', cases[0].Status);
         System.assertEquals('New', cases[1].Status);
     }
 
+    // TODO: Should we just delete this in factor of the one in StatementProcessBuilderFlowTest?
     // Method to code coverage for createPrecollectionsAutoCase
     @isTest
     public static void preCollCaseWithComplianceIssue() {
@@ -331,17 +327,11 @@ public class CaseUtilTest {
 
         //10-19-2016: Viraj - Tracker # 132105543-Change "Delinquent_Balance__c = '< 0' to '> 0'" in condition.
         //Change transaction amount -100 to 100.
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
+        insert txn;
 
-        List<Statement__c> lstStatement = new List<Statement__c>();
         Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-
-
-        statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-        insert lstStatement;
+        insert statement;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
@@ -349,7 +339,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -362,21 +352,14 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreCollections'));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get('PreCollections'));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreCollections M'));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get('PreCollections M'));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
-
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
-        objCase.Type = 'Precollections';
-        objCase.Reason = 'Compliance Issue';
-        insert objCase;
-
-        CaseUtil.createPrecollectionsAutoCase(lstStatement);
+        insert campaigns;
         Test.stopTest();
 
         // Retrive Case record.
@@ -409,17 +392,17 @@ public class CaseUtilTest {
 
         //10-19-2016: Viraj - Tracker # 132105543-Change "Delinquent_Balance__c = '< 0' to '> 0'" in condition.
         //Change transaction amount -100 to 100.
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, 'Service');
+        insert txn;
 
-        List<Statement__c> lstStatement = new List<Statement__c>();
+        List<Statement__c> statements = new List<Statement__c>();
         Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
+        statements.add(statement);
 
 
         statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-        insert lstStatement;
+        statements.add(statement);
+        insert statements;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
@@ -427,7 +410,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -440,20 +423,20 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreCollections'));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get('PreCollections'));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreCollections M'));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get('PreCollections M'));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
-        objCase.Type = 'Precollections';
-        insert objCase;
+        Case overdueCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
+        overdueCase.Type = 'Precollections';
+        insert overdueCase;
 
-        CaseUtil.createPrecollectionsAutoCase(lstStatement);
+        CaseUtil.createPrecollectionsAutoCase(statements);
         Test.stopTest();
 
         // Retrive Case record.
@@ -483,18 +466,18 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        insert txn;
 
         Test.startTest();
-        List<Statement__c> lstStatement = new List<Statement__c>();
+        List<Statement__c> statements = new List<Statement__c>();
         Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
+        statements.add(statement);
 
 
         statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-        insert lstStatement;
+        statements.add(statement);
+        insert statements;
 
         CaseUtil.callPrecollectionsAutoCaseCloser();
         Test.stopTest();
@@ -526,17 +509,17 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        insert txn;
 
-        List<Statement__c> lstStatement = new List<Statement__c>();
+        List<Statement__c> statements = new List<Statement__c>();
         Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
+        statements.add(statement);
 
 
         statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-        insert lstStatement;
+        statements.add(statement);
+        insert statements;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
@@ -544,7 +527,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -557,25 +540,25 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreCollections'));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get('PreCollections'));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreCollections M'));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get('PreCollections M'));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
-        objCase.Type = 'Precollections';
-        insert objCase;
+        Case overdueCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
+        overdueCase.Type = 'Precollections';
+        insert overdueCase;
 
         // Retrive Case record.
         List<Case> cases = [SELECT Id, Reason, status FROM Case WHERE Guarantor_Information__c = :guarantorContact.Id];
         // Check system assert, case reason is not populated before call method.
         System.assertEquals(null, cases[0].Reason);
 
-        CaseUtil.callClosePrecollectionsAutoCase(lstStatement);
+        CaseUtil.callClosePrecollectionsAutoCase(statements);
         Test.stopTest();
 
         // Retrive Case record.
@@ -606,18 +589,18 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        insert txn;
 
         Test.startTest();
-        List<Statement__c> lstStatement = new List<Statement__c>();
+        List<Statement__c> statements = new List<Statement__c>();
         Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
+        statements.add(statement);
 
 
         statement = TestUtility.generateStatement(guarantorContact.Id);
-        lstStatement.add(statement);
-        insert lstStatement;
+        statements.add(statement);
+        insert statements;
 
         CaseUtil.callPrecollectionsAutoCase();
         Test.stopTest();
@@ -649,8 +632,8 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        insert txn;
 
         List<Encounter__c> lstEncounter = new List<Encounter__c>();
         //10-19-2016: Viraj - Tracker # 132105543-Change Patient_Portion__c = '< 0' to '> 0'" in condition.
@@ -673,7 +656,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -686,28 +669,28 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreService'));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get('PreService'));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreService M'));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get('PreService M'));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
-        List<CampaignMember> lstCamp = new list<CampaignMember>();
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        campaignMember = new CampaignMember(CampaignId = campaigns[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        insert lstCamp;
+        insert campaignMembers;
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
-        objCase.Type = 'PreService';
-        objCase.Reason = 'Compliance Issue';
-        insert objCase;
+        Case overdueCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
+        overdueCase.Type = 'PreService';
+        overdueCase.Reason = 'Compliance Issue';
+        insert overdueCase;
 
         CaseUtil.createEncounterAutoCase(lstEncounter);
         Test.stopTest();
@@ -740,8 +723,8 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        insert txn;
 
         List<Encounter__c> lstEncounter = new List<Encounter__c>();
         //10-19-2016: Viraj - Tracker # 132105543-Change Patient_Portion__c = '< 0' to '> 0'" in condition.
@@ -764,7 +747,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -777,14 +760,14 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreService'));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get('PreService'));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreService M'));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get('PreService M'));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
         CaseUtil.createEncounterAutoCase(lstEncounter);
         Test.stopTest();
@@ -816,8 +799,8 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        insert txn;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
@@ -825,7 +808,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -838,14 +821,14 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
         Set<Id> setId = new Set<Id>();
         setId.add(guarantorContact.Id);
@@ -880,8 +863,8 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        insert txn;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
@@ -889,7 +872,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -902,27 +885,27 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
-        List<CampaignMember> lstCamp = new list<CampaignMember>();
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        campaignMember = new CampaignMember(CampaignId = campaigns[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        insert lstCamp;
+        insert campaignMembers;
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS, guarantorContact.Id);
-        objCase.Reason = 'Compliance Issue';
-        insert objCase;
+        Case overdueCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS, guarantorContact.Id);
+        overdueCase.Reason = 'Compliance Issue';
+        insert overdueCase;
 
         Set<Id> setId = new Set<Id>();
         setId.add(guarantorContact.Id);
@@ -957,8 +940,8 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        insert txn;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
@@ -966,7 +949,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -979,23 +962,23 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
-        List<CampaignMember> lstCamp = new list<CampaignMember>();
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        campaignMember = new CampaignMember(CampaignId = campaigns[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        insert lstCamp;
+        insert campaignMembers;
 
         Set<Id> setId = new Set<Id>();
         setId.add(guarantorContact.Id);
@@ -1035,8 +1018,8 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        insert txn;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
@@ -1044,7 +1027,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -1057,23 +1040,23 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
-        List<CampaignMember> lstCamp = new list<CampaignMember>();
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        campaignMember = new CampaignMember(CampaignId = campaigns[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        insert lstCamp;
+        insert campaignMembers;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan.active__c = true;
@@ -1124,8 +1107,8 @@ public class CaseUtilTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        insert txn;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
         for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
@@ -1133,7 +1116,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -1146,23 +1129,23 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE_M));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
-        List<CampaignMember> lstCamp = new list<CampaignMember>();
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        campaignMember = new CampaignMember(CampaignId = campaigns[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        insert lstCamp;
+        insert campaignMembers;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan.active__c = true;
@@ -1200,7 +1183,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -1213,23 +1196,23 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
-        List<CampaignMember> lstCamp = new list<CampaignMember>();
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        campaignMember = new CampaignMember(CampaignId = campaigns[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        insert lstCamp;
+        insert campaignMembers;
 
         Set<Id> setId = new Set<Id>();
         setId.add(guarantorContact.Id);
@@ -1259,7 +1242,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -1272,30 +1255,30 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
-        List<CampaignMember> lstCamp = new list<CampaignMember>();
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        campaignMember = new CampaignMember(CampaignId = campaigns[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        insert lstCamp;
+        insert campaignMembers;
 
         Set<Id> setId = new Set<Id>();
         setId.add(guarantorContact.Id);
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, guarantorContact.Id);
-        objCase.Reason = 'Compliance Issue';
-        insert objCase;
+        Case overdueCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, guarantorContact.Id);
+        overdueCase.Reason = 'Compliance Issue';
+        insert overdueCase;
 
         CaseUtil.createCCErrorCase(setId);
         Test.stopTest();
@@ -1322,7 +1305,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -1335,14 +1318,14 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
         Set<Id> setId = new Set<Id>();
         setId.add(guarantorContact.Id);
@@ -1372,7 +1355,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -1385,23 +1368,23 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
-        List<CampaignMember> lstCamp = new list<CampaignMember>();
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        campaignMember = new CampaignMember(CampaignId = campaigns[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        insert lstCamp;
+        insert campaignMembers;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan.active__c = true;
@@ -1422,8 +1405,8 @@ public class CaseUtilTest {
         setpaymentPlan.add(paymentPlan1.Id);
 
 
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, guarantorContact.Id);
-        insert objCase;
+        Case overdueCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, guarantorContact.Id);
+        insert overdueCase;
 
         lst = [Select id from CampaignMember where ContactId = :guarantorContact.Id];
         System.assertEquals(2, lst.Size());
@@ -1432,7 +1415,7 @@ public class CaseUtilTest {
         Test.stopTest();
 
         // Retrive CampaignMember record.
-        lst = [Select id from CampaignMember where ContactId = :guarantorContact.Id and (CampaignID = :lstCampaign[0].Id or CampaignID = :lstCampaign[1].Id)];
+        lst = [Select id from CampaignMember where ContactId = :guarantorContact.Id and (CampaignID = :campaigns[0].Id or CampaignID = :campaigns[1].Id)];
 
         // Check system assert.
         System.assert(lst.isEmpty());
@@ -1452,7 +1435,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -1465,23 +1448,23 @@ public class CaseUtilTest {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
-        List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR));
-        lstCampaign.add(objCampaign);
+        List<Campaign> campaigns = new List<Campaign>();
+        Campaign campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR));
+        campaigns.add(campaign);
 
-        objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M));
-        lstCampaign.add(objCampaign);
+        campaign = TestUtility.generateCampaign(campaignMapping.get(Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M));
+        campaigns.add(campaign);
 
-        insert lstCampaign;
+        insert campaigns;
 
-        List<CampaignMember> lstCamp = new list<CampaignMember>();
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        cmm = new CampaignMember(CampaignId = lstCampaign[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
-        lstCamp.add(cmm);
+        campaignMember = new CampaignMember(CampaignId = campaigns[1].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        campaignMembers.add(campaignMember);
 
-        insert lstCamp;
+        insert campaignMembers;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
         paymentPlan.active__c = true;
@@ -1507,7 +1490,7 @@ public class CaseUtilTest {
         Test.stopTest();
 
         // Retrive CampaignMember record.
-        lst = [Select id from CampaignMember where ContactId = :guarantorContact.Id and (CampaignID = :lstCampaign[0].Id or CampaignID = :lstCampaign[1].Id)];
+        lst = [Select id from CampaignMember where ContactId = :guarantorContact.Id and (CampaignID = :campaigns[0].Id or CampaignID = :campaigns[1].Id)];
 
         // Check system assert.
         System.assertEquals(2, lst.Size());
