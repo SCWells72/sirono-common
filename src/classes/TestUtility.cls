@@ -91,14 +91,14 @@ public class TestUtility {
     }
 
     // Return charge group record
-    public static Charge_Group__c  generateChargeGroupWithExternalId(String guarantorContactId,
+    public static Charge_Group__c generateChargeGroupWithExternalId(String guarantorContactId,
             String patientContactId,
             Decimal chargeGroupExternalId) {
         return generateChargeGroup(guarantorContactId, patientContactId, chargeGroupExternalId);
     }
 
     // Return charge group record with external Id from parameter
-    Public static Charge_Group__c  generateChargeGroup(String guarantorContactId,
+    public static Charge_Group__c generateChargeGroup(String guarantorContactId,
                                                         String patientContactId,
                                                         Decimal chargeGroupExternalId) {
         Charge_Group__c cg = new Charge_Group__c();
@@ -211,26 +211,6 @@ public class TestUtility {
         paymentMethod.Guarantor__c = guarantorId;
         paymentMethod.RecordTypeID = recordTypeID;
         return paymentMethod;
-    }
-
-
-    /**
-     * Get the record types for Payment_Method__c.
-     *
-     * @return Map<String, String> - The keys are the record type names and the value is the id.
-     */
-    public static Map<String, String> getPayMethodRecordTypes() {
-        Map<String, String> recordTypeMap = new Map<String, String>();
-        for (RecordType recordType : [
-            Select Id, Name
-            From RecordType
-            Where sObjectType = :Payment_Method__c.class.getName()
-        ]) {
-            recordTypeMap.put(recordType.Name, recordType.Id);
-        }
-
-        System.assert(recordTypeMap.size() != 0);
-        return recordTypeMap;
     }
 
     // return list of charge_group__c records

@@ -10,7 +10,7 @@
     <aura:attribute name="messages"             type="String[]" />
     <aura:attribute name="IsIcon"               type="Boolean"  default="false"/>    
     <aura:attribute name="IsIcon2"              type="Boolean"  default="false"/>    
-    <aura:attribute name="cardInformation"      type="MakeAPaymentController.CardInformation" />
+    <aura:attribute name="cardInformation"      type="CardInformation" />
     <aura:attribute name="UserInfo" type="Object" default="{	NameOnCard : '',
                                                                 CardNumber : '',
                                                                 CW : '',
