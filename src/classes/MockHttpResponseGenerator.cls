@@ -24,6 +24,8 @@ global class MockHttpResponseGenerator implements HttpCalloutMock {
             res.setStatusCode(200);
             if (req.getEndpoint().endsWith('/add_chargegroups/')) {
                 //Do nothing
+            } else if (req.getMethod() == RestClientConstants.REMOVE) {
+                res.setStatusCode(RestClientConstants.HTTP_DELETED);
             } else {
                 res.setBody(getPaymentPlanJSONBody());
             }

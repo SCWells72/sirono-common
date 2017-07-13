@@ -120,7 +120,7 @@ public with sharing class PaymentTabsControllerTest {
         System.runAs(portalUser) {
 
             Test.startTest();
-            List<MakeAPaymentController.CardInformation> cards = PaymentTabsController.getCreditCards(guarantorContact.Id);
+            List<CardInformation> cards = PaymentTabsController.getCreditCards(guarantorContact.Id);
             Test.stopTest();
 
             System.assertEquals(0, cards.size(), 'Should be no results.');
@@ -133,7 +133,7 @@ public with sharing class PaymentTabsControllerTest {
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
         Contact guarantorContact = TestUtility.getPortalGuarantor();
-        String CCardRecordType = TestUtility.getPayMethodRecordTypes().get(Constants.CREDIT_CARD);
+        String CCardRecordType = RecordTypeUtil.getPayMethodRecordTypes().get(Constants.CREDIT_CARD);
         List<Payment_Method__c> payMethods = new List<Payment_Method__c>();
         payMethods.add(TestUtility.generatePaymentMethod(guarantorContact.Id, CCardRecordType));
         payMethods.add(TestUtility.generatePaymentMethod(guarantorContact.Id, CCardRecordType));
@@ -145,7 +145,7 @@ public with sharing class PaymentTabsControllerTest {
         System.runAs(portalUser) {
 
             Test.startTest();
-            List<MakeAPaymentController.CardInformation> cards = PaymentTabsController.getCreditCards(guarantorContact.Id);
+            List<CardInformation> cards = PaymentTabsController.getCreditCards(guarantorContact.Id);
             Test.stopTest();
 
             System.assertEquals(1, cards.size(), 'Should have a single result as Display_Name is dependant on Type.');
@@ -158,7 +158,7 @@ public with sharing class PaymentTabsControllerTest {
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
         Contact guarantorContact = TestUtility.getPortalGuarantor();
-        String CCardRecordType = TestUtility.getPayMethodRecordTypes().get(Constants.CREDIT_CARD);
+        String CCardRecordType = RecordTypeUtil.getPayMethodRecordTypes().get(Constants.CREDIT_CARD);
         List<Payment_Method__c> payMethods = new List<Payment_Method__c>();
 
         Payment_Method__c pm1 = TestUtility.generatePaymentMethod(guarantorContact.Id, CCardRecordType);
@@ -180,7 +180,7 @@ public with sharing class PaymentTabsControllerTest {
         System.runAs(portalUser) {
 
             Test.startTest();
-            List<MakeAPaymentController.CardInformation> cards = PaymentTabsController.getCreditCards(guarantorContact.Id);
+            List<CardInformation> cards = PaymentTabsController.getCreditCards(guarantorContact.Id);
             Test.stopTest();
 
             System.assertEquals(2, cards.size(), 'Should have a found both payment methods.');

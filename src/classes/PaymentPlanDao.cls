@@ -73,6 +73,15 @@ public with sharing class PaymentPlanDao extends AbstractDao{
     }
 
     /**
+     * Upsert a single payment plan.
+     *
+     * @param Payment_Plan__c plan - The plan to upsert.
+     */
+    public static void upsertPlan(Payment_Plan__c plan) {
+        upsertPlans(new List<Payment_Plan__c>{plan});
+    }
+
+    /**
      * Get Active Payment Plans.
      *
      * @param Id guarantorId - The contact guarantor id associated with the plan.
