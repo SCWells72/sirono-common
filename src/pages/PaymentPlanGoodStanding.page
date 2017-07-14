@@ -15,7 +15,7 @@
         <apex:pageMessages/>
         <apex:outputPanel>
             <div class="pay-staff-full-width pay-staff-clear-both">
-                <table class="pay-staff-tabale-left">
+                <table class="pay-staff-table-left">
                     <tr>
                         <td>
                             <apex:outputLabel styleClass="pay-staff-message"
@@ -28,7 +28,7 @@
             <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
             <br/>
             <div class="pay-staff-clear-both">
-                <table class="pay-staff-tabale-left">
+                <table class="pay-staff-table-left">
                     <tr>
                         <td>
                             <apex:commandButton action="{!cancel}" value="Cancel"
