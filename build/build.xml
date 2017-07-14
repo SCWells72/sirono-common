@@ -5,6 +5,8 @@
 
     <import file="${basedir}/build/build_initial_deploy.xml"/>
 
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"
+             classpath="${basedir}/build/lib/ant-contrib-1.0b3.jar"/>
     <taskdef uri="antlib:com.salesforce"
              resource="com/salesforce/antlib.xml"
              classpath="${basedir}/build/lib/ant-salesforce.jar"/>
@@ -19,6 +21,8 @@
          so unset values are treated as empty. Without this, ant expressions such as ${sf.blah.username}
          will be treated literally.
     -->
+
+    <property name="workDir" value="${basedir}/work"/>
 
     <condition property="sf.target.username" value="">
         <not>
@@ -93,6 +97,10 @@
         </not>
     </condition>
 
+    <target name="clean" description="Removes working files from the project">
+        <delete dir="${workDir}" failonerror="false" quiet="true"/>
+    </target>
+
     <target name="retrieve">
         <echo level="info">Retrieving from: ${sf.source.username} into: ${sf.retrieveTarget}</echo>
         <delete dir="${sf.retrieveTarget}"/>
@@ -130,7 +138,6 @@
             logType="Debugonly"/>
     </target>
 
-
     <target name="createPostInstallZip">
         <delete dir="${basedir}/post_install_zip"/>
         <mkdir dir="${basedir}/post_install_zip"/>
@@ -161,7 +168,7 @@
             logType="Debugonly"/>
     </target>
 
-    <target name="undeployCode" depends="processTemplates, deactivateAndDeleteFlows">
+    <target name="undeployCode">
         <echo level="info">Remove metadata from: ${sf.target.username}</echo>
         <sf:deploy
             username="${sf.target.username}"
@@ -169,11 +176,12 @@
             serverurl="${sf.target.serverurl}"
             deployRoot="${basedir}/build/undeploy"
             testLevel="${sf.testLevel}"
+            purgeOnDelete="true"
             ignoreWarnings="true"/>
     </target>
 
     <!-- Check only; don't remove from server -->
-    <target name="undeployCheckOnly" depends="processTemplates, deactivateAndDeleteFlows">
+    <target name="undeployCheckOnly">
         <echo level="info">Validate removal of metadata from: ${sf.target.username}</echo>
         <sf:deploy
             username="${sf.target.username}"
@@ -185,17 +193,40 @@
             maxPoll="${sf.maxPoll}"
             testLevel="${sf.testLevel}"
             logType="Debugonly"
+            purgeOnDelete="true"
             checkOnly="true"/>
     </target>
 
+    <target name="populateWorkSrcDir">
+        <mkdir dir="${workDir}"/>
+        <delete dir="${workDir}/src" failonerror="false" quiet="true"/>
+        <mkdir dir="${workDir}/src"/>
+        <copy todir="${workDir}/src">
+            <fileset dir="${basedir}/src" includes="**/*"/>
+        </copy>
+    </target>
+
+    <target name="checkForDeployedFlows">
+        <listMetadata metadataType="Flow"/>
+        <condition property="deployedFlowsPresent">
+            <available file="${workDir}/listMetadata/list_Flow.log"/>
+        </condition>
+    </target>
+
+    <target name="unpopulateWorkSrcFlows" depends="checkForDeployedFlows" if="deployedFlowsPresent">
+        <echo level="info">Removing Flows to avoid collisions on check-only deployment.</echo>
+        <delete dir="${workDir}/src/flows" failonerror="false" quiet="true"/>
+        <delete dir="${workDir}/src/flowDefinitions" failonerror="false" quiet="true"/>
+    </target>
+
     <!-- Check only; don't save to the server -->
-    <target name="deployCheckOnly" depends="processTemplates, deactivateAndDeleteFlows">
+    <target name="deployCheckOnly" depends="processTemplates, populateWorkSrcDir, unpopulateWorkSrcFlows">
         <echo level="info">Validating in: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
             username="${sf.target.username}"
             password="${sf.target.password}"
             serverurl="${sf.target.serverurl}"
-            deployRoot="${basedir}/src"
+            deployRoot="${workDir}/src"
             pollWaitMillis="${sf.pollWaitMillis}"
             maxPoll="${sf.maxPoll}"
             testLevel="${sf.testLevel}"
@@ -204,18 +235,19 @@
     </target>
 
     <!-- Check only; only run specified tests -->
-    <target name="deployCheckSelectTests" depends="processTemplates, deactivateAndDeleteFlows">
+    <target name="deployCheckSelectTests" depends="processTemplates, populateWorkSrcDir, unpopulateWorkSrcFlows">
         <echo level="info">Running select tests in: ${sf.target.username}</echo>
         <sf:deploy
             username="${sf.target.username}"
             password="${sf.target.password}"
             serverurl="${sf.target.serverurl}"
-            deployRoot="${basedir}/src"
+            deployRoot="${workDir}/src"
             pollWaitMillis="${sf.pollWaitMillis}"
             maxPoll="${sf.maxPoll}"
             logType="Debugonly"
             checkOnly="true"
             testLevel="RunSpecifiedTests">
+            <!-- TODO: Make this use a property so that the build file doesn't have to be modified -->
             <runTest>EncounterBalanceTest</runTest>
         </sf:deploy>
     </target>
@@ -245,15 +277,26 @@
         </not>
     </condition>
 
+    <macrodef name="listMetadata" description="Lists metadata of the specified type into the work directory.">
+        <attribute name="metadataType"/>
+        <sequential>
+            <local name="listMetadataOutput"/>
+            <property name="listMetadataOutput" value="${workDir}/listMetadata/list_@{metadataType}.log"/>
+            <echo level="info">List metadata type: @{metadataType} from: ${sf.source.username} into: ${listMetadataOutput}
+            </echo>
+            <mkdir dir="${workDir}/listMetadata"/>
+            <delete file="${listMetadataOutput}" failonerror="false" quiet="true"/>
+            <sf:listMetadata
+                username="${sf.source.username}"
+                password="${sf.source.password}"
+                serverurl="${sf.source.serverurl}"
+                metadataType="@{metadataType}"
+                resultFilePath="${listMetadataOutput}"/>
+        </sequential>
+    </macrodef>
+
     <target name="listMetadata">
-        <echo level="info">List metadata type: ${metadata_type} from: ${sf.source.username} into: ${basedir}/listMetadata/list_${metadata_type}.log</echo>
-        <mkdir dir="${basedir}/listMetadata"/>
-        <sf:listMetadata
-            username="${sf.source.username}"
-            password="${sf.source.password}"
-            serverurl="${sf.source.serverurl}"
-            metadataType="${metadata_type}"
-            resultFilePath="${basedir}/listMetadata/list_${metadata_type}.log"/>
+        <listMetadata metadataType="${metadata_type}"/>
     </target>
 
     <target name="full_deploy" description="Full environment setup in target org"
@@ -428,4 +471,83 @@
             <loadfile property="instance" srcFile="lib/instance.txt"/>
         </sequential>
     </macrodef>
+
+    <!-- Flow management -->
+
+    <target name="deactivateAndDeleteFlows" depends="listFlows, generateDeactivateAndDeleteFlowFiles, reallyDeactivateAndDeleteFlows"/>
+
+    <target name="listFlows">
+        <listMetadata metadataType="Flow"/>
+        <loadfile srcfile="${workDir}/listMetadata/list_Flow.log" property="flowNames" failonerror="false" quiet="true">
+            <filterchain>
+                <linecontainsregexp>
+                    <regexp pattern="^FullName/Id:"/>
+                </linecontainsregexp>
+                <replaceregex pattern="^FullName/Id:\s+([^/]+)/.*" replace="\1"/>
+            </filterchain>
+        </loadfile>
+        <condition property="hasFlowNames">
+            <isset property="flowNames"/>
+        </condition>
+    </target>
+
+    <target name="generateDeactivateAndDeleteFlowFiles" if="hasFlowNames">
+        <!-- Create the required build files -->
+        <delete dir="${workDir}/deactivateAndDeleteFlows" failonerror="false" quiet="true"/>
+        <mkdir dir="${workDir}/deactivateAndDeleteFlows"/>
+
+        <!-- Create the package.xml -->
+        <echo file="${workDir}/deactivateAndDeleteFlows/package.xml"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>*</members>
+        <name>FlowDefinition</name>
+    </types>
+    <version>38.0</version>
+</Package>
+]]></echo>
+
+        <!-- Create the destructiveChangesPost.xml -->
+        <echo file="${workDir}/deactivateAndDeleteFlows/destructiveChangesPost.xml"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>]]></echo>
+        <for param="flowName" list="${flowNames}" delimiter="${line.separator}">
+            <sequential>
+                <echo file="${workDir}/deactivateAndDeleteFlows/destructiveChangesPost.xml" append="true"><![CDATA[
+        <members>@{flowName}-1</members>]]></echo>
+            </sequential>
+        </for>
+        <echo file="${workDir}/deactivateAndDeleteFlows/destructiveChangesPost.xml" append="true"><![CDATA[
+        <name>Flow</name>
+    </types>
+</Package>
+]]></echo>
+
+        <!-- And finally create flow definition files for each flow to deactivate them -->
+        <mkdir dir="${workDir}/deactivateAndDeleteFlows/flowDefinitions"/>
+        <echo level="info">Deactivating and deleting:</echo>
+        <for param="flowName" list="${flowNames}" delimiter="${line.separator}">
+            <sequential>
+                <echo level="info">* @{flowName}</echo>
+                <echo file="${workDir}/deactivateAndDeleteFlows/flowDefinitions/@{flowName}.flowDefinition"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<FlowDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionNumber>0</activeVersionNumber>
+</FlowDefinition>
+]]></echo>
+            </sequential>
+        </for>
+    </target>
+
+    <target name="reallyDeactivateAndDeleteFlows" if="hasFlowNames">
+        <echo level="info">Deactivate and delete flows from: ${sf.target.username}</echo>
+        <sf:deploy
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${workDir}/deactivateAndDeleteFlows"
+            testLevel="NoTestRun"
+            purgeOnDelete="true"
+            ignoreWarnings="true"/>
+    </target>
+
 </project>

@@ -79,10 +79,10 @@
         <br/>
         <apex:outputPanel id="sirono-pay-estimate-output-panel">
             <div class="pay-staff-full-width pay-staff-clear-both">
-                <table class="pay-staff-tabale-left">
+                <table class="pay-staff-table-left">
                     <tr>
                         <td colspan="3">
-                            <apex:outputLabel styleClass="pay-staff-lable" value="Amount" for="sirono-pay-estimate-amount"/>
+                            <apex:outputLabel styleClass="pay-staff-label" value="Amount" for="sirono-pay-estimate-amount"/>
                         </td>
                     </tr>
                     <tr>
@@ -93,7 +93,7 @@
                     </tr>
                     <tr>
                         <td colspan="3">
-                            <apex:outputLabel styleClass="pay-staff-lable" style="display:inline !important"
+                            <apex:outputLabel styleClass="pay-staff-label" style="display:inline !important"
                                               value="Name on Card" for="sirono-pay-estimate-card-holder-name"/>
                             <apex:commandLink style="float: right;color: blue;text-decoration: none;"
                                               value="Fill Name and Address on File" action="{!fillNameAndAddress}"
@@ -107,7 +107,7 @@
                     </tr>
                     <tr>
                         <td colspan="3">
-                            <apex:outputLabel styleClass="pay-staff-lable" value="Card Number" for="sirono-pay-estimate-card-number"/>
+                            <apex:outputLabel styleClass="pay-staff-label" value="Card Number" for="sirono-pay-estimate-card-number"/>
                         </td>
                     </tr>
                     <tr>
@@ -119,10 +119,10 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <apex:outputLabel styleClass="pay-staff-lable" value="Expiration Date" for="sirono-pay-estimate-exp-year"/>
+                            <apex:outputLabel styleClass="pay-staff-label" value="Expiration Date" for="sirono-pay-estimate-exp-year"/>
                         </td>
                         <td>
-                            <apex:outputLabel styleClass="pay-staff-lable" value="CVV" for="sirono-pay-estimate-ccv"/>
+                            <apex:outputLabel styleClass="pay-staff-label" value="CVV" for="sirono-pay-estimate-ccv"/>
                         </td>
                     </tr>
                     <tr>
@@ -145,7 +145,7 @@
                     </tr>
                     <tr>
                         <td colspan="3">
-                            <apex:outputLabel styleClass="pay-staff-lable" value="Billing Address" for="sirono-pay-estimate-bill-add"/>
+                            <apex:outputLabel styleClass="pay-staff-label" value="Billing Address" for="sirono-pay-estimate-bill-add"/>
                         </td>
                     </tr>
                     <tr>
@@ -155,13 +155,13 @@
                     </tr>
                     <tr>
                         <td>
-                            <apex:outputLabel styleClass="pay-staff-lable" value="City" for="sirono-pay-estimate-city"/>
+                            <apex:outputLabel styleClass="pay-staff-label" value="City" for="sirono-pay-estimate-city"/>
                         </td>
                         <td>
-                            <apex:outputLabel styleClass="pay-staff-lable" value="State" for="sirono-pay-estimate-state"/>
+                            <apex:outputLabel styleClass="pay-staff-label" value="State" for="sirono-pay-estimate-state"/>
                         </td>
                         <td>
-                            <apex:outputLabel styleClass="pay-staff-lable" value="Zip Code" for="sirono-pay-estimate-zip"/>
+                            <apex:outputLabel styleClass="pay-staff-label" value="Zip Code" for="sirono-pay-estimate-zip"/>
                         </td>
                     </tr>
                     <tr>
@@ -178,7 +178,7 @@
                     </tr>
                 </table>
 
-                <table class="pay-staff-tabale-right">
+                <table class="pay-staff-table-right">
                     <apex:variable var="totalAmount" value="{!0}"/>
                     <apex:repeat value="{!encounters}" var="enw">
                         <apex:outputText rendered="{!enw.isSelected}">
@@ -205,7 +205,7 @@
             <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
             <br/>
             <div class="pay-staff-clear-both">
-                <table class="pay-staff-tabale-left">
+                <table class="pay-staff-table-left">
                     <tr>
                         <td>
                             <apex:commandButton action="{!cancel}" value="Cancel"

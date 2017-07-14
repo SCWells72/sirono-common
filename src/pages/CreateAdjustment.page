@@ -93,7 +93,7 @@
         <apex:outputPanel id="op">
             <apex:outputPanel rendered="{!isAdmin}">
                 <div class="pay-staff-full-width pay-staff-clear-both">
-                    <table class="pay-staff-tabale-left">
+                    <table class="pay-staff-table-left">
                         <apex:repeat value="{!chargeGroupList}" var="cgw">
                             <apex:outputPanel rendered="{!cgw.isSelected}">
                                 <tr>
@@ -104,10 +104,10 @@
                             </apex:outputPanel>
                         </apex:repeat>
                     </table>
-                    <table class="pay-staff-clear-both pay-staff-tabale-left">
+                    <table class="pay-staff-clear-both pay-staff-table-left">
                         <tr>
                             <td colspan="3">
-                                <apex:outputLabel styleClass="pay-staff-lable" value="Adjustment Amount" for="amount"/>
+                                <apex:outputLabel styleClass="pay-staff-label" value="Adjustment Amount" for="amount"/>
                             </td>
                         </tr>
                         <tr>
@@ -117,7 +117,7 @@
                         </tr>
                         <tr>
                             <td colspan="3">
-                                <apex:outputLabel styleClass="pay-staff-lable" value="Adjustment Type" for="type"/>
+                                <apex:outputLabel styleClass="pay-staff-label" value="Adjustment Type" for="type"/>
                             </td>
                         </tr>
                         <tr>
@@ -135,7 +135,7 @@
                 <br/>
             </apex:outputPanel>
             <div class="pay-staff-clear-both">
-                <table class="pay-staff-tabale-left">
+                <table class="pay-staff-table-left">
                     <tr>
                         <td>
                             <apex:commandButton action="{!cancel}" value="Cancel"

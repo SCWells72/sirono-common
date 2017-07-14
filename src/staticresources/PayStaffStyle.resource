@@ -7,21 +7,21 @@
 	width:100% !important;
 }
 
-.pay-staff-tabale-left {
+.pay-staff-table-left {
 	width:48%;
 	float:left;
 	border: 0;
 	margin-bottom: 20px;
 }
 
-.pay-staff-tabale-right {
+.pay-staff-table-right {
 	width:48%;
 	float:right;
 	border: 0;
 	margin-bottom: 20px;
 }
 
-.pay-staff-lable{
+.pay-staff-label{
 	color: #4d4d4d;
 	cursor: pointer;
 	display: block;

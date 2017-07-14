@@ -55,7 +55,7 @@
         <apex:pageBlock title="{!guarantorName}">
             <apex:outputPanel id="op">
                 <div class="pay-staff-full-width pay-staff-clear-both">
-                    <table class="pay-staff-tabale-right" style="width:52%">
+                    <table class="pay-staff-table-right" style="width:52%">
                         <tr>
                             <td colspan="2">
                                 <apex:outputPanel rendered="{!chargeGroupList.size != 0}">
@@ -118,7 +118,7 @@
                     </table>
 
                     <!-- PROMISE TO PAY PAYMENTS -->
-                    <table class="pay-staff-tabale-left"
+                    <table class="pay-staff-table-left"
                            style="display:{!IF(planType == 'promise', '','none')};width:44%;">
                         <tr>
                             <td colspan="2">
@@ -130,7 +130,7 @@
 
                         <tr>
                             <td colspan="2">
-                                <apex:outputLabel styleClass="pay-staff-lable" value="Monthly Installment Amount"
+                                <apex:outputLabel styleClass="pay-staff-label" value="Monthly Installment Amount"
                                                   for="amount2"/>
                             </td>
                             <td colspan="2"> &nbsp; </td>
@@ -150,7 +150,7 @@
 
                     <!-- Automatic DRAFT PAYMENTS -->
                     <apex:outputPanel id="opAuto">
-                        <table class="pay-staff-tabale-left"
+                        <table class="pay-staff-table-left"
                                style="display:{!IF(planType == 'auto', '','none')};width:44%;">
                             <tr>
                                 <td colspan="3">
@@ -162,12 +162,12 @@
                             <tr>
 
                                 <td>
-                                    <apex:outputLabel styleClass="pay-staff-lable" value="Monthly Installment Amount"
+                                    <apex:outputLabel styleClass="pay-staff-label" value="Monthly Installment Amount"
                                                       for="amount"/>
                                 </td>
                                 <td> &nbsp; </td>
                                 <td>
-                                    <apex:outputLabel styleClass="pay-staff-lable" value="Date to Charge (each month)"
+                                    <apex:outputLabel styleClass="pay-staff-label" value="Date to Charge (each month)"
                                                       for="executeOnDay"/>
                                 </td>
                             </tr>
@@ -190,7 +190,7 @@
 
                             <tr>
                                 <td colspan="3">
-                                    <apex:outputLabel styleClass="pay-staff-lable" style="float: left;"
+                                    <apex:outputLabel styleClass="pay-staff-label" style="float: left;"
                                                       value="Name on Card" for="cardholderName"/>
                                     <apex:commandLink style="float: right;color: blue;text-decoration: none;"
                                                       value="Fill Name and Address on File"
@@ -206,7 +206,7 @@
 
                             <tr>
                                 <td colspan="3">
-                                    <apex:outputLabel styleClass="pay-staff-lable" value="Card Number"
+                                    <apex:outputLabel styleClass="pay-staff-label" value="Card Number"
                                                       for="cardNumber"/>
                                 </td>
                             </tr>
@@ -219,10 +219,10 @@
 
                             <tr>
                                 <td colspan="2">
-                                    <apex:outputLabel styleClass="pay-staff-lable" value="Expiration Date" for="expYr"/>
+                                    <apex:outputLabel styleClass="pay-staff-label" value="Expiration Date" for="expYr"/>
                                 </td>
                                 <td Style="padding-left: 4%;">
-                                    <apex:outputLabel styleClass="pay-staff-lable" value="CVV" for="ccv"/>
+                                    <apex:outputLabel styleClass="pay-staff-label" value="CVV" for="ccv"/>
                                 </td>
                             </tr>
                             <tr>
@@ -246,7 +246,7 @@
 
                             <tr>
                                 <td colspan="3">
-                                    <apex:outputLabel styleClass="pay-staff-lable" value="Billing Address"
+                                    <apex:outputLabel styleClass="pay-staff-label" value="Billing Address"
                                                       for="billAddr"/>
                                 </td>
                             </tr>
@@ -257,17 +257,17 @@
                             </tr>
                             <tr>
                                 <td colspan="3">
-                                    <table style="width:100%" class="pay-staff-tabale-left">
+                                    <table style="width:100%" class="pay-staff-table-left">
                                         <tr>
                                             <td width="60%">
-                                                <apex:outputLabel styleClass="pay-staff-lable" value="City" for="city"/>
+                                                <apex:outputLabel styleClass="pay-staff-label" value="City" for="city"/>
                                             </td>
                                             <td width="25%" Style="padding-left: 4%;">
-                                                <apex:outputLabel styleClass="pay-staff-lable" value="State"
+                                                <apex:outputLabel styleClass="pay-staff-label" value="State"
                                                                   for="state"/>
                                             </td>
                                             <td width="15%" Style="padding-left: 4%;">
-                                                <apex:outputLabel styleClass="pay-staff-lable" value="Zip Code"
+                                                <apex:outputLabel styleClass="pay-staff-label" value="Zip Code"
                                                                   for="zip"/>
                                             </td>
                                         </tr>
@@ -295,7 +295,7 @@
                 <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
                 <br/>
                 <div class="pay-staff-clear-both">
-                    <table class="pay-staff-tabale-left">
+                    <table class="pay-staff-table-left">
                         <tr>
                             <td>
                                 <apex:commandButton action="{!cancel}" value="Cancel"
