@@ -37,6 +37,7 @@
         <name>ApexClass</name>
     </types>
     <types>
+        <members>AddNote</members>
         <members>AddCreditCard</members>
         <members>PaymentArrangement</members>
         <name>ApexPage</name>

@@ -71,8 +71,7 @@ public with sharing class EditPaymentPlan {
 
     //Constructor initializing variables
     public EditPaymentPlan() {
-        username = PayStaffWSUtill.un;
-        password = PayStaffWSUtill.pw;
+
         guarantorRecordId = null;
         chargeGroupsSelected = false;
         paymentPlanId = null;
@@ -199,8 +198,8 @@ public with sharing class EditPaymentPlan {
             boolean blnIsAmountError = checkAmountValidation();
 
             if (blnIsError == false && !blnIsAmountError) {
-                String jwtToken = PayStaffWSUtill.getJWTToken(username, password);
-                String csrfToken = PayStaffWSUtill.getCSRFToken();
+                String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
+                String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
                 if (csrfToken != null && jwtToken != null) {
                     doEditPaymentPlan(csrfToken, jwtToken);
                 }

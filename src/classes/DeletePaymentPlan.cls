@@ -10,8 +10,7 @@
  */
 
 public with sharing class DeletePaymentPlan {
-    public String username {get; set;}
-    public String password {get; set;}
+
     public String guarantorId {get; set;}
     public String paymentPlanId {get; set;}
     public String paymentPlanExtId {get; set;}
@@ -21,8 +20,7 @@ public with sharing class DeletePaymentPlan {
     public Boolean blnHasFirstRequest = true;
     // Constructor of a class and initialize the variables.
     public DeletePaymentPlan() {
-        username = PayStaffWSUtill.un;
-        password = PayStaffWSUtill.pw;
+
         guarantorId = null;
         paymentPlanId = null;
         paymentPlanExtId = null;
@@ -63,8 +61,8 @@ public with sharing class DeletePaymentPlan {
     public void doSubmit() {
         try {
             if (!isEmpty(paymentPlanExtId)) {
-                String jwtToken = PayStaffWSUtill.getJWTToken(username, password);
-                String csrfToken = PayStaffWSUtill.getCSRFToken();
+                String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
+                String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
                 if (csrfToken != null && jwtToken != null) {
                     callPaymentPlanRequest(csrfToken, jwtToken);
                     //doDeletePaymentPlan(csrfToken, jwtToken);
