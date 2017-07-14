@@ -28,7 +28,7 @@ public class ChargeGroupService extends AbstractService {
     }
 
     /**
-     * This method is use to get list of Charge_Group__c objects associated with the given sironoIds.
+     * This method is used to get list of Charge_Group__c objects associated with the given sironoIds.
      *
      * @param List<Decimal> sironoIds - That contains Charge Group's Sirono Ids.
      * @returns List<Charge_Group__c> - That contains CG records based on sironoIds.
