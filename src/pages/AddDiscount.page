@@ -100,7 +100,7 @@ Sirono 08-22-2016: 127323475 when Record Saved Successfully return to the contac
         <br/>
         <apex:outputPanel id="op">
             <div class="pay-staff-full-width pay-staff-clear-both">
-                <table class="pay-staff-tabale-left">
+                <table class="pay-staff-table-left">
                     <tr>
                         <td>
                             <apex:outputLabel styleClass="pay-staff-message" value="{!messageToShow}"/>
@@ -112,7 +112,7 @@ Sirono 08-22-2016: 127323475 when Record Saved Successfully return to the contac
             <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
             <br/>
             <div class="pay-staff-clear-both">
-                <table class="pay-staff-tabale-left">
+                <table class="pay-staff-table-left">
                     <tr>
                         <td>
                             <apex:commandButton action="{!cancel}" value="Cancel"

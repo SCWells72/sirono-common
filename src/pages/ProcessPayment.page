@@ -95,10 +95,10 @@
         <br/>
         <apex:outputPanel id="op">
             <div class="pay-staff-full-width pay-staff-clear-both">
-                <table class="pay-staff-tabale-left">
+                <table class="pay-staff-table-left">
                     <tr>
                         <td colspan="3">
-                            <apex:outputLabel styleClass="pay-staff-lable" value="Amount" for="amount"/>
+                            <apex:outputLabel styleClass="pay-staff-label" value="Amount" for="amount"/>
                         </td>
                     </tr>
                     <tr>
@@ -110,7 +110,7 @@
 
                     <tr>
                         <td colspan="3">
-                            <apex:outputLabel styleClass="pay-staff-lable" style="display:inline !important"
+                            <apex:outputLabel styleClass="pay-staff-label" style="display:inline !important"
                                               value="Name on Card" for="cardholderName"/>
                             <apex:commandLink style="float: right;color: blue;text-decoration: none;"
                                               value="Fill Name and Address on File" action="{!fillNameAndAddress}"
@@ -125,7 +125,7 @@
 
                     <tr>
                         <td colspan="3">
-                            <apex:outputLabel styleClass="pay-staff-lable" value="Card Number" for="cardNumber"/>
+                            <apex:outputLabel styleClass="pay-staff-label" value="Card Number" for="cardNumber"/>
                         </td>
                     </tr>
                     <tr>
@@ -138,10 +138,10 @@
 
                     <tr>
                         <td colspan="2">
-                            <apex:outputLabel styleClass="pay-staff-lable" value="Expiration Date" for="expYr"/>
+                            <apex:outputLabel styleClass="pay-staff-label" value="Expiration Date" for="expYr"/>
                         </td>
                         <td>
-                            <apex:outputLabel styleClass="pay-staff-lable" value="CVV" for="ccv"/>
+                            <apex:outputLabel styleClass="pay-staff-label" value="CVV" for="ccv"/>
                         </td>
                     </tr>
                     <tr>
@@ -165,7 +165,7 @@
 
                     <tr>
                         <td colspan="3">
-                            <apex:outputLabel styleClass="pay-staff-lable" value="Billing Address" for="billAddr"/>
+                            <apex:outputLabel styleClass="pay-staff-label" value="Billing Address" for="billAddr"/>
                         </td>
                     </tr>
                     <tr>
@@ -176,13 +176,13 @@
 
                     <tr>
                         <td>
-                            <apex:outputLabel styleClass="pay-staff-lable" value="City" for="city"/>
+                            <apex:outputLabel styleClass="pay-staff-label" value="City" for="city"/>
                         </td>
                         <td>
-                            <apex:outputLabel styleClass="pay-staff-lable" value="State" for="state"/>
+                            <apex:outputLabel styleClass="pay-staff-label" value="State" for="state"/>
                         </td>
                         <td>
-                            <apex:outputLabel styleClass="pay-staff-lable" value="Zip Code" for="zip"/>
+                            <apex:outputLabel styleClass="pay-staff-label" value="Zip Code" for="zip"/>
                         </td>
                     </tr>
                     <tr>
@@ -199,7 +199,7 @@
                     </tr>
                 </table>
 
-                <table class="pay-staff-tabale-right">
+                <table class="pay-staff-table-right">
                     <apex:variable var="totalAmount" value="{!0}"/>
                     <apex:repeat value="{!chargeGroupList}" var="cgw">
                         <apex:outputPanel rendered="{!cgw.isSelected}">
@@ -225,7 +225,7 @@
             <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
             <br/>
             <div class="pay-staff-clear-both">
-                <table class="pay-staff-tabale-left">
+                <table class="pay-staff-table-left">
                     <tr>
                         <td>
                             <apex:commandButton action="{!cancel}" value="Cancel"
