@@ -138,12 +138,6 @@ public class PaymentPlanProcessBuilderFlowTest {
         );
         insert paymentPlan;
 
-        // TODO: Delete the case that was created above to simulate case closure
-        List<Case> cases = [SELECT Id, Type FROM Case WHERE Subject = :CASE_SUBJECT_PAYMENT_PLAN_ERROR];
-        System.assertEquals(1, cases.size());
-        System.assertEquals(Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, cases[0].Type);
-        delete cases;
-
         Test.startTest();
         {
             // And update the payment plan not to have
@@ -152,8 +146,17 @@ public class PaymentPlanProcessBuilderFlowTest {
         }
         Test.stopTest();
 
-        // TODO: Case closure should have removed the case above when the errors were cleared
-        verifyPaymentPlanWithoutErrorsResults();
+        List<Case> cases = [
+            SELECT Id, Type, Status, Reason
+            FROM Case
+            WHERE Subject = :CASE_SUBJECT_PAYMENT_PLAN_ERROR
+        ];
+
+        // There should be one case in a closed state
+        System.assertEquals(1, cases.size());
+        System.assertEquals(Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, cases[0].Type);
+        System.assertEquals('Closed', cases[0].Status);
+        System.assertEquals('Closed - Automated', cases[0].Reason);
     }
 
     @IsTest
