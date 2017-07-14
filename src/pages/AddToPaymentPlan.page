@@ -104,7 +104,7 @@
         </apex:outputPanel>
         <apex:outputPanel id="op1" rendered="{!AND(!chargeGroupsSelected, paymentPlanExtId != null)}">
             <div class="pay-staff-full-width pay-staff-clear-both">
-                <table class="pay-staff-tabale-left">
+                <table class="pay-staff-table-left">
                     <tr>
                         <td>
                             <apex:outputLabel styleClass="pay-staff-message"
@@ -117,7 +117,7 @@
             <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
             <br/>
             <div class="pay-staff-clear-both">
-                <table class="pay-staff-tabale-left">
+                <table class="pay-staff-table-left">
                     <tr>
                         <td>
                             <apex:commandButton action="{!cancel}" value="Cancel"
@@ -129,7 +129,7 @@
         </apex:outputPanel>
         <apex:outputPanel styleClass="pay-staff-table-wrap" rendered="{!paymentPlanExtId = null}">
             <div class="pay-staff-clear-both">
-                <table class="pay-staff-tabale-left">
+                <table class="pay-staff-table-left">
                     <tr>
                         <td>
                             <apex:commandButton action="{!cancel}" value="Cancel"
@@ -141,7 +141,7 @@
         </apex:outputPanel>
         <apex:outputPanel id="op" rendered="{!chargeGroupsSelected}">
             <div class="pay-staff-full-width pay-staff-clear-both">
-                <table class="pay-staff-tabale-left">
+                <table class="pay-staff-table-left">
                     <tr>
                         <td>
                             <apex:outputLabel styleClass="pay-staff-message"
@@ -162,7 +162,7 @@
             <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
             <br/>
             <div class="pay-staff-clear-both">
-                <table class="pay-staff-tabale-left">
+                <table class="pay-staff-table-left">
                     <tr>
                         <td>
                             <apex:commandButton action="{!cancel}" value="Cancel"

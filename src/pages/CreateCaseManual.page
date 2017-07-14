@@ -159,7 +159,7 @@
             </apex:outputPanel>
             <apex:outputPanel id="op1" rendered="{!!chargeGroupsSelected}">
                 <div class="pay-staff-full-width pay-staff-clear-both">
-                    <table class="pay-staff-tabale-left">
+                    <table class="pay-staff-table-left">
                         <tr>
                             <td>
                                 <apex:outputLabel styleClass="pay-staff-message"
@@ -171,7 +171,7 @@
                 <!--
                 <br/><div class="pay-staff-clear-both pay-staff-bottom-line"></div><br/>
                 <div class="pay-staff-clear-both">
-                    <table class="pay-staff-tabale-left">
+                    <table class="pay-staff-table-left">
                         <tr>
                             <td><apex:commandButton action="{!cancel}" value="Cancel" styleClass="pay-staff-button pay-staff-cancel-button"/></td>
                         </tr>
@@ -251,7 +251,7 @@
             <!--<apex:outputPanel id="op" rendered="{!AND(chargeGroupsSelected, !caseTypeSelected)}">-->
             <apex:outputPanel id="op" rendered="{!Or(!chargeGroupsSelected, !caseTypeSelected)}">
                 <div class="pay-staff-clear-both">
-                    <table class="pay-staff-tabale-left">
+                    <table class="pay-staff-table-left">
                         <tr>
                             <td>
                                 <apex:commandButton action="{!cancel}" immediate="true" value="Cancel"
@@ -268,7 +268,7 @@
             <apex:outputPanel id="opForCase"
                               rendered="{!AND(chargeGroupsSelected, caseTypeSelected, caseType != 'General')}">
                 <div class="pay-staff-full-width pay-staff-clear-both">
-                    <table class="pay-staff-tabale-left">
+                    <table class="pay-staff-table-left">
                         <tr>
                             <td>
                                 <apex:outputLabel styleClass="pay-staff-message"
@@ -289,7 +289,7 @@
 
             <apex:outputPanel id="caseBilling" rendered="{!AND(chargeGroupsSelected,caseTypeSelected)}">
                 <div class="pay-staff-full-width pay-staff-clear-both">
-                    <table class="pay-staff-tabale-left">
+                    <table class="pay-staff-table-left">
                         <tr>
                             <td>
                                 <apex:outputLabel styleClass="pay-staff-message" value="{!caseType} Case Information"/>
@@ -302,11 +302,11 @@
                     <table class="pay-staff-table-full-width">
                         <tr>
                             <td width="49%">
-                                <apex:outputLabel styleClass="pay-staff-lable" value="Guarantor"/>
+                                <apex:outputLabel styleClass="pay-staff-label" value="Guarantor"/>
                             </td>
                             <td width="2%"> &nbsp; </td>
                             <td width="49%">
-                                <apex:outputLabel styleClass="pay-staff-lable" value="Patient"
+                                <apex:outputLabel styleClass="pay-staff-label" value="Patient"
                                                   rendered="{!if(caseType != 'General',true,false)}"/>
                             </td>
                         </tr>
@@ -323,11 +323,11 @@
                         </tr>
                         <tr>
                             <td width="49%">
-                                <apex:outputLabel styleClass="pay-staff-lable" value="Case Reason"/>
+                                <apex:outputLabel styleClass="pay-staff-label" value="Case Reason"/>
                             </td>
                             <td width="2%"> &nbsp; </td>
                             <td width="49%">
-                                <apex:outputLabel styleClass="pay-staff-lable"/>
+                                <apex:outputLabel styleClass="pay-staff-label"/>
                             </td>
                         </tr>
                         <tr>
@@ -380,7 +380,7 @@
                             </apex:outputText>
 
                             <td width="49%">
-                                <apex:outputLabel styleClass="pay-staff-lable"
+                                <apex:outputLabel styleClass="pay-staff-label"
                                                   value="{!$ObjectType.Case.Fields[f.fieldPath].label}"/>
                                 <apex:inputField Style="width: 100%;" styleClass="pay-staff-input"
                                                  value="{!caseObj[f.fieldPath]}"
@@ -397,7 +397,7 @@
 
                         <tr>
                             <td colspan="3">
-                                <apex:outputLabel styleClass="pay-staff-lable" value="Notes/Circumstance"/>
+                                <apex:outputLabel styleClass="pay-staff-label" value="Notes/Circumstance"/>
                             </td>
                             <td> &nbsp; </td>
                             <td></td>
@@ -428,7 +428,7 @@
                                         </apex:outputText>
 
                                         <td width="49%">
-                                            <apex:outputLabel styleClass="pay-staff-lable"
+                                            <apex:outputLabel styleClass="pay-staff-label"
                                                               value="{!$ObjectType.Case.Fields[f.fieldPath].label}"/>
                                             <!--<apex:inputField Style="width: 100%;" styleClass="pay-staff-input" html-disabled="disabled" value="{!caseObj[f.fieldPath]}"/>-->
                                             <apex:inputField Style="width: 100%;" styleClass="pay-staff-input"
@@ -447,7 +447,7 @@
                     <Br/>
                 </div>
                 <div class="pay-staff-clear-both">
-                    <table class="pay-staff-tabale-left">
+                    <table class="pay-staff-table-left">
                         <tr>
                             <td>
 
