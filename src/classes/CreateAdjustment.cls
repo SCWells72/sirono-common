@@ -13,8 +13,7 @@
  */
 
 public with sharing class CreateAdjustment {
-    public String username {get; set;}
-    public String password {get; set;}
+
     public String amount {get; set;}
     public String guarantorRecordId {get; set;}
     public Boolean chargeGroupsSelected {get; set;}
@@ -60,8 +59,7 @@ public with sharing class CreateAdjustment {
 //            }
 //        }
 
-        username = PayStaffWSUtill.un;
-        password = PayStaffWSUtill.pw;
+
         chargeGroupsSelected = false;
         guarantorName = '';
         chargeGroupList = new List<ChargeGroupWrapper>();
@@ -113,8 +111,8 @@ public with sharing class CreateAdjustment {
     public void submit() {
         try {
             if (!isEmpty(amount) && !isEmpty(chargeGroupId) && !isEmpty(adjustmentTypeSelected)) {
-                String jwtToken = PayStaffWSUtill.getJWTToken(username, password);
-                String csrfToken = PayStaffWSUtill.getCSRFToken();
+                String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
+                String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
                 if (csrfToken != null && jwtToken != null) {
                     createAdjustmetWSCall(csrfToken, jwtToken);
                 }

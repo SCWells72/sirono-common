@@ -19,8 +19,7 @@
 */
 
 public with sharing class SkipPaymentPlan {
-    public String username {get; set;}
-    public String password {get; set;}
+
     public String guarantorId {get; set;}
     public String paymentPlanId {get; set;}
     public String messageToShow {get; set;}
@@ -29,8 +28,7 @@ public with sharing class SkipPaymentPlan {
     public Boolean isSuccess {get; set;}
 
     public SkipPaymentPlan() {
-        username = PayStaffWSUtill.un;
-        password = PayStaffWSUtill.pw;
+
         guarantorId = null;
         paymentPlanId = null;
         paymentPlanExtId = null;
@@ -104,8 +102,8 @@ public with sharing class SkipPaymentPlan {
     public void doSubmit() {
         try {
             if (!isEmpty(paymentPlanExtId)) {
-                String jwtToken = PayStaffWSUtill.getJWTToken(username, password);
-                String csrfToken = PayStaffWSUtill.getCSRFToken();
+                String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
+                String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
                 if (csrfToken != null && jwtToken != null) {
                     doSkipPaymentPlan(csrfToken, jwtToken);
                 }

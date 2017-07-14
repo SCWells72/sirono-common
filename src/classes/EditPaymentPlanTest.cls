@@ -178,12 +178,6 @@ public class EditPaymentPlanTest {
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
         INSERT objTransaction;
         
-        Sirono_Settings__c PaymentPlanSettings = new Sirono_Settings__c(SetupOwnerId = userinfo.getProfileId());
-        PaymentPlanSettings.Max_Number_Plan_Installments__c = 2;
-        PaymentPlanSettings.Min_Installment_Amount__c = 101;
-        PaymentPlanSettings.Min_Number_Plan_Installments__c = 1;
-        INSERT PaymentPlanSettings;
-        
         Apexpages.currentPage().getParameters().put('paymentPlanId',paymentPlan.Id);
         Apexpages.currentPage().getParameters().put('guarantorId',guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
@@ -209,8 +203,6 @@ public class EditPaymentPlanTest {
         objEditPaymentPlan.address = 'test';
         objEditPaymentPlan.city = 'test';
         
-        objEditPaymentPlan.getPaymentPlanSettings();
-        
         Test.startTest();        
         objEditPaymentPlan.doSubmit();
         Test.stopTest();
@@ -227,9 +219,10 @@ public class EditPaymentPlanTest {
     }
     
     /**
-     * This method tests the logic of Amount validation with Monthly Amount.
+     * Validate NumberOfInstallments based on Monthly Amount.
      **/
-    static testMethod void checkAmountForCGMonthlyAmountAndDivideByZero() {
+    @IsTest
+    static void testNumberOfInstallmentsExceeded() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         INSERT guarantorContact;
         
@@ -243,19 +236,13 @@ public class EditPaymentPlanTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         INSERT chargeGroup;
 
-        Service__c svc = TestUtility.generateService(chargeGroup, 300);
+        Service__c svc = TestUtility.generateService(chargeGroup, 24*250);
         INSERT svc;
 
         Transaction__c  objTransaction = TestUtility.generateServiceTxn(chargeGroup, svc.Amount__c, svc);
         INSERT objTransaction;
 
         chargeGroup = [SELECT Id, Balance__c FROM Charge_Group__c WHERE Id = :chargeGroup.Id];
-
-        Sirono_Settings__c PaymentPlanSettings = new Sirono_Settings__c(SetupOwnerId = userinfo.getProfileId());
-        PaymentPlanSettings.Max_Number_Plan_Installments__c = 2;
-        PaymentPlanSettings.Min_Installment_Amount__c = 100;
-        PaymentPlanSettings.Min_Number_Plan_Installments__c = 1;
-        INSERT PaymentPlanSettings;
         
         Apexpages.currentPage().getParameters().put('paymentPlanId',paymentPlan.Id);
         Apexpages.currentPage().getParameters().put('guarantorId',guarantorContact.Id);
@@ -274,7 +261,7 @@ public class EditPaymentPlanTest {
         objEditPaymentPlan.cardHolderName= '1234567891113';
         objEditPaymentPlan.zip = '07897';
         objEditPaymentPlan.amount = '100';
-        objEditPaymentPlan.payableAmount = '1000';
+        objEditPaymentPlan.payableAmount = String.valueOf(SironoSettingsUtil.getPaymentPlanSettings().Max_Number_Plan_Installments__c * 250);
         objEditPaymentPlan.planType = 'auto';
         objEditPaymentPlan.planValue= '301';
         objEditPaymentPlan.executeOnDay = '10';
@@ -284,7 +271,6 @@ public class EditPaymentPlanTest {
         objEditPaymentPlan.city = 'test';
         
         Test.startTest();
-        objEditPaymentPlan.getPaymentPlanSettings();
         objEditPaymentPlan.doSubmit();
         Test.stopTest();
         
@@ -339,7 +325,7 @@ public class EditPaymentPlanTest {
         objEditPaymentPlan.cardHolderName = '1234567891113';
         objEditPaymentPlan.zip = '07897';
         objEditPaymentPlan.promiseAmount = '100';
-        objEditPaymentPlan.amount = '100';
+        objEditPaymentPlan.amount = '10';
         objEditPaymentPlan.planType = 'auto';
         objEditPaymentPlan.planValue = '0';
         objEditPaymentPlan.executeOnDay = '10';
@@ -360,71 +346,6 @@ public class EditPaymentPlanTest {
         }
         System.assert(isError, 'Should have failed due to amount is greater than balance value.');
 
-        objEditPaymentPlan.cancel();
-    }
-    
-    /**
-     * This method tests the logic of Web Request. We got Exception for JWT token.
-     **/
-    static testMethod void checkJWTAndTokenException() {
-        Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
-
-        Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
-
-        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Remaining_Balance__c = 100;
-        paymentPlan.Original_Installment_Count__c = 10;
-        paymentPlan.Plan_Type__c = 'Manual';
-        INSERT paymentPlan;
-
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
-        chargeGroup.Reported_Selfpay_Balance__c = -100;
-        INSERT chargeGroup;
-
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, 'Automatic');
-        INSERT objTransaction;
-
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
-
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
-        }
-
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.promiseAmount = '100';
-        objEditPaymentPlan.amount = '100';
-        objEditPaymentPlan.planType = 'auto';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
-
-        Test.startTest();
-        objEditPaymentPlan.doSubmit();
-        Test.stopTest();
-        
-        // Check system assert.        
-        List<ApexPages.Message> msgList = ApexPages.getMessages();
-        Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('JWT EXCEPTION')) isError = true;
-        }
-        System.assert(isError, 'Should we got JWT Token Exception during Payment Process');
-        
         objEditPaymentPlan.cancel();
     }
     

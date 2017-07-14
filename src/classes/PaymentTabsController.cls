@@ -124,8 +124,8 @@ public without sharing class PaymentTabsController {
 
         //call Delete PaymentPlan and send the request to end point.
         if (String.isNotBlank(paymentPlanExtId)) {
-            String jwtToken = PayStaffWSUtill.getJWTToken(PayStaffWSUtill.un, PayStaffWSUtill.pw);
-            String csrfToken = PayStaffWSUtill.getCSRFToken();
+            String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
+            String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
             if (csrfToken != null && jwtToken != null) {
                 PaymentTabsController.doDeletePaymentPlan(csrfToken, jwtToken, guarantorId, paymentPlanExtId);
             }

@@ -38,14 +38,10 @@ public class NumVerifyValidatorTest {
         //Set up a valid number
         String phoneNumber = '+1 (852) 999-3451';
 
-        Sirono_Settings__c sironoSettings = Sirono_Settings__c.getOrgDefaults();
-        sironoSettings.Country_Code__c = 'GB';
-        sironoSettings.Format__c = 3;
-        sironoSettings.Apikey__c = 'thisisthetestapikey';
-        UPSERT sironoSettings;
+        Sirono_Settings__c settings = SironoSettingsUtil.getPaymentPlanSettings();
 
         //Make sure the query parameters are in alpha order to match the way HttpRequest constructs them
-        String validUrl = 'https://apilayer.net/api/validate?access_key=thisisthetestapikey&country_code=GB&format=3&number=18529993451';
+        String validUrl = 'https://apilayer.net/api/validate?access_key='+ settings.Apikey__c +'&country_code=' + settings.Country_Code__c + '&format='+settings.Format__c+'&number=18529993451';
 
         NumVerifyValidator.VerifiedNumber vnbr =  new NumVerifyValidator.VerifiedNumber(phoneNumber);
         HttpRequest request = NumVerifyValidator.buildRequest(vnbr);
@@ -54,8 +50,6 @@ public class NumVerifyValidatorTest {
         System.assert('post'.equalsIgnoreCase(request.getMethod()), 'Expected method to be POST');
         System.assert(String.isEmpty(request.getBody()), 'Expected empty body');
         System.assert('application/json'.equalsIgnoreCase(request.getHeader('Content-Type')), 'Content-Type should be json');
-
-        DELETE sironoSettings;
     }
 
     //test to verify a number with an invalid line type
