@@ -32,15 +32,8 @@ private class PayStaffWSUtillTest {
 
         String guarantorSironoId = PayStaffWSUtill.fetchGuarantorId(gt);
         PayStaffWSUtill.fetchChargeGroupIds(ChargeGroupWrapper.buildList(gt));
-        PayStaffWSUtill.getCSRFToken();
-        PayStaffWSUtill.getJWTToken(PayStaffWSUtill.un, PayStaffWSUtill.pw);
         PayStaffWSUtill.buildChargeGroupsURL('1,2');
 
-        Test.startTest();
-        PayStaffWSUtill.TokenAuthResponse tokenAuthResponse = new PayStaffWSUtill.TokenAuthResponse();
-        tokenAuthResponse.token = 'testToken';
-        Test.stopTest();
-        
         // Check System assert.
         System.assertEquals(guarantorSironoId, String.valueOf(gt.Profile_Pointer_ID__c), 'Expected Sirono Id ' + guarantorSironoId + ' but got ' + gt.Profile_Pointer_ID__c);
     }
@@ -82,7 +75,7 @@ private class PayStaffWSUtillTest {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
 
         Test.startTest();
-        string str = PayStaffWSUtill.getCSRFToken();
+        string str = new SironoRestClient.AuthRestClient().getCsrfToken();
         Test.stopTest();
         
         // Check System assert.
@@ -109,7 +102,7 @@ private class PayStaffWSUtillTest {
      **/
     @isTest
     static void convertCentToDollars() {
-        string inputCents = '100';
+        String inputCents = '100';
         Test.startTest();
         string dollarAmount = PayStaffWSUtill.convertToDollars(inputCents);
         Test.stopTest();

@@ -31,9 +31,7 @@ public with sharing class SironoSettingsUtil {
                 Set<Id> ids = (new Map<Id, Profile>([SELECT Id FROM Profile WHERE name = 'System Administrator' OR name = 'Operations Manager'])).keySet();
                 //Assume that if the user is one of these, we want the profile-specific settings
                 if (ids.contains(UserInfo.getProfileId())) {
-                    sironoSettings.Max_Number_Plan_Installments__c = null;
                     sironoSettings.Min_Installment_Amount__c = 1;
-                    sironoSettings.Min_Number_Plan_Installments__c = null;
                 }
             }
 
