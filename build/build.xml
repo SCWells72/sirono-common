@@ -125,36 +125,6 @@
             packagenames="${sf.pkgName}"/>
     </target>
 
-    <target name="deactivateAndDeleteFlows" depends="checkDeactivateAndDeleteFlows" if="flowsPresent">
-        <!-- NOTE: This is required to allow us to ignore deployment errors if the flows aren't present in the target org yet -->
-        <subant buildpath="${basedir}/build"
-                antfile="build.xml"
-                target="deactivateAndDeleteFlowsIgnoreErrors"
-                inheritall="true"
-                failonerror="false"/>
-    </target>
-
-    <target name="checkDeactivateAndDeleteFlows">
-        <condition property="flowsPresent">
-            <resourcecount when="greater" count="0">
-                <fileset dir="${basedir}/build/deactivateAndDeleteFlows" includes="**/*.flowDefinition"/>
-            </resourcecount>
-        </condition>
-    </target>
-
-    <!-- TODO: Make this dynamic based on the flows found under src -->
-    <target name="deactivateAndDeleteFlowsIgnoreErrors">
-        <echo level="info">Deactivate and remove flows from: ${sf.target.username}</echo>
-        <sf:deploy
-            username="${sf.target.username}"
-            password="${sf.target.password}"
-            serverurl="${sf.target.serverurl}"
-            deployRoot="${basedir}/build/deactivateAndDeleteFlows"
-            testLevel="NoTestRun"
-            purgeOnDelete="true"
-            ignoreWarnings="true"/>
-    </target>
-
     <target name="deploy" depends="processTemplates, deactivateAndDeleteFlows">
         <echo level="info">Deploying to: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
