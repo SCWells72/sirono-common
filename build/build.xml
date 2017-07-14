@@ -5,8 +5,6 @@
 
     <import file="${basedir}/build/build_initial_deploy.xml"/>
 
-    <taskdef resource="net/sf/antcontrib/antcontrib.properties"
-             classpath="${basedir}/build/lib/ant-contrib-1.0b3.jar"/>
     <taskdef uri="antlib:com.salesforce"
              resource="com/salesforce/antlib.xml"
              classpath="${basedir}/build/lib/ant-salesforce.jar"/>
@@ -123,6 +121,36 @@
             password="${sf.source.password}"
             serverurl="${sf.source.serverurl}"
             packagenames="${sf.pkgName}"/>
+    </target>
+
+    <target name="deactivateAndDeleteFlows" depends="checkDeactivateAndDeleteFlows" if="flowsPresent">
+        <!-- NOTE: This is required to allow us to ignore deployment errors if the flows aren't present in the target org yet -->
+        <subant buildpath="${basedir}/build"
+                antfile="build.xml"
+                target="deactivateAndDeleteFlowsIgnoreErrors"
+                inheritall="true"
+                failonerror="false"/>
+    </target>
+
+    <target name="checkDeactivateAndDeleteFlows">
+        <condition property="flowsPresent">
+            <resourcecount when="greater" count="0">
+                <fileset dir="${basedir}/build/deactivateAndDeleteFlows" includes="**/*.flowDefinition"/>
+            </resourcecount>
+        </condition>
+    </target>
+
+    <!-- TODO: Make this dynamic based on the flows found under src -->
+    <target name="deactivateAndDeleteFlowsIgnoreErrors">
+        <echo level="info">Deactivate and remove flows from: ${sf.target.username}</echo>
+        <sf:deploy
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${basedir}/build/deactivateAndDeleteFlows"
+            testLevel="NoTestRun"
+            purgeOnDelete="true"
+            ignoreWarnings="true"/>
     </target>
 
     <target name="deploy" depends="processTemplates, deactivateAndDeleteFlows">
@@ -282,7 +310,8 @@
         <sequential>
             <local name="listMetadataOutput"/>
             <property name="listMetadataOutput" value="${workDir}/listMetadata/list_@{metadataType}.log"/>
-            <echo level="info">List metadata type: @{metadataType} from: ${sf.source.username} into: ${listMetadataOutput}
+            <echo level="info">List metadata type: @{metadataType} from: ${sf.source.username} into:
+${listMetadataOutput}
             </echo>
             <mkdir dir="${workDir}/listMetadata"/>
             <delete file="${listMetadataOutput}" failonerror="false" quiet="true"/>
@@ -471,83 +500,4 @@
             <loadfile property="instance" srcFile="lib/instance.txt"/>
         </sequential>
     </macrodef>
-
-    <!-- Flow management -->
-
-    <target name="deactivateAndDeleteFlows" depends="listFlows, generateDeactivateAndDeleteFlowFiles, reallyDeactivateAndDeleteFlows"/>
-
-    <target name="listFlows">
-        <listMetadata metadataType="Flow"/>
-        <loadfile srcfile="${workDir}/listMetadata/list_Flow.log" property="flowNames" failonerror="false" quiet="true">
-            <filterchain>
-                <linecontainsregexp>
-                    <regexp pattern="^FullName/Id:"/>
-                </linecontainsregexp>
-                <replaceregex pattern="^FullName/Id:\s+([^/]+)/.*" replace="\1"/>
-            </filterchain>
-        </loadfile>
-        <condition property="hasFlowNames">
-            <isset property="flowNames"/>
-        </condition>
-    </target>
-
-    <target name="generateDeactivateAndDeleteFlowFiles" if="hasFlowNames">
-        <!-- Create the required build files -->
-        <delete dir="${workDir}/deactivateAndDeleteFlows" failonerror="false" quiet="true"/>
-        <mkdir dir="${workDir}/deactivateAndDeleteFlows"/>
-
-        <!-- Create the package.xml -->
-        <echo file="${workDir}/deactivateAndDeleteFlows/package.xml"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <types>
-        <members>*</members>
-        <name>FlowDefinition</name>
-    </types>
-    <version>38.0</version>
-</Package>
-]]></echo>
-
-        <!-- Create the destructiveChangesPost.xml -->
-        <echo file="${workDir}/deactivateAndDeleteFlows/destructiveChangesPost.xml"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <types>]]></echo>
-        <for param="flowName" list="${flowNames}" delimiter="${line.separator}">
-            <sequential>
-                <echo file="${workDir}/deactivateAndDeleteFlows/destructiveChangesPost.xml" append="true"><![CDATA[
-        <members>@{flowName}-1</members>]]></echo>
-            </sequential>
-        </for>
-        <echo file="${workDir}/deactivateAndDeleteFlows/destructiveChangesPost.xml" append="true"><![CDATA[
-        <name>Flow</name>
-    </types>
-</Package>
-]]></echo>
-
-        <!-- And finally create flow definition files for each flow to deactivate them -->
-        <mkdir dir="${workDir}/deactivateAndDeleteFlows/flowDefinitions"/>
-        <echo level="info">Deactivating and deleting:</echo>
-        <for param="flowName" list="${flowNames}" delimiter="${line.separator}">
-            <sequential>
-                <echo level="info">* @{flowName}</echo>
-                <echo file="${workDir}/deactivateAndDeleteFlows/flowDefinitions/@{flowName}.flowDefinition"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<FlowDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
-    <activeVersionNumber>0</activeVersionNumber>
-</FlowDefinition>
-]]></echo>
-            </sequential>
-        </for>
-    </target>
-
-    <target name="reallyDeactivateAndDeleteFlows" if="hasFlowNames">
-        <echo level="info">Deactivate and delete flows from: ${sf.target.username}</echo>
-        <sf:deploy
-            username="${sf.target.username}"
-            password="${sf.target.password}"
-            serverurl="${sf.target.serverurl}"
-            deployRoot="${workDir}/deactivateAndDeleteFlows"
-            testLevel="NoTestRun"
-            purgeOnDelete="true"
-            ignoreWarnings="true"/>
-    </target>
-
 </project>
