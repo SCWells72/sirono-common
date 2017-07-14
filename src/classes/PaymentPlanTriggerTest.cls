@@ -121,40 +121,6 @@ private class PaymentPlanTriggerTest {
         System.assertNotEquals(paymentPlans[0].NextPaymentDate__c, null, 'NextPaymentDate__c should not null for Payment Plan');
     }
 
-   /**
-     * This method checks CCError case created for relevent guarantor contact.
-     **/
-    @isTest
-    static void checkCCErrorCaseCreatedForRelevantGuarantor() {
-        Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.RecordTypeId = Schema.SObjectType.Contact.getRecordTypeInfosByName().get('Guarantor').getRecordTypeId();
-        INSERT guarantorContact;
-
-        Test.startTest();
-        Payment_Plan__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan1.active__c = false;
-        paymentPlan1.Plan_Type__c = 'Manual';
-        paymentPlan1.Remaining_Balance__c = 200;
-        paymentPlan1.Has_Error__c = false;
-        INSERT paymentPlan1;
-
-        paymentPlan1.active__c = true;
-        paymentPlan1.Plan_Type__c = 'Automatic';
-        paymentPlan1.Remaining_Balance__c = 501;
-        paymentPlan1.Has_Error__c = true;
-        UPDATE paymentPlan1;
-        Test.stopTest();
-
-        // Check system assert, Check & verify number of Case record exists for guarantor.
-        List<Case> cases = [
-            SELECT Id, Reason, Guarantor_Information__c, Subject
-            FROM Case
-            WHERE Guarantor_Information__c = :guarantorContact.Id
-        ];
-        System.assertEquals(cases.size(), 1, 'Number of Case records created is not equals to 1');
-        System.assertEquals(cases[0].Subject, Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, 'Case record created with different Subject');
-    }
-	
     /**
      * This method checks Execute on day date field value is getting populated.
      **/
