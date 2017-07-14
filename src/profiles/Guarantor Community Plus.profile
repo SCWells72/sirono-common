@@ -55,10 +55,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>AddNote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>AddPaymentPlanVFController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -3645,10 +3641,7 @@
         <apexPage>AddDiscount</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
-    <pageAccesses>
-        <apexPage>AddNote</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
+
     <pageAccesses>
         <apexPage>AddPaymentPlan</apexPage>
         <enabled>false</enabled>

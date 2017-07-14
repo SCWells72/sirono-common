@@ -46,7 +46,7 @@ public with sharing class EditPaymentPlan {
     public decimal totalAmount { get; set; }
     public String responseBody = '';
     public Contact gc;
-    public Sirono_Settings__c PaymentPlanSettings = new Sirono_Settings__c();
+
     //adding values to picklist
     public List<SelectOption> expYearOptions {
         get {
@@ -172,17 +172,6 @@ public with sharing class EditPaymentPlan {
         return pg;
     }
     
-    /*11-17-2016: Viraj Rana - Tracker #127404553
-     *It is used to get Payment Plan Setting.
-     *It is called in VF page,
-     *becuase of whenever profile is "Operations Manager or System Administrator" at that we need to create new custom setting for it.
-     *If we create using class than we can't send Web Request after insert so we use this method using VF page.
-    */
-    public void getPaymentPlanSettings(){
-         PaymentPlanSettings = new Sirono_Settings__c();
-         PaymentPlanSettings = SironoSettingsUtil.getPaymentPlanSettings();
-    }
-    
     /*
      * 08-19-2016: Sirono - Tracker # 127324171
      * Method for check the validation.
@@ -232,6 +221,7 @@ public with sharing class EditPaymentPlan {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'Amount must be greater than zero.'));
             blnIsError = true;
         } else {
+            Sirono_Settings__c planLimits = SironoSettingsUtil.getPaymentPlanSettings();
             if ((planType.trim().equalsIgnoreCase('promise') && decimal.valueof(promiseAmount) < 0)
                     || (!planType.trim().equalsIgnoreCase('promise') && decimal.valueof(amount) < 0)
                     ) {
@@ -249,23 +239,23 @@ public with sharing class EditPaymentPlan {
             
             decimal tempAmount = decimal.valueof(planType.trim().equalsIgnoreCase('promise') ? promiseAmount : amount);
             
-            if(tempAmount < PaymentPlanSettings.Min_Installment_Amount__c){
+            if(tempAmount < planLimits.Min_Installment_Amount__c){
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'Monthly amount must be equal to or greater than $' + PaymentPlanSettings.Min_Installment_Amount__c + '.'));
+                    'Monthly amount must be equal to or greater than $' + planLimits.Min_Installment_Amount__c + '.'));
                 blnIsError = true;
             }
             
-            if(tempAmount >= PaymentPlanSettings.Min_Installment_Amount__c) {
+            if(tempAmount >= planLimits.Min_Installment_Amount__c) {
                 integer totalInstallment = integer.valueof((decimal.valueof(payableAmount)/tempAmount).round(System.RoundingMode.CEILING));
                 integer minimumInstallmentAmount = 0;
                 
-                if (PaymentPlanSettings.Max_Number_Plan_Installments__c > 0) {
-                    minimumInstallmentAmount = integer.valueof((decimal.valueof(payableAmount)/PaymentPlanSettings.Max_Number_Plan_Installments__c).round(System.RoundingMode.CEILING));
+                if (planLimits.Max_Number_Plan_Installments__c > 0) {
+                    minimumInstallmentAmount = integer.valueof((decimal.valueof(payableAmount)/planLimits.Max_Number_Plan_Installments__c).round(System.RoundingMode.CEILING));
                 }
                 
-                if (totalInstallment > PaymentPlanSettings.Max_Number_Plan_Installments__c) {
+                if (totalInstallment > planLimits.Max_Number_Plan_Installments__c) {
                     ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                        'This monthly amount would exceed ' + PaymentPlanSettings.Max_Number_Plan_Installments__c + ' installments.' +
+                        'This monthly amount would exceed ' + planLimits.Max_Number_Plan_Installments__c + ' installments.' +
                         ' The minimum allowed installment amount is $' + minimumInstallmentAmount + '.'));
                     blnIsError = true;                
                 }

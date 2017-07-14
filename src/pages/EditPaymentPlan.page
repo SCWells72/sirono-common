@@ -2,14 +2,11 @@
 * @author: Sirono
 * @version 1.0.1
 * @Date: 05-25-2016
-* 
-* Sirono 08-29-2016: 127326579 when Record Saved Successfully return to the PaymentPlan after few Sec.
-* 08-19-2016: Sirono - Tracker # 127324171 CCard Validations
-* 09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31.
+*
 -->
 
 
-<apex:page controller="EditPaymentPlan" id="pg" action="{!getPaymentPlanSettings}">
+<apex:page controller="EditPaymentPlan" id="pg">
     <!--Sirono 08-29-2016:  Include JQuery-->
     <apex:includeScript value="{!URLFOR($Resource.Jquery, 'jquery-3.0.0.min.js')}"/>
 
