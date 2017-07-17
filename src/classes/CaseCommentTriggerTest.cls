@@ -4,6 +4,52 @@
 
 @isTest
 public class CaseCommentTriggerTest {
+    // TODO: Does this belong in Constants?
+    private static final String INTERNAL_CASE_NAME = 'Internal Case';
+
+    @TestSetup
+    private static void setup() {
+        Contact guarantor = TestUtility.generateGuarantorContact();
+        Contact patientContact = TestUtility.generatePatientContact();
+        insert new Contact[]{guarantor, patientContact};
+
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(
+            guarantor.Id,
+            patientContact.Id,
+            200.0
+        );
+        insert chargeGroup;
+    }
+
+    private static RecordType getInternalCaseRecordType() {
+        RecordType internalCaseRecordType = [
+            SELECT Id, Name
+            FROM RecordType
+            WHERE SobjectType = :Case.SObjectType.getDescribe().getName()
+            AND Name = :INTERNAL_CASE_NAME
+        ];
+        return internalCaseRecordType;
+    }
+
+    private static User getAdminUser() {
+        Profile adminProfile = [
+            SELECT Id
+            FROM Profile
+            WHERE Name = 'System Administrator'
+        ];
+        User adminUser = new User(
+            Alias = 'standt',
+            Email = 'admin@testorg.com',
+            EmailEncodingKey = 'UTF-8',
+            LastName = 'Testing',
+            LanguageLocaleKey = 'en_US',
+            LocaleSidKey = 'en_US',
+            ProfileId = adminProfile.Id,
+            TimeZoneSidKey = 'America/Los_Angeles',
+            UserName = 'admin@testorg1212.com'
+        );
+        return adminUser;
+    }
 
     /**
      * Coverage the code for the CaseCommentTriggerHandler class and
@@ -11,28 +57,10 @@ public class CaseCommentTriggerTest {
      **/
     @isTest
     static void checkCaseComment() {
-        Contact guarantor = TestUtility.generateGuarantorContact();
-        insert guarantor;
-
-        Contact patientContact = TestUtility.generatePatientContact();
-        insert patientContact;
-
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantor.Id, patientContact.Id, 200.0);
-        insert chargeGroup;
-
-        // Get case object record type.
-        RecordType internalCaseRecordTYpe = [
-            SELECT Id, Name
-            FROM RecordType
-            WHERE SobjectType = 'Case'
-            AND Name = 'Internal Case'
-        ];
-
-        // Create case record.
         Case testCase = new Case(
             Status = 'New',
             Origin = 'Phone',
-            RecordTypeId = internalCaseRecordTYpe.Id
+            RecordTypeId = getInternalCaseRecordType().Id
         );
         INSERT testCase;
 
@@ -59,45 +87,12 @@ public class CaseCommentTriggerTest {
      * call the afterInsert and checkAndDoAddNoteCallout method
      **/
     static testMethod void checkCaseCommentAsSystemAdmin() {
-        // Get System Administrator Profile.
-        Profile adminProfile = [SELECT Id FROM Profile WHERE Name = 'System Administrator'];
-
-        // Create new user with System Administrator Profile.
-        User adminUser = new User(
-            Alias = 'standt',
-            Email = 'admin@testorg.com',
-            EmailEncodingKey = 'UTF-8',
-            LastName = 'Testing', LanguageLocaleKey = 'en_US',
-            LocaleSidKey = 'en_US',
-            ProfileId = adminProfile.Id,
-            TimeZoneSidKey = 'America/Los_Angeles',
-            UserName = 'admin@testorg1212.com'
-        );
-
-        // Run as a System Administrator.
-        System.runAs(adminUser) {
-            Contact guarantor = TestUtility.generateGuarantorContact();
-            insert guarantor;
-
-            Contact patientContact = TestUtility.generatePatientContact();
-            insert patientContact;
-
-            Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantor.Id, patientContact.Id, 200.0);
-            insert chargeGroup;
-
-            // Get case object record type.
-            RecordType internalCaseRecordType = [
-                SELECT Id, Name
-                FROM RecordType
-                WHERE sObjectType = :Case.SObjectType.getDescribe().getName()
-                AND Name = 'Internal Case'
-            ];
-
+        System.runAs(getAdminUser()) {
             // Create case record.
             Case testCase = new Case(
                 Status = 'New',
                 Origin = 'Phone',
-                RecordTypeId = internalCaseRecordType.Id
+                RecordTypeId = getInternalCaseRecordType().Id
             );
             INSERT testCase;
 
@@ -122,64 +117,30 @@ public class CaseCommentTriggerTest {
     /**
      * Coverage the code for the CaseCommentTriggerHandler class and
      * call the afterInsert and checkAndDoAddNoteCallout method
+     *
+     * TODO: What exactly is this testing since it's explicitly creating a case/charge group junction?
      **/
     static testMethod void testCaseChargeGroup() {
-        // Create Patient Contact record.
-        Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
-
-        // Create Guarantor Contact record.
-        Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
-
-        // Create Charge Group record.
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12345);
-        INSERT chargeGroup;
-
-        // Get System Administrator Profile.
-        Profile adminProfile = [SELECT Id FROM Profile WHERE Name = 'System Administrator'];
-
-        // Create new user with System Administrator Profile.
-        User adminUser = new User(
-            Alias = 'standt',
-            Email = 'admin@testorg.com',
-            EmailEncodingKey = 'UTF-8',
-            LastName = 'Testing',
-            LanguageLocaleKey = 'en_US',
-            LocaleSidKey = 'en_US', ProfileId = adminProfile.Id,
-            TimeZoneSidKey = 'America/Los_Angeles', UserName = 'admin@testorg1212.com');
-
         Test.setMock(HttpCalloutMock.class, new AuthRestClientFailMock());
 
-        // Run as a System Administrator.
-        System.runAs(adminUser) {
-            // Get case object record type.
-            RecordType internalCaseRecordType = [
-                SELECT Id, Name
-                FROM RecordType
-                WHERE sObjectType = :Case.SObjectType.getDescribe().getName()
-                AND Name = 'Internal Case'
-            ];
-
-            // Create case record.
-            Case c = new Case(
+        System.runAs(getAdminUser()) {
+            Case testCase = new Case(
                 Status = 'New',
                 Origin = 'Phone',
-                RecordTypeId = internalCaseRecordType.Id
+                RecordTypeId = getInternalCaseRecordType().Id
             );
-            INSERT c;
+            INSERT testCase;
 
-            // Create Case Charge Group record.
-            // TODO: Is this explicitly required?
+            // Explicitly associate the case with a charge group
+            Charge_Group__c chargeGroup = [SELECT Id FROM Charge_Group__c LIMIT 1];
             Case_Charge_Group_Junction__c caseChargeGroupJunction = new Case_Charge_Group_Junction__c(
-                Case__c = c.Id,
+                Case__c = testCase.Id,
                 Charge_Group__c = chargeGroup.Id
             );
             INSERT caseChargeGroupJunction;
 
             Test.startTest();
-            // Create Case Comment record.
-            CaseComment caseComment = TestUtility.generateCaseComment(c.Id);
+            CaseComment caseComment = TestUtility.generateCaseComment(testCase.Id);
             INSERT caseComment;
             Test.stopTest();
 
