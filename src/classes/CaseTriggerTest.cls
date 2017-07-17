@@ -9,26 +9,33 @@ private class CaseTriggerTest {
      * This method checks/verifies case comment record for relevant Case.
      **/
     static testMethod void checkGeneratedCaseCommentOfCase() {
+        Contact guarantor = TestUtility.generateGuarantorContact();
+        insert guarantor;
 
-        Map<String, Id> rtMap = new Map<String, Id>();
-        for (RecordType rt: [SELECT Id, Name FROM RecordType WHERE sObjectType = 'Case']) {
-            rtMap.put(rt.Name, rt.Id);
+        Contact patientContact = TestUtility.generatePatientContact();
+        insert patientContact;
+
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantor.Id, patientContact.Id, 200.0);
+        insert chargeGroup;
+
+        Map<String, Id> caseRecordTypesById = new Map<String, Id>();
+        for (RecordType recordType: [SELECT Id, Name FROM RecordType WHERE sObjectType = :Case.SObjectType.getDescribe().getName()]) {
+            caseRecordTypesById.put(recordType.Name, recordType.Id);
         }
 
         Test.startTest();
-        Case c = TestUtility.generateCase(rtMap.get('Internal Case'), 'Address Change', null);
-        c.Reason = 'Charge Group';
-        c.Charge_Group_IDs__c = '1234,1235';
-        INSERT c;
+        Case testCase = TestUtility.generateCase(caseRecordTypesById.get('Internal Case'), 'Address Change', null);
+        testCase.Reason = 'Charge Group';
+        INSERT testCase;
 
-        CaseComment cc = TestUtility.generateCaseComment(c.Id);
-        INSERT cc;
+        CaseComment caseComment = TestUtility.generateCaseComment(testCase.Id);
+        INSERT caseComment;
         Test.stopTest();
 
-	// Check System Assert, CaseComment record created with expected commentody.
-        List<CaseComment> lstCaseComment = [SELECT Id, CommentBody FROM CaseComment];
-        System.assertEquals(1, lstCaseComment.Size(), 'CaseComment record not created');
-        System.assertEquals('Test', lstCaseComment[0].CommentBody, 'CaseComment record created with different commentbody');
+        // Check System Assert, CaseComment record created with expected commentody.
+        List<CaseComment> caseComments = [SELECT Id, CommentBody FROM CaseComment];
+        System.assertEquals(1, caseComments.size(), 'CaseComment record not created');
+        System.assertEquals('Test', caseComments[0].CommentBody, 'CaseComment record created with different commentbody');
     }
 
     /**
@@ -49,7 +56,7 @@ private class CaseTriggerTest {
         Boolean isError = false;
         for (Apexpages.Message msg: msgList) {
             if (msg.getDetail().contains(TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.UNAUTHORIZED))) {
-                isError  = true;
+                isError = true;
             }
         }
         System.assert(isError, 'JWT Exception during add Note Future process.');
@@ -68,12 +75,13 @@ private class CaseTriggerTest {
         TestUtility.statusCode = 200;
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
-        for (Case ob: [SELECT Id, Description, Charge_Group_IDs__c
-        		FROM Case
-    			WHERE Id = :cc.Id AND CreatedBy.Name != 'Sirono Integration'
-    			AND Charge_Group_IDs__c != null
-	]) {
-            PayStaffWSUtill.addNoteFuture(ob.Charge_Group_IDs__c.split(','), ob.Description);
+        for (Case testCase: [
+            SELECT Id, Description, Charge_Group_IDs__c
+            FROM Case
+            WHERE Id = :cc.Id AND CreatedBy.Name != 'Sirono Integration'
+            AND Charge_Group_IDs__c != null
+        ]) {
+            PayStaffWSUtill.addNoteFuture(testCase.Charge_Group_IDs__c.split(','), testCase.Description);
         }
         Test.stopTest();
 
@@ -160,9 +168,13 @@ private class CaseTriggerTest {
      **/
     @isTest
     static void checkAccessRights() {
-        List<CaseSecurityContext> allContexts = new List<CaseSecurityContext>{CaseSecurityContext.CREATE_CONTEXT,
-        	CaseSecurityContext.CREATE_WITH_GT_CONTEXT, CaseSecurityContext.CU_CREATE_WITH_ENCOUNTER_CONTEXT,
-                CaseSecurityContext.UPDATE_CONTEXT, CaseSecurityContext.UPSERT_CONTEXT, CaseSecurityContext.DELETE_CONTEXT
+        List<CaseSecurityContext> allContexts = new List<CaseSecurityContext>{
+            CaseSecurityContext.CREATE_CONTEXT,
+            CaseSecurityContext.CREATE_WITH_GT_CONTEXT,
+			CaseSecurityContext.CU_CREATE_WITH_ENCOUNTER_CONTEXT,
+            CaseSecurityContext.UPDATE_CONTEXT,
+			CaseSecurityContext.UPSERT_CONTEXT,
+			CaseSecurityContext.DELETE_CONTEXT
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
@@ -184,8 +196,9 @@ private class CaseTriggerTest {
      **/
     @isTest
     static void checkAccessRightsForRead() {
-        List<CaseSecurityContext> allContexts = new List<CaseSecurityContext>{CaseSecurityContext.SELECT_CONTEXT,
-                CaseSecurityContext.CU_SELECT_CONTEXT
+        List<CaseSecurityContext> allContexts = new List<CaseSecurityContext>{
+            CaseSecurityContext.SELECT_CONTEXT,
+            CaseSecurityContext.CU_SELECT_CONTEXT
         };
 
         System.runAs(TestUtility.generateChatterOnlyUser()) {

@@ -47,15 +47,24 @@ public with sharing class CaseTriggerHandler {
                 // We have removed Loop and take List Variable because of we need only one record based on Case Id.
                 // This changes do for Security Scan's "Async Future Method Inside Loops" related Error.
                 List<Case> cases = new List<Case>([
-                    SELECT Id, Description, Charge_Group_IDs__c
+                    SELECT Id, Description, (
+                        SELECT Charge_Group__c
+                        FROM Case_Charge_Groups__r
+                    )
                     FROM Case
                     WHERE Id = :newCases.get(0).Id
                     AND CreatedBy.Name != 'Sirono Integration'
-                    AND Charge_Group_IDs__c != null
                 ]);
-                if (cases.size() > 0) {
-                    // CALL FUTURE METHOD FOR ADD NOTE CALLOUT
-                    PayStaffWSUtill.addNoteFuture(cases[0].Charge_Group_IDs__c.split(','), cases[0].Description);
+                if (!cases.isEmpty()) {
+                    for (Case currentCase : cases) {
+                        List<String> chargeGroupIds = new List<String>();
+                        for (Case_Charge_Group_Junction__c caseChargeGroupJunction : currentCase.Case_Charge_Groups__r) {
+                            chargeGroupIds.add(caseChargeGroupJunction.Charge_Group__c);
+                        }
+                        if (!chargeGroupIds.isEmpty()) {
+                            PayStaffWSUtill.addNoteFuture(chargeGroupIds, currentCase.Description);
+                        }
+                    }
                 }
             }
         }
