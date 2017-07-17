@@ -105,7 +105,7 @@ private class CaseTriggerTest {
             )
             FROM Case
             WHERE Id = :testCase.Id
-            AND CreatedBy.Name != 'Sirono Integration'
+            AND CreatedBy.Name != :Constants.SIRONO_INTEGRATION_USER_NAME
         ]) {
             System.assert(!thisCase.Case_Charge_Groups__r.isEmpty(), 'Expected charge groups on the case.');
             List<String> chargeGroupIds = new List<String>();

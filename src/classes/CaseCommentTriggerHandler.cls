@@ -7,7 +7,7 @@
 */
 
 public with sharing class CaseCommentTriggerHandler {
-	//PUBLIC METHOD CALLED FROM TRIGGER
+    //PUBLIC METHOD CALLED FROM TRIGGER
     public static void afterInsert(List<CaseComment> newList) {
         //ONLY DOING CALLOUT WHEN BATCH SIZE IS ONE (It's Created from UI)
         if (newList.size() == 1) {
@@ -24,6 +24,8 @@ public with sharing class CaseCommentTriggerHandler {
      * Parameter change CaseComment object to List of CaseComment to resolve Security Scan Issue.
      **/
     private static void checkAndDoAddNoteCallout(List<CaseComment> caseComments) {
+        // TODO: Bulkify like CaseTriggerHandler
+
         //CHECK IF COMMENT BODY IS NOT NULL
         if (caseComments.get(0).CommentBody != null) {
             //CHECK IF CASE OF NOES RECORD TYPE AND DID NOT CREATED BY SIRONO INTEGRATION USER
@@ -32,13 +34,14 @@ public with sharing class CaseCommentTriggerHandler {
             string caseCommentBody = '';
             if (CaseCommentSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                 // Removed Internal Case record type check in the query 
-                for (CaseComment ob: [SELECT Id, CommentBody, ParentId
-                            FROM CaseComment
-                            WHERE Id = :caseComments.get(0).Id
-                            AND CreatedBy.Name != 'Sirono Integration'
+                for (CaseComment caseComment: [
+                    SELECT Id, CommentBody, ParentId
+                    FROM CaseComment
+                    WHERE Id = :caseComments.get(0).Id
+                    AND CreatedBy.Name != :Constants.SIRONO_INTEGRATION_USER_NAME
                 ]) {
-                    caseId = ob.ParentId;
-                    caseCommentBody = ob.CommentBody;
+                    caseId = caseComment.ParentId;
+                    caseCommentBody = caseComment.CommentBody;
                 }
             }
 

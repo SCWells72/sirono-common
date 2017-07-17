@@ -16,14 +16,14 @@ public with sharing class PaymentPlanTriggerHandler {
     public static void afterInsert(List<Payment_Plan__c> newList) {
         checkCallListRemove(newList, null);
         callDelinquentPaymentPlanCaseCreation(newList, null);
-        callCCErrorCaseAutoCloser(newList, null);
+        callPaymentPlanErrorCaseAutoCloser(newList, null);
     }
 
     //static method invoked after update event
     public static void afterUpdate(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap) {
         checkCallListRemove(newList, oldMap);
         callDelinquentPaymentPlanCaseCreation(newList, oldMap);
-        callCCErrorCaseAutoCloser(newList, oldMap);
+        callPaymentPlanErrorCaseAutoCloser(newList, oldMap);
     }
 
     //static method invoked before insert event occurs
@@ -179,7 +179,7 @@ public with sharing class PaymentPlanTriggerHandler {
     }
 
     // Close open cases for payment plans which no longer have errors
-    private static void callCCErrorCaseAutoCloser(List<Payment_Plan__c> paymentPlans, Map<Id, Payment_Plan__c> oldPaymentPlansById) {
+    private static void callPaymentPlanErrorCaseAutoCloser(List<Payment_Plan__c> paymentPlans, Map<Id, Payment_Plan__c> oldPaymentPlansById) {
         Set<Id> closeCaseGuarantorIds = new Set<Id>();
         Set<Id> paymentPlanId = new Set<Id>();
 
@@ -193,7 +193,7 @@ public with sharing class PaymentPlanTriggerHandler {
             }
 
             if (!closeCaseGuarantorIds.isEmpty()) {
-                CaseUtil.closeCCErrorCase(closeCaseGuarantorIds, paymentPlanId);
+                CaseUtil.closePaymentPlanErrorCase(closeCaseGuarantorIds, paymentPlanId);
             }
         }
     }
