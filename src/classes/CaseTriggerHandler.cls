@@ -44,32 +44,32 @@ public with sharing class CaseTriggerHandler {
      **/
     private static void checkAndDoAddNoteCallout(List<Case> cases) {
         if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            List<Id> newCaseIds = new List<Id>();
+            List<Id> caseIds = new List<Id>();
             for (Case aCase : cases) {
                 if (String.isNotBlank(aCase.Description)) {
-                    newCaseIds.add(aCase.Id);
+                    caseIds.add(aCase.Id);
                 }
             }
 
-            if (!newCaseIds.isEmpty()) {
-                List<Case> casesWithChargeGroups = new List<Case>([
+            if (!caseIds.isEmpty()) {
+                List<Case> queriedCases = new List<Case>([
                     SELECT Id, Description, (
                         SELECT Charge_Group__c
                         FROM Case_Charge_Groups__r
                     )
                     FROM Case
-                    WHERE Id = :newCaseIds
+                    WHERE Id IN :caseIds
                     AND CreatedBy.Name != :Constants.SIRONO_INTEGRATION_USER_NAME
                 ]);
-                if (!casesWithChargeGroups.isEmpty()) {
+                if (!queriedCases.isEmpty()) {
                     // TODO: Once there's a bulk version of this API, collate all requests and invoke in bulk
-                    for (Case caseWithChargeGroup : casesWithChargeGroups) {
+                    for (Case queriedCase : queriedCases) {
                         List<String> chargeGroupIds = new List<String>();
-                        for (Case_Charge_Group_Junction__c caseChargeGroupJunction : caseWithChargeGroup.Case_Charge_Groups__r) {
+                        for (Case_Charge_Group_Junction__c caseChargeGroupJunction : queriedCase.Case_Charge_Groups__r) {
                             chargeGroupIds.add(caseChargeGroupJunction.Charge_Group__c);
                         }
                         if (!chargeGroupIds.isEmpty()) {
-                            PayStaffWSUtill.addNoteFuture(chargeGroupIds, caseWithChargeGroup.Description);
+                            PayStaffWSUtill.addNoteFuture(chargeGroupIds, queriedCase.Description);
                         }
                     }
                 }

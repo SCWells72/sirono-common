@@ -8,11 +8,11 @@
 
 public with sharing class CaseCommentTriggerHandler {
     //PUBLIC METHOD CALLED FROM TRIGGER
-    public static void afterInsert(List<CaseComment> newList) {
+    public static void afterInsert(List<CaseComment> caseComments) {
         //ONLY DOING CALLOUT WHEN BATCH SIZE IS ONE (It's Created from UI)
-        if (newList.size() == 1) {
+        if (caseComments.size() == 1) {
             // Passing parameter change CaseComment single record to List of CaseComment to resolve Security Scan Issue.
-            checkAndDoAddNoteCallout(newList);
+            checkAndDoAddNoteCallout(caseComments);
         }
     }
 
@@ -24,31 +24,32 @@ public with sharing class CaseCommentTriggerHandler {
      * Parameter change CaseComment object to List of CaseComment to resolve Security Scan Issue.
      **/
     private static void checkAndDoAddNoteCallout(List<CaseComment> caseComments) {
-        // TODO: Bulkify like CaseTriggerHandler
-
-        //CHECK IF COMMENT BODY IS NOT NULL
-        if (caseComments.get(0).CommentBody != null) {
-            //CHECK IF CASE OF NOES RECORD TYPE AND DID NOT CREATED BY SIRONO INTEGRATION USER
-            //AND Have ChargeGroups ASSOCIATED with Case
-            Id caseId;
-            string caseCommentBody = '';
-            if (CaseCommentSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                // Removed Internal Case record type check in the query 
-                for (CaseComment caseComment: [
-                    SELECT Id, CommentBody, ParentId
-                    FROM CaseComment
-                    WHERE Id = :caseComments.get(0).Id
-                    AND CreatedBy.Name != :Constants.SIRONO_INTEGRATION_USER_NAME
-                ]) {
-                    caseId = caseComment.ParentId;
-                    caseCommentBody = caseComment.CommentBody;
+        if (CaseCommentSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            Map<Id, String> caseCommentBodiesById = new Map<Id, String>();
+            for (CaseComment caseComment : caseComments) {
+                if (String.isNotBlank(caseComment.CommentBody)) {
+                    caseCommentBodiesById.put(caseComment.Id, caseComment.CommentBody);
                 }
             }
 
-            List<String> chargeGroupIds = ChargeGroupService.getCGIdsFromCaseCGJun(caseId);
+            if (!caseCommentBodiesById.isEmpty()) {
+                List<CaseComment> queriedCaseComments = new List<CaseComment>([
+                    SELECT Id, CommentBody, ParentId
+                    FROM CaseComment
+                    WHERE Id IN :caseCommentBodiesById.keySet()
+                    AND CreatedBy.Name != :Constants.SIRONO_INTEGRATION_USER_NAME
+                ]);
+                // TODO: Once there's a bulk version of this API, collate all requests and invoke in bulk
+                for (CaseComment queriedCaseComment : queriedCaseComments) {
+                    String caseId = queriedCaseComment.ParentId;
+                    String caseCommentBody = queriedCaseComment.CommentBody;
 
-            //CALL FUTURE METHOD FOR ADD NOTE CALLOUT
-            PayStaffWSUtill.addNoteFuture(chargeGroupIds, caseCommentBody);
+                    List<String> chargeGroupIds = ChargeGroupService.getCGIdsFromCaseCGJun(caseId);
+
+                    //CALL FUTURE METHOD FOR ADD NOTE CALLOUT
+                    PayStaffWSUtill.addNoteFuture(chargeGroupIds, caseCommentBody);
+                }
+            }
         }
     }
 }
