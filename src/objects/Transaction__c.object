@@ -221,7 +221,7 @@
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Service</label>
-        <referenceTo>Service__c</referenceTo>
+        <referenceTo>Service2__c</referenceTo>
         <relationshipLabel>Transactions</relationshipLabel>
         <relationshipName>Transactions</relationshipName>
         <required>false</required>

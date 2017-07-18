@@ -10,7 +10,7 @@
         <label>Information</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Readonly</behavior>
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
@@ -36,8 +36,8 @@
                 <emptySpace>true</emptySpace>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Charge_Group__c</field>
+                <behavior>Edit</behavior>
+                <field>Guarantor__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -47,11 +47,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Code__c</field>
+                <field>Charge_Code__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Code_Description__c</field>
+                <field>Charge_Code_Description__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -66,7 +66,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>CPT_Code_Mods__c</field>
+                <field>CPT_Code_Modifiers__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -90,7 +90,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>ID__c</field>
+                <field>Aggregate_Id__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -118,7 +118,7 @@
         <fields>Post_Date__c</fields>
         <fields>Transaction_Date__c</fields>
         <fields>Charge_Group__c</fields>
-        <relatedList>Transaction__c.Service__c</relatedList>
+        <relatedList>Transaction__c.Service2__c</relatedList>
         <sortField>Post_Date__c</sortField>
         <sortOrder>Desc</sortOrder>
     </relatedLists>
@@ -128,7 +128,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h36000002WwRA</masterLabel>
+        <masterLabel>Services</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

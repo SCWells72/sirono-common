@@ -259,6 +259,7 @@
         <members>TransactionPayerType__mdt</members>
         <members>Transaction__c</members>
         <members>User_Timezone_Setting__mdt</members>
+        <members>Service2__c</members>
         <name>CustomObject</name>
     </types>
     <types>
@@ -469,7 +470,7 @@
         <members>Payor__c.All</members>
         <members>Provider__c.All</members>
         <members>Service_Rollup__c.All</members>
-        <members>Service__c.All</members>
+        <members>Service2__c.All</members>
         <members>Statement__c.All</members>
         <members>Transaction__c.All</members>
         <name>ListView</name>
@@ -670,7 +671,6 @@
         <members>Payment_Adjustments__c</members>
         <members>Payment_Plan__c</members>
         <members>Payment__c</members>
-        <members>Service__c</members>
         <members>Statement__c</members>
         <members>Transaction__c</members>
         <name>Workflow</name>

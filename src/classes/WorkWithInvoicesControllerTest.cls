@@ -64,7 +64,6 @@ private class WorkWithInvoicesControllerTest {
             insert objCGCoverage;
 
             Service__c serviceTest = new Service__c(
-                Name = 'serviceTest',
                 Charge_Group__c = chargeGroup2.Id
             );
             insert serviceTest;

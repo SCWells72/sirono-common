@@ -88,9 +88,9 @@ public class PaymentPlanBalanceTest {
     static void addNewTransactionTest() {
         Test.startTest();
 
-        Charge_Group__c testCG = [SELECT Id, Balance__c FROM Charge_Group__c LIMIT 1];
+        Contact guarantor = [SELECT Id FROM Contact WHERE RecordType.Name = 'Guarantor' LIMIT 1];
 
-        Service__c newService = TestUtility.generateService(testCG, TestUtility.generateRandomCurrency());
+        Service2__c newService = TestUtility.generateService(guarantor, TestUtility.generateRandomCurrency());
         insert newService;
 
         Transaction__c newServiceTransaction = TestUtility.generateServiceTxn(testCG, newService.Amount__c, newService);
@@ -118,9 +118,9 @@ public class PaymentPlanBalanceTest {
     static void changePPValueModifiedDateTest() {
         Test.startTest();
 
-        Charge_Group__c testCG = [SELECT Id, Balance__c FROM Charge_Group__c LIMIT 1];
+        Contact guarantor = [SELECT Id FROM Contact WHERE RecordType.Name = 'Guarantor' LIMIT 1];
 
-        Service__c newService = TestUtility.generateService(testCG, TestUtility.generateRandomCurrency());
+        Service2__c newService = TestUtility.generateService(guarantor, TestUtility.generateRandomCurrency());
         insert newService;
 
         Transaction__c secondTestTransaction = TestUtility.generateServiceTxn(testCG, newService.Amount__c, newService);
