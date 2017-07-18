@@ -14,12 +14,7 @@ public with sharing class CaseTriggerHandler {
             return;
         }
 
-        // TODO: A few changes are needed here: 1) handling of more than one; 2) move to after charge group association
-        if (cases.size() == 1) {
-            // Passing parameter change Case single record to List of Case to resolve Security Scan Issue.
-            checkAndDoAddNoteCallout(cases);
-        }
-
+        checkAndDoAddNoteCallout(cases);
         createCaseCGJunctions(cases);
         createCampaignMemberRecords(cases);
     }
