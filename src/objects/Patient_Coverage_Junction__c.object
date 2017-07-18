@@ -106,7 +106,7 @@
     <fields>
         <fullName>Sirono_ID__c</fullName>
         <externalId>true</externalId>
-        <label>ID</label>
+        <label>Sirono Id</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
