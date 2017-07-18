@@ -98,6 +98,12 @@ private class CaseTriggerTest {
         TestUtility.statusCode = 200;
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
+        // NOTE: We can't filter by CreatedBy.Name in a unit test context, so query all case comments and
+        // filter by creator afterward
+        List<User> sironoIntegrationUsers = [SELECT Id FROM User WHERE Name = :Constants.SIRONO_INTEGRATION_USER_NAME LIMIT 1];
+        User sironoIntegrationUser = (sironoIntegrationUsers.size() == 1) ? sironoIntegrationUsers.get(0) : null;
+        Id sironoIntegrationUserId = sironoIntegrationUser != null ? sironoIntegrationUser.Id : null;
+
         for (Case thisCase: [
             SELECT Id, Description, (
                 SELECT Id, Charge_Group__c
@@ -105,7 +111,7 @@ private class CaseTriggerTest {
             )
             FROM Case
             WHERE Id = :testCase.Id
-            AND CreatedBy.Name != :Constants.SIRONO_INTEGRATION_USER_NAME
+            AND CreatedById != :sironoIntegrationUserId
         ]) {
             System.assert(!thisCase.Case_Charge_Groups__r.isEmpty(), 'Expected charge groups on the case.');
             List<String> chargeGroupIds = new List<String>();

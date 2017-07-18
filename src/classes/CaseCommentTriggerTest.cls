@@ -11,7 +11,7 @@ public class CaseCommentTriggerTest {
     private static void setup() {
         Contact guarantor = TestUtility.generateGuarantorContact();
         Contact patientContact = TestUtility.generatePatientContact();
-        insert new Contact[]{guarantor, patientContact};
+        insert new Contact[] { guarantor, patientContact };
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(
             guarantor.Id,

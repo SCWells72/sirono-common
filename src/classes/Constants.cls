@@ -4,7 +4,7 @@
 
 public class Constants {
 
-    // The required name of the Sirono Integration user
+    // The name of the required Sirono Integration user
     public static final String SIRONO_INTEGRATION_USER_NAME = 'Sirono Integration';
 
     public static final String CALL_CENTER_PS = 'Sirono_Call_Center';

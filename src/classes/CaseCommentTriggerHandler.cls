@@ -33,11 +33,17 @@ public with sharing class CaseCommentTriggerHandler {
             }
 
             if (!caseCommentBodiesById.isEmpty()) {
+                // NOTE: We can't filter by CreatedBy.Name in a unit test context, so query all case comments and
+                // filter by creator afterward
+                List<User> sironoIntegrationUsers = [SELECT Id FROM User WHERE Name = :Constants.SIRONO_INTEGRATION_USER_NAME LIMIT 1];
+                User sironoIntegrationUser = (sironoIntegrationUsers.size() == 1) ? sironoIntegrationUsers.get(0) : null;
+                Id sironoIntegrationUserId = sironoIntegrationUser != null ? sironoIntegrationUser.Id : null;
+
                 List<CaseComment> queriedCaseComments = new List<CaseComment>([
                     SELECT Id, CommentBody, ParentId
                     FROM CaseComment
                     WHERE Id IN :caseCommentBodiesById.keySet()
-                    AND CreatedBy.Name != :Constants.SIRONO_INTEGRATION_USER_NAME
+                    AND CreatedById != :sironoIntegrationUserId
                 ]);
                 // TODO: Once there's a bulk version of this API, collate all requests and invoke in bulk
                 for (CaseComment queriedCaseComment : queriedCaseComments) {
