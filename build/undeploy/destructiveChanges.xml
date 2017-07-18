@@ -48,6 +48,7 @@
     </types>
     <types>
         <members>Encounter__c.Has_Chargegroup__c</members>
+        <members>Location__c.Code__c</members>
         <members>Payment_Adjustment__c.Transaction_Type__c</members>
         <name>CustomField</name>
     </types>
