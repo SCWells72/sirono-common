@@ -83,7 +83,7 @@ public with sharing class RestClientConstants {
     public static final String METHOD_OVERRIDE = 'X-HTTP-Method-Override';
 
     // Test Constants
-    public static final String CHARGE_GROUP_ID = 'charg3gr0up1d';
+    public static final String CHARGE_GROUP_ID = '192837465';
     public static final String GUARANTOR_ID = String.valueOf(TestUtility.PROFILE_POINTER);
     public static final String PAYMENT_PLAN_EXT_ID = 'paym3ntplan1d';
     public static final String PAYMENT_EXT_ID = 'paym3nt1d';

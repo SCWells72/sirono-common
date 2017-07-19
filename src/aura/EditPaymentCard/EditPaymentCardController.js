@@ -105,7 +105,7 @@
     },
 
     /**
-     * Setup a new payment plan.  Will file the paymentPlanCreated event when successful.
+     * Setup a new payment plan.  Will fire the paymentPlanCreated event when successful.
      */
     setupPlan: function (cmp, e, hlpr) {
         try {

@@ -4,14 +4,68 @@
 
 public class ChargeGroupService extends AbstractService {
 
+    private class ChargeGroupRestClient extends SironoRestClient {
+
+        /**
+         * Provides the URL map to the HttpSirono class for looking up urls.
+         */
+        @TestVisible
+        private Map<String, String> getUrls() {
+            return RestClientConstants.CHARGE_GROUP_URLS;
+        }
+
+        /**
+         * Make the call to get a Charge Group.
+         *
+         * @param String chargeGroupId - The charge group Sirono id.
+         * @return HttpResponse - The response from the service.
+         */
+        private HttpResponse getChargeGroup(String chargeGroupId) {
+            return getRequestor()
+                .url(RestClientConstants.CHARGEGROUP_KEY, new String[] {chargeGroupId})
+                .call();
+        }
+    }
+
     /**
-     * This method is use to get list of Charge_Group__c objects associated with the given sironoIds.
+     * This method is used to get list of Charge_Group__c objects associated with the given sironoIds.
      *
      * @param List<Decimal> sironoIds - That contains Charge Group's Sirono Ids.
      * @returns List<Charge_Group__c> - That contains CG records based on sironoIds.
      **/
     public static List<Charge_Group__c> getBySironoIds(List<Decimal> sironoIds) {
         return ChargeGroupDao.getBySironoIds(sironoIds);
+    }
+
+    /**
+     * Get a ChargeGroupJSONParsing that results from a call to the Sirono server.
+     *
+     * @param String cgSironoId - The Sirono Id of the charge group.
+     * @return ChargeGroupJSONParsing - The parse respose from the server.
+     */
+    public static ChargeGroupJSONParsing retrieveBySironoId(String cgSironoId) {
+        ChargeGroupRestClient client = new ChargeGroupRestClient();
+        HttpResponse res = client.getChargeGroup(cgSironoId);
+        ChargeGroupJSONParsing parsing = ChargeGroupJSONParsing.parse(res.getBody());
+
+        return parsing;
+    }
+
+    /**
+     * Get a Map where the keys are the Sirono Id and the values are the parse responses from the Sirono server.
+     *
+     * @param List<Decimal> sironoChargeGroupIds - A list of Sirono Charge Group Ids.
+     * @return Map<Decimal, ChargeGroupJSONParsing> - The map of results.
+     */
+    public static Map<Decimal, ChargeGroupJSONParsing> retrieveMapByIds(List<Decimal> sironoChargeGroupIds) {
+        Map<Decimal, ChargeGroupJSONParsing> idMap = new Map<Decimal, ChargeGroupJSONParsing>();
+
+        for (Decimal cgId: sironoChargeGroupIds) {
+            ChargeGroupJSONParsing parsing = retrieveBySironoId(String.valueOf(cgId));
+            idMap.put(cgId, parsing);
+        }
+
+        return idMap;
     }
 
     /**
@@ -125,5 +179,20 @@ public class ChargeGroupService extends AbstractService {
      **/
     public static void updateChargeGroupsWithStatus(List<Charge_Group__c> chargeGroups) {
         ChargeGroupDao.updateChargeGroupsWithStatus(chargeGroups);
+    }
+
+    /**
+     * Get a list of sirono ids for a List of charge groups.
+     *
+     * @param List<Charge_Group__c> cgs - The list of charge groups.
+     * @return List<Decimal> - The list of Sirono ids.
+     */
+    public static List<Decimal> getSironoIds(List<Charge_Group__c> cgs) {
+        List<Decimal> ids = new List<Decimal>();
+        for (Charge_Group__c cg: cgs) {
+            ids.add(cg.Sirono_ID__c);
+        }
+
+        return ids;
     }
 }

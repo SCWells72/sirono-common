@@ -9,25 +9,27 @@
         hlpr.hidePopup(cmp, 'backdrop', 'slds-backdrop--');
         cmp.set('v.hasError', false);
     },
-    cancelPlan: function (cmp, e, hlpr) {
-        var cancelPlan = cmp.get("c.deletePaymentPlan");
+
+    /**
+     * Make the call to cancel the current payment plan.
+     */
+    cancelPlan: function (component, evt, helper) {
+        var cancelPlan = component.get("c.deletePaymentPlan");
         cancelPlan.setParams({
-            sfPaymentPlanId: cmp.get('v.PaymentInfo.paymentPlan.Id')
+            paymentPlanId: component.get('v.PaymentInfo.paymentPlan.Id')
         });
         cancelPlan.setCallback(this, function (response) {
             if (response.getState() === 'SUCCESS') {
-                hlpr.hidePopup(cmp, 'cancelDialog', 'slds-fade-in-');
-                hlpr.hidePopup(cmp, 'backdrop', 'slds-backdrop--');
-                //cmp.getEvent('resetPaymentTabs').fire();
+                helper.hidePopup(component, 'cancelDialog', 'slds-fade-in-');
+                helper.hidePopup(component, 'backdrop', 'slds-backdrop--');
                 $A.get("e.force:navigateToURL").setParams({
                     'url': '/',
                     'isredirect': true
                 }).fire();
             } else {
-                console.error(response.getError());
                 var errors = response.getError();
                 if (errors) {
-                    hlpr.showError(cmp, errors ? errors[0].message : 'Error has been occurred');
+                    helper.showError(component, errors ? errors[0].message : 'Error has occurred');
                 }
             }
         });

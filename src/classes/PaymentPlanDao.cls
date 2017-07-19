@@ -4,7 +4,7 @@
  */
 
 public with sharing class PaymentPlanDao extends AbstractDao{
-
+//TODO
     /**
       * Return the active payment plan for the given guarantorId, null if there is none
       * @param - String guarantorId  The guarantorId of the plan.
@@ -70,6 +70,15 @@ public with sharing class PaymentPlanDao extends AbstractDao{
         if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
             UPSERT paymentPlans;
         }
+    }
+
+    /**
+     * Upsert a single payment plan.
+     *
+     * @param Payment_Plan__c plan - The plan to upsert.
+     */
+    public static void upsertPlan(Payment_Plan__c plan) {
+        upsertPlans(new List<Payment_Plan__c>{plan});
     }
 
     /**
