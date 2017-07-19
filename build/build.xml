@@ -125,7 +125,9 @@
             packagenames="${sf.pkgName}"/>
     </target>
 
-    <target name="deploy" depends="processTemplates, deactivateAndDeleteFlows">
+    <target name="deploy" depends="processTemplates, deactivateAndDeleteFlows, _deploy, runPostInstallHandler"/>
+
+    <target name="_deploy">
         <echo level="info">Deploying to: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
             username="${sf.target.username}"
@@ -136,6 +138,16 @@
             maxPoll="${sf.maxPoll}"
             testLevel="${sf.testLevel}"
             logType="Debugonly"/>
+    </target>
+
+    <target name="runPostInstallHandler">
+        <echo level="info">Running post-install handler</echo>
+        <executeAnonymous
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}">
+SironoPRSPostInstallHandler.initializeSironoSettings();
+        </executeAnonymous>
     </target>
 
     <target name="createPostInstallZip">
@@ -240,7 +252,9 @@
     </target>
 
     <!-- Deploy without tests -->
-    <target name="deployNoTests" depends="processTemplates, deactivateAndDeleteFlows">
+    <target name="deployNoTests" depends="processTemplates, deactivateAndDeleteFlows, _deployNoTests, runPostInstallHandler"/>
+
+    <target name="_deployNoTests">
         <echo level="info">Deploying to: ${sf.target.username} without tests</echo>
         <sf:deploy
             username="${sf.target.username}"
@@ -392,7 +406,7 @@
 
             <!-- Execute using HTTP GET -->
             <ml:http url="${instance}/services/data/v34.0/tooling/executeAnonymous"
-                     method="GET" outfile="lib/executeAnonymousResult.json"
+                     method="GET" outfile="${workDir}/executeAnonymousResult.json"
                      statusProperty="loginResponseStatus">
                 <headers>
                     <header name="Authorization" value="Bearer ${sessionId}"/>
@@ -403,10 +417,10 @@
             </ml:http>
 
             <!-- Fail on error -->
-            <loadfile property="executeAnonymousResult" srcFile="lib/executeAnonymousResult.json"/>
+            <loadfile property="executeAnonymousResult" srcFile="${workDir}/executeAnonymousResult.json"/>
             <fail message="Execute Anonymous failed: ${executeAnonymousResult}">
                 <condition>
-                    <resourcecontains resource="lib/executeAnonymousResult.json" substring="&quot;success&quot;:false"/>
+                    <resourcecontains resource="${workDir}/executeAnonymousResult.json" substring="&quot;success&quot;:false"/>
                 </condition>
             </fail>
 
@@ -421,8 +435,9 @@
         <attribute name="serverurl" description="Salesforce endpoint."/>
         <sequential>
             <!-- Obtain Session Id via Login SOAP service -->
+            <mkdir dir="${workDir}"/>
             <ml:http url="@{serverurl}/services/Soap/c/34.0" method="POST" failonunexpected="false"
-                     outfile="lib/loginResult.xml" statusProperty="loginResponseStatus">
+                     outfile="${workDir}/loginResult.xml" statusProperty="loginResponseStatus">
                 <headers>
                     <header name="Content-Type" value="text/xml"/>
                     <header name="SOAPAction" value="login"/>
@@ -440,21 +455,21 @@
             </ml:http>
 
             <!-- Fail on error -->
-            <loadfile property="loginResult" srcFile="lib/loginResult.xml"/>
+            <loadfile property="loginResult" srcFile="${workDir}/loginResult.xml"/>
             <fail message="Login failed: ${loginResult}">
                 <condition>
-                    <resourcecontains resource="lib/loginResult.xml" substring="faultcode"/>
+                    <resourcecontains resource="${workDir}/loginResult.xml" substring="faultcode"/>
                 </condition>
             </fail>
 
             <!-- Parse response into properties -->
-            <xmlproperty file="lib/loginResult.xml"/>
-            <echo file="lib/serverUrl.txt" message="${soapenv:Envelope.soapenv:Body.loginResponse.result.serverUrl}"/>
-            <echo file="lib/sessionId.txt" message="${soapenv:Envelope.soapenv:Body.loginResponse.result.sessionId}"/>
-            <echo file="lib/instance.txt" message="${soapenv:Envelope.soapenv:Body.loginResponse.result.serverUrl}"/>
-            <replaceregexp file="lib/instance.txt" match="(https://[^/]+)/.*" replace="\1"/>
-            <loadfile property="sessionId" srcFile="lib/sessionId.txt"/>
-            <loadfile property="instance" srcFile="lib/instance.txt"/>
+            <xmlproperty file="${workDir}/loginResult.xml"/>
+            <echo file="${workDir}/serverUrl.txt" message="${soapenv:Envelope.soapenv:Body.loginResponse.result.serverUrl}"/>
+            <echo file="${workDir}/sessionId.txt" message="${soapenv:Envelope.soapenv:Body.loginResponse.result.sessionId}"/>
+            <echo file="${workDir}/instance.txt" message="${soapenv:Envelope.soapenv:Body.loginResponse.result.serverUrl}"/>
+            <replaceregexp file="${workDir}/instance.txt" match="(https://[^/]+)/.*" replace="\1"/>
+            <loadfile property="sessionId" srcFile="${workDir}/sessionId.txt"/>
+            <loadfile property="instance" srcFile="${workDir}/instance.txt"/>
         </sequential>
     </macrodef>
 
