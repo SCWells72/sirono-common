@@ -220,7 +220,6 @@
         <members>Contact.Verified_Email__c</members>
         <members>Contact.Vital_Status__c</members>
         <members>Contact.X18_Digit_ID__c</members>
-        <members>User.Legacy_User_Id__c</members>
         <name>CustomField</name>
     </types>
     <types>
