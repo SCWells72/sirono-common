@@ -5,6 +5,8 @@
         <members>AddCreditCardLightning</members>
         <members>AddCreditCardLightningTest</members>
         <members>AddCreditCardTest</members>
+        <members>AddNote</members>
+        <members>AddNoteTest</members>
         <members>AddPaymentPlanLightningController</members>
         <members>AddPaymentPlanLightningControllerTest</members>
         <members>AddToPaymentPlanLightning</members>
@@ -37,6 +39,7 @@
         <name>ApexClass</name>
     </types>
     <types>
+        <members>AddNote</members>
         <members>AddCreditCard</members>
         <members>PaymentArrangement</members>
         <name>ApexPage</name>

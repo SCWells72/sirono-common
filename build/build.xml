@@ -125,7 +125,9 @@
             packagenames="${sf.pkgName}"/>
     </target>
 
-    <target name="deploy" depends="processTemplates, deactivateAndDeleteFlows">
+    <target name="deploy" depends="processTemplates, deactivateAndDeleteFlows, _deploy, runPostInstallHandler"/>
+
+    <target name="_deploy">
         <echo level="info">Deploying to: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
             username="${sf.target.username}"
@@ -136,6 +138,16 @@
             maxPoll="${sf.maxPoll}"
             testLevel="${sf.testLevel}"
             logType="Debugonly"/>
+    </target>
+
+    <target name="runPostInstallHandler">
+        <echo level="info">Running post-install handler</echo>
+        <executeAnonymous
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}">
+SironoPRSPostInstallHandler.initializeSironoSettings();
+        </executeAnonymous>
     </target>
 
     <target name="createPostInstallZip">
@@ -206,21 +218,8 @@
         </copy>
     </target>
 
-    <target name="checkForDeployedFlows">
-        <listMetadata metadataType="Flow"/>
-        <condition property="deployedFlowsPresent">
-            <available file="${workDir}/listMetadata/list_Flow.log"/>
-        </condition>
-    </target>
-
-    <target name="unpopulateWorkSrcFlows" depends="checkForDeployedFlows" if="deployedFlowsPresent">
-        <echo level="info">Removing Flows to avoid collisions on check-only deployment.</echo>
-        <delete dir="${workDir}/src/flows" failonerror="false" quiet="true"/>
-        <delete dir="${workDir}/src/flowDefinitions" failonerror="false" quiet="true"/>
-    </target>
-
     <!-- Check only; don't save to the server -->
-    <target name="deployCheckOnly" depends="processTemplates, populateWorkSrcDir, unpopulateWorkSrcFlows">
+    <target name="deployCheckOnly" depends="processTemplates, populateWorkSrcDir, removeDeployedFlows">
         <echo level="info">Validating in: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
             username="${sf.target.username}"
@@ -235,7 +234,7 @@
     </target>
 
     <!-- Check only; only run specified tests -->
-    <target name="deployCheckSelectTests" depends="processTemplates, populateWorkSrcDir, unpopulateWorkSrcFlows">
+    <target name="deployCheckSelectTests" depends="processTemplates, populateWorkSrcDir, removeDeployedFlows">
         <echo level="info">Running select tests in: ${sf.target.username}</echo>
         <sf:deploy
             username="${sf.target.username}"
@@ -253,7 +252,9 @@
     </target>
 
     <!-- Deploy without tests -->
-    <target name="deployNoTests" depends="processTemplates, deactivateAndDeleteFlows">
+    <target name="deployNoTests" depends="processTemplates, deactivateAndDeleteFlows, _deployNoTests, runPostInstallHandler"/>
+
+    <target name="_deployNoTests">
         <echo level="info">Deploying to: ${sf.target.username} without tests</echo>
         <sf:deploy
             username="${sf.target.username}"
@@ -282,8 +283,7 @@
         <sequential>
             <local name="listMetadataOutput"/>
             <property name="listMetadataOutput" value="${workDir}/listMetadata/list_@{metadataType}.log"/>
-            <echo level="info">List metadata type: @{metadataType} from: ${sf.source.username} into: ${listMetadataOutput}
-            </echo>
+            <echo level="info">List metadata type: @{metadataType} from: ${sf.source.username} into: ${listMetadataOutput}</echo>
             <mkdir dir="${workDir}/listMetadata"/>
             <delete file="${listMetadataOutput}" failonerror="false" quiet="true"/>
             <sf:listMetadata
@@ -300,12 +300,12 @@
     </target>
 
     <target name="full_deploy" description="Full environment setup in target org"
-            depends="stop_all_scheduled_jobs, deploy, initialize_custom_settings, schedule_all_jobs"/>
+            depends="stop_all_scheduled_jobs, deploy, schedule_all_jobs"/>
 
     <!-- TODO: This could be quite a bit more efficient by only deploying what's needed in the second deployNoTests -->
     <target name="initial_deploy" description="Deploy into a DE org for the first time"
             depends="preDeploy, deployPrep, deployNoTests, revertPrep, deployNoTests, remove_sample_data,
-            initialize_custom_settings, revertPrep"/>
+            revertPrep"/>
 
     <target name="rename_prep" description="Stop all scheduled jobs and undeploy"
             depends="stop_all_scheduled_jobs, undeployCode, deploy"/>
@@ -357,19 +357,6 @@
         </executeAnonymous>
     </target>
 
-    <target name="initialize_custom_settings">
-        <echo level="info">Initialize custom settings in: ${sf.target.username}</echo>
-        <!-- execute apex to initialize custom settings -->
-        <executeAnonymous
-            username="${sf.target.username}"
-            password="${sf.target.password}"
-            serverurl="${sf.target.serverurl}">
-            <![CDATA[
-                SironoSettingsUtil.initializeSironoSettings();
-            ]]>
-        </executeAnonymous>
-    </target>
-
     <target name="remove_sample_data">
         <echo level="info">Remove all sample data from dev org: ${sf.target.username}</echo>
         <executeAnonymous
@@ -406,7 +393,7 @@
 
             <!-- Execute using HTTP GET -->
             <ml:http url="${instance}/services/data/v34.0/tooling/executeAnonymous"
-                     method="GET" outfile="lib/executeAnonymousResult.json"
+                     method="GET" outfile="${workDir}/executeAnonymousResult.json"
                      statusProperty="loginResponseStatus">
                 <headers>
                     <header name="Authorization" value="Bearer ${sessionId}"/>
@@ -417,10 +404,10 @@
             </ml:http>
 
             <!-- Fail on error -->
-            <loadfile property="executeAnonymousResult" srcFile="lib/executeAnonymousResult.json"/>
+            <loadfile property="executeAnonymousResult" srcFile="${workDir}/executeAnonymousResult.json"/>
             <fail message="Execute Anonymous failed: ${executeAnonymousResult}">
                 <condition>
-                    <resourcecontains resource="lib/executeAnonymousResult.json" substring="&quot;success&quot;:false"/>
+                    <resourcecontains resource="${workDir}/executeAnonymousResult.json" substring="&quot;success&quot;:false"/>
                 </condition>
             </fail>
 
@@ -435,8 +422,9 @@
         <attribute name="serverurl" description="Salesforce endpoint."/>
         <sequential>
             <!-- Obtain Session Id via Login SOAP service -->
+            <mkdir dir="${workDir}"/>
             <ml:http url="@{serverurl}/services/Soap/c/34.0" method="POST" failonunexpected="false"
-                     outfile="lib/loginResult.xml" statusProperty="loginResponseStatus">
+                     outfile="${workDir}/loginResult.xml" statusProperty="loginResponseStatus">
                 <headers>
                     <header name="Content-Type" value="text/xml"/>
                     <header name="SOAPAction" value="login"/>
@@ -454,41 +442,46 @@
             </ml:http>
 
             <!-- Fail on error -->
-            <loadfile property="loginResult" srcFile="lib/loginResult.xml"/>
+            <loadfile property="loginResult" srcFile="${workDir}/loginResult.xml"/>
             <fail message="Login failed: ${loginResult}">
                 <condition>
-                    <resourcecontains resource="lib/loginResult.xml" substring="faultcode"/>
+                    <resourcecontains resource="${workDir}/loginResult.xml" substring="faultcode"/>
                 </condition>
             </fail>
 
             <!-- Parse response into properties -->
-            <xmlproperty file="lib/loginResult.xml"/>
-            <echo file="lib/serverUrl.txt" message="${soapenv:Envelope.soapenv:Body.loginResponse.result.serverUrl}"/>
-            <echo file="lib/sessionId.txt" message="${soapenv:Envelope.soapenv:Body.loginResponse.result.sessionId}"/>
-            <echo file="lib/instance.txt" message="${soapenv:Envelope.soapenv:Body.loginResponse.result.serverUrl}"/>
-            <replaceregexp file="lib/instance.txt" match="(https://[^/]+)/.*" replace="\1"/>
-            <loadfile property="sessionId" srcFile="lib/sessionId.txt"/>
-            <loadfile property="instance" srcFile="lib/instance.txt"/>
+            <xmlproperty file="${workDir}/loginResult.xml"/>
+            <echo file="${workDir}/serverUrl.txt" message="${soapenv:Envelope.soapenv:Body.loginResponse.result.serverUrl}"/>
+            <echo file="${workDir}/sessionId.txt" message="${soapenv:Envelope.soapenv:Body.loginResponse.result.sessionId}"/>
+            <echo file="${workDir}/instance.txt" message="${soapenv:Envelope.soapenv:Body.loginResponse.result.serverUrl}"/>
+            <replaceregexp file="${workDir}/instance.txt" match="(https://[^/]+)/.*" replace="\1"/>
+            <loadfile property="sessionId" srcFile="${workDir}/sessionId.txt"/>
+            <loadfile property="instance" srcFile="${workDir}/instance.txt"/>
         </sequential>
     </macrodef>
 
     <!-- Flow management -->
 
-    <target name="deactivateAndDeleteFlows" depends="listFlows, generateDeactivateAndDeleteFlowFiles, reallyDeactivateAndDeleteFlows"/>
+    <target name="deactivateAndDeleteFlows" depends="listFlows, generateDeactivateAndDeleteFlowFiles, _deactivateAndDeleteFlows"/>
 
     <target name="listFlows">
         <listMetadata metadataType="Flow"/>
-        <loadfile srcfile="${workDir}/listMetadata/list_Flow.log" property="flowNames" failonerror="false" quiet="true">
-            <filterchain>
-                <linecontainsregexp>
-                    <regexp pattern="^FullName/Id:"/>
-                </linecontainsregexp>
-                <replaceregex pattern="^FullName/Id:\s+([^/]+)/.*" replace="\1"/>
-            </filterchain>
-        </loadfile>
-        <condition property="hasFlowNames">
-            <isset property="flowNames"/>
-        </condition>
+        <if>
+            <available file="${workDir}/listMetadata/list_Flow.log"/>
+            <then>
+                <loadfile srcfile="${workDir}/listMetadata/list_Flow.log" property="flowNames" failonerror="false" quiet="true">
+                    <filterchain>
+                        <linecontainsregexp>
+                            <regexp pattern="^FullName/Id:"/>
+                        </linecontainsregexp>
+                        <replaceregex pattern="^FullName/Id:\s+([^/]+)/.*" replace="\1"/>
+                    </filterchain>
+                </loadfile>
+                <condition property="hasFlowNames">
+                    <isset property="flowNames"/>
+                </condition>
+            </then>
+        </if>
     </target>
 
     <target name="generateDeactivateAndDeleteFlowFiles" if="hasFlowNames">
@@ -538,8 +531,8 @@
         </for>
     </target>
 
-    <target name="reallyDeactivateAndDeleteFlows" if="hasFlowNames">
-        <echo level="info">Deactivate and delete flows from: ${sf.target.username}</echo>
+    <target name="_deactivateAndDeleteFlows" if="hasFlowNames">
+        <echo level="info">Deactivating and deleting flows from: ${sf.target.username}</echo>
         <sf:deploy
             username="${sf.target.username}"
             password="${sf.target.password}"
@@ -548,6 +541,48 @@
             testLevel="NoTestRun"
             purgeOnDelete="true"
             ignoreWarnings="true"/>
+    </target>
+
+    <target name="removeDeployedFlows" depends="listFlows, _removeDeployedFlows"/>
+
+    <target name="_removeDeployedFlows" if="hasFlowNames">
+        <echo level="info">Removing deployed flows locally to avoid collisions during check-only deployment.</echo>
+        <for param="flowName" list="${flowNames}" delimiter="${line.separator}">
+            <sequential>
+                <if>
+                    <available file="${workDir}/src/flows/@{flowName}-1.flow"/>
+                    <then>
+                        <delete file="${workDir}/src/flows/@{flowName}-1.flow" failonerror="false" quiet="true"/>
+                    </then>
+                </if>
+                <if>
+                    <available file="${workDir}/src/flowDefinitions/@{flowName}.flowDefinition"/>
+                    <then>
+                        <delete file="${workDir}/src/flowDefinitions/@{flowName}.flowDefinition" failonerror="false" quiet="true"/>
+                    </then>
+                </if>
+            </sequential>
+        </for>
+
+        <!-- Delete the flow directory if it's empty now -->
+        <if>
+            <length length="0" when="equal">
+                <fileset dir="${workDir}/src/flows" includes="**/*.flow"/>
+            </length>
+            <then>
+                <delete dir="${workDir}/src/flows" failonerror="false" quiet="true"/>
+            </then>
+        </if>
+
+        <!-- Delete the flowDefinition directory if it's empty now -->
+        <if>
+            <length length="0" when="equal">
+                <fileset dir="${workDir}/src/flowDefinitions" includes="**/*.flowDefinition"/>
+            </length>
+            <then>
+                <delete dir="${workDir}/src/flowDefinitions" failonerror="false" quiet="true"/>
+            </then>
+        </if>
     </target>
 
 </project>

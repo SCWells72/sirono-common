@@ -59,8 +59,7 @@ public with sharing class ProcessPayment {
     }
 
     public ProcessPayment(ApexPages.StandardController sc) {
-        username = PayStaffWSUtill.un;
-        password = PayStaffWSUtill.pw;
+
         chargeGroupsSelected = false;
         guarantorName = '';
         /*
@@ -127,8 +126,8 @@ public with sharing class ProcessPayment {
             boolean blnIsAmountError = checkAmountValidation();
 
             if (blnIsError == false && !blnIsAmountError) {
-                String jwtToken = PayStaffWSUtill.getJWTToken(username, password);
-                String csrfToken = PayStaffWSUtill.getCSRFToken();
+                String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
+                String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
                 if (csrfToken != null && jwtToken != null) {
                     processPayment(csrfToken, jwtToken);
                 }

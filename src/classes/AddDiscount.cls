@@ -8,8 +8,7 @@
 */
 
 public with sharing class AddDiscount {
-    public String username {get; set;}
-    public String password {get; set;}
+
     public String guarantorRecordId {get; set;}
     public String guarantorName {get; set;}
     public Boolean chargeGroupsSelected {get; set;}
@@ -23,8 +22,7 @@ public with sharing class AddDiscount {
     private List<Payment_Plan__c> lstPaymentPlan = new List<Payment_Plan__c>();
     // Constructor of a class and initialize the variables.
     public AddDiscount(ApexPages.StandardController sc) {
-        username = PayStaffWSUtill.un;
-        password = PayStaffWSUtill.pw;
+
         chargeGroupsSelected = false;
         messageToShow = 'Please select Charge Group(s) to add Discount.';
         chargeGroupList = new List<ChargeGroupWrapper>();
@@ -100,8 +98,8 @@ public with sharing class AddDiscount {
     public void submit() {
         try {
             if (!isEmpty(chargeGroupId)) {
-                String jwtToken = PayStaffWSUtill.getJWTToken(username, password);
-                String csrfToken = PayStaffWSUtill.getCSRFToken();
+                String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
+                String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
                 if (csrfToken != null && jwtToken != null) {
                     addDiscountRequest(csrfToken, jwtToken);
                 }

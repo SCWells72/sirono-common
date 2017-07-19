@@ -4,6 +4,9 @@
 
 public class Constants {
 
+    // The name of the required Sirono Integration user
+    public static final String SIRONO_INTEGRATION_USER_NAME = 'Sirono Integration';
+
     public static final String CALL_CENTER_PS = 'Sirono_Call_Center';
     public static final String CALL_CENTER_LOCAL_PS = 'Sirono_Call_Center_Local';
 
@@ -51,7 +54,7 @@ public class Constants {
     public static final String CASE_TYPE_PRECOLLECTIONS = 'Precollections';
 
     //Map of CaseType to ChargeGroup substatus (TODO should this go in the metadata instead?)
-    public static final Map<String, String> CASE_CG_SUBSTATUS = new Map<String, String>{
+    public static final Map<String, String> CASE_CG_SUBSTATUS = new Map<String, String> {
         // 0 - the chargegroup sirono id
         CASE_TYPE_OVERDUE => ACCT_SUBSTATUS_OVERDUE,
         CASE_TYPE_PRECOLLECTIONS => ACCT_SUBSTATUS_DELINQUENT,
@@ -122,7 +125,7 @@ public class Constants {
     public static final String YEARS = 'YEARS';
 
     // Account Substatus constraints used for Cases
-    public static final Set<String> CGConstraintsForCase = new Set<String>{
+    public static final Set<String> CGConstraintsForCase = new Set<String> {
         ACCT_SUBSTATUS_BAD_DEBT,
         ACCT_SUBSTATUS_DELINQUENT,
         ACCT_SUBSTATUS_DUE_BY,
@@ -132,14 +135,14 @@ public class Constants {
     };
 
     // Account Substatus constraints used for making Payments & adding to PPlans
-    public static final Set<String> CGConstraints = new Set<String>{
+    public static final Set<String> CGConstraints = new Set<String> {
         ACCT_SUBSTATUS_DELINQUENT,
         ACCT_SUBSTATUS_DUE_BY,
         ACCT_SUBSTATUS_OVERDUE
     };
 
     // Account Substatus constraints used for adding Discounts
-    public static final Set<String> CGConstraintsForDiscount = new Set<String>{
+    public static final Set<String> CGConstraintsForDiscount = new Set<String> {
         ACCT_SUBSTATUS_DELINQUENT,
         ACCT_SUBSTATUS_DUE_BY,
         ACCT_SUBSTATUS_OVERDUE,
@@ -148,21 +151,21 @@ public class Constants {
     };
 
     // Guarantor Status Overdue
-    public static final Set<String> GuarantorStatusOverdue = new Set<String>{
+    public static final Set<String> GuarantorStatusOverdue = new Set<String> {
         GUARANTOR_STATUS_DUE,
         GUARANTOR_STATUS_DELINQUENT,
         GUARANTOR_STATUS_OVERDUE
     };
 
     // Invoice status groups
-    public static final Set<String> INVOICE_UNPAID_STATUSES = new Set<String>{
+    public static final Set<String> INVOICE_UNPAID_STATUSES = new Set<String> {
         DELIQUENT,
         OVERDUE,
         DUE,
         ON_PAYMENT_PLAN
     };
 
-    public static final Set<String> INVOICE_PAID_STATUSES = new Set<String>{
+    public static final Set<String> INVOICE_PAID_STATUSES = new Set<String> {
         PAID,
         INVOICE_VOIDED
     };

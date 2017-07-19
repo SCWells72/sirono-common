@@ -9,15 +9,6 @@
  */
 
 public with sharing class PayStaffWSUtill {
-    //TODO replace use of endpoint/UN/PW with Named Credentials
-    // @deprecated
-    public static final String ENDPOINT = SironoSettingsUtil.getServerEndpoint();
-    public static final String STMTURL = 'callout:sirono_server/paystaff/api/guarantors/{0}/statements/';
-    // @deprecated
-	public static final String UN = 'sgullapali';
-	// @deprecated
-    public static final String PW = 'p@ssw0rd';
-
     //11-23-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
     //It is used to verified that Charge Group have longer Payment Plan Look up or not.
     static boolean hasChargeGroupPaymentPlan = false;
@@ -83,39 +74,6 @@ public with sharing class PayStaffWSUtill {
         return cgIds;
     }
 
-    public static String getJWTToken(String username, String password) {
-        return getJWTToken();
-    }
-
-    public static String getJWTToken() {
-        //TODO: All requests should be implemented using the *RestClient classes via a service which will remove the need for direct access
-        // TO the jwtToken.
-        String jwtToken;
-
-        try {
-            jwtToken =  new SironoRestClient.AuthRestClient().getJwtToken();
-        } catch (Exception e) {
-            // Debug error response
-            handleErrorMessages(ApexPages.SEVERITY.ERROR, 'JWT EXCEPTION:: ' + e.getMessage());
-        }
-
-        return jwtToken;
-    }
-
-    public static String getCSRFToken() {
-        //TODO: All requests should be implemented using the *RestClient classes via a service which will remove the need for direct access
-        // TO the csrfToken.
-        String csrfToken = '';
-
-        try {
-            csrfToken  = new SironoRestClient.AuthRestClient().getCsrfToken();
-        } catch (Exception ex) {
-            // Debug error response
-            handleErrorMessages(ApexPages.SEVERITY.ERROR, 'CSRF TOKEN  EXCEPTION:: ' + ex.getMessage());
-        }
-        return csrfToken;
-    }
-
     public static String buildChargeGroupsURL(List<String> chargeGroupIds) {
 
         String cgUrl = '';
@@ -154,8 +112,8 @@ public with sharing class PayStaffWSUtill {
     public static void addNoteWSCallout(List<String> chargeGroupIds, String noteText) {
         try {
             if (!chargegroupIds.isEmpty() && !isEmpty(noteText)) {
-                String jwtToken = getJWTToken();
-                String csrfToken = getCSRFToken();
+                String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
+                String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
                 if (csrfToken != null && jwtToken != null) {
                     String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '",' +
                             '"chargegroups": ' + buildChargeGroupsURL(chargegroupIds) + ',' +
@@ -245,10 +203,6 @@ public with sharing class PayStaffWSUtill {
     */
     public static String trimCommas(String val) {
         return (String.isNotBlank(val) ? val.replaceAll(',', '') : val);
-    }
-
-    public class TokenAuthResponse {
-        public String token { get; set; }
     }
 
     //fetch ChargeGroupList based on account sub status.

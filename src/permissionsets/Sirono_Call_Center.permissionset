@@ -9,10 +9,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>AddNote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>AddPaymentPlanVFController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2994,10 +2990,6 @@ have be deleted from the perm set in the packaging org -->
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>AddNote</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
         <apexPage>AddPaymentPlan</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
@@ -3005,7 +2997,6 @@ have be deleted from the perm set in the packaging org -->
         <apexPage>AddToPaymentPlan</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
-
     <pageAccesses>
         <apexPage>ConsoleGuarantorView</apexPage>
         <enabled>true</enabled>
