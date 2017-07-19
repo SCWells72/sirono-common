@@ -47,7 +47,7 @@ public class CaseUtilTest {
         insert statements;
 
         Test.startTest();
-        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -131,7 +131,7 @@ public class CaseUtilTest {
         insert statements;
 
         Test.startTest();
-        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -253,7 +253,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -364,7 +364,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -450,7 +450,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -541,7 +541,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -602,7 +602,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -666,7 +666,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -743,7 +743,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -821,7 +821,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -910,7 +910,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -977,7 +977,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -1036,7 +1036,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -1099,7 +1099,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -1149,7 +1149,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -1204,7 +1204,7 @@ public class CaseUtilTest {
         lst = [Select id from CampaignMember where ContactId = :guarantorContact.Id];
         System.assertEquals(2, lst.Size());
 
-        CaseUtil.closeCCErrorCase(setId, setpaymentPlan);
+        CaseUtil.closePaymentPlanErrorCase(setId, setpaymentPlan);
         Test.stopTest();
 
         // Retrive CampaignMember record.
@@ -1228,7 +1228,7 @@ public class CaseUtilTest {
         }
 
         Test.startTest();
-        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String>{
+        Map<String, String> campaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE,
             Constants.CAMPAIGN_NAME_OVERDUE_M,
             'PreCollections',
@@ -1279,7 +1279,7 @@ public class CaseUtilTest {
         lst = [Select id from CampaignMember where ContactId = :guarantorContact.Id];
         System.assertEquals(2, lst.Size());
 
-        CaseUtil.closeCCErrorCase(setId, setpaymentPlan);
+        CaseUtil.closePaymentPlanErrorCase(setId, setpaymentPlan);
         Test.stopTest();
 
         // Retrive CampaignMember record.
@@ -1294,7 +1294,7 @@ public class CaseUtilTest {
      **/
     @isTest
     static void checkAccessRights() {
-        List<CaseSecurityContext> allContexts = new List<CaseSecurityContext>{
+        List<CaseSecurityContext> allContexts = new List<CaseSecurityContext> {
             CaseSecurityContext.CREATE_CONTEXT,
             CaseSecurityContext.CREATE_WITH_GT_CONTEXT,
             CaseSecurityContext.CU_CREATE_WITH_ENCOUNTER_CONTEXT,
@@ -1322,7 +1322,7 @@ public class CaseUtilTest {
      **/
     @isTest
     static void checkAccessRightsForRead() {
-        List<CaseSecurityContext> allContexts = new List<CaseSecurityContext>{
+        List<CaseSecurityContext> allContexts = new List<CaseSecurityContext> {
             CaseSecurityContext.SELECT_CONTEXT,
             CaseSecurityContext.CU_SELECT_CONTEXT
         };

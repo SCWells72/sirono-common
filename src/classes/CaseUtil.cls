@@ -77,7 +77,7 @@ public class CaseUtil {
                 UPDATE earlyOutCases;
             }
 
-            Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
+            Map<String, String> mapCampaignMapping = campaignMapping(new Set<String> {
                 Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M
             });
 
@@ -142,7 +142,7 @@ public class CaseUtil {
                 UPDATE precollections;
             }
 
-            Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
+            Map<String, String> mapCampaignMapping = campaignMapping(new Set<String> {
                 'PreCollections', 'PreCollections M'
             });
 
@@ -289,7 +289,7 @@ public class CaseUtil {
             }
         }
 
-        Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
+        Map<String, String> mapCampaignMapping = campaignMapping(new Set<String> {
             'PreService', 'PreService M'
         });
 
@@ -404,7 +404,7 @@ public class CaseUtil {
             }
         }
 
-        Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
+        Map<String, String> mapCampaignMapping = campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M
         });
 
@@ -472,7 +472,7 @@ public class CaseUtil {
     /*
     * Method for Create CC Error Auto Case and Remove the Campaign member to Campaign.
     */
-    public static void closeCCErrorCase(Set<Id> contactIds, Set<Id> paymentPlanID) {
+    public static void closePaymentPlanErrorCase(Set<Id> contactIds, Set<Id> paymentPlanID) {
 
         if (!paymentPlanID.IsEmpty()) {
             if (PaymentPlanSecurityContext.SELECT_CONTEXT_FOR_CLOSE.actionAllowed()) {
@@ -509,7 +509,7 @@ public class CaseUtil {
             UPDATE lstCase;
         }
 
-        Map<String, String> mapCampaignMapping = campaignMapping(new Set<String>{
+        Map<String, String> mapCampaignMapping = campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR, Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M
         });
 
