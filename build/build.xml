@@ -300,12 +300,12 @@ SironoPRSPostInstallHandler.initializeSironoSettings();
     </target>
 
     <target name="full_deploy" description="Full environment setup in target org"
-            depends="stop_all_scheduled_jobs, deploy, initialize_custom_settings, schedule_all_jobs"/>
+            depends="stop_all_scheduled_jobs, deploy, schedule_all_jobs"/>
 
     <!-- TODO: This could be quite a bit more efficient by only deploying what's needed in the second deployNoTests -->
     <target name="initial_deploy" description="Deploy into a DE org for the first time"
             depends="preDeploy, deployPrep, deployNoTests, revertPrep, deployNoTests, remove_sample_data,
-            initialize_custom_settings, revertPrep"/>
+            revertPrep"/>
 
     <target name="rename_prep" description="Stop all scheduled jobs and undeploy"
             depends="stop_all_scheduled_jobs, undeployCode, deploy"/>
@@ -353,19 +353,6 @@ SironoPRSPostInstallHandler.initializeSironoSettings();
                 System.schedule('DelinquentPaymentPlansSchedulerBatch', '0 0 4 * * ?', new DelinquentPaymentPlansSchedulerBatch());
                 System.schedule('PreCollectionSchedulerBatch', '0 0 1 * * ?', new PreCollectionSchedulerBatch());
                 System.schedule('PreServiceSchedulerBatch', '0 0 1 * * ?', new PreServiceSchedulerBatch());
-            ]]>
-        </executeAnonymous>
-    </target>
-
-    <target name="initialize_custom_settings">
-        <echo level="info">Initialize custom settings in: ${sf.target.username}</echo>
-        <!-- execute apex to initialize custom settings -->
-        <executeAnonymous
-            username="${sf.target.username}"
-            password="${sf.target.password}"
-            serverurl="${sf.target.serverurl}">
-            <![CDATA[
-                SironoSettingsUtil.initializeSironoSettings();
             ]]>
         </executeAnonymous>
     </target>
