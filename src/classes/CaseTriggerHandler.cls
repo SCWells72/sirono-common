@@ -38,7 +38,7 @@ public with sharing class CaseTriggerHandler {
      * Parameter change Case object to List of Case to resolve Security Scan Issue.
      **/
     private static void checkAndDoAddNoteCallout(List<Case> cases) {
-        if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+        if (CaseSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             List<Id> caseIds = new List<Id>();
             for (Case aCase : cases) {
                 if (String.isNotBlank(aCase.Description)) {

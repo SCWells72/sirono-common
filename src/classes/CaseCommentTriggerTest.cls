@@ -31,26 +31,6 @@ public class CaseCommentTriggerTest {
         return internalCaseRecordType;
     }
 
-    private static User getAdminUser() {
-        Profile adminProfile = [
-            SELECT Id
-            FROM Profile
-            WHERE Name = 'System Administrator'
-        ];
-        User adminUser = new User(
-            Alias = 'standt',
-            Email = 'admin@testorg.com',
-            EmailEncodingKey = 'UTF-8',
-            LastName = 'Testing',
-            LanguageLocaleKey = 'en_US',
-            LocaleSidKey = 'en_US',
-            ProfileId = adminProfile.Id,
-            TimeZoneSidKey = 'America/Los_Angeles',
-            UserName = 'admin@testorg1212.com'
-        );
-        return adminUser;
-    }
-
     /**
      * Coverage the code for the CaseCommentTriggerHandler class and
      * call the afterInsert and checkAndDoAddNoteCallout method
@@ -87,7 +67,7 @@ public class CaseCommentTriggerTest {
      * call the afterInsert and checkAndDoAddNoteCallout method
      **/
     static testMethod void checkCaseCommentAsSystemAdmin() {
-        System.runAs(getAdminUser()) {
+        System.runAs(TestUtility.getAdminUser()) {
             // Create case record.
             Case testCase = new Case(
                 Status = 'New',
@@ -123,7 +103,7 @@ public class CaseCommentTriggerTest {
     static testMethod void testCaseChargeGroup() {
         Test.setMock(HttpCalloutMock.class, new AuthRestClientFailMock());
 
-        System.runAs(getAdminUser()) {
+        System.runAs(TestUtility.getAdminUser()) {
             Case testCase = new Case(
                 Status = 'New',
                 Origin = 'Phone',

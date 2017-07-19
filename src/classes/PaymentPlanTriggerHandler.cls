@@ -16,7 +16,6 @@ public with sharing class PaymentPlanTriggerHandler {
     public static void afterInsert(List<Payment_Plan__c> newList) {
         checkCallListRemove(newList, null);
         callDelinquentPaymentPlanCaseCreation(newList, null);
-        callPaymentPlanErrorCaseAutoCloser(newList, null);
     }
 
     //static method invoked after update event
