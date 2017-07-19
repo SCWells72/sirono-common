@@ -61,6 +61,41 @@ public class Constants {
         CASE_TYPE_PAYMENT_PLAN_ERROR => ACCT_SUBSTATUS_PAYMENT_PLAN
     };
 
+    // Case.Status values
+    public static final String CASE_STATUS_NEW = 'New';
+    public static final String CASE_STATUS_CLOSED = 'Closed';
+
+    // Case.Origin values
+    public static final String CASE_ORIGIN_EMAIL = 'Email';
+    public static final String CASE_ORIGIN_PHONE = 'Phone';
+
+    // Case.Priority values
+    public static final String CASE_PRIORITY_MEDIUM = 'Medium';
+    public static final String CASE_PRIORITY_NORMAL = 'Normal';
+
+    // Case.Reason values
+    public static final String CASE_REASON_BANKRUPTCY = 'Bankruptcy';
+    public static final String CASE_REASON_CLOSED_AUTOMATED = 'Closed - Automated';
+    public static final String CASE_REASON_COMPLIANCE_ISSUE = 'Compliance Issue';
+    public static final String CASE_REASON_CASE_CLOSED_EXHAUSTED = 'Case Closed - Exhausted';
+    public static final String CASE_REASON_CASE_CLOSED_FINAL = 'Case Closed - FINAL';
+    public static final String CASE_REASON_INSURANCE_AGENT_CALLED = 'Insurance Agent Called';
+    public static final String CASE_REASON_INSURANCE_ERROR = 'Insurance Error';
+    public static final String CASE_REASON_MAILED_FORM_REQUEST_CHARITY_APPLICATION = 'Mailed Form Request: Charity Application';
+    public static final String CASE_REASON_MAILED_FORM_REQUEST_RECEIPT = 'Mailed Form Request: Receipt';
+    public static final String CASE_REASON_MERGE_REQUEST = 'Merge Request';
+    public static final String CASE_REASON_MISSING_PAYMENT = 'Missing Payment';
+    public static final String CASE_REASON_MOVE_PAYMENT = 'Move Payment';
+    public static final String CASE_REASON_NEW_INSURANCE = 'New Insurance';
+    public static final String CASE_REASON_PATIENT_IS_DECEASED = 'Patient is Deceased';
+
+    // Case.Subject values
+    public static final String CASE_SUBJECT_ENCOUNTER = 'Encounter';
+    public static final String CASE_SUBJECT_GUARANTOR_DELINQUENT = 'Guarantor: Delinquent';
+    public static final String CASE_SUBJECT_GUARANTOR_OVERDUE = 'Guarantor: Overdue';
+    public static final String CASE_SUBJECT_PAST_DUE_PAYMENT_PLANS = 'Past Due Payment Plans';
+    public static final String CASE_SUBJECT_PAYMENT_PLAN_ERROR = 'Payment Plan Error';
+
     // Constant variables for Campaign values.
     public static final String CAMPAIGN_NAME_OVERDUE = OVERDUE;
     public static final String CAMPAIGN_NAME_OVERDUE_M = 'Overdue M';
@@ -70,6 +105,11 @@ public class Constants {
     public static final String CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M = 'Payment Plan Error M';
     public static final String CAMPAIGN_NAME_PRECOLLECTIONS = 'PreCollections';
     public static final String CAMPAIGN_NAME_PRECOLLECTIONS_M = 'PreCollections M';
+    public static final String CAMPAIGN_NAME_PRESERVICE = 'PreService';
+    public static final String CAMPAIGN_NAME_PRESERVICE_M = 'PreService M';
+
+    // Constants for Group
+    public static final String GROUP_TYPE_QUEUE = 'Queue';
 
     // Constant variables for Page Level Messages.
     public static final String PAGE_MESSAGE_AMOUNT_EXCEED_BALANCE = 'Amount cannot exceed balance.';
@@ -111,6 +151,14 @@ public class Constants {
     public static final String PLANTYPE_GOOD_STANDING = 'Good Standing';
     public static final String PLANTYPE_PROMISE = 'promise';
     public static final String PLANTYPE_PROMISE_VALUE = 'Promise To Pay';
+    public static final String SENT = 'Sent';
+
+    // Constants for record types
+    public static final String RECORD_TYPE_AUTOMATED_CASES = Constants.RECORD_TYPE_AUTOMATED_CASES;
+
+    // Constants for Task
+    public static final String TASK_PRIORITY_NORMAL = 'Normal';
+    public static final String TASK_STATUS_NEW = 'New';
 
     // Constant variable for Security Context Unit Testing Negative Profile.
     public static final String READ_ONLY_PROFILE = 'Read Only';

@@ -34,7 +34,7 @@ public class DelinquentPaymentPlansSchedulerBatchTest {
         c.isActive = true;
         insert c;
 
-        CampaignMember cmm = new CampaignMember(CampaignId = c.Id, ContactId = con.Id, Status = 'Sent');
+        CampaignMember cmm = new CampaignMember(CampaignId = c.Id, ContactId = con.Id, Status = Constants.SENT);
         insert cmm;
 
         Test.startTest();
@@ -45,7 +45,7 @@ public class DelinquentPaymentPlansSchedulerBatchTest {
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         System.assertEquals(0, msgList.size());
     }
-	
+
     static testMethod void pain() {
         Test.startTest();
         DelinquentPaymentPlansSchedulerBatch dppc = new DelinquentPaymentPlansSchedulerBatch();

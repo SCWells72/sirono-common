@@ -14,7 +14,7 @@ private class DeletePaymentPlanTest {
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
-        paymentPlan.Plan_Type__c = 'Automatic';
+        paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
         paymentPlan.Sirono_ID__c = 2876;
         insert paymentPlan;
 
@@ -45,7 +45,7 @@ private class DeletePaymentPlanTest {
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
-        paymentPlan.Plan_Type__c = 'Automatic';
+        paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
         paymentPlan.Sirono_ID__c = 2876;
         insert paymentPlan;
 
@@ -76,7 +76,7 @@ private class DeletePaymentPlanTest {
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
-        paymentPlan.Plan_Type__c = 'Automatic';
+        paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
         paymentPlan.Sirono_ID__c = 2876;
         insert paymentPlan;
 
@@ -108,7 +108,7 @@ private class DeletePaymentPlanTest {
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
-        paymentPlan.Plan_Type__c = 'Automatic';
+        paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
         paymentPlan.Sirono_ID__c = 2876;
         insert paymentPlan;
 
@@ -140,11 +140,11 @@ private class DeletePaymentPlanTest {
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
-        paymentPlan.Plan_Type__c = 'Automatic';
+        paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
         paymentPlan.Sirono_ID__c = 2876;
         insert paymentPlan;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id,null,1321212);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id, null, 1321212);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
@@ -168,43 +168,43 @@ private class DeletePaymentPlanTest {
         boolean passed = false;
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         for (ApexPages.Message msg : msgList) {
-            if(msg.getDetail().equals('Payment plan was successfully cancelled.')) {
+            if (msg.getDetail().equals('Payment plan was successfully cancelled.')) {
                 passed = true;
                 break;
             }
         }
         System.assert(passed, 'Confirmation message is missing for pplan delete');
     }
-    
+
     static testMethod void submit5() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
-        paymentPlan.Plan_Type__c = 'Automatic';
+        paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
         paymentPlan.Sirono_ID__c = 2876;
         insert paymentPlan;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id,null,1321212);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id, null, 1321212);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
-        Apexpages.currentPage().getParameters().put('guarantorId',guarantorContact.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanId',paymentPlan.ID);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId',String.valueof(paymentPlan.Sirono_ID__c));
+        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.ID);
+        Apexpages.currentPage().getParameters().put('paymentPlanExtId', String.valueof(paymentPlan.Sirono_ID__c));
 
         DeletePaymentPlan objDeletePaymentPlan = new DeletePaymentPlan();
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 200;
-        TestUtility.responsebody =  PaymentPlanJSONParsing.testResponse();
+        TestUtility.responsebody = PaymentPlanJSONParsing.testResponse();
 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         objDeletePaymentPlan.doSubmit();
 
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(2 ,msgList.size());
+        System.assertEquals(2, msgList.size());
 
         Test.stopTest();
     }
@@ -215,29 +215,29 @@ private class DeletePaymentPlanTest {
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
-        paymentPlan.Plan_Type__c = 'Automatic';
+        paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
         paymentPlan.Sirono_ID__c = 2876;
         insert paymentPlan;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id,null,1321212);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id, null, 1321212);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
-        Apexpages.currentPage().getParameters().put('guarantorId',guarantorContact.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanId',paymentPlan.ID);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId',String.valueof(paymentPlan.Sirono_ID__c));
+        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.ID);
+        Apexpages.currentPage().getParameters().put('paymentPlanExtId', String.valueof(paymentPlan.Sirono_ID__c));
 
         DeletePaymentPlan objDeletePaymentPlan = new DeletePaymentPlan();
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 200;
         TestUtility.statusCode4 = 204;
-        TestUtility.responsebody =  PaymentPlanJSONParsing.testResponse();
+        TestUtility.responsebody = PaymentPlanJSONParsing.testResponse();
 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         objDeletePaymentPlan.doSubmit();
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        System.assertEquals(2 ,msgList.size());
+        System.assertEquals(2, msgList.size());
         Test.stopTest();
     }
 
@@ -266,9 +266,11 @@ private class DeletePaymentPlanTest {
      **/
     @isTest
     static void checkAccessRights() {
-        List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext>{PaymentPlanSecurityContext.UPSERT_CONTEXT,
-        	PaymentPlanSecurityContext.UPDATE_CONTEXT, PaymentPlanSecurityContext.DP_UPDATE_CONTEXT, 
-                PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT
+        List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext> {
+            PaymentPlanSecurityContext.UPSERT_CONTEXT,
+            PaymentPlanSecurityContext.UPDATE_CONTEXT,
+            PaymentPlanSecurityContext.DP_UPDATE_CONTEXT,
+            PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
