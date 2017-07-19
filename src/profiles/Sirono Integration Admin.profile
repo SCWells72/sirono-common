@@ -3174,11 +3174,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>User.Legacy_User_Id__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>User_Timezone_Setting__mdt.Timezone_Name__c</field>
         <readable>false</readable>
