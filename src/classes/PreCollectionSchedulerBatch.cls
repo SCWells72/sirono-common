@@ -20,13 +20,13 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
         //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'PreCollections'
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
+            Constants.CAMPAIGN_NAME_PRECOLLECTIONS
         });
-        String preCollection = mapCampaignMapping.get('PreCollections');
+        String preCollection = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PRECOLLECTIONS);
 
         if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            for (Campaign cl: [SELECT  Id, Name FROM Campaign WHERE Name = :preCollection AND isActive = true]) {
+            for (Campaign cl: [SELECT Id, Name FROM Campaign WHERE Name = :preCollection AND isActive = true]) {
                 callList = cl;
             }
         }
@@ -56,7 +56,11 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
                 System.debug('bal' + bal);
                 if (bal <= -100 && bal > -5000 && !existingMembers.contains(cg.Guarantor__c)) {
                     existingMembers.add(cg.Guarantor__c);
-                    memberList.add(new CampaignMember(CampaignId = callList.Id, ContactId = cg.Guarantor__c, Status = 'Sent'));
+                    memberList.add(new CampaignMember(
+                        CampaignId = callList.Id,
+                        ContactId = cg.Guarantor__c,
+                        Status = Constants.SENT
+                    ));
                 }
             }
             if (memberList.size() > 0) {

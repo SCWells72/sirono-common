@@ -113,7 +113,7 @@ public class AddPaymentPlanVFControllerTest {
         objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         INSERT objCG;
 
-        Transaction__c transactionObj = TestUtility.generateTransaction(objCG, 100, 'Automatic');
+        Transaction__c transactionObj = TestUtility.generateTransaction(objCG, 100, Constants.AUTOMATIC);
         INSERT transactionObj ;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
@@ -173,7 +173,7 @@ public class AddPaymentPlanVFControllerTest {
         Charge_Group__c objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         INSERT objCG;
 
-        Transaction__c transactionObj = TestUtility.generateTransaction(objCG, 100, 'Automatic');
+        Transaction__c transactionObj = TestUtility.generateTransaction(objCG, 100, Constants.AUTOMATIC);
         INSERT transactionObj ;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
@@ -241,8 +241,8 @@ public class AddPaymentPlanVFControllerTest {
 
         // Create transaction records to populate balance in CG.
         List<Transaction__c> lstTransactions = new List<Transaction__c>();
-        lstTransactions.add(TestUtility.generateTransaction(lstCGs[0], 10, 'Automatic'));
-        lstTransactions.add(TestUtility.generateTransaction(lstCGs[1], 20, 'Automatic'));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[0], 10, Constants.AUTOMATIC));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[1], 20, Constants.AUTOMATIC));
         INSERT lstTransactions;
 
         Test.startTest();
@@ -287,9 +287,9 @@ public class AddPaymentPlanVFControllerTest {
 
         // Create transaction records to populate balance in CG.
         List<Transaction__c> lstTransactions = new List<Transaction__c>();
-        lstTransactions.add(TestUtility.generateTransaction(lstCGs[0], 100, 'Automatic'));
-        lstTransactions.add(TestUtility.generateTransaction(lstCGs[1], 500, 'Automatic'));
-        lstTransactions.add(TestUtility.generateTransaction(lstCGs[2], 200, 'Automatic'));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[0], 100, Constants.AUTOMATIC));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[1], 500, Constants.AUTOMATIC));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[2], 200, Constants.AUTOMATIC));
         INSERT lstTransactions;
 
         Test.startTest();
@@ -307,9 +307,11 @@ public class AddPaymentPlanVFControllerTest {
      **/
     @isTest
     static void testChargeGroupListWithMultiple() {
-        Set<String> accountSubStatuses = new Set<String>{Constants.ACCT_SUBSTATUS_DELINQUENT,
-                Constants.ACCT_SUBSTATUS_OVERDUE,
-                Constants.ACCT_SUBSTATUS_DUE_BY};
+        Set<String> accountSubStatuses = new Set<String> {
+            Constants.ACCT_SUBSTATUS_DELINQUENT,
+            Constants.ACCT_SUBSTATUS_OVERDUE,
+            Constants.ACCT_SUBSTATUS_DUE_BY
+        };
 
         // Create contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
@@ -350,12 +352,12 @@ public class AddPaymentPlanVFControllerTest {
 
         // Create transaction records to populate balance in CG.
         List<Transaction__c> lstTransactions = new List<Transaction__c>();
-        lstTransactions.add(TestUtility.generateTransaction(lstCGs[0], 100, 'Automatic'));
-        lstTransactions.add(TestUtility.generateTransaction(lstCGs[1], 500, 'Automatic'));
-        lstTransactions.add(TestUtility.generateTransaction(lstCGs[2], 200, 'Automatic'));
-        lstTransactions.add(TestUtility.generateTransaction(lstCGs[3], 10, 'Automatic'));
-        lstTransactions.add(TestUtility.generateTransaction(lstCGs[4], 250, 'Automatic'));
-        lstTransactions.add(TestUtility.generateTransaction(lstCGs[5], 300, 'Automatic'));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[0], 100, Constants.AUTOMATIC));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[1], 500, Constants.AUTOMATIC));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[2], 200, Constants.AUTOMATIC));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[3], 10, Constants.AUTOMATIC));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[4], 250, Constants.AUTOMATIC));
+        lstTransactions.add(TestUtility.generateTransaction(lstCGs[5], 300, Constants.AUTOMATIC));
         INSERT lstTransactions;
 
         Test.startTest();

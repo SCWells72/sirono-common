@@ -55,7 +55,7 @@ public class StatementProcessBuilderFlowTest {
         }
         Test.stopTest();
 
-        List<Case> cases = [SELECT Id, Type FROM Case WHERE Subject = 'Guarantor: Overdue'];
+        List<Case> cases = [SELECT Id, Type FROM Case WHERE Subject = :Constants.CASE_SUBJECT_GUARANTOR_OVERDUE];
         System.assertEquals(1, cases.size());
         System.assertEquals(Constants.CASE_TYPE_OVERDUE, cases[0].Type);
 
@@ -81,7 +81,7 @@ public class StatementProcessBuilderFlowTest {
         }
         Test.stopTest();
 
-        List<Case> cases = [SELECT Id, Type FROM Case WHERE Subject = 'Guarantor: Overdue'];
+        List<Case> cases = [SELECT Id, Type FROM Case WHERE Subject = :Constants.CASE_SUBJECT_GUARANTOR_OVERDUE];
         System.assert(cases.isEmpty());
 
         List<CampaignMember> campaignMembers = [SELECT Id FROM CampaignMember];
@@ -106,7 +106,7 @@ public class StatementProcessBuilderFlowTest {
         }
         Test.stopTest();
 
-        List<Case> cases = [SELECT Id, Type FROM Case WHERE Subject = 'Guarantor: Delinquent'];
+        List<Case> cases = [SELECT Id, Type FROM Case WHERE Subject = :Constants.CASE_SUBJECT_GUARANTOR_DELINQUENT];
         System.assertEquals(1, cases.size());
         System.assertEquals(Constants.CASE_TYPE_PRECOLLECTIONS, cases[0].Type);
 
@@ -132,7 +132,7 @@ public class StatementProcessBuilderFlowTest {
         }
         Test.stopTest();
 
-        List<Case> cases = [SELECT Id, Type FROM Case WHERE Subject = 'Guarantor: Delinquent'];
+        List<Case> cases = [SELECT Id, Type FROM Case WHERE Subject = :Constants.CASE_SUBJECT_GUARANTOR_DELINQUENT];
         System.assert(cases.isEmpty());
 
         List<CampaignMember> campaignMembers = [SELECT Id FROM CampaignMember];

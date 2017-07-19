@@ -38,11 +38,15 @@ private class PreServiceSchedulerBatchTest {
         t1.Delinquent_Date__c = dt;
         insert t1;
 
-        Campaign c = TestUtility.generateCampaign('PreService');
+        Campaign c = TestUtility.generateCampaign(Constants.CAMPAIGN_NAME_PRESERVICE);
         c.isActive = true;
         insert c;
 
-        CampaignMember cmm = new CampaignMember(CampaignId = c.Id, ContactId = con.Id, Status = 'Sent');
+        CampaignMember cmm = new CampaignMember(
+            CampaignId = c.Id,
+            ContactId = con.Id,
+            Status = Constants.SENT
+        );
         insert cmm;
 
         Encounter__c encounter1 = TestUtility.generateEncounter(con.Id, -10, Date.today());
@@ -103,11 +107,11 @@ private class PreServiceSchedulerBatchTest {
         t1.Delinquent_Date__c = dt;
         insert t1;
 
-        Campaign c = TestUtility.generateCampaign('PreService');
+        Campaign c = TestUtility.generateCampaign(Constants.CAMPAIGN_NAME_PRESERVICE);
         c.isActive = true;
         insert c;
 
-        CampaignMember cmm = new CampaignMember(CampaignId = c.Id, ContactId = con.Id, Status = 'Sent');
+        CampaignMember cmm = new CampaignMember(CampaignId = c.Id, ContactId = con.Id, Status = Constants.SENT);
         insert cmm;
 
         Encounter__c encounter1 = TestUtility.generateEncounter(con.Id, -10, Date.today());
@@ -157,8 +161,9 @@ private class PreServiceSchedulerBatchTest {
      **/
     @isTest
     static void checkAccessRights() {
-        List<CmpnMemberSecurityContext> allContexts = new List<CmpnMemberSecurityContext>{CmpnMemberSecurityContext.CREATE_CONTEXT,
-        	CmpnMemberSecurityContext.UPDATE_CONTEXT
+        List<CmpnMemberSecurityContext> allContexts = new List<CmpnMemberSecurityContext> {
+            CmpnMemberSecurityContext.CREATE_CONTEXT,
+            CmpnMemberSecurityContext.UPDATE_CONTEXT
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {

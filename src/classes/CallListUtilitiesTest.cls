@@ -24,33 +24,40 @@ public class CallListUtilitiesTest {
         insert patientContact;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Account_Status__c = 'Billed';
+        chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DUE_BY;
         chargeGroup.Sirono_ID__c = 123;
         insert chargeGroup;
 
-        Transaction__c transactionObj = TestUtility.generateTransaction(chargeGroup, -101, 'Automatic');
+        Transaction__c transactionObj = TestUtility.generateTransaction(chargeGroup, -101, Constants.AUTOMATIC);
         insert transactionObj ;
 
         Test.startTest();
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Account_Status__c = 'Billed';
+        chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         chargeGroup.Sirono_ID__c = 123444;
         chargeGroup.Pre_Collection_Sent__c = system.today();
         insert chargeGroup;
 
-        transactionObj = TestUtility.generateTransaction(chargeGroup, -500, 'Automatic');
+        transactionObj = TestUtility.generateTransaction(chargeGroup, -500, Constants.AUTOMATIC);
         insert transactionObj ;
 
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-            Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-            'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M,
-            Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M, Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
+            Constants.CAMPAIGN_NAME_OVERDUE,
+            Constants.CAMPAIGN_NAME_OVERDUE_M,
+            Constants.CAMPAIGN_NAME_PRECOLLECTIONS,
+            Constants.CAMPAIGN_NAME_PRECOLLECTIONS_M,
+            Constants.CAMPAIGN_NAME_PRESERVICE,
+            Constants.CAMPAIGN_NAME_PRESERVICE_M,
+            Constants.CAMPAIGN_NAME_PAST_DUE,
+            Constants.CAMPAIGN_NAME_PAST_DUE_M,
+            Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M,
+            Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreCollections'));
+        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PRECOLLECTIONS));
         lstCampaign.add(objCampaign);
 
         objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE));
@@ -58,7 +65,7 @@ public class CallListUtilitiesTest {
 
         insert lstCampaign;
 
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = Constants.SENT);
         insert cmm;
 
         transactionObj.amount__c = -501;
@@ -90,36 +97,43 @@ public class CallListUtilitiesTest {
 
         Test.startTest();
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Account_Status__c = 'Billed';
+        chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DUE_BY;
         chargeGroup.Sirono_ID__c = 123;
         insert chargeGroup;
 
-        Transaction__c transactionObj = TestUtility.generateTransaction(chargeGroup, -101, 'Automatic');
+        Transaction__c transactionObj = TestUtility.generateTransaction(chargeGroup, -101, Constants.AUTOMATIC);
         insert transactionObj ;
 
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Account_Status__c = 'Billed';
+        chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Sirono_ID__c = 123444;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
         List<Charge_Group__c> lst = TestUtility.generatechargeGroupList(guarantorContact.Id);
-        transactionObj = TestUtility.generateTransaction(chargeGroup, -500, 'Automatic');
+        transactionObj = TestUtility.generateTransaction(chargeGroup, -500, Constants.AUTOMATIC);
         insert transactionObj ;
 
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-            Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-            'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M,
-            Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M, Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
+            Constants.CAMPAIGN_NAME_OVERDUE,
+            Constants.CAMPAIGN_NAME_OVERDUE_M,
+            Constants.CAMPAIGN_NAME_PRECOLLECTIONS,
+            Constants.CAMPAIGN_NAME_PRECOLLECTIONS_M,
+            Constants.CAMPAIGN_NAME_PRESERVICE,
+            Constants.CAMPAIGN_NAME_PRESERVICE_M,
+            Constants.CAMPAIGN_NAME_PAST_DUE,
+            Constants.CAMPAIGN_NAME_PAST_DUE_M,
+            Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M,
+            Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
         List<Campaign> lstCampaign = new List<Campaign>();
-        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get('PreCollections'));
+        Campaign objCampaign = TestUtility.generateCampaign(mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PRECOLLECTIONS));
         lstCampaign.add(objCampaign);
         insert lstCampaign;
 
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = Constants.SENT);
         insert cmm;
 
         transactionObj.amount__c = -501;
@@ -144,10 +158,17 @@ public class CallListUtilitiesTest {
         Contact guarantorContact = TestUtility.generateguarantorContact();
         insert guarantorContact ;
 
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-            Constants.CAMPAIGN_NAME_OVERDUE, Constants.CAMPAIGN_NAME_OVERDUE_M, 'PreCollections', 'PreCollections M',
-            'PreService', 'PreService M', Constants.CAMPAIGN_NAME_PAST_DUE, Constants.CAMPAIGN_NAME_PAST_DUE_M,
-            Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M, Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
+            Constants.CAMPAIGN_NAME_OVERDUE,
+            Constants.CAMPAIGN_NAME_OVERDUE_M,
+            Constants.CAMPAIGN_NAME_PRECOLLECTIONS,
+            Constants.CAMPAIGN_NAME_PRECOLLECTIONS_M,
+            Constants.CAMPAIGN_NAME_PRESERVICE,
+            Constants.CAMPAIGN_NAME_PRESERVICE_M,
+            Constants.CAMPAIGN_NAME_PAST_DUE,
+            Constants.CAMPAIGN_NAME_PAST_DUE_M,
+            Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR_M,
+            Constants.CAMPAIGN_NAME_PAYMENT_PLAN_ERROR
         });
 
         Test.startTest();
@@ -156,7 +177,7 @@ public class CallListUtilitiesTest {
         lstCampaign.add(objCampaign);
         insert lstCampaign;
 
-        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = 'Sent');
+        CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = Constants.SENT);
         insert cmm;
 
         update guarantorContact;
@@ -180,16 +201,12 @@ public class CallListUtilitiesTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
-            caseRecordTypeMap.put(recordType.Name, recordType.Id);
-        }
         Test.startTest();
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         objCase.Type = Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS;
         insert objCase;
 
-        objCase.Status = 'Closed';
+        objCase.Status = Constants.CASE_STATUS_CLOSED;
         Update objCase;
         Test.stopTest();
 
@@ -212,16 +229,12 @@ public class CallListUtilitiesTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
-            caseRecordTypeMap.put(recordType.Name, recordType.Id);
-        }
         Test.startTest();
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Precollections', guarantorContact.Id);
-        objCase.Type = 'Precollections';
+        Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_PRECOLLECTIONS, guarantorContact.Id);
+        objCase.Type = Constants.CASE_TYPE_PRECOLLECTIONS;
         insert objCase;
 
-        objCase.Status = 'Closed';
+        objCase.Status = Constants.CASE_STATUS_CLOSED;
         Update objCase;
         Test.stopTest();
 
@@ -232,7 +245,7 @@ public class CallListUtilitiesTest {
             WHERE Guarantor_Information__c = :guarantorContact.Id
         ];
 
-        System.assertEquals(cases[0].Status, 'Closed');
+        System.assertEquals(Constants.CASE_STATUS_CLOSED, cases[0].Status);
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
@@ -243,15 +256,11 @@ public class CallListUtilitiesTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
-            caseRecordTypeMap.put(recordType.Name, recordType.Id);
-        }
         Test.startTest();
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         insert objCase;
 
-        objCase.Status = 'Closed';
+        objCase.Status = Constants.CASE_STATUS_CLOSED;
         Update objCase;
         Test.stopTest();
 
@@ -274,15 +283,11 @@ public class CallListUtilitiesTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
-            caseRecordTypeMap.put(recordType.Name, recordType.Id);
-        }
         Test.startTest();
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, guarantorContact.Id);
         insert objCase;
 
-        objCase.Status = 'Closed';
+        objCase.Status = Constants.CASE_STATUS_CLOSED;
         Update objCase;
         Test.stopTest();
 
@@ -292,7 +297,7 @@ public class CallListUtilitiesTest {
             FROM Case
             WHERE Guarantor_Information__c = :guarantorContact.Id
         ];
-        System.assertEquals(cases[0].Status, 'Closed');
+        System.assertEquals(Constants.CASE_STATUS_CLOSED, cases[0].Status);
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
@@ -303,15 +308,11 @@ public class CallListUtilitiesTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = 'Case']) {
-            caseRecordTypeMap.put(recordType.Name, recordType.Id);
-        }
         Test.startTest();
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), 'Encounter', guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_ENCOUNTER, guarantorContact.Id);
         insert objCase;
 
-        objCase.Status = 'Closed';
+        objCase.Status = Constants.CASE_STATUS_CLOSED;
         Update objCase;
         Test.stopTest();
 
@@ -321,7 +322,7 @@ public class CallListUtilitiesTest {
             FROM Case
             WHERE Guarantor_Information__c = :guarantorContact.Id
         ];
-        System.assertEquals(cases[0].Status, 'Closed');
+        System.assertEquals(Constants.CASE_STATUS_CLOSED, cases[0].Status);
     }
 
     //Viraj Rana : 09-15-2016: Unit test of caseEarlyOutClose method
@@ -342,11 +343,11 @@ public class CallListUtilitiesTest {
         Test.startTest();
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
-        chargeGroup.Account_Status__c = 'Billed';
+        chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, Constants.SERVICE);
         insert objTransaction;
 
         objTransaction.Amount__c = 1000;
@@ -380,11 +381,11 @@ public class CallListUtilitiesTest {
         Test.startTest();
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
-        chargeGroup.Account_Status__c = 'Billed';
+        chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, 'Service');
+        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -100, Constants.SERVICE);
         insert objTransaction;
 
         objTransaction.Amount__c = 1000;

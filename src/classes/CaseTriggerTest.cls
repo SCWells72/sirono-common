@@ -17,6 +17,7 @@ private class CaseTriggerTest {
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantor.Id, patientContact.Id, 200.0);
         insert chargeGroup;
 
+        // TODO: Move this to RecordTypeUtil.internalCaseRt?
         Map<String, Id> caseRecordTypesById = new Map<String, Id>();
         for (RecordType recordType: [
             SELECT Id, Name
@@ -182,14 +183,14 @@ private class CaseTriggerTest {
         CampaignMember campaignMember = new CampaignMember(
             CampaignId = campaigns[0].Id,
             ContactId = guarantorContact.Id,
-            Status = 'Sent'
+            Status = Constants.SENT
         );
         campaignMembers.add(campaignMember);
 
         campaignMember = new CampaignMember(
             CampaignId = campaigns[1].Id,
             ContactId = guarantorContact.Id,
-            Status = 'Sent'
+            Status = Constants.SENT
         );
         campaignMembers.add(campaignMember);
 

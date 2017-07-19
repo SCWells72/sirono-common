@@ -52,7 +52,7 @@ private class CreateAdjustmentTest {
         for (ChargeGroupWrapper objChargeGroupWrapper : objCreateAdjustment.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
-        
+
         Test.startTest();
 
         // check any chargegroup is selected or not.
@@ -61,12 +61,12 @@ private class CreateAdjustmentTest {
 
         // We select "Discount Adjustment" as a Adjustment Type from drop down.
         objCreateAdjustment.adjustmentTypeSelected = 'DIS';
-        
+
         // Call Submit method and It will give an error "Please provide all details".
         // beacuse of we can't enter Adjustment Amount.
         // It will cover code coverage of Else part in submit method.
         objCreateAdjustment.submit();
-        
+
         Test.stopTest();
 
         // Check System Assert.
@@ -101,7 +101,7 @@ private class CreateAdjustmentTest {
         Apexpages.currentPage().getParameters().put('guarantorId', g.Id);
         Apexpages.currentPage().getParameters().put('paymentPlanExtId', '121212');
         CreateAdjustment objCreateAdjustment = new CreateAdjustment(new ApexPages.StandardController(g));
-        
+
         // Call Submit method and It will give an error.
         // beacuse of we can't enter Adjustment Amount and Adjustment Type.
         objCreateAdjustment.submit();
@@ -118,7 +118,7 @@ private class CreateAdjustmentTest {
         INSERT cg;
 
         // Create Transaction record.
-        Transaction__c transactionObj = TestUtility.generateTransaction(cg, 100, 'Automatic');
+        Transaction__c transactionObj = TestUtility.generateTransaction(cg, 100, Constants.AUTOMATIC);
         INSERT transactionObj;
 
         // Create Charge Group record with different Sirono_ID__c.
@@ -130,7 +130,7 @@ private class CreateAdjustmentTest {
         INSERT cg;
 
         // Create Transaction record.
-        transactionObj = TestUtility.generateTransaction(cg, 100, 'Automatic');
+        transactionObj = TestUtility.generateTransaction(cg, 100, Constants.AUTOMATIC);
         INSERT transactionObj;
 
         // Call Create Adjustment constructor with Selected charge group records and also call doNext methods.
@@ -140,7 +140,7 @@ private class CreateAdjustmentTest {
         for (ChargeGroupWrapper cgw : objCreateAdjustment.chargeGroupList) {
             cgw.isSelected = true;
         }
-        
+
         // check any chargegroup is selected or not.
         // We select all charge groups in above so this method is run successfully and will proceed next step.
         objCreateAdjustment.doNext();
@@ -152,14 +152,14 @@ private class CreateAdjustmentTest {
         objCreateAdjustment.amount = '10';
         objCreateAdjustment.adjustmentTypeSelected = 'DIS';
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        
+
         // Call Submit method and It will successfully save the record.
         // We set all variables as per requirement to save the record.
         // Set variables for call the Webservice.
         // Set Adjustment Amount and Adjustment Type.
         objCreateAdjustment.submit();
         Test.stopTest();
-        
+
         // Check System Assert.
         // We will received Created Successfully message.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
@@ -192,16 +192,16 @@ private class CreateAdjustmentTest {
         Profile pro = [SELECT Id FROM Profile WHERE Name = 'System Administrator'];
         String userName = 'adminuser@testorg1212.com.' + UserInfo.getUserName().substringAfterLast('.').toLowerCase();
         User u = new User(Alias = 'admin', Email = 'adminuser@testorg.com',
-                EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
-                LocaleSidKey = 'en_US', ProfileId = pro.Id,
-                TimeZoneSidKey = 'America/Los_Angeles', UserName = userName);
+            EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
+            LocaleSidKey = 'en_US', ProfileId = pro.Id,
+            TimeZoneSidKey = 'America/Los_Angeles', UserName = userName);
 
         System.runAs(u) {
             // Create object of CreateAdjustment and call the Create Adjustment constructor & submit method based on Apex Parameter.
             Apexpages.currentPage().getParameters().put('guarantorId', g.Id);
             Apexpages.currentPage().getParameters().put('paymentPlanExtId', '121212');
             CreateAdjustment objCreateAdjustment = new CreateAdjustment(new ApexPages.StandardController(g));
-        
+
             // Call Submit method and It will give an error.
             // beacuse of we can't enter Adjustment Amount and Adjustment Type.
             objCreateAdjustment.submit();
@@ -218,7 +218,7 @@ private class CreateAdjustmentTest {
             INSERT cg;
 
             // Create Transaction record.
-            Transaction__c transactionObj = TestUtility.generateTransaction(cg, 100, 'Automatic');
+            Transaction__c transactionObj = TestUtility.generateTransaction(cg, 100, Constants.AUTOMATIC);
             INSERT transactionObj;
 
             // Create Charge Group record with different Sirono_ID__c.
@@ -230,7 +230,7 @@ private class CreateAdjustmentTest {
             INSERT cg;
 
             // Create Transaction record.
-            transactionObj = TestUtility.generateTransaction(cg, 100, 'Automatic');
+            transactionObj = TestUtility.generateTransaction(cg, 100, Constants.AUTOMATIC);
             INSERT transactionObj;
 
             // Call Create Adjustment constructor with Selected charge group records and also call doNext methods
@@ -240,7 +240,7 @@ private class CreateAdjustmentTest {
             for (ChargeGroupWrapper cgw : objCreateAdjustment.chargeGroupList) {
                 cgw.isSelected = true;
             }
-        
+
             // check any chargegroup is selected or not.
             // We select all charge groups in above so this method is run successfully and will proceed next step.
             objCreateAdjustment.doNext();
@@ -252,19 +252,19 @@ private class CreateAdjustmentTest {
             objCreateAdjustment.amount = '10';
             objCreateAdjustment.adjustmentTypeSelected = 'DIS';
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        
+
             // Call Submit method and It will give an error.
-     	    // Beacuse of we set the different parameter for webservice to cover code of Else part in Submit method.
+            // Beacuse of we set the different parameter for webservice to cover code of Else part in Submit method.
             objCreateAdjustment.submit();
             Test.stopTest();
 
             // Check system assert, Missing required details & arithmetic rule violation should throw an exception.
-	    List<ApexPages.Message> msgList = ApexPages.getMessages();
-	    Boolean isError = false;
-	    for (Apexpages.Message msg: msgList) {
-	        if (msg.getDetail().contains('Please provide all details.')) isError = true;
-	    }
-	    System.assert(isError, 'Missing required details & arithmetic rule violation throws an Exception during create adjustment process.');
+            List<ApexPages.Message> msgList = ApexPages.getMessages();
+            Boolean isError = false;
+            for (Apexpages.Message msg: msgList) {
+                if (msg.getDetail().contains('Please provide all details.')) isError = true;
+            }
+            System.assert(isError, 'Missing required details & arithmetic rule violation throws an Exception during create adjustment process.');
         }
     }
     
@@ -301,5 +301,5 @@ private class CreateAdjustmentTest {
             }
         }
         System.assert(!isError, 'We got error message');
-   }
+    }
 }

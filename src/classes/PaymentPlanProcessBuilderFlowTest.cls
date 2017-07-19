@@ -4,7 +4,6 @@
 
 @IsTest
 public class PaymentPlanProcessBuilderFlowTest {
-    private static final String CASE_SUBJECT_PAYMENT_PLAN_ERROR = 'Payment Plan Error';
     private static final Integer NUM_CHARGE_GROUPS = 2;
 
     @TestSetup
@@ -44,7 +43,7 @@ public class PaymentPlanProcessBuilderFlowTest {
                 FROM Case_Charge_Groups__r
             )
             FROM Case
-            WHERE Subject = :CASE_SUBJECT_PAYMENT_PLAN_ERROR
+            WHERE Subject = :Constants.CASE_SUBJECT_PAYMENT_PLAN_ERROR
         ];
 
         // Verify the cases
@@ -67,7 +66,7 @@ public class PaymentPlanProcessBuilderFlowTest {
                 FROM Case_Charge_Groups__r
             )
             FROM Case
-            WHERE Subject = :CASE_SUBJECT_PAYMENT_PLAN_ERROR
+            WHERE Subject = :Constants.CASE_SUBJECT_PAYMENT_PLAN_ERROR
         ];
 
         // There should be no matches
@@ -149,14 +148,14 @@ public class PaymentPlanProcessBuilderFlowTest {
         List<Case> cases = [
             SELECT Id, Type, Status, Reason
             FROM Case
-            WHERE Subject = :CASE_SUBJECT_PAYMENT_PLAN_ERROR
+            WHERE Subject = :Constants.CASE_SUBJECT_PAYMENT_PLAN_ERROR
         ];
 
         // There should be one case in a closed state
         System.assertEquals(1, cases.size());
         System.assertEquals(Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, cases[0].Type);
-        System.assertEquals('Closed', cases[0].Status);
-        System.assertEquals('Closed - Automated', cases[0].Reason);
+        System.assertEquals(Constants.CASE_STATUS_CLOSED, cases[0].Status);
+        System.assertEquals(Constants.CASE_REASON_CLOSED_AUTOMATED, cases[0].Reason);
     }
 
     @IsTest

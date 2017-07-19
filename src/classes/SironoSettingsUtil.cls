@@ -50,6 +50,12 @@ public with sharing class SironoSettingsUtil {
         sironoSettings.NS_Bar_Prefix__c = SObjectType.Charge_Group__c.Name.substringBefore('Charge_Group__c');
     }
 
+    public static String getBusinessHoursId() {
+        Sirono_Settings__c sironoSettings = Sirono_Settings__c.getInstance();
+        setProcessBuilderIds(sironoSettings);
+        return sironoSettings.Business_Hours_Id__c;
+    }
+
     /**
      * Queries and populates the IDs used in Process Builder flows in the specified settings object.
      *
