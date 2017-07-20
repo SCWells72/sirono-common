@@ -507,7 +507,7 @@ public with sharing class PayStaffWSUtill {
     */
     private static Charge_Group__c parseChargeGroupResponse(String responseBody, String jwtToken){
 
-        ChargeGroupJSONParsing objChargeGroup = ChargeGroupJSONParsing.parse(responseBody);
+        ChargeGroupJSONParser objChargeGroup = ChargeGroupJSONParser.parse(responseBody);
         Charge_Group__c cg = new Charge_Group__c();
 
         cg.Account_Sub_Status__c = objChargeGroup.account_sub_status;

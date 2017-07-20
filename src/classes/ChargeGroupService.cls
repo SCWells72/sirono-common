@@ -38,15 +38,15 @@ public class ChargeGroupService extends AbstractService {
     }
 
     /**
-     * Get a ChargeGroupJSONParsing that results from a call to the Sirono server.
+     * Get a ChargeGroupJSONParser that results from a call to the Sirono server.
      *
      * @param String cgSironoId - The Sirono Id of the charge group.
-     * @return ChargeGroupJSONParsing - The parse respose from the server.
+     * @return ChargeGroupJSONParser - The parse respose from the server.
      */
-    public static ChargeGroupJSONParsing retrieveBySironoId(String cgSironoId) {
+    public static ChargeGroupJSONParser retrieveBySironoId(String cgSironoId) {
         ChargeGroupRestClient client = new ChargeGroupRestClient();
         HttpResponse res = client.getChargeGroup(cgSironoId);
-        ChargeGroupJSONParsing parsing = ChargeGroupJSONParsing.parse(res.getBody());
+        ChargeGroupJSONParser parsing = ChargeGroupJSONParser.parse(res.getBody());
 
         return parsing;
     }
@@ -55,13 +55,13 @@ public class ChargeGroupService extends AbstractService {
      * Get a Map where the keys are the Sirono Id and the values are the parse responses from the Sirono server.
      *
      * @param List<Decimal> sironoChargeGroupIds - A list of Sirono Charge Group Ids.
-     * @return Map<Decimal, ChargeGroupJSONParsing> - The map of results.
+     * @return Map<Decimal, ChargeGroupJSONParser> - The map of results.
      */
-    public static Map<Decimal, ChargeGroupJSONParsing> retrieveMapByIds(List<Decimal> sironoChargeGroupIds) {
-        Map<Decimal, ChargeGroupJSONParsing> idMap = new Map<Decimal, ChargeGroupJSONParsing>();
+    public static Map<Decimal, ChargeGroupJSONParser> retrieveMapByIds(List<Decimal> sironoChargeGroupIds) {
+        Map<Decimal, ChargeGroupJSONParser> idMap = new Map<Decimal, ChargeGroupJSONParser>();
 
         for (Decimal cgId: sironoChargeGroupIds) {
-            ChargeGroupJSONParsing parsing = retrieveBySironoId(String.valueOf(cgId));
+            ChargeGroupJSONParser parsing = retrieveBySironoId(String.valueOf(cgId));
             idMap.put(cgId, parsing);
         }
 

@@ -48,7 +48,7 @@ public with sharing class ChargeGroupServiceTest {
         Test.setMock(HttpCalloutMock.class, new ChargeGroupRestClientMock());
 
         Test.startTest();
-        Map<Decimal, ChargeGroupJSONParsing> cgMap = ChargeGroupService.retrieveMapByIds(new List<Decimal> {
+        Map<Decimal, ChargeGroupJSONParser> cgMap = ChargeGroupService.retrieveMapByIds(new List<Decimal> {
             Decimal.valueOf(RestClientConstants.CHARGE_GROUP_ID)
         });
         Test.stopTest();
@@ -62,10 +62,10 @@ public with sharing class ChargeGroupServiceTest {
         Test.setMock(HttpCalloutMock.class, new ChargeGroupRestClientMock());
 
         String sironoId = RestClientConstants.CHARGE_GROUP_ID;
-        ChargeGroupJSONParsing expected = ChargeGroupRestClientMock.getParsedChargeGroup();
+        ChargeGroupJSONParser expected = ChargeGroupRestClientMock.getParsedChargeGroup();
 
         Test.startTest();
-        ChargeGroupJSONParsing result = ChargeGroupService.retrieveBySironoId(sironoId);
+        ChargeGroupJSONParser result = ChargeGroupService.retrieveBySironoId(sironoId);
         Test.stopTest();
 
         System.assert(result != null, 'Should get a result.');
