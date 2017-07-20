@@ -174,32 +174,35 @@ public with sharing class PaymentPlanTriggerHandler {
     }
 
     private static void createCasesForPaymentPlansWithNewErrors(List<Payment_Plan__c> paymentPlans, Map<Id, Payment_Plan__c> oldPaymentPlansById) {
-        // Look for new payment plans with errors or existing payment plans that were modified to have errors
-        List<Payment_Plan__c> paymentPlansWithErrors = new List<Payment_Plan__c>();
-        for (Payment_Plan__c paymentPlan : paymentPlans) {
-            Payment_Plan__c oldPaymentPlan = oldPaymentPlansById != null ? oldPaymentPlansById.get(paymentPlan.Id) : null;
-            if (paymentPlan.Has_Error__c && ((oldPaymentPlan == null) || !oldPaymentPlan.Has_Error__c)) {
-                paymentPlansWithErrors.add(paymentPlan);
+        // Only if we're configured to auto-create payment plan error cases
+        Sirono_Call_Center_Settings__c sironoCallCenterSettings = SironoCallCenterSettingsUtil.getSironoCallCenterSettings();
+        if (sironoCallCenterSettings.Auto_Create_Payment_Plan_Error_Cases__c) {
+            // Look for new payment plans with errors or existing payment plans that were modified to have errors
+            List<Payment_Plan__c> paymentPlansWithErrors = new List<Payment_Plan__c>();
+            for (Payment_Plan__c paymentPlan : paymentPlans) {
+                Payment_Plan__c oldPaymentPlan = oldPaymentPlansById != null ? oldPaymentPlansById.get(paymentPlan.Id) : null;
+                if (paymentPlan.Has_Error__c && ((oldPaymentPlan == null) || !oldPaymentPlan.Has_Error__c)) {
+                    paymentPlansWithErrors.add(paymentPlan);
+                }
             }
-        }
 
-        // Create cases for those that now have errors
-        List<Case> paymentPlanErrorCases = new List<Case>();
-        for (Payment_Plan__c paymentPlanWithError : paymentPlansWithErrors) {
-            Case paymentPlanErrorCase = new Case(
-                BusinessHoursId = SironoSettingsUtil.getBusinessHoursId(),
-                Guarantor_Information__c = paymentPlanWithError.Guarantor__c,
-                RecordTypeId = RecordTypeUtil.automatedCaseRt,
-                Status = Constants.CASE_STATUS_NEW,
-                Subject = Constants.CASE_SUBJECT_PAYMENT_PLAN_ERROR,
-                Type = Constants.CASE_TYPE_PAYMENT_PLAN_ERROR
-            );
-            paymentPlanErrorCases.add(paymentPlanErrorCase);
-        }
+            // Create cases for those that now have errors
+            List<Case> paymentPlanErrorCases = new List<Case>();
+            for (Payment_Plan__c paymentPlanWithError : paymentPlansWithErrors) {
+                Case paymentPlanErrorCase = new Case(
+                    Guarantor_Information__c = paymentPlanWithError.Guarantor__c,
+                    RecordTypeId = RecordTypeUtil.automatedCaseRt,
+                    Status = Constants.CASE_STATUS_NEW,
+                    Subject = Constants.CASE_SUBJECT_PAYMENT_PLAN_ERROR,
+                    Type = Constants.CASE_TYPE_PAYMENT_PLAN_ERROR
+                );
+                paymentPlanErrorCases.add(paymentPlanErrorCase);
+            }
 
-        if (CaseSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-            if (!paymentPlanErrorCases.isEmpty()) {
-                insert paymentPlanErrorCases;
+            if (CaseSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+                if (!paymentPlanErrorCases.isEmpty()) {
+                    insert paymentPlanErrorCases;
+                }
             }
         }
     }

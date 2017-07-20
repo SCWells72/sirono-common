@@ -9,13 +9,9 @@ public with sharing class SironoPRSPostInstallHandler implements InstallHandler 
     }
 
     public static void initializeSironoSettings() {
-        Sirono_Settings__c sironoSettings = Sirono_Settings__c.getValues(UserInfo.getOrganizationId());
-        if (sironoSettings == null) {
-            sironoSettings = new Sirono_Settings__c();
-
+        Sirono_Settings__c sironoSettings = Sirono_Settings__c.getOrgDefaults();
+        if (sironoSettings.Id == null) {
             SironoSettingsUtil.setNamespacePrefixes(sironoSettings);
-            SironoSettingsUtil.setProcessBuilderIds(sironoSettings);
-
             INSERT sironoSettings;
         }
     }
