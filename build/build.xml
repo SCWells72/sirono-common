@@ -219,7 +219,7 @@ SironoPRSPostInstallHandler.initializeSironoSettings();
     </target>
 
     <!-- Check only; don't save to the server -->
-    <target name="deployCheckOnly" depends="processTemplates, populateWorkSrcDir, removeDeployedFlows">
+    <target name="deployCheckOnly" depends="processTemplates, populateWorkSrcDir">
         <echo level="info">Validating in: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
             username="${sf.target.username}"
@@ -234,7 +234,7 @@ SironoPRSPostInstallHandler.initializeSironoSettings();
     </target>
 
     <!-- Check only; only run specified tests -->
-    <target name="deployCheckSelectTests" depends="processTemplates, populateWorkSrcDir, removeDeployedFlows">
+    <target name="deployCheckSelectTests" depends="processTemplates, populateWorkSrcDir">
         <echo level="info">Running select tests in: ${sf.target.username}</echo>
         <sf:deploy
             username="${sf.target.username}"
@@ -541,48 +541,6 @@ SironoPRSPostInstallHandler.initializeSironoSettings();
             testLevel="NoTestRun"
             purgeOnDelete="true"
             ignoreWarnings="true"/>
-    </target>
-
-    <target name="removeDeployedFlows" depends="listFlows, _removeDeployedFlows"/>
-
-    <target name="_removeDeployedFlows" if="hasFlowNames">
-        <echo level="info">Removing deployed flows locally to avoid collisions during check-only deployment.</echo>
-        <for param="flowName" list="${flowNames}" delimiter="${line.separator}">
-            <sequential>
-                <if>
-                    <available file="${workDir}/src/flows/@{flowName}-1.flow"/>
-                    <then>
-                        <delete file="${workDir}/src/flows/@{flowName}-1.flow" failonerror="false" quiet="true"/>
-                    </then>
-                </if>
-                <if>
-                    <available file="${workDir}/src/flowDefinitions/@{flowName}.flowDefinition"/>
-                    <then>
-                        <delete file="${workDir}/src/flowDefinitions/@{flowName}.flowDefinition" failonerror="false" quiet="true"/>
-                    </then>
-                </if>
-            </sequential>
-        </for>
-
-        <!-- Delete the flow directory if it's empty now -->
-        <if>
-            <length length="0" when="equal">
-                <fileset dir="${workDir}/src/flows" includes="**/*.flow"/>
-            </length>
-            <then>
-                <delete dir="${workDir}/src/flows" failonerror="false" quiet="true"/>
-            </then>
-        </if>
-
-        <!-- Delete the flowDefinition directory if it's empty now -->
-        <if>
-            <length length="0" when="equal">
-                <fileset dir="${workDir}/src/flowDefinitions" includes="**/*.flowDefinition"/>
-            </length>
-            <then>
-                <delete dir="${workDir}/src/flowDefinitions" failonerror="false" quiet="true"/>
-            </then>
-        </if>
     </target>
 
 </project>
