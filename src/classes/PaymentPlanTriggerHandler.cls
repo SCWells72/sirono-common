@@ -12,38 +12,35 @@ public with sharing class PaymentPlanTriggerHandler {
     public static final Integer START_LAST_MONTH = -1;
     public static final Integer OVERDUE_DAY_LIMIT = 21;
 
-    //static method invoked after insert event
-    public static void afterInsert(List<Payment_Plan__c> newList) {
-        checkCallListRemove(newList, null);
-        callDelinquentPaymentPlanCaseCreation(newList, null);
+    public static void afterInsert(List<Payment_Plan__c> paymentPlans) {
+        checkCallListRemove(paymentPlans, null);
+        callDelinquentPaymentPlanCaseCreation(paymentPlans, null);
+        createCasesForPaymentPlansWithNewErrors(paymentPlans, null);
     }
 
-    //static method invoked after update event
-    public static void afterUpdate(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap) {
-        checkCallListRemove(newList, oldMap);
-        callDelinquentPaymentPlanCaseCreation(newList, oldMap);
-        callPaymentPlanErrorCaseAutoCloser(newList, oldMap);
+    public static void afterUpdate(List<Payment_Plan__c> paymentPlans, Map<Id, Payment_Plan__c> oldPaymentPlansById) {
+        checkCallListRemove(paymentPlans, oldPaymentPlansById);
+        callDelinquentPaymentPlanCaseCreation(paymentPlans, oldPaymentPlansById);
+        createCasesForPaymentPlansWithNewErrors(paymentPlans, oldPaymentPlansById);
+        callPaymentPlanErrorCaseAutoCloser(paymentPlans, oldPaymentPlansById);
     }
 
-    //static method invoked before insert event occurs
-    public static void beforeInsert(List<Payment_Plan__c> newList) {
-        callPopulateNextPaymentDate(newList, null, true);
+    public static void beforeInsert(List<Payment_Plan__c> paymentPlans) {
+        callPopulateNextPaymentDate(paymentPlans, null, true);
     }
 
-    //static method invoked before update event
-    public static void beforeUpdate(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap) {
-        callPopulateNextPaymentDate(newList, oldMap, false);
-        resetChargesAdded(newList, oldMap);
+    public static void beforeUpdate(List<Payment_Plan__c> paymentPlans, Map<Id, Payment_Plan__c> oldPaymentPlansById) {
+        callPopulateNextPaymentDate(paymentPlans, oldPaymentPlansById, false);
+        resetChargesAdded(paymentPlans, oldPaymentPlansById);
     }
 
-    //private staic method that collects the Guarantor IDs
-    private static void checkCallListRemove(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap) {
+    private static void checkCallListRemove(List<Payment_Plan__c> paymentPlans, Map<Id, Payment_Plan__c> oldPaymentPlansById) {
         Set<Id> contactIds = new Set<Id>();
-        for (Payment_Plan__c pp : newList) {
-            if (!pp.Active__c && pp.Delinquent_Date__c == null && pp.Guarantor__c != null
-                && (oldMap == null || pp.Delinquent_Date__c != oldMap.get(pp.Id).Delinquent_Date__c
-                || pp.Active__c != oldMap.get(pp.Id).Active__c || pp.Guarantor__c != oldMap.get(pp.Id).Guarantor__c)) {
-                contactIds.add(pp.Guarantor__c);
+        for (Payment_Plan__c paymentPlan : paymentPlans) {
+            if (!paymentPlan.Active__c && paymentPlan.Delinquent_Date__c == null && paymentPlan.Guarantor__c != null
+                && (oldPaymentPlansById == null || paymentPlan.Delinquent_Date__c != oldPaymentPlansById.get(paymentPlan.Id).Delinquent_Date__c
+                || paymentPlan.Active__c != oldPaymentPlansById.get(paymentPlan.Id).Active__c || paymentPlan.Guarantor__c != oldPaymentPlansById.get(paymentPlan.Id).Guarantor__c)) {
+                contactIds.add(paymentPlan.Guarantor__c);
             }
         }
 
@@ -53,17 +50,17 @@ public with sharing class PaymentPlanTriggerHandler {
     }
 
     //Mohan Kumar (Sirono) 09-23-2016 : 127404425 Set/Reset the NextPaymentDate when Execute_on_day__c, Skip_Payment_Until__c, or Plan_Type__c fields are changed.
-    public static void callPopulateNextPaymentDate(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap, Boolean isNew) {
+    public static void callPopulateNextPaymentDate(List<Payment_Plan__c> paymentPlans, Map<Id, Payment_Plan__c> oldPaymentPlansById, Boolean isNew) {
         List<Payment_Plan__c> newListToSetDate = new List<Payment_Plan__c>();
-        for (Payment_Plan__c pp : newList) {
+        for (Payment_Plan__c paymentPlan : paymentPlans) {
             if (isNew) {
-                newListToSetDate.add(pp);
+                newListToSetDate.add(paymentPlan);
             } else {
-                Payment_Plan__c oldValue = oldMap.get(pp.Id);
-                if (pp.Execute_on_Day__c != oldValue.Execute_on_Day__c || pp.Skip_Payment_Until__c != oldValue.Skip_Payment_Until__c
-                    || pp.Plan_Type__c != oldValue.Plan_Type__c) {
+                Payment_Plan__c oldValue = oldPaymentPlansById.get(paymentPlan.Id);
+                if (paymentPlan.Execute_on_Day__c != oldValue.Execute_on_Day__c || paymentPlan.Skip_Payment_Until__c != oldValue.Skip_Payment_Until__c
+                    || paymentPlan.Plan_Type__c != oldValue.Plan_Type__c) {
                     // || pp.NextPaymentDate__c != oldValue.NextPaymentDate__c
-                    newListToSetDate.add(pp);
+                    newListToSetDate.add(paymentPlan);
                 }
             }
         }
@@ -76,22 +73,21 @@ public with sharing class PaymentPlanTriggerHandler {
     //Mohan Kumar (Sirono) 09-23-2016 : 127404425 calculates the NextPaymentDate on the Payment Plan reccord.
     //this method is called from different places. When this method is called from other than PaymentPlanTrigger then
     //fromPaymentPlanTrigger parameter contains FALSE and we will need to run the update DML statment to the list.
-
-    public static void populateNextPaymentDate(List<Payment_Plan__c> newList, Boolean fromPaymentPlanTrigger) {
+    public static void populateNextPaymentDate(List<Payment_Plan__c> paymentPlans, Boolean fromPaymentPlanTrigger) {
         List<Payment_Plan__c> newListToUpdate = new List<Payment_Plan__c>();
         Set<Id> setContactId = new Set<Id>();
         Map<Id, Contact> mapContacts = new Map<Id, Contact>();
 
-        for (Payment_Plan__c plan:newList) {
+        for (Payment_Plan__c paymentPlan : paymentPlans) {
             //System.assert(plan.Guarantor__c != null);
-            if (plan.Guarantor__c != null) {
-                setContactId.add(plan.Guarantor__c);
+            if (paymentPlan.Guarantor__c != null) {
+                setContactId.add(paymentPlan.Guarantor__c);
             }
         }
 
         mapContacts = new Map<Id, Contact>(GuarantorService.getGuarantorsWithInvoiceOffsetDt(setContactId));
 
-        for (Payment_Plan__c plan: newList) {
+        for (Payment_Plan__c plan: paymentPlans) {
             Contact guarantor = new Contact();
             if (plan.Guarantor__c != null && mapContacts.containsKey(plan.Guarantor__c)) {
                 guarantor = mapContacts.get(plan.Guarantor__c);
@@ -151,20 +147,20 @@ public with sharing class PaymentPlanTriggerHandler {
     }
 
     //Sirono 08-22-2016 : 127401841 Create a Delinquent Payment Plan Case
-    Private static void callDelinquentPaymentPlanCaseCreation(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap) {
+    Private static void callDelinquentPaymentPlanCaseCreation(List<Payment_Plan__c> paymentPlans, Map<Id, Payment_Plan__c> oldPaymentPlansById) {
         Set<Id> contactToCreateCaseIds = new Set<Id>();
         Set<Id> contactToCloseCase = new Set<Id>();
-        Set<Id> paymentPlanID = new Set<Id>();
-        for (Payment_Plan__c plan : newList) {
-            if (trigger.IsInsert && plan.Guarantor__c != null && plan.active__c == true && plan.Delinquent__c == true) {
-                contactToCreateCaseIds .add(plan.Guarantor__c);
-            } else if (trigger.IsUpdate && plan.Guarantor__c != null && (plan.active__c == true && plan.Delinquent__c == true && (oldMap.get(plan.id).active__c == false || oldMap.get(plan.id).Delinquent__c == false))) {
-                contactToCreateCaseIds.add(plan.Guarantor__c);
+        Set<Id> paymentPlanId = new Set<Id>();
+        for (Payment_Plan__c paymentPlan : paymentPlans) {
+            if (trigger.IsInsert && paymentPlan.Guarantor__c != null && paymentPlan.active__c == true && paymentPlan.Delinquent__c == true) {
+                contactToCreateCaseIds .add(paymentPlan.Guarantor__c);
+            } else if (trigger.IsUpdate && paymentPlan.Guarantor__c != null && (paymentPlan.active__c == true && paymentPlan.Delinquent__c == true && (oldPaymentPlansById.get(paymentPlan.id).active__c == false || oldPaymentPlansById.get(paymentPlan.id).Delinquent__c == false))) {
+                contactToCreateCaseIds.add(paymentPlan.Guarantor__c);
             }
 
-            if (trigger.IsUpdate && plan.Guarantor__c != null && ((plan.active__c == false && oldMap.get(plan.id).active__c == true) || (plan.Delinquent__c == false && oldMap.get(plan.id).Delinquent__c == true))) {
-                contactToCloseCase.add(plan.Guarantor__c);
-                paymentPlanID.add(plan.Id);
+            if (trigger.IsUpdate && paymentPlan.Guarantor__c != null && ((paymentPlan.active__c == false && oldPaymentPlansById.get(paymentPlan.id).active__c == true) || (paymentPlan.Delinquent__c == false && oldPaymentPlansById.get(paymentPlan.id).Delinquent__c == true))) {
+                contactToCloseCase.add(paymentPlan.Guarantor__c);
+                paymentPlanId.add(paymentPlan.Id);
             }
         }
 
@@ -173,7 +169,38 @@ public with sharing class PaymentPlanTriggerHandler {
         }
 
         if (contactToCloseCase.Size() > 0) {
-            CaseUtil.closeDelinquentPaymentCase(contactToCloseCase, paymentPlanID);
+            CaseUtil.closeDelinquentPaymentCase(contactToCloseCase, paymentPlanId);
+        }
+    }
+
+    private static void createCasesForPaymentPlansWithNewErrors(List<Payment_Plan__c> paymentPlans, Map<Id, Payment_Plan__c> oldPaymentPlansById) {
+        // Look for new payment plans with errors or existing payment plans that were modified to have errors
+        List<Payment_Plan__c> paymentPlansWithErrors = new List<Payment_Plan__c>();
+        for (Payment_Plan__c paymentPlan : paymentPlans) {
+            Payment_Plan__c oldPaymentPlan = oldPaymentPlansById != null ? oldPaymentPlansById.get(paymentPlan.Id) : null;
+            if (paymentPlan.Has_Error__c && ((oldPaymentPlan == null) || !oldPaymentPlan.Has_Error__c)) {
+                paymentPlansWithErrors.add(paymentPlan);
+            }
+        }
+
+        // Create cases for those that now have errors
+        List<Case> paymentPlanErrorCases = new List<Case>();
+        for (Payment_Plan__c paymentPlanWithError : paymentPlansWithErrors) {
+            Case paymentPlanErrorCase = new Case(
+                BusinessHoursId = SironoSettingsUtil.getBusinessHoursId(),
+                Guarantor_Information__c = paymentPlanWithError.Guarantor__c,
+                RecordTypeId = RecordTypeUtil.automatedCaseRt,
+                Status = Constants.CASE_STATUS_NEW,
+                Subject = Constants.CASE_SUBJECT_PAYMENT_PLAN_ERROR,
+                Type = Constants.CASE_TYPE_PAYMENT_PLAN_ERROR
+            );
+            paymentPlanErrorCases.add(paymentPlanErrorCase);
+        }
+
+        if (CaseSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+            if (!paymentPlanErrorCases.isEmpty()) {
+                insert paymentPlanErrorCases;
+            }
         }
     }
 
@@ -198,15 +225,15 @@ public with sharing class PaymentPlanTriggerHandler {
     }
 
     // If the plan value modified date changes, then set the charges added since start field to 0
-    private static void resetChargesAdded(List<Payment_Plan__c> newList, Map<Id, Payment_Plan__c> oldMap) {
+    private static void resetChargesAdded(List<Payment_Plan__c> paymentPlans, Map<Id, Payment_Plan__c> oldPaymentPlansById) {
         List<Id> planIds = new List<Id>();
 
-        for (Payment_Plan__c plan : newList) {
-            Datetime newDate = plan.Plan_Value_Modified_Date__c;
-            Datetime oldDate = oldMap.get(plan.Id).Plan_Value_Modified_Date__c;
+        for (Payment_Plan__c paymentPlan : paymentPlans) {
+            Datetime newDate = paymentPlan.Plan_Value_Modified_Date__c;
+            Datetime oldDate = oldPaymentPlansById.get(paymentPlan.Id).Plan_Value_Modified_Date__c;
 
             if (newDate != oldDate) {
-                plan.Charges_Added_Since_Start__c = 0;
+                paymentPlan.Charges_Added_Since_Start__c = 0;
             }
         }
     }
