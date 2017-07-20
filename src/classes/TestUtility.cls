@@ -110,7 +110,7 @@ public class TestUtility {
         cg.Charge_Group_External_ID__c = true;
         cg.Reported_Selfpay_Balance__c = 10;
         cg.Active__c = true;
-        cg.Account_Status__c = 'Billed';
+        cg.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PREINVOICED;
 
         return cg;
@@ -145,10 +145,10 @@ public class TestUtility {
     public static Case generateCase(String rTypeId, String cType, String gId) {
         Case objCase = new Case();
         objCase.RecordTypeId = rTypeId;
-        objCase.Status = 'New';
-        objCase.Priority = 'Medium';
+        objCase.Status = Constants.CASE_STATUS_NEW;
+        objCase.Priority = Constants.CASE_PRIORITY_MEDIUM;
         objCase.Type = cType;
-        objCase.Origin = 'Email';
+        objCase.Origin = Constants.CASE_ORIGIN_EMAIL;
         objCase.Subject = cType;
         objCase.Description = 'Test';
         objCase.Guarantor_Information__c = gId;
@@ -230,7 +230,7 @@ public class TestUtility {
         CampaignMember objcampaignMember = new CampaignMember();
         objcampaignMember.CampaignId = campaignId;
         objcampaignMember.ContactId = guarantorContactId;
-        objcampaignMember.Status = 'Sent';
+        objcampaignMember.Status = Constants.SENT;
         return objcampaignMember;
     }
 
@@ -238,8 +238,8 @@ public class TestUtility {
     public static Task generateTask(ID guarantorContactId) {
         Task objTask = new Task();
         objTask.WhoId = guarantorContactId;
-        objTask.Priority = 'Normal';
-        objTask.Status = 'New';
+        objTask.Priority = Constants.TASK_PRIORITY_NORMAL;
+        objTask.Status = Constants.TASK_STATUS_NEW;
         objTask.CallDisposition = 'Final';
         objTask.Five9__Five9Campaign__c = 'Pre-collection';
         return objTask;
@@ -257,8 +257,8 @@ public class TestUtility {
         Task objTask = new Task();
         objTask.WhoId = guarantorContactId;
         objTask.WhatId = caseId;
-        objTask.Priority = 'Normal';
-        objTask.Status = 'New';
+        objTask.Priority = Constants.TASK_PRIORITY_NORMAL;
+        objTask.Status = Constants.TASK_STATUS_NEW;
         objTask.CallDisposition = callDisposition;
         objTask.Five9__Five9Campaign__c = 'OB PreCollections';
         return objTask;

@@ -31,11 +31,13 @@
         <members>PaymentArrangementTest</members>
         <members>PaymentArrangement</members>
         <members>PaymentArrangementSecurityContext</members>
+        <members>PaymentPlanProcessBuilderFlowTest</members>
         <members>PayStaffWSUtillLightning</members>
         <members>PayStaffWSUtillLightningTest</members>
         <members>ProcessPaymentLightning</members>
         <members>ProcessPaymentLightningTest</members>
         <members>SironoSettingsSecurityContext</members>
+        <members>StatementProcessBuilderFlowTest</members>
         <members>TransactionTypeSecurityContext</members>
         <name>ApexClass</name>
     </types>
@@ -53,6 +55,8 @@
     <types>
         <members>Encounter__c.Has_Chargegroup__c</members>
         <members>Payment_Adjustment__c.Transaction_Type__c</members>
+        <members>Sirono_Settings__c.Automated_Case_Record_Type_Id__c</members>
+        <members>Sirono_Settings__c.Business_Hours_Id__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -96,4 +100,3 @@
     </types>
     <version>38.0</version>
 </Package>
-

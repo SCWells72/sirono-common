@@ -3,14 +3,8 @@
  */
 
 @IsTest
-public class PaymentPlanProcessBuilderFlowTest {
-    private static final String CASE_SUBJECT_PAYMENT_PLAN_ERROR = 'Payment Plan Error';
+public class PaymentPlanTriggerHandlerTest {
     private static final Integer NUM_CHARGE_GROUPS = 2;
-
-    @TestSetup
-    private static void setup() {
-        SironoSettingsUtil.setProcessBuilderIds(Sirono_Settings__c.getInstance());
-    }
 
     // NOTE: Keeping this out of setup method because it might be parameterized per-test
     private static Contact createPaymentPlanPrereqs() {
@@ -44,7 +38,7 @@ public class PaymentPlanProcessBuilderFlowTest {
                 FROM Case_Charge_Groups__r
             )
             FROM Case
-            WHERE Subject = :CASE_SUBJECT_PAYMENT_PLAN_ERROR
+            WHERE Subject = :Constants.CASE_SUBJECT_PAYMENT_PLAN_ERROR
         ];
 
         // Verify the cases
@@ -67,7 +61,7 @@ public class PaymentPlanProcessBuilderFlowTest {
                 FROM Case_Charge_Groups__r
             )
             FROM Case
-            WHERE Subject = :CASE_SUBJECT_PAYMENT_PLAN_ERROR
+            WHERE Subject = :Constants.CASE_SUBJECT_PAYMENT_PLAN_ERROR
         ];
 
         // There should be no matches
@@ -109,6 +103,28 @@ public class PaymentPlanProcessBuilderFlowTest {
     }
 
     @IsTest
+    private static void testPaymentPlanCreatedWithErrorsAndSettingDisabled() {
+        // Disable payment plan errors auto-case creation
+        Sirono_Call_Center_Settings__c sironoCallCenterSettings = SironoCallCenterSettingsUtil.getSironoCallCenterSettings();
+        sironoCallCenterSettings.Auto_Create_Payment_Plan_Error_Cases__c = false;
+        update sironoCallCenterSettings;
+
+        Contact guarantor = createPaymentPlanPrereqs();
+
+        Test.startTest();
+        {
+            Payment_Plan__c paymentPlan = new Payment_Plan__c(
+                Guarantor__c = guarantor.Id,
+                Has_Error__c = true
+            );
+            insert paymentPlan;
+        }
+        Test.stopTest();
+
+        verifyPaymentPlanWithoutErrorsResults();
+    }
+
+    @IsTest
     private static void testPaymentPlanUpdatedToAddErrors() {
         Contact guarantor = createPaymentPlanPrereqs();
 
@@ -126,6 +142,31 @@ public class PaymentPlanProcessBuilderFlowTest {
         Test.stopTest();
 
         verifyPaymentPlanWithErrorsResults();
+    }
+
+    @IsTest
+    private static void testPaymentPlanUpdatedToAddErrorsWithSettingDisabled() {
+        // Disable payment plan errors auto-case creation
+        Sirono_Call_Center_Settings__c sironoCallCenterSettings = SironoCallCenterSettingsUtil.getSironoCallCenterSettings();
+        sironoCallCenterSettings.Auto_Create_Payment_Plan_Error_Cases__c = false;
+        update sironoCallCenterSettings;
+
+        Contact guarantor = createPaymentPlanPrereqs();
+
+        Payment_Plan__c paymentPlan = new Payment_Plan__c(
+            Guarantor__c = guarantor.Id,
+            Has_Error__c = false
+        );
+        insert paymentPlan;
+
+        Test.startTest();
+        {
+            paymentPlan.Has_Error__c = true;
+            update paymentPlan;
+        }
+        Test.stopTest();
+
+        verifyPaymentPlanWithoutErrorsResults();
     }
 
     @IsTest
@@ -149,14 +190,14 @@ public class PaymentPlanProcessBuilderFlowTest {
         List<Case> cases = [
             SELECT Id, Type, Status, Reason
             FROM Case
-            WHERE Subject = :CASE_SUBJECT_PAYMENT_PLAN_ERROR
+            WHERE Subject = :Constants.CASE_SUBJECT_PAYMENT_PLAN_ERROR
         ];
 
         // There should be one case in a closed state
         System.assertEquals(1, cases.size());
         System.assertEquals(Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, cases[0].Type);
-        System.assertEquals('Closed', cases[0].Status);
-        System.assertEquals('Closed - Automated', cases[0].Reason);
+        System.assertEquals(Constants.CASE_STATUS_CLOSED, cases[0].Status);
+        System.assertEquals(Constants.CASE_REASON_CLOSED_AUTOMATED, cases[0].Reason);
     }
 
     @IsTest

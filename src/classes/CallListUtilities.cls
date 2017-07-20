@@ -18,16 +18,16 @@ public with sharing class CallListUtilities {
             if (c.Delinquent_Balance__c != null) balToCheck += c.Delinquent_Balance__c;
 
             if (c.Charge_Groups__r.size() == 0
-                    || balToCheck > -100 || balToCheck < -5000) {
+                || balToCheck > -100 || balToCheck < -5000) {
                 membersToremove.add(c.Id);
             }
         }
 
         //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'PreCollections'
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
+            Constants.CAMPAIGN_NAME_PRECOLLECTIONS
         });
-        string preCollection = mapCampaignMapping.get('PreCollections');
+        string preCollection = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PRECOLLECTIONS);
 
         // NOTE: The read access check for CampaignMember is skipped here in order allow Community Profile users
         // to create/delete Payment plans.
@@ -52,14 +52,14 @@ public with sharing class CallListUtilities {
             if (c.Delinquent_Balance__c != null) balToCheck += c.Delinquent_Balance__c;
 
             if (balToCheck == 0
-                    || balToCheck > -100 || balToCheck < -5000) {
+                || balToCheck > -100 || balToCheck < -5000) {
                 membersToremove.add(c.Id);
             }
         }
 
         //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                Constants.CAMPAIGN_NAME_OVERDUE
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
+            Constants.CAMPAIGN_NAME_OVERDUE
         });
         string earlyOut = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE);
 
@@ -79,7 +79,7 @@ public with sharing class CallListUtilities {
 
     //Remove the Campaign Members for the Delinquent case.
     public static void delinquentPaymentPlanCallListRemoval(Set<Id> contactIds) {
-        Set<Id> membersToremove = new Set<Id>();        
+        Set<Id> membersToremove = new Set<Id>();
         for (Contact c: GuarantorService.getGuarantorsWithPmtPlan(contactIds)) {
             if (c.Payment_Plans__r.size() == 0) {
                 membersToremove.add(c.Id);
@@ -87,8 +87,8 @@ public with sharing class CallListUtilities {
         }
 
         //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                Constants.CAMPAIGN_NAME_PAST_DUE
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
+            Constants.CAMPAIGN_NAME_PAST_DUE
         });
         string delinquent = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE);
 
@@ -116,10 +116,10 @@ public with sharing class CallListUtilities {
         }
 
         //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                'PreService'
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
+            Constants.CAMPAIGN_NAME_PRESERVICE
         });
-        String preService = mapCampaignMapping.get('PreService');
+        String preService = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PRESERVICE);
 
         // NOTE: The read access check for CampaignMember is skipped here in order allow Community Profile users
         // to create/delete/pay Payment plans.

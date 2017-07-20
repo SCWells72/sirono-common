@@ -27,8 +27,8 @@ private class AddToPaymentPlanTest {
         insert t;
 
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor and submit method.
-        Apexpages.currentPage().getParameters().put('guarantorId',g.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId','121212');
+        Apexpages.currentPage().getParameters().put('guarantorId', g.Id);
+        Apexpages.currentPage().getParameters().put('paymentPlanExtId', '121212');
         AddToPaymentPlanVF ppCon = new AddToPaymentPlanVF();
 
          /* Call Submit method and It will give an error "Please provide all details".
@@ -38,22 +38,22 @@ private class AddToPaymentPlanTest {
         ppCon.submit();
 
         //Create Invoice record.
-        Invoice__c i = TestUtility.generateInvoice(g.Id,p.Id);
+        Invoice__c i = TestUtility.generateInvoice(g.Id, p.Id);
         insert i;
 
         //Create Charge Group record.
-        Charge_Group__c   cg = TestUtility.generateChargeGroup(g.Id,null,121114);
+        Charge_Group__c cg = TestUtility.generateChargeGroup(g.Id, null, 121114);
         cg.Invoice__c = i.id;
         cg.Payment_Plan__c = t.Id;
         cg.Charge_Group_External_ID__c = true;
         insert cg;
 
         //Create Transaction record.
-        Transaction__c  transactionObj = TestUtility.generateTransaction(cg ,100,'Automatic');
+        Transaction__c transactionObj = TestUtility.generateTransaction(cg, 100, Constants.AUTOMATIC);
         insert transactionObj;
 
         //Create Charge Group record with different Charge Group ID.
-        cg = TestUtility.generateChargeGroup(g.Id,null,121114);
+        cg = TestUtility.generateChargeGroup(g.Id, null, 121114);
         cg.Invoice__c = i.id;
         cg.Payment_Plan__c = t.Id;
         cg.Sirono_ID__c = 124;
@@ -61,13 +61,13 @@ private class AddToPaymentPlanTest {
         insert cg;
 
         //Create Transaction record.
-        transactionObj = TestUtility.generateTransaction(cg ,100,'Automatic');
+        transactionObj = TestUtility.generateTransaction(cg, 100, Constants.AUTOMATIC);
         insert transactionObj;
 
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
-        Apexpages.currentPage().getParameters().put('guarantorId',g.Id);
+        Apexpages.currentPage().getParameters().put('guarantorId', g.Id);
         ppCon = new AddToPaymentPlanVF();
-        for(ChargeGroupWrapper cgw :ppCon.chargeGroupList){
+        for (ChargeGroupWrapper cgw :ppCon.chargeGroupList) {
             cgw.isSelected = true;
         }
 
@@ -90,7 +90,7 @@ private class AddToPaymentPlanTest {
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         boolean isError = false;
         for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Please provide all details')) isError  = true;
+            if (msg.getDetail().contains('Please provide all details')) isError = true;
             System.debug(msg.getDetail());
         }
         System.assert(isError, 'Expected error message but none returned 1');
@@ -117,23 +117,23 @@ private class AddToPaymentPlanTest {
         insert t;
 
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
-        Apexpages.currentPage().getParameters().put('guarantorId',g.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId','121212');
+        Apexpages.currentPage().getParameters().put('guarantorId', g.Id);
+        Apexpages.currentPage().getParameters().put('paymentPlanExtId', '121212');
         AddToPaymentPlanVF ppCon = new AddToPaymentPlanVF();
 
         //Create Invoice record.
-        Invoice__c i = TestUtility.generateInvoice(g.Id,p.Id);
+        Invoice__c i = TestUtility.generateInvoice(g.Id, p.Id);
         insert i;
 
         //Create Charge Group record.
-        Charge_Group__c   cg = TestUtility.generateChargeGroup(g.Id,null,121114);
+        Charge_Group__c cg = TestUtility.generateChargeGroup(g.Id, null, 121114);
         cg.Invoice__c = i.id;
         cg.Payment_Plan__c = t.Id;
         cg.Charge_Group_External_ID__c = true;
         insert cg;
 
         //Create Transaction record.
-        Transaction__c  transactionObj = TestUtility.generateTransaction(cg ,100,'Automatic');
+        Transaction__c transactionObj = TestUtility.generateTransaction(cg, 100, Constants.AUTOMATIC);
         insert transactionObj;
 
         //Create Charge Group record with different Charge Group Id.
@@ -145,14 +145,14 @@ private class AddToPaymentPlanTest {
         insert cg;
 
         //Create Transaction record.
-        transactionObj = TestUtility.generateTransaction(cg ,100,'Automatic');
+        transactionObj = TestUtility.generateTransaction(cg, 100, Constants.AUTOMATIC);
         insert transactionObj;
 
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
-        Apexpages.currentPage().getParameters().put('guarantorId',g.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId','121212');
+        Apexpages.currentPage().getParameters().put('guarantorId', g.Id);
+        Apexpages.currentPage().getParameters().put('paymentPlanExtId', '121212');
         ppCon = new AddToPaymentPlanVF();
-        for(ChargeGroupWrapper cgw :ppCon.chargeGroupList){
+        for (ChargeGroupWrapper cgw :ppCon.chargeGroupList) {
             cgw.isSelected = true;
         }
 
@@ -165,7 +165,7 @@ private class AddToPaymentPlanTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
-        TestUtility.responsebody =  'sadasds';
+        TestUtility.responsebody = 'sadasds';
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
 
         /* Call Submit method and It will successfully save the record.
@@ -177,8 +177,8 @@ private class AddToPaymentPlanTest {
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         boolean isError = false;
-        for(Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Added Successfully')) isError  = true;
+        for (Apexpages.Message msg : msgList) {
+            if (msg.getDetail().contains('Added Successfully')) isError = true;
             System.debug(msg.getDetail());
         }
         System.assert(!isError, 'Expected success message, none returned 3');
@@ -206,8 +206,8 @@ private class AddToPaymentPlanTest {
         insert t;
 
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor and submit method.
-        Apexpages.currentPage().getParameters().put('guarantorId',g.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId','121212');
+        Apexpages.currentPage().getParameters().put('guarantorId', g.Id);
+        Apexpages.currentPage().getParameters().put('paymentPlanExtId', '121212');
         AddToPaymentPlanVF ppCon = new AddToPaymentPlanVF();
 
         /* Call Submit method and It will give an error "Please provide all details".
@@ -217,22 +217,22 @@ private class AddToPaymentPlanTest {
         ppCon.submit();
 
         //Create Invoice record.
-        Invoice__c i = TestUtility.generateInvoice(g.Id,p.Id);
+        Invoice__c i = TestUtility.generateInvoice(g.Id, p.Id);
         insert i;
 
         //Create Charge Group record.
-        Charge_Group__c   cg = TestUtility.generateChargeGroup(g.Id,null,121114);
+        Charge_Group__c cg = TestUtility.generateChargeGroup(g.Id, null, 121114);
         cg.Invoice__c = i.id;
         cg.Payment_Plan__c = t.Id;
         cg.Charge_Group_External_ID__c = true;
         insert cg;
 
         //Create Transaction record.
-        Transaction__c  transactionObj = TestUtility.generateTransaction(cg ,100,'Automatic');
+        Transaction__c transactionObj = TestUtility.generateTransaction(cg, 100, Constants.AUTOMATIC);
         insert transactionObj;
 
         //Create Charge Group record with different Charge Group Id.
-        cg = TestUtility.generateChargeGroup(g.Id,null,121114);
+        cg = TestUtility.generateChargeGroup(g.Id, null, 121114);
         cg.Invoice__c = i.id;
         cg.Payment_Plan__c = t.Id;
         cg.Sirono_ID__c = 124;
@@ -240,14 +240,14 @@ private class AddToPaymentPlanTest {
         insert cg;
 
         //Create Transaction record.
-        transactionObj = TestUtility.generateTransaction(cg ,100,'Automatic');
+        transactionObj = TestUtility.generateTransaction(cg, 100, Constants.AUTOMATIC);
         insert transactionObj;
 
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
-        Apexpages.currentPage().getParameters().put('guarantorId',g.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId','121212');
+        Apexpages.currentPage().getParameters().put('guarantorId', g.Id);
+        Apexpages.currentPage().getParameters().put('paymentPlanExtId', '121212');
         ppCon = new AddToPaymentPlanVF();
-        for(ChargeGroupWrapper cgw :ppCon.chargeGroupList){
+        for (ChargeGroupWrapper cgw :ppCon.chargeGroupList) {
             cgw.isSelected = true;
         }
 
@@ -261,7 +261,7 @@ private class AddToPaymentPlanTest {
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 200;
         TestUtility.statusCode2 = 201;
-        TestUtility.responsebody =  PaymentPlanJSONParsing.testResponse();
+        TestUtility.responsebody = PaymentPlanJSONParsing.testResponse();
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
 
         /* Call Submit method and It will successfully save the record.
@@ -274,7 +274,7 @@ private class AddToPaymentPlanTest {
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         boolean isError = false;
         for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Added Successfully')) isError  = true;
+            if (msg.getDetail().contains('Added Successfully')) isError = true;
             System.debug(msg.getDetail());
         }
         System.assert(!isError, 'Unexpected success message returned 4');
@@ -289,14 +289,14 @@ private class AddToPaymentPlanTest {
         TestUtility objTestUtility = new TestUtility();
 
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
-        Apexpages.currentPage().getParameters().put('paymentPlanId','121212');
+        Apexpages.currentPage().getParameters().put('paymentPlanId', '121212');
         AddToPaymentPlanVF ppCon = new AddToPaymentPlanVF();
 
         //Call cancel method and it will redirect to Contact page.
         PageReference pageRef = ppCon.cancel();
 
         //Check system assert.
-        System.assertEquals('/'+ 121212, pageRef.getUrl());
+        System.assertEquals('/' + 121212, pageRef.getUrl());
     }
 
     //Code Coverage for pass all the validation

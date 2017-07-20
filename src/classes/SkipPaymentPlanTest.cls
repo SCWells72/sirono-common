@@ -35,7 +35,7 @@ private class SkipPaymentPlanTest {
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
-        paymentPlan.Plan_Type__c = 'Automatic';
+        paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
         insert paymentPlan;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -83,7 +83,7 @@ private class SkipPaymentPlanTest {
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
-        paymentPlan.Plan_Type__c = 'Automatic';
+        paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
         paymentPlan.Sirono_ID__c = 2876;
         insert paymentPlan;
 
@@ -128,7 +128,7 @@ private class SkipPaymentPlanTest {
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
-        paymentPlan.Plan_Type__c = 'Automatic';
+        paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
         insert paymentPlan;
 
         Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -166,9 +166,11 @@ private class SkipPaymentPlanTest {
      **/
     @isTest
     static void checkAccessRights() {
-        List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext>{PaymentPlanSecurityContext.UPSERT_CONTEXT,
-        	PaymentPlanSecurityContext.UPDATE_CONTEXT, PaymentPlanSecurityContext.DP_UPDATE_CONTEXT, 
-                PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT
+        List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext> {
+            PaymentPlanSecurityContext.UPSERT_CONTEXT,
+            PaymentPlanSecurityContext.UPDATE_CONTEXT,
+            PaymentPlanSecurityContext.DP_UPDATE_CONTEXT,
+            PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {

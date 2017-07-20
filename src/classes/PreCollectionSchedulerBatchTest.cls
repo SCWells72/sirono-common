@@ -38,18 +38,22 @@ private class PreCollectionSchedulerBatchTest {
         t1.Delinquent_Date__c = dt;
         insert t1;
 
-        Campaign c = TestUtility.generateCampaign('PreCollections');
+        Campaign c = TestUtility.generateCampaign(Constants.CAMPAIGN_NAME_PRECOLLECTIONS);
         c.isActive = true;
         insert c;
 
-        CampaignMember cmm = new CampaignMember(CampaignId = c.Id, ContactId = con.Id, Status = 'Sent');
+        CampaignMember cmm = new CampaignMember(
+            CampaignId = c.Id,
+            ContactId = con.Id,
+            Status = Constants.SENT
+        );
         insert cmm;
 
-        cmm = new CampaignMember(CampaignId = c.Id, ContactId = con2.Id, Status = 'Sent');
+        cmm = new CampaignMember(CampaignId = c.Id, ContactId = con2.Id, Status = Constants.SENT);
         insert cmm;
 
         Charge_Group__c cg = TestUtility.generateChargeGroup(con1.Id, con2.id, 1212343);
-        cg.Account_Status__c = 'Billed';
+        cg.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         cg.Pre_Collection_Sent__c = System.today();
         insert cg;
@@ -93,32 +97,32 @@ private class PreCollectionSchedulerBatchTest {
         t1.Delinquent_Date__c = dt;
         insert t1;
 
-        Campaign c = TestUtility.generateCampaign('PreCollections');
+        Campaign c = TestUtility.generateCampaign(Constants.CAMPAIGN_NAME_PRECOLLECTIONS);
         c.isActive = true;
         insert c;
 
-        CampaignMember cmm = new CampaignMember(CampaignId = c.Id, ContactId = con.Id, Status = 'Sent');
+        CampaignMember cmm = new CampaignMember(CampaignId = c.Id, ContactId = con.Id, Status = Constants.SENT);
         insert cmm;
 
-        cmm = new CampaignMember(CampaignId = c.Id, ContactId = con2.Id, Status = 'Sent');
+        cmm = new CampaignMember(CampaignId = c.Id, ContactId = con2.Id, Status = Constants.SENT);
         insert cmm;
 
         Charge_Group__c cg = TestUtility.generateChargeGroup(con1.Id, con2.id, 12122343);
-        cg.Account_Status__c = 'Billed';
+        cg.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         cg.Pre_Collection_Sent__c = System.today();
         insert cg;
 
-        Transaction__c transactionObj = TestUtility.generateTransaction(cg, -110, 'Automatic');
+        Transaction__c transactionObj = TestUtility.generateTransaction(cg, -110, Constants.AUTOMATIC);
         insert transactionObj ;
 
         cg = TestUtility.generateChargeGroup(con.Id, con2.id, 1212343);
-        cg.Account_Status__c = 'Billed';
+        cg.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         cg.Pre_Collection_Sent__c = System.today();
         insert cg;
 
-        transactionObj = TestUtility.generateTransaction(cg, -110, 'Automatic');
+        transactionObj = TestUtility.generateTransaction(cg, -110, Constants.AUTOMATIC);
         insert transactionObj ;
 
         Test.startTest();
@@ -147,8 +151,9 @@ private class PreCollectionSchedulerBatchTest {
      **/
     @isTest
     static void checkAccessRights() {
-        List<CmpnMemberSecurityContext> allContexts = new List<CmpnMemberSecurityContext>{CmpnMemberSecurityContext.CREATE_CONTEXT,
-        	CmpnMemberSecurityContext.UPDATE_CONTEXT
+        List<CmpnMemberSecurityContext> allContexts = new List<CmpnMemberSecurityContext> {
+            CmpnMemberSecurityContext.CREATE_CONTEXT,
+            CmpnMemberSecurityContext.UPDATE_CONTEXT
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {

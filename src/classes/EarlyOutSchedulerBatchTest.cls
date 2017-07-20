@@ -31,11 +31,11 @@ public class EarlyOutSchedulerBatchTest {
         insert lstStatement;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(con1.Id, p.id, 121343);
-        chargeGroup.Account_Status__c = 'Billed';
+        chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -120, 'Service');
+        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, -120, Constants.SERVICE);
         insert objTransaction;
 
         Date dt = System.today().addDays(-50);
@@ -75,8 +75,9 @@ public class EarlyOutSchedulerBatchTest {
      **/
     @isTest
     static void checkAccessRights() {
-        List<CmpnMemberSecurityContext> allContexts = new List<CmpnMemberSecurityContext>{CmpnMemberSecurityContext.CREATE_CONTEXT,
-        	CmpnMemberSecurityContext.UPDATE_CONTEXT
+        List<CmpnMemberSecurityContext> allContexts = new List<CmpnMemberSecurityContext> {
+            CmpnMemberSecurityContext.CREATE_CONTEXT,
+            CmpnMemberSecurityContext.UPDATE_CONTEXT
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {

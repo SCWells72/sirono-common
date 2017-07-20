@@ -24,7 +24,7 @@ public with sharing class ContactInvoicedBalanceTest {
         INSERT chargeGroup;
 
         // Create Transaction Record.
-        Transaction__c transactionObj = TestUtility.generateTransaction(chargeGroup, 1000, 'Automatic');
+        Transaction__c transactionObj = TestUtility.generateTransaction(chargeGroup, 1000, Constants.AUTOMATIC);
         INSERT transactionObj;
         Test.stopTest();
 
@@ -34,17 +34,17 @@ public with sharing class ContactInvoicedBalanceTest {
 
     private static Contact getTestContact() {
         return [
-                SELECT Id, Invoiced_Balance__c, Credit_Balance__c
-                FROM Contact
-                WHERE LastName = :GUARANTOR_CONTACT
+            SELECT Id, Invoiced_Balance__c, Credit_Balance__c
+            FROM Contact
+            WHERE LastName = :GUARANTOR_CONTACT
         ];
     }
 
     private static Charge_Group__c getTestChargeGroup() {
         return [
-                SELECT Id, Has_Credit_Balance__c, Has_Invoiced_Balance__c
-                FROM Charge_Group__c
-                WHERE Sirono_ID__c = :CG_SIRONO_ID
+            SELECT Id, Has_Credit_Balance__c, Has_Invoiced_Balance__c
+            FROM Charge_Group__c
+            WHERE Sirono_ID__c = :CG_SIRONO_ID
         ];
     }
 
@@ -136,7 +136,7 @@ public with sharing class ContactInvoicedBalanceTest {
         INSERT cg;
 
         // Create Transaction Record.
-        Transaction__c transactionObj = TestUtility.generateTransaction(cg, 200, 'Automatic');
+        Transaction__c transactionObj = TestUtility.generateTransaction(cg, 200, Constants.AUTOMATIC);
         INSERT transactionObj;
 
         // Check system assert.
@@ -177,7 +177,7 @@ public with sharing class ContactInvoicedBalanceTest {
         INSERT cg;
 
         // Create Transaction Record with negative balance.
-        Transaction__c transactionObj = TestUtility.generateTransaction(cg, -200, 'Automatic');
+        Transaction__c transactionObj = TestUtility.generateTransaction(cg, -200, Constants.AUTOMATIC);
         INSERT transactionObj;
 
         // Check system assert.

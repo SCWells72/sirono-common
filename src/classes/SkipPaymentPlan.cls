@@ -20,12 +20,12 @@
 
 public with sharing class SkipPaymentPlan {
 
-    public String guarantorId {get; set;}
-    public String paymentPlanId {get; set;}
-    public String messageToShow {get; set;}
-    public String paymentPlanExtId {get; set;}
-    public Boolean isAutomatic {get; set;}
-    public Boolean isSuccess {get; set;}
+    public String guarantorId { get; set; }
+    public String paymentPlanId { get; set; }
+    public String messageToShow { get; set; }
+    public String paymentPlanExtId { get; set; }
+    public Boolean isAutomatic { get; set; }
+    public Boolean isSuccess { get; set; }
 
     public SkipPaymentPlan() {
 
@@ -55,9 +55,10 @@ public with sharing class SkipPaymentPlan {
     private void validatePaymentPlanType() {
         if (PaymentPlanSecurityContext.SPP_SELECT_CONTEXT.actionAllowed()) {
             List<Payment_Plan__c> automaticPaymentPlans = [
-                    SELECT Id, Sirono_ID__c, NextPaymentDate__c
-                    FROM Payment_Plan__c
-                    WHERE Id = :paymentPlanId AND Plan_Type__c = 'Automatic'
+                SELECT Id, Sirono_ID__c, NextPaymentDate__c
+                FROM Payment_Plan__c
+                WHERE Id = :paymentPlanId
+                AND Plan_Type__c = :Constants.AUTOMATIC
             ];
 
             if (automaticPaymentPlans.size() > 0) {
@@ -67,13 +68,13 @@ public with sharing class SkipPaymentPlan {
                 Date nextPaymentDate = automaticPaymentPlans[0].NextPaymentDate__c;
                 if (nextPaymentDate != null) {
                     messageToShow = 'Clicking skip payment installment will skip the next installment date of '
-                            + nextPaymentDate.format() + '. The next installment will charge on '
-                            + nextPaymentDate.addMonths(1).format() + '.';
+                        + nextPaymentDate.format() + '. The next installment will charge on '
+                        + nextPaymentDate.addMonths(1).format() + '.';
                 }
             } else {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
-                        'Sorry, the Skip Payment Plan is not of type Automatic. ' +
-                                'Please click Cancel to go previous page.'));
+                    'Sorry, the Skip Payment Plan is not of type Automatic. ' +
+                        'Please click Cancel to go previous page.'));
             }
         }
     }
@@ -109,7 +110,7 @@ public with sharing class SkipPaymentPlan {
                 }
             } else {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                        'Payment Plan Id is missing.'));
+                    'Payment Plan Id is missing.'));
                 if (Test.IsRunningTest()) {
                     TestUtility.generateException();
                 }
@@ -117,7 +118,7 @@ public with sharing class SkipPaymentPlan {
         } catch (Exception e) {
             // Debug error response
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'ERROR: ' + e.getMessage()));
+                'ERROR: ' + e.getMessage()));
         }
     }
 
@@ -138,7 +139,7 @@ public with sharing class SkipPaymentPlan {
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
         req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/' +
-                PayStaffWSUtill.trimCommas(paymentPlanExtId) + '/skip_payment/');
+            PayStaffWSUtill.trimCommas(paymentPlanExtId) + '/skip_payment/');
         req.setBody(requestData);
         System.debug('req: ' + req);
         System.debug('req: ' + requestData);
@@ -151,8 +152,8 @@ public with sharing class SkipPaymentPlan {
         } catch (Exception e) {
             // Debug error response
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() +
-                            '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage()));
+                'PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() +
+                    '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage()));
         }
 
         if (res.getStatusCode() != null && res.getStatusCode() == 200) {
@@ -169,7 +170,7 @@ public with sharing class SkipPaymentPlan {
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'CSRF_Token : '+ csrfToken));
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'JWT_Token : '+ jwtToken));
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody));
+                'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody));
         }
     }
     
@@ -191,11 +192,11 @@ public with sharing class SkipPaymentPlan {
 
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
         objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorId,
-                null, null);
+            null, null);
         Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
 
-	if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
-	    UPSERT paymentPlanObj;
-	}
+        if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
+            UPSERT paymentPlanObj;
+        }
     }
 }

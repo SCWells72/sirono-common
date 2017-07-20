@@ -5,11 +5,6 @@
 @isTest
 private class PaymentPlanTriggerTest {
 
-    @TestSetup
-    private static void setup() {
-        SironoSettingsUtil.setProcessBuilderIds(Sirono_Settings__c.getInstance());
-    }
-
     /**
      * This method tests the logic of Next Payment Plan date is populated or not.
      **/
@@ -23,7 +18,7 @@ private class PaymentPlanTriggerTest {
         INSERT paymentPlan;
         paymentPlan.Active__c = true;
         UPDATE paymentPlan;
-        paymentPlan.Plan_Type__c = 'Automatic';
+        paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
         UPDATE paymentPlan;
 
         paymentPlan.Skip_Payment_Until__c = date.newInstance(2016, 1, 5);
@@ -36,7 +31,7 @@ private class PaymentPlanTriggerTest {
         paymentPlan.Plan_Type__c = null;
         UPDATE paymentPlan;
 
-        paymentPlan.Plan_Type__c = 'Automatic';
+        paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
         paymentPlan.Execute_on_Day__c = 0;
         UPDATE paymentPlan;
 
@@ -67,7 +62,7 @@ private class PaymentPlanTriggerTest {
         Test.startTest();
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.active__c = false;
-        paymentPlan.Plan_Type__c = 'Automatic';
+        paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Has_Error__c = false;
         paymentPlan.Delinquent__c = true;
@@ -101,7 +96,7 @@ private class PaymentPlanTriggerTest {
         Test.startTest();
         Payment_Plan__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan1.active__c = true;
-        paymentPlan1.Plan_Type__c = 'Automatic';
+        paymentPlan1.Plan_Type__c = Constants.AUTOMATIC;
         paymentPlan1.Remaining_Balance__c = 100;
         paymentPlan1.Has_Error__c = false;
         paymentPlan1.Delinquent__c = true;
@@ -135,7 +130,7 @@ private class PaymentPlanTriggerTest {
         Test.startTest();
         Payment_Plan__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan1.active__c = true;
-        paymentPlan1.Plan_Type__c = 'Automatic';
+        paymentPlan1.Plan_Type__c = Constants.AUTOMATIC;
         paymentPlan1.Remaining_Balance__c = 100;
         paymentPlan1.Has_Error__c = true;
         paymentPlan1.Skip_Payment_Until__c = refDt.adddays(10);

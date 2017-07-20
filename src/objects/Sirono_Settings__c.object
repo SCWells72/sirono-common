@@ -14,29 +14,6 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Automated_Case_Record_Type_Id__c</fullName>
-        <description>The ID of the &quot;Automated Case&quot; record type.</description>
-        <externalId>false</externalId>
-        <inlineHelpText>The ID of the &quot;Automated Case&quot; record type.</inlineHelpText>
-        <label>Automated Case Record Type Id</label>
-        <length>18</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Business_Hours_Id__c</fullName>
-        <description>The ID of the installation&apos;s business hours configuration.</description>
-        <externalId>false</externalId>
-        <label>Business Hours Id</label>
-        <length>18</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
         <fullName>Country_Code__c</fullName>
         <defaultValue>&quot;US&quot;</defaultValue>
         <externalId>false</externalId>

@@ -38,8 +38,8 @@ public class CaseCommentTriggerTest {
     @isTest
     static void checkCaseComment() {
         Case testCase = new Case(
-            Status = 'New',
-            Origin = 'Phone',
+            Status = Constants.CASE_STATUS_NEW,
+            Origin = Constants.CASE_ORIGIN_PHONE,
             RecordTypeId = getInternalCaseRecordType().Id
         );
         INSERT testCase;
@@ -70,8 +70,8 @@ public class CaseCommentTriggerTest {
         System.runAs(TestUtility.getAdminUser()) {
             // Create case record.
             Case testCase = new Case(
-                Status = 'New',
-                Origin = 'Phone',
+                Status = Constants.CASE_STATUS_NEW,
+                Origin = Constants.CASE_ORIGIN_PHONE,
                 RecordTypeId = getInternalCaseRecordType().Id
             );
             INSERT testCase;
@@ -105,8 +105,8 @@ public class CaseCommentTriggerTest {
 
         System.runAs(TestUtility.getAdminUser()) {
             Case testCase = new Case(
-                Status = 'New',
-                Origin = 'Phone',
+                Status = Constants.CASE_STATUS_NEW,
+                Origin = Constants.CASE_ORIGIN_PHONE,
                 RecordTypeId = getInternalCaseRecordType().Id
             );
             INSERT testCase;
