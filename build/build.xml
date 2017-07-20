@@ -125,7 +125,7 @@
             packagenames="${sf.pkgName}"/>
     </target>
 
-    <target name="deploy" depends="processTemplates, deactivateAndDeleteFlows, _deploy, runPostInstallHandler"/>
+    <target name="deploy" depends="processTemplates, _deploy, runPostInstallHandler"/>
 
     <target name="_deploy">
         <echo level="info">Deploying to: ${sf.target.username} with test level: ${sf.testLevel}</echo>
@@ -252,7 +252,7 @@ SironoPRSPostInstallHandler.initializeSironoSettings();
     </target>
 
     <!-- Deploy without tests -->
-    <target name="deployNoTests" depends="processTemplates, deactivateAndDeleteFlows, _deployNoTests, runPostInstallHandler"/>
+    <target name="deployNoTests" depends="processTemplates, _deployNoTests, runPostInstallHandler"/>
 
     <target name="_deployNoTests">
         <echo level="info">Deploying to: ${sf.target.username} without tests</echo>
@@ -459,88 +459,5 @@ SironoPRSPostInstallHandler.initializeSironoSettings();
             <loadfile property="instance" srcFile="${workDir}/instance.txt"/>
         </sequential>
     </macrodef>
-
-    <!-- Flow management -->
-
-    <target name="deactivateAndDeleteFlows" depends="listFlows, generateDeactivateAndDeleteFlowFiles, _deactivateAndDeleteFlows"/>
-
-    <target name="listFlows">
-        <listMetadata metadataType="Flow"/>
-        <if>
-            <available file="${workDir}/listMetadata/list_Flow.log"/>
-            <then>
-                <loadfile srcfile="${workDir}/listMetadata/list_Flow.log" property="flowNames" failonerror="false" quiet="true">
-                    <filterchain>
-                        <linecontainsregexp>
-                            <regexp pattern="^FullName/Id:"/>
-                        </linecontainsregexp>
-                        <replaceregex pattern="^FullName/Id:\s+([^/]+)/.*" replace="\1"/>
-                    </filterchain>
-                </loadfile>
-                <condition property="hasFlowNames">
-                    <isset property="flowNames"/>
-                </condition>
-            </then>
-        </if>
-    </target>
-
-    <target name="generateDeactivateAndDeleteFlowFiles" if="hasFlowNames">
-        <!-- Create the required build files -->
-        <delete dir="${workDir}/deactivateAndDeleteFlows" failonerror="false" quiet="true"/>
-        <mkdir dir="${workDir}/deactivateAndDeleteFlows"/>
-
-        <!-- Create the package.xml -->
-        <echo file="${workDir}/deactivateAndDeleteFlows/package.xml"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <types>
-        <members>*</members>
-        <name>FlowDefinition</name>
-    </types>
-    <version>38.0</version>
-</Package>
-]]></echo>
-
-        <!-- Create the destructiveChangesPost.xml -->
-        <echo file="${workDir}/deactivateAndDeleteFlows/destructiveChangesPost.xml"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <types>]]></echo>
-        <for param="flowName" list="${flowNames}" delimiter="${line.separator}">
-            <sequential>
-                <echo file="${workDir}/deactivateAndDeleteFlows/destructiveChangesPost.xml" append="true"><![CDATA[
-        <members>@{flowName}-1</members>]]></echo>
-            </sequential>
-        </for>
-        <echo file="${workDir}/deactivateAndDeleteFlows/destructiveChangesPost.xml" append="true"><![CDATA[
-        <name>Flow</name>
-    </types>
-</Package>
-]]></echo>
-
-        <!-- And finally create flow definition files for each flow to deactivate them -->
-        <mkdir dir="${workDir}/deactivateAndDeleteFlows/flowDefinitions"/>
-        <echo level="info">Deactivating and deleting:</echo>
-        <for param="flowName" list="${flowNames}" delimiter="${line.separator}">
-            <sequential>
-                <echo level="info">* @{flowName}</echo>
-                <echo file="${workDir}/deactivateAndDeleteFlows/flowDefinitions/@{flowName}.flowDefinition"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<FlowDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
-    <activeVersionNumber>0</activeVersionNumber>
-</FlowDefinition>
-]]></echo>
-            </sequential>
-        </for>
-    </target>
-
-    <target name="_deactivateAndDeleteFlows" if="hasFlowNames">
-        <echo level="info">Deactivating and deleting flows from: ${sf.target.username}</echo>
-        <sf:deploy
-            username="${sf.target.username}"
-            password="${sf.target.password}"
-            serverurl="${sf.target.serverurl}"
-            deployRoot="${workDir}/deactivateAndDeleteFlows"
-            testLevel="NoTestRun"
-            purgeOnDelete="true"
-            ignoreWarnings="true"/>
-    </target>
 
 </project>

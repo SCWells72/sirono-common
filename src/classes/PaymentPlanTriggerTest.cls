@@ -5,11 +5,6 @@
 @isTest
 private class PaymentPlanTriggerTest {
 
-    @TestSetup
-    private static void setup() {
-        SironoSettingsUtil.setProcessBuilderIds(Sirono_Settings__c.getInstance());
-    }
-
     /**
      * This method tests the logic of Next Payment Plan date is populated or not.
      **/

@@ -12,11 +12,6 @@
 public class CaseUtilTest {
     public Static List<CampaignMember> lst ;
 
-    @TestSetup
-    private static void setup() {
-        SironoSettingsUtil.setProcessBuilderIds(Sirono_Settings__c.getInstance());
-    }
-
     //Method to code coverage for callEarlyOutAutoCaseCloser
     @isTest
     public static void callEarlyOutAutoCaseCloser() {

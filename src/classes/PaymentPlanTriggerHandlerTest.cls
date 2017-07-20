@@ -3,13 +3,8 @@
  */
 
 @IsTest
-public class PaymentPlanProcessBuilderFlowTest {
+public class PaymentPlanTriggerHandlerTest {
     private static final Integer NUM_CHARGE_GROUPS = 2;
-
-    @TestSetup
-    private static void setup() {
-        SironoSettingsUtil.setProcessBuilderIds(Sirono_Settings__c.getInstance());
-    }
 
     // NOTE: Keeping this out of setup method because it might be parameterized per-test
     private static Contact createPaymentPlanPrereqs() {

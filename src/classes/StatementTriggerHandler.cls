@@ -9,37 +9,40 @@ public with sharing class StatementTriggerHandler {
     }
 
     private static void checkOverdueBalance(List<Statement__c> statements) {
-        // Group for efficiency
-        Set<Id> guarantorIds = new Set<Id>();
-        for (Statement__c statement : statements) {
-            guarantorIds.add(statement.Guarantor__c);
-        }
+        // Only if we're configured to auto-create overdue cases
+        Sirono_Call_Center_Settings__c sironoCallCenterSettings = SironoCallCenterSettingsUtil.getSironoCallCenterSettings();
+        if (sironoCallCenterSettings.Auto_Create_Overdue_Cases__c) {
+            // Group for efficiency
+            Set<Id> guarantorIds = new Set<Id>();
+            for (Statement__c statement : statements) {
+                guarantorIds.add(statement.Guarantor__c);
+            }
 
-        if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            List<Contact> guarantors = [
-                SELECT Id, Overdue_Balance__c
-                FROM Contact
-                WHERE Overdue_Balance__c > 0.0
-            ];
-            if (!guarantors.isEmpty()) {
-                List<Case> overdueBalanceCases = new List<Case>();
+            if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                List<Contact> guarantors = [
+                    SELECT Id, Overdue_Balance__c
+                    FROM Contact
+                    WHERE Overdue_Balance__c > 0.0
+                ];
+                if (!guarantors.isEmpty()) {
+                    List<Case> overdueBalanceCases = new List<Case>();
 
-                Contact guarantor = guarantors[0];
-                for (Statement__c statement : statements) {
-                    Case overdueBalanceCase = new Case(
-                        BusinessHoursId = SironoSettingsUtil.getBusinessHoursId(),
-                        Guarantor_Information__c = guarantor.Id,
-                        RecordTypeId = RecordTypeUtil.automatedCaseRt,
-                        Status = Constants.CASE_STATUS_NEW,
-                        Subject = Constants.CASE_SUBJECT_GUARANTOR_OVERDUE,
-                        Type = Constants.CASE_TYPE_OVERDUE
-                    );
-                    overdueBalanceCases.add(overdueBalanceCase);
-                }
+                    Contact guarantor = guarantors[0];
+                    for (Statement__c statement : statements) {
+                        Case overdueBalanceCase = new Case(
+                            Guarantor_Information__c = guarantor.Id,
+                            RecordTypeId = RecordTypeUtil.automatedCaseRt,
+                            Status = Constants.CASE_STATUS_NEW,
+                            Subject = Constants.CASE_SUBJECT_GUARANTOR_OVERDUE,
+                            Type = Constants.CASE_TYPE_OVERDUE
+                        );
+                        overdueBalanceCases.add(overdueBalanceCase);
+                    }
 
-                if (CaseSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                    if (!overdueBalanceCases.isEmpty()) {
-                        insert overdueBalanceCases;
+                    if (CaseSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+                        if (!overdueBalanceCases.isEmpty()) {
+                            insert overdueBalanceCases;
+                        }
                     }
                 }
             }
@@ -47,37 +50,40 @@ public with sharing class StatementTriggerHandler {
     }
 
     private static void checkDelinquentBalance(List<Statement__c> statements) {
-        // Group for efficiency
-        Set<Id> guarantorIds = new Set<Id>();
-        for (Statement__c statement : statements) {
-            guarantorIds.add(statement.Guarantor__c);
-        }
+        // Only if we're configured to auto-create delinquent cases
+        Sirono_Call_Center_Settings__c sironoCallCenterSettings = SironoCallCenterSettingsUtil.getSironoCallCenterSettings();
+        if (sironoCallCenterSettings.Auto_Create_Precollection_Cases__c) {
+            // Group for efficiency
+            Set<Id> guarantorIds = new Set<Id>();
+            for (Statement__c statement : statements) {
+                guarantorIds.add(statement.Guarantor__c);
+            }
 
-        if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            List<Contact> guarantors = [
-                SELECT Id, Delinquent_Balance__c
-                FROM Contact
-                WHERE Delinquent_Balance__c > 0.0
-            ];
-            if (!guarantors.isEmpty()) {
-                List<Case> delinquentBalanceCases = new List<Case>();
+            if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                List<Contact> guarantors = [
+                    SELECT Id, Delinquent_Balance__c
+                    FROM Contact
+                    WHERE Delinquent_Balance__c > 0.0
+                ];
+                if (!guarantors.isEmpty()) {
+                    List<Case> delinquentBalanceCases = new List<Case>();
 
-                Contact guarantor = guarantors[0];
-                for (Statement__c statement : statements) {
-                    Case delinquentBalanceCase = new Case(
-                        BusinessHoursId = SironoSettingsUtil.getBusinessHoursId(),
-                        Guarantor_Information__c = guarantor.Id,
-                        RecordTypeId = RecordTypeUtil.automatedCaseRt,
-                        Status = Constants.CASE_STATUS_NEW,
-                        Subject = Constants.CASE_SUBJECT_GUARANTOR_DELINQUENT,
-                        Type = Constants.CASE_TYPE_PRECOLLECTIONS
-                    );
-                    delinquentBalanceCases.add(delinquentBalanceCase);
-                }
+                    Contact guarantor = guarantors[0];
+                    for (Statement__c statement : statements) {
+                        Case delinquentBalanceCase = new Case(
+                            Guarantor_Information__c = guarantor.Id,
+                            RecordTypeId = RecordTypeUtil.automatedCaseRt,
+                            Status = Constants.CASE_STATUS_NEW,
+                            Subject = Constants.CASE_SUBJECT_GUARANTOR_DELINQUENT,
+                            Type = Constants.CASE_TYPE_PRECOLLECTIONS
+                        );
+                        delinquentBalanceCases.add(delinquentBalanceCase);
+                    }
 
-                if (CaseSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                    if (!delinquentBalanceCases.isEmpty()) {
-                        insert delinquentBalanceCases;
+                    if (CaseSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+                        if (!delinquentBalanceCases.isEmpty()) {
+                            insert delinquentBalanceCases;
+                        }
                     }
                 }
             }

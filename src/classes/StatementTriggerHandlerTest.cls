@@ -3,12 +3,7 @@
  */
 
 @IsTest
-public class StatementProcessBuilderFlowTest {
-    @TestSetup
-    private static void setup() {
-        SironoSettingsUtil.setProcessBuilderIds(Sirono_Settings__c.getInstance());
-    }
-
+public class StatementTriggerHandlerTest {
     private static Contact createStatementPrereqs(String status, String substatus, Decimal amount) {
         Contact guarantor = TestUtility.generateGuarantorContact();
         guarantor.Profile_Pointer_ID__c = 100.0;
