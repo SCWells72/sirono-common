@@ -41,8 +41,6 @@ sf_temp/
 
 # Illuminated Cloud / Intellij
 IlluminatedCloud/
-.idea/
-*.iml
 *.iws
 
 # Ant generated
