@@ -161,11 +161,12 @@ public class PaymentPlanJSONParsing {
         String[] externalID = url.split(splitWith);
         return externalID[externalID.Size() - 1].replaceAll('/', '');
     }
-    
-    /*
-    * 08-17-2016: Sirono - Tracker # 127940071
-    *  Test response for the test class and testing.
-    */
+
+    private static String testGuarantorSironoId = '23232323';
+
+    /**
+     *  Test response for the test class and testing.
+     */
     Public Static String testResponse() {
 
         String responseBody = '{' +
@@ -177,7 +178,7 @@ public class PaymentPlanJSONParsing {
                 '   "plan_type": "' + TestUtility.planType + '",' +
                 '   "payable_amount": 32772,' +
                 '   "execute_on_day": 13,' +
-                '   "guarantor": "http://127.0.0.1:8000/paystaff/api/guarantors/23232323/",' +
+                '   "guarantor": "http://127.0.0.1:8000/paystaff/api/guarantors/' + testGuarantorSironoId + '/",' +
                 '   "next_payment_date": "2016-05-13",' +
                 '   "installments_paid": 0,' +
                 '   "installments_total": 7,' +

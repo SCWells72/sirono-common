@@ -433,7 +433,7 @@ public with sharing class PaymentPlanService extends AbstractService {
         }
 
         // Make the call to Sirono to delete the payment plan.
-        String sironoPaymentPlanId = String.valueOf(payPlan.Sirono_ID__c);
+        String sironoPaymentPlanId = payPlan.Sirono_ID__c.toPlainString();
         PaymentPlanRestClient restClient = new PaymentPlanRestClient();
         restClient.deletePaymentPlan(sironoPaymentPlanId);
 
@@ -454,12 +454,12 @@ public with sharing class PaymentPlanService extends AbstractService {
 
         List<Decimal> cgSironoIds = ChargeGroupService.getSironoIds(cgs);
         // Get the charge groups from the Sirono service.
-        Map<Decimal, ChargeGroupJSONParsing> cgWrappers = ChargeGroupService.retrieveMapByIds(cgSironoIds);
+        Map<Decimal, ChargeGroupJSONParser> cgWrappers = ChargeGroupService.retrieveMapByIds(cgSironoIds);
 
         // Now update all SF cg records with the data from the Sirono server.
         for (Charge_Group__c cg: cgs) {
             if (cgWrappers.containsKey(cg.Sirono_ID__c)) {
-                ChargeGroupJSONParsing parsing = cgWrappers.get(cg.Sirono_ID__c);
+                ChargeGroupJSONParser parsing = cgWrappers.get(cg.Sirono_ID__c);
                 cg.Account_Sub_Status__c = parsing.account_sub_status;
                 cg.Account_Status__c= parsing.account_status;
                 cg.Payment_Plan__c = null;

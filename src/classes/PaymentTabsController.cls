@@ -99,7 +99,7 @@ public without sharing class PaymentTabsController {
 
         Payment_Plan__c paymentPlan = null;
         PaymentPlanInformation planInfo = new PaymentPlanInformation(ppInfoMap);
-        String sironoPaymentPlanId = ppInfoMap.containsKey('sironoPaymentPlanId') ? String.valueOf(ppInfoMap.get('sironoPaymentPlanId')) : '';
+        String sironoPaymentPlanId = ppInfoMap.containsKey(PaymentPlanInformation.SIRONO_PP_KEY) ? String.valueOf(ppInfoMap.get(PaymentPlanInformation.SIRONO_PP_KEY)) : '';
 
         if (String.isBlank(sironoPaymentPlanId)) {
             System.debug('sironoPaymentPlanId must be provided.');
@@ -109,7 +109,10 @@ public without sharing class PaymentTabsController {
             paymentPlan = PaymentPlanService.updateAutoPaymentPlanTerms(sironoPaymentPlanId, planInfo);
         } catch (Exception e) {
             System.debug('ERROR: ' + e.getMessage());
-            throw new AuraHandledException(e.getMessage());
+            String errMsg = 'Error encountered updating plan. Please contact support';
+            AuraHandledException ex = new AuraHandledException(errMsg);
+            ex.setMessage(errMsg);
+            throw ex;
         }
 
         return paymentPlan;
@@ -127,7 +130,10 @@ public without sharing class PaymentTabsController {
             PaymentPlanService.removePaymentPlan(paymentPlanId);
         } catch (Exception e) {
             System.debug('Error occurred attempting to delete payment plan: ' + e.getMessage());
-            throw new AuraHandledException('An error has occurred, please contact support.');
+            String errMsg = 'An error has occurred, please contact support.';
+            AuraHandledException ex = new AuraHandledException(errMsg);
+            ex.setMessage(errMsg);
+            throw ex;
         }
     }
 
@@ -141,7 +147,7 @@ public without sharing class PaymentTabsController {
     private static List<Charge_Group__c> getChargeGroups(String contactId) {
         List<Charge_Group__c> chargeGroups = new List<Charge_Group__c>();
 
-        if (user.contactId != null) {
+        if (contactId != null) {
             List<Charge_Group__c> allGroups = InvoiceService.getInvoicedChargeGroups(contactId, Constants.INVOICE_UNPAID_STATUSES, new List<String>());
 
             for (Charge_Group__c chgGroup: allGroups) {

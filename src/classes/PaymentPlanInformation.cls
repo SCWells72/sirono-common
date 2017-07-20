@@ -4,6 +4,9 @@
  **/
 
 public with sharing class PaymentPlanInformation {
+
+    public static final String SIRONO_PP_KEY = 'sironoPaymentPlanId';
+
     @TestVisible
     private static final String PLAN_TYPE = 'planType';
     @TestVisible
