@@ -103,6 +103,28 @@ public class PaymentPlanTriggerHandlerTest {
     }
 
     @IsTest
+    private static void testPaymentPlanCreatedWithErrorsAndSettingDisabled() {
+        // Disable payment plan errors auto-case creation
+        Sirono_Call_Center_Settings__c sironoCallCenterSettings = SironoCallCenterSettingsUtil.getSironoCallCenterSettings();
+        sironoCallCenterSettings.Auto_Create_Payment_Plan_Error_Cases__c = false;
+        update sironoCallCenterSettings;
+
+        Contact guarantor = createPaymentPlanPrereqs();
+
+        Test.startTest();
+        {
+            Payment_Plan__c paymentPlan = new Payment_Plan__c(
+                Guarantor__c = guarantor.Id,
+                Has_Error__c = true
+            );
+            insert paymentPlan;
+        }
+        Test.stopTest();
+
+        verifyPaymentPlanWithoutErrorsResults();
+    }
+
+    @IsTest
     private static void testPaymentPlanUpdatedToAddErrors() {
         Contact guarantor = createPaymentPlanPrereqs();
 
@@ -120,6 +142,31 @@ public class PaymentPlanTriggerHandlerTest {
         Test.stopTest();
 
         verifyPaymentPlanWithErrorsResults();
+    }
+
+    @IsTest
+    private static void testPaymentPlanUpdatedToAddErrorsWithSettingDisabled() {
+        // Disable payment plan errors auto-case creation
+        Sirono_Call_Center_Settings__c sironoCallCenterSettings = SironoCallCenterSettingsUtil.getSironoCallCenterSettings();
+        sironoCallCenterSettings.Auto_Create_Payment_Plan_Error_Cases__c = false;
+        update sironoCallCenterSettings;
+
+        Contact guarantor = createPaymentPlanPrereqs();
+
+        Payment_Plan__c paymentPlan = new Payment_Plan__c(
+            Guarantor__c = guarantor.Id,
+            Has_Error__c = false
+        );
+        insert paymentPlan;
+
+        Test.startTest();
+        {
+            paymentPlan.Has_Error__c = true;
+            update paymentPlan;
+        }
+        Test.stopTest();
+
+        verifyPaymentPlanWithoutErrorsResults();
     }
 
     @IsTest

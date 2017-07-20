@@ -84,6 +84,36 @@ public class StatementTriggerHandlerTest {
     }
 
     @IsTest
+    private static void testStatementWithOverdueBalanceAndSettingDisabled() {
+        // Disable overdue balance/precollections auto-case creation
+        Sirono_Call_Center_Settings__c sironoCallCenterSettings = SironoCallCenterSettingsUtil.getSironoCallCenterSettings();
+        sironoCallCenterSettings.Auto_Create_Overdue_Cases__c = false;
+        update sironoCallCenterSettings;
+
+        Contact guarantor = createStatementPrereqs(
+            Constants.ACCT_STATUS_BILLED,
+            Constants.ACCT_SUBSTATUS_OVERDUE,
+            100.00
+        );
+
+        Test.startTest();
+        {
+            Statement__c statement = new Statement__c(
+                Statement_Date__c = System.today(),
+                Guarantor__c = guarantor.Id
+            );
+            insert statement;
+        }
+        Test.stopTest();
+
+        List<Case> cases = [SELECT Id, Type FROM Case WHERE Subject = :Constants.CASE_SUBJECT_GUARANTOR_OVERDUE];
+        System.assert(cases.isEmpty());
+
+        List<CampaignMember> campaignMembers = [SELECT Id FROM CampaignMember];
+        System.assert(campaignMembers.isEmpty());
+    }
+
+    @IsTest
     private static void testStatementWithDelinquentBalance() {
         Contact guarantor = createStatementPrereqs(
             Constants.ACCT_STATUS_BILLED,
@@ -115,6 +145,36 @@ public class StatementTriggerHandlerTest {
             Constants.ACCT_STATUS_BILLED,
             Constants.ACCT_SUBSTATUS_DELINQUENT,
             -100.00
+        );
+
+        Test.startTest();
+        {
+            Statement__c statement = new Statement__c(
+                Statement_Date__c = System.today(),
+                Guarantor__c = guarantor.Id
+            );
+            insert statement;
+        }
+        Test.stopTest();
+
+        List<Case> cases = [SELECT Id, Type FROM Case WHERE Subject = :Constants.CASE_SUBJECT_GUARANTOR_DELINQUENT];
+        System.assert(cases.isEmpty());
+
+        List<CampaignMember> campaignMembers = [SELECT Id FROM CampaignMember];
+        System.assert(campaignMembers.isEmpty());
+    }
+
+    @IsTest
+    private static void testStatementWithDelinquentBalanceAndSettingDisabled() {
+        // Disable delinquent balance/precollections auto-case creation
+        Sirono_Call_Center_Settings__c sironoCallCenterSettings = SironoCallCenterSettingsUtil.getSironoCallCenterSettings();
+        sironoCallCenterSettings.Auto_Create_Precollection_Cases__c = false;
+        update sironoCallCenterSettings;
+
+        Contact guarantor = createStatementPrereqs(
+            Constants.ACCT_STATUS_BILLED,
+            Constants.ACCT_SUBSTATUS_DELINQUENT,
+            100.00
         );
 
         Test.startTest();
