@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
 <aura:component controller="PaymentTabsController">
 
     <h1> We have a problem!</h1>

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
 	activateTab: function (component, tabToActivate, aciveTab) {
 		if (aciveTab != tabToActivate) {

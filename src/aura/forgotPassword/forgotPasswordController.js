@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
     handleForgotPassword: function (component, event, helpler) {
         helpler.handleForgotPassword(component, event, helpler);

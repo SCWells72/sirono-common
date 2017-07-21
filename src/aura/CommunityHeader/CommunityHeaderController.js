@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
 	showSettings : function(component, event, helper) {
 		var mySettings = component.find('sldsjsPopoverAction');

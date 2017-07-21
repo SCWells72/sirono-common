@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
     showCancelPlanDialog: function (cmp, e, hlpr) {
         hlpr.showPopup(cmp, 'cancelDialog', 'slds-fade-in-');

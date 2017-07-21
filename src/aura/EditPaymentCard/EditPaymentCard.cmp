@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
 <aura:component controller="PaymentTabsController">
     <aura:attribute name="PaymentInfo" type="Object" access="public"/>
     <aura:attribute name="PaymentRequestInfo" type="Object" access="public"/>

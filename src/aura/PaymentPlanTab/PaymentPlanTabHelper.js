@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
 	resetCmp: function(cmp) { 
 		$A.util.removeClass(cmp.find('planInfo'), 'slds-hide');

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 .THIS .payment-card--year-hide .slds-form-element__label {
     visibility: hidden;
 }

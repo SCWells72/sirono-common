@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
 <aura:component >
     <aura:attribute name="showSuccessMessage"   type="Boolean"  default="false" />
     <aura:attribute name="validationMessages"   type="String[]" />

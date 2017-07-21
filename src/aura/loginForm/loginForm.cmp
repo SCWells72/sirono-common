@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
 <!-- add implements="forceCommunity:availableForAllPageTypes" to surface the component in community builder -->
 <aura:component controller="LightningLoginFormController" implements="forceCommunity:availableForAllPageTypes">
     <aura:attribute name="showError" type="Boolean" required="true" description="" default="false" access="private"/>

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
 	editPaymentCancel: function (cmp, e, hlpr) {
 		$A.util.removeClass(cmp.find('cancelPlan'), 'slds-hide');
