@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class is use for Security Context of Task object
  **/
-
 public with sharing class TaskSecurityContext extends SecurityContext {
 
     // Field constants for Task object.

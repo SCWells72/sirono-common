@@ -1,9 +1,11 @@
-/**
- *
- * Database actions for Charge_Group__c objects
- *
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
-//TODO fix our sharing model
+
+/**
+ * Database actions for Charge_Group__c objects
+ * TODO: fix our sharing model
+ */
 public without sharing class ChargeGroupDao extends AbstractDao {
 
     /**

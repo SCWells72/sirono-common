@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * CampaignMemberService with logic for creating/deleting CampaignMembers
  **/
-
 public with sharing class CampaignMemberService extends AbstractService {
 
     /**

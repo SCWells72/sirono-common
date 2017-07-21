@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * ChargeGroupService with logic for working with Charge_Group__c object.
  **/
-
 public class ChargeGroupService extends AbstractService {
 
     private class ChargeGroupRestClient extends SironoRestClient {

@@ -1,10 +1,10 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 09-02-2016
- * Test class for the ChargeGroupTriggerHandler
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
+/**
+ * Test class for the ChargeGroupTriggerHandler
+ */
 @isTest
 public class ChargeGroupTriggerTest {
 

@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class is use for Security Context of Group object
  **/
-
 public with sharing class GroupSecurityContext extends SecurityContext {
 
     // Below field(s) are use for Select/Read permission.

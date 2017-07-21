@@ -1,8 +1,12 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Access Guarantor contact data
  * TODO when we create a PatientDao, pull up a virtual ContactDao with common functionality
+ * TODO fix our sharing model for Guarantors
  */
-//TODO fix our sharing model for Guarantors
 public without sharing class GuarantorDao extends AbstractDao {
 
     public static Contact getGuarantor(String recordId) {

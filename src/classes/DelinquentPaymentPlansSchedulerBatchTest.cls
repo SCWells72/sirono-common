@@ -1,10 +1,10 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 09-02-2016
- * @DelinquentPaymentPlansSchedulerBatchTest Test Class for the Code Covrege of DelinquentPaymentPlansSchedulerBatch Class.
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
+/**
+ * Test class for DelinquentPaymentPlansSchedulerBatch.
+ */
 @isTest
 public class DelinquentPaymentPlansSchedulerBatchTest {
     static testMethod void main() {

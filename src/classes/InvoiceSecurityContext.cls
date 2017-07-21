@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class is use for Security Context of Invoice__c object.
  **/
- 
 public with sharing class InvoiceSecurityContext extends SecurityContext {
 	
     // Field constants for Invoice__c object

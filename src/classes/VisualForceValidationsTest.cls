@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Test class for the VisualForceValidations Class.
  * It tests the all validations related to Amount and Credit Card.
  **/
-
 @isTest
 private class VisualForceValidationsTest {
 

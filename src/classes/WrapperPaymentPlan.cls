@@ -1,11 +1,10 @@
 /*
-* @author: Sirono
-* @version 1.0.1
-* @Date: 09-16-2016
-* JSON Parsing Class for the response which comes from Request. 
-* 
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * JSON Parsing Class for the response which comes from Request. 
+ */
 Public class WrapperPaymentPlan {
     public String url;  //http://127.0.0.1:8000/paystaff/api/paymentplan/2876/
     public boolean active;

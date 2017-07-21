@@ -1,10 +1,10 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 09-02-2016
- * @EarlyOutSchedulerBatchTest Test Class for the Code Covrege of EarlyOutSchedulerBatch Class.
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
+/**
+ * Test class for EarlyOutSchedulerBatch.
+ */
 @isTest
 public class EarlyOutSchedulerBatchTest {
     Public Static List<Statement__c> lstStatement = new List<Statement__c>();

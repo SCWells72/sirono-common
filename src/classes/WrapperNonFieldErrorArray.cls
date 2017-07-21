@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 public class WrapperNonFieldErrorArray extends WrapperBadResponse {
 
     public List<string> non_field_errors;

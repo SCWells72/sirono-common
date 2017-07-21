@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Aggregate PaymentPlan services - access to/from the Sirono server & SOQL requests
  */
-
 public with sharing class PaymentPlanService extends AbstractService {
 
     @TestVisible

@@ -1,15 +1,10 @@
 /*
-* @author Sirono
-* @version 1.0.1
-* @Date: 08-05-2016
-* @description Create a Manual case based on the conditions*
-*
-* 08-05-2016: Sirono - Tracker # 127400857 For Manual Case Creation
-*
-* 10-19-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
-
+/**
+ * Create a Manual case based on the conditions
+ */
 public with sharing class CreateCaseManual {
   public String guarantorRecordId { get; set; }
   public Boolean chargeGroupsSelected { get; set; }

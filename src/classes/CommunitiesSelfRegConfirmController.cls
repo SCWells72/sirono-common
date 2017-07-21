@@ -1,10 +1,9 @@
 /*
- * @author: Sirono
- * @version 1.0.1
- * @Date: 05-03-2016  
- * @description An apex page controller that takes the user to the right start page based on credentials or lack thereof
- * 
- * 14/09/2016 commented the code since it is not used into community/site for any business requirement 
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+/**
+ * An apex page controller that takes the user to the right start page based on credentials or lack thereof
  */
 public with sharing class CommunitiesSelfRegConfirmController {
 

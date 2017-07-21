@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * AddPaymentPlanVFController class is controller of AddPaymentPlan VF page.
  **/
- 
 public with sharing class AddPaymentPlanVFController extends AddPaymentPlanController {
 
     public AddPaymentPlanVFController() {

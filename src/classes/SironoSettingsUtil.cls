@@ -1,7 +1,10 @@
 /*
- * Manage creation of/access to Sirono hierarchy custom settings.
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
+/*
+ * Manage creation of/access to Sirono hierarchy custom settings.
+ */
 public with sharing class SironoSettingsUtil {
 
     public static String getServerEndpoint() {

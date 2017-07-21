@@ -1,5 +1,5 @@
-/**
- * Created by swells on 7/20/2017.
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
 public with sharing class SironoCallCenterSettingsUtil {

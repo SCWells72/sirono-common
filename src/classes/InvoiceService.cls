@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * InvoiceService
  */
-
 public with sharing class InvoiceService extends AbstractService {
 
     /**

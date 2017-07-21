@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Perform setup needed after installing the package
  */
-
 public with sharing class SironoPRSPostInstallHandler implements InstallHandler {
 
     public void onInstall(InstallContext context) {

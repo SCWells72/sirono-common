@@ -1,10 +1,10 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 06-06-2016
- * @EncounterTriggerTest Test Class for the Code Covrege of EncounterTriggerHandler Class.
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
+/**
+ * Test class for EncounterTriggerHandler.
+ */
 @isTest
 private class EncounterTriggerTest {
 

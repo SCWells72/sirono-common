@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * CampaignMemberDao for CampaignMember object SOQL/DML operations
  **/
-
 public with sharing class CampaignMemberDao extends AbstractDao {
 
 

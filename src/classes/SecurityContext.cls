@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class is use to set variables for Object Name, Fields and Action (Insert/Update/Delete/Undelete)
  **/
-
 public virtual with sharing class SecurityContext {
 
     // Create Enum for Create, Update, Delete and Undelete

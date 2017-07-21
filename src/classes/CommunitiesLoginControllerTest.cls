@@ -1,7 +1,8 @@
 /*
- * @author: Sirono
- * @version 1.0.1
- * @Date: 05-03-2016
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+/**
  * An apex page controller that exposes the site login functionality
 */
 @IsTest global with sharing class CommunitiesLoginControllerTest {

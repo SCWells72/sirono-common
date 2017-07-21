@@ -1,9 +1,10 @@
 /*
-* @author: Sirono
-* @version 1.0.1
-* @Date: 05-03-2016
-* @description An apex page controller that exposes the site login functionality
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+/**
+ * An apex page controller that exposes the site login functionality
+ */
 global with sharing class CommunitiesLoginController {
 
     global CommunitiesLoginController() {

@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * PortalUIConstants class contains common constants for Portal UI.
  **/
-
 public with sharing class PortalUIConstants {
 
     public static Map<String, String> getYears() {

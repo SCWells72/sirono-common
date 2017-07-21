@@ -1,4 +1,8 @@
 
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 public class WrapperErrorArray extends WrapperBadResponse {
     public class Errors {
         public String non_field_errors;

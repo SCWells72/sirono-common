@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 trigger PaymentTrigger on Payment__c (after insert, after update, after delete, after undelete) {
     //executes after insert operation
     if (trigger.isAfter && trigger.isInsert) {

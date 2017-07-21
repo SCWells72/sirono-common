@@ -1,10 +1,10 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 05-20-2016
- * @DeletePaymentPlanTest Class is Unit test class of DeletePaymentPlan class.
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
+/**
+ * Unit tests for DeletePaymentPlan.
+ */
 @isTest
 private class DeletePaymentPlanTest {
 

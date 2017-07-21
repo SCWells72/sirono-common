@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * PatientService Class, It is use to get Patient Contact related data using PatientDao class.
  **/
-
 public with sharing class PatientService extends AbstractService {
 
     /**

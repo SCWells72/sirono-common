@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class tests the logic of PaymentPlanTriggerHandler class.
  **/
-
 @isTest
 private class PaymentPlanTriggerTest {
 

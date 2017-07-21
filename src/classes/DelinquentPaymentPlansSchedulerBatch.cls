@@ -1,15 +1,7 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 06-02-2016
- * @DelinquentPaymentPlansSchedulerBatch class.
- 
- * ADDITION: {Payment Plan}.{Delinquent Date} + 10 = Today and
- * {Payment Plan}.{Remaining Balance} < -100 and
- * {Payment Plan}.{Active} = TRUE
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
- * Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
-*/
 public with sharing class DelinquentPaymentPlansSchedulerBatch
     implements Database.Batchable<sObject>, Schedulable, Database.Stateful {
     public Campaign callList;

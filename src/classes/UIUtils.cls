@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * UIUtils class contains all common methods for UI.
  **/
-
 public with sharing class UIUtils {
     
     // This variable is use to set years list for drop down.

@@ -1,15 +1,5 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 05-12-2016
- *
- * Mohan Kumar 08-16-2016: 127328707 - 
- * To show the adjustment type from the metadata type which are only enabled
- * 08-26-2016: Sirono - Tracker # 127767953 
- * The Add Adjustment button should only appear 
- * when the user has Admin profile. do the Query and set the flag isAdmin.
- * 
- * 10-17-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
 public with sharing class CreateAdjustment {

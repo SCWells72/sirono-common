@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 public with sharing class WorkWithDocumentsController {
     public static final String  PATCH_PREFIX         = '/guarantor/servlet/servlet.FileDownload?file=';
     public static final String  QUERY                = 'SELECT Id, Name, Description, ContentType, CreatedDate, Url, LastModifiedDate FROM Document';

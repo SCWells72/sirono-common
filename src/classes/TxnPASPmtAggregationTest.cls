@@ -1,10 +1,13 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Test TxnAggregationUtils for PAS Payment transactions
  *
  * A PAS payment comes from the Hospital & will have the pmt_key set, but no guarantor. The Amount and Posted_Amount
  * on it equal the sum of its transactions.
  */
-
 @isTest
 public with sharing class TxnPASPmtAggregationTest {
 
