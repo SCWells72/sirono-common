@@ -32,17 +32,15 @@ public with sharing class StatementTriggerHandler {
 
                 List<Case> overdueBalanceCases = new List<Case>();
                 for (Contact guarantor : guarantors) {
-                    for (Statement__c statement : statements) {
-                        Case overdueBalanceCase = new Case(
-                            ContactId = guarantor.Id,
-                            Guarantor_Information__c = guarantor.Id,
-                            RecordTypeId = RecordTypeUtil.automatedCaseRt,
-                            Status = Constants.CASE_STATUS_NEW,
-                            Subject = Constants.CASE_SUBJECT_GUARANTOR_OVERDUE,
-                            Type = Constants.CASE_TYPE_OVERDUE
-                        );
-                        overdueBalanceCases.add(overdueBalanceCase);
-                    }
+                    Case overdueBalanceCase = new Case(
+                        ContactId = guarantor.Id,
+                        Guarantor_Information__c = guarantor.Id,
+                        RecordTypeId = RecordTypeUtil.automatedCaseRt,
+                        Status = Constants.CASE_STATUS_NEW,
+                        Subject = Constants.CASE_SUBJECT_GUARANTOR_OVERDUE,
+                        Type = Constants.CASE_TYPE_OVERDUE
+                    );
+                    overdueBalanceCases.add(overdueBalanceCase);
                 }
 
                 if (CaseSecurityContext.CREATE_CONTEXT.actionAllowed()) {
@@ -78,17 +76,15 @@ public with sharing class StatementTriggerHandler {
 
                 List<Case> delinquentBalanceCases = new List<Case>();
                 for (Contact guarantor : guarantors) {
-                    for (Statement__c statement : statements) {
-                        Case delinquentBalanceCase = new Case(
-                            ContactId = guarantor.Id,
-                            Guarantor_Information__c = guarantor.Id,
-                            RecordTypeId = RecordTypeUtil.automatedCaseRt,
-                            Status = Constants.CASE_STATUS_NEW,
-                            Subject = Constants.CASE_SUBJECT_GUARANTOR_DELINQUENT,
-                            Type = Constants.CASE_TYPE_PRECOLLECTIONS
-                        );
-                        delinquentBalanceCases.add(delinquentBalanceCase);
-                    }
+                    Case delinquentBalanceCase = new Case(
+                        ContactId = guarantor.Id,
+                        Guarantor_Information__c = guarantor.Id,
+                        RecordTypeId = RecordTypeUtil.automatedCaseRt,
+                        Status = Constants.CASE_STATUS_NEW,
+                        Subject = Constants.CASE_SUBJECT_GUARANTOR_DELINQUENT,
+                        Type = Constants.CASE_TYPE_PRECOLLECTIONS
+                    );
+                    delinquentBalanceCases.add(delinquentBalanceCase);
                 }
 
                 if (CaseSecurityContext.CREATE_CONTEXT.actionAllowed()) {
