@@ -45,7 +45,7 @@ public with sharing class PaymentPlanTriggerHandler {
         }
 
         if (contactIds.size() > 0) {
-            callListUtilities.DelinquentPaymentPlanCallListRemoval(contactIds);
+            CallListUtilities.delinquentPaymentPlanCallListRemoval(contactIds);
         }
     }
 
