@@ -21,18 +21,19 @@ public with sharing class StatementTriggerHandler {
             guarantorIds.add(statement.Guarantor__c);
         }
 
-        if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            List<Contact> guarantors = [
-                SELECT Id, Overdue_Balance__c
-                FROM Contact
-                WHERE Overdue_Balance__c > 0.0
-            ];
-            if (!guarantors.isEmpty()) {
-                List<Case> overdueBalanceCases = new List<Case>();
+        if (!guarantorIds.isEmpty()) {
+            if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                List<Contact> guarantors = [
+                    SELECT Id, Overdue_Balance__c
+                    FROM Contact
+                    WHERE Id IN :guarantorIds
+                    AND Overdue_Balance__c > 0.0
+                ];
 
-                Contact guarantor = guarantors[0];
-                for (Statement__c statement : statements) {
+                List<Case> overdueBalanceCases = new List<Case>();
+                for (Contact guarantor : guarantors) {
                     Case overdueBalanceCase = new Case(
+                        ContactId = guarantor.Id,
                         Guarantor_Information__c = guarantor.Id,
                         RecordTypeId = RecordTypeUtil.automatedCaseRt,
                         Status = Constants.CASE_STATUS_NEW,
@@ -64,18 +65,19 @@ public with sharing class StatementTriggerHandler {
             guarantorIds.add(statement.Guarantor__c);
         }
 
-        if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            List<Contact> guarantors = [
-                SELECT Id, Delinquent_Balance__c
-                FROM Contact
-                WHERE Delinquent_Balance__c > 0.0
-            ];
-            if (!guarantors.isEmpty()) {
-                List<Case> delinquentBalanceCases = new List<Case>();
+        if (!guarantorIds.isEmpty()) {
+            if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+                List<Contact> guarantors = [
+                    SELECT Id, Delinquent_Balance__c
+                    FROM Contact
+                    WHERE Id IN :guarantorIds
+                    AND Delinquent_Balance__c > 0.0
+                ];
 
-                Contact guarantor = guarantors[0];
-                for (Statement__c statement : statements) {
+                List<Case> delinquentBalanceCases = new List<Case>();
+                for (Contact guarantor : guarantors) {
                     Case delinquentBalanceCase = new Case(
+                        ContactId = guarantor.Id,
                         Guarantor_Information__c = guarantor.Id,
                         RecordTypeId = RecordTypeUtil.automatedCaseRt,
                         Status = Constants.CASE_STATUS_NEW,

@@ -193,6 +193,7 @@ public with sharing class PaymentPlanTriggerHandler {
         List<Case> paymentPlanErrorCases = new List<Case>();
         for (Payment_Plan__c paymentPlanWithError : paymentPlansWithErrors) {
             Case paymentPlanErrorCase = new Case(
+                ContactId = paymentPlanWithError.Guarantor__c,
                 Guarantor_Information__c = paymentPlanWithError.Guarantor__c,
                 RecordTypeId = RecordTypeUtil.automatedCaseRt,
                 Status = Constants.CASE_STATUS_NEW,
