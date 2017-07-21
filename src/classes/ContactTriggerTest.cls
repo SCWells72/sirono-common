@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class tests the logic of Contact Trigger and Contact Trigger Handler Class.
  **/
-
 @isTest
 public class ContactTriggerTest {
 

@@ -1,12 +1,6 @@
 /*
-* @author Sirono
-* @version 1.0.1
-* @Date: 08-23-2016
-* @ Unit class  for the CaseUtil class.
-* Do the code coverage for the CaseUtil class
-* 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases.
-* 12-02-2016: Viraj Rana - #133707065: Case to Call Activiy.
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
 @isTest
 public class CaseUtilTest {

@@ -1,10 +1,10 @@
 /*
-* @author Sirono
-* @version 1.0.1
-* @date: 06-06-2016
-* @TaskTrigger used when task is created or updated.  
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * Used when Task is created or updated.  
+ */
 trigger TaskTrigger on Task (after insert, before insert, after update,before update) {
     
     //trigger invoked after an insert event 

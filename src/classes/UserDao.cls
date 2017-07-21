@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Database actions for a User.
  */
-
 public with sharing class UserDao extends AbstractDao {
 
   /**

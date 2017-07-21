@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class is use to check Security Scan related Object rights and FLS (Field Level Security).
  **/
-
 public with sharing class SecurityUtils {
     // This class is used to create/generate custom Exception.
     public class SecurityException extends Exception {}

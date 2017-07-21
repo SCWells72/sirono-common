@@ -1,11 +1,6 @@
 /*
-* @author Sirono
-* @version 1.0.1
-* @Date: 05-16-2016
-* @AddDiscount Class for the Add Discount.
-*
-* 10-17-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
 public with sharing class AddDiscount {
 

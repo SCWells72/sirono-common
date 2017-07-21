@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * DB functionality for PaymentPlans
  * TODO eventually all the PPlan SOQl & DML should be here & then the PaymentPlanSecurityContext can become in innerclass here
  */
-
 public with sharing class PaymentPlanDao extends AbstractDao{
 //TODO
     /**

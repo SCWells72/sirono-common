@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * The Payment_Method__c DAO.
  */
-
 public without sharing class PaymentMethodDao {
 
     /**

@@ -1,4 +1,8 @@
 
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 @isTest
 public with sharing class ChargeGroupServiceTest {
     public static final Decimal cgOneSironoId = 54321;

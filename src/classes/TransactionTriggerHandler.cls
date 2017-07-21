@@ -1,7 +1,11 @@
 /*
-* When Transactions are inserted, updated or deleted,
-* calculate the rollup Amount on their related Service, Adjustment or Payment
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+/**
+ * When Transactions are inserted, updated or deleted,
+ * calculate the rollup Amount on their related Service, Adjustment or Payment
+ */
 public with sharing class TransactionTriggerHandler {
 
 

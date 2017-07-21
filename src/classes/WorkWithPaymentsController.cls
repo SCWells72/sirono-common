@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 //TODO remove withoud sharing
 public without sharing class WorkWithPaymentsController {
 

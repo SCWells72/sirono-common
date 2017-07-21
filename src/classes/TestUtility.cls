@@ -1,7 +1,10 @@
 /*
- * Test utilities to create records.
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
+/*
+ * Test utilities to create records.
+ */
 @isTest
 public class TestUtility {
     public static String body = '{"token":"bar"}';

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
   render: function(component, helper) {
     // By default, after the component finished loading data/handling events,

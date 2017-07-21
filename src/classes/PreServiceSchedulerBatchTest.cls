@@ -1,10 +1,10 @@
 /*
- * @author Sirono 
- * @version 1.0.1
- * @Date: 09-02-2016
- * do the code coverage for the PreServiceSchedulerBatch class.
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * Tests for PreServiceSchedulerBatch.
+ */
 @isTest
 private class PreServiceSchedulerBatchTest {
 

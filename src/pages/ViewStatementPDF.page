@@ -1,8 +1,6 @@
 <!--
-* @author: Sirono
-* @version 1.0.1
-* @Date: 07-13-2016
--->
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
 
 <apex:page standardController="Statement__c" extensions="ViewStatementExtension" sidebar="false"
            action="{!viewPdf}">

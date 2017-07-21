@@ -1,13 +1,10 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 05-02-2016
- * @ PayStaffWSUtill class to contain all common methods for PayStaff Web service
- * @ Date: 21/09/2016 tracker # 130677929 method to filter Charge Groups based on Account sub status
- * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
- * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
+/**
+ * All common methods for PayStaff Web service
+ */
 public with sharing class PayStaffWSUtill {
     //11-23-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
     //It is used to verified that Charge Group have longer Payment Plan Look up or not.

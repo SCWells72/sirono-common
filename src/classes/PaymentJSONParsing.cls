@@ -1,7 +1,10 @@
 /*
-* Parse the JSON response from a server Payment request.
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * Parse the JSON response from a server Payment request.
+ */
 public class PaymentJSONParsing {
 
     public String url;

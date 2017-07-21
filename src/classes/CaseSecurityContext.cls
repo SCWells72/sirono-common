@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class is use for Security Context of Case object
  **/
- 
 public with sharing class CaseSecurityContext extends SecurityContext {
 
     // Field constants for Case objects.

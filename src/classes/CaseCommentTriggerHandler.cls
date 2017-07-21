@@ -1,10 +1,6 @@
 /*
-* @author: Sirono
-* @version  1.0.1
-* @date: 05-05-2016
-* @description Handler class for CaseCommentTrigger
-* 23/09/2016 Tracker # 130687155  Get the Charge Groups from Case Charge Group object.
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
 public with sharing class CaseCommentTriggerHandler {
     //PUBLIC METHOD CALLED FROM TRIGGER

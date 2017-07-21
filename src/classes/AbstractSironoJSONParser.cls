@@ -1,8 +1,10 @@
-/**
- * Superclass for all JSON Parsers for Sirono JSON responses
- *  
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
+/**
+ * Superclass for all JSON Parsers for Sirono JSON responses
+ */
 public virtual class AbstractSironoJSONParser {
 
     public static Decimal convertToDollars(Decimal amount) {

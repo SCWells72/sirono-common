@@ -1,8 +1,7 @@
-/* 
-* @author  Sirono 
-* @version 1.0.1
-* @date    06-06-2016
-*/
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 trigger EncounterTrigger on Encounter__c (after insert, after update, after delete, after undelete) {
     //trigger invoked after an insert event
     if (trigger.isAfter && trigger.isInsert) {

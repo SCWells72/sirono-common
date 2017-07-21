@@ -1,10 +1,10 @@
 /*
-* @author Sirono
-* @version 1.0.1
-* @date: 06-06-2016
-* @ContactTrigger used when contact is created or updated.  
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * Used when Contact is created or updated.  
+ */
 trigger ContactTrigger on Contact (after insert, after update) {
 
     //invoked after an insert event

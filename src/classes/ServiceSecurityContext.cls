@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class is use for Security Context of Service__c object
  **/
-
 public with sharing class ServiceSecurityContext extends SecurityContext {
 
     // Field constants for Service__c object

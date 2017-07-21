@@ -1,8 +1,11 @@
 /*
-   Request information about the given phone number from NumVerify:
-   Valid numbers must contain 10 or 11 digits (US or international number format is allowed)
-   Possible lineType values are 'landline', 'mobile' & 'Invalid'
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * Request information about the given phone number from NumVerify:
+ * Valid numbers must contain 10 or 11 digits (US or international number format is allowed)
+ * Possible lineType values are 'landline', 'mobile' & 'Invalid'
 */
 public class NumVerifyValidator  {
 

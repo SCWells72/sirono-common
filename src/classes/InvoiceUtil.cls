@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 //TODO remove without sharing
 public without sharing class InvoiceUtil {
 

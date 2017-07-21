@@ -1,22 +1,6 @@
 /*
-* @author Sirono
-* @version 1.0.1
-* @Date: 05-23-2016
-* @SkipPaymentPlan Class for the Skip Payment.
-*
-* Mohan Kumar 08-17-2016: (127324647) Validate the Payment is of type Automatic to process 
-* the skip payment else return a message user
-*
-* Sirono 08-24-2016: (127945719) Text and dates are correct in the message.
-*
-* Mohan Kumar 08-01-2016: Ticket # 06638016 - Updated the QueryString parameter value 
-* to fix the "URL No Longer Exists" error.
-*
-* Mohan Kumar 08-02-2016: Ticket # 06638015 - Updated the request parameter value to 
-* send the Sirono External ID and NOT salesforce record Id.
-*
-* Sirono 08-29-2016: 127326579 when Record Saved Successfully set isSuccess parameter for redirect.
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
 public with sharing class SkipPaymentPlan {
 

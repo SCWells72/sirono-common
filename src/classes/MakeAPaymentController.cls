@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 public with sharing class MakeAPaymentController {
     public CardInformation cInfo{get;set;}
 

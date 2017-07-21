@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * An apex page controller that supports self registration of users in communities that allow self registration
  **/
- 
 @IsTest public with sharing class CommunitiesSelfRegControllerTest {
 
     /**

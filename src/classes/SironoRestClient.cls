@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * The Rest client for Sirono web services.
  */
-
 public abstract with sharing class SironoRestClient {
 
     //TODO make this private once everything is moved to the restclient framework & there is another way to force creds reload

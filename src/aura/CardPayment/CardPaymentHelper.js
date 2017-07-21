@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
 	getCardInformation : function(component, event, helper){
 		var action = component.get('c.getCardInformation');

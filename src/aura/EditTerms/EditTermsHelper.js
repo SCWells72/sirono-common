@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
     showError: function (cmp, message) {
         cmp.set('v.hasError', true);

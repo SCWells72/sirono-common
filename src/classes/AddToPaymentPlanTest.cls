@@ -1,7 +1,10 @@
 /*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+/*
 * AddToPaymentPlanTest Class for the AddToPaymentPlan controller.
 */
-
 @isTest
 private class AddToPaymentPlanTest {
 

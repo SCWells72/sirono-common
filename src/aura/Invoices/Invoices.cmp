@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
 <aura:component controller="WorkWithInvoicesController">
 	<aura:handler event="c:collapsedHeader" action="{!c.bodyStatus}" />
     <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>

@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
 <aura:event type="COMPONENT" description="Event template" access="GLOBAL">
 	<aura:attribute name="paymentPlan" type="Object" access="GLOBAL"/>
 </aura:event>

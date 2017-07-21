@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
     showPopup: function (cmp, componentId, className) {
         var modal = cmp.find(componentId);

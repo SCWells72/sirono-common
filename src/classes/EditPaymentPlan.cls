@@ -1,15 +1,6 @@
 /*
-* @author Sirono
-* @version 1.0.1
-* @Date: 05-25-2016
-* @description
-* Mohan Kumar 08-12-2016: Convert the amount in cents before sending it to Sirono
-* 08-19-2016: Sirono - Tracker # 127324171 CCard Validations
-* 09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31.
-* 09-30-2016: Viraj Rana - Tracker #127404553: Validate PaymentPlan against custom settings to check Monthly Installment Amount
-* based on Minimum Installment Amount and Maximum number of Installments.
-* 
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
 public with sharing class EditPaymentPlan {
     public String username { get; set; }

@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * DB functionality for Task DML operations.
  */
-
 public with sharing class TaskDao extends AbstractDao {
     /**
      * @description Take a list of tasks and if allowed upsert those tasks.

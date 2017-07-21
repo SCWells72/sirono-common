@@ -1,15 +1,10 @@
-/**
- * @author Sirono
- * @version 1.0.1
- * @Date: 06-06-2016
- * @Handler class for TaskTrigger.
- * #130111863 Viraj Rana 09-29-2016: update the Hours_of_Day__c  field based on the timezone defined in the custom meta data. 
- *
- * 11-28-2016 Viraj Rana: #133707065: Case to Call Activiy
- *
- * 12-02-2016 Viraj Rana: #132948555: Define Exhausted Effort
- **/
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * Handler class for TaskTrigger.
+ **/
 public with sharing class TaskTriggerHandler {
 
     public static boolean isRecursive = false;

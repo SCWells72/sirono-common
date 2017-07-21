@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Class used to Mock responses from the payment plan endpoints in Sirono.
  */
-
 @IsTest
 public class PaymentRestClientMock implements HttpCalloutMock {
     public static final String GT_SIRONO_ID = '1111111';

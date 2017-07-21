@@ -1,10 +1,13 @@
 <!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
+<!--
 * PayEstimate VF page is used to make payment for Encounter.
 * If encounter has Guarantor Contact and Balance is greater than zero.
 * We make payment for only one Encounter at a Time.
 * Standard Controller of this page is Contact and Controller/Extensions is PayEstimate Class.
 -->
-
 <apex:page standardController="Contact" Extensions="PayEstimateVFController" id="sirono-pay-estimate-page">
     <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
     <apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>

@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class tests callouts implemented to take Discount, Adjustment and Payment in SF using fake callout
  * response.
  **/
-
 @isTest
 global class MockHttpResponseGeneratorTest implements HttpCalloutMock {
 

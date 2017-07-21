@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Payment Plan Info class.
  * It is use to set all parameters which are pass or set in web request to create/edit Payment Plan.
  **/
-
 public with sharing class PaymentPlanInformation {
 
     public static final String SIRONO_PP_KEY = 'sironoPaymentPlanId';

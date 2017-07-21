@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Tests for calculating an Encounter's Balance
  */
-
 @isTest
 public with sharing class EncounterBalanceTest {
 

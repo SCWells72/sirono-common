@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 public abstract class AddToPaymentPlan{
 
     public String guarantorRecordId {get; set;}

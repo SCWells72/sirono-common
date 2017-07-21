@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This Test class use to test the logic of SecurityUtils and SecurityContext class.
  **/
-
 @isTest
 public class SecurityUtilsTest {
 

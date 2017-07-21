@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Test that a Guarantor Portal user can do all the things they need to
  */
-
 @isTest
 public with sharing class GuarantorProfilePermissionTest {
 

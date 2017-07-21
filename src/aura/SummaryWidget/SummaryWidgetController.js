@@ -1,4 +1,8 @@
-({  
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+({
     doInit: function (component, event, helper) {   
         var src = event.getSource();
         helper.getAllHeaderInfo(component);

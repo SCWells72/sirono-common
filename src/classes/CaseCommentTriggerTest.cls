@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class is use to test the logic of Case Comment Trigger and Case Comment Trigger Handler Class.
  **/
-
 @isTest
 public class CaseCommentTriggerTest {
     // TODO: Does this belong in Constants?

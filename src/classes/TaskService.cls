@@ -1,7 +1,10 @@
-/**
- * @description A service class that manages Task object communication between classes and the database.
-**/
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * A service class that manages Task object communication between classes and the database.
+**/
 public with sharing class TaskService extends AbstractService {
     /**
      * @description upsertValidatedTasks takes a list of Task objects, validates the WhoIds, and upserts Tasks that

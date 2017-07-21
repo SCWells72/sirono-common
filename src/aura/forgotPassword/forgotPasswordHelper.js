@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
     handleForgotPassword: function (component, event, helpler) {
         var username = component.find("username").get("v.value");

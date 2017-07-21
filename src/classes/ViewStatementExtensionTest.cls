@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class tests methods implemented in ViewStatementExtension class.
  **/
-
 @isTest
 public class ViewStatementExtensionTest {
     Public Static List<Statement__c> lstStatement = new List<Statement__c>();

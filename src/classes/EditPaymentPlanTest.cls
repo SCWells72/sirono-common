@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Unit class for the EditPaymentPlan class.
  **/
-
 @isTest
 public class EditPaymentPlanTest {
     

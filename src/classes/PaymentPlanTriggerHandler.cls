@@ -1,11 +1,10 @@
-/* 
- * @author Sirono
- * @version 1.0.1
- * @date: 06-06-2016
- * @description Handler Class for PaymentPlantrigger
- *
- * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases
-*/
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+/**
+ * Handler Class for PaymentPlantrigger
+ */
 public with sharing class PaymentPlanTriggerHandler {
 
     public static final Integer START_DAY = 1;
@@ -45,7 +44,7 @@ public with sharing class PaymentPlanTriggerHandler {
         }
 
         if (contactIds.size() > 0) {
-            callListUtilities.DelinquentPaymentPlanCallListRemoval(contactIds);
+            CallListUtilities.delinquentPaymentPlanCallListRemoval(contactIds);
         }
     }
 
@@ -193,6 +192,7 @@ public with sharing class PaymentPlanTriggerHandler {
         List<Case> paymentPlanErrorCases = new List<Case>();
         for (Payment_Plan__c paymentPlanWithError : paymentPlansWithErrors) {
             Case paymentPlanErrorCase = new Case(
+                ContactId = paymentPlanWithError.Guarantor__c,
                 Guarantor_Information__c = paymentPlanWithError.Guarantor__c,
                 RecordTypeId = RecordTypeUtil.automatedCaseRt,
                 Status = Constants.CASE_STATUS_NEW,

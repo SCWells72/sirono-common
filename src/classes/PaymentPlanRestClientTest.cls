@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Test class for thee PaymentPlayRestClient Service.
  */
-
 @IsTest
 private class PaymentPlanRestClientTest {
 

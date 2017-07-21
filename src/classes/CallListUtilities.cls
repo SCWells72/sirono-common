@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Call List utilities.
  *
@@ -6,132 +10,91 @@
  * plans (Pay/create/delete/etc).  The SecurityContext check were removed b/c it is an intentional action that any user
  * should be able update the associated object when interacting with PaymentPlans from the portal.
  */
-
 public with sharing class CallListUtilities {
 
     //Remove the Campaign Members for the pre collection
     public static void preCollectionCallListRemoval(Set<Id> contactIds) {
-        Set<Id> membersToremove = new Set<Id>();
+        Set<Id> membersToRemove = new Set<Id>();
         for (Contact c: GuarantorService.getGuarantorsWithCG(contactIds)) {
             Decimal balToCheck = 0;
             if (c.Overdue_Balance__c != null) balToCheck += c.Overdue_Balance__c;
             if (c.Delinquent_Balance__c != null) balToCheck += c.Delinquent_Balance__c;
 
             if (c.Charge_Groups__r.size() == 0
-                || balToCheck > -100 || balToCheck < -5000) {
-                membersToremove.add(c.Id);
+                    || balToCheck > -100 || balToCheck < -5000) {
+                membersToRemove.add(c.Id);
             }
         }
 
-        //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
-            Constants.CAMPAIGN_NAME_PRECOLLECTIONS
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+                Constants.CAMPAIGN_NAME_PRECOLLECTIONS
         });
-        string preCollection = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PRECOLLECTIONS);
+        String campaignName = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PRECOLLECTIONS);
 
-        // NOTE: The read access check for CampaignMember is skipped here in order allow Community Profile users
-        // to create/delete Payment plans.
-        List<CampaignMember> cmListToRemove = new List<CampaignMember>([
-            SELECT Id, ContactId, CampaignId
-            FROM CampaignMember
-            WHERE ContactId = :membersToremove
-            AND Campaign.Name = :preCollection
-        ]);
-        if (cmListToRemove.size() > 0) {
-            // NOTE: could be triggered for portal user so removing delete check
-            DELETE cmListToRemove;
-        }
+        removeFromCampaign(campaignName, membersToRemove);
     }
 
     //Remove the Campaign Members for the Early Out case.
     public static void earlyOutCallListRemoval(List<Contact> contacts) {
-        Set<Id> membersToremove = new Set<Id>();
+        Set<Id> membersToRemove = new Set<Id>();
         for (Contact c : contacts) {
             Decimal balToCheck = 0;
             if (c.Overdue_Balance__c != null) balToCheck += c.Overdue_Balance__c;
             if (c.Delinquent_Balance__c != null) balToCheck += c.Delinquent_Balance__c;
 
             if (balToCheck == 0
-                || balToCheck > -100 || balToCheck < -5000) {
-                membersToremove.add(c.Id);
+                    || balToCheck > -100 || balToCheck < -5000) {
+                membersToRemove.add(c.Id);
             }
         }
 
-        //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
-            Constants.CAMPAIGN_NAME_OVERDUE
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+                Constants.CAMPAIGN_NAME_OVERDUE
         });
-        string earlyOut = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE);
+        String campaignName = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE);
 
-        // NOTE: The read access check for CampaignMember is skipped here in order allow Community Profile users
-        // to create/delete Payment plans.
-        List<CampaignMember> cmListToRemove = new List<CampaignMember>([
-            SELECT Id, ContactId, CampaignId
-            FROM CampaignMember
-            WHERE ContactId = :membersToremove
-            AND Campaign.Name = :earlyOut
-        ]);
-        if (cmListToRemove.size() > 0) {
-            // NOTE: could be triggered for portal user so removing delete check
-            DELETE cmListToRemove;
-        }
+        removeFromCampaign(campaignName, membersToRemove);
     }
 
-    //Remove the Campaign Members for the Delinquent case.
     public static void delinquentPaymentPlanCallListRemoval(Set<Id> contactIds) {
-        Set<Id> membersToremove = new Set<Id>();
+        Set<Id> membersToRemove = new Set<Id>();
         for (Contact c: GuarantorService.getGuarantorsWithPmtPlan(contactIds)) {
-            if (c.Payment_Plans__r.size() == 0) {
-                membersToremove.add(c.Id);
+            if (c.Payment_Plans__r.isEmpty()) {
+                membersToRemove.add(c.Id);
             }
         }
 
-        //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
-            Constants.CAMPAIGN_NAME_PAST_DUE
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+                Constants.CAMPAIGN_NAME_PAST_DUE
         });
-        string delinquent = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE);
 
-        // NOTE: The read access check for CampaignMember is skipped here in order allow Community Profile users
-        // to create/delete Payment plans.
-        List<CampaignMember> cmListToRemove = new List<CampaignMember>([
-            SELECT Id, ContactId, CampaignId
-            FROM CampaignMember
-            WHERE ContactId = :membersToremove
-            AND Campaign.Name = :delinquent
-        ]);
-        if (cmListToRemove.size() > 0) {
-            // NOTE: could be triggered for portal user so removing delete check
-            DELETE cmListToRemove;
-        }
+        String campaignName = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE);
+
+        removeFromCampaign(campaignName, membersToRemove);
     }
 
     //Remove the Campaign Members for the Pre-Service case.
     public static void preServiceCallListRemoval(Set<Id> contactIds) {
-        Set<Id> membersToremove = new Set<Id>();
+        Set<Id> membersToRemove = new Set<Id>();
         for (Contact c: GuarantorService.getGuarantorsWithEncounters(contactIds)) {
             if (c.Encounters__r.size() == 0) {
-                membersToremove.add(c.Id);
+                membersToRemove.add(c.Id);
             }
         }
 
         //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
-            Constants.CAMPAIGN_NAME_PRESERVICE
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
+                Constants.CAMPAIGN_NAME_PRESERVICE
         });
-        String preService = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PRESERVICE);
+        String campaignName = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PRESERVICE);
 
-        // NOTE: The read access check for CampaignMember is skipped here in order allow Community Profile users
-        // to create/delete/pay Payment plans.
-        List<CampaignMember> cmListToRemove = new List<CampaignMember>([
-            SELECT Id, ContactId, CampaignId
-            FROM CampaignMember
-            WHERE ContactId = :membersToremove
-            AND Campaign.Name = :preService
-        ]);
-        if (cmListToRemove.size() > 0) {
-            // NOTE: could be triggered for portal user so removing delete check
-            DELETE cmListToRemove;
+        removeFromCampaign(campaignName, membersToRemove);
+    }
+
+    private static void removeFromCampaign(String campaignName, Set<Id> membersToRemove) {
+        if (!membersToRemove.isEmpty()) {
+            CampaignMemberDao.ElevatedPrivilegesHelper helper = new CampaignMemberDao.ElevatedPrivilegesHelper();
+            helper.removeFromCampaign(campaignName, membersToRemove);
         }
     }
 }

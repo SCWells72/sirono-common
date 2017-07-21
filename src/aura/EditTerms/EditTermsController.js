@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
     doCmpInit: function (cmp, e, hlpr) {
         var PaymentInfo = cmp.get('v.PaymentInfo');

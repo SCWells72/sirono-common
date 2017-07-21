@@ -1,7 +1,10 @@
-/**
- * @Util Class for the All Auto Case Creation, Auto Case Closure, Add\Remove the guarantor to the campaign functionality.*
- **/
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * @Util Class for the All Auto Case Creation, Auto Case Closure, Add\Remove the guarantor to the campaign functionality.
+ **/
 public class CaseUtil {
     public static Boolean executeCampaignMemberTrigger = True;
     public static Boolean executeRemoveCampaignTrigger = True;

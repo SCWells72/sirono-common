@@ -1,13 +1,10 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @date: 04-19-2016 
- * @ProcessPaymentTest Test Class for the Code Covrege of ProcessPayment Class.
- *
- * 08-19-2016: Sirono - Tracker # 127324171
- * Improve the code coverage3
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
+/**
+ * Tests for ProcessPayment.
+ */
 @isTest
 private class ProcessPaymentTest {
     

@@ -1,12 +1,10 @@
-/**
- * @author Sirono
- * @version 1.0.1
- * @date: 05-23-2016
- * @TaskTriggerHandlerTest Test Class for the Code Covrege of TaskTriggerHandler Class.
- * 12-02-2016 Viraj Rana - #133707065: Case to Call Activiy
- * 12-02-2016 Viraj Rana - #132948555: Define Exhausted Effort
- **/
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * Test class for TaskTriggerHandler.
+ **/
 @isTest
 private class TaskTriggerHandlerTest {
     
