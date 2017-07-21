@@ -18,9 +18,7 @@ public with sharing class StatementTriggerHandler {
         // Group for efficiency
         Set<Id> guarantorIds = new Set<Id>();
         for (Statement__c statement : statements) {
-            if (statement.Guarantor__c != null) {
-                guarantorIds.add(statement.Guarantor__c);
-            }
+            guarantorIds.add(statement.Guarantor__c);
         }
 
         if (!guarantorIds.isEmpty()) {
@@ -66,10 +64,7 @@ public with sharing class StatementTriggerHandler {
         // Group for efficiency
         Set<Id> guarantorIds = new Set<Id>();
         for (Statement__c statement : statements) {
-            if (statement.Guarantor__c != null) {
-                guarantorIds.add(statement.Guarantor__c);
-                guarantorIds.add(statement.Guarantor__c);
-            }
+            guarantorIds.add(statement.Guarantor__c);
         }
 
         if (!guarantorIds.isEmpty()) {
@@ -85,6 +80,7 @@ public with sharing class StatementTriggerHandler {
                 for (Contact guarantor : guarantors) {
                     for (Statement__c statement : statements) {
                         Case delinquentBalanceCase = new Case(
+                            ContactId = guarantor.Id,
                             Guarantor_Information__c = guarantor.Id,
                             RecordTypeId = RecordTypeUtil.automatedCaseRt,
                             Status = Constants.CASE_STATUS_NEW,
