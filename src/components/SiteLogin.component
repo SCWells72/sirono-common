@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
 <apex:component controller="SiteLoginController" id="loginComponent">
   <apex:form id="loginForm" forceSSL="true">
     <apex:outputPanel layout="block">

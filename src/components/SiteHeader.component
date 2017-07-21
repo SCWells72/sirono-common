@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
 <apex:component id="headerComponent">
   <apex:panelGrid cellpadding="0" cellspacing="0" width="98%" border="0" columns="2" style="text-align: left;" id="theHeader">
     <apex:image url="{!$Site.Prefix}/img/sites/force_logo.png" style="align: left;" alt="Salesforce" width="233" height="55" title="Salesforce"/>
