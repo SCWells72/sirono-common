@@ -53,6 +53,7 @@
     </types>
     <types>
         <members>Encounter__c.Has_Chargegroup__c</members>
+        <members>Location__c.Code__c</members>
         <members>Payment_Adjustment__c.Transaction_Type__c</members>
         <members>Sirono_Settings__c.Automated_Case_Record_Type_Id__c</members>
         <members>Sirono_Settings__c.Business_Hours_Id__c</members>
