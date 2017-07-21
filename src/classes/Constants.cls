@@ -1,5 +1,5 @@
-/**
- * Created by justindove on 11/29/16.
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
 public class Constants {

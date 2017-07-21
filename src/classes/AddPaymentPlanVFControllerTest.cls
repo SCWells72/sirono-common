@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * AddPaymentPlanVFControllerTest Class for the AddPaymentPlanVFController.
  **/
-
 @isTest
 public class AddPaymentPlanVFControllerTest {
 

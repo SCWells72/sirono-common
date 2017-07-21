@@ -1,10 +1,10 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @date: 05-23-2016
- * @SkipPaymentPlanTest Test Class for the Code Covrege of SkipPaymentPlan Class.
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
+/**
+ * Test class for SkipPaymentPlan.
+ */
 @isTest
 private class SkipPaymentPlanTest {
 

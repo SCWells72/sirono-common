@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * WorkWithInvoicesController for Lightning components dealing with Invoices.
  */
-
 public without sharing class WorkWithInvoicesController {
 
     /**

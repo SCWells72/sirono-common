@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Test class for the PayEstimateVFController Class
  **/
- 
 @isTest
 public class PayEstimateVFControllerTest {
 

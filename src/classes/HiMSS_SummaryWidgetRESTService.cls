@@ -1,12 +1,7 @@
-/**********************************************************************
- * 
- *
- * @url: /services/apexrest/rest
- * @data:
- *  {
-        
-    }
-*************************************************************************/
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 @RestResource(urlMapping='/SummaryWidget/*')
 global without sharing class HiMSS_SummaryWidgetRESTService {
     @HttpGet

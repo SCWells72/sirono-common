@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
 <aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
     <aura:attribute name="guarantorWrapper" type="HeaderWrapper" />
     <aura:registerevent name="payRequest" type="c:payNowRequest" />

@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Utility methods for aggregating transactions for Services, Adjustments & Payments
  */
-
 public with sharing class TxnAggregationUtils {
 
     private static String TOTAL = 'Total';

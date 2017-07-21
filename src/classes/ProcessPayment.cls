@@ -1,17 +1,6 @@
 /*
-* @author Sirono
-* @version 1.0.1
-* @Date: 04-19-2016
-* @ProcessPayment Class for the payment process.
-*
-* Mohan Kumar 08-12-2016: Convert the amount in cents before sending it to Sirono
-* 
-* 08-19-2016: Sirono - Tracker # 127324171
-* Method for check the validation.
-* Date: 21/09/2016 Sirono - tracker # 130677929 ChargeGroupList based on Account sub status 
-*
-* 10-17-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
 public with sharing class ProcessPayment {
     public String username { get; set; }

@@ -1,12 +1,7 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 06-02-2016
-ADDITION: {Encounter}.{Estimated Patient Balance} > 100 and
-{Encounter}.{Date of Service} > Today and
-{Encounter}.{Date of Service} - 14 <= Today and
-{Encounter}.{Cancelled} = FALSE
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 public with sharing class PreServiceSchedulerBatch implements Database.Batchable<sObject>, Schedulable, Database.Stateful {
     public Campaign callList;
     public Set<Id> existingMembers;

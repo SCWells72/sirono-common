@@ -1,10 +1,10 @@
 /*
-* @author: Sirono
-* @version 1.0.1
-* @Date: 11-15-2016
-* JSON Parsing Class for the response which comes from Adjustment/Discount Request.
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * JSON Parsing Class for the response which comes from Adjustment/Discount Request.
+ */
 public class PaymentAdjustmentJSONParsing {
 
     public string url;

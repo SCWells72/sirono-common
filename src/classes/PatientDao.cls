@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Access Patient Contact Data.
  * This class is use to get Patient Contact related details.
  **/
-
 public with sharing class PatientDao extends AbstractDao {
 
     /**

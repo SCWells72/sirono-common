@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Mock object for the HeaderWrapper.  Allows for testings of logic in the controller without having to
  * create many levels of SF objects.
  */
-
 public with sharing class HeaderWrapperMock extends HeaderWrapper {
 
     public String guarantorStatus { get; set; }

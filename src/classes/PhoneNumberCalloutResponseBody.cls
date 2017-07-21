@@ -1,7 +1,9 @@
-/* author Sirono 
-   Date 11/3/2016
-   @version 1.0.1
-   @description Mock Responses to MockCallout that verifies guarantor contact phone numbers- Tracker #127517419
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+/**
+ * Mock Responses to MockCallout that verifies guarantor contact phone numbers- Tracker #127517419
 */
 public class PhoneNumberCalloutResponseBody {
     //mock response for mobile phone 

@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Test that constructed constants are valid
  */
-
 @IsTest
 public with sharing class PortalUIConstantsTest {
 

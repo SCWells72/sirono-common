@@ -1,7 +1,10 @@
 /*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+/*
 * RecordType constants
 */
-
 public with sharing class RecordTypeUtil {
     public static Map<String, Id> rtMap = null;
 

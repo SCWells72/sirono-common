@@ -1,11 +1,10 @@
 /*
-* @author Sirono
-* @version 1.0.1
-* @Date: 09-14-2016
-* @ Unit class  for the CallListUtilities class.
-* Do the code coverage for the CallListUtilities class
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * Tests for the CallListUtilities class
+ */
 @isTest
 public class CallListUtilitiesTest {
 

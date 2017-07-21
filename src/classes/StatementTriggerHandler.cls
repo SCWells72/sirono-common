@@ -1,5 +1,5 @@
-/**
- * Created by swells on 6/26/2017.
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
 public with sharing class StatementTriggerHandler {

@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class tests methods implemented in CaseTriggerHandler class by performing different scenarios.
  **/
-
 @isTest
 private class CaseTriggerTest {
     /**

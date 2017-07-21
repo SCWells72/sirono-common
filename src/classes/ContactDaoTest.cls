@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class is use to test the logic of ContactDao class.
  **/
-
 @IsTest
 public with sharing class ContactDaoTest {
 

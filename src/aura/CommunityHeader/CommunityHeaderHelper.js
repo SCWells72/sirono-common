@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
 	getUserInfo : function(component) {
 		var action = component.get("c.getUserInfo");

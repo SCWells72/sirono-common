@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * HttpCalloutMock implementor that will return fail all requests, but allows for successful calls to the AuthRestClient
  * code for getting tokens and such.
  */
-
 @IsTest
 public class AuthRestClientFailMock implements HttpCalloutMock {
 

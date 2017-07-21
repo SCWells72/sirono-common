@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class tests methods implemented in ForgotPasswordController class.
  **/
-
 @IsTest public with sharing class ForgotPasswordControllerTest {
 
     /**

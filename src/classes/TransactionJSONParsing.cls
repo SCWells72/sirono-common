@@ -1,8 +1,11 @@
 /*
-* JSON Parsing Class for the response which comes from Transaction Request. Takes the response and turns it into
-* a list of Transaction__c & Charge_Group__c objects with the Charge_Group__c properly populated in the transactions.
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * JSON Parsing Class for the response which comes from Transaction Request. Takes the response and turns it into
+ * a list of Transaction__c & Charge_Group__c objects with the Charge_Group__c properly populated in the transactions.
+ */
 public class TransactionJSONParsing {
 
     public String url;

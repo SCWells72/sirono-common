@@ -1,5 +1,5 @@
-/**
- * Created by mmartin on 2/23/17.
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
 public with sharing class PaymentMethodSecurityContext extends SecurityContext {

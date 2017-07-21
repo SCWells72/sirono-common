@@ -1,8 +1,7 @@
 /*
-* @author Sirono
-* @version 1.0.1
-* @Date: 06-14-2016
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 public with sharing class Five9CreateCallLogRecord {
 
     public String five9ANI {get; set;}

@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Data associated with a credit card.
  */
-
 public with sharing class CardInformation {
     @AuraEnabled
     public String sfId {get; set;}

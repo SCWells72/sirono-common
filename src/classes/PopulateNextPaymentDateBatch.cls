@@ -1,11 +1,6 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 09-26-2016
- * @PopulateNextPaymentDateBatch  class.
- * #127404425 : Viraj Rana This batch is used to populate the next payment date
-*/
-
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
 public with sharing class PopulateNextPaymentDateBatch implements Database.Batchable<sObject>, Schedulable, Database.Stateful {
 

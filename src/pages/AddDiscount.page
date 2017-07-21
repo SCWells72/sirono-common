@@ -1,13 +1,10 @@
 <!--
-* @author: Sirono
-* @version 1.0.1
-* @Date: 05-16-2016
-* @AddDiscount VF Page for the Add Discount.
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
 
-Sirono 08-22-2016: 127323475 when Record Saved Successfully return to the contact after few Sec.
-
+<!--
+VF Page for the Add Discount.
 -->
-
 <apex:page standardController="Contact" Extensions="AddDiscount" id="pg">
     <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>
     <apex:stylesheet value="{!URLFOR($Resource.PayStaffStyle)}"/>

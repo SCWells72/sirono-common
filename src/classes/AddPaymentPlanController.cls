@@ -1,9 +1,12 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * AddPaymentPlanController is a abstract class.
  * It is use to add payment plan from apex page or lighting.
  * This class extend/use in "AddPaymentPlanVFController" and "AddPaymentPlanLightningController" class.
  **/
-
 public abstract class AddPaymentPlanController {
     public String guarantorId {get; set;}
     public String guarantorName {get; set;}

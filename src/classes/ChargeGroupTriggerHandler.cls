@@ -1,10 +1,8 @@
 /*
-* @author: Sirono
-* @version 1.0.1
-* @Date: 05-25-2016
-* @description  ChargeGroupTrigger Handler Clas  
-*/
-//TODO remove without sharing
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+// TODO: remove without sharing
 public without sharing class ChargeGroupTriggerHandler {
     private static Boolean isTriggerProcessed;
 

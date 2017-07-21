@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
 <aura:component >
 	<link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/salesforce-lightning-design-system.min.css'}" /> 
     <aura:attribute name="invoice" type="Object" /> 

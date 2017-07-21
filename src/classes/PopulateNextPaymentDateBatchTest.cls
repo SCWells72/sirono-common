@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class tests methods implemented in PopulateNextPaymentDateBatch class.
  **/
-
 @isTest
 public class PopulateNextPaymentDateBatchTest {
     

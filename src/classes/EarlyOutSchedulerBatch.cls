@@ -1,18 +1,7 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 06-02-2016
- * @EarlyOutSchedulerBatch class.
- 
- * ADDITION: any {Invoice}.{Invoice Date} + 50 = Today and 
- * {Guarantor}.{Overdue Balance} < 0 and 
- * {Guarantor}.{Overdue Balance} + {Guarantor}.{Delinquent Balance} <= -100 and
- * {Guarantor}.{Overdue Balance} + {Guarantor}.{Delinquent Balance} > -5000 and
- * Count({Guarantor}.{Statement}.{Date} >= {Invoice}.{Invoice Date}) > 0
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
- * Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
-
-*/
 public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<sObject>, Schedulable, Database.Stateful {
     public Campaign callList;
     public Set<Id> existingMembers;

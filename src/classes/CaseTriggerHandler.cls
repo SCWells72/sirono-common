@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * TriggerHandler class for CaseTrigger.
  **/
-
 public with sharing class CaseTriggerHandler {
 
     /**

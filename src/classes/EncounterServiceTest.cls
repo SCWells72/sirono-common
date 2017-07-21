@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 @isTest
 private class EncounterServiceTest {
     public static final String GUARANTOR_CONTACT_ONE = 'guarantorContact1';

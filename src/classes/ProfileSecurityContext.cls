@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class is use for Security Context of Profile object
  **/
-
 public with sharing class ProfileSecurityContext extends SecurityContext {
 
     // Below field(s) are use for Select/Read permission.

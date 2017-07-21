@@ -1,5 +1,9 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
- * Test the validation logic in
+ * Test the validation logic in PaymentRequest
  */
 @isTest
 public with sharing class PaymentRequestTest {

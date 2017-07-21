@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Tests for the SironoRestClient class.
  */
-
 @IsTest
 private class SironoRestClientTest {
 

@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Class used to Mock responses from the chargegroups endpoints in Sirono.
  */
-
 @IsTest
 public class ChargeGroupRestClientMock implements HttpCalloutMock {
 

@@ -1,11 +1,10 @@
 /*
-* @author: Sirono
-* @version 1.0.1
-* @Date: 09-22-2016
-* JSON Parsing Class for the response which comes from Request. 
-* 
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * JSON Parsing Class for the response which comes from Request. 
+ */
 public class ChargeGroupJSONParsing {
     public class Patient_data {
         public String mrn;

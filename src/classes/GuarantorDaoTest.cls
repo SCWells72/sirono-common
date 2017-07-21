@@ -1,6 +1,7 @@
-/**
- * Created by mmartin on 3/14/17.
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
+
 @IsTest
 public with sharing class GuarantorDaoTest {
 

@@ -1,5 +1,5 @@
-/**
- * Created by justindove on 5/4/17.
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
 public with sharing class Five9SoapClient {

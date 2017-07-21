@@ -1,11 +1,10 @@
-/* 
- * @author Sirono
- * @version 1.0.1
- * @date: 06-06-2016
- * @description Handler Class for PaymentPlantrigger
- *
- * 10-19-2016: Viraj - Tracker # 132105543: Revisit negative balances in cases
-*/
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+/**
+ * Handler Class for PaymentPlantrigger
+ */
 public with sharing class PaymentPlanTriggerHandler {
 
     public static final Integer START_DAY = 1;

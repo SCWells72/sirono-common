@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class is use for Security Context of Contact object
  **/
-
 public with sharing class ContactSecurityContext extends SecurityContext {
 
     // Field constants for Contact object

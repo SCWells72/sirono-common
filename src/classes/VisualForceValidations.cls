@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Validation class for Amount and Credit Card Validations.
  **/
-
 public with sharing class VisualForceValidations {
 
     public static List<String> errorMessages = new List<String>();

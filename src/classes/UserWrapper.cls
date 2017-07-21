@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Wrapper for the User object.
  */
-
 public with sharing class UserWrapper {
 
   @AuraEnabled public Id contactId {get; private set;}

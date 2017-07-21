@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 @IsTest(SeeAllData = true)
 public with sharing class LightningLoginFormControllerTest {
 

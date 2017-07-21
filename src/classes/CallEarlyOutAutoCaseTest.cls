@@ -1,12 +1,10 @@
 /*
-* @author Sirono
-* @version 1.0.1
-* @Date: 08-31-2016
-*
-* 08-11-2016: Sirono - Tracker # 127398811
-* Test Class for the CallEarlyOutAutoCase class
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * Test Class for the CallEarlyOutAutoCase class
+ */
 @isTest
 private class CallEarlyOutAutoCaseTest {
 

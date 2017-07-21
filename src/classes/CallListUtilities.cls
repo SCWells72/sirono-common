@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Call List utilities.
  *
@@ -6,7 +10,6 @@
  * plans (Pay/create/delete/etc).  The SecurityContext check were removed b/c it is an intentional action that any user
  * should be able update the associated object when interacting with PaymentPlans from the portal.
  */
-
 public with sharing class CallListUtilities {
 
     //Remove the Campaign Members for the pre collection

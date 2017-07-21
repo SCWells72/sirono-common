@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class is use for Security Context of Charge Group object
  **/
-
 public with sharing class ChargeGroupSecurityContext extends SecurityContext {
 
     // Field constants for Charge_Group__c object

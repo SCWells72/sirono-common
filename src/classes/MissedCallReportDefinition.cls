@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * MissedCallReportDefinition class defines variables needed to successfully run a Five9 Unsuccessful dial
  * attempts report.
  **/
-
 public with sharing class MissedCallReportDefinition {
     public String FOLDER_NAME;
     public String REPORT_NAME;

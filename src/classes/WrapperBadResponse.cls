@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 public abstract with sharing class WrapperBadResponse {
 
     public final static String SHORT_ERROR = '{0}: {1}';

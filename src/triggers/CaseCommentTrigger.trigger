@@ -1,9 +1,10 @@
 /*
-* @author  Sirono
-* @version 1.0.1
-* @date    05-05-2016
-* @description trigger on CaseComment object that gets invoked after insert event
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+/**
+ * Trigger on CaseComment object
+ */
 trigger CaseCommentTrigger on CaseComment (after insert) {
 
     //executes after insert operation

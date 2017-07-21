@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Test the CaseService
  **/
-
 @isTest
 public with sharing class CaseServiceTest{
 
