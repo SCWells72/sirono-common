@@ -2842,7 +2842,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Payor__c.Code__c</field>
+        <field>Payor__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
