@@ -83,13 +83,13 @@
         <type>MasterDetail</type>
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
-    <label>Case / Contact</label>
+    <label>Case Contact Junction</label>
     <nameField>
         <displayFormat>CC-{000000}</displayFormat>
-        <label>Case / Contact Name</label>
+        <label>Case Contact Junction Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Case / Contacts</pluralLabel>
+    <pluralLabel>Case Contact Junctions</pluralLabel>
     <searchLayouts/>
     <sharingModel>ControlledByParent</sharingModel>
 </CustomObject>
