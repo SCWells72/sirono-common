@@ -81,8 +81,8 @@ public class ChargeGroupRestClientMock implements HttpCalloutMock {
             '}';
     }
 
-    public static ChargeGroupJSONParsing getParsedChargeGroup() {
-        return ChargeGroupJSONParsing.parse(getChargeGroupJSONBody());
+    public static ChargeGroupJSONParser getParsedChargeGroup() {
+        return ChargeGroupJSONParser.parse(getChargeGroupJSONBody());
     }
 
 }

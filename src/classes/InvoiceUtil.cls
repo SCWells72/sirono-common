@@ -3,7 +3,7 @@
  */
 
 //TODO remove without sharing
-public without sharing class InvoiceUtil {
+public with sharing class InvoiceUtil {
 
     /*
      * Method takes a set of invoice Ids and updates the Invoice Status Index with the MAX Status Index value from

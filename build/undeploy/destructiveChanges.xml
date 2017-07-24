@@ -13,6 +13,7 @@
         <members>AddToPaymentPlanLightningTest</members>
         <members>CampaignMemberTriggerHandler</members>
         <members>CampaignMemberTriggerHandlerTest</members>
+        <members>ChargeGroupJSONParsing</members>
         <members>CMHSecurityContext</members>
         <members>CreatePaymentPlan</members>
         <members>Five9CreateCallLogRecord</members>

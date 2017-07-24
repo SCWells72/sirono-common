@@ -3,7 +3,7 @@
  */
 
 @RestResource(urlMapping='/SummaryWidget/*')
-global without sharing class HiMSS_SummaryWidgetRESTService {
+global with sharing class HiMSS_SummaryWidgetRESTService {
     @HttpGet
     global static void getGuarantor() {
         RestRequest req = RestContext.request;

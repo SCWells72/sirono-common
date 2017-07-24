@@ -5,7 +5,7 @@
 /**
  * The Payment_Method__c DAO.
  */
-public without sharing class PaymentMethodDao {
+public with sharing class PaymentMethodDao {
 
     /**
      * Get a list of payment methods for a Guarantor.

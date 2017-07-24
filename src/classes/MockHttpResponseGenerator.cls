@@ -62,9 +62,14 @@ global class MockHttpResponseGenerator implements HttpCalloutMock {
         return null;
     }
 
+    @testVisible
+    private static String guarantorSironoId = '23232323';
+    @testVisible
+    private static String planSironoId = '2876';
+
     public static String getPaymentPlanJSONBody() {
         return '{' +
-            '   "url": "http://127.0.0.1:8000/paystaff/api/paymentplan/2876/",' +
+            '   "url": "http://127.0.0.1:8000/paystaff/api/paymentplan/' + planSironoId + '/",' +
             '   "active": true,' +
             '   "installment_amount": 5000,' +
             '   "number_installments": 7,' +
@@ -72,7 +77,7 @@ global class MockHttpResponseGenerator implements HttpCalloutMock {
             '   "plan_type": "auto",' +
             '   "payable_amount": 32772,' +
             '   "execute_on_day": 13,' +
-            '   "guarantor": "http://127.0.0.1:8000/paystaff/api/guarantors/23232323/",' +
+            '   "guarantor": "http://127.0.0.1:8000/paystaff/api/guarantors/' + guarantorSironoId + '/",' +
             '   "next_payment_date": "2017-05-13",' +
             '   "installments_paid": 0,' +
             '   "installments_total": 7,' +
