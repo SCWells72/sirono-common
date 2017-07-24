@@ -6,7 +6,7 @@
  * Payment DAO for Payment object SOQL/DML operations
  * TODO fix our sharing model
  */
-public without sharing class PaymentDao {
+public with sharing class PaymentDao {
 	/**
 	 * This method is used to Insert Payment record.
 	 * @param List<Payment__c> payments - List of payment record for insert

@@ -345,9 +345,9 @@ public class CaseUtil {
             mapContactCase.Put(strContactId, objCase);
         }
 
-        if (CaseSecurityContext.CREATE_WITH_GT_CONTEXT.actionAllowed()) {
-            INSERT mapContactCase.Values();
-        }
+        CaseDao.ElevatedPrivilegesHelper helper = new CaseDao.ElevatedPrivilegesHelper();
+        helper.save(mapContactCase.values());
+
     }
 
     /*

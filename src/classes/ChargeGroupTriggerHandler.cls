@@ -3,7 +3,7 @@
  */
 
 // TODO: remove without sharing
-public without sharing class ChargeGroupTriggerHandler {
+public with sharing class ChargeGroupTriggerHandler {
     private static Boolean isTriggerProcessed;
 
     //Static Method that returns a boolean member variable

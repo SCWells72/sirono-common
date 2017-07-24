@@ -6,7 +6,7 @@
  * Invoice DAO
  * TODO sharing model
  */
-public without sharing class InvoiceDao extends AbstractDao {
+public with sharing class InvoiceDao extends AbstractDao {
 
   /**
    * Get an Invoice__c returned as a List with a partical status.

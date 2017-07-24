@@ -416,7 +416,7 @@ public with sharing class PaymentTabsControllerTest {
     }
 
     @isTest
-    public static void getCreditCardsVerifyResultsTes() {
+    public static void getCreditCardsVerifyResultsTest() {
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
         Contact guarantorContact = TestUtility.getPortalGuarantor();
@@ -428,6 +428,18 @@ public with sharing class PaymentTabsControllerTest {
         payMethods.get(0).Last_4__c = '1111';
         payMethods.get(0).Type__c = Constants.CREDIT_CARD;
         INSERT payMethods;
+
+        //TODO Figure out sharing for portal users!
+        List<Payment_Method__Share> shares = new List<Payment_Method__Share>();
+        for (Payment_Method__c pm : payMethods) {
+            Payment_Method__Share share  = new Payment_Method__Share();
+            share.ParentId = pm.Id;
+            share.UserOrGroupId = portalUser.Id;
+            share.AccessLevel = 'edit';
+            shares.add(share);
+        }
+
+        INSERT shares;
 
         System.runAs(portalUser) {
 
@@ -463,6 +475,18 @@ public with sharing class PaymentTabsControllerTest {
         payMethods.add(pm2);
 
         INSERT payMethods;
+
+        //TODO Figure out sharing for portal users!
+        List<Payment_Method__Share> shares = new List<Payment_Method__Share>();
+        for (Payment_Method__c pm : payMethods) {
+            Payment_Method__Share share  = new Payment_Method__Share();
+            share.ParentId = pm.Id;
+            share.UserOrGroupId = portalUser.Id;
+            share.AccessLevel = 'edit';
+            shares.add(share);
+        }
+
+        INSERT shares;
 
         System.runAs(portalUser) {
 

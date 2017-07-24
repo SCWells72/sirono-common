@@ -202,11 +202,7 @@ public with sharing class PaymentPlanTriggerHandler {
             paymentPlanErrorCases.add(paymentPlanErrorCase);
         }
 
-        if (CaseSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-            if (!paymentPlanErrorCases.isEmpty()) {
-                insert paymentPlanErrorCases;
-            }
-        }
+        saveCases(paymentPlanErrorCases);
     }
 
     // Close open cases for payment plans which no longer have errors
@@ -240,6 +236,13 @@ public with sharing class PaymentPlanTriggerHandler {
             if (newDate != oldDate) {
                 paymentPlan.Charges_Added_Since_Start__c = 0;
             }
+        }
+    }
+
+    private static void saveCases(List<Case> cases) {
+        if (!cases.isEmpty()) {
+            CaseDao.ElevatedPrivilegesHelper helper = new CaseDao.ElevatedPrivilegesHelper();
+            helper.save(cases);
         }
     }
 }

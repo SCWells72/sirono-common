@@ -7,7 +7,7 @@
  * These methods are invoked when either a Charge_Group or Payment's Encounter changes
  * TODO: remove without sharing
  */
-public without sharing class EncounterUtil {
+public with sharing class EncounterUtil {
 
     private static String ENCOUNTERID = 'encounterId';
     private static String OBJ = 'obj';

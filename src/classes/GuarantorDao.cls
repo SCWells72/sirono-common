@@ -7,7 +7,7 @@
  * TODO when we create a PatientDao, pull up a virtual ContactDao with common functionality
  * TODO fix our sharing model for Guarantors
  */
-public without sharing class GuarantorDao extends AbstractDao {
+public with sharing class GuarantorDao extends AbstractDao {
 
     public static Contact getGuarantor(String recordId) {
         if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed()) {

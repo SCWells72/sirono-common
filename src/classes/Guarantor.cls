@@ -2,7 +2,7 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-public without sharing class Guarantor {
+public with sharing class Guarantor {
 
 	@AuraEnabled public GuarantorUser grtUser {get; set;}
 	@AuraEnabled public GuarantorContact grtContact {get; set;}

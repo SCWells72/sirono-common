@@ -5,7 +5,7 @@
 /**
  * PaymentTabsController used by various Lightning components.
  */
-public without sharing class PaymentTabsController {
+public with sharing class PaymentTabsController {
 
     public static final String ADD_SUCCESS = 'Added Successfully!';
     public static final String NO_PPLAN_MSG = 'No active Payment Plan exist for this Guarantor. Please click Cancel to go previous page.';

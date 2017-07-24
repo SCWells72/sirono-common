@@ -3,7 +3,7 @@
  */
 
 //TODO remove withoud sharing
-public without sharing class WorkWithPaymentsController {
+public with sharing class WorkWithPaymentsController {
 
     @AuraEnabled
     public static List<PaymentsWrapper> getPaymentHistory() {

@@ -47,3 +47,4 @@ IlluminatedCloud/
 .ant-targets-build.xml
 lib/
 post_install_zip
+work/

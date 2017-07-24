@@ -6,7 +6,7 @@
  * Database actions for Charge_Group__c objects
  * TODO: fix our sharing model
  */
-public without sharing class ChargeGroupDao extends AbstractDao {
+public with sharing class ChargeGroupDao extends AbstractDao {
 
     /**
      * Return the list of Charge_Group__c objects associated with the given sironoIds
