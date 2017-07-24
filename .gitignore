@@ -41,9 +41,15 @@ sf_temp/
 
 # Illuminated Cloud / Intellij
 IlluminatedCloud/
+.idea/shelf/
+.idea/compiler.xml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/workspace.xml
 *.iws
 
 # Ant generated
 .ant-targets-build.xml
 lib/
 post_install_zip
+work/
