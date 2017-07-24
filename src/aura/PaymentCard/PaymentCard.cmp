@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
 <aura:component controller="MakeAPaymentController">
     <aura:attribute name="CreditCard" type="Object" access="public" default="{expirationMonth:'03'}"/>
     <aura:attribute name="CheckValidation" type="Boolean" default="false" access="public"/>

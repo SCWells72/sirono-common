@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Controller for the Lightning Header that loads information about the user.
  */

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
     doCmpInit: function (cmp, e, hlpr) {
         var credtCardSelections = cmp.get('c.getCardSelectOptions');
@@ -105,7 +109,7 @@
     },
 
     /**
-     * Setup a new payment plan.  Will file the paymentPlanCreated event when successful.
+     * Setup a new payment plan.  Will fire the paymentPlanCreated event when successful.
      */
     setupPlan: function (cmp, e, hlpr) {
         try {

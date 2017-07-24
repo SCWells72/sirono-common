@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Service class interacting with Payment_Method__c objects.
  */
-
 public with sharing class PaymentMethodService extends AbstractService {
 
     /**

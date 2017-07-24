@@ -1,5 +1,5 @@
-/**
- * Created by mmartin on 3/16/17.
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
 public virtual class AbstractService {

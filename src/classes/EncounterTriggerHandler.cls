@@ -1,9 +1,10 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 06-06-2016
- * @description Handler Class for EncounterTrigger
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+/**
+ * Handler class for EncounterTrigger
+ */
 public with sharing class EncounterTriggerHandler {
 
     /*

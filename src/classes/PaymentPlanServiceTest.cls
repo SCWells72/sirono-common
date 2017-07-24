@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Test the PaymentPlanService
  */
@@ -6,6 +10,7 @@ public with sharing class PaymentPlanServiceTest {
 
     private static String PLAN_SIRONO_ID = '2876';
     private static Decimal CG_TO_ADD_ID = 123456;
+    private static Decimal CG_SIRONO_ID = 12345;
 
     @TestSetup
     public static void setup() {
@@ -25,8 +30,8 @@ public with sharing class PaymentPlanServiceTest {
         INSERT pp;
         Test.setCreatedDate(pp.Id, createdDT);
 
-        Charge_Group__c cg = TestUtility.generateChargeGroup(gt.Id, pt.Id, 12345, pp.id);
-        cg.Sirono_ID__c = 12345;
+        Charge_Group__c cg = TestUtility.generateChargeGroup(gt.Id, pt.Id, CG_SIRONO_ID, pp.id);
+        cg.Sirono_ID__c = CG_SIRONO_ID;
         INSERT cg;
 
         Service__c svc = TestUtility.generateService(cg, 450.00);
@@ -76,8 +81,7 @@ public with sharing class PaymentPlanServiceTest {
                         ') > pp.CreatedDate ('+pp.CreatedDate+')');
     }
 
-    /*
-     *
+    /**
      * Test adding a bad chargegroupId to an existing paymentplan
      */
     @isTest
@@ -513,4 +517,65 @@ public with sharing class PaymentPlanServiceTest {
 
     }
 
+    /**
+     * Verify a successful delete payment plan call.
+     */
+    @isTest
+    public static void testRemovePaymentPlan() {
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+        Payment_Plan__c plan = [
+            SELECT Id, Active__c, Cancellation_Date__c
+            FROM Payment_Plan__c
+            WHERE Sirono_ID__c = :Decimal.valueOf(PLAN_SIRONO_ID)
+        ];
+
+        System.assertEquals(true, plan.Active__c, 'Should be active before delete.');
+        System.assertEquals(null, plan.Cancellation_Date__c, 'Should not have a cancelation date.');
+
+        List<Charge_Group__c> cgs = ChargeGroupDao.getBySironoIds(new List<Decimal>{CG_SIRONO_ID});
+        Charge_Group__c cg = (cgs.size() >= 1) ? cgs.get(0) : null;
+
+        System.assertEquals(plan.Id, cg.Payment_Plan__c, 'Should have payment plan.');
+
+        Test.startTest();
+        PaymentPlanService.removePaymentPlan(plan.Id);
+        Test.stopTest();
+
+        Payment_Plan__c planAfterDelete = [
+            SELECT Id, Active__c, Cancellation_Date__c
+            FROM Payment_Plan__c
+            WHERE Sirono_ID__c = :Decimal.valueOf(PLAN_SIRONO_ID)
+        ];
+
+        System.assertEquals(false, planAfterDelete.Active__c, 'Should not be active after delete.');
+        System.assertNotEquals(null, planAfterDelete.Cancellation_Date__c, 'Should populate cancelation date.');
+
+        cgs = ChargeGroupDao.getBySironoIds(new List<Decimal>{CG_SIRONO_ID});
+        Charge_Group__c updatedCg = (cgs.size() >= 1) ? cgs.get(0) : null;
+
+        // Note the mock here makes use of the existing cg json body, and in that body the Account_Sub_Status is third party payer.
+        System.assertNotEquals(cg.Account_Sub_Status__c, updatedCg.Account_Sub_Status__c, 'Should have updated Accont substatus.');
+        System.assertEquals(Constants.ACCT_SUBSTATUS_THIRD_PARTY, updatedCg.Account_Sub_Status__c, 'Should match the substate of mock cg.');
+        System.assertEquals(null, updatedCg.Payment_Plan__c, 'Should not be assigned to payment plan.');
+    }
+
+    @isTest
+    public static void testRemovePaymentPlanNoPlan() {
+        Payment_Plan__c plan = [
+            SELECT Id
+            FROM Payment_Plan__c
+            WHERE Sirono_ID__c = :Decimal.valueOf(PLAN_SIRONO_ID)
+        ];
+        DELETE plan;
+
+        Test.startTest();
+        try {
+            PaymentPlanService.removePaymentPlan(plan.Id);
+            System.assert(false, 'Should have thrown service exception');
+        } catch (AbstractService.ServiceException e) {
+            Test.stopTest();
+            System.assertEquals('No Payment Plan found.', e.getMessage(), 'Should have appropriate error message.');
+        }
+
+    }
 }

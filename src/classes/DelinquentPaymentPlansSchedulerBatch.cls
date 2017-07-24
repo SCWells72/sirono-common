@@ -1,17 +1,9 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 06-02-2016
- * @DelinquentPaymentPlansSchedulerBatch class.
- 
- * ADDITION: {Payment Plan}.{Delinquent Date} + 10 = Today and
- * {Payment Plan}.{Remaining Balance} < -100 and
- * {Payment Plan}.{Active} = TRUE
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
- * Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
-*/
 public with sharing class DelinquentPaymentPlansSchedulerBatch
-        implements Database.Batchable<sObject>, Schedulable, Database.Stateful {
+    implements Database.Batchable<sObject>, Schedulable, Database.Stateful {
     public Campaign callList;
     public Set<Id> existingMembers;
 
@@ -21,16 +13,17 @@ public with sharing class DelinquentPaymentPlansSchedulerBatch
 
     public Database.QueryLocator start(Database.BatchableContext sc) {
         //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                Constants.CAMPAIGN_NAME_PAST_DUE
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
+            Constants.CAMPAIGN_NAME_PAST_DUE
         });
         string delinquent = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE);
 
         if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            for (Campaign cl: [SELECT Id, Name
-                               FROM Campaign
-                               WHERE Name = :delinquent
-                               AND isActive = true
+            for (Campaign cl: [
+                SELECT Id, Name
+                FROM Campaign
+                WHERE Name = :delinquent
+                AND isActive = true
             ]) {
                 callList = cl;
             }
@@ -40,9 +33,9 @@ public with sharing class DelinquentPaymentPlansSchedulerBatch
             existingMembers = new Set<Id>();
             if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                 for (CampaignMember cm: [
-                        SELECT Id, ContactId
-                        FROM CampaignMember
-                        WHERE CampaignId = :callList.Id AND ContactId != null
+                    SELECT Id, ContactId
+                    FROM CampaignMember
+                    WHERE CampaignId = :callList.Id AND ContactId != null
                 ]) {
                     existingMembers.add(cm.ContactId);
                 }
@@ -61,18 +54,22 @@ public with sharing class DelinquentPaymentPlansSchedulerBatch
         if (callList != null) {
             List<CampaignMember> memberList = new List<CampaignMember>();
             if (PaymentPlanSecurityContext.DPPSB_SELECT_CONTEXT.actionAllowed() &&
-                    CmpnMemberSecurityContext.SB_CREATE_CONTEXT.actionAllowed()) {
+                CmpnMemberSecurityContext.SB_CREATE_CONTEXT.actionAllowed()) {
                 for (Payment_Plan__c pp: [
-                        SELECT Id, Name, Guarantor__c, Delinquent_Date__c, Remaining_Balance__c, Active__c
-                        FROM Payment_Plan__c
-                        WHERE Guarantor__c IN :guarantors
-                        AND Delinquent_Date__c = :dt
-                        AND Remaining_Balance__c < :-100 AND Active__c = true
+                    SELECT Id, Name, Guarantor__c, Delinquent_Date__c, Remaining_Balance__c, Active__c
+                    FROM Payment_Plan__c
+                    WHERE Guarantor__c IN :guarantors
+                    AND Delinquent_Date__c = :dt
+                    AND Remaining_Balance__c < :-100
+                    AND Active__c = true
                 ]) {
                     if (!existingMembers.contains(pp.Guarantor__c)) {
                         existingMembers.add(pp.Guarantor__c);
-                        memberList.add(new CampaignMember(CampaignId = callList.Id,
-                                ContactId = pp.Guarantor__c, Status = 'Sent'));
+                        memberList.add(new CampaignMember(
+                            CampaignId = callList.Id,
+                            ContactId = pp.Guarantor__c,
+                            Status = Constants.SENT
+                        ));
                     }
                 }
 

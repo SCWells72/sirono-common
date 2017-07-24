@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>Configuration for Sirono Call Center application.</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Auto_Create_Overdue_Cases__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>When enabled, cases are automatically created for statements with overdue balances.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>When enabled, cases are automatically created for statements with overdue balances.
+        </inlineHelpText>
+        <label>Auto Create Overdue Cases</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Auto_Create_Payment_Plan_Error_Cases__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>When enabled, cases are automatically created for payment plans with errors.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>When enabled, cases are automatically created for payment plans with errors.</inlineHelpText>
+        <label>Auto Create Payment Plan Error Cases</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Auto_Create_Precollection_Cases__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>When enabled, cases are automatically created for statements with delinquent balances.
+        </description>
+        <externalId>false</externalId>
+        <inlineHelpText>When enabled, cases are automatically created for statements with delinquent balances.
+        </inlineHelpText>
+        <label>Auto Create Precollection Cases</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>Sirono Call Center Settings</label>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Test the calculation of the Estimate_Balance on the guarantor. It is the sum of all of the Encounters the
  * Guarantor is associated with.
  **/
-
 @isTest
 public with sharing class GuarantorEstimateBalanceTest {
 

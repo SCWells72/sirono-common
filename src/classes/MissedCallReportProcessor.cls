@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * @description MissedCallReportProcessor takes a CSV string and creates objects to be inserted into Salesforce.
 **/
-
 public with sharing class MissedCallReportProcessor {
     String csvReportString;
 

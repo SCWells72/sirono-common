@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
 	getPayments : function(component) {
 		var action = component.get("c.getPaymentHistory");

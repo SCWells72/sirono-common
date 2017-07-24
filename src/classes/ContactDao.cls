@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Access Contact Data.
  * This class is use to get Contact related details (Not based on record types).
  **/
-
 public with sharing class ContactDao extends AbstractDao {
 
     /**

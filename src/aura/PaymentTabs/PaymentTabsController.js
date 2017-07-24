@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
 	activateTab : function (component, event, helper) {
 		var tabToActivate = event.target.id;

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
 	activateTile : function (component, event, helper) {
 		console.log(component.get("v.tileId"));

@@ -1,4 +1,8 @@
-({	
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+({
 	doInit : function (component, event, helper) {
 	
 		if (window.location.href.includes('activeTab=')) {

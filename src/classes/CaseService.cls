@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * CaseService with logic for working with Case object.
  **/
- 
- public with sharing class CaseService extends AbstractService {
+public with sharing class CaseService extends AbstractService {
 
     /**
      * Create Case_Charge_Group_Junction__c for the given cases. The chargegroups that the case should

@@ -1,9 +1,6 @@
 <!--
-* @author: Sirono
-* @version 1.0.1
-* @Date: 08-05-2016
-* 10-19-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
--->
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
 
 <apex:page standardController="Contact" Extensions="CreateCaseManual" id="pg" docType="html-5.0">
     <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>

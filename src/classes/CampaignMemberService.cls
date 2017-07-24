@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * CampaignMemberService with logic for creating/deleting CampaignMembers
  **/
-
 public with sharing class CampaignMemberService extends AbstractService {
 
     /**
@@ -65,7 +68,6 @@ public with sharing class CampaignMemberService extends AbstractService {
      * Given a case type and the associated guarantorIds, delete the campaignMembers associated with
      * @param Set<String> caseTypes - That contains Case.Type values.
      *
-     * @returns Map<String, Set<String>> mapCampaignMapping - That contains Case.Type Name with List of SF Campaign Names.
      */
     public static void deleteMembers(Map<String, Set<Id>> caseCmpnMemberMap) {
 

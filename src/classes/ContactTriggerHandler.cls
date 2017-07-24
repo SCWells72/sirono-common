@@ -1,9 +1,10 @@
 /*
-*
-* ContactTriggerHandler - ContactTrigger Handler.
-*
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * ContactTriggerHandler - ContactTrigger Handler.
+ */
 public with sharing class ContactTriggerHandler {
     public static boolean isRecursive = false;
 

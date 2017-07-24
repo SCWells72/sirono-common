@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Aggregate PaymentPlan services - access to/from the Sirono server & SOQL requests
  */
-
 public with sharing class PaymentPlanService extends AbstractService {
 
     @TestVisible
@@ -16,11 +19,24 @@ public with sharing class PaymentPlanService extends AbstractService {
         }
 
         /**
+         * Make the call to get a Payment Plan.
+         *
+         * @param String sironoPlanId - The plan id in Sirono.
+         * @return HttpResponse - The response from the service.
+         */
+        @TestVisible
+        private HttpResponse retrievePaymentPlan(String sironoPlanId) {
+            return getRequestor()
+                .url(RestClientConstants.PAYMENT_PLAN_KEY, new String[] {sironoPlanId})
+                .call();
+        }
+
+        /**
          * Make the call to add a Payment plan.
          *
          * @param - String planId The sirono id of the payment plan
          * @param - List<String> chargeGroupIds List of sironoIds of the charge groups to add
-         * @returns - HttpResponse The response to the call.
+         * @return - HttpResponse The response to the call.
          */
         @TestVisible
         private HttpResponse addToPlan(String planId, List<String> chargeGroupIds) {
@@ -36,7 +52,7 @@ public with sharing class PaymentPlanService extends AbstractService {
          * Make the call to add a Credit Card/Payment Plan.
          *
          * @param PaymentPlanInformation ppInfo - An object that holds the information required to create a payment plan.
-         * @returns - HttpResponse The response to the call.
+         * @return HttpResponse The response to the call.
          **/
         @TestVisible
         private HttpResponse createPaymentPlan(PaymentPlanInformation ppInfo) {
@@ -53,7 +69,7 @@ public with sharing class PaymentPlanService extends AbstractService {
          *
          * @param String sironoPaymentPlanId - The id of the Payment Plan to update.
          * @param PaymentPlanInformation ppInfo - An object that holds the information required to update a payment plan.
-         * @returns - HttpResponse The response to the call.
+         * @return HttpResponse The response to the call.
          **/
         private HttpResponse updatePaymentPlan(String sironoPaymentPlanId, PaymentPlanInformation ppInfo) {
 
@@ -63,11 +79,25 @@ public with sharing class PaymentPlanService extends AbstractService {
                 .call();
         }
 
+        @TestVisible
+        /**
+         * Delete a payment plan in Sirono.
+         *
+         * @param String sironoPaymentPlanId - The Payment Plan Sirono id.
+         * @return HttpResponse - The reponse from the call.
+         */
+        private HttpResponse deletePaymentPlan(String sironoPaymentPlanId) {
+
+            return deleteRequestor()
+                .url(RestClientConstants.PAYMENT_PLAN_KEY, new String[] {sironoPaymentPlanId})
+                .call();
+        }
+
         /**
          * Get the payment plan by id from the sirono server.
          *
          * @param - String planId The sirono id for the payment plan.
-         * @returns - HttpResponse The response to the call.		 
+         * @return - HttpResponse The response to the call.
          */
         @TestVisible
         private HttpResponse getPlan(String planId) {
@@ -105,7 +135,7 @@ public with sharing class PaymentPlanService extends AbstractService {
          * Build the JSON structure required for the Create Payment Plan post.
          *
          * @param PaymentPlanInformation ppInfo - It as an object that holds the information required to create a payment plan.
-         * @returns String body - The Json payload.
+         * @return String body - The Json payload.
          **/
         @TestVisible
         private String buildCreatePaymentPlanBody(PaymentPlanInformation ppInfo) {
@@ -148,7 +178,7 @@ public with sharing class PaymentPlanService extends AbstractService {
          * Build the JSON structure required for the Update Payment Plan post.
          *
          * @param PaymentPlanInformation ppInfo - It as an object that holds the information required to create a payment plan.
-         * @returns String body - The Json payload.
+         * @return String body - The Json payload.
          **/
         @TestVisible
         private String buildUpdatePaymentPlanBody(PaymentPlanInformation ppInfo) {
@@ -225,7 +255,7 @@ public with sharing class PaymentPlanService extends AbstractService {
         @TestVisible
         private PaymentPlanSironoJSON objJson;
 
-        private PaymentPlanWrapper parse(String contactId, List<String> sironoChargeGroupIds) {
+        private PaymentPlanWrapper parse(List<String> sironoChargeGroupIds) {
 
             PaymentPlanWrapper objPaymentPlanWrapper = new PaymentPlanWrapper();
             Payment_Plan__c paymentPlanObj = parseAsPaymentPlan();
@@ -255,6 +285,16 @@ public with sharing class PaymentPlanService extends AbstractService {
 
             objPaymentPlanWrapper.paymentPlanRecord = paymentPlanObj;
             return objPaymentPlanWrapper;
+        }
+
+        /**
+         * Parse the json string including the lookup for any charge gropus that were included as part of the result.
+         *
+         * @return PaymentPlanWrapper - The wrapper value of the Planment plan found in the json including any
+         * charge groups.
+         */
+        private PaymentPlanWrapper parseWithChargeGroups() {
+            return parse(this.objJson.chargegroups);
         }
 
         @TestVisible
@@ -383,6 +423,62 @@ public with sharing class PaymentPlanService extends AbstractService {
     }
 
     /**
+     * Call the Sirono service to delete a payment plan and updated all related SF objects.
+     *
+     * @param String paymentPlanId - The SF payment plan to delete.
+     */
+    public static void removePaymentPlan(String paymentPlanId) {
+        // Look up the SF payment plan in ordr to get the Sirono Id.
+        Payment_Plan__c payPlan = getPaymentPlan(paymentPlanId);
+        if (payPlan == null) {
+            System.debug('No payment plan found for id: ' + paymentPlanId);
+            throw new ServiceException('No Payment Plan found.');
+        }
+
+        // Make the call to Sirono to delete the payment plan.
+        String sironoPaymentPlanId = String.valueOf(payPlan.Sirono_ID__c);
+        PaymentPlanRestClient restClient = new PaymentPlanRestClient();
+        restClient.deletePaymentPlan(sironoPaymentPlanId);
+
+        // Now retrieve the payment plan from sirono in order to get the charge groups associated with the payment plan.
+        PaymentPlanRestClient getRestClient = new PaymentPlanRestClient();
+        HttpResponse getRes = getRestClient.retrievePaymentPlan(sironoPaymentPlanId);
+
+        PaymentPlanJSONParser parser = new PaymentPlanJSONParser(getRes.getBody());
+        PaymentPlanWrapper wrapper = parser.parseWithChargeGroups();
+
+        // Update the SF object for the deleted plan.
+        Payment_Plan__c deletedPlan = wrapper.paymentPlanRecord;
+        deletedPlan.Active__c = false;
+        deletedPlan.Cancellation_Date__c = System.today();
+
+        // Go get the charge groups from the Sirono server in order to update the associated SF records.
+        List<Charge_Group__c> cgs = wrapper.chargeGroupRecords;
+
+        List<Decimal> cgSironoIds = ChargeGroupService.getSironoIds(cgs);
+        // Get the charge groups from the Sirono service.
+        Map<Decimal, ChargeGroupJSONParsing> cgWrappers = ChargeGroupService.retrieveMapByIds(cgSironoIds);
+
+        // Now update all SF cg records with the data from the Sirono server.
+        for (Charge_Group__c cg: cgs) {
+            if (cgWrappers.containsKey(cg.Sirono_ID__c)) {
+                ChargeGroupJSONParsing parsing = cgWrappers.get(cg.Sirono_ID__c);
+                cg.Account_Sub_Status__c = parsing.account_sub_status;
+                cg.Account_Status__c= parsing.account_status;
+                cg.Payment_Plan__c = null;
+            } else {
+                System.debug('Did not find charge group to update on plan delete for sironoId: ' + cg.Sirono_ID__c);
+                throw new ServiceException('Error occurred when looking up charge groups.');
+            }
+        }
+
+        // Finally persist the SF PaymentPlan and ChargeGroups
+        PaymentPlanDao.upsertPlan(deletedPlan);
+        ChargeGroupService.updateChargeGroupsWithStatus(cgs);
+
+    }
+
+    /**
      * Return the payment plan for the given sironoId, null if there is none
      *
      * @param - String sironoId  The sironoId of the plan.
@@ -439,7 +535,7 @@ public with sharing class PaymentPlanService extends AbstractService {
     private static void updateObjects(String jsonStr, List<String> chargegroupIds) {
 
         PaymentPlanJSONParser parser = new PaymentPlanJSONParser(jsonStr);
-        PaymentPlanWrapper wrapper = parser.parse(null, chargegroupIds);
+        PaymentPlanWrapper wrapper = parser.parse(chargegroupIds);
 
         Payment_Plan__c pmtPlan = upsertPaymentPlan(wrapper);
 
@@ -462,7 +558,7 @@ public with sharing class PaymentPlanService extends AbstractService {
      */
     private static Payment_Plan__c updatePaymentPlan(String jsonStr) {
         PaymentPlanJSONParser parser = new PaymentPlanJSONParser(jsonStr);
-        PaymentPlanWrapper wrapper = parser.parse(null, new List<String>());
+        PaymentPlanWrapper wrapper = parser.parse(new List<String>());
 
         return upsertPaymentPlan(wrapper);
     }
@@ -519,7 +615,7 @@ public with sharing class PaymentPlanService extends AbstractService {
      * @param String planId - The payment plan id.
      * @param String creditCardId - The credit card id. Empty string for a new credit card.
      * @param PaymentPlanInformation paymentInfo - The payment plan information object.
-     * @param Boolean persistPaymentMethod - If true the generated Payment_Method__c with be saved as well as the payment plan updated.
+     * @param Boolean persistPaymentMethod - If true the generated Payment_Method__c to be saved as well as the payment plan updated.
      */
     public static Payment_Plan__c addPaymentMethod(String planId, String creditCardId, PaymentPlanInformation paymentInfo, Boolean persistPaymentMethod) {
         Payment_Plan__c payPlan = getPaymentPlan(planId);

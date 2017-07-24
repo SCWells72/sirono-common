@@ -1,8 +1,13 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
 <aura:component controller="PaymentTabsController">
     <aura:attribute name="PaymentInfo" type="Object" access="public"/>
     <aura:attribute name="PaymentRequestInfo" type="Object" access="public"/>
     <aura:attribute name="CreditCard" type="Object" access="public"/>
 
+    <!--TODO: move this to a standard value loaded from the server-->
     <aura:attribute name="states" type="String[]" default="AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY" access="private"/>
     <aura:attribute name="months" type="String[]" access="private"/>
     <aura:attribute name="years" type="String[]" access="private" default="[]"/>
@@ -45,6 +50,7 @@
                 <aura:if isTrue="{!and(v.PaymentInfo, not(v.PaymentInfo.hasPaymentPlan))}">
                     <div class="col slds-size--1-of-1 border-top slds-p-around--large">
                         <div class="title">
+                            <!--TODO: This does not read correctly for months that don't have a number that makes sense with th 2th, 3th-->
                             <em>Your payment plan will start on {!v.nextPaymentDate}. <ui:outputCurrency value="{!v.PaymentRequestInfo.planValue}"/>/month will be charged on day {!v.PaymentRequestInfo.executeOnDay} of each month for the next {!v.PaymentRequestInfo.totalInstallments - 1} months. The {!v.PaymentRequestInfo.totalInstallments}th and final installment will be <ui:outputCurrency value="{!v.PaymentRequestInfo.totalAmount- v.PaymentRequestInfo.planValue * (v.PaymentRequestInfo.totalInstallments-1)}"/>.</em>
                         </div>
                     </div>

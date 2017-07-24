@@ -1,4 +1,8 @@
-<aura:component controller="WorkWithStatementsController">  
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
+<aura:component controller="WorkWithStatementsController">
     <aura:attribute name="statements" type="WorkWithStatementsController.StatementWrapper[]"/>
     <aura:attribute name="stateLength" type="integer"/>
     <aura:attribute name="statementsSortItems" type="String[]"/>

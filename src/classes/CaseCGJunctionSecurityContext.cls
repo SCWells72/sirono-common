@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class is use for Security Context of Case Charge Group Junction object
  **/
-
 public with sharing class CaseCGJunctionSecurityContext extends SecurityContext {
 
     // Field constants for Case_Charge_Group_Junction__c object.

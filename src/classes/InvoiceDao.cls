@@ -1,8 +1,11 @@
-/**
- * Invoice DAO
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-//TODO sharing model
+/**
+ * Invoice DAO
+ * TODO sharing model
+ */
 public without sharing class InvoiceDao extends AbstractDao {
 
   /**

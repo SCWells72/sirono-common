@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Test Aggregation of Sirono Payment transactions
  * Sirono Payments are taken by an agent or via the portal. They have a sirono_id (ID__c) and a guarantor. The Amount

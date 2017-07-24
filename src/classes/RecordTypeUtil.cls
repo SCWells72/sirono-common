@@ -1,7 +1,10 @@
 /*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+/*
 * RecordType constants
 */
-
 public with sharing class RecordTypeUtil {
     public static Map<String, Id> rtMap = null;
 
@@ -37,4 +40,24 @@ public with sharing class RecordTypeUtil {
 
 
     }
+
+     /**
+     * Get the record types for Payment_Method__c.
+     *
+     * @return Map<String, String> - The keys are the record type names and the value is the id.
+     */
+    public static Map<String, String> getPayMethodRecordTypes() {
+        Map<String, String> recordTypeMap = new Map<String, String>();
+        for (RecordType recordType : [
+            Select Id, Name
+            From RecordType
+            Where sObjectType = :Payment_Method__c.class.getName()
+        ]) {
+            recordTypeMap.put(recordType.Name, recordType.Id);
+        }
+
+        System.assert(recordTypeMap.size() != 0);
+        return recordTypeMap;
+    }
+
 }

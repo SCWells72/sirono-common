@@ -1,9 +1,6 @@
 <!--
-* @author: Sirono
-* @version 1.0.1
-* @Date: 09-05-2016
-* 09-05-2016: Created By David Z. Page makes use of statis resources SLDS203,Jquery1,ALJS
--->
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
 
 <apex:page standardController="Contact" showHeader="false" standardStylesheets="false" applyHtmlTag="false"
            applyBodyTag="false" docType="html-5.0">

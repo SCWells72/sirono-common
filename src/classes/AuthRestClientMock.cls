@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * AuthRestClientMock class for testing the AuthRestClient service.
  */
-
 @IsTest
 public class AuthRestClientMock implements HttpCalloutMock {
 

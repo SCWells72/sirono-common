@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
 <aura:event type="APPLICATION">
     <aura:attribute name="tabName" 			type="String"	access="global"	/>
     <aura:attribute name="isEstimateType" 	type="Boolean" 	access="global" />

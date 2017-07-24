@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class generates MockHttpResponseGenerator for HttpCalloutMock.
  **/
-
 @isTest
 global class MockHttpResponseGenerator implements HttpCalloutMock {
 
@@ -9,10 +12,10 @@ global class MockHttpResponseGenerator implements HttpCalloutMock {
      * This method generates & returns HttpResponse for provided HTTPRequest.
      **/
     global HTTPResponse respond(HTTPRequest req) {
-        System.debug('MockHttpResponseGenerator.respond endpoint: '+req.getEndpoint());
+        System.debug('MockHttpResponseGenerator.respond endpoint: ' + req.getEndpoint());
 
         if (req.getEndpoint().contains('/paystaff/token-auth/') ||
-                req.getEndpoint().contains('/portal/account/forgot-password/')) {
+            req.getEndpoint().contains('/portal/account/forgot-password/')) {
             AuthRestClientMock authMock = new AuthRestClientMock();
             return authMock.respond(req);
         }
@@ -24,12 +27,28 @@ global class MockHttpResponseGenerator implements HttpCalloutMock {
             res.setStatusCode(200);
             if (req.getEndpoint().endsWith('/add_chargegroups/')) {
                 //Do nothing
+            } else if (req.getMethod() == RestClientConstants.REMOVE) {
+                res.setStatusCode(RestClientConstants.HTTP_DELETED);
             } else {
                 res.setBody(getPaymentPlanJSONBody());
             }
 
             return res;
 
+        }
+
+        if (req.getEndpoint().contains('/paystaff/api/chargegroups/')) {
+            HttpResponse res = new HttpResponse();
+            res.setHeader('Content-Type', 'application/json');
+            res.setStatusCode(RestClientConstants.HTTP_SUCCESS);
+            if (req.getEndpoint().endsWith('/add_chargegroups/')) {
+            } if (req.getMethod() == RestClientConstants.GET) {
+                res.setBody(ChargeGroupRestClientMock.getChargeGroupJSONBody());
+            } else {
+                throw new SironoServiceException('Unexpected GET url sent to MockHttpResponseGenerator.');
+            }
+
+            return res;
         }
 
         if ('POST'.equalsIgnoreCase(req.getMethod())) {
@@ -44,33 +63,33 @@ global class MockHttpResponseGenerator implements HttpCalloutMock {
     }
 
     public static String getPaymentPlanJSONBody() {
-        return '{'+
-                '   "url": "http://127.0.0.1:8000/paystaff/api/paymentplan/2876/",'+
-                '   "active": true,'+
-                '   "installment_amount": 5000,'+
-                '   "number_installments": 7,'+
-                '   "plan_value": 32772,'+
-                '   "plan_type": "auto",'+
-                '   "payable_amount": 32772,'+
-                '   "execute_on_day": 13,'+
-                '   "guarantor": "http://127.0.0.1:8000/paystaff/api/guarantors/23232323/",'+
-                '   "next_payment_date": "2017-05-13",'+
-                '   "installments_paid": 0,'+
-                '   "installments_total": 7,'+
-                '   "credit_card": {'+
-                '       "card_type": "Visa",'+
-                '       "last_4": "1881"'+
-                '   },'+
-                '   "has_error": false,'+
-                '   "charges_added_since_start": null,'+
-                '   "error_date": null, '+
-                '   "chargegroups": ["http://127.0.0.1:8000/paystaff/api/chargegroups/123456/", "http://127.0.0.1:8000/paystaff/api/chargegroups/12345/"],'+
-                '   "delinquent": false,'+
-                '   "delinquent_date": null, '+
-                '   "encounters": [],'+
-                '   "authorized_amount": 0,'+
-                '   "skip_payment_until": null,'+
-                '   "status":"started"'+
-                '}';
+        return '{' +
+            '   "url": "http://127.0.0.1:8000/paystaff/api/paymentplan/2876/",' +
+            '   "active": true,' +
+            '   "installment_amount": 5000,' +
+            '   "number_installments": 7,' +
+            '   "plan_value": 32772,' +
+            '   "plan_type": "auto",' +
+            '   "payable_amount": 32772,' +
+            '   "execute_on_day": 13,' +
+            '   "guarantor": "http://127.0.0.1:8000/paystaff/api/guarantors/23232323/",' +
+            '   "next_payment_date": "2017-05-13",' +
+            '   "installments_paid": 0,' +
+            '   "installments_total": 7,' +
+            '   "credit_card": {' +
+            '       "card_type": "Visa",' +
+            '       "last_4": "1881"' +
+            '   },' +
+            '   "has_error": false,' +
+            '   "charges_added_since_start": null,' +
+            '   "error_date": null, ' +
+            '   "chargegroups": ["http://127.0.0.1:8000/paystaff/api/chargegroups/123456/", "http://127.0.0.1:8000/paystaff/api/chargegroups/12345/"],' +
+            '   "delinquent": false,' +
+            '   "delinquent_date": null, ' +
+            '   "encounters": [],' +
+            '   "authorized_amount": 0,' +
+            '   "skip_payment_until": null,' +
+            '   "status":"started"' +
+            '}';
     }
 }

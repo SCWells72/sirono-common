@@ -1,10 +1,10 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 09-02-2016
- * Test class for the ChargeGroupTriggerHandler
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
+/**
+ * Test class for the ChargeGroupTriggerHandler
+ */
 @isTest
 public class ChargeGroupTriggerTest {
 
@@ -62,7 +62,7 @@ public class ChargeGroupTriggerTest {
         List<Payment_Plan__c> lst = [Select id, Remaining_Balance__c from Payment_Plan__c where id = :pp.Id];
         System.assertEquals(0, lst[0].Remaining_Balance__c) ;
 
-        Transaction__c transactionObj = TestUtility.generateTransaction(cg, 100, 'Automatic');
+        Transaction__c transactionObj = TestUtility.generateTransaction(cg, 100, Constants.AUTOMATIC);
         insert transactionObj ;
 
         Update cg;
@@ -77,9 +77,11 @@ public class ChargeGroupTriggerTest {
      **/
     @isTest
     static void checkAccessRights() {
-        List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext>{PaymentPlanSecurityContext.UPSERT_CONTEXT,
-        	PaymentPlanSecurityContext.UPDATE_CONTEXT, PaymentPlanSecurityContext.DP_UPDATE_CONTEXT, 
-                PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT
+        List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext> {
+            PaymentPlanSecurityContext.UPSERT_CONTEXT,
+            PaymentPlanSecurityContext.UPDATE_CONTEXT,
+            PaymentPlanSecurityContext.DP_UPDATE_CONTEXT,
+            PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
@@ -101,8 +103,10 @@ public class ChargeGroupTriggerTest {
      **/
     @isTest
     static void checkAccessRightsForRead() {
-        List<ChargeGroupSecurityContext> allContexts = new List<ChargeGroupSecurityContext>{ChargeGroupSecurityContext.SELECT_CONTEXT,
-                ChargeGroupSecurityContext.GD_SELECT_CONTEXT, ChargeGroupSecurityContext.IU_SELECT_CONTEXT
+        List<ChargeGroupSecurityContext> allContexts = new List<ChargeGroupSecurityContext> {
+            ChargeGroupSecurityContext.SELECT_CONTEXT,
+            ChargeGroupSecurityContext.GD_SELECT_CONTEXT,
+            ChargeGroupSecurityContext.IU_SELECT_CONTEXT
         };
 
         System.runAs(TestUtility.generateChatterOnlyUser()) {

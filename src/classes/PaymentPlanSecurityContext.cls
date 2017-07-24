@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class is use for Security Context of Payment_Plan__c object
  **/
-
 public with sharing class PaymentPlanSecurityContext extends SecurityContext {
 
     // Field constants for Payment_Plan__c object

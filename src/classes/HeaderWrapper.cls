@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
 * Wrapper class for the Header data.
 */
-
 public virtual with sharing class HeaderWrapper {
     @AuraEnabled public Contact contact { get; set; }
     @AuraEnabled public Invoice__c invoiceOverdue { get; set; }

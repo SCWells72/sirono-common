@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * TriggerHandler class for CaseTrigger.
  **/
-
 public with sharing class CaseTriggerHandler {
 
     /**
@@ -9,18 +12,14 @@ public with sharing class CaseTriggerHandler {
      *
      * @param List<Case> newList - That contains List of Case.
      **/
-    public static void afterInsert(List<Case> newList) {
-        if (newList.isEmpty()) {
+    public static void afterInsert(List<Case> cases) {
+        if (cases.isEmpty()) {
             return;
         }
 
-        if (newList.size() == 1) {
-            // Passing parameter change Case single record to List of Case to resolve Security Scan Issue.
-            checkAndDoAddNoteCallout(newList);
-        }
-
-        createCaseCGJunctions(newList);
-        createCampaignMemberRecords(newList);
+        checkAndDoAddNoteCallout(cases);
+        createCaseCGJunctions(cases);
+        createCampaignMemberRecords(cases);
     }
 
     /**
@@ -29,8 +28,8 @@ public with sharing class CaseTriggerHandler {
      * @param List<Case> newList - That contains List of Case.
      * @param Map<Id, Case> oldMap - That contains Map of Case.
      **/
-    public static void afterUpdate(List<Case> newList, Map<Id, Case> oldMap) {
-        removeCampaignMembers(newList, oldMap);
+    public static void afterUpdate(List<Case> cases, Map<Id, Case> oldCasesByIds) {
+        removeCampaignMembers(cases, oldCasesByIds);
     }
 
     /**
@@ -41,21 +40,42 @@ public with sharing class CaseTriggerHandler {
      *
      * Parameter change Case object to List of Case to resolve Security Scan Issue.
      **/
-    private static void checkAndDoAddNoteCallout(List<Case> newCases) {
-        if (newCases.get(0).Description != null) {
-            if (CaseSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                // We have removed Loop and take List Variable because of we need only one record based on Case Id.
-                // This changes do for Security Scan's "Async Future Method Inside Loops" related Error.
-                List<Case> cases = new List<Case>([
-                    SELECT Id, Description, Charge_Group_IDs__c
+    private static void checkAndDoAddNoteCallout(List<Case> cases) {
+        if (CaseSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            List<Id> caseIds = new List<Id>();
+            for (Case aCase : cases) {
+                if (String.isNotBlank(aCase.Description)) {
+                    caseIds.add(aCase.Id);
+                }
+            }
+
+            if (!caseIds.isEmpty()) {
+                // NOTE: We can't filter by CreatedBy.Name in a unit test context, so query all case comments and
+                // filter by creator afterward
+                List<User> sironoIntegrationUsers = [SELECT Id FROM User WHERE Name = :Constants.SIRONO_INTEGRATION_USER_NAME LIMIT 1];
+                User sironoIntegrationUser = (sironoIntegrationUsers.size() == 1) ? sironoIntegrationUsers.get(0) : null;
+                Id sironoIntegrationUserId = sironoIntegrationUser != null ? sironoIntegrationUser.Id : null;
+
+                List<Case> queriedCases = new List<Case>([
+                    SELECT Id, Description, (
+                        SELECT Charge_Group__c
+                        FROM Case_Charge_Groups__r
+                    )
                     FROM Case
-                    WHERE Id = :newCases.get(0).Id
-                    AND CreatedBy.Name != 'Sirono Integration'
-                    AND Charge_Group_IDs__c != null
+                    WHERE Id IN :caseIds
+                    AND CreatedById != :sironoIntegrationUserId
                 ]);
-                if (cases.size() > 0) {
-                    // CALL FUTURE METHOD FOR ADD NOTE CALLOUT
-                    PayStaffWSUtill.addNoteFuture(cases[0].Charge_Group_IDs__c.split(','), cases[0].Description);
+                if (!queriedCases.isEmpty()) {
+                    // TODO: Once there's a bulk version of this API, collate all requests and invoke in bulk
+                    for (Case queriedCase : queriedCases) {
+                        List<String> chargeGroupIds = new List<String>();
+                        for (Case_Charge_Group_Junction__c caseChargeGroupJunction : queriedCase.Case_Charge_Groups__r) {
+                            chargeGroupIds.add(caseChargeGroupJunction.Charge_Group__c);
+                        }
+                        if (!chargeGroupIds.isEmpty()) {
+                            PayStaffWSUtill.addNoteFuture(chargeGroupIds, queriedCase.Description);
+                        }
+                    }
                 }
             }
         }
@@ -67,22 +87,22 @@ public with sharing class CaseTriggerHandler {
     * @param List<Case> newList - That contains List of Case.
     * @param Map<Id, Case> oldMap - That contains Map of Case.
     **/
-    private static void removeCampaignMembers(List<Case> newList, Map<Id, Case> oldMap) {
+    private static void removeCampaignMembers(List<Case> cases, Map<Id, Case> oldCasesByIds) {
         if (!CaseUtil.executeRemoveCampaignTrigger) {
             return;
         }
 
         Map<String, Set<Id>> caseCmpnMemberMap = new Map<String, Set<Id>>();
 
-        for (Case c: newList) {
-            if ((c.IsClosed && !oldMap.get(c.Id).IsClosed) &&
-                c.Guarantor_Information__c != null) {
+        for (Case aCase: cases) {
+            if ((aCase.IsClosed && !oldCasesByIds.get(aCase.Id).IsClosed) &&
+                aCase.Guarantor_Information__c != null) {
 
-                if (!caseCmpnMemberMap.containsKey(c.Type)) {
-                    caseCmpnMemberMap.put(c.Type, new Set<Id>());
+                if (!caseCmpnMemberMap.containsKey(aCase.Type)) {
+                    caseCmpnMemberMap.put(aCase.Type, new Set<Id>());
                 }
 
-                caseCmpnMemberMap.get(c.Type).add(c.Guarantor_Information__c);
+                caseCmpnMemberMap.get(aCase.Type).add(aCase.Guarantor_Information__c);
             }
         }
 
@@ -94,19 +114,19 @@ public with sharing class CaseTriggerHandler {
      *
      * @param List<Case> newList - That contains List of Case.
      **/
-    private static void createCaseCGJunctions(List<Case> newList) {
+    private static void createCaseCGJunctions(List<Case> cases) {
         Map<String, List<Case>> filteredCases = new Map<String, List<Case>>();
 
         Map<Id, List<Charge_Group__c>> chargeGroups = new Map<Id, List<Charge_Group__c>>();
 
-        for (Case objCase: newList) {
-            if (!String.isEmpty(objCase.Guarantor_Information__c)) {
-                if (Constants.CASE_CG_SUBSTATUS.containsKey(objCase.Type)) {
+        for (Case aCase: cases) {
+            if (!String.isEmpty(aCase.Guarantor_Information__c)) {
+                if (Constants.CASE_CG_SUBSTATUS.containsKey(aCase.Type)) {
 
-                    if (!filteredCases.containsKey(objCase.Type)) {
-                        filteredCases.put(objCase.Type, new List<Case>());
+                    if (!filteredCases.containsKey(aCase.Type)) {
+                        filteredCases.put(aCase.Type, new List<Case>());
                     }
-                    filteredCases.get(objCase.Type).add(objCase);
+                    filteredCases.get(aCase.Type).add(aCase);
                 }
             }
         }
@@ -122,16 +142,16 @@ public with sharing class CaseTriggerHandler {
      *
      * @param newCases the cases to create campaign members for
      **/
-    private static void createCampaignMemberRecords(List<Case> newCases) {
+    private static void createCampaignMemberRecords(List<Case> cases) {
         // Collect the guarantorIds from the new cases & group by caseType
         Map<String, Set<Id>> caseTypeGTMap = new Map<String, Set<Id>>();
 
-        for (Case objCase: newCases) {
-            if (!String.isEmpty(objCase.Guarantor_Information__c)) {
-                if (!caseTypeGTMap.containsKey(objCase.Type)) {
-                    caseTypeGTMap.put(objCase.Type, new Set<Id>());
+        for (Case aCase: cases) {
+            if (!String.isEmpty(aCase.Guarantor_Information__c)) {
+                if (!caseTypeGTMap.containsKey(aCase.Type)) {
+                    caseTypeGTMap.put(aCase.Type, new Set<Id>());
                 }
-                caseTypeGTMap.get(objCase.Type).add(objCase.Guarantor_Information__c);
+                caseTypeGTMap.get(aCase.Type).add(aCase.Guarantor_Information__c);
             }
         }
 

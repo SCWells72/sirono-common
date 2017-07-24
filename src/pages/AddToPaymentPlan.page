@@ -1,13 +1,6 @@
 <!--
-* @author: Sirono
-* @version 1.0.1
-* @Date: 05-20-2016
-
-* 08-16-2016: launch Add to Payment Plan from contact Guarantor record 
-* Ticket # 06638015 - Updated the request parameter value to send the Sirono External ID and NOT salesforce record Id.
-* 08-01-2016: Ticket # 06638016 - Updated the QueryString parameter value to fix the "URL No Longer Exists" error.
-* Sirono 08-22-2016: 127323475 when Record Saved Successfully return to the contact after few Sec.
-*-->
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
 
 <apex:page controller="AddToPaymentPlanVF" id="pg">
     <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>

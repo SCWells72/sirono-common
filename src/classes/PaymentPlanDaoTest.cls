@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Tests for the PaymentPlanDao methods
  */
@@ -12,22 +16,22 @@ public with sharing class PaymentPlanDaoTest {
         Contact gt = TestUtility.generateGuarantorContact();
         gt.Profile_Pointer_ID__c = Decimal.valueOf(GT_SIRONO_ID);
         INSERT gt;
-        System.debug('gt.Id: '+gt.Id);
+        System.debug('gt.Id: ' + gt.Id);
 
         Payment_Plan__c pp = TestUtility.generatePaymentPlan(gt);
         pp.Active__c = true;
-        pp.Plan_Type__c = 'Automatic';
+        pp.Plan_Type__c = Constants.AUTOMATIC;
         pp.Sirono_ID__c = PP_SIRONO_ID;
         INSERT pp;
 
         pp = TestUtility.generatePaymentPlan(gt);
         pp.Active__c = false;
-        pp.Plan_Type__c = 'Automatic';
+        pp.Plan_Type__c = Constants.AUTOMATIC;
         pp.Sirono_ID__c = 434343;
         INSERT pp;
-        
+
         // Check system assert.
-        System.assertEquals(Decimal.valueOf(GT_SIRONO_ID), gt.Profile_Pointer_ID__c, 'Expected Profile_Pointer_ID__c is ' + GT_SIRONO_ID + ' but got '+ gt.Profile_Pointer_ID__c);
+        System.assertEquals(Decimal.valueOf(GT_SIRONO_ID), gt.Profile_Pointer_ID__c, 'Expected Profile_Pointer_ID__c is ' + GT_SIRONO_ID + ' but got ' + gt.Profile_Pointer_ID__c);
     }
 
     @isTest
@@ -38,7 +42,7 @@ public with sharing class PaymentPlanDaoTest {
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan((String) gt.Id);
 
         System.assertNotEquals(pp, null, 'Expected paymentplan but got null');
-        System.assertEquals(PP_SIRONO_ID, pp.Sirono_ID__c, 'Expected Sirono_ID__c of '+PP_SIRONO_ID+' but got: '+pp.Sirono_ID__c);
+        System.assertEquals(PP_SIRONO_ID, pp.Sirono_ID__c, 'Expected Sirono_ID__c of ' + PP_SIRONO_ID + ' but got: ' + pp.Sirono_ID__c);
     }
 
     @isTest
@@ -59,14 +63,14 @@ public with sharing class PaymentPlanDaoTest {
         Payment_Plan__c pp = PaymentPlanDao.getPaymentPlanBySironoId(PP_SIRONO_ID);
 
         System.assertNotEquals(pp, null, 'Expected paymentplan retrieved by sirono_id but got null');
-        System.assertEquals(PP_SIRONO_ID, pp.Sirono_ID__c, 'Expected Sirono_ID__c of '+PP_SIRONO_ID+' but got: '+pp.Sirono_ID__c);
+        System.assertEquals(PP_SIRONO_ID, pp.Sirono_ID__c, 'Expected Sirono_ID__c of ' + PP_SIRONO_ID + ' but got: ' + pp.Sirono_ID__c);
     }
 
     @isTest
     public static void getPaymentPlanBySironoIdNotFoundTest() {
 
         Payment_Plan__c pp = PaymentPlanDao.getPaymentPlanBySironoId(88);
-        System.assert(pp == null, 'Expected null paymentplan retrieved by sirono_id but got: '+pp);
+        System.assert(pp == null, 'Expected null paymentplan retrieved by sirono_id but got: ' + pp);
     }
 
     @isTest
@@ -76,7 +80,7 @@ public with sharing class PaymentPlanDaoTest {
 
         pp.Active__c = false;
         Test.startTest();
-        PaymentPlanDao.upsertPlans(new Payment_Plan__c[]{pp});
+        PaymentPlanDao.upsertPlans(new Payment_Plan__c[] { pp });
         Test.stopTest();
         pp = PaymentPlanDao.getPaymentPlanBySironoId(PP_SIRONO_ID);
 
@@ -88,9 +92,11 @@ public with sharing class PaymentPlanDaoTest {
      **/
     @isTest
     static void checkAccessRights() {
-        List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext>{PaymentPlanSecurityContext.UPSERT_CONTEXT,
-                PaymentPlanSecurityContext.UPDATE_CONTEXT, PaymentPlanSecurityContext.DP_UPDATE_CONTEXT,
-                PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT
+        List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext> {
+            PaymentPlanSecurityContext.UPSERT_CONTEXT,
+            PaymentPlanSecurityContext.UPDATE_CONTEXT,
+            PaymentPlanSecurityContext.DP_UPDATE_CONTEXT,
+            PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
@@ -112,10 +118,16 @@ public with sharing class PaymentPlanDaoTest {
      **/
     @isTest
     static void checkAccessRightsForRead() {
-        List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext>{PaymentPlanSecurityContext.SELECT_CONTEXT,
-                PaymentPlanSecurityContext.CLU_SELECT_CONTEXT, PaymentPlanSecurityContext.CTH_SELECT_CONTEXT, PaymentPlanSecurityContext.DPPSB_SELECT_CONTEXT,
-                PaymentPlanSecurityContext.EPP_SELECT_CONTEXT, PaymentPlanSecurityContext.SPP_SELECT_CONTEXT, PaymentPlanSecurityContext.PP_SELECT_CONTEXT,
-                PaymentPlanSecurityContext.CU_SELECT_CONTEXT, PaymentPlanSecurityContext.SELECT_CONTEXT_FOR_CLOSE
+        List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext> {
+            PaymentPlanSecurityContext.SELECT_CONTEXT,
+            PaymentPlanSecurityContext.CLU_SELECT_CONTEXT,
+            PaymentPlanSecurityContext.CTH_SELECT_CONTEXT,
+            PaymentPlanSecurityContext.DPPSB_SELECT_CONTEXT,
+            PaymentPlanSecurityContext.EPP_SELECT_CONTEXT,
+            PaymentPlanSecurityContext.SPP_SELECT_CONTEXT,
+            PaymentPlanSecurityContext.PP_SELECT_CONTEXT,
+            PaymentPlanSecurityContext.CU_SELECT_CONTEXT,
+            PaymentPlanSecurityContext.SELECT_CONTEXT_FOR_CLOSE
         };
 
         System.runAs(TestUtility.generateChatterOnlyUser()) {

@@ -1,11 +1,6 @@
 <!--
- * @author: Sirono
- * @version 1.0.1
- * @Date: 05-12-2016
- * 
- * Sirono 08-22-2016: 127323475 when Record Saved Successfully return to the contact after few Sec.
- * 
- -->
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
 
 <apex:page standardController="Contact" Extensions="CreateAdjustment" id="pg">
     <apex:includeScript value="{!URLFOR($Resource.PayStaffJS)}"/>

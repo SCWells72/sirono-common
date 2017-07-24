@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
 <aura:component >
     <aura:attribute name="index" type="Integer" required="true" description="index" /> 
     <aura:attribute name="row" type="Object" required="true" description="values in row" /> 

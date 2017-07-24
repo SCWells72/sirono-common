@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
 <aura:component controller="WorkWithDocumentsController">
     <aura:attribute name="documents" type="Document[]"/>
     <aura:attribute name="existPdfFlag" type="Boolean"/>

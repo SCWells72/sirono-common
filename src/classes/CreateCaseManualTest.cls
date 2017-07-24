@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class is use to test the logic of CreateCaseManual Class.
  **/
-
 @isTest
 public class CreateCaseManualTest {
 
@@ -27,7 +30,7 @@ public class CreateCaseManualTest {
         objManual.cancel();
         objManual.doNext();
 
-	// Check system assert, No charge group is selected.
+        // Check system assert, No charge group is selected.
         System.assertEquals(false, objManual.chargeGroupsSelected, 'Charge group selected');
         for (ChargeGroupWrapper cg : objManual.chargeGroupList) {
             cg.isSelected = true;
@@ -48,7 +51,7 @@ public class CreateCaseManualTest {
         lstCase = [SELECT Id, Status FROM Case];
         // Check system assert, Case record created with some values.
         System.assertEquals(1, lstCase.Size(), 'One Case Created.');
-        System.assertEquals('New', lstCase[0].Status, 'Case created with different Status');
+        System.assertEquals(Constants.CASE_STATUS_NEW, lstCase[0].Status, 'Case created with different Status');
     }
 
     /**
@@ -70,7 +73,7 @@ public class CreateCaseManualTest {
 
         Test.startTest();
         Apexpages.currentpage().getparameters().put('guarantorId', objContact.id);
-        Apexpages.currentpage().getparameters().put('reason', 'Bankruptcy');
+        Apexpages.currentpage().getparameters().put('reason', Constants.CASE_REASON_BANKRUPTCY);
         ApexPages.StandardController sc = new ApexPages.StandardController(objContact);
         CreateCaseManual objManual = new CreateCaseManual(sc);
         objManual.caseType = 'Billing';
@@ -79,7 +82,7 @@ public class CreateCaseManualTest {
         objmanual.refresh();
         objManual.caseType = 'General';
 
-	// Check system assert, No Charge Group Selected.
+        // Check system assert, No Charge Group Selected.
         System.assertEquals(false, objManual.chargeGroupsSelected, 'Charge group selected');
         for (ChargeGroupWrapper cg : objManual.chargeGroupList) {
             cg.isSelected = true;
@@ -108,14 +111,14 @@ public class CreateCaseManualTest {
 
         List<Case> lstCase = [SELECT Id FROM Case];
         // Check system assert, No Case record created.
-        System.assert(lstCase.isEmpty() ,'Case Exist.');
+        System.assert(lstCase.isEmpty(), 'Case Exist.');
         objManual.submit();
         Test.stopTest();
 
         lstCase = [SELECT Id, Status FROM Case];
         // Check system assert, Case record created.
         System.assertEquals(1, lstCase.Size(), 'One Case Created.');
-        System.assertEquals('New', lstCase[0].Status, 'Case created with different Status');
+        System.assertEquals(Constants.CASE_STATUS_NEW, lstCase[0].Status, 'Case created with different Status');
     }
 
     /**
@@ -156,9 +159,13 @@ public class CreateCaseManualTest {
      **/
     @isTest
     static void checkAccessRights() {
-        List<CaseSecurityContext> allContexts = new List<CaseSecurityContext>{CaseSecurityContext.CREATE_CONTEXT,
-        	CaseSecurityContext.CREATE_WITH_GT_CONTEXT, CaseSecurityContext.CU_CREATE_WITH_ENCOUNTER_CONTEXT, 
-                CaseSecurityContext.UPDATE_CONTEXT, CaseSecurityContext.UPSERT_CONTEXT, CaseSecurityContext.DELETE_CONTEXT
+        List<CaseSecurityContext> allContexts = new List<CaseSecurityContext> {
+            CaseSecurityContext.CREATE_CONTEXT,
+            CaseSecurityContext.CREATE_WITH_GT_CONTEXT,
+            CaseSecurityContext.CU_CREATE_WITH_ENCOUNTER_CONTEXT,
+            CaseSecurityContext.UPDATE_CONTEXT,
+            CaseSecurityContext.UPSERT_CONTEXT,
+            CaseSecurityContext.DELETE_CONTEXT
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {

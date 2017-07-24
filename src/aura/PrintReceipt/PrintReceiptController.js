@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
 	showReceiptPopUp: function (component, event, helper) {
 		var eventIndex = event.getParam('index');

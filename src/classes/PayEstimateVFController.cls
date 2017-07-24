@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * PayEstimateVFController class is controller of PayEstimate VF page.
  * It is use to make a Payment of Encounter based on Guarantor Contact.
@@ -5,7 +9,6 @@
  * Only display those Encounters whose balance is greater than zero.
  * Based on selected Encounter, Create a Payment Record.
  **/    
-
 public with sharing class PayEstimateVFController extends PayEstimateController {
     /**
      * Constructor of Class with standard controller.

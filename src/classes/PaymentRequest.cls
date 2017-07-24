@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Pay the given amount against these chargegroups with this credit card
  */
-
 public with sharing class PaymentRequest {
     public PaymentRequest() {
         this.chargeInfo = new ChargeInfo();

@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This class tests methods implemented in SiteRegisterController class.
  **/
-
 @IsTest public with sharing class SiteRegisterControllerTest {
 
     /**

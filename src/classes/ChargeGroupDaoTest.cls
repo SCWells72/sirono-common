@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Test the ChargeGroupDao methods
  */
@@ -8,7 +12,7 @@ public with sharing class ChargeGroupDaoTest {
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
         INSERT gt;
-        System.debug('gt.Id: '+gt.Id);
+        System.debug('gt.Id: ' + gt.Id);
 
         List<Charge_Group__c> cgToAddList = TestUtility.generateChargeGroupList(gt.Id);
         Decimal i = 1;
@@ -19,13 +23,13 @@ public with sharing class ChargeGroupDaoTest {
         INSERT cgToAddList;
 
         // Check system assert.
-        System.assertEquals(1, cgToAddList[0].Sirono_ID__c, 'Expected Chargegroup Sirono_ID__c equals to 1 but we got '+ cgToAddList[0].Sirono_ID__c);
+        System.assertEquals(1, cgToAddList[0].Sirono_ID__c, 'Expected Chargegroup Sirono_ID__c equals to 1 but we got ' + cgToAddList[0].Sirono_ID__c);
     }
 
     @isTest
-    public static void getBySironoIdsAllFoundTest(){
+    public static void getBySironoIdsAllFoundTest() {
 
-        List<Decimal> cgSironoIds = new Decimal[]{1, 3, 5, 10};
+        List<Decimal> cgSironoIds = new Decimal[] { 1, 3, 5, 10 };
 
         Test.startTest();
         Charge_Group__c[] cgs = ChargeGroupDao.getBySironoIds(cgSironoIds);
@@ -37,15 +41,15 @@ public with sharing class ChargeGroupDaoTest {
         }
 
         for (Decimal sironoId : cgSironoIds) {
-            System.assert(cgMap.containsKey(sironoId), 'ChargeGroup with sironoId: '+sironoId+' not in result set');
+            System.assert(cgMap.containsKey(sironoId), 'ChargeGroup with sironoId: ' + sironoId + ' not in result set');
         }
     }
 
 
     @isTest
-    public static void getBySironoIdsNotAllFoundTest(){
+    public static void getBySironoIdsNotAllFoundTest() {
 
-        List<Decimal> cgSironoIds = new Decimal[]{1, 3, 5, 10, 99};
+        List<Decimal> cgSironoIds = new Decimal[] { 1, 3, 5, 10, 99 };
 
         Test.startTest();
         Charge_Group__c[] cgs = ChargeGroupDao.getBySironoIds(cgSironoIds);
@@ -66,12 +70,12 @@ public with sharing class ChargeGroupDaoTest {
     }
 
     @isTest
-    public static void updateChargeGroupsTest(){
+    public static void updateChargeGroupsTest() {
 
         Charge_Group__c[] cgs = [SELECT Id, Name, Sirono_ID__c FROM Charge_Group__c];
 
         for (Charge_Group__c cg : cgs) {
-            cg.Name = 'test_name_'+cg.Sirono_ID__c;
+            cg.Name = 'test_name_' + cg.Sirono_ID__c;
         }
 
         Test.startTest();
@@ -81,8 +85,8 @@ public with sharing class ChargeGroupDaoTest {
         cgs = [SELECT Id, Name, Sirono_ID__c FROM Charge_Group__c];
 
         for (Charge_Group__c cg : cgs) {
-            String newName = 'test_name_'+cg.Sirono_ID__c;
-            System.assertEquals(cg.Name, newName, 'Chargegroup name expected: '+newName+' but is: '+cg.Name);
+            String newName = 'test_name_' + cg.Sirono_ID__c;
+            System.assertEquals(cg.Name, newName, 'Chargegroup name expected: ' + newName + ' but is: ' + cg.Name);
         }
     }
 
@@ -90,7 +94,7 @@ public with sharing class ChargeGroupDaoTest {
      * This method tests the logic of getBilledCGCountByEncounterIds method positive.
      **/
     @isTest
-    public static void getBilledCGCountPositiveTest(){
+    public static void getBilledCGCountPositiveTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
@@ -102,7 +106,7 @@ public with sharing class ChargeGroupDaoTest {
         INSERT chargeGroup;
 
         Test.startTest();
-        List<AggregateResult> results = ChargeGroupDao.getBilledCGCountByEncounterIds(new Set<Id>{encounter.Id});
+        List<AggregateResult> results = ChargeGroupDao.getBilledCGCountByEncounterIds(new Set<Id> { encounter.Id });
         Test.stopTest();
 
         // Check system assert.
@@ -113,7 +117,7 @@ public with sharing class ChargeGroupDaoTest {
      * This method tests the logic of getBilledCGCountByEncounterIds method negative.
      **/
     @isTest
-    public static void getBilledCGCountNegativeTest(){
+    public static void getBilledCGCountNegativeTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
@@ -124,7 +128,7 @@ public with sharing class ChargeGroupDaoTest {
         INSERT chargeGroup;
 
         Test.startTest();
-        List<AggregateResult> results = ChargeGroupDao.getBilledCGCountByEncounterIds(new Set<Id>{encounter.Id});
+        List<AggregateResult> results = ChargeGroupDao.getBilledCGCountByEncounterIds(new Set<Id> { encounter.Id });
         Test.stopTest();
 
         // Check system assert.
@@ -135,7 +139,7 @@ public with sharing class ChargeGroupDaoTest {
      * This method tests the logic of getCGOrderByCreatedDate method.
      **/
     @isTest
-    public static void getCGOrderByCreatedDateTest(){
+    public static void getCGOrderByCreatedDateTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
@@ -148,7 +152,7 @@ public with sharing class ChargeGroupDaoTest {
         Test.setCreatedDate(chargeGroup1.Id, System.now());
 
         Test.startTest();
-        Charge_Group__c cg = ChargeGroupDao.getCGOrderByCreatedDate(new Set<Id>{chargeGroup.Id, chargeGroup1.Id});
+        Charge_Group__c cg = ChargeGroupDao.getCGOrderByCreatedDate(new Set<Id> { chargeGroup.Id, chargeGroup1.Id });
         Test.stopTest();
 
         // Check system assert.
@@ -159,7 +163,7 @@ public with sharing class ChargeGroupDaoTest {
      * This method tests the logic of getCGOrderByCreatedDate method.
      **/
     @isTest
-    public static void getCGOrderByServiceDateTest(){
+    public static void getCGOrderByServiceDateTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
@@ -172,7 +176,7 @@ public with sharing class ChargeGroupDaoTest {
         INSERT chargeGroup1;
 
         Test.startTest();
-        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGOrderByServiceDate(new Set<Id>{chargeGroup.Id, chargeGroup1.Id});
+        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGOrderByServiceDate(new Set<Id> { chargeGroup.Id, chargeGroup1.Id });
         Test.stopTest();
 
         // Check system assert.
@@ -183,7 +187,7 @@ public with sharing class ChargeGroupDaoTest {
      * This method tests the logic of getCGIdsFromCaseCGJun method Positive.
      **/
     @isTest
-    public static void getCGIdsFromCaseCGJunPositiveTest(){
+    public static void getCGIdsFromCaseCGJunPositiveTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
         Decimal cgSironoId = 123456;
@@ -192,14 +196,10 @@ public with sharing class ChargeGroupDaoTest {
         chargeGroup.Sirono_ID__c = cgSironoId;
         INSERT chargeGroup;
 
-        Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType: [SELECT Id, Name FROM RecordType WHERE sObjectType = 'Case']) {
-            caseRecordTypeMap.put(recordType.Name, recordType.Id);
-        }
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         INSERT objCase;
 
-        Case_Charge_Group_Junction__c caseCGJun = new Case_Charge_Group_Junction__c (Case__c = objCase.Id, Charge_Group__c = chargeGroup.Id);
+        Case_Charge_Group_Junction__c caseCGJun = new Case_Charge_Group_Junction__c(Case__c = objCase.Id, Charge_Group__c = chargeGroup.Id);
         INSERT caseCGJun;
 
         Test.startTest();
@@ -215,7 +215,7 @@ public with sharing class ChargeGroupDaoTest {
      * This method tests the logic of getCGIdsFromCaseCGJun method negative.
      **/
     @isTest
-    public static void getCGIdsFromCaseCGJunNegativeTest(){
+    public static void getCGIdsFromCaseCGJunNegativeTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
         Decimal cgSironoId = 123456;
@@ -224,11 +224,7 @@ public with sharing class ChargeGroupDaoTest {
         chargeGroup.Sirono_ID__c = cgSironoId;
         INSERT chargeGroup;
 
-        Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType: [SELECT Id, Name FROM RecordType WHERE sObjectType = 'Case']) {
-            caseRecordTypeMap.put(recordType.Name, recordType.Id);
-        }
-        Case objCase = TestUtility.generateCase(caseRecordTypeMap.get('Automated Cases'), Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
+        Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
         INSERT objCase;
 
         Test.startTest();
@@ -243,7 +239,7 @@ public with sharing class ChargeGroupDaoTest {
      * This method tests the logic of getCGBasedOnGuarantor method Positive.
      **/
     @isTest
-    public static void getCGBasedOnGuarantorPositiveTest(){
+    public static void getCGBasedOnGuarantorPositiveTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
@@ -252,7 +248,7 @@ public with sharing class ChargeGroupDaoTest {
         INSERT chargeGroup;
 
         Test.startTest();
-        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnGuarantor(new Set<Id>{guarantorContact.Id});
+        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnGuarantor(new Set<Id> { guarantorContact.Id });
         Test.stopTest();
 
         // Check system assert.
@@ -264,7 +260,7 @@ public with sharing class ChargeGroupDaoTest {
      * This method tests the logic of getCGBasedOnGuarantor method negative.
      **/
     @isTest
-    public static void getCGBasedOnGuarantorNegativeTest(){
+    public static void getCGBasedOnGuarantorNegativeTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
@@ -273,7 +269,7 @@ public with sharing class ChargeGroupDaoTest {
         INSERT chargeGroup;
 
         Test.startTest();
-        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnGuarantor(new Set<Id>{guarantorContact.Id});
+        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnGuarantor(new Set<Id> { guarantorContact.Id });
         Test.stopTest();
 
         // Check system assert.
@@ -284,7 +280,7 @@ public with sharing class ChargeGroupDaoTest {
      * This method tests the logic of getCGBasedOnEncounter method positive.
      **/
     @isTest
-    public static void getCGBasedOnEncounterPositiveTest(){
+    public static void getCGBasedOnEncounterPositiveTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
@@ -296,7 +292,7 @@ public with sharing class ChargeGroupDaoTest {
         INSERT chargeGroup;
 
         Test.startTest();
-        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnEncounter(new Set<Id>{encounter.Id});
+        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnEncounter(new Set<Id> { encounter.Id });
         Test.stopTest();
 
         // Check system assert.
@@ -308,7 +304,7 @@ public with sharing class ChargeGroupDaoTest {
      * This method tests the logic of getCGBasedOnEncounter method negative.
      **/
     @isTest
-    public static void getCGBasedOnEncounterNegativeTest(){
+    public static void getCGBasedOnEncounterNegativeTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
@@ -319,7 +315,7 @@ public with sharing class ChargeGroupDaoTest {
         INSERT chargeGroup;
 
         Test.startTest();
-        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnEncounter(new Set<Id>{encounter.Id});
+        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnEncounter(new Set<Id> { encounter.Id });
         Test.stopTest();
 
         // Check system assert.
@@ -330,7 +326,7 @@ public with sharing class ChargeGroupDaoTest {
      * This method tests the logic of getCGBasedOnGuarantorAndPreCollDate method.
      **/
     @isTest
-    public static void getCGBasedOnGuarantorAndPreCollDateTest(){
+    public static void getCGBasedOnGuarantorAndPreCollDateTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
         Date preCollDate = System.today().addDays(-5);
@@ -344,7 +340,7 @@ public with sharing class ChargeGroupDaoTest {
         INSERT chargeGroup1;
 
         Test.startTest();
-        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnGuarantorAndPreCollDate(new List<Contact>{guarantorContact}, preCollDate);
+        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnGuarantorAndPreCollDate(new List<Contact> { guarantorContact }, preCollDate);
         Test.stopTest();
 
         // Check system assert.
@@ -356,7 +352,7 @@ public with sharing class ChargeGroupDaoTest {
      * This method tests the logic of getCGForInvoiceController method with Order by.
      **/
     @isTest
-    public static void getCGForInvoiceControllerWithOrderByTest(){
+    public static void getCGForInvoiceControllerWithOrderByTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
@@ -369,7 +365,7 @@ public with sharing class ChargeGroupDaoTest {
         Test.setCreatedDate(chargeGroup1.Id, System.now().addDays(-5));
 
         Test.startTest();
-        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGForInvoiceController(new Set<Id>{chargeGroup.Id, chargeGroup1.Id}, true);
+        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGForInvoiceController(new Set<Id> { chargeGroup.Id, chargeGroup1.Id }, true);
         Test.stopTest();
 
         // Check system assert.
@@ -380,7 +376,7 @@ public with sharing class ChargeGroupDaoTest {
      * This method tests the logic of getCGForInvoiceController method without Order by.
      **/
     @isTest
-    public static void getCGForInvoiceControllerWithoutOrderByTest(){
+    public static void getCGForInvoiceControllerWithoutOrderByTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
@@ -393,7 +389,7 @@ public with sharing class ChargeGroupDaoTest {
         Test.setCreatedDate(chargeGroup1.Id, System.now().addDays(-5));
 
         Test.startTest();
-        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGForInvoiceController(new Set<Id>{chargeGroup.Id, chargeGroup1.Id}, false);
+        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGForInvoiceController(new Set<Id> { chargeGroup.Id, chargeGroup1.Id }, false);
         Test.stopTest();
 
         // Check system assert.
@@ -404,7 +400,7 @@ public with sharing class ChargeGroupDaoTest {
      * This method tests the logic of getCGBasedOnGuarantorFilterByStatus method Positive.
      **/
     @isTest
-    public static void testGetByGuarantorAndSubStatus(){
+    public static void testGetByGuarantorAndSubStatus() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
@@ -417,7 +413,7 @@ public with sharing class ChargeGroupDaoTest {
         INSERT chargeGroup1;
 
         Test.startTest();
-        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getByGuarantorAndSubStatus(new Set<Id>{guarantorContact.Id}, new Set<String>{Constants.ACCT_SUBSTATUS_OVERDUE});
+        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getByGuarantorAndSubStatus(new Set<Id> { guarantorContact.Id }, new Set<String> { Constants.ACCT_SUBSTATUS_OVERDUE });
         Test.stopTest();
 
         // Check system assert.
@@ -429,7 +425,7 @@ public with sharing class ChargeGroupDaoTest {
      * This method tests the logic of getCGBasedOnGuarantorFilterByStatus method negative.
      **/
     @isTest
-    public static void testGetByGuarantorAndSubStatusNegative(){
+    public static void testGetByGuarantorAndSubStatusNegative() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
@@ -442,7 +438,7 @@ public with sharing class ChargeGroupDaoTest {
         INSERT chargeGroup1;
 
         Test.startTest();
-        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getByGuarantorAndSubStatus(new Set<Id>{guarantorContact.Id}, new Set<String>{Constants.ACCT_SUBSTATUS_OVERDUE});
+        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getByGuarantorAndSubStatus(new Set<Id> { guarantorContact.Id }, new Set<String> { Constants.ACCT_SUBSTATUS_OVERDUE });
         Test.stopTest();
 
         // Check system assert.
@@ -454,8 +450,10 @@ public with sharing class ChargeGroupDaoTest {
      **/
     @isTest
     static void checkAccessRightsForRead() {
-        List<ChargeGroupSecurityContext> allContexts = new List<ChargeGroupSecurityContext>{ChargeGroupSecurityContext.SELECT_CONTEXT,
-                ChargeGroupSecurityContext.GD_SELECT_CONTEXT, ChargeGroupSecurityContext.IU_SELECT_CONTEXT
+        List<ChargeGroupSecurityContext> allContexts = new List<ChargeGroupSecurityContext> {
+            ChargeGroupSecurityContext.SELECT_CONTEXT,
+            ChargeGroupSecurityContext.GD_SELECT_CONTEXT,
+            ChargeGroupSecurityContext.IU_SELECT_CONTEXT
         };
 
         System.runAs(TestUtility.generateChatterOnlyUser()) {

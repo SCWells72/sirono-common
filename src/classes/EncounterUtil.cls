@@ -1,10 +1,12 @@
-/**
-  * Utility class for setting the Total_Payments and BilledChargeGroupCount
-  *
-  *
-  * These methods are invoked when either a Charge_Group or Payment's Encounter changes
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
-//TODO remove without sharing
+
+/**
+ * Utility class for setting the Total_Payments and BilledChargeGroupCount
+ * These methods are invoked when either a Charge_Group or Payment's Encounter changes
+ * TODO: remove without sharing
+ */
 public without sharing class EncounterUtil {
 
     private static String ENCOUNTERID = 'encounterId';

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
 	getAdjustedPaymentInfo: function(paymentInfo, params) {
 		var invoices = params.invoices || [];

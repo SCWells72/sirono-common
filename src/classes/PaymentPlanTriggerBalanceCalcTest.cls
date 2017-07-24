@@ -1,7 +1,5 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 09-01-2016
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
 @isTest
@@ -21,7 +19,7 @@ public class PaymentPlanTriggerBalanceCalcTest {
         cg1 = TestUtility.generateChargeGroup(g.Id, null, 1214);
         insert cg1;
 
-        txn = TestUtility.generateTransaction(cg1, 2300, 'Service');
+        txn = TestUtility.generateTransaction(cg1, 2300, Constants.SERVICE);
         insert txn;
     }
 
@@ -68,8 +66,8 @@ public class PaymentPlanTriggerBalanceCalcTest {
         Test.stopTest();
 
         //Get the db values to compare
-        Transaction__c[] txns = new Transaction__c[]{
-                txn, txn2
+        Transaction__c[] txns = new Transaction__c[] {
+            txn, txn2
         };
         AggregateResult[] sums = [SELECT SUM(Amount__c)tot FROM Transaction__c WHERE Id IN :txns];
         pp = [SELECT Id, Remaining_Balance__c FROM Payment_Plan__c WHERE Id = :pp.Id];

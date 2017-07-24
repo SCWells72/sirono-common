@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
 	doInit : function (component, event, helper) {
 		var isOnPaymentsPage = component.get('v.isOnPaymentsPage');

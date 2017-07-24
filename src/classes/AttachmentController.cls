@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 //TODO why doesn't this have sharing?
 public class AttachmentController {
     

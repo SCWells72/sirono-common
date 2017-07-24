@@ -1,9 +1,10 @@
 /*
-* @author: Sirono
-* @version 1.0.1
-* @Date: 05-03-2016
-* @description An apex page controller that takes the user to the right start page based on credentials or lack thereof
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+/**
+ * An apex page controller that takes the user to the right start page based on credentials or lack thereof
+ */
 public with sharing class CommunitiesLandingController {
 
     //Code we will invoke on page load.

@@ -1,8 +1,7 @@
 /*
-* @author Sirono
-* @version 1.0.1
-* @date   07-12-2016
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 public with sharing class ViewStatementExtension {
     public Statement__c stmt {get; set;}
     public String errorMsg {get; set;}

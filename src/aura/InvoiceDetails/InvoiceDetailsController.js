@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
 	showDetails : function (component, event, helper) {
 		var tileId = event.getParam('tileId');

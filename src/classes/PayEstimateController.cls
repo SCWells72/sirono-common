@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * PayEstimateController is a virtual class 
  * that is used by PayEstimateVFController and PayEstimateLightningController classes.

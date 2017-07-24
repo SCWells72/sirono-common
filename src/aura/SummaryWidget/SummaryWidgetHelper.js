@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
 	getAllHeaderInfo : function(component) {
 		var action = component.get("c.getAllHeaderInfo");

@@ -1,12 +1,5 @@
 /*
- * @author Sirono 
- * @version 1.0.1
- * @Date: 05-20-2016
- * @description
- * Mohan Kumar 08-01-2016: Ticket # 06638016 - Updated the QueryString parameter value to fix the "URL No Longer Exists" error.
- * Mohan Kumar 08-02-2016: Ticket # 06638015 - Updated the request parameter value to send the Sirono External ID and NOT salesforce record Id.
- * Viraj Rana 10-12-2016: Ticket # 129177479 - Cancel Payment Plan in SF: Get the response parameter account_status and account_sub_status
- * and update it to the Charge group account_status and account_sub_status.
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
 public with sharing class DeletePaymentPlan {

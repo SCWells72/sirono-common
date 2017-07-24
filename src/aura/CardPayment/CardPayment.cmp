@@ -1,3 +1,7 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
 <aura:component controller="MakeAPaymentController">
     <aura:attribute name="listOfIds"            type="String[]" />
     <aura:attribute name="invoiceId"            type="String" />
@@ -10,7 +14,7 @@
     <aura:attribute name="messages"             type="String[]" />
     <aura:attribute name="IsIcon"               type="Boolean"  default="false"/>    
     <aura:attribute name="IsIcon2"              type="Boolean"  default="false"/>    
-    <aura:attribute name="cardInformation"      type="MakeAPaymentController.CardInformation" />
+    <aura:attribute name="cardInformation"      type="CardInformation" />
     <aura:attribute name="UserInfo" type="Object" default="{	NameOnCard : '',
                                                                 CardNumber : '',
                                                                 CW : '',

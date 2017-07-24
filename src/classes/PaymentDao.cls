@@ -1,7 +1,11 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Payment DAO for Payment object SOQL/DML operations
+ * TODO fix our sharing model
  */
-//TODO fix our sharing model
 public without sharing class PaymentDao {
 	/**
 	 * This method is used to Insert Payment record.

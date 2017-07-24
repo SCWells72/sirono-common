@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
     getAllInvoices: function (component) {
         var action = component.get("c.getAllInvoices");

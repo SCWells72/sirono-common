@@ -1,10 +1,10 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 05-23-2016
- * @PaymentPlanGoodStandingTest Test Class for the Code Covrege of PaymentPlanGoodStanding Class.
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
+/**
+ * Test class for PaymentPlanGoodStanding.
+ */
 @isTest
 public class PaymentPlanGoodStandingTest {
 

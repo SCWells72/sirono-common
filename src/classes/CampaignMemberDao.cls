@@ -1,8 +1,34 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * CampaignMemberDao for CampaignMember object SOQL/DML operations
  **/
-
 public with sharing class CampaignMemberDao extends AbstractDao {
+
+
+    /**
+     *  Helper methods invoked from the TriggerHandlers to keep the system in a valid state
+     *  Because this work could be triggered by a portal user creating a payment plan, no FLS/CRUD checks
+     *  are done here
+     */
+    public without sharing class ElevatedPrivilegesHelper {
+        //Remove these Campaign Members for the specified campaign
+        public void removeFromCampaign(String campaignName, Set<Id> contactIds) {
+
+            List<CampaignMember> membersToRemove = new List<CampaignMember>([
+                    SELECT Id, ContactId, CampaignId
+                    FROM CampaignMember
+                    WHERE ContactId IN :contactIds
+                    AND Campaign.Name = :campaignName
+            ]);
+
+            if (!membersToRemove.isEmpty()) {
+                DELETE membersToRemove;
+            }
+        }
+    }
 
     /**
      * Get the campaign and campaign member records based on contact.

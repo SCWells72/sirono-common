@@ -1,8 +1,10 @@
 /*
-* Controller for adding selected chargegroups to a payment plan
-*
-*/
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
 
+/**
+ * Controller for adding selected chargegroups to a payment plan
+ */
 public with sharing class AddToPaymentPlanVF extends AddToPaymentPlan {
 
     public AddToPaymentPlanVF() {

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 ({
 	getAllHeaderInfo : function(component, helper) {
 		helper.getDataFromHeader(component, helper);

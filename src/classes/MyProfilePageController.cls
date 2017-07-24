@@ -1,11 +1,10 @@
 /*
- * @author Sirono
- * @version 1.0.1
- * @Date: 05-03-2016
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+/**
  * An apex class that keeps updates of a portal user in sync with its corresponding contact.
    Guest users are never able to access this page.
-
- * 14/09/2016 commented the code since it is not used into community/site for any business requirement
  */
 public with sharing class MyProfilePageController {
 

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * PaymentTabsController used by various Lightning components.
  */
@@ -102,7 +106,8 @@ public without sharing class PaymentTabsController {
         String sironoPaymentPlanId = ppInfoMap.containsKey('sironoPaymentPlanId') ? String.valueOf(ppInfoMap.get('sironoPaymentPlanId')) : '';
 
         if (String.isBlank(sironoPaymentPlanId)) {
-            throw new AuraHandledException('sironoPaymentPlanId must be provided.');
+            System.debug('sironoPaymentPlanId must be provided.');
+            throw new AuraHandledException('An Error has occurred, please contact support.');
         }
         try {
             paymentPlan = PaymentPlanService.updateAutoPaymentPlanTerms(sironoPaymentPlanId, planInfo);
@@ -115,188 +120,19 @@ public without sharing class PaymentTabsController {
 
     }
 
-    @AuraEnabled
-    public static void deletePaymentPlan(String sfPaymentPlanId) {
-        System.debug('deletePaymentPlan');
-        Payment_Plan__c paymentPlan = PaymentPlanService.getPaymentPlan(sfPaymentPlanId);
-        String guarantorId = paymentPlan.Guarantor__c;
-        String paymentPlanExtId = String.valueOf(paymentPlan.Sirono_ID__c);
-
-        //call Delete PaymentPlan and send the request to end point.
-        if (String.isNotBlank(paymentPlanExtId)) {
-            String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
-            String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
-            if (csrfToken != null && jwtToken != null) {
-                PaymentTabsController.doDeletePaymentPlan(csrfToken, jwtToken, guarantorId, paymentPlanExtId);
-            }
-        } else {
-            throw new AuraHandledException('Payment Plan Id is missing.');
-        }
-    }
-
-    /*Mohan Kumar 08-02-2016: Ticket # 06638015 -
-     *Updated the request parameter value to send the Sirono External ID and NOT salesforce record Id.
+    /**
+     * Method called from lightning components in order to delete a payment plan.
+     *
+     * @param String paymentPlanId - The id of the payment plan to delete.
      */
-    private static void doDeletePaymentPlan(String csrfToken, String jwtToken, String guarantorId, String paymentPlanExtId) {
-        PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper = PaymentTabsController.callPaymentPlanRequest(csrfToken, jwtToken, guarantorId, paymentPlanExtId);
-        HttpRequest req = new HttpRequest();
-        req.setMethod('DELETE');
-        req.setHeader('Authorization', 'JWT ' + jwtToken);
-        req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/' + PayStaffWSUtill.trimCommas(paymentPlanExtId) + '/');
-
-        HttpResponse res = new HttpResponse();
-        String responseBody;
+    @AuraEnabled
+    public static void deletePaymentPlan(String paymentPlanId) {
         try {
-            res = new Http().send(req);
-            responseBody = res.getBody();
-            System.debug('responseBody:' + responseBody);
+            PaymentPlanService.removePaymentPlan(paymentPlanId);
         } catch (Exception e) {
-            throw new AuraHandledException('PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() + ' EXCEPTION:: ' + e.getMessage());
+            System.debug('Error occurred attempting to delete payment plan: ' + e.getMessage());
+            throw new AuraHandledException('An error has occurred, please contact support.');
         }
-
-        if (res.getStatusCode() != null && res.getStatusCode() == 204) {
-            if (objPaymentPlanWrapper != null) {
-                List<Charge_Group__c> chargeGroups = objPaymentPlanWrapper.chargeGroupRecords;
-                objPaymentPlanWrapper = PaymentTabsController.callPaymentPlanRequest(csrfToken, jwtToken, guarantorId, paymentPlanExtId);
-                Payment_Plan__c paymentPlanObj = new Payment_Plan__c();
-                paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
-                paymentPlanObj.Active__c = false;
-                paymentPlanObj.Cancellation_Date__c = System.today();
-
-                Boolean hasError = false;
-                for (Charge_Group__c cg : chargeGroups) {
-                    hasError = PaymentTabsController.callChargeGroupRequest(String.valueof(cg.Sirono_ID__c), jwtToken, cg);
-                }
-                if (!hasError) {
-                    UPDATE paymentPlanObj;
-                    // Update the Charge Groups using ChargeGroupService.
-                    ChargeGroupService.updateChargeGroupsWithStatus(chargeGroups);
-                }
-                return;
-            }
-        }
-
-        throw new AuraHandledException('RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody);
-    }
-
-    /*
-    * 09-22-2016: Viraj Rana - Tracker #129177479
-    *  Call the paymentplan Web Service to get the paymentplan information.
-    */
-    private static PaymentPlanJSONParsing.PaymentPlanWrapper callPaymentPlanRequest(String csrfToken, String jwtToken, String guarantorId, String paymentPlanExtId) {
-        HttpRequest req = new HttpRequest();
-        req.setMethod('GET');
-        req.setHeader('Authorization', 'JWT ' + jwtToken);
-        req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/' + PayStaffWSUtill.trimCommas(paymentPlanExtId) + '/');
-        req.setTimeout(120000);
-
-        String responseBody;
-        HttpResponse res = new HttpResponse();
-        try {
-            res = new Http().send(req);
-            responseBody = res.getBody();
-        } catch (Exception e) {
-            throw new AuraHandledException('ERROR: ' + e.getMessage());
-        }
-        if (res.getStatusCode() != null && res.getStatusCode() == 200) {
-            /*
-            * 09-22-2016: Viraj Rana - Tracker # 129177479
-            * parse the Payment Plan JSON and Make a new request to get the charge group detailsyment Plan
-            */
-            return PaymentPlanJSONParsing.createPaymentPlanRecord(responseBody, guarantorId, null, null);
-        } else {
-            throw new AuraHandledException('RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody);
-        }
-        return null;
-    }
-
-    /*
-    * 09-22-2016: Viraj Rana - Tracker # 129177479
-    * make a Charge group Reqeuest to get the chargeGroupInformation
-    */
-    private static Boolean callChargeGroupRequest(String chargeGroupId, String jwtToken, Charge_Group__c cg) {
-        System.debug('callChargeGroupRequest');
-        Boolean hasError = false;
-        HttpRequest req = new HttpRequest();
-        req.setMethod('GET');
-        req.setHeader('Authorization', 'JWT ' + jwtToken);
-        req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/chargegroups/' + PayStaffWSUtill.trimCommas(chargeGroupId) + '/');
-        req.setTimeout(120000);
-
-        String responseBody;
-        HttpResponse res = new HttpResponse();
-        try {
-            res = new Http().send(req);
-            responseBody = res.getBody();
-            System.debug('res:' + res);
-            System.debug('responseBody:' + responseBody);
-        } catch (Exception e) {
-            throw new AuraHandledException('PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() + ' EXCEPTION:: ' + e.getMessage());
-        }
-        if (res.getStatusCode() != null && res.getStatusCode() == 200) {
-            /*
-            * 09-22-2016: Viraj Rana - Tracker # 129177479
-            * parse the chargroup json and UPDATE the sub status
-            * 10-12-2016: Viraj Rana - Tracker # 129177479
-            * Update the Account_Sub_Status__c and Account_Status__c.
-            */
-            ChargeGroupJSONParsing objChargeGroup = ChargeGroupJSONParsing.parse(responseBody);
-            cg.Account_Sub_Status__c = objChargeGroup.account_sub_status;
-            cg.Account_Status__c = objChargeGroup.account_status;
-            cg.Payment_Plan__c = null;
-        } else {
-            hasError = true;
-            throw new AuraHandledException('RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody);
-        }
-        return hasError;
-    }
-
-    private static String getErrorMessage(String responseBody, HttpResponse res) {
-        String errorMessage = '';
-        if (responseBody.contains('non_field_errors') && responseBody.contains('Validation exception')) {
-            JSONParser parser = JSON.createParser(responseBody);
-            WrapperErrorArray wrpPaymentPlanobj = (WrapperErrorArray) parser.readValueAs(WrapperErrorArray .class);
-            if (wrpPaymentPlanobj != null && wrpPaymentPlanobj.errors.size() > 0) {
-                for (WrapperErrorArray.Errors obj : wrpPaymentPlanobj.errors) {
-                    errorMessage += '\n' + obj.non_field_errors;
-                }
-            }
-        } else if (responseBody.contains('non_field_errors') && responseBody.contains('Payments Exception')) {
-            JSONParser parser = JSON.createParser(responseBody);
-            WrapperError wrpPaymentPlanobj = (WrapperError) parser.readValueAs(WrapperError.class);
-            if (wrpPaymentPlanobj != null && wrpPaymentPlanobj.errors.non_field_errors.size() > 0) {
-                for (String strMessage : wrpPaymentPlanobj.errors.non_field_errors) {
-                    errorMessage += '\n' + strMessage;
-                }
-            }
-        } else if (responseBody.contains('kind') && !responseBody.contains('chargegroups')) {
-            JSONParser parser = JSON.createParser(responseBody);
-            WrapperListError wrpobj = (WrapperListError) parser.readValueAs(WrapperListError.class);
-            if (wrpobj != null && wrpobj.errors.size() > 0) {
-                for (String strMessage : wrpobj.errors) {
-                    errorMessage += '\n' + strMessage;
-                }
-            }
-        }
-        //else if (responseBody.contains('kind') && responseBody.contains('chargegroups'))
-        //{
-        //	errorMessage += '\n' + 'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody;
-        //}
-        else if (responseBody.contains('non_field_errors')) {
-            JSONParser parser = JSON.createParser(responseBody);
-            WrapperNonFieldErrorArray wrpPaymentPlanobj = (WrapperNonFieldErrorArray) parser.readValueAs(WrapperNonFieldErrorArray.class);
-            if (wrpPaymentPlanobj != null && wrpPaymentPlanobj.non_field_errors.size() > 0) {
-                for (String strMessage : wrpPaymentPlanobj.non_field_errors) {
-                    errorMessage += '\n' + strMessage;
-                }
-            }
-        } else {
-            errorMessage += '\n' + 'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody;
-        }
-        return errorMessage;
     }
 
     /**
@@ -327,14 +163,14 @@ public without sharing class PaymentTabsController {
      * Get the credit cards for the current user.
      *
      * @param Id guarantorContactId - The guarantor id.
-     * @return List<MakeAPaymnetController.CardInformation> - The card objects.
+     * @return List<CardInformation> - The card objects.
      */
     @TestVisible
-    private static List<MakeAPaymentController.CardInformation> getCreditCards(Id guarantorContactId) {
+    private static List<CardInformation> getCreditCards(Id guarantorContactId) {
 
-        List<MakeAPaymentController.CardInformation> cards = new List<MakeAPaymentController.CardInformation>();
+        List<CardInformation> cards = new List<CardInformation>();
         for (Payment_Method__c pCard: PaymentMethodService.getPaymentMethods(guarantorContactId)) {
-            cards.add(new MakeAPaymentController.CardInformation(pCard));
+            cards.add(new CardInformation(pCard));
         }
 
         return cards;
@@ -377,7 +213,7 @@ public without sharing class PaymentTabsController {
             set;
         }
         @AuraEnabled
-        public List<MakeAPaymentController.CardInformation> creditCards {
+        public List<CardInformation> creditCards {
             get;
             set;
         }
@@ -388,162 +224,8 @@ public without sharing class PaymentTabsController {
             this.hasPaymentPlan = false;
             this.addToPaymentAvail = false;
             this.chargeGroups = new List<Charge_Group__c>();
-            this.creditCards = new List<MakeAPaymentController.CardInformation>();
+            this.creditCards = new List<CardInformation>();
         }
     }
 
-    public class PaymentPlanRequestInfo {
-        @AuraEnabled
-        public String sfId {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public MakeAPaymentController.CardInformation creditCard {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public String paymentPlanId {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public Decimal totalAmount {
-            get;
-            set;
-        }
-
-        @AuraEnabled
-        public Integer totalInstallments {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public Decimal planValue {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public Integer executeOnDay {
-            get;
-            set;
-        }
-
-        @AuraEnabled
-        public String chargeGroupId {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public String sironoId {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public String contactId {
-            get;
-            set;
-        }
-
-        public PaymentPlanRequestInfo() {
-            this.creditCard = new MakeAPaymentController.CardInformation();
-        }
-    }
-
-    public class CreditCardInfo {
-        @AuraEnabled
-        public String sfId {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public String displayName {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public String cardType {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public String cardholderName {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public String expirationYear {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public String expirationMonth {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public String creditCardNumber {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public String cvv {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public String city {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public String state {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public String zip {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public String address {
-            get;
-            set;
-        }
-        @AuraEnabled
-        public Boolean isSaved {
-            get;
-            set;
-        }
-
-        public CreditCardInfo() {
-            this.isSaved = false;
-            this.cardholderName = '';
-            this.creditCardNumber = '';
-            this.expirationYear = String.valueOf(Datetime.now().year());
-            this.expirationMonth = String.valueOf(Datetime.now().month()).length() == 1 ? '0' + String.valueOf(Datetime.now().month()) : String.valueOf(Datetime.now().month());
-            this.cvv = '';
-            this.address = '';
-            this.city = '';
-            this.state = '';
-            this.zip = '';
-        }
-        public CreditCardInfo(Payment_Method__c card) {
-            this.sfId = card.Id;
-            this.cardholderName = card.Card_Holder_Name__c;
-            this.cardType = card.Card_Type__c;
-            this.displayName = card.Display_Name__c;
-            this.creditCardNumber = '****-****-****-' + card.Last_4__c;
-            this.isSaved = true;
-
-            if (card.Expiration_Date__c != null) {
-                Integer monthKey = card.Expiration_Date__c.month();
-                Integer yearKey = card.Expiration_Date__c.year();
-                this.expirationMonth = monthKey > 10 ? String.valueOf(monthKey) : '0' + String.valueOf(monthKey);
-                this.expirationYear = String.valueOf(yearKey);
-            }
-        }
-    }
 }

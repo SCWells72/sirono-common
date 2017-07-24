@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * PayEstimateLightningController class is lightning controller used in MakeAPaymentController class.
  * It is used to make a Payment of Encounter based on Guarantor Contact.

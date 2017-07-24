@@ -1,0 +1,17 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="DefaultFileTemplate" enabled="false" level="WARNING" enabled_by_default="false">
+      <option name="CHECK_FILE_HEADER" value="true" />
+      <option name="CHECK_TRY_CATCH_SECTION" value="true" />
+      <option name="CHECK_METHOD_BODY" value="true" />
+    </inspection_tool>
+    <inspection_tool class="LightningLint" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="herokuPath" value="C:/Program Files/Heroku/bin/heroku.exe" />
+    </inspection_tool>
+    <inspection_tool class="PMDApex" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="pmdPath" value="$PROJECT_DIR$/../../pmd-bin-5.7.0/bin/pmd.bat" />
+      <option name="rulesetPath" value="$PROJECT_DIR$/../../pmd-bin-5.7.0/apex-ruleset.xml" />
+    </inspection_tool>
+  </profile>
+</component>

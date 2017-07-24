@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * This Wrapper class is use to check how many Encounters select or which encounter select for Payment Process.
  **/

@@ -1,7 +1,10 @@
 /*
- * Manage creation of/access to Sirono hierarchy custom settings.
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
+/*
+ * Manage creation of/access to Sirono hierarchy custom settings.
+ */
 public with sharing class SironoSettingsUtil {
 
     public static String getServerEndpoint() {
@@ -48,40 +51,5 @@ public with sharing class SironoSettingsUtil {
         sironoSettings.NS_Dot_Prefix__c = SironoSettingsUtil.class.getName().substringBefore('SironoSettingsUtil');
         //Single token to qualify Salesforce Objects, fields & pages
         sironoSettings.NS_Bar_Prefix__c = SObjectType.Charge_Group__c.Name.substringBefore('Charge_Group__c');
-    }
-
-    /**
-     * Queries and populates the IDs used in Process Builder flows in the specified settings object.
-     *
-     * @param sironoSettings the settings object
-     */
-    public static void setProcessBuilderIds(Sirono_Settings__c sironoSettings) {
-        if (sironoSettings != null) {
-            Boolean updateRequired = false;
-
-            if (String.isBlank(sironoSettings.Business_Hours_Id__c)) {
-                // Query the default business hours
-                List<BusinessHours> businessHours = [
-                    SELECT Id
-                    FROM BusinessHours
-                    WHERE Name = 'Default'
-                    LIMIT 1
-                ];
-                if (!businessHours.isEmpty()) {
-                    sironoSettings.Business_Hours_Id__c = businessHours[0].Id;
-                    updateRequired = true;
-                }
-            }
-
-            if (String.isBlank(sironoSettings.Automated_Case_Record_Type_Id__c)) {
-                // Grab the automated case record type ID
-                sironoSettings.Automated_Case_Record_Type_Id__c = RecordTypeUtil.automatedCaseRt;
-                updateRequired = true;
-            }
-
-            if (updateRequired) {
-                upsert sironoSettings;
-            }
-        }
     }
 }

@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * Processing to occur when payments are added/updated/deleted
  */
-
 public with sharing class PaymentTriggerHandler {
 
 

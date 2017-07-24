@@ -1,7 +1,10 @@
 /*
- * Test utilities to create records.
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
+/*
+ * Test utilities to create records.
+ */
 @isTest
 public class TestUtility {
     public static String body = '{"token":"bar"}';
@@ -82,25 +85,25 @@ public class TestUtility {
 
     // Return charge group record
     public static Charge_Group__c generateChargeGroup(String guarantorContactId,
-            String patientContactId,
-            Decimal chargeGroupExternalId,
-            String paymentplanID) {
+        String patientContactId,
+        Decimal chargeGroupExternalId,
+        String paymentplanID) {
         Charge_Group__c chargeGroup = generateChargeGroup(guarantorContactId, patientContactId, chargeGroupExternalId);
         chargeGroup.Payment_Plan__c = paymentplanID;
         return chargeGroup;
     }
 
     // Return charge group record
-    public static Charge_Group__c  generateChargeGroupWithExternalId(String guarantorContactId,
-            String patientContactId,
-            Decimal chargeGroupExternalId) {
+    public static Charge_Group__c generateChargeGroupWithExternalId(String guarantorContactId,
+        String patientContactId,
+        Decimal chargeGroupExternalId) {
         return generateChargeGroup(guarantorContactId, patientContactId, chargeGroupExternalId);
     }
 
     // Return charge group record with external Id from parameter
-    Public static Charge_Group__c  generateChargeGroup(String guarantorContactId,
-                                                        String patientContactId,
-                                                        Decimal chargeGroupExternalId) {
+    public static Charge_Group__c generateChargeGroup(String guarantorContactId,
+        String patientContactId,
+        Decimal chargeGroupExternalId) {
         Charge_Group__c cg = new Charge_Group__c();
         cg.Guarantor__c = guarantorContactId;
         cg.Sirono_ID__c = getUniqueId();
@@ -110,7 +113,7 @@ public class TestUtility {
         cg.Charge_Group_External_ID__c = true;
         cg.Reported_Selfpay_Balance__c = 10;
         cg.Active__c = true;
-        cg.Account_Status__c = 'Billed';
+        cg.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PREINVOICED;
 
         return cg;
@@ -118,8 +121,8 @@ public class TestUtility {
 
     // Return transaction record
     public static Transaction__c generateTransaction(Charge_Group__c chargeGroup,
-            Decimal amount,
-            String method) {
+        Decimal amount,
+        String method) {
         Transaction__c objTransaction = new Transaction__c();
         objTransaction.Amount__c = amount == null ? 0 : amount;
         objTransaction.Charge_Group__c = chargeGroup.Id;
@@ -133,11 +136,11 @@ public class TestUtility {
 
     // Return Encounter record
     public static Encounter__c generateEncounter(String guarantorId,
-            Decimal patientPortion,
-            Date serviceDate) {
+        Decimal patientPortion,
+        Date serviceDate) {
         Encounter__c encounter = new Encounter__c(Guarantor__c = guarantorId,
-                Patient_Portion__c = patientPortion,
-                Date_of_Service__c = serviceDate);
+            Patient_Portion__c = patientPortion,
+            Date_of_Service__c = serviceDate);
         return encounter;
     }
 
@@ -145,10 +148,10 @@ public class TestUtility {
     public static Case generateCase(String rTypeId, String cType, String gId) {
         Case objCase = new Case();
         objCase.RecordTypeId = rTypeId;
-        objCase.Status = 'New';
-        objCase.Priority = 'Medium';
+        objCase.Status = Constants.CASE_STATUS_NEW;
+        objCase.Priority = Constants.CASE_PRIORITY_MEDIUM;
         objCase.Type = cType;
-        objCase.Origin = 'Email';
+        objCase.Origin = Constants.CASE_ORIGIN_EMAIL;
         objCase.Subject = cType;
         objCase.Description = 'Test';
         objCase.Guarantor_Information__c = gId;
@@ -213,26 +216,6 @@ public class TestUtility {
         return paymentMethod;
     }
 
-
-    /**
-     * Get the record types for Payment_Method__c.
-     *
-     * @return Map<String, String> - The keys are the record type names and the value is the id.
-     */
-    public static Map<String, String> getPayMethodRecordTypes() {
-        Map<String, String> recordTypeMap = new Map<String, String>();
-        for (RecordType recordType : [
-            Select Id, Name
-            From RecordType
-            Where sObjectType = :Payment_Method__c.class.getName()
-        ]) {
-            recordTypeMap.put(recordType.Name, recordType.Id);
-        }
-
-        System.assert(recordTypeMap.size() != 0);
-        return recordTypeMap;
-    }
-
     // return list of charge_group__c records
     public static List<Charge_Group__c> generateChargeGroupList(ID contID) {
         list<Charge_Group__c> lstChargeGroup = new list<Charge_Group__c>();
@@ -250,7 +233,7 @@ public class TestUtility {
         CampaignMember objcampaignMember = new CampaignMember();
         objcampaignMember.CampaignId = campaignId;
         objcampaignMember.ContactId = guarantorContactId;
-        objcampaignMember.Status = 'Sent';
+        objcampaignMember.Status = Constants.SENT;
         return objcampaignMember;
     }
 
@@ -258,8 +241,8 @@ public class TestUtility {
     public static Task generateTask(ID guarantorContactId) {
         Task objTask = new Task();
         objTask.WhoId = guarantorContactId;
-        objTask.Priority = 'Normal';
-        objTask.Status = 'New';
+        objTask.Priority = Constants.TASK_PRIORITY_NORMAL;
+        objTask.Status = Constants.TASK_STATUS_NEW;
         objTask.CallDisposition = 'Final';
         objTask.Five9__Five9Campaign__c = 'Pre-collection';
         return objTask;
@@ -277,8 +260,8 @@ public class TestUtility {
         Task objTask = new Task();
         objTask.WhoId = guarantorContactId;
         objTask.WhatId = caseId;
-        objTask.Priority = 'Normal';
-        objTask.Status = 'New';
+        objTask.Priority = Constants.TASK_PRIORITY_NORMAL;
+        objTask.Status = Constants.TASK_STATUS_NEW;
         objTask.CallDisposition = callDisposition;
         objTask.Five9__Five9Campaign__c = 'OB PreCollections';
         return objTask;
@@ -290,14 +273,14 @@ public class TestUtility {
      * @returns Integer/Exception.
      **/
     public static Integer generateException() {
-    	// We put try/catch here because of we need to check System Assert for this method.
-    	// We got this method as a Missing assert in Security Scan Report.
-    	try {
-    	    return 1 / 0;
-    	} catch (Exception ex) {
-    	    System.assert(ex.getMessage().contains('Divide by 0'), 'Should have failed due to Arithmetic Operation.');
-    	    throw ex;
-    	}
+        // We put try/catch here because of we need to check System Assert for this method.
+        // We got this method as a Missing assert in Security Scan Report.
+        try {
+            return 1 / 0;
+        } catch (Exception ex) {
+            System.assert(ex.getMessage().contains('Divide by 0'), 'Should have failed due to Arithmetic Operation.');
+            throw ex;
+        }
     }
 
     public static Decimal generateRandomCurrency() {
@@ -328,8 +311,8 @@ public class TestUtility {
 
     // Return a payment transaction
     public static Transaction__c generatePaymentTxn(Charge_Group__c chargeGroup,
-            Decimal amount,
-            Payment__c pmt) {
+        Decimal amount,
+        Payment__c pmt) {
         Transaction__c objTransaction = generateTxn(chargeGroup, amount);
         objTransaction.Payment__c = pmt.Id;
         return objTransaction;
@@ -337,8 +320,8 @@ public class TestUtility {
 
     // Return a service transaction
     public static Transaction__c generateServiceTxn(Charge_Group__c chargeGroup,
-            Decimal amount,
-            Service__c svc) {
+        Decimal amount,
+        Service__c svc) {
         Transaction__c objTransaction = generateTxn(chargeGroup, amount);
         objTransaction.Post_Date__c = System.today().addDays(-7);
         objTransaction.Service__c = svc.Id;
@@ -347,8 +330,8 @@ public class TestUtility {
 
     // Return an adjustment transaction
     public static Transaction__c generateAdjTxn(Charge_Group__c chargeGroup,
-            Decimal amount,
-            Payment_Adjustments__c adj) {
+        Decimal amount,
+        Payment_Adjustments__c adj) {
         Transaction__c objTransaction = generateTxn(chargeGroup, amount);
         objTransaction.Adjustment__c = adj.Id;
 
@@ -386,13 +369,13 @@ public class TestUtility {
     public static User generateReadOnlyUser() {
         Profile readOnlyProf = [SELECT Id FROM Profile WHERE Name = :Constants.READ_ONLY_PROFILE];
         User readOnlyUser = new User(Alias = 'readonly', Email = 'readonlyuserr@testorg.com',
-                EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
-                LocaleSidKey = 'en_US', ProfileId = readOnlyProf.Id,
-                TimeZoneSidKey = 'America/Los_Angeles', UserName = 'readonlyuserr@testorg.com');
-        
+            EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
+            LocaleSidKey = 'en_US', ProfileId = readOnlyProf.Id,
+            TimeZoneSidKey = 'America/Los_Angeles', UserName = 'readonlyuserr@testorg.com');
+
         // Check system assert.
         System.assertNotEquals(readOnlyUser, null, 'Should have failed due to user is null.');
-        
+
         return readOnlyUser;
     }
 
@@ -404,13 +387,13 @@ public class TestUtility {
     public static User generateChatterOnlyUser() {
         Profile chatterOnlyProf = [SELECT Id FROM Profile WHERE Name = :Constants.CHATTER_ONLY_USER_PROFILE];
         User chatterOnlyUser = new User(Alias = 'ctronly', Email = 'chatteronlyuserr@testorg.com',
-                EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
-                LocaleSidKey = 'en_US', ProfileId = chatterOnlyProf.Id,
-                TimeZoneSidKey = 'America/Los_Angeles', UserName = 'chatteronlyuserr@testorg.com');
-        
+            EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
+            LocaleSidKey = 'en_US', ProfileId = chatterOnlyProf.Id,
+            TimeZoneSidKey = 'America/Los_Angeles', UserName = 'chatteronlyuserr@testorg.com');
+
         // Check system assert.
         System.assertNotEquals(chatterOnlyUser, null, 'Should have failed due to user is null.');
-        
+
         return chatterOnlyUser;
     }
 
@@ -424,11 +407,11 @@ public class TestUtility {
         Profile prof = [SELECT Id FROM Profile WHERE Name = :profileName];
         String prefix = profileName.deleteWhitespace();
         prefix = prefix.substring(0, Math.min(8, prefix.length()));
-        User newUser = new User(Alias = prefix, Email = prefix+'_user@testorg.com',
-                EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
-                LocaleSidKey = 'en_US', ProfileId = prof.Id,
-                ContactId = gtId,
-                TimeZoneSidKey = 'America/Los_Angeles', UserName = prefix+'_user@testorg.com');
+        User newUser = new User(Alias = prefix, Email = prefix + '_user@testorg.com',
+            EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
+            LocaleSidKey = 'en_US', ProfileId = prof.Id,
+            ContactId = gtId,
+            TimeZoneSidKey = 'America/Los_Angeles', UserName = prefix + '_user@testorg.com');
 
         // Check system assert.
         System.assertNotEquals(newUser, null, 'Expected valid user, but is null.');
@@ -443,9 +426,34 @@ public class TestUtility {
     public static void assignPermissionSet(String psName, User newUser) {
 
         PermissionSet ps = [SELECT ID From PermissionSet WHERE Name = :psName];
-        System.assert(ps != null, 'Unable to retrieve permission set: '+psName);
+        System.assert(ps != null, 'Unable to retrieve permission set: ' + psName);
 
-        INSERT new PermissionSetAssignment(AssigneeId = newUser.Id, PermissionSetId = ps.Id );
+        INSERT new PermissionSetAssignment(AssigneeId = newUser.Id, PermissionSetId = ps.Id);
+    }
+
+    /**
+     * Creates and returns an unpersisted system administrator user.
+     *
+     * @returns a sys admin user
+     */
+    public static User getAdminUser() {
+        Profile adminProfile = [
+            SELECT Id
+            FROM Profile
+            WHERE Name = 'System Administrator'
+        ];
+        User adminUser = new User(
+            Alias = 'standt',
+            Email = 'admin@testorg.com',
+            EmailEncodingKey = 'UTF-8',
+            LastName = 'Testing',
+            LanguageLocaleKey = 'en_US',
+            LocaleSidKey = 'en_US',
+            ProfileId = adminProfile.Id,
+            TimeZoneSidKey = 'America/Los_Angeles',
+            UserName = 'admin@testorg1212.com'
+        );
+        return adminUser;
     }
 
     /**
@@ -454,23 +462,23 @@ public class TestUtility {
      * @return User - The User object assigned the profile of a user using the Guarantor Portal.
      */
     public static User getGuarantorCommunityUser() {
-        String testUsername = UserInfo.getOrganizationId()+'-'+ System.now().millisecond()+'-testGTUser@test.io';
-        String testAdminUsername = UserInfo.getOrganizationId()+'-'+System.now().millisecond() + '-testAdmin@test.com';
+        String testUsername = UserInfo.getOrganizationId() + '-' + System.now().millisecond() + '-testGTUser@test.io';
+        String testAdminUsername = UserInfo.getOrganizationId() + '-' + System.now().millisecond() + '-testAdmin@test.com';
 
         UserRole portalRole = [Select Id From UserRole Where DeveloperName = 'CEO' Limit 1];
         Profile adminProfile = [Select Id from Profile where name = 'System Administrator'];
         User portalAdminUser = new User(
-                UserRoleId = portalRole.Id,
-                ProfileId = adminProfile.Id,
-                Username = testAdminUsername,
-                Alias = 'batman',
-                Email = ADMIN_EMAIL,
-                EmailEncodingKey = 'UTF-8',
-                Firstname = 'Bruce',
-                Lastname = 'Wayne',
-                LanguageLocaleKey = 'en_US',
-                LocaleSidKey = 'en_US',
-                TimeZoneSidKey = 'America/Chicago'
+            UserRoleId = portalRole.Id,
+            ProfileId = adminProfile.Id,
+            Username = testAdminUsername,
+            Alias = 'batman',
+            Email = ADMIN_EMAIL,
+            EmailEncodingKey = 'UTF-8',
+            Firstname = 'Bruce',
+            Lastname = 'Wayne',
+            LanguageLocaleKey = 'en_US',
+            LocaleSidKey = 'en_US',
+            TimeZoneSidKey = 'America/Chicago'
         );
 
         Account a = null;
@@ -487,12 +495,12 @@ public class TestUtility {
 
         // Sometimes the user hasn't been cleared from the previous test, so if it still exists use it.
         List<User> users = [
-                SELECT Alias, Email, EmailEncodingKey, FirstName, LastName, LanguageLocaleKey,
-                        LocaleSidKey, ProfileId, ContactId,
-                        TimeZoneSidKey, Username, Contact.Profile_Pointer_ID__c
-                FROM User
-                WHERE Username = :testUsername
-                LIMIT 1
+            SELECT Alias, Email, EmailEncodingKey, FirstName, LastName, LanguageLocaleKey,
+                LocaleSidKey, ProfileId, ContactId,
+                TimeZoneSidKey, Username, Contact.Profile_Pointer_ID__c
+            FROM User
+            WHERE Username = :testUsername
+            LIMIT 1
         ];
 
         if (users.size() > 0) {
@@ -508,27 +516,27 @@ public class TestUtility {
                 Database.insert(gt);
 
                 UserRole gr = [
-                        SELECT Id, DeveloperName, PortalRole
-                        FROM UserRole
-                        WHERE DeveloperName = 'MakanaHealthCustomerUser'
-                        LIMIT 1
+                    SELECT Id, DeveloperName, PortalRole
+                    FROM UserRole
+                    WHERE DeveloperName = 'MakanaHealthCustomerUser'
+                    LIMIT 1
                 ];
 
                 usr = TestUtility.generateUser(Constants.GUARANTOR_PORTAL_PROFILE, gt.Id);
                 usr.Username = testUsername;
                 usr.PortalRole = gr.PortalRole;
 
-                System.debug('PortalRole: '+gr.PortalRole);
+                System.debug('PortalRole: ' + gr.PortalRole);
                 INSERT usr;
 
                 usr = null;
                 usr = [
-                        SELECT Id, Alias, Email, EmailEncodingKey, FirstName, LastName, LanguageLocaleKey,
-                                LocaleSidKey, ProfileId, ContactId,
-                                TimeZoneSidKey, Username, Contact.Profile_Pointer_ID__c
-                        FROM User
-                        WHERE Username = :testUsername
-                        LIMIT 1
+                    SELECT Id, Alias, Email, EmailEncodingKey, FirstName, LastName, LanguageLocaleKey,
+                        LocaleSidKey, ProfileId, ContactId,
+                        TimeZoneSidKey, Username, Contact.Profile_Pointer_ID__c
+                    FROM User
+                    WHERE Username = :testUsername
+                    LIMIT 1
                 ];
 
                 System.assertNotEquals(usr, null, 'User with username: ' + testUsername + ' not found');
@@ -545,7 +553,7 @@ public class TestUtility {
      * @return Contact - The User used to created the GuarantorCommunityUser.
      */
     public static User getPortalAdminUser() {
-        List<User> admin = [ SELECT Id FROM USER WHERE email = :ADMIN_EMAIL limit 1];
+        List<User> admin = [SELECT Id FROM USER WHERE email = :ADMIN_EMAIL limit 1];
 
         System.assert(admin.size() != 0, 'Could not find the admin user that created the community user.');
         return admin[0];
