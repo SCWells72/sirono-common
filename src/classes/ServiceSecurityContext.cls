@@ -35,6 +35,6 @@ public with sharing class ServiceSecurityContext extends SecurityContext {
      * Override getObjectType method of SecurityContext class
      **/
     public override System.Type getObjectType() {
-        return Service__c.class;
+        return Service2__c.class;
     }
 }

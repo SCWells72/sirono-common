@@ -144,7 +144,7 @@
         <label>Charge Group</label>
         <referenceTo>Charge_Group__c</referenceTo>
         <relationshipLabel>Services</relationshipLabel>
-        <relationshipName>Services</relationshipName>
+        <relationshipName>Services_OLD</relationshipName>
         <relationshipOrder>0</relationshipOrder>
         <reparentableMasterDetail>true</reparentableMasterDetail>
         <trackHistory>true</trackHistory>
@@ -250,7 +250,7 @@ TEXT(YEAR(Service_Date__c))</formula>
         <label>Provider</label>
         <referenceTo>Provider__c</referenceTo>
         <relationshipLabel>Services</relationshipLabel>
-        <relationshipName>Services</relationshipName>
+        <relationshipName>Services_OLD</relationshipName>
         <required>false</required>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
@@ -285,7 +285,7 @@ TEXT(YEAR(Service_Date__c))</formula>
         <label>Revenue Code</label>
         <referenceTo>Service_Rollup__c</referenceTo>
         <relationshipLabel>Services</relationshipLabel>
-        <relationshipName>Services</relationshipName>
+        <relationshipName>Services_OLD</relationshipName>
         <required>false</required>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
@@ -310,7 +310,7 @@ TEXT(YEAR(Service_Date__c))</formula>
         <label>Transaction (Deprecated)</label>
         <referenceTo>Transaction__c</referenceTo>
         <relationshipLabel>Transactions</relationshipLabel>
-        <relationshipName>Services</relationshipName>
+        <relationshipName>Services_OLD</relationshipName>
         <required>false</required>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>

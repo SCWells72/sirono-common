@@ -155,6 +155,30 @@ TEXT(YEAR(Service_Date__c))</formula>
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>External_Guarantor__c</fullName>
+        <description>Related External Guarantor</description>
+        <externalId>false</externalId>
+        <label>External Guarantor</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>Contact.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>External Guarantor</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>External Guarantor</relationshipLabel>
+        <relationshipName>External Guarantor</relationshipName>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
         <fullName>Guarantor__c</fullName>
         <description>Related Guarantor</description>
         <externalId>false</externalId>
@@ -169,8 +193,8 @@ TEXT(YEAR(Service_Date__c))</formula>
             <isOptional>false</isOptional>
         </lookupFilter>
         <referenceTo>Contact</referenceTo>
-        <relationshipLabel>Guarantors</relationshipLabel>
-        <relationshipName>Guarantors</relationshipName>
+        <relationshipLabel>Guarantor</relationshipLabel>
+        <relationshipName>Guarantor</relationshipName>
         <reparentableMasterDetail>true</reparentableMasterDetail>
         <required>false</required>
         <trackHistory>false</trackHistory>

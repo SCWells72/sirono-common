@@ -2780,12 +2780,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Service__c.Aggregate_ID__c</field>
+        <field>Service2__c.Aggregate_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Service__c.Amount__c</field>
+        <field>Service2__c.Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2795,52 +2795,52 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Service__c.CPT_Code_Override__c</field>
+        <field>Service2__c.CPT_Code_Override__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Service__c.CPT_Code__c</field>
+        <field>Service2__c.CPT_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Service__c.Charge_Code_Description__c</field>
+        <field>Service2__c.Charge_Code_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Service__c.Charge_Code__c</field>
+        <field>Service2__c.Charge_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Service__c.Display_Name__c</field>
+        <field>Service2__c.Display_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Service__c.Guarantor__c</field>
+        <field>Service2__c.Guarantor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Service__c.Provider__c</field>
+        <field>Service2__c.Provider__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Service__c.Quantity__c</field>
+        <field>Service2__c.Quantity__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Service__c.Service_Date__c</field>
+        <field>Service2__c.Service_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Service__c.Service_Rollup__c</field>
+        <field>Service2__c.Service_Rollup__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -147,13 +147,13 @@ public with sharing class TxnAggregationUtils {
     }
 
     private static void updateServices(Map<Id, Decimal> resultsMap) {
-        List<Service__c> services = new List<Service__c>();
+        List<Service2__c> services = new List<Service2__c>();
 
         for (Id objId : resultsMap.keySet()) {
             System.debug('svcId: ' + objId);
             System.debug('svcTotal: ' + resultsMap.get(objId));
 
-            Service__c svc = new Service__c(Id = objId);
+            Service2__c svc = new Service2__c(Id = objId);
             svc.Amount__c = resultsMap.get(objId);
             services.add(svc);
         }
