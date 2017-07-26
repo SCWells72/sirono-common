@@ -428,6 +428,7 @@ public with sharing class PaymentPlanService extends AbstractService {
      * @param String paymentPlanId - The SF payment plan to delete.
      */
     public static void removePaymentPlan(String paymentPlanId) {
+
         // Look up the SF payment plan in ordr to get the Sirono Id.
         Payment_Plan__c payPlan = getPaymentPlan(paymentPlanId);
         if (payPlan == null) {
@@ -435,16 +436,23 @@ public with sharing class PaymentPlanService extends AbstractService {
             throw new ServiceException('No Payment Plan found.');
         }
 
-        // Make the call to Sirono to delete the payment plan.
         String sironoPaymentPlanId = payPlan.Sirono_ID__c.toPlainString();
+
+        // Go get the plan from Siron pre-delete in order to have the cgs we need to update
+        PaymentPlanRestClient getRestClient = new PaymentPlanRestClient();
+        HttpResponse getRes = getRestClient.getPlan(sironoPaymentPlanId);
+
+        PaymentPlanJSONParser parser = new PaymentPlanJSONParser(getRes.getBody());
+        PaymentPlanWrapper planWithCGWrapper = parser.parseWithChargeGroups();
+
+        // Make the call to Sirono to delete the payment plan.
         PaymentPlanRestClient restClient = new PaymentPlanRestClient();
         restClient.deletePaymentPlan(sironoPaymentPlanId);
 
-        // Now retrieve the payment plan from sirono in order to get the charge groups associated with the payment plan.
-        PaymentPlanRestClient getRestClient = new PaymentPlanRestClient();
-        HttpResponse getRes = getRestClient.retrievePaymentPlan(sironoPaymentPlanId);
+        // Now retrieve the payment plan from sirono in order to update the SF Plan record
+        HttpResponse getPostDeleteRes = getRestClient.retrievePaymentPlan(sironoPaymentPlanId);
 
-        PaymentPlanJSONParser parser = new PaymentPlanJSONParser(getRes.getBody());
+        parser = new PaymentPlanJSONParser(getPostDeleteRes.getBody());
         PaymentPlanWrapper wrapper = parser.parseWithChargeGroups();
 
         // Update the SF object for the deleted plan.
@@ -453,9 +461,9 @@ public with sharing class PaymentPlanService extends AbstractService {
         deletedPlan.Cancellation_Date__c = System.today();
 
         // Go get the charge groups from the Sirono server in order to update the associated SF records.
-        List<Charge_Group__c> cgs = wrapper.chargeGroupRecords;
-
+        List<Charge_Group__c> cgs = planWithCGWrapper.chargeGroupRecords;
         List<Decimal> cgSironoIds = ChargeGroupService.getSironoIds(cgs);
+
         // Get the charge groups from the Sirono service.
         Map<Decimal, ChargeGroupJSONParser> cgWrappers = ChargeGroupService.retrieveMapByIds(cgSironoIds);
 
@@ -475,7 +483,6 @@ public with sharing class PaymentPlanService extends AbstractService {
         // Finally persist the SF PaymentPlan and ChargeGroups
         PaymentPlanDao.upsertPlan(deletedPlan);
         ChargeGroupService.updateChargeGroupsWithStatus(cgs);
-
     }
 
     /**

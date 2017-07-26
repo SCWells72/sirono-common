@@ -8,6 +8,8 @@
 @isTest
 global class MockHttpResponseGenerator implements HttpCalloutMock {
 
+    // Track if the mock plan has been deleted
+    private static Boolean hasBeenDeleted = false;
     /**
      * This method generates & returns HttpResponse for provided HTTPRequest.
      **/
@@ -29,10 +31,14 @@ global class MockHttpResponseGenerator implements HttpCalloutMock {
                 //Do nothing
             } else if (req.getMethod() == RestClientConstants.REMOVE) {
                 res.setStatusCode(RestClientConstants.HTTP_DELETED);
+                hasBeenDeleted = true;
             } else {
                 res.setBody(getPaymentPlanJSONBody());
             }
 
+            if (hasBeenDeleted) {
+                String jsonBody = getPaymentPlanJSONBody();
+            }
             return res;
 
         }
@@ -68,7 +74,7 @@ global class MockHttpResponseGenerator implements HttpCalloutMock {
     private static String planSironoId = '2876';
 
     public static String getPaymentPlanJSONBody() {
-        return '{' +
+        String body = '{' +
             '   "url": "http://127.0.0.1:8000/paystaff/api/paymentplan/' + planSironoId + '/",' +
             '   "active": true,' +
             '   "installment_amount": 5000,' +
@@ -88,13 +94,21 @@ global class MockHttpResponseGenerator implements HttpCalloutMock {
             '   "has_error": false,' +
             '   "charges_added_since_start": null,' +
             '   "error_date": null, ' +
-            '   "chargegroups": ["http://127.0.0.1:8000/paystaff/api/chargegroups/123456/", "http://127.0.0.1:8000/paystaff/api/chargegroups/12345/"],' +
             '   "delinquent": false,' +
             '   "delinquent_date": null, ' +
             '   "encounters": [],' +
             '   "authorized_amount": 0,' +
             '   "skip_payment_until": null,' +
-            '   "status":"started"' +
-            '}';
+            '   "status":"started",';
+
+        // If the delete call hasn't been made include the charge groups
+        if (!hasBeenDeleted) {
+            body += '"chargegroups": ["http://127.0.0.1:8000/paystaff/api/chargegroups/123456/", "http://127.0.0.1:8000/paystaff/api/chargegroups/12345/"]';
+        } else {
+            body += '"chargegroups": []';
+        }
+
+        body += '}';
+        return body;
     }
 }
