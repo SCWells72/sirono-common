@@ -3,115 +3,133 @@
  */
 
 .THIS input[type=range] {
-  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
-  width: 100%; /* Specific width is required for Firefox. */
-  background: transparent; /* Otherwise white in Chrome */
+    -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+    width: 100%; /* Specific width is required for Firefox. */
+    background: transparent; /* Otherwise white in Chrome */
 }
+
 .THIS input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
+    -webkit-appearance: none;
 }
+
 .THIS input[type=range]:focus {
-  outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+    outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
 }
+
 .THIS input[type=range]::-ms-track {
-  width: 100%;
-  cursor: pointer;
-  /* Hides the slider so custom styles can be added */
-  background: transparent; 
-  border-color: transparent;
-  color: transparent;
+    width: 100%;
+    cursor: pointer;
+    /* Hides the slider so custom styles can be added */
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
 }
+
 /* styling thumb */
 .THIS input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  cursor: pointer;
-  border-radius: 100%;
-  background: #3E99BE;
-  border: 5px solid #d8dde6;
-  height: 8px;
-  width: 8px;
-  padding: 7px;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-  margin-top: -6px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+    -webkit-appearance: none;
+    cursor: pointer;
+    border-radius: 100%;
+    background: #3E99BE;
+    border: 5px solid #d8dde6;
+    height: 8px;
+    width: 8px;
+    padding: 7px;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    margin-top: -6px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
 }
+
 /* All the same stuff for Firefox */
 .THIS input[type=range]::-moz-range-thumb {
-  cursor: pointer;
-  border-radius: 100%;
-  background: #3E99BE;
-  border: 5px solid #d8dde6;
-  height: 8px;
-  width: 8px;
-  padding: 7px;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
+    cursor: pointer;
+    border-radius: 100%;
+    background: #3E99BE;
+    border: 5px solid #d8dde6;
+    height: 8px;
+    width: 8px;
+    padding: 7px;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
 }
+
 /* All the same stuff for IE */
 .THIS input[type=range]::-ms-thumb {
-  cursor: pointer;
-  border-radius: 100%;
-  background: #3E99BE;
-  border: 5px solid #d8dde6;
-  height: 8px;
-  width: 8px;
-  padding: 7px;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
+    cursor: pointer;
+    border-radius: 100%;
+    background: #3E99BE;
+    border: 5px solid #d8dde6;
+    height: 8px;
+    width: 8px;
+    padding: 7px;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
 }
+
 /* styling track*/
 .THIS input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 10px;
-  cursor: pointer;
-  background: #3E99BE;
-  border-radius: 10px;
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    background: #3E99BE;
+    border-radius: 10px;
 }
+
 .THIS input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #3E99BE;
+    background: #3E99BE;
 }
+
 .THIS input[type=range]::-moz-range-track {
-  width: 100%;
-  height: 10px;
-  cursor: pointer;
-  background: #3E99BE;
-  border-radius: 10px;
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    background: #3E99BE;
+    border-radius: 10px;
 }
+
 .THIS input[type=range]::-ms-track {
-  width: 100%;
-  height: 10px;
-  cursor: pointer;
-  background: transparent;
-  border-color: transparent;
-  border-width: 16px 0;
-  color: transparent;
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    border-width: 16px 0;
+    color: transparent;
 }
+
 .THIS input[type=range]::-ms-fill-lower {
-  background: #3E99BE;
-  border-radius: 10px;
+    background: #3E99BE;
+    border-radius: 10px;
 }
+
 .THIS input[type=range]:focus::-ms-fill-lower {
-  background: #3E99BE;
+    background: #3E99BE;
 }
+
 .THIS input[type=range]::-ms-fill-upper {
-  background: #3E99BE;
-  border-radius: 10px;
+    background: #3E99BE;
+    border-radius: 10px;
 }
+
 .THIS input[type=range]:focus::-ms-fill-upper {
-  background: #3E99BE;
+    background: #3E99BE;
 }
+
 .THIS .txt_h2 {
-  display: inline-flex;  
+    display: inline-flex;
 }
-.THIS .grid.high-low.range_slider{
-    margin-top:7px; 
+
+.THIS .grid.high-low.range_slider {
+    margin-top: 7px;
 }
+
 .THIS .payment-plan-day--select label {
-  display: none;
+    display: none;
 }
+
 .THIS .slds-popover--tooltip {
-    width:20rem;
+    width: 20rem;
 }

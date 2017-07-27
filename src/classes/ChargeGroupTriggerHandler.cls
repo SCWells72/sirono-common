@@ -47,7 +47,7 @@ public with sharing class ChargeGroupTriggerHandler {
             Map<Id, Payment_Plan__c> plansToUpdate = PaymentPlanUtil.setBalanceAndCharges(paymentPlanIds);
             if (plansToUpdate.size() > 0) {
                 if (PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT.actionAllowed()) {
-                    UPDATE plansToUpdate.values();
+                    update plansToUpdate.values();
                 }
             }
         }
@@ -67,7 +67,7 @@ public with sharing class ChargeGroupTriggerHandler {
     public static void afterUpdate(List<Charge_Group__c> newList, Map<Id, Charge_Group__c> oldMap) {
 
         //CODE FOR CALL LIST - REMOVE
-        Set<ID> contactIds = new Set<Id>();
+        Set<Id> contactIds = new Set<Id>();
         //Collect Ids of the PaymentPlans to recalc their balances
         Set<Id> paymentPlanIds = new Set<Id>();
         Set<Id> invoiceIds = new Set<Id>();
@@ -77,8 +77,8 @@ public with sharing class ChargeGroupTriggerHandler {
             Charge_Group__c oldCG = oldMap.get(cg.Id);
 
             if (cg.Pre_Collection_Sent__c == null && cg.Guarantor__c != null
-                    && (oldMap == null || cg.Pre_Collection_Sent__c != oldCG.Pre_Collection_Sent__c
-                    || cg.Guarantor__c != oldCG.Guarantor__c)) {
+                && (oldMap == null || cg.Pre_Collection_Sent__c != oldCG.Pre_Collection_Sent__c
+                || cg.Guarantor__c != oldCG.Guarantor__c)) {
                 contactIds.add(cg.Guarantor__c);
             }
 
@@ -105,7 +105,7 @@ public with sharing class ChargeGroupTriggerHandler {
                     //Did the encounter change?
                     if (cg.Encounter__c != oldCG.Encounter__c) {
                         //Add any that are billed
-                        if (cg.Account_Status__c == Constants.ACCT_STATUS_BILLED){
+                        if (cg.Account_Status__c == Constants.ACCT_STATUS_BILLED) {
                             encounterIds.add(cg.Encounter__c);
                         }
                         if (oldCG.Account_Status__c == Constants.ACCT_STATUS_BILLED) {
@@ -114,7 +114,7 @@ public with sharing class ChargeGroupTriggerHandler {
                     } else {
                         //Same encounter, but did the cg status change? And was one BILLED?
                         if (cg.Account_Status__c != oldCG.Account_Status__c &&
-                                (cg.Account_Status__c == Constants.ACCT_STATUS_BILLED || oldCG.Account_Status__c == Constants.ACCT_STATUS_BILLED)) {
+                            (cg.Account_Status__c == Constants.ACCT_STATUS_BILLED || oldCG.Account_Status__c == Constants.ACCT_STATUS_BILLED)) {
                             encounterIds.add(cg.Encounter__c);
                         }
                     }
@@ -127,20 +127,20 @@ public with sharing class ChargeGroupTriggerHandler {
             } else {
                 //New cg is NOT associated with an encounter
                 if (oldCG.Encounter__c != null && oldCG.Account_Status__c == Constants.ACCT_STATUS_BILLED) {
-                        encounterIds.add(oldCG.Encounter__c);
+                    encounterIds.add(oldCG.Encounter__c);
                 }
             }
         }
 
         if (contactIds.size() > 0) {
-            CallListUtilities.PreCollectionCallListRemoval(contactIds);
+            CallListUtilities.preCollectionCallListRemoval(contactIds);
         }
 
         if (paymentPlanIds.size() > 0) {
             Map<Id, Payment_Plan__c> plansToUpdate = PaymentPlanUtil.setBalanceAndCharges(paymentPlanIds);
             if (plansToUpdate.size() > 0) {
                 if (PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT.actionAllowed()) {
-                    UPDATE plansToUpdate.values();
+                    update plansToUpdate.values();
                 }
             }
         }
@@ -158,7 +158,7 @@ public with sharing class ChargeGroupTriggerHandler {
 
     //Static Method that gets invoked after a delete event on Charge_Group__c records
     public static void afterDelete(List<Charge_Group__c> oldList) {
-        Set<Id> paymentPlanIds = new Set<ID>();
+        Set<Id> paymentPlanIds = new Set<Id>();
         Set<Id> invoiceIds = new Set<Id>();
         Set<Id> encounterIdsForBilledCount = new Set<Id>();
 
@@ -194,7 +194,7 @@ public with sharing class ChargeGroupTriggerHandler {
             Map<Id, Payment_Plan__c> plansToUpdate = PaymentPlanUtil.setBalanceAndCharges(paymentPlanIds);
             if (plansToUpdate.size() > 0) {
                 if (PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT.actionAllowed()) {
-                    UPDATE plansToUpdate.values();
+                    update plansToUpdate.values();
                 }
             }
         }

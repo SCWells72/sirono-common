@@ -6,7 +6,7 @@
  * This class is use for Security Context of Encounter__c object
  **/
 public with sharing class EncounterSecurityContext extends SecurityContext {
-	
+
     // Field constants for Encounter__c object
     private static final String BILLED_CHARGE_GROUP_COUNT = 'Billed_Charge_Group_Count__c';
     private static final String TOTAL_PAYMENTS = 'Total_Payments__c';
@@ -31,38 +31,38 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
     private static final String TYPE = 'Type__c';
 
     // The fields for updating a Encounter__c's Total_Payments__c field in EncounterUtil.
-    private static final Set<String> UPDATE_FIELDS = new Set<String>{
-    	TOTAL_PAYMENTS
+    private static final Set<String> UPDATE_FIELDS = new Set<String> {
+        TOTAL_PAYMENTS
     };
 
     // The fields for updating a Encounter__c's Billed_Charge_Group_Count__c field in EncounterUtil.
-    private static final Set<String> UPDATE_BILLED_CG_COUNT_FIELDS = new Set<String>{
+    private static final Set<String> UPDATE_BILLED_CG_COUNT_FIELDS = new Set<String> {
         BILLED_CHARGE_GROUP_COUNT
     };
 
     // The fields for selecting a Encounter__c in EncounterDao
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         ID, NAME, PATIENT, DATE_OF_SERVICE, INSURANCE_DISCOUNT, INSURANCE_PORTION, ORDERING_PHYSICIAN, PROCEDURE,
         LOCATION, PATIENT_PORTION, PROCEDURE, GUARANTOR, BALANCE, TOTAL_PAYMENTS, BALANCE, TYPE
     };
 
     // The fields for selecting a Encounter__c in CallListUtilities
-    private static final Set<String> CLU_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> CLU_SELECT_FIELDS = new Set<String> {
         ID, DATE_OF_SERVICE, LIABILITY, CANCELLED
     };
 
     // The fields for selecting a Encounter__c in EncounterUtil.
-    private static final Set<String> EU_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> EU_SELECT_FIELDS = new Set<String> {
         ID, GUARANTOR
     };
 
     // The fields for selecting Encounter__c in EncounterUtil.
-    private static final Set<String> EU_SELECT_FIELDS_AGG = new Set<String>{
+    private static final Set<String> EU_SELECT_FIELDS_AGG = new Set<String> {
         GUARANTOR, BALANCE
     };
 
     // The fields for selecting Encounter__c in PreServiceSchedulerBatch
-    private static final Set<String> PSS_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> PSS_SELECT_FIELDS = new Set<String> {
         ID, NAME, GUARANTOR, LIABILITY, DATE_OF_SERVICE, CANCELLED
     };
 

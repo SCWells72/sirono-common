@@ -3,7 +3,7 @@
  */
 
 ({
-	helperMethod: function () {
+    helperMethod: function () {
 
-	}
+    }
 })

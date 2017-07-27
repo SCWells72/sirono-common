@@ -5,7 +5,7 @@
 /**
  * This class is use to test the logic of Case Comment Trigger and Case Comment Trigger Handler Class.
  **/
-@isTest
+@IsTest
 public class CaseCommentTriggerTest {
     // TODO: Does this belong in Constants?
     private static final String INTERNAL_CASE_NAME = 'Internal Case';
@@ -38,25 +38,25 @@ public class CaseCommentTriggerTest {
      * Coverage the code for the CaseCommentTriggerHandler class and
      * call the afterInsert and checkAndDoAddNoteCallout method
      **/
-    @isTest
+    @IsTest
     static void checkCaseComment() {
         Case testCase = new Case(
             Status = Constants.CASE_STATUS_NEW,
             Origin = Constants.CASE_ORIGIN_PHONE,
             RecordTypeId = getInternalCaseRecordType().Id
         );
-        INSERT testCase;
+        insert testCase;
 
         Test.startTest();
         // Create Case Comment record.
         CaseComment caseComment = TestUtility.generateCaseComment(testCase.Id);
-        INSERT caseComment;
+        insert caseComment;
         Test.stopTest();
 
         // Check system assert, Missing required details should trigger an exception.
         List<ApexPages.Message> messages = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message message: messages) {
+        for (ApexPages.Message message : messages) {
             String messageDetail = message.getDetail();
             if (messageDetail.contains('Please provide all details')) {
                 isError = true;
@@ -77,17 +77,17 @@ public class CaseCommentTriggerTest {
                 Origin = Constants.CASE_ORIGIN_PHONE,
                 RecordTypeId = getInternalCaseRecordType().Id
             );
-            INSERT testCase;
+            insert testCase;
 
             Test.startTest();
             CaseComment caseComment = TestUtility.generateCaseComment(testCase.Id);
-            INSERT caseComment;
+            insert caseComment;
             Test.stopTest();
 
             // Check system assert, arithmatic devide rule violation should trigger an exception.
             List<ApexPages.Message> messages = ApexPages.getMessages();
             Boolean isError = false;
-            for (Apexpages.Message message: messages) {
+            for (ApexPages.Message message : messages) {
                 String messageDetail = message.getDetail();
                 if (messageDetail.contains('Divide by 0')) {
                     isError = true;
@@ -112,7 +112,7 @@ public class CaseCommentTriggerTest {
                 Origin = Constants.CASE_ORIGIN_PHONE,
                 RecordTypeId = getInternalCaseRecordType().Id
             );
-            INSERT testCase;
+            insert testCase;
 
             // Explicitly associate the case with a charge group
             Charge_Group__c chargeGroup = [SELECT Id FROM Charge_Group__c LIMIT 1];
@@ -120,17 +120,17 @@ public class CaseCommentTriggerTest {
                 Case__c = testCase.Id,
                 Charge_Group__c = chargeGroup.Id
             );
-            INSERT caseChargeGroupJunction;
+            insert caseChargeGroupJunction;
 
             Test.startTest();
             CaseComment caseComment = TestUtility.generateCaseComment(testCase.Id);
-            INSERT caseComment;
+            insert caseComment;
             Test.stopTest();
 
             // Check System Assert, Exception occures during generate case comment because missing and bad requires.
             List<ApexPages.Message> messages = ApexPages.getMessages();
             Boolean isError = false;
-            for (Apexpages.Message message: messages) {
+            for (ApexPages.Message message : messages) {
                 String messageDetail = message.getDetail();
                 if (messageDetail.contains(TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.UNAUTHORIZED))) {
                     isError = true;

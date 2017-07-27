@@ -19,7 +19,7 @@ public with sharing class TaskService extends AbstractService {
 
         // Put WhoIds from all Tasks into a set to be validated
         Set<Id> taskIdSet = new Set<Id>();
-        for (Task task: taskList) {
+        for (Task task : taskList) {
             taskIdSet.add(task.WhoId);
         }
 
@@ -28,7 +28,7 @@ public with sharing class TaskService extends AbstractService {
 
         // Create a new Task list for only those Tasks that pass validation and upsert
         List<Task> validatedTaskList = new List<Task>();
-        for (Task task: taskList) {
+        for (Task task : taskList) {
             if (validTaskWhoIds.containsKey(task.WhoId)) {
                 validatedTaskList.add(task);
             }
@@ -46,7 +46,7 @@ public with sharing class TaskService extends AbstractService {
     public static List<Task> getNewTasks(List<Task> taskList) {
         // Put Five9 session Ids into a new Set and retrieve tasks by session Id
         Set<String> sessionIdSet = new Set<String>();
-        for (Task task: taskList) {
+        for (Task task : taskList) {
             sessionIdSet.add(task.Five9__Five9SessionId__c);
         }
 
@@ -57,7 +57,7 @@ public with sharing class TaskService extends AbstractService {
         // Loop through the taskList and see if any of the session Ids were returned. If not, add the task to newTaskList
         // and return.
         List<Task> newTaskList = new List<Task>();
-        for (Task task: taskList) {
+        for (Task task : taskList) {
             if (!existingSessionIds.containsKey(task.Five9__Five9SessionId__c)) {
                 newTaskList.add(task);
             }

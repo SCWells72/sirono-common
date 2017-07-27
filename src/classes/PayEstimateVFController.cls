@@ -8,7 +8,7 @@
  * User can only make payment for one Encounter at a time.
  * Only display those Encounters whose balance is greater than zero.
  * Based on selected Encounter, Create a Payment Record.
- **/    
+ **/
 public with sharing class PayEstimateVFController extends PayEstimateController {
     /**
      * Constructor of Class with standard controller.
@@ -35,19 +35,19 @@ public with sharing class PayEstimateVFController extends PayEstimateController 
             errorMessages = new List<String>();
             Boolean validAmount = isValidAmount();
             Boolean validCard = isValidCard();
-            if (validAmount  && validCard) {
+            if (validAmount && validCard) {
                 addPayment(null);
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY));
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY));
             }
         } catch (SironoServiceException se) {
-            for (String err: se.errors) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                        'SERVER ERROR RESPONSE:: ' + err));
+            for (String err : se.errors) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                    'SERVER ERROR RESPONSE:: ' + err));
             }
         } catch (Exception e) {
             // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'ERROR: ' + e.getMessage()));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'ERROR: ' + e.getMessage()));
         }
     }
 
@@ -59,11 +59,11 @@ public with sharing class PayEstimateVFController extends PayEstimateController 
     protected override Boolean isValidCard() {
         // Call creditCardValidation method that validate all informations/values for Credit Card.
         errorMessages.addAll(VisualForceValidations.creditCardValidation(creditCardNumber, expirationYear, expirationMonth,
-                zip, cardHolderName, cvv, address));
+            zip, cardHolderName, cvv, address));
 
         if (errorMessages.size() > 0) {
-            for (String str: errorMessages) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, str));
+            for (String str : errorMessages) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, str));
             }
             return false;
         }
@@ -80,8 +80,8 @@ public with sharing class PayEstimateVFController extends PayEstimateController 
         errorMessages.addAll(VisualForceValidations.amountValidation(amount, String.valueOf(selectedEncounter.Balance__c)));
 
         if (errorMessages.size() > 0) {
-            for (String str: errorMessages) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, str));
+            for (String str : errorMessages) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, str));
             }
             return false;
         }

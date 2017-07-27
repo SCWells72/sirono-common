@@ -5,19 +5,19 @@
 /**
  * Test class for EarlyOutSchedulerBatch.
  */
-@isTest
+@IsTest
 public class EarlyOutSchedulerBatchTest {
-    Public Static List<Statement__c> lstStatement = new List<Statement__c>();
+    public static List<Statement__c> lstStatement = new List<Statement__c>();
     static testMethod void main() {
-        contact con = TestUtility.generateGuarantorContact();
+        Contact con = TestUtility.generateGuarantorContact();
         insert con;
 
-        contact con1 = TestUtility.generateGuarantorContact();
+        Contact con1 = TestUtility.generateGuarantorContact();
         con1.LastName = 'Test';
-        con1.Profile_Pointer_Id__c = 123;
+        con1.Profile_Pointer_ID__c = 123;
         insert con1;
 
-        contact p = TestUtility.generatePatientContact();
+        Contact p = TestUtility.generatePatientContact();
         insert p;
 
         Date dtst = System.today();
@@ -30,7 +30,7 @@ public class EarlyOutSchedulerBatchTest {
         lstStatement.add(statement);
         insert lstStatement;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(con1.Id, p.id, 121343);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(con1.Id, p.Id, 121343);
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
@@ -40,30 +40,30 @@ public class EarlyOutSchedulerBatchTest {
 
         Date dt = System.today().addDays(-50);
 
-        Invoice__c i = TestUtility.generateInvoice(con1.Id, p.id);
+        Invoice__c i = TestUtility.generateInvoice(con1.Id, p.Id);
         i.Invoice_Date__c = dt;
         i.Guarantor__c = con1.Id;
         insert i;
 
         Campaign c = TestUtility.generateCampaign(Constants.CAMPAIGN_NAME_OVERDUE);
-        c.isActive = true;
+        c.IsActive = true;
         insert c;
 
         CampaignMember cmm = TestUtility.generateCampaignMember(c.Id, con.Id);
         insert cmm;
 
         Test.startTest();
-        List<CampaignMember> memberList = [select id from CampaignMember];
+        List<CampaignMember> memberList = [SELECT Id FROM CampaignMember];
         System.assertEquals(1, memberList.size());
         EarlyOutSchedulerBatch eosb = new EarlyOutSchedulerBatch();
-        system.schedule('schJob', '0 11 22 * 9 ?', eosb);
+        System.schedule('schJob', '0 11 22 * 9 ?', eosb);
         Test.stopTest();
 
     }
 
     static testMethod void pain() {
         Test.startTest();
-        List<CampaignMember> memberList = [select id from CampaignMember];
+        List<CampaignMember> memberList = [SELECT Id FROM CampaignMember];
         System.assertEquals(0, memberList.size());
         EarlyOutSchedulerBatch eosb = new EarlyOutSchedulerBatch();
         Database.executeBatch(eosb);
@@ -73,7 +73,7 @@ public class EarlyOutSchedulerBatchTest {
     /**
      * Check all access rights for a read only User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRights() {
         List<CmpnMemberSecurityContext> allContexts = new List<CmpnMemberSecurityContext> {
             CmpnMemberSecurityContext.CREATE_CONTEXT,
@@ -81,7 +81,7 @@ public class EarlyOutSchedulerBatchTest {
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (CmpnMemberSecurityContext context: allContexts) {
+            for (CmpnMemberSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);

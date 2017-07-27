@@ -28,37 +28,37 @@ public with sharing class CaseSecurityContext extends SecurityContext {
     private static final String ISCLOSED = 'IsClosed';
 
     // The fields for inserting a Case in Campaign Member Trigger Handler
-    private static final Set<String> CMT_CREATE_FIELDS = new Set<String>{
+    private static final Set<String> CMT_CREATE_FIELDS = new Set<String> {
         CONTACTID, ORIGIN, RECORDTYPEID, STATUS, SUBJECT, TYPE
     };
-    
+
     // The fields for inserting Case with Encounter in CaseUtil
-    private static final Set<String> CREATE_WITH_ENCOUNTER_FIELDS = new Set<String>{
+    private static final Set<String> CREATE_WITH_ENCOUNTER_FIELDS = new Set<String> {
         CONTACTID, ENCOUNTER, GUARANTOR_INFORMATION, OWNERID, RECORDTYPEID, STATUS, SUBJECT, TYPE
     };
-    
+
     // The fields for inserting Case in CaseUtil
-    private static final Set<String> CU_CREATE_FIELDS = new Set<String>{
+    private static final Set<String> CU_CREATE_FIELDS = new Set<String> {
         CONTACTID, GUARANTOR_INFORMATION, OWNERID, PATIENT, REASON, RECORDTYPEID, STATUS, SUBJECT, TYPE
     };
-    
+
     // The fields for updating Case in CaseUtil & TaskTriggerHandler
-    private static final Set<String> UPDATE_FIELDS = new Set<String>{
+    private static final Set<String> UPDATE_FIELDS = new Set<String> {
         REASON, STATUS
     };
-    
+
     // The fields for upserting a Case in CreateCaseManual
-    private static final Set<String> UPSERT_FIELDS = new Set<String>{
+    private static final Set<String> UPSERT_FIELDS = new Set<String> {
         CONTACTID, GUARANTOR_INFORMATION, PATIENT, REASON, RECORDTYPEID, SUBJECT
     };
 
     // The fields for selecting a Case in CaseTriggerHandler
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         ID, DESCRIPTION, CHARGE_GROUP_IDS
     };
 
     // The fields for selecting a Case in CaseUtil, TaskTriggerHandler
-    private static final Set<String> CU_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> CU_SELECT_FIELDS = new Set<String> {
         ID, GUARANTOR_INFORMATION, REASON, ISCLOSED, TYPE, STATUS, ENCOUNTER
     };
 

@@ -20,7 +20,7 @@ public with sharing class CampaignMemberService extends AbstractService {
     public static void createCampaignMembers(Map<String, Set<Id>> caseTypeGTMap) {
         List<CampaignMember> newCampaignMembers = new List<CampaignMember>();
 
-        for (String caseType: caseTypeGTMap.keySet()) {
+        for (String caseType : caseTypeGTMap.keySet()) {
             newCampaignMembers.addAll(createNewCampaignMembers(caseType, caseTypeGTMap.get(caseType)));
         }
 
@@ -42,9 +42,9 @@ public with sharing class CampaignMemberService extends AbstractService {
         Set<Id> currentMembers = new Set<Id>();
         Map<String, Id> campaignNameIdMap = new Map<String, Id>();
 
-        for (Campaign campaign: CampaignMemberDao.getCampaigns(gtIds, campaignNames)) {
+        for (Campaign campaign : CampaignMemberDao.getCampaigns(gtIds, campaignNames)) {
             campaignNameIdMap.put(campaign.Name, campaign.Id);
-            for (CampaignMember objCM: campaign.CampaignMembers) {
+            for (CampaignMember objCM : campaign.CampaignMembers) {
                 currentMembers.add(objCM.ContactId);
             }
         }
@@ -52,8 +52,8 @@ public with sharing class CampaignMemberService extends AbstractService {
         gtIds.removeAll(currentMembers);
         List<CampaignMember> newCampaignMembers = new List<CampaignMember>();
 
-        for (Id gtId: gtIds) {
-            for (String campaignName: campaignNameIdMap.keySet()) {
+        for (Id gtId : gtIds) {
+            for (String campaignName : campaignNameIdMap.keySet()) {
                 CampaignMember campaignMember = new CampaignMember();
                 campaignMember.CampaignId = campaignNameIdMap.get(campaignName);
                 campaignMember.ContactId = gtId;
@@ -73,7 +73,7 @@ public with sharing class CampaignMemberService extends AbstractService {
 
         List<CampaignMember> membersToDelete = new List<CampaignMember>();
 
-        for (String caseType: caseCmpnMemberMap.keySet()) {
+        for (String caseType : caseCmpnMemberMap.keySet()) {
             membersToDelete.addAll(CampaignMemberDao.getCampaignMembers(caseType, caseCmpnMemberMap.get(caseType)));
         }
 

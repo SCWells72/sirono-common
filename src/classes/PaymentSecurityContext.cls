@@ -26,33 +26,33 @@ public with sharing class PaymentSecurityContext extends SecurityContext {
     private static final String ID = 'Id';
 
     // The fields for inserting a Payment in PayEstimate
-    private static final Set<String> CREATE_FIELDS = new Set<String>{
-    	AMOUNT, DEPOSIT_DATE, ENCOUNTER, GUARANTOR, NAME
+    private static final Set<String> CREATE_FIELDS = new Set<String> {
+        AMOUNT, DEPOSIT_DATE, ENCOUNTER, GUARANTOR, NAME
     };
-    
+
     // The fields for inserting a Payment in PayStaffWSUtill
-    private static final Set<String> PSWU_CREATE_FIELDS = new Set<String>{
-    	GUARANTOR, CHARGE_DATE, METHOD, LAST_4, PROCESSOR_TRANSACTION_ID, AMOUNT, SIRONO_ID, NAME, DEPOSIT_DATE
+    private static final Set<String> PSWU_CREATE_FIELDS = new Set<String> {
+        GUARANTOR, CHARGE_DATE, METHOD, LAST_4, PROCESSOR_TRANSACTION_ID, AMOUNT, SIRONO_ID, NAME, DEPOSIT_DATE
     };
 
     // The fields for updating a Payment__c in TxnAggregationUtils
-    private static final Set<String> UPDATE_FIELDS = new Set<String>{
+    private static final Set<String> UPDATE_FIELDS = new Set<String> {
         AMOUNT, POSTED_AMOUNT
     };
 
     // The fields for selecting a Payment__c in TxnAggregationUtils
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         ID, SIRONO_ID
     };
 
     // The fields for selecting a Payment__c in PaymentDao
-    private static final Set<String> DAO_SELECT_FIELDS = new Set<String>{
-            ID, AMOUNT, DEPOSIT_DATE, ENCOUNTER, GUARANTOR, METHOD, NAME, PAYMENT_ID, SIRONO_ID, ID_C
+    private static final Set<String> DAO_SELECT_FIELDS = new Set<String> {
+        ID, AMOUNT, DEPOSIT_DATE, ENCOUNTER, GUARANTOR, METHOD, NAME, PAYMENT_ID, SIRONO_ID, ID_C
     };
 
 
     // The fields for selecting a Payment__c in EncounterUtil
-    private static final Set<String> EU_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> EU_SELECT_FIELDS = new Set<String> {
         ENCOUNTER, AMOUNT
     };
 

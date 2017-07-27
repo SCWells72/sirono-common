@@ -17,7 +17,8 @@
     left: 0;
     width: 100%;
 }
-.THIS .slds-tabs--scoped{
+
+.THIS .slds-tabs--scoped {
     position: relative;
     z-index: 501;
 }

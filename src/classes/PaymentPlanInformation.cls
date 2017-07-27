@@ -40,26 +40,28 @@ public with sharing class PaymentPlanInformation {
     private static final String ADDRESS_KEY = 'address';
     @TestVisible
     private static final String CITY_KEY = 'city';
-    
-    public String planType {get; set;}
-    public String planValue {get; set;}
-    public String amount {get; set;}
-    public String executeOnDay {get; set;}
-    public List<String> chargeGroupIds {get; set;}
-    public String guarantorId {get; set;}
-    public String cardholderName {get; set;}
-    public String expirationYear {get; set;}
-    public String expirationMonth {get; set;}
-    public String creditCardNumber {get; set;}
-    public String cvv {get; set;}
-    public String state {get; set;}
-    public String zip {get; set;}
-    public String address {get; set;}
-    public String city {get; set;}
 
-    public PaymentPlanInformation() {}
+    public String planType { get; set; }
+    public String planValue { get; set; }
+    public String amount { get; set; }
+    public String executeOnDay { get; set; }
+    public List<String> chargeGroupIds { get; set; }
+    public String guarantorId { get; set; }
+    public String cardholderName { get; set; }
+    public String expirationYear { get; set; }
+    public String expirationMonth { get; set; }
+    public String creditCardNumber { get; set; }
+    public String cvv { get; set; }
+    public String state { get; set; }
+    public String zip { get; set; }
+    public String address { get; set; }
+    public String city { get; set; }
+
+    public PaymentPlanInformation() {
+    }
+
     public PaymentPlanInformation(Map<String, Object> ppInfoMap) {
-        
+
         this.planType = getStringValueFromMap(ppInfoMap, PLAN_TYPE);
         this.planValue = getStringValueFromMap(ppInfoMap, PLAN_VALUE);
         this.amount = getStringValueFromMap(ppInfoMap, AMOUNT_KEY);
@@ -82,7 +84,7 @@ public with sharing class PaymentPlanInformation {
             this.chargeGroupIds = new List<String>();
         }
     }
-    
+
     private String getStringValueFromMap(Map<String, Object> objMap, String key) {
         String str = '';
         if (objMap.containsKey(key) && !String.isEmpty(String.valueOf(objMap.get(key)))) {

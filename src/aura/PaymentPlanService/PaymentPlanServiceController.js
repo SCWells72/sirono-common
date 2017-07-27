@@ -12,7 +12,7 @@
      * @return {Object} - An object that can be passed to an Apex controller and converted into a PaymentPlayInformation
      * object.
      */
-    populatePaymentPlanInfo: function(component, evt) {
+    populatePaymentPlanInfo: function (component, evt) {
         var params = evt.getParam('arguments'),
             paymentPlanInfo = {},
             paymentInfo, creditCard, cb;

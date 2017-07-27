@@ -2,10 +2,10 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 public class InvoiceUtilTest {
 
-    @testSetup
+    @TestSetup
     public static void setupTestRecords() {
 
         final String INACTIVE = 'Inactive';
@@ -31,14 +31,14 @@ public class InvoiceUtilTest {
             Charge_Group__c testChargeGroup = TestUtility.generateChargeGroup(testGuarantor.Id, testPatient.Id, i, null);
             testChargeGroup.Account_Sub_Status__c = statusList[i];
             testChargeGroup.Invoice__c = testInvoice.Id;
-            testChargeGroup.Active__c = TRUE;
+            testChargeGroup.Active__c = true;
 
             testChargeGroupList.add(testChargeGroup);
         }
         insert testChargeGroupList;
 
         List<Transaction__c> testTransactionsList = new List<Transaction__c>();
-        for (Charge_Group__c cg: testChargeGroupList) {
+        for (Charge_Group__c cg : testChargeGroupList) {
             for (Integer i = 0; i < 5; i++) {
                 Transaction__c tempTransaction = TestUtility.generateTransaction(cg, TestUtility.generateRandomCurrency(), 'service');
                 testTransactionsList.add(tempTransaction);
@@ -46,91 +46,91 @@ public class InvoiceUtilTest {
         }
         insert testTransactionsList;
 
-	// Check system assert for GuarantorUser.
+        // Check system assert for GuarantorUser.
         System.assertEquals(INACTIVE, testChargeGroupList[0].Account_Sub_Status__c, 'Expected CG sub status equals to ' + INACTIVE + ' but we got ' + testChargeGroupList[0].Account_Sub_Status__c);
     }
 
-    @isTest
+    @IsTest
     public static void checkInvoiceIndexValue() {
         Test.startTest();
 
         Invoice__c inv = [
-                SELECT Id, Invoice_Status_Index__c
-                FROM Invoice__c
-                LIMIT 1
+            SELECT Id, Invoice_Status_Index__c
+            FROM Invoice__c
+            LIMIT 1
         ];
 
         Decimal maxInvoiceStatusIndex = inv.Invoice_Status_Index__c;
 
         Charge_Group__c cg = [
-                SELECT Id, Sub_Status_Index__c
-                FROM Charge_Group__c
-                ORDER BY Sub_Status_Index__c DESC
-                LIMIT 1
+            SELECT Id, Sub_Status_Index__c
+            FROM Charge_Group__c
+            ORDER BY Sub_Status_Index__c DESC
+            LIMIT 1
         ];
 
         Decimal maxIndexFromChargeGroup = cg.Sub_Status_Index__c;
 
         Test.stopTest();
 
-        system.assertEquals(maxIndexFromChargeGroup, maxInvoiceStatusIndex);
+        System.assertEquals(maxIndexFromChargeGroup, maxInvoiceStatusIndex);
     }
 
-    @isTest
+    @IsTest
     public static void invoiceIndexWithInactiveChargeGroup() {
         Test.startTest();
 
         Charge_Group__c maxChargeGroup = [
-                SELECT Id, Active__c, Sub_Status_Index__c
-                FROM Charge_Group__c
-                ORDER BY Sub_Status_Index__c DESC
-                LIMIT 1
+            SELECT Id, Active__c, Sub_Status_Index__c
+            FROM Charge_Group__c
+            ORDER BY Sub_Status_Index__c DESC
+            LIMIT 1
         ];
 
         Decimal maxChargeGroupIndex = maxChargeGroup.Sub_Status_Index__c;
-        maxChargeGroup.Active__c = FALSE;
+        maxChargeGroup.Active__c = false;
         update maxChargeGroup;
 
         Invoice__c inv = [
-                SELECT Id, Invoice_Status_Index__c
-                FROM Invoice__c
-                LIMIT 1
+            SELECT Id, Invoice_Status_Index__c
+            FROM Invoice__c
+            LIMIT 1
         ];
 
         Decimal updatedInvoiceIndex = inv.Invoice_Status_Index__c;
 
-        test.stopTest();
+        Test.stopTest();
 
         System.assertNotEquals(maxChargeGroupIndex, updatedInvoiceIndex);
     }
 
-    @isTest
+    @IsTest
     public static void invoiceWithAllInactiveChargeGroups() {
         Test.startTest();
 
         Invoice__c originalInvoice = [
-                SELECT Id, Invoice_Status_Index__c
-                FROM Invoice__c
-                LIMIT 1
+            SELECT Id, Invoice_Status_Index__c
+            FROM Invoice__c
+            LIMIT 1
         ];
 
         Decimal originalInvIndex = originalInvoice.Invoice_Status_Index__c;
 
         List<Charge_Group__c> chargeGroupList = [
-                SELECT Id, Active__c, Sub_Status_Index__c
-                FROM Charge_Group__c
+            SELECT Id, Active__c, Sub_Status_Index__c
+            FROM Charge_Group__c
         ];
 
-        for (Charge_Group__c cg: chargeGroupList) {
-            cg.Active__c = FALSE;
+        for (Charge_Group__c cg : chargeGroupList) {
+            cg.Active__c = false;
         }
 
         update chargeGroupList;
 
         Invoice__c updatedInvoice = [
-                SELECT Id, Invoice_Status_Index__c
-                FROM Invoice__c
-                LIMIT 1
+            SELECT Id, Invoice_Status_Index__c
+            FROM Invoice__c
+            LIMIT 1
         ];
 
         Decimal updatedInvIndex = updatedInvoice.Invoice_Status_Index__c;
@@ -141,59 +141,59 @@ public class InvoiceUtilTest {
         System.assertNotEquals(originalInvIndex, updatedInvIndex);
     }
 
-    @isTest
+    @IsTest
     public static void invoiceIndexWithNoChargeGroupsTest() {
         Test.startTest();
 
         Invoice__c inv = [
-                SELECT Id, Invoice_Status_Index__c
-                FROM Invoice__c
-                LIMIT 1
+            SELECT Id, Invoice_Status_Index__c
+            FROM Invoice__c
+            LIMIT 1
         ];
 
         Decimal originalIndexValue = inv.Invoice_Status_Index__c;
 
         List<Charge_Group__c> deleteChargeGroups = [
-                SELECT Id
-                FROM Charge_Group__c
-                WHERE Invoice__c = :inv.Id
+            SELECT Id
+            FROM Charge_Group__c
+            WHERE Invoice__c = :inv.Id
         ];
 
         delete deleteChargeGroups;
 
         Invoice__c updatedInvoice = [
-                SELECT Id, Invoice_Status_Index__c
-                FROM Invoice__c
-                LIMIT 1
+            SELECT Id, Invoice_Status_Index__c
+            FROM Invoice__c
+            LIMIT 1
         ];
 
         Decimal updatedIndexValue = updatedInvoice.Invoice_Status_Index__c;
 
-        test.stopTest();
+        Test.stopTest();
 
         System.assertNotEquals(originalIndexValue, updatedIndexValue);
         System.assertEquals(0, updatedIndexValue);
     }
 
-    @isTest
+    @IsTest
     public static void checkAllSubstatusInvoiceString() {
         Test.startTest();
 
         List<Invoice__c> queryResults = [
-                SELECT Id, All_Substatus__c
-                FROM Invoice__c
+            SELECT Id, All_Substatus__c
+            FROM Invoice__c
         ];
 
         Test.stopTest();
 
         for (Invoice__c invoice : queryResults) {
-            system.assertEquals(true, invoice.All_Substatus__c.contains('Inactive'));
-            system.assertEquals(true, invoice.All_Substatus__c.contains('Paid'));
-            system.assertEquals(true, invoice.All_Substatus__c.contains('Delinquent'));
+            System.assertEquals(true, invoice.All_Substatus__c.contains('Inactive'));
+            System.assertEquals(true, invoice.All_Substatus__c.contains('Paid'));
+            System.assertEquals(true, invoice.All_Substatus__c.contains('Delinquent'));
         }
     }
 
-    @isTest
+    @IsTest
     public static void checkAllSubstatusInvoiceFieldEmptySet() {
         Test.startTest();
 
@@ -208,25 +208,25 @@ public class InvoiceUtilTest {
 
         Test.stopTest();
 
-        system.assertEquals(null, errorMessage);
+        System.assertEquals(null, errorMessage);
     }
 
-    @isTest
+    @IsTest
     public static void changeChargeGroupSubstatusTest() {
         Test.startTest();
 
         List<Charge_Group__c> chargeGroupList = [
-                SELECT Id, Account_Sub_Status__c
-                FROM Charge_Group__c
-                WHERE Account_Sub_Status__c = 'Delinquent'
+            SELECT Id, Account_Sub_Status__c
+            FROM Charge_Group__c
+            WHERE Account_Sub_Status__c = 'Delinquent'
         ];
 
         chargeGroupList[0].Account_Sub_Status__c = 'Paid';
         update chargeGroupList[0];
 
-        List<Invoice__c> invoiceList =[
-                SELECT Id, All_Substatus__c
-                FROM Invoice__c
+        List<Invoice__c> invoiceList = [
+            SELECT Id, All_Substatus__c
+            FROM Invoice__c
         ];
 
         Test.stopTest();
@@ -237,7 +237,7 @@ public class InvoiceUtilTest {
         System.assertEquals(false, invoiceList[0].All_Substatus__c.contains('Delinquent'));
     }
 
-    @isTest
+    @IsTest
     public static void deleteRelatedChargeGroupTest() {
         Test.startTest();
 
@@ -249,8 +249,8 @@ public class InvoiceUtilTest {
         delete chargeGroupList;
 
         List<Invoice__c> invoiceList = [
-                SELECT Id, All_Substatus__c
-                FROM Invoice__c
+            SELECT Id, All_Substatus__c
+            FROM Invoice__c
         ];
 
         Test.stopTest();
@@ -258,25 +258,25 @@ public class InvoiceUtilTest {
         System.assertEquals(null, invoiceList[0].All_Substatus__c);
     }
 
-    @isTest
+    @IsTest
     public static void initialInvoiceBalanceTest() {
         Test.startTest();
 
         Invoice__c inv = [
-                SELECT Id, Invoice_Balance__c
-                FROM Invoice__c
-                LIMIT 1
+            SELECT Id, Invoice_Balance__c
+            FROM Invoice__c
+            LIMIT 1
         ];
 
         AggregateResult[] cgBalanceSum = [
-                SELECT SUM(Balance__c) balanceSum
-                FROM Charge_Group__c
-                WHERE Invoice__c = :inv.Id
-                GROUP BY Invoice__c
+            SELECT SUM(Balance__c) balanceSum
+            FROM Charge_Group__c
+            WHERE Invoice__c = :inv.Id
+            GROUP BY Invoice__c
         ];
 
         Decimal sumChargeGroupBalance;
-        for (AggregateResult ar: cgBalanceSum) {
+        for (AggregateResult ar : cgBalanceSum) {
             sumChargeGroupBalance = (Decimal) ar.get('balanceSum');
         }
 
@@ -286,30 +286,30 @@ public class InvoiceUtilTest {
         System.assertEquals(sumChargeGroupBalance, inv.Invoice_Balance__c);
     }
 
-    @isTest
+    @IsTest
     public static void invoiceBalanceCheckWithDeletedChargeGroup() {
         Test.startTest();
 
         Invoice__c inv = [
-                SELECT Id, Invoice_Balance__c
-                FROM Invoice__c
-                LIMIT 1
+            SELECT Id, Invoice_Balance__c
+            FROM Invoice__c
+            LIMIT 1
         ];
 
         Decimal originalBalance = inv.Invoice_Balance__c;
 
         Charge_Group__c deleteChargeGroup = [
-                SELECT Id
-                FROM Charge_Group__c
-                LIMIT 1
+            SELECT Id
+            FROM Charge_Group__c
+            LIMIT 1
         ];
 
         delete deleteChargeGroup;
 
         Invoice__c updatedInv = [
-                SELECT Id, Invoice_Balance__c
-                FROM Invoice__c
-                LIMIT 1
+            SELECT Id, Invoice_Balance__c
+            FROM Invoice__c
+            LIMIT 1
         ];
 
         Decimal updatedBalance = updatedInv.Invoice_Balance__c;
@@ -319,34 +319,34 @@ public class InvoiceUtilTest {
         System.assertNotEquals(originalBalance, updatedBalance);
     }
 
-    @isTest
+    @IsTest
     public static void invoiceBalanceWithNoChargeGroups() {
-        test.startTest();
+        Test.startTest();
 
         Invoice__c inv = [
-                SELECT Id, Invoice_Balance__c
-                FROM Invoice__c
-                LIMIT 1
+            SELECT Id, Invoice_Balance__c
+            FROM Invoice__c
+            LIMIT 1
         ];
 
         Decimal originalBalance = inv.Invoice_Balance__c;
 
         List<Charge_Group__c> deleteAllChargeGroups = [
-                SELECT Id
-                FROM Charge_Group__c
+            SELECT Id
+            FROM Charge_Group__c
         ];
 
         delete deleteAllChargeGroups;
 
         Invoice__c updatedInv = [
-                SELECT Id, Invoice_Balance__c
-                FROM Invoice__c
-                LIMIT 1
+            SELECT Id, Invoice_Balance__c
+            FROM Invoice__c
+            LIMIT 1
         ];
 
         Decimal updatedBalance = updatedInv.Invoice_Balance__c;
 
-        test.stopTest();
+        Test.stopTest();
 
         System.assertNotEquals(originalBalance, updatedBalance);
         System.assertEquals(0.00, updatedBalance);
@@ -355,14 +355,16 @@ public class InvoiceUtilTest {
     /**
      * Check all access rights for a read only User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRights() {
-        List<InvoiceSecurityContext> allContexts = new List<InvoiceSecurityContext>{InvoiceSecurityContext.UPDATE_CONTEXT,
-        	InvoiceSecurityContext.UPDATE_ALL_SUBSTATUS_CONTEXT, InvoiceSecurityContext.UPDATE_BALANCE_CONTEXT
+        List<InvoiceSecurityContext> allContexts = new List<InvoiceSecurityContext> {
+            InvoiceSecurityContext.UPDATE_CONTEXT,
+            InvoiceSecurityContext.UPDATE_ALL_SUBSTATUS_CONTEXT,
+			InvoiceSecurityContext.UPDATE_BALANCE_CONTEXT
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (InvoiceSecurityContext context: allContexts) {
+            for (InvoiceSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);

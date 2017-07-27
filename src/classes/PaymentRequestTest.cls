@@ -5,37 +5,37 @@
 /**
  * Test the validation logic in PaymentRequest
  */
-@isTest
+@IsTest
 public with sharing class PaymentRequestTest {
 
     @TestSetup
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
         gt.Profile_Pointer_ID__c = Decimal.valueOf(PaymentRestClientMock.GT_SIRONO_ID);
-        INSERT gt;
+        insert gt;
 
         Contact pt = TestUtility.generatePatientContact();
-        INSERT pt;
+        insert pt;
 
         Charge_Group__c cg = TestUtility.generateChargeGroup(gt.Id, pt.Id, Decimal.valueOf(PaymentRestClientMock.CG_SIRONO_ID));
         cg.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DUE_BY;
-        INSERT cg;
+        insert cg;
 
         Service__c svc = TestUtility.generateService(cg, 575.00);
-        INSERT svc;
+        insert svc;
 
         Transaction__c txn = TestUtility.generateServiceTxn(cg, 575.00, svc);
-        INSERT txn;
+        insert txn;
     }
 
     public static PaymentRequest buildValidRequest() {
         Contact gt = GuarantorDao.getGuarantorBySironoId(PaymentRestClientMock.GT_SIRONO_ID);
         Charge_Group__c[] cgs = [
-                SELECT Id, Guarantor__c, Balance__c
-                FROM Charge_Group__c
-                WHERE Account_Status__c = :Constants.ACCT_STATUS_BILLED
-                AND Guarantor__c = :gt.Id
+            SELECT Id, Guarantor__c, Balance__c
+            FROM Charge_Group__c
+            WHERE Account_Status__c = :Constants.ACCT_STATUS_BILLED
+            AND Guarantor__c = :gt.Id
         ];
 
         PaymentRequest pmtRequest = new PaymentRequest(gt, cgs);
@@ -50,7 +50,7 @@ public with sharing class PaymentRequestTest {
         pmtRequest.chargeInfo.state = 'TX';
         pmtRequest.chargeInfo.zip = '78704';
         pmtRequest.guarantor = gt;
-        pmtRequest.chargeGroups = new List<Charge_Group__c>{ cgs[0] };
+        pmtRequest.chargeGroups = new List<Charge_Group__c> { cgs[0] };
         pmtRequest.chargeInfo.amount = '500.00';
         return pmtRequest;
     }
@@ -81,7 +81,7 @@ public with sharing class PaymentRequestTest {
 
         for (String error : errors) {
             System.assert(error.contains('Zero or credit balance is not payable.') || error.contains('Amount cannot exceed balance.') ||
-            error.contains('Charge Group is a required field.'), 'Unexpected error returned: '+error);
+                error.contains('Charge Group is a required field.'), 'Unexpected error returned: ' + error);
         }
         System.assert(errors.size() == 3, 'Unexpected errors thrown: ' + String.join(errors, '\n'));
     }

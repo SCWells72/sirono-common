@@ -5,75 +5,90 @@
 .THIS span.slds-icon_container.slds-icon-standard-down svg {
     fill: #16325c;
 }
-.THIS.wrapper .main-wrapper.small, 
-.THIS.wrapper .main-wrapper.small.alert, 
+
+.THIS.wrapper .main-wrapper.small,
+.THIS.wrapper .main-wrapper.small.alert,
 .THIS.wrapper .main-wrapper.small.alert.success {
     margin-top: -199px;
     padding-top: 199px;
 }
+
 .THIS.wrapper .main-wrapper.alert {
     margin-top: -543px;
     padding-top: 543px;
 }
-.THIS.wrapper .main-wrapper{
+
+.THIS.wrapper .main-wrapper {
     margin-top: -470px;
     padding-top: 470px;
 }
+
 .THIS .invoice_details {
-    width:66.66666%;
+    width: 66.66666%;
 }
-.THIS .invoices .invoice-listing header{
-    position:absolute;
-    width:100%;    
+
+.THIS .invoices .invoice-listing header {
+    position: absolute;
+    width: 100%;
 }
+
 .THIS .invoices .invoice-listing {
-    overflow:hidden; 
+    overflow: hidden;
 }
+
 .THIS .invoices .invoice-record-wrapper {
-     height:calc(100% - 73px);
+    height: calc(100% - 73px);
 }
-.THIS .partial-payment{
+
+.THIS .partial-payment {
     font-weight: bold;
     color: #4bca81;
 }
+
 .THIS .buttonGroup {
-    position:relative;
+    position: relative;
 }
+
 .THIS .blockSelect {
-    position:absolute;
+    position: absolute;
     left: 0;
     width: 100%;
     border: 1px solid #ccc;
     background: #fff;
     top: 32px;
-    display:none;
-}
-.THIS .AddBlocksSelect .slds-button.slds-button--neutral {
-    border-radius:5px;    
+    display: none;
 }
 
-.THIS .blockSelect .slds-button.slds-radio--button:hover{
+.THIS .AddBlocksSelect .slds-button.slds-button--neutral {
+    border-radius: 5px;
+}
+
+.THIS .blockSelect .slds-button.slds-radio--button:hover {
     background: #f4f6f9;
 }
-.THIS .blockSelect .slds-button.slds-radio--button { 
+
+.THIS .blockSelect .slds-button.slds-radio--button {
     border-bottom: 1px solid #ccc;
 }
+
 .THIS .blockSelect .slds-button.slds-radio--button:last-child {
-    border-bottom:none;    
+    border-bottom: none;
 }
+
 .THIS .showSelect {
-    display:block;
+    display: block;
 }
+
 .THIS .AddBlocksSelect label {
-    width:100%;
-    border-radius:0;
+    width: 100%;
+    border-radius: 0;
 }
 
 .THIS .small-text {
-    white-space: nowrap; 
-    overflow: hidden; 
-    padding: 5px; 
-    text-overflow: ellipsis; 
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 5px;
+    text-overflow: ellipsis;
     display: inline-block;
     width: 160px;
     position: relative;

@@ -2,11 +2,11 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-.THIS .fullSuccess{
+.THIS .fullSuccess {
     height: 75px;
 }
 
-.THIS .no-balance{
+.THIS .no-balance {
     width: 70%;
 }
 
@@ -14,19 +14,19 @@
     padding: 1rem;
 }
 
-.THIS .fullSuccess-container{
+.THIS .fullSuccess-container {
     margin-bottom: 1rem;
 }
 
-.THIS .fullSuccess-container{
+.THIS .fullSuccess-container {
     margin-bottom: 0rem;
 }
 
-.THIS .inline-block{
+.THIS .inline-block {
     display: inline-block;
 }
 
-.THIS .status .slds-popup{
+.THIS .status .slds-popup {
     position: absolute;
     top: 45px;
     right: -278px;
@@ -68,7 +68,7 @@
 }
 
 .THIS .status .slds-icon {
-   margin: 0 0 0 2px;
+    margin: 0 0 0 2px;
 }
 
 .THIS .value {

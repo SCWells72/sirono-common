@@ -40,11 +40,15 @@ public with sharing class InvoiceDao extends AbstractDao {
 
         if (InvoiceSecurityContext.DETAIL_CONTEXT.actionAllowed() && ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
-                SELECT Id, Name, Invoice_Balance__c, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, Due_Date__c, Partial_Payment_Plan__c,
-                    Patient__r.Name, Patient__r.Medical_Record_Number__c,
-                    Guarantor__r.Overdue_Balance__c, Guarantor__r.Invoiced_Balance__c, Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c,
-                    Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Add_to_Payment_Plan__c, Guarantor__r.Pre_Invoiced_Balance__c,
-                    (SELECT Id, Payment_Plan__c, Payment_Plan__r.Active__c, Payment_Plan__r.Installment_Amount__c, Payment_Plan__r.NextPaymentDate__c FROM Charge_Groups__r)
+                SELECT Id, Name, Invoice_Balance__c, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c,
+                    Due_Date__c, Partial_Payment_Plan__c,Patient__r.Name, Patient__r.Medical_Record_Number__c,
+                    Guarantor__r.Overdue_Balance__c, Guarantor__r.Invoiced_Balance__c, Guarantor__r.Due_Balance__c,
+                    Guarantor__r.Delinquent_Balance__c,Guarantor__r.Payment_Plan_Balance__c,
+                    Guarantor__r.Add_to_Payment_Plan__c, Guarantor__r.Pre_Invoiced_Balance__c, (
+                    SELECT Id, Payment_Plan__c, Payment_Plan__r.Active__c, Payment_Plan__r.Installment_Amount__c,
+                        Payment_Plan__r.NextPaymentDate__c
+                    FROM Charge_Groups__r
+                )
                 FROM Invoice__c
                 WHERE Guarantor__c = :contactId AND Id = :invoiceId
             ];

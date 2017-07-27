@@ -2,52 +2,52 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 public class Five9CreateCallLogRecordTest {
 
-    @isTest
+    @IsTest
     static void main() {
-	    Contact guarantorContact = TestUtility.generateGuarantorContact();
-	    insert guarantorContact;
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        insert guarantorContact;
 
-	    apexpages.currentPage().getParameters().put('Five9_ANI', 'A');
-	    apexpages.currentPage().getParameters().put('Five9_DNIS', 'B');
-	    apexpages.currentPage().getParameters().put('Salesforce_Id', guarantorContact.Id);
-	    apexpages.currentPage().getParameters().put('Call_disposition', 'C');
-	    apexpages.currentPage().getParameters().put('session_id', 'D');
-	    apexpages.currentPage().getParameters().put('endTimestamp', 'E');
-	    apexpages.currentPage().getParameters().put('callTypeName', 'F');
-	    apexpages.currentPage().getParameters().put('campaignName', 'G');
-	    apexpages.currentPage().getParameters().put('startTimestamp', 'H');
-	    apexpages.currentPage().getParameters().put('fullName', 'I');
+        ApexPages.currentPage().getParameters().put('Five9_ANI', 'A');
+        ApexPages.currentPage().getParameters().put('Five9_DNIS', 'B');
+        ApexPages.currentPage().getParameters().put('Salesforce_Id', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('Call_disposition', 'C');
+        ApexPages.currentPage().getParameters().put('session_id', 'D');
+        ApexPages.currentPage().getParameters().put('endTimestamp', 'E');
+        ApexPages.currentPage().getParameters().put('callTypeName', 'F');
+        ApexPages.currentPage().getParameters().put('campaignName', 'G');
+        ApexPages.currentPage().getParameters().put('startTimestamp', 'H');
+        ApexPages.currentPage().getParameters().put('fullName', 'I');
 
-	    Five9CreateCallLogRecord cc = new Five9CreateCallLogRecord();
-	    cc.doAction();
+        Five9CreateCallLogRecord cc = new Five9CreateCallLogRecord();
+        cc.doAction();
 
-		List<ApexPages.Message> msgList = ApexPages.getMessages();
-		System.assertEquals(0, msgList.size());
-	}
-	
-    @isTest
+        List<ApexPages.Message> msgList = ApexPages.getMessages();
+        System.assertEquals(0, msgList.size());
+    }
+
+    @IsTest
     static void main1() {
-		Contact guarantorContact = TestUtility.generateGuarantorContact();
-		insert guarantorContact;
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        insert guarantorContact;
 
-		apexpages.currentPage().getParameters().put('Five9_ANI', 'A');
-		apexpages.currentPage().getParameters().put('Five9_DNIS', 'B');
-		apexpages.currentPage().getParameters().put('Salesforce_Id', '');
-		apexpages.currentPage().getParameters().put('Call_disposition', 'C');
-		apexpages.currentPage().getParameters().put('session_id', 'D');
-		apexpages.currentPage().getParameters().put('endTimestamp', 'E');
-		apexpages.currentPage().getParameters().put('callTypeName', 'F');
-		apexpages.currentPage().getParameters().put('campaignName', 'G');
-		apexpages.currentPage().getParameters().put('startTimestamp', 'H');
-		apexpages.currentPage().getParameters().put('fullName', 'I');
+        ApexPages.currentPage().getParameters().put('Five9_ANI', 'A');
+        ApexPages.currentPage().getParameters().put('Five9_DNIS', 'B');
+        ApexPages.currentPage().getParameters().put('Salesforce_Id', '');
+        ApexPages.currentPage().getParameters().put('Call_disposition', 'C');
+        ApexPages.currentPage().getParameters().put('session_id', 'D');
+        ApexPages.currentPage().getParameters().put('endTimestamp', 'E');
+        ApexPages.currentPage().getParameters().put('callTypeName', 'F');
+        ApexPages.currentPage().getParameters().put('campaignName', 'G');
+        ApexPages.currentPage().getParameters().put('startTimestamp', 'H');
+        ApexPages.currentPage().getParameters().put('fullName', 'I');
 
-		Five9CreateCallLogRecord cc = new Five9CreateCallLogRecord();
-		cc.doAction();
+        Five9CreateCallLogRecord cc = new Five9CreateCallLogRecord();
+        cc.doAction();
 
-		List<ApexPages.Message> msgList = ApexPages.getMessages();
-		System.assertEquals(2, msgList.size());
-	}
+        List<ApexPages.Message> msgList = ApexPages.getMessages();
+        System.assertEquals(2, msgList.size());
+    }
 }

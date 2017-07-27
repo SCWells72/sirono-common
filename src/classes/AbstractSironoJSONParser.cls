@@ -16,7 +16,7 @@ public virtual class AbstractSironoJSONParser {
      */
     public static Date parseDate(String dateStr) {
         if (!String.isBlank(dateStr)) {
-            return Date.valueof(dateStr);
+            return Date.valueOf(dateStr);
         }
         return null;
     }

@@ -4,6 +4,7 @@
 
 public virtual class AbstractService {
 
-    public class ServiceException extends Exception {}
+    public class ServiceException extends Exception {
+    }
 
 }

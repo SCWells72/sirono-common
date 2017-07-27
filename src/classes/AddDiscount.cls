@@ -4,12 +4,12 @@
 
 public with sharing class AddDiscount {
 
-    public String guarantorRecordId {get; set;}
-    public String guarantorName {get; set;}
-    public Boolean chargeGroupsSelected {get; set;}
-    public String chargeGroupId {get; set;}
-    public List<ChargeGroupWrapper> chargeGroupList {get; set;}
-    public String messageToShow {get; set;}
+    public String guarantorRecordId { get; set; }
+    public String guarantorName { get; set; }
+    public Boolean chargeGroupsSelected { get; set; }
+    public String chargeGroupId { get; set; }
+    public List<ChargeGroupWrapper> chargeGroupList { get; set; }
+    public String messageToShow { get; set; }
 
     private Payment__c objPayment = new Payment__c();
     private List<Transaction__c> lsttransaction = new List<Transaction__c>();
@@ -37,7 +37,7 @@ public with sharing class AddDiscount {
     }
 
     //Check Charge group is selected or not and do the sum of the balance
-    public Pagereference doNext() {
+    public PageReference doNext() {
         messageToShow = 'Please select Charge Group(s) to add Discount.';
         chargeGroupsSelected = false;
         chargeGroupId = PayStaffWSUtill.fetchChargeGroupIds(chargeGroupList);
@@ -53,15 +53,15 @@ public with sharing class AddDiscount {
             /*Mohan Kumar 08-02-2016: Changed the below calculation to multiply by 0.15 rather then 0.0015
             * 10-03-2016: Viraj Rana - Tracker #127404597: Use custom setting for discount to calculate discount amount based on Adjustment Rate.
             */
-            decimal discountRate = 0;
+            Decimal discountRate = 0;
             discountRate = getDiscountRate();
-            
+
             if (discountRate > 0) {
-                discountToApply = ((totalAmount*discountRate)/100).setScale(2); // 0.15 %
+                discountToApply = ((totalAmount * discountRate) / 100).setScale(2); // 0.15 %
             }
-            
-            messageToShow = 'Clicking add discount will apply a $'+discountToApply+' discount. '
-            + 'The total will be adjusted from $'+totalAmount+' to $'+(totalAmount-discountToApply)+'.';
+
+            messageToShow = 'Clicking add discount will apply a $' + discountToApply + ' discount. '
+                + 'The total will be adjusted from $' + totalAmount + ' to $' + (totalAmount - discountToApply) + '.';
         }/*else {
             chargeGroupsSelected = false;
             ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
@@ -69,21 +69,21 @@ public with sharing class AddDiscount {
         }*/
         return null;
     }
-    
+
     //10-03-2016: Viraj Rana - Tracker #127404597: Use custom setting for discount to calculate discount amount based on Adjustment Rate.
-    public decimal getDiscountRate(){
-        decimal rate = 0;
+    public Decimal getDiscountRate() {
+        Decimal rate = 0;
         if (DiscountTypeMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             List<Discount_Type__mdt> discountType = [SELECT Rate__c FROM Discount_Type__mdt WHERE MasterLabel = 'Adjustment'];
 
-            if (discountType.size() > 0) {            
+            if (discountType.size() > 0) {
                 rate = discountType[0].Rate__c;
             }
         }
 
         return rate;
     }
-    
+
     //Check String is empty or not
     private Boolean isEmpty(String str) {
         return (str == null || str.trim().equals(''));
@@ -99,24 +99,24 @@ public with sharing class AddDiscount {
                     addDiscountRequest(csrfToken, jwtToken);
                 }
             } else {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                        'Please provide all details.'));
-                if (Test.IsRunningTest()) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                    'Please provide all details.'));
+                if (Test.isRunningTest()) {
                     TestUtility.generateException();
                 }
             }
         } catch (Exception e) {
             // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'ERROR: ' + e.getMessage()));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'ERROR: ' + e.getMessage()));
         }
     }
 
     //call addDiscount and send the request to end point.
     private void addDiscountRequest(String csrfToken, String jwtToken) {
         String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '",' +
-                '"code":"DIS",' +
-                '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + '}';
+            '"code":"DIS",' +
+            '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + '}';
 
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
@@ -135,16 +135,16 @@ public with sharing class AddDiscount {
         try {
             res = http.send(req);
             responseBody = res.getBody();
-            
-            if(Test.IsRunningTest()){
+
+            if (Test.isRunningTest()) {
                 TestUtility.generateException();
             }
         } catch (Exception e) {
             // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() +
-                            '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' +
-                            e.getMessage()));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() +
+                    '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' +
+                    e.getMessage()));
         }
         /*}else {
             res.setStatus('CREATED');
@@ -152,24 +152,24 @@ public with sharing class AddDiscount {
         }*/
 
         if (res.getStatus() != null && res.getStatus().trim().equalsIgnoreCase('CREATED')
-                && res.getStatusCode() != null && res.getStatusCode() == 201) {
+            && res.getStatusCode() != null && res.getStatusCode() == 201) {
             System.debug('RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody);
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'Discount has been added!'));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Discount has been added!'));
             chargeGroupsSelected = false;
-            
+
             //Call Payment, Transaction, ChargeGroups, Payment Plan Request.
             PayStaffWSUtill.parsePaymentReponse(csrfToken, jwtToken, responseBody, false);
-            
+
         } else {
-            System.debug('AddDiscount req: '+req);
-            System.debug('AddDiscount req body: '+req.getBody());
-            System.debug('AddDiscount response: '+res);
-            System.debug('AddDiscount res body: '+res.getBody());
+            System.debug('AddDiscount req: ' + req);
+            System.debug('AddDiscount req body: ' + req.getBody());
+            System.debug('AddDiscount response: ' + res);
+            System.debug('AddDiscount res body: ' + res.getBody());
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'CSRF_Token : '+ csrfToken));
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'JWT_Token : '+ jwtToken));
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'RESPONSE : ' + res.toString() +
-                            '  RESPONSE BODY::' + responseBody));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'RESPONSE : ' + res.toString() +
+                    '  RESPONSE BODY::' + responseBody));
             chargeGroupsSelected = true;
         }
     }

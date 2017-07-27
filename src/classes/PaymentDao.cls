@@ -12,8 +12,8 @@ public with sharing class PaymentDao {
 	 * @param List<Payment__c> payments - List of payment record for insert
 	 **/
     public static void insertPayment(List<Payment__c> payments) {
-    	if (PaymentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-            INSERT payments; 
+        if (PaymentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+            insert payments;
         }
     }
 
@@ -32,23 +32,23 @@ public with sharing class PaymentDao {
         if (PaymentSecurityContext.DAO_SELECT_CONTEXT.actionAllowed()) {
             try {
                 Payment__c payment = [
-                        SELECT Id,
-                                Amount__c,
-                                Deposit_Date__c,
-                                Encounter__c,
-                                Guarantor__c,
-                                Method__c,
-                                Name,
-                                Payment_Id__c,
-                                Sirono_ID__c,
-                                Id__c
+                    SELECT Id,
+                        Amount__c,
+                        Deposit_Date__c,
+                        Encounter__c,
+                        Guarantor__c,
+                        Method__c,
+                        Name,
+                        Payment_Id__c,
+                        Sirono_ID__c,
+                        ID__c
 
-                        FROM Payment__c
-                        WHERE Id = :paymentId
+                    FROM Payment__c
+                    WHERE Id = :paymentId
                 ];
                 return payment;
             } catch (QueryException ex) {
-                System.debug('PaymentDao.getPayment: '+ex.getStackTraceString());
+                System.debug('PaymentDao.getPayment: ' + ex.getStackTraceString());
                 return null;
             }
         }
@@ -64,23 +64,23 @@ public with sharing class PaymentDao {
         if (PaymentSecurityContext.DAO_SELECT_CONTEXT.actionAllowed()) {
             try {
                 Payment__c payment = [
-                        SELECT Id,
-                                Amount__c,
-                                Deposit_Date__c,
-                                Encounter__c,
-                                Guarantor__c,
-                                Method__c,
-                                Name,
-                                Payment_Id__c,
-                                Sirono_ID__c,
-                                Id__c
+                    SELECT Id,
+                        Amount__c,
+                        Deposit_Date__c,
+                        Encounter__c,
+                        Guarantor__c,
+                        Method__c,
+                        Name,
+                        Payment_Id__c,
+                        Sirono_ID__c,
+                        ID__c
 
-                        FROM Payment__c
-                        WHERE Sirono_ID__c = :sironoId
+                    FROM Payment__c
+                    WHERE Sirono_ID__c = :sironoId
                 ];
                 return payment;
             } catch (QueryException ex) {
-                System.debug('PaymentDao.getPaymentBySironoId: '+ex.getStackTraceString());
+                System.debug('PaymentDao.getPaymentBySironoId: ' + ex.getStackTraceString());
                 return null;
             }
         }

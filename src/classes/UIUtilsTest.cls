@@ -2,10 +2,10 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 public with sharing class UIUtilsTest {
 
-    @isTest
+    @IsTest
     public static void getCardDateOptions_test() {
 
         Test.startTest();

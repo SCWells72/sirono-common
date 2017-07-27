@@ -2,89 +2,90 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-.THIS #sfdc_username_container{
-    margin-bottom:10px;
+.THIS #sfdc_username_container {
+    margin-bottom: 10px;
     padding: 12px;
-    background-color:white;
+    background-color: white;
     border: 1px solid #CCC;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
 }
 
-.THIS #sfdc_nickname_container{
-    margin-bottom:10px;
+.THIS #sfdc_nickname_container {
+    margin-bottom: 10px;
     padding: 12px;
-    background-color:white;
+    background-color: white;
     border: 1px solid #CCC;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
 }
 
-.THIS #sfdc_email_container{
-    margin-bottom:10px;
+.THIS #sfdc_email_container {
+    margin-bottom: 10px;
     padding: 12px;
-    background-color:white;
+    background-color: white;
     border: 1px solid #CCC;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
 }
 
-.THIS #sfdc_extrafield_container{
-    margin-bottom:10px;
+.THIS #sfdc_extrafield_container {
+    margin-bottom: 10px;
     padding: 12px;
-    background-color:white;
+    background-color: white;
     border: 1px solid #CCC;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
 }
 
-.THIS #sfdc_user{
-    float:left;
-    width:23px;
-    height:25px;
-    padding-top:1px;
-    padding-left:2px;
-    margin:0px;
+.THIS #sfdc_user {
+    float: left;
+    width: 23px;
+    height: 25px;
+    padding-top: 1px;
+    padding-left: 2px;
+    margin: 0px;
 
 }
 
-.THIS #sfdc_lock{
-    float:left;
-    width:23px;
-    height:25px;
-    padding-top:1px;
-    padding-left:2px;
-    margin:0px;
+.THIS #sfdc_lock {
+    float: left;
+    width: 23px;
+    height: 25px;
+    padding-top: 1px;
+    padding-left: 2px;
+    margin: 0px;
 }
 
-.THIS  .login-icon {
-    color:#ccc;font-size:22px;
+.THIS .login-icon {
+    color: #ccc;
+    font-size: 22px;
 }
 
-.THIS #sfdc_password_container{
-    margin-bottom:10px;
+.THIS #sfdc_password_container {
+    margin-bottom: 10px;
     padding: 12px;
-    background-color:white;
+    background-color: white;
     border: 1px solid #CCC;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
 }
 
-.THIS #sfdc_confirm_password_container{
+.THIS #sfdc_confirm_password_container {
     padding: 12px;
-    background-color:white;
+    background-color: white;
     border: 1px solid #CCC;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
 }
 
-.THIS  button.sfdc_button {
+.THIS button.sfdc_button {
     width: 100%;
     margin-top: 15px;
     margin-bottom: 5px;
@@ -108,14 +109,14 @@
     -ms-user-select: none;
 }
 
-.THIS  button:hover {
-    background-color:#3276b1;
-    border-color:#285e8e;
-    cursor:pointer;
+.THIS button:hover {
+    background-color: #3276b1;
+    border-color: #285e8e;
+    cursor: pointer;
 }
 
-.THIS  input {
-    margin-left:10px;
+.THIS input {
+    margin-left: 10px;
     margin-top: 3px;
     border: 0px solid transparent;
     width: 70%;
@@ -123,24 +124,25 @@
     font-size: 14px;
 }
 
-.THIS #sfdc_forgot{
+.THIS #sfdc_forgot {
     font-family: 'Open Sans', 'sans-serif';
-    font-weight:300;
+    font-weight: 300;
     font-size: 14px;
     margin-top: 10px
 }
 
-.THIS  #error {
+.THIS #error {
     text-align: center;
-    color:#FF0000;
+    color: #FF0000;
 }
 
-.THIS  a {
-    color:white;
+.THIS a {
+    color: white;
     text-decoration: none;
 }
-.THIS  a:hover {
-    color:white;
+
+.THIS a:hover {
+    color: white;
     text-decoration: none;
 }
 
@@ -153,7 +155,7 @@
 }
 
 .THIS input[type="checkbox"]:checked {
-    border: 1px solid ;
+    border: 1px solid;
 }
 
 .THIS input[type="checkbox"]:checked:after {
@@ -166,7 +168,7 @@
     width: 10px;
     border-bottom: 4px solid /*#354452*/ white;
     border-left: 4px solid /*#354452*/ white;
-    transform:rotate(-45deg);
+    transform: rotate(-45deg);
 }
 
 .THIS input[type="checkbox"].disabled {

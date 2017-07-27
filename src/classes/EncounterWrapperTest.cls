@@ -2,7 +2,7 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 private class EncounterWrapperTest {
     public static final String GUARANTOR_CONTACT_ONE = 'guarantorContact1';
     public static final String GUARANTOR_CONTACT_TWO = 'guarantorContact2';
@@ -13,14 +13,14 @@ private class EncounterWrapperTest {
         // Create Guarantor Contact records.
         Contact guarantorContact1 = TestUtility.generateGuarantorContactByName(GUARANTOR_CONTACT_ONE);
         Contact guarantorContact2 = TestUtility.generateGuarantorContactByName(GUARANTOR_CONTACT_TWO);
-        List<Contact> guarantorContactList = new List<Contact>{guarantorContact1, guarantorContact2};
-        INSERT guarantorContactList;
+        List<Contact> guarantorContactList = new List<Contact> { guarantorContact1, guarantorContact2 };
+        insert guarantorContactList;
 
         // Create Encounter record.
         Encounter__c encounter1 = TestUtility.generateEncounter(guarantorContact1.Id, 500, System.today());
         Encounter__c encounter2 = TestUtility.generateEncounter(guarantorContact2.Id, 1000, System.today());
-        List<Encounter__c> encounterList = new List<Encounter__c>{encounter1, encounter2};
-        INSERT encounterList;
+        List<Encounter__c> encounterList = new List<Encounter__c> { encounter1, encounter2 };
+        insert encounterList;
 
         // Check system asserts.
         System.assertEquals(encounterList[0].Guarantor__c, guarantorContact1.Id, 'Expected ' + encounterList[0].Guarantor__c + ' but we got ' + guarantorContact1.Id);

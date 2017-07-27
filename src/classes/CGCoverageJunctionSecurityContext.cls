@@ -13,7 +13,7 @@ public with sharing class CGCoverageJunctionSecurityContext extends SecurityCont
     private static final String LASTMODIFIEDDATE = 'LastModifiedDate';
 
     // The fields for selecting a Charge Group Coverage Junction in CreateCaseManual
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         CHARGE_GROUP, COVERAGE, LASTMODIFIEDDATE
     };
 

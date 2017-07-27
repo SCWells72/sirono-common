@@ -14,11 +14,11 @@ public with sharing class InvoiceUtil {
 
     public static void updateInvoiceStatusIndex(Set<Id> chargeGroupInvoiceIds) {
         // Get the max index value from related charge groups and insert into Invoice Status Index field
-        if(chargeGroupInvoiceIds.size() != 0) {
+        if (chargeGroupInvoiceIds.size() != 0) {
             // Instantiate an Id, Invoice map to hold temp invoices and field values to update
             Map<Id, Invoice__c> invoicesToUpdate = new Map<Id, Invoice__c>();
 
-            for (Id invoiceId: chargeGroupInvoiceIds) {
+            for (Id invoiceId : chargeGroupInvoiceIds) {
                 Invoice__c tempInvoice = new Invoice__c();
                 tempInvoice.Id = invoiceId;
                 tempInvoice.Invoice_Status_Index__c = 0;
@@ -29,24 +29,24 @@ public with sharing class InvoiceUtil {
             //TODO: This query should move into ChargeGroupDao class.
             if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
                 AggregateResult[] queryResults = [
-                        SELECT Invoice__c inv, MAX(Sub_Status_Index__c) maxStatusValue
-                        FROM Charge_Group__c
-                        WHERE Invoice__c IN :chargeGroupInvoiceIds
-                        AND Active__c = TRUE
-                        GROUP BY Invoice__c
+                    SELECT Invoice__c inv, MAX(Sub_Status_Index__c) maxStatusValue
+                    FROM Charge_Group__c
+                    WHERE Invoice__c IN :chargeGroupInvoiceIds
+                    AND Active__c = TRUE
+                    GROUP BY Invoice__c
                 ];
 
-                if(queryResults.size() > 0) {
-                    for(AggregateResult qr: queryResults) {
-                        system.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('inv')
-                                + '[Max Status Value]: ' + qr.get('maxStatusValue'));
+                if (queryResults.size() > 0) {
+                    for (AggregateResult qr : queryResults) {
+                        System.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('inv')
+                            + '[Max Status Value]: ' + qr.get('maxStatusValue'));
 
                         // Update the Invoice Status Index field directly within the map, else the field remains 0
                         invoicesToUpdate.get((Id) qr.get('inv')).Invoice_Status_Index__c = Integer.valueOf(qr.get('maxStatusValue'));
                     }
                 }
                 if (InvoiceSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                    UPDATE invoicesToUpdate.values();
+                    update invoicesToUpdate.values();
                 }
             }
         }
@@ -65,10 +65,10 @@ public with sharing class InvoiceUtil {
             if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
                 // Query for distinct Invoice/Account Substatus values using group by
                 AggregateResult[] queryResults = [
-                        SELECT Invoice__c inv, Account_Sub_Status__c acctSS
-                        FROM Charge_Group__c
-                        WHERE Invoice__c IN :chargeGroupInvoiceIds
-                        GROUP BY Invoice__c, Account_Sub_Status__c
+                    SELECT Invoice__c inv, Account_Sub_Status__c acctSS
+                    FROM Charge_Group__c
+                    WHERE Invoice__c IN :chargeGroupInvoiceIds
+                    GROUP BY Invoice__c, Account_Sub_Status__c
                 ];
 
                 // idWithStatusValuesMap includes Invoices that will need to be updated
@@ -83,8 +83,8 @@ public with sharing class InvoiceUtil {
                     for (AggregateResult ar : queryResults) {
                         if ((Id) ar.get('inv') == invoiceId) {
                             tempStatusList.add((String) ar.get('acctSS'));
-                            system.debug('>>>>> Adding Acct Substatus to list: ' + ar.get('acctSS') + ' for ' +
-                                    'invoice Id: ' + invoiceId);
+                            System.debug('>>>>> Adding Acct Substatus to list: ' + ar.get('acctSS') + ' for ' +
+                                'invoice Id: ' + invoiceId);
                         }
                     }
 
@@ -95,7 +95,7 @@ public with sharing class InvoiceUtil {
                     idWithStatusValuesMap.put(invoiceId, tempInvoice);
                 }
                 if (InvoiceSecurityContext.UPDATE_ALL_SUBSTATUS_CONTEXT.actionAllowed()) {
-                    UPDATE idWithStatusValuesMap.values();
+                    update idWithStatusValuesMap.values();
                 }
             }
         }
@@ -113,7 +113,7 @@ public with sharing class InvoiceUtil {
             // Instantiate map that is accessed by if and else blocks
             Map<Id, Invoice__c> invoicesToUpdate = new Map<Id, Invoice__c>();
 
-            for (Id invoiceId: chargeGroupInvoiceIds) {
+            for (Id invoiceId : chargeGroupInvoiceIds) {
                 Invoice__c tempInvoice = new Invoice__c();
                 tempInvoice.Id = invoiceId;
                 tempInvoice.Invoice_Balance__c = 0.00;
@@ -123,17 +123,17 @@ public with sharing class InvoiceUtil {
             //TODO: This query should move into ChargeGroupDao class.
             if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
                 AggregateResult[] queryResults = [
-                        SELECT Invoice__c inv, SUM(Balance__c) sumBalances
-                        FROM Charge_Group__c
-                        WHERE Invoice__c IN :chargeGroupInvoiceIds
-                        AND Active__c = TRUE
-                        GROUP BY Invoice__c
+                    SELECT Invoice__c inv, SUM(Balance__c) sumBalances
+                    FROM Charge_Group__c
+                    WHERE Invoice__c IN :chargeGroupInvoiceIds
+                    AND Active__c = TRUE
+                    GROUP BY Invoice__c
                 ];
 
                 if (queryResults.size() > 0) {
-                    for (AggregateResult qr: queryResults) {
-                        system.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('inv')
-                                + '[Invoice Balance]: ' + qr.get('sumBalances'));
+                    for (AggregateResult qr : queryResults) {
+                        System.debug('Updated invoice values >>>>> [Invoice Id]: ' + qr.get('inv')
+                            + '[Invoice Balance]: ' + qr.get('sumBalances'));
 
                         if ((Decimal) qr.get('sumBalances') != 0 || (Decimal) qr.get('sumBalances') != null) {
                             // Update the Invoice Balance field directly within the map, else the balance will remain 0.00
@@ -142,7 +142,7 @@ public with sharing class InvoiceUtil {
                     }
                 }
                 if (InvoiceSecurityContext.UPDATE_BALANCE_CONTEXT.actionAllowed()) {
-                    UPDATE invoicesToUpdate.values();
+                    update invoicesToUpdate.values();
                 }
             }
         }

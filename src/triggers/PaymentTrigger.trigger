@@ -4,22 +4,22 @@
 
 trigger PaymentTrigger on Payment__c (after insert, after update, after delete, after undelete) {
     //executes after insert operation
-    if (trigger.isAfter && trigger.isInsert) {
-        PaymentTriggerHandler.afterInsert(trigger.new);
+    if (Trigger.isAfter && Trigger.isInsert) {
+        PaymentTriggerHandler.afterInsert(Trigger.new);
     }
 
     //executes after update operation
-    if (trigger.isAfter && trigger.isUpdate) {
-        PaymentTriggerHandler.afterUpdate(trigger.new, trigger.oldMap);
+    if (Trigger.isAfter && Trigger.isUpdate) {
+        PaymentTriggerHandler.afterUpdate(Trigger.new, Trigger.oldMap);
     }
 
     //executes after delete operation
-    if (trigger.isAfter && trigger.isDelete) {
-        PaymentTriggerHandler.afterDelete(trigger.old);
+    if (Trigger.isAfter && Trigger.isDelete) {
+        PaymentTriggerHandler.afterDelete(Trigger.old);
     }
 
     //executes after undelete operation
-    if (trigger.isAfter && trigger.isUndelete) {
-        PaymentTriggerHandler.afterInsert(trigger.new);
+    if (Trigger.isAfter && Trigger.isUndelete) {
+        PaymentTriggerHandler.afterInsert(Trigger.new);
     }
 }

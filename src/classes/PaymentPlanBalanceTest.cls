@@ -2,14 +2,14 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 public class PaymentPlanBalanceTest {
 
     /*
      * Setup test data to be used in the following test methods.
      */
 
-    @testSetup
+    @TestSetup
     static void setupTestRecords() {
         // Use a modified CreatedDate so we can test transactions added in the future
         Datetime newCreateDate = System.now().addDays(-5);
@@ -25,9 +25,9 @@ public class PaymentPlanBalanceTest {
 
         Map<String, String> recordTypeMap = new Map<String, String>();
         for (RecordType recordType : [
-                Select Id, Name
-                From RecordType
-                Where sObjectType = :Payment_Method__c.class.getName()
+            SELECT Id, Name
+            FROM RecordType
+            WHERE SobjectType = :Payment_Method__c.class.getName()
         ]) {
             recordTypeMap.put(recordType.Name, recordType.Id);
         }
@@ -54,71 +54,71 @@ public class PaymentPlanBalanceTest {
         testTransaction.Post_Date__c = newCreateDate;
         testTransaction.Transaction_Date__c = testPP.Plan_Value_Modified_Date__c.date();
         insert testTransaction;
-        
+
         // Check system asserts.
         System.assertEquals(newCreateDate, testPP.Plan_Value_Modified_Date__c,
-                'Expected PP modified date ' + newCreateDate + ' but got ' + testPP.Plan_Value_Modified_Date__c);
+            'Expected PP modified date ' + newCreateDate + ' but got ' + testPP.Plan_Value_Modified_Date__c);
     }
 
     /*
      * Upon initial insert of charge group and related data, make sure Charges_Added_Since_Start__c = 0 or null
      */
-    @isTest
+    @IsTest
     static void initialCGInsertTest() {
         Test.startTest();
 
         List<Payment_Plan__c> ppResults = [
-                SELECT Id, Charges_Added_Since_Start__c
-                FROM Payment_Plan__c
+            SELECT Id, Charges_Added_Since_Start__c
+            FROM Payment_Plan__c
         ];
 
         Test.stopTest();
 
-        for(Payment_Plan__c pp : ppResults){
+        for (Payment_Plan__c pp : ppResults) {
             System.debug('Charges added since plan start: ' + pp.Charges_Added_Since_Start__c);
             System.assert(pp.Charges_Added_Since_Start__c == 0.00 || pp.Charges_Added_Since_Start__c == null,
-                    'Charges Added Should be 0 or null on initial insert.');
+                'Charges Added Should be 0 or null on initial insert.');
         }
     }
 
     /*
      * Add a new transaction to the charge group, Charges_Added_Since_Start__c should equal transaction amount
      */
-    @isTest
+    @IsTest
     static void addNewTransactionTest() {
         Test.startTest();
 
-        Charge_Group__c testCG = [SELECT Id, Balance__c from Charge_Group__c LIMIT 1];
+        Charge_Group__c testCG = [SELECT Id, Balance__c FROM Charge_Group__c LIMIT 1];
 
         Service__c newService = TestUtility.generateService(testCG, TestUtility.generateRandomCurrency());
         insert newService;
 
         Transaction__c newServiceTransaction = TestUtility.generateServiceTxn(testCG, newService.Amount__c, newService);
         newServiceTransaction.Post_Date__c = newService.Post_Date__c;
-        newServiceTransaction.Transaction_Date__c =  newServiceTransaction.Post_Date__c.date();
+        newServiceTransaction.Transaction_Date__c = newServiceTransaction.Post_Date__c.date();
         insert newServiceTransaction;
 
         Payment_Plan__c ppResults = [
-                SELECT Id, Charges_Added_Since_Start__c
-                FROM Payment_Plan__c
-                LIMIT 1
+            SELECT Id, Charges_Added_Since_Start__c
+            FROM Payment_Plan__c
+            LIMIT 1
         ];
 
         Test.stopTest();
 
         System.assertEquals(newServiceTransaction.Amount__c, ppResults.Charges_Added_Since_Start__c,
-                'Charges added since plan start should equal the inserted transaction amount.');
+            'Charges added since plan start should equal the inserted transaction amount.');
     }
 
     /*
      * Add a new transaction and then modify the payment plan's value modified date
      * Assert that Charges_Added_Since_Start__c equals 0
      */
-    @isTest
+    @IsTest
     static void changePPValueModifiedDateTest() {
         Test.startTest();
 
-        Charge_Group__c testCG = [SELECT Id, Balance__c from Charge_Group__c LIMIT 1];
+        Charge_Group__c testCG = [SELECT Id, Balance__c FROM Charge_Group__c LIMIT 1];
 
         Service__c newService = TestUtility.generateService(testCG, TestUtility.generateRandomCurrency());
         insert newService;
@@ -128,25 +128,25 @@ public class PaymentPlanBalanceTest {
         insert secondTestTransaction;
 
         Payment_Plan__c updatedPPResults = [
-                SELECT Id, Charges_Added_Since_Start__c, Remaining_Balance__c, Plan_Value_Modified_Date__c
-                FROM Payment_Plan__c
-                LIMIT 1
+            SELECT Id, Charges_Added_Since_Start__c, Remaining_Balance__c, Plan_Value_Modified_Date__c
+            FROM Payment_Plan__c
+            LIMIT 1
         ];
 
         // Modify PP value modified date and recalculate
-        updatedPPResults.Plan_Value_Modified_Date__c = date.today();
+        updatedPPResults.Plan_Value_Modified_Date__c = Date.today();
         update updatedPPResults;
 
         Payment_Plan__c finalPPResults = [
-                SELECT Id, Charges_Added_Since_Start__c, Remaining_Balance__c, Plan_Value_Modified_Date__c
-                FROM Payment_Plan__c
-                LIMIT 1
+            SELECT Id, Charges_Added_Since_Start__c, Remaining_Balance__c, Plan_Value_Modified_Date__c
+            FROM Payment_Plan__c
+            LIMIT 1
         ];
 
         Test.stopTest();
 
         System.assertEquals(0, finalPPResults.Charges_Added_Since_Start__c,
-                'Value date was updated, charges added should be 0.');
+            'Value date was updated, charges added should be 0.');
     }
 
     /*
@@ -154,11 +154,11 @@ public class PaymentPlanBalanceTest {
      * Assert that the added charges field isn't updated
      * Charges_Added_Since_Start__c sums only service transactions
      */
-    @isTest
+    @IsTest
     static void insertPaymentTransactionTest() {
         Test.startTest();
 
-        Charge_Group__c testCG = [SELECT Id, Balance__c from Charge_Group__c LIMIT 1];
+        Charge_Group__c testCG = [SELECT Id, Balance__c FROM Charge_Group__c LIMIT 1];
         Contact guarantor = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
         Payment__c pmt = TestUtility.generateSironoPayment(guarantor.Id, Decimal.valueOf(Math.random()), TestUtility.generateRandomCurrency());
@@ -169,14 +169,14 @@ public class PaymentPlanBalanceTest {
         insert secondTestTransaction;
 
         Payment_Plan__c ppResults = [
-                SELECT Id, Charges_Added_Since_Start__c
-                FROM Payment_Plan__c
-                LIMIT 1
+            SELECT Id, Charges_Added_Since_Start__c
+            FROM Payment_Plan__c
+            LIMIT 1
         ];
 
         Test.stopTest();
 
         System.assertEquals(0, ppResults.Charges_Added_Since_Start__c,
-                'Transaction was payment type; charges added should not have been updated.');
+            'Transaction was payment type; charges added should not have been updated.');
     }
 }

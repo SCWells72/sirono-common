@@ -2,12 +2,12 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 public with sharing class PaymentTabsControllerTest {
 
     private static String PLAN_SIRONO_ID = '2876';
 
-    @isTest
+    @IsTest
     public static void getCardSelectOptionsTest() {
         Test.startTest();
         Map<String, Map<String, String>> opts = PaymentTabsController.getCardSelectOptions();
@@ -16,7 +16,7 @@ public with sharing class PaymentTabsControllerTest {
         System.assertEquals(2, opts.keySet().size(), 'Should have both YEARS and MONTHS');
     }
 
-    @isTest
+    @IsTest
     public static void testGetPaymentPlanInfoNullForNoContact() {
         Test.startTest();
         PaymentTabsController.GuarantorPaymentInfo gpi = PaymentTabsController.getPaymentPlanInfo();
@@ -25,7 +25,7 @@ public with sharing class PaymentTabsControllerTest {
         System.assertEquals(null, gpi, 'Should be null if no contact id is found.');
     }
 
-    @isTest
+    @IsTest
     public static void testGetPaymentPlanInfoForNoActiveCGs() {
         User portalUser = TestUtility.getGuarantorCommunityUser();
         User adminUser = TestUtility.getPortalAdminUser();
@@ -41,7 +41,7 @@ public with sharing class PaymentTabsControllerTest {
             for (Charge_Group__c cg : cgs) {
                 cg.Active__c = false;
             }
-            UPDATE cgs;
+            update cgs;
         }
         PaymentTabsController.GuarantorPaymentInfo gpi;
 
@@ -56,7 +56,7 @@ public with sharing class PaymentTabsControllerTest {
 
     }
 
-    @isTest
+    @IsTest
     public static void testGetPaymentPlanInfoHasChargeGroups() {
         User portalUser = TestUtility.getGuarantorCommunityUser();
         User adminUser = TestUtility.getPortalAdminUser();
@@ -76,12 +76,12 @@ public with sharing class PaymentTabsControllerTest {
         System.assertNotEquals(null, gpi.settings, 'Should have pp settings.');
     }
 
-    @isTest
+    @IsTest
     public static void testCreatePaymentPlan() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         User portalUser = TestUtility.getGuarantorCommunityUser();
         // Update the mock response to use the community guarantor sirono id.
-        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_ID__c.toPlainString();
 
         Map<String, Object> ppInfoMap = new Map<String, Object>();
         ppInfoMap.put(PaymentPlanInformation.PLAN_TYPE, Constants.PLANTYPE_AUTO);
@@ -90,7 +90,7 @@ public with sharing class PaymentTabsControllerTest {
         ppInfoMap.put(PaymentPlanInformation.EXECUTE_ON_DAY, '1');
         ppInfoMap.put(PaymentPlanInformation.GUARANTOR_ID, portalUser.ContactId);
         ppInfoMap.put(PaymentPlanInformation.CARD_HOLDER_NAME, 'Pork nBeans');
-        ppInfoMap.put(PaymentPlanInformation.EXPIRATION_YEAR, String.valueof(System.today().Year() + 1));
+        ppInfoMap.put(PaymentPlanInformation.EXPIRATION_YEAR, String.valueOf(System.today().year() + 1));
         ppInfoMap.put(PaymentPlanInformation.EXPIRATION_MONTH, '7');
         ppInfoMap.put(PaymentPlanInformation.CVV_KEY, '127');
         ppInfoMap.put(PaymentPlanInformation.STATE_KEY, 'CA');
@@ -109,7 +109,7 @@ public with sharing class PaymentTabsControllerTest {
         System.assertEquals(null, plan.Payment_Method__c, 'Should not have inserted the payment method.');
     }
 
-    @isTest
+    @IsTest
     public static void testDoEditPaymentMethodNoId() {
         Map<String, Object> ppInfoMap = new Map<String, Object>();
 
@@ -126,7 +126,7 @@ public with sharing class PaymentTabsControllerTest {
 
     }
 
-    @isTest
+    @IsTest
     public static void testDoEditPaymentMethodNewCardNoSave() {
         User portalUser = TestUtility.getGuarantorCommunityUser();
         User adminUser = TestUtility.getPortalAdminUser();
@@ -136,7 +136,7 @@ public with sharing class PaymentTabsControllerTest {
 
         Map<String, Object> ppInfoMap = new Map<String, Object>();
         ppInfoMap.put(PaymentPlanInformation.CARD_HOLDER_NAME, cHolderName);
-        ppInfoMap.put(PaymentPlanInformation.EXPIRATION_YEAR, String.valueof(System.today().Year() + 1));
+        ppInfoMap.put(PaymentPlanInformation.EXPIRATION_YEAR, String.valueOf(System.today().year() + 1));
         ppInfoMap.put(PaymentPlanInformation.EXPIRATION_MONTH, '7');
         ppInfoMap.put(PaymentPlanInformation.CVV_KEY, '127');
         ppInfoMap.put(PaymentPlanInformation.CREDITCARD_NUMBER, '4111111111111111');
@@ -154,7 +154,7 @@ public with sharing class PaymentTabsControllerTest {
         System.assertEquals(0, savedMethods.size(), 'Should not have saved the new payment method.');
     }
 
-    @isTest
+    @IsTest
     public static void testDoEditPaymentMethodNewCardSaved() {
         User portalUser = TestUtility.getGuarantorCommunityUser();
         User adminUser = TestUtility.getPortalAdminUser();
@@ -164,7 +164,7 @@ public with sharing class PaymentTabsControllerTest {
 
         Map<String, Object> ppInfoMap = new Map<String, Object>();
         ppInfoMap.put(PaymentPlanInformation.CARD_HOLDER_NAME, cHolderName);
-        ppInfoMap.put(PaymentPlanInformation.EXPIRATION_YEAR, String.valueof(System.today().Year() + 1));
+        ppInfoMap.put(PaymentPlanInformation.EXPIRATION_YEAR, String.valueOf(System.today().year() + 1));
         ppInfoMap.put(PaymentPlanInformation.EXPIRATION_MONTH, '7');
         ppInfoMap.put(PaymentPlanInformation.CVV_KEY, '127');
         ppInfoMap.put(PaymentPlanInformation.CREDITCARD_NUMBER, '4111111111111111');
@@ -182,7 +182,7 @@ public with sharing class PaymentTabsControllerTest {
         System.assertEquals(1, savedMethods.size(), 'Should have saved the new payment method.');
     }
 
-    @isTest
+    @IsTest
     public static void testDoEditPaymentPlanNoId() {
         User portalUser = TestUtility.getGuarantorCommunityUser();
         Map<String, Object> ppInfoMap = new Map<String, Object>();
@@ -200,12 +200,12 @@ public with sharing class PaymentTabsControllerTest {
 
     }
 
-    @isTest
+    @IsTest
     public static void testDoEditPaymentPlanSuccess() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         User portalUser = TestUtility.getGuarantorCommunityUser();
         User adminUser = TestUtility.getPortalAdminUser();
-        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_ID__c.toPlainString();
 
         Payment_Plan__c createdPlan = insertPaymentPlan(adminUser, portalUser);
 
@@ -222,7 +222,7 @@ public with sharing class PaymentTabsControllerTest {
         System.debug(updatedPlan);
     }
 
-    @isTest
+    @IsTest
     public static void testDoEditPaymentPlanBadPlanId() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         User portalUser = TestUtility.getGuarantorCommunityUser();
@@ -249,12 +249,12 @@ public with sharing class PaymentTabsControllerTest {
 
     }
 
-    @isTest
+    @IsTest
     public static void testDeletePaymentPlan() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         User portalUser = TestUtility.getGuarantorCommunityUser();
         User adminUser = TestUtility.getPortalAdminUser();
-        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_ID__c.toPlainString();
 
 
         Payment_Plan__c createdPlan = insertPaymentPlan(adminUser, portalUser);
@@ -277,11 +277,11 @@ public with sharing class PaymentTabsControllerTest {
 
     }
 
-    @isTest
+    @IsTest
     public static void testDeletePaymentPlanNoPlanFound() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         User portalUser = TestUtility.getGuarantorCommunityUser();
-        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_ID__c.toPlainString();
 
         System.runAs(portalUser) {
             try {
@@ -298,7 +298,7 @@ public with sharing class PaymentTabsControllerTest {
 
     }
 
-    @isTest
+    @IsTest
     public static void getChargeGroupsTest() {
         Contact guarantorContact;
         Contact patientContact;
@@ -313,10 +313,10 @@ public with sharing class PaymentTabsControllerTest {
             patientContact = TestUtility.generatePatientContact();
             patientContact.AccountId = testAcc.Id;
             patientContact.Medical_Record_Number__c = '1234512345';
-            INSERT patientContact;
+            insert patientContact;
 
             Payment_Plan__c pPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-            INSERT pPlan;
+            insert pPlan;
 
             List<Invoice__c> lstInvoice = new List<Invoice__c>();
             invoice1 = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
@@ -329,7 +329,7 @@ public with sharing class PaymentTabsControllerTest {
             invoice3.Invoice_Status_Index__c = 2;
             lstInvoice.add(invoice3);
 
-            INSERT lstInvoice;
+            insert lstInvoice;
 
             List<Charge_Group__c> lstChrgGroup = new List<Charge_Group__c>();
             Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 1234, pPlan.Id);
@@ -340,31 +340,31 @@ public with sharing class PaymentTabsControllerTest {
             chargeGroup2.Invoice__c = invoice2.Id;
             lstChrgGroup.add(chargeGroup2);
 
-            INSERT lstChrgGroup;
+            insert lstChrgGroup;
 
             Payor__c payorTest = new Payor__c(
                 Name = 'payotTest'
             );
-            INSERT payorTest;
+            insert payorTest;
 
             Coverage__c objcoverage = new Coverage__c(
                 Name = 'Test',
                 Payor__c = payorTest.Id
             );
-            INSERT objcoverage;
+            insert objcoverage;
 
             Charge_Group_Coverage_Junction__c objCGCoverage = new Charge_Group_Coverage_Junction__c();
             objCGCoverage.Name = 'Test';
             objCGCoverage.Charge_Group__c = chargeGroup1.Id;
             objCGCoverage.Coverage__c = objcoverage.Id;
-            INSERT objCGCoverage;
+            insert objCGCoverage;
 
             Payment__c payment1 = TestUtility.generateSironoPayment(guarantorContact.Id, 1234, 12);
             Payment__c payment2 = TestUtility.generateSironoPayment(guarantorContact.Id, 1235, 25);
-            List<Payment__c> lstPayment = new List<Payment__c>{
+            List<Payment__c> lstPayment = new List<Payment__c> {
                 payment1, payment2
             };
-            INSERT lstPayment;
+            insert lstPayment;
 
             List<Transaction__c> lstTransaction = new List<Transaction__c>();
             Transaction__c transaction1 = TestUtility.generatePaymentTxn(chargeGroup1, 20, payment1);
@@ -373,15 +373,15 @@ public with sharing class PaymentTabsControllerTest {
             Transaction__c transaction2 = TestUtility.generatePaymentTxn(chargeGroup1, 200, payment2);
             lstTransaction.add(transaction2);
 
-            INSERT lstTransaction;
+            insert lstTransaction;
 
 
             invoice1.Invoice_Status_Index__c = 9;
             invoice2.Invoice_Status_Index__c = 4;
-            List<Invoice__c> lstInvoiceUpdate = new List<Invoice__c>{
+            List<Invoice__c> lstInvoiceUpdate = new List<Invoice__c> {
                 invoice1, invoice2
             };
-            UPDATE lstInvoiceUpdate;
+            update lstInvoiceUpdate;
 
             List<WorkWithInvoicesController.PatientWrapper> patientList = WorkWithInvoicesController.getPatientList();
             System.assertEquals(0, patientList.size());
@@ -393,12 +393,12 @@ public with sharing class PaymentTabsControllerTest {
             Test.stopTest();
             System.assertEquals(1, chargeGroups.size(), 'Should have found an active charge group with non-zerio balance.');
             System.assert(chargeGroups[0].Active__c == true, 'Should be active.');
-            System.assert(chargeGroups[0].Balance__c > 0 , 'Should have a balance.');
+            System.assert(chargeGroups[0].Balance__c > 0, 'Should have a balance.');
 
         }
     }
 
-    @isTest
+    @IsTest
     public static void getCreditCardsNoResultsTest() {
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
@@ -415,7 +415,7 @@ public with sharing class PaymentTabsControllerTest {
 
     }
 
-    @isTest
+    @IsTest
     public static void getCreditCardsVerifyResultsTest() {
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
@@ -427,19 +427,19 @@ public with sharing class PaymentTabsControllerTest {
         payMethods.get(0).Card_Type__c = 'Visa';
         payMethods.get(0).Last_4__c = '1111';
         payMethods.get(0).Type__c = Constants.CREDIT_CARD;
-        INSERT payMethods;
+        insert payMethods;
 
         //TODO Figure out sharing for portal users!
         List<Payment_Method__Share> shares = new List<Payment_Method__Share>();
         for (Payment_Method__c pm : payMethods) {
-            Payment_Method__Share share  = new Payment_Method__Share();
+            Payment_Method__Share share = new Payment_Method__Share();
             share.ParentId = pm.Id;
             share.UserOrGroupId = portalUser.Id;
             share.AccessLevel = 'edit';
             shares.add(share);
         }
 
-        INSERT shares;
+        insert shares;
 
         System.runAs(portalUser) {
 
@@ -452,7 +452,7 @@ public with sharing class PaymentTabsControllerTest {
 
     }
 
-    @isTest
+    @IsTest
     public static void getCreditCardsVerifyMultipleResultsTest() {
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
@@ -474,19 +474,19 @@ public with sharing class PaymentTabsControllerTest {
 
         payMethods.add(pm2);
 
-        INSERT payMethods;
+        insert payMethods;
 
         //TODO Figure out sharing for portal users!
         List<Payment_Method__Share> shares = new List<Payment_Method__Share>();
         for (Payment_Method__c pm : payMethods) {
-            Payment_Method__Share share  = new Payment_Method__Share();
+            Payment_Method__Share share = new Payment_Method__Share();
             share.ParentId = pm.Id;
             share.UserOrGroupId = portalUser.Id;
             share.AccessLevel = 'edit';
             shares.add(share);
         }
 
-        INSERT shares;
+        insert shares;
 
         System.runAs(portalUser) {
 
@@ -511,7 +511,7 @@ public with sharing class PaymentTabsControllerTest {
             patientContact = TestUtility.generatePatientContact();
             patientContact.AccountId = testAcc.Id;
             patientContact.Medical_Record_Number__c = '1234512345';
-            INSERT patientContact;
+            insert patientContact;
 
             // Use a modified CreatedDate so we can test transactions added in the future
             Datetime newCreateDate = System.now().addDays(-5);
@@ -520,43 +520,43 @@ public with sharing class PaymentTabsControllerTest {
 
             Map<String, String> recordTypeMap = new Map<String, String>();
             for (RecordType recordType : [
-                Select Id, Name
-                From RecordType
-                Where sObjectType = :Payment_Method__c.class.getName()
+                SELECT Id, Name
+                FROM RecordType
+                WHERE SobjectType = :Payment_Method__c.class.getName()
             ]) {
                 recordTypeMap.put(recordType.Name, recordType.Id);
             }
 
             Payment_Method__c testPM = TestUtility.generatePaymentMethod(guarantorContact.Id, recordTypeMap.get('Credit Card'));
-            INSERT testPM;
+            insert testPM;
             Test.setCreatedDate(testPM.Id, newCreateDate);
 
             Invoice__c invoiceOne = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
-            INSERT invoiceOne;
+            insert invoiceOne;
 
             testPP = TestUtility.generatePaymentPlan(guarantorContact);
             testPP.Plan_Value_Modified_Date__c = newCreateDate;
             testPP.Original_Balance__c = TestUtility.generateRandomCurrency();
-            INSERT testPP;
+            insert testPP;
             Test.setCreatedDate(testPP.Id, newCreateDate);
 
             Charge_Group__c testCG = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 1234, testPP.Id);
             testCG.Invoice__c = invoiceOne.Id;
-            INSERT testCG;
+            insert testCG;
             Test.setCreatedDate(testCG.Id, newCreateDate);
 
             Service__c testService = TestUtility.generateService(testCG, TestUtility.generateRandomCurrency());
             testService.Post_Date__c = newCreateDate.date();
-            INSERT testService;
+            insert testService;
 
             Transaction__c testTransaction = TestUtility.generateServiceTxn(testCG, testService.Amount__c, testService);
             testTransaction.Post_Date__c = newCreateDate;
             testTransaction.Transaction_Date__c = testPP.Plan_Value_Modified_Date__c.date();
-            INSERT testTransaction;
+            insert testTransaction;
 
             // Update invoide status to ensure the charge groups show up.
             invoiceOne.Invoice_Status_Index__c = 9;
-            UPDATE invoiceOne;
+            update invoiceOne;
 
             List<Charge_Group__c> createdChargeGroups = PaymentTabsController.getChargeGroups(guarantorContact.Id);
 

@@ -3,7 +3,7 @@
  */
 
 public with sharing class DelinquentPaymentPlansSchedulerBatch
-    implements Database.Batchable<sObject>, Schedulable, Database.Stateful {
+    implements Database.Batchable<SObject>, Schedulable, Database.Stateful {
     public Campaign callList;
     public Set<Id> existingMembers;
 
@@ -16,14 +16,14 @@ public with sharing class DelinquentPaymentPlansSchedulerBatch
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_PAST_DUE
         });
-        string delinquent = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE);
+        String delinquent = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE);
 
         if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            for (Campaign cl: [
+            for (Campaign cl : [
                 SELECT Id, Name
                 FROM Campaign
                 WHERE Name = :delinquent
-                AND isActive = true
+                AND IsActive = TRUE
             ]) {
                 callList = cl;
             }
@@ -32,10 +32,10 @@ public with sharing class DelinquentPaymentPlansSchedulerBatch
         if (callList != null) {
             existingMembers = new Set<Id>();
             if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                for (CampaignMember cm: [
+                for (CampaignMember cm : [
                     SELECT Id, ContactId
                     FROM CampaignMember
-                    WHERE CampaignId = :callList.Id AND ContactId != null
+                    WHERE CampaignId = :callList.Id AND ContactId != NULL
                 ]) {
                     existingMembers.add(cm.ContactId);
                 }
@@ -48,20 +48,20 @@ public with sharing class DelinquentPaymentPlansSchedulerBatch
         return null;
     }
     //Checks if the members exist if not Creates new Campaign members
-    public void execute(Database.BatchableContext bc, List<sObject> scope) {
+    public void execute(Database.BatchableContext bc, List<SObject> scope) {
         List<Contact> guarantors = (List<Contact>) scope;
         Date dt = System.today().addDays(-10);
         if (callList != null) {
             List<CampaignMember> memberList = new List<CampaignMember>();
             if (PaymentPlanSecurityContext.DPPSB_SELECT_CONTEXT.actionAllowed() &&
                 CmpnMemberSecurityContext.SB_CREATE_CONTEXT.actionAllowed()) {
-                for (Payment_Plan__c pp: [
+                for (Payment_Plan__c pp : [
                     SELECT Id, Name, Guarantor__c, Delinquent_Date__c, Remaining_Balance__c, Active__c
                     FROM Payment_Plan__c
                     WHERE Guarantor__c IN :guarantors
                     AND Delinquent_Date__c = :dt
                     AND Remaining_Balance__c < :-100
-                    AND Active__c = true
+                    AND Active__c = TRUE
                 ]) {
                     if (!existingMembers.contains(pp.Guarantor__c)) {
                         existingMembers.add(pp.Guarantor__c);

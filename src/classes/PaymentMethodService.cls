@@ -24,7 +24,7 @@ public with sharing class PaymentMethodService extends AbstractService {
      * @return Payment_Method__c - The credit card Payment_Method__c object.
      */
     public static Payment_Method__c getCreditCard(String cardId) {
-        List<Payment_Method__C> cards = PaymentMethodDao.getCreditCard(cardId);
+        List<Payment_Method__c> cards = PaymentMethodDao.getCreditCard(cardId);
         return (!cards.isEmpty()) ? cards[0] : null;
     }
 

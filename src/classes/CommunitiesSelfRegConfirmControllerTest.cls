@@ -11,12 +11,12 @@
      * This method checks logic implemented for community salf registration process.
      **/
     @IsTest(SeeAllData=true) public static void testCommunitiesSelfRegConfirmController() {
-    
+
         Test.startTest();
         // Instantiate a new controller with all parameters in the page
         CommunitiesSelfRegConfirmController controller = new CommunitiesSelfRegConfirmController();
         Test.stopTest();
-        
+
         // Check system assert.
         System.assertNotEquals(controller, null, 'Should we got controller null.');
     }

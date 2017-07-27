@@ -8,7 +8,7 @@
 public with sharing class PortalUIConstants {
 
     public static Map<String, String> getYears() {
-        Map<String, String>  yearMap = new Map<String, String>();
+        Map<String, String> yearMap = new Map<String, String>();
         Integer currentYear = System.today().year();
         for (Integer i = 0; i <= 10; i++) {
             String value = String.valueOf(currentYear + i);

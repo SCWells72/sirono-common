@@ -2,7 +2,7 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 public class PaymentTransactionTest {
 //    static testMethod void checkTransaction(){
 //        	User u1 = [SELECT id FROM User WHERE id = '00511000004rIw6'];

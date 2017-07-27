@@ -5,25 +5,25 @@
 /**
  * This class is use to test the logic of CreateCaseManual Class.
  **/
-@isTest
+@IsTest
 public class CreateCaseManualTest {
 
     /**
      * This method checks logic implemented for create case record manually.
      **/
-    @isTest
-    Public static void testCallCreateCaseManual() {
-        Contact objContact = TestUtility.generateguarantorContact();
-        INSERT objContact;
+    @IsTest
+    public static void testCallCreateCaseManual() {
+        Contact objContact = TestUtility.generateGuarantorContact();
+        insert objContact;
 
         Charge_Group__c objCG = TestUtility.generateChargeGroup(objContact.Id, null, 1214);
-        INSERT objCG;
+        insert objCG;
 
         Transaction__c txn = TestUtility.generateTransaction(objCG, -100, 'Credit');
-        INSERT txn;
+        insert txn;
 
         Test.startTest();
-        Apexpages.currentpage().getparameters().put('guarantorId', objContact.id);
+        ApexPages.currentPage().getParameters().put('guarantorId', objContact.Id);
         ApexPages.StandardController sc = new ApexPages.StandardController(objContact);
         CreateCaseManual objManual = new CreateCaseManual(sc);
         objManual.caseType = 'Billing';
@@ -50,36 +50,36 @@ public class CreateCaseManualTest {
 
         lstCase = [SELECT Id, Status FROM Case];
         // Check system assert, Case record created with some values.
-        System.assertEquals(1, lstCase.Size(), 'One Case Created.');
+        System.assertEquals(1, lstCase.size(), 'One Case Created.');
         System.assertEquals(Constants.CASE_STATUS_NEW, lstCase[0].Status, 'Case created with different Status');
     }
 
     /**
      * This method checks logic for create case record manually for patient.
      **/
-    @isTest
-    Public static void testCallCreateCaseManualForPatient() {
-        Contact objContactguarantor = TestUtility.generateguarantorContact();
-        INSERT objContactguarantor ;
+    @IsTest
+    public static void testCallCreateCaseManualForPatient() {
+        Contact objContactguarantor = TestUtility.generateGuarantorContact();
+        insert objContactguarantor ;
 
         Contact objContact = TestUtility.generatePatientContact();
-        INSERT objContact;
+        insert objContact;
 
-        Charge_Group__c objCG = TestUtility.generateChargeGroup(objContactguarantor.Id, objContact .id, 121343);
-        INSERT objCG;
+        Charge_Group__c objCG = TestUtility.generateChargeGroup(objContactguarantor.Id, objContact .Id, 121343);
+        insert objCG;
 
         Transaction__c txn = TestUtility.generateTransaction(objCG, 100, 'Credit');
-        INSERT txn;
+        insert txn;
 
         Test.startTest();
-        Apexpages.currentpage().getparameters().put('guarantorId', objContact.id);
-        Apexpages.currentpage().getparameters().put('reason', Constants.CASE_REASON_BANKRUPTCY);
+        ApexPages.currentPage().getParameters().put('guarantorId', objContact.Id);
+        ApexPages.currentPage().getParameters().put('reason', Constants.CASE_REASON_BANKRUPTCY);
         ApexPages.StandardController sc = new ApexPages.StandardController(objContact);
         CreateCaseManual objManual = new CreateCaseManual(sc);
         objManual.caseType = 'Billing';
         objManual.guarantorRecordId = '';
         objManual.cancel();
-        objmanual.refresh();
+        objManual.refresh();
         objManual.caseType = 'General';
 
         // Check system assert, No Charge Group Selected.
@@ -97,7 +97,7 @@ public class CreateCaseManualTest {
         // Get Coverage detail for selected charge group, so we insert Converage record.
         Coverage__c objcoverage = new Coverage__c();
         objcoverage.Name = 'Test';
-        INSERT objcoverage;
+        insert objcoverage;
 
         // Get Coverage detail for selected charge group, so we insert Charge_Group_Coverage_Junction__c record.
         // Set Charge Group Id and Coverage Id.
@@ -105,9 +105,9 @@ public class CreateCaseManualTest {
         objCGCoverage.Name = 'Test';
         objCGCoverage.Charge_Group__c = objManual.chargeGroup.Id;
         objCGCoverage.Coverage__c = objcoverage.Id;
-        INSERT objCGCoverage;
+        insert objCGCoverage;
 
-        objmanual.refresh();
+        objManual.refresh();
 
         List<Case> lstCase = [SELECT Id FROM Case];
         // Check system assert, No Case record created.
@@ -117,26 +117,26 @@ public class CreateCaseManualTest {
 
         lstCase = [SELECT Id, Status FROM Case];
         // Check system assert, Case record created.
-        System.assertEquals(1, lstCase.Size(), 'One Case Created.');
+        System.assertEquals(1, lstCase.size(), 'One Case Created.');
         System.assertEquals(Constants.CASE_STATUS_NEW, lstCase[0].Status, 'Case created with different Status');
     }
 
     /**
      * This method checks logic for create case record without any case record type id.
      **/
-    @isTest
-    Public static void testCallCreateCaseManualWithoutanyID() {
-        Contact objContactguarantor = TestUtility.generateguarantorContact();
-        INSERT objContactguarantor ;
+    @IsTest
+    public static void testCallCreateCaseManualWithoutanyID() {
+        Contact objContactguarantor = TestUtility.generateGuarantorContact();
+        insert objContactguarantor ;
 
         Contact objContact = TestUtility.generatePatientContact();
-        INSERT objContact;
+        insert objContact;
 
-        Charge_Group__c objCG = TestUtility.generateChargeGroup(objContactguarantor.Id, objContact .id, 121343);
-        INSERT objCG;
+        Charge_Group__c objCG = TestUtility.generateChargeGroup(objContactguarantor.Id, objContact .Id, 121343);
+        insert objCG;
 
         Transaction__c txn = TestUtility.generateTransaction(objCG, -100, 'Credit');
-        INSERT txn;
+        insert txn;
 
         Test.startTest();
         ApexPages.StandardController sc = new ApexPages.StandardController(objContact);
@@ -147,8 +147,10 @@ public class CreateCaseManualTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains(label.Case_Type_Require)) isError = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains(Label.Case_Type_Require)) {
+                isError = true;
+            }
         }
         // Check system assert, Error occurrence during process.
         System.assert(isError, 'Should have gotten an error message because Case type required');
@@ -157,7 +159,7 @@ public class CreateCaseManualTest {
     /**
      * Check all access rights for a read only User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRights() {
         List<CaseSecurityContext> allContexts = new List<CaseSecurityContext> {
             CaseSecurityContext.CREATE_CONTEXT,
@@ -169,7 +171,7 @@ public class CreateCaseManualTest {
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (CaseSecurityContext context: allContexts) {
+            for (CaseSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);

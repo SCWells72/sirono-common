@@ -14,12 +14,12 @@ public with sharing class RecordTypeSecurityContext extends SecurityContext {
     private static final String SOBJECTTYPE = 'sObjectType';
 
     // The fields for selecting a RecordType in RecordTypeUtil
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         ID, NAME, SOBJECTTYPE
     };
 
     // The fields for selecting a RecordType in CaseUtil
-    private static final Set<String> CU_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> CU_SELECT_FIELDS = new Set<String> {
         ID, SOBJECTTYPE
     };
 

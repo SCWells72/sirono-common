@@ -27,10 +27,10 @@ public with sharing class GuarantorService extends AbstractService {
         private HttpResponse getStatementUrls(String guarantorId) {
 
             return getRequestor()
-                    .url(RestClientConstants.STATEMENTS, new String[]{
-                            stripCommas(guarantorId)
-                    })
-                    .call();
+                .url(RestClientConstants.STATEMENTS, new String[] {
+                    stripCommas(guarantorId)
+                })
+                .call();
 
         }
     }
@@ -72,8 +72,8 @@ public with sharing class GuarantorService extends AbstractService {
         if (contact == null) {
             throw new SironoServiceException('Invalid request - Contact required to retrieve SironoId');
         }
-        if (contact.Profile_Pointer_Id__c != null) {
-            return contact.Profile_Pointer_Id__c.toPlainString();
+        if (contact.Profile_Pointer_ID__c != null) {
+            return contact.Profile_Pointer_ID__c.toPlainString();
         } else {
             Contact gt = GuarantorDao.getGuarantor(contact.Id);
             if (gt != null) {
@@ -94,11 +94,11 @@ public with sharing class GuarantorService extends AbstractService {
     public static String buildGuarantorDetailString(Contact gc) {
         String details = '';
         details = gc.FirstName + (gc.MiddleName != null ? ' ' + gc.MiddleName : '')
-                + (gc.LastName != null ? ' ' + gc.LastName : '')
-                + (gc.Suffix != null ? ' ' + gc.Suffix : '')
-                + ' (DOB: ' + (gc.Birthdate != null ? gc.Birthdate.format() : '')
-                + ', MRN: ' + (gc.Medical_Record_Number__c != null ? gc.Medical_Record_Number__c : '')
-                + ')';
+            + (gc.LastName != null ? ' ' + gc.LastName : '')
+            + (gc.Suffix != null ? ' ' + gc.Suffix : '')
+            + ' (DOB: ' + (gc.Birthdate != null ? gc.Birthdate.format() : '')
+            + ', MRN: ' + (gc.Medical_Record_Number__c != null ? gc.Medical_Record_Number__c : '')
+            + ')';
 
         return details;
     }

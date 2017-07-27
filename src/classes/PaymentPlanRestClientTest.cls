@@ -8,7 +8,7 @@
 @IsTest
 private class PaymentPlanRestClientTest {
 
-    @isTest
+    @IsTest
     static void verifyGetUrls() {
         Test.startTest();
         Map<String, String> urls = new PaymentPlanService.PaymentPlanRestClient().getUrls();
@@ -16,14 +16,14 @@ private class PaymentPlanRestClientTest {
         System.assertEquals(RestClientConstants.PAYMENT_PLAN_URLS, urls, 'Should be configured with payment plan urls.');
     }
 
-    @isTest
+    @IsTest
     static void addToPaymentPlanSuccess() {
 
         Test.setMock(HttpCalloutMock.class, new PaymentPlanRestClientMock());
 
         Test.startTest();
         PaymentPlanService.PaymentPlanRestClient paymentPlanRestClient = new PaymentPlanService.PaymentPlanRestClient();
-        paymentPlanRestClient.addToPlan(RestClientConstants.PAYMENT_PLAN_EXT_ID, new String[]{RestClientConstants.CHARGE_GROUP_ID});
+        paymentPlanRestClient.addToPlan(RestClientConstants.PAYMENT_PLAN_EXT_ID, new String[] { RestClientConstants.CHARGE_GROUP_ID });
         Test.stopTest();
 
         System.assertEquals(RestClientConstants.HTTP_SUCCESS, paymentPlanRestClient.getStatusCode(), 'Should have successfully called add charge group endpoint.');
@@ -36,7 +36,7 @@ private class PaymentPlanRestClientTest {
         System.assert(body.indexOf(RestClientConstants.CHARGE_GROUP_ID) != -1, 'Should have a json body including the charge group id.');
     }
 
-    @isTest
+    @IsTest
     static void addToPaymentPlanFailure() {
 
         Test.setMock(HttpCalloutMock.class, new AuthRestClientFailMock());
@@ -44,18 +44,18 @@ private class PaymentPlanRestClientTest {
         try {
             Test.startTest();
             paymentPlanRestClient = new PaymentPlanService.PaymentPlanRestClient();
-            paymentPlanRestClient.addToPlan(RestClientConstants.PAYMENT_PLAN_EXT_ID, new String[]{RestClientConstants.CHARGE_GROUP_ID});
+            paymentPlanRestClient.addToPlan(RestClientConstants.PAYMENT_PLAN_EXT_ID, new String[] { RestClientConstants.CHARGE_GROUP_ID });
         } catch (SironoServiceException e) {
             Test.stopTest();
             System.assertNotEquals(null, e, 'Should have an exception');
             System.assertEquals('Permission Denied Exception: Incorrect authentication credentials.', e.errors.get(0),
-                    'Should have proper message.');
+                'Should have proper message.');
             System.assertEquals(RestClientConstants.HTTP_BAD_REQUEST, paymentPlanRestClient.getStatusCode(), 'Should have bad request status code.');
         }
 
     }
 
-    @isTest
+    @IsTest
     static void getPaymentPlanSuccess() {
 
         Test.setMock(HttpCalloutMock.class, new PaymentPlanRestClientMock());
@@ -75,7 +75,7 @@ private class PaymentPlanRestClientTest {
 
     }
 
-    @isTest
+    @IsTest
     static void getPaymentPlanFailure() {
 
         Test.setMock(HttpCalloutMock.class, new AuthRestClientFailMock());
@@ -88,7 +88,7 @@ private class PaymentPlanRestClientTest {
             Test.stopTest();
             System.assertNotEquals(null, e, 'Should have an exception');
             System.assertEquals('Permission Denied Exception: Incorrect authentication credentials.', e.errors.get(0),
-                    'Should have proper message.');
+                'Should have proper message.');
             System.assertEquals(RestClientConstants.HTTP_BAD_REQUEST, paymentPlanRestClient.getStatusCode(), 'Should have bad request status code.');
         }
 

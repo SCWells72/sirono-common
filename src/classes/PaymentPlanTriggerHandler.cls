@@ -86,7 +86,7 @@ public with sharing class PaymentPlanTriggerHandler {
 
         mapContacts = new Map<Id, Contact>(GuarantorService.getGuarantorsWithInvoiceOffsetDt(setContactId));
 
-        for (Payment_Plan__c plan: paymentPlans) {
+        for (Payment_Plan__c plan : paymentPlans) {
             Contact guarantor = new Contact();
             if (plan.Guarantor__c != null && mapContacts.containsKey(plan.Guarantor__c)) {
                 guarantor = mapContacts.get(plan.Guarantor__c);
@@ -94,7 +94,7 @@ public with sharing class PaymentPlanTriggerHandler {
 
             // Find the reference date. It is either "today" (or the test version) or the Skip Until date.
             Date refDt = System.today();
-            if (test.isRunningTest()) {
+            if (Test.isRunningTest()) {
                 refDt = Date.newInstance(TestUtility.currentYear, TestUtility.currentMonth, TestUtility.currentDay);
             }
             if (refDt < plan.Skip_Payment_Until__c) {
@@ -107,12 +107,12 @@ public with sharing class PaymentPlanTriggerHandler {
                 if (plan.Execute_on_Day__c == null || plan.Execute_on_Day__c == 0) {
                     plan.Execute_on_Day__c = START_DAY;
                 }
-                nextDt = calculateNextPaymentDate(Integer.valueof(plan.Execute_on_Day__c), 0, refDt);
+                nextDt = calculateNextPaymentDate(Integer.valueOf(plan.Execute_on_Day__c), 0, refDt);
             } else {
                 if (guarantor.Invoice_Offset_Date__c == null || guarantor.Invoice_Offset_Date__c == 0) {
                     guarantor.Invoice_Offset_Date__c = START_DAY;
                 }
-                nextDt = calculateNextPaymentDate(Integer.valueof(guarantor.Invoice_Offset_Date__c), OVERDUE_DAY_LIMIT, refDt);
+                nextDt = calculateNextPaymentDate(Integer.valueOf(guarantor.Invoice_Offset_Date__c), OVERDUE_DAY_LIMIT, refDt);
             }
             plan.NextPaymentDate__c = nextDt;
             if (!fromPaymentPlanTrigger) {
@@ -122,7 +122,7 @@ public with sharing class PaymentPlanTriggerHandler {
 
         if (newListToUpdate.size() > 0) {
             if (PaymentPlanSecurityContext.PP_UPDATE_DATES_CONTEXT.actionAllowed()) {
-                UPDATE newListToUpdate;
+                update newListToUpdate;
             }
         }
     }
@@ -146,28 +146,28 @@ public with sharing class PaymentPlanTriggerHandler {
     }
 
     //Sirono 08-22-2016 : 127401841 Create a Delinquent Payment Plan Case
-    Private static void callDelinquentPaymentPlanCaseCreation(List<Payment_Plan__c> paymentPlans, Map<Id, Payment_Plan__c> oldPaymentPlansById) {
+    private static void callDelinquentPaymentPlanCaseCreation(List<Payment_Plan__c> paymentPlans, Map<Id, Payment_Plan__c> oldPaymentPlansById) {
         Set<Id> contactToCreateCaseIds = new Set<Id>();
         Set<Id> contactToCloseCase = new Set<Id>();
         Set<Id> paymentPlanId = new Set<Id>();
         for (Payment_Plan__c paymentPlan : paymentPlans) {
-            if (trigger.IsInsert && paymentPlan.Guarantor__c != null && paymentPlan.active__c == true && paymentPlan.Delinquent__c == true) {
+            if (Trigger.isInsert && paymentPlan.Guarantor__c != null && paymentPlan.Active__c == true && paymentPlan.Delinquent__c == true) {
                 contactToCreateCaseIds .add(paymentPlan.Guarantor__c);
-            } else if (trigger.IsUpdate && paymentPlan.Guarantor__c != null && (paymentPlan.active__c == true && paymentPlan.Delinquent__c == true && (oldPaymentPlansById.get(paymentPlan.id).active__c == false || oldPaymentPlansById.get(paymentPlan.id).Delinquent__c == false))) {
+            } else if (Trigger.isUpdate && paymentPlan.Guarantor__c != null && (paymentPlan.Active__c == true && paymentPlan.Delinquent__c == true && (oldPaymentPlansById.get(paymentPlan.Id).active__c == false || oldPaymentPlansById.get(paymentPlan.Id).Delinquent__c == false))) {
                 contactToCreateCaseIds.add(paymentPlan.Guarantor__c);
             }
 
-            if (trigger.IsUpdate && paymentPlan.Guarantor__c != null && ((paymentPlan.active__c == false && oldPaymentPlansById.get(paymentPlan.id).active__c == true) || (paymentPlan.Delinquent__c == false && oldPaymentPlansById.get(paymentPlan.id).Delinquent__c == true))) {
+            if (Trigger.isUpdate && paymentPlan.Guarantor__c != null && ((paymentPlan.Active__c == false && oldPaymentPlansById.get(paymentPlan.Id).active__c == true) || (paymentPlan.Delinquent__c == false && oldPaymentPlansById.get(paymentPlan.Id).Delinquent__c == true))) {
                 contactToCloseCase.add(paymentPlan.Guarantor__c);
                 paymentPlanId.add(paymentPlan.Id);
             }
         }
 
-        if (contactToCreateCaseIds.Size() > 0) {
+        if (contactToCreateCaseIds.size() > 0) {
             CaseUtil.createDelinquentPaymentCase(contactToCreateCaseIds);
         }
 
-        if (contactToCloseCase.Size() > 0) {
+        if (contactToCloseCase.size() > 0) {
             CaseUtil.closeDelinquentPaymentCase(contactToCloseCase, paymentPlanId);
         }
     }

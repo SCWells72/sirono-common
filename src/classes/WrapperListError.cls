@@ -10,9 +10,9 @@ public class WrapperListError extends WrapperBadResponse {
     public String kind;
 
     public override List<String> getErrors() {
-        List<String> errs = new String[]{};
-        for(String err: errors) {
-            errs.add(String.format(WrapperBadResponse.SHORT_ERROR, new String[]{kind, err}));
+        List<String> errs = new String[] {};
+        for (String err : errors) {
+            errs.add(String.format(WrapperBadResponse.SHORT_ERROR, new String[] { kind, err }));
         }
         return errs;
     }

@@ -2,10 +2,10 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 private class WorkWithStatementsControllerTest {
 
-    @isTest
+    @IsTest
     static void getStatementsTest() {
         User gtUser = TestUtility.getGuarantorCommunityUser();
         User adminUser = TestUtility.getPortalAdminUser();

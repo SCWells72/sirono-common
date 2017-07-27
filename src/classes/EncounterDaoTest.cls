@@ -2,7 +2,7 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 private class EncounterDaoTest {
     public static final String GUARANTOR_CONTACT_ONE = 'guarantorContact1';
     public static final String GUARANTOR_CONTACT_TWO = 'guarantorContact2';
@@ -14,14 +14,14 @@ private class EncounterDaoTest {
         Contact guarantorContact1 = TestUtility.generateGuarantorContactByName(GUARANTOR_CONTACT_ONE);
         Contact guarantorContact2 = TestUtility.generateGuarantorContactByName(GUARANTOR_CONTACT_TWO);
         Contact guarantorContact3 = TestUtility.generateGuarantorContactByName(GUARANTOR_CONTACT_THREE);
-        List<Contact> guarantorContactList = new List<Contact>{guarantorContact1, guarantorContact2, guarantorContact3};
-        INSERT guarantorContactList;
+        List<Contact> guarantorContactList = new List<Contact> { guarantorContact1, guarantorContact2, guarantorContact3 };
+        insert guarantorContactList;
 
         // Create Encounter record.
         Encounter__c encounter1 = TestUtility.generateEncounter(guarantorContact1.Id, 500, System.today());
         Encounter__c encounter2 = TestUtility.generateEncounter(guarantorContact2.Id, 1000, System.today());
-        List<Encounter__c> encounterList = new List<Encounter__c>{encounter1, encounter2};
-        INSERT encounterList;
+        List<Encounter__c> encounterList = new List<Encounter__c> { encounter1, encounter2 };
+        insert encounterList;
 
         // Check system asserts.
         System.assertEquals(encounterList[0].Guarantor__c, guarantorContact1.Id, 'Expected ' + encounterList[0].Guarantor__c + ' but we got ' + guarantorContact1.Id);
@@ -65,7 +65,7 @@ private class EncounterDaoTest {
     /**
      * This method checks logic for Update Billed_Charge_Group_Count__c field.
      **/
-    @isTest
+    @IsTest
     public static void testUpdateBilledCGCount() {
         Contact guarantorContact = [SELECT Id FROM Contact WHERE Name = :GUARANTOR_CONTACT_ONE LIMIT 1];
         List<Encounter__c> encounterList = [SELECT Id, Billed_Charge_Group_Count__c FROM Encounter__c WHERE Guarantor__c = :guarantorContact.Id];
@@ -74,7 +74,7 @@ private class EncounterDaoTest {
         // Insert CG record.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1214);
         chargeGroup.Encounter__c = encounterList[0].Id;
-        INSERT chargeGroup;
+        insert chargeGroup;
         Test.stopTest();
 
         // Check system assert.
@@ -86,15 +86,18 @@ private class EncounterDaoTest {
     /**
      * Check all Read rights for a Chatter User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRightsForRead() {
-        List<EncounterSecurityContext> allContexts = new List<EncounterSecurityContext>{EncounterSecurityContext.SELECT_CONTEXT,
-                EncounterSecurityContext.CLU_SELECT_CONTEXT, EncounterSecurityContext.EU_SELECT_CONTEXT,
-                EncounterSecurityContext.EU_SELECT_CONTEXT_AGG, EncounterSecurityContext.PSS_SELECT_CONTEXT
+        List<EncounterSecurityContext> allContexts = new List<EncounterSecurityContext> {
+            EncounterSecurityContext.SELECT_CONTEXT,
+            EncounterSecurityContext.CLU_SELECT_CONTEXT,
+			EncounterSecurityContext.EU_SELECT_CONTEXT,
+            EncounterSecurityContext.EU_SELECT_CONTEXT_AGG,
+			EncounterSecurityContext.PSS_SELECT_CONTEXT
         };
 
         System.runAs(TestUtility.generateChatterOnlyUser()) {
-            for (EncounterSecurityContext context: allContexts) {
+            for (EncounterSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);

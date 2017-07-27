@@ -5,26 +5,26 @@
 /**
  * PayEstimateController is a virtual class 
  * that is used by PayEstimateVFController and PayEstimateLightningController classes.
- **/ 
+ **/
 public abstract class PayEstimateController {
     // Page Level Variables.
-    public String address {get; set;}
-    public String amount {get; set;}
-    public String cardHolderName {get; set;}
-    public String city {get; set;}
-    public String creditCardNumber {get; set;}
-    public String cvv {get; set;}
-    public List<EncounterWrapper> encounters {get; set;}
-    public Boolean encounterSelected {get; set;}
-    public String expirationMonth {get; set;}
-    public String expirationYear {get; set;}
-    public Contact guarantorContact {get; set;}
-    public String guarantorName {get; set;}
-    public String guarantorRecordId {get; set;}
-    public Encounter__c selectedEncounter {get; set;}
-    public String state {get; set;}
-    public String zip {get; set;}
-    public List<String> errorMessages{get;set;}
+    public String address { get; set; }
+    public String amount { get; set; }
+    public String cardHolderName { get; set; }
+    public String city { get; set; }
+    public String creditCardNumber { get; set; }
+    public String cvv { get; set; }
+    public List<EncounterWrapper> encounters { get; set; }
+    public Boolean encounterSelected { get; set; }
+    public String expirationMonth { get; set; }
+    public String expirationYear { get; set; }
+    public Contact guarantorContact { get; set; }
+    public String guarantorName { get; set; }
+    public String guarantorRecordId { get; set; }
+    public Encounter__c selectedEncounter { get; set; }
+    public String state { get; set; }
+    public String zip { get; set; }
+    public List<String> errorMessages { get; set; }
 
     // Getter setter of expYearOptions
     public List<SelectOption> expYearOptions {
@@ -82,7 +82,7 @@ public abstract class PayEstimateController {
      * This method fill the data based on Contact in VF page.
      **/
     public void fillNameAndAddress() {
-        cardHolderName = guarantorContact.name;
+        cardHolderName = guarantorContact.Name;
         address = guarantorContact.MailingStreet;
         city = guarantorContact.MailingCity;
         state = guarantorContact.MailingState;
@@ -95,7 +95,7 @@ public abstract class PayEstimateController {
      **/
     public String addPayment(String paymentMethod) {
         // Call createNewPayment method.
-        Payment__c payment = PaymentService.createNewPayment(guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod); 
+        Payment__c payment = PaymentService.createNewPayment(guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod);
         return (payment == null) ? 'ERROR: ' + Constants.PAGE_MESSAGE_CREATED_FAIL : 'Success;' + payment.Payment_Id__c + ';$' + amount;
     }
 
@@ -109,7 +109,7 @@ public abstract class PayEstimateController {
         Boolean encounterSelected = false;
         Integer count = 0;
         if (encounters != null && encounters.size() > 0) {
-            for (EncounterWrapper enw: encounters) {
+            for (EncounterWrapper enw : encounters) {
                 if (enw.isSelected) {
                     count++;
                     selectedEncounter = enw.en;

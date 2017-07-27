@@ -15,26 +15,26 @@ public with sharing class PaymentPlanDaoTest {
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
         gt.Profile_Pointer_ID__c = Decimal.valueOf(GT_SIRONO_ID);
-        INSERT gt;
+        insert gt;
         System.debug('gt.Id: ' + gt.Id);
 
         Payment_Plan__c pp = TestUtility.generatePaymentPlan(gt);
         pp.Active__c = true;
         pp.Plan_Type__c = Constants.AUTOMATIC;
         pp.Sirono_ID__c = PP_SIRONO_ID;
-        INSERT pp;
+        insert pp;
 
         pp = TestUtility.generatePaymentPlan(gt);
         pp.Active__c = false;
         pp.Plan_Type__c = Constants.AUTOMATIC;
         pp.Sirono_ID__c = 434343;
-        INSERT pp;
+        insert pp;
 
         // Check system assert.
         System.assertEquals(Decimal.valueOf(GT_SIRONO_ID), gt.Profile_Pointer_ID__c, 'Expected Profile_Pointer_ID__c is ' + GT_SIRONO_ID + ' but got ' + gt.Profile_Pointer_ID__c);
     }
 
-    @isTest
+    @IsTest
     public static void getActivePaymentPlanTest() {
         Contact gt = GuarantorService.getGuarantorBySironoId(GT_SIRONO_ID);
         System.assertNotEquals(gt, null);
@@ -45,7 +45,7 @@ public with sharing class PaymentPlanDaoTest {
         System.assertEquals(PP_SIRONO_ID, pp.Sirono_ID__c, 'Expected Sirono_ID__c of ' + PP_SIRONO_ID + ' but got: ' + pp.Sirono_ID__c);
     }
 
-    @isTest
+    @IsTest
     public static void getActivePaymentPlanUseWrongIdTest() {
         Contact gt = GuarantorService.getGuarantorBySironoId(GT_SIRONO_ID);
         System.assertNotEquals(gt, null);
@@ -57,7 +57,7 @@ public with sharing class PaymentPlanDaoTest {
         System.assertEquals(pp, null, 'Expected null but got a paymentplan retrieved by PP sirono_id');
     }
 
-    @isTest
+    @IsTest
     public static void getPaymentPlanBySironoIdTest() {
 
         Payment_Plan__c pp = PaymentPlanDao.getPaymentPlanBySironoId(PP_SIRONO_ID);
@@ -66,14 +66,14 @@ public with sharing class PaymentPlanDaoTest {
         System.assertEquals(PP_SIRONO_ID, pp.Sirono_ID__c, 'Expected Sirono_ID__c of ' + PP_SIRONO_ID + ' but got: ' + pp.Sirono_ID__c);
     }
 
-    @isTest
+    @IsTest
     public static void getPaymentPlanBySironoIdNotFoundTest() {
 
         Payment_Plan__c pp = PaymentPlanDao.getPaymentPlanBySironoId(88);
         System.assert(pp == null, 'Expected null paymentplan retrieved by sirono_id but got: ' + pp);
     }
 
-    @isTest
+    @IsTest
     public static void upsertPlansTest() {
         Contact gt = GuarantorService.getGuarantorBySironoId(GT_SIRONO_ID);
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
@@ -90,7 +90,7 @@ public with sharing class PaymentPlanDaoTest {
     /**
      * Check all access rights for a read only User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRights() {
         List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext> {
             PaymentPlanSecurityContext.UPSERT_CONTEXT,
@@ -100,7 +100,7 @@ public with sharing class PaymentPlanDaoTest {
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (PaymentPlanSecurityContext context: allContexts) {
+            for (PaymentPlanSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);
@@ -116,7 +116,7 @@ public with sharing class PaymentPlanDaoTest {
     /**
      * Check all Read rights for a Chatter User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRightsForRead() {
         List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext> {
             PaymentPlanSecurityContext.SELECT_CONTEXT,
@@ -131,7 +131,7 @@ public with sharing class PaymentPlanDaoTest {
         };
 
         System.runAs(TestUtility.generateChatterOnlyUser()) {
-            for (PaymentPlanSecurityContext context: allContexts) {
+            for (PaymentPlanSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);

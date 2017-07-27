@@ -36,75 +36,75 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
     private static final String REMAINING_INSTALLMENT_COUNT = 'Remaining_Installment_Count__c';
 
     // The fields for upserting a Payment_Plan__c in AddToPaymentPlan, AddCreditCard, EditPaymentPlan, PaymentPlanGoodStanding & SkipPaymentPlan
-    private static final Set<String> UPSERT_FIELDS = new Set<String>{
-        ACTIVE, DELINQUENT, DELINQUENT_DATE, ERROR_DATE, EXECUTE_ON_DAY, GUARANTOR, HAS_ERROR, INSTALLMENT_AMOUNT, 
+    private static final Set<String> UPSERT_FIELDS = new Set<String> {
+        ACTIVE, DELINQUENT, DELINQUENT_DATE, ERROR_DATE, EXECUTE_ON_DAY, GUARANTOR, HAS_ERROR, INSTALLMENT_AMOUNT,
         NAME, NEXTPAYMENTDATE, ORIGINAL_BALANCE, ORIGINAL_INSTALLMENT_COUNT, PLAN_TYPE, REMAINING_BALANCE,
         SIRONO_ID, SKIP_PAYMENT_UNTIL, STATUS, PLAN_VALUE_MODIFIED_DATE
     };
 
     // The fields for updating a Payment_Plan__c in PayStaffWSUtill
     private static final Set<String> UPDATE_FIELDS = UPSERT_FIELDS;
-    
+
     // The fields for updating a Payment_Plan__c in PaymentPlanUtil
-    private static final Set<String> PPU_UPDATE_FIELDS = new Set<String>{
-    	REMAINING_BALANCE
+    private static final Set<String> PPU_UPDATE_FIELDS = new Set<String> {
+        REMAINING_BALANCE
     };
 
     // The fields for updating a Payment_Plan__c in PaymentPlanTriggerHandler
-    private static final Set<String> PP_UPDATE_DATES = new Set<String>{
-            NEXTPAYMENTDATE, SKIP_PAYMENT_UNTIL, EXECUTE_ON_DAY
+    private static final Set<String> PP_UPDATE_DATES = new Set<String> {
+        NEXTPAYMENTDATE, SKIP_PAYMENT_UNTIL, EXECUTE_ON_DAY
     };
 
     // The fields for updating a Payment_Plan__c in DeletePaymentPlan
-    private static final Set<String> DP_UPDATE_FIELDS = new Set<String>{
-		ACTIVE, DELINQUENT, DELINQUENT_DATE, ERROR_DATE, EXECUTE_ON_DAY, GUARANTOR, HAS_ERROR, INSTALLMENT_AMOUNT, 
+    private static final Set<String> DP_UPDATE_FIELDS = new Set<String> {
+        ACTIVE, DELINQUENT, DELINQUENT_DATE, ERROR_DATE, EXECUTE_ON_DAY, GUARANTOR, HAS_ERROR, INSTALLMENT_AMOUNT,
         NAME, NEXTPAYMENTDATE, ORIGINAL_BALANCE, ORIGINAL_INSTALLMENT_COUNT, PLAN_TYPE, REMAINING_BALANCE,
         SIRONO_ID, SKIP_PAYMENT_UNTIL, STATUS, CANCELLATION_DATE
     };
 
     // The fields for selecting a Payment_Plan__c in PaymentPlanDao
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         ID, SIRONO_ID, ACTIVE, GUARANTOR, STANDING, PLAN_TYPE, NEXTPAYMENTDATE, INSTALLMENT_AMOUNT
     };
 
     // The fields for selecting a Payment_Plan__c in CallListUtilities
-    private static final Set<String> CLU_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> CLU_SELECT_FIELDS = new Set<String> {
         ID, DELINQUENT_DATE, ACTIVE
     };
 
     // The fields for selecting a Payment_Plan__c in ContactTriggerHandler, PopulateNextPaymentDateBatch
-    private static final Set<String> CTH_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> CTH_SELECT_FIELDS = new Set<String> {
         ID, GUARANTOR, PLAN_TYPE, EXECUTE_ON_DAY, NEXTPAYMENTDATE, SKIP_PAYMENT_UNTIL
     };
 
     // The fields for selecting a Payment_Plan__c in DelinquentPaymentPlansSchedulerBatch
-    private static final Set<String> DPPSB_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> DPPSB_SELECT_FIELDS = new Set<String> {
         ID, NAME, GUARANTOR, DELINQUENT_DATE, REMAINING_BALANCE, ACTIVE
     };
 
     // The fields for selecting a Payment_Plan__c in EditPaymentPlan
-    private static final Set<String> EPP_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> EPP_SELECT_FIELDS = new Set<String> {
         ID, NAME, ORIGINAL_INSTALLMENT_COUNT, REMAINING_BALANCE, NEXTPAYMENTDATE,
         PLAN_TYPE, REMAINING_INSTALLMENT_COUNT, EXECUTE_ON_DAY, SIRONO_ID
     };
 
     // The fields for selecting a Payment_Plan__c in SkipPaymentPlan
-    private static final Set<String> SPP_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SPP_SELECT_FIELDS = new Set<String> {
         ID, SIRONO_ID, NEXTPAYMENTDATE
     };
 
     // The fields for selecting a Payment_Plan__c in PaymentPlanJSONParsing
-    private static final Set<String> PP_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> PP_SELECT_FIELDS = new Set<String> {
         ID, SIRONO_ID
     };
 
     // The fields for selecting a Payment_Plan__c in CaseUtil
-    private static final Set<String> CU_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> CU_SELECT_FIELDS = new Set<String> {
         ID, GUARANTOR, ACTIVE, DELINQUENT
     };
 
     // The fields for selecting a Payment_Plan__c in CaseUtil
-    private static final Set<String> SELECT_FIELDS_FOR_CLOSE = new Set<String>{
+    private static final Set<String> SELECT_FIELDS_FOR_CLOSE = new Set<String> {
         ID, GUARANTOR, ACTIVE, HAS_ERROR, REMAINING_BALANCE
     };
 

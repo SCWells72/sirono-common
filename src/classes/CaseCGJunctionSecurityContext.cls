@@ -12,12 +12,12 @@ public with sharing class CaseCGJunctionSecurityContext extends SecurityContext 
     private static final String CHARGE_GROUP = 'Charge_Group__c';
 
     // The fields for inserting CaseCGJunction in CaseUtil
-    private static final Set<String> CREATE_FIELDS = new Set<String>{
-    	CASE_OBJ, CHARGE_GROUP
+    private static final Set<String> CREATE_FIELDS = new Set<String> {
+        CASE_OBJ, CHARGE_GROUP
     };
-    
+
     // The fields for selecting a CaseCGJunction in CaseCommentTriggerHandler
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         CHARGE_GROUP, CASE_OBJ
     };
 

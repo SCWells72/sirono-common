@@ -5,22 +5,22 @@
 /**
  * This class is use to test the logic of PayStaffWSUtill Class.
  **/
-@isTest
+@IsTest
 private class PayStaffWSUtillTest {
     @TestSetup
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
         gt.Profile_Pointer_ID__c = 12345;
-        INSERT gt;
+        insert gt;
 
         Contact pt = TestUtility.generatePatientContact();
         pt.Patient_Id__c = 67890;
-        INSERT pt;
+        insert pt;
 
         // Create Charge Group Record.
         List<Charge_Group__c> cgs = TestUtility.generateChargeGroupList(gt.Id);
-        INSERT cgs;
-        
+        insert cgs;
+
         // Check system assert.
         System.assertEquals(12345, gt.Profile_Pointer_ID__c, 'Expected Profile_Pointer_ID__c equals to "12345" but got ' + gt.Profile_Pointer_ID__c);
     }
@@ -28,7 +28,7 @@ private class PayStaffWSUtillTest {
     /**
      * This method tests the logic of fetchGuarantorId.
      **/
-    @isTest
+    @IsTest
     static void checkGuarantorIdPopulated() {
         Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
         gt = GuarantorService.getGuarantorWithActiveCG(gt.Id);
@@ -45,7 +45,7 @@ private class PayStaffWSUtillTest {
     /**
      * Verify the build charge group method can handle a comma delimited list.
      */
-    @isTest
+    @IsTest
     static void testBuildChargeGroupsURL() {
         Test.startTest();
         String urlJSONString = PayStaffWSUtill.buildChargeGroupsURL('1,2');
@@ -57,7 +57,7 @@ private class PayStaffWSUtillTest {
     /**
      * Verify the build charge group method when param is null
      */
-    @isTest
+    @IsTest
     static void testBuildChargeGroupsURL_nullParam() {
         String itsNull;
         Test.startTest();
@@ -70,7 +70,7 @@ private class PayStaffWSUtillTest {
     /**
      * This method tests the logic of get CSRF Token.
      **/
-    @isTest
+    @IsTest
     static void checkCSRFToken() {
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 200;
@@ -78,9 +78,9 @@ private class PayStaffWSUtillTest {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
 
         Test.startTest();
-        string str = new SironoRestClient.AuthRestClient().getCsrfToken();
+        String str = new SironoRestClient.AuthRestClient().getCsrfToken();
         Test.stopTest();
-        
+
         // Check System assert.
         System.assertNotEquals(str, null, 'Should have failed due to CSRF Token is null.');
     }
@@ -88,14 +88,14 @@ private class PayStaffWSUtillTest {
     /**
      * This method tests the logic of Cent to Dollar Convert with rounded.
      **/
-    @isTest
+    @IsTest
     static void convertCentToDollarsRounded() {
         Decimal inputCents = 150;
-        
+
         Test.startTest();
         Decimal outputDollars = PayStaffWSUtill.convertToDollars(inputCents);
         Test.stopTest();
-        
+
         // Check system assert.
         System.assert('1.5'.equals(outputDollars.format()), 'Expected 1.5, but got ' + outputDollars);
     }
@@ -103,13 +103,13 @@ private class PayStaffWSUtillTest {
     /**
      * This method tests the logic of Cent to Dollar Convert.
      **/
-    @isTest
+    @IsTest
     static void convertCentToDollars() {
         String inputCents = '100';
         Test.startTest();
-        string dollarAmount = PayStaffWSUtill.convertToDollars(inputCents);
+        String dollarAmount = PayStaffWSUtill.convertToDollars(inputCents);
         Test.stopTest();
-        
+
         // Check system assert.
         System.assert('1.00'.equals(dollarAmount), 'Expected 1.00, but got ' + dollarAmount);
     }
@@ -117,16 +117,16 @@ private class PayStaffWSUtillTest {
     /**
      * This method tests the logic of Fetch Patient Id method.
      **/
-    @isTest
+    @IsTest
     static void checkPatientId() {
         Contact con = new Contact(LastName = 'Sirono', Patient_Id__c = 123456);
-        INSERT con;
-        
+        insert con;
+
         Test.startTest();
         String patientId = PayStaffWSUtill.fetchPatientId(con);
         PayStaffWSUtill.addNoteWSCallout(null, null);
         Test.stopTest();
-        
+
         // Check System assert.
         System.assertEquals(Decimal.valueOf(patientId), con.Patient_Id__c, 'Should have failed due to different patient id.');
     }
@@ -134,14 +134,15 @@ private class PayStaffWSUtillTest {
     /**
      * Check all access rights for a read only User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRights() {
-        List<TransactionSecurityContext> allContexts = new List<TransactionSecurityContext>{TransactionSecurityContext.CREATE_CONTEXT,
-        	TransactionSecurityContext.CREATE_WITH_PAYMENT_CONTEXT
+        List<TransactionSecurityContext> allContexts = new List<TransactionSecurityContext> {
+            TransactionSecurityContext.CREATE_CONTEXT,
+            TransactionSecurityContext.CREATE_WITH_PAYMENT_CONTEXT
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (TransactionSecurityContext context: allContexts) {
+            for (TransactionSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);

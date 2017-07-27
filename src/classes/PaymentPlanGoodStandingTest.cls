@@ -5,7 +5,7 @@
 /**
  * Test class for PaymentPlanGoodStanding.
  */
-@isTest
+@IsTest
 public class PaymentPlanGoodStandingTest {
 
     static testMethod void myUnitTest1() {
@@ -13,7 +13,7 @@ public class PaymentPlanGoodStandingTest {
         PageReference pageRef = con.cancel();
         System.assertEquals('/home/home.jsp', pageRef.getUrl());
 
-        Apexpages.currentPage().getParameters().put('guarantorId', '1212');
+        ApexPages.currentPage().getParameters().put('guarantorId', '1212');
         PaymentPlanGoodStanding con1 = new PaymentPlanGoodStanding();
         PageReference pageRef1 = con1.cancel();
         System.assertEquals('/' + 1212, pageRef1.getUrl());
@@ -27,12 +27,12 @@ public class PaymentPlanGoodStandingTest {
         insert guarantorContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Active__C = true;
+        paymentPlan.Active__c = true;
         paymentPlan.Sirono_ID__c = 12345;
         insert paymentPlan;
 
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
 
         PaymentPlanGoodStanding con = new PaymentPlanGoodStanding();
 
@@ -45,9 +45,11 @@ public class PaymentPlanGoodStandingTest {
         con.doSubmit();
 
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Payment Plan Id is missing.')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Payment Plan Id is missing.')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
 
@@ -65,9 +67,9 @@ public class PaymentPlanGoodStandingTest {
         paymentPlan.Sirono_ID__c = 12345;
         insert paymentPlan;
 
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId', '12345');
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanExtId', '12345');
 
         PaymentPlanGoodStanding con = new PaymentPlanGoodStanding();
 
@@ -80,9 +82,11 @@ public class PaymentPlanGoodStandingTest {
         con.doSubmit();
 
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('successfully completed')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('successfully completed')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
 
@@ -104,9 +108,9 @@ public class PaymentPlanGoodStandingTest {
         paymentPlan.Sirono_ID__c = 12345;
         insert paymentPlan;
 
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId', '12345');
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanExtId', '12345');
 
         PaymentPlanGoodStanding con = new PaymentPlanGoodStanding();
 
@@ -119,9 +123,11 @@ public class PaymentPlanGoodStandingTest {
         con.doSubmit();
 
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('successfully completed')) isError = false;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('successfully completed')) {
+                isError = false;
+            }
         }
         System.assertEquals(isError, false);
 
@@ -137,15 +143,17 @@ public class PaymentPlanGoodStandingTest {
     /**
      * Check all access rights for a read only User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRights() {
-        List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext>{PaymentPlanSecurityContext.UPSERT_CONTEXT,
-        	PaymentPlanSecurityContext.UPDATE_CONTEXT, PaymentPlanSecurityContext.DP_UPDATE_CONTEXT, 
-                PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT
+        List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext> {
+            PaymentPlanSecurityContext.UPSERT_CONTEXT,
+            PaymentPlanSecurityContext.UPDATE_CONTEXT,
+			PaymentPlanSecurityContext.DP_UPDATE_CONTEXT,
+            PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (PaymentPlanSecurityContext context: allContexts) {
+            for (PaymentPlanSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);

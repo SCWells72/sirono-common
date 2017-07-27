@@ -6,7 +6,7 @@
  * This class is use for Security Context of Invoice__c object.
  **/
 public with sharing class InvoiceSecurityContext extends SecurityContext {
-	
+
     // Field constants for Invoice__c object
     private static final String ALL_SUBSTATUS = 'All_Substatus__c';
     private static final String INVOICE_BALANCE = 'Invoice_Balance__c';
@@ -24,22 +24,22 @@ public with sharing class InvoiceSecurityContext extends SecurityContext {
     private static final String STATUS = 'Invoice_Status__c';
 
     // The fields for updating a Invoice__c's Invoice_Status_Index__c field in InvoiceUtil
-    private static final Set<String> UPDATE_FIELDS = new Set<String>{
-    	INVOICE_STATUS_INDEX 
+    private static final Set<String> UPDATE_FIELDS = new Set<String> {
+        INVOICE_STATUS_INDEX
     };
 
     // The fields for updating a Invoice__c's All_Substatus__c field in InvoiceUtil
-    private static final Set<String> UPDATE_ALL_SUBSTATUS_FIELDS = new Set<String>{
-    	ALL_SUBSTATUS 
+    private static final Set<String> UPDATE_ALL_SUBSTATUS_FIELDS = new Set<String> {
+        ALL_SUBSTATUS
     };
 
     // The fields for updating a Invoice__c's Invoice_Balance__c field in InvoiceUtil
-    private static final Set<String> UPDATE_BALANCE_FIELDS = new Set<String>{
-    	INVOICE_BALANCE 
+    private static final Set<String> UPDATE_BALANCE_FIELDS = new Set<String> {
+        INVOICE_BALANCE
     };
 
     // The fields for selecting a Invoice__c in EarlyOutSchedulerBatch
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         ID, NAME, GUARANTOR, INVOICE_DATE, DUE_DATE, STATUS
     };
 

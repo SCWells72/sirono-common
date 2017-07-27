@@ -27,8 +27,8 @@ public with sharing class HeaderController {
         Integer estimateCount = null;
 
         if (user.contactId != null) {
-            contact = GuarantorService.getContactsForLightning(new Set<Id>{
-                    user.contactId
+            contact = GuarantorService.getContactsForLightning(new Set<Id> {
+                user.contactId
             })[0];
             invoices = InvoiceService.getByStatus(user.contactId, Constants.DUE);
             paymentPlan = PaymentPlanService.getActivePaymentPlan(user.contactId);
@@ -87,7 +87,7 @@ public with sharing class HeaderController {
 
         // Case of an automatic payment plan with an in error Standing.
         if (headerWrapper.getPaymentPlanActive() && headerWrapper.getPaymentPlanType() == Constants.AUTOMATIC
-                && headerWrapper.getPaymentPlanStanding() == Constants.IN_ERROR) {
+            && headerWrapper.getPaymentPlanStanding() == Constants.IN_ERROR) {
             messageInfo += ERROR_MESSAGE;
         }
 
@@ -122,8 +122,8 @@ public with sharing class HeaderController {
     @TestVisible
     private static Boolean hasPaymentPlanInGoodStanding(HeaderWrapper headerWrapper) {
         return hasBalanceAndAddPaymentPlan(headerWrapper)
-                && headerWrapper.hasPaymentPlan()
-                && headerWrapper.getPaymentPlanStanding() == Constants.PLANTYPE_GOOD_STANDING;
+            && headerWrapper.hasPaymentPlan()
+            && headerWrapper.getPaymentPlanStanding() == Constants.PLANTYPE_GOOD_STANDING;
     }
 
     /**
@@ -134,7 +134,7 @@ public with sharing class HeaderController {
     @TestVisible
     private static Boolean balanceDueOrError(HeaderWrapper headerWrapper) {
         return onPaymentPlan(headerWrapper)
-                || (headerWrapper.hasPaymentPlan() && headerWrapper.getPaymentPlanStanding() != Constants.PLANTYPE_GOOD_STANDING);
+            || (headerWrapper.hasPaymentPlan() && headerWrapper.getPaymentPlanStanding() != Constants.PLANTYPE_GOOD_STANDING);
     }
 
   /**

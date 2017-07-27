@@ -12,7 +12,7 @@ public with sharing class ExhaustedCriteriaMdtSecurityContext extends SecurityCo
     private static final String MASTERLABEL = 'MasterLabel';
 
     // The fields for selecting a Exhausted_Criteria__mdt in TaskTriggerHandler
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         MASTERLABEL, DISPOSITION_TYPE
     };
 

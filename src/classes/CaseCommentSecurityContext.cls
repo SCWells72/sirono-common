@@ -8,19 +8,19 @@
 public with sharing class CaseCommentSecurityContext extends SecurityContext {
 
     // Field constants for CaseComment object
-    private static final String	COMMENTBODY = 'CommentBody';
-    private static final String	PARENTID = 'ParentId';
+    private static final String COMMENTBODY = 'CommentBody';
+    private static final String PARENTID = 'ParentId';
 
     // Below field(s) are use for Select/Read permission.
     private static final String ID = 'Id';
 
     // The fields for creating a CaseComment in CreateCaseManual
-    private static final Set<String> CREATE_FIELDS = new Set<String>{
-    	PARENTID, COMMENTBODY
+    private static final Set<String> CREATE_FIELDS = new Set<String> {
+        PARENTID, COMMENTBODY
     };
 
     // The fields for selecting a CaseComment in CaseCommentTriggerHandler
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         ID, COMMENTBODY, PARENTID
     };
 

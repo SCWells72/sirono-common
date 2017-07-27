@@ -5,13 +5,13 @@
 /**
  * Testing the MissedCallReportDefinition class.
  */
-@isTest
+@IsTest
 public with sharing class MissedCallReportDefinitionTest {
     /**
      * The MissedCallReportDefinition class has 4 public methods and a single constructor method that takes
      * the parameters given and sets them to the appropriate variables. This method tests those settings.
      **/
-    @isTest
+    @IsTest
     public static void reportDefinitionTest() {
         String TEST_FOLDER_NAME = 'Folder Name';
         String TEST_REPORT_NAME = 'Report Name';
@@ -20,7 +20,7 @@ public with sharing class MissedCallReportDefinitionTest {
 
         Test.startTest();
         MissedCallReportDefinition reportDefinition = new MissedCallReportDefinition(
-                TEST_FOLDER_NAME, TEST_REPORT_NAME, TEST_START_DATE, TEST_END_DATE
+            TEST_FOLDER_NAME, TEST_REPORT_NAME, TEST_START_DATE, TEST_END_DATE
         );
         Test.stopTest();
 
@@ -33,7 +33,7 @@ public with sharing class MissedCallReportDefinitionTest {
     /**
      * Create an invalid report definition and test that you receive an appropriate error.
      **/
-    @isTest
+    @IsTest
     public static void invalidDefinitionTest() {
         String TEST_FOLDER_NAME = 'Folder Name';
         String TEST_REPORT_NAME = 'Report Name';
@@ -43,7 +43,7 @@ public with sharing class MissedCallReportDefinitionTest {
         Test.startTest();
 
         MissedCallReportDefinition reportDefinition = new MissedCallReportDefinition(
-                TEST_FOLDER_NAME, TEST_REPORT_NAME, TEST_START_DATE, TEST_END_DATE
+            TEST_FOLDER_NAME, TEST_REPORT_NAME, TEST_START_DATE, TEST_END_DATE
         );
 
         Boolean areDatesValid = reportDefinition.isValid();
@@ -55,8 +55,8 @@ public with sharing class MissedCallReportDefinitionTest {
 
         Test.stopTest();
 
-        System.assertEquals(False, areDatesValid);
-        System.assertEquals(False, isFolderNameValid);
+        System.assertEquals(false, areDatesValid);
+        System.assertEquals(false, isFolderNameValid);
     }
 
 }

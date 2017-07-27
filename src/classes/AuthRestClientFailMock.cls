@@ -15,7 +15,7 @@ public class AuthRestClientFailMock implements HttpCalloutMock {
      *
      * @param - HttpRequest req The req being mocked.
      */
-    public HTTPResponse respond(HTTPRequest req) {
+    public HttpResponse respond(HttpRequest req) {
 
         HttpResponse res;
 

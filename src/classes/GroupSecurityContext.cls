@@ -13,7 +13,7 @@ public with sharing class GroupSecurityContext extends SecurityContext {
     private static final String TYPE = 'Type';
 
     // The fields for selecting a Group in CaseUtil
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         ID, NAME, TYPE
     };
 

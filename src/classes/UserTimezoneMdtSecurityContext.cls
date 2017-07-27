@@ -13,7 +13,7 @@ public with sharing class UserTimezoneMdtSecurityContext extends SecurityContext
     private static final String TIMEZONE_NAME = 'Timezone_Name__c';
 
     // The fields for selecting a User_Timezone_Setting__mdt in TaskTriggerHandler
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         ID, TIMEZONE_NAME, DEVELOPERNAME
     };
 

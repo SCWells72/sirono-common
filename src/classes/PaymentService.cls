@@ -31,9 +31,9 @@ public class PaymentService extends AbstractService {
         private HttpResponse payChargeGroups(PaymentRequest pmtRequest) {
 
             return postRequestor()
-                    .url(RestClientConstants.PAY_CHARGEGROUPS_KEY, new String[] {})
-                    .body(buildPayChargeGroupsBody(pmtRequest))
-                    .call();
+                .url(RestClientConstants.PAY_CHARGEGROUPS_KEY, new String[] {})
+                .body(buildPayChargeGroupsBody(pmtRequest))
+                .call();
 
         }
 
@@ -47,10 +47,10 @@ public class PaymentService extends AbstractService {
         private HttpResponse getPaymentTransactions(String paymentId) {
 
             return getRequestor()
-                    .url(RestClientConstants.PAYMENT_TXNS_KEY, new String[]{
-                            stripCommas(paymentId)
-                    })
-                    .call();
+                .url(RestClientConstants.PAYMENT_TXNS_KEY, new String[] {
+                    stripCommas(paymentId)
+                })
+                .call();
 
         }
 
@@ -69,27 +69,27 @@ public class PaymentService extends AbstractService {
                 cgUrls.add(asChargeGroupURL(cg.Sirono_ID__c.toPlainString()));
             }
 
-            Map<String, Object> rawData = new Map<String, Object>{
-                    RestClientConstants.CHARGE_GROUPS => cgUrls,
-                    RestClientConstants.CSRF_JSON_KEY => getCsrf(),
-                    'guarantor' => asGuarantorURL(pmtRequest.guarantor.Profile_Pointer_ID__c.toPlainString()),
-                    'number' => pmtRequest.chargeInfo.creditCardNumber,
-                    'expiration_year' => pmtRequest.chargeInfo.expirationYear,
-                    'cvv' => pmtRequest.chargeInfo.cvv,
-                    'amount' => convertToCents(pmtRequest.chargeInfo.amount),
-                    'expiration_month' => pmtRequest.chargeInfo.expirationMonth,
-                    'cardholder_name' => pmtRequest.chargeInfo.cardHolderName,
-                    'state' => pmtRequest.chargeInfo.state,
-                    'address_1' => pmtRequest.chargeInfo.address,
-                    'zipcode' => pmtRequest.chargeInfo.zip,
-                    'city' => pmtRequest.chargeInfo.city,
+            Map<String, Object> rawData = new Map<String, Object> {
+                RestClientConstants.CHARGE_GROUPS => cgUrls,
+                RestClientConstants.CSRF_JSON_KEY => getCsrf(),
+                'guarantor' => asGuarantorURL(pmtRequest.guarantor.Profile_Pointer_ID__c.toPlainString()),
+                'number' => pmtRequest.chargeInfo.creditCardNumber,
+                'expiration_year' => pmtRequest.chargeInfo.expirationYear,
+                'cvv' => pmtRequest.chargeInfo.cvv,
+                'amount' => convertToCents(pmtRequest.chargeInfo.amount),
+                'expiration_month' => pmtRequest.chargeInfo.expirationMonth,
+                'cardholder_name' => pmtRequest.chargeInfo.cardHolderName,
+                'state' => pmtRequest.chargeInfo.state,
+                'address_1' => pmtRequest.chargeInfo.address,
+                'zipcode' => pmtRequest.chargeInfo.zip,
+                'city' => pmtRequest.chargeInfo.city,
 //This doesn't appear to be required - remove and confirm
 //                    'total-amount' => convertToCents(data.amount),
-                    'method' => 'credit'
+                'method' => 'credit'
             };
 
             String body = JSON.serializePretty(rawData);
-            System.debug('buildPayChargeGroupBody: '+body);
+            System.debug('buildPayChargeGroupBody: ' + body);
             return body;
         }
     }
@@ -120,11 +120,12 @@ public class PaymentService extends AbstractService {
 
         @TestVisible
         PaymentJSONParser(String jsonBody) {
-            if (jsonBody.startsWith('[')){
+            if (jsonBody.startsWith('[')) {
                 System.debug('PaymentJSONParser jsonBody: ' + jsonBody);
                 json = jsonBody.substring(1);
-                if (json.endsWith(']'))
+                if (json.endsWith(']')) {
                     json = json.substring(0, json.lastIndexOf(']'));
+                }
             } else {
                 this.json = jsonBody;
             }
@@ -196,7 +197,7 @@ public class PaymentService extends AbstractService {
         @TestVisible
         TransactionJSONParser(Payment__c newPayment, String jsonBody) {
             this.payment = newPayment;
-            this.json = SironoRestClient.ensureJsonList(jsonBody.replace('_credit_balance','credit_balance'));
+            this.json = SironoRestClient.ensureJsonList(jsonBody.replace('_credit_balance', 'credit_balance'));
 
             txnJsons = (List<TransactionSironoJSON>) System.JSON.deserialize(json, List<TransactionSironoJSON>.class);
         }
@@ -204,7 +205,7 @@ public class PaymentService extends AbstractService {
         private void createTransactionObjects() {
             for (TransactionSironoJSON txnJson : txnJsons) {
                 Transaction__c txnObj = new Transaction__c();
-                txnObj.Payment__r = new Payment__c(Sirono_ID__c=payment.Sirono_ID__c);
+                txnObj.Payment__r = new Payment__c(Sirono_ID__c = payment.Sirono_ID__c);
                 String transactionExternalId = parseSironoId(txnJson.url, 'transaction');
 
                 txnObj.Sirono_ID__c = Decimal.valueOf(transactionExternalId);
@@ -234,7 +235,7 @@ public class PaymentService extends AbstractService {
 
             List<Charge_Group__c> chargeGroups = ChargeGroupDao.getBySironoIds(cgSironoIds);
             for (Charge_Group__c cg : chargeGroups) {
-                cgIdTxnMap.get(cg.Sirono_ID__c).Charge_Group__c =cg.Id;
+                cgIdTxnMap.get(cg.Sirono_ID__c).Charge_Group__c = cg.Id;
             }
         }
 
@@ -261,7 +262,7 @@ public class PaymentService extends AbstractService {
      * @param PaymentsRequestData pmtRequest - the data needed to make a payment for chargegroups
      */
     public static Payment__c makePayment(PaymentRequest pmtRequest) {
-        if (pmtRequest == null){
+        if (pmtRequest == null) {
             throw new SironoServiceException('Valid PaymentRequestData is required');
         }
 
@@ -279,7 +280,7 @@ public class PaymentService extends AbstractService {
     }
 
     private static void savePaymentAndTransactions(Payment__c payment, List<Transaction__c> transactions) {
-        List<SObject> pmtAndTxns = new List<SObject>{payment};
+        List<SObject> pmtAndTxns = new List<SObject> { payment };
         pmtAndTxns.addAll((List<SObject>) transactions);
         PaymentDao.insertPaymentAndTransactions(pmtAndTxns);
     }
@@ -291,7 +292,7 @@ public class PaymentService extends AbstractService {
         return parser.parse(pmtRequest.guarantor);
     }
 
-    private static List<Transaction__c> retrieveSironoTransactions(Payment__c newPayment){
+    private static List<Transaction__c> retrieveSironoTransactions(Payment__c newPayment) {
         PaymentRestClient client = new PaymentRestClient();
         HttpResponse response = client.getPaymentTransactions(newPayment.Sirono_ID__c.toPlainString());
         TransactionJSONParser txnParser = new TransactionJSONParser(newPayment, response.getBody());
@@ -318,7 +319,7 @@ public class PaymentService extends AbstractService {
             Method__c = paymentMethod
         );
         // Insert new Payment record
-        PaymentDao.insertPayment(new List<Payment__c>{payment});
+        PaymentDao.insertPayment(new List<Payment__c> { payment });
         return PaymentDao.getPayment(payment.Id);
     }
 
@@ -329,7 +330,7 @@ public class PaymentService extends AbstractService {
      * @return Payment_Method__c - The credit card Payment_Method__c object.
      */
     public static Payment_Method__c getCreditCard(String cardId) {
-        List<Payment_Method__C> cards = PaymentMethodDao.getCreditCard(cardId);
+        List<Payment_Method__c> cards = PaymentMethodDao.getCreditCard(cardId);
         return (!cards.isEmpty()) ? cards[0] : null;
     }
 

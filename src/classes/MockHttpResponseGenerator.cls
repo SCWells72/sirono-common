@@ -5,7 +5,7 @@
 /**
  * This class generates MockHttpResponseGenerator for HttpCalloutMock.
  **/
-@isTest
+@IsTest
 global class MockHttpResponseGenerator implements HttpCalloutMock {
 
     // Track if the mock plan has been deleted
@@ -13,7 +13,7 @@ global class MockHttpResponseGenerator implements HttpCalloutMock {
     /**
      * This method generates & returns HttpResponse for provided HTTPRequest.
      **/
-    global HTTPResponse respond(HTTPRequest req) {
+    global HttpResponse respond(HttpRequest req) {
         System.debug('MockHttpResponseGenerator.respond endpoint: ' + req.getEndpoint());
 
         if (req.getEndpoint().contains('/paystaff/token-auth/') ||
@@ -68,9 +68,9 @@ global class MockHttpResponseGenerator implements HttpCalloutMock {
         return null;
     }
 
-    @testVisible
+    @TestVisible
     private static String guarantorSironoId = '23232323';
-    @testVisible
+    @TestVisible
     private static String planSironoId = '2876';
 
     public static String getPaymentPlanJSONBody() {

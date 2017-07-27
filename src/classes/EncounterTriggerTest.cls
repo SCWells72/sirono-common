@@ -5,7 +5,7 @@
 /**
  * Test class for EncounterTriggerHandler.
  */
-@isTest
+@IsTest
 private class EncounterTriggerTest {
 
     static testMethod void myUnitTest() {
@@ -19,11 +19,11 @@ private class EncounterTriggerTest {
 
         Contact guarantorContact2 = TestUtility.generateGuarantorContact();
         guarantorContact2.LastName = 'G Test';
-        guarantorContact2.Profile_Pointer_Id__c = 1234;
+        guarantorContact2.Profile_Pointer_ID__c = 1234;
         guarantorContact2.Guarantor__c = guarantorContact.Id;
         insert guarantorContact2;
 
-        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.id, 100, System.Today());
+        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 100, System.today());
         encounter.Patient__c = patientContact.Id;
         encounter.Liability__c = 200;
         encounter.Cancelled__c = true;
@@ -47,14 +47,14 @@ private class EncounterTriggerTest {
 
         Contact guarantorContact2 = TestUtility.generateGuarantorContact();
         guarantorContact2.LastName = 'G Test';
-        guarantorContact2.Profile_Pointer_Id__c = 1234;
+        guarantorContact2.Profile_Pointer_ID__c = 1234;
         guarantorContact2.Guarantor__c = guarantorContact.Id;
         insert guarantorContact2;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 100);
         insert chargeGroup;
 
-        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.id, 100, System.Today());
+        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 100, System.today());
         encounter.Patient__c = patientContact.Id;
         encounter.Liability__c = 200;
         encounter.Cancelled__c = true;
@@ -62,7 +62,7 @@ private class EncounterTriggerTest {
 
         encounter.Liability__c = 500;
         encounter.Cancelled__c = true;
-        encounter.Date_of_Service__c = System.Today() - 3;
+        encounter.Date_of_Service__c = System.today() - 3;
         encounter.Guarantor__c = guarantorContact2.Id;
         update encounter;
 
@@ -78,13 +78,13 @@ private class EncounterTriggerTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        List<Contact> lstContact = [Select Id from Contact];
+        List<Contact> lstContact = [SELECT Id FROM Contact];
         System.assertEquals(1, lstContact.size());
 
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.id, 100, System.Today());
+        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 100, System.today());
         encounter.Patient__c = patientContact.Id;
         encounter.Liability__c = 200;
         encounter.Cancelled__c = true;
@@ -93,13 +93,13 @@ private class EncounterTriggerTest {
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 100);
         insert chargeGroup;
 
-        lstContact = [Select Id from Contact];
+        lstContact = [SELECT Id FROM Contact];
         System.assertEquals(2, lstContact.size());
         encounter.Liability__c = 300;
         encounter.Guarantor__c = null ;
         update encounter;
 
-        lstContact = [Select Id from Contact];
+        lstContact = [SELECT Id FROM Contact];
         System.assertEquals(2, lstContact.size());
     }
 
@@ -115,11 +115,11 @@ private class EncounterTriggerTest {
 
         Contact guarantorContact2 = TestUtility.generateGuarantorContact();
         guarantorContact2.LastName = 'G Test';
-        guarantorContact2.Profile_Pointer_Id__c = 1234;
+        guarantorContact2.Profile_Pointer_ID__c = 1234;
         guarantorContact2.Guarantor__c = guarantorContact.Id;
         insert guarantorContact2;
 
-        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.id, 100, System.Today());
+        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 100, System.today());
         encounter.Patient__c = patientContact.Id;
         encounter.Liability__c = 200;
         encounter.Cancelled__c = true;
@@ -132,9 +132,9 @@ private class EncounterTriggerTest {
         update encounter;
 
         List<CampaignMember> lstCamp = [
-                Select Id, ContactId, CampaignId
-                From CampaignMember
-                Where ContactId = :guarantorContact2.Id
+            SELECT Id, ContactId, CampaignId
+            FROM CampaignMember
+            WHERE ContactId = :guarantorContact2.Id
         ];
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         System.assertEquals(0, lstCamp.size());
@@ -143,12 +143,12 @@ private class EncounterTriggerTest {
     /**
      * Check all access rights for a read only User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRights() {
-        List<EncounterSecurityContext> allContexts = new List<EncounterSecurityContext>{EncounterSecurityContext.UPDATE_CONTEXT};
+        List<EncounterSecurityContext> allContexts = new List<EncounterSecurityContext> { EncounterSecurityContext.UPDATE_CONTEXT };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (EncounterSecurityContext context: allContexts) {
+            for (EncounterSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);
