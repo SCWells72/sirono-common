@@ -47,7 +47,6 @@ public class PaymentPlanBalanceTest {
         Test.setCreatedDate(testCG.Id, newCreateDate);
 
         Service__c testService = TestUtility.generateService(testCG, TestUtility.generateRandomCurrency());
-        testService.Post_Date__c = newCreateDate.date();
         insert testService;
 
         Transaction__c testTransaction = TestUtility.generateServiceTxn(testCG, testService.Amount__c, testService);
@@ -94,7 +93,7 @@ public class PaymentPlanBalanceTest {
         insert newService;
 
         Transaction__c newServiceTransaction = TestUtility.generateServiceTxn(testCG, newService.Amount__c, newService);
-        newServiceTransaction.Post_Date__c = newService.Post_Date__c;
+        newServiceTransaction.Post_Date__c = System.today();
         newServiceTransaction.Transaction_Date__c = newServiceTransaction.Post_Date__c.date();
         insert newServiceTransaction;
 

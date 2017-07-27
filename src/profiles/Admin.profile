@@ -2832,11 +2832,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Service2__c.Guarantor__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Service2__c.Provider__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3132,7 +3127,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Transaction__c.Service__c</field>
+        <field>Transaction__c.Service2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

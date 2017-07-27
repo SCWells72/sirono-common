@@ -23,8 +23,8 @@ public with sharing class TransactionTriggerHandler {
         Set<Id> pmtIds = new Set<Id>();
 
         for (Transaction__c txn : txnList) {
-            if (txn.Service__c != null) {
-                svcIds.add(txn.Service__c);
+            if (txn.Service2__c != null) {
+                svcIds.add(txn.Service2__c);
             }
 
             if (txn.Adjustment__c != null) {
@@ -56,8 +56,8 @@ public with sharing class TransactionTriggerHandler {
             // updating only when (newTxn.Amount__c != oldTxn.Amount__c)
             // Perform unconditionally until we iron out all the kinks in the
             // data relationships & informatica jobs
-            if (newTxn.Service__c != null) {
-                svcIds.add(newTxn.Service__c);
+            if (newTxn.Service2__c != null) {
+                svcIds.add(newTxn.Service2__c);
             }
 
             if (newTxn.Adjustment__c != null) {
@@ -78,8 +78,8 @@ public with sharing class TransactionTriggerHandler {
                     pmtIds.add(oldTxn.Payment__c);
                 } else if (oldTxn.Adjustment__c != null) {
                     adjIds.add(oldTxn.Adjustment__c);
-                } else if (oldTxn.Service__c != null) {
-                    svcIds.add(oldTxn.Service__c);
+                } else if (oldTxn.Service2__c != null) {
+                    svcIds.add(oldTxn.Service2__c);
                 }
             }
         }
@@ -90,8 +90,8 @@ public with sharing class TransactionTriggerHandler {
     }
 
     private static Id getRelatedObjectId(Transaction__c txn) {
-        if (txn.Service__c != null) {
-            return txn.Service__c;
+        if (txn.Service2__c != null) {
+            return txn.Service2__c;
         }
 
         if (txn.Payment__c != null) {

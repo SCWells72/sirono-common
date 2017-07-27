@@ -134,10 +134,10 @@ public with sharing class TxnAggregationUtils {
             if (TransactionSecurityContext.SELECT_CONTEXT_WITH_SERVICE.actionAllowed()) {
                 // Get the SUM of the associated transaction amounts
                 AggregateResult[] results = [
-                    SELECT Service__c obj, SUM(Amount__c) Total
+                    SELECT Service2__c obj, SUM(Amount__c) Total
                     FROM Transaction__c
-                    WHERE Service__c IN :ids
-                    GROUP BY Service__c
+                    WHERE Service2__c IN :ids
+                    GROUP BY Service2__c
                 ];
 
                 Map<Id, Decimal> resultsMap = mapAggregateResults(ids, results);

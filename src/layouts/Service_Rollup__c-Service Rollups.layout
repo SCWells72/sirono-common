@@ -79,7 +79,6 @@
         <fields>Amount__c</fields>
         <fields>Service_Date__c</fields>
         <fields>Provider__c</fields>
-        <fields>Charge_Group__c</fields>
         <relatedList>Service2__c.Service_Rollup__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

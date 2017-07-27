@@ -169,13 +169,12 @@ TEXT(YEAR(Service_Date__c))</formula>
             <isOptional>false</isOptional>
         </lookupFilter>
         <referenceTo>Contact</referenceTo>
-        <relationshipLabel>External Guarantor</relationshipLabel>
-        <relationshipName>External Guarantor</relationshipName>
-        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <relationshipLabel>Services (External Guarantors)</relationshipLabel>
+        <relationshipName>Services_EG</relationshipName>
         <required>false</required>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
-        <type>MasterDetail</type>
+        <type>Lookup</type>
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
     <fields>
@@ -193,8 +192,8 @@ TEXT(YEAR(Service_Date__c))</formula>
             <isOptional>false</isOptional>
         </lookupFilter>
         <referenceTo>Contact</referenceTo>
-        <relationshipLabel>Guarantor</relationshipLabel>
-        <relationshipName>Guarantor</relationshipName>
+        <relationshipLabel>Services (Guarantors)</relationshipLabel>
+        <relationshipName>Services</relationshipName>
         <reparentableMasterDetail>true</reparentableMasterDetail>
         <required>false</required>
         <trackHistory>false</trackHistory>
@@ -268,13 +267,11 @@ TEXT(YEAR(Service_Date__c))</formula>
         <customTabListAdditionalFields>Service_Date__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Provider__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Service_Rollup__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Charge_Group__c</customTabListAdditionalFields>
         <lookupDialogsAdditionalFields>Display_Name__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Amount__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Service_Date__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Provider__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Service_Rollup__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Charge_Group__c</lookupDialogsAdditionalFields>
         <lookupFilterFields>NAME</lookupFilterFields>
         <lookupFilterFields>Display_Name__c</lookupFilterFields>
         <lookupFilterFields>Amount__c</lookupFilterFields>
@@ -286,20 +283,17 @@ TEXT(YEAR(Service_Date__c))</formula>
         <lookupPhoneDialogsAdditionalFields>Service_Date__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Provider__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Service_Rollup__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Charge_Group__c</lookupPhoneDialogsAdditionalFields>
         <searchFilterFields>NAME</searchFilterFields>
         <searchFilterFields>Display_Name__c</searchFilterFields>
         <searchFilterFields>Amount__c</searchFilterFields>
         <searchFilterFields>Service_Date__c</searchFilterFields>
         <searchFilterFields>Provider__c</searchFilterFields>
         <searchFilterFields>Service_Rollup__c</searchFilterFields>
-        <searchFilterFields>Charge_Group__c</searchFilterFields>
         <searchResultsAdditionalFields>Display_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Amount__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Service_Date__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Provider__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Service_Rollup__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Charge_Group__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
 </CustomObject>

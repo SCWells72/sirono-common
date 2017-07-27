@@ -239,7 +239,7 @@
         <fields>Txn_Method__c</fields>
         <fields>Post_Date__c</fields>
         <fields>Payment__c</fields>
-        <fields>Service__c</fields>
+        <fields>Service2__c</fields>
         <fields>Adjustment__c</fields>
         <relatedList>Transaction__c.Charge_Group__c</relatedList>
         <sortField>Post_Date__c</sortField>

@@ -303,10 +303,10 @@ public class TestUtility {
     // Return a service transaction
     public static Transaction__c generateServiceTxn(Charge_Group__c chargeGroup,
         Decimal amount,
-        Service__c svc) {
+        Service2__c svc) {
         Transaction__c objTransaction = generateTxn(chargeGroup, amount);
         objTransaction.Post_Date__c = System.today().addDays(-7);
-        objTransaction.Service__c = svc.Id;
+        objTransaction.Service2__c = svc.Id;
         return objTransaction;
     }
 
@@ -334,12 +334,10 @@ public class TestUtility {
     }
 
     // Build and return a service record
-    public static Service__c generateService(Charge_Group__c chargeGroup, Decimal amount) {
-        Service__c srv = new Service__c();
-        srv.Sirono_ID__c = getUniqueId();
+    public static Service2__c generateService(Contact guarantor, Decimal amount) {
+        Service2__c srv = new Service2__c();
         srv.Amount__c = amount;
-        srv.Charge_Group__c = chargeGroup.Id;
-        srv.Post_Date__c = System.today();
+        srv.Guarantor__c = guarantor.Id;
         return srv;
     }
     

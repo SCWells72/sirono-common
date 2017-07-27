@@ -23,7 +23,7 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
     private static final String CHARGE_ADDED_SINCE_PLAN_START = 'Charge_added_since_plan_start__c';
     private static final String ID = 'Id';
     private static final String LASTMODIFIEDDATE = 'LastModifiedDate';
-    private static final String SERVICE = 'Service__c';
+    private static final String SERVICE = 'Service2__c';
     private static final String TXN_METHOD = 'Txn_Method__c';
 
     // The fields for inserting Transaction in PayStaffWSUtill

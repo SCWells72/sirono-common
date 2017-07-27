@@ -2820,11 +2820,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Service2__c.Guarantor__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Service2__c.Provider__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3115,7 +3110,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Transaction__c.Service__c</field>
+        <field>Transaction__c.Service2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3298,7 +3293,7 @@
         <layout>Service_Rollup__c-Service Rollups</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Service__c-Services</layout>
+        <layout>Service2__c-Services</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Statement__c-Statements</layout>
@@ -3519,7 +3514,7 @@
         <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
-        <object>Service__c</object>
+        <object>Service2__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -3841,7 +3836,7 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>Service__c</tab>
+        <tab>Service2__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>

@@ -111,17 +111,6 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Amount__c</fields>
-        <fields>Txn_Method__c</fields>
-        <fields>Post_Date__c</fields>
-        <fields>Transaction_Date__c</fields>
-        <fields>Charge_Group__c</fields>
-        <relatedList>Transaction__c.Service2__c</relatedList>
-        <sortField>Post_Date__c</sortField>
-        <sortOrder>Desc</sortOrder>
-    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>

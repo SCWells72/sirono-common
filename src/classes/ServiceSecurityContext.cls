@@ -3,14 +3,14 @@
  */
 
 /**
- * This class is use for Security Context of Service__c object
+ * This class is use for Security Context of Service2__c object
  **/
 public with sharing class ServiceSecurityContext extends SecurityContext {
 
-    // Field constants for Service__c object
+    // Field constants for Service2__c object
     private static final String AMOUNT = 'Amount__c';
 
-    // The fields for updating a Service__c in TxnAggregationUtils
+    // The fields for updating a Service2__c in TxnAggregationUtils
     private static final Set<String> UPDATE_FIELDS = new Set<String> {
         AMOUNT
     };
@@ -27,7 +27,7 @@ public with sharing class ServiceSecurityContext extends SecurityContext {
     }
 
     /**
-     * The update context for Service__c in TxnAggregationUtils
+     * The update context for Service2__c in TxnAggregationUtils
      **/
     public static final ServiceSecurityContext UPDATE_CONTEXT = new ServiceSecurityContext(UPDATE_FIELDS, ACTION.OBJ_UPDATE);
 

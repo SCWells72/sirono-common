@@ -118,7 +118,7 @@
         <fields>Post_Date__c</fields>
         <fields>Transaction_Date__c</fields>
         <fields>Charge_Group__c</fields>
-        <relatedList>Transaction__c.Service__c</relatedList>
+        <relatedList>Transaction__c.Service2__c</relatedList>
         <sortField>Post_Date__c</sortField>
         <sortOrder>Desc</sortOrder>
     </relatedLists>

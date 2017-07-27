@@ -2779,11 +2779,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Service2__c.Account_Type__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Service2__c.Aggregate_ID__c</field>
         <readable>true</readable>
@@ -2821,11 +2816,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Service2__c.Display_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Service2__c.Guarantor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3125,7 +3115,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Transaction__c.Service__c</field>
+        <field>Transaction__c.Service2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -63,8 +63,8 @@ private class WorkWithInvoicesControllerTest {
             objCGCoverage.Coverage__c = objcoverage.Id;
             insert objCGCoverage;
 
-            Service__c serviceTest = new Service2__c(
-                Guarantor__c = guarantorContact
+            Service2__c serviceTest = new Service2__c(
+                Guarantor__c = guarantorContact.Id
             );
             insert serviceTest;
 
