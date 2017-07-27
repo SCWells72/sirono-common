@@ -5,7 +5,7 @@
 /**
  * WorkWithInvoicesController for Lightning components dealing with Invoices.
  */
-public without sharing class WorkWithInvoicesController {
+public with sharing class WorkWithInvoicesController {
 
     /**
      * Get all invoices for the current user.

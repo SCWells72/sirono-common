@@ -515,18 +515,11 @@ public class TestUtility {
                 gt.OwnerId = portalAdminUser.Id;
                 Database.insert(gt);
 
-                UserRole gr = [
-                    SELECT Id, DeveloperName, PortalRole
-                    FROM UserRole
-                    WHERE DeveloperName = 'MakanaHealthCustomerUser'
-                    LIMIT 1
-                ];
 
+                System.debug('Create portalUser for contact: '+gt.Id);
                 usr = TestUtility.generateUser(Constants.GUARANTOR_PORTAL_PROFILE, gt.Id);
                 usr.Username = testUsername;
-                usr.PortalRole = gr.PortalRole;
 
-                System.debug('PortalRole: ' + gr.PortalRole);
                 INSERT usr;
 
                 usr = null;
@@ -540,6 +533,16 @@ public class TestUtility {
                 ];
 
                 System.assertNotEquals(usr, null, 'User with username: ' + testUsername + ' not found');
+
+                // Instead of sharing via roles, explicitly share the contact with this new portal user
+                // This is only valid while we are using a Community Plus profile for our portal user.
+                // We can't do explicit sharing with simple Community profile users
+                ContactShare cs = new ContactShare();
+                cs.ContactAccessLevel = 'Edit';
+                cs.ContactId = gt.Id;
+                cs.UserOrGroupId =  usr.Id;
+
+                INSERT new ContactShare[]{cs};
             }
 
             System.assertNotEquals(usr, null, 'User with username: ' + testUsername + ' not found');

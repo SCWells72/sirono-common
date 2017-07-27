@@ -5,11 +5,29 @@
 /**
  * Payment DAO for Encounter__c object SOQL/DML operations
  */
-public without sharing class EncounterDao {
+public with sharing class EncounterDao {
     public enum IdType {
         GUARANTOR, ENCOUNTER
     }
-    
+
+    public without sharing class ElevatedPrivilegesHelper {
+        /**
+         * Return the patient MRN and Name for all encounters for the given guarantor
+         *
+         * @param Contact - the guarantor to retrieve Encounter__c for
+         * @returns List<Encounter__c> - The list of encounters.
+         */
+        public List<Encounter__c> getInfoForRelatedPatients(Contact guarantor) {
+            return [
+                    SELECT Patient__r.Medical_Record_Number__c, Patient__r.Name
+                    FROM Encounter__c
+                    WHERE Guarantor__c = :guarantor.Id
+                    LIMIT 50000
+            ];
+        }
+    }
+
+
 	/**
 	 * This method is use to get Encounter Records based on Guarantor Id or Id and Balance is greater than zero.
      * @param IdType objectName - object name for where condition
@@ -46,11 +64,11 @@ public without sharing class EncounterDao {
     public static Integer getCountByDate(Id contactId, DateTime startDate) {
         if (EncounterSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
-                SELECT
-                    COUNT()
-                FROM Encounter__c
-                WHERE Guarantor__c = :contactId AND
-                CreatedDate >= :startDate
+                    SELECT
+                            COUNT()
+                    FROM Encounter__c
+                    WHERE Guarantor__c = :contactId AND
+                    CreatedDate >= :startDate
             ];
         }
         return null;
@@ -109,11 +127,8 @@ public without sharing class EncounterDao {
      */
     //TODO Add FLS/CRUD check
     public static List<Encounter__c> getAllPatients(Contact guarantor) {
-        return [SELECT Patient__r.Medical_Record_Number__c, Patient__r.Name
-                FROM Encounter__c
-                WHERE Guarantor__c = :guarantor.Id
-                LIMIT 50000
-        ];
+        ElevatedPrivilegesHelper helper = new ElevatedPrivilegesHelper();
+        return helper.getInfoForRelatedPatients(guarantor);
     }
 
     /**
@@ -127,13 +142,12 @@ public without sharing class EncounterDao {
 
         if (EncounterSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
-                SELECT Id, Name, Patient__r.Name, Estimate_ID__c, Patient_Portion__c,
-                    Date_of_Service__c, Patient__r.Medical_Record_Number__c, Procedure__c,
-                    Location__c, Encounter_ID__c, Total_Charges__c, Insurance_Discount__c,
-                    Insurance_Portion__c, Total_Payments__c, Balance__c, Type__c, Ordering_Physician__c,
-                    (SELECT Amount__c, Deposit_Date__c FROM Payments__r)
-                FROM Encounter__c
-                WHERE Guarantor__c = :contactId  AND Id = :invoiceId
+                    SELECT Id, Name, Patient__r.Name, Estimate_ID__c, Patient_Portion__c,
+                            Date_of_Service__c, Patient__r.Medical_Record_Number__c, Procedure__c,
+                            Location__c, Encounter_ID__c, Total_Charges__c, Insurance_Discount__c,
+                            Insurance_Portion__c, Total_Payments__c, Balance__c, Type__c, Ordering_Physician__c, (SELECT Amount__c, Deposit_Date__c FROM Payments__r)
+                    FROM Encounter__c
+                    WHERE Guarantor__c = :contactId AND Id = :invoiceId
             ];
         }
         return null;

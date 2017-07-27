@@ -2,7 +2,7 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-public without sharing class WorkWithEstimatesController {
+public with sharing class WorkWithEstimatesController {
     //TODO dynamic domain
     public static final String FILE_PREFIX = '/guarantor/servlet/servlet.FileDownload?file=';
 

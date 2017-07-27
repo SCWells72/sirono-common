@@ -19,6 +19,12 @@ public class PayEstimateLightningControllerTest {
         encounter.Patient__c = pt.Id;
         INSERT encounter;
 
+        Encounter__Share share  = new Encounter__Share();
+        share.ParentId = encounter.Id;
+        share.UserOrGroupId = usr.Id;
+        share.AccessLevel = 'edit';
+        insert share;
+
         System.runAs(usr) {
             // Create PayEstimate class object with guarantorContact.
             PayEstimateLightningController objPayEstimate = new PayEstimateLightningController(new ApexPages.StandardController(gt), encounter.Id);

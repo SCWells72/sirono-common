@@ -157,20 +157,32 @@ private class WorkWithInvoicesControllerTest {
             patientContact.Medical_Record_Number__c = '1234512345';
             INSERT patientContact;
 
-            List<Encounter__c> lstEncounter = new List<Encounter__c>();
+            List<Encounter__c> encounters = new List<Encounter__c>();
             encounter1 = TestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
             encounter1.Patient__c = patientContact.Id;
             encounter1.Insurance_Discount__c = 2;
             encounter1.Insurance_Portion__c = 2;
-            lstEncounter.add(encounter1);
+            encounters.add(encounter1);
             Encounter__c encounter2 = TestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
             encounter2.Total_Payments__c = 5;
             encounter2.Patient__c = patientContact.Id;
             encounter2.Insurance_Discount__c = 3;
             encounter2.Insurance_Portion__c = 2;
-            lstEncounter.add(encounter2);
+            encounters.add(encounter2);
 
-            INSERT lstEncounter;
+            INSERT encounters;
+
+
+            //TODO Figure out sharing for portal users!
+            List<Encounter__Share> shares = new List<Encounter__Share>();
+            for (Encounter__c encounter : encounters) {
+                Encounter__Share share  = new Encounter__Share();
+                share.ParentId = encounter.Id;
+                share.UserOrGroupId = portalUser.Id;
+                share.AccessLevel = 'edit';
+                shares.add(share);
+            }
+            insert shares;
 
             Attachment testAttach = new Attachment(
                 Body = Blob.valueOf('Test string'),

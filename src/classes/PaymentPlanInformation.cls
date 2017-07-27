@@ -7,6 +7,9 @@
  * It is use to set all parameters which are pass or set in web request to create/edit Payment Plan.
  **/
 public with sharing class PaymentPlanInformation {
+
+    public static final String SIRONO_PP_KEY = 'sironoPaymentPlanId';
+
     @TestVisible
     private static final String PLAN_TYPE = 'planType';
     @TestVisible

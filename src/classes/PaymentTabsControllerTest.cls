@@ -5,6 +5,8 @@
 @isTest
 public with sharing class PaymentTabsControllerTest {
 
+    private static String PLAN_SIRONO_ID = '2876';
+
     @isTest
     public static void getCardSelectOptionsTest() {
         Test.startTest();
@@ -12,6 +14,288 @@ public with sharing class PaymentTabsControllerTest {
         Test.stopTest();
 
         System.assertEquals(2, opts.keySet().size(), 'Should have both YEARS and MONTHS');
+    }
+
+    @isTest
+    public static void testGetPaymentPlanInfoNullForNoContact() {
+        Test.startTest();
+        PaymentTabsController.GuarantorPaymentInfo gpi = PaymentTabsController.getPaymentPlanInfo();
+        Test.stopTest();
+
+        System.assertEquals(null, gpi, 'Should be null if no contact id is found.');
+    }
+
+    @isTest
+    public static void testGetPaymentPlanInfoForNoActiveCGs() {
+        User portalUser = TestUtility.getGuarantorCommunityUser();
+        User adminUser = TestUtility.getPortalAdminUser();
+
+        // Update all the portal users charge groups to not active.
+        System.runAs(adminUser) {
+            List<Charge_Group__c> cgs = [
+                SELECT Id, Active__c
+                FROM Charge_Group__c
+                WHERE Id = :portalUser.ContactId
+            ];
+
+            for (Charge_Group__c cg : cgs) {
+                cg.Active__c = false;
+            }
+            UPDATE cgs;
+        }
+        PaymentTabsController.GuarantorPaymentInfo gpi;
+
+        System.runAs(portalUser) {
+            Test.startTest();
+            gpi = PaymentTabsController.getPaymentPlanInfo();
+            Test.stopTest();
+        }
+        System.assertNotEquals(null, gpi, 'Should populate the PaymentInfoObject.');
+        System.assertEquals(0, gpi.chargeGroups.size(), 'Should have no charge groups.');
+        System.assertEquals(false, gpi.addToPaymentAvail, 'Should set add to PP to false');
+
+    }
+
+    @isTest
+    public static void testGetPaymentPlanInfoHasChargeGroups() {
+        User portalUser = TestUtility.getGuarantorCommunityUser();
+        User adminUser = TestUtility.getPortalAdminUser();
+
+        PaymentTabsController.GuarantorPaymentInfo gpi;
+        insertPaymentPlan(adminUser, portalUser);
+
+        System.runAs(portalUser) {
+            Test.startTest();
+            gpi = PaymentTabsController.getPaymentPlanInfo();
+            Test.stopTest();
+        }
+
+        System.assertNotEquals(null, gpi, 'Should populate the PaymentInfoObject.');
+        System.assertEquals(1, gpi.chargeGroups.size(), 'Should have a charge groups.');
+        System.assertEquals(false, gpi.addToPaymentAvail, 'Should set add to PP to false');
+        System.assertNotEquals(null, gpi.settings, 'Should have pp settings.');
+    }
+
+    @isTest
+    public static void testCreatePaymentPlan() {
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+        User portalUser = TestUtility.getGuarantorCommunityUser();
+        // Update the mock response to use the community guarantor sirono id.
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
+
+        Map<String, Object> ppInfoMap = new Map<String, Object>();
+        ppInfoMap.put(PaymentPlanInformation.PLAN_TYPE, Constants.PLANTYPE_AUTO);
+        ppInfoMap.put(PaymentPlanInformation.PLAN_VALUE, '');
+        ppInfoMap.put(PaymentPlanInformation.AMOUNT_KEY, '234');
+        ppInfoMap.put(PaymentPlanInformation.EXECUTE_ON_DAY, '1');
+        ppInfoMap.put(PaymentPlanInformation.GUARANTOR_ID, portalUser.ContactId);
+        ppInfoMap.put(PaymentPlanInformation.CARD_HOLDER_NAME, 'Pork nBeans');
+        ppInfoMap.put(PaymentPlanInformation.EXPIRATION_YEAR, String.valueof(System.today().Year() + 1));
+        ppInfoMap.put(PaymentPlanInformation.EXPIRATION_MONTH, '7');
+        ppInfoMap.put(PaymentPlanInformation.CVV_KEY, '127');
+        ppInfoMap.put(PaymentPlanInformation.STATE_KEY, 'CA');
+        ppInfoMap.put(PaymentPlanInformation.ZIP_KEY, '78717');
+        ppInfoMap.put(PaymentPlanInformation.ADDRESS_KEY, '123 St. Road');
+        ppInfoMap.put(PaymentPlanInformation.CITY_KEY, 'San Diego');
+
+        Payment_Plan__c plan;
+        System.runAs(portalUser) {
+            Test.startTest();
+            plan = PaymentTabsController.createPaymentPlan(ppInfoMap, false);
+            Test.stopTest();
+        }
+
+        System.assertNotEquals(null, plan, 'Should create a paymentPlan.');
+        System.assertEquals(null, plan.Payment_Method__c, 'Should not have inserted the payment method.');
+    }
+
+    @isTest
+    public static void testDoEditPaymentMethodNoId() {
+        Map<String, Object> ppInfoMap = new Map<String, Object>();
+
+        try {
+            Test.startTest();
+            Payment_Plan__c plan = PaymentTabsController.doEditPaymentMethod(ppInfoMap, false);
+            System.assert(false, 'Should have thown aura exception.');
+        } catch (AuraHandledException e) {
+            Test.stopTest();
+            System.assertNotEquals(null, e.getMessage(), 'Should have an error message.');
+        } catch (Exception ex) {
+            System.assert(false, 'Should not have thrown unexpected exception.');
+        }
+
+    }
+
+    @isTest
+    public static void testDoEditPaymentMethodNewCardNoSave() {
+        User portalUser = TestUtility.getGuarantorCommunityUser();
+        User adminUser = TestUtility.getPortalAdminUser();
+
+        Payment_Plan__c createdPlan = insertPaymentPlan(adminUser, portalUser);
+        String cHolderName = 'Pork nBeans';
+
+        Map<String, Object> ppInfoMap = new Map<String, Object>();
+        ppInfoMap.put(PaymentPlanInformation.CARD_HOLDER_NAME, cHolderName);
+        ppInfoMap.put(PaymentPlanInformation.EXPIRATION_YEAR, String.valueof(System.today().Year() + 1));
+        ppInfoMap.put(PaymentPlanInformation.EXPIRATION_MONTH, '7');
+        ppInfoMap.put(PaymentPlanInformation.CVV_KEY, '127');
+        ppInfoMap.put(PaymentPlanInformation.CREDITCARD_NUMBER, '4111111111111111');
+        ppInfoMap.put('id', createdPlan.Id);
+
+        Payment_Plan__c plan;
+        System.runAs(portalUser) {
+            Test.startTest();
+            plan = PaymentTabsController.doEditPaymentMethod(ppInfoMap, false);
+            Test.stopTest();
+        }
+
+        List<Payment_Method__c> savedMethods = [SELECT Id FROM Payment_Method__c WHERE Card_Holder_Name__c = :cHolderName];
+        System.assertNotEquals(null, plan, 'Should return payment plan');
+        System.assertEquals(0, savedMethods.size(), 'Should not have saved the new payment method.');
+    }
+
+    @isTest
+    public static void testDoEditPaymentMethodNewCardSaved() {
+        User portalUser = TestUtility.getGuarantorCommunityUser();
+        User adminUser = TestUtility.getPortalAdminUser();
+
+        Payment_Plan__c createdPlan = insertPaymentPlan(adminUser, portalUser);
+        String cHolderName = 'Pork nBeans';
+
+        Map<String, Object> ppInfoMap = new Map<String, Object>();
+        ppInfoMap.put(PaymentPlanInformation.CARD_HOLDER_NAME, cHolderName);
+        ppInfoMap.put(PaymentPlanInformation.EXPIRATION_YEAR, String.valueof(System.today().Year() + 1));
+        ppInfoMap.put(PaymentPlanInformation.EXPIRATION_MONTH, '7');
+        ppInfoMap.put(PaymentPlanInformation.CVV_KEY, '127');
+        ppInfoMap.put(PaymentPlanInformation.CREDITCARD_NUMBER, '4111111111111111');
+        ppInfoMap.put('id', createdPlan.Id);
+
+        Payment_Plan__c plan;
+        System.runAs(portalUser) {
+            Test.startTest();
+            plan = PaymentTabsController.doEditPaymentMethod(ppInfoMap, true);
+            Test.stopTest();
+        }
+
+        List<Payment_Method__c> savedMethods = [SELECT Id FROM Payment_Method__c WHERE Card_Holder_Name__c = :cHolderName];
+        System.assertNotEquals(null, plan, 'Should return payment plan');
+        System.assertEquals(1, savedMethods.size(), 'Should have saved the new payment method.');
+    }
+
+    @isTest
+    public static void testDoEditPaymentPlanNoId() {
+        User portalUser = TestUtility.getGuarantorCommunityUser();
+        Map<String, Object> ppInfoMap = new Map<String, Object>();
+
+        try {
+            Test.startTest();
+            PaymentTabsController.doEditPaymentPlan(ppInfoMap);
+            System.assert(false, 'Should have thown aura exception.');
+        } catch (AuraHandledException e) {
+            Test.stopTest();
+            System.assertNotEquals(null, e.getMessage(), 'Should have an error message.');
+        } catch (Exception ex) {
+            System.assert(false, 'Should not have thrown unexpected exception.');
+        }
+
+    }
+
+    @isTest
+    public static void testDoEditPaymentPlanSuccess() {
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+        User portalUser = TestUtility.getGuarantorCommunityUser();
+        User adminUser = TestUtility.getPortalAdminUser();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
+
+        Payment_Plan__c createdPlan = insertPaymentPlan(adminUser, portalUser);
+
+        Map<String, Object> ppInfoMap = new Map<String, Object>();
+        ppInfoMap.put(PaymentPlanInformation.AMOUNT_KEY, '12345');
+        ppInfoMap.put(PaymentPlanInformation.SIRONO_PP_KEY, '2876');
+        ppInfoMap.put(PaymentPlanInformation.PLAN_TYPE, Constants.PLANTYPE_AUTO);
+
+        Test.startTest();
+        Payment_Plan__c updatedPlan = PaymentTabsController.doEditPaymentPlan(ppInfoMap);
+        Test.stopTest();
+
+        System.assertNotEquals(null, updatedPlan, 'Should have updated the plan and returned it.');
+        System.debug(updatedPlan);
+    }
+
+    @isTest
+    public static void testDoEditPaymentPlanBadPlanId() {
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+        User portalUser = TestUtility.getGuarantorCommunityUser();
+        User adminUser = TestUtility.getPortalAdminUser();
+
+        Payment_Plan__c createdPlan = insertPaymentPlan(adminUser, portalUser);
+
+        Map<String, Object> ppInfoMap = new Map<String, Object>();
+        ppInfoMap.put(PaymentPlanInformation.AMOUNT_KEY, '12345');
+        ppInfoMap.put(PaymentPlanInformation.SIRONO_PP_KEY, '91929394');
+        ppInfoMap.put(PaymentPlanInformation.PLAN_TYPE, Constants.PLANTYPE_AUTO);
+
+        try {
+            Test.startTest();
+            PaymentTabsController.doEditPaymentPlan(ppInfoMap);
+            System.assert(false, 'Should have thown aura exception.');
+        } catch (AuraHandledException e) {
+            Test.stopTest();
+            System.assertNotEquals(null, e.getMessage(), 'Should have an error message.');
+            System.assertEquals('Error encountered updating plan. Please contact support', e.getMessage(), 'Should have support message.');
+        } catch (Exception ex) {
+            System.assert(false, 'Should not have thrown unexpected exception.');
+        }
+
+    }
+
+    @isTest
+    public static void testDeletePaymentPlan() {
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+        User portalUser = TestUtility.getGuarantorCommunityUser();
+        User adminUser = TestUtility.getPortalAdminUser();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
+
+
+        Payment_Plan__c createdPlan = insertPaymentPlan(adminUser, portalUser);
+        MockHttpResponseGenerator.planSironoId = createdPlan.Sirono_ID__c.toPlainString();
+
+        Payment_Plan__c p1 = [SELECT Id, Active__c, Cancellation_Date__c FROM Payment_Plan__c WHERE Id = :createdPlan.Id];
+
+        System.assertEquals(null, p1.Cancellation_Date__c, 'Should not have a cancelation date.');
+        System.assertEquals(true, p1.Active__c, 'Should be an active plan.');
+
+        System.runAs(portalUser) {
+            Test.startTest();
+            PaymentTabsController.deletePaymentPlan(createdPlan.Id);
+            Test.stopTest();
+        }
+
+        p1 = [SELECT Id, Active__c, Cancellation_Date__c FROM Payment_Plan__c WHERE Id = :createdPlan.Id];
+        System.assertNotEquals(null, p1.Cancellation_Date__c, 'Should be canceled.');
+        System.assertEquals(false, p1.Active__c, 'Should be inactive.');
+
+    }
+
+    @isTest
+    public static void testDeletePaymentPlanNoPlanFound() {
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+        User portalUser = TestUtility.getGuarantorCommunityUser();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
+
+        System.runAs(portalUser) {
+            try {
+                Test.startTest();
+                PaymentTabsController.deletePaymentPlan('657438');
+                System.assert(false, 'Should have thrown exception.');
+            } catch (AuraHandledException e) {
+                System.assertEquals('An error has occurred, please contact support.', e.getMessage(), 'Should have the expected support message.');
+            } catch (Exception ex) {
+                System.assert(false, 'Should not have been an unexpected exception.');
+            }
+
+        }
+
     }
 
     @isTest
@@ -132,7 +416,7 @@ public with sharing class PaymentTabsControllerTest {
     }
 
     @isTest
-    public static void getCreditCardsVerifyResultsTes() {
+    public static void getCreditCardsVerifyResultsTest() {
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
         Contact guarantorContact = TestUtility.getPortalGuarantor();
@@ -144,6 +428,18 @@ public with sharing class PaymentTabsControllerTest {
         payMethods.get(0).Last_4__c = '1111';
         payMethods.get(0).Type__c = Constants.CREDIT_CARD;
         INSERT payMethods;
+
+        //TODO Figure out sharing for portal users!
+        List<Payment_Method__Share> shares = new List<Payment_Method__Share>();
+        for (Payment_Method__c pm : payMethods) {
+            Payment_Method__Share share  = new Payment_Method__Share();
+            share.ParentId = pm.Id;
+            share.UserOrGroupId = portalUser.Id;
+            share.AccessLevel = 'edit';
+            shares.add(share);
+        }
+
+        INSERT shares;
 
         System.runAs(portalUser) {
 
@@ -180,6 +476,18 @@ public with sharing class PaymentTabsControllerTest {
 
         INSERT payMethods;
 
+        //TODO Figure out sharing for portal users!
+        List<Payment_Method__Share> shares = new List<Payment_Method__Share>();
+        for (Payment_Method__c pm : payMethods) {
+            Payment_Method__Share share  = new Payment_Method__Share();
+            share.ParentId = pm.Id;
+            share.UserOrGroupId = portalUser.Id;
+            share.AccessLevel = 'edit';
+            shares.add(share);
+        }
+
+        INSERT shares;
+
         System.runAs(portalUser) {
 
             Test.startTest();
@@ -191,4 +499,71 @@ public with sharing class PaymentTabsControllerTest {
 
     }
 
+    private static Payment_Plan__c insertPaymentPlan(User adminUser, User portalUser) {
+        Contact guarantorContact;
+        Contact patientContact;
+        Payment_Plan__c testPP;
+
+        System.runAs(adminUser) {
+            Account testAcc = TestUtility.getPortalAccount();
+            guarantorContact = TestUtility.getPortalGuarantor();
+
+            patientContact = TestUtility.generatePatientContact();
+            patientContact.AccountId = testAcc.Id;
+            patientContact.Medical_Record_Number__c = '1234512345';
+            INSERT patientContact;
+
+            // Use a modified CreatedDate so we can test transactions added in the future
+            Datetime newCreateDate = System.now().addDays(-5);
+
+            Test.setCreatedDate(patientContact.Id, newCreateDate);
+
+            Map<String, String> recordTypeMap = new Map<String, String>();
+            for (RecordType recordType : [
+                Select Id, Name
+                From RecordType
+                Where sObjectType = :Payment_Method__c.class.getName()
+            ]) {
+                recordTypeMap.put(recordType.Name, recordType.Id);
+            }
+
+            Payment_Method__c testPM = TestUtility.generatePaymentMethod(guarantorContact.Id, recordTypeMap.get('Credit Card'));
+            INSERT testPM;
+            Test.setCreatedDate(testPM.Id, newCreateDate);
+
+            Invoice__c invoiceOne = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+            INSERT invoiceOne;
+
+            testPP = TestUtility.generatePaymentPlan(guarantorContact);
+            testPP.Plan_Value_Modified_Date__c = newCreateDate;
+            testPP.Original_Balance__c = TestUtility.generateRandomCurrency();
+            INSERT testPP;
+            Test.setCreatedDate(testPP.Id, newCreateDate);
+
+            Charge_Group__c testCG = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 1234, testPP.Id);
+            testCG.Invoice__c = invoiceOne.Id;
+            INSERT testCG;
+            Test.setCreatedDate(testCG.Id, newCreateDate);
+
+            Service__c testService = TestUtility.generateService(testCG, TestUtility.generateRandomCurrency());
+            testService.Post_Date__c = newCreateDate.date();
+            INSERT testService;
+
+            Transaction__c testTransaction = TestUtility.generateServiceTxn(testCG, testService.Amount__c, testService);
+            testTransaction.Post_Date__c = newCreateDate;
+            testTransaction.Transaction_Date__c = testPP.Plan_Value_Modified_Date__c.date();
+            INSERT testTransaction;
+
+            // Update invoide status to ensure the charge groups show up.
+            invoiceOne.Invoice_Status_Index__c = 9;
+            UPDATE invoiceOne;
+
+            List<Charge_Group__c> createdChargeGroups = PaymentTabsController.getChargeGroups(guarantorContact.Id);
+
+            // Check system asserts.
+            System.assertEquals(1, createdChargeGroups.size(), 'Should be able to get charge groups using controller method.');
+        }
+
+        return testPP;
+    }
 }

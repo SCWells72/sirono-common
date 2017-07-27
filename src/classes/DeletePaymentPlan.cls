@@ -189,7 +189,7 @@ public with sharing class DeletePaymentPlan {
     * Update the Account_Sub_Status__c and Account_Status__c.
     */
     private void parseChargeGroupResponse(String responseBody, Charge_Group__c cg) {
-        ChargeGroupJSONParsing objChargeGroup = ChargeGroupJSONParsing.parse(responseBody);
+        ChargeGroupJSONParser objChargeGroup = ChargeGroupJSONParser.parse(responseBody);
         cg.Account_Sub_Status__c = objChargeGroup.account_sub_status;
         cg.Account_Status__c = objChargeGroup.account_status; 
         cg.Payment_Plan__c = null;
