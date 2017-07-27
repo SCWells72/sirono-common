@@ -46,7 +46,7 @@ private class PaymentDaoTest {
         List<PaymentSecurityContext> allContexts = new List<PaymentSecurityContext> {
             PaymentSecurityContext.CREATE_CONTEXT,
             PaymentSecurityContext.PSWU_CREATE_CONTEXT,
-			PaymentSecurityContext.UPDATE_CONTEXT
+            PaymentSecurityContext.UPDATE_CONTEXT
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {

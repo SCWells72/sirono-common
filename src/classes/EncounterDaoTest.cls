@@ -91,9 +91,9 @@ private class EncounterDaoTest {
         List<EncounterSecurityContext> allContexts = new List<EncounterSecurityContext> {
             EncounterSecurityContext.SELECT_CONTEXT,
             EncounterSecurityContext.CLU_SELECT_CONTEXT,
-			EncounterSecurityContext.EU_SELECT_CONTEXT,
+            EncounterSecurityContext.EU_SELECT_CONTEXT,
             EncounterSecurityContext.EU_SELECT_CONTEXT_AGG,
-			EncounterSecurityContext.PSS_SELECT_CONTEXT
+            EncounterSecurityContext.PSS_SELECT_CONTEXT
         };
 
         System.runAs(TestUtility.generateChatterOnlyUser()) {

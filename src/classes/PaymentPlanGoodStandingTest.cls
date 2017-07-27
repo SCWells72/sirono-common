@@ -148,7 +148,7 @@ public class PaymentPlanGoodStandingTest {
         List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext> {
             PaymentPlanSecurityContext.UPSERT_CONTEXT,
             PaymentPlanSecurityContext.UPDATE_CONTEXT,
-			PaymentPlanSecurityContext.DP_UPDATE_CONTEXT,
+            PaymentPlanSecurityContext.DP_UPDATE_CONTEXT,
             PaymentPlanSecurityContext.PPU_UPDATE_CONTEXT
         };
 

@@ -360,7 +360,7 @@ public class InvoiceUtilTest {
         List<InvoiceSecurityContext> allContexts = new List<InvoiceSecurityContext> {
             InvoiceSecurityContext.UPDATE_CONTEXT,
             InvoiceSecurityContext.UPDATE_ALL_SUBSTATUS_CONTEXT,
-			InvoiceSecurityContext.UPDATE_BALANCE_CONTEXT
+            InvoiceSecurityContext.UPDATE_BALANCE_CONTEXT
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
