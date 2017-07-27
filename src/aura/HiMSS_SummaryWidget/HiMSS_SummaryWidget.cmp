@@ -3,35 +3,37 @@
   -->
 
 <aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="HiMSS_SummaryWidgetCtrl">
-    <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/salesforce-lightning-design-system.min.css'}" />
-    <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/main.css'}" />
+    <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/salesforce-lightning-design-system.min.css'}"/>
+    <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/main.css'}"/>
     <aura:attribute name="isLogin" type="Boolean" default="false"/>
     <aura:attribute name="guarantorWrapperTimer" type="DateTime"/>
     <aura:attribute name="guarantorWrapperListCounter" type="Integer"/>
-    <aura:attribute name="guarantorWrapperList" type="List" />
-    <aura:attribute name="guarantorWrapper" type="HiMSS_SummaryWidgetCtrl.GuarantorWrapper" />
+    <aura:attribute name="guarantorWrapperList" type="List"/>
+    <aura:attribute name="guarantorWrapper" type="HiMSS_SummaryWidgetCtrl.GuarantorWrapper"/>
 
     <!-- Invoiced_Balance__c -->
     <aura:attribute name="invoiceValue" type="Decimal" access="public" default="0"/>
     <aura:attribute name="invoiceValuePart" type="String" access="public" default="00"/>
     <!-- Invoiced_Balance__c END-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <aura:handler event="c:HiMSS_SummaryWidgetRotateEvent" action="{!c.doRotate}" />
+    <aura:handler event="c:HiMSS_SummaryWidgetRotateEvent" action="{!c.doRotate}"/>
     <aura:registerEvent name="rotateEvent" type="c:HiMSS_SummaryWidgetRotateEvent"/>
-    
+
     <div class="landing-padding">
-        <div class="logo-container"><img class="sironoLogo" src="{!$Resource.SironoData + '/assets/images/sirono-blue-logo.png'}" alt="Sirono Logo" /></div>
+        <div class="logo-container">
+            <img class="sironoLogo" src="{!$Resource.SironoData + '/assets/images/sirono-blue-logo.png'}" alt="Sirono Logo"/>
+        </div>
 
         <aura:if isTrue="{! v.guarantorWrapper.contact.status == 'Overdue'}">
             <div class="no-small">
                 <div class="status warning sldsjs-popover">
                     Your account is overdue!
                     <div class="inline-block" onclick="{!c.showTooltip}">
-                        <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info" />
+                        <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info"/>
                     </div>
                     <div aura:id="popover-tooltip" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-left slds-popup slds-hide" role="tooltip" id="help">
                         <div class="slds-popover__body">
-                            {!v.guarantorWrapper.messageInfo}
+                                {!v.guarantorWrapper.messageInfo}
                         </div>
                     </div>
                 </div>
@@ -42,12 +44,12 @@
                 <div class="status error sldsjs-popover">
                     Your account is Delinquent!
                     <div class="inline-block" onclick="{!c.showTooltip}">
-                        <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info" />
+                        <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info"/>
                     </div>
 
                     <div aura:id="popover-tooltip" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-left slds-popup slds-hide" role="tooltip" id="help">
                         <div class="slds-popover__body">
-                            {!v.guarantorWrapper.messageInfo}
+                                {!v.guarantorWrapper.messageInfo}
                         </div>
                     </div>
                 </div>
@@ -59,18 +61,19 @@
         <aura:if isTrue="{!(v.guarantorWrapper.contact.status != 'Paid')}">
             <div class="title">You Owe</div>
             <div class="value">
-                {!v.invoiceValue}<span>.{!v.invoiceValuePart}</span>
+            {!v.invoiceValue}<span>.{!v.invoiceValuePart}</span>
             </div>
             <div class="no-small">
                 <div class="title">
-                    {!v.guarantorWrapper.contact.outstandingInvoices} Outstanding Invoices
+                {!v.guarantorWrapper.contact.outstandingInvoices} Outstanding Invoices
                 </div>
             </div>
             <aura:if isTrue="{! v.guarantorWrapper.contact.status == 'Due'}">
                 <div class="no-small">
                     <div class="section_header_Payment">
                         <div class="title">
-                            Next Payment Due By <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.invoiceOverdue.dueDate}"/>
+                            Next Payment Due By
+                            <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.invoiceOverdue.dueDate}"/>
                         </div>
                     </div>
                 </div>
@@ -81,7 +84,7 @@
                     <div class="no-balance">
                         <h3 class="no-balance-header">You Are On It!</h3>
                         <div class="status inform sldsjs-popover">
-                            You have no outstanding invoices at this time. You can view your past invoices, payment history, statements, and documents 
+                            You have no outstanding invoices at this time. You can view your past invoices, payment history, statements, and documents
                             <a onclick="{!c.goToMainPage}">here</a>.
                         </div>
                     </div>
@@ -93,7 +96,9 @@
         <aura:if isTrue="{! v.guarantorWrapper.contact.status == 'Overdue'}">
             <div class="no-small">
                 <div class="title warning">
-                    <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" /> You have {!v.guarantorWrapper.contact.overdueInvoices} overdue invoices | <a onclick="{! c.goToInvoices}">View</a>
+                    <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info"/>
+                    You have {!v.guarantorWrapper.contact.overdueInvoices} overdue invoices |
+                    <a onclick="{! c.goToInvoices}">View</a>
                 </div>
             </div>
         </aura:if>
@@ -101,7 +106,9 @@
         <aura:if isTrue="{! v.guarantorWrapper.contact.status == 'Delinquent'}">
             <div class="no-small">
                 <div class="title error">
-                    <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" /> You have {!v.guarantorWrapper.contact.delinquentInvoices} delinquent invoices | <a onclick="{! c.goToInvoices}">View</a>
+                    <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info"/>
+                    You have {!v.guarantorWrapper.contact.delinquentInvoices} delinquent invoices |
+                    <a onclick="{! c.goToInvoices}">View</a>
                 </div>
             </div>
         </aura:if>
@@ -110,7 +117,8 @@
         <aura:if isTrue="{! v.guarantorWrapper.newEstimatesCount > 0}">
             <div class="no-small">
                 <div class="title success">
-                    <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info" /> You have new estimate(s) for your upcoming appointment | <a onclick="{! c.goToEstimates}">View</a>
+                    <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info"/>
+                    You have new estimate(s) for your upcoming appointment | <a onclick="{! c.goToEstimates}">View</a>
                 </div>
             </div>
         </aura:if>
@@ -120,7 +128,8 @@
         <aura:if isTrue="{! v.guarantorWrapper.version2}">
             <div class="no-small">
                 <div class="status inform-block sldsjs-popover">
-                    <a onclick="{!c.goToPayments}">Pay your bill</a> or <a onclick="{!c.goToPaymentPlans}">set up an interest-free payment plan</a> today!
+                    <a onclick="{!c.goToPayments}">Pay your bill</a> or
+                    <a onclick="{!c.goToPaymentPlans}">set up an interest-free payment plan</a> today!
                 </div>
 
                 <div class="status inform-block sldsjs-popover">
@@ -135,12 +144,14 @@
             <div class="no-small">
                 <div class="section_header_Payment">
                     <div class="title">
-                        Next Payment Installment Due <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.nextPaymentDate}"/>
+                        Next Payment Installment Due
+                        <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.nextPaymentDate}"/>
                     </div>
                 </div>
                 <div class="">
                     <div class="status inform-block sldsjs-popover">
-                        <a onclick="{!c.goToPayments}">Pay your bill</a> or <a onclick="{!c.goToPaymentPlans}">manage your payment plan</a> today!
+                        <a onclick="{!c.goToPayments}">Pay your bill</a> or
+                        <a onclick="{!c.goToPaymentPlans}">manage your payment plan</a> today!
                     </div>
 
                     <div class="status inform-block sldsjs-popover">
@@ -155,12 +166,13 @@
         <aura:if isTrue="{! v.guarantorWrapper.version4}">
             <div class="no-small">
                 <div class="title error">
-                    <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}"   category="standard" size="small" name="info"/> Latest payment plan installment was missed!
+                    <c:HiMSS_SummaryWidget_svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info"/>
+                    Latest payment plan installment was missed!
                 </div>
             </div>
             <div class="status inform-block sldsjs-popover">
-                Your <a onclick="{!c.goToPaymentPlans}">payment plan</a> requires your attention!<br></br> 
-                Please <a onclick="{!c.goToPayments}">pay your missing installment</a> or pay your<br></br>  
+                Your <a onclick="{!c.goToPaymentPlans}">payment plan</a> requires your attention!<br></br>
+                Please <a onclick="{!c.goToPayments}">pay your missing installment</a> or pay your<br></br>
                 account in full to avoid payment plan cancellation.
             </div>
             <div class="status inform-block sldsjs-popover">

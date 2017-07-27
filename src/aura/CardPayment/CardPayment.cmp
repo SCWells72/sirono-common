@@ -3,18 +3,18 @@
   -->
 
 <aura:component controller="MakeAPaymentController">
-    <aura:attribute name="listOfIds"            type="String[]" />
-    <aura:attribute name="invoiceId"            type="String" />
-    <aura:attribute name="isEstimate"           type="Boolean"  />
-    <aura:attribute name="encounterId"          type="String"  />
-    <aura:attribute name="selectedPaymentSum"   type="Decimal"  />
-    <aura:attribute name="IsMakePaymentTab"     type="Boolean"  />
-    <aura:attribute name="CardTypes"            type="String[]" />
+    <aura:attribute name="listOfIds" type="String[]"/>
+    <aura:attribute name="invoiceId" type="String"/>
+    <aura:attribute name="isEstimate" type="Boolean"/>
+    <aura:attribute name="encounterId" type="String"/>
+    <aura:attribute name="selectedPaymentSum" type="Decimal"/>
+    <aura:attribute name="IsMakePaymentTab" type="Boolean"/>
+    <aura:attribute name="CardTypes" type="String[]"/>
 
-    <aura:attribute name="messages"             type="String[]" />
-    <aura:attribute name="IsIcon"               type="Boolean"  default="false"/>    
-    <aura:attribute name="IsIcon2"              type="Boolean"  default="false"/>    
-    <aura:attribute name="cardInformation"      type="CardInformation" />
+    <aura:attribute name="messages" type="String[]"/>
+    <aura:attribute name="IsIcon" type="Boolean" default="false"/>
+    <aura:attribute name="IsIcon2" type="Boolean" default="false"/>
+    <aura:attribute name="cardInformation" type="CardInformation"/>
     <aura:attribute name="UserInfo" type="Object" default="{	NameOnCard : '',
                                                                 CardNumber : '',
                                                                 CW : '',
@@ -22,17 +22,17 @@
                                                                 BillingAddress : '',
                                                                 City : '',
                                                                 State : '',
-                                                                Zipcode : ''}" />
-    <aura:attribute name="months" type="String[]" access="private" />
-    <aura:attribute name="years" type="String[]" access="private" default="[]" />
-    <aura:attribute name="selectedInvoices" type="String[]" default="[]" />
-    
+                                                                Zipcode : ''}"/>
+    <aura:attribute name="months" type="String[]" access="private"/>
+    <aura:attribute name="years" type="String[]" access="private" default="[]"/>
+    <aura:attribute name="selectedInvoices" type="String[]" default="[]"/>
+
     <aura:attribute name="IsValid" type="Boolean" default="false"/>
     <aura:registerEvent name="toggleSuccessMessageEvent" type="c:ToggleSuccessMessageEvent"/>
 
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.selectedPaymentSum}" action="{!c.updateAmountInformation}"/>
-    <aura:handler event="c:calculatePaymentBalanceEvent" action="{!c.changePaymentBalance}" />
+    <aura:handler event="c:calculatePaymentBalanceEvent" action="{!c.changePaymentBalance}"/>
     <div class="payment-amount">
         <div class="slds-form-element">
             <aura:if isTrue="{!v.IsMakePaymentTab}">
@@ -40,13 +40,13 @@
                     Enter Amount to Pay Now
                     <div class="status info sldsjs-popover">
                         <span class="slds-icon_container sldsjs-popover-action">
-                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="Info" />
+                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="Info"/>
                         </span>
                     </div>
                 </label>
                 <div class="slds-form-element__control">
-                  <!--  <input aura:id="amount" id="text-input-01" class="slds-input" type="text" value="{!'$' + v.selectedPaymentSum}" /> -->
-                    <ui:inputCurrency aura:id="amount" class="slds-input" value="{!v.selectedPaymentSum}" />
+                    <!--  <input aura:id="amount" id="text-input-01" class="slds-input" type="text" value="{!'$' + v.selectedPaymentSum}" /> -->
+                    <ui:inputCurrency aura:id="amount" class="slds-input" value="{!v.selectedPaymentSum}"/>
                 </div>
             </aura:if>
         </div>
@@ -55,34 +55,34 @@
     <div class="payment-info">
         <div class="we-accept">
             <span>We Accept: </span>
-            <img src="{!$Resource.SironoData + '/assets/images/mastercard-icon.png'}" alt="Mastercard" />
-            <img src="{!$Resource.SironoData + '/assets/images/american-express-icon.png'}" alt="American Express" />
-            <img src="{!$Resource.SironoData + '/assets/images/visa-icon.png'}" alt="Visa" />
+            <img src="{!$Resource.SironoData + '/assets/images/mastercard-icon.png'}" alt="Mastercard"/>
+            <img src="{!$Resource.SironoData + '/assets/images/american-express-icon.png'}" alt="American Express"/>
+            <img src="{!$Resource.SironoData + '/assets/images/visa-icon.png'}" alt="Visa"/>
         </div>
-        <aura:if isTrue="{!v.IsIcon2}">            
+        <aura:if isTrue="{!v.IsIcon2}">
             <div class="success uiMessage">
-            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#success'}" category="standard" size="small" name="success" />
-            <span>Success</span>
+                <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#success'}" category="standard" size="small" name="success"/>
+                <span>Success</span>
             </div>
         </aura:if>
         <aura:if isTrue="{!v.IsIcon}">
             <div class="block_messageError">
-                <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#warning'}" category="standard" size="small" name="warning" />
+                <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#warning'}" category="standard" size="small" name="warning"/>
                 <ol class="block_messageErrorOl error uiMessage">
                     <aura:iteration items="{!v.messages}" var="arrayItem" indexVar="position">
                         <li>{!arrayItem}.<!--{!(position == 0) ? ' ' : '.' }--></li>
                     </aura:iteration>
                 </ol>
-                </div>
-            
+            </div>
+
         </aura:if>
 
 
         <div class="credit-card-form grid slds-wrap">
-            <c:PaymentCard CheckValidation="{!v.IsValid}" CreditCard="{!v.cardInformation}" months="{!v.months}" years="{!v.years}"/> 
-        	<div class="col slds-size--1-of-1">
+            <c:PaymentCard CheckValidation="{!v.IsValid}" CreditCard="{!v.cardInformation}" months="{!v.months}" years="{!v.years}"/>
+            <div class="col slds-size--1-of-1">
                 <div class="float-right">
-                    {!v.isValid}
+                {!v.isValid}
                     <button disabled="{!!v.IsValid}" class="slds-button slds-button--brand" onclick="{!c.makePayment}">Make Payment</button>
                 </div>
             </div>

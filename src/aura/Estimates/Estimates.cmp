@@ -3,66 +3,66 @@
   -->
 
 <aura:component controller="WorkWithEstimatesController">
-<aura:handler event="c:collapsedHeader" action="{!c.bodyStatus}" />
+    <aura:handler event="c:collapsedHeader" action="{!c.bodyStatus}"/>
     <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
 
-    <aura:attribute name="groupFilter"  type="String"   default="Unpaid"/>
-    <aura:attribute name="patientSet"   type="Set" />
-    <aura:attribute name="patientLabel" type="String"   default="All Patients"/>
+    <aura:attribute name="groupFilter" type="String" default="Unpaid"/>
+    <aura:attribute name="patientSet" type="Set"/>
+    <aura:attribute name="patientLabel" type="String" default="All Patients"/>
 
-    <aura:attribute name="estivates" type="Aura.Component[]" />
+    <aura:attribute name="estivates" type="Aura.Component[]"/>
 
-	<div class="wrapper">
+    <div class="wrapper">
         <div aura:id="payment_scroll" class="main-wrapper small alert sldsjs-tab-target slds-tabs--scoped__content slds-hide slds-show">
 
             <section class="invoices">
                 <div aura:id="main-body" class="col invoice-listing display-none">
                     <div class="invoice-header-wrapper">
                         <header class="invoice-header_tab1">
-                          <aura:if isTrue="{!v.patientSet.length > 0}">
-                            <div class="col filter">
-                                <div aura:id="patientList" class="slds-picklist slds-dropdown-trigger slds-dropdown-trigger--click">
-                                    <button class="slds-button slds-button--icon-border-filled" aria-haspopup="true" title="Show More" onclick="{!c.patientsVisibility}">
-                                        <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#down'}" category="standard" size="small" name="down" />
-                                        <!--<svg aria-hidden="true" class="slds-button__icon">
-                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                        </svg> -->
-                                        <span class="slds-assistive-text">Show More</span>
-                                    </button>
-                                    <div class="slds-dropdown slds-dropdown--left">
-                                        <ul class="slds-dropdown__list" role="menu">
-                                            <aura:iteration items="{!v.patientSet}" var="patient" indexVar='index'>
-                                                <li class="{!patient.isSelected == true ? 'slds-is-selected' : ''}" role="presentation" data-patient-id="{!patient.id}" onclick="{!c.patientSelect}">
+                            <aura:if isTrue="{!v.patientSet.length > 0}">
+                                <div class="col filter">
+                                    <div aura:id="patientList" class="slds-picklist slds-dropdown-trigger slds-dropdown-trigger--click">
+                                        <button class="slds-button slds-button--icon-border-filled" aria-haspopup="true" title="Show More" onclick="{!c.patientsVisibility}">
+                                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#down'}" category="standard" size="small" name="down"/>
+                                            <!--<svg aria-hidden="true" class="slds-button__icon">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                            </svg> -->
+                                            <span class="slds-assistive-text">Show More</span>
+                                        </button>
+                                        <div class="slds-dropdown slds-dropdown--left">
+                                            <ul class="slds-dropdown__list" role="menu">
+                                                <aura:iteration items="{!v.patientSet}" var="patient" indexVar='index'>
+                                                    <li class="{!patient.isSelected == true ? 'slds-is-selected' : ''}" role="presentation" data-patient-id="{!patient.id}" onclick="{!c.patientSelect}">
                                                 <span class="slds-lookup__item-action slds-lookup__item-action--label" role="option" tabindex="{!index == 0 ? 0 : -1}" id="listbox-option-266">
-                                                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}" category="standard" size="small" class="slds-icon slds-icon--selected slds-icon--x-small slds-icon-text-default slds-m-right--x-small slds-shrink-none" />
+                                                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}" category="standard" size="small" class="slds-icon slds-icon--selected slds-icon--x-small slds-icon-text-default slds-m-right--x-small slds-shrink-none"/>
                                                     <span class="slds-truncate" title="{!patient.MRN}">
-                                                    {!patient.name}</span>
+                                                            {!patient.name}</span>
                                                 </span>
-                                                </li>
-                                            </aura:iteration>
-                                            
-                                        </ul>
+                                                    </li>
+                                                </aura:iteration>
+
+                                            </ul>
+                                        </div>
                                     </div>
+                                    <div class="small-text">{!v.patientLabel}</div>
                                 </div>
-                                <div class="small-text">{!v.patientLabel}</div>
-                            </div>
-                        </aura:if>
+                            </aura:if>
                             <div class="float-right float-right_position" aura:id="filtes">
                                 <div class="slds-radio--button-group">
                                     <span class="slds-button slds-radio--button">
-                                        <input type="radio" name="radio" id="allEstimates" checked="{!v.groupFilter == 'All'}" onchange="{!c.filterEstimates}" />
+                                        <input type="radio" name="radio" id="allEstimates" checked="{!v.groupFilter == 'All'}" onchange="{!c.filterEstimates}"/>
                                         <label class="slds-radio--button__label" for="allEstimates">
                                             <span class="slds-radio--faux">All</span>
                                         </label>
                                     </span>
                                     <span class="slds-button slds-radio--button">
-                                        <input type="radio" name="radio" id="unpaidEstimates" checked="{!v.groupFilter == 'Unpaid'}" onchange="{!c.filterEstimates}" />
+                                        <input type="radio" name="radio" id="unpaidEstimates" checked="{!v.groupFilter == 'Unpaid'}" onchange="{!c.filterEstimates}"/>
                                         <label class="slds-radio--button__label" for="unpaidEstimates">
                                             <span class="slds-radio--faux">Unpaid</span>
                                         </label>
                                     </span>
                                     <span class="slds-button slds-radio--button">
-                                        <input type="radio" name="radio" id="paidEstimates" checked="{!v.groupFilter == 'Paid'}" onchange="{!c.filterEstimates}" />
+                                        <input type="radio" name="radio" id="paidEstimates" checked="{!v.groupFilter == 'Paid'}" onchange="{!c.filterEstimates}"/>
                                         <label class="slds-radio--button__label" for="paidEstimates">
                                             <span class="slds-radio--faux">Paid</span>
                                         </label>
@@ -72,18 +72,18 @@
                         </header>
                     </div>
                     <div class="invoice-record-wrapper">
-                        {!v.estivates}
+                            {!v.estivates}
                     </div>
-						<!--<c:Estimate />-->
+                    <!--<c:Estimate />-->
                 </div>
-                <span aura:id="estimate_details" class="estimate_details display-none"></span> 
-                    <!--<c:EstimateDetails />-->
-                    <div aura:id="empty-estimates" class="empty-estimates display-none">
-                        <div class="col">
-                            <h2>My Estimates</h2>
-                            <p>You have no estimates at this time.</p>
-                        </div>
+                <span aura:id="estimate_details" class="estimate_details display-none"></span>
+                <!--<c:EstimateDetails />-->
+                <div aura:id="empty-estimates" class="empty-estimates display-none">
+                    <div class="col">
+                        <h2>My Estimates</h2>
+                        <p>You have no estimates at this time.</p>
                     </div>
+                </div>
             </section>
         </div>
     </div>

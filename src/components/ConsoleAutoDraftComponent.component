@@ -2,245 +2,291 @@
   - Copyright (c) 2017-present Sirono LLC, All rights reserved
   -->
 
-<apex:component >
-<apex:includeScript value="{!URLFOR($Resource.d3js)}"/>
-<style>
+<apex:component>
+    <apex:includeScript value="{!URLFOR($Resource.d3js)}"/>
+    <style>
 
- [hidden], template
- {
-  display:block !important;
-}
-</style>
+        [hidden], template {
+            display: block !important;
+        }
+    </style>
 
-<body>
+    <body>
     <apex:attribute name="sObjContact" description="Contact Object" type="Contact"/>
-  <apex:attribute name="styleClass" type="String" description="Class for svg tag" />
-  <apex:attribute name="path" type="String" description="Path for svg tag" />
-  <apex:attribute name="cardName" description="This is color Card Title." type="String" required="true"/>
+    <apex:attribute name="styleClass" type="String" description="Class for svg tag"/>
+    <apex:attribute name="path" type="String" description="Path for svg tag"/>
+    <apex:attribute name="cardName" description="This is color Card Title." type="String" required="true"/>
 
-  <article class="slds-card">
-    <header class="slds-card__header slds-grid">
-      <div class="slds-media slds-media--center slds-has-flexi-truncate">
-        <div class="slds-media__figure">
+    <article class="slds-card">
+        <header class="slds-card__header slds-grid">
+            <div class="slds-media slds-media--center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
           <span class="slds-icon_container slds-icon-standard-case" title="description of icon when needed">
            <svg aria-hidden="true" class="{!styleClass}">
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Resource.SLDS203, path)}" ></use>
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Resource.SLDS203, path)}"></use>
           </svg>
           <span class="slds-assistive-text">Description of icon</span>
         </span>
-      </div>
-      <div class="slds-media__body slds-truncate">
-        <h2>
-          <a href="javascript:void(0);" class="slds-text-link--reset">
-            <span class="slds-text-heading--small">{!cardName}</span>
-          </a>
-        </h2>
-      </div>
-    </div>
-    
-  </header>
-  <div class="slds"> 
-    <div class="slds-card__body slds-text-align--center" style="background:white;">
-      <div class="slds-grid">
-        <div class="slds-col--padded">
-        <svg id="chart" class="slds-size--12-of-12" viewBox="0 0 500 300"  perserveAspectRatio="xMinYMid"/>
-        <article class="slds-card slds-m-bottom--medium">
-             <apex:repeat value="{!sObjContact.Payment_Plans__r}" var="payplan">
-               <apex:variable value="{!payplan.Active__c}"  var="varActive"/>
-               <apex:outputPanel layout="block" rendered="{!varActive == true}">
-                 <table class="slds-table sslds-table--cell-buffer">
-                  <tbody>
-                    <tr>
-                      <td data-label="PAID TO DATE"><div class="slds-truncate" title="PAID TO DATE">PAID TO DATE</div></td>
-                      <td data-label="PAID TO DATE"><div class="slds-truncate slds-text-align--right">$???263.74</div></td>
-                    </tr>
-                    <tr>
-                      <td data-label="REMAINING BALANCE"><div class="slds-truncate" title="REMAINING BALANCE">REMAINING BALANCE</div></td>
-                      <td data-label="REMAINING BALANCE"><div class="slds-truncate slds-text-align--right"><apex:outputText value="{0, number, Currency}"><apex:param value="{!payplan.Remaining_Balance__c}"/></apex:outputText></div></td>
-                    </tr>
-                    <tr>
-                      <td data-label="AREMAINING INSTALLMENTS"><div class="slds-truncate" title="REMAINING INSTALLMENTS">REMAINING INSTALLMENTS</div></td>
-                      <td data-label="REMAINING INSTALLMENTS"><div class="slds-truncate slds-text-align--right">{!payplan.Remaining_Installment_Count__c}</div></td>
-                    </tr>
-                    <tr>
-                      <td data-label="INSTALLMENT AMOUNT"><div class="slds-truncate" title="INSTALLMENT AMOUNT">INSTALLMENT AMOUNT</div></td>
-                      <td data-label="Close Date"><div class="slds-truncate slds-text-align--right"><apex:outputText value="{0, number, Currency}"><apex:param value="{!payplan.Installment_Amount__c}"/></apex:outputText></div></td>
-                    </tr>
-                    <tr>
-                      <td data-label="NEXT PAYMENT DATE"><div class="slds-truncate" title="NEXT PAYMENT DATE">NEXT PAYMENT DATE</div></td>
-                      <td data-label="NEXT PAYMENT DATE"><div class="slds-truncate slds-text-align--right"><apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!payplan.NextPaymentDate__c}" /></apex:outputText></div></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </apex:outputPanel>
-              </apex:repeat>
-        </article>
-       </div>
-     </div>                
-   </div>
- </div>
-</article>
-<script type="text/javascript">
-var width = 550,
-height = 300,
-radius = Math.min(width, height) / 2;
+                </div>
+                <div class="slds-media__body slds-truncate">
+                    <h2>
+                        <a href="javascript:void(0);" class="slds-text-link--reset">
+                            <span class="slds-text-heading--small">{!cardName}</span>
+                        </a>
+                    </h2>
+                </div>
+            </div>
 
-var svg = d3.select('#chart').append('svg:svg').append('svg:g')
-svg.append('svg:g').attr('class', 'slices');
-svg.append('svg:g').attr("class", 'labelName');
-svg.append('svg:g').attr("class", 'labelValue');
-svg.append('svg:g').attr("class", 'lines');
+        </header>
+        <div class="slds">
+            <div class="slds-card__body slds-text-align--center" style="background:white;">
+                <div class="slds-grid">
+                    <div class="slds-col--padded">
+                        <svg id="chart" class="slds-size--12-of-12" viewBox="0 0 500 300" perserveAspectRatio="xMinYMid"/>
+                        <article class="slds-card slds-m-bottom--medium">
+                            <apex:repeat value="{!sObjContact.Payment_Plans__r}" var="payplan">
+                                <apex:variable value="{!payplan.Active__c}" var="varActive"/>
+                                <apex:outputPanel layout="block" rendered="{!varActive == true}">
+                                    <table class="slds-table sslds-table--cell-buffer">
+                                        <tbody>
+                                        <tr>
+                                            <td data-label="PAID TO DATE">
+                                                <div class="slds-truncate" title="PAID TO DATE">PAID TO DATE</div>
+                                            </td>
+                                            <td data-label="PAID TO DATE">
+                                                <div class="slds-truncate slds-text-align--right">$???263.74</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td data-label="REMAINING BALANCE">
+                                                <div class="slds-truncate" title="REMAINING BALANCE">REMAINING BALANCE</div>
+                                            </td>
+                                            <td data-label="REMAINING BALANCE">
+                                                <div class="slds-truncate slds-text-align--right">
+                                                    <apex:outputText value="{0, number, Currency}">
+                                                        <apex:param value="{!payplan.Remaining_Balance__c}"/>
+                                                    </apex:outputText>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td data-label="AREMAINING INSTALLMENTS">
+                                                <div class="slds-truncate" title="REMAINING INSTALLMENTS">REMAINING INSTALLMENTS</div>
+                                            </td>
+                                            <td data-label="REMAINING INSTALLMENTS">
+                                                <div class="slds-truncate slds-text-align--right">{!payplan.Remaining_Installment_Count__c}</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td data-label="INSTALLMENT AMOUNT">
+                                                <div class="slds-truncate" title="INSTALLMENT AMOUNT">INSTALLMENT AMOUNT</div>
+                                            </td>
+                                            <td data-label="Close Date">
+                                                <div class="slds-truncate slds-text-align--right">
+                                                    <apex:outputText value="{0, number, Currency}">
+                                                        <apex:param value="{!payplan.Installment_Amount__c}"/>
+                                                    </apex:outputText>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td data-label="NEXT PAYMENT DATE">
+                                                <div class="slds-truncate" title="NEXT PAYMENT DATE">NEXT PAYMENT DATE</div>
+                                            </td>
+                                            <td data-label="NEXT PAYMENT DATE">
+                                                <div class="slds-truncate slds-text-align--right">
+                                                    <apex:outputText value="{0,date,MM/dd/yyyy}">
+                                                        <apex:param value="{!payplan.NextPaymentDate__c}"/>
+                                                    </apex:outputText>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </apex:outputPanel>
+                            </apex:repeat>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    <script type="text/javascript">
+        var width = 550,
+            height = 300,
+            radius = Math.min(width, height) / 2;
 
-var pie = d3.layout.pie().sort(null).value(function(d) {
-  return d.value;
-});
+        var svg = d3.select('#chart').append('svg:svg').append('svg:g')
+        svg.append('svg:g').attr('class', 'slices');
+        svg.append('svg:g').attr("class", 'labelName');
+        svg.append('svg:g').attr("class", 'labelValue');
+        svg.append('svg:g').attr("class", 'lines');
 
-var arc = d3.svg.arc().outerRadius(radius * 0.8).innerRadius(radius * 0.5);
-var outerArc = d3.svg.arc().innerRadius(radius * 0.9).outerRadius(radius * 0.9);
-var legendRectSize = (radius * 0.05);
-var legendSpacing = radius * 0.02;
-var div = d3.select('#chart').append('svg:div').attr('class', 'toolTip');
-svg.attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
-var colorRange = d3.scale.category20();
-var color = d3.scale.ordinal().range(colorRange.range());
+        var pie = d3.layout.pie().sort(null).value(function (d) {
+            return d.value;
+        });
 
-datasetTotal = [
-{label:"Paid to Date", value:263.74},
-{label:"Remaining Balance", value:2901.11}
-];
+        var arc = d3.svg.arc().outerRadius(radius * 0.8).innerRadius(radius * 0.5);
+        var outerArc = d3.svg.arc().innerRadius(radius * 0.9).outerRadius(radius * 0.9);
+        var legendRectSize = (radius * 0.05);
+        var legendSpacing = radius * 0.02;
+        var div = d3.select('#chart').append('svg:div').attr('class', 'toolTip');
+        svg.attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
+        var colorRange = d3.scale.category20();
+        var color = d3.scale.ordinal().range(colorRange.range());
 
-change(datasetTotal);
+        datasetTotal = [
+            {label: "Paid to Date", value: 263.74},
+            {label: "Remaining Balance", value: 2901.11}
+        ];
 
-function selectDataset()
-{
-  change(datasetTotal);
-}
+        change(datasetTotal);
 
-function change(data) {
-    /* ------- PIE SLICES ------------------------------------------------------------------------------------------------*/
-    var slice = svg.select('.slices').selectAll('path.slice').data(pie(data), function(d){ return d.data.label });
+        function selectDataset() {
+            change(datasetTotal);
+        }
 
-    slice.enter().insert('path').style('fill', function(d) { return color(d.data.label); }).attr('class', 'slice');
+        function change(data) {
+            /* ------- PIE SLICES ------------------------------------------------------------------------------------------------*/
+            var slice = svg.select('.slices').selectAll('path.slice').data(pie(data), function (d) {
+                return d.data.label
+            });
 
-    slice.transition().duration(1000).attrTween('d', function(d) {
-        this._current = this._current || d;
-        var interpolate = d3.interpolate(this._current, d);
-        this._current = interpolate(0);
-        return function(t) {
-            return arc(interpolate(t));
+            slice.enter().insert('path').style('fill', function (d) {
+                return color(d.data.label);
+            }).attr('class', 'slice');
+
+            slice.transition().duration(1000).attrTween('d', function (d) {
+                this._current = this._current || d;
+                var interpolate = d3.interpolate(this._current, d);
+                this._current = interpolate(0);
+                return function (t) {
+                    return arc(interpolate(t));
+                };
+            })
+            slice.on('mousemove', function (d) {
+                div.style('left', d3.event.pageX + 10 + 'px');
+                div.style('top', d3.event.pageY - 25 + 'px');
+                div.style('display', 'inline-block');
+                div.html((d.data.label) + '<br>$' + (d.data.value));
+            });
+            slice.on('mouseout', function (d) {
+                div.style('display', 'none');
+            });
+            slice.exit().remove();
+
+            /* LEGEND -------------------------------------------------------------------------------------------------------------- */
+            svg.selectAll('.legend').remove();
+            var legend = svg.selectAll('.legend').data(color.domain()).enter().append('svg:g').attr('class', 'legend').attr('transform', function (d, i) {
+                var height = legendRectSize + legendSpacing;
+                var offset = height * color.domain().length / 2;
+                var horz = -6 * legendRectSize;
+                var vert = i * height - offset;
+                return 'translate(' + horz + ',' + vert + ')';
+            });
+            legend.append('svg:rect').attr('width', legendRectSize).attr('height', legendRectSize).style('fill', color).style('stroke', color);
+            legend.append('svg:text').attr('x', legendRectSize + legendSpacing).attr('y', legendRectSize - legendSpacing).text(function (d) {
+                return d
+            });
+
+            /* ------- TEXT LABELS ---------------------------------------------------------------------------------------------------*/
+            var text = svg.select('.labelName').selectAll('text').data(pie(data), function (d) {
+                return d.data.label
+            });
+            text.enter().append('svg:text').attr('dy', '.3em').text(function (d) {
+                return (d.data.label + ': $' + d.value);
+            });
+
+            function midAngle(d) {
+                return d.startAngle + (d.endAngle - d.startAngle) / 2;
+            }
+
+            text.transition().duration(1000).attrTween('transform', function (d) {
+                this._current = this._current || d;
+                var interpolate = d3.interpolate(this._current, d);
+                this._current = interpolate(0);
+                return function (t) {
+                    var d2 = interpolate(t);
+                    var pos = outerArc.centroid(d2);
+                    pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
+                    return 'translate(' + pos + ')';
+                };
+            }).styleTween('text-anchor', function (d) {
+                this._current = this._current || d;
+                var interpolate = d3.interpolate(this._current, d);
+                this._current = interpolate(0);
+                return function (t) {
+                    var d2 = interpolate(t);
+                    return midAngle(d2) < Math.PI ? 'start' : 'end';
+                };
+            }).text(function (d) {
+                return ('$' + d.value);
+            });
+            text.exit().remove();
+
+            /* ------- SLICE TO TEXT POLYLINES ---------------------------------------------------------------------------------------*/
+            var polyline = svg.select('.lines').selectAll('polyline').data(pie(data), function (d) {
+                return d.data.label
+            });
+            polyline.enter().append('svg:polyline');
+            polyline.transition().duration(1000).attrTween('points', function (d) {
+                this._current = this._current || d;
+                var interpolate = d3.interpolate(this._current, d);
+                this._current = interpolate(0);
+                return function (t) {
+                    var d2 = interpolate(t);
+                    var pos = outerArc.centroid(d2);
+                    pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
+                    return [arc.centroid(d2), outerArc.centroid(d2), pos];
+                };
+            });
+            polyline.exit().remove();
         };
-    })
-    slice.on('mousemove', function(d){
-        div.style('left', d3.event.pageX+10+'px');
-        div.style('top', d3.event.pageY-25+'px');
-        div.style('display', 'inline-block');
-        div.html((d.data.label)+'<br>$'+(d.data.value));
-    });
-    slice.on('mouseout', function(d){
-        div.style('display', 'none');
-    });
-    slice.exit().remove();
-    
-    /* LEGEND -------------------------------------------------------------------------------------------------------------- */
-    svg.selectAll('.legend').remove();
-    var legend = svg.selectAll('.legend').data(color.domain()).enter().append('svg:g').attr('class', 'legend').attr('transform', function(d, i) {
-        var height = legendRectSize + legendSpacing;
-        var offset =  height * color.domain().length / 2;
-        var horz = -6 * legendRectSize;
-        var vert = i * height - offset;
-        return 'translate(' + horz + ',' + vert + ')';
-    });
-    legend.append('svg:rect').attr('width', legendRectSize).attr('height', legendRectSize).style('fill', color).style('stroke', color);    
-    legend.append('svg:text').attr('x', legendRectSize + legendSpacing).attr('y', legendRectSize - legendSpacing).text(function(d){ return d});
-    
-    /* ------- TEXT LABELS ---------------------------------------------------------------------------------------------------*/
-    var text = svg.select('.labelName').selectAll('text').data(pie(data), function(d){ return d.data.label });
-    text.enter().append('svg:text').attr('dy', '.3em').text(function(d) {
-        return (d.data.label+': $'+d.value);
-    });
-    function midAngle(d){
-        return d.startAngle + (d.endAngle - d.startAngle)/2;
-    }
-    text.transition().duration(1000).attrTween('transform', function(d) {
-        this._current = this._current || d;
-        var interpolate = d3.interpolate(this._current, d);
-        this._current = interpolate(0);
-        return function(t) {
-            var d2 = interpolate(t);
-            var pos = outerArc.centroid(d2);
-            pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
-            return 'translate('+ pos +')';
-        };
-    }).styleTween('text-anchor', function(d){
-        this._current = this._current || d;
-        var interpolate = d3.interpolate(this._current, d);
-        this._current = interpolate(0);
-        return function(t) {
-            var d2 = interpolate(t);
-            return midAngle(d2) < Math.PI ? 'start':'end';
-        };
-    }).text(function(d) {
-        return ('$'+d.value);
-    });
-    text.exit().remove();
 
-    /* ------- SLICE TO TEXT POLYLINES ---------------------------------------------------------------------------------------*/
-    var polyline = svg.select('.lines').selectAll('polyline').data(pie(data), function(d){ return d.data.label });
-    polyline.enter().append('svg:polyline');
-    polyline.transition().duration(1000).attrTween('points', function(d){
-        this._current = this._current || d;
-        var interpolate = d3.interpolate(this._current, d);
-        this._current = interpolate(0);
-        return function(t) {
-            var d2 = interpolate(t);
-            var pos = outerArc.centroid(d2);
-            pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
-            return [arc.centroid(d2), outerArc.centroid(d2), pos];
-        };
-    });
-    polyline.exit().remove();
-};
+    </script>
+    <style>
+        text {
+            font-size: 11px;
+        }
 
-</script>
-<style>
-text {
-   font-size:11px;
-}
-svg {
-   width: 100%;
-   height: 100%;
-}
-path.slice{
-    stroke-width:2px;
-}
-polyline{
-    opacity: .3;
-    stroke: black;
-    stroke-width: 2px;
-    fill: none;
-}
-.labelValue
-{
-    font-size: 60%;
-    opacity: .5;
-}
-.toolTip {
-   
-    position: absolute;
-    display: none;
-    width: auto;
-    height: auto;
-    background: none repeat scroll 0 0 white;
-    border: 0 none;
-    border-radius: 8px 8px 8px 8px;
-    box-shadow: -3px 3px 15px #888888;
-    color: black;
-    font: 12px sans-serif;
-    padding: 5px;
-    text-align: center;
-}
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        path.slice {
+            stroke-width: 2px;
+        }
+
+        polyline {
+            opacity: .3;
+            stroke: black;
+            stroke-width: 2px;
+            fill: none;
+        }
+
+        .labelValue {
+            font-size: 60%;
+            opacity: .5;
+        }
+
+        .toolTip {
+
+            position: absolute;
+            display: none;
+            width: auto;
+            height: auto;
+            background: none repeat scroll 0 0 white;
+            border: 0 none;
+            border-radius: 8px 8px 8px 8px;
+            box-shadow: -3px 3px 15px #888888;
+            color: black;
+            font: 12px sans-serif;
+            padding: 5px;
+            text-align: center;
+        }
 
 
-</style>
-</body>
+    </style>
+    </body>
 </apex:component>

@@ -3,5 +3,5 @@
   -->
 
 <aura:event type="APPLICATION">
-    <aura:attribute name="startURL" type="Map"/>  
+    <aura:attribute name="startURL" type="Map"/>
 </aura:event>

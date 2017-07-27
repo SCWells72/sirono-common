@@ -3,27 +3,27 @@
   -->
 
 <apex:page controller="AttachmentController">
-   <apex:sectionHeader title="Visualforce Example" subtitle="Attachment Upload Example"/>
+    <apex:sectionHeader title="Visualforce Example" subtitle="Attachment Upload Example"/>
 
-  <apex:form enctype="multipart/form-data">
-    <apex:pageMessages />
-    <apex:pageBlock title="Upload a Attachment">
+    <apex:form enctype="multipart/form-data">
+        <apex:pageMessages/>
+        <apex:pageBlock title="Upload a Attachment">
 
-      <apex:pageBlockButtons >
-        <apex:commandButton action="{!upload}" value="Save"/>
-        <apex:commandButton action="{!cancel}" value="Cancel"/>
-      </apex:pageBlockButtons>
+            <apex:pageBlockButtons>
+                <apex:commandButton action="{!upload}" value="Save"/>
+                <apex:commandButton action="{!cancel}" value="Cancel"/>
+            </apex:pageBlockButtons>
 
-      <apex:pageBlockSection showHeader="false" id="block1">
+            <apex:pageBlockSection showHeader="false" id="block1">
 
-        <apex:pageBlockSectionItem >
-          <apex:outputLabel value="File" for="file"/>
-          <apex:inputFile value="{!attachment.body}" filename="{!attachment.name}" contentType="!attachment.contentType" id="file"/>
-        </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem>
+                    <apex:outputLabel value="File" for="file"/>
+                    <apex:inputFile value="{!attachment.body}" filename="{!attachment.name}" contentType="!attachment.contentType" id="file"/>
+                </apex:pageBlockSectionItem>
 
-      </apex:pageBlockSection>
+            </apex:pageBlockSection>
 
-    </apex:pageBlock>
-  </apex:form>
-    
+        </apex:pageBlock>
+    </apex:form>
+
 </apex:page>

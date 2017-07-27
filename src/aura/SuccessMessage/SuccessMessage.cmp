@@ -2,23 +2,23 @@
   - Copyright (c) 2017-present Sirono LLC, All rights reserved
   -->
 
-<aura:component >
-	<aura:attribute name="PlanInfoRecord" 		type="Object"		access="GLOBAL"	/>
-	<aura:attribute name="Payment" 				type="Payment__c"	access="GLOBAL"	/>
-	<aura:attribute name="isPaymentCompleted" 	type="Boolean"		access="GLOBAL" default="false"	/>
-	<aura:attribute name="isEstimatePayment" 	type="Boolean"		access="GLOBAL" default="false"	/>
-    <aura:attribute name="trNumber"             type="String"       access="GLOBAL" />
-    <aura:attribute name="trAmount"             type="String"       access="GLOBAL" />
-    <aura:attribute name="isOnPaymentPage"		type="String"       access="GLOBAL" default="true"/>
-    <aura:attribute name="isEditTerms"          type="Boolean"      access="GLOBAL" default="false"/>
-    <aura:attribute name="isSuccess"          	type="Boolean"      access="GLOBAL" default="true"/>
-    <aura:attribute name="show" 				type="Boolean" 		access="GLOBAL" default="FALSE"/>
-    <aura:attribute name="severity" 			type="String" 		access="GLOBAL"	/>
-	<aura:attribute name="title" 				type="String" 		access="GLOBAL"	/>
-    <aura:attribute name="message" 				type="String" 		access="GLOBAL"	/>
+<aura:component>
+    <aura:attribute name="PlanInfoRecord" type="Object" access="GLOBAL"/>
+    <aura:attribute name="Payment" type="Payment__c" access="GLOBAL"/>
+    <aura:attribute name="isPaymentCompleted" type="Boolean" access="GLOBAL" default="false"/>
+    <aura:attribute name="isEstimatePayment" type="Boolean" access="GLOBAL" default="false"/>
+    <aura:attribute name="trNumber" type="String" access="GLOBAL"/>
+    <aura:attribute name="trAmount" type="String" access="GLOBAL"/>
+    <aura:attribute name="isOnPaymentPage" type="String" access="GLOBAL" default="true"/>
+    <aura:attribute name="isEditTerms" type="Boolean" access="GLOBAL" default="false"/>
+    <aura:attribute name="isSuccess" type="Boolean" access="GLOBAL" default="true"/>
+    <aura:attribute name="show" type="Boolean" access="GLOBAL" default="FALSE"/>
+    <aura:attribute name="severity" type="String" access="GLOBAL"/>
+    <aura:attribute name="title" type="String" access="GLOBAL"/>
+    <aura:attribute name="message" type="String" access="GLOBAL"/>
     <aura:registerEvent name="toggleSuccessMessageEvent" type="c:ToggleSuccessMessageEvent"/>
     <aura:method name="showError" action="{!c.doError}" description="" access="GLOBAL">
-        <aura:attribute name="message" type="String" default="Error" />
+        <aura:attribute name="message" type="String" default="Error"/>
     </aura:method>
 
     <aura:if isTrue="{!v.isSuccess}">
@@ -60,8 +60,8 @@
         </div>
         <aura:set attribute="else">
             <aura:if isTrue="{!v.show}">
-            	<ui:message severity="{!v.severity}" closable="true" title="{!v.title}">{!v.message}</ui:message>
-			</aura:if>
+                <ui:message severity="{!v.severity}" closable="true" title="{!v.title}">{!v.message}</ui:message>
+            </aura:if>
         </aura:set>
     </aura:if>
 </aura:component>

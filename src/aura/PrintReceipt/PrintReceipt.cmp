@@ -2,14 +2,14 @@
   - Copyright (c) 2017-present Sirono LLC, All rights reserved
   -->
 
-<aura:component >
-    <aura:attribute name="index" type="Integer" required="true" description="index" /> 
-	<aura:handler event="c:showReceiptPopUp" action="{!c.showReceiptPopUp}"/>
-	<div aura:id="receiptPopUp" class="receiptPopUp slds-hide">
-		<div class="text_div">
-			<span class="hide_window" onclick="{!c.closePopup}">X</span>
-			Print Receipt
-		</div>
-	</div>
-	
+<aura:component>
+    <aura:attribute name="index" type="Integer" required="true" description="index"/>
+    <aura:handler event="c:showReceiptPopUp" action="{!c.showReceiptPopUp}"/>
+    <div aura:id="receiptPopUp" class="receiptPopUp slds-hide">
+        <div class="text_div">
+            <span class="hide_window" onclick="{!c.closePopup}">X</span>
+            Print Receipt
+        </div>
+    </div>
+
 </aura:component>

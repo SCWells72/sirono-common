@@ -2,14 +2,14 @@
   - Copyright (c) 2017-present Sirono LLC, All rights reserved
   -->
 
-<aura:component >
-    <aura:handler event="c:activateTileRequest" action="{!c.showDetails}" />
+<aura:component>
+    <aura:handler event="c:activateTileRequest" action="{!c.showDetails}"/>
 
 
-    <aura:attribute name="listOfInvoices" type="List" />
-    <aura:attribute name="invoice" type="Object" />
-    <aura:attribute name="activeInvoice" type="Integer" />
-    <aura:registerevent name="payNowRequest" type="c:payNowRequest" />
+    <aura:attribute name="listOfInvoices" type="List"/>
+    <aura:attribute name="invoice" type="Object"/>
+    <aura:attribute name="activeInvoice" type="Integer"/>
+    <aura:registerevent name="payNowRequest" type="c:payNowRequest"/>
 
     <div class="{!'col invoice-detail-container display_'+(v.activeInvoice != undefined)}">
         <div class="invoice-detail-wrapper">
@@ -17,7 +17,8 @@
                 <header class="grid">
                     <div class="col intro">
                         <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Due'}">
-                            <div style="padding-bottom: 10px;">{! $Label.c.Invoice_Details_Due_Message_Before_Date}&nbsp;<ui:outputdate value="{!v.invoice.singleInvoice.Due_Date__c}" />{! $Label.c.Invoice_Details_Due_Message_After_Date}</div>
+                            <div style="padding-bottom: 10px;">{! $Label.c.Invoice_Details_Due_Message_Before_Date}&nbsp;<ui:outputdate value="{!v.invoice.singleInvoice.Due_Date__c}"/>{! $Label.c.Invoice_Details_Due_Message_After_Date}
+                            </div>
                         </aura:if>
                         <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Overdue'}">
                             <div class="issue warning">{! $Label.c.Invoice_Details_Overdue_Message}</div>
@@ -26,7 +27,8 @@
                             <div class="issue error">{! $Label.c.Invoice_Details_Delinquent_Message}</div>
                         </aura:if>
                         <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'On Payment Plan'}">
-                            <div style="padding-bottom: 10px;">{! $Label.c.Invoice_Details_On_Payment_Plan_Message_Before_Amount}&nbsp;<ui:outputcurrency value="{!v.invoice.nextPayment}" />&nbsp;{! $Label.c.Invoice_Details_On_Payment_Plan_Message_After_Amount}&nbsp;<ui:outputdate format="MMMM d, YYYY" value="{!v.invoice.nextDate}" />{! $Label.c.Invoice_Details_On_Payment_Plan_Message_After_Date}</div>
+                            <div style="padding-bottom: 10px;">{! $Label.c.Invoice_Details_On_Payment_Plan_Message_Before_Amount}&nbsp;<ui:outputcurrency value="{!v.invoice.nextPayment}"/>&nbsp;{! $Label.c.Invoice_Details_On_Payment_Plan_Message_After_Amount}&nbsp;<ui:outputdate format="MMMM d, YYYY" value="{!v.invoice.nextDate}"/>{! $Label.c.Invoice_Details_On_Payment_Plan_Message_After_Date}
+                            </div>
                         </aura:if>
                         <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Invoice Voided'}">
                             <div style="padding-bottom: 10px;">{! $Label.c.Invoice_Details_Invoice_Voided_Message}</div>
@@ -47,7 +49,7 @@
                     </div>
                     <div class="col align-right slds-align-bottom">
                         <span class="title">Total You Owe &emsp;</span>
-                        <span class="value"><ui:outputcurrency value="{!v.invoice.balanceDue}" /></span>
+                        <span class="value"><ui:outputcurrency value="{!v.invoice.balanceDue}"/></span>
                     </div>
                 </header>
                 <!---->
@@ -62,7 +64,7 @@
                             <aura:if isTrue="{!group.validPayer}">
                                 <aura:iteration items="{!group.cGroup.Charge_Group_Coverages__r}" var="coverage" indexVar="index">
                                     <aura:if isTrue="{!coverage.Coverage__r.Payor__r != null}">
-                                        {!coverage.Coverage__r.Payor__r.Name}
+                                    {!coverage.Coverage__r.Payor__r.Name}
                                         <aura:if isTrue="{!index != (group.cGroup.Charge_Group_Coverages__r.length - 1)}">,&ensp;</aura:if>
                                     </aura:if>
 
@@ -79,8 +81,9 @@
                     </div>
                     <div class="invoice-content">
                         <div class="col details">
-                            <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_Start_Date__c}" /> -
-                            <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_End_Date__c}" />
+                            <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_Start_Date__c}"/>
+                            -
+                            <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_End_Date__c}"/>
                             <div>ID Number: {!group.cGroup.External_ID__c}</div>
                             <aura:if isTrue="{!group.cGroup.Account_Type__c == 'HB'}">
                                 <div>Location: {!group.cGroup.Location__r.Name}</div>
@@ -96,7 +99,7 @@
                                     <aura:if isTrue="{!service.amount != 0}">
                                         <div class="col">{!service.displayName}</div>
                                         <div class="col align-right">
-                                            <ui:outputcurrency value="{!service.amount}" />
+                                            <ui:outputcurrency value="{!service.amount}"/>
                                         </div>
                                     </aura:if>
                                 </aura:iteration>
@@ -109,10 +112,10 @@
                                 <aura:iteration items="{!group.adjusts}" var="pa">
                                     <div class="col col_displayName">
                                         <span class="displayName">{!pa.displayName}&nbsp;-</span>
-                                        {!pa.serviceDate}
+                                            {!pa.serviceDate}
                                     </div>
                                     <div class="{!'col align-right' + ' ' + (pa.amount &lt; 0 ?'credit':'')}">
-                                        <ui:outputcurrency value="{!pa.amount}" />
+                                        <ui:outputcurrency value="{!pa.amount}"/>
                                     </div>
                                 </aura:iteration>
 
@@ -123,7 +126,7 @@
                                 <div class="totalCharges">
                                     <div class="footer titleTotalCharges">Total Charges</div>
                                     <div class="footer groupTotalCharges align-right">
-                                        <ui:outputcurrency value="{!group.totalCharges}" />
+                                        <ui:outputcurrency value="{!group.totalCharges}"/>
                                     </div>
                                 </div>
                             </div>
@@ -131,16 +134,18 @@
                                 <div class="totalCredits">
                                     <div class="footer titleTotalCredits">Total Credits</div>
                                     <div class="{!'footer groupTotalCredits align-right' + ' ' + (group.totalCredits &lt; 0 ?'credit':'')}">
-                                        <ui:outputcurrency value="{!group.totalCredits}" />
+                                        <ui:outputcurrency value="{!group.totalCredits}"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col total align-right"><span class="title">You Owe &emsp;</span> <span class="value"><ui:outputCurrency value="{!group.totalCharges + group.totalCredits}" /></span></div>
+                        <div class="col total align-right"><span class="title">You Owe &emsp;</span>
+                            <span class="value"><ui:outputCurrency value="{!group.totalCharges + group.totalCredits}"/></span>
+                        </div>
                     </div>
                 </aura:iteration>
                 <!-- fixed lightning bug-->
-                <input type="hidden" name="fixedBug" value="{!v.invoice.allGroups.length > 1}" />
+                <input type="hidden" name="fixedBug" value="{!v.invoice.allGroups.length > 1}"/>
                 <!-- fixed lightning bug END-->
 
                 <aura:if isTrue="{!v.invoice.allGroups.length > 1}">
@@ -151,7 +156,7 @@
                             </div>
                             <div class="col align-right">
                                 <div class="value">
-                                    <ui:outputcurrency value="{!v.invoice.invoiceTotalCharges}" />
+                                    <ui:outputcurrency value="{!v.invoice.invoiceTotalCharges}"/>
                                 </div>
                             </div>
                             <div class="col align-right">
@@ -159,7 +164,7 @@
                             </div>
                             <div class="col align-right">
                                 <div class="value credit">
-                                    <ui:outputcurrency value="{!v.invoice.invoiceTotalCredits}" />
+                                    <ui:outputcurrency value="{!v.invoice.invoiceTotalCredits}"/>
                                 </div>
                             </div>
                             <div class="col align-right">
@@ -167,7 +172,7 @@
                             </div>
                             <div class="col align-right">
                                 <div class="value total">
-                                    <ui:outputcurrency value="{!v.invoice.balanceDue}" />
+                                    <ui:outputcurrency value="{!v.invoice.balanceDue}"/>
                                 </div>
                             </div>
                         </div>

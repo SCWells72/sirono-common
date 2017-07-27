@@ -2,17 +2,17 @@
   - Copyright (c) 2017-present Sirono LLC, All rights reserved
   -->
 
-<aura:component >
-    
-    <aura:attribute name="row" type="Document" required="true" description="values in row" /> 
-    
+<aura:component>
+
+    <aura:attribute name="row" type="Document" required="true" description="values in row"/>
+
     <tr class="slds-hint-parent">
         <th scope="row" data-label="Document Name">
             <div class="slds-truncate" title="Understand Your Bill">
                 <aura:if isTrue="{!v.row.old == false}">
                     <span class="status-bubble info"></span>
                 </aura:if>
-                {!v.row.doc.Name}
+                    {!v.row.doc.Name}
             </div>
         </th>
         <td role="gridcell" data-label="Document Category">
@@ -25,13 +25,14 @@
         </td>
         <td role="gridcell" data-label="Download">
             <div class="slds-truncate slds-align-middle" title="Download">
-                <a href="{!v.row.doc.Url}" download = "{!v.row.doc.Name}">
+                <a href="{!v.row.doc.Url}" download="{!v.row.doc.Name}">
                     <aura:if isTrue="{!(v.row.doc.ContentType == 'application/pdf')}">
                         <span class="slds-icon_container">
-                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/doctype-sprite/svg/symbols.svg#pdf'}" category="standard" size="medium" name="pdf" />
+                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/doctype-sprite/svg/symbols.svg#pdf'}" category="standard" size="medium" name="pdf"/>
                             <span class="slds-assistive-text">Download</span>
                         </span>
-                    </aura:if>Download
+                    </aura:if>
+                    Download
                 </a>
             </div>
         </td>

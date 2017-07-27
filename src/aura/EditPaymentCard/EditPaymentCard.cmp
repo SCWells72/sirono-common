@@ -13,8 +13,8 @@
     <aura:attribute name="years" type="String[]" access="private" default="[]"/>
     <aura:attribute name="hasError" type="Boolean" access="private" default="false"/>
     <aura:attribute name="nextPaymentDate" type="String" access="private" default=""/>
-    <aura:attribute name="cvvError" type="String" default="" />
-    <aura:attribute name="IsValid" type="Boolean" default="false" />
+    <aura:attribute name="cvvError" type="String" default=""/>
+    <aura:attribute name="IsValid" type="Boolean" default="false"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doCmpInit}"/>
     <aura:handler name="change" value="{!v.PaymentRequestInfo.executeOnDay}" action="{!c.doDateValueInit}"/>
@@ -25,17 +25,17 @@
     <c:PaymentPlanService aura:id="paymentPlanService"/>
     <div class="payment-info">
         <aura:if isTrue="{!v.hasError}">
-            <c:SuccessMessage isSuccess="false" aura:id="notificationCmp" />
+            <c:SuccessMessage isSuccess="false" aura:id="notificationCmp"/>
         </aura:if>
-        <ui:inputDefaultError aura:id="cardValidError" value="" />
+        <ui:inputDefaultError aura:id="cardValidError" value=""/>
         <div class="we-accept">
             <span>We Accept: </span>
-            <img src="{!$Resource.SironoData + '/assets/images/mastercard-icon.png'}" alt="Mastercard" />
-            <img src="{!$Resource.SironoData + '/assets/images/american-express-icon.png'}" alt="American Express" />
-            <img src="{!$Resource.SironoData + '/assets/images/visa-icon.png'}" alt="Visa" />
+            <img src="{!$Resource.SironoData + '/assets/images/mastercard-icon.png'}" alt="Mastercard"/>
+            <img src="{!$Resource.SironoData + '/assets/images/american-express-icon.png'}" alt="American Express"/>
+            <img src="{!$Resource.SironoData + '/assets/images/visa-icon.png'}" alt="Visa"/>
         </div>
         <div class="credit-card-form grid slds-wrap">
-            <c:PaymentCard CheckValidation="{!v.IsValid}" CreditCard="{!v.CreditCard}" months="{!v.months}" years="{!v.years}" states="{!v.states}" />
+            <c:PaymentCard CheckValidation="{!v.IsValid}" CreditCard="{!v.CreditCard}" months="{!v.months}" years="{!v.years}" states="{!v.states}"/>
             <aura:if isTrue="{!!v.CreditCard.sfId}">
                 <div class="col slds-size--1-of-1">
                     <lightning:input type="checkbox" label="Save this card for later use" name="options" value="{!v.CreditCard.isSaved}" class="display--inline" onchange="{!c.bindChangeSave}"/>
