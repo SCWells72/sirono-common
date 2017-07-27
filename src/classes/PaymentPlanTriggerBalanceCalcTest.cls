@@ -2,7 +2,7 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 public class PaymentPlanTriggerBalanceCalcTest {
 
     private static Contact g;
@@ -12,7 +12,7 @@ public class PaymentPlanTriggerBalanceCalcTest {
 
     static void init() {
 
-        g = TestUtility.GenerateGuarantorContact();
+        g = TestUtility.generateGuarantorContact();
         insert g;
         System.debug('G id: ' + g.Id);
 
@@ -23,7 +23,7 @@ public class PaymentPlanTriggerBalanceCalcTest {
         insert txn;
     }
 
-    @isTest
+    @IsTest
     static void testCreatePlan() {
 
         init();
@@ -46,7 +46,7 @@ public class PaymentPlanTriggerBalanceCalcTest {
         System.assert(pp.Remaining_Balance__c == txn.Amount__c, 'PaymentPlan value is incorrect');
     }
 
-    @isTest
+    @IsTest
     static void testAddPayment() {
         init();
 

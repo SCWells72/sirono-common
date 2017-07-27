@@ -3,7 +3,7 @@
  */
 
 public with sharing class MakeAPaymentController {
-    public CardInformation cInfo{get;set;}
+    public CardInformation cInfo { get; set; }
 
     @AuraEnabled
     public static CardInformation getCardInformation() {
@@ -12,12 +12,12 @@ public with sharing class MakeAPaymentController {
 
     @AuraEnabled
     public static String makeNewPayment(String jsonPayment, String listIds) {
-        System.debug('jsonPayment: '+jsonPayment);
+        System.debug('jsonPayment: ' + jsonPayment);
         System.debug('listIds: ' + listIds);
-        CardInformation cInfo = (CardInformation)JSON.deserialize(jsonPayment, CardInformation.class);
+        CardInformation cInfo = (CardInformation) JSON.deserialize(jsonPayment, CardInformation.class);
         System.debug(cInfo);
 
-        List<String> invoiceIds = (List<String>)JSON.deserialize(listIds, List<String>.class);
+        List<String> invoiceIds = (List<String>) JSON.deserialize(listIds, List<String>.class);
         System.debug(invoiceIds);
 
         Contact guarantor = GuarantorService.getPortalGuarantor(UserInfo.getUserId());
@@ -49,7 +49,7 @@ public with sharing class MakeAPaymentController {
         pmtRequest.chargeInfo.creditCardNumber = cInfo.creditCardNumber;
         pmtRequest.chargeInfo.cardHolderName = cInfo.cardHolderName;
         pmtRequest.chargeInfo.expirationYear = cInfo.expirationYear.substring(2);
-        pmtRequest.chargeInfo.expirationMonth = cInfo.expirationMonth.substring(0,2);
+        pmtRequest.chargeInfo.expirationMonth = cInfo.expirationMonth.substring(0, 2);
         pmtRequest.chargeInfo.cvv = cInfo.cvv;
         pmtRequest.chargeInfo.amount = cInfo.amount;
         pmtRequest.chargeInfo.address = cInfo.address;
@@ -62,10 +62,10 @@ public with sharing class MakeAPaymentController {
     @AuraEnabled
     public static String makeNewEstimatePayment(String jsonPayment, String estimateId) {
 
-        System.debug('Estimate jsonPayment: '+jsonPayment);
+        System.debug('Estimate jsonPayment: ' + jsonPayment);
         System.debug('EstimateId: ' + estimateId);
 
-        CardInformation cInfo = (CardInformation)JSON.deserialize(jsonPayment, CardInformation.class);
+        CardInformation cInfo = (CardInformation) JSON.deserialize(jsonPayment, CardInformation.class);
         System.debug(cInfo);
 
         Contact guarantor = GuarantorService.getPortalGuarantor(UserInfo.getUserId());
@@ -88,7 +88,7 @@ public with sharing class MakeAPaymentController {
 
     @AuraEnabled
     public static Map<String, Map<String, String>> getCardSelectOptions() {
-        Map<String, Map<String, String>> outputMap = new Map<String, Map<String, String>> ();
+        Map<String, Map<String, String>> outputMap = new Map<String, Map<String, String>>();
         outputMap.put('YEARS', PortalUIConstants.getYears());
         outputMap.put('MONTHS', PortalUIConstants.getExpMonths());
         return outputMap;

@@ -21,8 +21,8 @@ public with sharing class PaymentMethodSecurityContext extends SecurityContext {
     private static final String TYPE = 'Type__c';
 
     // The fields for inserting a Payment Method in PaymentArrangement
-    private static final Set<String> CREATE_FIELDS = new Set<String>{
-    	GUARANTOR, RECORDTYPEID
+    private static final Set<String> CREATE_FIELDS = new Set<String> {
+        GUARANTOR, RECORDTYPEID
     };
 
     // Guarantor Select fields

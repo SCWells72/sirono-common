@@ -2,7 +2,7 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 private class HiMSS_SummaryWidgetRESTServiceTest {
 //    static testMethod void getGuarantorTest() {
 //    	Test.startTest();

@@ -11,7 +11,7 @@ public class EncounterService extends AbstractService {
      * @param String encounterId - encounter record Id
 	 **/
     public static List<Encounter__c> getEncounterRecordsById(String encounterId) {
-    	List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.IdType.ENCOUNTER, encounterId);
+        List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.IdType.ENCOUNTER, encounterId);
         return encounterList;
     }
 
@@ -20,7 +20,7 @@ public class EncounterService extends AbstractService {
      * @param String guarantorId - guarantor record Id
 	 **/
     public static List<Encounter__c> getEncounterRecordsByGuarantorId(String guarantorId) {
-    	List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.IdType.GUARANTOR, guarantorId);
+        List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.IdType.GUARANTOR, guarantorId);
         return encounterList;
     }
 
@@ -61,8 +61,8 @@ public class EncounterService extends AbstractService {
      *
      * @param Integer - The number of Encounters.
      **/
-    public static Integer getCountByDate(Id guarantorId, DateTime startDate) {
-      return EncounterDao.getCountByDate(guarantorId, startDate);
+    public static Integer getCountByDate(Id guarantorId, Datetime startDate) {
+        return EncounterDao.getCountByDate(guarantorId, startDate);
     }
 
     /**

@@ -5,18 +5,18 @@
 /**
  * This class tests methods implemented in ViewStatementExtension class.
  **/
-@isTest
+@IsTest
 public class ViewStatementExtensionTest {
-    Public Static List<Statement__c> lstStatement = new List<Statement__c>();
+    public static List<Statement__c> lstStatement = new List<Statement__c>();
 
     /**
      * Setup data common to all tests.
      **/
-    @testSetup
+    @TestSetup
     static void setupData() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_ID__c = Decimal.valueOf(RestClientConstants.GUARANTOR_ID);
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
         lstStatement.add(statement);
@@ -26,24 +26,24 @@ public class ViewStatementExtensionTest {
         lstStatement.add(statement);
 
         statement = TestUtility.generateStatement(guarantorContact.Id);
-        statement.Statement_Date__c = Date.parse(RestClientConstants.STATEMENT_DATES[RestClientConstants.STATEMENT_DATES.size()-1]);
+        statement.Statement_Date__c = Date.parse(RestClientConstants.STATEMENT_DATES[RestClientConstants.STATEMENT_DATES.size() - 1]);
         lstStatement.add(statement);
 
-        INSERT lstStatement;
+        insert lstStatement;
 
     }
 
     /**
      * This method verifies provided Statement Has PDF to view.
      **/
-    @isTest public static void testStatementHasPDF() {
+    @IsTest public static void testStatementHasPDF() {
         // Find the statement for the first statement date
         Date stmtDate = Date.parse(RestClientConstants.STATEMENT_DATES[0]);
         Statement__c stmt = [
-                SELECT ID, Guarantor__r.Profile_Pointer_ID__c, Statement_Date__c
-                FROM Statement__c
-                WHERE Statement_Date__c = :stmtDate
-                LIMIT 1
+            SELECT Id, Guarantor__r.Profile_Pointer_ID__c, Statement_Date__c
+            FROM Statement__c
+            WHERE Statement_Date__c = :stmtDate
+            LIMIT 1
         ];
 
         // Instantiate StandardController with a Statement object
@@ -74,15 +74,15 @@ public class ViewStatementExtensionTest {
     /**
      * This method verifies provided Statement has no PDF to view.
      **/
-    @isTest public static void testStatementNoPDF() {
+    @IsTest public static void testStatementNoPDF() {
 
         // Find the statement for the last statement date (it doesn't have a url)
-        Date stmtDate = Date.parse(RestClientConstants.STATEMENT_DATES[RestClientConstants.STATEMENT_DATES.size()-1]);
+        Date stmtDate = Date.parse(RestClientConstants.STATEMENT_DATES[RestClientConstants.STATEMENT_DATES.size() - 1]);
         Statement__c stmt = [
-                SELECT ID, Guarantor__r.Profile_Pointer_ID__c, Statement_Date__c
-                FROM Statement__c
-                WHERE Statement_Date__c = :stmtDate
-                LIMIT 1
+            SELECT Id, Guarantor__r.Profile_Pointer_ID__c, Statement_Date__c
+            FROM Statement__c
+            WHERE Statement_Date__c = :stmtDate
+            LIMIT 1
         ];
 
         // Start Test Context, to reset all Governor limits

@@ -2,54 +2,55 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-.THIS #sfdc_username_container{
-    margin-bottom:10px;
+.THIS #sfdc_username_container {
+    margin-bottom: 10px;
     padding: 12px;
-    background-color:white;
+    background-color: white;
     border: 1px solid #CCC;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
 }
 
-.THIS #sfdc_user{
-    float:left;
-    width:23px;
-    height:25px;
-    padding-top:1px;
-    padding-left:2px;
-    margin:0px;
+.THIS #sfdc_user {
+    float: left;
+    width: 23px;
+    height: 25px;
+    padding-top: 1px;
+    padding-left: 2px;
+    margin: 0px;
 
 }
 
-.THIS #sfdc_lock{
-    float:left;
-    width:23px;
-    height:25px;
-    padding-top:1px;
-    padding-left:2px;
-    margin:0px;
+.THIS #sfdc_lock {
+    float: left;
+    width: 23px;
+    height: 25px;
+    padding-top: 1px;
+    padding-left: 2px;
+    margin: 0px;
 }
 
-.THIS  #error {
+.THIS #error {
     text-align: center;
-    color:#FF0000;
+    color: #FF0000;
 }
 
-.THIS  .login-icon {
-    color:#ccc;font-size:22px;
+.THIS .login-icon {
+    color: #ccc;
+    font-size: 22px;
 }
 
-.THIS #sfdc_password_container{
+.THIS #sfdc_password_container {
     padding: 12px;
-    background-color:white;
+    background-color: white;
     border: 1px solid #CCC;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
 }
 
-.THIS  button.sfdc_button {
+.THIS button.sfdc_button {
     width: 100%;
     margin-top: 15px;
     margin-bottom: 5px;
@@ -73,18 +74,18 @@
     -ms-user-select: none;
 }
 
-.THIS  button:hover {
-    background-color:#3276b1;
-    border-color:#285e8e;
-    cursor:pointer;
+.THIS button:hover {
+    background-color: #3276b1;
+    border-color: #285e8e;
+    cursor: pointer;
 }
 
 .THIS button .label {
-    color: #fff;	
+    color: #fff;
 }
 
-.THIS  input {
-    margin-left:10px;
+.THIS input {
+    margin-left: 10px;
     margin-top: 3px;
     border: 0px solid transparent;
     width: 70%;
@@ -92,16 +93,16 @@
     font-size: 14px;
 }
 
-
-.THIS  a {
-    color:white;
+.THIS a {
+    color: white;
     text-decoration: none;
 }
-.THIS  a:hover {
-    color:white;
+
+.THIS a:hover {
+    color: white;
     text-decoration: none;
 }
 
 .THIS label.uiLabel-hidden {
-    display:none;
+    display: none;
 }

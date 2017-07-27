@@ -4,9 +4,9 @@
 
 public with sharing class DeletePaymentPlan {
 
-    public String guarantorId {get; set;}
-    public String paymentPlanId {get; set;}
-    public String paymentPlanExtId {get; set;}
+    public String guarantorId { get; set; }
+    public String paymentPlanId { get; set; }
+    public String paymentPlanExtId { get; set; }
     private List<Charge_Group__c> lstCG = new List<Charge_Group__c>();
     private Payment_Plan__c paymentPlanObj = new Payment_Plan__c();
     public Boolean blnHasError = true;
@@ -18,14 +18,14 @@ public with sharing class DeletePaymentPlan {
         paymentPlanId = null;
         paymentPlanExtId = null;
 
-        if (Apexpages.currentPage().getParameters().containsKey('guarantorId')) {
-            guarantorId = Apexpages.currentPage().getParameters().get('guarantorId');
+        if (ApexPages.currentPage().getParameters().containsKey('guarantorId')) {
+            guarantorId = ApexPages.currentPage().getParameters().get('guarantorId');
         }
-        if (Apexpages.currentPage().getParameters().containsKey('paymentPlanId')) {
-            paymentPlanId = Apexpages.currentPage().getParameters().get('paymentPlanId');
+        if (ApexPages.currentPage().getParameters().containsKey('paymentPlanId')) {
+            paymentPlanId = ApexPages.currentPage().getParameters().get('paymentPlanId');
         }
-        if (Apexpages.currentPage().getParameters().containsKey('paymentPlanExtId')) {
-            paymentPlanExtId = Apexpages.currentPage().getParameters().get('paymentPlanExtId');
+        if (ApexPages.currentPage().getParameters().containsKey('paymentPlanExtId')) {
+            paymentPlanExtId = ApexPages.currentPage().getParameters().get('paymentPlanExtId');
         }
     }
 
@@ -37,14 +37,14 @@ public with sharing class DeletePaymentPlan {
     /*Mohan Kumar 08-01-2016: Ticket # 06638016 - 
      *Updated the QueryString parameter value to fix the "URL No Longer Exists" error.
      */
-    public Pagereference cancel() {
-        Pagereference pg = null;
+    public PageReference cancel() {
+        PageReference pg = null;
         if (!isEmpty(paymentPlanId)) {
-            pg = new Pagereference('/' + paymentPlanId);
+            pg = new PageReference('/' + paymentPlanId);
         } else if (!isEmpty(guarantorId)) {
-            pg = new Pagereference('/' + guarantorId);
+            pg = new PageReference('/' + guarantorId);
         } else {
-            pg = new Pagereference('/home/home.jsp');
+            pg = new PageReference('/home/home.jsp');
         }
         pg.setRedirect(true);
         return pg;
@@ -61,16 +61,16 @@ public with sharing class DeletePaymentPlan {
                     //doDeletePaymentPlan(csrfToken, jwtToken);
                 }
             } else {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                        'Payment Plan Id is missing.'));
-                if (Test.IsRunningTest()) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                    'Payment Plan Id is missing.'));
+                if (Test.isRunningTest()) {
                     TestUtility.generateException();
                 }
             }
         } catch (Exception e) {
             // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'ERROR: ' + e.getMessage()));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'ERROR: ' + e.getMessage()));
 
         }
     }    
@@ -90,15 +90,15 @@ public with sharing class DeletePaymentPlan {
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
         req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/'
-                + PayStaffWSUtill.trimCommas(paymentPlanExtId) + '/');
+            + PayStaffWSUtill.trimCommas(paymentPlanExtId) + '/');
         req.setTimeout(120000);
         try {
             res = http.send(req);
             responseBody = res.getBody();
             //system.debug('Payment Plan Response : ' + responseBody);
-            
-            if(Test.isRunningTest()){
-                res.setStatusCode(TestUtility.statusCode2); 
+
+            if (Test.isRunningTest()) {
+                res.setStatusCode(TestUtility.statusCode2);
                 TestUtility.generateException();
             }
         } catch (Exception e) {
@@ -109,9 +109,9 @@ public with sharing class DeletePaymentPlan {
             parsePaymentPlanResponse(responseBody, csrfToken, jwtToken);
 
         } else {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'RESPONSE : ' + res.toString() +
-                            '  RESPONSE BODY::' + responseBody));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'RESPONSE : ' + res.toString() +
+                    '  RESPONSE BODY::' + responseBody));
         }
     }
     
@@ -123,19 +123,19 @@ public with sharing class DeletePaymentPlan {
 
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
         objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorId,
-                null, null);
+            null, null);
 
         paymentPlanObj = new Payment_Plan__c();
         paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
         paymentPlanObj.Active__c = false;
-        paymentPlanObj.Cancellation_Date__c = system.today();
-                
+        paymentPlanObj.Cancellation_Date__c = System.today();
+
         if (blnHasFirstRequest) {
             lstCG = new List<Charge_Group__c>();
             lstCG = objPaymentPlanWrapper.chargeGroupRecords;
         }
-        
-        if(blnHasError && blnHasFirstRequest){
+
+        if (blnHasError && blnHasFirstRequest) {
             doDeletePaymentPlan(csrfToken, jwtToken);
         }
     }
@@ -155,7 +155,7 @@ public with sharing class DeletePaymentPlan {
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
         req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/chargegroups/'
-                + PayStaffWSUtill.trimCommas(chargeGroupId) + '/');
+            + PayStaffWSUtill.trimCommas(chargeGroupId) + '/');
 
         req.setTimeout(120000);
         try {
@@ -175,9 +175,9 @@ public with sharing class DeletePaymentPlan {
         } else {
 
             blnHasError = false;
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'RESPONSE : ' + res.toString() +
-                            '  RESPONSE BODY::' + responseBody));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'RESPONSE : ' + res.toString() +
+                    '  RESPONSE BODY::' + responseBody));
         }
     }
     
@@ -191,7 +191,7 @@ public with sharing class DeletePaymentPlan {
     private void parseChargeGroupResponse(String responseBody, Charge_Group__c cg) {
         ChargeGroupJSONParser objChargeGroup = ChargeGroupJSONParser.parse(responseBody);
         cg.Account_Sub_Status__c = objChargeGroup.account_sub_status;
-        cg.Account_Status__c = objChargeGroup.account_status; 
+        cg.Account_Status__c = objChargeGroup.account_status;
         cg.Payment_Plan__c = null;
     }
     
@@ -210,7 +210,7 @@ public with sharing class DeletePaymentPlan {
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
         req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/paymentplan/' +
-                PayStaffWSUtill.trimCommas(paymentPlanExtId) + '/');
+            PayStaffWSUtill.trimCommas(paymentPlanExtId) + '/');
 
         try {
             res = http.send(req);
@@ -221,33 +221,33 @@ public with sharing class DeletePaymentPlan {
             }
         } catch (Exception e) {
             // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() +
-                            '  RESPONSE BODY::' + responseBody +
-                            ' EXCEPTION:: ' + e.getMessage()));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() +
+                    '  RESPONSE BODY::' + responseBody +
+                    ' EXCEPTION:: ' + e.getMessage()));
         }
 
         if (res.getStatusCode() != null && res.getStatusCode() == 204) {
             blnHasFirstRequest = false;
-            
+
             callPaymentPlanRequest(csrfToken, jwtToken);
-            
+
             for (Charge_Group__c cg : lstCG) {
-                callChargeGroupRequest(String.valueof(cg.Sirono_ID__c),jwtToken,cg );
+                callChargeGroupRequest(String.valueOf(cg.Sirono_ID__c), jwtToken, cg);
             }
-            
-            if(blnHasError == true){
-            	if (PaymentPlanSecurityContext.DP_UPDATE_CONTEXT.actionAllowed()) {
-            	    UPDATE paymentPlanObj;
-            	}
+
+            if (blnHasError == true) {
+                if (PaymentPlanSecurityContext.DP_UPDATE_CONTEXT.actionAllowed()) {
+                    update paymentPlanObj;
+                }
                 ChargeGroupService.updateChargeGroupsWithStatus(lstCG);
             }
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
-                    'Payment plan was successfully cancelled.'));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO,
+                'Payment plan was successfully cancelled.'));
         } else {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'RESPONSE : ' + res.toString() +
-                            '  RESPONSE BODY::' + responseBody));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'RESPONSE : ' + res.toString() +
+                    '  RESPONSE BODY::' + responseBody));
         }
     }
 }

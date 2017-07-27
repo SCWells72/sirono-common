@@ -6,8 +6,8 @@
  * @Util Class for the All Auto Case Creation, Auto Case Closure, Add\Remove the guarantor to the campaign functionality.
  **/
 public class CaseUtil {
-    public static Boolean executeCampaignMemberTrigger = True;
-    public static Boolean executeRemoveCampaignTrigger = True;
+    public static Boolean executeCampaignMemberTrigger = true;
+    public static Boolean executeRemoveCampaignTrigger = true;
 
     public static Boolean createCaseInTrigger = true;
 
@@ -33,7 +33,7 @@ public class CaseUtil {
                 SELECT Id, Guarantor__c
                 FROM Statement__c
                 WHERE Statement_Date__c = :System.today()
-                and Day_only(CreatedDate) != :System.today()
+                AND DAY_ONLY(CreatedDate) != :System.today()
             ];
             callCloseEarlyOutAutoCase(lstStatement);
         }
@@ -65,19 +65,19 @@ public class CaseUtil {
                     SELECT Id, Status, Reason, Guarantor_Information__c
                     FROM Case
                     WHERE Type = :Constants.CASE_TYPE_OVERDUE AND
-                    Guarantor_Information__c IN :mapContact.keyset()
-                    AND IsClosed = false
+                    Guarantor_Information__c IN :mapContact.keySet()
+                    AND IsClosed = FALSE
                 ];
             }
             Set<Id> setContactWithEarlyOutCase = new Set<Id>();
-            for (Case objCase: earlyOutCases) {
+            for (Case objCase : earlyOutCases) {
                 objCase.Status = Constants.CASE_STATUS_CLOSED;
                 objCase.Reason = Constants.CASE_REASON_CLOSED_AUTOMATED;
                 setContactWithEarlyOutCase.add(objCase.Guarantor_Information__c);
             }
             executeRemoveCampaignTrigger = false;
             if (CaseSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                UPDATE earlyOutCases;
+                update earlyOutCases;
             }
 
             Map<String, String> mapCampaignMapping = campaignMapping(new Set<String> {
@@ -97,7 +97,7 @@ public class CaseUtil {
                 SELECT Id, Guarantor__c
                 FROM Statement__c
                 WHERE Statement_Date__c = :System.today()
-                AND Day_only(CreatedDate) != :System.today()
+                AND DAY_ONLY(CreatedDate) != :System.today()
             ];
             callClosePrecollectionsAutoCase(lstStatement);
         }
@@ -130,19 +130,19 @@ public class CaseUtil {
                     SELECT Id, Status, Reason, Guarantor_Information__c
                     FROM Case
                     WHERE Type = :Constants.CASE_TYPE_PRECOLLECTIONS
-                    AND Guarantor_Information__c IN :mapContact.keyset()
-                    AND IsClosed = false
+                    AND Guarantor_Information__c IN :mapContact.keySet()
+                    AND IsClosed = FALSE
                 ];
             }
             Set<Id> setContactWithEarlyOutCase = new Set<Id>();
-            for (Case objCase: precollections) {
+            for (Case objCase : precollections) {
                 objCase.Status = Constants.CASE_STATUS_CLOSED;
                 objCase.Reason = Constants.CASE_REASON_CLOSED_AUTOMATED;
                 setContactWithEarlyOutCase.add(objCase.Guarantor_Information__c);
             }
             executeRemoveCampaignTrigger = false;
             if (SecurityUtils.verify(CaseSecurityContext.UPDATE_CONTEXT)) {
-                UPDATE precollections;
+                update precollections;
             }
 
             Map<String, String> mapCampaignMapping = campaignMapping(new Set<String> {
@@ -182,14 +182,14 @@ public class CaseUtil {
             }
 
             if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-                for (Case objCase: [
+                for (Case objCase : [
                     SELECT Id, Guarantor_Information__c
                     FROM Case
                     WHERE Reason = :Constants.CASE_REASON_COMPLIANCE_ISSUE
-                    AND Guarantor_Information__c IN :mapContact.keyset()
-                    AND IsClosed = false
+                    AND Guarantor_Information__c IN :mapContact.keySet()
+                    AND IsClosed = FALSE
                 ]) {
-                    mapComplianceContact.Put(objCase.Guarantor_Information__c, objCase.id);
+                    mapComplianceContact.put(objCase.Guarantor_Information__c, objCase.Id);
                 }
             }
 
@@ -199,9 +199,11 @@ public class CaseUtil {
             for (Encounter__c obj : lstEncounter) {
                 String strContactId;
                 if (obj.Patient_Portion__c > 0 && obj.Date_of_Service__c >= Date.today()) {
-                    if (obj.Guarantor__c != null) strContactId = obj.Guarantor__c;
+                    if (obj.Guarantor__c != null) {
+                        strContactId = obj.Guarantor__c;
+                    }
                 }
-                if (strContactId != null && !mapComplianceContact.Containskey(strContactId)) {
+                if (strContactId != null && !mapComplianceContact.containsKey(strContactId)) {
                     Contact objContact = mapContact.get(strContactId);
                     Case objCase = new Case();
                     objCase.Guarantor_Information__c = objContact.Id;
@@ -210,16 +212,16 @@ public class CaseUtil {
                     objCase.Type = Constants.CASE_TYPE_ENCOUNTER;
                     objCase.Status = Constants.CASE_STATUS_NEW;
                     objCase.Subject = Constants.CASE_SUBJECT_ENCOUNTER;
-                    objCase.RecordTypeID = RecordTypeUtil.automatedCaseRt;
+                    objCase.RecordTypeId = RecordTypeUtil.automatedCaseRt;
                     if (lstGroup.size() > 0) {
-                        objCase.ownerId = lstGroup[0].Id;
+                        objCase.OwnerId = lstGroup[0].Id;
                     }
-                    mapContactCase.Put(objContact.Id, objCase);
+                    mapContactCase.put(objContact.Id, objCase);
                 }
             }
             if (mapContactCase.size() > 0) {
                 if (CaseSecurityContext.CU_CREATE_WITH_ENCOUNTER_CONTEXT.actionAllowed()) {
-                    INSERT mapContactCase.values();
+                    insert mapContactCase.values();
                 }
             }
         }
@@ -259,13 +261,13 @@ public class CaseUtil {
                     AND Encounter__c IN :setEncounterIds
                 ];
             }
-            for (Case objCase: encounterCase) {
+            for (Case objCase : encounterCase) {
                 objCase.Status = Constants.CASE_STATUS_CLOSED;
                 objCase.Reason = Constants.CASE_REASON_CLOSED_AUTOMATED;
             }
             executeRemoveCampaignTrigger = false;
             if (CaseSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                UPDATE encounterCase;
+                update encounterCase;
             }
         }
 
@@ -275,10 +277,10 @@ public class CaseUtil {
                 SELECT Id, Guarantor_Information__c
                 FROM Case
                 WHERE Type = :Constants.CASE_TYPE_ENCOUNTER
-                AND IsClosed = false
+                AND IsClosed = FALSE
                 AND Guarantor_Information__c IN :setContact
             ];
-            for (Case c: openEncounterCases) {
+            for (Case c : openEncounterCases) {
                 contactWithoutOpenEncounters.add(c.Guarantor_Information__c);
             }
         }
@@ -289,10 +291,10 @@ public class CaseUtil {
 
         if (cmpnMemSecurityContext.deleteActionAllowed()) {
             if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                DELETE [
+                delete [
                     SELECT Id, ContactId
                     FROM CampaignMember
-                    WHERE Campaign.IsActive = true
+                    WHERE Campaign.IsActive = TRUE
                     AND Campaign.Name IN :mapCampaignMapping.values()
                     AND ContactId IN :setContact AND ContactId NOT IN :contactWithoutOpenEncounters
                 ];
@@ -316,20 +318,20 @@ public class CaseUtil {
         Map<String, Case> mapContactCase = new Map<String, Case>();
 
         if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-            for (Case objCase: [
+            for (Case objCase : [
                 SELECT Id, Guarantor_Information__c
                 FROM Case
                 WHERE Guarantor_Information__c IN :contactIds
                 AND (Type = :Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS OR Reason = :Constants.CASE_REASON_COMPLIANCE_ISSUE)
-                AND IsClosed = false
+                AND IsClosed = FALSE
             ]) {
-                contactIds.Remove(objCase.Guarantor_Information__c);
+                contactIds.remove(objCase.Guarantor_Information__c);
             }
         }
 
         Map<Id, Contact> mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(contactIds, null));
 
-        for (String strContactId : mapContact.keyset()) {
+        for (String strContactId : mapContact.keySet()) {
             Contact objContact = mapContact.get(strContactId);
 
             Case objCase = new Case();
@@ -338,11 +340,11 @@ public class CaseUtil {
             objCase.Type = Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS;
             objCase.Status = Constants.CASE_STATUS_NEW;
             objCase.Subject = Constants.CASE_SUBJECT_PAST_DUE_PAYMENT_PLANS;
-            objCase.RecordTypeID = RecordTypeUtil.automatedCaseRt;
+            objCase.RecordTypeId = RecordTypeUtil.automatedCaseRt;
             if (lstGroup.size() > 0) {
-                objCase.ownerId = lstGroup[0].Id;
+                objCase.OwnerId = lstGroup[0].Id;
             }
-            mapContactCase.Put(strContactId, objCase);
+            mapContactCase.put(strContactId, objCase);
         }
 
         CaseDao.ElevatedPrivilegesHelper helper = new CaseDao.ElevatedPrivilegesHelper();
@@ -355,15 +357,15 @@ public class CaseUtil {
     */
     public static void closeDelinquentPaymentCase(Set<Id> contactIds, Set<Id> paymentPlanID) {
 
-        if (!paymentPlanID.IsEmpty()) {
+        if (!paymentPlanID.isEmpty()) {
             if (PaymentPlanSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-                for (Payment_Plan__c test: [
+                for (Payment_Plan__c test : [
                     SELECT Id, Guarantor__c
                     FROM Payment_Plan__c
                     WHERE Id NOT IN :paymentPlanID
                     AND Guarantor__c IN :contactIds
-                    AND active__c = true
-                    AND Delinquent__c = true
+                    AND Active__c = TRUE
+                    AND Delinquent__c = TRUE
                 ]) {
                     contactIds.remove(test.Guarantor__c);
                 }
@@ -376,16 +378,16 @@ public class CaseUtil {
                 FROM Case
                 WHERE Guarantor_Information__c IN :contactIds
                 AND Type = :Constants.CASE_TYPE_PAST_DUE_PAYMENT_PLANS
-                AND IsClosed = false
+                AND IsClosed = FALSE
             ];
             contactIds = new Set<Id>();
-            for (Case objCase: lstCase) {
+            for (Case objCase : lstCase) {
                 objCase.Status = Constants.CASE_STATUS_CLOSED;
                 objCase.Reason = Constants.CASE_REASON_CLOSED_AUTOMATED;
                 contactIds.add(objCase.Guarantor_Information__c);
             }
             if (CaseSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                UPDATE lstCase;
+                update lstCase;
             }
         }
 
@@ -407,14 +409,14 @@ public class CaseUtil {
         Map<Id, Contact> mapContact = new Map<Id, Contact>();
 
         if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-            for (Case objCase: [
+            for (Case objCase : [
                 SELECT Id, Guarantor_Information__c
                 FROM Case
                 WHERE Guarantor_Information__c IN :contactIds
                 AND (Type = :Constants.CASE_TYPE_PAYMENT_PLAN_ERROR OR Reason = :Constants.CASE_REASON_COMPLIANCE_ISSUE)
-                AND IsClosed = false
+                AND IsClosed = FALSE
             ]) {
-                contactIds.Remove(objCase.Guarantor_Information__c);
+                contactIds.remove(objCase.Guarantor_Information__c);
             }
         }
 
@@ -427,7 +429,7 @@ public class CaseUtil {
             ];
         }
         mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(contactIds, null));
-        for (String strContactId : mapContact.keyset()) {
+        for (String strContactId : mapContact.keySet()) {
             Contact objContact = mapContact.get(strContactId);
 
             Case objCase = new Case();
@@ -436,14 +438,14 @@ public class CaseUtil {
             objCase.Type = Constants.CASE_TYPE_PAYMENT_PLAN_ERROR;
             objCase.Status = Constants.CASE_STATUS_NEW;
             objCase.Subject = Constants.CASE_SUBJECT_PAYMENT_PLAN_ERROR;
-            objCase.RecordTypeID = RecordTypeUtil.automatedCaseRt;
+            objCase.RecordTypeId = RecordTypeUtil.automatedCaseRt;
             if (lstGroup.size() > 0) {
-                objCase.ownerId = lstGroup[0].Id;
+                objCase.OwnerId = lstGroup[0].Id;
             }
-            mapContactCase.Put(strContactId, objCase);
+            mapContactCase.put(strContactId, objCase);
         }
         if (CaseSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-            INSERT mapContactCase.values();
+            insert mapContactCase.values();
         }
     }
 
@@ -452,15 +454,15 @@ public class CaseUtil {
     */
     public static void closePaymentPlanErrorCase(Set<Id> contactIds, Set<Id> paymentPlanID) {
 
-        if (!paymentPlanID.IsEmpty()) {
+        if (!paymentPlanID.isEmpty()) {
             if (PaymentPlanSecurityContext.SELECT_CONTEXT_FOR_CLOSE.actionAllowed()) {
-                for (Payment_Plan__c test: [
+                for (Payment_Plan__c test : [
                     SELECT Id,Guarantor__c
                     FROM Payment_Plan__c
                     WHERE Id NOT IN :paymentPlanID
                     AND Guarantor__c IN :contactIds
-                    AND active__c = true
-                    AND Has_Error__c = true
+                    AND Active__c = TRUE
+                    AND Has_Error__c = TRUE
                     AND Remaining_Balance__c <= -100
                 ]) {
                     contactIds.remove(test.Guarantor__c);
@@ -474,7 +476,7 @@ public class CaseUtil {
                 SELECT Id, Guarantor_Information__c
                 FROM Case
                 WHERE Guarantor_Information__c IN :contactIds
-                AND Type = :Constants.CASE_TYPE_PAYMENT_PLAN_ERROR AND IsClosed = false
+                AND Type = :Constants.CASE_TYPE_PAYMENT_PLAN_ERROR AND IsClosed = FALSE
             ];
         }
         contactIds = new Set<Id>();
@@ -484,7 +486,7 @@ public class CaseUtil {
             contactIds.add(objCase.Guarantor_Information__c);
         }
         if (CaseSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-            UPDATE lstCase;
+            update lstCase;
         }
 
         Map<String, String> mapCampaignMapping = campaignMapping(new Set<String> {
@@ -500,7 +502,7 @@ public class CaseUtil {
     private static void deleteCampaignMembers(Set<Id> contactIds, List<String> cmpnNames) {
         if (cmpnMemSecurityContext.deleteActionAllowed()) {
             if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                DELETE [
+                delete [
                     SELECT Id, ContactId
                     FROM CampaignMember
                     WHERE Campaign.Name IN :cmpnNames
@@ -515,7 +517,7 @@ public class CaseUtil {
         Map<String, String> mapCampaignMapping = new Map<String, String>();
 
         if (CampaignMappingMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            for (Campaign_Mapping__mdt objCM: [
+            for (Campaign_Mapping__mdt objCM : [
                 SELECT MasterLabel, Salesforce_Campaign_Name__c
                 FROM Campaign_Mapping__mdt
                 WHERE MasterLabel IN :campaignName

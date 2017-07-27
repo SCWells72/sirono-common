@@ -5,9 +5,9 @@
 /**
  * MissedCallReportProcessorTest tests the functions in MissedCallReportProcessor.
  */
-@isTest
+@IsTest
 public class MissedCallReportProcessorTest {
-    @testSetup
+    @TestSetup
     public static void testData() {
         List<Contact> contacts = new List<Contact>();
         for (Integer i = 0; i < 3; i++) {
@@ -19,14 +19,14 @@ public class MissedCallReportProcessorTest {
         insert contacts;
     }
 
-    @isTest
+    @IsTest
     public static void parseCSVTest() {
         String nullCsv = null;
         String csvHeader = 'FirstName,LastName';
         String csvBody = '';
 
         List<Contact> contacts = new List<Contact>([SELECT FirstName, LastName FROM Contact]);
-        for (Contact contact: contacts) {
+        for (Contact contact : contacts) {
             csvBody = csvBody + contact.FirstName + ',' + contact.LastName + '\r\n';
         }
 
@@ -49,7 +49,7 @@ public class MissedCallReportProcessorTest {
         System.assertEquals(3, fullCsvResults.size(), 'Result size should be the full CSV string size minus the header row');
     }
 
-    @isTest
+    @IsTest
     public static void createTaskListTest() {
         // These fields are part of a returned Five9 report and are crucial for testing successfully created Tasks
         String SESSION_ID = '';
@@ -73,17 +73,17 @@ public class MissedCallReportProcessorTest {
 
         String fullCsvString = '';
         String five9ReportHeaderCsv = 'SESSION_ID,CALL_ID,DATE,DISPOSITION,RECORDINGS,AGENT_NAME,EXTENSION,ANI,CALL_TYPE,' +
-                'CAMPAIGN,DNIS,HANDLE_TIME,COST,salesforce_id,TIME,AFTER_CALL_WORK_TIME,CONTACT_ID,CALL_TIME';
+            'CAMPAIGN,DNIS,HANDLE_TIME,COST,salesforce_id,TIME,AFTER_CALL_WORK_TIME,CONTACT_ID,CALL_TIME';
         // Record the header length, each line parsed into fields should equal the header size
         Integer headerLength = five9ReportHeaderCsv.split(',').size();
 
         List<Contact> contacts = new List<Contact>([SELECT Id FROM Contact]);
         String resultString = '';
-        for (Contact contact: contacts) {
+        for (Contact contact : contacts) {
             String tempResultString = SESSION_ID + ',' + CALL_ID + ',' + DATE_STRING + ',' + DISPOSITION + ',' + RECORDINGS + ',' +
-                    AGENT_NAME + ',' + EXTENSION + ',' + ANI + ',' + CALL_TYPE + ',' + CAMPAIGN + ',' + DNIS + ',' +
-                    HANDLE_TIME + ',' + COST + ',' + contact.Id + ',' + TIME_STRING + ',' + AFTER_CALL_WORK_TIME + ',' +
-                    CONTACT_ID + ',' + CALL_TIME + '\r\n';
+                AGENT_NAME + ',' + EXTENSION + ',' + ANI + ',' + CALL_TYPE + ',' + CAMPAIGN + ',' + DNIS + ',' +
+                HANDLE_TIME + ',' + COST + ',' + contact.Id + ',' + TIME_STRING + ',' + AFTER_CALL_WORK_TIME + ',' +
+                CONTACT_ID + ',' + CALL_TIME + '\r\n';
             resultString = resultString + tempResultString;
         }
 
@@ -94,7 +94,7 @@ public class MissedCallReportProcessorTest {
         List<String> processedResultStrings = processor.parseLines();
         List<Task> taskList = new List<Task>();
 
-        for (String line: processedResultStrings) {
+        for (String line : processedResultStrings) {
             List<String> processedFields = processor.parseFields(line);
             Task tempTask = processor.createTask(processedFields);
 
@@ -104,7 +104,7 @@ public class MissedCallReportProcessorTest {
 
         Test.stopTest();
 
-        System.assertNotEquals(0, processedResultStrings    .size());
+        System.assertNotEquals(0, processedResultStrings .size());
         System.assertEquals(processedResultStrings.size(), taskList.size());
     }
 }

@@ -2,10 +2,10 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 public with sharing class PaymentPlanInformationTest {
 
-    @isTest
+    @IsTest
     public static void testEmptyMap() {
         Map<String, Object> emptyMap = new Map<String, Object>();
 
@@ -18,9 +18,9 @@ public with sharing class PaymentPlanInformationTest {
         System.assertEquals(0, emptyInfo.chargeGroupIds.size(), 'Should have no charge group ids.');
     }
 
-    @isTest
+    @IsTest
     public static void testPopulatedMap() {
-        Map<String, Object> populatedMap = new Map<String, Object>{
+        Map<String, Object> populatedMap = new Map<String, Object> {
             PaymentPlanInformation.PLAN_TYPE => Constants.PLANTYPE_AUTO,
             PaymentPlanInformation.PLAN_VALUE => null,
             PaymentPlanInformation.AMOUNT_KEY => '12345',
@@ -49,7 +49,7 @@ public with sharing class PaymentPlanInformationTest {
         System.assertEquals(0, populatedInfo.chargeGroupIds.size(), 'Should have no charge group ids.');
     }
 
-    @isTest
+    @IsTest
     public static void testSingleChargeGroupId() {
         String oneChangeGroup = '123';
         Map<String, Object> cgMap = new Map<String, Object> {
@@ -65,7 +65,7 @@ public with sharing class PaymentPlanInformationTest {
         System.assertEquals(oneChangeGroup, cgInfo.chargeGroupIds.get(0), 'Should equal cg value.');
     }
 
-    @isTest
+    @IsTest
     public static void testMultipleChargeGroupId() {
         String manyCGs = '123,456,83ag,1038';
         Map<String, Object> cgMap = new Map<String, Object> {

@@ -14,7 +14,7 @@ public with sharing class GuarantorDao extends AbstractDao {
             Contact gt = [
                 SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
                     Medical_Record_Number__c, Name,
-                    Profile_Pointer_Id__c, MailingStreet,
+                    Profile_Pointer_ID__c, MailingStreet,
                     MailingCity, MailingState, MailingPostalCode, RecordTypeId
                 FROM Contact
                 WHERE Id = :recordId AND RecordTypeId = :RecordTypeUtil.guarantorRt
@@ -30,11 +30,11 @@ public with sharing class GuarantorDao extends AbstractDao {
             Contact gt = [
                 SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
                     Medical_Record_Number__c, Name,
-                    Profile_Pointer_Id__c, MailingStreet,
+                    Profile_Pointer_ID__c, MailingStreet,
                     MailingCity, MailingState, MailingPostalCode, RecordTypeId
                 FROM Contact
                 WHERE RecordTypeId = :RecordTypeUtil.guarantorRt
-                AND Profile_Pointer_Id__c = :Decimal.valueOf(sironoId)
+                AND Profile_Pointer_ID__c = :Decimal.valueOf(sironoId)
                 LIMIT 1
             ];
             return gt;
@@ -50,7 +50,7 @@ public with sharing class GuarantorDao extends AbstractDao {
             for (Contact c : [
                 SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
                     Medical_Record_Number__c, Name,
-                    Profile_Pointer_Id__c, MailingStreet,
+                    Profile_Pointer_ID__c, MailingStreet,
                     MailingCity, MailingState, MailingPostalCode, RecordTypeId, (
                     SELECT Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
                         External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
@@ -59,8 +59,8 @@ public with sharing class GuarantorDao extends AbstractDao {
                         Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
                         Provider__c, Provider__r.Name, Location__c, Location__r.Name, Account_Sub_Status__c
                     FROM Charge_Groups__r
-                    WHERE Sirono_ID__c != null
-                    AND Active__c = true
+                    WHERE Sirono_ID__c != NULL
+                    AND Active__c = TRUE
                 )
                 FROM Contact
                 WHERE Id = :contactId
@@ -82,10 +82,10 @@ public with sharing class GuarantorDao extends AbstractDao {
         Contact contact = null;
         if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed() &&
             ChargeGroupSecurityContext.GD_SELECT_CONTEXT.actionAllowed()) {
-            for (Contact c: [
+            for (Contact c : [
                 SELECT Id, Name, FirstName, MiddleName, LastName, Suffix, Birthdate, Salutation,
                     Medical_Record_Number__c, RecordType.DeveloperName, Social_Security_Number__c,
-                    Profile_Pointer_Id__c, Patient_Id__c, HomePhone, MobilePhone, OtherPhone,
+                    Profile_Pointer_ID__c, Patient_Id__c, HomePhone, MobilePhone, OtherPhone,
                     MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet, RecordTypeId, (
                     SELECT Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
                         External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
@@ -94,8 +94,8 @@ public with sharing class GuarantorDao extends AbstractDao {
                         Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
                         Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
                     FROM Charge_Groups__r
-                    WHERE Sirono_ID__c != null
-                    AND Active__c = true
+                    WHERE Sirono_ID__c != NULL
+                    AND Active__c = TRUE
                     AND Account_Status__c = :Constants.ACCT_STATUS_BILLED
                     AND Account_Sub_Status__c IN :cgSubStatusFilters
                     AND Balance__c != 0
@@ -122,7 +122,7 @@ public with sharing class GuarantorDao extends AbstractDao {
                 SELECT Id, Overdue_Balance__c, Delinquent_Balance__c, (
                     SELECT Id, Pre_Collection_Sent__c
                     FROM Charge_Groups__r
-                    WHERE Pre_Collection_Sent__c != null
+                    WHERE Pre_Collection_Sent__c != NULL
                 )
                 FROM Contact
                 WHERE Id IN :contactIds
@@ -144,8 +144,8 @@ public with sharing class GuarantorDao extends AbstractDao {
                 SELECT Id, (
                     SELECT Id, Delinquent_Date__c, Active__c
                     FROM Payment_Plans__r
-                    WHERE Delinquent_Date__c != null
-                    OR Active__c = true
+                    WHERE Delinquent_Date__c != NULL
+                    OR Active__c = TRUE
                 )
                 FROM Contact
                 WHERE Id IN :contactIds
@@ -168,8 +168,8 @@ public with sharing class GuarantorDao extends AbstractDao {
                     SELECT Id, Date_of_Service__c, Liability__c, Cancelled__c
                     FROM Encounters__r
                     WHERE Liability__c < 100
-                    OR Date_of_Service__c != Today
-                    OR Cancelled__c = false
+                    OR Date_of_Service__c != TODAY
+                    OR Cancelled__c = FALSE
                 )
                 FROM Contact
                 WHERE Id IN :contactIds
@@ -331,10 +331,10 @@ public with sharing class GuarantorDao extends AbstractDao {
      **/
     public static Contact getGuarantorWithActiveCGForLightning(String contactId) {
         Contact contact = null;
-        for (Contact c: [
+        for (Contact c : [
             SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
                 Medical_Record_Number__c, Name, Add_to_Payment_Plan__c,
-                Non_Payment_Plan_Invoices__c, Profile_Pointer_Id__c, MailingStreet,
+                Non_Payment_Plan_Invoices__c, Profile_Pointer_ID__c, MailingStreet,
                 MailingCity, MailingState, MailingPostalCode, (
                 SELECT Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
                     External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
@@ -343,8 +343,8 @@ public with sharing class GuarantorDao extends AbstractDao {
                     Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
                     Provider__c, Provider__r.Name, Location__c, Location__r.Name, Account_Sub_Status__c
                 FROM Charge_Groups__r
-                WHERE Sirono_ID__c != null
-                AND Active__c = true
+                WHERE Sirono_ID__c != NULL
+                AND Active__c = TRUE
             )
             FROM Contact
             WHERE Id = :contactId
@@ -389,7 +389,7 @@ public with sharing class GuarantorDao extends AbstractDao {
      **/
     public static void updateGuarantors(List<Contact> contacts) {
         if (ContactSecurityContext.CTH_UPDATE_CONTEXT.actionAllowed()) {
-            UPDATE contacts;
+            update contacts;
         }
     }
 
@@ -400,7 +400,7 @@ public with sharing class GuarantorDao extends AbstractDao {
      **/
     public static void updateGuarantorsWithEstimateBal(List<Contact> contacts) {
         if (ContactSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-            UPDATE contacts;
+            update contacts;
         }
     }
 }

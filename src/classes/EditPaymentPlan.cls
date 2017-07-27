@@ -34,7 +34,7 @@ public with sharing class EditPaymentPlan {
     public String guarantorRecordId { get; set; }
     public Boolean chargeGroupsSelected { get; set; }
     public List<ChargeGroupWrapper> chargeGroupList { get; set; }
-    public decimal totalAmount { get; set; }
+    public Decimal totalAmount { get; set; }
     public String responseBody = '';
     public Contact gc;
 
@@ -72,14 +72,14 @@ public with sharing class EditPaymentPlan {
         executeOnDayExisting = '';
         planType = 'auto';
         totalAmount = 0;
-        if (Apexpages.currentPage().getParameters().containsKey('paymentPlanId')) {
-            paymentPlanRecordId = Apexpages.currentPage().getParameters().get('paymentPlanId');
+        if (ApexPages.currentPage().getParameters().containsKey('paymentPlanId')) {
+            paymentPlanRecordId = ApexPages.currentPage().getParameters().get('paymentPlanId');
             if (PaymentPlanSecurityContext.EPP_SELECT_CONTEXT.actionAllowed()) {
-                for (Payment_Plan__c p: [
-                        SELECT Id, Name, Original_Installment_Count__c, Remaining_Balance__c, NextPaymentDate__c,
-                                Plan_Type__c, Remaining_Installment_Count__c, Execute_on_Day__c, Sirono_ID__c
-                        FROM Payment_Plan__c
-                        WHERE Id = :paymentPlanRecordId
+                for (Payment_Plan__c p : [
+                    SELECT Id, Name, Original_Installment_Count__c, Remaining_Balance__c, NextPaymentDate__c,
+                        Plan_Type__c, Remaining_Installment_Count__c, Execute_on_Day__c, Sirono_ID__c
+                    FROM Payment_Plan__c
+                    WHERE Id = :paymentPlanRecordId
                 ]) {
                     System.debug('23' + p);
                     paymentPlanId = String.valueOf(p.Sirono_ID__c);
@@ -93,7 +93,7 @@ public with sharing class EditPaymentPlan {
                     installmentsTotal = numberInstallments;
                     if (p.Remaining_Installment_Count__c != null && installmentsTotal != null) {
                         installmentsPaid = String.valueOf(
-                                Integer.valueOf(installmentsTotal) - Integer.valueOf(p.Remaining_Installment_Count__c)
+                            Integer.valueOf(installmentsTotal) - Integer.valueOf(p.Remaining_Installment_Count__c)
                         );
                     } else {
                         installmentsPaid = '0';
@@ -110,8 +110,8 @@ public with sharing class EditPaymentPlan {
             }
         }
 
-        if (Apexpages.currentPage().getParameters().containsKey('guarantorId')) {
-            guarantorRecordId = Apexpages.currentPage().getParameters().get('guarantorId');
+        if (ApexPages.currentPage().getParameters().containsKey('guarantorId')) {
+            guarantorRecordId = ApexPages.currentPage().getParameters().get('guarantorId');
             gc = GuarantorService.getGuarantorWithActiveCG(guarantorRecordId);
             guarantorName = GuarantorService.buildGuarantorDetailString(gc);
             guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
@@ -148,14 +148,14 @@ public with sharing class EditPaymentPlan {
     }
 
     //Controller Methods invoked from VisualForce
-    public Pagereference cancel() {
-        Pagereference pg = null;
+    public PageReference cancel() {
+        PageReference pg = null;
         if (!isEmpty(paymentPlanRecordId)) {
-            pg = new Pagereference('/' + paymentPlanRecordId);
+            pg = new PageReference('/' + paymentPlanRecordId);
         } else if (!isEmpty(guarantorRecordId)) {
-            pg = new Pagereference('/' + guarantorRecordId);
+            pg = new PageReference('/' + guarantorRecordId);
         } else {
-            pg = new Pagereference('/home/home.jsp');
+            pg = new PageReference('/home/home.jsp');
         }
         if (pg != null) {
             pg.setRedirect(true);
@@ -170,12 +170,12 @@ public with sharing class EditPaymentPlan {
     public void doSubmit() {
         try {
             //doEditPaymentPlan('', '');
-            boolean blnIsError = false;
+            Boolean blnIsError = false;
             if (!planType.trim().equalsIgnoreCase('promise')) {
                 blnIsError = checkCardValidation();
             }
 
-            boolean blnIsAmountError = checkAmountValidation();
+            Boolean blnIsAmountError = checkAmountValidation();
 
             if (blnIsError == false && !blnIsAmountError) {
                 String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
@@ -184,14 +184,14 @@ public with sharing class EditPaymentPlan {
                     doEditPaymentPlan(csrfToken, jwtToken);
                 }
             } else {
-                if (Test.IsRunningTest()) {
+                if (Test.isRunningTest()) {
                     TestUtility.generateException();
                 }
             }
         } catch (Exception e) {
             // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'ERROR: ' + e.getMessage()));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'ERROR: ' + e.getMessage()));
         }
     }
 
@@ -201,54 +201,54 @@ public with sharing class EditPaymentPlan {
      * 09-30-2016: Viraj Rana - Tracker #127404553: Validate PaymentPlan against custom settings to check Monthly Installment Amount
      * based on Minimum Installment Amount and Maximum number of Installments.
      */
-    Public boolean checkAmountValidation() {
-        boolean blnIsError = false;
+    public Boolean checkAmountValidation() {
+        Boolean blnIsError = false;
 
         if ((planType.trim().equalsIgnoreCase('promise') &&
-                (isEmpty(promiseAmount) || (promiseAmount.isNumeric() && decimal.valueof(promiseAmount) == 0))) ||
-                (!planType.trim().equalsIgnoreCase('promise') &&
-                        (isEmpty(amount) || (amount.isNumeric() && decimal.valueof(amount) == 0))
-                )) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'Amount must be greater than zero.'));
+            (isEmpty(promiseAmount) || (promiseAmount.isNumeric() && Decimal.valueOf(promiseAmount) == 0))) ||
+            (!planType.trim().equalsIgnoreCase('promise') &&
+                (isEmpty(amount) || (amount.isNumeric() && Decimal.valueOf(amount) == 0))
+            )) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Amount must be greater than zero.'));
             blnIsError = true;
         } else {
             Sirono_Settings__c planLimits = SironoSettingsUtil.getPaymentPlanSettings();
-            if ((planType.trim().equalsIgnoreCase('promise') && decimal.valueof(promiseAmount) < 0)
-                    || (!planType.trim().equalsIgnoreCase('promise') && decimal.valueof(amount) < 0)
-                    ) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                        'Amount must be greater than zero.'));
+            if ((planType.trim().equalsIgnoreCase('promise') && Decimal.valueOf(promiseAmount) < 0)
+                || (!planType.trim().equalsIgnoreCase('promise') && Decimal.valueOf(amount) < 0)
+                ) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                    'Amount must be greater than zero.'));
                 blnIsError = true;
             }
 
-            if ((planType.trim().equalsIgnoreCase('promise') && decimal.valueof(promiseAmount) > decimal.valueof(payableAmount))
-                    || (!planType.trim().equalsIgnoreCase('promise') && decimal.valueof(amount) > decimal.valueof(payableAmount))
-                    ) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 'Amount cannot exceed balance.'));
+            if ((planType.trim().equalsIgnoreCase('promise') && Decimal.valueOf(promiseAmount) > Decimal.valueOf(payableAmount))
+                || (!planType.trim().equalsIgnoreCase('promise') && Decimal.valueOf(amount) > Decimal.valueOf(payableAmount))
+                ) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Amount cannot exceed balance.'));
                 blnIsError = true;
             }
-            
-            decimal tempAmount = decimal.valueof(planType.trim().equalsIgnoreCase('promise') ? promiseAmount : amount);
-            
-            if(tempAmount < planLimits.Min_Installment_Amount__c){
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+
+            Decimal tempAmount = Decimal.valueOf(planType.trim().equalsIgnoreCase('promise') ? promiseAmount : amount);
+
+            if (tempAmount < planLimits.Min_Installment_Amount__c) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                     'Monthly amount must be equal to or greater than $' + planLimits.Min_Installment_Amount__c + '.'));
                 blnIsError = true;
             }
-            
-            if(tempAmount >= planLimits.Min_Installment_Amount__c) {
-                integer totalInstallment = integer.valueof((decimal.valueof(payableAmount)/tempAmount).round(System.RoundingMode.CEILING));
-                integer minimumInstallmentAmount = 0;
-                
+
+            if (tempAmount >= planLimits.Min_Installment_Amount__c) {
+                Integer totalInstallment = Integer.valueOf((Decimal.valueOf(payableAmount) / tempAmount).round(System.RoundingMode.CEILING));
+                Integer minimumInstallmentAmount = 0;
+
                 if (planLimits.Max_Number_Plan_Installments__c > 0) {
-                    minimumInstallmentAmount = integer.valueof((decimal.valueof(payableAmount)/planLimits.Max_Number_Plan_Installments__c).round(System.RoundingMode.CEILING));
+                    minimumInstallmentAmount = Integer.valueOf((Decimal.valueOf(payableAmount) / planLimits.Max_Number_Plan_Installments__c).round(System.RoundingMode.CEILING));
                 }
-                
+
                 if (totalInstallment > planLimits.Max_Number_Plan_Installments__c) {
-                    ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+                    ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                         'This monthly amount would exceed ' + planLimits.Max_Number_Plan_Installments__c + ' installments.' +
-                        ' The minimum allowed installment amount is $' + minimumInstallmentAmount + '.'));
-                    blnIsError = true;                
+                            ' The minimum allowed installment amount is $' + minimumInstallmentAmount + '.'));
+                    blnIsError = true;
                 }
             }
         }
@@ -258,74 +258,74 @@ public with sharing class EditPaymentPlan {
     /* 09-13-2016: Viraj Rana - Tracker #130117819: Credit Card Error Messaging Method to check the Card validation.
      * 09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31.
      */
-    Public boolean checkCardValidation() {
-        boolean blnIsError = false;
-        if (creditCardNumber.length() < 12 || creditCardNumber.Length() > 19) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'Credit card number must be 12-19 digits.'));
+    public Boolean checkCardValidation() {
+        Boolean blnIsError = false;
+        if (creditCardNumber.length() < 12 || creditCardNumber.length() > 19) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'Credit card number must be 12-19 digits.'));
             blnIsError = true;
         }
         if (isEmpty(creditCardNumber)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'Card Number is a required field.'));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'Card Number is a required field.'));
             blnIsError = true;
         }
-        if (Integer.valueof(expirationYear) < system.today().year() ||
-                (Integer.valueof(expirationYear) == system.today().year() &&
-                        Integer.valueof(expirationMonth) < system.today().Month())) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'Expiration date must be in the future.'));
+        if (Integer.valueOf(expirationYear) < System.today().year() ||
+            (Integer.valueOf(expirationYear) == System.today().year() &&
+                Integer.valueOf(expirationMonth) < System.today().month())) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'Expiration date must be in the future.'));
             blnIsError = true;
         }
         if (!isEmpty(zip) && zip.length() != 5) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'Zip code must be 5 digits.'));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'Zip code must be 5 digits.'));
             blnIsError = true;
         }
         if (!isEmpty(zip) && !zip.isNumeric()) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'Zip code can only contain numeric values.'));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'Zip code can only contain numeric values.'));
             blnIsError = true;
         }
         if (isEmpty(cardHolderName)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'Name is a required field.'));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'Name is a required field.'));
             blnIsError = true;
         }
 
         if (isEmpty(cvv)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'CVV is a required field.'));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'CVV is a required field.'));
             blnIsError = true;
         }
 
         if (isEmpty(address)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'Billing Address is a required field.'));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'Billing Address is a required field.'));
             blnIsError = true;
         }
 
         if (!isEmpty(cvv) && (cvv.length() < 3 || cvv.length() > 4)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'CVV must be 4 digits for American Express and 3 digits for other card types.'));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'CVV must be 4 digits for American Express and 3 digits for other card types.'));
             blnIsError = true;
         }
 
         if (isEmpty(zip)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'Zip Code is a required field.'));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'Zip Code is a required field.'));
             blnIsError = true;
         }
 
         if (isEmpty(chargeGroupId)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'Charge Group is a required field.'));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'Charge Group is a required field.'));
             blnIsError = true;
         }
-        
-        if (isEmpty(executeOnDay) || Integer.valueof(executeOnDay) < 1 || Integer.valueof(executeOnDay) > 31) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'Date to Charge (each month) must be a number between 1 and 31.'));
+
+        if (isEmpty(executeOnDay) || Integer.valueOf(executeOnDay) < 1 || Integer.valueOf(executeOnDay) > 31) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'Date to Charge (each month) must be a number between 1 and 31.'));
             blnIsError = true;
         }
         return blnIsError;
@@ -340,30 +340,30 @@ public with sharing class EditPaymentPlan {
         if (planType != null && planType.trim().equalsIgnoreCase('auto')) {
             planValue = '32772';
             requestData += '"plan_type":"' + planType + '",' +
-                    '"url": "' + (SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paymentplan/' + paymentPlanId + '/') + '",' +
-                    '"active":true,' +
-                    '"installment_amount":' + SironoRestClient.convertToCents(amount) + ',' +
-                    '"number_installments":' + numberInstallments + ',' +
-                    '"plan_value":' + planValue + ',' +
-                    '"payable_amount":' + SironoRestClient.convertToCents(payableAmount) + ',' +
-                    '"execute_on_day":' + executeOnDay + ',' +
-                    '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/",' +
-                    '"next_payment_date": "' + nextPaymentDate + '",' +
-                    '"installments_paid": ' + installmentsPaid + ',' +
-                    '"installments_total": ' + installmentsTotal + ',' +
-                    '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + ',' +
-                    '"credit_card":{' +
-                    '"method":"credit",' +
-                    '"cardholder_name":"' + cardholderName + '",' +
-                    '"expiration_year":"' + expirationYear + '",' +
-                    '"expiration_month":"' + expirationMonth + '",' +
-                    '"number":"' + creditCardNumber + '",' +
-                    '"cvv":"' + cvv + '",' +
-                    '"state":"' + state + '",' +
-                    '"zipcode":"' + zip + '",' +
-                    '"address_1":"' + address + '",' +
-                    '"city":"' + city + '"' +
-                    '}' + '}';
+                '"url": "' + (SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/paymentplan/' + paymentPlanId + '/') + '",' +
+                '"active":true,' +
+                '"installment_amount":' + SironoRestClient.convertToCents(amount) + ',' +
+                '"number_installments":' + numberInstallments + ',' +
+                '"plan_value":' + planValue + ',' +
+                '"payable_amount":' + SironoRestClient.convertToCents(payableAmount) + ',' +
+                '"execute_on_day":' + executeOnDay + ',' +
+                '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/",' +
+                '"next_payment_date": "' + nextPaymentDate + '",' +
+                '"installments_paid": ' + installmentsPaid + ',' +
+                '"installments_total": ' + installmentsTotal + ',' +
+                '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + ',' +
+                '"credit_card":{' +
+                '"method":"credit",' +
+                '"cardholder_name":"' + cardHolderName + '",' +
+                '"expiration_year":"' + expirationYear + '",' +
+                '"expiration_month":"' + expirationMonth + '",' +
+                '"number":"' + creditCardNumber + '",' +
+                '"cvv":"' + cvv + '",' +
+                '"state":"' + state + '",' +
+                '"zipcode":"' + zip + '",' +
+                '"address_1":"' + address + '",' +
+                '"city":"' + city + '"' +
+                '}' + '}';
             req.setMethod('PUT');
         } else if (planType != null && planType.trim().equalsIgnoreCase('promise')) {
             planValue = '1700';
@@ -389,8 +389,8 @@ public with sharing class EditPaymentPlan {
             '"authorized_amount": 0' +
             '}';*/
             requestData += '"installment_amount":' + SironoRestClient.convertToCents(promiseAmount) + ',' +
-                    '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/"' +
-                    '}';
+                '"guarantor":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/guarantors/' + guarantorId + '/"' +
+                '}';
             req.setMethod('POST');
             req.setHeader('X-HTTP-Method-Override', 'PATCH');
         }
@@ -406,7 +406,7 @@ public with sharing class EditPaymentPlan {
         try {
             res = http.send(req);
             responseBody = res.getBody();
-            if (Test.IsRunningTest()) {
+            if (Test.isRunningTest()) {
                 TestUtility.generateException();
             }
             //responseBody  = testResponse();
@@ -414,60 +414,60 @@ public with sharing class EditPaymentPlan {
 
         } catch (Exception e) {
             // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() +
-                            '  RESPONSE BODY::' + responseBody +
-                            ' EXCEPTION:: ' + e.getMessage()));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() +
+                    '  RESPONSE BODY::' + responseBody +
+                    ' EXCEPTION:: ' + e.getMessage()));
         }
 
         if (res.getStatusCode() != null && res.getStatusCode() == 200) {
             System.debug('RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody);
             parseResponse(responseBody);
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'Saved Successfully!'));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Saved Successfully!'));
         } else {
-            if (test.isRunningTest()) {
-                responseBody = TestUtility.errorBody;
+            if (Test.isRunningTest()) {
+                responseBody = TestUtility.errorbody;
             }
-            system.debug('responseBody : ' + responseBody);
-            if (responseBody.Contains('non_field_errors') && responseBody.Contains('Validation exception')) {
+            System.debug('responseBody : ' + responseBody);
+            if (responseBody.contains('non_field_errors') && responseBody.contains('Validation exception')) {
                 JSONParser parser = JSON.createParser(responseBody);
                 WrapperErrorArray wrpPaymentPlanobj = (WrapperErrorArray) parser.readValueAs(WrapperErrorArray .class);
                 if (wrpPaymentPlanobj != null && wrpPaymentPlanobj.errors.size() > 0) {
                     List<WrapperErrorArray.Errors> lstError = wrpPaymentPlanobj.errors;
                     for (WrapperErrorArray.Errors obj : lstError) {
-                        ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, String.valueof(obj.non_field_errors)));
+                        ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, String.valueOf(obj.non_field_errors)));
                     }
                 }
-            } else if (responseBody.Contains('non_field_errors') && responseBody.Contains('Payments Exception')) {
+            } else if (responseBody.contains('non_field_errors') && responseBody.contains('Payments Exception')) {
                 JSONParser parser = JSON.createParser(responseBody);
                 WrapperError wrpPaymentPlanobj = (WrapperError) parser.readValueAs(WrapperError.class);
                 if (wrpPaymentPlanobj != null && wrpPaymentPlanobj.errors.non_field_errors.size() > 0) {
                     for (String strMessage : wrpPaymentPlanobj.errors.non_field_errors) {
-                        ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, String.valueof(strMessage)));
+                        ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, String.valueOf(strMessage)));
                     }
                 }
-            } else if (responseBody.Contains('kind') && !responseBody.Contains('chargegroups')) {
+            } else if (responseBody.contains('kind') && !responseBody.contains('chargegroups')) {
                 JSONParser parser = JSON.createParser(responseBody);
                 WrapperListError wrpobj = (WrapperListError) parser.readValueAs(WrapperListError.class);
                 if (wrpobj != null && wrpobj.errors.size() > 0) {
                     for (String strMessage : wrpobj.errors) {
-                        ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, String.valueof(strMessage)));
+                        ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, String.valueOf(strMessage)));
                     }
                 }
-            } else if (responseBody.Contains('kind') && responseBody.Contains('chargegroups')) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                        'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody));
-            } else if(responseBody.Contains('non_field_errors')){
+            } else if (responseBody.contains('kind') && responseBody.contains('chargegroups')) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                    'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody));
+            } else if (responseBody.contains('non_field_errors')) {
                 JSONParser parser = JSON.createParser(responseBody);
-                WrapperNonFieldErrorArray wrpPaymentPlanobj  = (WrapperNonFieldErrorArray)parser.readValueAs(WrapperNonFieldErrorArray.class);
-                if(wrpPaymentPlanobj  != null && wrpPaymentPlanobj.non_field_errors.size() > 0){
-                    for(String strMessage : wrpPaymentPlanobj.non_field_errors){
-                        ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,String.valueof(strMessage)));
+                WrapperNonFieldErrorArray wrpPaymentPlanobj = (WrapperNonFieldErrorArray) parser.readValueAs(WrapperNonFieldErrorArray.class);
+                if (wrpPaymentPlanobj != null && wrpPaymentPlanobj.non_field_errors.size() > 0) {
+                    for (String strMessage : wrpPaymentPlanobj.non_field_errors) {
+                        ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, String.valueOf(strMessage)));
                     }
                 }
             } else {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                        'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody));
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                    'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody));
             }
         }
     }
@@ -478,7 +478,7 @@ public with sharing class EditPaymentPlan {
     */
 
     public void fillNameAndAddress() {
-        cardHolderName = gc.name;
+        cardHolderName = gc.Name;
         address = gc.MailingStreet;
         city = gc.MailingCity;
         state = gc.MailingState;
@@ -489,7 +489,7 @@ public with sharing class EditPaymentPlan {
     * 09-16-2016: Viraj Rana 
     *  Call this method to test
     */
-    Public void doTesting() {
+    public void doTesting() {
         String str = PaymentPlanJSONParsing.testResponse();
         parseResponse(str);
     }
@@ -498,15 +498,15 @@ public with sharing class EditPaymentPlan {
     * 08-17-2016: Sirono - Tracker # 127940071
     *  parse the Response and create a payment plan record.
     */
-    Public void parseResponse(String jsonStr) {
+    public void parseResponse(String jsonStr) {
 
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
         objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorRecordId,
-                null, chargeGroupId);
+            null, chargeGroupId);
         Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
 
-	if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
-	    UPSERT paymentPlanObj;
-	}
+        if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
+            upsert paymentPlanObj;
+        }
     }
 }

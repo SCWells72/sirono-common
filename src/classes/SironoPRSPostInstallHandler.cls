@@ -15,7 +15,7 @@ public with sharing class SironoPRSPostInstallHandler implements InstallHandler 
         Sirono_Settings__c sironoSettings = Sirono_Settings__c.getOrgDefaults();
         if (sironoSettings.Id == null) {
             SironoSettingsUtil.setNamespacePrefixes(sironoSettings);
-            INSERT sironoSettings;
+            insert sironoSettings;
         }
     }
 }

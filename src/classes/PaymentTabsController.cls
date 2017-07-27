@@ -154,7 +154,7 @@ public with sharing class PaymentTabsController {
         if (contactId != null) {
             List<Charge_Group__c> allGroups = InvoiceService.getInvoicedChargeGroups(contactId, Constants.INVOICE_UNPAID_STATUSES, new List<String>());
 
-            for (Charge_Group__c chgGroup: allGroups) {
+            for (Charge_Group__c chgGroup : allGroups) {
                 if (chgGroup.Active__c && chgGroup.Balance__c != 0) {
                     chargeGroups.add(chgGroup);
                 }
@@ -175,7 +175,7 @@ public with sharing class PaymentTabsController {
     private static List<CardInformation> getCreditCards(Id guarantorContactId) {
 
         List<CardInformation> cards = new List<CardInformation>();
-        for (Payment_Method__c pCard: PaymentMethodService.getPaymentMethods(guarantorContactId)) {
+        for (Payment_Method__c pCard : PaymentMethodService.getPaymentMethods(guarantorContactId)) {
             cards.add(new CardInformation(pCard));
         }
 

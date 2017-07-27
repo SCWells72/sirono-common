@@ -2,17 +2,17 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-public abstract class AddToPaymentPlan{
+public abstract class AddToPaymentPlan {
 
-    public String guarantorRecordId {get; set;}
-    public Boolean chargeGroupsSelected {get; set;}
-    public String guarantorId {get; set;}
-    public String guarantorName {get; set;}
-    public String[] chargeGroupIds {get; set;}
-    public String paymentPlanId {get; set;}
-    public String paymentPlanExtId {get; set;}
-    public List<ChargeGroupWrapper> chargeGroupList {get; set;}
-    public String errorMessage{get;set;}
+    public String guarantorRecordId { get; set; }
+    public Boolean chargeGroupsSelected { get; set; }
+    public String guarantorId { get; set; }
+    public String guarantorName { get; set; }
+    public String[] chargeGroupIds { get; set; }
+    public String paymentPlanId { get; set; }
+    public String paymentPlanExtId { get; set; }
+    public List<ChargeGroupWrapper> chargeGroupList { get; set; }
+    public String errorMessage { get; set; }
 
    /**
     * Set the proper page on cancel

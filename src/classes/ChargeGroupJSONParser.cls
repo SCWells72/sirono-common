@@ -30,9 +30,9 @@ public with sharing class ChargeGroupJSONParser extends AbstractSironoJSONParser
     public String processed_charges_details;
     public Patient_data patient_data;
     public Guarantor_data guarantor_data;
-    public string account_status;
-    public string account_sub_status;
-    public string paymentplan;
+    public String account_status;
+    public String account_sub_status;
+    public String paymentplan;
 
     public class Guarantor_data {
         public String display_id;
@@ -122,7 +122,7 @@ public with sharing class ChargeGroupJSONParser extends AbstractSironoJSONParser
             '' +
             '      }' +
             '' +
-            '   },'+
+            '   },' +
             '"account_status":"Billed",' +
             '"account_sub_status":"Paid",' +
             '"paymentplan":"https://toledo.stage.sirono.com/paystaff/api/paymentplan/3133/"' +

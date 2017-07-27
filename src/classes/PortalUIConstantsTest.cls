@@ -15,9 +15,9 @@ public with sharing class PortalUIConstantsTest {
         System.assert(yearMap.containsKey(String.valueOf(System.today().year())), 'This year not in list');
 
         System.assert(yearMap.containsKey(String.valueOf(System.today().addYears(10).year())),
-                'Year range: ' + String.join(new List<String>(yearMap.keySet()), ', ') + ' is invalid');
+            'Year range: ' + String.join(new List<String>(yearMap.keySet()), ', ') + ' is invalid');
         System.assert(!yearMap.containsKey(String.valueOf(System.today().addYears(-1).year())),
-                'Year range: ' + String.join(new List<String>(yearMap.keySet()), ', ') + ' is invalid');
+            'Year range: ' + String.join(new List<String>(yearMap.keySet()), ', ') + ' is invalid');
     }
 
     @IsTest

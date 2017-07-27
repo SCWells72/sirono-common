@@ -6,16 +6,16 @@
  * This class tests callouts implemented to take Discount, Adjustment and Payment in SF using fake callout
  * response.
  **/
-@isTest
+@IsTest
 global class MockHttpResponseGeneratorTest implements HttpCalloutMock {
 
     /**
      * This method generates & returns HttpResponse for provided HTTPRequest.
      **/
-    global HTTPResponse respond(HTTPRequest req) {
+    global HttpResponse respond(HttpRequest req) {
 
         if (req.getEndpoint().contains('/paystaff/token-auth/') ||
-                req.getEndpoint().contains('/portal/account/forgot-password/')) {
+            req.getEndpoint().contains('/portal/account/forgot-password/')) {
             AuthRestClientMock authMock = new AuthRestClientMock();
             return authMock.respond(req);
         }
@@ -31,13 +31,13 @@ global class MockHttpResponseGeneratorTest implements HttpCalloutMock {
                 res.setBody(TransactionJSONParsing.testResponse());
             } else {
                 res.setBody(PaymentAdjustmentJSONParsing.testResponse());
-            }            
+            }
         } else if (req.getEndpoint().contains('api/paychargegroups')) {
             if (req.getEndpoint().contains('/transactions/')) {
                 res.setBody(TransactionJSONParsing.testResponse());
             } else {
                 res.setBody(PaymentJSONParsing.testResponse());
-            }            
+            }
         } else {
             res.setBody(TestUtility.body);
         }

@@ -5,21 +5,23 @@
 /**
  * Test class for SkipPaymentPlan.
  */
-@isTest
+@IsTest
 private class SkipPaymentPlanTest {
 
     static testMethod void myUnitTest() {
-        Apexpages.currentPage().getParameters().put('guarantorId', '');
-        Apexpages.currentPage().getParameters().put('paymentPlanId', '123');
+        ApexPages.currentPage().getParameters().put('guarantorId', '');
+        ApexPages.currentPage().getParameters().put('paymentPlanId', '123');
 
         SkipPaymentPlan objSkipPaymentPlan = new SkipPaymentPlan();
         objSkipPaymentPlan.doSubmit();
 
 
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Sorry, the Skip Payment Plan is not of type Automatic.')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Sorry, the Skip Payment Plan is not of type Automatic.')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
 
@@ -38,8 +40,8 @@ private class SkipPaymentPlanTest {
         paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
         insert paymentPlan;
 
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
 
         SkipPaymentPlan objSkipPaymentPlan = new SkipPaymentPlan();
         objSkipPaymentPlan.paymentPlanExtId = '123';
@@ -47,8 +49,10 @@ private class SkipPaymentPlanTest {
         TestUtility.responsebody = PaymentPlanJSONParsing.testResponse();
         objSkipPaymentPlan.doSubmit();
 
-        boolean isError = false;
-        if (objSkipPaymentPlan.messageToShow.contains('Clicking skip payment installment will ')) isError = true;
+        Boolean isError = false;
+        if (objSkipPaymentPlan.messageToShow.contains('Clicking skip payment installment will ')) {
+            isError = true;
+        }
         System.assertEquals(isError, true);
 
         objSkipPaymentPlan.doTesting();
@@ -57,17 +61,19 @@ private class SkipPaymentPlanTest {
     }
 
     static testMethod void myUnitTest3() {
-        Apexpages.currentPage().getParameters().put('guarantorId', '');
-        Apexpages.currentPage().getParameters().put('paymentPlanId', '');
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId', '123');
+        ApexPages.currentPage().getParameters().put('guarantorId', '');
+        ApexPages.currentPage().getParameters().put('paymentPlanId', '');
+        ApexPages.currentPage().getParameters().put('paymentPlanExtId', '123');
 
         SkipPaymentPlan objSkipPaymentPlan = new SkipPaymentPlan();
         objSkipPaymentPlan.doSubmit();
 
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Sorry, the Skip Payment Plan is not of type Automatic')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Sorry, the Skip Payment Plan is not of type Automatic')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
 
@@ -87,9 +93,9 @@ private class SkipPaymentPlanTest {
         paymentPlan.Sirono_ID__c = 2876;
         insert paymentPlan;
 
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.ID);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId', String.valueof(paymentPlan.Sirono_ID__c));
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanExtId', String.valueOf(paymentPlan.Sirono_ID__c));
 
         SkipPaymentPlan objSkipPaymentPlan = new SkipPaymentPlan();
         Test.startTest();
@@ -99,23 +105,25 @@ private class SkipPaymentPlanTest {
         objSkipPaymentPlan.doSubmit();
 
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Skipped Successfully.')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Skipped Successfully.')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
 
         Test.stopTest();
 
         PageReference pageRef = objSkipPaymentPlan.cancel();
-        System.assertEquals('/' + paymentPlan.ID, pageRef.getUrl());
+        System.assertEquals('/' + paymentPlan.Id, pageRef.getUrl());
 
     }
 
     static testMethod void cancel() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
 
         SkipPaymentPlan objSkipPaymentPlan = new SkipPaymentPlan();
         PageReference pageRef = objSkipPaymentPlan.cancel();
@@ -131,9 +139,9 @@ private class SkipPaymentPlanTest {
         paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
         insert paymentPlan;
 
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanExtId', paymentPlan.Id);
 
         SkipPaymentPlan objSkipPaymentPlan = new SkipPaymentPlan();
         PageReference pageRef = objSkipPaymentPlan.cancel();
@@ -141,9 +149,9 @@ private class SkipPaymentPlanTest {
     }
 
     static testMethod void myUnitTest5() {
-        Apexpages.currentPage().getParameters().put('guarantorId', '');
-        Apexpages.currentPage().getParameters().put('paymentPlanId', '');
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId', '123');
+        ApexPages.currentPage().getParameters().put('guarantorId', '');
+        ApexPages.currentPage().getParameters().put('paymentPlanId', '');
+        ApexPages.currentPage().getParameters().put('paymentPlanExtId', '123');
 
         SkipPaymentPlan objSkipPaymentPlan = new SkipPaymentPlan();
         Test.startTest();
@@ -164,7 +172,7 @@ private class SkipPaymentPlanTest {
     /**
      * Check all access rights for a read only User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRights() {
         List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext> {
             PaymentPlanSecurityContext.UPSERT_CONTEXT,
@@ -174,7 +182,7 @@ private class SkipPaymentPlanTest {
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (PaymentPlanSecurityContext context: allContexts) {
+            for (PaymentPlanSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);

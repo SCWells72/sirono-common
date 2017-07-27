@@ -7,7 +7,8 @@
  **/
 public with sharing class SecurityUtils {
     // This class is used to create/generate custom Exception.
-    public class SecurityException extends Exception {}
+    public class SecurityException extends Exception {
+    }
 
     public static String nsPrefix = null;
 
@@ -38,59 +39,59 @@ public with sharing class SecurityUtils {
      * @param SecurityContext.ACTION - The action to be performed on the object (Create/Update/Delete/Undelete).
      * @returns boolean - indicating whether or not the action is allowed
      **/
-    private static boolean checkObjectCrud(String objName, Set<String> fieldsToCheck, SecurityContext.ACTION objAction) {
+    private static Boolean checkObjectCrud(String objName, Set<String> fieldsToCheck, SecurityContext.ACTION objAction) {
 
         Schema.DescribeSObjectResult objectResult = Schema.getGlobalDescribe().get(objName).getDescribe();
 
         if (SecurityContext.ACTION.OBJ_DELETE == objAction) {
             if (!objectResult.isDeletable()) {
-                throw new SecurityException( UserInfo.getUserName()+' does not have Delete rights for ' + objName);
+                throw new SecurityException(UserInfo.getUserName() + ' does not have Delete rights for ' + objName);
             }
             return true;
         }
 
         if (SecurityContext.ACTION.OBJ_CREATE == objAction && !objectResult.isCreateable()) {
-            throw new SecurityException(UserInfo.getUserName()+' does not have Create rights on ' + objName);
+            throw new SecurityException(UserInfo.getUserName() + ' does not have Create rights on ' + objName);
         }
 
         if (SecurityContext.ACTION.OBJ_UPDATE == objAction && !objectResult.isUpdateable()) {
-            throw new SecurityException(UserInfo.getUserName()+' does not have Update rights on ' + objName);
+            throw new SecurityException(UserInfo.getUserName() + ' does not have Update rights on ' + objName);
         }
 
         if (SecurityContext.ACTION.OBJ_UNDELETE == objAction && !objectResult.isUndeletable()) {
-            throw new SecurityException(UserInfo.getUserName()+' does not have Undelete rights on ' + objName);
+            throw new SecurityException(UserInfo.getUserName() + ' does not have Undelete rights on ' + objName);
         }
-        
+
         if (SecurityContext.ACTION.OBJ_UPSERT == objAction) {
             if (!(objectResult.isCreateable() && objectResult.isUpdateable())) {
-            	throw new SecurityException(UserInfo.getUserName()+' does not have Upsert rights on ' + objName);
+                throw new SecurityException(UserInfo.getUserName() + ' does not have Upsert rights on ' + objName);
             }
         }
 
         if (SecurityContext.ACTION.OBJ_READ == objAction && !objectResult.isAccessible()) {
-            throw new SecurityException(UserInfo.getUserName()+' does not have Read rights on ' + objName);
+            throw new SecurityException(UserInfo.getUserName() + ' does not have Read rights on ' + objName);
         }
 
         // Get object fields.
         Map<String, Schema.SObjectField> mapObjectFields = objectResult.fields.getMap();
 
         for (String field : fieldsToCheck) {
-            String fieldToCheck = getNSPrefix()+field;
+            String fieldToCheck = getNSPrefix() + field;
 
             if (SecurityContext.ACTION.OBJ_CREATE == objAction
-                    && !mapObjectFields.get(fieldToCheck).getDescribe().isCreateable()) {
-                throw new SecurityException(String.format('{2} does not have Create rights on {0}.{1} field.', new String[]{objName, fieldToCheck, UserInfo.getUserName()}));
+                && !mapObjectFields.get(fieldToCheck).getDescribe().isCreateable()) {
+                throw new SecurityException(String.format('{2} does not have Create rights on {0}.{1} field.', new String[] { objName, fieldToCheck, UserInfo.getUserName() }));
             } else if (SecurityContext.ACTION.OBJ_UPDATE == objAction
-                    && !mapObjectFields.get(fieldToCheck).getDescribe().isUpdateable()) {
-                throw new SecurityException(String.format('{2} does not have Update rights on {0}.{1} field.', new String[]{objName, fieldToCheck,  UserInfo.getUserName()}));
+                && !mapObjectFields.get(fieldToCheck).getDescribe().isUpdateable()) {
+                throw new SecurityException(String.format('{2} does not have Update rights on {0}.{1} field.', new String[] { objName, fieldToCheck, UserInfo.getUserName() }));
             } else if (SecurityContext.ACTION.OBJ_UPSERT == objAction) {
-            	if (!(mapObjectFields.get(fieldToCheck).getDescribe().isCreateable() &&
-        				mapObjectFields.get(fieldToCheck).getDescribe().isUpdateable())) {
-                    throw new SecurityException(String.format('{2} does not have Upsert rights on {0}.{1} field.', new String[]{objName, fieldToCheck, UserInfo.getUserName()}));
-            	}
+                if (!(mapObjectFields.get(fieldToCheck).getDescribe().isCreateable() &&
+                    mapObjectFields.get(fieldToCheck).getDescribe().isUpdateable())) {
+                    throw new SecurityException(String.format('{2} does not have Upsert rights on {0}.{1} field.', new String[] { objName, fieldToCheck, UserInfo.getUserName() }));
+                }
             } else if (SecurityContext.ACTION.OBJ_READ == objAction
-                    && !mapObjectFields.get(fieldToCheck).getDescribe().isAccessible()) {
-                throw new SecurityException(String.format('{2} does not have Read rights on {0}.{1} field.', new String[]{objName, fieldToCheck, UserInfo.getUserName()}));
+                && !mapObjectFields.get(fieldToCheck).getDescribe().isAccessible()) {
+                throw new SecurityException(String.format('{2} does not have Read rights on {0}.{1} field.', new String[] { objName, fieldToCheck, UserInfo.getUserName() }));
             }
         }
         return true;
@@ -102,7 +103,7 @@ public with sharing class SecurityUtils {
      * @param SecurityContext context - That contains Security Context Class fields.
      * @returns boolean - That contains true when object and fields permission are successfully pass.
      **/
-    public static boolean verify(SecurityContext context) {
+    public static Boolean verify(SecurityContext context) {
         return checkObjectCrud(context.getObjectType().getName(), context.fieldsToCheck, context.objectAction);
     }
 }

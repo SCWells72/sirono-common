@@ -3,7 +3,7 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 public with sharing class ChargeGroupServiceTest {
     public static final Decimal cgOneSironoId = 54321;
     public static final Decimal cgTwoSironoId = 12345;
@@ -13,10 +13,10 @@ public with sharing class ChargeGroupServiceTest {
 
         Contact gt = TestUtility.generateGuarantorContact();
         gt.Profile_Pointer_ID__c = 23232323;
-        INSERT gt;
+        insert gt;
 
         Contact pt = TestUtility.generatePatientContact();
-        INSERT pt;
+        insert pt;
 
         Datetime createdDT = Datetime.now().addDays(-3);
 
@@ -24,30 +24,30 @@ public with sharing class ChargeGroupServiceTest {
         pp.Plan_Type__c = Constants.AUTOMATIC;
         pp.Sirono_ID__c = 33556677;
         pp.Plan_Value_Modified_Date__c = createdDT;
-        INSERT pp;
+        insert pp;
         Test.setCreatedDate(pp.Id, createdDT);
 
         List<Charge_Group__c> cgs = new List<Charge_Group__c>();
-        cgs.add(TestUtility.generateChargeGroup(gt.Id, pt.Id, cgOneSironoId, pp.id));
+        cgs.add(TestUtility.generateChargeGroup(gt.Id, pt.Id, cgOneSironoId, pp.Id));
         cgs.get(0).Sirono_ID__c = cgOneSironoId;
-        cgs.add(TestUtility.generateChargeGroup(gt.Id, pt.Id, cgTwoSironoId, pp.id));
+        cgs.add(TestUtility.generateChargeGroup(gt.Id, pt.Id, cgTwoSironoId, pp.Id));
         cgs.get(1).Sirono_ID__c = cgTwoSironoId;
 
-        INSERT cgs;
+        insert cgs;
     }
 
-    @isTest
+    @IsTest
     public static void testGetBySironoIds() {
         List<Charge_Group__c> result;
 
         Test.startTest();
-        result = ChargeGroupService.getBySironoIds(new List<Decimal>{cgOneSironoId, cgTwoSironoId});
+        result = ChargeGroupService.getBySironoIds(new List<Decimal> { cgOneSironoId, cgTwoSironoId });
         Test.stopTest();
 
         System.assertEquals(2, result.size(), 'Should have found the two cgs.');
     }
 
-    @isTest
+    @IsTest
     public static void testRetrieveMapByIds() {
         Test.setMock(HttpCalloutMock.class, new ChargeGroupRestClientMock());
 
@@ -61,7 +61,7 @@ public with sharing class ChargeGroupServiceTest {
 
     }
 
-    @isTest
+    @IsTest
     public static void testRetrieveBySironoId() {
         Test.setMock(HttpCalloutMock.class, new ChargeGroupRestClientMock());
 
@@ -77,7 +77,7 @@ public with sharing class ChargeGroupServiceTest {
         System.assertEquals(expected.url, result.url, 'Should equal expected result.');
     }
 
-    @isTest
+    @IsTest
     public static void testGetSironoIds() {
         List<Charge_Group__c> cgs = [
             SELECT Id, Sirono_ID__c

@@ -12,7 +12,7 @@ public with sharing class ProfileSecurityContext extends SecurityContext {
     private static final String NAME = 'name';
 
     // The fields for selecting a Profile in SironoSettingsUtil
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         ID, NAME
     };
 

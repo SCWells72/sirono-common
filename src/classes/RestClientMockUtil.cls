@@ -5,7 +5,7 @@
 /**
  * Utility class around mocking rest client class in for the HTTP services.
  */
-@isTest
+@IsTest
 public with sharing class RestClientMockUtil {
 
     public static final String TOKEN = 'at0ta11yfak3T0ken';

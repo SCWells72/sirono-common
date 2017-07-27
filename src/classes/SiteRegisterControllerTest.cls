@@ -15,7 +15,7 @@
         Test.startTest();
         SiteRegisterController controller = new SiteRegisterController();
         Test.stopTest();
-        
+
         // Check system assert, controller should not be null.
         System.assertNotEquals(controller, null, 'Should we got controller null');
     }

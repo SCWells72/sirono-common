@@ -19,14 +19,14 @@ public with sharing class SkipPaymentPlan {
         messageToShow = '';
         isAutomatic = false;
         isSuccess = false;
-        if (Apexpages.currentPage().getParameters().containsKey('guarantorId')) {
-            guarantorId = Apexpages.currentPage().getParameters().get('guarantorId');
+        if (ApexPages.currentPage().getParameters().containsKey('guarantorId')) {
+            guarantorId = ApexPages.currentPage().getParameters().get('guarantorId');
         }
-        if (Apexpages.currentPage().getParameters().containsKey('paymentPlanId')) {
-            paymentPlanId = Apexpages.currentPage().getParameters().get('paymentPlanId');
+        if (ApexPages.currentPage().getParameters().containsKey('paymentPlanId')) {
+            paymentPlanId = ApexPages.currentPage().getParameters().get('paymentPlanId');
         }
-        if (Apexpages.currentPage().getParameters().containsKey('paymentPlanExtId')) {
-            paymentPlanExtId = Apexpages.currentPage().getParameters().get('paymentPlanExtId');
+        if (ApexPages.currentPage().getParameters().containsKey('paymentPlanExtId')) {
+            paymentPlanExtId = ApexPages.currentPage().getParameters().get('paymentPlanExtId');
         }
 
         validatePaymentPlanType();
@@ -56,7 +56,7 @@ public with sharing class SkipPaymentPlan {
                         + nextPaymentDate.addMonths(1).format() + '.';
                 }
             } else {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO,
                     'Sorry, the Skip Payment Plan is not of type Automatic. ' +
                         'Please click Cancel to go previous page.'));
             }
@@ -71,14 +71,14 @@ public with sharing class SkipPaymentPlan {
     * Mohan Kumar 08-01-2016: Ticket # 06638016 - Updated the QueryString parameter value
     * to fix the "URL No Longer Exists" error.
     */
-    public Pagereference cancel() {
-        Pagereference pg = null;
+    public PageReference cancel() {
+        PageReference pg = null;
         if (!isEmpty(paymentPlanId)) {
-            pg = new Pagereference('/' + paymentPlanId);
+            pg = new PageReference('/' + paymentPlanId);
         } else if (!isEmpty(guarantorId)) {
-            pg = new Pagereference('/' + guarantorId);
+            pg = new PageReference('/' + guarantorId);
         } else {
-            pg = new Pagereference('/home/home.jsp');
+            pg = new PageReference('/home/home.jsp');
         }
         pg.setRedirect(true);
         return pg;
@@ -93,15 +93,15 @@ public with sharing class SkipPaymentPlan {
                     doSkipPaymentPlan(csrfToken, jwtToken);
                 }
             } else {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                     'Payment Plan Id is missing.'));
-                if (Test.IsRunningTest()) {
+                if (Test.isRunningTest()) {
                     TestUtility.generateException();
                 }
             }
         } catch (Exception e) {
             // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'ERROR: ' + e.getMessage()));
         }
     }
@@ -130,12 +130,12 @@ public with sharing class SkipPaymentPlan {
         try {
             res = http.send(req);
             responseBody = res.getBody();
-            if (test.isRunningTest()) {
+            if (Test.isRunningTest()) {
                 TestUtility.generateException();
             }
         } catch (Exception e) {
             // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() +
                     '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage()));
         }
@@ -149,11 +149,11 @@ public with sharing class SkipPaymentPlan {
 
             //Sirono 2016-08-29: 127326579 when Record Saved Successfully set isSuccess parameter for redirect.
             isSuccess = true;
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'Skipped Successfully.'));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Skipped Successfully.'));
         } else {
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'CSRF_Token : '+ csrfToken));
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'JWT_Token : '+ jwtToken));
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody));
         }
     }
@@ -163,7 +163,7 @@ public with sharing class SkipPaymentPlan {
     * 09-22-2016: Viraj Rana 
     *  Call this method to test
     */
-    Public void doTesting() {
+    public void doTesting() {
         String str = PaymentPlanJSONParsing.testResponse();
         parseResponse(str);
     }
@@ -172,7 +172,7 @@ public with sharing class SkipPaymentPlan {
     * 09-22-2016: Sirono - Tracker # 129177663
     *  parse the Response update a payment plan record.
     */
-    Public void parseResponse(String jsonStr) {
+    public void parseResponse(String jsonStr) {
 
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
         objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorId,
@@ -180,7 +180,7 @@ public with sharing class SkipPaymentPlan {
         Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
 
         if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
-            UPSERT paymentPlanObj;
+            upsert paymentPlanObj;
         }
     }
 }

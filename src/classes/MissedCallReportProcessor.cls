@@ -45,7 +45,7 @@ public with sharing class MissedCallReportProcessor {
      * parseCsvString takes a string in CSV format, splits each line using the new line character then takes each line
      * and splits based on the comma. A list of string lists (each field from the report) is returned.
     **/
-    @testVisible
+    @TestVisible
     private List<String> parseLines() {
         List<String> csvLines = new List<String>();
         if (String.isEmpty(csvReportString)) {
@@ -58,7 +58,7 @@ public with sharing class MissedCallReportProcessor {
 
         // Check to make sure the report contains more than the header row.
         if (csvLines.size() == 1) {
-            System.debug('The report contains only the header row: '+csvLines[0]);
+            System.debug('The report contains only the header row: ' + csvLines[0]);
             return new List<String>();
         }
 
@@ -75,7 +75,7 @@ public with sharing class MissedCallReportProcessor {
      * @param csvString string in CSV format to be parsed
      * @return fields the list of string field values
     **/
-    @testVisible
+    @TestVisible
     private String[] parseFields(String csvString) {
         return csvString.split(',');
     }
@@ -87,8 +87,8 @@ public with sharing class MissedCallReportProcessor {
      * @param fieldList the list of strings.
      * @return task task to be inserted into Salesforce.
     **/
-    @testVisible
-    private  Task createTask(String[] fields) {
+    @TestVisible
+    private Task createTask(String[] fields) {
         // First, check to make sure the field collection isn't empty.
         if (fields.isEmpty()) {
             System.debug('List of fields is empty.');

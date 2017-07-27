@@ -14,11 +14,11 @@ public with sharing class ContactDaoTest {
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
         gt.Profile_Pointer_ID__c = Decimal.valueOf(SIRONO_ID);
-        INSERT gt;
+        insert gt;
 
         Contact pt = TestUtility.generatePatientContact();
         pt.Patient_Id__c = Decimal.valueOf(SIRONO_ID);
-        INSERT pt;
+        insert pt;
 
         // Check system assert.
         System.assertEquals(Decimal.valueOf(SIRONO_ID), gt.Profile_Pointer_ID__c, 'Expected ' + SIRONO_ID + ' but we got ' + gt.Profile_Pointer_ID__c);
@@ -26,24 +26,24 @@ public with sharing class ContactDaoTest {
 
     private static Contact getTestGuarantorContact() {
         return [
-                SELECT Id, Profile_Pointer_ID__c
-                FROM Contact
-                WHERE Profile_Pointer_ID__c =: Decimal.valueOf(SIRONO_ID)
+            SELECT Id, Profile_Pointer_ID__c
+            FROM Contact
+            WHERE Profile_Pointer_ID__c = :Decimal.valueOf(SIRONO_ID)
         ];
     }
 
     private static Contact getTestPatientContact() {
         return [
-                SELECT Id, Patient_Id__c
-                FROM Contact
-                WHERE Patient_Id__c =: Decimal.valueOf(SIRONO_ID)
+            SELECT Id, Patient_Id__c
+            FROM Contact
+            WHERE Patient_Id__c = :Decimal.valueOf(SIRONO_ID)
         ];
     }
 
     /**
      * This method tests the logic of getContactDetails method For Guarantor.
      **/
-    @isTest
+    @IsTest
     public static void getContactDetailsForGuarantorTest() {
         Contact gt1 = getTestGuarantorContact();
 
@@ -54,13 +54,13 @@ public with sharing class ContactDaoTest {
         // Check system asserts.
         System.assertEquals(gt1.Id, gt2.Id, 'Contact Ids should be the same');
         System.assertEquals(RecordTypeUtil.guarantorRt, gt2.RecordTypeId,
-                'Expected RecordTypeId of ' + RecordTypeUtil.guarantorRt + ' but got: ' + gt2.RecordTypeId);
+            'Expected RecordTypeId of ' + RecordTypeUtil.guarantorRt + ' but got: ' + gt2.RecordTypeId);
     }
 
     /**
      * This method tests the logic of getContactDetails method For Patient.
      **/
-    @isTest
+    @IsTest
     public static void getContactDetailsForPatientTest() {
         Contact pt1 = getTestPatientContact();
 
@@ -71,6 +71,6 @@ public with sharing class ContactDaoTest {
         // Check system asserts.
         System.assertEquals(pt1.Id, pt2.Id, 'Contact Ids should be the same');
         System.assertEquals(RecordTypeUtil.patientRt, pt2.RecordTypeId,
-                'Expected RecordTypeId of ' + RecordTypeUtil.patientRt + ' but got: ' + pt2.RecordTypeId);
+            'Expected RecordTypeId of ' + RecordTypeUtil.patientRt + ' but got: ' + pt2.RecordTypeId);
     }
 }

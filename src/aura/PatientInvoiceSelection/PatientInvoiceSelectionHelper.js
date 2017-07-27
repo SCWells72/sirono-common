@@ -31,7 +31,7 @@
                 if (errors) {
                     if (errors[0] && errors[0].message) {
                         console.log("Error message: " +
-                                errors[0].message);
+                            errors[0].message);
                     }
                 } else {
                     console.log("Unknown error");
@@ -85,7 +85,7 @@
                 if (errors) {
                     if (errors[0] && errors[0].message) {
                         console.log("Error message: " +
-                                errors[0].message);
+                            errors[0].message);
                     }
                 } else {
                     console.log("Unknown error");
@@ -167,7 +167,7 @@
                 if (errors) {
                     if (errors[0] && errors[0].message) {
                         console.log("Error message: " +
-                                errors[0].message);
+                            errors[0].message);
                     }
                 } else {
                     console.log("Unknown error");
@@ -211,7 +211,7 @@
                 if (errors) {
                     if (errors[0] && errors[0].message) {
                         console.log("Error message: " +
-                                errors[0].message);
+                            errors[0].message);
                     }
                 } else {
                     console.log("Unknown error");
@@ -234,70 +234,16 @@
                 if (listOfInvoices[i].singleInvoice.Invoice_Status__c != 'On Payment Plan') {
                     console.log('Check Invoice');
                     $A.createComponent(
-                            "c:SingleInvoice",
-                            {
-                                "invoice": listOfInvoices[i],
-                                "tileId": i,
-                                "selectedTab": "CreatePaymentPlan"
-                            },
-                            function (invoice, status, errorMessage) {
-                                if (status === "SUCCESS") {
-                                    var invoices = component.get('v.invoices');
-                                    invoices.push(invoice);
-                                    component.set('v.invoices', invoices);
-                                }
-                                else if (status === "INCOMPLETE") {
-                                    console.log("No response from server or client is offline.");
-                                }
-                                else if (status === "ERROR") {
-                                    console.log("Error: " + errorMessage);
-                                }
-                            }
-                    );
-                } else {
-                    console.log('Block Invoice');
-                    $A.createComponent(
-                            "c:SingleInvoice",
-                            {
-                                "invoice": listOfInvoices[i],
-                                "tileId": i,
-                                "selectedTab": "CreatePaymentPlan"
-                            },
-                            function (invoice, status, errorMessage) {
-                                if (status === "SUCCESS") {
-                                    var invoices = component.get('v.blockInvoices');
-                                    invoices.push(invoice);
-                                    console.log('invoices', invoices);
-                                    component.set('v.blockInvoices', invoices);
-                                    console.log(component.get('v.blockInvoices'));
-                                }
-                                else if (status === "INCOMPLETE") {
-                                    console.log("No response from server or client is offline.");
-                                }
-                                else if (status === "ERROR") {
-                                    console.log("Error: " + errorMessage);
-                                }
-                            }
-                    );
-                }
-            }
-        } else {
-            for (var i = 0; i < listOfInvoices.length; i++) {
-                console.log('263', listOfInvoices[i]);
-                // Add additional checks for filling list of invoices in if conditions
-                $A.createComponent(
                         "c:SingleInvoice",
                         {
                             "invoice": listOfInvoices[i],
                             "tileId": i,
-                            "selectedTab": "MakeAPayment"
+                            "selectedTab": "CreatePaymentPlan"
                         },
                         function (invoice, status, errorMessage) {
                             if (status === "SUCCESS") {
                                 var invoices = component.get('v.invoices');
-                                console.log('invoices', invoices);
                                 invoices.push(invoice);
-                                console.log('invoices2', invoices);
                                 component.set('v.invoices', invoices);
                             }
                             else if (status === "INCOMPLETE") {
@@ -307,6 +253,60 @@
                                 console.log("Error: " + errorMessage);
                             }
                         }
+                    );
+                } else {
+                    console.log('Block Invoice');
+                    $A.createComponent(
+                        "c:SingleInvoice",
+                        {
+                            "invoice": listOfInvoices[i],
+                            "tileId": i,
+                            "selectedTab": "CreatePaymentPlan"
+                        },
+                        function (invoice, status, errorMessage) {
+                            if (status === "SUCCESS") {
+                                var invoices = component.get('v.blockInvoices');
+                                invoices.push(invoice);
+                                console.log('invoices', invoices);
+                                component.set('v.blockInvoices', invoices);
+                                console.log(component.get('v.blockInvoices'));
+                            }
+                            else if (status === "INCOMPLETE") {
+                                console.log("No response from server or client is offline.");
+                            }
+                            else if (status === "ERROR") {
+                                console.log("Error: " + errorMessage);
+                            }
+                        }
+                    );
+                }
+            }
+        } else {
+            for (var i = 0; i < listOfInvoices.length; i++) {
+                console.log('263', listOfInvoices[i]);
+                // Add additional checks for filling list of invoices in if conditions
+                $A.createComponent(
+                    "c:SingleInvoice",
+                    {
+                        "invoice": listOfInvoices[i],
+                        "tileId": i,
+                        "selectedTab": "MakeAPayment"
+                    },
+                    function (invoice, status, errorMessage) {
+                        if (status === "SUCCESS") {
+                            var invoices = component.get('v.invoices');
+                            console.log('invoices', invoices);
+                            invoices.push(invoice);
+                            console.log('invoices2', invoices);
+                            component.set('v.invoices', invoices);
+                        }
+                        else if (status === "INCOMPLETE") {
+                            console.log("No response from server or client is offline.");
+                        }
+                        else if (status === "ERROR") {
+                            console.log("Error: " + errorMessage);
+                        }
+                    }
                 );
             }
         }
@@ -318,25 +318,25 @@
         for (var i = 0; i < listOfInvoices.length; i++) {
             console.log('Estimate', listOfInvoices[i]);
             $A.createComponent(
-                    "c:Estimate",
-                    {
-                        "estimate": listOfInvoices[i],
-                        "tileId": i,
-                        "isOnPaymentsPage": true
-                    },
-                    function (invoice, status, errorMessage) {
-                        if (status === "SUCCESS") {
-                            var invoices = component.get('v.invoices');
-                            invoices.push(invoice);
-                            component.set('v.invoices', invoices);
-                        }
-                        else if (status === "INCOMPLETE") {
-                            console.log("No response from server or client is offline.");
-                        }
-                        else if (status === "ERROR") {
-                            console.log("Error: " + errorMessage);
-                        }
+                "c:Estimate",
+                {
+                    "estimate": listOfInvoices[i],
+                    "tileId": i,
+                    "isOnPaymentsPage": true
+                },
+                function (invoice, status, errorMessage) {
+                    if (status === "SUCCESS") {
+                        var invoices = component.get('v.invoices');
+                        invoices.push(invoice);
+                        component.set('v.invoices', invoices);
                     }
+                    else if (status === "INCOMPLETE") {
+                        console.log("No response from server or client is offline.");
+                    }
+                    else if (status === "ERROR") {
+                        console.log("Error: " + errorMessage);
+                    }
+                }
             );
         }
     }

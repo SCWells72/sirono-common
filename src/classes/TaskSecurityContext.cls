@@ -25,19 +25,19 @@ public with sharing class TaskSecurityContext extends SecurityContext {
     private static final String WHATID = 'WhatId';
 
     // The fields for updating a Task in TaskTriggerHandler
-    private static final Set<String> UPDATE_FIELDS = new Set<String>{
-    	HOURS_OF_DAY
+    private static final Set<String> UPDATE_FIELDS = new Set<String> {
+        HOURS_OF_DAY
     };
 
     // The fields for selecting a Task in TaskTriggerHandler
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         CALLDISPOSITION, WHOID, FIVE9_FIVE9CAMPAIGN, WHATID, ID, FIVE9_FIVE9SESSIONID
     };
 
     // The fields for inserting a Task in MissedCallReportProcessor
-    private static final Set<String> INSERT_FIELDS = new Set<String>{
+    private static final Set<String> INSERT_FIELDS = new Set<String> {
         WHOID, FIVE9_FIVE9ANI, FIVE9_FIVE9DNIS, CALLDISPOSITION, FIVE9_FIVE9SESSIONID, FIVE9_FIVE9CALLTYPE,
-            FIVE9_FIVE9CAMPAIGN, FIVE9_FIVE9AGENTNAME, ACTIVITYDATE, STATUS
+        FIVE9_FIVE9CAMPAIGN, FIVE9_FIVE9AGENTNAME, ACTIVITYDATE, STATUS
     };
 
     /**

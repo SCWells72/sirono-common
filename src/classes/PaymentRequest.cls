@@ -33,7 +33,7 @@ public with sharing class PaymentRequest {
             List<String> errors = new List<String>();
             if (String.isEmpty(creditCardNumber)) {
                 errors.add('Card Number is a required field.');
-            } else if (creditCardNumber.length() < 12 || creditCardNumber.Length() > 19) {
+            } else if (creditCardNumber.length() < 12 || creditCardNumber.length() > 19) {
                 errors.add('Credit card number must be 12-19 digits.');
             }
 
@@ -42,9 +42,9 @@ public with sharing class PaymentRequest {
 
             String fullYear = '20' + expirationYear;
 
-            if (Integer.valueof(fullYear) < System.today().year() ||
-                    (Integer.valueof(fullYear) == System.today().year() &&
-                            Integer.valueof(expirationMonth) < System.today().Month())) {
+            if (Integer.valueOf(fullYear) < System.today().year() ||
+                (Integer.valueOf(fullYear) == System.today().year() &&
+                    Integer.valueOf(expirationMonth) < System.today().month())) {
                 errors.add('Expiration date must be in the future.');
             }
 
@@ -75,14 +75,13 @@ public with sharing class PaymentRequest {
             }
 
 
-
             return errors;
         }
     }
 
     public Contact guarantor { get; set; }
     public List<Charge_Group__c> chargeGroups { get; set; }
-    public ChargeInfo chargeInfo {get; set;}
+    public ChargeInfo chargeInfo { get; set; }
 
     private List<String> validateAmount() {
         List<String> errors = new List<String>();
@@ -103,7 +102,7 @@ public with sharing class PaymentRequest {
         return errors;
     }
 
-    private Decimal getCGBalanceTotal(){
+    private Decimal getCGBalanceTotal() {
         Decimal cgBalanceTotal = 0.0;
         for (Charge_Group__c cg : chargeGroups) {
             cgBalanceTotal += cg.Balance__c;

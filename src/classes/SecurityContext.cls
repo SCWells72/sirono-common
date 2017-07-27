@@ -18,9 +18,9 @@ public virtual with sharing class SecurityContext {
      *
      * @returns System.Type - That contains object type.
      **/
-    public virtual System.Type getObjectType(){
-    	throw new SecurityException('getObjectType() not implemented in SecurityContext subclass');
-    	return null;
+    public virtual System.Type getObjectType() {
+        throw new SecurityException('getObjectType() not implemented in SecurityContext subclass');
+        return null;
     }
     
     /**
@@ -29,11 +29,11 @@ public virtual with sharing class SecurityContext {
      *
      * @returns boolean - That contains true or false based on delete access.
      **/
-    public virtual Boolean deleteActionAllowed(){
-    	throw new SecurityException('deleteActionAllowed() not implemented in SecurityContext subclass');
-    	return false;
+    public virtual Boolean deleteActionAllowed() {
+        throw new SecurityException('deleteActionAllowed() not implemented in SecurityContext subclass');
+        return false;
     }
-    
+
     public Set<String> fieldsToCheck { get; set; }
     public ACTION objectAction { get; set; }
 
@@ -42,7 +42,7 @@ public virtual with sharing class SecurityContext {
      *
      * @returns boolean - That contains true or false based on Object/Fields Permission.
      **/
-    public boolean actionAllowed() {
+    public Boolean actionAllowed() {
         return SecurityUtils.verify(this);
     }
 }

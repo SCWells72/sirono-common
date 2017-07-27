@@ -17,24 +17,24 @@ public with sharing class RecordTypeUtil {
         rtMap = new Map<String, Id>();
 
         if (RecordTypeSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            for (RecordType rt: [SELECT Id, Name FROM RecordType WHERE sObjectType = 'Contact']) {
+            for (RecordType rt : [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Contact']) {
                 if ('Guarantor'.equalsIgnoreCase(rt.Name)) {
-                    guarantorRt = rt.id;
+                    guarantorRt = rt.Id;
                 } else if ('Patient'.equalsIgnoreCase(rt.Name)) {
-                    patientRt = rt.id;
+                    patientRt = rt.Id;
                 } else if ('Staff'.equalsIgnoreCase(rt.Name)) {
-                    staffRt = rt.id;
+                    staffRt = rt.Id;
                 }
                 rtMap.put(rt.Name, rt.Id);
             }
 
-            for (RecordType rt: [
-                    SELECT Id, Name
-                    FROM RecordType
-                    WHERE sObjectType = 'Case'
-                    AND DeveloperName = 'Automated_Cases'
+            for (RecordType rt : [
+                SELECT Id, Name
+                FROM RecordType
+                WHERE SobjectType = 'Case'
+                AND DeveloperName = 'Automated_Cases'
             ]) {
-                automatedCaseRt = rt.id;
+                automatedCaseRt = rt.Id;
             }
         }
 
@@ -49,9 +49,9 @@ public with sharing class RecordTypeUtil {
     public static Map<String, String> getPayMethodRecordTypes() {
         Map<String, String> recordTypeMap = new Map<String, String>();
         for (RecordType recordType : [
-            Select Id, Name
-            From RecordType
-            Where sObjectType = :Payment_Method__c.class.getName()
+            SELECT Id, Name
+            FROM RecordType
+            WHERE SobjectType = :Payment_Method__c.class.getName()
         ]) {
             recordTypeMap.put(recordType.Name, recordType.Id);
         }

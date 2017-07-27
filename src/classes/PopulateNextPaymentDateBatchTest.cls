@@ -5,7 +5,7 @@
 /**
  * This class tests methods implemented in PopulateNextPaymentDateBatch class.
  **/
-@isTest
+@IsTest
 public class PopulateNextPaymentDateBatchTest {
     
     /**
@@ -13,23 +13,26 @@ public class PopulateNextPaymentDateBatchTest {
      **/
     static testMethod void checkNextPaymentDatePopulated() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Test.startTest();
 
         PopulateNextPaymentDateBatch eosb = new PopulateNextPaymentDateBatch();
-        system.schedule('schJob', '0 11 22 * 9 ?', eosb);
+        System.schedule('schJob', '0 11 22 * 9 ?', eosb);
         Test.stopTest();
 
         // Check system assert, Check NextPaymentDate__c should be populated.
-        List<Payment_Plan__c> paymentPlans = [SELECT Id, NextPaymentDate__c FROM Payment_Plan__c
-                WHERE Guarantor__c = :guarantorContact.Id];
+        List<Payment_Plan__c> paymentPlans = [
+            SELECT Id, NextPaymentDate__c
+            FROM Payment_Plan__c
+            WHERE Guarantor__c = :guarantorContact.Id
+        ];
         System.assertNotEquals(paymentPlans[0].NextPaymentDate__c, null, 'NextPaymentDate__c should not be null for Payment Plan.');
     }
 

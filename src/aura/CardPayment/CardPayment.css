@@ -2,37 +2,39 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-.THIS .slds-select{
+.THIS .slds-select {
     min-height: calc(2.125rem + 2px);
 }
 
-.THIS .IconError{
-    float:left;
-    width:17px;
+.THIS .IconError {
+    float: left;
+    width: 17px;
 }
 
+.THIS .block_messageError {
 
-.THIS .block_messageError { 
-    
     border-radius: 5px;
     margin-bottom: 11px;
 }
+
 .THIS .block_messageError svg use {
-    fill:#c23934;
+    fill: #c23934;
 }
-.THIS .block_messageError .slds-icon-standard-warning{ 
-    float:left;
+
+.THIS .block_messageError .slds-icon-standard-warning {
+    float: left;
     margin-left: 8px;
     margin-top: 5px;
 }
 
 .THIS .block_messageErrorOl {
-    padding-left:25px;
+    padding-left: 25px;
 }
 
-.THIS .block_messageErrorOl li {    
+.THIS .block_messageErrorOl li {
     line-height: 15px;
 }
+
 /*.THIS .block_messageErrorOl li:first-child {
     color:#c23934;
     font-weight:bold;
@@ -41,25 +43,31 @@
      margin-bottom:10px;
 }*/
 .THIS .success {
-    border:1px solid green;
-        background: #b8ffb8;
+    border: 1px solid green;
+    background: #b8ffb8;
 }
-    .THIS .success svg {
-        margin-right: 5px;
-        display: inline-block;
-    }
-    .THIS .success svg use{
-        fill:green;
-    }
- .THIS .cvv .slds-form-element__control.cvv_block {
-    border-left: none!important; 
+
+.THIS .success svg {
+    margin-right: 5px;
+    display: inline-block;
 }
-.THIS .inputHeight input{
+
+.THIS .success svg use {
+    fill: green;
+}
+
+.THIS .cvv .slds-form-element__control.cvv_block {
+    border-left: none !important;
+}
+
+.THIS .inputHeight input {
     min-height: calc(2.125rem + 2px);
 }
+
 .THIS .slds-select_container .slds-select {
     padding-right: 1.1rem;
 }
+
 /*.THIS .cvv_block .slds-form-element__help {
     width: 198px;
 }*/

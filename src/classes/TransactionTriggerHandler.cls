@@ -78,7 +78,7 @@ public with sharing class TransactionTriggerHandler {
                     pmtIds.add(oldTxn.Payment__c);
                 } else if (oldTxn.Adjustment__c != null) {
                     adjIds.add(oldTxn.Adjustment__c);
-                } else if (oldTxn.Service__c != null){
+                } else if (oldTxn.Service__c != null) {
                     svcIds.add(oldTxn.Service__c);
                 }
             }
@@ -90,7 +90,7 @@ public with sharing class TransactionTriggerHandler {
     }
 
     private static Id getRelatedObjectId(Transaction__c txn) {
-        if (txn.Service__c != null ) {
+        if (txn.Service__c != null) {
             return txn.Service__c;
         }
 

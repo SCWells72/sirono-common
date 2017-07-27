@@ -13,7 +13,7 @@ public class Five9ReportRequestScheduler implements Schedulable {
         // Instantiate a report definition to request a report for non-agent calls.
         // TODO - use custom metadata to set these values instead of hardcoding values.
         MissedCallReportDefinition reportDefinition = new MissedCallReportDefinition(
-                'Missed Call Reports','Missed calls',System.today().addDays(-7),System.today()
+            'Missed Call Reports', 'Missed calls', System.today().addDays(-7), System.today()
         );
 
         // Schedule the report using the report definition.

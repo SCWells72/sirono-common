@@ -5,7 +5,7 @@
 /**
  * This class tests methods implemented in CaseTriggerHandler class by performing different scenarios.
  **/
-@isTest
+@IsTest
 private class CaseTriggerTest {
     /**
      * This method checks/verifies case comment record for relevant Case.
@@ -22,10 +22,10 @@ private class CaseTriggerTest {
 
         // TODO: Move this to RecordTypeUtil.internalCaseRt?
         Map<String, Id> caseRecordTypesById = new Map<String, Id>();
-        for (RecordType recordType: [
+        for (RecordType recordType : [
             SELECT Id, Name
             FROM RecordType
-            WHERE sObjectType = :Case.SObjectType.getDescribe().getName()
+            WHERE SobjectType = :Case.SObjectType.getDescribe().getName()
         ]) {
             caseRecordTypesById.put(recordType.Name, recordType.Id);
         }
@@ -33,10 +33,10 @@ private class CaseTriggerTest {
         Test.startTest();
         Case testCase = TestUtility.generateCase(caseRecordTypesById.get('Internal Case'), 'Address Change', null);
         testCase.Reason = 'Charge Group';
-        INSERT testCase;
+        insert testCase;
 
         CaseComment caseComment = TestUtility.generateCaseComment(testCase.Id);
-        INSERT caseComment;
+        insert caseComment;
         Test.stopTest();
 
         // Check System Assert, CaseComment record created with expected commentody.
@@ -61,7 +61,7 @@ private class CaseTriggerTest {
         // Check System Assert, Exception occures during addNoteFuture process because missing or bad requires.
         List<ApexPages.Message> messages = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message message: messages) {
+        for (ApexPages.Message message : messages) {
             String messageDetail = message.getDetail();
             if (messageDetail.contains(TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.UNAUTHORIZED))) {
                 isError = true;
@@ -89,14 +89,14 @@ private class CaseTriggerTest {
         Case testCase = new Case(
             Description = 'Test Case'
         );
-        INSERT testCase;
+        insert testCase;
 
         // Explicitly associate the case with a charge group
         Case_Charge_Group_Junction__c caseChargeGroupJunction = new Case_Charge_Group_Junction__c(
             Case__c = testCase.Id,
             Charge_Group__c = chargeGroup.Id
         );
-        INSERT caseChargeGroupJunction;
+        insert caseChargeGroupJunction;
 
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 200;
@@ -108,7 +108,7 @@ private class CaseTriggerTest {
         User sironoIntegrationUser = (sironoIntegrationUsers.size() == 1) ? sironoIntegrationUsers.get(0) : null;
         Id sironoIntegrationUserId = sironoIntegrationUser != null ? sironoIntegrationUser.Id : null;
 
-        for (Case thisCase: [
+        for (Case thisCase : [
             SELECT Id, Description, (
                 SELECT Id, Charge_Group__c
                 FROM Case_Charge_Groups__r
@@ -130,7 +130,7 @@ private class CaseTriggerTest {
         // Check System Assert, Exception occures during addNoteFuture process because missing or bad requires.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
+        for (ApexPages.Message msg : msgList) {
             if (msg.getDetail().contains(TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.UNAUTHORIZED))) {
                 isError = true;
             }
@@ -143,7 +143,7 @@ private class CaseTriggerTest {
      **/
     static testMethod void createCampaignMemberRecordsTest() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         List<Campaign> campaigns = new List<Campaign>();
         Campaign campaign = TestUtility.generateCampaign(Constants.CAMPAIGN_NAME_OVERDUE);
@@ -151,7 +151,7 @@ private class CaseTriggerTest {
 
         campaign = TestUtility.generateCampaign(Constants.CAMPAIGN_NAME_OVERDUE_M);
         campaigns.add(campaign);
-        INSERT campaigns;
+        insert campaigns;
 
         // Check system assert.
         List<CampaignMember> campaignMembers = [SELECT Id FROM CampaignMember WHERE ContactId = :guarantorContact.Id];
@@ -159,7 +159,7 @@ private class CaseTriggerTest {
 
         Test.startTest();
         Case testCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
-        INSERT testCase;
+        insert testCase;
         Test.stopTest();
 
         // Check system assert.
@@ -172,7 +172,7 @@ private class CaseTriggerTest {
      **/
     static testMethod void cmpnMemberWithExistCmpnMemberTest() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         List<Campaign> campaigns = new List<Campaign>();
         Campaign campaign = TestUtility.generateCampaign(Constants.CASE_TYPE_PAYMENT_PLAN_ERROR);
@@ -180,9 +180,9 @@ private class CaseTriggerTest {
 
         campaign = TestUtility.generateCampaign(Constants.CASE_TYPE_PAYMENT_PLAN_ERROR);
         campaigns.add(campaign);
-        INSERT campaigns;
+        insert campaigns;
 
-        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        List<CampaignMember> campaignMembers = new List<CampaignMember>();
         CampaignMember campaignMember = new CampaignMember(
             CampaignId = campaigns[0].Id,
             ContactId = guarantorContact.Id,
@@ -197,14 +197,14 @@ private class CaseTriggerTest {
         );
         campaignMembers.add(campaignMember);
 
-        INSERT campaignMembers;
+        insert campaignMembers;
 
         List<CampaignMember> queriedCampaignMembers = [SELECT Id FROM CampaignMember WHERE ContactId = :guarantorContact.Id];
         System.assertEquals(2, campaignMembers.size(), 'Should be campaignMembers size is 2 but we got ' + campaignMembers.size());
 
         Test.startTest();
         Case testCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, guarantorContact.Id);
-        INSERT testCase;
+        insert testCase;
         Test.stopTest();
 
         // Check system assert.
@@ -215,7 +215,7 @@ private class CaseTriggerTest {
     /**
      * Check all access rights for a read only User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRights() {
         List<CaseSecurityContext> allContexts = new List<CaseSecurityContext> {
             CaseSecurityContext.CREATE_CONTEXT,
@@ -227,7 +227,7 @@ private class CaseTriggerTest {
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (CaseSecurityContext context: allContexts) {
+            for (CaseSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);
@@ -243,7 +243,7 @@ private class CaseTriggerTest {
     /**
      * Check all Read rights for a Chatter User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRightsForRead() {
         List<CaseSecurityContext> allContexts = new List<CaseSecurityContext> {
             CaseSecurityContext.SELECT_CONTEXT,
@@ -251,7 +251,7 @@ private class CaseTriggerTest {
         };
 
         System.runAs(TestUtility.generateChatterOnlyUser()) {
-            for (CaseSecurityContext context: allContexts) {
+            for (CaseSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);

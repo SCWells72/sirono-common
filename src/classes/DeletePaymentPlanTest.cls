@@ -5,7 +5,7 @@
 /**
  * Unit tests for DeletePaymentPlan.
  */
-@isTest
+@IsTest
 private class DeletePaymentPlanTest {
 
     static testMethod void submit() {
@@ -22,9 +22,9 @@ private class DeletePaymentPlanTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.ID);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId', String.valueof(paymentPlan.Sirono_ID__c));
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanExtId', String.valueOf(paymentPlan.Sirono_ID__c));
 
         DeletePaymentPlan objDeletePaymentPlan = new DeletePaymentPlan();
         Test.startTest();
@@ -53,9 +53,9 @@ private class DeletePaymentPlanTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.ID);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId', String.valueof(paymentPlan.Sirono_ID__c));
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanExtId', String.valueOf(paymentPlan.Sirono_ID__c));
 
         DeletePaymentPlan objDeletePaymentPlan = new DeletePaymentPlan();
         Test.startTest();
@@ -84,9 +84,9 @@ private class DeletePaymentPlanTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.ID);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId', String.valueof(paymentPlan.Sirono_ID__c));
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanExtId', String.valueOf(paymentPlan.Sirono_ID__c));
 
         DeletePaymentPlan objDeletePaymentPlan = new DeletePaymentPlan();
         Test.startTest();
@@ -116,9 +116,9 @@ private class DeletePaymentPlanTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.ID);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId', String.valueof(paymentPlan.Sirono_ID__c));
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanExtId', String.valueOf(paymentPlan.Sirono_ID__c));
 
         DeletePaymentPlan objDeletePaymentPlan = new DeletePaymentPlan();
         Test.startTest();
@@ -148,9 +148,9 @@ private class DeletePaymentPlanTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId', String.valueof(paymentPlan.Sirono_ID__c));
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanExtId', String.valueOf(paymentPlan.Sirono_ID__c));
 
         DeletePaymentPlan objDeletePaymentPlan = new DeletePaymentPlan();
 
@@ -165,7 +165,7 @@ private class DeletePaymentPlanTest {
         objDeletePaymentPlan.doSubmit();
         Test.stopTest();
 
-        boolean passed = false;
+        Boolean passed = false;
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         for (ApexPages.Message msg : msgList) {
             if (msg.getDetail().equals('Payment plan was successfully cancelled.')) {
@@ -190,9 +190,9 @@ private class DeletePaymentPlanTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.ID);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId', String.valueof(paymentPlan.Sirono_ID__c));
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanExtId', String.valueOf(paymentPlan.Sirono_ID__c));
 
         DeletePaymentPlan objDeletePaymentPlan = new DeletePaymentPlan();
         Test.startTest();
@@ -223,9 +223,9 @@ private class DeletePaymentPlanTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.ID);
-        Apexpages.currentPage().getParameters().put('paymentPlanExtId', String.valueof(paymentPlan.Sirono_ID__c));
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanExtId', String.valueOf(paymentPlan.Sirono_ID__c));
 
         DeletePaymentPlan objDeletePaymentPlan = new DeletePaymentPlan();
         Test.startTest();
@@ -243,7 +243,7 @@ private class DeletePaymentPlanTest {
 
     //Coverage for the cancel Method
     static testMethod void cancel() {
-        Apexpages.currentPage().getParameters().put('guarantorId', '123');
+        ApexPages.currentPage().getParameters().put('guarantorId', '123');
         DeletePaymentPlan objDeletePaymentPlan = new DeletePaymentPlan();
         objDeletePaymentPlan.cancel();
 
@@ -264,7 +264,7 @@ private class DeletePaymentPlanTest {
     /**
      * Check all access rights for a read only User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRights() {
         List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext> {
             PaymentPlanSecurityContext.UPSERT_CONTEXT,
@@ -274,7 +274,7 @@ private class DeletePaymentPlanTest {
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (PaymentPlanSecurityContext context: allContexts) {
+            for (PaymentPlanSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);

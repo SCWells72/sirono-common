@@ -5,12 +5,12 @@
 /**
  * Tests for TaskService class.
 **/
-@isTest
+@IsTest
 public with sharing class TaskServiceTest {
-    @testSetup
+    @TestSetup
     public static void setup() {
         List<Contact> guarantorList = new List<Contact>();
-        for (Integer i = 0; i < 3; i ++) {
+        for (Integer i = 0; i < 3; i++) {
             Contact guarantor = TestUtility.generateGuarantorContact();
             guarantorList.add(guarantor);
         }
@@ -20,17 +20,17 @@ public with sharing class TaskServiceTest {
     /**
      * @description Test attempt to insert tasks with fake Salesforce whoIds.
     **/
-    @isTest
+    @IsTest
     public static void catchInvalidTasksTest() {
         Test.startTest();
         List<Contact> guarantors = new List<Contact>([
-                SELECT Id
-                FROM Contact
+            SELECT Id
+            FROM Contact
         ]);
 
         List<Task> invalidTaskList = new List<Task>();
 
-        for (Contact guarantor: guarantors) {
+        for (Contact guarantor : guarantors) {
             Task task = new Task();
             // Alter the last letter of an existing Salesforce Id to create a fake WhoId
             task.WhoId = String.valueOf(guarantor.Id).left(17) + 'z';
@@ -40,10 +40,10 @@ public with sharing class TaskServiceTest {
         TaskService.insertValidatedTasks(invalidTaskList);
 
         List<Task> insertedTasks = new List<Task>([
-                SELECT Id
-                FROM Task
+            SELECT Id
+            FROM Task
         ]);
-        test.stopTest();
+        Test.stopTest();
 
         System.assertEquals(0, insertedTasks.size());
 
@@ -52,17 +52,17 @@ public with sharing class TaskServiceTest {
     /**
      * @description Test attempt to insert valid tasks.
     **/
-    @isTest
+    @IsTest
     public static void insertValidTasksTest() {
         Test.startTest();
         List<Contact> guarantors = new List<Contact>([
-                SELECT Id
-                FROM Contact
+            SELECT Id
+            FROM Contact
         ]);
 
         List<Task> taskList = new List<Task>();
 
-        for (Contact guarantor: guarantors) {
+        for (Contact guarantor : guarantors) {
             Task task = new Task();
             task.WhoId = guarantor.Id;
             taskList.add(task);
@@ -71,10 +71,10 @@ public with sharing class TaskServiceTest {
         TaskService.insertValidatedTasks(taskList);
 
         List<Task> insertedTasks = new List<Task>([
-                SELECT Id
-                FROM Task
+            SELECT Id
+            FROM Task
         ]);
-        test.stopTest();
+        Test.stopTest();
 
         System.assertEquals(taskList.size(), insertedTasks.size());
     }
@@ -83,12 +83,12 @@ public with sharing class TaskServiceTest {
      * @description Test attempt to insert tasks with and without a Session Id that already exists. Make sure only tasks
      * without an existing Session Id are returned.
     **/
-    @isTest
+    @IsTest
     public static void insertTasksWithExistingSessionIds() {
         Test.startTest();
         List<Contact> guarantors = new List<Contact>([
-                SELECT Id
-                FROM Contact
+            SELECT Id
+            FROM Contact
         ]);
 
         List<Task> taskList = new List<Task>();
@@ -105,7 +105,7 @@ public with sharing class TaskServiceTest {
         insert taskList;
 
         // Create new tasks with new session Ids, add to taskList and then call getNewTasks on taskList
-        List<String> stringList = new List<String>{'a', 'b', 'c'};
+        List<String> stringList = new List<String> { 'a', 'b', 'c' };
         for (Integer i = 0; i < guarantors.size(); i++) {
             Task task = new Task();
             task.WhoId = guarantors[i].Id;

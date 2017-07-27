@@ -11,8 +11,8 @@ public with sharing class ServiceSecurityContext extends SecurityContext {
     private static final String AMOUNT = 'Amount__c';
 
     // The fields for updating a Service__c in TxnAggregationUtils
-    private static final Set<String> UPDATE_FIELDS = new Set<String>{
-    	AMOUNT
+    private static final Set<String> UPDATE_FIELDS = new Set<String> {
+        AMOUNT
     };
 
     /**

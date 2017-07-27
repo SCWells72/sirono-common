@@ -5,22 +5,22 @@
 /**
  * AddPaymentPlanVFControllerTest Class for the AddPaymentPlanVFController.
  **/
-@isTest
+@IsTest
 public class AddPaymentPlanVFControllerTest {
 
     /**
      * This method tests the logic of constructor, init, doCancel, doNothing, doNext and getPaymentPlanSettings methods.
      * If guarantor have already active payment plan than it will not allow to create another payment plan.
      **/
-    @isTest
+    @IsTest
     static void testActivePaymentPlan() {
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Test.startTest();
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -31,9 +31,10 @@ public class AddPaymentPlanVFControllerTest {
         // Check system assert, We got 'This guarantor have already active Payment Plan.' error.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (ApexPages.Message msg: msgList) {
-            if (msg.getDetail().contains(System.Label.Payment_Plan_Error))
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains(System.Label.Payment_Plan_Error)) {
                 isError = true;
+            }
         }
         System.assert(isError, 'Expected ' + System.Label.Payment_Plan_Error + ' error message but got different');
     }
@@ -41,11 +42,11 @@ public class AddPaymentPlanVFControllerTest {
     /**
      * This method tests the logic of fillNameAndAddress method.
      **/
-    @isTest
+    @IsTest
     static void testFillNameAddress() {
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Test.startTest();
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -60,13 +61,13 @@ public class AddPaymentPlanVFControllerTest {
 
         Contact gc = GuarantorDao.getGuarantor(guarantorContact.Id);
         // Check system assert, cardHolderName set as contact's name.
-        System.assertEquals(gc.Name, objAddPaymentPlan.cardHolderName, 'Expected card holder name ' + gc.name + ' but got ' + objAddPaymentPlan.cardHolderName);
+        System.assertEquals(gc.Name, objAddPaymentPlan.cardHolderName, 'Expected card holder name ' + gc.Name + ' but got ' + objAddPaymentPlan.cardHolderName);
     }
 
     /**
      * This method tests the logic of page reference when doCancel method call for home page.
      **/
-    @isTest
+    @IsTest
     static void testdoCancelForHomePage() {
 
         Test.startTest();
@@ -82,11 +83,11 @@ public class AddPaymentPlanVFControllerTest {
     /**
      * This method tests the logic of page reference when doCancel method call for guarantor.
      **/
-    @isTest
+    @IsTest
     static void testdoCancelForGuarantorPage() {
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Test.startTest();
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -102,32 +103,32 @@ public class AddPaymentPlanVFControllerTest {
     /**
      * This method tests the logic of doSubmit method with all necessary parameters.
      **/
-    @isTest
+    @IsTest
     public static void testCreatePaymentPlan() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 23232323;
-        INSERT guarantorContact;
+        guarantorContact.Profile_Pointer_ID__c = 23232323;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Charge_Group__c objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1321212);
         objCG.Sirono_ID__c = 1321212;
         objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
-        INSERT objCG;
+        insert objCG;
 
         Transaction__c transactionObj = TestUtility.generateTransaction(objCG, 100, Constants.AUTOMATIC);
-        INSERT transactionObj ;
+        insert transactionObj ;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         AddPaymentPlanVFController objAddPaymentPlan = new AddPaymentPlanVFController();
-        for (ChargeGroupWrapper cg: objAddPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper cg : objAddPaymentPlan.chargeGroupList) {
             cg.isSelected = true;
         }
-        objAddPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objAddPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objAddPaymentPlan.expirationMonth = '07';
         objAddPaymentPlan.creditCardNumber = '378282246310005';
         objAddPaymentPlan.cardHolderName = 'Test';
@@ -156,8 +157,10 @@ public class AddPaymentPlanVFControllerTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isSuccess = false;
-        for (ApexPages.Message msg: msgList) {
-            if (msg.getDetail().contains(Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY)) isSuccess = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains(Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY)) {
+                isSuccess = true;
+            }
         }
         System.assert(isSuccess, 'Expected Payment Plan record created but its not created.');
     }
@@ -165,29 +168,29 @@ public class AddPaymentPlanVFControllerTest {
     /**
      * This method tests the logic of doSubmit method's error.
      **/
-    @isTest
+    @IsTest
     static void testFailPaymentPlan() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Charge_Group__c objCG = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        INSERT objCG;
+        insert objCG;
 
         Transaction__c transactionObj = TestUtility.generateTransaction(objCG, 100, Constants.AUTOMATIC);
-        INSERT transactionObj ;
+        insert transactionObj ;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         AddPaymentPlanVFController objAddPaymentPlan = new AddPaymentPlanVFController();
-        for (ChargeGroupWrapper cg: objAddPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper cg : objAddPaymentPlan.chargeGroupList) {
             cg.isSelected = true;
         }
-        objAddPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objAddPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objAddPaymentPlan.expirationMonth = '07';
         objAddPaymentPlan.creditCardNumber = '1234567891113';
         objAddPaymentPlan.cardHolderName = '1234567891113';
@@ -214,8 +217,10 @@ public class AddPaymentPlanVFControllerTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (ApexPages.Message msg: msgList) {
-            if (msg.getDetail().contains(Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO)) isError = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains(Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO)) {
+                isError = true;
+            }
         }
         System.assert(isError, 'Expected ' + Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO + ' error message');
     }
@@ -223,11 +228,11 @@ public class AddPaymentPlanVFControllerTest {
     /**
      * This method tests the logic of Charge Group List.
      **/
-    @isTest
+    @IsTest
     static void testChargeGroupList() {
         // Create contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         List<Charge_Group__c> lstCGs = new List<Charge_Group__c>();
         // Create charge group record with account sub status equals to overdue.
@@ -240,13 +245,13 @@ public class AddPaymentPlanVFControllerTest {
         objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAID;
         lstCGs.add(objCG);
 
-        INSERT lstCGs;
+        insert lstCGs;
 
         // Create transaction records to populate balance in CG.
         List<Transaction__c> lstTransactions = new List<Transaction__c>();
         lstTransactions.add(TestUtility.generateTransaction(lstCGs[0], 10, Constants.AUTOMATIC));
         lstTransactions.add(TestUtility.generateTransaction(lstCGs[1], 20, Constants.AUTOMATIC));
-        INSERT lstTransactions;
+        insert lstTransactions;
 
         Test.startTest();
         // Create AddPaymentPlanVFController class object.
@@ -264,11 +269,11 @@ public class AddPaymentPlanVFControllerTest {
     /**
      * This method tests the logic of build Charge Group List negative.
      **/
-    @isTest
+    @IsTest
     static void testChargeGroupListNegative() {
         // Create contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         List<Charge_Group__c> lstCGs = new List<Charge_Group__c>();
         // Create charge group record with account sub status equals to Credit.
@@ -286,14 +291,14 @@ public class AddPaymentPlanVFControllerTest {
         objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_BAD_DEBT;
         lstCGs.add(objCG);
 
-        INSERT lstCGs;
+        insert lstCGs;
 
         // Create transaction records to populate balance in CG.
         List<Transaction__c> lstTransactions = new List<Transaction__c>();
         lstTransactions.add(TestUtility.generateTransaction(lstCGs[0], 100, Constants.AUTOMATIC));
         lstTransactions.add(TestUtility.generateTransaction(lstCGs[1], 500, Constants.AUTOMATIC));
         lstTransactions.add(TestUtility.generateTransaction(lstCGs[2], 200, Constants.AUTOMATIC));
-        INSERT lstTransactions;
+        insert lstTransactions;
 
         Test.startTest();
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -308,7 +313,7 @@ public class AddPaymentPlanVFControllerTest {
     /**
      * This method tests the logic of Charge Group List with multiple CGs.
      **/
-    @isTest
+    @IsTest
     static void testChargeGroupListWithMultiple() {
         Set<String> accountSubStatuses = new Set<String> {
             Constants.ACCT_SUBSTATUS_DELINQUENT,
@@ -318,7 +323,7 @@ public class AddPaymentPlanVFControllerTest {
 
         // Create contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         List<Charge_Group__c> lstCGs = new List<Charge_Group__c>();
         // Create charge group record with account sub status equals to Delinquent.
@@ -351,7 +356,7 @@ public class AddPaymentPlanVFControllerTest {
         objCG.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAID;
         lstCGs.add(objCG);
 
-        INSERT lstCGs;
+        insert lstCGs;
 
         // Create transaction records to populate balance in CG.
         List<Transaction__c> lstTransactions = new List<Transaction__c>();
@@ -361,7 +366,7 @@ public class AddPaymentPlanVFControllerTest {
         lstTransactions.add(TestUtility.generateTransaction(lstCGs[3], 10, Constants.AUTOMATIC));
         lstTransactions.add(TestUtility.generateTransaction(lstCGs[4], 250, Constants.AUTOMATIC));
         lstTransactions.add(TestUtility.generateTransaction(lstCGs[5], 300, Constants.AUTOMATIC));
-        INSERT lstTransactions;
+        insert lstTransactions;
 
         Test.startTest();
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -371,7 +376,7 @@ public class AddPaymentPlanVFControllerTest {
 
         // Check system assert.
         System.assertEquals(3, chargeGroups.size(), 'Expected Charge Groups size equals to 1 but we got ' + chargeGroups.size());
-        for (ChargeGroupWrapper cgw: chargeGroups) {
+        for (ChargeGroupWrapper cgw : chargeGroups) {
             System.assert(accountSubStatuses.contains(cgw.cg.Account_Sub_Status__c),
                 'We got different Charge Group that sub status not exist in set ' + cgw.cg.Account_Sub_Status__c);
         }

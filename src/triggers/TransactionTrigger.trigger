@@ -5,22 +5,22 @@
 
 trigger TransactionTrigger on Transaction__c (after insert, after update, after delete, after undelete) {
     //executes after insert operation
-    if (trigger.isAfter && trigger.isInsert) {
-        TransactionTriggerHandler.afterInsert(trigger.new);
+    if (Trigger.isAfter && Trigger.isInsert) {
+        TransactionTriggerHandler.afterInsert(Trigger.new);
     }
 
     //executes after insert operation
-    if (trigger.isAfter && trigger.isUpdate) {
-        TransactionTriggerHandler.afterUpdate(trigger.new, trigger.oldMap);
+    if (Trigger.isAfter && Trigger.isUpdate) {
+        TransactionTriggerHandler.afterUpdate(Trigger.new, Trigger.oldMap);
     }
 
     //executes after delete operation
-    if (trigger.isAfter && trigger.isDelete) {
-        TransactionTriggerHandler.afterDelete(trigger.old);
+    if (Trigger.isAfter && Trigger.isDelete) {
+        TransactionTriggerHandler.afterDelete(Trigger.old);
     }
 
     //executes after undelete operation
-    if (trigger.isAfter && trigger.isUndelete) {
-        TransactionTriggerHandler.afterInsert(trigger.new);
+    if (Trigger.isAfter && Trigger.isUndelete) {
+        TransactionTriggerHandler.afterInsert(Trigger.new);
     }
 }

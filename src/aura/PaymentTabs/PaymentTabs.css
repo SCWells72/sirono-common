@@ -18,14 +18,16 @@
     width: 100%;
 }
 
-.THIS.nav-wrapper nav.navigation{
+.THIS.nav-wrapper nav.navigation {
     position: absolute;
     width: 100%;
 }
+
 .THIS.make-payment-content {
-    overflow:auto;
-    height:100%; 
+    overflow: auto;
+    height: 100%;
 }
+
 .THIS .create {
-    width:50%;
+    width: 50%;
 }

@@ -2,7 +2,7 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-public with sharing class PreServiceSchedulerBatch implements Database.Batchable<sObject>, Schedulable, Database.Stateful {
+public with sharing class PreServiceSchedulerBatch implements Database.Batchable<SObject>, Schedulable, Database.Stateful {
     public Campaign callList;
     public Set<Id> existingMembers;
 
@@ -15,13 +15,13 @@ public with sharing class PreServiceSchedulerBatch implements Database.Batchable
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_PRESERVICE
         });
-        string preService = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PRESERVICE);
+        String preService = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PRESERVICE);
 
         if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            for (Campaign cl: [
+            for (Campaign cl : [
                 SELECT Id, Name
                 FROM Campaign
-                WHERE Name = :preService AND isActive = true
+                WHERE Name = :preService AND IsActive = TRUE
             ]) {
                 callList = cl;
             }
@@ -30,10 +30,10 @@ public with sharing class PreServiceSchedulerBatch implements Database.Batchable
         if (callList != null) {
             existingMembers = new Set<Id>();
             if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                for (CampaignMember cm: [
+                for (CampaignMember cm : [
                     SELECT Id, ContactId
                     FROM CampaignMember
-                    WHERE CampaignId = :callList.Id AND ContactId != null
+                    WHERE CampaignId = :callList.Id AND ContactId != NULL
                 ]) {
                     existingMembers.add(cm.ContactId);
                 }
@@ -46,19 +46,19 @@ public with sharing class PreServiceSchedulerBatch implements Database.Batchable
     }
 
     //adding new campaign members
-    public void execute(Database.BatchableContext bc, List<sObject> scope) {
+    public void execute(Database.BatchableContext bc, List<SObject> scope) {
         List<Contact> guarantors = (List<Contact>) scope;
         Date dt14 = System.today().addDays(14);
         Date dt = System.today();
         if (callList != null) {
             List<CampaignMember> memberList = new List<CampaignMember>();
             if (EncounterSecurityContext.PSS_SELECT_CONTEXT.actionAllowed()) {
-                for (Encounter__c ps: [
+                for (Encounter__c ps : [
                     SELECT Id, Name, Guarantor__c, Liability__c, Date_of_Service__c
                     FROM Encounter__c
                     WHERE Patient__r.Guarantor__c IN :guarantors
                     AND Date_of_Service__c > :dt AND Date_of_Service__c <= :dt14
-                    AND Liability__c > :100 AND Cancelled__c = false
+                    AND Liability__c > :100 AND Cancelled__c = FALSE
                 ]) {
                     /*if(!existingMembers.contains(ps.Patient__r.Guarantor__c)){
                         existingMembers.add(ps.Patient__r.Guarantor__c);
@@ -80,7 +80,7 @@ public with sharing class PreServiceSchedulerBatch implements Database.Batchable
 
             if (memberList.size() > 0) {
                 if (CmpnMemberSecurityContext.SB_CREATE_CONTEXT.actionAllowed()) {
-                    INSERT memberList;
+                    insert memberList;
                 }
             }
         }

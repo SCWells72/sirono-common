@@ -63,10 +63,14 @@ public with sharing class WorkWithEstimatesController {
 
         public EstimateWrapper(Encounter__c singleEncounter) {
             this.singleEncounter = singleEncounter;
-            if (singleEncounter.Insurance_Discount__c != null)
-                insuranceDiscount = -singleEncounter.Insurance_Discount__c; // TODO update after fields creation
-            if (singleEncounter.Insurance_Portion__c != null)
-                insurancePortion = -singleEncounter.Insurance_Portion__c; // TODO update after fields creation
+            if (singleEncounter.Insurance_Discount__c != null) {
+                // TODO update after fields creation
+                insuranceDiscount = -singleEncounter.Insurance_Discount__c;
+            }
+            if (singleEncounter.Insurance_Portion__c != null) {
+                // TODO update after fields creation
+                insurancePortion = -singleEncounter.Insurance_Portion__c;
+            }
             String status = '';
             if (singleEncounter.Balance__c > 0 && (singleEncounter.Total_Payments__c == null || singleEncounter.Total_Payments__c == 0)) {
                 status = 'Unpaid';

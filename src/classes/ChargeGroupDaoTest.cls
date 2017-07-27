@@ -5,13 +5,13 @@
 /**
  * Test the ChargeGroupDao methods
  */
-@isTest
+@IsTest
 public with sharing class ChargeGroupDaoTest {
 
     @TestSetup
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
-        INSERT gt;
+        insert gt;
         System.debug('gt.Id: ' + gt.Id);
 
         List<Charge_Group__c> cgToAddList = TestUtility.generateChargeGroupList(gt.Id);
@@ -20,13 +20,13 @@ public with sharing class ChargeGroupDaoTest {
             cg.Sirono_ID__c = i++;
         }
 
-        INSERT cgToAddList;
+        insert cgToAddList;
 
         // Check system assert.
         System.assertEquals(1, cgToAddList[0].Sirono_ID__c, 'Expected Chargegroup Sirono_ID__c equals to 1 but we got ' + cgToAddList[0].Sirono_ID__c);
     }
 
-    @isTest
+    @IsTest
     public static void getBySironoIdsAllFoundTest() {
 
         List<Decimal> cgSironoIds = new Decimal[] { 1, 3, 5, 10 };
@@ -46,7 +46,7 @@ public with sharing class ChargeGroupDaoTest {
     }
 
 
-    @isTest
+    @IsTest
     public static void getBySironoIdsNotAllFoundTest() {
 
         List<Decimal> cgSironoIds = new Decimal[] { 1, 3, 5, 10, 99 };
@@ -69,7 +69,7 @@ public with sharing class ChargeGroupDaoTest {
         }
     }
 
-    @isTest
+    @IsTest
     public static void updateChargeGroupsTest() {
 
         Charge_Group__c[] cgs = [SELECT Id, Name, Sirono_ID__c FROM Charge_Group__c];
@@ -93,17 +93,17 @@ public with sharing class ChargeGroupDaoTest {
     /**
      * This method tests the logic of getBilledCGCountByEncounterIds method positive.
      **/
-    @isTest
+    @IsTest
     public static void getBilledCGCountPositiveTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
         Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
-        INSERT encounter;
+        insert encounter;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1214);
         chargeGroup.Encounter__c = encounter.Id;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Test.startTest();
         List<AggregateResult> results = ChargeGroupDao.getBilledCGCountByEncounterIds(new Set<Id> { encounter.Id });
@@ -116,16 +116,16 @@ public with sharing class ChargeGroupDaoTest {
     /**
      * This method tests the logic of getBilledCGCountByEncounterIds method negative.
      **/
-    @isTest
+    @IsTest
     public static void getBilledCGCountNegativeTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
         Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
-        INSERT encounter;
+        insert encounter;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1214);
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Test.startTest();
         List<AggregateResult> results = ChargeGroupDao.getBilledCGCountByEncounterIds(new Set<Id> { encounter.Id });
@@ -138,17 +138,17 @@ public with sharing class ChargeGroupDaoTest {
     /**
      * This method tests the logic of getCGOrderByCreatedDate method.
      **/
-    @isTest
+    @IsTest
     public static void getCGOrderByCreatedDateTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1244);
-        INSERT chargeGroup;
+        insert chargeGroup;
         Test.setCreatedDate(chargeGroup.Id, System.now().addDays(-5));
 
         Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1234);
-        INSERT chargeGroup1;
+        insert chargeGroup1;
         Test.setCreatedDate(chargeGroup1.Id, System.now());
 
         Test.startTest();
@@ -162,18 +162,18 @@ public with sharing class ChargeGroupDaoTest {
     /**
      * This method tests the logic of getCGOrderByCreatedDate method.
      **/
-    @isTest
+    @IsTest
     public static void getCGOrderByServiceDateTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1242);
         chargeGroup.Date_Of_Service_Start_Date__c = System.today().addDays(-5);
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1241);
         chargeGroup1.Date_Of_Service_Start_Date__c = System.today();
-        INSERT chargeGroup1;
+        insert chargeGroup1;
 
         Test.startTest();
         List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGOrderByServiceDate(new Set<Id> { chargeGroup.Id, chargeGroup1.Id });
@@ -186,7 +186,7 @@ public with sharing class ChargeGroupDaoTest {
     /**
      * This method tests the logic of getCGIdsFromCaseCGJun method Positive.
      **/
-    @isTest
+    @IsTest
     public static void getCGIdsFromCaseCGJunPositiveTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
@@ -194,13 +194,13 @@ public with sharing class ChargeGroupDaoTest {
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, cgSironoId);
         chargeGroup.Sirono_ID__c = cgSironoId;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
-        INSERT objCase;
+        insert objCase;
 
         Case_Charge_Group_Junction__c caseCGJun = new Case_Charge_Group_Junction__c(Case__c = objCase.Id, Charge_Group__c = chargeGroup.Id);
-        INSERT caseCGJun;
+        insert caseCGJun;
 
         Test.startTest();
         List<String> chargeGroupIds = ChargeGroupDao.getCGIdsFromCaseCGJun(objCase.Id);
@@ -214,7 +214,7 @@ public with sharing class ChargeGroupDaoTest {
     /**
      * This method tests the logic of getCGIdsFromCaseCGJun method negative.
      **/
-    @isTest
+    @IsTest
     public static void getCGIdsFromCaseCGJunNegativeTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
@@ -222,10 +222,10 @@ public with sharing class ChargeGroupDaoTest {
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, cgSironoId);
         chargeGroup.Sirono_ID__c = cgSironoId;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
-        INSERT objCase;
+        insert objCase;
 
         Test.startTest();
         List<String> chargeGroupIds = ChargeGroupDao.getCGIdsFromCaseCGJun(objCase.Id);
@@ -238,14 +238,14 @@ public with sharing class ChargeGroupDaoTest {
     /**
      * This method tests the logic of getCGBasedOnGuarantor method Positive.
      **/
-    @isTest
+    @IsTest
     public static void getCGBasedOnGuarantorPositiveTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1234);
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Test.startTest();
         List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnGuarantor(new Set<Id> { guarantorContact.Id });
@@ -259,14 +259,14 @@ public with sharing class ChargeGroupDaoTest {
     /**
      * This method tests the logic of getCGBasedOnGuarantor method negative.
      **/
-    @isTest
+    @IsTest
     public static void getCGBasedOnGuarantorNegativeTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 12345);
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_PENDING;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Test.startTest();
         List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnGuarantor(new Set<Id> { guarantorContact.Id });
@@ -279,17 +279,17 @@ public with sharing class ChargeGroupDaoTest {
     /**
      * This method tests the logic of getCGBasedOnEncounter method positive.
      **/
-    @isTest
+    @IsTest
     public static void getCGBasedOnEncounterPositiveTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
         Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
-        INSERT encounter;
+        insert encounter;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1222);
         chargeGroup.Encounter__c = encounter.Id;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Test.startTest();
         List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnEncounter(new Set<Id> { encounter.Id });
@@ -303,16 +303,16 @@ public with sharing class ChargeGroupDaoTest {
     /**
      * This method tests the logic of getCGBasedOnEncounter method negative.
      **/
-    @isTest
+    @IsTest
     public static void getCGBasedOnEncounterNegativeTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
         Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
-        INSERT encounter;
+        insert encounter;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1214);
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Test.startTest();
         List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnEncounter(new Set<Id> { encounter.Id });
@@ -325,7 +325,7 @@ public with sharing class ChargeGroupDaoTest {
     /**
      * This method tests the logic of getCGBasedOnGuarantorAndPreCollDate method.
      **/
-    @isTest
+    @IsTest
     public static void getCGBasedOnGuarantorAndPreCollDateTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
@@ -333,11 +333,11 @@ public with sharing class ChargeGroupDaoTest {
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1242);
         chargeGroup.Pre_Collection_Sent__c = preCollDate;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1241);
         chargeGroup1.Pre_Collection_Sent__c = System.today();
-        INSERT chargeGroup1;
+        insert chargeGroup1;
 
         Test.startTest();
         List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnGuarantorAndPreCollDate(new List<Contact> { guarantorContact }, preCollDate);
@@ -351,17 +351,17 @@ public with sharing class ChargeGroupDaoTest {
     /**
      * This method tests the logic of getCGForInvoiceController method with Order by.
      **/
-    @isTest
+    @IsTest
     public static void getCGForInvoiceControllerWithOrderByTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1244);
-        INSERT chargeGroup;
+        insert chargeGroup;
         Test.setCreatedDate(chargeGroup.Id, System.now());
 
         Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1234);
-        INSERT chargeGroup1;
+        insert chargeGroup1;
         Test.setCreatedDate(chargeGroup1.Id, System.now().addDays(-5));
 
         Test.startTest();
@@ -375,17 +375,17 @@ public with sharing class ChargeGroupDaoTest {
     /**
      * This method tests the logic of getCGForInvoiceController method without Order by.
      **/
-    @isTest
+    @IsTest
     public static void getCGForInvoiceControllerWithoutOrderByTest() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1244);
-        INSERT chargeGroup;
+        insert chargeGroup;
         Test.setCreatedDate(chargeGroup.Id, System.now());
 
         Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1234);
-        INSERT chargeGroup1;
+        insert chargeGroup1;
         Test.setCreatedDate(chargeGroup1.Id, System.now().addDays(-5));
 
         Test.startTest();
@@ -399,18 +399,18 @@ public with sharing class ChargeGroupDaoTest {
     /**
      * This method tests the logic of getCGBasedOnGuarantorFilterByStatus method Positive.
      **/
-    @isTest
+    @IsTest
     public static void testGetByGuarantorAndSubStatus() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1234);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, null, 12345);
         chargeGroup1.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_BAD_DEBT;
-        INSERT chargeGroup1;
+        insert chargeGroup1;
 
         Test.startTest();
         List<Charge_Group__c> chargeGroups = ChargeGroupDao.getByGuarantorAndSubStatus(new Set<Id> { guarantorContact.Id }, new Set<String> { Constants.ACCT_SUBSTATUS_OVERDUE });
@@ -424,18 +424,18 @@ public with sharing class ChargeGroupDaoTest {
     /**
      * This method tests the logic of getCGBasedOnGuarantorFilterByStatus method negative.
      **/
-    @isTest
+    @IsTest
     public static void testGetByGuarantorAndSubStatusNegative() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 12345);
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_PENDING;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1234);
         chargeGroup1.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_BAD_DEBT;
-        INSERT chargeGroup1;
+        insert chargeGroup1;
 
         Test.startTest();
         List<Charge_Group__c> chargeGroups = ChargeGroupDao.getByGuarantorAndSubStatus(new Set<Id> { guarantorContact.Id }, new Set<String> { Constants.ACCT_SUBSTATUS_OVERDUE });
@@ -448,7 +448,7 @@ public with sharing class ChargeGroupDaoTest {
     /**
      * Check all Read rights for a Chatter User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRightsForRead() {
         List<ChargeGroupSecurityContext> allContexts = new List<ChargeGroupSecurityContext> {
             ChargeGroupSecurityContext.SELECT_CONTEXT,
@@ -457,7 +457,7 @@ public with sharing class ChargeGroupDaoTest {
         };
 
         System.runAs(TestUtility.generateChatterOnlyUser()) {
-            for (ChargeGroupSecurityContext context: allContexts) {
+            for (ChargeGroupSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);

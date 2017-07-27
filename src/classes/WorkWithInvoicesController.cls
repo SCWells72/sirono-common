@@ -18,7 +18,7 @@ public with sharing class WorkWithInvoicesController {
      */
     @AuraEnabled
     public static List<InvoicesWrapper> getAllInvoices(String groupFilter, List<String> patientsFilter) {
-        System.debug('getAllInvoices: [groupFilter: ' + groupFilter + '] [patientFilters: ' + patientsFilter + ']' );
+        System.debug('getAllInvoices: [groupFilter: ' + groupFilter + '] [patientFilters: ' + patientsFilter + ']');
         List<InvoicesWrapper> allInvoices = new List<InvoicesWrapper>();
 
         UserWrapper user = UserService.getCurrentUser();
@@ -102,7 +102,7 @@ public with sharing class WorkWithInvoicesController {
 
             Map<Id, Charge_Group__c> allGroupsMap = new Map<Id, Charge_Group__c>(allGroups);
 
-            for (Invoice__c invoice: invoices) {
+            for (Invoice__c invoice : invoices) {
                 invoiceWrappers.add(new InvoicesWrapper(invoice, allGroupsMap));
             }
         }
@@ -124,7 +124,7 @@ public with sharing class WorkWithInvoicesController {
         }
 
         List<Invoice__c> invoiceList = InvoiceService.getPatientInvoices(user.contactId);
-        for (Invoice__c inv: invoiceList) {
+        for (Invoice__c inv : invoiceList) {
             patients.add(new PatientWrapper(inv));
         }
         return patients;
@@ -171,7 +171,7 @@ public with sharing class WorkWithInvoicesController {
 
             allGroups = new List<ChargeGroupWrapper>();
 
-            for (Charge_Group__c cGroup: invoice.Charge_Groups__r) {
+            for (Charge_Group__c cGroup : invoice.Charge_Groups__r) {
                 allGroups.add(new ChargeGroupWrapper(allGroupsMap.get(cGroup.Id)));
 
                 if (cGroup.Payment_Plan__c != null) {

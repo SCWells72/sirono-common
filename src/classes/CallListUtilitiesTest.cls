@@ -5,18 +5,18 @@
 /**
  * Tests for the CallListUtilities class
  */
-@isTest
+@IsTest
 public class CallListUtilitiesTest {
 
     //TODO: Provide a valid message about what is being asserted on all asserts.
     //TODO: Add inline documentation here about what this assert is verifying
 
     // Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
-    @isTest
-    Public static void removeCMWithOverdueDelinquentBalance() {
+    @IsTest
+    public static void removeCMWithOverdueDelinquentBalance() {
         TestUtility objTestUtility = new TestUtility();
 
-        Contact guarantorContact = TestUtility.generateguarantorContact();
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact ;
 
         Contact patientContact = TestUtility.generatePatientContact();
@@ -36,7 +36,7 @@ public class CallListUtilitiesTest {
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         chargeGroup.Sirono_ID__c = 123444;
-        chargeGroup.Pre_Collection_Sent__c = system.today();
+        chargeGroup.Pre_Collection_Sent__c = System.today();
         insert chargeGroup;
 
         transactionObj = TestUtility.generateTransaction(chargeGroup, -500, Constants.AUTOMATIC);
@@ -67,7 +67,7 @@ public class CallListUtilitiesTest {
         CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = Constants.SENT);
         insert cmm;
 
-        transactionObj.amount__c = -501;
+        transactionObj.Amount__c = -501;
         update transactionObj;
         update guarantorContact ;
         Test.stopTest();
@@ -84,11 +84,11 @@ public class CallListUtilitiesTest {
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
-    @isTest
-    Public static void preCollectionCallListRemoval() {
+    @IsTest
+    public static void preCollectionCallListRemoval() {
         TestUtility objTestUtility = new TestUtility();
 
-        Contact guarantorContact = TestUtility.generateguarantorContact();
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact ;
 
         Contact patientContact = TestUtility.generatePatientContact();
@@ -110,7 +110,7 @@ public class CallListUtilitiesTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
-        List<Charge_Group__c> lst = TestUtility.generatechargeGroupList(guarantorContact.Id);
+        List<Charge_Group__c> lst = TestUtility.generateChargeGroupList(guarantorContact.Id);
         transactionObj = TestUtility.generateTransaction(chargeGroup, -500, Constants.AUTOMATIC);
         insert transactionObj ;
 
@@ -135,7 +135,7 @@ public class CallListUtilitiesTest {
         CampaignMember cmm = new CampaignMember(CampaignId = lstCampaign[0].Id, ContactId = guarantorContact.Id, Status = Constants.SENT);
         insert cmm;
 
-        transactionObj.amount__c = -501;
+        transactionObj.Amount__c = -501;
         update transactionObj;
         update guarantorContact;
         Test.stopTest();
@@ -150,11 +150,11 @@ public class CallListUtilitiesTest {
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
-    @isTest
-    Public static void earlyOutCallListRemovalWithoutCG() {
+    @IsTest
+    public static void earlyOutCallListRemovalWithoutCG() {
         TestUtility objTestUtility = new TestUtility();
 
-        Contact guarantorContact = TestUtility.generateguarantorContact();
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact ;
 
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
@@ -193,7 +193,7 @@ public class CallListUtilitiesTest {
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
-    @isTest
+    @IsTest
     public static void delinquentCaseWithoutCG() {
         TestUtility objUtility = new TestUtility();
 
@@ -206,7 +206,7 @@ public class CallListUtilitiesTest {
         insert objCase;
 
         objCase.Status = Constants.CASE_STATUS_CLOSED;
-        Update objCase;
+        update objCase;
         Test.stopTest();
 
         // Check system assert.
@@ -221,7 +221,7 @@ public class CallListUtilitiesTest {
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
-    @isTest
+    @IsTest
     public static void preCollectionCaseWithoutCG() {
         TestUtility objUtility = new TestUtility();
 
@@ -234,7 +234,7 @@ public class CallListUtilitiesTest {
         insert objCase;
 
         objCase.Status = Constants.CASE_STATUS_CLOSED;
-        Update objCase;
+        update objCase;
         Test.stopTest();
 
         // Check system assert.
@@ -248,7 +248,7 @@ public class CallListUtilitiesTest {
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
-    @isTest
+    @IsTest
     public static void earlyOutCaseUpdate() {
         TestUtility objUtility = new TestUtility();
 
@@ -260,7 +260,7 @@ public class CallListUtilitiesTest {
         insert objCase;
 
         objCase.Status = Constants.CASE_STATUS_CLOSED;
-        Update objCase;
+        update objCase;
         Test.stopTest();
 
         // Check system assert.
@@ -275,7 +275,7 @@ public class CallListUtilitiesTest {
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
-    @isTest
+    @IsTest
     public static void ccErrorCaseUpdate() {
         TestUtility objUtility = new TestUtility();
 
@@ -287,7 +287,7 @@ public class CallListUtilitiesTest {
         insert objCase;
 
         objCase.Status = Constants.CASE_STATUS_CLOSED;
-        Update objCase;
+        update objCase;
         Test.stopTest();
 
         // Check system assert.
@@ -300,7 +300,7 @@ public class CallListUtilitiesTest {
     }
 
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
-    @isTest
+    @IsTest
     public static void encounterCaseUpdate() {
         TestUtility objUtility = new TestUtility();
 
@@ -312,7 +312,7 @@ public class CallListUtilitiesTest {
         insert objCase;
 
         objCase.Status = Constants.CASE_STATUS_CLOSED;
-        Update objCase;
+        update objCase;
         Test.stopTest();
 
         // Check system assert.
@@ -325,7 +325,7 @@ public class CallListUtilitiesTest {
     }
 
     //Viraj Rana : 09-15-2016: Unit test of caseEarlyOutClose method
-    @isTest
+    @IsTest
     public static void checkContactOverdueBalance() {
         TestUtility objUtility = new TestUtility();
         CaseUtil obj = new CaseUtil();
@@ -336,11 +336,11 @@ public class CallListUtilitiesTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121343);
         insert chargeGroup;
 
         Test.startTest();
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
@@ -363,7 +363,7 @@ public class CallListUtilitiesTest {
     }
 
     //Viraj Rana : 09-15-2016: Unit test of caseEarlyOutClose method
-    @isTest
+    @IsTest
     public static void checkContactDelinquentBalance() {
         TestUtility objUtility = new TestUtility();
         CaseUtil obj = new CaseUtil();
@@ -374,11 +374,11 @@ public class CallListUtilitiesTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121343);
         insert chargeGroup;
 
         Test.startTest();
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;

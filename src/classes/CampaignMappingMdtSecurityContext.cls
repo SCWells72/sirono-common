@@ -12,7 +12,7 @@ public with sharing class CampaignMappingMdtSecurityContext extends SecurityCont
     private static final String SALESFORCE_CAMPAIGN_NAME = 'Salesforce_Campaign_Name__c';
 
     // The fields for selecting a Campaign_Mapping__mdt in TaskTriggerHandler, CaseUtil
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         MASTERLABEL, SALESFORCE_CAMPAIGN_NAME
     };
 

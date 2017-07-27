@@ -36,8 +36,8 @@ public with sharing class InvoiceService extends AbstractService {
     public static Set<Id> getChargeGroupIds(List<Invoice__c> invoices) {
         Set<Id> chargeGroupIds = new Set<Id>();
 
-        for (Invoice__c invoice: invoices) {
-            for (Charge_Group__c cGroup: invoice.Charge_Groups__r) {
+        for (Invoice__c invoice : invoices) {
+            for (Charge_Group__c cGroup : invoice.Charge_Groups__r) {
                 chargeGroupIds.add(cGroup.Id);
             }
         }

@@ -120,7 +120,7 @@ public with sharing class VisualForceValidations {
      **/
     public static List<String> checkMinInstallmentAmount(Decimal amount, Decimal MinInstallmentAmount) {
         if (amount < MinInstallmentAmount) {
-            errorMessages.add(String.format(Constants.PAGE_MESSAGE_MONTHLY_AMOUNT, new String[]{String.valueOf(MinInstallmentAmount)}));
+            errorMessages.add(String.format(Constants.PAGE_MESSAGE_MONTHLY_AMOUNT, new String[] { String.valueOf(MinInstallmentAmount) }));
         }
         return errorMessages;
     }
@@ -134,15 +134,15 @@ public with sharing class VisualForceValidations {
      * @returns List<String> errorMessages - That contains error message if totalInstallment is greater than MaxInstallments else it will be blank/size is zero.
      **/
     public static List<String> checkMaxInstallments(Decimal amount, Decimal selectedCGsBalance, Decimal MaxInstallments) {
-        Integer totalInstallment = Integer.valueOf((selectedCGsBalance/amount).round(System.RoundingMode.CEILING));
+        Integer totalInstallment = Integer.valueOf((selectedCGsBalance / amount).round(System.RoundingMode.CEILING));
         Integer minimumInstallmentAmount = 0;
 
         if (MaxInstallments > 0) {
-            minimumInstallmentAmount = Integer.valueof((selectedCGsBalance/MaxInstallments).round(System.RoundingMode.CEILING));
+            minimumInstallmentAmount = Integer.valueOf((selectedCGsBalance / MaxInstallments).round(System.RoundingMode.CEILING));
         }
 
         if (totalInstallment > MaxInstallments) {
-            errorMessages.add(String.format(Constants.PAGE_MESSAGE_MAX_INSTALLMENT, new String[]{String.valueOf(MaxInstallments), String.valueOf(minimumInstallmentAmount)}));
+            errorMessages.add(String.format(Constants.PAGE_MESSAGE_MAX_INSTALLMENT, new String[] { String.valueOf(MaxInstallments), String.valueOf(minimumInstallmentAmount) }));
         }
         return errorMessages;
     }
@@ -160,7 +160,7 @@ public with sharing class VisualForceValidations {
      * @returns List<String> errorMessages - That contains error messages if any else it will be blank/size is zero.
      **/
     public static List<String> creditCardValidation(String ccNumber, String expirationYear, String expirationMonth, String zip,
-                String cardHolderName, String cvv, String address) {
+        String cardHolderName, String cvv, String address) {
 
         // Call checkCcNumberDigit method to check cc number is 12 to 19 digit or not.
         checkCcNumberDigit(ccNumber);
@@ -201,7 +201,7 @@ public with sharing class VisualForceValidations {
      * @returns List<String> errorMessages - That contains error messages if any else it will be blank/size is zero.
      **/
     public static List<String> creditCardValidationForAddPaymentPlan(String ccNumber, String expirationYear, String expirationMonth, String zip,
-                String cardHolderName, String cvv, String address, String[] chargeGroupIds, String executeOnDay) {
+        String cardHolderName, String cvv, String address, String[] chargeGroupIds, String executeOnDay) {
 
         // Call creditCardValidation method that performs all basic validations for Credit Card.
         errorMessages = creditCardValidation(ccNumber, expirationYear, expirationMonth, zip, cardHolderName, cvv, address);
@@ -221,7 +221,7 @@ public with sharing class VisualForceValidations {
      * @returns List<String> errorMessages - That contains error message if ccNumber's length is not between 12 to 19 else it will be blank/size is zero.
      **/
     public static List<String> checkCcNumberDigit(String ccNumber) {
-        if (ccNumber.length() < 12 || ccNumber.Length() > 19) {
+        if (ccNumber.length() < 12 || ccNumber.length() > 19) {
             errorMessages.add(Constants.PAGE_MESSAGE_CC_NUMBER_12_19_DIGITS);
         }
         return errorMessages;
@@ -248,9 +248,9 @@ public with sharing class VisualForceValidations {
      * @returns List<String> errorMessages - That contains error message if expiration date is not future date else it will be blank/size is zero.
      **/
     public static List<String> checkExpirationDate(String expirationYear, String expirationMonth) {
-        if (Integer.valueof(expirationYear) < system.today().year() ||
-                (Integer.valueof(expirationYear) == system.today().year() &&
-                        Integer.valueof(expirationMonth) < system.today().Month())) {
+        if (Integer.valueOf(expirationYear) < System.today().year() ||
+            (Integer.valueOf(expirationYear) == System.today().year() &&
+                Integer.valueOf(expirationMonth) < System.today().month())) {
             errorMessages.add(Constants.PAGE_MESSAGE_CC_EXPIRATION_DATE_FUTURE);
         }
         return errorMessages;

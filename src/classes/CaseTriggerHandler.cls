@@ -94,7 +94,7 @@ public with sharing class CaseTriggerHandler {
 
         Map<String, Set<Id>> caseCmpnMemberMap = new Map<String, Set<Id>>();
 
-        for (Case aCase: cases) {
+        for (Case aCase : cases) {
             if ((aCase.IsClosed && !oldCasesByIds.get(aCase.Id).IsClosed) &&
                 aCase.Guarantor_Information__c != null) {
 
@@ -119,7 +119,7 @@ public with sharing class CaseTriggerHandler {
 
         Map<Id, List<Charge_Group__c>> chargeGroups = new Map<Id, List<Charge_Group__c>>();
 
-        for (Case aCase: cases) {
+        for (Case aCase : cases) {
             if (!String.isEmpty(aCase.Guarantor_Information__c)) {
                 if (Constants.CASE_CG_SUBSTATUS.containsKey(aCase.Type)) {
 
@@ -146,7 +146,7 @@ public with sharing class CaseTriggerHandler {
         // Collect the guarantorIds from the new cases & group by caseType
         Map<String, Set<Id>> caseTypeGTMap = new Map<String, Set<Id>>();
 
-        for (Case aCase: cases) {
+        for (Case aCase : cases) {
             if (!String.isEmpty(aCase.Guarantor_Information__c)) {
                 if (!caseTypeGTMap.containsKey(aCase.Type)) {
                     caseTypeGTMap.put(aCase.Type, new Set<Id>());

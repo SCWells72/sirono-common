@@ -8,7 +8,7 @@
 @IsTest
 public class ChargeGroupRestClientMock implements HttpCalloutMock {
 
-    public HTTPResponse respond(HTTPRequest req) {
+    public HttpResponse respond(HttpRequest req) {
         HttpResponse res;
 
         // First see if the req matches any of the auth routes
@@ -23,9 +23,9 @@ public class ChargeGroupRestClientMock implements HttpCalloutMock {
 
         res = new HttpResponse();
 
-        System.debug('>>>>>>>> method: '+method+' url: '+url);
+        System.debug('>>>>>>>> method: ' + method + ' url: ' + url);
         if (method == RestClientConstants.GET) {
-            if (url == RestClientMockUtil.urlBuilder(urls.get(RestClientConstants.CHARGEGROUP_KEY), new String[]{RestClientConstants.CHARGE_GROUP_ID})) {
+            if (url == RestClientMockUtil.urlBuilder(urls.get(RestClientConstants.CHARGEGROUP_KEY), new String[] { RestClientConstants.CHARGE_GROUP_ID })) {
                 res.setStatusCode(RestClientConstants.HTTP_SUCCESS);
                 res.setHeader('Content-Type', 'application/json');
                 res.setBody(getChargeGroupJSONBody());
@@ -34,11 +34,11 @@ public class ChargeGroupRestClientMock implements HttpCalloutMock {
             }
 
         } else if (method == RestClientConstants.POST) {
-            String expectedUrl = RestClientMockUtil.urlBuilder(urls.get(RestClientConstants.CHARGEGROUP_KEY), new String[]{RestClientConstants.CHARGE_GROUP_ID});
+            String expectedUrl = RestClientMockUtil.urlBuilder(urls.get(RestClientConstants.CHARGEGROUP_KEY), new String[] { RestClientConstants.CHARGE_GROUP_ID });
             if (url == expectedUrl) {
                 res.setStatusCode(RestClientConstants.HTTP_SUCCESS);
             } else {
-                throw new SironoServiceException('Unexpected POST url: '+url+' sent to ChargeGroupRestClientMock. Expected: '+expectedUrl);
+                throw new SironoServiceException('Unexpected POST url: ' + url + ' sent to ChargeGroupRestClientMock. Expected: ' + expectedUrl);
             }
 
         } else {
@@ -52,7 +52,7 @@ public class ChargeGroupRestClientMock implements HttpCalloutMock {
     }
 
     public static String getChargeGroupJSONBody() {
-        return  '{"url":"https://toledo.stage.sirono.com/paystaff/api/chargegroups/' + RestClientConstants.CHARGE_GROUP_ID + '/",' +
+        return '{"url":"https://toledo.stage.sirono.com/paystaff/api/chargegroups/' + RestClientConstants.CHARGE_GROUP_ID + '/",' +
             '"account_type":"HB",' +
             '"account_number":"A1424501471",' +
             '"active":true,' +
@@ -70,9 +70,9 @@ public class ChargeGroupRestClientMock implements HttpCalloutMock {
             '"patient_data":{"mrn":"A01048800",' +
             '"patient_name":"MICHELE BLEVINS"},' +
             '"guarantor_data":{' +
-                '"display_id":"TD571",' +
-                '"url":"https://toledo.stage.sirono.com/paystaff/api/guarantors/571/",' +
-                '"full_name":"Michele Blevins"' +
+            '"display_id":"TD571",' +
+            '"url":"https://toledo.stage.sirono.com/paystaff/api/guarantors/571/",' +
+            '"full_name":"Michele Blevins"' +
             '},' +
             '"services_by_description":{},' +
             '"account_status":"Pending",' +

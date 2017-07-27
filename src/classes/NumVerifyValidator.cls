@@ -7,7 +7,7 @@
  * Valid numbers must contain 10 or 11 digits (US or international number format is allowed)
  * Possible lineType values are 'landline', 'mobile' & 'Invalid'
 */
-public class NumVerifyValidator  {
+public class NumVerifyValidator {
 
     public static final String LANDLINE = 'landline';
     public static final String MOBILE = 'mobile';
@@ -33,19 +33,19 @@ public class NumVerifyValidator  {
     public class VerifiedNumber {
         protected String rawPhoneNumber;
         protected String cleanedPhoneNumber;
-        protected boolean valid;
+        protected Boolean valid;
         protected String lineType;
 
         @TestVisible
         private VerifiedNumber(String phoneNumber) {
             this.lineType = INVALID;
             this.valid = false;
-            this.rawPhoneNumber = phoneNumber;            
+            this.rawPhoneNumber = phoneNumber;
             setCleanedNumber();
         }
 
         //Does this number meet the criteria to send it to NumVerify
-        public boolean isValid() {
+        public Boolean isValid() {
             return valid;
         }
 
@@ -70,7 +70,7 @@ public class NumVerifyValidator  {
         Sirono_Settings__c ss = SironoSettingsUtil.getPaymentPlanSettings();
 
         //TODO do country_code & format belong in settings or just in the url constant?
-        List<String> params = new String[]{ss.Apikey__c, ss.Country_Code__c, ss.Format__c.format(), nbr.cleanedPhoneNumber};
+        List<String> params = new String[] { ss.Apikey__c, ss.Country_Code__c, ss.Format__c.format(), nbr.cleanedPhoneNumber };
         String endPointURL = String.format(NUM_VERIFY_URL, params);
 
         HttpRequest request = new HttpRequest();
@@ -100,7 +100,7 @@ public class NumVerifyValidator  {
 
                 nbr.lineType = resp.line_type == null ? INVALID : resp.line_type;
             } catch (Exception e) {
-                System.debug('caught exception:' + e.getMessage());                
+                System.debug('caught exception:' + e.getMessage());
             }
         }
         return nbr;

@@ -27,7 +27,7 @@ public with sharing class TxnAggregationUtils {
                 ];
 
                 Map<Id, Decimal> resultsMap = mapAggregateResults(ids, results);
-                updateAdjustments(resultsMap);   
+                updateAdjustments(resultsMap);
             }
         }
     }
@@ -39,7 +39,7 @@ public with sharing class TxnAggregationUtils {
             System.debug('adjId: ' + objId);
             System.debug('adjTotal: ' + resultsMap.get(objId));
 
-            Payment_Adjustments__c adj = new Payment_Adjustments__c(Id=(Id) objId);
+            Payment_Adjustments__c adj = new Payment_Adjustments__c(Id = (Id) objId);
             adj.Amount__c = -1.0 * resultsMap.get(objId);
             adjs.add(adj);
         }
@@ -47,7 +47,7 @@ public with sharing class TxnAggregationUtils {
         // Update the database
         if (adjs.size() > 0) {
             if (PaymentAdjustmentsSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                UPDATE adjs;	
+                update adjs;
             }
         }
     }
@@ -62,7 +62,8 @@ public with sharing class TxnAggregationUtils {
             List<Id> sironoPmtIds = new List<Id>(new Map<Id, Payment__c>([
                 SELECT Id
                 FROM Payment__c
-                WHERE Id IN :ids AND Sirono_ID__c != null]).keySet());
+                WHERE Id IN :ids AND Sirono_ID__c != NULL
+            ]).keySet());
 
             if (sironoPmtIds.size() > 0) {
                 Set<Id> idSet = new Set<Id>();
@@ -82,15 +83,15 @@ public with sharing class TxnAggregationUtils {
      * Return the SUM of the associated transaction amounts for each payment id. If there are no aggregate results,
      * the amount should be 0
      **/
-    private static void aggregatePayments(Set<id> ids, boolean isPASPmt) {
+    private static void aggregatePayments(Set<Id> ids, Boolean isPASPmt) {
 
         if (ids.size() > 0) {
             if (TransactionSecurityContext.SELECT_CONTEXT_WITH_PAYMENT.actionAllowed()) {
                 AggregateResult[] results = [
-                        SELECT Payment__c obj, SUM(Amount__c) Total
-                        FROM Transaction__c
-                        WHERE Payment__c IN :ids
-                        GROUP BY Payment__c
+                    SELECT Payment__c obj, SUM(Amount__c) Total
+                    FROM Transaction__c
+                    WHERE Payment__c IN :ids
+                    GROUP BY Payment__c
                 ];
 
                 Map<Id, Decimal> resultsMap = mapAggregateResults(ids, results);
@@ -99,7 +100,7 @@ public with sharing class TxnAggregationUtils {
         }
     }
 
-    private static void updatePayments(Map<Id, Decimal> resultsMap, boolean isPASPmt) {
+    private static void updatePayments(Map<Id, Decimal> resultsMap, Boolean isPASPmt) {
 
         List<Payment__c> pmts = new List<Payment__c>();
 
@@ -109,7 +110,7 @@ public with sharing class TxnAggregationUtils {
 
             Payment__c pmt = new Payment__c(Id = objId);
             pmt.Posted_Amount__c = -1.0 * resultsMap.get(objId);
-            if (isPasPmt) {
+            if (isPASPmt) {
                 pmt.Amount__c = -1.0 * resultsMap.get(objId);
             }
             pmts.add(pmt);
@@ -118,7 +119,7 @@ public with sharing class TxnAggregationUtils {
         // Update the database
         if (pmts.size() > 0) {
             if (PaymentSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                UPDATE pmts;	
+                update pmts;
             }
         }
     }
@@ -152,7 +153,7 @@ public with sharing class TxnAggregationUtils {
             System.debug('svcId: ' + objId);
             System.debug('svcTotal: ' + resultsMap.get(objId));
 
-            Service__c svc = new Service__c(Id=objId);
+            Service__c svc = new Service__c(Id = objId);
             svc.Amount__c = resultsMap.get(objId);
             services.add(svc);
         }
@@ -160,8 +161,8 @@ public with sharing class TxnAggregationUtils {
         // Update the database
         if (services.size() > 0) {
             if (ServiceSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                UPDATE services;	
-	    }
+                update services;
+            }
         }
     }
 
