@@ -66,10 +66,10 @@ private class TaskTriggerHandlerTest {
         List<CaseSecurityContext> allContexts = new List<CaseSecurityContext> {
             CaseSecurityContext.CREATE_CONTEXT,
             CaseSecurityContext.CREATE_WITH_GT_CONTEXT,
-			CaseSecurityContext.CU_CREATE_WITH_ENCOUNTER_CONTEXT,
+            CaseSecurityContext.CU_CREATE_WITH_ENCOUNTER_CONTEXT,
             CaseSecurityContext.UPDATE_CONTEXT,
-			CaseSecurityContext.UPSERT_CONTEXT,
-			CaseSecurityContext.DELETE_CONTEXT
+            CaseSecurityContext.UPSERT_CONTEXT,
+            CaseSecurityContext.DELETE_CONTEXT
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
