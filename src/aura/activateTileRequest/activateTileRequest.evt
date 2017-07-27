@@ -3,5 +3,5 @@
   -->
 
 <aura:event type="APPLICATION" description="Event template">
-    <aura:attribute name="tileId" type="Integer" />
+    <aura:attribute name="tileId" type="Integer"/>
 </aura:event>

@@ -2,30 +2,30 @@
   - Copyright (c) 2017-present Sirono LLC, All rights reserved
   -->
 
-<aura:component >
+<aura:component>
 
-    <aura:handler event="c:activateEstimateTileRequest" action="{!c.activateTileHandler}" />
+    <aura:handler event="c:activateEstimateTileRequest" action="{!c.activateTileHandler}"/>
 
-    <aura:attribute name="estimate"         type="Object"   />
-    <aura:attribute name="tileId"           type="Integer"  />
-    <aura:attribute name="invoiceNameDate"  type="String"   />
-    <aura:attribute name="depositDueBy"     type="String"   />
-    <aura:attribute name="activated"        type="Boolean"  default="true"  />
-    <aura:attribute name="isOnPaymentsPage" type="Boolean"  default="false" />
+    <aura:attribute name="estimate" type="Object"/>
+    <aura:attribute name="tileId" type="Integer"/>
+    <aura:attribute name="invoiceNameDate" type="String"/>
+    <aura:attribute name="depositDueBy" type="String"/>
+    <aura:attribute name="activated" type="Boolean" default="true"/>
+    <aura:attribute name="isOnPaymentsPage" type="Boolean" default="false"/>
 
-    <aura:handler name="init" value="{!this}"     action="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!-- <aura:handler   event="c:SelectInvoicesEvent"   action="{!c.toggleAllInvoices}" /> -->
 
     <article class="invoice-record" aura:id="tile" onclick="{!c.activateTile}">
         <div class="grid gridEstimate">
             <div class="col left icon">
                 <div aura:id="selectIcon" class="{!!v.isOnPaymentsPage ? 'slds-hide' : 'select-all-icon selected'}">
-                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}"  category="standard" size="small" class="slds-button__icon" name="Check" />
+                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}" category="standard" size="small" class="slds-button__icon" name="Check"/>
                 </div>
                 <div class="title">
-                    {!v.estimate.singleEncounter.Patient__r.Name}
+                {!v.estimate.singleEncounter.Patient__r.Name}
                     <span class="{!'display_'+(v.estimate.singleEncounter.Patient__r.Medical_Record_Number__c != undefined)}">
-                         {!' (MRN: ' + v.estimate.singleEncounter.Patient__r.Medical_Record_Number__c + ')'}
+                            {!' (MRN: ' + v.estimate.singleEncounter.Patient__r.Medical_Record_Number__c + ')'}
                     </span>
                 </div>
                 <span class="active invoice-name">
@@ -34,7 +34,7 @@
                     <ui:outputText value="{!v.invoiceNameDate}" class="{!!v.isOnPaymentsPage ? 'slds-hide' : ''}"/>
                 </span>
                 <div class="{!!v.isOnPaymentsPage ? 'slds-hide' : ''}">
-                    
+
                     <div class="{!v.estimate.estimateStatus == 'Unpaid' ? '' : 'slds-hide'}">
                         <span class="title">Deposit Due by </span>
                         <span class="title"><ui:outputText value="{!v.depositDueBy}"/> </span>
@@ -50,9 +50,9 @@
             <div class="{!v.isOnPaymentsPage ? 'col right ' : 'col right'}">
                 <div class="title">Balance</div>
                 <div class="value">
-                    <ui:outputCurrency value="{!v.estimate.singleEncounter.Balance__c}" />
+                    <ui:outputCurrency value="{!v.estimate.singleEncounter.Balance__c}"/>
                 </div>
-                
+
             </div>
         </div>
         <div class="{!v.isOnPaymentsPage ? 'slds-hide' : 'grid '}">
@@ -60,8 +60,8 @@
                 <div class="col due">
                     <div class="title">
                         Deposit Due by <br/>
-                        <ui:outputdate class="{!v.isOnPaymentsPage ? 'slds-hide' : ''}" value="{!v.estimate.singleEncounter.Date_of_Service__c}" format="MMM d" />
-                        <ui:outputtext value="{!v.depositDueBy}" class="{!!v.isOnPaymentsPage ? 'slds-hide' : ''}" />
+                        <ui:outputdate class="{!v.isOnPaymentsPage ? 'slds-hide' : ''}" value="{!v.estimate.singleEncounter.Date_of_Service__c}" format="MMM d"/>
+                        <ui:outputtext value="{!v.depositDueBy}" class="{!!v.isOnPaymentsPage ? 'slds-hide' : ''}"/>
                     </div>
                 </div>
                 <div class="col links"><a onclick="{!c.sendEstimateNowToHeader}">Make Deposit</a></div>
@@ -76,5 +76,5 @@
             </div>
         </div>
     </article>
-        
+
 </aura:component>

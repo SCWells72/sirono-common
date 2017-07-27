@@ -2,8 +2,8 @@
   - Copyright (c) 2017-present Sirono LLC, All rights reserved
   -->
 
-<aura:event type="APPLICATION" description="Event template" >
-	<aura:attribute name="displaySironoHeader" type="Boolean" />
-	<aura:attribute name="displayMakePayment" type="Boolean" />
-	<aura:attribute name="displaySuccessMessage" type="Boolean" />
+<aura:event type="APPLICATION" description="Event template">
+    <aura:attribute name="displaySironoHeader" type="Boolean"/>
+    <aura:attribute name="displayMakePayment" type="Boolean"/>
+    <aura:attribute name="displaySuccessMessage" type="Boolean"/>
 </aura:event>

@@ -118,7 +118,7 @@
                                 <apex:outputLabel styleClass="pay-staff-message"
                                                   value="Total Payment Plan: ${!payableAmount}"/>
                             </td>
-                            <td colspan="2"> &nbsp; </td>
+                            <td colspan="2"> &nbsp;</td>
                         </tr>
 
                         <tr>
@@ -126,7 +126,7 @@
                                 <apex:outputLabel styleClass="pay-staff-label" value="Monthly Installment Amount"
                                                   for="amount2"/>
                             </td>
-                            <td colspan="2"> &nbsp; </td>
+                            <td colspan="2"> &nbsp;</td>
                         </tr>
                         <tr>
                             <td colspan="2">
@@ -137,7 +137,7 @@
                             </span>
                             </td>
 
-                            <td colspan="2"> &nbsp; </td>
+                            <td colspan="2"> &nbsp;</td>
                         </tr>
                     </table>
 
@@ -158,7 +158,7 @@
                                     <apex:outputLabel styleClass="pay-staff-label" value="Monthly Installment Amount"
                                                       for="amount"/>
                                 </td>
-                                <td> &nbsp; </td>
+                                <td> &nbsp;</td>
                                 <td>
                                     <apex:outputLabel styleClass="pay-staff-label" value="Date to Charge (each month)"
                                                       for="executeOnDay"/>
@@ -173,8 +173,8 @@
                                                 value="{!amount}" id="amount"/>
                             </span>
                                 </td>
-                                <td> &nbsp; </td>
-				<!--09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31-->
+                                <td> &nbsp;</td>
+                                <!--09-30-2016: Viraj Rana - Tracker #131322621: Date to Charge error to check the Date to Charge (each month) Enter only number between 1 to 31-->
                                 <td>
                                     <apex:inputText styleClass="pay-staff-input" onkeypress="return isDecimalNumberKey(event)" value="{!executeOnDay}"
                                                     id="executeOnDay"/>
@@ -319,6 +319,7 @@
                 }, delaymessage);
             });
         }
+
         function isNumberKey(evt) {
             var charCode = (evt.which) ? evt.which : event.keyCode
             if (charCode > 31 && (charCode < 48 || charCode > 57))

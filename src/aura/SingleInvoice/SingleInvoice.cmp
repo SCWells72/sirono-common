@@ -2,40 +2,40 @@
   - Copyright (c) 2017-present Sirono LLC, All rights reserved
   -->
 
-<aura:component >
-    <aura:attribute name="invoice" type="Object" />
+<aura:component>
+    <aura:attribute name="invoice" type="Object"/>
     <aura:attribute name="activated" type="Boolean" default="true"/>
-    <aura:attribute name="tileId" type="Integer" />
+    <aura:attribute name="tileId" type="Integer"/>
     <aura:attribute name="isLock" type="Boolean" default="false"/>
     <aura:attribute name="selectedTab" type="String" default="MakePayment"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <aura:handler event="c:SelectInvoicesEvent" action="{!c.toggleAllInvoices}" />
-    <aura:registerEvent name="singleInvoiceDetailsEvent" type="c:SingleInvoiceDetailsEvent"/> 
-    
+    <aura:handler event="c:SelectInvoicesEvent" action="{!c.toggleAllInvoices}"/>
+    <aura:registerEvent name="singleInvoiceDetailsEvent" type="c:SingleInvoiceDetailsEvent"/>
+
     <article class="invoice-record">
         <div class="col left icon">
             <aura:if isTrue="{!!v.isLock}">
                 <div aura:id="selectIcon" class="select-all-icon selected" onclick="{!c.selectInvoice}">
-                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}"  category="standard" size="small" class="slds-button__icon" name="Check" />
+                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}" category="standard" size="small" class="slds-button__icon" name="Check"/>
                 </div>
             </aura:if>
             <aura:if isTrue="{!v.isLock}">
                 <div aura:id="lockIcon" class="select-all-icon">
-                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/action-sprite/svg/symbols.svg#password_unlock'}"  category="standard" size="small" class="slds-button__icon" name="password_unlock" />
+                    <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/action-sprite/svg/symbols.svg#password_unlock'}" category="standard" size="small" class="slds-button__icon" name="password_unlock"/>
                 </div>
             </aura:if>
             <div class="title">{!v.invoice.singleInvoice.Patient__r.Name + ' (MRN: ' + v.invoice.singleInvoice.Patient__r.Medical_Record_Number__c + ')'}</div>
             <a class="invoice-name" onclick="{!c.selectInvoice}">
-                <ui:outputdate value="{!v.invoice.singleInvoice.Invoice_Date__c}" format="MMMM YYYY" />
+                <ui:outputdate value="{!v.invoice.singleInvoice.Invoice_Date__c}" format="MMMM YYYY"/>
             </a>
         </div>
         <div class="col right">
             <div class="title">Balance Due</div>
             <div class="value">
-                <ui:outputcurrency value="{!v.invoice.balanceDue}" />
+                <ui:outputcurrency value="{!v.invoice.balanceDue}"/>
             </div>
         </div>
-        <div class="col payment-due"> 
+        <div class="col payment-due">
             <em>{!v.invoice.singleInvoice.Invoice_Status__c}</em>
             <em class="{!v.invoice.singleInvoice.Partial_Payment_Plan__c != true ? 'slds-hide' : ''}"><br/>Partially on a Payment Plan</em>
             <div class="float-right">

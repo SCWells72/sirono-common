@@ -16,7 +16,7 @@
     <apex:sectionHeader title="Pay Estimate"/>
     <apex:form id="sirono-pay-estimate-form">
         <apex:outputPanel id="sirono-pay-estimate-error-panel">
-            <apex:pageMessages />
+            <apex:pageMessages/>
         </apex:outputPanel>
         <apex:outputPanel id="sirono-pay-estimate-status-panel" styleClass="pay-staff-outer_block" style="display:none;">
             <div class="pay-staff-inner_block">
@@ -47,7 +47,7 @@
                             <tr class="dataRow">
                                 <td class="dataCell pay-staff-td-width">
                                     <apex:inputCheckbox value="{!enw.isSelected}" id="inputId"
-                                        onclick="singleSelectCheckBoxStatus(this);startAjaxLoader('sirono-pay-estimate-page:sirono-pay-estimate-form:sirono-pay-estimate-status-panel');refreshJS();"/>
+                                                        onclick="singleSelectCheckBoxStatus(this);startAjaxLoader('sirono-pay-estimate-page:sirono-pay-estimate-form:sirono-pay-estimate-status-panel');refreshJS();"/>
                                 </td>
                                 <td class="dataCell">
                                     <apex:outputField value="{!enw.en.Name}"/>
@@ -91,7 +91,7 @@
                     <tr>
                         <td colspan="3">
                             <apex:inputText styleClass="pay-staff-input" onkeypress="return isDecimalNumberKey(event)"
-                                    maxlength="15" value="{!amount}" id="sirono-pay-estimate-amount"/>
+                                            maxlength="15" value="{!amount}" id="sirono-pay-estimate-amount"/>
                         </td>
                     </tr>
                     <tr>
@@ -191,7 +191,7 @@
                                     Encounter {!enw.en.name}
                                 </td>
                                 <td class="pay-staff-text-right">
-                                    {!enw.en.Balance__c}
+                                        {!enw.en.Balance__c}
                                 </td>
                             </tr>
                         </apex:outputText>
@@ -216,7 +216,7 @@
                         </td>
                         <td>
                             <apex:commandButton action="{!submit}" value="Submit" styleClass="pay-staff-button"
-                                        rendered="{!encounterSelected}"/>
+                                                rendered="{!encounterSelected}"/>
                         </td>
                     </tr>
                 </table>

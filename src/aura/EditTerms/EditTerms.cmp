@@ -3,60 +3,60 @@
   -->
 
 <aura:component controller="PaymentTabsController">
-	<aura:attribute name="PaymentInfo" type="Object" access="public" default="{}" />
-	<aura:attribute name="PaymentRequestInfo" type="Object" access="public" default="{}" />
-    <aura:attribute name="CreditCard" type="Object" access="public" default="{}" />
-	<aura:attribute name="dayOfMonthSelection" type="Integer[]" access="public"/>
-	<!-- plan Slider --> 
-	<aura:attribute name="minAmount" type="Decimal" access="private" default="0"/>
-	<aura:attribute name="maxAmount" type="Decimal" default="0"/>
-	<aura:attribute name="sliderValue" type="String" access="private" default="0"/>
-	<aura:attribute name="sliderValuePart" type="String" access="private" default="00"/>
-	<!-- plan Slider END -->
-	<aura:attribute name="hasError" type="Boolean" access="public" default="false"/>
+    <aura:attribute name="PaymentInfo" type="Object" access="public" default="{}"/>
+    <aura:attribute name="PaymentRequestInfo" type="Object" access="public" default="{}"/>
+    <aura:attribute name="CreditCard" type="Object" access="public" default="{}"/>
+    <aura:attribute name="dayOfMonthSelection" type="Integer[]" access="public"/>
+    <!-- plan Slider -->
+    <aura:attribute name="minAmount" type="Decimal" access="private" default="0"/>
+    <aura:attribute name="maxAmount" type="Decimal" default="0"/>
+    <aura:attribute name="sliderValue" type="String" access="private" default="0"/>
+    <aura:attribute name="sliderValuePart" type="String" access="private" default="00"/>
+    <!-- plan Slider END -->
+    <aura:attribute name="hasError" type="Boolean" access="public" default="false"/>
 
-	<aura:handler name="init" value="{!this}" action="{!c.doCmpInit}"/>
-	<aura:handler name="change" value="{!v.PaymentRequestInfo.planValue}" action="{!c.doCalcView}"/>
-	<aura:handler name="paymentMethodInit" event="c:CancelActionEvent" action="{!c.cancelEditCardAction}"/>
-	<aura:handler name="paymentPlanCreated" event="c:PaymentPlanCreatedEvent" action="{!c.resetCmp}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doCmpInit}"/>
+    <aura:handler name="change" value="{!v.PaymentRequestInfo.planValue}" action="{!c.doCalcView}"/>
+    <aura:handler name="paymentMethodInit" event="c:CancelActionEvent" action="{!c.cancelEditCardAction}"/>
+    <aura:handler name="paymentPlanCreated" event="c:PaymentPlanCreatedEvent" action="{!c.resetCmp}"/>
 
 
     <aura:registerEvent name="initPlanInfo" type="c:CancelActionEvent"/>
 
     <c:PaymentPlanService aura:id="paymentPlanService"/>
     <aura:if isTrue="{!v.PaymentInfo.hasPaymentPlan}">
-		<div class="intro">
-			<h2 class="txt_h2">Edit Payment Plan Terms
-				<div class="status info sldsjs-popover">
+        <div class="intro">
+            <h2 class="txt_h2">Edit Payment Plan Terms
+                <div class="status info sldsjs-popover">
 					<span class="slds-icon_container sldsjs-popover-action" onclick="{!c.showPopoverInfo}">
-						<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="utility" size="small" name="info" class="slds-icon slds-icon--x-small" />
+						<c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="utility" size="small" name="info" class="slds-icon slds-icon--x-small"/>
 						<span class="slds-assistive-text">Info</span>
 					</span>
-					<div aura:id="sldsjsPopoverInfo" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-right slds-hide" role="tooltip" id="help" style="position:absolute;top:45px;right:-6px;">
-						<div class="slds-popover__body">
-							This account has delinquent invoices. Delinquent invoices will be sent to a collections agency if payment arrangements are not made within the next 30 days. Please pay the balance of these invoices now or set up a payment plan.
-						</div>
-					</div>
-				</div>
-			</h2>
-			<c:EditPlanInfo PaymentInfo="{!v.PaymentInfo}"/>
-		</div>
-	</aura:if>
-	<div aura:id="editTerms" class="set-amount">
-		<aura:if isTrue="{!v.hasError}">
-			<c:SuccessMessage isSuccess="false" aura:id="notificationCmp" />
-		</aura:if>
+                    <div aura:id="sldsjsPopoverInfo" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-right slds-hide" role="tooltip" id="help" style="position:absolute;top:45px;right:-6px;">
+                        <div class="slds-popover__body">
+                            This account has delinquent invoices. Delinquent invoices will be sent to a collections agency if payment arrangements are not made within the next 30 days. Please pay the balance of these invoices now or set up a payment plan.
+                        </div>
+                    </div>
+                </div>
+            </h2>
+            <c:EditPlanInfo PaymentInfo="{!v.PaymentInfo}"/>
+        </div>
+    </aura:if>
+    <div aura:id="editTerms" class="set-amount">
+        <aura:if isTrue="{!v.hasError}">
+            <c:SuccessMessage isSuccess="false" aura:id="notificationCmp"/>
+        </aura:if>
         <aura:if isTrue="{!!v.PaymentInfo.hasPaymentPlan}">
             <div class="title">
                 <h2 class="txt_h2">Set payment amount and time
                     <div class="status info sldsjs-popover">
                         <span class="slds-icon_container sldsjs-popover-action" onclick="{!c.showPopoverInfo}">
-                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="utility" size="small" name="info" class="slds-icon slds-icon--x-small" />
+                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="utility" size="small" name="info" class="slds-icon slds-icon--x-small"/>
                             <span class="slds-assistive-text">Info</span>
                         </span>
                         <div aura:id="sldsjsPopoverInfo" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-right slds-hide" role="tooltip" id="help" style="position:absolute;top:45px;right:-6px;">
                             <div class="slds-popover__body">
-                            	{! $Label.c.Payment_amount_and_time_tooltip_message_before_months}&nbsp;{!v.PaymentInfo.settings.Max_Number_Plan_Installments__c}&nbsp;{! $Label.c.Payment_amount_and_time_tooltip_message_after_months}&nbsp;${!v.PaymentInfo.settings.Min_Installment_Amount__c}
+                            {! $Label.c.Payment_amount_and_time_tooltip_message_before_months}&nbsp;{!v.PaymentInfo.settings.Max_Number_Plan_Installments__c}&nbsp;{! $Label.c.Payment_amount_and_time_tooltip_message_after_months}&nbsp;${!v.PaymentInfo.settings.Min_Installment_Amount__c}
                             </div>
                         </div>
                     </div>
@@ -64,63 +64,63 @@
             </div>
         </aura:if>
         <label class="slds-form-element__label"><strong>Payment Plan Balance:</strong></label>
-		<div class="value">
-			<ui:outputCurrency value="{!v.PaymentRequestInfo.totalAmount}" />
-		</div>
+        <div class="value">
+            <ui:outputCurrency value="{!v.PaymentRequestInfo.totalAmount}"/>
+        </div>
 
-		<div class="payment-slider">
-			<div class="grid payment-numbers">
-				<div class="col amount">${!v.sliderValue}<span>.{!v.sliderValuePart}</span></div>
-				<div class="col over slds-align-bottom">over</div>
-				<div class="col months">{!v.PaymentRequestInfo.totalInstallments} <span>Months</span>
-				</div>
-			</div>
-			<div class="info">Adjust your monthly payments to estimate your payment over fewer months.</div>
-			<input type="range" min="{!v.minAmount}" max="{!v.maxAmount}" step="1" value="{!v.sliderValue}" class="payment-slider-circle" onchange="{!c.changeSlider}"/>
-			
+        <div class="payment-slider">
+            <div class="grid payment-numbers">
+                <div class="col amount">${!v.sliderValue}<span>.{!v.sliderValuePart}</span></div>
+                <div class="col over slds-align-bottom">over</div>
+                <div class="col months">{!v.PaymentRequestInfo.totalInstallments} <span>Months</span>
+                </div>
+            </div>
+            <div class="info">Adjust your monthly payments to estimate your payment over fewer months.</div>
+            <input type="range" min="{!v.minAmount}" max="{!v.maxAmount}" step="1" value="{!v.sliderValue}" class="payment-slider-circle" onchange="{!c.changeSlider}"/>
+
             <div class="grid high-low range_slider">
-				<div class="col">
-					<ui:outputcurrency value="{!v.minAmount}"/>
-				</div>
-				<div class="col align-right">
-					<ui:outputCurrency value="{!v.PaymentRequestInfo.totalAmount}"/>
-				</div>
-			</div>
-		</div>
-		<label class="slds-form-element__label">Set payment day of month</label><br/>
-		<div class="pay-date grid">
-			<div class="col slds-align-middle">Pay on day </div>
-			<div class="col">
-				<lightning:select name="dayOfMonth" label="Day of month" aura:id="dayOfMonth" value="{!v.PaymentRequestInfo.executeOnDay}" class="payment-plan-day--select">					
-					<option value="0" name="loading..."/>
-				</lightning:select>
-			</div>
-			<div class="col slds-align-middle">of each month.</div>
-		</div>
-		<div class="float-right slds-p-bottom--large">
-			<aura:if isTrue="{!v.PaymentInfo.hasPaymentPlan}">
-				<button class="slds-button slds-button--neutral" onclick="{!c.cancelAction}">Cancel</button>
-				<aura:if isTrue="{!not(v.hasError)}">
-					<button class="slds-button slds-button--brand pp-step-two-button" onclick="{!c.updatePaymentTerms}">Update Terms</button>
-					<aura:set attribute="else">
-						<button class="slds-button slds-button--brand pp-step-two-button" disabled="disabled">Update Terms</button>
-					</aura:set>
-				</aura:if>
-				<aura:set attribute="else">
-					<aura:if isTrue="{!not(v.hasError)}">
-						<button class="slds-button slds-button--brand pp-step-two-button" onclick="{!c.createPaymenTerms}">Enter Payment Details</button>
-						<aura:set attribute="else">
-							<button class="slds-button slds-button--brand pp-step-two-button" disabled="disabled">Enter Payment Details</button>
-						</aura:set>
-					</aura:if>
-				</aura:set>
-			</aura:if>
-		</div>
-	</div>
+                <div class="col">
+                    <ui:outputcurrency value="{!v.minAmount}"/>
+                </div>
+                <div class="col align-right">
+                    <ui:outputCurrency value="{!v.PaymentRequestInfo.totalAmount}"/>
+                </div>
+            </div>
+        </div>
+        <label class="slds-form-element__label">Set payment day of month</label><br/>
+        <div class="pay-date grid">
+            <div class="col slds-align-middle">Pay on day</div>
+            <div class="col">
+                <lightning:select name="dayOfMonth" label="Day of month" aura:id="dayOfMonth" value="{!v.PaymentRequestInfo.executeOnDay}" class="payment-plan-day--select">
+                    <option value="0" name="loading..."/>
+                </lightning:select>
+            </div>
+            <div class="col slds-align-middle">of each month.</div>
+        </div>
+        <div class="float-right slds-p-bottom--large">
+            <aura:if isTrue="{!v.PaymentInfo.hasPaymentPlan}">
+                <button class="slds-button slds-button--neutral" onclick="{!c.cancelAction}">Cancel</button>
+                <aura:if isTrue="{!not(v.hasError)}">
+                    <button class="slds-button slds-button--brand pp-step-two-button" onclick="{!c.updatePaymentTerms}">Update Terms</button>
+                    <aura:set attribute="else">
+                        <button class="slds-button slds-button--brand pp-step-two-button" disabled="disabled">Update Terms</button>
+                    </aura:set>
+                </aura:if>
+                <aura:set attribute="else">
+                    <aura:if isTrue="{!not(v.hasError)}">
+                        <button class="slds-button slds-button--brand pp-step-two-button" onclick="{!c.createPaymenTerms}">Enter Payment Details</button>
+                        <aura:set attribute="else">
+                            <button class="slds-button slds-button--brand pp-step-two-button" disabled="disabled">Enter Payment Details</button>
+                        </aura:set>
+                    </aura:if>
+                </aura:set>
+            </aura:if>
+        </div>
+    </div>
 
-	<aura:if isTrue="{!not(v.PaymentInfo.hasPaymentPlan)}">
-		<div aura:id="editCreditCard" class="slds-p-horizontal--large border-top slds-hide">
-			<c:EditPaymentCard PaymentInfo="{!v.PaymentInfo}" PaymentRequestInfo="{!v.PaymentRequestInfo}" />
-		</div>
-	</aura:if>
+    <aura:if isTrue="{!not(v.PaymentInfo.hasPaymentPlan)}">
+        <div aura:id="editCreditCard" class="slds-p-horizontal--large border-top slds-hide">
+            <c:EditPaymentCard PaymentInfo="{!v.PaymentInfo}" PaymentRequestInfo="{!v.PaymentRequestInfo}"/>
+        </div>
+    </aura:if>
 </aura:component>

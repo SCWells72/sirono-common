@@ -3,16 +3,16 @@
   -->
 
 <aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="WorkWithPaymentsController">
-    <aura:handler event="c:collapsedHeader" action="{!c.bodyStatus}" />
-    <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/salesforce-lightning-design-system.min.css'}" />
-	<link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/main.css'}" />
-    
+    <aura:handler event="c:collapsedHeader" action="{!c.bodyStatus}"/>
+    <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/salesforce-lightning-design-system.min.css'}"/>
+    <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/main.css'}"/>
 
-    <aura:handler event="c:payNowResponse" action="{!c.payCall}" />
 
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:payNowResponse" action="{!c.payCall}"/>
 
-    <c:SingleInvoiceDetails />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <c:SingleInvoiceDetails/>
 
     <div class="wrapper total_div">
         <div aura:id="payment_scroll" class="main-wrapper payment small alert">

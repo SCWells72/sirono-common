@@ -6,27 +6,27 @@
 <aura:component controller="LightningLoginFormController" implements="forceCommunity:availableForAllPageTypes">
     <aura:attribute name="showError" type="Boolean" required="true" description="" default="false" access="private"/>
     <aura:attribute name="errorMessage" type="String" required="false" description="" access="private"/>
-    <aura:attribute name="startUrl" type="String" required="false" description="The url you go to after a successful login" />
+    <aura:attribute name="startUrl" type="String" required="false" description="The url you go to after a successful login"/>
     <aura:attribute name="usernameLabel" type="String" required="false" default="Username"/>
     <aura:attribute name="passwordLabel" type="String" required="false" default="Password"/>
     <aura:attribute name="loginButtonLabel" type="String" required="false" default="Log in"/>
-    
+
     <aura:attribute name="forgotPasswordLabel" type="String" required="false" default="Forgot your password?"/>
     <aura:attribute name="selfRegisterLabel" type="String" required="false" default="Not a member?"/>
     <aura:attribute name="forgotPasswordUrl" type="String" required="false" default="/ForgotPassword"/>
     <aura:attribute name="selfRegisterUrl" type="String" required="false" default="/SelfRegister"/>
-    
+
     <aura:attribute name="isUsernamePasswordEnabled" type="Boolean" access="private"/>
     <aura:attribute name="isSelfRegistrationEnabled" type="Boolean" access="private"/>
     <aura:attribute name="communityForgotPasswordUrl" type="String" access="private"/>
     <aura:attribute name="communitySelfRegisterUrl" type="String" access="private"/>
-    
+
     <!-- <aura:registerevent name="sitePropagatedStartUrl" type="c:setStartUrl"/> -->
     <aura:handler name="init" value="{!this}" action="{!c.initialize}"/>
-<!--     <aura:dependency resource="c:setStartUrl" type="EVENT"/>
+    <!--     <aura:dependency resource="c:setStartUrl" type="EVENT"/>
     <aura:dependency resource="siteforce:registerQueryEventMap" type="EVENT"/>
     <aura:handler event="c:setStartUrl" action="{!c.setStartUrl}"/> -->
-    
+
     <!-- <div>
         <aura:renderIf isTrue="{!v.isUsernamePasswordEnabled}">
             <span>

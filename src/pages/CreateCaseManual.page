@@ -10,20 +10,20 @@
     <apex:sectionHeader title="Add To Case"/>
     <style>
         span.lookupInput input {
-            display: inline!important;
+            display: inline !important;
         }
-        
+
         span.lookupInput a {
             -webkit-appearance: none;
             -moz-appearance: none;
             border-radius: 0;
             background-color: #fff;
             border-style: solid;
-            border-width: 0!important;
+            border-width: 0 !important;
             border-color: #999;
-            box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
-            color: rgba(0,0,0,0.75);
-            display: inherit!important;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+            color: rgba(0, 0, 0, 0.75);
+            display: inherit !important;
             font-family: inherit;
             font-size: 0.875rem;
             height: 2.3125rem;
@@ -36,7 +36,7 @@
             -ms-transition: border-color 0.15s linear, background 0.15s linear;
             -o-transition: border-color 0.15s linear, background 0.15s linear;
             transition: border-color 0.15s linear, background 0.15s linear;
-    
+
         }
 
         .pay-staff-table-full-width {
@@ -301,7 +301,7 @@
                             <td width="49%">
                                 <apex:outputLabel styleClass="pay-staff-label" value="Guarantor"/>
                             </td>
-                            <td width="2%"> &nbsp; </td>
+                            <td width="2%"> &nbsp;</td>
                             <td width="49%">
                                 <apex:outputLabel styleClass="pay-staff-label" value="Patient"
                                                   rendered="{!if(caseType != 'General',true,false)}"/>
@@ -312,7 +312,7 @@
                                 <apex:outputText styleClass="pay-staff-input clsGuarantor"
                                                  value="{!guarantorContact.Name}"/>
                             </td>
-                            <td> &nbsp; </td>
+                            <td> &nbsp;</td>
                             <td>
                                 <apex:outputText styleClass="pay-staff-input clsPatient" value="{!patientContact.Name}"
                                                  rendered="{!if(caseType != 'General',true,false)}"/>
@@ -322,7 +322,7 @@
                             <td width="49%">
                                 <apex:outputLabel styleClass="pay-staff-label" value="Case Reason"/>
                             </td>
-                            <td width="2%"> &nbsp; </td>
+                            <td width="2%"> &nbsp;</td>
                             <td width="49%">
                                 <apex:outputLabel styleClass="pay-staff-label"/>
                             </td>
@@ -334,7 +334,7 @@
                                 </apex:inputField>
 
                             </td>
-                            <td> &nbsp;  </td>
+                            <td> &nbsp;</td>
                             <td></td>
                         </tr>
                         <apex:variable value="{!2}" var="counter"/>
@@ -373,7 +373,7 @@
                                 <apex:outputText escape="false" value="<tr>"/>
                             </apex:outputText>
                             <apex:outputText rendered="{!mod(counter,2)=1}">
-                                <td width="2%"> &nbsp; </td>
+                                <td width="2%"> &nbsp;</td>
                             </apex:outputText>
 
                             <td width="49%">
@@ -396,7 +396,7 @@
                             <td colspan="3">
                                 <apex:outputLabel styleClass="pay-staff-label" value="Notes/Circumstance"/>
                             </td>
-                            <td> &nbsp; </td>
+                            <td> &nbsp;</td>
                             <td></td>
                         </tr>
                         <tr>
@@ -421,7 +421,7 @@
                                             <apex:outputText escape="false" value="<tr>"/>
                                         </apex:outputText>
                                         <apex:outputText rendered="{!mod(counter,2)=1}">
-                                            <td width="2%"> &nbsp; </td>
+                                            <td width="2%"> &nbsp;</td>
                                         </apex:outputText>
 
                                         <td width="49%">
@@ -512,16 +512,16 @@
                     setObj[str] = val;
                     return ++this.count
                 };
-            
+
                 this.contains = function (str) {
                     return setObj[str] === val;
                 };
-            
+
                 this.remove = function (str) {
                     delete setObj[str];
                     return --this.count
                 };
-            
+
                 this.values = function () {
                     var values = [];
                     for (var i in setObj) {
@@ -532,33 +532,33 @@
                     return values;
                 };
             };
-            
+
             function fnFieldSet() {
-                if('{!JSENCODE(coverageJson)}' != '') {
+                if ('{!JSENCODE(coverageJson)}' != '') {
                     var objcoverage = JSON.parse('{!JSENCODE(coverageJson)}');
                 }
-                if('{!JSENCODE(transactionJson)}' != '') {
+                if ('{!JSENCODE(transactionJson)}' != '') {
                     var objTransaction = JSON.parse('{!JSENCODE(transactionJson)}');
                 }
                 var caseType = '{!JSENCODE(caseType)}';
-                var reason = '{!JSENCODE(caseObj.Reason)}';                
-                
+                var reason = '{!JSENCODE(caseObj.Reason)}';
+
                 if (caseType == 'Billing') {
                     if (reason == 'Refund/Credit Request') {
                         var amount = objTransaction.Amount__c;
-                        
-                        if(amount != undefined){
-                            $.map($('label'),function(o, idx) {
+
+                        if (amount != undefined) {
+                            $.map($('label'), function (o, idx) {
                                 var str = $(o).text().toString().replace(/\r?\n|\r/g, '');
-                                if(str == 'Transaction Amount') {
+                                if (str == 'Transaction Amount') {
                                     $(o).closest('td').find('input').val(amount);
                                 }
                             });
                         }
                     } else {
-                        $.map($('label'),function(o, idx) {
+                        $.map($('label'), function (o, idx) {
                             var str = $(o).text().toString().replace(/\r?\n|\r/g, '');
-                            if(str == 'Transaction Amount') {
+                            if (str == 'Transaction Amount') {
                                 $(o).closest('td').find('input').val('');
                             }
                         });
@@ -571,24 +571,24 @@
                     payorReasons.add('Update Insurance');
                     payorReasons.add('Workers Comp');
                     payorReasons.add('Insurance Error');
-                    
-                    if(payorReasons.contains(reason)) {
+
+                    if (payorReasons.contains(reason)) {
                         var carrier = objcoverage.Coverage__r.Payor__c;
                         if (carrier != undefined) {
                             carrier = objcoverage.Coverage__r.Payor__r.Name;
                         }
                         var planType = objcoverage.Coverage__r.Plan_Name__c;
-                        
+
                         //11-23-2016: Viraj Rana - Change to resolved Time Zone issue for Effective Date.
-                        var effectiveDate = objcoverage.Coverage__r.Date_Effective__c;                                                
+                        var effectiveDate = objcoverage.Coverage__r.Date_Effective__c;
                         if (effectiveDate != undefined) {
                             effectiveDate = effectiveDate.split('-')[1] + '/' + effectiveDate.split('-')[2] + '/' + effectiveDate.split('-')[0];
                         }
-                        
+
                         var subscriberName = objcoverage.Coverage__r.Subscriber_Name__c;
                         var subscriberID = objcoverage.Coverage__r.Subscriber_ID__c;
-                        
-                        $.map($('label'),function(o, idx) {
+
+                        $.map($('label'), function (o, idx) {
                             var str = $(o).text().toString().replace(/\r?\n|\r/g, '');
                             if (str == 'Carrier') {
                                 if (carrier != undefined) {
@@ -596,7 +596,7 @@
                                 }
                             } else if (str == 'Plan Type') {
                                 if (planType != undefined) {
-                                    $(o).closest('td').find('select').val(planType);                                    
+                                    $(o).closest('td').find('select').val(planType);
                                     if ($(o).closest('td').find('select').val() == null) {
                                         $(o).closest('td').find('select').val('');
                                     }
@@ -616,7 +616,7 @@
                             }
                         });
                     } else {
-                        $.map($('label'),function(o, idx) {
+                        $.map($('label'), function (o, idx) {
                             var str = $(o).text().toString().replace(/\r?\n|\r/g, '');
                             if (str != 'Guarantor' || str != 'Patient' || str != 'Case Reason') {
                                 if (str == 'Plan Type') {
@@ -631,34 +631,35 @@
                     if (reason == 'Mailed Form Request: Receipt') {
                         var amount = objTransaction.Amount__c;
                         var code = objTransaction.Sirono_ID__c;
-                        
-                        $.map($('label'),function(o, idx) {
+
+                        $.map($('label'), function (o, idx) {
                             var str = $(o).text().toString().replace(/\r?\n|\r/g, '');
-                            if(str == 'Transaction Amount'){
-                                if(amount != undefined){
+                            if (str == 'Transaction Amount') {
+                                if (amount != undefined) {
                                     $(o).closest('td').find('input').val(amount);
                                 }
-                            } else if (str == 'Transaction Code'){
-                                if(code != undefined) {
+                            } else if (str == 'Transaction Code') {
+                                if (code != undefined) {
                                     $(o).closest('td').find('input').val(code);
                                 }
                             }
                         });
                     } else {
-                        $.map($('label'),function(o, idx) {
+                        $.map($('label'), function (o, idx) {
                             var str = $(o).text().toString().replace(/\r?\n|\r/g, '');
-                            if(str == 'Transaction Amount' || str == 'Transaction Code'){
+                            if (str == 'Transaction Amount' || str == 'Transaction Code') {
                                 $(o).closest('td').find('input').val('');
                             }
                         });
                     }
                 }
             };
-            
+
             function fnCollapseNew() {
                 $(document.getElementById($('.hideListButton').attr('id'))).trigger('click');
                 fnFieldSet();
             }
+
             fnCollapseNew();
 
             $(".clsGuarantor, .guarantorPopup").hover(function (e) {
