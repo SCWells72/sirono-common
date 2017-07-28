@@ -2,10 +2,10 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 public with sharing class PaymentMethodServiceTest {
 
-    @isTest
+    @IsTest
     public static void testGetPaymentMethods() {
         User portalUser = TestUtility.getGuarantorCommunityUser();
         Contact guarantorContact = TestUtility.getPortalGuarantor();
@@ -20,7 +20,7 @@ public with sharing class PaymentMethodServiceTest {
         System.assertEquals(2, results.size(), 'Should find the PMs.');
     }
 
-    @isTest
+    @IsTest
     public static void testGetPaymentMethodsNoResults() {
         User portalUser = TestUtility.getGuarantorCommunityUser();
         Contact guarantorContact = TestUtility.getPortalGuarantor();
@@ -32,7 +32,7 @@ public with sharing class PaymentMethodServiceTest {
         System.assertEquals(0, pms.size(), 'Should not find any PMs.');
     }
 
-    @isTest
+    @IsTest
     public static void testGetCreditCard() {
         User portalUser = TestUtility.getGuarantorCommunityUser();
         Contact guarantorContact = TestUtility.getPortalGuarantor();
@@ -48,9 +48,9 @@ public with sharing class PaymentMethodServiceTest {
         System.assertEquals(null, noCard, 'Should return null if no card is found.');
     }
 
-    @isTest
+    @IsTest
     public static void testGeneratePaymentMethod() {
-        PaymentPlanInformation ppInfo = new PaymentPlanInformation(new Map<String, Object>{
+        PaymentPlanInformation ppInfo = new PaymentPlanInformation(new Map<String, Object> {
             PaymentPlanInformation.EXPIRATION_YEAR => '2020',
             PaymentPlanInformation.EXPIRATION_MONTH => '5',
             PaymentPlanInformation.CREDITCARD_NUMBER => '4111111111111234',
@@ -70,7 +70,7 @@ public with sharing class PaymentMethodServiceTest {
         System.assertEquals('1234', payMethod.Last_4__c, 'Should populate last four.');
     }
 
-    @isTest
+    @IsTest
     public static void testGetPaymentMethodExpiration() {
         String month = '1';
         String year = '1980';
@@ -83,7 +83,7 @@ public with sharing class PaymentMethodServiceTest {
         System.assertEquals(Date.newInstance(1980, 1, 1), expDate, 'Should equal expected date.');
     }
 
-    @isTest
+    @IsTest
     public static void testGetPaymentMethodExpirationBlanks() {
         String month = '2';
         String year = '1992';
@@ -101,7 +101,7 @@ public with sharing class PaymentMethodServiceTest {
         System.assertEquals(null, blankBothDate, 'Should be null with both blank.');
     }
 
-    @isTest
+    @IsTest
     public static void testGetLastFourPopulated() {
         String ccNum = '4111111111111532';
 
@@ -113,7 +113,7 @@ public with sharing class PaymentMethodServiceTest {
         System.assertEquals('1532', result, 'Should create last for digits string.');
     }
 
-    @isTest
+    @IsTest
     public static void testGetLastFourBlank() {
         String ccNumShort = '333';
         String ccNum = '';
@@ -148,7 +148,7 @@ public with sharing class PaymentMethodServiceTest {
 
         pms.add(PaymentMethodService.generatePaymentMethod(ppInfo, guarantorContact.Id));
 
-        INSERT pms;
+        insert pms;
 
         return pms;
 

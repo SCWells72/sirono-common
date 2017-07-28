@@ -5,38 +5,38 @@
 /**
  * Test the NumVerifyValidator
  */
-@isTest
+@IsTest
 public class NumVerifyValidatorTest {
 
-    @isTest
+    @IsTest
     public static void testNumberCleaning_NumberTooLong() {
         String phoneNumber = '+1-852-999-3456 x9292';
         NumVerifyValidator.VerifiedNumber nbr = new NumVerifyValidator.VerifiedNumber(phoneNumber);
         System.assert(!nbr.isValid(), 'Expected number to be invalid - too many digits');
     }
 
-    @isTest
+    @IsTest
     public static void testNumberCleaning_NumberTooShort() {
         String phoneNumber = '852-999-345';
         NumVerifyValidator.VerifiedNumber nbr = new NumVerifyValidator.VerifiedNumber(phoneNumber);
         System.assert(!nbr.isValid(), 'Expected number to be invalid - too short');
     }
 
-    @isTest
+    @IsTest
     public static void testNumberCleaning_NumberValid_Local() {
         String phoneNumber = '(852) 999-3451';
         NumVerifyValidator.VerifiedNumber nbr = new NumVerifyValidator.VerifiedNumber(phoneNumber);
         System.assert(nbr.isValid(), 'Expected number to be valid');
     }
 
-    @isTest
+    @IsTest
     public static void testNumberCleaning_NumberValid_Intl() {
         String phoneNumber = '+1 (852) 999-3451';
         NumVerifyValidator.VerifiedNumber nbr = new NumVerifyValidator.VerifiedNumber(phoneNumber);
         System.assert(nbr.isValid(), 'Expected number to be valid');
     }
 
-    @isTest
+    @IsTest
     public static void testRequestConstruction() {
         //Set up a valid number
         String phoneNumber = '+1 (852) 999-3451';
@@ -44,19 +44,19 @@ public class NumVerifyValidatorTest {
         Sirono_Settings__c settings = SironoSettingsUtil.getPaymentPlanSettings();
 
         //Make sure the query parameters are in alpha order to match the way HttpRequest constructs them
-        String validUrl = 'https://apilayer.net/api/validate?access_key='+ settings.Apikey__c +'&country_code=' + settings.Country_Code__c + '&format='+settings.Format__c+'&number=18529993451';
+        String validUrl = 'https://apilayer.net/api/validate?access_key=' + settings.Apikey__c + '&country_code=' + settings.Country_Code__c + '&format=' + settings.Format__c + '&number=18529993451';
 
-        NumVerifyValidator.VerifiedNumber vnbr =  new NumVerifyValidator.VerifiedNumber(phoneNumber);
+        NumVerifyValidator.VerifiedNumber vnbr = new NumVerifyValidator.VerifiedNumber(phoneNumber);
         HttpRequest request = NumVerifyValidator.buildRequest(vnbr);
 
-        System.assert(validURL.equals(request.getEndpoint()), 'Expected urls to match! built: '+request.getEndpoint()+' static: '+validUrl);
+        System.assert(validUrl.equals(request.getEndpoint()), 'Expected urls to match! built: ' + request.getEndpoint() + ' static: ' + validUrl);
         System.assert('post'.equalsIgnoreCase(request.getMethod()), 'Expected method to be POST');
         System.assert(String.isEmpty(request.getBody()), 'Expected empty body');
         System.assert('application/json'.equalsIgnoreCase(request.getHeader('Content-Type')), 'Content-Type should be json');
     }
 
     //test to verify a number with an invalid line type
-    @isTest
+    @IsTest
     public static void testVerifyInvalidLineType() {
 
         TestUtility.statusCode = 200;
@@ -68,6 +68,6 @@ public class NumVerifyValidatorTest {
         Test.stopTest();
 
         System.assert(nbr.isValid(), 'Expected the number to be valid');
-        System.assertEquals(nbr.getLineType(), NumVerifyValidator.INVALID, 'Expected lineType to be Invalid, but was: '+nbr.getLineType());
+        System.assertEquals(nbr.getLineType(), NumVerifyValidator.INVALID, 'Expected lineType to be Invalid, but was: ' + nbr.getLineType());
     }
 }

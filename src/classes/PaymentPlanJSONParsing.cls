@@ -44,7 +44,7 @@ public class PaymentPlanJSONParsing {
         public Payment_Plan__c paymentPlanRecord { get; set; }
         public List<Encounter__c> encounterRecords { get; set; }
 
-        Public PaymentPlanWrapper() {
+        public PaymentPlanWrapper() {
             chargeGroupRecords = new List<Charge_Group__c>();
             paymentPlanRecord = new Payment_Plan__c();
             encounterRecords = new List<Encounter__c>();
@@ -59,10 +59,10 @@ public class PaymentPlanJSONParsing {
     public static PaymentPlanWrapper createPaymentPlanRecord(String json, String contactId,
         String paymentPlanId, String chargeGroupId) {
 
-        List<String> lstString = new list<String>();
+        List<String> lstString = new List<String>();
         Set<Decimal> setchargeGroupID = new Set<Decimal>();
         if (!String.isBlank(chargeGroupId)) {
-            lstString = chargeGroupId.Split(',');
+            lstString = chargeGroupId.split(',');
             for (String str : lstString) {
                 if (str.isNumeric()) {
                     setchargeGroupID.add(Decimal.valueOf(str));
@@ -87,14 +87,14 @@ public class PaymentPlanJSONParsing {
         paymentPlanObj.Remaining_Balance__c = PayStaffWSUtill.convertToDollars(objJson.payable_amount);
         paymentPlanObj.Execute_on_Day__c = objJson.execute_on_day;
         if (!String.isBlank(objJson.next_payment_date)) {
-            paymentPlanObj.NextPaymentDate__c = Date.valueof(objJson.next_payment_date);
+            paymentPlanObj.NextPaymentDate__c = Date.valueOf(objJson.next_payment_date);
         }
         if (!String.isBlank(objJson.skip_payment_until)) {
-            paymentPlanObj.Skip_Payment_Until__c = Date.valueof(objJson.skip_payment_until);
+            paymentPlanObj.Skip_Payment_Until__c = Date.valueOf(objJson.skip_payment_until);
         }
         paymentPlanObj.Has_Error__c = objJson.has_error;
-        if (!String.isBlank(String.valueof(objJson.error_date))) {
-            paymentPlanObj.Error_Date__c = Date.valueof(objJson.error_date);
+        if (!String.isBlank(String.valueOf(objJson.error_date))) {
+            paymentPlanObj.Error_Date__c = Date.valueOf(objJson.error_date);
         } else {
             paymentPlanObj.Error_Date__c = null;
         }
@@ -108,21 +108,21 @@ public class PaymentPlanJSONParsing {
         if (!String.isBlank(contactId)) {
             paymentPlanObj.Guarantor__c = contactId;
         } else {
-            String gtId = getExternalId(objJson.guarantor, 'guarantors');
+            String gtId = getExternalID(objJson.guarantor, 'guarantors');
             Contact gt = GuarantorService.getGuarantorBySironoId(gtId);
             paymentPlanObj.Guarantor__c = gt.Id;
         }
 
         paymentPlanObj.Status__c = objJson.status;
         if (!String.isBlank(objJson.url)) {
-            String strPaymentPlan = getExternalID(String.valueof(objJson.url), 'paymentplan');
+            String strPaymentPlan = getExternalID(String.valueOf(objJson.url), 'paymentplan');
             Decimal paymentPlanExternalID = Decimal.valueOf(strPaymentPlan);
             if (!String.isBlank(strPaymentPlan)) {
                 paymentPlanObj.Sirono_ID__c = paymentPlanExternalID;
-                paymentPlanObj.Name = String.valueof(paymentPlanObj.Sirono_ID__c);
+                paymentPlanObj.Name = String.valueOf(paymentPlanObj.Sirono_ID__c);
                 if (PaymentPlanSecurityContext.PP_SELECT_CONTEXT.actionAllowed()) {
                     List<Payment_Plan__c> paymentPlan = [SELECT Id, Sirono_ID__c FROM Payment_Plan__c WHERE Sirono_ID__c = :paymentPlanExternalID];
-                    if (paymentPlan.Size() > 0) {
+                    if (paymentPlan.size() > 0) {
                         paymentPlanObj.Id = paymentPlan[0].Id ;
                     }
                 }
@@ -134,7 +134,7 @@ public class PaymentPlanJSONParsing {
         if (String.isBlank(chargeGroupId)) {
             System.debug('objJson.chargegroups' + objJson.chargegroups);
             for (String str : objJson.chargegroups) {
-                String strChargeGroupID = getExternalID(String.valueof(str), 'chargegroups');
+                String strChargeGroupID = getExternalID(String.valueOf(str), 'chargegroups');
                 if (strChargeGroupID.isNumeric()) {
                     setchargeGroupID.add(Decimal.valueOf(strChargeGroupID));
                 }
@@ -142,10 +142,10 @@ public class PaymentPlanJSONParsing {
         }
 
         System.debug('setchargeGroupID' + setchargeGroupID);
-        if (setchargeGroupID.Size() > 0) {
+        if (setchargeGroupID.size() > 0) {
             List<Charge_Group__c> chargeGroups = ChargeGroupService.getBySironoIds(new List<Decimal>(setchargeGroupID));
-            for (Charge_Group__c objCG: chargeGroups) {
-                objCG.Payment_Plan__c = paymentPlanObj.ID;
+            for (Charge_Group__c objCG : chargeGroups) {
+                objCG.Payment_Plan__c = paymentPlanObj.Id;
             }
             objPaymentPlanWrapper.chargeGroupRecords = chargeGroups;
         }
@@ -156,9 +156,9 @@ public class PaymentPlanJSONParsing {
 
     //Split the URL and return the last number which is external id.
     //TODO this should be in a superclass for all the JSON parsers
-    public Static String getExternalID(String url, string splitWith) {
+    public static String getExternalID(String url, String splitWith) {
         String[] externalID = url.split(splitWith);
-        return externalID[externalID.Size() - 1].replaceAll('/', '');
+        return externalID[externalID.size() - 1].replaceAll('/', '');
     }
 
     private static String testGuarantorSironoId = '23232323';
@@ -166,7 +166,7 @@ public class PaymentPlanJSONParsing {
     /**
      *  Test response for the test class and testing.
      */
-    Public Static String testResponse() {
+    public static String testResponse() {
 
         String responseBody = '{' +
             '   "url": "' + TestUtility.url + '",' +
@@ -204,7 +204,7 @@ public class PaymentPlanJSONParsing {
     * 08-17-2016: Sirono - Tracker # 127940071
     *  Test response for the test class and testing.
     */
-    Public Static String testResponse1() {
+    public static String testResponse1() {
 
         String responseBody = '{' +
             '   "url": "' + TestUtility.url + '",' +

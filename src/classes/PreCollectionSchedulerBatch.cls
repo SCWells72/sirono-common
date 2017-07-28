@@ -2,7 +2,7 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-public with sharing class PreCollectionSchedulerBatch implements Database.Batchable<sObject>, Schedulable, Database.Stateful {
+public with sharing class PreCollectionSchedulerBatch implements Database.Batchable<SObject>, Schedulable, Database.Stateful {
     public Campaign callList;
     public Set<Id> existingMembers;
 
@@ -18,7 +18,7 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
         String preCollection = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PRECOLLECTIONS);
 
         if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            for (Campaign cl: [SELECT Id, Name FROM Campaign WHERE Name = :preCollection AND isActive = true]) {
+            for (Campaign cl : [SELECT Id, Name FROM Campaign WHERE Name = :preCollection AND IsActive = TRUE]) {
                 callList = cl;
             }
         }
@@ -26,7 +26,7 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
         if (callList != null) {
             existingMembers = new Set<Id>();
             if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                for (CampaignMember cm: [SELECT Id, ContactId FROM CampaignMember WHERE CampaignId = :callList.Id AND ContactId != null]) {
+                for (CampaignMember cm : [SELECT Id, ContactId FROM CampaignMember WHERE CampaignId = :callList.Id AND ContactId != NULL]) {
                     existingMembers.add(cm.ContactId);
                 }
             }
@@ -38,12 +38,12 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
     }
 
     //adding new campaign members
-    public void execute(Database.BatchableContext bc, List<sObject> scope) {
+    public void execute(Database.BatchableContext bc, List<SObject> scope) {
         List<Contact> guarantors = (List<Contact>) scope;
         Date dt = System.today();
         if (callList != null) {
             List<CampaignMember> memberList = new List<CampaignMember>();
-            for (Charge_Group__c cg: ChargeGroupService.getCGBasedOnGuarantorAndPreCollDate(guarantors, dt)) {
+            for (Charge_Group__c cg : ChargeGroupService.getCGBasedOnGuarantorAndPreCollDate(guarantors, dt)) {
                 Double bal = cg.Guarantor__r.Overdue_Balance__c + cg.Guarantor__r.Delinquent_Balance__c;
                 System.debug('bal' + bal);
                 if (bal <= -100 && bal > -5000 && !existingMembers.contains(cg.Guarantor__c)) {
@@ -57,7 +57,7 @@ public with sharing class PreCollectionSchedulerBatch implements Database.Batcha
             }
             if (memberList.size() > 0) {
                 if (CmpnMemberSecurityContext.SB_CREATE_CONTEXT.actionAllowed()) {
-                    INSERT memberList;
+                    insert memberList;
                 }
             }
         }

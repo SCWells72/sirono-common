@@ -3,6 +3,6 @@
   -->
 
 <aura:event type="APPLICATION">
-	<aura:attribute name="collapse" type="Boolean" />
-    <aura:attribute name="alert" type="Boolean" />
+    <aura:attribute name="collapse" type="Boolean"/>
+    <aura:attribute name="alert" type="Boolean"/>
 </aura:event>

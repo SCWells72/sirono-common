@@ -8,16 +8,16 @@
 public with sharing class PayStaffWSUtill {
     //11-23-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
     //It is used to verified that Charge Group have longer Payment Plan Look up or not.
-    static boolean hasChargeGroupPaymentPlan = false;
+    static Boolean hasChargeGroupPaymentPlan = false;
 
     //get the Guarantor Id from given contact.
     public static String fetchGuarantorId(Contact gc) {
         String sironoId = '';
-        try{
+        try {
             sironoId = GuarantorService.getGuarantorSironoId(gc);
         } catch (SironoServiceException ex) {
             if (ApexPages.currentPage() != null) {
-                handleErrorMessages(ApexPages.SEVERITY.ERROR, 'Guarantor Id does not exist!');
+                handleErrorMessages(ApexPages.Severity.ERROR, 'Guarantor Id does not exist!');
             }
         }
         return sironoId;
@@ -26,11 +26,11 @@ public with sharing class PayStaffWSUtill {
     //get the Patient Id from passed contact.
     public static String fetchPatientId(Contact gc) {
         String sironoId = '';
-        try{
+        try {
             sironoId = PatientService.getPatientSironoId(gc);
         } catch (SironoServiceException ex) {
             if (ApexPages.currentPage() != null) {
-                handleErrorMessages(ApexPages.SEVERITY.ERROR, 'Patient Id does not exist!');
+                handleErrorMessages(ApexPages.Severity.ERROR, 'Patient Id does not exist!');
             }
         }
         return sironoId;
@@ -49,7 +49,7 @@ public with sharing class PayStaffWSUtill {
         if (recordType == 'Guarantor') {
             return ChargeGroupWrapper.buildList(gc);
         } else if (gc != null && gc.Charge_Groups_Patient__r != null
-                && gc.Charge_Groups_Patient__r.size() > 0 && recordType == 'Patient') {
+            && gc.Charge_Groups_Patient__r.size() > 0 && recordType == 'Patient') {
             for (Charge_Group__c cg : gc.Charge_Groups_Patient__r) {
                 cgList.add(new ChargeGroupWrapper(cg, false));
             }
@@ -78,7 +78,7 @@ public with sharing class PayStaffWSUtill {
             List<String> urls = new List<String>();
             for (String cgId : chargeGroupIds) {
                 urls.add(String.format('"{0}/paystaff/api/chargegroups/{1}/"',
-                        new String[]{SironoSettingsUtil.getServerEndpoint(), cgId}));
+                    new String[] { SironoSettingsUtil.getServerEndpoint(), cgId }));
             }
             cgUrl = String.join(urls, ',');
         }
@@ -101,21 +101,21 @@ public with sharing class PayStaffWSUtill {
         return '[]';
     }
 
-    @Future(callout=true)
+    @Future(Callout=true)
     public static void addNoteFuture(List<String> chargeGroupIds, String noteText) {
         addNoteWSCallout(chargeGroupIds, noteText);
     }
 
     public static void addNoteWSCallout(List<String> chargeGroupIds, String noteText) {
         try {
-            if (!chargegroupIds.isEmpty() && !isEmpty(noteText)) {
+            if (!chargeGroupIds.isEmpty() && !isEmpty(noteText)) {
                 String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
                 String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
                 if (csrfToken != null && jwtToken != null) {
                     String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '",' +
-                            '"chargegroups": ' + buildChargeGroupsURL(chargegroupIds) + ',' +
-                            '"text":"' + noteText + '"' +
-                            '}';
+                        '"chargegroups": ' + buildChargeGroupsURL(chargeGroupIds) + ',' +
+                        '"text":"' + noteText + '"' +
+                        '}';
 
                     HttpRequest req = new HttpRequest();
                     HttpResponse res = new HttpResponse();
@@ -129,36 +129,36 @@ public with sharing class PayStaffWSUtill {
                     try {
                         res = http.send(req);
                         responseBody = res.getBody();
-                        if (test.isRunningTest()) {
+                        if (Test.isRunningTest()) {
                             TestUtility.generateException();
                         }
                     } catch (Exception e) {
                         // Debug error response
-                        handleErrorMessages(ApexPages.SEVERITY.ERROR, 'ADD NOTE EXCEPTION RESPONSE : ' +
-                                res.toString() + '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage());
+                        handleErrorMessages(ApexPages.Severity.ERROR, 'ADD NOTE EXCEPTION RESPONSE : ' +
+                            res.toString() + '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage());
                     }
 
                     if (res.getStatus() != null && res.getStatus().trim().equalsIgnoreCase('CREATED')
-                            && res.getStatusCode() != null && res.getStatusCode() == 201) {
+                        && res.getStatusCode() != null && res.getStatusCode() == 201) {
                         System.debug('RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody);
-                        handleErrorMessages(ApexPages.SEVERITY.INFO, 'Created Successfully!');
+                        handleErrorMessages(ApexPages.Severity.INFO, 'Created Successfully!');
                     } else {
-                        handleErrorMessages(ApexPages.SEVERITY.INFO, 'CSRF_Token : ' + csrfToken);
-                        handleErrorMessages(ApexPages.SEVERITY.INFO, 'JWT_Token : ' + jwtToken);
-                        handleErrorMessages(ApexPages.SEVERITY.ERROR, 'RESPONSE : ' + res.toString()
-                                + '  RESPONSE BODY::' + responseBody);
+                        handleErrorMessages(ApexPages.Severity.INFO, 'CSRF_Token : ' + csrfToken);
+                        handleErrorMessages(ApexPages.Severity.INFO, 'JWT_Token : ' + jwtToken);
+                        handleErrorMessages(ApexPages.Severity.ERROR, 'RESPONSE : ' + res.toString()
+                            + '  RESPONSE BODY::' + responseBody);
                     }
                 }
             } else {
-                handleErrorMessages(ApexPages.SEVERITY.ERROR, 'Please provide all details.');
+                handleErrorMessages(ApexPages.Severity.ERROR, 'Please provide all details.');
 
             }
-            if (test.isRunningTest()) {
+            if (Test.isRunningTest()) {
                 TestUtility.generateException();
             }
         } catch (Exception e) {
             // Debug error response
-            handleErrorMessages(ApexPages.SEVERITY.ERROR, 'ERROR: ' + e.getMessage());
+            handleErrorMessages(ApexPages.Severity.ERROR, 'ERROR: ' + e.getMessage());
         }
     }
 
@@ -166,8 +166,8 @@ public with sharing class PayStaffWSUtill {
         return (str == null || str.trim().equals(''));
     }
 
-    public static void handleErrorMessages(ApexPages.severity messageSeverity, String messageText) {
-        if (Apexpages.currentPage() != null) {
+    public static void handleErrorMessages(ApexPages.Severity messageSeverity, String messageText) {
+        if (ApexPages.currentPage() != null) {
             ApexPages.addMessage(new ApexPages.Message(messageSeverity, messageText));
         } else {
             System.debug('[' + messageSeverity + '] ' + messageText);
@@ -184,8 +184,8 @@ public with sharing class PayStaffWSUtill {
     //Viraj Rana 11-15-2016: Convert the amount in dollars with divided by -100.
     //It is used for covert Transaction Amount.
     public static Decimal convertToDollarsWithNegative(Decimal amount) {
-        Decimal dollarAmount = (amount != null ? (amount/-100) : amount);
-        System.debug('converted cent amount with divided by -100: '+ dollarAmount);
+        Decimal dollarAmount = (amount != null ? (amount / -100) : amount);
+        System.debug('converted cent amount with divided by -100: ' + dollarAmount);
         return dollarAmount;
     }
 
@@ -208,11 +208,11 @@ public with sharing class PayStaffWSUtill {
         if (gc != null && gc.Charge_Groups__r != null && gc.Charge_Groups__r.size() > 0) {
             for (Charge_Group__c cg : gc.Charge_Groups__r) {
                 if (cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_PREINVOICED ||
-                        cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_DUE_BY ||
-                        cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_OVERDUE ||
-                        cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_DELINQUENT ||
-                        cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_BAD_DEBT ||
-                        cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_PAYMENT_PLAN) {
+                    cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_DUE_BY ||
+                    cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_OVERDUE ||
+                    cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_DELINQUENT ||
+                    cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_BAD_DEBT ||
+                    cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_PAYMENT_PLAN) {
 
                     cgList.add(new ChargeGroupWrapper(cg, false));
                 }
@@ -234,7 +234,7 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * Parse Payment response and call Transaction Request.
     */
-    public static void parsePaymentReponse(String csrfToken, String jwtToken, String jsonStr, boolean isPayment){
+    public static void parsePaymentReponse(String csrfToken, String jwtToken, String jsonStr, Boolean isPayment) {
 
         // We have change Payment__c object to List of Payment__c and this list pass in Methods as a parameter.
         // This changes do to resolve Security Scan related issue.
@@ -245,7 +245,7 @@ public with sharing class PayStaffWSUtill {
         List<Transaction__c> lstTransaction = new List<Transaction__c>();
         List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
         List<Payment_Plan__c> lstPaymentPlan = new List<Payment_Plan__c>();
-        Map<Decimal,Decimal> mapTranPayAdjId = new Map<Decimal,Decimal>();
+        Map<Decimal, Decimal> mapTranPayAdjId = new Map<Decimal, Decimal>();
 
         if (isPayment) {
             Payment__c objPayment = new Payment__c();
@@ -267,7 +267,7 @@ public with sharing class PayStaffWSUtill {
                 lstChargeGroup.add(objPaymentAdjustmentwrapper.objChargeGroup);
                 objPaymentAdjustment.Charge_Group__c = objPaymentAdjustmentwrapper.objChargeGroup.Id;
 
-                if (objPaymentAdjustmentwrapper.objPaymentPlan.id != null) {
+                if (objPaymentAdjustmentwrapper.objPaymentPlan.Id != null) {
                     lstPaymentPlan.add(objPaymentAdjustmentwrapper.objPaymentPlan);
                 }
             }
@@ -279,32 +279,35 @@ public with sharing class PayStaffWSUtill {
 
             if (lstPaymentPlan.size() > 0) {
                 if (PaymentPlanSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                    UPDATE lstPaymentPlan;
+                    update lstPaymentPlan;
                 }
             }
 
             if (lstTransaction.size() > 0) {
                 if (TransactionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                    INSERT lstTransaction;
+                    insert lstTransaction;
                 }
 
                 if (TransactionSecurityContext.PSWSU_SELECT_CONTEXT.actionAllowed()) {
-                    List<Transaction__c> lstTran = [SELECT Id, Sirono_ID__c FROM Transaction__c
-                                                WHERE Sirono_ID__c IN :mapTranPayAdjId.values()];
+                    List<Transaction__c> lstTran = [
+                        SELECT Id, Sirono_ID__c
+                        FROM Transaction__c
+                        WHERE Sirono_ID__c IN :mapTranPayAdjId.values()
+                    ];
 
                     Map<Decimal, String> mapTran = new Map<Decimal, String>();
-                    for (Transaction__c t: lstTran) {
+                    for (Transaction__c t : lstTran) {
                         mapTran.put(t.Sirono_ID__c, t.Id);
                     }
 
-                    for (Payment_Adjustments__c pa: lstPaymentAdjustment) {
+                    for (Payment_Adjustments__c pa : lstPaymentAdjustment) {
                         Decimal tranId = mapTranPayAdjId.get(pa.Sirono_ID__c);
                         pa.Transaction__c = mapTran.get(tranId);
                     }
                 }
 
                 if (PaymentAdjustmentsSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                    INSERT lstPaymentAdjustment;
+                    insert lstPaymentAdjustment;
                 }
             }
         }
@@ -313,7 +316,7 @@ public with sharing class PayStaffWSUtill {
     /*
     * Call Transaction Request and get all Transactions based on Payment.
     */
-    private static PaymentAdjustmentwrapper callTransactionRequest(String csrfToken, String jwtToken, List<Payment__c> payments, String paymentAdjustmentSironoId, boolean isPayment){
+    private static PaymentAdjustmentwrapper callTransactionRequest(String csrfToken, String jwtToken, List<Payment__c> payments, String paymentAdjustmentSironoId, Boolean isPayment) {
 
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
 
@@ -328,36 +331,36 @@ public with sharing class PayStaffWSUtill {
         req.setHeader('Content-type', 'application/json');
         if (isPayment) {
             req.setEndpoint('callout:sirono_server/paystaff/api/payments/'
-                        + String.valueOf(payments.get(0).Sirono_ID__c) +'/transactions/');
+                + String.valueOf(payments.get(0).Sirono_ID__c) + '/transactions/');
         } else {
             req.setEndpoint('callout:sirono_server/paystaff/api/adjustments/'
-                        + paymentAdjustmentSironoId +'/transactions/');
+                + paymentAdjustmentSironoId + '/transactions/');
         }
 
         req.setTimeout(120000);
         try {
             res = http.send(req);
             responseBody = res.getBody();
-            system.debug('StatusCode : ' + res.getStatusCode());
-            system.debug('Transaction Response : ' + responseBody);
+            System.debug('StatusCode : ' + res.getStatusCode());
+            System.debug('Transaction Response : ' + responseBody);
 
-            if(Test.isRunningTest()){
+            if (Test.isRunningTest()) {
                 res.setStatusCode(TestUtility.statusCode2);
                 TestUtility.generateException();
             }
         } catch (Exception e) {
             // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'TRANSACTION EXCEPTION RESPONSE : '+ res.toString() +
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'TRANSACTION EXCEPTION RESPONSE : ' + res.toString() +
                     '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage()));
         }
 
         if (res.getStatusCode() != null && res.getStatusCode() == 200) {
             objPaymentAdjustmentwrapper = parseTransactionResponse(csrfToken, jwtToken, responseBody, payments, isPayment);
-        }else {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                                    'RESPONSE : '+ res.toString() +
-                                    '  RESPONSE BODY::' + responseBody));
+        } else {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'RESPONSE : ' + res.toString() +
+                    '  RESPONSE BODY::' + responseBody));
         }
         return objPaymentAdjustmentwrapper;
     }
@@ -365,7 +368,7 @@ public with sharing class PayStaffWSUtill {
     /*
     * Parse Transaction response and based on Charge group call Charge group request.
     */
-    private static PaymentAdjustmentwrapper parseTransactionResponse(String csrfToken, String jwtToken, string jsonStr, List<Payment__c> payments, boolean isPayment){
+    private static PaymentAdjustmentwrapper parseTransactionResponse(String csrfToken, String jwtToken, String jsonStr, List<Payment__c> payments, Boolean isPayment) {
         TransactionJSONParsing.TransactionWrapper objTransactionWrapper;
         objTransactionWrapper = TransactionJSONParsing.parse(jsonStr);
 
@@ -377,13 +380,13 @@ public with sharing class PayStaffWSUtill {
 
         if (objTransactionWrapper != null) {
             if (objTransactionWrapper.transactionRecords.size() > 0) {
-                system.debug('Transaction record size : ' + objTransactionWrapper.transactionRecords.size());
-                system.debug('Transaction records : ' + objTransactionWrapper.transactionRecords);
+                System.debug('Transaction record size : ' + objTransactionWrapper.transactionRecords.size());
+                System.debug('Transaction records : ' + objTransactionWrapper.transactionRecords);
                 lstTransaction = objTransactionWrapper.transactionRecords;
             }
             if (objTransactionWrapper.chargeGroupRecords.size() > 0) {
-                system.debug('Charge Group record size : ' + objTransactionWrapper.chargeGroupRecords.size());
-                system.debug('Charge Group records : ' + objTransactionWrapper.chargeGroupRecords);
+                System.debug('Charge Group record size : ' + objTransactionWrapper.chargeGroupRecords.size());
+                System.debug('Charge Group records : ' + objTransactionWrapper.chargeGroupRecords);
                 lstChargeGroup = objTransactionWrapper.chargeGroupRecords;
 
                 for (Charge_Group__c cg : lstChargeGroup) {
@@ -391,12 +394,12 @@ public with sharing class PayStaffWSUtill {
                     hasChargeGroupPaymentPlan = true;
 
                     Charge_Group__c chargeGroup = new Charge_Group__c();
-                    chargeGroup = callChargeGroupRequest(String.valueof(cg.Sirono_ID__c), jwtToken);
+                    chargeGroup = callChargeGroupRequest(String.valueOf(cg.Sirono_ID__c), jwtToken);
 
                     if (cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_PAYMENT_PLAN) {
                         Payment_Plan__c objPaymentPlan = new Payment_Plan__c();
-                        objPaymentPlan = callPaymentPlanRequest(jwtToken, String.valueof(cg.Payment_Plan__r.Sirono_ID__c),
-                           cg.Payment_Plan__r.Guarantor__c);
+                        objPaymentPlan = callPaymentPlanRequest(jwtToken, String.valueOf(cg.Payment_Plan__r.Sirono_ID__c),
+                            cg.Payment_Plan__r.Guarantor__c);
                         lstPaymentPlan.add(objPaymentPlan);
                     }
 
@@ -414,17 +417,17 @@ public with sharing class PayStaffWSUtill {
         //Save all Records if it is Take Payment.
         if (isPayment) {
             if (PaymentSecurityContext.PSWU_CREATE_CONTEXT.actionAllowed()) {
-            	INSERT payments;
+                insert payments;
             }
             Id paymentId = payments.get(0).Id;
 
-            if (lsttransaction.size() > 0) {
-                for (Transaction__c objTran : lsttransaction) {
+            if (lstTransaction.size() > 0) {
+                for (Transaction__c objTran : lstTransaction) {
                     objTran.Payment__c = paymentId;
                 }
 
                 if (TransactionSecurityContext.CREATE_WITH_PAYMENT_CONTEXT.actionAllowed()) {
-                    INSERT lsttransaction;
+                    insert lstTransaction;
                 }
             }
 
@@ -434,13 +437,13 @@ public with sharing class PayStaffWSUtill {
 
             if (lstPaymentPlan.size() > 0) {
                 if (PaymentPlanSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                    UPDATE lstPaymentPlan;
+                    update lstPaymentPlan;
                 }
             }
         } else {
             //It is used for Adjustment/Discount.
-            if (lsttransaction.size() > 0) {
-                objPaymentAdjustmentwrapper.objTransaction = lsttransaction[0];
+            if (lstTransaction.size() > 0) {
+                objPaymentAdjustmentwrapper.objTransaction = lstTransaction[0];
             }
             if (lstChargeGroup.size() > 0) {
                 objPaymentAdjustmentwrapper.objChargeGroup = lstChargeGroup[0];
@@ -457,7 +460,7 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * make a Charge group Reqeuest to get the chargeGroupInformation
     */
-    private static Charge_Group__c callChargeGroupRequest(String chargeGroupId,String jwtToken) {
+    private static Charge_Group__c callChargeGroupRequest(String chargeGroupId, String jwtToken) {
         Charge_Group__c chargeGroup = new Charge_Group__c();
 
         HttpRequest req = new HttpRequest();
@@ -470,30 +473,30 @@ public with sharing class PayStaffWSUtill {
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
         req.setEndpoint('callout:sirono_server/paystaff/api/chargegroups/'
-                        +PayStaffWSUtill.trimCommas(chargeGroupId)+'/');
+            + PayStaffWSUtill.trimCommas(chargeGroupId) + '/');
 
         req.setTimeout(120000);
         try {
             res = http.send(req);
             responseBody = res.getBody();
 
-            if(Test.isRunningTest()){
+            if (Test.isRunningTest()) {
                 res.setStatusCode(TestUtility.statusCode3);
                 TestUtility.generateException();
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'ChargeGroup EXCEPTION RESPONSE : '+ res.toString() +
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'ChargeGroup EXCEPTION RESPONSE : ' + res.toString() +
                     '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage()));
         }
         if (res.getStatusCode() != null && res.getStatusCode() == 200) {
-            system.debug('Charge Group Response Body : ' + responseBody);
+            System.debug('Charge Group Response Body : ' + responseBody);
             chargeGroup = parseChargeGroupResponse(responseBody, jwtToken);
         } else {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                                    'RESPONSE : '+ res.toString() +
-                                    '  RESPONSE BODY::' + responseBody));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'RESPONSE : ' + res.toString() +
+                    '  RESPONSE BODY::' + responseBody));
         }
         return chargeGroup;
     }
@@ -502,7 +505,7 @@ public with sharing class PayStaffWSUtill {
     * Update the Account_Sub_Status__c and Account_Status__c.
     * if Account_Sub_Status__c = On Payment Plan than call Payment Plan request.
     */
-    private static Charge_Group__c parseChargeGroupResponse(String responseBody, String jwtToken){
+    private static Charge_Group__c parseChargeGroupResponse(String responseBody, String jwtToken) {
 
         ChargeGroupJSONParser objChargeGroup = ChargeGroupJSONParser.parse(responseBody);
         Charge_Group__c cg = new Charge_Group__c();
@@ -521,7 +524,7 @@ public with sharing class PayStaffWSUtill {
     /*
     *  Call the paymentplan Web Service to get the paymentplan information.
     */
-    private static Payment_Plan__c callPaymentPlanRequest(String jwtToken, string paymentPlanExternalId, string guarantorId){
+    private static Payment_Plan__c callPaymentPlanRequest(String jwtToken, String paymentPlanExternalId, String guarantorId) {
         Payment_Plan__c objPaymentPlan = new Payment_Plan__c();
 
         HttpRequest req = new HttpRequest();
@@ -534,17 +537,17 @@ public with sharing class PayStaffWSUtill {
         req.setHeader('Authorization', 'JWT ' + jwtToken);
         req.setHeader('Content-type', 'application/json');
         req.setEndpoint('callout:sirono_server/paystaff/api/paymentplan/'
-                        +PayStaffWSUtill.trimCommas(paymentPlanExternalId)+'/');
+            + PayStaffWSUtill.trimCommas(paymentPlanExternalId) + '/');
         req.setTimeout(120000);
         try {
             res = http.send(req);
             responseBody = res.getBody();
 
-            if(Test.isRunningTest()){
+            if (Test.isRunningTest()) {
                 res.setStatusCode(TestUtility.statusCode2);
                 TestUtility.generateException();
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
 
         }
         if (res.getStatusCode() != null && res.getStatusCode() == 200) {
@@ -552,9 +555,9 @@ public with sharing class PayStaffWSUtill {
             objPaymentPlan = parsePaymentPlanResponse(responseBody, guarantorId);
 
         } else {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                                    'RESPONSE : '+ res.toString() +
-                                    '  RESPONSE BODY::' + responseBody));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'RESPONSE : ' + res.toString() +
+                    '  RESPONSE BODY::' + responseBody));
         }
         return objPaymentPlan;
     }
@@ -562,10 +565,10 @@ public with sharing class PayStaffWSUtill {
     /*
     * parse the Payment Plan JSON.
     */
-    private static Payment_Plan__c parsePaymentPlanResponse(String jsonStr, string guarantorId) {
+    private static Payment_Plan__c parsePaymentPlanResponse(String jsonStr, String guarantorId) {
 
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
-        objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr,guarantorId,null,null);
+        objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorId, null, null);
 
         Payment_Plan__c paymentPlanObj = new Payment_Plan__c();
         paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;

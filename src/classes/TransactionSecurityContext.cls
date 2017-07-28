@@ -6,7 +6,7 @@
  * This class is use for Security Context of Transaction object
  **/
 public with sharing class TransactionSecurityContext extends SecurityContext {
-    
+
     // Field constants for Transaction object.
     private static final String AMOUNT = 'Amount__c';
     private static final String CHARGE_GROUP = 'Charge_Group__c';
@@ -27,43 +27,43 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
     private static final String TXN_METHOD = 'Txn_Method__c';
 
     // The fields for inserting Transaction in PayStaffWSUtill
-    private static final Set<String> CREATE_FIELDS = new Set<String>{
+    private static final Set<String> CREATE_FIELDS = new Set<String> {
         SIRONO_ID, NAME, AMOUNT, POST_DATE, FAIL_DATE, EXPORT_DATE, CREDIT_BALANCE, CHARGE_GROUP
     };
 
     // The fields for inserting Transaction with Payment in PayStaffWSUtill
-    private static final Set<String> CREATE_WITH_PAYMENT_FIELDS = new Set<String>{
+    private static final Set<String> CREATE_WITH_PAYMENT_FIELDS = new Set<String> {
         SIRONO_ID, NAME, AMOUNT, POST_DATE, FAIL_DATE, EXPORT_DATE, CREDIT_BALANCE, CHARGE_GROUP, PAYMENT
     };
 
     // The fields for selecting a Transaction__c in TxnAggregationUtils
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
-       AMOUNT, ADJUSTMENT
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
+        AMOUNT, ADJUSTMENT
     };
 
     // The fields for selecting a Transaction__c in TxnAggregationUtils
-    private static final Set<String> SELECT_WITH_PAYMENT_FIELDS = new Set<String>{
-       AMOUNT, PAYMENT
+    private static final Set<String> SELECT_WITH_PAYMENT_FIELDS = new Set<String> {
+        AMOUNT, PAYMENT
     };
 
     // The fields for selecting a Transaction__c in TxnAggregationUtils
-    private static final Set<String> SELECT_WITH_SERVICE_FIELDS = new Set<String>{
-       AMOUNT, SERVICE
+    private static final Set<String> SELECT_WITH_SERVICE_FIELDS = new Set<String> {
+        AMOUNT, SERVICE
     };
 
     // The fields for selecting a Transaction__c in PaymentPlanUtil
-    private static final Set<String> PPU_SELECT_FIELDS = new Set<String>{
-       AMOUNT, CHARGE_ADDED_SINCE_PLAN_START, TXN_METHOD
+    private static final Set<String> PPU_SELECT_FIELDS = new Set<String> {
+        AMOUNT, CHARGE_ADDED_SINCE_PLAN_START, TXN_METHOD
     };
 
     // The fields for selecting a Transaction__c in PayStaffWSUtill
-    private static final Set<String> PSWSU_SELECT_FIELDS = new Set<String>{
-       ID, SIRONO_ID
+    private static final Set<String> PSWSU_SELECT_FIELDS = new Set<String> {
+        ID, SIRONO_ID
     };
 
     // The fields for selecting a Transaction__c in CreateCaseManual
-    private static final Set<String> CCM_SELECT_FIELDS = new Set<String>{
-       AMOUNT, CHARGE_GROUP, LASTMODIFIEDDATE, SIRONO_ID
+    private static final Set<String> CCM_SELECT_FIELDS = new Set<String> {
+        AMOUNT, CHARGE_GROUP, LASTMODIFIEDDATE, SIRONO_ID
     };
 
     /**

@@ -12,24 +12,24 @@ public with sharing class GuarantorDaoTest {
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
         gt.Profile_Pointer_ID__c = Decimal.valueOf(GT_SIRONO_ID);
-        INSERT gt;
+        insert gt;
 
         Contact pt = TestUtility.generatePatientContact();
         pt.Patient_Id__c = Decimal.valueOf(GT_SIRONO_ID);
-        INSERT pt;
+        insert pt;
 
         // Create Charge Group Record.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(gt.Id, pt.Id, 12345);
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c transactionObj = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT transactionObj;
+        insert transactionObj;
 
         // Check system asserts.
         System.assertEquals(Decimal.valueOf(GT_SIRONO_ID), gt.Profile_Pointer_ID__c, 'Expected ' + GT_SIRONO_ID + ' but we got ' + gt.Profile_Pointer_ID__c);
     }
 
-    @isTest
+    @IsTest
     public static void getGTBySironoIdTest() {
         Contact gt = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
         System.assertNotEquals(gt, null, 'Expected guarantor but got null');
@@ -44,7 +44,7 @@ public with sharing class GuarantorDaoTest {
      * Test the logic of getGuarantorFilterCGByAcctSubStatus
      * CG account substatus is "Preinvoiced" so we get contact with 1 CG.
      **/
-    @isTest
+    @IsTest
     public static void getGuarantorFilterCGByAcctSubStatusTest() {
         Contact gt = [
             SELECT Id
@@ -68,7 +68,7 @@ public with sharing class GuarantorDaoTest {
      * Test getGuarantorFilterCGByAcctSubStatus. Guarantor has 2 chargegroups, one with BadDebt and 1 PreInvoiced;
      * just the PreInvoiced should be returned
      **/
-    @isTest
+    @IsTest
     public static void getGuarantorFilterCGByAcctSubStatusBDChargegroupsTest() {
         Contact gt = [
             SELECT Id
@@ -87,7 +87,7 @@ public with sharing class GuarantorDaoTest {
         // Create BD Charge Group Record.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(gt.Id, pt.Id, 123456);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_BAD_DEBT;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Test.startTest();
         Contact contact = GuarantorDao.getGuarantorFilterCGByAcctSubStatus(gt.Id, Constants.CGConstraintsForDiscount);
@@ -103,7 +103,7 @@ public with sharing class GuarantorDaoTest {
      * Test getGuarantorAllActiveCG. Guarantor has 2 chargegroups, one Active and 1 not;
      * just the Active, PreInvoiced should be returned
      **/
-    @isTest
+    @IsTest
     public static void getGuarantorAllActiveCGTest() {
         Contact gt = [
             SELECT Id
@@ -123,7 +123,7 @@ public with sharing class GuarantorDaoTest {
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(gt.Id, pt.Id, 123456);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DUE_BY;
         chargeGroup.Active__c = false;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Test.startTest();
         Contact contact = GuarantorDao.getGuarantorWithActiveCG(gt.Id);
@@ -135,7 +135,7 @@ public with sharing class GuarantorDaoTest {
         System.assertEquals(contact.Charge_Groups__r.get(0).Account_Sub_Status__c, Constants.ACCT_SUBSTATUS_PREINVOICED);
     }
 
-    @isTest
+    @IsTest
     public static void getGuarantorTest() {
         Contact gt1 = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
         Contact gt2 = GuarantorDao.getGuarantor(gt1.Id);
@@ -149,7 +149,7 @@ public with sharing class GuarantorDaoTest {
     /**
      * This method tests the logic of getGuarantorsWithCG method.
      **/
-    @isTest
+    @IsTest
     public static void getGuarantorsWithCGTest() {
         Contact gt = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
 
@@ -158,7 +158,7 @@ public with sharing class GuarantorDaoTest {
 
         Charge_Group__c cg = [SELECT Id, Pre_Collection_Sent__c FROM Charge_Group__c];
         cg.Pre_Collection_Sent__c = System.today();
-        UPDATE cg;
+        update cg;
 
         Test.startTest();
         List<Contact> contacts = GuarantorDao.getGuarantorsWithCG(new Set<Id> { gt.Id });
@@ -171,7 +171,7 @@ public with sharing class GuarantorDaoTest {
     /**
      * This method tests the logic of getGuarantorsWithPmtPlan method.
      **/
-    @isTest
+    @IsTest
     public static void getGuarantorsWithPmtPlanTest() {
         Contact gt = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
 
@@ -182,7 +182,7 @@ public with sharing class GuarantorDaoTest {
         pp.Active__c = true;
         pp.Plan_Type__c = Constants.AUTOMATIC;
         pp.Delinquent_Date__c = System.today();
-        INSERT pp;
+        insert pp;
 
         Test.startTest();
         List<Contact> contacts = GuarantorDao.getGuarantorsWithPmtPlan(new Set<Id> { gt.Id });
@@ -195,7 +195,7 @@ public with sharing class GuarantorDaoTest {
     /**
      * This method tests the logic of getGuarantorsWithEncounterTest method.
      **/
-    @isTest
+    @IsTest
     public static void getGuarantorsWithEncounterTest() {
         Contact gt = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
 
@@ -204,7 +204,7 @@ public with sharing class GuarantorDaoTest {
 
         Encounter__c encounter = TestUtility.generateEncounter(gt.Id, 500, System.today());
         encounter.Liability__c = 50;
-        INSERT encounter;
+        insert encounter;
 
         Test.startTest();
         List<Contact> contacts = GuarantorDao.getGuarantorsWithEncounters(new Set<Id> { gt.Id });
@@ -217,7 +217,7 @@ public with sharing class GuarantorDaoTest {
     /**
      * This method tests the logic of getGuarantorsByFilter method with Overdue Filter.
      **/
-    @isTest
+    @IsTest
     public static void getGuarantorsByOverdueFilterTest() {
         Contact gt = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
 
@@ -228,7 +228,7 @@ public with sharing class GuarantorDaoTest {
         Test.startTest();
         Charge_Group__c cg = [SELECT Id, Account_Sub_Status__c FROM Charge_Group__c];
         cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
-        UPDATE cg;
+        update cg;
 
         contacts = GuarantorDao.getGuarantorsByFilter(new Set<String> { gt.Id }, CaseUtil.Overdue_Bal_GT);
         Test.stopTest();
@@ -240,7 +240,7 @@ public with sharing class GuarantorDaoTest {
     /**
      * This method tests the logic of getGuarantorsByFilter method with Delinquent Filter.
      **/
-    @isTest
+    @IsTest
     public static void getGuarantorsByDelinquentFilterTest() {
         Contact gt = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
 
@@ -251,7 +251,7 @@ public with sharing class GuarantorDaoTest {
         Test.startTest();
         Charge_Group__c cg = [SELECT Id, Account_Sub_Status__c FROM Charge_Group__c];
         cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
-        UPDATE cg;
+        update cg;
 
         contacts = GuarantorDao.getGuarantorsByFilter(new Set<String> { gt.Id }, CaseUtil.Delinquent_Bal_GT);
         Test.stopTest();
@@ -263,13 +263,13 @@ public with sharing class GuarantorDaoTest {
     /**
      * This method tests the logic of getGuarantorsWithNumbers method.
      **/
-    @isTest
+    @IsTest
     public static void getGuarantorsWithNumbersTest() {
         Contact gt = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
 
         Test.startTest();
         gt.HomePhone = '6157187745';
-        UPDATE gt;
+        update gt;
 
         List<Contact> contacts = GuarantorDao.getGuarantorsWithNumbers(new Set<Id> { gt.Id });
         Test.stopTest();
@@ -282,7 +282,7 @@ public with sharing class GuarantorDaoTest {
     /**
      * This method tests the logic of getGuarantorsWithStatement method.
      **/
-    @isTest
+    @IsTest
     public static void getGuarantorsWithStatementTest() {
         Contact gt = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
 
@@ -290,7 +290,7 @@ public with sharing class GuarantorDaoTest {
         System.assertEquals(0, gt.Statements__r.size(), 'Should be defualt Statement size is 0 but we got ' + gt.Statements__r.size());
 
         Statement__c smt = TestUtility.generateStatement(gt.Id);
-        INSERT smt;
+        insert smt;
 
         Test.startTest();
         List<Contact> contacts = GuarantorDao.getGuarantorsWithStatement(new List<Contact> { gt });
@@ -303,7 +303,7 @@ public with sharing class GuarantorDaoTest {
     /**
      * This method tests the logic of getGuarantorsWithTask method.
      **/
-    @isTest
+    @IsTest
     public static void getGuarantorsWithTaskTest() {
         Contact gt = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
 
@@ -311,7 +311,7 @@ public with sharing class GuarantorDaoTest {
         System.assertEquals(0, gt.Tasks.size(), 'Should be defualt Task size is 0 but we got ' + gt.Tasks.size());
 
         Task task = TestUtility.generateTask(gt.Id);
-        INSERT task;
+        insert task;
 
         Test.startTest();
         List<Contact> contacts = GuarantorDao.getGuarantorsWithTask(new Set<Id> { gt.Id }, null, new Set<String> { 'Pre-collection' }, new Set<String> { 'Final' });
@@ -324,7 +324,7 @@ public with sharing class GuarantorDaoTest {
     /**
      * Check all Read rights for a Chatter User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRightsForRead() {
         List<ContactSecurityContext> allContexts = new List<ContactSecurityContext> {
             ContactSecurityContext.SELECT_CONTEXT,
@@ -335,7 +335,7 @@ public with sharing class GuarantorDaoTest {
         };
 
         System.runAs(TestUtility.generateChatterOnlyUser()) {
-            for (ContactSecurityContext context: allContexts) {
+            for (ContactSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);
@@ -351,7 +351,7 @@ public with sharing class GuarantorDaoTest {
     /**
      * Verify the getContactsNoResults query returns zero results.
      */
-    @isTest
+    @IsTest
     static void verifyNoContacts() {
 
         Test.startTest();
@@ -367,7 +367,7 @@ public with sharing class GuarantorDaoTest {
     /**
      * Test to verify the query string provided by the getContactsByRecordType method is valid.
      */
-    @isTest
+    @IsTest
     static void getContactsByRecordTypeTest() {
 
         // This varible is required as a limiting factor in the returned query string.

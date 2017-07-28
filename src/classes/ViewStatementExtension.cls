@@ -3,8 +3,8 @@
  */
 
 public with sharing class ViewStatementExtension {
-    public Statement__c stmt {get; set;}
-    public String errorMsg {get; set;}
+    public Statement__c stmt { get; set; }
+    public String errorMsg { get; set; }
     public Id id;
     public Date stmtDate;
     public String guarantorId;
@@ -14,7 +14,7 @@ public with sharing class ViewStatementExtension {
     public ViewStatementExtension(ApexPages.StandardController controller) {
         if (!Test.isRunningTest()) {
             controller.addFields(new List<String> {
-                    'Statement_Date__c', 'Guarantor__r.Profile_Pointer_ID__c'
+                'Statement_Date__c', 'Guarantor__r.Profile_Pointer_ID__c'
             });
         }
         stmt = (Statement__c) controller.getRecord();

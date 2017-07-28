@@ -14,7 +14,7 @@ public with sharing class AdjustmentTypeMdtSecurityContext extends SecurityConte
     private static final String ID = 'Id';
 
     // The fields for selecting a Adjustment_Type__mdt in CreateAdjustment
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         CODE, DESCRIPTION, ENABLED, ID
     };
 

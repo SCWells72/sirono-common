@@ -33,21 +33,21 @@ public with sharing class EncounterUtil {
         if (PaymentSecurityContext.EU_SELECT_CONTEXT.actionAllowed()) {
             // Get the SUM of all the associated payments
             AggregateResult[] results = [
-                    SELECT Encounter__c obj, SUM(Amount__c) Total
-                    FROM Payment__c
-                    WHERE Encounter__c IN :encounterIds
-                    GROUP BY Encounter__c
+                SELECT Encounter__c obj, SUM(Amount__c) Total
+                FROM Payment__c
+                WHERE Encounter__c IN :encounterIds
+                GROUP BY Encounter__c
             ];
 
             for (AggregateResult ar : results) {
-                Encounter__c enc = new Encounter__c(Id=(Id)ar.get(OBJ));
+                Encounter__c enc = new Encounter__c(Id = (Id) ar.get(OBJ));
                 enc.Total_Payments__c = (Decimal) ar.get(TOTAL);
 
                 encountersToUpdate.put(enc.Id, enc);
             }
 
             if (EncounterSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                UPDATE encountersToUpdate.values();
+                update encountersToUpdate.values();
             }
             updateAssociatedGuarantors(encounterIds);
         }
@@ -60,14 +60,14 @@ public with sharing class EncounterUtil {
     private static void updateAssociatedGuarantors(Set<Id> encounterIds) {
         if (EncounterSecurityContext.EU_SELECT_CONTEXT.actionAllowed()) {
             List<Encounter__c> encountersWithGts = [
-                    SELECT Id, Guarantor__c
-                    FROM Encounter__c
-                    WHERE Id IN :encounterIds
-                    AND Guarantor__c != null
+                SELECT Id, Guarantor__c
+                FROM Encounter__c
+                WHERE Id IN :encounterIds
+                AND Guarantor__c != NULL
             ];
 
             Set<Id> gtIds = new Set<Id>();
-            for (Encounter__c encounter: encountersWithGts) {
+            for (Encounter__c encounter : encountersWithGts) {
                 gtIds.add(encounter.Guarantor__c);
             }
             updateGTEstimateBalances(gtIds);
@@ -91,17 +91,17 @@ public with sharing class EncounterUtil {
             // Get the SUM of the balances of the associated Encounters
             // there are no results for gtIds with no Encounters
             AggregateResult[] results = [
-                    SELECT Guarantor__c obj, SUM(Balance__c) Total
-                    FROM Encounter__c
-                    WHERE Guarantor__c IN :gtIds
-                    AND Guarantor__c != null
-                    AND Encounter_Substatus__c = :Constants.EN_SUBSTATUS_PAYMENT_DUE
-                    GROUP BY Guarantor__c
+                SELECT Guarantor__c obj, SUM(Balance__c) Total
+                FROM Encounter__c
+                WHERE Guarantor__c IN :gtIds
+                AND Guarantor__c != NULL
+                AND Encounter_Substatus__c = :Constants.EN_SUBSTATUS_PAYMENT_DUE
+                GROUP BY Guarantor__c
             ];
 
             Map<Id, Decimal> resultsMap = new Map<Id, Decimal>();
             for (AggregateResult ar : results) {
-                resultsMap.put((Id) ar.get(OBJ), (Decimal)ar.get(TOTAL));
+                resultsMap.put((Id) ar.get(OBJ), (Decimal) ar.get(TOTAL));
             }
 
             List<Contact> toUpdate = new List<Contact>();
@@ -138,14 +138,14 @@ public with sharing class EncounterUtil {
         }
 
         Map<Id, Encounter__c> encountersToUpdate = new Map<Id, Encounter__c>();
-        for (Id id: encounterIds) {
+        for (Id id : encounterIds) {
             encountersToUpdate.put(id, new Encounter__c(Id = id, Billed_Charge_Group_Count__c = 0));
         }
 
         // Get Billed CG Count based on Encounter Ids. 
         List<AggregateResult> results = ChargeGroupService.getBilledCGCountByEncounterIds(encounterIds);
 
-        for (AggregateResult ar: results) {
+        for (AggregateResult ar : results) {
             Encounter__c enc = new Encounter__c(Id = (Id) ar.get(ENCOUNTERID));
             enc.Billed_Charge_Group_Count__c = (Integer) ar.get(TOTAL);
 

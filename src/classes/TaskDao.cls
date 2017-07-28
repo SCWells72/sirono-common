@@ -14,7 +14,7 @@ public with sharing class TaskDao extends AbstractDao {
     public static void insertTasks(List<Task> tasks) {
         if (TaskSecurityContext.INSERT_CONTEXT.actionAllowed()) {
             try {
-                UPSERT tasks;
+                upsert tasks;
             } catch (DmlException de) {
                 System.debug('The upsert operation failed with message: ' + de.getMessage());
                 throw de;
@@ -28,11 +28,11 @@ public with sharing class TaskDao extends AbstractDao {
      * @param whoIds Contact Id to be verified.
      **/
     public static Map<Id, Contact> getValidWhoIds(Set<Id> whoIds) {
-        if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed()){
+        if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             Map<Id, Contact> contactMap = new Map<Id, Contact>([
-                    SELECT Id
-                    FROM Contact
-                    WHERE Id IN :whoIds
+                SELECT Id
+                FROM Contact
+                WHERE Id IN :whoIds
             ]);
 
             return contactMap;
@@ -49,13 +49,13 @@ public with sharing class TaskDao extends AbstractDao {
     public static Map<String, Task> getTasksBySessionId(Set<String> five9SessionIds) {
         if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             List<Task> existingFive9Tasks = [
-                    SELECT Five9__Five9SessionId__c, Id
-                    FROM Task
-                    Where Five9__Five9SessionId__c IN :five9SessionIds
+                SELECT Five9__Five9SessionId__c, Id
+                FROM Task
+                WHERE Five9__Five9SessionId__c IN :five9SessionIds
             ];
 
             Map<String, Task> taskMap = new Map<String, Task>();
-            for (Task task: existingFive9Tasks) {
+            for (Task task : existingFive9Tasks) {
                 taskMap.put(task.Five9__Five9SessionId__c, task);
             }
 

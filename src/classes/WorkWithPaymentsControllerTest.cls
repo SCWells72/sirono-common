@@ -2,10 +2,10 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 private class WorkWithPaymentsControllerTest {
 
-    @isTest static void getPaymentHistoryTest() {
+    @IsTest static void getPaymentHistoryTest() {
         User portalUser = TestUtility.getGuarantorCommunityUser();
         Contact guarantorContact = TestUtility.getPortalGuarantor();
         User adminUser = TestUtility.getPortalAdminUser();
@@ -16,7 +16,7 @@ private class WorkWithPaymentsControllerTest {
             for (RecordType recordType : [
                 SELECT Id, Name
                 FROM RecordType
-                WHERE sObjectType = 'Payment_Method__c'
+                WHERE SobjectType = 'Payment_Method__c'
             ]) {
                 recordTypeMap.put(recordType.Name, recordType.Id);
             }
@@ -27,13 +27,13 @@ private class WorkWithPaymentsControllerTest {
 
             Payment_Method__c pmCheck = TestUtility.generatePaymentMethod(guarantorContact.Id, recordTypeMap.get('Check/Cash'));
 
-            List<Payment_Method__c> paymentMethods = new List<Payment_Method__c>{pmCreditCard, pmCheck};
+            List<Payment_Method__c> paymentMethods = new List<Payment_Method__c> { pmCreditCard, pmCheck };
             insert paymentMethods;
 
             //TODO Figure out sharing for portal users!
             List<Payment_Method__Share> shares = new List<Payment_Method__Share>();
             for (Payment_Method__c pm : paymentMethods) {
-                Payment_Method__Share share  = new Payment_Method__Share();
+                Payment_Method__Share share = new Payment_Method__Share();
                 share.ParentId = pm.Id;
                 share.UserOrGroupId = portalUser.Id;
                 share.AccessLevel = 'edit';
@@ -50,13 +50,13 @@ private class WorkWithPaymentsControllerTest {
             payment2.Method__c = 'Check';
             payment2.Processor_Transaction_ID__c = '12345qwert';
 
-            List<Payment__c> payments = new List<Payment__c>{payment1, payment2};
+            List<Payment__c> payments = new List<Payment__c> { payment1, payment2 };
             insert payments;
 
             //TODO Figure out sharing for portal users!
             List<Payment__Share> pmtShares = new List<Payment__Share>();
             for (Payment__c pmt : payments) {
-                Payment__Share share  = new Payment__Share();
+                Payment__Share share = new Payment__Share();
                 share.ParentId = pmt.Id;
                 share.UserOrGroupId = portalUser.Id;
                 share.AccessLevel = 'edit';
@@ -74,7 +74,7 @@ private class WorkWithPaymentsControllerTest {
                 if (pw.method == 'Credit') {
                     System.assertEquals('Visa 1111', pw.description);
                 } else {
-                    System.assertEquals('12345qwert', pw.description );
+                    System.assertEquals('12345qwert', pw.description);
                 }
             }
             Test.stopTest();

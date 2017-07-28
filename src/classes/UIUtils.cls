@@ -6,7 +6,7 @@
  * UIUtils class contains all common methods for UI.
  **/
 public with sharing class UIUtils {
-    
+
     // This variable is use to set years list for drop down.
     public static List<SelectOption> expYearOptions {
         get {
@@ -53,17 +53,15 @@ public with sharing class UIUtils {
      * pairs to be used for providing a UI around credit card expiration.
      */
     public static Map<String, Map<String, String>> getCardDateOptions() {
-        Map<String, Map<String, String>> outputMap = new Map<String, Map<String, String>> ();
+        Map<String, Map<String, String>> outputMap = new Map<String, Map<String, String>>();
         Map<String, String> yearOptions = new Map<String, String>();
-        for (SelectOption selection: expYearOptions)
-        {
+        for (SelectOption selection : expYearOptions) {
             yearOptions.put(selection.getValue(), selection.getLabel());
         }
         outputMap.put(Constants.YEARS, yearOptions);
 
         Map<String, String> monthsOptions = new Map<String, String>();
-        for (SelectOption selection : UIUtils.expMonthOptions)
-        {
+        for (SelectOption selection : UIUtils.expMonthOptions) {
             monthsOptions.put(selection.getValue(), selection.getLabel());
         }
         outputMap.put(Constants.MONTHS, monthsOptions);

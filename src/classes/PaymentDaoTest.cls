@@ -2,19 +2,19 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 private class PaymentDaoTest {
 	/**
      * This method is used to test PaymentDao.insertPayment method
      **/
     static testMethod void insertPaymentTest() {
-    	// Create Guarantor Contact record.
+        // Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         // Create Encounter record.
         Encounter__c selectedEncounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
-        INSERT selectedEncounter;
+        insert selectedEncounter;
 
         Payment__c payment = new Payment__c(
             Name = 'Test Payment',
@@ -27,11 +27,11 @@ private class PaymentDaoTest {
 
         Test.startTest();
         // Pass list of payment object because of Security Scan issue
-        PaymentDao.insertPayment(new List<Payment__c>{payment});
-        
+        PaymentDao.insertPayment(new List<Payment__c> { payment });
+
         List<Payment__c> paymentList = [
-        	SELECT Id, Name 
-        	FROM Payment__c
+            SELECT Id, Name
+            FROM Payment__c
         ];
         // Check that record was created
         System.assertEquals(paymentList.size(), 1);
@@ -41,14 +41,16 @@ private class PaymentDaoTest {
     /**
     * Check all access rights for a read only User using runAs.
     **/
-    @isTest
+    @IsTest
     static void checkAccessRights() {
-        List<PaymentSecurityContext> allContexts = new List<PaymentSecurityContext>{PaymentSecurityContext.CREATE_CONTEXT,
-            PaymentSecurityContext.PSWU_CREATE_CONTEXT, PaymentSecurityContext.UPDATE_CONTEXT
+        List<PaymentSecurityContext> allContexts = new List<PaymentSecurityContext> {
+            PaymentSecurityContext.CREATE_CONTEXT,
+            PaymentSecurityContext.PSWU_CREATE_CONTEXT,
+            PaymentSecurityContext.UPDATE_CONTEXT
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (PaymentSecurityContext context: allContexts) {
+            for (PaymentSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);
@@ -64,14 +66,15 @@ private class PaymentDaoTest {
     /**
      * Check all Read rights for a Chatter User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRightsForRead() {
-        List<PaymentSecurityContext> allContexts = new List<PaymentSecurityContext>{PaymentSecurityContext.SELECT_CONTEXT,
-                PaymentSecurityContext.EU_SELECT_CONTEXT
+        List<PaymentSecurityContext> allContexts = new List<PaymentSecurityContext> {
+            PaymentSecurityContext.SELECT_CONTEXT,
+            PaymentSecurityContext.EU_SELECT_CONTEXT
         };
 
         System.runAs(TestUtility.generateChatterOnlyUser()) {
-            for (PaymentSecurityContext context: allContexts) {
+            for (PaymentSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);

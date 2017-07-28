@@ -5,7 +5,7 @@
 /**
  * Test the PaymentPlanService
  */
-@isTest
+@IsTest
 public with sharing class PaymentPlanServiceTest {
 
     private static String PLAN_SIRONO_ID = '2876';
@@ -16,40 +16,40 @@ public with sharing class PaymentPlanServiceTest {
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
         gt.Profile_Pointer_ID__c = 23232323;
-        INSERT gt;
+        insert gt;
 
         Contact pt = TestUtility.generatePatientContact();
-        INSERT pt;
+        insert pt;
 
         Datetime createdDT = Datetime.now().addDays(-3);
-        
+
         Payment_Plan__c pp = TestUtility.generatePaymentPlan(gt);
         pp.Plan_Type__c = Constants.AUTOMATIC;
         pp.Sirono_ID__c = Decimal.valueOf(PLAN_SIRONO_ID);
         pp.Plan_Value_Modified_Date__c = createdDT;
-        INSERT pp;
+        insert pp;
         Test.setCreatedDate(pp.Id, createdDT);
 
-        Charge_Group__c cg = TestUtility.generateChargeGroup(gt.Id, pt.Id, CG_SIRONO_ID, pp.id);
+        Charge_Group__c cg = TestUtility.generateChargeGroup(gt.Id, pt.Id, CG_SIRONO_ID, pp.Id);
         cg.Sirono_ID__c = CG_SIRONO_ID;
-        INSERT cg;
+        insert cg;
 
         Service__c svc = TestUtility.generateService(cg, 450.00);
-        INSERT svc;
+        insert svc;
 
         Transaction__c txn = TestUtility.generateServiceTxn(cg, svc.Amount__c, svc);
-        INSERT txn;
+        insert txn;
 
         cg = TestUtility.generateChargeGroup(gt.Id, pt.Id, CG_TO_ADD_ID);
         cg.Sirono_ID__c = CG_TO_ADD_ID;
-        INSERT cg;
+        insert cg;
 
         svc = TestUtility.generateService(cg, 200.00);
-        INSERT svc;
+        insert svc;
 
         txn = TestUtility.generateServiceTxn(cg, svc.Amount__c, svc);
-        INSERT txn;
-        
+        insert txn;
+
         // Check system assert.
         System.assertEquals(Decimal.valueOf(PLAN_SIRONO_ID), pp.Sirono_ID__c, 'Expected ' + PLAN_SIRONO_ID + ' but got ' + pp.Sirono_ID__c);
     }
@@ -58,40 +58,40 @@ public with sharing class PaymentPlanServiceTest {
      *
      * Test adding a chargegroup to an existing paymentplan
      */
-    @isTest
+    @IsTest
     public static void testAddChargeGroup() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
         Test.startTest();
-        PaymentPlanService.addChargeGroups(PLAN_SIRONO_ID, new String[]{String.valueOf(CG_TO_ADD_ID)});
+        PaymentPlanService.addChargeGroups(PLAN_SIRONO_ID, new String[] { String.valueOf(CG_TO_ADD_ID) });
         Test.stopTest();
 
         Payment_Plan__c pp = [
-                SELECT Id, Sirono_ID__c, Plan_Value_Modified_Date__c, CreatedDate
-                FROM Payment_Plan__c
-                WHERE Sirono_ID__c = :Decimal.valueOf(PLAN_SIRONO_ID)
-                LIMIT 1
+            SELECT Id, Sirono_ID__c, Plan_Value_Modified_Date__c, CreatedDate
+            FROM Payment_Plan__c
+            WHERE Sirono_ID__c = :Decimal.valueOf(PLAN_SIRONO_ID)
+            LIMIT 1
         ];
 
         Charge_Group__c[] cgs = [SELECT Id, Sirono_ID__c, Payment_Plan__c FROM Charge_Group__c WHERE Payment_Plan__c = :pp.Id];
 
-        System.assert(cgs.size() == 2, 'Expected 2 cgs on the payment plan, but had '+cgs.size());
+        System.assert(cgs.size() == 2, 'Expected 2 cgs on the payment plan, but had ' + cgs.size());
         System.assert(pp.Plan_Value_Modified_Date__c > pp.CreatedDate,
-                'Expected Plan_Value_Modified_Date__c ('+pp.Plan_Value_Modified_Date__c+
-                        ') > pp.CreatedDate ('+pp.CreatedDate+')');
+            'Expected Plan_Value_Modified_Date__c (' + pp.Plan_Value_Modified_Date__c +
+                ') > pp.CreatedDate (' + pp.CreatedDate + ')');
     }
 
     /**
      * Test adding a bad chargegroupId to an existing paymentplan
      */
-    @isTest
+    @IsTest
     public static void testAddBadChargeGroupId() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
         Boolean expectedFailure = false;
         Test.startTest();
         try {
-            PaymentPlanService.addChargeGroups(PLAN_SIRONO_ID, new String[]{'1962'});
+            PaymentPlanService.addChargeGroups(PLAN_SIRONO_ID, new String[] { '1962' });
         } catch (SironoServiceException ex) {
             System.assertEquals('Unknown chargegroup requested: 1962', ex.getMessage());
             expectedFailure = true;
@@ -105,14 +105,14 @@ public with sharing class PaymentPlanServiceTest {
      *
      * Test adding a chargegroupId to a non-existing paymentplan
      */
-    @isTest
+    @IsTest
     public static void testAddChargeGroupBadPlanId() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
         Boolean expectedFailure = false;
         Test.startTest();
         try {
-            PaymentPlanService.addChargeGroups('1492', new String[]{String.valueOf(CG_TO_ADD_ID)});
+            PaymentPlanService.addChargeGroups('1492', new String[] { String.valueOf(CG_TO_ADD_ID) });
         } catch (SironoServiceException ex) {
             System.assertEquals('Unknown Payment Plan: 1492', ex.getMessage());
             expectedFailure = true;
@@ -122,7 +122,7 @@ public with sharing class PaymentPlanServiceTest {
         System.assert(expectedFailure, 'Exception expected adding to unknown payment plan');
     }
 
-    @isTest
+    @IsTest
     public static void testPlanJSONParsing() {
         Test.startTest();
 
@@ -131,37 +131,37 @@ public with sharing class PaymentPlanServiceTest {
 
         Test.stopTest();
 
-	// We have commented this line because of We can't update Payment Plan name when Payment Plan already exists.
-	// When we create new payment plan at that time we assign name in it.
-	// As per below assert, we already insert payment plan with same sirono Id in set up data.
+        // We have commented this line because of We can't update Payment Plan name when Payment Plan already exists.
+        // When we create new payment plan at that time we assign name in it.
+        // As per below assert, we already insert payment plan with same sirono Id in set up data.
         // System.assertEquals(pp.Name, '2876', 'Plan Name is: '+pp.Name);
-        System.assertEquals(pp.Sirono_ID__c, Decimal.valueOf(PLAN_SIRONO_ID), 'Plan sirono_id is: '+pp.Sirono_ID__c);
-        System.assertEquals(pp.Installment_Amount__c, 50,'Expected Installment_Amount to be 50, but was: '+pp.Installment_Amount__c);
-        System.assert(pp.Active__c,'Expected Plan to be active, but was not');
-        System.assertEquals(pp.Original_Balance__c, 327.72,'Expected Plan Original_Balance__c to be 327.72, but was: '+pp.Original_Balance__c);
-        System.assertEquals(pp.Plan_Type__c, Constants.AUTOMATIC,'Expected Plan_Type__c to be Automatic, but was: '+pp.Plan_Type__c);
-        System.assertEquals(pp.Remaining_Balance__c, 327.72,'Expected Plan Remaining_Balance__c to be 327.72, but was: '+pp.Remaining_Balance__c);
-        System.assertEquals(pp.Status__c, 'started', 'Expected Status__c to be "started", but was: '+pp.Status__c);
-        System.assertEquals(pp.NextPaymentDate__c, Date.newInstance(2017, 05, 13), 'Expected NextPaymentDate__c to be "2017-05-13", but was: '+pp.NextPaymentDate__c);
+        System.assertEquals(pp.Sirono_ID__c, Decimal.valueOf(PLAN_SIRONO_ID), 'Plan sirono_id is: ' + pp.Sirono_ID__c);
+        System.assertEquals(pp.Installment_Amount__c, 50, 'Expected Installment_Amount to be 50, but was: ' + pp.Installment_Amount__c);
+        System.assert(pp.Active__c, 'Expected Plan to be active, but was not');
+        System.assertEquals(pp.Original_Balance__c, 327.72, 'Expected Plan Original_Balance__c to be 327.72, but was: ' + pp.Original_Balance__c);
+        System.assertEquals(pp.Plan_Type__c, Constants.AUTOMATIC, 'Expected Plan_Type__c to be Automatic, but was: ' + pp.Plan_Type__c);
+        System.assertEquals(pp.Remaining_Balance__c, 327.72, 'Expected Plan Remaining_Balance__c to be 327.72, but was: ' + pp.Remaining_Balance__c);
+        System.assertEquals(pp.Status__c, 'started', 'Expected Status__c to be "started", but was: ' + pp.Status__c);
+        System.assertEquals(pp.NextPaymentDate__c, Date.newInstance(2017, 05, 13), 'Expected NextPaymentDate__c to be "2017-05-13", but was: ' + pp.NextPaymentDate__c);
     }
 
     /**
      * Test to Add Payment Plan for Auto plan Type.
      **/
-    @isTest
+    @IsTest
     public static void testAddPaymentPlanForAuto() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
         Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
         PaymentPlanInformation objPPInfo = new PaymentPlanInformation();
-        objPPInfo.chargeGroupIds = new String[]{String.valueOf(CG_TO_ADD_ID)};
+        objPPInfo.chargeGroupIds = new String[] { String.valueOf(CG_TO_ADD_ID) };
         objPPInfo.guarantorId = gt.Id;
         objPPInfo.planType = Constants.PLANTYPE_AUTO;
-        objPPInfo.expirationYear = String.valueof(System.today().Year() + 1);
+        objPPInfo.expirationYear = String.valueOf(System.today().year() + 1);
         objPPInfo.expirationMonth = '07';
         objPPInfo.creditCardNumber = '1234567891113';
-        objPPInfo.cardHolderName = '1234567891113';
+        objPPInfo.cardholderName = '1234567891113';
         objPPInfo.zip = '07897';
         objPPInfo.amount = '100';
         objPPInfo.planValue = '1000';
@@ -183,14 +183,14 @@ public with sharing class PaymentPlanServiceTest {
     /**
      * Test to Add Credit Card/ Payment Plan for Promise plan Type.
      **/
-    @isTest
+    @IsTest
     public static void testAddPaymentPlanForPromise() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
         Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
         PaymentPlanInformation objPPInfo = new PaymentPlanInformation();
-        objPPInfo.chargeGroupIds = new String[]{String.valueOf(CG_TO_ADD_ID)};
+        objPPInfo.chargeGroupIds = new String[] { String.valueOf(CG_TO_ADD_ID) };
         objPPInfo.guarantorId = gt.Id;
         objPPInfo.planType = Constants.PLANTYPE_PROMISE;
         objPPInfo.planValue = '100';
@@ -208,7 +208,7 @@ public with sharing class PaymentPlanServiceTest {
     /**
      * Test to verify the call to the Sirono Server for updating a Payment Plan.
      */
-    @isTest
+    @IsTest
     public static void testUpdateAutoPaymentPlanTerms() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
@@ -232,7 +232,7 @@ public with sharing class PaymentPlanServiceTest {
     /**
      * Verify exception is thrown for update call on PP that does not have type auto.
      */
-    @isTest
+    @IsTest
     public static void testUpdateAutoPaymentPlanTermsNotAuto() {
 
 
@@ -255,20 +255,20 @@ public with sharing class PaymentPlanServiceTest {
     /**
      * Create a new payment plan and associated payment method without persisting the payment method.
      */
-    @isTest
+    @IsTest
     public static void testAddPaymentPlanWithPaymentMethodNoSave() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
         Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
         PaymentPlanInformation objPPInfo = new PaymentPlanInformation();
-        objPPInfo.chargeGroupIds = new String[]{String.valueOf(CG_TO_ADD_ID)};
+        objPPInfo.chargeGroupIds = new String[] { String.valueOf(CG_TO_ADD_ID) };
         objPPInfo.guarantorId = gt.Id;
         objPPInfo.planType = Constants.PLANTYPE_AUTO;
-        objPPInfo.expirationYear = String.valueof(System.today().Year() + 1);
+        objPPInfo.expirationYear = String.valueOf(System.today().year() + 1);
         objPPInfo.expirationMonth = '07';
         objPPInfo.creditCardNumber = '1234567891113';
-        objPPInfo.cardHolderName = '1234567891113';
+        objPPInfo.cardholderName = '1234567891113';
         objPPInfo.zip = '07897';
         objPPInfo.amount = '100';
         objPPInfo.planValue = '1000';
@@ -287,27 +287,27 @@ public with sharing class PaymentPlanServiceTest {
 
         List<Payment_Plan__c> plans = PaymentPlanDao.getActivePaymentPlanWithMethod(gt.Id);
         System.assertNotEquals(0, plans.size(), 'Should have found a plan.');
-        Payment_plan__c pp = plans.get(0);
+        Payment_Plan__c pp = plans.get(0);
         System.assertEquals(null, pp.Payment_Method__r, 'Should not have persisted the Payment method.');
     }
 
     /**
      * Create a new payment plan and associated payment method, persisting the payment method.
      */
-    @isTest
+    @IsTest
     public static void testAddPaymentPlanWithPaymentMethodSave() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
         Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
         PaymentPlanInformation objPPInfo = new PaymentPlanInformation();
-        objPPInfo.chargeGroupIds = new String[]{String.valueOf(CG_TO_ADD_ID)};
+        objPPInfo.chargeGroupIds = new String[] { String.valueOf(CG_TO_ADD_ID) };
         objPPInfo.guarantorId = gt.Id;
         objPPInfo.planType = Constants.PLANTYPE_AUTO;
-        objPPInfo.expirationYear = String.valueof(System.today().Year() + 1);
+        objPPInfo.expirationYear = String.valueOf(System.today().year() + 1);
         objPPInfo.expirationMonth = '07';
         objPPInfo.creditCardNumber = '1234567891113';
-        objPPInfo.cardHolderName = '1234567891113';
+        objPPInfo.cardholderName = '1234567891113';
         objPPInfo.zip = '07897';
         objPPInfo.amount = '100';
         objPPInfo.planValue = '1000';
@@ -326,14 +326,14 @@ public with sharing class PaymentPlanServiceTest {
 
         List<Payment_Plan__c> plans = PaymentPlanDao.getActivePaymentPlanWithMethod(gt.Id);
         System.assertNotEquals(0, plans.size(), 'Should have found a plan.');
-        Payment_plan__c pp = plans.get(0);
+        Payment_Plan__c pp = plans.get(0);
         System.assertNotEquals(null, pp.Payment_Method__r, 'Should have persisted the Payment method.');
     }
 
     /**
      * Get the play by sirono id.
      */
-    @isTest
+    @IsTest
     public static void testGetBySironoId() {
 
         Test.startTest();
@@ -343,7 +343,7 @@ public with sharing class PaymentPlanServiceTest {
         System.assertNotEquals(null, plan, 'Should have been able to lookup payment plan by sirono id.');
     }
 
-    @isTest
+    @IsTest
     public static void testGetBySironoIdDecimal() {
 
         Decimal sid = Decimal.valueOf(PLAN_SIRONO_ID);
@@ -357,7 +357,7 @@ public with sharing class PaymentPlanServiceTest {
     /**
      * Ensure we can look up active plan by guarantor id.
      */
-    @isTest
+    @IsTest
     public static void testGetActivePaymentPlan() {
         Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
@@ -372,7 +372,7 @@ public with sharing class PaymentPlanServiceTest {
     /**
      * Test if we can find a Payment plan by plan id.
      */
-    @isTest
+    @IsTest
     public static void testGetPaymentPlanByPlanId() {
         Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
@@ -390,7 +390,7 @@ public with sharing class PaymentPlanServiceTest {
     /**
      * Add a Payment Method to an existing plan, without saving.
      */
-    @isTest
+    @IsTest
     public static void testAddPaymentMethod_NewNoSave() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
@@ -404,10 +404,10 @@ public with sharing class PaymentPlanServiceTest {
         System.assertNotEquals(null, pp, 'Should find an existing plan.');
 
         PaymentPlanInformation objPPInfo = new PaymentPlanInformation();
-        objPPInfo.expirationYear = String.valueof(System.today().Year() + 1);
+        objPPInfo.expirationYear = String.valueOf(System.today().year() + 1);
         objPPInfo.expirationMonth = '07';
         objPPInfo.creditCardNumber = '1234567891113';
-        objPPInfo.cardHolderName = '1234567891113';
+        objPPInfo.cardholderName = '1234567891113';
         objPPInfo.chargeGroupIds = new String[]{String.valueOf(CG_TO_ADD_ID)};
         objPPInfo.guarantorId = gt.Id;
         objPPInfo.planType = Constants.PLANTYPE_AUTO;
@@ -435,7 +435,7 @@ public with sharing class PaymentPlanServiceTest {
 
         List<Payment_Plan__c> plans = PaymentPlanDao.getActivePaymentPlanWithMethod(gt.Id);
         System.assertNotEquals(0, plans.size(), 'Should have found a plan.');
-        Payment_plan__c planWithMethod = plans.get(0);
+        Payment_Plan__c planWithMethod = plans.get(0);
 
         System.assertNotEquals(lastFour, plan.Payment_Method__r.Last_4__c, 'Should not have the new method.');
     }
@@ -443,7 +443,7 @@ public with sharing class PaymentPlanServiceTest {
     /**
      * Add a Payment Method to an existing plan, without saving.
      */
-    @isTest
+    @IsTest
     public static void testAddPaymentMethod_NewSave() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
@@ -456,10 +456,10 @@ public with sharing class PaymentPlanServiceTest {
         System.assertNotEquals(null, pp, 'Should find an existing plan.');
 
         PaymentPlanInformation objPPInfo = new PaymentPlanInformation();
-        objPPInfo.expirationYear = String.valueof(System.today().Year() + 1);
+        objPPInfo.expirationYear = String.valueOf(System.today().year() + 1);
         objPPInfo.expirationMonth = '07';
         objPPInfo.creditCardNumber = cardNumber;
-        objPPInfo.cardHolderName = '1234567891113';
+        objPPInfo.cardholderName = '1234567891113';
         objPPInfo.chargeGroupIds = new String[]{String.valueOf(CG_TO_ADD_ID)};
         objPPInfo.guarantorId = gt.Id;
         objPPInfo.planType = Constants.PLANTYPE_AUTO;
@@ -487,7 +487,7 @@ public with sharing class PaymentPlanServiceTest {
 
         List<Payment_Plan__c> plans = PaymentPlanDao.getActivePaymentPlanWithMethod(gt.Id);
         System.assertNotEquals(0, plans.size(), 'Should have found a plan.');
-        Payment_plan__c planWithMethod = plans.get(0);
+        Payment_Plan__c planWithMethod = plans.get(0);
 
         System.assertEquals(lastFour, planWithMethod.Payment_Method__r.Last_4__c, 'Should have the new method.');
     }
@@ -495,7 +495,7 @@ public with sharing class PaymentPlanServiceTest {
     /**
      * Add an existing Payment Method to existing plan, without saving.
      */
-    @isTest
+    @IsTest
     public static void testAddPaymentMethod_ExistingSave() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
@@ -509,10 +509,10 @@ public with sharing class PaymentPlanServiceTest {
         System.assertNotEquals(null, pp, 'Should find an existing plan.');
 
         PaymentPlanInformation objPPInfo = new PaymentPlanInformation();
-        objPPInfo.expirationYear = String.valueof(System.today().Year() + 1);
+        objPPInfo.expirationYear = String.valueOf(System.today().year() + 1);
         objPPInfo.expirationMonth = '07';
         objPPInfo.creditCardNumber = cardNumber;
-        objPPInfo.cardHolderName = '1234567891113';
+        objPPInfo.cardholderName = '1234567891113';
         objPPInfo.chargeGroupIds = new String[]{String.valueOf(CG_TO_ADD_ID)};
         objPPInfo.guarantorId = gt.Id;
         objPPInfo.planType = Constants.PLANTYPE_AUTO;
@@ -538,7 +538,7 @@ public with sharing class PaymentPlanServiceTest {
 
         List<Payment_Plan__c> plans = PaymentPlanDao.getActivePaymentPlanWithMethod(gt.Id);
         System.assertNotEquals(0, plans.size(), 'Should have found a plan.');
-        Payment_plan__c planWithMethod = plans.get(0);
+        Payment_Plan__c planWithMethod = plans.get(0);
 
         System.assertEquals(lastFour, planWithMethod.Payment_Method__r.Last_4__c, 'Should have the new method.');
     }
@@ -546,7 +546,7 @@ public with sharing class PaymentPlanServiceTest {
     /**
      * Test the Patch requestor setup.
      */
-    @isTest
+    @IsTest
     public static void testPatchRequestor() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
@@ -567,7 +567,7 @@ public with sharing class PaymentPlanServiceTest {
     /**
      * Verify a successful delete payment plan call.
      */
-    @isTest
+    @IsTest
     public static void testRemovePaymentPlan() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         Payment_Plan__c plan = [
@@ -581,7 +581,7 @@ public with sharing class PaymentPlanServiceTest {
         System.assertEquals(true, plan.Active__c, 'Should be active before delete.');
         System.assertEquals(null, plan.Cancellation_Date__c, 'Should not have a cancelation date.');
 
-        List<Charge_Group__c> cgs = ChargeGroupDao.getBySironoIds(new List<Decimal>{CG_SIRONO_ID});
+        List<Charge_Group__c> cgs = ChargeGroupDao.getBySironoIds(new List<Decimal> { CG_SIRONO_ID });
         Charge_Group__c cg = (cgs.size() >= 1) ? cgs.get(0) : null;
         cg.Account_Sub_Status__c = Constants.ON_PAYMENT_PLAN;
         UPDATE cg;
@@ -601,7 +601,7 @@ public with sharing class PaymentPlanServiceTest {
         System.assertEquals(false, planAfterDelete.Active__c, 'Should not be active after delete.');
         System.assertNotEquals(null, planAfterDelete.Cancellation_Date__c, 'Should populate cancelation date.');
 
-        cgs = ChargeGroupDao.getBySironoIds(new List<Decimal>{CG_SIRONO_ID});
+        cgs = ChargeGroupDao.getBySironoIds(new List<Decimal> { CG_SIRONO_ID });
         Charge_Group__c updatedCg = (cgs.size() >= 1) ? cgs.get(0) : null;
 
         // Note the mock here makes use of the existing cg json body, and in that body the Account_Sub_Status is third party payer.
@@ -610,14 +610,14 @@ public with sharing class PaymentPlanServiceTest {
         System.assertEquals(null, updatedCg.Payment_Plan__c, 'Should not be assigned to payment plan.');
     }
 
-    @isTest
+    @IsTest
     public static void testRemovePaymentPlanNoPlan() {
         Payment_Plan__c plan = [
             SELECT Id
             FROM Payment_Plan__c
             WHERE Sirono_ID__c = :Decimal.valueOf(PLAN_SIRONO_ID)
         ];
-        DELETE plan;
+        delete plan;
 
         Test.startTest();
         try {

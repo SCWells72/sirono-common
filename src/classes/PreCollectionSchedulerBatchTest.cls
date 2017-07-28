@@ -5,22 +5,22 @@
 /**
  * Tests for PreCollectionSchedulerBatch.
 */
-@isTest
+@IsTest
 private class PreCollectionSchedulerBatchTest {
 
-    @isTest
+    @IsTest
     static void main() {
-        contact con = TestUtility.generateGuarantorContact();
+        Contact con = TestUtility.generateGuarantorContact();
         insert con;
 
-        contact con1 = TestUtility.generateGuarantorContact();
+        Contact con1 = TestUtility.generateGuarantorContact();
         con1.LastName = 'Test';
-        con1.Profile_Pointer_Id__c = 123;
+        con1.Profile_Pointer_ID__c = 123;
         insert con1;
 
-        contact con2 = TestUtility.generatePatientContact();
+        Contact con2 = TestUtility.generatePatientContact();
         con2.LastName = 'Test';
-        con2.Profile_Pointer_Id__c = 123456;
+        con2.Profile_Pointer_ID__c = 123456;
         con2.Guarantor__c = con1.Id;
         insert con2;
 
@@ -39,7 +39,7 @@ private class PreCollectionSchedulerBatchTest {
         insert t1;
 
         Campaign c = TestUtility.generateCampaign(Constants.CAMPAIGN_NAME_PRECOLLECTIONS);
-        c.isActive = true;
+        c.IsActive = true;
         insert c;
 
         CampaignMember cmm = new CampaignMember(
@@ -52,7 +52,7 @@ private class PreCollectionSchedulerBatchTest {
         cmm = new CampaignMember(CampaignId = c.Id, ContactId = con2.Id, Status = Constants.SENT);
         insert cmm;
 
-        Charge_Group__c cg = TestUtility.generateChargeGroup(con1.Id, con2.id, 1212343);
+        Charge_Group__c cg = TestUtility.generateChargeGroup(con1.Id, con2.Id, 1212343);
         cg.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         cg.Pre_Collection_Sent__c = System.today();
@@ -60,26 +60,26 @@ private class PreCollectionSchedulerBatchTest {
 
         Test.startTest();
         PreCollectionSchedulerBatch dpp = new PreCollectionSchedulerBatch();
-        system.schedule('schJob', '0 11 22 * 9 ?', dpp);
+        System.schedule('schJob', '0 11 22 * 9 ?', dpp);
         Test.stopTest();
 
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         System.assertEquals(0, msgList.size());
     }
 
-    @isTest
+    @IsTest
     static void main1() {
-        contact con = TestUtility.generateGuarantorContact();
+        Contact con = TestUtility.generateGuarantorContact();
         insert con;
 
-        contact con1 = TestUtility.generateGuarantorContact();
+        Contact con1 = TestUtility.generateGuarantorContact();
         con1.LastName = 'Test';
-        con1.Profile_Pointer_Id__c = 123;
+        con1.Profile_Pointer_ID__c = 123;
         insert con1;
 
-        contact con2 = TestUtility.generatePatientContact();
+        Contact con2 = TestUtility.generatePatientContact();
         con2.LastName = 'Test';
-        con2.Profile_Pointer_Id__c = 123456;
+        con2.Profile_Pointer_ID__c = 123456;
         con2.Guarantor__c = con1.Id;
         insert con2;
 
@@ -98,7 +98,7 @@ private class PreCollectionSchedulerBatchTest {
         insert t1;
 
         Campaign c = TestUtility.generateCampaign(Constants.CAMPAIGN_NAME_PRECOLLECTIONS);
-        c.isActive = true;
+        c.IsActive = true;
         insert c;
 
         CampaignMember cmm = new CampaignMember(CampaignId = c.Id, ContactId = con.Id, Status = Constants.SENT);
@@ -107,7 +107,7 @@ private class PreCollectionSchedulerBatchTest {
         cmm = new CampaignMember(CampaignId = c.Id, ContactId = con2.Id, Status = Constants.SENT);
         insert cmm;
 
-        Charge_Group__c cg = TestUtility.generateChargeGroup(con1.Id, con2.id, 12122343);
+        Charge_Group__c cg = TestUtility.generateChargeGroup(con1.Id, con2.Id, 12122343);
         cg.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         cg.Pre_Collection_Sent__c = System.today();
@@ -116,7 +116,7 @@ private class PreCollectionSchedulerBatchTest {
         Transaction__c transactionObj = TestUtility.generateTransaction(cg, -110, Constants.AUTOMATIC);
         insert transactionObj ;
 
-        cg = TestUtility.generateChargeGroup(con.Id, con2.id, 1212343);
+        cg = TestUtility.generateChargeGroup(con.Id, con2.Id, 1212343);
         cg.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         cg.Pre_Collection_Sent__c = System.today();
@@ -127,15 +127,15 @@ private class PreCollectionSchedulerBatchTest {
 
         Test.startTest();
         PreCollectionSchedulerBatch dpp = new PreCollectionSchedulerBatch();
-        Delete [Select id from CampaignMember];
-        system.schedule('schJob', '0 11 22 * 9 ?', dpp);
+        delete [SELECT Id FROM CampaignMember];
+        System.schedule('schJob', '0 11 22 * 9 ?', dpp);
         Test.stopTest();
 
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         System.assertEquals(0, msgList.size());
     }
 
-    @isTest
+    @IsTest
     static void executBatch() {
         Test.startTest();
         PreCollectionSchedulerBatch dppc = new PreCollectionSchedulerBatch();
@@ -149,7 +149,7 @@ private class PreCollectionSchedulerBatchTest {
     /**
      * Check all access rights for a read only User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRights() {
         List<CmpnMemberSecurityContext> allContexts = new List<CmpnMemberSecurityContext> {
             CmpnMemberSecurityContext.CREATE_CONTEXT,
@@ -157,7 +157,7 @@ private class PreCollectionSchedulerBatchTest {
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (CmpnMemberSecurityContext context: allContexts) {
+            for (CmpnMemberSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);

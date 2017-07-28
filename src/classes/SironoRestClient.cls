@@ -10,9 +10,9 @@ public abstract with sharing class SironoRestClient {
     //TODO make this private once everything is moved to the restclient framework & there is another way to force creds reload
     public static String endpointURL;
     private static final String HTTP_EXCEPTION_MSG = 'An error occurred when calling the Sirono service ' +
-            '[METHOD: {0}] [ENDPOINT: {1}] [STATUS_CODE: {2}].';
+        '[METHOD: {0}] [ENDPOINT: {1}] [STATUS_CODE: {2}].';
     private static final String HTTP_DEBUG_MSG = 'Non-200 status returned when calling the Sirono service ' +
-            '[METHOD: {0}] [statusCode: {1}] [url: {2}] [responseBody: {3}].';
+        '[METHOD: {0}] [statusCode: {1}] [url: {2}] [responseBody: {3}].';
 
     private Http http;
     private HttpRequest req;
@@ -24,8 +24,8 @@ public abstract with sharing class SironoRestClient {
     {
         req = new HttpRequest();
         http = new Http();
-        validStatuses = new Set<Integer>{
-                RestClientConstants.HTTP_SUCCESS
+        validStatuses = new Set<Integer> {
+            RestClientConstants.HTTP_SUCCESS
         };
     }
 
@@ -60,8 +60,8 @@ public abstract with sharing class SironoRestClient {
      */
     public SironoRestClient deleteRequestor() {
         addDefaults();
-        setSuccessStatuses(new Set<Integer>{
-                RestClientConstants.HTTP_DELETED
+        setSuccessStatuses(new Set<Integer> {
+            RestClientConstants.HTTP_DELETED
         });
         req.setMethod(RestClientConstants.REMOVE);
         return this;
@@ -104,8 +104,8 @@ public abstract with sharing class SironoRestClient {
         if (addDefaults) {
             addDefaults();
         }
-        setSuccessStatuses(new Set<Integer>{
-                RestClientConstants.HTTP_CREATED, RestClientConstants.HTTP_SUCCESS
+        setSuccessStatuses(new Set<Integer> {
+            RestClientConstants.HTTP_CREATED, RestClientConstants.HTTP_SUCCESS
         });
         req.setMethod(RestClientConstants.POST);
         return this;
@@ -221,20 +221,20 @@ public abstract with sharing class SironoRestClient {
         } catch (CalloutException e) {
             // If we get a CalloutException just rethrow
             throw e;
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.debug('Exception encountered when calling Sirono service: ' + e.getMessage());
-            System.debug('>>>>>req.method: '+req.getMethod());
-            System.debug('>>>>>req.endpoint: '+req.getEndpoint());
-            System.debug('>>>>>req.Headers - '+RestClientConstants.AUTHORIZATION+': '+req.getHeader(RestClientConstants.AUTHORIZATION)+' '+RestClientConstants.CONTENT_TYPE+': '+req.getHeader(RestClientConstants.CONTENT_TYPE));
-            System.debug('>>>>>req.body: '+req.getBody());
+            System.debug('>>>>>req.method: ' + req.getMethod());
+            System.debug('>>>>>req.endpoint: ' + req.getEndpoint());
+            System.debug('>>>>>req.Headers - ' + RestClientConstants.AUTHORIZATION + ': ' + req.getHeader(RestClientConstants.AUTHORIZATION) + ' ' + RestClientConstants.CONTENT_TYPE + ': ' + req.getHeader(RestClientConstants.CONTENT_TYPE));
+            System.debug('>>>>>req.body: ' + req.getBody());
 
-            String message = String.format(HTTP_EXCEPTION_MSG, new String[]{
-                    req.getMethod(),
-                    req.getEndpoint(),
-                    String.valueOf(res.getStatusCode())
+            String message = String.format(HTTP_EXCEPTION_MSG, new String[] {
+                req.getMethod(),
+                req.getEndpoint(),
+                String.valueOf(res.getStatusCode())
             });
-            throw new SironoServiceException(new String[]{
-                    message
+            throw new SironoServiceException(new String[] {
+                message
             });
         }
         return res;
@@ -309,11 +309,11 @@ public abstract with sharing class SironoRestClient {
      * When a request fails logs out information so that we can debug accordingly.
      */
     private void logFailedRequest() {
-        System.debug(String.format(HTTP_DEBUG_MSG, new String[]{
-                req.getMethod(),
-                String.valueOf(res.getStatusCode()),
-                req.getEndpoint(),
-                res.getBody()
+        System.debug(String.format(HTTP_DEBUG_MSG, new String[] {
+            req.getMethod(),
+            String.valueOf(res.getStatusCode()),
+            req.getEndpoint(),
+            res.getBody()
         }));
     }
 
@@ -331,8 +331,8 @@ public abstract with sharing class SironoRestClient {
      * @returns - String The value to be set in the header.
      */
     protected String getJwtHeaderValue() {
-        return String.format(RestClientConstants.JWT_HEADER, new String[]{
-                getJwt()
+        return String.format(RestClientConstants.JWT_HEADER, new String[] {
+            getJwt()
         });
     }
 
@@ -356,7 +356,7 @@ public abstract with sharing class SironoRestClient {
      */
     @TestVisible
     private List<String> processFailedResponse(String jsonString) {
-        System.debug('processFailedResponse: '+jsonString);
+        System.debug('processFailedResponse: ' + jsonString);
         JSONParser parser = JSON.createParser(jsonString);
         WrapperBadResponse wrapper;
 
@@ -410,8 +410,9 @@ public abstract with sharing class SironoRestClient {
      */
     protected String asChargeGroupURL(String chargeGroupId) {
         String cgUrl = String.format(RestClientConstants.CHARGE_GROUP_URLS.get(RestClientConstants.CHARGEGROUP_KEY),
-                new String[]{stripCommas(chargeGroupId)
-				});
+            new String[] {
+                stripCommas(chargeGroupId)
+            });
 
         return resolveBaseURL(cgUrl);
     }
@@ -421,9 +422,9 @@ public abstract with sharing class SironoRestClient {
      * Return the given sironoId formatted as a paymentplan absolute URI
      */
     protected String asPaymentPlanURL(String planId) {
-        String ppUrl =  String.format(RestClientConstants.PAYMENT_PLAN_URLS.get(RestClientConstants.PAYMENT_PLAN_KEY), new String[]{
-                stripCommas(planId)
-        		});
+        String ppUrl = String.format(RestClientConstants.PAYMENT_PLAN_URLS.get(RestClientConstants.PAYMENT_PLAN_KEY), new String[] {
+            stripCommas(planId)
+        });
 
         return resolveBaseURL(ppUrl);
     }
@@ -433,8 +434,8 @@ public abstract with sharing class SironoRestClient {
      * Return the given sironoId formatted as a guarantor absolute URI
      **/
     protected String asGuarantorURL(String guarantorId) {
-        String guarantorUrl =  String.format(RestClientConstants.GUARANTOR_URLS.get(RestClientConstants.GUARANTOR_KEY), new String[]{
-                stripCommas(guarantorId)
+        String guarantorUrl = String.format(RestClientConstants.GUARANTOR_URLS.get(RestClientConstants.GUARANTOR_KEY), new String[] {
+            stripCommas(guarantorId)
         });
 
         return resolveBaseURL(guarantorUrl);
@@ -454,10 +455,10 @@ public abstract with sharing class SironoRestClient {
     public static String getEndpointString() {
         if (endpointURL == null) {
             NamedCredential nc = [
-                    SELECT DeveloperName, Endpoint, Id
-                    FROM NamedCredential
-                    WHERE DeveloperName = :RestClientConstants.SIRONO_NAMED_CREDS_ID
-                    LIMIT 1
+                SELECT DeveloperName, Endpoint, Id
+                FROM NamedCredential
+                WHERE DeveloperName = :RestClientConstants.SIRONO_NAMED_CREDS_ID
+                LIMIT 1
             ];
             endpointURL = nc.Endpoint;
         }
@@ -471,7 +472,7 @@ public abstract with sharing class SironoRestClient {
      * @returns String centAmount - That contains cent amount value.
      **/
     public static String convertToCents(String amount) {
-        if (String.isNotBlank(amount) ) {
+        if (String.isNotBlank(amount)) {
             return convertToCents(Decimal.valueOf(amount));
         } else {
             return amount;
@@ -527,9 +528,9 @@ public abstract with sharing class SironoRestClient {
 
             // Do not include the default request headers.
             HttpResponse res = postRequestor(false)
-                    .url(RestClientConstants.AUTH_URLS.get(RestClientConstants.TOKEN_KEY))
-                    .body(RestClientConstants.TOKEN_BODY)
-                    .call();
+                .url(RestClientConstants.AUTH_URLS.get(RestClientConstants.TOKEN_KEY))
+                .body(RestClientConstants.TOKEN_BODY)
+                .call();
 
             String responseBody = res.getBody();
             TokenAuthResponse tokenRes = (TokenAuthResponse) JSON.deserializeStrict(responseBody, TokenAuthResponse.class);
@@ -545,8 +546,8 @@ public abstract with sharing class SironoRestClient {
             String csrfToken;
             // Do not include the default request headers.
             HttpResponse res = getRequestor(false)
-                    .url(RestClientConstants.AUTH_URLS.get(RestClientConstants.CSRF_KEY))
-                    .call();
+                .url(RestClientConstants.AUTH_URLS.get(RestClientConstants.CSRF_KEY))
+                .call();
 
             String responseBody = res.getBody();
 

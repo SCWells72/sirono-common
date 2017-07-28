@@ -5,15 +5,15 @@
 /**
  * Test class for DelinquentPaymentPlansSchedulerBatch.
  */
-@isTest
+@IsTest
 public class DelinquentPaymentPlansSchedulerBatchTest {
     static testMethod void main() {
-        contact con = TestUtility.generateGuarantorContact();
+        Contact con = TestUtility.generateGuarantorContact();
         insert con;
 
-        contact con1 = TestUtility.generateGuarantorContact();
+        Contact con1 = TestUtility.generateGuarantorContact();
         con1.LastName = 'Test';
-        con1.Profile_Pointer_Id__c = 123;
+        con1.Profile_Pointer_ID__c = 123;
         insert con1;
 
         Date dt = System.today().addDays(-10);
@@ -31,7 +31,7 @@ public class DelinquentPaymentPlansSchedulerBatchTest {
         insert t1;
 
         Campaign c = TestUtility.generateCampaign(Constants.CAMPAIGN_NAME_PAST_DUE);
-        c.isActive = true;
+        c.IsActive = true;
         insert c;
 
         CampaignMember cmm = new CampaignMember(CampaignId = c.Id, ContactId = con.Id, Status = Constants.SENT);
@@ -39,7 +39,7 @@ public class DelinquentPaymentPlansSchedulerBatchTest {
 
         Test.startTest();
         DelinquentPaymentPlansSchedulerBatch dpp = new DelinquentPaymentPlansSchedulerBatch();
-        system.schedule('schJob', '0 11 22 * 9 ?', dpp);
+        System.schedule('schJob', '0 11 22 * 9 ?', dpp);
         Test.stopTest();
 
         List<ApexPages.Message> msgList = ApexPages.getMessages();

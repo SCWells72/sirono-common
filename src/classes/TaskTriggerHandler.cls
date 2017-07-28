@@ -7,7 +7,7 @@
  **/
 public with sharing class TaskTriggerHandler {
 
-    public static boolean isRecursive = false;
+    public static Boolean isRecursive = false;
 
     public static final String CASEPREFIX = '500';
     public static final String CONTACTPREFIX = '003';
@@ -55,10 +55,10 @@ public with sharing class TaskTriggerHandler {
             if (callListNameMap == null) {
                 callListNameMap = new Map<String, String>();
                 if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                    for (Campaign cm: [
+                    for (Campaign cm : [
                         SELECT Id, Name, IsActive
                         FROM Campaign
-                        WHERE isActive = true
+                        WHERE IsActive = TRUE
                     ]) {
                         callListNameMap.put(cm.Name, String.valueOf(cm.Id));
                     }
@@ -84,16 +84,16 @@ public with sharing class TaskTriggerHandler {
         Map<String, Task> mapTask = new Map<String, Task>();
 
         if (CampaignMappingMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            for (Campaign_Mapping__mdt cm: [
+            for (Campaign_Mapping__mdt cm : [
                 SELECT MasterLabel, Salesforce_Campaign_Name__c
                 FROM Campaign_Mapping__mdt
-                WHERE Salesforce_Campaign_Name__c != null
+                WHERE Salesforce_Campaign_Name__c != NULL
             ]) {
                 mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
             }
         }
         for (Task t : newList) {
-            string strFive9Campaign;
+            String strFive9Campaign;
 
             if (t.Five9__Five9Campaign__c != null && t.WhoId != null
                 && String.valueOf(t.WhoId).startsWith(CONTACTPREFIX)
@@ -104,7 +104,7 @@ public with sharing class TaskTriggerHandler {
                 } else if (t.Five9__Five9Campaign__c.contains(IB)) {
                     strFive9Campaign = t.Five9__Five9Campaign__c.replace(IB, '').trim();
                 }
-                system.debug('strFive9Campaign : ' + strFive9Campaign);
+                System.debug('strFive9Campaign : ' + strFive9Campaign);
 
                 if (mapCampaignMapping.containsKey(strFive9Campaign)) {
 
@@ -142,7 +142,9 @@ public with sharing class TaskTriggerHandler {
     private static void closeCasesWithExhaustedCriteria(List<Task> newList, Map<Id, Task> oldMap) {
 
         // Check Task is not updated through Trigger bz of Task is updated by "callHoursOfDay" method in Trigger.
-        if (isRecursive) return;
+        if (isRecursive) {
+            return;
+        }
 
         Set<Id> contactIds = new Set<Id>();
         Set<Id> caseIds = new Set<Id>();
@@ -151,16 +153,16 @@ public with sharing class TaskTriggerHandler {
         Map<String, String> mapCampaignMapping = new Map<String, String>();
 
         if (CampaignMappingMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            for (Campaign_Mapping__mdt cm: [
+            for (Campaign_Mapping__mdt cm : [
                 SELECT MasterLabel, Salesforce_Campaign_Name__c
                 FROM Campaign_Mapping__mdt
-                WHERE Salesforce_Campaign_Name__c != null
+                WHERE Salesforce_Campaign_Name__c != NULL
             ]) {
                 mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
             }
         }
 
-        for (Task t: newList) {
+        for (Task t : newList) {
             if (t.CallDisposition != null && t.Five9__Five9Campaign__c != null
                 && t.WhoId != null
                 && String.valueOf(t.WhoId).startsWith(CONTACTPREFIX)
@@ -169,7 +171,7 @@ public with sharing class TaskTriggerHandler {
                 && (oldMap == null || t.CallDisposition != oldMap.get(t.Id).CallDisposition)
                 && (oldMap == null || t.WhatId != oldMap.get(t.Id).WhatId)) {
 
-                string strFive9Campaign;
+                String strFive9Campaign;
 
                 if (t.Five9__Five9Campaign__c.contains(OB)) {
                     strFive9Campaign = t.Five9__Five9Campaign__c.replace(OB, '').trim();
@@ -195,10 +197,10 @@ public with sharing class TaskTriggerHandler {
 
             // Get Exhausted Criteria data from Custom Meta Data.
             if (ExhaustedCriteriaMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                for (Exhausted_Criteria__mdt ec: [
+                for (Exhausted_Criteria__mdt ec : [
                     SELECT MasterLabel, Disposition_Type__c
                     FROM Exhausted_Criteria__mdt
-                    WHERE Disposition_Type__c != null
+                    WHERE Disposition_Type__c != NULL
                 ]) {
                     if (ec.Disposition_Type__c.equals(FINAL_DISPOSITION)) {
                         finalDispositions.add(ec.MasterLabel);
@@ -210,9 +212,9 @@ public with sharing class TaskTriggerHandler {
                 }
             }
 
-            for (Contact c: GuarantorService.getGuarantorsWithTask(contactIds, caseIds, five9Campaigns, null)) {
+            for (Contact c : GuarantorService.getGuarantorsWithTask(contactIds, caseIds, five9Campaigns, null)) {
                 Map<Id, ExhaustedCriteriaCounts> mapDispositionCounts = new Map<Id, ExhaustedCriteriaCounts>();
-                for (Task t: c.Tasks) {
+                for (Task t : c.Tasks) {
                     if (finalDispositions.contains(t.CallDisposition)) {
                         finalCaseIds.add(t.WhatId);
                         // Remove Case Id in set of Exhausted Case Ids.
@@ -255,7 +257,7 @@ public with sharing class TaskTriggerHandler {
                     ];
 
                     if (lstCase.size() > 0) {
-                        for (Case c: lstCase) {
+                        for (Case c : lstCase) {
                             if (finalCaseIds.contains(c.Id)) {
                                 c.Status = Constants.CASE_STATUS_CLOSED;
                                 c.Reason = Constants.CASE_REASON_CASE_CLOSED_FINAL;
@@ -265,7 +267,7 @@ public with sharing class TaskTriggerHandler {
                             }
                         }
                         if (CaseSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                            UPDATE lstCase;
+                            update lstCase;
                         }
                     }
                 }
@@ -291,7 +293,7 @@ public with sharing class TaskTriggerHandler {
             Map<String, ActivityCounterWrapper> counterMap = new Map<String, ActivityCounterWrapper>();
             Map<String, CampaignMember> cmMap = new Map<String, CampaignMember>();
             if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                for (CampaignMember cm: [
+                for (CampaignMember cm : [
                     SELECT Id, ContactId, CampaignId
                     FROM CampaignMember
                     WHERE ContactId IN :contactIds
@@ -303,8 +305,8 @@ public with sharing class TaskTriggerHandler {
                 }
             }
 
-            for (Contact c: GuarantorService.getGuarantorsWithTask(contactIds, null, callListNameMap.KeySet(), new Set<String> { 'Final', 'Retry', 'Error' })) {
-                for (Task t: c.Tasks) {
+            for (Contact c : GuarantorService.getGuarantorsWithTask(contactIds, null, callListNameMap.keySet(), new Set<String> { 'Final', 'Retry', 'Error' })) {
+                for (Task t : c.Tasks) {
                     if (callListNameMap.containsKey(t.Five9__Five9Campaign__c)) {
                         String keyStr = String.valueOf(c.Id).substring(0, 15) + '-'
                             + callListNameMap.get(t.Five9__Five9Campaign__c).substring(0, 15);
@@ -338,7 +340,7 @@ public with sharing class TaskTriggerHandler {
                 // Create instant of CmpnMemberSecurityContext class. It is use to check Delete access on Object.
                 CmpnMemberSecurityContext cmpnMemSecurityContext = new CmpnMemberSecurityContext();
                 if (cmpnMemSecurityContext.deleteActionAllowed()) {
-                    DELETE cmListToRemove;
+                    delete cmListToRemove;
                 }
             }
         }
@@ -351,7 +353,9 @@ public with sharing class TaskTriggerHandler {
      * @param Boolean isUpdate, When Task is inserted at that time it's false and updated at that time it's true.
      **/
     private static void callHoursOfDay(List<Task> newList, Boolean isUpdate) {
-        if (isRecursive) return;
+        if (isRecursive) {
+            return;
+        }
 
         if (UserTimezoneMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             List<User_Timezone_Setting__mdt> lstUserSetting = [
@@ -362,24 +366,24 @@ public with sharing class TaskTriggerHandler {
             ];
             List<Task> lstTask = new List<Task>();
 
-            for (Task objTask: newList) {
-                if (!lstUserSetting.IsEmpty() && !String.isblank(lstUserSetting[0].Timezone_Name__c)) {
+            for (Task objTask : newList) {
+                if (!lstUserSetting.isEmpty() && !String.isBlank(lstUserSetting[0].Timezone_Name__c)) {
                     String selectedTimeZone = lstUserSetting[0].Timezone_Name__c;
-                    String strConvertedDate = objTask.Createddate.format('MM/dd/yyyy HH:mm:ss', selectedTimeZone);
-                    String strHours = objTask.Createddate.format('HH', selectedTimeZone);
+                    String strConvertedDate = objTask.CreatedDate.format('MM/dd/yyyy HH:mm:ss', selectedTimeZone);
+                    String strHours = objTask.CreatedDate.format('HH', selectedTimeZone);
                     if (isUpdate) {
-                        objTask.Hours_of_Day__c = Integer.Valueof(strHours);
+                        objTask.Hours_of_Day__c = Integer.valueOf(strHours);
                     } else {
-                        Task tempTask = objTask.Clone(true);
-                        tempTask.Hours_of_Day__c = Integer.Valueof(strHours);
+                        Task tempTask = objTask.clone(true);
+                        tempTask.Hours_of_Day__c = Integer.valueOf(strHours);
                         lstTask.add(tempTask);
                     }
                 }
             }
-            if (!lstTask.Isempty()) {
+            if (!lstTask.isEmpty()) {
                 isRecursive = true;
                 if (TaskSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                    UPDATE lstTask;
+                    update lstTask;
                 }
                 isRecursive = false;
             }

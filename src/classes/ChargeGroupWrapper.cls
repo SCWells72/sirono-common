@@ -18,7 +18,7 @@ public with sharing class ChargeGroupWrapper {
             return buildList(gc.Charge_Groups__r);
         }
 
-        return new ChargeGroupWrapper[]{};
+        return new ChargeGroupWrapper[] {};
     }
 
     /*
@@ -53,8 +53,8 @@ public with sharing class ChargeGroupWrapper {
         return new List<String>(idSet);
     }
 
-    public Charge_Group__c cg {get; set;}
-    public Boolean isSelected {get; set;}
+    public Charge_Group__c cg { get; set; }
+    public Boolean isSelected { get; set; }
 
     public ChargeGroupWrapper(Charge_Group__c cg, Boolean isSelected) {
         this.cg = cg;

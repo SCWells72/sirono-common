@@ -13,7 +13,7 @@ public with sharing class AssignmentRuleSecurityContext extends SecurityContext 
     private static final String SOBJECTTYPE = 'SobjectType';
 
     // The fields for selecting a AssignmentRule in CreateCaseManual
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         ACTIVE, ID, SOBJECTTYPE
     };
 

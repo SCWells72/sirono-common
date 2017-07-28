@@ -11,34 +11,34 @@ public with sharing class PaymentPlanUtil {
      * @return Map<Id, Payment_Plan__c>
      */
     public static Map<Id, Payment_Plan__c> setBalanceAndCharges(Set<Id> planIds) {
-            AggregateResult[] results;
-            AggregateResult[] chargeResults;
+        AggregateResult[] results;
+        AggregateResult[] chargeResults;
 
-            //update the paymentplan with the sum of its chargegroup balances
-            // Get the SUM of the associated chargegroup balances
-            //TODO: This query should move into ChargeGroupDao class.
-            if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
-                results = [
-                        SELECT Payment_Plan__c pp, SUM(Balance__c) planBalance
-                        FROM Charge_Group__c
-                        WHERE Payment_Plan__c IN :planIds
-                        GROUP BY Payment_Plan__c
-                ];
-            }
+        //update the paymentplan with the sum of its chargegroup balances
+        // Get the SUM of the associated chargegroup balances
+        //TODO: This query should move into ChargeGroupDao class.
+        if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
+            results = [
+                SELECT Payment_Plan__c pp, SUM(Balance__c) planBalance
+                FROM Charge_Group__c
+                WHERE Payment_Plan__c IN :planIds
+                GROUP BY Payment_Plan__c
+            ];
+        }
 
-            // get the sum of all charge txns added since the payment_plan value was last modified
-            if (TransactionSecurityContext.PPU_SELECT_CONTEXT.actionAllowed()) {
-                chargeResults = [
-                        SELECT Charge_Group__r.Payment_Plan__c pp, SUM(Amount__c) chargesAdded
-                        FROM Transaction__c
-                        WHERE Charge_Group__r.Payment_Plan__c IN :planIds
-                        AND Charge_added_since_plan_start__c = TRUE
-                        AND Txn_Method__c = :Constants.SERVICE
-                        GROUP BY Charge_Group__r.Payment_Plan__c
-                ];
-            }
+        // get the sum of all charge txns added since the payment_plan value was last modified
+        if (TransactionSecurityContext.PPU_SELECT_CONTEXT.actionAllowed()) {
+            chargeResults = [
+                SELECT Charge_Group__r.Payment_Plan__c pp, SUM(Amount__c) chargesAdded
+                FROM Transaction__c
+                WHERE Charge_Group__r.Payment_Plan__c IN :planIds
+                AND Charge_added_since_plan_start__c = TRUE
+                AND Txn_Method__c = :Constants.SERVICE
+                GROUP BY Charge_Group__r.Payment_Plan__c
+            ];
+        }
 
-            return setAmounts(results, chargeResults);
+        return setAmounts(results, chargeResults);
     }
 
     /*

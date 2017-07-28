@@ -4,18 +4,18 @@
 
 public with sharing class CreateAdjustment {
 
-    public String amount {get; set;}
-    public String guarantorRecordId {get; set;}
-    public Boolean chargeGroupsSelected {get; set;}
-    public String guarantorId {get; set;}
-    public String guarantorName {get; set;}
-    public String chargeGroupId {get; set;}
-    public Boolean isAdmin {get; set;}
-    public List<ChargeGroupWrapper> chargeGroupList {get; set;}
+    public String amount { get; set; }
+    public String guarantorRecordId { get; set; }
+    public Boolean chargeGroupsSelected { get; set; }
+    public String guarantorId { get; set; }
+    public String guarantorName { get; set; }
+    public String chargeGroupId { get; set; }
+    public Boolean isAdmin { get; set; }
+    public List<ChargeGroupWrapper> chargeGroupList { get; set; }
 
     //Mohan Kumar 2016-08-16: 127328707 to show the adjustment type from the metadata type which are only enabled
-    public List<SelectOption> adjustmentTypeOptions {get; set;}
-    public String adjustmentTypeSelected {get; set;}
+    public List<SelectOption> adjustmentTypeOptions { get; set; }
+    public String adjustmentTypeSelected { get; set; }
     private Payment__c objPayment = new Payment__c();
     private List<Transaction__c> lsttransaction = new List<Transaction__c>();
     private List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
@@ -59,10 +59,10 @@ public with sharing class CreateAdjustment {
         adjustmentTypeOptions = new List<SelectOption>();
         adjustmentTypeOptions.add(new SelectOption('', '--None--'));
         if (AdjustmentTypeMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            for (Adjustment_Type__mdt aType: [
-                    SELECT a.Id, a.Enabled__c, a.Description__c, a.Code__c
-                    FROM Adjustment_Type__mdt a
-                    WHERE Enabled__c = true
+            for (Adjustment_Type__mdt aType : [
+                SELECT a.Id, a.Enabled__c, a.Description__c, a.Code__c
+                FROM Adjustment_Type__mdt a
+                WHERE Enabled__c = TRUE
             ]) {
                 adjustmentTypeOptions.add(new SelectOption(aType.Code__c, aType.Description__c));
             }
@@ -79,7 +79,7 @@ public with sharing class CreateAdjustment {
     /*Controller Method invoked from Visualforce page and get the chargegroup Id
      * also check is any chargegroup is selected or not.
      */
-    public Pagereference doNext() {
+    public PageReference doNext() {
         chargeGroupsSelected = false;
         chargeGroupId = PayStaffWSUtill.fetchChargeGroupIds(chargeGroupList);
         if (!isEmpty(chargeGroupId)) {
@@ -107,25 +107,25 @@ public with sharing class CreateAdjustment {
                     createAdjustmetWSCall(csrfToken, jwtToken);
                 }
             } else {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                        'Please provide all details.'));
-                if (Test.IsRunningTest()) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                    'Please provide all details.'));
+                if (Test.isRunningTest()) {
                     TestUtility.generateException();
                 }
             }
         } catch (Exception e) {
             // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'ERROR: ' + e.getMessage()));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'ERROR: ' + e.getMessage()));
         }
     }
 
     //Send request to the endpoint.
     private void createAdjustmetWSCall(String csrfToken, String jwtToken) {
         String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '",' +
-                '"chargegroup":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/chargegroups/' + chargeGroupId + '/",' +
-                '"amount":' + SironoRestClient.convertToCents(amount) + ',' +
-                '"code":"' + adjustmentTypeSelected + '"}';
+            '"chargegroup":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/chargegroups/' + chargeGroupId + '/",' +
+            '"amount":' + SironoRestClient.convertToCents(amount) + ',' +
+            '"code":"' + adjustmentTypeSelected + '"}';
 
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
@@ -144,29 +144,29 @@ public with sharing class CreateAdjustment {
             res = http.send(req);
             responseBody = res.getBody();
             System.debug('RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody);
-            if(Test.IsRunningTest()){
+            if (Test.isRunningTest()) {
                 TestUtility.generateException();
             }
         } catch (Exception e) {
             // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() +
-                            '  RESPONSE BODY::' + responseBody +
-                            ' EXCEPTION:: ' + e.getMessage()));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() +
+                    '  RESPONSE BODY::' + responseBody +
+                    ' EXCEPTION:: ' + e.getMessage()));
         }
 
         if (res.getStatus() != null && res.getStatus().trim().equalsIgnoreCase('CREATED')
-                && res.getStatusCode() != null && res.getStatusCode() == 201) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
-                    'Created Successfully!'));
+            && res.getStatusCode() != null && res.getStatusCode() == 201) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO,
+                'Created Successfully!'));
             //Call Payment, Transaction, ChargeGroups, Payment Plan Request.
             PayStaffWSUtill.parsePaymentReponse(csrfToken, jwtToken, responseBody, false);
         } else {
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'csrfToken : '+ csrfToken));
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'jwtToken : '+ jwtToken));
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'RESPONSE : ' + res.toString() +
-                            '  RESPONSE BODY::' + responseBody));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'RESPONSE : ' + res.toString() +
+                    '  RESPONSE BODY::' + responseBody));
         }
     }
 }

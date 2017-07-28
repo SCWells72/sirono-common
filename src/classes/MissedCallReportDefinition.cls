@@ -13,7 +13,7 @@ public with sharing class MissedCallReportDefinition {
     public Datetime END_DATE;
 
     public MissedCallReportDefinition(String folderName, String reportName,
-            Datetime startDate, Datetime endDate) {
+        Datetime startDate, Datetime endDate) {
         this.FOLDER_NAME = folderName;
         this.REPORT_NAME = reportName;
         this.START_DATE = startDate;
@@ -25,7 +25,7 @@ public with sharing class MissedCallReportDefinition {
      *
      * @return Boolean isValid – true if the variables are valid, false if not
      **/
-    @testVisible
+    @TestVisible
     public Boolean isValid() {
 
         // Folder and report names cannot be null, though we can't tell if they actually exist in Five9.

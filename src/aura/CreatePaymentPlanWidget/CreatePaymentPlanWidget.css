@@ -2,28 +2,34 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-.THIS.col.payment-cta{
+.THIS.col.payment-cta {
     font-size: 13px;
     line-height: 20px;
 }
+
 .THIS .Update_Payment {
-    margin-top:20px;
+    margin-top: 20px;
 }
+
 .THIS .actionsHeader {
-    font-weight:bold!important;
+    font-weight: bold !important;
 }
+
 .THIS .InstallmentBtn {
     display: block;
     margin: 15px auto 10px;
 }
+
 .THIS .btn_PayMissedPastDue {
     margin: 10px 0;
 }
+
 .THIS .slds-icon {
     fill: #16325c;
     cursor: pointer;
     margin: 0 0 4px 4px;
 }
+
 .THIS .sldsjs-popover-target {
     position: absolute;
     left: -10px;

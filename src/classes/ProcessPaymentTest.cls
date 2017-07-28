@@ -5,7 +5,7 @@
 /**
  * Tests for ProcessPayment.
  */
-@isTest
+@IsTest
 private class ProcessPaymentTest {
     
     /**
@@ -39,10 +39,10 @@ private class ProcessPaymentTest {
 
         //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         insert chargeGroup;
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         insert chargeGroup;
 
         //Create Transaction record.
@@ -63,7 +63,7 @@ private class ProcessPaymentTest {
 
         //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '123';
-        objProcessPayment.cardholderName = '123';
+        objProcessPayment.cardHolderName = '123';
         objProcessPayment.expirationYear = '123';
         objProcessPayment.expirationMonth = '123';
         objProcessPayment.cvv = '123';
@@ -80,9 +80,11 @@ private class ProcessPaymentTest {
 
         //Check System Assert.        
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Amount cannot exceed balance.')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount cannot exceed balance.')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
     }
@@ -99,7 +101,7 @@ private class ProcessPaymentTest {
 
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 123;
+        guarantorContact.Profile_Pointer_ID__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -120,10 +122,10 @@ private class ProcessPaymentTest {
 
         //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         insert chargeGroup;
         chargeGroup = TestUtility.generateChargeGroupWithExternalId(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         insert chargeGroup;
 
         //Create Transaction record.
@@ -154,9 +156,11 @@ private class ProcessPaymentTest {
 
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Credit card number must be 12-19 digits.')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Credit card number must be 12-19 digits.')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
     }
@@ -173,7 +177,7 @@ private class ProcessPaymentTest {
 
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 123;
+        guarantorContact.Profile_Pointer_ID__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -194,10 +198,10 @@ private class ProcessPaymentTest {
 
         //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         insert chargeGroup;
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         insert chargeGroup;
 
         //Create Transaction record.
@@ -212,7 +216,7 @@ private class ProcessPaymentTest {
 
         //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
-        objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
+        objProcessPayment.expirationYear = String.valueOf(System.today().year() + 1);
         objProcessPayment.expirationMonth = '07';
         objProcessPayment.creditCardNumber = '1234567891113';
         objProcessPayment.zip = 'avcsc';
@@ -232,9 +236,11 @@ private class ProcessPaymentTest {
 
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Amount must be greater than zero.')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount must be greater than zero.')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
     }
@@ -253,7 +259,7 @@ private class ProcessPaymentTest {
 
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 123;
+        guarantorContact.Profile_Pointer_ID__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -274,11 +280,11 @@ private class ProcessPaymentTest {
 
         //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
 
@@ -294,7 +300,7 @@ private class ProcessPaymentTest {
 
         //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
-        objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
+        objProcessPayment.expirationYear = String.valueOf(System.today().year() + 1);
         objProcessPayment.expirationMonth = '07';
         objProcessPayment.creditCardNumber = '1234567891113';
         objProcessPayment.cardHolderName = '1234567891113';
@@ -316,9 +322,11 @@ private class ProcessPaymentTest {
 
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Amount must be greater than zero.')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount must be greater than zero.')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
     }
@@ -331,7 +339,7 @@ private class ProcessPaymentTest {
 
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 123;
+        guarantorContact.Profile_Pointer_ID__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -351,11 +359,11 @@ private class ProcessPaymentTest {
 
         //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
 
@@ -371,7 +379,7 @@ private class ProcessPaymentTest {
 
         //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
-        objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
+        objProcessPayment.expirationYear = String.valueOf(System.today().year() + 1);
         objProcessPayment.expirationMonth = '07';
         objProcessPayment.creditCardNumber = '1234567891113';
         objProcessPayment.cardHolderName = '1234567891113';
@@ -398,9 +406,11 @@ private class ProcessPaymentTest {
 
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Amount cannot exceed balance')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount cannot exceed balance')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
         Test.stopTest();
@@ -418,7 +428,7 @@ private class ProcessPaymentTest {
 
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 123;
+        guarantorContact.Profile_Pointer_ID__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -438,11 +448,11 @@ private class ProcessPaymentTest {
 
         //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
 
@@ -459,7 +469,7 @@ private class ProcessPaymentTest {
         //Set variables based on criteria.
         objProcessPayment.guarantorRecordId = '';
         objProcessPayment.creditCardNumber = '';
-        objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
+        objProcessPayment.expirationYear = String.valueOf(System.today().year() + 1);
         objProcessPayment.expirationMonth = '07';
         objProcessPayment.creditCardNumber = '1234567891113';
         objProcessPayment.cardHolderName = '1234567891113';
@@ -483,9 +493,11 @@ private class ProcessPaymentTest {
 
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Amount must be greater than zero.')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount must be greater than zero.')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
     }
@@ -498,7 +510,7 @@ private class ProcessPaymentTest {
 
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 123;
+        guarantorContact.Profile_Pointer_ID__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -518,11 +530,11 @@ private class ProcessPaymentTest {
 
         //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
 
@@ -538,7 +550,7 @@ private class ProcessPaymentTest {
 
         //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
-        objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
+        objProcessPayment.expirationYear = String.valueOf(System.today().year() + 1);
         objProcessPayment.expirationMonth = '07';
         objProcessPayment.creditCardNumber = '1234567891113';
         objProcessPayment.cardHolderName = '1234567891113';
@@ -568,9 +580,11 @@ private class ProcessPaymentTest {
 
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Created Successfully!')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Created Successfully!')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
         Test.stopTest();
@@ -583,7 +597,7 @@ private class ProcessPaymentTest {
 
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 123;
+        guarantorContact.Profile_Pointer_ID__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -603,11 +617,11 @@ private class ProcessPaymentTest {
 
         //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
 
@@ -623,7 +637,7 @@ private class ProcessPaymentTest {
 
         //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
-        objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
+        objProcessPayment.expirationYear = String.valueOf(System.today().year() + 1);
         objProcessPayment.expirationMonth = '07';
         objProcessPayment.creditCardNumber = '1234567891113';
         objProcessPayment.cardHolderName = '1234567891113';
@@ -639,9 +653,11 @@ private class ProcessPaymentTest {
 
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Charge Group is a required field.')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Charge Group is a required field.')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
     }
@@ -655,7 +671,7 @@ private class ProcessPaymentTest {
 
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 123;
+        guarantorContact.Profile_Pointer_ID__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -675,11 +691,11 @@ private class ProcessPaymentTest {
 
         //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
 
@@ -695,7 +711,7 @@ private class ProcessPaymentTest {
 
         //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
-        objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
+        objProcessPayment.expirationYear = String.valueOf(System.today().year() + 1);
         objProcessPayment.expirationMonth = '07';
         objProcessPayment.creditCardNumber = '1234567891113';
         objProcessPayment.cardHolderName = '1234567891113';
@@ -715,7 +731,7 @@ private class ProcessPaymentTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 400;
-        TestUtility.Errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_NON_FIELD);
+        TestUtility.errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_NON_FIELD);
 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         
@@ -727,9 +743,11 @@ private class ProcessPaymentTest {
 
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Amount exceeds selected charge groups')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount exceeds selected charge groups')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
 
@@ -745,7 +763,7 @@ private class ProcessPaymentTest {
 
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 123;
+        guarantorContact.Profile_Pointer_ID__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -765,11 +783,11 @@ private class ProcessPaymentTest {
 
         //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
 
@@ -785,7 +803,7 @@ private class ProcessPaymentTest {
 
         //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
-        objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
+        objProcessPayment.expirationYear = String.valueOf(System.today().year() + 1);
         objProcessPayment.expirationMonth = '07';
         objProcessPayment.creditCardNumber = '1234567891113';
         objProcessPayment.cardHolderName = '1234567891113';
@@ -805,7 +823,7 @@ private class ProcessPaymentTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 400;
-        TestUtility.Errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_LIST);
+        TestUtility.errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_LIST);
 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         
@@ -817,9 +835,11 @@ private class ProcessPaymentTest {
 
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Credit card number is invalid')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Credit card number is invalid')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
 
@@ -837,7 +857,7 @@ private class ProcessPaymentTest {
 
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 123;
+        guarantorContact.Profile_Pointer_ID__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -857,11 +877,11 @@ private class ProcessPaymentTest {
 
         //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
 
@@ -877,7 +897,7 @@ private class ProcessPaymentTest {
 
         //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
-        objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
+        objProcessPayment.expirationYear = String.valueOf(System.today().year() + 1);
         objProcessPayment.expirationMonth = '07';
         objProcessPayment.creditCardNumber = '1234567891113';
         objProcessPayment.cardHolderName = '1234567891113';
@@ -897,7 +917,7 @@ private class ProcessPaymentTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 400;
-        TestUtility.Errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_CHARGEGROUPS);
+        TestUtility.errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_CHARGEGROUPS);
 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         
@@ -909,9 +929,11 @@ private class ProcessPaymentTest {
 
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Invalid hyperlink')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Invalid hyperlink')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
 
@@ -929,7 +951,7 @@ private class ProcessPaymentTest {
 
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 123;
+        guarantorContact.Profile_Pointer_ID__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -949,11 +971,11 @@ private class ProcessPaymentTest {
 
         //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         insert chargeGroup;
 
@@ -969,7 +991,7 @@ private class ProcessPaymentTest {
 
         //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
-        objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
+        objProcessPayment.expirationYear = String.valueOf(System.today().year() + 1);
         objProcessPayment.expirationMonth = '07';
         objProcessPayment.creditCardNumber = '1234567891113';
         objProcessPayment.cardHolderName = '1234567891113';
@@ -989,7 +1011,7 @@ private class ProcessPaymentTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 400;
-        TestUtility.Errorbody = 'Error';
+        TestUtility.errorbody = 'Error';
 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         
@@ -1001,9 +1023,11 @@ private class ProcessPaymentTest {
 
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Error')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Error')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
 
@@ -1020,7 +1044,7 @@ private class ProcessPaymentTest {
 
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 123;
+        guarantorContact.Profile_Pointer_ID__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -1040,13 +1064,13 @@ private class ProcessPaymentTest {
 
         //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
@@ -1063,7 +1087,7 @@ private class ProcessPaymentTest {
 
         //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
-        objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
+        objProcessPayment.expirationYear = String.valueOf(System.today().year() + 1);
         objProcessPayment.expirationMonth = '07';
         objProcessPayment.creditCardNumber = '1234567891113';
         objProcessPayment.cardHolderName = '1234567891113';
@@ -1083,7 +1107,7 @@ private class ProcessPaymentTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 400;
-        TestUtility.Errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.VALIDATION_EXISTING_PLAN);
+        TestUtility.errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.VALIDATION_EXISTING_PLAN);
 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         
@@ -1095,9 +1119,11 @@ private class ProcessPaymentTest {
 
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Cannot directly change ChargeGroups on an existing plan')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Cannot directly change ChargeGroups on an existing plan')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
 
@@ -1114,7 +1140,7 @@ private class ProcessPaymentTest {
 
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 123;
+        guarantorContact.Profile_Pointer_ID__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -1134,13 +1160,13 @@ private class ProcessPaymentTest {
 
         //Create Charge Group records.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Invoice__c = invoice.id;
+        chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
@@ -1157,7 +1183,7 @@ private class ProcessPaymentTest {
 
         //Set variables based on criteria.
         objProcessPayment.creditCardNumber = '';
-        objProcessPayment.expirationYear = String.valueof(System.today().Year() + 1);
+        objProcessPayment.expirationYear = String.valueOf(System.today().year() + 1);
         objProcessPayment.expirationMonth = '07';
         objProcessPayment.creditCardNumber = '1234567891113';
         objProcessPayment.cardHolderName = '1234567891113';
@@ -1177,7 +1203,7 @@ private class ProcessPaymentTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 400;
-        TestUtility.Errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.NO_KIND);
+        TestUtility.errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.NO_KIND);
 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         
@@ -1189,9 +1215,11 @@ private class ProcessPaymentTest {
 
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Cannot directly change ChargeGroups on an existing plan')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Cannot directly change ChargeGroups on an existing plan')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
 

@@ -15,19 +15,23 @@ public with sharing class CallListUtilities {
     //Remove the Campaign Members for the pre collection
     public static void preCollectionCallListRemoval(Set<Id> contactIds) {
         Set<Id> membersToRemove = new Set<Id>();
-        for (Contact c: GuarantorService.getGuarantorsWithCG(contactIds)) {
+        for (Contact c : GuarantorService.getGuarantorsWithCG(contactIds)) {
             Decimal balToCheck = 0;
-            if (c.Overdue_Balance__c != null) balToCheck += c.Overdue_Balance__c;
-            if (c.Delinquent_Balance__c != null) balToCheck += c.Delinquent_Balance__c;
+            if (c.Overdue_Balance__c != null) {
+                balToCheck += c.Overdue_Balance__c;
+            }
+            if (c.Delinquent_Balance__c != null) {
+                balToCheck += c.Delinquent_Balance__c;
+            }
 
             if (c.Charge_Groups__r.size() == 0
-                    || balToCheck > -100 || balToCheck < -5000) {
+                || balToCheck > -100 || balToCheck < -5000) {
                 membersToRemove.add(c.Id);
             }
         }
 
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                Constants.CAMPAIGN_NAME_PRECOLLECTIONS
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
+            Constants.CAMPAIGN_NAME_PRECOLLECTIONS
         });
         String campaignName = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PRECOLLECTIONS);
 
@@ -39,17 +43,21 @@ public with sharing class CallListUtilities {
         Set<Id> membersToRemove = new Set<Id>();
         for (Contact c : contacts) {
             Decimal balToCheck = 0;
-            if (c.Overdue_Balance__c != null) balToCheck += c.Overdue_Balance__c;
-            if (c.Delinquent_Balance__c != null) balToCheck += c.Delinquent_Balance__c;
+            if (c.Overdue_Balance__c != null) {
+                balToCheck += c.Overdue_Balance__c;
+            }
+            if (c.Delinquent_Balance__c != null) {
+                balToCheck += c.Delinquent_Balance__c;
+            }
 
             if (balToCheck == 0
-                    || balToCheck > -100 || balToCheck < -5000) {
+                || balToCheck > -100 || balToCheck < -5000) {
                 membersToRemove.add(c.Id);
             }
         }
 
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                Constants.CAMPAIGN_NAME_OVERDUE
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
+            Constants.CAMPAIGN_NAME_OVERDUE
         });
         String campaignName = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE);
 
@@ -58,14 +66,14 @@ public with sharing class CallListUtilities {
 
     public static void delinquentPaymentPlanCallListRemoval(Set<Id> contactIds) {
         Set<Id> membersToRemove = new Set<Id>();
-        for (Contact c: GuarantorService.getGuarantorsWithPmtPlan(contactIds)) {
+        for (Contact c : GuarantorService.getGuarantorsWithPmtPlan(contactIds)) {
             if (c.Payment_Plans__r.isEmpty()) {
                 membersToRemove.add(c.Id);
             }
         }
 
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                Constants.CAMPAIGN_NAME_PAST_DUE
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
+            Constants.CAMPAIGN_NAME_PAST_DUE
         });
 
         String campaignName = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PAST_DUE);
@@ -76,15 +84,15 @@ public with sharing class CallListUtilities {
     //Remove the Campaign Members for the Pre-Service case.
     public static void preServiceCallListRemoval(Set<Id> contactIds) {
         Set<Id> membersToRemove = new Set<Id>();
-        for (Contact c: GuarantorService.getGuarantorsWithEncounters(contactIds)) {
+        for (Contact c : GuarantorService.getGuarantorsWithEncounters(contactIds)) {
             if (c.Encounters__r.size() == 0) {
                 membersToRemove.add(c.Id);
             }
         }
 
         //Sirono : 08-30-2016 - #128375287 Update Salesforce Campaign Names
-        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String>{
-                Constants.CAMPAIGN_NAME_PRESERVICE
+        Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
+            Constants.CAMPAIGN_NAME_PRESERVICE
         });
         String campaignName = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_PRESERVICE);
 

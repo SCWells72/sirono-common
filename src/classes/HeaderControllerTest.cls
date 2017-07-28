@@ -5,10 +5,10 @@
 /**
  * Header Controller Tests.
  */
-@isTest
+@IsTest
 public with sharing class HeaderControllerTest {
 
-    @isTest
+    @IsTest
     public static void getUserInfoTest() {
         User usr = TestUtility.getGuarantorCommunityUser();
 
@@ -28,7 +28,7 @@ public with sharing class HeaderControllerTest {
         }
     }
 
-    @isTest
+    @IsTest
     public static void getHeaderInfoTest() {
         Contact guarantorContact;
         Contact patientContact;
@@ -43,10 +43,10 @@ public with sharing class HeaderControllerTest {
             patientContact = TestUtility.generatePatientContact();
             patientContact.AccountId = testAcc.Id;
             patientContact.Medical_Record_Number__c = '1234512345';
-            INSERT patientContact;
+            insert patientContact;
 
             Payment_Plan__c pPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-            INSERT pPlan;
+            insert pPlan;
 
             List<Invoice__c> lstInvoice = new List<Invoice__c>();
             invoice1 = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
@@ -59,7 +59,7 @@ public with sharing class HeaderControllerTest {
             invoice3.Invoice_Status_Index__c = 2;
             lstInvoice.add(invoice3);
 
-            INSERT lstInvoice;
+            insert lstInvoice;
 
             List<Charge_Group__c> lstChrgGroup = new List<Charge_Group__c>();
             Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 1234, pPlan.Id);
@@ -70,31 +70,31 @@ public with sharing class HeaderControllerTest {
             chargeGroup2.Invoice__c = invoice2.Id;
             lstChrgGroup.add(chargeGroup2);
 
-            INSERT lstChrgGroup;
+            insert lstChrgGroup;
 
             Payor__c payorTest = new Payor__c(
                 Name = 'payorTest'
             );
-            INSERT payorTest;
+            insert payorTest;
 
             Coverage__c objcoverage = new Coverage__c(
                 Name = 'Test',
                 Payor__c = payorTest.Id
             );
-            INSERT objcoverage;
+            insert objcoverage;
 
             Charge_Group_Coverage_Junction__c objCGCoverage = new Charge_Group_Coverage_Junction__c();
             objCGCoverage.Name = 'Test';
             objCGCoverage.Charge_Group__c = chargeGroup1.Id;
             objCGCoverage.Coverage__c = objcoverage.Id;
-            INSERT objCGCoverage;
+            insert objCGCoverage;
 
             Payment__c payment1 = TestUtility.generateSironoPayment(guarantorContact.Id, 1234, 12);
             Payment__c payment2 = TestUtility.generateSironoPayment(guarantorContact.Id, 1235, 25);
-            List<Payment__c> lstPayment = new List<Payment__c>{
+            List<Payment__c> lstPayment = new List<Payment__c> {
                 payment1, payment2
             };
-            INSERT lstPayment;
+            insert lstPayment;
 
             List<Transaction__c> lstTransaction = new List<Transaction__c>();
             Transaction__c transaction1 = TestUtility.generatePaymentTxn(chargeGroup1, 20, payment1);
@@ -103,15 +103,15 @@ public with sharing class HeaderControllerTest {
             Transaction__c transaction2 = TestUtility.generatePaymentTxn(chargeGroup1, 200, payment2);
             lstTransaction.add(transaction2);
 
-            INSERT lstTransaction;
+            insert lstTransaction;
 
 
             invoice1.Invoice_Status_Index__c = 9;
             invoice2.Invoice_Status_Index__c = 4;
-            List<Invoice__c> lstInvoiceUpdate = new List<Invoice__c>{
+            List<Invoice__c> lstInvoiceUpdate = new List<Invoice__c> {
                 invoice1, invoice2
             };
-            UPDATE lstInvoiceUpdate;
+            update lstInvoiceUpdate;
 
             List<WorkWithInvoicesController.PatientWrapper> patientList = WorkWithInvoicesController.getPatientList();
             System.assertEquals(0, patientList.size());
@@ -130,7 +130,7 @@ public with sharing class HeaderControllerTest {
         }
     }
 
-    @isTest
+    @IsTest
     public static void getMessageInfo_GTStatus() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.paymentPlanExists = false;
@@ -153,7 +153,7 @@ public with sharing class HeaderControllerTest {
         System.assert(delqError.indexOf(HeaderController.DELINQUENT_MESSAGE) != -1, 'Should have the deliquent message');
     }
 
-    @isTest
+    @IsTest
     public static void getMessageInfo_pastDue() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.guarantorStatus = Constants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
@@ -177,7 +177,7 @@ public with sharing class HeaderControllerTest {
         System.assert(manualMessage.indexOf(HeaderController.PASTDUE_MANUAL_MESSAGE) != -1, 'Should have the past due manual message.');
     }
 
-    @isTest
+    @IsTest
     public static void getMessageInfo_inError() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.guarantorStatus = Constants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
@@ -198,7 +198,7 @@ public with sharing class HeaderControllerTest {
         System.assert(noError.indexOf(HeaderController.ERROR_MESSAGE) == -1, 'Should not have the error message.');
     }
 
-    @isTest
+    @IsTest
     public static void hasBalanceAndNotAddPaymentPlan_AddToPaymentPlan() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.addPaymentPlan = true;
@@ -211,7 +211,7 @@ public with sharing class HeaderControllerTest {
         System.assertEquals(false, onPlanCheck, 'Should be false if ADD_TO_PAYMENT_PLAN is true.');
     }
 
-    @isTest
+    @IsTest
     public static void hasBalanceAndNotAddPaymentPlan_NoAddToPaymentPlan() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.addPaymentPlan = false;
@@ -233,7 +233,7 @@ public with sharing class HeaderControllerTest {
         System.assertEquals(false, onPlanCheck, 'Should be false for on plan and no add payment plan.');
     }
 
-    @isTest
+    @IsTest
     public static void hasBalanceAndAddPaymentPlan_VerifyPlan() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.guarantorStatus = Constants.GUARANTOR_STATUS_OVERDUE;
@@ -249,7 +249,7 @@ public with sharing class HeaderControllerTest {
         System.assertEquals(false, noPlanCheck, 'Should be true with no Add to Payment Plan.');
     }
 
-    @isTest
+    @IsTest
     public static void hasPaymentPlanInGoodStanding_noPPlan() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.guarantorStatus = Constants.GUARANTOR_STATUS_DUE;
@@ -264,7 +264,7 @@ public with sharing class HeaderControllerTest {
         System.assertEquals(false, noPPlanCheck, 'Should be false with no payment plan.');
     }
 
-    @isTest
+    @IsTest
     public static void hasPaymentPlanInGoodStanding_notGoodStanding() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.guarantorStatus = Constants.GUARANTOR_STATUS_DUE;
@@ -281,7 +281,7 @@ public with sharing class HeaderControllerTest {
     }
 
 
-    @isTest
+    @IsTest
     public static void hasPaymentPlanInGoodStanding_GoodStanding() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.guarantorStatus = Constants.GUARANTOR_STATUS_DUE;
@@ -297,7 +297,7 @@ public with sharing class HeaderControllerTest {
         System.assertEquals(true, goodStandingCheck, 'Should be true when payment plan status is Good Standing.');
     }
 
-    @isTest
+    @IsTest
     public static void balanceDueOrError_notGoodStanding() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.paymentPlanExists = true;
@@ -310,7 +310,7 @@ public with sharing class HeaderControllerTest {
         System.assertEquals(true, notGoodStandingCheck, 'Should true when there is a plan no in good standing.');
     }
 
-    @isTest
+    @IsTest
     public static void balanceDueOrError_hasBalAndPPlan() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.paymentPlanExists = true;
@@ -328,7 +328,7 @@ public with sharing class HeaderControllerTest {
         System.assertEquals(false, balAndNoPPlan, 'Should be false if Add To PPlan is false.');
     }
 
-    @isTest
+    @IsTest
     public static void balanceDueOrError_statusCheck() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.paymentPlanExists = true;
@@ -347,7 +347,7 @@ public with sharing class HeaderControllerTest {
         System.assertEquals(false, notOnPaymentPlanCheck, 'Should be true if status is gt status is not payment plan.');
     }
 
-    @isTest
+    @IsTest
     public static void onPaymentPlan_verifyGTStatus() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         // Already verifyed hasBalanceAndAddPaymentPlan so just make it return false

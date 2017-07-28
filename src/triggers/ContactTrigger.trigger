@@ -8,12 +8,12 @@
 trigger ContactTrigger on Contact (after insert, after update) {
 
     //invoked after an insert event
-    if (trigger.isAfter && trigger.isInsert) {
-        ContactTriggerHandler.afterInsert(trigger.new);
+    if (Trigger.isAfter && Trigger.isInsert) {
+        ContactTriggerHandler.afterInsert(Trigger.new);
     }
 
     //invoked after an update event
-    if (trigger.isAfter && trigger.isUpdate) {
-        ContactTriggerHandler.afterUpdate(trigger.new, trigger.oldMap);
+    if (Trigger.isAfter && Trigger.isUpdate) {
+        ContactTriggerHandler.afterUpdate(Trigger.new, Trigger.oldMap);
     }
 }

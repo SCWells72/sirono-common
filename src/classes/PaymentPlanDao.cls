@@ -6,7 +6,7 @@
  * DB functionality for PaymentPlans
  * TODO eventually all the PPlan SOQl & DML should be here & then the PaymentPlanSecurityContext can become in innerclass here
  */
-public with sharing class PaymentPlanDao extends AbstractDao{
+public with sharing class PaymentPlanDao extends AbstractDao {
 //TODO
     /**
       * Return the active payment plan for the given guarantorId, null if there is none
@@ -17,12 +17,12 @@ public with sharing class PaymentPlanDao extends AbstractDao{
 
         if (PaymentPlanSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             List<Payment_Plan__c> plans = [
-                    SELECT Id, Sirono_ID__c, Active__c, Payment_Plan_Standing__c, Plan_Type__c, NextPaymentDate__c, Installment_Amount__c
-                    FROM Payment_Plan__c
-                    WHERE Active__c = true
-                    AND Sirono_ID__c != null
-                    AND Guarantor__c = :guarantorId
-                    LIMIT 1
+                SELECT Id, Sirono_ID__c, Active__c, Payment_Plan_Standing__c, Plan_Type__c, NextPaymentDate__c, Installment_Amount__c
+                FROM Payment_Plan__c
+                WHERE Active__c = TRUE
+                AND Sirono_ID__c != NULL
+                AND Guarantor__c = :guarantorId
+                LIMIT 1
             ];
 
             if (plans.size() > 0) {
@@ -51,10 +51,10 @@ public with sharing class PaymentPlanDao extends AbstractDao{
 
         if (PaymentPlanSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             List<Payment_Plan__c> plans = [
-                    SELECT Id, Sirono_ID__c, Active__c
-                    FROM Payment_Plan__c
-                    WHERE Sirono_ID__c = :sironoId
-                    LIMIT 1
+                SELECT Id, Sirono_ID__c, Active__c
+                FROM Payment_Plan__c
+                WHERE Sirono_ID__c = :sironoId
+                LIMIT 1
             ];
 
             if (plans.size() > 0) {
@@ -71,7 +71,7 @@ public with sharing class PaymentPlanDao extends AbstractDao{
      */
     public static void upsertPlans(List<Payment_Plan__c> paymentPlans) {
         if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {
-            UPSERT paymentPlans;
+            upsert paymentPlans;
         }
     }
 
@@ -81,7 +81,7 @@ public with sharing class PaymentPlanDao extends AbstractDao{
      * @param Payment_Plan__c plan - The plan to upsert.
      */
     public static void upsertPlan(Payment_Plan__c plan) {
-        upsertPlans(new List<Payment_Plan__c>{plan});
+        upsertPlans(new List<Payment_Plan__c> { plan });
     }
 
     /**
@@ -100,7 +100,7 @@ public with sharing class PaymentPlanDao extends AbstractDao{
                     Payment_Method__c, Payment_Method__r.Sirono_ID__c, Payment_Method__r.Display_Name__c,
                     Payment_Method__r.Card_Type__c, Payment_Method__r.Last_4__c
                 FROM Payment_Plan__c
-                WHERE Guarantor__c = :guarantorId AND Active__c = true
+                WHERE Guarantor__c = :guarantorId AND Active__c = TRUE
             ];
         }
 

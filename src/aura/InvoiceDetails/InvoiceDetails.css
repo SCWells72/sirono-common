@@ -4,11 +4,13 @@
 
 .THIS.col.invoice-detail-container {
     width: 100%;
-    height:100%;
+    height: 100%;
 }
+
 .THIS.display_false {
     display: none;
 }
+
 .THIS .no_selection {
     color: #d8dde6;
     font-weight: 200;
@@ -20,30 +22,36 @@
     margin-left: -132.5px;
     z-index: 2;
 }
+
 .THIS .issue.warning {
-    width:400px;
+    width: 400px;
 }
-.THIS .block_totals{
+
+.THIS .block_totals {
     width: 100%;
     font-size: 0.8rem;
     text-align: right;
 }
+
 .THIS .block_totalCharges,
 .THIS .block_totalCredits,
 .THIS .titleTotalCredits,
-.THIS .titleTotalCharges{
+.THIS .titleTotalCharges {
     display: inline-block;
 }
+
 .THIS .groupTotalCredits,
-.THIS .groupTotalCharges{
+.THIS .groupTotalCharges {
     float: right;
 }
+
 .THIS .totalCharges,
-.THIS .totalCredits{
+.THIS .totalCredits {
     text-align: left;
     padding: 15px 0;
     border-top: 1px solid #ccc;
 }
-.THIS .displayName{
+
+.THIS .displayName {
     white-space: nowrap;
 }

@@ -6,7 +6,7 @@
 
     <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
     <aura:handler event="c:ActivateTab" action="{!c.eventActivateTab}"/>
-    <aura:attribute name="aciveTab" type="String" default="Invoices" />
+    <aura:attribute name="aciveTab" type="String" default="Invoices"/>
 
     <div class="tabsTop">
         <div class="slds-tabs--scoped">
@@ -36,19 +36,19 @@
             <li><a class="tablinks" id="Documents" aura:id="Documents_tab" onclick="{!c.activateTab}">DOCUMENTS</a></li>
         </ul>-->
         <div aura:id="Invoices" class="tabcontent">
-            <c:Invoices />
+            <c:Invoices/>
         </div>
         <div aura:id="Estimates" class="tabcontent display_false">
-            <c:Estimates />
+            <c:Estimates/>
         </div>
         <div aura:id="PaymentHistory" class="tabcontent display_false">
-            <c:PaymentHistory />
+            <c:PaymentHistory/>
         </div>
         <div aura:id="Statements" class="tabcontent display_false">
-            <c:Statements />
+            <c:Statements/>
         </div>
         <div aura:id="Documents" class="tabcontent display_false">
-            <c:Documents />
+            <c:Documents/>
         </div>
 
     </div>

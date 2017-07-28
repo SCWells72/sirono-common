@@ -7,9 +7,11 @@
     padding: 5px;
     border-radius: 14px;
 }
-    .THIS .slds-icon_container.slds-icon-standard-password_unlock use {
+
+.THIS .slds-icon_container.slds-icon-standard-password_unlock use {
     fill: #54698d;
-    }
+}
+
 .THIS .box_gray {
     background: #e8e8e8;
     padding: 10px 15px;
@@ -17,11 +19,12 @@
     border-radius: 5px;
     margin-bottom: 5px;
 }
+
 .THIS .small-text {
-    white-space: nowrap; 
-    overflow: hidden; 
-    padding: 5px; 
-    text-overflow: ellipsis; 
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 5px;
+    text-overflow: ellipsis;
     display: inline-block;
     position: relative;
     top: 11px;

@@ -3,73 +3,73 @@
  */
 
 ({
-getDefaultCard: function(cmp) {
-		var date = new Date();
-		date.setMonth(date.getMonth() + 1);
-		return {
-			isSaved: false,
-			expirationMonth: '04',
-			expirationYear: date.getFullYear(),
-			cardHolderName:'Test2',
-			creditCardNumber: '',
-			cvv: '',
-			address: '',
-			city: '',
-			zip: '',
-			state: ''
-		};
-	},
+    getDefaultCard: function (cmp) {
+        var date = new Date();
+        date.setMonth(date.getMonth() + 1);
+        return {
+            isSaved: false,
+            expirationMonth: '04',
+            expirationYear: date.getFullYear(),
+            cardHolderName: 'Test2',
+            creditCardNumber: '',
+            cvv: '',
+            address: '',
+            city: '',
+            zip: '',
+            state: ''
+        };
+    },
 
-	getCardInformation : function(component, event, helper){
-		console.log('PaymentCard getCardInformation');
-		window.setTimeout(
-			$A.getCallback(function() {
-				if (component.isValid()) {	
-					var action = component.get('c.getCardInformation');
-					action.setCallback(this, function(response){
-						console.log('getCardInformation');
-						if(component.isValid() && response.getState() == 'SUCCESS'){
-							var info = response.getReturnValue();
-							console.log('Init Payment Card');
-							component.set('v.CreditCard',info);
-							console.log('Finish Init Payment Card', info);
-						}else{
-							console.error(response.getError()[0].message);
-						}
-            
-					});
-					$A.enqueueAction(action);
-				}
-			}), 10
-		);
-	},
-    checkValidation : function(component, event, helper){
+    getCardInformation: function (component, event, helper) {
+        console.log('PaymentCard getCardInformation');
+        window.setTimeout(
+            $A.getCallback(function () {
+                if (component.isValid()) {
+                    var action = component.get('c.getCardInformation');
+                    action.setCallback(this, function (response) {
+                        console.log('getCardInformation');
+                        if (component.isValid() && response.getState() == 'SUCCESS') {
+                            var info = response.getReturnValue();
+                            console.log('Init Payment Card');
+                            component.set('v.CreditCard', info);
+                            console.log('Finish Init Payment Card', info);
+                        } else {
+                            console.error(response.getError()[0].message);
+                        }
+
+                    });
+                    $A.enqueueAction(action);
+                }
+            }), 10
+        );
+    },
+    checkValidation: function (component, event, helper) {
 
         var cardName = component.find("cardName").get("v.validity");
         var cardNumber = component.find("cardNumber").get("v.validity");
         var cvv = component.find("cvv").get("v.validity");
         var month = component.find("month").get("v.validity");
         var year = component.find("year").get("v.validity");
-        var address = component.find("address").get("v.validity"); 
+        var address = component.find("address").get("v.validity");
         var zipcode = component.find("zipcode").get("v.validity");
 
         if ((cardName != null && cardName.valid) &&
-           (cardNumber != null && cardNumber.valid) &&
-           (cvv != null && cvv.valid) &&
-           (month != null && month.valid) &&
-           (year != null && year.valid) &&
-           (address != null && address.valid) &&
-		   (zipcode != null && zipcode.valid)           
+            (cardNumber != null && cardNumber.valid) &&
+            (cvv != null && cvv.valid) &&
+            (month != null && month.valid) &&
+            (year != null && year.valid) &&
+            (address != null && address.valid) &&
+            (zipcode != null && zipcode.valid)
         ) {
             console.log('checkValidation true');
-           return true;
+            return true;
         } else {
             console.log('checkValidation false');
             return false;
-        }        
+        }
     },
-    
-    checkErrorMessages : function(component, event, helper){
+
+    checkErrorMessages: function (component, event, helper) {
         console.log('checkErrorMessages');
         var cardNameErrors = component.find("cardNameError").get("v.value");
         console.log('cardNameError', cardNameErrors);
@@ -83,127 +83,127 @@ getDefaultCard: function(cmp) {
         console.log('addressError', addressErrors);
         var zipcodeErrors = component.find("zipcodeError").get("v.value");
         console.log('zipcodeError', zipcodeErrors);
-        if(cardNameErrors != '' ||
-           cardNumberErrors != '' ||
-           cvvErrors != '' ||
-           expirationErrors != '' ||
-           addressErrors != '' ||
-           zipcodeErrors != ''         
-          ){
+        if (cardNameErrors != '' ||
+            cardNumberErrors != '' ||
+            cvvErrors != '' ||
+            expirationErrors != '' ||
+            addressErrors != '' ||
+            zipcodeErrors != ''
+        ) {
             console.log('checkValidationE false');
-           return false;
-        }else{
+            return false;
+        } else {
             console.log('checkValidationE true');
             return true;
-        }    
+        }
     },
-    
-    isValidateExpDate : function(cmp) {
+
+    isValidateExpDate: function (cmp) {
         cmp.find('expirationError').set('v.value', '');
-		var monthcmp = cmp.find("month");
-		var monthValue = monthcmp.get("v.value");
-		var yearcmpValue = cmp.find("year").get("v.value");
-		var expDate = new Date(yearcmpValue, monthValue);
-		var isValid = expDate > Date.now();
+        var monthcmp = cmp.find("month");
+        var monthValue = monthcmp.get("v.value");
+        var yearcmpValue = cmp.find("year").get("v.value");
+        var expDate = new Date(yearcmpValue, monthValue);
+        var isValid = expDate > Date.now();
 
-		if (!isValid) {
-			cmp.find('expirationError').set('v.value', 'Expiration date must be in the future.');
-		}
-		return isValid;
-	},
+        if (!isValid) {
+            cmp.find('expirationError').set('v.value', 'Expiration date must be in the future.');
+        }
+        return isValid;
+    },
 
-	isValidateCVV : function(cmp, e) {
-		var cvvError = cmp.find("cvvError").set('v.value','');
-		var cncmp = cmp.find("cardNumber");
-		var cnValue = cncmp.get("v.value") || '';
-		var cvvcmp = cmp.find("cvv");
-		var cvvValue = cvvcmp.get("v.value") || '';
-		var cvvError = cmp.find("cvvError").set('v.value','');
+    isValidateCVV: function (cmp, e) {
+        var cvvError = cmp.find("cvvError").set('v.value', '');
+        var cncmp = cmp.find("cardNumber");
+        var cnValue = cncmp.get("v.value") || '';
+        var cvvcmp = cmp.find("cvv");
+        var cvvValue = cvvcmp.get("v.value") || '';
+        var cvvError = cmp.find("cvvError").set('v.value', '');
 
-		var isValid = false;
-		if (! cvvValue ) {
-			return isValid;
-		}
-		if ((cncmp.get('v.validity') == null || cncmp.get('v.validity').valid) && cnValue) {
-			var cardno = /^(?:3[47][0-9]{13})$/;
-			if (cnValue.match(cardno)) {
-				if (cvvValue.toString().length != 4 && cvvcmp.get('v.validity').valid) {
-					cmp.find('cvvError').set("v.value", "CVV must be 4 digits for American Express and 3 digits for other card types.");
-				} else {
-					isValid = true;
-				}
-			} else {
-				if (cvvValue.toString().length != 3 && cvvcmp.get('v.validity').valid) {
-					cmp.find('cvvError').set("v.value", "CVV must be 4 digits for American Express and 3 digits for other card types.");
-				} else {
-					isValid = true;
-				}
-			}
+        var isValid = false;
+        if (!cvvValue) {
+            return isValid;
+        }
+        if ((cncmp.get('v.validity') == null || cncmp.get('v.validity').valid) && cnValue) {
+            var cardno = /^(?:3[47][0-9]{13})$/;
+            if (cnValue.match(cardno)) {
+                if (cvvValue.toString().length != 4 && cvvcmp.get('v.validity').valid) {
+                    cmp.find('cvvError').set("v.value", "CVV must be 4 digits for American Express and 3 digits for other card types.");
+                } else {
+                    isValid = true;
+                }
+            } else {
+                if (cvvValue.toString().length != 3 && cvvcmp.get('v.validity').valid) {
+                    cmp.find('cvvError').set("v.value", "CVV must be 4 digits for American Express and 3 digits for other card types.");
+                } else {
+                    isValid = true;
+                }
+            }
 
-		} else {
-			cmp.find('cvvError').set("v.value", '');
-		}
-		
-		return isValid;
-	},
-	isValidCutNOTNumber : function(cmp, idToVerify) {
-		cmp.find('zipcodeError').set("v.value", "");
-		var numberCmp = cmp.find(idToVerify);
-		var value = numberCmp.get("v.value");
-		if (value && (isNaN(value) || value.includes(' '))) {
-			value = value.toString().substring(0, value.toString().length - 1);
-			numberCmp.set("v.value", value);
-		}
-		if(idToVerify == 'zipcode' && value.toString().length != 5 && numberCmp.get('v.validity').valid){
-			cmp.find('zipcodeError').set("v.value", "Zip Code must be 5 digits.");
-		}
-		return numberCmp.get('v.validity') !== null && numberCmp.get('v.validity').valid;
-	},
+        } else {
+            cmp.find('cvvError').set("v.value", '');
+        }
 
-	initMonthOptions : function(component){
-		var months = component.get('v.months');
-		var monthSelection = component.find('month');
-		monthSelection.set('v.body', []);
-		var body = monthSelection.get('v.body');
-		months.forEach(function(month){
-			$A.createComponent(
-				'aura:html',
-				{
-					tag: 'option',
-					HTMLAttributes: {
-						value: month.value,
-						text: month.label
-					}
-				},
-				function(newOption){
-					if(component.isValid()){
-						body.push(newOption);
-						monthSelection.set('v.body', body);
-					}
-				})
-		});
-		
-	},
+        return isValid;
+    },
+    isValidCutNOTNumber: function (cmp, idToVerify) {
+        cmp.find('zipcodeError').set("v.value", "");
+        var numberCmp = cmp.find(idToVerify);
+        var value = numberCmp.get("v.value");
+        if (value && (isNaN(value) || value.includes(' '))) {
+            value = value.toString().substring(0, value.toString().length - 1);
+            numberCmp.set("v.value", value);
+        }
+        if (idToVerify == 'zipcode' && value.toString().length != 5 && numberCmp.get('v.validity').valid) {
+            cmp.find('zipcodeError').set("v.value", "Zip Code must be 5 digits.");
+        }
+        return numberCmp.get('v.validity') !== null && numberCmp.get('v.validity').valid;
+    },
 
-	initOptions : function(component, attr, selectionById) {
-		selectionById.set('v.body', []);
-		var body = selectionById.get('v.body');
-		attr.forEach(function(option){
-			$A.createComponent(
-				'aura:html',
-				{
-					tag: 'option',
-					HTMLAttributes: {
-						value: option,
-						text: option
-					}
-				},
-				function(newOption){
-					if(component.isValid()){
-						body.push(newOption);
-						selectionById.set('v.body', body);
-					}
-				})
-		});	
-	}
+    initMonthOptions: function (component) {
+        var months = component.get('v.months');
+        var monthSelection = component.find('month');
+        monthSelection.set('v.body', []);
+        var body = monthSelection.get('v.body');
+        months.forEach(function (month) {
+            $A.createComponent(
+                'aura:html',
+                {
+                    tag: 'option',
+                    HTMLAttributes: {
+                        value: month.value,
+                        text: month.label
+                    }
+                },
+                function (newOption) {
+                    if (component.isValid()) {
+                        body.push(newOption);
+                        monthSelection.set('v.body', body);
+                    }
+                })
+        });
+
+    },
+
+    initOptions: function (component, attr, selectionById) {
+        selectionById.set('v.body', []);
+        var body = selectionById.get('v.body');
+        attr.forEach(function (option) {
+            $A.createComponent(
+                'aura:html',
+                {
+                    tag: 'option',
+                    HTMLAttributes: {
+                        value: option,
+                        text: option
+                    }
+                },
+                function (newOption) {
+                    if (component.isValid()) {
+                        body.push(newOption);
+                        selectionById.set('v.body', body);
+                    }
+                })
+        });
+    }
 })

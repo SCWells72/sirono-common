@@ -14,12 +14,12 @@ public with sharing class StatementSecurityContext extends SecurityContext {
     private static final String STATEMENT_DATE = 'Statement_Date__c';
 
     // The fields for selecting a Statement in DelinquentPaymentPlansSchedulerBatch
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         ID, NAME, STATEMENT_DATE
     };
 
     // The fields for selecting a Statement in CaseUtil
-    private static final Set<String> CU_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> CU_SELECT_FIELDS = new Set<String> {
         ID, GUARANTOR, STATEMENT_DATE
     };
 

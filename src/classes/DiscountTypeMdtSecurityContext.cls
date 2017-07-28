@@ -12,7 +12,7 @@ public with sharing class DiscountTypeMdtSecurityContext extends SecurityContext
     private static final String RATE = 'Rate__c';
 
     // The fields for selecting a Discount_Type__mdt in AddDiscount
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         RATE, MASTERLABEL
     };
 

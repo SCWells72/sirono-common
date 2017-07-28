@@ -44,18 +44,18 @@ public with sharing class ContactSecurityContext extends SecurityContext {
     private static final String SUFFIX = 'Suffix';
 
     // The fields for updating a Contact in EncounterUtil
-    private static final Set<String> UPDATE_FIELDS = new Set<String>{
+    private static final Set<String> UPDATE_FIELDS = new Set<String> {
         ESTIMATE_BALANCE, RECORDTYPEID
     };
 
     // The fields for updating a Contact in ContactTriggerHandler
-    private static final Set<String> CTH_UPDATE_FIELDS = new Set<String>{
+    private static final Set<String> CTH_UPDATE_FIELDS = new Set<String> {
         HOME_PHONE_TYPE, MOBILE_PHONE_TYPE, OTHER_PHONE_TYPE,
         CTINUMBER1, CTINUMBER2, CTINUMBER3
     };
 
     // The fields for selecting a Contact in GuarantorDao, PayStaffWSUtill
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         ID, FIRSTNAME, MIDDLENAME, LASTNAME, SUFFIX, BIRTHDATE, MEDICAL_RECORD_NUMBER, NAME,
         PROFILE_POINTER_ID, MAILINGSTREET, MAILINGCITY, MAILINGSTATE, MAILINGPOSTALCODE, RECORDTYPEID,
         SALUTATION, SOCIAL_SECURITY_NUMBER, PATIENT_ID, HOMEPHONE, MOBILEPHONE,
@@ -63,24 +63,24 @@ public with sharing class ContactSecurityContext extends SecurityContext {
     };
 
     // The fields for selecting a Contact in ContactTriggerHandler
-    private static final Set<String> CTH_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> CTH_SELECT_FIELDS = new Set<String> {
         ID, OTHERPHONE, MOBILEPHONE, HOMEPHONE, HOME_PHONE_TYPE, MOBILE_PHONE_TYPE,
         OTHER_PHONE_TYPE, CTINUMBER1, CTINUMBER2, CTINUMBER3
     };
 
     // The fields for selecting a Contact in DelinquentPaymentPlansSchedulerBatch, EarlyOutSchedulerBatch, PreServiceSchedulerBatch,
     // PaymentJSONParsing, PaymentPlanJSONParsing, PreCollectionSchedulerBatch, TaskTriggerHandler
-    private static final Set<String> SB_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SB_SELECT_FIELDS = new Set<String> {
         ID, FIRSTNAME, LASTNAME, RECORDTYPEID, PROFILE_POINTER_ID
     };
 
     // The fields for selecting a Contact in PaymentPlanTriggerHandler
-    private static final Set<String> PPTH_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> PPTH_SELECT_FIELDS = new Set<String> {
         ID, INVOICE_OFFSET_DATE
     };
 
     // The fields for selecting a Contact in CaseUtil, CallListUtilities, EarlyOutSchedulerBatch
-    private static final Set<String> CU_SELECT_FIELDS = new Set<String>{
+    private static final Set<String> CU_SELECT_FIELDS = new Set<String> {
         ID, NAME, STATEMENT_PREFERENCE, OVERDUE_BALANCE, DELINQUENT_BALANCE,
         RECORDTYPEID, HOMEPHONE, MOBILEPHONE, OTHERPHONE
     };

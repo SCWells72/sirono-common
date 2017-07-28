@@ -2,12 +2,12 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 public class CaseUtilTest {
-    public Static List<CampaignMember> lst ;
+    public static List<CampaignMember> lst ;
 
     //Method to code coverage for callEarlyOutAutoCaseCloser
-    @isTest
+    @IsTest
     public static void callEarlyOutAutoCaseCloser() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
@@ -15,10 +15,10 @@ public class CaseUtilTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121343);
         insert chargeGroup;
 
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
@@ -58,7 +58,7 @@ public class CaseUtilTest {
 
         insert campaigns;
 
-        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        List<CampaignMember> campaignMembers = new List<CampaignMember>();
         CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = Constants.SENT);
         campaignMembers.add(campaignMember);
 
@@ -83,7 +83,7 @@ public class CaseUtilTest {
     }
 
     //Method to code coverage for callCloseEarlyOutAutoCase
-    @isTest
+    @IsTest
     public static void closeEarlyOutAutoCase() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
@@ -91,10 +91,10 @@ public class CaseUtilTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121343);
         insert chargeGroup;
 
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
@@ -135,7 +135,7 @@ public class CaseUtilTest {
 
         insert campaigns;
 
-        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        List<CampaignMember> campaignMembers = new List<CampaignMember>();
         CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = Constants.SENT);
         campaignMembers.add(campaignMember);
 
@@ -161,7 +161,7 @@ public class CaseUtilTest {
 
 
     //Method to code coverage for callPrecollectionsAutoCase
-    @isTest
+    @IsTest
     public static void preCollCaseWithoutDelinquentBalance() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
@@ -169,10 +169,10 @@ public class CaseUtilTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121343);
         insert chargeGroup;
 
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
@@ -183,7 +183,7 @@ public class CaseUtilTest {
 
         Test.startTest();
         Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
-        INSERT statement;
+        insert statement;
         Test.stopTest();
 
         // Retrive Case record.
@@ -195,7 +195,7 @@ public class CaseUtilTest {
 
     // TODO: Should we just delete this in factor of the one in StatementProcessBuilderFlowTest?
     // Method to code coverage for createPrecollectionsAutoCase
-    @isTest
+    @IsTest
     public static void preCollCaseWithComplianceIssue() {
         TestUtility objUtility = new TestUtility();
 
@@ -205,10 +205,10 @@ public class CaseUtilTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121343);
         insert chargeGroup;
 
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
@@ -223,7 +223,7 @@ public class CaseUtilTest {
         insert statement;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = :Case.SObjectType.getDescribe().getName()]) {
+        for (RecordType recordType : [SELECT Id, Name FROM RecordType WHERE SobjectType = :Case.SObjectType.getDescribe().getName()]) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
 
@@ -259,7 +259,7 @@ public class CaseUtilTest {
     }
 
     //Method to code coverage for callPrecollectionsAutoCaseCloser
-    @isTest
+    @IsTest
     public static void callPrecollAutoCaseCloserWithTodayStatement() {
         TestUtility objUtility = new TestUtility();
 
@@ -269,10 +269,10 @@ public class CaseUtilTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121343);
         insert chargeGroup;
 
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = 10;
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
@@ -302,7 +302,7 @@ public class CaseUtilTest {
     }
 
     //Method to code coverage for callClosePrecollectionsAutoCase
-    @isTest
+    @IsTest
     public static void closePrecollAutoCaseToCheckCaseReason() {
         TestUtility objUtility = new TestUtility();
 
@@ -312,10 +312,10 @@ public class CaseUtilTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121343);
         insert chargeGroup;
 
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = -10;
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
@@ -377,7 +377,7 @@ public class CaseUtilTest {
     }
 
     //Method to code coverage for createEncounterAutoCase
-    @isTest
+    @IsTest
     public static void checkEncounterAutoCaseWithComplianceIssue() {
         TestUtility objUtility = new TestUtility();
 
@@ -387,10 +387,10 @@ public class CaseUtilTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121343);
         insert chargeGroup;
 
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = -10;
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
@@ -437,7 +437,7 @@ public class CaseUtilTest {
 
         insert campaigns;
 
-        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        List<CampaignMember> campaignMembers = new List<CampaignMember>();
         CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = Constants.SENT);
         campaignMembers.add(campaignMember);
 
@@ -463,7 +463,7 @@ public class CaseUtilTest {
 
 
     //Method to code coverage for createEncounterAutoCase
-    @isTest
+    @IsTest
     public static void createEncounterAutoCase() {
         TestUtility objUtility = new TestUtility();
 
@@ -473,10 +473,10 @@ public class CaseUtilTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121343);
         insert chargeGroup;
 
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = -10;
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
@@ -501,7 +501,7 @@ public class CaseUtilTest {
         update encounter1;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = :Case.SObjectType.getDescribe().getName()]) {
+        for (RecordType recordType : [SELECT Id, Name FROM RecordType WHERE SobjectType = :Case.SObjectType.getDescribe().getName()]) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
 
@@ -539,7 +539,7 @@ public class CaseUtilTest {
     }
 
     //Method to code coverage for createDelinquentPaymentCase
-    @isTest
+    @IsTest
     public static void delinquentPaymentCase() {
         TestUtility objUtility = new TestUtility();
 
@@ -549,10 +549,10 @@ public class CaseUtilTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121343);
         insert chargeGroup;
 
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = -10;
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
@@ -562,7 +562,7 @@ public class CaseUtilTest {
         insert txn;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = :Case.SObjectType.getDescribe().getName()]) {
+        for (RecordType recordType : [SELECT Id, Name FROM RecordType WHERE SobjectType = :Case.SObjectType.getDescribe().getName()]) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
 
@@ -603,7 +603,7 @@ public class CaseUtilTest {
     }
 
     //Method to code coverage for createDelinquentPaymentCase
-    @isTest
+    @IsTest
     public static void delinquentPaymentCaseWithComplianceIssue() {
         TestUtility objUtility = new TestUtility();
 
@@ -613,10 +613,10 @@ public class CaseUtilTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121343);
         insert chargeGroup;
 
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = -10;
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
@@ -648,7 +648,7 @@ public class CaseUtilTest {
 
         insert campaigns;
 
-        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        List<CampaignMember> campaignMembers = new List<CampaignMember>();
         CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = Constants.SENT);
         campaignMembers.add(campaignMember);
 
@@ -675,7 +675,7 @@ public class CaseUtilTest {
     }
 
     //Method to code coverage for createDelinquentPaymentCase
-    @isTest
+    @IsTest
     public static void createDelinquentPaymentCase() {
         TestUtility objUtility = new TestUtility();
 
@@ -685,10 +685,10 @@ public class CaseUtilTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121343);
         insert chargeGroup;
 
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = -10;
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
@@ -698,7 +698,7 @@ public class CaseUtilTest {
         insert txn;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = :Case.SObjectType.getDescribe().getName()]) {
+        for (RecordType recordType : [SELECT Id, Name FROM RecordType WHERE SobjectType = :Case.SObjectType.getDescribe().getName()]) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
 
@@ -725,7 +725,7 @@ public class CaseUtilTest {
 
         insert campaigns;
 
-        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        List<CampaignMember> campaignMembers = new List<CampaignMember>();
         CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = Constants.SENT);
         campaignMembers.add(campaignMember);
 
@@ -753,7 +753,7 @@ public class CaseUtilTest {
      * At that time Case is not closed if we call "closeDelinquentPaymentCase" method force fully.
      * Existing Case status remains same "New".
      **/
-    @isTest
+    @IsTest
     public static void closeDelinquentPaymentCaseWithSameGuarantor() {
         TestUtility objUtility = new TestUtility();
 
@@ -763,10 +763,10 @@ public class CaseUtilTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121343);
         insert chargeGroup;
 
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = -10;
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
@@ -776,7 +776,7 @@ public class CaseUtilTest {
         insert txn;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = :Case.SObjectType.getDescribe().getName()]) {
+        for (RecordType recordType : [SELECT Id, Name FROM RecordType WHERE SobjectType = :Case.SObjectType.getDescribe().getName()]) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
 
@@ -803,7 +803,7 @@ public class CaseUtilTest {
 
         insert campaigns;
 
-        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        List<CampaignMember> campaignMembers = new List<CampaignMember>();
         CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = Constants.SENT);
         campaignMembers.add(campaignMember);
 
@@ -812,13 +812,13 @@ public class CaseUtilTest {
 
         insert campaignMembers;
 
-        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
-        paymentPlan.active__c = true;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Active__c = true;
         paymentPlan.Delinquent__c = true;
         insert paymentPlan;
 
-        Payment_Plan__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.id);
-        paymentPlan1.active__c = true;
+        Payment_Plan__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan1.Active__c = true;
         paymentPlan1.Delinquent__c = true;
         insert paymentPlan1;
 
@@ -842,7 +842,7 @@ public class CaseUtilTest {
 
 
     //Method to code coverage for closeDelinquentPaymentCase
-    @isTest
+    @IsTest
     public static void closeDelinquentPaymentCase() {
         TestUtility objUtility = new TestUtility();
 
@@ -852,10 +852,10 @@ public class CaseUtilTest {
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 121343);
+        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121343);
         insert chargeGroup;
 
-        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.id, 12134323);
+        chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 12134323);
         chargeGroup.Reported_Selfpay_Balance__c = -10;
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
@@ -865,7 +865,7 @@ public class CaseUtilTest {
         insert txn;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = :Case.SObjectType.getDescribe().getName()]) {
+        for (RecordType recordType : [SELECT Id, Name FROM RecordType WHERE SobjectType = :Case.SObjectType.getDescribe().getName()]) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
 
@@ -892,7 +892,7 @@ public class CaseUtilTest {
 
         insert campaigns;
 
-        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        List<CampaignMember> campaignMembers = new List<CampaignMember>();
         CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = Constants.SENT);
         campaignMembers.add(campaignMember);
 
@@ -901,8 +901,8 @@ public class CaseUtilTest {
 
         insert campaignMembers;
 
-        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
-        paymentPlan.active__c = true;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Active__c = true;
         paymentPlan.Delinquent__c = true;
         insert paymentPlan;
 
@@ -924,7 +924,7 @@ public class CaseUtilTest {
 
 
     //Method to code coverage for createCCErrorCase
-    @isTest
+    @IsTest
     public static void createCCErrorCase() {
         TestUtility objUtility = new TestUtility();
 
@@ -932,7 +932,7 @@ public class CaseUtilTest {
         insert guarantorContact;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = :Case.SObjectType.getDescribe().getName()]) {
+        for (RecordType recordType : [SELECT Id, Name FROM RecordType WHERE SobjectType = :Case.SObjectType.getDescribe().getName()]) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
 
@@ -959,7 +959,7 @@ public class CaseUtilTest {
 
         insert campaigns;
 
-        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        List<CampaignMember> campaignMembers = new List<CampaignMember>();
         CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = Constants.SENT);
         campaignMembers.add(campaignMember);
 
@@ -983,7 +983,7 @@ public class CaseUtilTest {
     }
 
     //Method to code coverage for createCCErrorCase1
-    @isTest
+    @IsTest
     public static void createCCErrorCaseWithComplianceIssue() {
         TestUtility objUtility = new TestUtility();
 
@@ -1013,7 +1013,7 @@ public class CaseUtilTest {
 
         insert campaigns;
 
-        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        List<CampaignMember> campaignMembers = new List<CampaignMember>();
         CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = Constants.SENT);
         campaignMembers.add(campaignMember);
 
@@ -1041,7 +1041,7 @@ public class CaseUtilTest {
     }
 
     //Method to code coverage for createCCErrorCase1
-    @isTest
+    @IsTest
     public static void createCCErrorCaseWithoutComplianceIssue() {
         TestUtility objUtility = new TestUtility();
 
@@ -1049,7 +1049,7 @@ public class CaseUtilTest {
         insert guarantorContact;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = :Case.SObjectType.getDescribe().getName()]) {
+        for (RecordType recordType : [SELECT Id, Name FROM RecordType WHERE SobjectType = :Case.SObjectType.getDescribe().getName()]) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
 
@@ -1090,7 +1090,7 @@ public class CaseUtilTest {
     }
 
     //Method to code coverage for closeCCErrorCase
-    @isTest
+    @IsTest
     public static void closeCCErrorCaseWithPaymentPlan() {
         TestUtility objUtility = new TestUtility();
 
@@ -1120,7 +1120,7 @@ public class CaseUtilTest {
 
         insert campaigns;
 
-        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        List<CampaignMember> campaignMembers = new List<CampaignMember>();
         CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = Constants.SENT);
         campaignMembers.add(campaignMember);
 
@@ -1129,13 +1129,13 @@ public class CaseUtilTest {
 
         insert campaignMembers;
 
-        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
-        paymentPlan.active__c = true;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Active__c = true;
         paymentPlan.Delinquent__c = true;
         insert paymentPlan;
 
-        Payment_Plan__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.id);
-        paymentPlan1.active__c = true;
+        Payment_Plan__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan1.Active__c = true;
         paymentPlan1.Has_Error__c = true;
         paymentPlan1.Remaining_Balance__c = -101;
         insert paymentPlan1;
@@ -1150,21 +1150,21 @@ public class CaseUtilTest {
         Case paymentPlanErrorCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, guarantorContact.Id);
         insert paymentPlanErrorCase;
 
-        lst = [Select id from CampaignMember where ContactId = :guarantorContact.Id];
-        System.assertEquals(2, lst.Size());
+        lst = [SELECT Id FROM CampaignMember WHERE ContactId = :guarantorContact.Id];
+        System.assertEquals(2, lst.size());
 
         CaseUtil.closePaymentPlanErrorCase(setId, setpaymentPlan);
         Test.stopTest();
 
         // Retrive CampaignMember record.
-        lst = [Select id from CampaignMember where ContactId = :guarantorContact.Id and (CampaignID = :campaigns[0].Id or CampaignID = :campaigns[1].Id)];
+        lst = [SELECT Id FROM CampaignMember WHERE ContactId = :guarantorContact.Id AND (CampaignId = :campaigns[0].Id OR CampaignId = :campaigns[1].Id)];
 
         // Check system assert.
         System.assert(lst.isEmpty());
     }
 
     //Method to code coverage for closeCCErrorCase
-    @isTest
+    @IsTest
     public static void closeCCErrorCaseWithCampaignMember() {
         TestUtility objUtility = new TestUtility();
 
@@ -1172,7 +1172,7 @@ public class CaseUtilTest {
         insert guarantorContact;
 
         Map<String, Id> caseRecordTypeMap = new Map<String, Id>();
-        for (RecordType recordType : [Select Id, Name From RecordType Where sObjectType = :Case.SObjectType.getDescribe().getName()]) {
+        for (RecordType recordType : [SELECT Id, Name FROM RecordType WHERE SobjectType = :Case.SObjectType.getDescribe().getName()]) {
             caseRecordTypeMap.put(recordType.Name, recordType.Id);
         }
 
@@ -1199,7 +1199,7 @@ public class CaseUtilTest {
 
         insert campaigns;
 
-        List<CampaignMember> campaignMembers = new list<CampaignMember>();
+        List<CampaignMember> campaignMembers = new List<CampaignMember>();
         CampaignMember campaignMember = new CampaignMember(CampaignId = campaigns[0].Id, ContactId = guarantorContact.Id, Status = Constants.SENT);
         campaignMembers.add(campaignMember);
 
@@ -1208,13 +1208,13 @@ public class CaseUtilTest {
 
         insert campaignMembers;
 
-        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.id);
-        paymentPlan.active__c = true;
+        Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan.Active__c = true;
         paymentPlan.Delinquent__c = true;
         insert paymentPlan;
 
-        Payment_Plan__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.id);
-        paymentPlan1.active__c = true;
+        Payment_Plan__c paymentPlan1 = TestUtility.generatePaymentPlan(guarantorContact.Id);
+        paymentPlan1.Active__c = true;
         paymentPlan1.Has_Error__c = true;
         paymentPlan1.Remaining_Balance__c = -101;
         insert paymentPlan1;
@@ -1225,23 +1225,23 @@ public class CaseUtilTest {
         Set<Id> setpaymentPlan = new Set<Id>();
         setpaymentPlan.add(paymentPlan.Id);
 
-        lst = [Select id from CampaignMember where ContactId = :guarantorContact.Id];
-        System.assertEquals(2, lst.Size());
+        lst = [SELECT Id FROM CampaignMember WHERE ContactId = :guarantorContact.Id];
+        System.assertEquals(2, lst.size());
 
         CaseUtil.closePaymentPlanErrorCase(setId, setpaymentPlan);
         Test.stopTest();
 
         // Retrive CampaignMember record.
-        lst = [Select id from CampaignMember where ContactId = :guarantorContact.Id and (CampaignID = :campaigns[0].Id or CampaignID = :campaigns[1].Id)];
+        lst = [SELECT Id FROM CampaignMember WHERE ContactId = :guarantorContact.Id AND (CampaignId = :campaigns[0].Id OR CampaignId = :campaigns[1].Id)];
 
         // Check system assert.
-        System.assertEquals(2, lst.Size());
+        System.assertEquals(2, lst.size());
     }
     
     /**
      * Check all access rights for a read only User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRights() {
         List<CaseSecurityContext> allContexts = new List<CaseSecurityContext> {
             CaseSecurityContext.CREATE_CONTEXT,
@@ -1253,7 +1253,7 @@ public class CaseUtilTest {
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (CaseSecurityContext context: allContexts) {
+            for (CaseSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);
@@ -1269,7 +1269,7 @@ public class CaseUtilTest {
     /**
      * Check all Read rights for a Chatter User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRightsForRead() {
         List<CaseSecurityContext> allContexts = new List<CaseSecurityContext> {
             CaseSecurityContext.SELECT_CONTEXT,
@@ -1277,7 +1277,7 @@ public class CaseUtilTest {
         };
 
         System.runAs(TestUtility.generateChatterOnlyUser()) {
-            for (CaseSecurityContext context: allContexts) {
+            for (CaseSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);

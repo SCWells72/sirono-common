@@ -14,15 +14,15 @@ public with sharing class PaymentAdjustmentsSecurityContext extends SecurityCont
     private static final String NAME = 'Name';
     private static final String POST_DATE = 'Post_Date__c';
     private static final String SIRONO_ID = 'Sirono_ID__c';
-	
+
     // The fields for inserting a Payment_Adjustments__c in PayStaffWSUtill
-    private static final Set<String> CREATE_FIELDS = new Set<String>{
-    	AMOUNT, CHARGE_GROUP, DESCRIPTION, NAME, POST_DATE, SIRONO_ID
+    private static final Set<String> CREATE_FIELDS = new Set<String> {
+        AMOUNT, CHARGE_GROUP, DESCRIPTION, NAME, POST_DATE, SIRONO_ID
     };
-    
+
     // The fields for updating a Payment_Adjustments__c in TxnAggregationUtils
-    private static final Set<String> UPDATE_FIELDS = new Set<String>{
-    	AMOUNT
+    private static final Set<String> UPDATE_FIELDS = new Set<String> {
+        AMOUNT
     };
     
     /**

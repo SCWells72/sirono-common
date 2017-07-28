@@ -6,21 +6,21 @@
     position: absolute;
     width: 100%;
     left: 0;
-    box-shadow: 0 -2px 2px 0px rgba(0,0,0,0.1);
+    box-shadow: 0 -2px 2px 0px rgba(0, 0, 0, 0.1);
     margin-top: 1px;
 }
 
-.THIS.wrapper .main-wrapper.payment.alert{
+.THIS.wrapper .main-wrapper.payment.alert {
     margin-top: -502px;
     padding-top: 502px;
 }
 
-.THIS.wrapper .main-wrapper.payment.alert.small{
+.THIS.wrapper .main-wrapper.payment.alert.small {
     margin-top: -160px;
     padding-top: 160px;
 }
 
-.THIS.wrapper .main-wrapper.payment{
+.THIS.wrapper .main-wrapper.payment {
     margin-top: -429px;
     padding-top: 429px;
 }

@@ -17,13 +17,13 @@ public with sharing class PatientDao extends AbstractDao {
     public static Contact getPatientContact(String recordId) {
         if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             Contact pc = [
-                    SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
-                            Medical_Record_Number__c, Name,
-                            Patient_Id__c, MailingStreet,
-                            MailingCity, MailingState, MailingPostalCode, RecordTypeId
-                    FROM Contact
-                    WHERE Id = :recordId AND RecordTypeId = :RecordTypeUtil.patientRt
-                    LIMIT 1
+                SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
+                    Medical_Record_Number__c, Name,
+                    Patient_Id__c, MailingStreet,
+                    MailingCity, MailingState, MailingPostalCode, RecordTypeId
+                FROM Contact
+                WHERE Id = :recordId AND RecordTypeId = :RecordTypeUtil.patientRt
+                LIMIT 1
             ];
             return pc;
         }
@@ -40,24 +40,23 @@ public with sharing class PatientDao extends AbstractDao {
     public static Contact getPatientFilterCGByAcctSubStatus(String contactId, Set<String> cgSubStatusFilters) {
         Contact contact = null;
         if (ContactSecurityContext.SELECT_CONTEXT.actionAllowed() &&
-                ChargeGroupSecurityContext.GD_SELECT_CONTEXT.actionAllowed()) {
-            for (Contact c: [
-                        SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
-                            Medical_Record_Number__c, RecordType.DeveloperName,
-                            Profile_Pointer_Id__c, Patient_Id__c,
-                            (
-                                SELECT Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
-                                    External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
-                                    Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
-                                    Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
-                                    Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
-                                    Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
-                                FROM Charge_Groups_Patient__r
-                                WHERE Sirono_ID__c != null AND Active__c = true AND Account_Status__c = :Constants.ACCT_STATUS_BILLED
-                                AND Account_Sub_Status__c IN :cgSubStatusFilters
-                            )
-                        FROM Contact
-                        WHERE Id = :contactId
+            ChargeGroupSecurityContext.GD_SELECT_CONTEXT.actionAllowed()) {
+            for (Contact c : [
+                SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
+                    Medical_Record_Number__c, RecordType.DeveloperName,
+                    Profile_Pointer_ID__c, Patient_Id__c, (
+                    SELECT Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,
+                        External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
+                        Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
+                        Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
+                        Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
+                        Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
+                    FROM Charge_Groups_Patient__r
+                    WHERE Sirono_ID__c != NULL AND Active__c = TRUE AND Account_Status__c = :Constants.ACCT_STATUS_BILLED
+                    AND Account_Sub_Status__c IN :cgSubStatusFilters
+                )
+                FROM Contact
+                WHERE Id = :contactId
             ]) {
                 contact = c;
             }

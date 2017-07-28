@@ -2,7 +2,7 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 public class AddDiscountTest {
 
     /* Coverage the code for the AddDiscount class and
@@ -12,7 +12,7 @@ public class AddDiscountTest {
         TestUtility objTestUtility = new TestUtility();
 
         //Create Guarantor Contact record.
-        Contact guarantorContact = TestUtility.generateguarantorContact();
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact ;
 
         //Create Patient Contact record.
@@ -47,7 +47,7 @@ public class AddDiscountTest {
 
         //Call Add Discount constructor with Selected charge group records.
         objAddDiscount = new AddDiscount(new ApexPages.StandardController(guarantorContact));
-        for (ChargeGroupWrapper cgw :objAddDiscount.chargeGroupList) {
+        for (ChargeGroupWrapper cgw : objAddDiscount.chargeGroupList) {
             cgw.isSelected = true;
         }
                 
@@ -80,7 +80,7 @@ public class AddDiscountTest {
         TestUtility objTestUtility = new TestUtility();
 
         //Create Guarantor Contact record.
-        Contact guarantorContact = TestUtility.generateguarantorContact();
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact ;
 
         //Create Patient Contact record.
@@ -102,9 +102,11 @@ public class AddDiscountTest {
 
         //Check System Assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList) {
-            if (msg.getDetail().contains('Please provide all details.')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Please provide all details.')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
 
@@ -128,7 +130,7 @@ public class AddDiscountTest {
 
         //Call Add Discount constructor with Selected charge group records.
         objAddDiscount = new AddDiscount(new ApexPages.StandardController(guarantorContact));
-        for (ChargeGroupWrapper cgw :objAddDiscount.chargeGroupList) {
+        for (ChargeGroupWrapper cgw : objAddDiscount.chargeGroupList) {
             cgw.isSelected = true;
         }
         
@@ -147,8 +149,10 @@ public class AddDiscountTest {
         //Check System Assert.
         List<ApexPages.Message> msgList1 = ApexPages.getMessages();
         isError = false;
-        for (Apexpages.Message msg : msgList1) {
-            if (msg.getDetail().contains('Please provide all details.')) isError = true;
+        for (ApexPages.Message msg : msgList1) {
+            if (msg.getDetail().contains('Please provide all details.')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
     }
@@ -162,7 +166,7 @@ public class AddDiscountTest {
         TestUtility objTestUtility = new TestUtility();
 
         //Create Guarantor Contact record.
-        Contact guarantorContact = TestUtility.generateguarantorContact();
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact ;
 
         //Create Patient Contact record.
@@ -198,7 +202,7 @@ public class AddDiscountTest {
 
         //Call Add Discount constructor with Selected charge group records.
         objAddDiscount = new AddDiscount(new ApexPages.StandardController(guarantorContact));
-        for (ChargeGroupWrapper cgw :objAddDiscount.chargeGroupList) {
+        for (ChargeGroupWrapper cgw : objAddDiscount.chargeGroupList) {
             cgw.isSelected = true;
         }
         
@@ -221,9 +225,11 @@ public class AddDiscountTest {
 
         //Check System Assert.
         List<ApexPages.Message> msgList1 = ApexPages.getMessages();
-        boolean isError = false;
-        for (Apexpages.Message msg : msgList1) {
-            if (msg.getDetail().contains('Discount has been added!')) isError = true;
+        Boolean isError = false;
+        for (ApexPages.Message msg : msgList1) {
+            if (msg.getDetail().contains('Discount has been added!')) {
+                isError = true;
+            }
         }
         System.assertEquals(isError, true);
 

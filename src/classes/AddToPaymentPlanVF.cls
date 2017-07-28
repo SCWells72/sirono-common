@@ -30,17 +30,17 @@ public with sharing class AddToPaymentPlanVF extends AddToPaymentPlan {
             guarantorName = GuarantorService.buildGuarantorDetailString(gc);
             guarantorId = GuarantorService.getGuarantorSironoId(gc);
             chargeGroupList = ChargeGroupWrapper.buildList(gc);
-            chargeGroupIds = new String[]{};
+            chargeGroupIds = new String[] {};
         }
 
         if (String.isBlank(paymentPlanExtId)) {
             Payment_Plan__c currentPaymentPlan = PaymentPlanService.getActivePaymentPlan(guarantorRecordId);
-            if(currentPaymentPlan != null){
+            if (currentPaymentPlan != null) {
                 paymentPlanExtId = currentPaymentPlan.Sirono_ID__c.toPlainString();
             }
             if (String.isBlank(paymentPlanExtId)) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
-                        'No active Payment Plan exists for this Guarantor. Please click Cancel to go previous page.'));
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO,
+                    'No active Payment Plan exists for this Guarantor. Please click Cancel to go previous page.'));
             }
         }
     }
@@ -51,20 +51,20 @@ public with sharing class AddToPaymentPlanVF extends AddToPaymentPlan {
     public void submit() {
         try {
             if (String.isBlank(paymentPlanExtId) || String.isBlank(guarantorId) || !chargeGroupsSelected) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                        'Please provide all details.'));
-                if (Test.IsRunningTest()) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                    'Please provide all details.'));
+                if (Test.isRunningTest()) {
                     TestUtility.generateException();
                 }
             } else {
                 PaymentPlanService.addChargeGroups(paymentPlanExtId, chargeGroupIds);
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
-                        'Added Successfully!'));
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO,
+                    'Added Successfully!'));
             }
         } catch (Exception e) {
             // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'ERROR: ' + e.getMessage()));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'ERROR: ' + e.getMessage()));
         }
     }
 }

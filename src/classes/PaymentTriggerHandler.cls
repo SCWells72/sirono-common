@@ -26,7 +26,7 @@ public with sharing class PaymentTriggerHandler {
                     if (oldPmt.Encounter__c != null) {
                         encounterIds.add(oldPmt.Encounter__c);
                     }
-                } else if (newPmt.Amount__c != oldPmt.Amount__c){
+                } else if (newPmt.Amount__c != oldPmt.Amount__c) {
                     encounterIds.add(newPmt.Encounter__c);
                 }
             } else {

@@ -5,7 +5,7 @@
 /*
  * Test utilities to create records.
  */
-@isTest
+@IsTest
 public class TestUtility {
     public static String body = '{"token":"bar"}';
     public static String responsebody = '{"token":"bar"}';
@@ -14,13 +14,13 @@ public class TestUtility {
     public static Integer statusCode3 = 200;
     public static Integer statusCode4 = 200;
     public static String status = 'CREATED';
-    public static boolean isTest = false;
-    public static boolean setBlank = false;
+    public static Boolean isTest = false;
+    public static Boolean setBlank = false;
     public static String errorbody = '' ;
     public static Integer currentDay = 22;
     public static Integer currentMonth = 12;
     public static Integer currentYear = 2017;
-    public static boolean hasException = false;
+    public static Boolean hasException = false;
     public static String planType = 'auto';
     public static String errorDate = '2016-05-13';
     public static String delinquentDate = '2016-05-13';
@@ -66,7 +66,7 @@ public class TestUtility {
         Contact guarantorContact = new Contact();
         guarantorContact.RecordTypeId = RecordTypeUtil.guarantorRt;
         guarantorContact.LastName = gurantorName;
-        guarantorContact.Profile_Pointer_Id__c = getUniqueId();
+        guarantorContact.Profile_Pointer_ID__c = getUniqueId();
         guarantorContact.HomePhone = '111';
         guarantorContact.MobilePhone = '111';
         return guarantorContact;
@@ -161,16 +161,16 @@ public class TestUtility {
     // Return a new Statement record
     public static Statement__c generateStatement(String contactId) {
         Statement__c stmt = new Statement__c();
-        stmt.Statement_Date__c = System.Today();
+        stmt.Statement_Date__c = System.today();
         stmt.Guarantor__c = contactId;
         return stmt;
     }
 
     // Return a new campaign record
     public static Campaign generateCampaign(String name) {
-        Campaign objCampaign = New Campaign();
+        Campaign objCampaign = new Campaign();
         objCampaign.Name = name;
-        objCampaign.IsActive = True;
+        objCampaign.IsActive = true;
         return objCampaign;
     }
 
@@ -212,16 +212,16 @@ public class TestUtility {
     public static Payment_Method__c generatePaymentMethod(String guarantorId, String recordTypeID) {
         Payment_Method__c paymentMethod = new Payment_Method__c();
         paymentMethod.Guarantor__c = guarantorId;
-        paymentMethod.RecordTypeID = recordTypeID;
+        paymentMethod.RecordTypeId = recordTypeID;
         return paymentMethod;
     }
 
     // return list of charge_group__c records
-    public static List<Charge_Group__c> generateChargeGroupList(ID contID) {
-        list<Charge_Group__c> lstChargeGroup = new list<Charge_Group__c>();
+    public static List<Charge_Group__c> generateChargeGroupList(Id contID) {
+        List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
         for (Integer i = 0; i < 20; i++) {
             Charge_Group__c chargeGroup = new Charge_Group__c();
-            chargeGroup.name = 'xyz' + i;
+            chargeGroup.Name = 'xyz' + i;
             chargeGroup.Guarantor__c = contID;
             lstChargeGroup.add(chargeGroup);
         }
@@ -229,7 +229,7 @@ public class TestUtility {
     }
 
     // return CampaignMember record
-    public static CampaignMember generateCampaignMember(ID campaignId, ID guarantorContactId) {
+    public static CampaignMember generateCampaignMember(Id campaignId, Id guarantorContactId) {
         CampaignMember objcampaignMember = new CampaignMember();
         objcampaignMember.CampaignId = campaignId;
         objcampaignMember.ContactId = guarantorContactId;
@@ -238,7 +238,7 @@ public class TestUtility {
     }
 
     // return Task record
-    public static Task generateTask(ID guarantorContactId) {
+    public static Task generateTask(Id guarantorContactId) {
         Task objTask = new Task();
         objTask.WhoId = guarantorContactId;
         objTask.Priority = Constants.TASK_PRIORITY_NORMAL;
@@ -371,7 +371,7 @@ public class TestUtility {
         User readOnlyUser = new User(Alias = 'readonly', Email = 'readonlyuserr@testorg.com',
             EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
             LocaleSidKey = 'en_US', ProfileId = readOnlyProf.Id,
-            TimeZoneSidKey = 'America/Los_Angeles', UserName = 'readonlyuserr@testorg.com');
+            TimeZoneSidKey = 'America/Los_Angeles', Username = 'readonlyuserr@testorg.com');
 
         // Check system assert.
         System.assertNotEquals(readOnlyUser, null, 'Should have failed due to user is null.');
@@ -389,7 +389,7 @@ public class TestUtility {
         User chatterOnlyUser = new User(Alias = 'ctronly', Email = 'chatteronlyuserr@testorg.com',
             EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
             LocaleSidKey = 'en_US', ProfileId = chatterOnlyProf.Id,
-            TimeZoneSidKey = 'America/Los_Angeles', UserName = 'chatteronlyuserr@testorg.com');
+            TimeZoneSidKey = 'America/Los_Angeles', Username = 'chatteronlyuserr@testorg.com');
 
         // Check system assert.
         System.assertNotEquals(chatterOnlyUser, null, 'Should have failed due to user is null.');
@@ -411,7 +411,7 @@ public class TestUtility {
             EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
             LocaleSidKey = 'en_US', ProfileId = prof.Id,
             ContactId = gtId,
-            TimeZoneSidKey = 'America/Los_Angeles', UserName = prefix + '_user@testorg.com');
+            TimeZoneSidKey = 'America/Los_Angeles', Username = prefix + '_user@testorg.com');
 
         // Check system assert.
         System.assertNotEquals(newUser, null, 'Expected valid user, but is null.');
@@ -425,10 +425,10 @@ public class TestUtility {
      **/
     public static void assignPermissionSet(String psName, User newUser) {
 
-        PermissionSet ps = [SELECT ID From PermissionSet WHERE Name = :psName];
+        PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name = :psName];
         System.assert(ps != null, 'Unable to retrieve permission set: ' + psName);
 
-        INSERT new PermissionSetAssignment(AssigneeId = newUser.Id, PermissionSetId = ps.Id);
+        insert new PermissionSetAssignment(AssigneeId = newUser.Id, PermissionSetId = ps.Id);
     }
 
     /**
@@ -451,7 +451,7 @@ public class TestUtility {
             LocaleSidKey = 'en_US',
             ProfileId = adminProfile.Id,
             TimeZoneSidKey = 'America/Los_Angeles',
-            UserName = 'admin@testorg1212.com'
+            Username = 'admin@testorg1212.com'
         );
         return adminUser;
     }
@@ -465,8 +465,8 @@ public class TestUtility {
         String testUsername = UserInfo.getOrganizationId() + '-' + System.now().millisecond() + '-testGTUser@test.io';
         String testAdminUsername = UserInfo.getOrganizationId() + '-' + System.now().millisecond() + '-testAdmin@test.com';
 
-        UserRole portalRole = [Select Id From UserRole Where DeveloperName = 'CEO' Limit 1];
-        Profile adminProfile = [Select Id from Profile where name = 'System Administrator'];
+        UserRole portalRole = [SELECT Id FROM UserRole WHERE DeveloperName = 'CEO' LIMIT 1];
+        Profile adminProfile = [SELECT Id FROM Profile WHERE Name = 'System Administrator'];
         User portalAdminUser = new User(
             UserRoleId = portalRole.Id,
             ProfileId = adminProfile.Id,
@@ -474,8 +474,8 @@ public class TestUtility {
             Alias = 'batman',
             Email = ADMIN_EMAIL,
             EmailEncodingKey = 'UTF-8',
-            Firstname = 'Bruce',
-            Lastname = 'Wayne',
+            FirstName = 'Bruce',
+            LastName = 'Wayne',
             LanguageLocaleKey = 'en_US',
             LocaleSidKey = 'en_US',
             TimeZoneSidKey = 'America/Chicago'
@@ -510,17 +510,17 @@ public class TestUtility {
             System.runAs(portalAdminUser) {
                 //Create Guarantor Contact record
                 Contact gt = TestUtility.generateGuarantorContact();
-                gt.Profile_Pointer_Id__c = PROFILE_POINTER;
+                gt.Profile_Pointer_ID__c = PROFILE_POINTER;
                 gt.AccountId = a.Id;
                 gt.OwnerId = portalAdminUser.Id;
                 Database.insert(gt);
 
 
-                System.debug('Create portalUser for contact: '+gt.Id);
+                System.debug('Create portalUser for contact: ' + gt.Id);
                 usr = TestUtility.generateUser(Constants.GUARANTOR_PORTAL_PROFILE, gt.Id);
                 usr.Username = testUsername;
 
-                INSERT usr;
+                insert usr;
 
                 usr = null;
                 usr = [
@@ -540,9 +540,9 @@ public class TestUtility {
                 ContactShare cs = new ContactShare();
                 cs.ContactAccessLevel = 'Edit';
                 cs.ContactId = gt.Id;
-                cs.UserOrGroupId =  usr.Id;
+                cs.UserOrGroupId = usr.Id;
 
-                INSERT new ContactShare[]{cs};
+                insert new ContactShare[] { cs };
             }
 
             System.assertNotEquals(usr, null, 'User with username: ' + testUsername + ' not found');
@@ -556,7 +556,7 @@ public class TestUtility {
      * @return Contact - The User used to created the GuarantorCommunityUser.
      */
     public static User getPortalAdminUser() {
-        List<User> admin = [SELECT Id FROM USER WHERE email = :ADMIN_EMAIL limit 1];
+        List<User> admin = [SELECT Id FROM User WHERE Email = :ADMIN_EMAIL LIMIT 1];
 
         System.assert(admin.size() != 0, 'Could not find the admin user that created the community user.');
         return admin[0];
@@ -569,7 +569,7 @@ public class TestUtility {
      * @return Contact - The Guarantor.
      */
     public static Contact getPortalGuarantor() {
-        List<Contact> contacts = [SELECT Id from Contact WHERE Profile_Pointer_ID__c = :PROFILE_POINTER];
+        List<Contact> contacts = [SELECT Id FROM Contact WHERE Profile_Pointer_ID__c = :PROFILE_POINTER];
 
         System.assert(contacts.size() != 0, 'Could not find the guarantor for the community user.');
         return contacts[0];
@@ -581,7 +581,7 @@ public class TestUtility {
      * @return Account - The account.
      */
     public static Account getPortalAccount() {
-        List<Account> accounts = [SELECT Id from Account where name = :ACCOUNT_NAME limit 1];
+        List<Account> accounts = [SELECT Id FROM Account WHERE Name = :ACCOUNT_NAME LIMIT 1];
 
         System.assert(accounts.size() != 0, 'Could not find the account for the community user.');
         return accounts[0];
@@ -596,6 +596,6 @@ public class TestUtility {
                 campaigns.add(TestUtility.generateCampaign(cmpnName));
             }
         }
-        INSERT campaigns;
+        insert campaigns;
     }
 }

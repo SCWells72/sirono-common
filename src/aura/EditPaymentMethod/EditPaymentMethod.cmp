@@ -24,7 +24,7 @@
 
     <div aura:id="editPaymentMethod" class="slds-p-top--medium slds-p-horizontal--large border-top">
         <aura:if isTrue="{!v.hasError}">
-            <c:SuccessMessage isSuccess="false" aura:id="notificationCmp" />
+            <c:SuccessMessage isSuccess="false" aura:id="notificationCmp"/>
         </aura:if>
 
         <div class="grid slds-p-bottom--large">
@@ -36,7 +36,8 @@
                 </div>
                 <div class="col slds-align-middle">
                     <div class="title">
-                        <a href="javascript:void(0);" onclick="{!c.editCreditCard}">Edit</a> or <a href="javascript:void(0);" onclick="{!c.addNewCreditCard}">Add New Card</a>
+                        <a href="javascript:void(0);" onclick="{!c.editCreditCard}">Edit</a> or
+                        <a href="javascript:void(0);" onclick="{!c.addNewCreditCard}">Add New Card</a>
                     </div>
                 </div>
                 <aura:set attribute="else">

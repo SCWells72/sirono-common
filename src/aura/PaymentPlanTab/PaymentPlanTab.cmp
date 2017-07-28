@@ -2,88 +2,88 @@
   - Copyright (c) 2017-present Sirono LLC, All rights reserved
   -->
 
-<aura:component >
-	<aura:attribute name="PaymentInfo" type="Object" access="public" default="{}" />
-	<aura:attribute name="PaymentRequestInfo" type="Object" access="public" default="{}" />
-	<aura:attribute name="PlanInfoRecord" type="Object" access="public" />
-	<aura:attribute name="activeSectionId" type="String" access="private" />
-	<aura:attribute name="editTermsVisible" type="Boolean" access="private" default="false"/>
-	<!--TODO: This param is never toggled to true-->
-    <aura:attribute name="addInvoiceVisible" type="Boolean" default="false" />
-    <aura:attribute name="showEditTermsMessage" type="Boolean" default="false" />
+<aura:component>
+    <aura:attribute name="PaymentInfo" type="Object" access="public" default="{}"/>
+    <aura:attribute name="PaymentRequestInfo" type="Object" access="public" default="{}"/>
+    <aura:attribute name="PlanInfoRecord" type="Object" access="public"/>
+    <aura:attribute name="activeSectionId" type="String" access="private"/>
+    <aura:attribute name="editTermsVisible" type="Boolean" access="private" default="false"/>
+    <!--TODO: This param is never toggled to true-->
+    <aura:attribute name="addInvoiceVisible" type="Boolean" default="false"/>
+    <aura:attribute name="showEditTermsMessage" type="Boolean" default="false"/>
 
-	<aura:handler name="init" value="{!this}" action="{!c.doInitInfo}" />
-	<aura:handler name="initPlanInfo" event="c:CancelActionEvent" action="{!c.doInitInfo}" />
-	<aura:handler name="updatePaymentMethod" event="c:UpdatePaymentMethodEvent" action="{!c.showSuccess}" />
-	<aura:handler event="c:UpdatePaymentTermsEvent" action="{!c.showSuccess}" />
-	<aura:handler name="paymentPlanCreated" event="c:PaymentPlanCreatedEvent" action="{!c.showSuccess}" />
-	<!--TODO: addInvoicesVisible is never altered-->
-    <aura:handler name="change" value="{!v.addInvoiceVisible}" action="{!c.hideBlocks}" /> 
-	<aura:registerEvent name="resetPaymentTabs" type="c:CancelActionEvent"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInitInfo}"/>
+    <aura:handler name="initPlanInfo" event="c:CancelActionEvent" action="{!c.doInitInfo}"/>
+    <aura:handler name="updatePaymentMethod" event="c:UpdatePaymentMethodEvent" action="{!c.showSuccess}"/>
+    <aura:handler event="c:UpdatePaymentTermsEvent" action="{!c.showSuccess}"/>
+    <aura:handler name="paymentPlanCreated" event="c:PaymentPlanCreatedEvent" action="{!c.showSuccess}"/>
+    <!--TODO: addInvoicesVisible is never altered-->
+    <aura:handler name="change" value="{!v.addInvoiceVisible}" action="{!c.hideBlocks}"/>
+    <aura:registerEvent name="resetPaymentTabs" type="c:CancelActionEvent"/>
 
-	<aura:method name="doCmpInit" action="{!c.doCmpInit}" description="Do CMP init with initial PP Info" access="public">
-		<aura:attribute name="PaymentInfo" type="Object" default="{}" />
-		<aura:attribute name="PaymentRequestInfo" type="Object" default="{}" />
-	</aura:method>
+    <aura:method name="doCmpInit" action="{!c.doCmpInit}" description="Do CMP init with initial PP Info" access="public">
+        <aura:attribute name="PaymentInfo" type="Object" default="{}"/>
+        <aura:attribute name="PaymentRequestInfo" type="Object" default="{}"/>
+    </aura:method>
 
-	<!-- payment plan Total Info section -->
-	<section aura:id="planInfo" class="pp-add-invoice payment-plan-content">
-		<aura:if isTrue="{!v.PaymentInfo.hasPaymentPlan}">
-			<div class="payment-plan-edit">
-				<h2>Payment Plan Summary</h2>
-				<c:EditPlanInfo PaymentInfo="{!v.PaymentInfo}"/>
-			</div>
-			<aura:if isTrue="{!and(v.PaymentInfo.addToPaymentAvail, v.PaymentInfo.guarantor.Non_Payment_Plan_Invoices__c)}">
-				<div class="payment-plan-edit slds-p-around--large border-top border-bottom">
-					<c:AddInvoicesToPaymentPlan PaymentInfo="{!v.PaymentInfo}" addInvoiceShow="{!v.addInvoiceVisible}"/>
-				</div>
-			</aura:if>
+    <!-- payment plan Total Info section -->
+    <section aura:id="planInfo" class="pp-add-invoice payment-plan-content">
+        <aura:if isTrue="{!v.PaymentInfo.hasPaymentPlan}">
+            <div class="payment-plan-edit">
+                <h2>Payment Plan Summary</h2>
+                <c:EditPlanInfo PaymentInfo="{!v.PaymentInfo}"/>
+            </div>
+            <aura:if isTrue="{!and(v.PaymentInfo.addToPaymentAvail, v.PaymentInfo.guarantor.Non_Payment_Plan_Invoices__c)}">
+                <div class="payment-plan-edit slds-p-around--large border-top border-bottom">
+                    <c:AddInvoicesToPaymentPlan PaymentInfo="{!v.PaymentInfo}" addInvoiceShow="{!v.addInvoiceVisible}"/>
+                </div>
+            </aura:if>
 
-			<div class="slds-p-horizontal--medium border-top">
-				<div class="grid slds-grid--align-center">
-					<div class="col">
-						<div class="slds-button-group slds-p-top--large" role="group">
-							<aura:if isTrue="{!v.PaymentInfo.paymentPlan.Plan_Type__c == 'Automatic'}">
-								<button class="slds-button slds-button--neutral" onclick="{!c.editTerms}">Edit Terms</button>
-								<button class="slds-button slds-button--neutral" onclick="{!c.editPaymentMethod}">Edit Payment Method</button>
-							</aura:if>
+            <div class="slds-p-horizontal--medium border-top">
+                <div class="grid slds-grid--align-center">
+                    <div class="col">
+                        <div class="slds-button-group slds-p-top--large" role="group">
+                            <aura:if isTrue="{!v.PaymentInfo.paymentPlan.Plan_Type__c == 'Automatic'}">
+                                <button class="slds-button slds-button--neutral" onclick="{!c.editTerms}">Edit Terms</button>
+                                <button class="slds-button slds-button--neutral" onclick="{!c.editPaymentMethod}">Edit Payment Method</button>
+                            </aura:if>
                             <button class="slds-button slds-button--neutral" onclick="{!c.editPaymentCancel}">Cancel Plan</button>
-						</div>
-					</div>
-				</div>
-			</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-			<aura:set attribute="else">
-				<div class="intro">
-					<h2>Payment Plan</h2>
-					<p>Set up a payment plan to conveniently pay off your Health System account over time. Select invoices to include in your payment plan. </p>
-				</div>
-			</aura:set>
-		</aura:if>
-	</section>
-	<!-- payment plan Total Info section  END-->
-	<section aura:id="editTerms" class="{!v.editTermsVisible ? 'pp-step-edit-terms payment-plan-content' : 'pp-step-edit-terms payment-plan-content  slds-hide'}">
-		<c:EditTerms PaymentInfo="{!v.PaymentInfo}" PaymentRequestInfo="{!v.PaymentRequestInfo}"/>
-	</section>
-	<section aura:id="editPaymentMethod" class="pp-edit-method payment-plan-content slds-hide">
-		<aura:if isTrue="{!v.PaymentInfo.hasPaymentPlan}">
-			<c:EditPaymentMethod PaymentInfo="{!v.PaymentInfo}" PaymentRequestInfo="{!v.PaymentRequestInfo}"/>
-		</aura:if>
-	</section>
-	<section aura:id="message" class="pp-step-three payment-plan-content">
-		<c:SuccessMessage PlanInfoRecord="{!v.PlanInfoRecord}" isEditTerms="{!v.showEditTermsMessage}" isSuccess="true"/>
-		<div class="slds-p-horizontal--medium border-top">
-			<div class="grid slds-grid--align-center">
-				<div class="col">
-					<button class="slds-button slds-button--neutral" onclick="{!c.resetCmp}">Ok</button>
-				</div>
-			</div>
-		</div>
-	</section>
+            <aura:set attribute="else">
+                <div class="intro">
+                    <h2>Payment Plan</h2>
+                    <p>Set up a payment plan to conveniently pay off your Health System account over time. Select invoices to include in your payment plan. </p>
+                </div>
+            </aura:set>
+        </aura:if>
+    </section>
+    <!-- payment plan Total Info section  END-->
+    <section aura:id="editTerms" class="{!v.editTermsVisible ? 'pp-step-edit-terms payment-plan-content' : 'pp-step-edit-terms payment-plan-content  slds-hide'}">
+        <c:EditTerms PaymentInfo="{!v.PaymentInfo}" PaymentRequestInfo="{!v.PaymentRequestInfo}"/>
+    </section>
+    <section aura:id="editPaymentMethod" class="pp-edit-method payment-plan-content slds-hide">
+        <aura:if isTrue="{!v.PaymentInfo.hasPaymentPlan}">
+            <c:EditPaymentMethod PaymentInfo="{!v.PaymentInfo}" PaymentRequestInfo="{!v.PaymentRequestInfo}"/>
+        </aura:if>
+    </section>
+    <section aura:id="message" class="pp-step-three payment-plan-content">
+        <c:SuccessMessage PlanInfoRecord="{!v.PlanInfoRecord}" isEditTerms="{!v.showEditTermsMessage}" isSuccess="true"/>
+        <div class="slds-p-horizontal--medium border-top">
+            <div class="grid slds-grid--align-center">
+                <div class="col">
+                    <button class="slds-button slds-button--neutral" onclick="{!c.resetCmp}">Ok</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-	<div aura:id="cancelPlan" class="slds-hide">
-		<aura:if isTrue="{!v.PaymentInfo.hasPaymentPlan}">
-			<c:EditPaymentPlanCancel aura:id="cancelPlanCmp" PaymentInfo="{!v.PaymentInfo}"/>
-		</aura:if>
-	</div>
+    <div aura:id="cancelPlan" class="slds-hide">
+        <aura:if isTrue="{!v.PaymentInfo.hasPaymentPlan}">
+            <c:EditPaymentPlanCancel aura:id="cancelPlanCmp" PaymentInfo="{!v.PaymentInfo}"/>
+        </aura:if>
+    </div>
 </aura:component>

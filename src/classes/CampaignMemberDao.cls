@@ -18,14 +18,14 @@ public with sharing class CampaignMemberDao extends AbstractDao {
         public void removeFromCampaign(String campaignName, Set<Id> contactIds) {
 
             List<CampaignMember> membersToRemove = new List<CampaignMember>([
-                    SELECT Id, ContactId, CampaignId
-                    FROM CampaignMember
-                    WHERE ContactId IN :contactIds
-                    AND Campaign.Name = :campaignName
+                SELECT Id, ContactId, CampaignId
+                FROM CampaignMember
+                WHERE ContactId IN :contactIds
+                AND Campaign.Name = :campaignName
             ]);
 
             if (!membersToRemove.isEmpty()) {
-                DELETE membersToRemove;
+                delete membersToRemove;
             }
         }
     }
@@ -41,15 +41,15 @@ public with sharing class CampaignMemberDao extends AbstractDao {
         List<Campaign> campaigns = new List<Campaign>();
 
         if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed() &&
-                    CmpnMemberSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-            campaigns = [SELECT Id, Name,
-                            (
-                                SELECT Id, ContactId
-                                FROM CampaignMembers
-                                WHERE ContactId IN :contactIds
-                            )
-                        FROM Campaign
-                        WHERE Name IN :campaignNames AND IsActive = TRUE
+            CmpnMemberSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
+            campaigns = [
+                SELECT Id, Name, (
+                    SELECT Id, ContactId
+                    FROM CampaignMembers
+                    WHERE ContactId IN :contactIds
+                )
+                FROM Campaign
+                WHERE Name IN :campaignNames AND IsActive = TRUE
             ];
         }
         return campaigns;
@@ -65,10 +65,10 @@ public with sharing class CampaignMemberDao extends AbstractDao {
 
         if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
-                    SELECT Id, ContactId
-                    FROM CampaignMember
-                    WHERE Campaign.Name IN :campaignNames
-                    AND ContactId IN :guarantors
+                SELECT Id, ContactId
+                FROM CampaignMember
+                WHERE Campaign.Name IN :campaignNames
+                AND ContactId IN :guarantors
             ];
         }
         return new List<CampaignMember>();
@@ -85,10 +85,10 @@ public with sharing class CampaignMemberDao extends AbstractDao {
     public static Set<String> getSFCampaignNames(String caseType) {
         Set<String> campaignNames = new Set<String>();
 
-        for (Case_to_Campaign__mdt objCCM: [
-                SELECT Case_Type__c, Salesforce_Campaign_Name__c
-                FROM Case_to_Campaign__mdt
-                WHERE Case_Type__c = :caseType
+        for (Case_to_Campaign__mdt objCCM : [
+            SELECT Case_Type__c, Salesforce_Campaign_Name__c
+            FROM Case_to_Campaign__mdt
+            WHERE Case_Type__c = :caseType
         ]) {
             campaignNames.add(objCCM.Salesforce_Campaign_Name__c);
         }
@@ -102,7 +102,7 @@ public with sharing class CampaignMemberDao extends AbstractDao {
      **/
     public static void insertCampaignMembers(List<CampaignMember> campaignMembers) {
         if (CmpnMemberSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-            INSERT campaignMembers;
+            insert campaignMembers;
         }
     }
 
@@ -116,7 +116,7 @@ public with sharing class CampaignMemberDao extends AbstractDao {
         CmpnMemberSecurityContext cmpnMemSecurityContext = new CmpnMemberSecurityContext();
 
         if (cmpnMemSecurityContext.deleteActionAllowed()) {
-            DELETE removeCmpnMembers;
+            delete removeCmpnMembers;
         }
     }
 }

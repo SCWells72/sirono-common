@@ -13,13 +13,13 @@ public class AuthRestClientMock implements HttpCalloutMock {
      *
      * @params - HttpRequest req The request associated with the call.
      */
-    public HTTPResponse respond(HTTPRequest req) {
+    public HttpResponse respond(HttpRequest req) {
         HttpResponse res = RestClientMockUtil.handleAuthRequest(req);
         if (req == null) {
             throw new SironoServiceException(String.format('Unexpected method/endpoint in HttpAuthMock [METHOD: {0}] [Endpoint: {1}].',
-                    new String[]{
-                            req.getMethod(), req.getEndpoint()
-                    }));
+                new String[] {
+                    req.getMethod(), req.getEndpoint()
+                }));
         }
 
         return res;

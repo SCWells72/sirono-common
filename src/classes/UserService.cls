@@ -12,8 +12,8 @@ public with sharing class UserService extends AbstractService {
    *
    * @return UserWrapper - The User.
    */
-  public static UserWrapper getCurrentUser() {
-    UserWrapper uw = new UserWrapper(UserDao.getUser(UserInfo.getUserId()));
-    return uw;
-  }
+    public static UserWrapper getCurrentUser() {
+        UserWrapper uw = new UserWrapper(UserDao.getUser(UserInfo.getUserId()));
+        return uw;
+    }
 }

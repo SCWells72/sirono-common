@@ -5,8 +5,8 @@
 /**
  * Test the CaseService
  **/
-@isTest
-public with sharing class CaseServiceTest{
+@IsTest
+public with sharing class CaseServiceTest {
 
     private static String GT_SIRONO_ID = '12345';
 
@@ -14,29 +14,29 @@ public with sharing class CaseServiceTest{
     public static void setup() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_ID__c = Decimal.valueOf(GT_SIRONO_ID);
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1214);
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         // Check system assert.
-        System.assertEquals(Decimal.valueOf(GT_SIRONO_ID), guarantorContact.Profile_Pointer_ID__c, 'Expected Profile_Pointer_ID__c is ' + GT_SIRONO_ID + ' but got '+ guarantorContact.Profile_Pointer_ID__c);
+        System.assertEquals(Decimal.valueOf(GT_SIRONO_ID), guarantorContact.Profile_Pointer_ID__c, 'Expected Profile_Pointer_ID__c is ' + GT_SIRONO_ID + ' but got ' + guarantorContact.Profile_Pointer_ID__c);
     }
 
     /**
      * This method tests the logic of insertCaseCGJunRecords method for Overdue CG and Case.
      **/
-    @isTest
-    public static void testCreateCaseCGJunctionsOverdue(){
+    @IsTest
+    public static void testCreateCaseCGJunctionsOverdue() {
         Contact gt = [SELECT Id FROM Contact];
         Charge_Group__c chargeGroup = [SELECT Id FROM Charge_Group__c];
 
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
-        UPDATE chargeGroup;
+        update chargeGroup;
 
         Test.startTest();
         Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_OVERDUE, gt.Id);
-        INSERT objCase;
+        insert objCase;
         Test.stopTest();
 
         // Check system asserts.
@@ -50,29 +50,29 @@ public with sharing class CaseServiceTest{
      * This method tests the logic of createCaseCGJunctions for Delinquent & PaymentPlan CG and Cases
      * for the same guarantor.
      **/
-    @isTest
-    public static void testCreateCaseCGJunctionsDelinquentAndPaymentPlan(){
+    @IsTest
+    public static void testCreateCaseCGJunctionsDelinquentAndPaymentPlan() {
         Contact gt = [SELECT Id FROM Contact];
 
         Charge_Group__c chargeGroup = [SELECT Id FROM Charge_Group__c];
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
-        UPDATE chargeGroup;
+        update chargeGroup;
 
         Charge_Group__c ppChargeGroup = TestUtility.generateChargeGroup(gt.Id, null, 1215);
         ppChargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
-        INSERT ppChargeGroup;
+        insert ppChargeGroup;
 
         //This chargegroup shouldn't be picked up
         Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(gt.Id, null, 1216);
         chargeGroup1.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
-        INSERT chargeGroup1;
+        insert chargeGroup1;
 
         Test.startTest();
         Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, gt.Id);
-        INSERT objCase;
+        insert objCase;
 
         Case pcObjCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_PRECOLLECTIONS, gt.Id);
-        INSERT pcObjCase;
+        insert pcObjCase;
         Test.stopTest();
 
         // Check system asserts.
@@ -84,28 +84,28 @@ public with sharing class CaseServiceTest{
             Charge_Group__c cg = [SELECT Id, Active__c, Account_Sub_Status__c FROM Charge_Group__c WHERE Id = :junction.Charge_Group__c];
 
             System.assertEquals(Constants.CASE_CG_SUBSTATUS.get(jCase.Type), cg.Account_Sub_Status__c,
-                    'Expected substatus of ' + Constants.CASE_CG_SUBSTATUS.get(jCase.Type) + ' but got ' + cg.Account_Sub_Status__c);
+                'Expected substatus of ' + Constants.CASE_CG_SUBSTATUS.get(jCase.Type) + ' but got ' + cg.Account_Sub_Status__c);
         }
     }
 
     /**
      * This method tests the logic of insertCaseCGJunRecords method for multiple CG and Case.
      **/
-    @isTest
-    public static void testCreateCaseCGJunctionMultipleCG(){
+    @IsTest
+    public static void testCreateCaseCGJunctionMultipleCG() {
         Contact gt = [SELECT Id FROM Contact];
         Charge_Group__c chargeGroup = [SELECT Id FROM Charge_Group__c];
 
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
-        UPDATE chargeGroup;
+        update chargeGroup;
 
         Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(gt.Id, null, 1214);
         chargeGroup1.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
-        INSERT chargeGroup1;
+        insert chargeGroup1;
 
         Test.startTest();
         Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_OVERDUE, gt.Id);
-        INSERT objCase;
+        insert objCase;
         Test.stopTest();
 
         // Check system asserts.
@@ -116,24 +116,24 @@ public with sharing class CaseServiceTest{
     /**
      * This method tests the logic of insertCaseCGJunRecords method with different contact.
      **/
-    @isTest
-    public static void testCreateCaseCGJunctionsDifferentContacts(){
+    @IsTest
+    public static void testCreateCaseCGJunctionsDifferentContacts() {
         Contact gt = [SELECT Id FROM Contact];
         Charge_Group__c chargeGroup = [SELECT Id FROM Charge_Group__c];
 
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
-        UPDATE chargeGroup;
+        update chargeGroup;
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1214);
         chargeGroup1.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
-        INSERT chargeGroup1;
+        insert chargeGroup1;
 
         Test.startTest();
         Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_OVERDUE, gt.Id);
-        INSERT objCase;
+        insert objCase;
         Test.stopTest();
 
         // Check system asserts.
@@ -144,17 +144,17 @@ public with sharing class CaseServiceTest{
     /**
      * This method tests the logic of insertCaseCGJunRecords method negative.
      **/
-    @isTest
-    public static void testCreateCaseCGJunctionsNegativeTest(){
+    @IsTest
+    public static void testCreateCaseCGJunctionsNegativeTest() {
         Contact gt = [SELECT Id FROM Contact];
         Charge_Group__c chargeGroup = [SELECT Id FROM Charge_Group__c];
 
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_BAD_DEBT;
-        UPDATE chargeGroup;
+        update chargeGroup;
 
         Test.startTest();
         Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_OVERDUE, gt.Id);
-        INSERT objCase;
+        insert objCase;
         Test.stopTest();
 
         // Check system asserts.

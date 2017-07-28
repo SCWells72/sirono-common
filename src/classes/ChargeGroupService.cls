@@ -25,7 +25,7 @@ public class ChargeGroupService extends AbstractService {
          */
         private HttpResponse getChargeGroup(String chargeGroupId) {
             return getRequestor()
-                .url(RestClientConstants.CHARGEGROUP_KEY, new String[] {chargeGroupId})
+                .url(RestClientConstants.CHARGEGROUP_KEY, new String[] { chargeGroupId })
                 .call();
         }
     }
@@ -63,7 +63,7 @@ public class ChargeGroupService extends AbstractService {
     public static Map<Decimal, ChargeGroupJSONParser> retrieveMapByIds(List<Decimal> sironoChargeGroupIds) {
         Map<Decimal, ChargeGroupJSONParser> idMap = new Map<Decimal, ChargeGroupJSONParser>();
 
-        for (Decimal cgId: sironoChargeGroupIds) {
+        for (Decimal cgId : sironoChargeGroupIds) {
             ChargeGroupJSONParser parsing = retrieveBySironoId(String.valueOf(cgId));
             idMap.put(cgId, parsing);
         }
@@ -192,7 +192,7 @@ public class ChargeGroupService extends AbstractService {
      */
     public static List<Decimal> getSironoIds(List<Charge_Group__c> cgs) {
         List<Decimal> ids = new List<Decimal>();
-        for (Charge_Group__c cg: cgs) {
+        for (Charge_Group__c cg : cgs) {
             ids.add(cg.Sirono_ID__c);
         }
 

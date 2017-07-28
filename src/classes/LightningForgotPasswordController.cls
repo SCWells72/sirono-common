@@ -13,13 +13,12 @@ global class LightningForgotPasswordController {
         try {
             Site.forgotPassword(username);
             ApexPages.PageReference checkEmailRef = new PageReference(checkEmailUrl);
-            if(!Site.isValidUsername(username)) {
+            if (!Site.isValidUsername(username)) {
                 return Label.Site.invalid_email;
             }
-            aura.redirect(checkEmailRef);
+            Aura.redirect(checkEmailRef);
             return null;
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             return ex.getMessage();
         }
     }

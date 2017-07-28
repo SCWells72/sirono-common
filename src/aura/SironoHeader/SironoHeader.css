@@ -4,31 +4,31 @@
 
 /* custom styles */
 
-.THIS.wrapper .header-wrapper{
-	height: auto !important;
+.THIS.wrapper .header-wrapper {
+    height: auto !important;
 }
 
-.THIS.wrapper .header-wrapper.small{
-	height: 88px;
+.THIS.wrapper .header-wrapper.small {
+    height: 88px;
 }
 
-.THIS.wrapper .header-wrapper.small.alert{
-	height: 88px;
+.THIS.wrapper .header-wrapper.small.alert {
+    height: 88px;
 }
 
 /*.THIS.wrapper .header-wrapper.alert {
     height: 432px;
 }*/
 
-.THIS .header-main.small .no-small{
+.THIS .header-main.small .no-small {
     display: none;
 }
 
-.THIS .header-main.small .fullSuccess{
+.THIS .header-main.small .fullSuccess {
     height: 75px;
 }
 
-.THIS .header-main.small .no-balance{
+.THIS .header-main.small .no-balance {
     width: 70%;
 }
 
@@ -41,24 +41,24 @@
     min-width: 14%;
 }
 
-.THIS .header-main .fullSuccess-container{
+.THIS .header-main .fullSuccess-container {
     margin-bottom: 1rem;
 }
 
-.THIS .header-main.small .fullSuccess-container{
+.THIS .header-main.small .fullSuccess-container {
     margin-bottom: 0rem;
 }
 
-.THIS button .slds-button__icon.slds-button__icon--large{
+.THIS button .slds-button__icon.slds-button__icon--large {
     width: 1.5rem;
     height: 1.5rem;
 }
 
-.THIS .inline-block{
+.THIS .inline-block {
     display: inline-block;
 }
 
-.THIS .status .slds-popup{
+.THIS .status .slds-popup {
     position: absolute;
     top: 45px;
     right: -278px;
@@ -89,8 +89,8 @@
     padding-bottom: 1rem;
 }
 
-.THIS .header-main .arrow-toggle.backIcon{
-    padding-top:0;
+.THIS .header-main .arrow-toggle.backIcon {
+    padding-top: 0;
     position: relative;
     top: 20px;
 }
@@ -100,19 +100,22 @@
     align-items: center;
 }
 
-.THIS .header-main .arrow-toggle:nth-child(2){
+.THIS .header-main .arrow-toggle:nth-child(2) {
     padding-top: 0;
 }
+
 .THIS .arrowDisplay {
-    display:none !important;
+    display: none !important;
 }
+
 .THIS .col.issue.no-big.section_header_Payment {
-    width:27%;
-    padding:1rem;
+    width: 27%;
+    padding: 1rem;
 }
+
 .THIS .col.issue.no-big.section_header_Amount {
-    width:25%;
-    padding:1rem;
+    width: 25%;
+    padding: 1rem;
 }
 
 .THIS .value span.uiOutputDate {
@@ -128,13 +131,16 @@
     width: 50%;
     max-width: 320px;
 }
+
 .THIS .col.payment-right {
-    margin-right:20px;
+    margin-right: 20px;
 }
+
 .THIS .small-popover .status {
-    padding:10px 4px;
+    padding: 10px 4px;
     text-align: center;
 }
+
 .THIS .status .slds-icon {
-   margin: 0 0 0 2px;
+    margin: 0 0 0 2px;
 }

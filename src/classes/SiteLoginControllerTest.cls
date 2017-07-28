@@ -7,7 +7,7 @@
  */
 @IsTest global with sharing class SiteLoginControllerTest {
 
-    @IsTest(SeeAllData=true) 
+    @IsTest(SeeAllData=true)
     global static void testSiteLoginController() {
         SiteLoginController controller = new SiteLoginController();    //Delete this line when the below code is uncommented.
         controller.username = 'test';

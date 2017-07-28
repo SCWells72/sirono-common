@@ -13,7 +13,7 @@ public with sharing class NamedCredentialSecurityContext extends SecurityContext
     private static final String ID = 'Id';
 
     // The fields for selecting a NamedCredential in SironoRestClient
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         DEVELOPERNAME, ENDPOINT, ID
     };
 

@@ -8,24 +8,24 @@
  * User can only make payment for one Encounter at a time.
  * Only display those Encounters whose balance is greater than zero.
  * Based on selected Encounter, Create a Payment Record.
- **/ 
+ **/
 public with sharing class PayEstimateLightningController {
     // Page Level Variables.
-    public String address {get; set;}
-    public String amount {get; set;}
-    public String cardHolderName {get; set;}
-    public String city {get; set;}
-    public String creditCardNumber {get; set;}
-    public String cvv {get; set;}
-    public List<EncounterWrapper> encounters {get; set;}
-    public String expirationMonth {get; set;}
-    public String expirationYear {get; set;}
-    public Contact guarantorContact {get; set;}
-    public String guarantorRecordId {get; set;}
-    public Encounter__c selectedEncounter {get; set;}
-    public String state {get; set;}
-    public String zip {get; set;}
-    public List<String> errorMessages{get;set;}
+    public String address { get; set; }
+    public String amount { get; set; }
+    public String cardHolderName { get; set; }
+    public String city { get; set; }
+    public String creditCardNumber { get; set; }
+    public String cvv { get; set; }
+    public List<EncounterWrapper> encounters { get; set; }
+    public String expirationMonth { get; set; }
+    public String expirationYear { get; set; }
+    public Contact guarantorContact { get; set; }
+    public String guarantorRecordId { get; set; }
+    public Encounter__c selectedEncounter { get; set; }
+    public String state { get; set; }
+    public String zip { get; set; }
+    public List<String> errorMessages { get; set; }
     public String message;
 
     /**
@@ -54,7 +54,7 @@ public with sharing class PayEstimateLightningController {
         if (encounters != null && encounters.size() == 1) {
             encounters.get(0).isSelected = true;
         } else {
-            System.debug('WARNING: Found more then a single encounter with id: '+encounterRecordId+' in PayEstimateLightningController. Size: ' + encounters.size());
+            System.debug('WARNING: Found more then a single encounter with id: ' + encounterRecordId + ' in PayEstimateLightningController. Size: ' + encounters.size());
         }
     }
 
@@ -110,7 +110,7 @@ public with sharing class PayEstimateLightningController {
         Boolean encounterSelected = false;
         Integer count = 0;
         if (encounters != null && encounters.size() > 0) {
-            for (EncounterWrapper enw: encounters) {
+            for (EncounterWrapper enw : encounters) {
                 if (enw.isSelected) {
                     count++;
                     selectedEncounter = enw.en;
@@ -131,7 +131,7 @@ public with sharing class PayEstimateLightningController {
     private Boolean isValidCard() {
         // Call creditCardValidation method that validate all informations/values for Credit Card.
         errorMessages.addAll(VisualForceValidations.creditCardValidation(creditCardNumber, expirationYear, expirationMonth,
-                zip, cardHolderName, cvv, address));
+            zip, cardHolderName, cvv, address));
 
         if (errorMessages.size() > 0) {
             message = String.join(errorMessages, '');

@@ -27,7 +27,7 @@ public with sharing class PaymentPlanService extends AbstractService {
         @TestVisible
         private HttpResponse retrievePaymentPlan(String sironoPlanId) {
             return getRequestor()
-                .url(RestClientConstants.PAYMENT_PLAN_KEY, new String[] {sironoPlanId})
+                .url(RestClientConstants.PAYMENT_PLAN_KEY, new String[] { sironoPlanId })
                 .call();
         }
 
@@ -42,9 +42,9 @@ public with sharing class PaymentPlanService extends AbstractService {
         private HttpResponse addToPlan(String planId, List<String> chargeGroupIds) {
 
             return postRequestor()
-                    .url(RestClientConstants.ADD_CHARGEGROUP_KEY, new String[] {stripCommas(planId)})
-                    .body(buildAddToPaymentPlanBody(chargeGroupIds))
-                    .call();
+                .url(RestClientConstants.ADD_CHARGEGROUP_KEY, new String[] { stripCommas(planId) })
+                .body(buildAddToPaymentPlanBody(chargeGroupIds))
+                .call();
 
         }
 
@@ -58,9 +58,9 @@ public with sharing class PaymentPlanService extends AbstractService {
         private HttpResponse createPaymentPlan(PaymentPlanInformation ppInfo) {
 
             return postRequestor()
-                    .url(RestClientConstants.ADD_PAYMENTPLAN_KEY, new String[] {})
-                    .body(buildCreatePaymentPlanBody(ppInfo))
-                    .call();
+                .url(RestClientConstants.ADD_PAYMENTPLAN_KEY, new String[] {})
+                .body(buildCreatePaymentPlanBody(ppInfo))
+                .call();
         }
 
 
@@ -74,7 +74,7 @@ public with sharing class PaymentPlanService extends AbstractService {
         private HttpResponse updatePaymentPlanTerms(String sironoPaymentPlanId, PaymentPlanInformation ppInfo) {
 
             return patchRequestor()
-                .url(RestClientConstants.PAYMENT_PLAN_KEY, new String[] {sironoPaymentPlanId})
+                .url(RestClientConstants.PAYMENT_PLAN_KEY, new String[] { sironoPaymentPlanId })
                 .body(buildUpdatePaymentPlanTermsBody(ppInfo))
                 .call();
         }
@@ -103,7 +103,7 @@ public with sharing class PaymentPlanService extends AbstractService {
         private HttpResponse deletePaymentPlan(String sironoPaymentPlanId) {
 
             return deleteRequestor()
-                .url(RestClientConstants.PAYMENT_PLAN_KEY, new String[] {sironoPaymentPlanId})
+                .url(RestClientConstants.PAYMENT_PLAN_KEY, new String[] { sironoPaymentPlanId })
                 .call();
         }
 
@@ -117,8 +117,8 @@ public with sharing class PaymentPlanService extends AbstractService {
         private HttpResponse getPlan(String planId) {
 
             return getRequestor()
-                    .url(RestClientConstants.PAYMENT_PLAN_KEY, new String[]{stripCommas(planId)})
-                    .call();
+                .url(RestClientConstants.PAYMENT_PLAN_KEY, new String[] { stripCommas(planId) })
+                .call();
 
         }
 
@@ -135,9 +135,9 @@ public with sharing class PaymentPlanService extends AbstractService {
                 cgUrls.add(asChargeGroupURL(chargeGroupId));
             }
 
-            Map<String, Object> rawData = new Map<String,Object>{
-                    RestClientConstants.CHARGE_GROUPS => cgUrls,
-                    RestClientConstants.CSRF_JSON_KEY => getCsrf()
+            Map<String, Object> rawData = new Map<String, Object> {
+                RestClientConstants.CHARGE_GROUPS => cgUrls,
+                RestClientConstants.CSRF_JSON_KEY => getCsrf()
             };
 
             String body = JSON.serializePretty(rawData);
@@ -165,11 +165,11 @@ public with sharing class PaymentPlanService extends AbstractService {
          */
         private Map<String, Object> buildPaymentPlanMap(PaymentPlanInformation ppInfo) {
             List<String> cgUrls = new List<String>();
-            for (String chargeGroupId: ppInfo.chargeGroupIds) {
+            for (String chargeGroupId : ppInfo.chargeGroupIds) {
                 cgUrls.add(asChargeGroupURL(chargeGroupId));
             }
 
-            Map<String, Object> rawData = new Map<String,Object>{
+            Map<String, Object> rawData = new Map<String, Object> {
                 RestClientConstants.CSRF_JSON_KEY => getCsrf(),
                 'plan_type' => ppInfo.planType,
                 'plan_value' => ppInfo.planValue,
@@ -206,9 +206,9 @@ public with sharing class PaymentPlanService extends AbstractService {
          **/
         @TestVisible
         private String buildUpdatePaymentPlanTermsBody(PaymentPlanInformation ppInfo) {
-            Map<String, Object> rawData = new Map<String,Object> {
+            Map<String, Object> rawData = new Map<String, Object> {
                 'plan_type' => ppInfo.planType,
-                 RestClientConstants.CSRF_JSON_KEY => getCsrf(),
+                RestClientConstants.CSRF_JSON_KEY => getCsrf(),
                 'active' => 'true',
                 'installment_amount' => convertToCents(ppInfo.amount)
             };
@@ -259,8 +259,8 @@ public with sharing class PaymentPlanService extends AbstractService {
     }
 
     private class PaymentPlanWrapper {
-        public List<Charge_Group__c> chargeGroupRecords {get; set;}
-        public Payment_Plan__c paymentPlanRecord {get;set;}
+        public List<Charge_Group__c> chargeGroupRecords { get; set; }
+        public Payment_Plan__c paymentPlanRecord { get; set; }
 
         public PaymentPlanWrapper() {
             chargeGroupRecords = new List<Charge_Group__c>();
@@ -292,7 +292,7 @@ public with sharing class PaymentPlanService extends AbstractService {
                 for (String str : objJson.chargegroups) {
                     String strChargeGroupId = parseSironoId(str, 'chargegroups');
                     if (strChargeGroupId.isNumeric()) {
-                        chargeGroupIdSet.add(Decimal.valueOf(strChargeGroupID));
+                        chargeGroupIdSet.add(Decimal.valueOf(strChargeGroupId));
                     }
                 }
             }
@@ -302,7 +302,7 @@ public with sharing class PaymentPlanService extends AbstractService {
             if (!chargeGroupIdSet.isEmpty()) {
                 List<Charge_Group__c> chargeGroup = ChargeGroupService.getBySironoIds(new List<Decimal>(chargeGroupIdSet));
                 for (Charge_Group__c objCG : chargeGroup) {
-                    objCG.Payment_Plan__c = paymentPlanObj.ID;
+                    objCG.Payment_Plan__c = paymentPlanObj.Id;
                 }
                 objPaymentPlanWrapper.chargeGroupRecords = chargeGroup;
             }
@@ -377,13 +377,13 @@ public with sharing class PaymentPlanService extends AbstractService {
      * @param - String planId  The Sirono id of the plan.
      * @param -  List<String> chargegroupIds  The Sirono ids of the chargeGroups to add.
      */
-    public static void addChargeGroups(String planId,  List<String> chargegroupIds) {
+    public static void addChargeGroups(String planId, List<String> chargegroupIds) {
 
         validatePlanId(planId);
         validateChargeGroupIds(chargegroupIds);
 
         PaymentPlanRestClient client = new PaymentPlanRestClient();
-        client.addToPlan(planId, chargeGroupIds);
+        client.addToPlan(planId, chargegroupIds);
 
         client = new PaymentPlanRestClient();
         HttpResponse response = client.getPlan(planId);
@@ -455,7 +455,7 @@ public with sharing class PaymentPlanService extends AbstractService {
         if (persistPaymentMethod) {
             PaymentMethodDao.insertPaymentMethod(payMethod);
             payPlan.Payment_Method__c = payMethod.Id;
-            PaymentPlanDao.upsertPlans(new List<Payment_Plan__c>{payPlan});
+            PaymentPlanDao.upsertPlans(new List<Payment_Plan__c> { payPlan });
         }
 
         return payPlan;
@@ -507,11 +507,11 @@ public with sharing class PaymentPlanService extends AbstractService {
         Map<Decimal, ChargeGroupJSONParser> cgWrappers = ChargeGroupService.retrieveMapByIds(cgSironoIds);
 
         // Now update all SF cg records with the data from the Sirono server.
-        for (Charge_Group__c cg: cgs) {
+        for (Charge_Group__c cg : cgs) {
             if (cgWrappers.containsKey(cg.Sirono_ID__c)) {
                 ChargeGroupJSONParser parsing = cgWrappers.get(cg.Sirono_ID__c);
                 cg.Account_Sub_Status__c = parsing.account_sub_status;
-                cg.Account_Status__c= parsing.account_status;
+                cg.Account_Status__c = parsing.account_status;
                 cg.Payment_Plan__c = null;
             } else {
                 System.debug('Did not find charge group to update on plan delete for sironoId: ' + cg.Sirono_ID__c);
@@ -530,9 +530,9 @@ public with sharing class PaymentPlanService extends AbstractService {
      * @param - String sironoId  The sironoId of the plan.
      * @return - Payment_Plan__c The active plan.
      **/
-	public static Payment_Plan__c getPaymentPlanBySironoId(String sironoId){
-		return PaymentPlanDao.getPaymentPlanBySironoId(sironoId);
-	}
+    public static Payment_Plan__c getPaymentPlanBySironoId(String sironoId) {
+        return PaymentPlanDao.getPaymentPlanBySironoId(sironoId);
+    }
 
     /**
      * Return the payment plan for the given sironoId, null if there is none
@@ -540,14 +540,14 @@ public with sharing class PaymentPlanService extends AbstractService {
      * @param - Decimal sironoId  The sironoId of the plan.
      * @return - Payment_Plan__c The active plan.
      **/
-	public static Payment_Plan__c getPaymentPlanBySironoId(Decimal sironoId){
-		return PaymentPlanDao.getPaymentPlanBySironoId(sironoId);
-	}
+    public static Payment_Plan__c getPaymentPlanBySironoId(Decimal sironoId) {
+        return PaymentPlanDao.getPaymentPlanBySironoId(sironoId);
+    }
 
     private static void validatePlanId(String planId) {
         Payment_Plan__c pp = PaymentPlanDao.getPaymentPlanBySironoId(planId);
         if (pp == null) {
-            throw new SironoServiceException('Unknown Payment Plan: '+planId);
+            throw new SironoServiceException('Unknown Payment Plan: ' + planId);
         }
         //TODO check that the plan is active?
     }
@@ -567,7 +567,7 @@ public with sharing class PaymentPlanService extends AbstractService {
             }
         }
         if (!unknownIds.isEmpty()) {
-            throw new SironoServiceException('Unknown chargegroup requested: '+String.join(new List<String>(unknownIds), ', '));
+            throw new SironoServiceException('Unknown chargegroup requested: ' + String.join(new List<String>(unknownIds), ', '));
         }
     }
 
@@ -618,7 +618,7 @@ public with sharing class PaymentPlanService extends AbstractService {
     private static Payment_Plan__c upsertPaymentPlan(PaymentPlanWrapper wrapper) {
         Payment_Plan__c pmtPlan = wrapper.paymentPlanRecord;
         pmtPlan.Plan_Value_Modified_Date__c = Datetime.now();
-        PaymentPlanDao.upsertPlans(new Payment_Plan__c[]{pmtPlan});
+        PaymentPlanDao.upsertPlans(new Payment_Plan__c[] { pmtPlan });
 
         return pmtPlan;
     }
@@ -700,7 +700,7 @@ public with sharing class PaymentPlanService extends AbstractService {
                 PaymentMethodDao.insertPaymentMethod(payMethod);
             }
             payPlan.Payment_Method__c = payMethod.Id;
-            PaymentPlanDao.upsertPlans(new List<Payment_Plan__c>{payPlan});
+            PaymentPlanDao.upsertPlans(new List<Payment_Plan__c> { payPlan });
         }
 
         return payPlan;

@@ -2,7 +2,7 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@RestResource(urlMapping='/SummaryWidget/*')
+@RestResource(UrlMapping='/SummaryWidget/*')
 global with sharing class HiMSS_SummaryWidgetRESTService {
     @HttpGet
     global static void getGuarantor() {
@@ -44,13 +44,13 @@ global with sharing class HiMSS_SummaryWidgetRESTService {
         Map<Id, User> usrMap = new Map<Id, User>([
             SELECT Id,
                 ContactId,
-                UserName,
+                Username,
                 Community_Password__c,
                 Is_Demo_Active__c,
                 Contact.Invoiced_Balance__c
             FROM User
             WHERE Name = 'Charles Green' AND
-            Is_Demo_Locked__c = false
+            Is_Demo_Locked__c = FALSE
             // Id='00511000004rIxJAAU'//AB 2/14 Setting default user
             ORDER BY CreatedDate ASC
         ]);
@@ -61,7 +61,7 @@ global with sharing class HiMSS_SummaryWidgetRESTService {
 
         User usr = getUntouchedUser(usrMap, getNewUser);
         // for (User usr : usrList) {
-        guarantorUserMap.put(usr.ContactId, new Guarantor.GuarantorUser(usr.UserName, usr.Community_Password__c, usr.ContactId));
+        guarantorUserMap.put(usr.ContactId, new Guarantor.GuarantorUser(usr.Username, usr.Community_Password__c, usr.ContactId));
         // }
 
         return guarantorUserMap;
@@ -83,7 +83,7 @@ global with sharing class HiMSS_SummaryWidgetRESTService {
                 SELECT Id, Guarantor__c, LastModifiedDate
                 FROM Payment_Plan__c
                 WHERE Guarantor__c IN :contactUserIds.keySet() AND
-                Active__c = true
+                Active__c = TRUE
                 ORDER BY LastModifiedDate DESC
             ];
             for (Payment_Plan__c paymentPlan : paymentPlanList) {
@@ -138,7 +138,7 @@ global with sharing class HiMSS_SummaryWidgetRESTService {
             }
         }
         if (activeUser != null) {
-            Integer paymentPlanCount = [SELECT COUNT() FROM Payment_Plan__c WHERE Guarantor__c = :activeUser.ContactId AND Active__c = true];
+            Integer paymentPlanCount = [SELECT COUNT() FROM Payment_Plan__c WHERE Guarantor__c = :activeUser.ContactId AND Active__c = TRUE];
             if (activeUser.Contact.Invoiced_Balance__c == 0 || (paymentPlanCount >= 1 && getNewUser == 'true')) {
                 activeUser.Is_Demo_Active__c = false;
                 update activeUser;

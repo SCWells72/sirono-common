@@ -8,7 +8,7 @@
 @IsTest
 private class SironoRestClientTest {
 
-    @isTest
+    @IsTest
     static void verifyGetUrls() {
         Test.startTest();
         Map<String, String> urls = new SironoRestClient.AuthRestClient().getUrls();
@@ -16,7 +16,7 @@ private class SironoRestClientTest {
         System.assertEquals(RestClientConstants.AUTH_URLS, urls, 'Should be configured with auth urls.');
     }
 
-    @isTest
+    @IsTest
     static void getJwtTokenSuccess() {
         String actualToken;
         Test.setMock(HttpCalloutMock.class, new AuthRestClientMock());
@@ -30,7 +30,7 @@ private class SironoRestClientTest {
         System.assertEquals(RestClientMockUtil.TOKEN, actualToken, 'Should get valid token.');
     }
 
-    @isTest
+    @IsTest
     static void getJwtTokenFailure() {
         String actualToken;
         Test.setMock(HttpCalloutMock.class, new RestClientFailMock(TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.UNAUTHORIZED)));
@@ -45,7 +45,7 @@ private class SironoRestClientTest {
             System.assertNotEquals(null, e, 'Should have an exception');
             System.assertEquals(1, e.errors.size(), 'Should have a single error message');
             System.assertEquals('Permission Denied Exception: Incorrect authentication credentials.', e.errors.get(0),
-                    'Should have proper message.');
+                'Should have proper message.');
             System.assertEquals(RestClientConstants.HTTP_BAD_REQUEST, AuthRestClient.getStatusCode(), 'Should have bad request status code.');
         } catch (Exception ex) {
             System.assert(false, 'Should have been a SironoServiceException.');
@@ -53,7 +53,7 @@ private class SironoRestClientTest {
 
     }
 
-    @isTest
+    @IsTest
     static void getCsrfSuccess() {
         String actualCsrf;
         Test.setMock(HttpCalloutMock.class, new AuthRestClientMock());
@@ -67,7 +67,7 @@ private class SironoRestClientTest {
         System.assertEquals(RestClientMockUtil.CSRF, actualCsrf, 'Should get valid csrf value.');
     }
 
-    @isTest
+    @IsTest
     static void getCsrfFailure() {
         String actualCsrf;
         Test.setMock(HttpCalloutMock.class, new RestClientFailMock(TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.UNAUTHORIZED)));
@@ -82,7 +82,7 @@ private class SironoRestClientTest {
             System.assertNotEquals(null, e, 'Should have an exception');
             System.assertEquals(1, e.errors.size(), 'Should have a single error message');
             System.assertEquals('Permission Denied Exception: Incorrect authentication credentials.', e.errors.get(0),
-                    'Should have proper message.');
+                'Should have proper message.');
             System.assertEquals(RestClientConstants.HTTP_BAD_REQUEST, AuthRestClient.getStatusCode(), 'Should have bad request status code.');
         } catch (Exception ex) {
             System.assert(false, 'Should have been a SironoServiceException.');
@@ -90,7 +90,7 @@ private class SironoRestClientTest {
 
     }
 
-    @isTest
+    @IsTest
     static void processFailedResponseWrapperError() {
         String expected = 'Payments Exception: Nonfield Error - Amount exceeds selected charge groups';
         SironoRestClient.AuthRestClient AuthRestClient;
@@ -105,7 +105,7 @@ private class SironoRestClientTest {
         System.assertEquals(expected, errors.get(0), 'Should have found PAYMENT_NON_FIELDS error message.');
     }
 
-    @isTest
+    @IsTest
     static void processFailedResponseWrapperErrorArray() {
         String expected = 'Validation exception: Nonfield Error - Cannot directly change ChargeGroups on an existing plan';
         SironoRestClient.AuthRestClient AuthRestClient;
@@ -120,7 +120,7 @@ private class SironoRestClientTest {
         System.assertEquals(expected, errors.get(0), 'Should have found VALIDATION_EXISTING_PLAN error message.');
     }
 
-    @isTest
+    @IsTest
     static void processFailedResponseWrapperListError() {
         String expected = 'Payments Exception: Credit card number is invalid.';
         String merchantExpected = 'Payments Exception: Merchant account does not support payment instrument.';
@@ -137,7 +137,7 @@ private class SironoRestClientTest {
         System.assertEquals(merchantExpected, errors.get(1), 'Should have found PAYMENT_LIST error message.');
     }
 
-    @isTest
+    @IsTest
     static void processFailedResponseWrapperNonFieldErrorArray() {
         String expected = 'Nonfield Error: Cannot directly change ChargeGroups on an existing plan';
         SironoRestClient.AuthRestClient AuthRestClient;
@@ -152,7 +152,7 @@ private class SironoRestClientTest {
         System.assertEquals(expected, errors.get(0), 'Should have found NO_KIND error message.');
     }
 
-    @isTest
+    @IsTest
     static void processFailedResponseJsonException() {
         String expected = 'Unknown JSON format for failed response. [body: ["dummy": "JSON"]]';
         SironoRestClient.AuthRestClient AuthRestClient;
@@ -175,7 +175,7 @@ private class SironoRestClientTest {
     /**
      * Test the Dollar to Cents Conversion
      **/
-    @isTest
+    @IsTest
     public static void testConvertDollarToCents() {
         String inputDollars = '100.00';
         Test.startTest();
@@ -189,7 +189,7 @@ private class SironoRestClientTest {
     /**
      * Test converting dollars as a Decimal.
      **/
-    @isTest
+    @IsTest
     public static void testConvertDecDollarToCents() {
         Decimal inputDollars = 100.00;
         Test.startTest();
@@ -205,7 +205,7 @@ private class SironoRestClientTest {
         public String tag_date;
     }
 
-    @isTest
+    @IsTest
     public static void testEnsureJSONList() {
         String json = '{"Tag": "something", "tag_date": "2016-10-07"}';
 

@@ -17,10 +17,10 @@ public with sharing class ChargeGroupDao extends AbstractDao {
     public static List<Charge_Group__c> getBySironoIds(List<Decimal> sironoIds) {
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
-                    SELECT Id, Sirono_ID__c, Account_Sub_Status__c,
-                        Payment_Plan__c, Payment_Plan__r.Sirono_ID__c, Payment_Plan__r.Guarantor__c
-                    FROM Charge_Group__c
-                    WHERE Sirono_ID__c IN :sironoIds
+                SELECT Id, Sirono_ID__c, Account_Sub_Status__c,
+                    Payment_Plan__c, Payment_Plan__r.Sirono_ID__c, Payment_Plan__r.Guarantor__c
+                FROM Charge_Group__c
+                WHERE Sirono_ID__c IN :sironoIds
             ];
         }
 
@@ -36,11 +36,11 @@ public with sharing class ChargeGroupDao extends AbstractDao {
     public static List<AggregateResult> getBilledCGCountByEncounterIds(Set<Id> encounterIds) {
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
-                    SELECT Encounter__r.Id encounterId, COUNT(Encounter__c) Total
-                    FROM Charge_Group__c
-                    WHERE Account_Status__c = :Constants.ACCT_STATUS_BILLED
-                    AND Encounter__c IN :encounterIds
-                    GROUP BY Encounter__r.Id
+                SELECT Encounter__r.Id encounterId, COUNT(Encounter__c) Total
+                FROM Charge_Group__c
+                WHERE Account_Status__c = :Constants.ACCT_STATUS_BILLED
+                AND Encounter__c IN :encounterIds
+                GROUP BY Encounter__r.Id
             ];
         }
 
@@ -56,10 +56,10 @@ public with sharing class ChargeGroupDao extends AbstractDao {
     public static Charge_Group__c getCGOrderByCreatedDate(Set<Id> chargeGroupIds) {
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             List<Charge_Group__c> chargeGroups = [
-                        SELECT Id, Guarantor__c, Patient__c
-                        FROM Charge_Group__c
-                        WHERE Id IN :chargeGroupIds
-                        ORDER BY CreatedDate DESC
+                SELECT Id, Guarantor__c, Patient__c
+                FROM Charge_Group__c
+                WHERE Id IN :chargeGroupIds
+                ORDER BY CreatedDate DESC
             ];
             if (chargeGroups.size() > 0) {
                 return chargeGroups.get(0);
@@ -77,10 +77,10 @@ public with sharing class ChargeGroupDao extends AbstractDao {
     public static List<Charge_Group__c> getCGOrderByServiceDate(Set<Id> chargeGroupIds) {
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
-                    SELECT Id
-                    FROM Charge_Group__c
-                    WHERE Id IN :chargeGroupIds
-                    ORDER BY Date_Of_Service_Start_Date__c
+                SELECT Id
+                FROM Charge_Group__c
+                WHERE Id IN :chargeGroupIds
+                ORDER BY Date_Of_Service_Start_Date__c
             ];
         }
         return null;
@@ -94,13 +94,16 @@ public with sharing class ChargeGroupDao extends AbstractDao {
      **/
     public static List<String> getCGIdsFromCaseCGJun(Id caseId) {
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed() &&
-                CaseCGJunctionSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            CaseCGJunctionSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             List<String> chargeGroupIds = new List<String>();
-            for (Charge_Group__c cg: [SELECT Id, Sirono_ID__c
-                            FROM Charge_Group__c
-                            WHERE Id IN (SELECT Charge_Group__c
-                                FROM Case_Charge_Group_Junction__c
-                                WHERE Case__c = :caseId)
+            for (Charge_Group__c cg : [
+                SELECT Id, Sirono_ID__c
+                FROM Charge_Group__c
+                WHERE Id IN (
+                    SELECT Charge_Group__c
+                    FROM Case_Charge_Group_Junction__c
+                    WHERE Case__c = :caseId
+                )
             ]) {
                 if (cg != null) {
                     chargeGroupIds.add(cg.Sirono_ID__c + '');
@@ -120,10 +123,10 @@ public with sharing class ChargeGroupDao extends AbstractDao {
     public static List<Charge_Group__c> getCGBasedOnGuarantor(Set<Id> guarantorIds) {
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
-                    SELECT Id, Guarantor__c, Account_Sub_Status__c
-                    FROM Charge_Group__c
-                    WHERE Account_Status__c = :Constants.ACCT_STATUS_BILLED
-                    AND Guarantor__c = :guarantorIds
+                SELECT Id, Guarantor__c, Account_Sub_Status__c
+                FROM Charge_Group__c
+                WHERE Account_Status__c = :Constants.ACCT_STATUS_BILLED
+                AND Guarantor__c = :guarantorIds
             ];
         }
         return null;
@@ -138,10 +141,10 @@ public with sharing class ChargeGroupDao extends AbstractDao {
     public static List<Charge_Group__c> getCGBasedOnEncounter(Set<Id> encounterIds) {
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
-                    SELECT Id, Encounter__c
-                    FROM Charge_Group__c
-                    WHERE Encounter__c IN :encounterIds
-                    AND Encounter__c != null
+                SELECT Id, Encounter__c
+                FROM Charge_Group__c
+                WHERE Encounter__c IN :encounterIds
+                AND Encounter__c != NULL
             ];
         }
         return null;
@@ -175,11 +178,11 @@ public with sharing class ChargeGroupDao extends AbstractDao {
     public static List<Charge_Group__c> getPayableByInvoiceId(Set<String> invoiceIds) {
         if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
             return [
-                    SELECT Id, Invoice__c, Balance__c, Active__c, Sirono_ID__c
-                    FROM Charge_Group__c
-                    WHERE Invoice__c IN :invoiceIds
-                    AND Active__c = True
-                    AND Balance__c != 0
+                SELECT Id, Invoice__c, Balance__c, Active__c, Sirono_ID__c
+                FROM Charge_Group__c
+                WHERE Invoice__c IN :invoiceIds
+                AND Active__c = TRUE
+                AND Balance__c != 0
             ];
         }
         return null;
@@ -195,9 +198,9 @@ public with sharing class ChargeGroupDao extends AbstractDao {
     public static List<Charge_Group__c> getCGBasedOnGuarantorAndPreCollDate(List<Contact> guarantors, Date preCollDate) {
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
-                    SELECT Id, Name, Guarantor__c, Pre_Collection_Sent__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Delinquent_Balance__c
-                    FROM Charge_Group__c
-                    WHERE Guarantor__c IN :guarantors AND Pre_Collection_Sent__c = :preCollDate
+                SELECT Id, Name, Guarantor__c, Pre_Collection_Sent__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Delinquent_Balance__c
+                FROM Charge_Group__c
+                WHERE Guarantor__c IN :guarantors AND Pre_Collection_Sent__c = :preCollDate
             ];
         }
         return null;
@@ -211,21 +214,21 @@ public with sharing class ChargeGroupDao extends AbstractDao {
      *  only Order By related changes are there so we use this variable and set order by filter.
      * @returns List<Charge_Group__c> - That contains CG records based on Charge Group Ids.
      **/
-	//TODO can both uses of this method work with the cgs ordered?
+    //TODO can both uses of this method work with the cgs ordered?
     public static List<Charge_Group__c> getCGForInvoiceController(Set<Id> chargeGroupIds, Boolean hasOrderBy) {
         String queryString = 'SELECT Id, Name, Balance__c, Active__c, Sirono_ID__c, Location__c, Location__r.Name, Provider__r.Name, Account_Type__c, ';
         queryString += 'External_ID__c, Payment_Plan__c, Payment_Plan__r.Active__c, Payment_Plan__r.Installment_Amount__c, Payment_Plan__r.NextPaymentDate__c, ';
         queryString += 'Sirono_Assigned_Date__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c, ';
-            queryString += '(';
-                queryString += 'SELECT Adjustment__r.Custom_Name__c, Payment__r.Display_Name__c, Service__r.Display_Name__c, ';
-                queryString += 'Amount__c, Txn_Method__c ';
-                queryString += 'FROM Transactions__r ';
-                queryString += (hasOrderBy) ? 'ORDER BY Post_Date__c' : '';
-            queryString += '), ';
-            queryString += '(';
-                queryString += 'SELECT Id, Name, Coverage__r.Payor__r.Name ';
-                queryString += 'FROM Charge_Group_Coverages__r';
-            queryString += ') ';
+        queryString += '(';
+        queryString += 'SELECT Adjustment__r.Custom_Name__c, Payment__r.Display_Name__c, Service__r.Display_Name__c, ';
+        queryString += 'Amount__c, Txn_Method__c ';
+        queryString += 'FROM Transactions__r ';
+        queryString += (hasOrderBy) ? 'ORDER BY Post_Date__c' : '';
+        queryString += '), ';
+        queryString += '(';
+        queryString += 'SELECT Id, Name, Coverage__r.Payor__r.Name ';
+        queryString += 'FROM Charge_Group_Coverages__r';
+        queryString += ') ';
         queryString += 'FROM Charge_Group__c ';
         queryString += 'WHERE Id IN :chargeGroupIds ';
         queryString += (hasOrderBy) ? 'ORDER BY CreatedDate' : '';
@@ -243,11 +246,11 @@ public with sharing class ChargeGroupDao extends AbstractDao {
     public static List<Charge_Group__c> getByGuarantorAndSubStatus(Set<Id> guarantorIds, Set<String> cgSubStatuses) {
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
-                    SELECT Id, Guarantor__c, Account_Sub_Status__c
-                    FROM Charge_Group__c
-                    WHERE Account_Sub_Status__c IN :cgSubStatuses
-                    AND Active__c = TRUE
-                    AND Guarantor__c IN :guarantorIds
+                SELECT Id, Guarantor__c, Account_Sub_Status__c
+                FROM Charge_Group__c
+                WHERE Account_Sub_Status__c IN :cgSubStatuses
+                AND Active__c = TRUE
+                AND Guarantor__c IN :guarantorIds
             ];
         }
         return null;
@@ -260,7 +263,7 @@ public with sharing class ChargeGroupDao extends AbstractDao {
      **/
     public static void updateChargeGroups(List<Charge_Group__c> chargeGroups) {
         if (ChargeGroupSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-            UPDATE chargeGroups;
+            update chargeGroups;
         }
     }
 
@@ -271,7 +274,7 @@ public with sharing class ChargeGroupDao extends AbstractDao {
      **/
     public static void updateChargeGroupsWithStatus(List<Charge_Group__c> chargeGroups) {
         if (ChargeGroupSecurityContext.UPDATE_WITH_STATUS_CONTEXT.actionAllowed()) {
-            UPDATE chargeGroups;
+            update chargeGroups;
         }
     }
 }

@@ -7,37 +7,37 @@
  */
 public with sharing class CardInformation {
     @AuraEnabled
-    public String sfId {get; set;}
+    public String sfId { get; set; }
     @AuraEnabled
-    public String displayName {get; set;}
+    public String displayName { get; set; }
     @AuraEnabled
-    public String cardType {get; set;}
+    public String cardType { get; set; }
     @AuraEnabled
-    public Boolean isSaved {get; set;}
+    public Boolean isSaved { get; set; }
     @AuraEnabled
     public String password { get; set; }
     @AuraEnabled
-    public string creditCardNumber { get; set; }
+    public String creditCardNumber { get; set; }
     @AuraEnabled
-    public string cardHolderName { get; set; }
+    public String cardHolderName { get; set; }
     @AuraEnabled
-    public string expirationDate{get;set;}
+    public String expirationDate { get; set; }
     @AuraEnabled
-    public string expirationYear { get; set; }
+    public String expirationYear { get; set; }
     @AuraEnabled
-    public string expirationMonth { get; set; }
+    public String expirationMonth { get; set; }
     @AuraEnabled
-    public string cvv { get; set; }
+    public String cvv { get; set; }
     @AuraEnabled
-    public string amount { get; set; }
+    public String amount { get; set; }
     @AuraEnabled
-    public string address { get; set; }
+    public String address { get; set; }
     @AuraEnabled
-    public string city { get; set; }
+    public String city { get; set; }
     @AuraEnabled
-    public string state { get; set; }
+    public String state { get; set; }
     @AuraEnabled
-    public string zip { get; set; }
+    public String zip { get; set; }
 
     public CardInformation() {
         this.sfId = '';
@@ -50,7 +50,7 @@ public with sharing class CardInformation {
         this.cardHolderName = '';
         this.expirationDate = '';
         this.expirationYear = String.valueOf(Datetime.now().year());
-        this.expirationMonth = String.valueOf(Datetime.now().month()).length() == 1 ? '0'+ String.valueOf(Datetime.now().month()) :  String.valueOf(Datetime.now().month());
+        this.expirationMonth = String.valueOf(Datetime.now().month()).length() == 1 ? '0' + String.valueOf(Datetime.now().month()) : String.valueOf(Datetime.now().month());
         this.cvv = '';
         this.amount = '0';
         this.address = '';

@@ -17,8 +17,8 @@ public with sharing class AddPaymentPlanVFController extends AddPaymentPlanContr
         init();
 
         if (errorMessages.size() > 0) {
-            for (String str: errorMessages) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.WARNING, str));
+            for (String str : errorMessages) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.WARNING, str));
             }
         }
     }
@@ -31,17 +31,17 @@ public with sharing class AddPaymentPlanVFController extends AddPaymentPlanContr
             if (isValid()) {
                 // Call CreatePaymentPlan method of super class.
                 createPaymentPlan();
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY));
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY));
             }
         } catch (SironoServiceException se) {
-            for (String err: se.errors) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                        'SERVER ERROR RESPONSE:: ' + err));
+            for (String err : se.errors) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                    'SERVER ERROR RESPONSE:: ' + err));
             }
         } catch (Exception e) {
             // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                    'ADD PAYMENT PLAN EXCEPTION:: ' + e.getMessage()));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                'ADD PAYMENT PLAN EXCEPTION:: ' + e.getMessage()));
         }
     }
 
@@ -55,8 +55,8 @@ public with sharing class AddPaymentPlanVFController extends AddPaymentPlanContr
 
         // Calculate sum of selected CG's balance.
         Decimal selectedCGsBalance = 0;
-        for (ChargeGroupWrapper cgw: chargeGroupList) {
-            if (cgw.cg.Balance__c != null && cgw.IsSelected) {
+        for (ChargeGroupWrapper cgw : chargeGroupList) {
+            if (cgw.cg.Balance__c != null && cgw.isSelected) {
                 selectedCGsBalance += cgw.cg.Balance__c;
             }
         }
@@ -69,12 +69,12 @@ public with sharing class AddPaymentPlanVFController extends AddPaymentPlanContr
         if (planType.trim().equalsIgnoreCase(Constants.PLANTYPE_AUTO)) {
             // Call creditCardValidationForAddPaymentPlan method that validate credit card related validations.
             errorMessages.addAll(VisualForceValidations.creditCardValidationForAddPaymentPlan(creditCardNumber, expirationYear, expirationMonth,
-                    zip, cardHolderName, cvv, address, chargeGroupIds, executeOnDay));
+                zip, cardHolderName, cvv, address, chargeGroupIds, executeOnDay));
         }
 
         if (errorMessages.size() > 0) {
-            for (String str: errorMessages) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, str));
+            for (String str : errorMessages) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, str));
             }
             return false;
         }

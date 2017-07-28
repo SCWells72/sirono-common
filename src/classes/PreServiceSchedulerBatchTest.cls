@@ -5,22 +5,22 @@
 /**
  * Tests for PreServiceSchedulerBatch.
  */
-@isTest
+@IsTest
 private class PreServiceSchedulerBatchTest {
 
-    @isTest
+    @IsTest
     static void main() {
-        contact con = TestUtility.generateGuarantorContact();
+        Contact con = TestUtility.generateGuarantorContact();
         insert con;
 
-        contact con1 = TestUtility.generateGuarantorContact();
+        Contact con1 = TestUtility.generateGuarantorContact();
         con1.LastName = 'Test';
-        con1.Profile_Pointer_Id__c = 123;
+        con1.Profile_Pointer_ID__c = 123;
         insert con1;
 
-        contact con2 = TestUtility.generatePatientContact();
+        Contact con2 = TestUtility.generatePatientContact();
         con2.LastName = 'Test';
-        con2.Profile_Pointer_Id__c = 123456;
+        con2.Profile_Pointer_ID__c = 123456;
         con2.Guarantor__c = con1.Id;
         insert con2;
 
@@ -39,7 +39,7 @@ private class PreServiceSchedulerBatchTest {
         insert t1;
 
         Campaign c = TestUtility.generateCampaign(Constants.CAMPAIGN_NAME_PRESERVICE);
-        c.isActive = true;
+        c.IsActive = true;
         insert c;
 
         CampaignMember cmm = new CampaignMember(
@@ -69,7 +69,7 @@ private class PreServiceSchedulerBatchTest {
         PreServiceSchedulerBatch dpp = new PreServiceSchedulerBatch();
 
         dpp.existingMembers = new Set<Id>();
-        system.schedule('schJob', '0 11 22 * 9 ?', dpp);
+        System.schedule('schJob', '0 11 22 * 9 ?', dpp);
         Test.stopTest();
 
         List<ApexPages.Message> msgList = ApexPages.getMessages();
@@ -77,19 +77,19 @@ private class PreServiceSchedulerBatchTest {
     }
 
 //Cover Existing map
-    @isTest
+    @IsTest
     static void main1() {
-        contact con = TestUtility.generateGuarantorContact();
+        Contact con = TestUtility.generateGuarantorContact();
         insert con;
 
-        contact con1 = TestUtility.generateGuarantorContact();
+        Contact con1 = TestUtility.generateGuarantorContact();
         con1.LastName = 'Test';
-        con1.Profile_Pointer_Id__c = 123;
+        con1.Profile_Pointer_ID__c = 123;
         insert con1;
 
-        contact con2 = TestUtility.generatePatientContact();
+        Contact con2 = TestUtility.generatePatientContact();
         con2.LastName = 'Test';
-        con2.Profile_Pointer_Id__c = 123456;
+        con2.Profile_Pointer_ID__c = 123456;
         con2.Guarantor__c = con1.Id;
         insert con2;
 
@@ -108,7 +108,7 @@ private class PreServiceSchedulerBatchTest {
         insert t1;
 
         Campaign c = TestUtility.generateCampaign(Constants.CAMPAIGN_NAME_PRESERVICE);
-        c.isActive = true;
+        c.IsActive = true;
         insert c;
 
         CampaignMember cmm = new CampaignMember(CampaignId = c.Id, ContactId = con.Id, Status = Constants.SENT);
@@ -133,17 +133,17 @@ private class PreServiceSchedulerBatchTest {
 //insert cmm;
 
         PreServiceSchedulerBatch dpp = new PreServiceSchedulerBatch();
-        Delete [Select id from CampaignMember];
-        System.debug('12212' + [Select id from CampaignMember]);
+        delete [SELECT Id FROM CampaignMember];
+        System.debug('12212' + [SELECT Id FROM CampaignMember]);
         dpp.existingMembers = new Set<Id>();
-        system.schedule('schJob', '0 11 22 * 9 ?', dpp);
+        System.schedule('schJob', '0 11 22 * 9 ?', dpp);
         Test.stopTest();
 
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         System.assertEquals(0, msgList.size());
     }
 
-    @isTest
+    @IsTest
     static void executBatch() {
         Test.startTest();
 
@@ -159,7 +159,7 @@ private class PreServiceSchedulerBatchTest {
     /**
      * Check all access rights for a read only User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRights() {
         List<CmpnMemberSecurityContext> allContexts = new List<CmpnMemberSecurityContext> {
             CmpnMemberSecurityContext.CREATE_CONTEXT,
@@ -167,7 +167,7 @@ private class PreServiceSchedulerBatchTest {
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (CmpnMemberSecurityContext context: allContexts) {
+            for (CmpnMemberSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);

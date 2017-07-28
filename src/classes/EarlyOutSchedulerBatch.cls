@@ -2,7 +2,7 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<sObject>, Schedulable, Database.Stateful {
+public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<SObject>, Schedulable, Database.Stateful {
     public Campaign callList;
     public Set<Id> existingMembers;
 
@@ -15,14 +15,14 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<s
         Map<String, String> mapCampaignMapping = CaseUtil.campaignMapping(new Set<String> {
             Constants.CAMPAIGN_NAME_OVERDUE
         });
-        string earlyOut = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE);
+        String earlyOut = mapCampaignMapping.get(Constants.CAMPAIGN_NAME_OVERDUE);
 
         if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            for (Campaign cl: [
+            for (Campaign cl : [
                 SELECT Id, Name
                 FROM Campaign
                 WHERE Name = :earlyOut
-                AND isActive = true
+                AND IsActive = TRUE
             ]) {
                 callList = cl;
             }
@@ -31,11 +31,11 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<s
         if (callList != null) {
             existingMembers = new Set<Id>();
             if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                for (CampaignMember cm: [
+                for (CampaignMember cm : [
                     SELECT Id, ContactId
                     FROM CampaignMember
                     WHERE CampaignId = :callList.Id
-                    AND ContactId != null
+                    AND ContactId != NULL
                 ]) {
                     existingMembers.add(cm.ContactId);
                 }
@@ -48,7 +48,7 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<s
     }
 
     //Adding Guarantors based on their overdue balance and creates to new CampaignMember list 
-    public void execute(Database.BatchableContext bc, List<sObject> scope) {
+    public void execute(Database.BatchableContext bc, List<SObject> scope) {
         List<Contact> guarantors = (List<Contact>) scope;
         Map<Id, Contact> guarantorMap = new Map<Id, Contact>(GuarantorService.getGuarantorsWithStatement(guarantors));
 
@@ -57,9 +57,9 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<s
             List<CampaignMember> memberList = new List<CampaignMember>();
             if (InvoiceSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                 for (Invoice__c invoice : [
-                    Select Id, Name, Guarantor__c, Invoice_Date__c,
+                    SELECT Id, Name, Guarantor__c, Invoice_Date__c,
                         Guarantor__r.Overdue_Balance__c, Guarantor__r.Delinquent_Balance__c
-                    From Invoice__c
+                    FROM Invoice__c
                     WHERE Guarantor__c IN :guarantors
                     AND Invoice_Date__c = :dt
                 ]) {
@@ -82,7 +82,7 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<s
 
             if (memberList.size() > 0) {
                 if (CmpnMemberSecurityContext.SB_CREATE_CONTEXT.actionAllowed()) {
-                    INSERT memberList;
+                    insert memberList;
                 }
             }
         }

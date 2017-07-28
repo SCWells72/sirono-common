@@ -6,27 +6,27 @@
  * Test the calculation of the Estimate_Balance on the guarantor. It is the sum of all of the Encounters the
  * Guarantor is associated with.
  **/
-@isTest
+@IsTest
 public with sharing class GuarantorEstimateBalanceTest {
 
     /**
      * This method is used to setup preliminary data to let's all testmethods to execute as expected.
      **/
-    @testSetup
+    @TestSetup
     public static void setupData() {
         Test.startTest();
         Encounter__c encounter = new Encounter__c();
         encounter.Patient_Portion__c = 3000.00;
         encounter.Department__c = 'Test Dept';
         encounter.Status__c = 'Ready';
-        INSERT encounter;
+        insert encounter;
 
         Contact gt1 = TestUtility.generateGuarantorContact();
         gt1.LastName = 'GT1';
 
         Contact gt2 = TestUtility.generateGuarantorContact();
         gt2.LastName = 'GT2';
-        INSERT new Contact[]{gt1, gt2};
+        insert new Contact[] { gt1, gt2 };
         Test.stopTest();
 
         // Check system assert, Encounter record should must be created/exist.
@@ -36,13 +36,13 @@ public with sharing class GuarantorEstimateBalanceTest {
     /**
      * This method tests the logic for estimate balance of Guarantor contact.
      **/
-    @isTest
+    @IsTest
     public static void testGTEstimateBalance() {
         Encounter__c encounter = [SELECT Id, Patient_Portion__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
         Contact gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE LastName = 'GT1'];
 
         encounter.Guarantor__c = gt.Id;
-        UPDATE encounter;
+        update encounter;
 
         Test.startTest();
 
@@ -54,109 +54,109 @@ public with sharing class GuarantorEstimateBalanceTest {
         pmt2.Amount__c = 400.00;
         pmt2.Encounter__c = encounter.Id;
 
-        INSERT new Payment__c[]{pmt1, pmt2};
+        insert new Payment__c[] { pmt1, pmt2 };
 
         Test.stopTest();
 
         // Check system assert.
-	gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE Id = :gt.Id];
+        gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE Id = :gt.Id];
         System.assert(gt.Estimate_Balance__c == 2000.00,
-                'Expected Estimate_Balance__c to be 2000.00, but was: '+gt.Estimate_Balance__c);
+            'Expected Estimate_Balance__c to be 2000.00, but was: ' + gt.Estimate_Balance__c);
     }
 
     /**
      * This method tests the logic for estimate balance of Guarantor contact negative.
      * Set Encounter status equals to "In Process" so Encounter Substatus set with "Unavailable" and Guarantor's estimate balance becomes 0.
      **/
-    @isTest
+    @IsTest
     public static void testGTEstimateBalanceNegative() {
         Encounter__c encounter = [SELECT Id, Patient_Portion__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
         Contact gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE LastName = 'GT1'];
 
         encounter.Guarantor__c = gt.Id;
-        UPDATE encounter;
+        update encounter;
 
         // Check system assert.
         gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE Id = :gt.Id];
         System.assert(gt.Estimate_Balance__c == 3000.00,
-                'Expected Estimate_Balance__c to be 3000.00, but was: '+gt.Estimate_Balance__c);
+            'Expected Estimate_Balance__c to be 3000.00, but was: ' + gt.Estimate_Balance__c);
 
         Test.startTest();
 
         // Update Encounter with "In Process" Status.
         encounter = [SELECT Id, Patient_Portion__c, Status__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
         encounter.Status__c = 'In Process';
-        UPDATE encounter;
+        update encounter;
 
         Test.stopTest();
 
         // Check system assert.
         gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE Id = :gt.Id];
         System.assert(gt.Estimate_Balance__c == 0,
-                'Expected Estimate_Balance__c to be 0, but was: '+gt.Estimate_Balance__c);
+            'Expected Estimate_Balance__c to be 0, but was: ' + gt.Estimate_Balance__c);
     }
 
     /**
      * This method checks contact's Estimate Balance after update encounter's guarantor with another contact.
      **/
-    @isTest
+    @IsTest
     public static void testGTEstimateBalanceChangeEncounterGuarantor() {
         Encounter__c encounter = [SELECT Id, Patient_Portion__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
         Contact gt1 = [SELECT Id, Estimate_Balance__c FROM Contact WHERE LastName = 'GT1'];
         Contact gt2 = [SELECT Id, Estimate_Balance__c FROM Contact WHERE LastName = 'GT2'];
 
         encounter.Guarantor__c = gt1.Id;
-        UPDATE encounter;
+        update encounter;
 
-         // Check system assert.
-	gt1 = [SELECT Id, Estimate_Balance__c FROM Contact WHERE Id = :gt1.Id];
+        // Check system assert.
+        gt1 = [SELECT Id, Estimate_Balance__c FROM Contact WHERE Id = :gt1.Id];
         System.assert(gt1.Estimate_Balance__c == 3000.00,
-                'Expected Estimate_Balance__c to be 3000, but was: '+gt1.Estimate_Balance__c);
+            'Expected Estimate_Balance__c to be 3000, but was: ' + gt1.Estimate_Balance__c);
 
         Test.startTest();
 
         encounter = [SELECT Id FROM Encounter__c WHERE Department__c = 'Test Dept'];
         encounter.Guarantor__c = gt2.Id;
-        UPDATE encounter;
+        update encounter;
 
         Test.stopTest();
 
-	// Check system assert.
+        // Check system assert.
         gt1 = [SELECT Id, Estimate_Balance__c FROM Contact WHERE Id = :gt1.Id];
         gt2 = [SELECT Id, Estimate_Balance__c FROM Contact WHERE Id = :gt2.Id];
 
         System.assert(gt1.Estimate_Balance__c == 0,
-                'Expected Estimate_Balance__c to be 0, but was: '+gt1.Estimate_Balance__c);
+            'Expected Estimate_Balance__c to be 0, but was: ' + gt1.Estimate_Balance__c);
 
         System.assert(gt2.Estimate_Balance__c == 3000.00,
-                'Expected Estimate_Balance__c to be 3000, but was: '+gt2.Estimate_Balance__c);
+            'Expected Estimate_Balance__c to be 3000, but was: ' + gt2.Estimate_Balance__c);
     }
 
     /**
      * This method checks validates Estimate Balance after Encounter record gets deleted.
      **/
-    @isTest
+    @IsTest
     public static void testGTEstimateBalanceAfterEncounterDeleted() {
         Encounter__c encounter = [SELECT Id, Patient_Portion__c FROM Encounter__c WHERE Department__c = 'Test Dept'];
         Contact gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE LastName = 'GT1'];
 
         encounter.Guarantor__c = gt.Id;
-        UPDATE encounter;
-        
-	// Check system assert.
-	gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE Id = :gt.Id];
+        update encounter;
+
+        // Check system assert.
+        gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE Id = :gt.Id];
         System.assert(gt.Estimate_Balance__c == 3000.00,
-                'Expected Estimate_Balance__c to be 3000.00, but was: '+gt.Estimate_Balance__c);
+            'Expected Estimate_Balance__c to be 3000.00, but was: ' + gt.Estimate_Balance__c);
 
         Test.startTest();
 
-        DELETE encounter;
+        delete encounter;
 
         Test.stopTest();
 
-	// Check system assert.
+        // Check system assert.
         gt = [SELECT Id, Estimate_Balance__c FROM Contact WHERE Id = :gt.Id];
         System.assert(gt.Estimate_Balance__c == 0.00,
-                'Expected Estimate_Balance__c to be 0.00, but was: '+gt.Estimate_Balance__c);
+            'Expected Estimate_Balance__c to be 0.00, but was: ' + gt.Estimate_Balance__c);
     }
 }

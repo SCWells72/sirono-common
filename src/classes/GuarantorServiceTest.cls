@@ -5,7 +5,7 @@
 /**
  * Test the functionality of GuarantorService
  */
-@isTest
+@IsTest
 public with sharing class GuarantorServiceTest {
 
     private static String SIRONO_ID = '99887766';
@@ -18,7 +18,7 @@ public with sharing class GuarantorServiceTest {
 
     public class GuarantorRestClientMock implements HttpCalloutMock {
 
-        public HTTPResponse respond(HTTPRequest req) {
+        public HttpResponse respond(HttpRequest req) {
             HttpResponse res;
 
             // First see if the req matches any of the auth routes
@@ -33,7 +33,7 @@ public with sharing class GuarantorServiceTest {
 
             res = new HttpResponse();
             if (method == RestClientConstants.GET) {
-                if (url == RestClientMockUtil.urlBuilder(urls.get(RestClientConstants.STATEMENTS), new String[]{RestClientConstants.GUARANTOR_ID})) {
+                if (url == RestClientMockUtil.urlBuilder(urls.get(RestClientConstants.STATEMENTS), new String[] { RestClientConstants.GUARANTOR_ID })) {
                     res.setStatusCode(RestClientConstants.HTTP_SUCCESS);
                     res.setBody(RestClientConstants.STATEMENTS_JSON);
                 } else {
@@ -63,25 +63,25 @@ public with sharing class GuarantorServiceTest {
         gt.Medical_Record_Number__c = MRN;
 
         gt.Profile_Pointer_ID__c = Decimal.valueOf(SIRONO_ID);
-        INSERT gt;
+        insert gt;
 
         Contact pt = TestUtility.generatePatientContact();
         pt.Patient_Id__c = Decimal.valueOf(SIRONO_ID);
-        INSERT pt;
+        insert pt;
 
         // Create Charge Group Record.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(gt.Id, pt.Id, 12345);
         chargeGroup.Active__c = true;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
-        Transaction__c  transactionObj = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT transactionObj;
+        Transaction__c transactionObj = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert transactionObj;
 
         // Create Charge Group Record.
         chargeGroup = TestUtility.generateChargeGroup(gt.Id, pt.Id, 67890);
         chargeGroup.Active__c = false;
-        INSERT chargeGroup;
-        
+        insert chargeGroup;
+
         // Check system asserts.
         System.assertEquals(Decimal.valueOf(SIRONO_ID), gt.Profile_Pointer_ID__c, 'Expected ' + SIRONO_ID + ' but we got ' + gt.Profile_Pointer_ID__c);
     }
@@ -89,31 +89,31 @@ public with sharing class GuarantorServiceTest {
     /*
         Test building full detail string
      */
-    @isTest
+    @IsTest
     public static void buildGuarantorDetailStringTest() {
         Contact gt = GuarantorDao.getGuarantorBySironoId(SIRONO_ID);
-        String expected = FIRST + ' ' + MIDDLE+' ' + LAST+' '+SUFFIX+' (DOB: '+BIRTHDATE.format()+', MRN: '+MRN+')';
+        String expected = FIRST + ' ' + MIDDLE + ' ' + LAST + ' ' + SUFFIX + ' (DOB: ' + BIRTHDATE.format() + ', MRN: ' + MRN + ')';
         String built = GuarantorService.buildGuarantorDetailString(gt);
-        System.assertEquals(expected, built, 'Expected details: '+expected+' but got: '+built);
+        System.assertEquals(expected, built, 'Expected details: ' + expected + ' but got: ' + built);
     }
 
-    @isTest
+    @IsTest
     public static void getSironoIdTest() {
         Contact gt = GuarantorDao.getGuarantorBySironoId(SIRONO_ID);
         String foundId = GuarantorService.getGuarantorSironoId(gt);
-        System.assertEquals(SIRONO_ID, foundId, 'Expected sironoId: '+SIRONO_ID+' but got: '+foundId);
+        System.assertEquals(SIRONO_ID, foundId, 'Expected sironoId: ' + SIRONO_ID + ' but got: ' + foundId);
     }
 
-    @isTest
+    @IsTest
     public static void getSironoIdFromDBTest() {
         Contact gt = GuarantorDao.getGuarantorBySironoId(SIRONO_ID);
         Contact newContact = new Contact();
         newContact.Id = gt.Id;
         String foundId = GuarantorService.getGuarantorSironoId(newContact);
-        System.assertEquals(SIRONO_ID, foundId, 'Expected sironoId: '+SIRONO_ID+' but got: '+foundId);
+        System.assertEquals(SIRONO_ID, foundId, 'Expected sironoId: ' + SIRONO_ID + ' but got: ' + foundId);
     }
 
-    @isTest
+    @IsTest
     public static void getSironoIdExceptionTest() {
         try {
             String foundId = GuarantorService.getGuarantorSironoId(null);
@@ -123,27 +123,27 @@ public with sharing class GuarantorServiceTest {
         }
     }
 
-    @isTest
+    @IsTest
     public static void getGTBySironoIdTest() {
         Contact gt = GuarantorService.getGuarantorBySironoId(SIRONO_ID);
         System.assertNotEquals(gt, null, 'Expected guarantor but got null');
         System.assertEquals(SIRONO_ID, String.valueOf(gt.Profile_Pointer_ID__c),
-                'Expected Sirono_ID__c of ' + SIRONO_ID + ' but got: ' + gt.Profile_Pointer_ID__c);
+            'Expected Sirono_ID__c of ' + SIRONO_ID + ' but got: ' + gt.Profile_Pointer_ID__c);
         System.assertEquals(RecordTypeUtil.guarantorRt, gt.RecordTypeId,
-                'Expected RecordTypeId of ' + RecordTypeUtil.guarantorRt + ' but got: ' + gt.RecordTypeId);
+            'Expected RecordTypeId of ' + RecordTypeUtil.guarantorRt + ' but got: ' + gt.RecordTypeId);
     }
 
     /**
      * Test the logic of getGuarantorFilterCGByAcctSubStatus
      * CG account substatus is "Preinvoiced" so we get contact with 1 CG.
      **/
-    @isTest
+    @IsTest
     public static void getGuarantorFilterCGByAcctSubStatusTest() {
         Contact gt = [
-                SELECT Id
-                FROM Contact
-                WHERE RecordTypeId = :RecordTypeUtil.guarantorRt
-                LIMIT 1
+            SELECT Id
+            FROM Contact
+            WHERE RecordTypeId = :RecordTypeUtil.guarantorRt
+            LIMIT 1
         ];
 
         // Call getGuarantorFilterCGByAcctSubStatus method.
@@ -161,13 +161,13 @@ public with sharing class GuarantorServiceTest {
      * Test the logic of getGuarantorWithActiveCG
      * Only one CG is active, so should return 1 CG
      **/
-    @isTest
+    @IsTest
     public static void getGuarantorWithActiveCGTest() {
         Contact gt = [
-                SELECT Id
-                FROM Contact
-                WHERE RecordTypeId = :RecordTypeUtil.guarantorRt
-                LIMIT 1
+            SELECT Id
+            FROM Contact
+            WHERE RecordTypeId = :RecordTypeUtil.guarantorRt
+            LIMIT 1
         ];
 
         // Call getGuarantorFilterCGByAcctSubStatus method.
@@ -192,7 +192,7 @@ public with sharing class GuarantorServiceTest {
         Contact gt = GuarantorService.getPortalGuarantor(usr.Id);
         Test.stopTest();
 
-        System.assert(gt != null, 'Guarantor contact not found for user: '+usr.Username);
+        System.assert(gt != null, 'Guarantor contact not found for user: ' + usr.Username);
     }
 
     /*
@@ -202,7 +202,7 @@ public with sharing class GuarantorServiceTest {
     @IsTest
     public static void nonPortalUserGetGuarantorTest() {
         User usr = TestUtility.generateUser(Constants.STANDARD_USER, null);
-        INSERT usr;
+        insert usr;
         System.assert(usr.Id != null, 'No user created for test');
 
         try {
@@ -210,10 +210,10 @@ public with sharing class GuarantorServiceTest {
             Contact gt = GuarantorService.getPortalGuarantor(usr.Id);
             Test.stopTest();
 
-            System.assert(gt == null, 'Unexpected guarantor contact found for user'+usr.Username);
+            System.assert(gt == null, 'Unexpected guarantor contact found for user' + usr.Username);
 
         } catch (SironoServiceException ex) {
-            System.assert(ex.getMessage().startsWith('No Guarantor associated with user '), 'Unexpected exception caught: '+ex.getMessage());
+            System.assert(ex.getMessage().startsWith('No Guarantor associated with user '), 'Unexpected exception caught: ' + ex.getMessage());
         }
     }
 
@@ -232,14 +232,14 @@ public with sharing class GuarantorServiceTest {
             System.assert(gt == null, 'Unexpected guarantor contact found for user');
 
         } catch (SironoServiceException ex) {
-            System.assert(ex.getMessage().startsWith('No user with id'), 'Unexpected exception caught: '+ex.getMessage());
+            System.assert(ex.getMessage().startsWith('No user with id'), 'Unexpected exception caught: ' + ex.getMessage());
         }
     }
 
     /**
      * Test the retrieval of the statement pdf urls
      */
-    @isTest
+    @IsTest
     static void testGetStatementsSuccess() {
 
         Test.setMock(HttpCalloutMock.class, new GuarantorRestClientMock());
@@ -249,7 +249,7 @@ public with sharing class GuarantorServiceTest {
         Test.stopTest();
 
         for (Date key : urlMap.keySet()) {
-            System.debug('key: '+key.format()+' url: '+urlMap.get(key));
+            System.debug('key: ' + key.format() + ' url: ' + urlMap.get(key));
         }
 
         System.assertEquals(urlMap.size(), 5, 'Expected 5 entries in the url map');

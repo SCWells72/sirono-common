@@ -38,7 +38,7 @@
                 if (errors) {
                     if (errors[0] && errors[0].message) {
                         console.log("Error message: " +
-                                errors[0].message);
+                            errors[0].message);
                     }
                 } else {
                     console.log("Unknown error");
@@ -95,36 +95,16 @@
 
         for (var i = 0; i < listOfInvoices.length; i++) {
             $A.createComponent(
-                    "c:Invoice",
-                    {
-                        "invoice": listOfInvoices[i],
-                        "tileId": i
-                    },
-                    function (invoice, status, errorMessage) {
-                        if (status === "SUCCESS") {
-                            var invoices = component.get('v.invoices');
-                            invoices.push(invoice);
-                            component.set('v.invoices', invoices);
-                        }
-                        else if (status === "INCOMPLETE") {
-                            console.log("No response from server or client is offline.");
-                        }
-                        else if (status === "ERROR") {
-                            console.log("Error: " + errorMessage);
-                        }
-                    }
-            );
-        }
-
-        $A.createComponent(
-                "c:InvoiceDetails",
+                "c:Invoice",
                 {
-                    "listOfInvoices": listOfInvoices
+                    "invoice": listOfInvoices[i],
+                    "tileId": i
                 },
-                function (newComponent, status, errorMessage) {
+                function (invoice, status, errorMessage) {
                     if (status === "SUCCESS") {
-                        var invoiceDetails = component.find('invoice_details');
-                        invoiceDetails.set("v.body", newComponent);
+                        var invoices = component.get('v.invoices');
+                        invoices.push(invoice);
+                        component.set('v.invoices', invoices);
                     }
                     else if (status === "INCOMPLETE") {
                         console.log("No response from server or client is offline.");
@@ -133,6 +113,26 @@
                         console.log("Error: " + errorMessage);
                     }
                 }
+            );
+        }
+
+        $A.createComponent(
+            "c:InvoiceDetails",
+            {
+                "listOfInvoices": listOfInvoices
+            },
+            function (newComponent, status, errorMessage) {
+                if (status === "SUCCESS") {
+                    var invoiceDetails = component.find('invoice_details');
+                    invoiceDetails.set("v.body", newComponent);
+                }
+                else if (status === "INCOMPLETE") {
+                    console.log("No response from server or client is offline.");
+                }
+                else if (status === "ERROR") {
+                    console.log("Error: " + errorMessage);
+                }
+            }
         );
     }
 })

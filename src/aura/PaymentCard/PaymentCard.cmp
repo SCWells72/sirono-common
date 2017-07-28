@@ -6,16 +6,16 @@
     <aura:attribute name="CreditCard" type="Object" access="public" default="{expirationMonth:'03'}"/>
     <aura:attribute name="CheckValidation" type="Boolean" default="false" access="public"/>
     <aura:attribute name="states" type="String[]"/>
-    <aura:attribute name="months" type="String[]" access="public" />
-    <aura:attribute name="years" type="String[]" access="public" default="[]" />
+    <aura:attribute name="months" type="String[]" access="public"/>
+    <aura:attribute name="years" type="String[]" access="public" default="[]"/>
     <aura:handler name="init" value="{!this}" action="{!c.doCmpInit}"/>
     <aura:handler name="change" value="{!v.CreditCard}" action="{!c.checkValidation}"/>
     <aura:handler name="change" value="{!v.years}" action="{!c.initSelectOptions}"/>
-	<div class="col slds-size--1-of-1">
+    <div class="col slds-size--1-of-1">
         <div class="slds-form-element">
             <div class="slds-form-element__control inputHeight">
                 <lightning:input label="Name on Card" aura:id="cardName" name="nameOnCard" messageWhenValueMissing="Name is a required field" required="true" value="{!v.CreditCard.cardHolderName}"/>
-            	<ui:inputDefaultError aura:id="cardNameError" value="" />
+                <ui:inputDefaultError aura:id="cardNameError" value=""/>
             </div>
         </div>
     </div>
@@ -24,16 +24,16 @@
             <div class="col slds-size--8-of-12 card-number">
                 <div class="slds-form-element">
                     <div class="slds-form-element__control inputHeight">
-                        <lightning:input type="tel" aura:id="cardNumber" name="cardNumber" label="Card Number" required="true" minlength="12" maxlength="19" value="{!v.CreditCard.creditCardNumber}" messageWhenValueMissing="Card number is a required field" messageWhenbadinput="Credit card number must be 12-19 digits." messageWhenTooLong="Credit card number must be 12-19 digits." onchange="{!c.validateCardN}" formatter="" />
-                    	<ui:inputDefaultError aura:id="cardNumberError" value="" />
+                        <lightning:input type="tel" aura:id="cardNumber" name="cardNumber" label="Card Number" required="true" minlength="12" maxlength="19" value="{!v.CreditCard.creditCardNumber}" messageWhenValueMissing="Card number is a required field" messageWhenbadinput="Credit card number must be 12-19 digits." messageWhenTooLong="Credit card number must be 12-19 digits." onchange="{!c.validateCardN}" formatter=""/>
+                        <ui:inputDefaultError aura:id="cardNumberError" value=""/>
                     </div>
                 </div>
             </div>
             <div class="col slds-size--4-of-12 cvv">
                 <div class="slds-form-element">
-                   <div class="slds-form-element__control cvv_block inputHeight"> 
-                        <lightning:input type="text" aura:id="cvv" label="CVV" name="cvv" minlength="3" maxlength="4" value="{!v.CreditCard.cvv}" required="true" messageWhenValueMissing="CVV is a required field" messageWhenBadInput="CVV must be 4 digits for American Express and 3 digits for other card types." messageWhenTooLong="CVV must be 4 digits for American Express and 3 digits for other card types." onchange="{!c.validateCVV}" />
-                    	<ui:inputDefaultError aura:id="cvvError" value="" />
+                    <div class="slds-form-element__control cvv_block inputHeight">
+                        <lightning:input type="text" aura:id="cvv" label="CVV" name="cvv" minlength="3" maxlength="4" value="{!v.CreditCard.cvv}" required="true" messageWhenValueMissing="CVV is a required field" messageWhenBadInput="CVV must be 4 digits for American Express and 3 digits for other card types." messageWhenTooLong="CVV must be 4 digits for American Express and 3 digits for other card types." onchange="{!c.validateCVV}"/>
+                        <ui:inputDefaultError aura:id="cvvError" value=""/>
                     </div>
                 </div>
             </div>
@@ -44,23 +44,23 @@
             <div class="grid">
                 <div class="col slds-size--1-of-2">
                     <lightning:select aura:id="month" name="month" value="{!v.CreditCard.expirationMonth}" label="Expiration">
-                       <option value="0" name="loading..."/>
+                        <option value="0" name="loading..."/>
                     </lightning:select>
                 </div>
                 <div class="col slds-size--1-of-2">
                     <lightning:select aura:id="year" name="year" value="{!v.CreditCard.expirationYear}" label="Year" class="payment-card--year-hide">
-                         <option value="0" name="loading..."/>
+                        <option value="0" name="loading..."/>
                     </lightning:select>
                 </div>
             </div>
-            <ui:inputDefaultError aura:id="expirationError" value="" />
+            <ui:inputDefaultError aura:id="expirationError" value=""/>
         </div>
     </div>
     <div class="col slds-size--2-of-1">
         <div class="slds-form-element">
             <div class="slds-form-element__control inputHeight">
-                <lightning:input aura:id="address" value="{!v.CreditCard.address}" label="Billing Address" name="billingAddress" required="true" messageWhenValueMissing="Billing Address is a required field" />
-            	<ui:inputDefaultError aura:id="addressError" value="" />
+                <lightning:input aura:id="address" value="{!v.CreditCard.address}" label="Billing Address" name="billingAddress" required="true" messageWhenValueMissing="Billing Address is a required field"/>
+                <ui:inputDefaultError aura:id="addressError" value=""/>
             </div>
         </div>
     </div>
@@ -70,7 +70,7 @@
                 <div class="slds-form-element">
                     <label class="slds-form-element__label" for="text-input-01">City</label>
                     <div class="slds-form-element__control">
-                        <ui:inputText class="slds-input" value="{!v.CreditCard.city}" />
+                        <ui:inputText class="slds-input" value="{!v.CreditCard.city}"/>
                     </div>
                 </div>
             </div>
@@ -83,8 +83,8 @@
             </div>
             <div class="col zip slds-size--2-of-12">
                 <div class="slds-form-element__control inputHeight">
-                    <lightning:input type="text" aura:id="zipcode" name="zipcode" label="Zipcode" value="{!v.CreditCard.zip}" required="true" messageWhenValueMissing="Zip Code is a required field" minlength="5" maxlength="5" messageWhenBadInput="Zip Code must be 5 digits." messageWhenTooLong="Zip Code must be 5 digits." onchange="{!c.validateZip}" />
-                	<ui:inputDefaultError aura:id="zipcodeError" value="" />
+                    <lightning:input type="text" aura:id="zipcode" name="zipcode" label="Zipcode" value="{!v.CreditCard.zip}" required="true" messageWhenValueMissing="Zip Code is a required field" minlength="5" maxlength="5" messageWhenBadInput="Zip Code must be 5 digits." messageWhenTooLong="Zip Code must be 5 digits." onchange="{!c.validateZip}"/>
+                    <ui:inputDefaultError aura:id="zipcodeError" value=""/>
                 </div>
             </div>
         </div>

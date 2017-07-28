@@ -2,19 +2,21 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-.THIS .statements .statement-grid{
-    display:block;
-    padding-bottom:20px;
+.THIS .statements .statement-grid {
+    display: block;
+    padding-bottom: 20px;
 }
 
-.THIS .statementBlock{
-    overflow:hidden;
+.THIS .statementBlock {
+    overflow: hidden;
 }
-.THIS .statementBlockScroll{
-    overflow:auto;
+
+.THIS .statementBlockScroll {
+    overflow: auto;
 }
-.THIS .container{
+
+.THIS .container {
     display: table-cell;
-    padding-right:60px;
-    min-width:310px; 
+    padding-right: 60px;
+    min-width: 310px;
 }

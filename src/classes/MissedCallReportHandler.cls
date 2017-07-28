@@ -82,7 +82,7 @@ public with sharing class MissedCallReportHandler {
                 isRunningBoolean = soapClient.isReportRunning(reportId, 20);
             } catch (CalloutException ce) {
                 // Log and throw the error to kill the process.
-                System.debug('Error running report: ' + reportId +' message: ' + ce.getMessage());
+                System.debug('Error running report: ' + reportId + ' message: ' + ce.getMessage());
                 throw ce;
             }
         }
@@ -92,7 +92,7 @@ public with sharing class MissedCallReportHandler {
             csvResults = soapClient.getReportResultCsv(reportId);
         } catch (CalloutException ce) {
             // Log and throw the error to kill the process
-            System.debug('Error retrieving report id: '+reportId+' message: ' + ce.getMessage());
+            System.debug('Error retrieving report id: ' + reportId + ' message: ' + ce.getMessage());
             throw ce;
         }
     }

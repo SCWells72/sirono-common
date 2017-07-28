@@ -5,11 +5,13 @@
 .THIS .payment-card--year-hide .slds-form-element__label {
     visibility: hidden;
 }
-.THIS input[type=number]::-webkit-inner-spin-button, 
-.THIS input[type=number]::-webkit-outer-spin-button { 
+
+.THIS input[type=number]::-webkit-inner-spin-button,
+.THIS input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
 .THIS div.display--inline {
     display: inline-block;
 }

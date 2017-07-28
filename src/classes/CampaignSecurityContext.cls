@@ -14,7 +14,7 @@ public with sharing class CampaignSecurityContext extends SecurityContext {
 
     // The fields for selecting a Campaign in DelinquentPaymentPlansSchedulerBatch, TaskTriggerHandler,
     // PreServiceSchedulerBatch, PreCollectionSchedulerBatch, CaseUtil
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         ID, NAME, ISACTIVE
     };
 

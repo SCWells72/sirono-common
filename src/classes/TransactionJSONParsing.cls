@@ -21,27 +21,27 @@ public class TransactionJSONParsing {
     public String payment;
     public String chargegroup;
 
-    public class TransactionWrapper{
-        public List<Transaction__c> transactionRecords {get;set;}
-        public List<Charge_Group__c> chargeGroupRecords {get;set;}
+    public class TransactionWrapper {
+        public List<Transaction__c> transactionRecords { get; set; }
+        public List<Charge_Group__c> chargeGroupRecords { get; set; }
 
-        public TransactionWrapper(){
+        public TransactionWrapper() {
             transactionRecords = new List<Transaction__c>();
             chargeGroupRecords = new List<Charge_Group__c>();
         }
     }
 
     public static TransactionWrapper parse(String json) {
-        if(!json.contains('[')){
+        if (!json.contains('[')) {
             json = '[' + json + ']';
         }
-        
+
         TransactionWrapper objTransactionWrapper = new TransactionWrapper();
         List<Transaction__c> lstTransaction = new List<Transaction__c>();
         List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
 
         List<TransactionJSONParsing> lstTransactionJson =
-            (List<TransactionJSONParsing>) System.JSON.deserialize(json.replace('_credit_balance','credit_balance'), List<TransactionJSONParsing>.class);
+            (List<TransactionJSONParsing>) System.JSON.deserialize(json.replace('_credit_balance', 'credit_balance'), List<TransactionJSONParsing>.class);
 
         if (lstTransactionJson.size() > 0) {
 
@@ -49,7 +49,7 @@ public class TransactionJSONParsing {
 
             for (TransactionJSONParsing objJson : lstTransactionJson) {
                 Transaction__c objTransaction = new Transaction__c();
-                String transactionExternalId = getExternalID(objJson.url,'transaction');
+                String transactionExternalId = getExternalID(objJson.url, 'transaction');
 
                 objTransaction.Sirono_ID__c = Decimal.valueOf(transactionExternalId);
                 objTransaction.Name = objJson.method + '-' + transactionExternalId;
@@ -66,7 +66,7 @@ public class TransactionJSONParsing {
                 objTransaction.Credit_Balance__c = objJson.credit_balance;
 
                 if (objJson.chargegroup != null) {
-                    Decimal chargegroup = Decimal.valueOf(getExternalID(objJson.chargegroup,'chargegroups'));
+                    Decimal chargegroup = Decimal.valueOf(getExternalID(objJson.chargegroup, 'chargegroups'));
                     mapTransactionChargeGroup.put(objTransaction.Sirono_ID__c, chargegroup);
                 }
 
@@ -78,12 +78,12 @@ public class TransactionJSONParsing {
                 lstChargeGroup = ChargeGroupService.getBySironoIds(mapTransactionChargeGroup.values());
 
                 Map<Decimal, String> mapChargeGroup = new Map<Decimal, String>();
-                for(Charge_Group__c cg : lstChargeGroup){
+                for (Charge_Group__c cg : lstChargeGroup) {
                     mapChargeGroup.put(cg.Sirono_ID__c, cg.Id);
                 }
 
                 for (Transaction__c txn : lstTransaction) {
-                    if (txn.Charge_Group__c == null){
+                    if (txn.Charge_Group__c == null) {
                         Decimal cId = mapTransactionChargeGroup.get(txn.Sirono_ID__c);
                         txn.Charge_Group__c = mapChargeGroup.get(cId);
                     }
@@ -96,28 +96,28 @@ public class TransactionJSONParsing {
         return objTransactionWrapper;
     }
 
-    public static String getExternalID(String url,string splitWith){
+    public static String getExternalID(String url, String splitWith) {
         String[] externalID = url.split(splitWith);
-        return externalID[externalID.Size() - 1].replaceAll('/','');
+        return externalID[externalID.size() - 1].replaceAll('/', '');
     }
-    
-    public static String  testResponse() {
-    
-        String responseBody =        '{'+
-        '   "url":"https://toledo.stage.sirono.com/paystaff/api/transaction/22923843/", ' +
-        '   "amount":100,'+
-        '   "post_date":"2016-10-17T00:00:00",'+
-        '   "fail_date":"2016-10-17T00:00:00",'+
-        '   "export_date":"2016-10-17T00:00:00",'+
-        '   "created_at":"2016-10-17T12:41:22.562824",'+
-        '   "modified_at":"2016-10-17T12:41:22.562843",' +
-        '   "method":"adjustment",' +
-        '   "notes":null,' +
-        '   "credit_balance":false,' +
-        '   "payment":null,' +
-        '   "chargegroup":"https://toledo.stage.sirono.com/paystaff/api/chargegroups/124/" ' +
-        '}';
-        
+
+    public static String testResponse() {
+
+        String responseBody = '{' +
+            '   "url":"https://toledo.stage.sirono.com/paystaff/api/transaction/22923843/", ' +
+            '   "amount":100,' +
+            '   "post_date":"2016-10-17T00:00:00",' +
+            '   "fail_date":"2016-10-17T00:00:00",' +
+            '   "export_date":"2016-10-17T00:00:00",' +
+            '   "created_at":"2016-10-17T12:41:22.562824",' +
+            '   "modified_at":"2016-10-17T12:41:22.562843",' +
+            '   "method":"adjustment",' +
+            '   "notes":null,' +
+            '   "credit_balance":false,' +
+            '   "payment":null,' +
+            '   "chargegroup":"https://toledo.stage.sirono.com/paystaff/api/chargegroups/124/" ' +
+            '}';
+
         return responseBody;
     }
 }

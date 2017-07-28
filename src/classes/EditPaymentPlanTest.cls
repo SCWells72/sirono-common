@@ -5,7 +5,7 @@
 /**
  * Unit class for the EditPaymentPlan class.
  **/
-@isTest
+@IsTest
 public class EditPaymentPlanTest {
     
     /**
@@ -13,19 +13,19 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void checkValidationForAmount() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        INSERT paymentPlan;
+        insert paymentPlan;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234';
         objEditPaymentPlan.cvv = '';
@@ -40,8 +40,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('Amount must be greater than zero.')) isError = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount must be greater than zero.')) {
+                isError = true;
+            }
         }
         System.assert(isError, 'Should we got error Amount must be greater than zero.');
 
@@ -53,28 +55,28 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void checkAmountValidationForChargeGroup() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
 
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year());
-        objEditPaymentPlan.expirationMonth = String.valueof(System.today().Month() - 1) ;
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year());
+        objEditPaymentPlan.expirationMonth = String.valueOf(System.today().month() - 1) ;
         objEditPaymentPlan.creditCardNumber = '';
         objEditPaymentPlan.cardHolderName = '1234567891113';
         objEditPaymentPlan.amount = '0';
@@ -93,8 +95,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('Charge Group is a required field.')) isError = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Charge Group is a required field.')) {
+                isError = true;
+            }
         }
         System.assert(isError, 'Should have failed due to missing CG');
 
@@ -106,34 +110,34 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void checkZeroAmountWithChargeGroup() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT objTransaction;
+        insert objTransaction;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
 
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -154,8 +158,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('Amount must be greater than zero.')) isError = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount must be greater than zero.')) {
+                isError = true;
+            }
         }
         System.assert(isError, 'Should we got Amount related Error.');
 
@@ -167,32 +173,32 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void checkAmountWithBalanceValue() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT objTransaction;
+        insert objTransaction;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
 
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -213,8 +219,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('Amount cannot exceed balance.')) isError = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount cannot exceed balance.')) {
+                isError = true;
+            }
         }
         System.assert(isError, 'Should have failed due to amount exceed balance');
 
@@ -227,38 +235,38 @@ public class EditPaymentPlanTest {
     @IsTest
     static void testNumberOfInstallmentsExceeded() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Service__c svc = TestUtility.generateService(chargeGroup, 24 * 250);
-        INSERT svc;
+        insert svc;
 
         Transaction__c objTransaction = TestUtility.generateServiceTxn(chargeGroup, svc.Amount__c, svc);
-        INSERT objTransaction;
+        insert objTransaction;
 
         chargeGroup = [SELECT Id, Balance__c FROM Charge_Group__c WHERE Id = :chargeGroup.Id];
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
 
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -280,7 +288,7 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
+        for (ApexPages.Message msg : msgList) {
             if (msg.getDetail().contains('This monthly amount would exceed')) {
                 isError = true;
             }
@@ -295,34 +303,34 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void checkAmountValidation() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT objTransaction;
+        insert objTransaction;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
 
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -344,8 +352,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('Amount cannot exceed balance.')) isError = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount cannot exceed balance.')) {
+                isError = true;
+            }
         }
         System.assert(isError, 'Should have failed due to amount is greater than balance value.');
 
@@ -358,13 +368,13 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void checkPageReferenceWithContact() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
 
         Test.startTest();
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        Pagereference pr = objEditPaymentPlan.cancel();
+        PageReference pr = objEditPaymentPlan.cancel();
         Test.stopTest();
 
         // Check system assert, It is redirect into Contact or not?        
@@ -377,11 +387,11 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void checkPageReferenceHome() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         Test.startTest();
-        Pagereference pr = objEditPaymentPlan.cancel();
+        PageReference pr = objEditPaymentPlan.cancel();
         Test.stopTest();
 
         // Check system assert, It is redirect into Home or not?        
@@ -393,35 +403,35 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void checkValidationsByManualSubmit() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Plan_Type__c = 'Manual';
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT objTransaction;
+        insert objTransaction;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
 
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -443,8 +453,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('Amount cannot exceed balance.')) isError = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount cannot exceed balance.')) {
+                isError = true;
+            }
         }
         System.assert(isError, 'Should be amount exceed the balance.');
     }
@@ -454,34 +466,34 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void submitWithAmountExceed() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT objTransaction;
+        insert objTransaction;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
 
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -507,8 +519,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('Amount cannot exceed balance.')) isError = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount cannot exceed balance.')) {
+                isError = true;
+            }
         }
         System.assert(isError, 'May be amount exceed the balance.');
     }
@@ -518,37 +532,37 @@ public class EditPaymentPlanTest {
      **/
     public static testMethod void submitForPromisePlan() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT objTransaction;
+        insert objTransaction;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
 
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -574,8 +588,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isSuccess = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('Saved Successfully')) isSuccess = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Saved Successfully')) {
+                isSuccess = true;
+            }
         }
         System.assert(isSuccess, 'Payment plan saved successfully with promise plan type.');
     }    
@@ -585,40 +601,40 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void submitWithPromisePlanType() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = null;
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         System.debug('23121' + paymentPlan);
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT objTransaction;
+        insert objTransaction;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
         objEditPaymentPlan.paymentPlanType = '2';
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -645,8 +661,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isSuccess = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('Saved Successfully')) isSuccess = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Saved Successfully')) {
+                isSuccess = true;
+            }
         }
         System.assert(isSuccess, 'Payment plan saved successfully.');
     }
@@ -656,40 +674,40 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void submitForPromisePlanSuccess() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = null;
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         System.debug('23121' + paymentPlan);
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT objTransaction;
+        insert objTransaction;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
         objEditPaymentPlan.paymentPlanType = '2';
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -716,8 +734,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isSuccess = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('Saved Successfully')) isSuccess = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Saved Successfully')) {
+                isSuccess = true;
+            }
         }
         System.assert(isSuccess, 'Payment plan saved successfully.');
     }
@@ -727,40 +747,40 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void submitElse() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = null;
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         System.debug('23121' + paymentPlan);
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT objTransaction;
+        insert objTransaction;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
         objEditPaymentPlan.paymentPlanType = '2';
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -786,8 +806,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('PROCESS PAYMENT EXCEPTION')) isError = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('PROCESS PAYMENT EXCEPTION')) {
+                isError = true;
+            }
         }
         System.assert(isError, 'Should have failed due to Process Payment Exception');
     }
@@ -798,38 +820,38 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void submitForAutomaticPlanJSONParsing() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = null;
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT objTransaction;
+        insert objTransaction;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
         objEditPaymentPlan.paymentPlanType = '2';
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -856,8 +878,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('PROCESS PAYMENT EXCEPTION')) isError = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('PROCESS PAYMENT EXCEPTION')) {
+                isError = true;
+            }
         }
         System.assert(isError, 'Should have failed to save payment plan due to Process Payment Exception');
     }
@@ -868,38 +892,38 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void submitForAutomaticPlanJSONParsingWithAmountError() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = null;
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT objTransaction;
+        insert objTransaction;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
         objEditPaymentPlan.paymentPlanType = '2';
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -918,7 +942,7 @@ public class EditPaymentPlanTest {
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
         TestUtility.responsebody = PaymentPlanJSONParsing.testResponse();
-        TestUtility.errorBody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_EXISTING_PLAN);
+        TestUtility.errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_EXISTING_PLAN);
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         objEditPaymentPlan.doSubmit();
         Test.stopTest();
@@ -926,8 +950,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('Amount exceeds selected charge groups')) isError = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Amount exceeds selected charge groups')) {
+                isError = true;
+            }
         }
         System.assert(isError, 'Should have failed due to Amount exceeds for selected CGs.');
     }
@@ -937,38 +963,38 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void submitForAutoPlanJSONParsingPaymentException() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = null;
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT objTransaction;
+        insert objTransaction;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
         objEditPaymentPlan.paymentPlanType = '2';
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -986,7 +1012,7 @@ public class EditPaymentPlanTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
-        TestUtility.errorBody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_LIST);
+        TestUtility.errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_LIST);
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         objEditPaymentPlan.doSubmit();
         Test.stopTest();
@@ -994,8 +1020,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('Credit card number is invalid')) isError = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Credit card number is invalid')) {
+                isError = true;
+            }
         }
         System.assert(isError, 'Should have failed due to invalid Credit card number.');
     }
@@ -1005,38 +1033,38 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void submitForAutoPlanJSONParsingInvalidHyperlink() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = 1;
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT objTransaction;
+        insert objTransaction;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
         objEditPaymentPlan.paymentPlanType = '2';
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -1054,7 +1082,7 @@ public class EditPaymentPlanTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
-        TestUtility.errorBody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_CHARGEGROUPS);
+        TestUtility.errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_CHARGEGROUPS);
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         objEditPaymentPlan.doSubmit();
         objEditPaymentPlan.doTesting();
@@ -1063,8 +1091,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('Invalid hyperlink')) isError = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Invalid hyperlink')) {
+                isError = true;
+            }
         }
         System.assert(isError, 'Should have failed due to invalid hyperlink.');
     }
@@ -1074,10 +1104,10 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void checkExecuteonDayPopulated() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Test.startTest();
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
@@ -1085,10 +1115,10 @@ public class EditPaymentPlanTest {
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = null;
-        INSERT paymentPlan;
+        insert paymentPlan;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         Test.stopTest();
 
@@ -1101,40 +1131,40 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void submitForAutoPlanJSONParsingUpdateCGOnExistingPlan() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = 1;
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT objTransaction;
+        insert objTransaction;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         objEditPaymentPlan.fillNameAndAddress();
 
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
         objEditPaymentPlan.paymentPlanType = '2';
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -1152,7 +1182,7 @@ public class EditPaymentPlanTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
-        TestUtility.Errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.VALIDATION_EXISTING_PLAN);
+        TestUtility.errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.VALIDATION_EXISTING_PLAN);
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         objEditPaymentPlan.doSubmit();
         objEditPaymentPlan.doTesting();
@@ -1161,8 +1191,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('Cannot directly change ChargeGroups on an existing')) isError = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Cannot directly change ChargeGroups on an existing')) {
+                isError = true;
+            }
         }
         System.assert(isError, 'Should have failed due to directly change CG on an existing PP.');
     }
@@ -1172,37 +1204,37 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void submitForAutoPlanJSONParsingSuccess() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT objTransaction;
+        insert objTransaction;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
 
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -1228,8 +1260,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isSuccess = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('Saved Successfully')) isSuccess = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Saved Successfully')) {
+                isSuccess = true;
+            }
         }
         System.assert(isSuccess, 'PP Saved Successfully.');
     }
@@ -1239,40 +1273,40 @@ public class EditPaymentPlanTest {
      **/
     static testMethod void submitForAutoPlanJSONParsingNonFieldErrors() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
-        INSERT patientContact;
+        insert patientContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
         paymentPlan.Execute_on_Day__c = 1;
-        INSERT paymentPlan;
+        insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         chargeGroup.Reported_Selfpay_Balance__c = -100;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        INSERT objTransaction;
+        insert objTransaction;
 
-        Apexpages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        Apexpages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
+        ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
         objEditPaymentPlan.fillNameAndAddress();
 
         List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
         List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
 
-        for (ChargeGroupWrapper objChargeGroupWrapper: objEditPaymentPlan.chargeGroupList) {
+        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
             objChargeGroupWrapper.isSelected = true;
         }
         objEditPaymentPlan.paymentPlanType = '2';
         objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueof(System.today().Year() + 1);
+        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
         objEditPaymentPlan.expirationMonth = '07';
         objEditPaymentPlan.creditCardNumber = '1234567891113';
         objEditPaymentPlan.cardHolderName = '1234567891113';
@@ -1290,7 +1324,7 @@ public class EditPaymentPlanTest {
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
-        TestUtility.Errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.VALIDATION_EXISTING_PLAN);
+        TestUtility.errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.VALIDATION_EXISTING_PLAN);
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
         objEditPaymentPlan.doSubmit();
         objEditPaymentPlan.doTesting();
@@ -1299,8 +1333,10 @@ public class EditPaymentPlanTest {
         // Check system assert.
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
-            if (msg.getDetail().contains('Cannot directly change ChargeGroups on an existing')) isError = true;
+        for (ApexPages.Message msg : msgList) {
+            if (msg.getDetail().contains('Cannot directly change ChargeGroups on an existing')) {
+                isError = true;
+            }
         }
         System.assert(isError, 'Should have failed due to change CG.');
     }
@@ -1308,7 +1344,7 @@ public class EditPaymentPlanTest {
     /**
      * Check all access rights for a read only User using runAs.
      **/
-    @isTest
+    @IsTest
     static void checkAccessRights() {
         List<PaymentPlanSecurityContext> allContexts = new List<PaymentPlanSecurityContext> {
             PaymentPlanSecurityContext.UPSERT_CONTEXT,
@@ -1318,7 +1354,7 @@ public class EditPaymentPlanTest {
         };
 
         System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (PaymentPlanSecurityContext context: allContexts) {
+            for (PaymentPlanSecurityContext context : allContexts) {
                 try {
                     context.actionAllowed();
                     System.assert(false, 'Expected permission to be denied for ' + context);

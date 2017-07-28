@@ -12,7 +12,7 @@ public with sharing class UserSecurityContext extends SecurityContext {
     private static final String PROFILEID = 'ProfileId';
 
     // The fields for selecting a User in CreateAdjustment
-    private static final Set<String> SELECT_FIELDS = new Set<String>{
+    private static final Set<String> SELECT_FIELDS = new Set<String> {
         ID, PROFILEID
     };
 
