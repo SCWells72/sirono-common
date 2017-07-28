@@ -5,10 +5,10 @@
 ({
     doInit: function (component, event, helper) {
         var invoiceId = component.get('v.invoiceId');
-		var isEstimate = component.get('v.isEstimateType');
-		if (invoiceId === null) {
-			helper.init(component);
-		} else if(!isEstimate) {
+        var isEstimate = component.get('v.isEstimateType');
+        if (invoiceId === null) {
+            helper.init(component);
+        } else if (!isEstimate) {
             var filters = component.find('filters');
             $A.util.toggleClass(filters, 'slds-hide');
             helper.getInvoice(component, invoiceId);
@@ -18,19 +18,19 @@
             helper.getEstimate(component, invoiceId);
         }
     },
-    selectAllInvoices : function(component, event, helper) {	
-		$A.util.removeClass(component.find('filters'), 'slds-hide');
-		$A.util.removeClass(component.find('invoicesNotOnPaymentPlanSection'), 'slds-hide');
+    selectAllInvoices: function (component, event, helper) {
+        $A.util.removeClass(component.find('filters'), 'slds-hide');
+        $A.util.removeClass(component.find('invoicesNotOnPaymentPlanSection'), 'slds-hide');
 
         var areAllInvoicesSelected = component.get('v.AreAllInvoicesSelected');
         $A.get("e.c:SelectInvoicesEvent").setParams({"SelectAll": !areAllInvoicesSelected}).fire();
         component.set('v.AreAllInvoicesSelected', !areAllInvoicesSelected);
     },
 
-    refreshAllInvoicesSelected : function(component, event, helper) {
+    refreshAllInvoicesSelected: function (component, event, helper) {
 
-		var areAllinvoicesSelected = true;
-        component.get('v.invoices').forEach(function(item, i, arr) {
+        var areAllinvoicesSelected = true;
+        component.get('v.invoices').forEach(function (item, i, arr) {
             areAllinvoicesSelected = areAllinvoicesSelected && item.get('v.activated');
         });
         component.set('v.AreAllInvoicesSelected', areAllinvoicesSelected);
