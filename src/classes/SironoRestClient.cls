@@ -86,6 +86,15 @@ public abstract with sharing class SironoRestClient {
     }
 
     /**
+     * Configure the request for the PUT method.
+     *
+     * @returns - SironoRestClient The SironoRestClient object, allows chaining.
+     */
+    public SironoRestClient putRequestor() {
+        return putRequestor(true);
+    }
+
+    /**
      * Configure the request for the POST method.
      *
      * @params - Boolean addDefaults If true, include the default request settings.
@@ -105,9 +114,16 @@ public abstract with sharing class SironoRestClient {
     /**
      * Configure the request for the PUT method.
      *
+     * @params - Boolean addDefaults If true, include the default request settings.
      * @returns - SironoRestClient The SironoRestClient object, allows chaining.
      */
-    public SironoRestClient putRequestor() {
+    public SironoRestClient putRequestor(Boolean addDefaults) {
+        if (addDefaults) {
+            addDefaults();
+        }
+        setSuccessStatuses(new Set<Integer>{
+            RestClientConstants.HTTP_SUCCESS
+        });
         req.setMethod(RestClientConstants.PUT);
         return this;
     }

@@ -111,6 +111,7 @@ public with sharing class PaymentTabsControllerTest {
 
     @isTest
     public static void testDoEditPaymentMethodNoId() {
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         Map<String, Object> ppInfoMap = new Map<String, Object>();
 
         try {
@@ -128,8 +129,12 @@ public with sharing class PaymentTabsControllerTest {
 
     @isTest
     public static void testDoEditPaymentMethodNewCardNoSave() {
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+
         User portalUser = TestUtility.getGuarantorCommunityUser();
         User adminUser = TestUtility.getPortalAdminUser();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
+
 
         Payment_Plan__c createdPlan = insertPaymentPlan(adminUser, portalUser);
         String cHolderName = 'Pork nBeans';
@@ -141,6 +146,16 @@ public with sharing class PaymentTabsControllerTest {
         ppInfoMap.put(PaymentPlanInformation.CVV_KEY, '127');
         ppInfoMap.put(PaymentPlanInformation.CREDITCARD_NUMBER, '4111111111111111');
         ppInfoMap.put('id', createdPlan.Id);
+        ppInfoMap.put(PaymentPlanInformation.PLAN_TYPE, Constants.PLANTYPE_AUTO);
+        ppInfoMap.put(PaymentPlanInformation.PLAN_VALUE, '');
+        ppInfoMap.put(PaymentPlanInformation.AMOUNT_KEY, '234');
+        ppInfoMap.put(PaymentPlanInformation.EXECUTE_ON_DAY, '1');
+        ppInfoMap.put(PaymentPlanInformation.GUARANTOR_ID, portalUser.ContactId);
+        ppInfoMap.put(PaymentPlanInformation.STATE_KEY, 'CA');
+        ppInfoMap.put(PaymentPlanInformation.ZIP_KEY, '78717');
+        ppInfoMap.put(PaymentPlanInformation.ADDRESS_KEY, '123 St. Road');
+        ppInfoMap.put(PaymentPlanInformation.CITY_KEY, 'San Diego');
+
 
         Payment_Plan__c plan;
         System.runAs(portalUser) {
@@ -156,8 +171,12 @@ public with sharing class PaymentTabsControllerTest {
 
     @isTest
     public static void testDoEditPaymentMethodNewCardSaved() {
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+
         User portalUser = TestUtility.getGuarantorCommunityUser();
         User adminUser = TestUtility.getPortalAdminUser();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
+
 
         Payment_Plan__c createdPlan = insertPaymentPlan(adminUser, portalUser);
         String cHolderName = 'Pork nBeans';
@@ -169,6 +188,15 @@ public with sharing class PaymentTabsControllerTest {
         ppInfoMap.put(PaymentPlanInformation.CVV_KEY, '127');
         ppInfoMap.put(PaymentPlanInformation.CREDITCARD_NUMBER, '4111111111111111');
         ppInfoMap.put('id', createdPlan.Id);
+        ppInfoMap.put(PaymentPlanInformation.PLAN_TYPE, Constants.PLANTYPE_AUTO);
+        ppInfoMap.put(PaymentPlanInformation.PLAN_VALUE, '');
+        ppInfoMap.put(PaymentPlanInformation.AMOUNT_KEY, '234');
+        ppInfoMap.put(PaymentPlanInformation.EXECUTE_ON_DAY, '1');
+        ppInfoMap.put(PaymentPlanInformation.GUARANTOR_ID, portalUser.ContactId);
+        ppInfoMap.put(PaymentPlanInformation.STATE_KEY, 'CA');
+        ppInfoMap.put(PaymentPlanInformation.ZIP_KEY, '78717');
+        ppInfoMap.put(PaymentPlanInformation.ADDRESS_KEY, '123 St. Road');
+        ppInfoMap.put(PaymentPlanInformation.CITY_KEY, 'San Diego');
 
         Payment_Plan__c plan;
         System.runAs(portalUser) {
@@ -180,6 +208,28 @@ public with sharing class PaymentTabsControllerTest {
         List<Payment_Method__c> savedMethods = [SELECT Id FROM Payment_Method__c WHERE Card_Holder_Name__c = :cHolderName];
         System.assertNotEquals(null, plan, 'Should return payment plan');
         System.assertEquals(1, savedMethods.size(), 'Should have saved the new payment method.');
+    }
+
+    @isTest
+    public static void testDoEditPaymentPlanServiceExcpetion() {
+        User portalUser = TestUtility.getGuarantorCommunityUser();
+        Map<String, Object> ppInfoMap = new Map<String, Object>();
+        // Fake Id
+        ppInfoMap.put('id', '548302');
+
+
+        try {
+            Test.startTest();
+            PaymentTabsController.doEditPaymentMethod(ppInfoMap, false);
+            System.assert(false, 'Should have thown aura exception.');
+        } catch (AuraHandledException e) {
+            Test.stopTest();
+            System.assertNotEquals(null, e.getMessage(), 'Should have an error message.');
+            System.assertEquals('Error encountered updating plan payment method. Please contact support', e.getMessage(), 'Should have proper error.');
+        } catch (Exception ex) {
+            System.assert(false, 'Should not have thrown unexpected exception.');
+        }
+
     }
 
     @isTest
