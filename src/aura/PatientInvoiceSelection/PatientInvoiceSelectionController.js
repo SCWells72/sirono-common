@@ -6,7 +6,7 @@
     doInit: function (component, event, helper) {
         var invoiceId = component.get('v.invoiceId');
         var isEstimate = component.get('v.isEstimateType');
-        if (invoiceId === null) {
+        if (!invoiceId) {
             helper.init(component);
         } else if (!isEstimate) {
             var filters = component.find('filters');
@@ -69,7 +69,7 @@
         var invoiceId = component.get('v.invoiceId');
         var isEstimate = event.getParam('isEstimateType');
         component.set('v.isEstimateType', isEstimate);
-        if (invoiceId === null || activeTab === 'CreatePaymentPlan') {
+        if (!invoiceId || activeTab === 'CreatePaymentPlan') {
             helper.getAllInvoices(component);
         } else if (!isEstimate) {
             var filters = component.find('filters');
