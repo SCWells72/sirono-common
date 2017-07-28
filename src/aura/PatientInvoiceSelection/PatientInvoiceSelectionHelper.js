@@ -48,7 +48,7 @@
         var selectedPatients = component.get('v.patientSet');
         if (selectedPatients != null && selectedPatients.length > 0) {
             for (var i = 0; i < selectedPatients.length; i++) {
-                if (selectedPatients[i].isSelected == true) {
+                if (selectedPatients[i].isSelected === true) {
                     additionalFilter.push(selectedPatients[i].id);
                 }
             }
@@ -65,14 +65,10 @@
                 component.set("v.listOfInvoices", listOfInvoices);
                 var selectedBalance = 0;
                 var allInvoices = [];
-                console.log('PISH:', listOfInvoices);
                 for (var i = 0; i < listOfInvoices.length; i++) {
-                    console.log('invoice balance', listOfInvoices[i]);
                     selectedBalance += listOfInvoices[i].balanceDue;
                     allInvoices.push(listOfInvoices[i].singleInvoice.Id);
                 }
-                console.log('selectedBalance', selectedBalance);
-                console.log('allInvoices to event', allInvoices);
                 var calculatePaymentBalance = $A.get("e.c:calculatePaymentBalanceEvent");
                 calculatePaymentBalance.setParams({
                     "paymentBalance": selectedBalance,
@@ -148,14 +144,11 @@
             var state = response.getState();
             if (state === "SUCCESS") {
                 var listOfInvoices = response.getReturnValue();
-                console.log('listOfInvoices ', listOfInvoices);
                 component.set("v.listOfInvoices", listOfInvoices);
                 var selectedBalance = 0;
                 for (var i = 0; i < listOfInvoices.length; i++) {
-                    console.log('invoice balance', listOfInvoices[i]);
                     selectedBalance += listOfInvoices[i].singleEncounter.Balance__c;
                 }
-                console.log('selectedBalance', selectedBalance);
                 var calculatePaymentBalance = $A.get("e.c:calculatePaymentBalanceEvent");
                 calculatePaymentBalance.setParams({
                     "paymentBalance": selectedBalance
@@ -189,16 +182,13 @@
             var state = response.getState();
             if (state === "SUCCESS") {
                 var listOfInvoices = response.getReturnValue();
-                console.log('listOfInvoices ', listOfInvoices);
                 component.set("v.listOfInvoices", listOfInvoices);
                 var selectedBalance = 0;
                 var allInvoices = [];
                 for (var i = 0; i < listOfInvoices.length; i++) {
-                    console.log('invoice balance', listOfInvoices[i]);
                     selectedBalance += listOfInvoices[i].balanceDue;
                     allInvoices.push(listOfInvoices[i].singleInvoice.Id);
                 }
-                console.log('selectedBalance', selectedBalance);
                 var calculatePaymentBalance = $A.get("e.c:calculatePaymentBalanceEvent");
                 calculatePaymentBalance.setParams({
                     "paymentBalance": selectedBalance,
@@ -222,17 +212,13 @@
     },
 
     createTiles: function (component, listOfInvoices) {
-        console.log('listOfInvoices', listOfInvoices);
         component.set('v.invoices', []);
         component.set('v.blockInvoices', []);
         var selectedTab = component.get('v.selectedTab');
-        console.log('CreateTiles', selectedTab);
-        if (selectedTab != 'MakeAPayment') {
+        if (selectedTab !== 'MakeAPayment') {
             for (var i = 0; i < listOfInvoices.length; i++) {
-                console.log(listOfInvoices[i].singleInvoice.Invoice_Status__c);
                 // Add additional checks for filling list of invoices in if conditions
-                if (listOfInvoices[i].singleInvoice.Invoice_Status__c != 'On Payment Plan') {
-                    console.log('Check Invoice');
+                if (listOfInvoices[i].singleInvoice.Invoice_Status__c !== 'On Payment Plan') {
                     $A.createComponent(
                             "c:SingleInvoice",
                             {
@@ -255,7 +241,6 @@
                             }
                     );
                 } else {
-                    console.log('Block Invoice');
                     $A.createComponent(
                             "c:SingleInvoice",
                             {
@@ -267,9 +252,7 @@
                                 if (status === "SUCCESS") {
                                     var invoices = component.get('v.blockInvoices');
                                     invoices.push(invoice);
-                                    console.log('invoices', invoices);
                                     component.set('v.blockInvoices', invoices);
-                                    console.log(component.get('v.blockInvoices'));
                                 }
                                 else if (status === "INCOMPLETE") {
                                     console.log("No response from server or client is offline.");
@@ -283,7 +266,6 @@
             }
         } else {
             for (var i = 0; i < listOfInvoices.length; i++) {
-                console.log('263', listOfInvoices[i]);
                 // Add additional checks for filling list of invoices in if conditions
                 $A.createComponent(
                         "c:SingleInvoice",
@@ -295,9 +277,7 @@
                         function (invoice, status, errorMessage) {
                             if (status === "SUCCESS") {
                                 var invoices = component.get('v.invoices');
-                                console.log('invoices', invoices);
                                 invoices.push(invoice);
-                                console.log('invoices2', invoices);
                                 component.set('v.invoices', invoices);
                             }
                             else if (status === "INCOMPLETE") {
@@ -316,7 +296,6 @@
         component.set('v.invoices', []);
 
         for (var i = 0; i < listOfInvoices.length; i++) {
-            console.log('Estimate', listOfInvoices[i]);
             $A.createComponent(
                     "c:Estimate",
                     {
