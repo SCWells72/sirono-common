@@ -96,6 +96,13 @@
         <name>RemoteSiteSetting</name>
     </types>
     <types>
+        <members>Call_Center_Agent</members>
+        <members>Call_Center_Manager</members>
+        <members>Integration_Admin</members>
+        <members>Operations_Team</members>
+        <name>Role</name>
+    </types>
+    <types>
         <members>Contact.View_On_Portal</members>
         <members>Encounter__c.New_Payment_Arrangement</members>
         <name>WebLink</name>

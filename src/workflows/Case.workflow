@@ -108,8 +108,8 @@
     </rules>
     <tasks>
         <fullName>CASE_ESCALATION</fullName>
-        <assignedTo>Call_Center_Manager</assignedTo>
-        <assignedToType>role</assignedToType>
+        <assignedTo></assignedTo>
+        <assignedToType>owner</assignedToType>
         <dueDateOffset>1</dueDateOffset>
         <notifyAssignee>false</notifyAssignee>
         <priority>High</priority>
