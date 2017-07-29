@@ -1,65 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
-    <actionOverrides>
-        <actionName>Accept</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>CancelEdit</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>ChangeStatus</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Clone</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>CloneAsChild</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>CloseCase</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Delete</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Edit</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>List</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>MassClose</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>NewCase</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>SaveEdit</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Tab</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>View</actionName>
-        <type>Default</type>
-    </actionOverrides>
     <businessProcesses>
         <fullName>Administrative</fullName>
         <description>Administrative process to govern cases concerning Guarantor change request</description>
@@ -183,7 +123,6 @@
             <default>false</default>
         </values>
     </businessProcesses>
-    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <enableFeeds>true</enableFeeds>
     <externalSharingModel>Private</externalSharingModel>
     <fieldSets>
@@ -1012,20 +951,6 @@
         <label>Sirono Review Missing Payment</label>
     </fieldSets>
     <fields>
-        <fullName>AccountId</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>AssetId</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
-    </fields>
-    <fields>
         <fullName>Asset_ID__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <description>The asset Id of the case</description>
@@ -1066,13 +991,6 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>BusinessHoursId</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Caller_CaseClaim__c</fullName>
@@ -1190,10 +1108,6 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>ClosedDate</fullName>
-        <trackTrending>false</trackTrending>
-    </fields>
-    <fields>
         <fullName>Closed_Date__c</fullName>
         <externalId>false</externalId>
         <label>Closed Date</label>
@@ -1207,67 +1121,59 @@
         <fullName>Closed_Reason__c</fullName>
         <externalId>false</externalId>
         <label>Closed Reason</label>
-        <picklist>
-            <controllingField>Status</controllingField>
-            <picklistValues>
-                <fullName>Chargegroup Bad Debt/inactive</fullName>
-                <default>false</default>
-                <controllingFieldValues>Closed</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Closed – Success</fullName>
-                <default>false</default>
-                <controllingFieldValues>Closed</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Closed – Unsuccessful</fullName>
-                <default>false</default>
-                <controllingFieldValues>Closed</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Closed – Case not necessary</fullName>
-                <default>false</default>
-                <controllingFieldValues>Closed</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Closed - Automated</fullName>
-                <default>false</default>
-            </picklistValues>
-            <restrictedPicklist>true</restrictedPicklist>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
-    </fields>
-    <fields>
-        <fullName>Comments</fullName>
-        <trackTrending>false</trackTrending>
-    </fields>
-    <fields>
-        <fullName>ContactEmail</fullName>
-        <trackTrending>false</trackTrending>
-    </fields>
-    <fields>
-        <fullName>ContactFax</fullName>
-        <trackTrending>false</trackTrending>
-    </fields>
-    <fields>
-        <fullName>ContactId</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>ContactMobile</fullName>
-        <trackTrending>false</trackTrending>
-    </fields>
-    <fields>
-        <fullName>ContactPhone</fullName>
-        <trackTrending>false</trackTrending>
+        <valueSet>
+            <controllingField>Status</controllingField>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Chargegroup Bad Debt/inactive</fullName>
+                    <default>false</default>
+                    <label>Chargegroup Bad Debt/inactive</label>
+                </value>
+                <value>
+                    <fullName>Closed – Success</fullName>
+                    <default>false</default>
+                    <label>Closed – Success</label>
+                </value>
+                <value>
+                    <fullName>Closed – Unsuccessful</fullName>
+                    <default>false</default>
+                    <label>Closed – Unsuccessful</label>
+                </value>
+                <value>
+                    <fullName>Closed – Case not necessary</fullName>
+                    <default>false</default>
+                    <label>Closed – Case not necessary</label>
+                </value>
+                <value>
+                    <fullName>Closed - Automated</fullName>
+                    <default>false</default>
+                    <label>Closed - Automated</label>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Closed</controllingFieldValue>
+                <valueName>Chargegroup Bad Debt/inactive</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Closed</controllingFieldValue>
+                <valueName>Closed – Success</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Closed</controllingFieldValue>
+                <valueName>Closed – Unsuccessful</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Closed</controllingFieldValue>
+                <valueName>Closed – Case not necessary</valueName>
+            </valueSettings>
+        </valueSet>
     </fields>
     <fields>
         <fullName>Contact_ID__c</fullName>
@@ -1370,12 +1276,6 @@
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>Description</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-    </fields>
-    <fields>
         <fullName>Effective_Date__c</fullName>
         <externalId>false</externalId>
         <label>Effective Date</label>
@@ -1389,35 +1289,42 @@
         <fullName>Eligible_Discount__c</fullName>
         <externalId>false</externalId>
         <label>Eligible Discount %</label>
-        <picklist>
-            <picklistValues>
-                <fullName>(E) 80%</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>(D) 70%</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>(C) 60%</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>(B) 50%</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>(A) 40%</fullName>
-                <default>false</default>
-            </picklistValues>
-            <restrictedPicklist>true</restrictedPicklist>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>(E) 80%</fullName>
+                    <default>false</default>
+                    <label>(E) 80%</label>
+                </value>
+                <value>
+                    <fullName>(D) 70%</fullName>
+                    <default>false</default>
+                    <label>(D) 70%</label>
+                </value>
+                <value>
+                    <fullName>(C) 60%</fullName>
+                    <default>false</default>
+                    <label>(C) 60%</label>
+                </value>
+                <value>
+                    <fullName>(B) 50%</fullName>
+                    <default>false</default>
+                    <label>(B) 50%</label>
+                </value>
+                <value>
+                    <fullName>(A) 40%</fullName>
+                    <default>false</default>
+                    <label>(A) 40%</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>Encounter__c</fullName>
@@ -1448,112 +1355,136 @@
         <fullName>Est_annual_gross_family_income__c</fullName>
         <externalId>false</externalId>
         <label>Est. annual gross family income</label>
-        <picklist>
-            <picklistValues>
-                <fullName>0-23,540</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>23,541-31,860</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>31,861-40,180</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>40,181-48,500</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>48,501-56,820</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>56,821-65,140</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>65,141-73,460</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>73,461-81,780</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>0-23,540</fullName>
+                    <default>false</default>
+                    <label>0-23,540</label>
+                </value>
+                <value>
+                    <fullName>23,541-31,860</fullName>
+                    <default>false</default>
+                    <label>23,541-31,860</label>
+                </value>
+                <value>
+                    <fullName>31,861-40,180</fullName>
+                    <default>false</default>
+                    <label>31,861-40,180</label>
+                </value>
+                <value>
+                    <fullName>40,181-48,500</fullName>
+                    <default>false</default>
+                    <label>40,181-48,500</label>
+                </value>
+                <value>
+                    <fullName>48,501-56,820</fullName>
+                    <default>false</default>
+                    <label>48,501-56,820</label>
+                </value>
+                <value>
+                    <fullName>56,821-65,140</fullName>
+                    <default>false</default>
+                    <label>56,821-65,140</label>
+                </value>
+                <value>
+                    <fullName>65,141-73,460</fullName>
+                    <default>false</default>
+                    <label>65,141-73,460</label>
+                </value>
+                <value>
+                    <fullName>73,461-81,780</fullName>
+                    <default>false</default>
+                    <label>73,461-81,780</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>Est_income_measure_3_or_12_months__c</fullName>
         <externalId>false</externalId>
         <label>Est. income measure (3 or 12 months)</label>
-        <picklist>
-            <picklistValues>
-                <fullName>3 months</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>12 months</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>3 months</fullName>
+                    <default>false</default>
+                    <label>3 months</label>
+                </value>
+                <value>
+                    <fullName>12 months</fullName>
+                    <default>false</default>
+                    <label>12 months</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>Est_monthly_gross_family_income__c</fullName>
         <externalId>false</externalId>
         <label>Est. monthly gross family income</label>
-        <picklist>
-            <picklistValues>
-                <fullName>0-1,962</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>1,963-2,655</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>2,656-3,348</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>3,349-4,042</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>4,043-4,735</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>4,736-5,428</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>5,429-6,122</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>6,123-8,178</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>0-1,962</fullName>
+                    <default>false</default>
+                    <label>0-1,962</label>
+                </value>
+                <value>
+                    <fullName>1,963-2,655</fullName>
+                    <default>false</default>
+                    <label>1,963-2,655</label>
+                </value>
+                <value>
+                    <fullName>2,656-3,348</fullName>
+                    <default>false</default>
+                    <label>2,656-3,348</label>
+                </value>
+                <value>
+                    <fullName>3,349-4,042</fullName>
+                    <default>false</default>
+                    <label>3,349-4,042</label>
+                </value>
+                <value>
+                    <fullName>4,043-4,735</fullName>
+                    <default>false</default>
+                    <label>4,043-4,735</label>
+                </value>
+                <value>
+                    <fullName>4,736-5,428</fullName>
+                    <default>false</default>
+                    <label>4,736-5,428</label>
+                </value>
+                <value>
+                    <fullName>5,429-6,122</fullName>
+                    <default>false</default>
+                    <label>5,429-6,122</label>
+                </value>
+                <value>
+                    <fullName>6,123-8,178</fullName>
+                    <default>false</default>
+                    <label>6,123-8,178</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>External_Author__c</fullName>
@@ -1570,26 +1501,31 @@
         <fullName>Form_to_be_Mailed__c</fullName>
         <externalId>false</externalId>
         <label>Form to be Mailed</label>
-        <picklist>
-            <picklistValues>
-                <fullName>HIPAA consent</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Receipt</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Charity Application</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>HIPAA consent</fullName>
+                    <default>false</default>
+                    <label>HIPAA consent</label>
+                </value>
+                <value>
+                    <fullName>Receipt</fullName>
+                    <default>false</default>
+                    <label>Receipt</label>
+                </value>
+                <value>
+                    <fullName>Charity Application</fullName>
+                    <default>false</default>
+                    <label>Charity Application</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>Group_Number__c</fullName>
@@ -1647,43 +1583,51 @@
         <fullName>Has_CSS_Comments__c</fullName>
         <externalId>false</externalId>
         <label>Has CSS Comments</label>
-        <picklist>
-            <picklistValues>
-                <fullName>Yes</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>No</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                    <label>Yes</label>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                    <label>No</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>Has_Comments_Unread__c</fullName>
         <externalId>false</externalId>
         <label>Has Comments Unread</label>
-        <picklist>
-            <picklistValues>
-                <fullName>Yes</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>No</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                    <label>Yes</label>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                    <label>No</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>ID__c</fullName>
@@ -1713,81 +1657,82 @@
         <fullName>Insurance_Type__c</fullName>
         <externalId>false</externalId>
         <label>Insurance Type</label>
-        <picklist>
-            <picklistValues>
-                <fullName>Commercial</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Medicaid</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Medicare</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Commercial</fullName>
+                    <default>false</default>
+                    <label>Commercial</label>
+                </value>
+                <value>
+                    <fullName>Medicaid</fullName>
+                    <default>false</default>
+                    <label>Medicaid</label>
+                </value>
+                <value>
+                    <fullName>Medicare</fullName>
+                    <default>false</default>
+                    <label>Medicare</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
         <visibleLines>4</visibleLines>
-    </fields>
-    <fields>
-        <fullName>IsClosedOnCreate</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-    </fields>
-    <fields>
-        <fullName>IsEscalated</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
     </fields>
     <fields>
         <fullName>Is_Closed__c</fullName>
         <externalId>false</externalId>
         <label>Is Closed</label>
-        <picklist>
-            <picklistValues>
-                <fullName>Yes</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>No</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                    <label>Yes</label>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                    <label>No</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>Is_Escalated__c</fullName>
         <externalId>false</externalId>
         <label>Is Escalated</label>
-        <picklist>
-            <picklistValues>
-                <fullName>Yes</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>No</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                    <label>Yes</label>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                    <label>No</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>Last_Modified_By_ID__c</fullName>
@@ -2084,147 +2029,215 @@
         <fullName>Object__c</fullName>
         <externalId>false</externalId>
         <label>Object</label>
-        <picklist>
-            <controllingField>Reason</controllingField>
-            <picklistValues>
-                <fullName>Campaigns</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Cases</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Charge Group Coverage Junctions</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Charge Groups</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Contacts</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Coverages</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Encounters</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Invoices</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Locations</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Patient Coverage Junctions</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Payment/Adjustments</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Payment Arrangements</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Payment Methods</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Payment Plans</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Payments</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Payors</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Providers</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Service Rollups</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Services</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Statements</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Transactions</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Transaction Types</fullName>
-                <default>false</default>
-                <controllingFieldValues>Object</controllingFieldValues>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
-    </fields>
-    <fields>
-        <fullName>Origin</fullName>
-        <picklist>
-            <picklistValues>
-                <fullName>Web</fullName>
-                <default>true</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Email</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Phone</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Reason</controllingField>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Campaigns</fullName>
+                    <default>false</default>
+                    <label>Campaigns</label>
+                </value>
+                <value>
+                    <fullName>Cases</fullName>
+                    <default>false</default>
+                    <label>Cases</label>
+                </value>
+                <value>
+                    <fullName>Charge Group Coverage Junctions</fullName>
+                    <default>false</default>
+                    <label>Charge Group Coverage Junctions</label>
+                </value>
+                <value>
+                    <fullName>Charge Groups</fullName>
+                    <default>false</default>
+                    <label>Charge Groups</label>
+                </value>
+                <value>
+                    <fullName>Contacts</fullName>
+                    <default>false</default>
+                    <label>Contacts</label>
+                </value>
+                <value>
+                    <fullName>Coverages</fullName>
+                    <default>false</default>
+                    <label>Coverages</label>
+                </value>
+                <value>
+                    <fullName>Encounters</fullName>
+                    <default>false</default>
+                    <label>Encounters</label>
+                </value>
+                <value>
+                    <fullName>Invoices</fullName>
+                    <default>false</default>
+                    <label>Invoices</label>
+                </value>
+                <value>
+                    <fullName>Locations</fullName>
+                    <default>false</default>
+                    <label>Locations</label>
+                </value>
+                <value>
+                    <fullName>Patient Coverage Junctions</fullName>
+                    <default>false</default>
+                    <label>Patient Coverage Junctions</label>
+                </value>
+                <value>
+                    <fullName>Payment/Adjustments</fullName>
+                    <default>false</default>
+                    <label>Payment/Adjustments</label>
+                </value>
+                <value>
+                    <fullName>Payment Arrangements</fullName>
+                    <default>false</default>
+                    <label>Payment Arrangements</label>
+                </value>
+                <value>
+                    <fullName>Payment Methods</fullName>
+                    <default>false</default>
+                    <label>Payment Methods</label>
+                </value>
+                <value>
+                    <fullName>Payment Plans</fullName>
+                    <default>false</default>
+                    <label>Payment Plans</label>
+                </value>
+                <value>
+                    <fullName>Payments</fullName>
+                    <default>false</default>
+                    <label>Payments</label>
+                </value>
+                <value>
+                    <fullName>Payors</fullName>
+                    <default>false</default>
+                    <label>Payors</label>
+                </value>
+                <value>
+                    <fullName>Providers</fullName>
+                    <default>false</default>
+                    <label>Providers</label>
+                </value>
+                <value>
+                    <fullName>Service Rollups</fullName>
+                    <default>false</default>
+                    <label>Service Rollups</label>
+                </value>
+                <value>
+                    <fullName>Services</fullName>
+                    <default>false</default>
+                    <label>Services</label>
+                </value>
+                <value>
+                    <fullName>Statements</fullName>
+                    <default>false</default>
+                    <label>Statements</label>
+                </value>
+                <value>
+                    <fullName>Transactions</fullName>
+                    <default>false</default>
+                    <label>Transactions</label>
+                </value>
+                <value>
+                    <fullName>Transaction Types</fullName>
+                    <default>false</default>
+                    <label>Transaction Types</label>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Campaigns</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Cases</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Charge Group Coverage Junctions</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Charge Groups</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Contacts</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Coverages</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Encounters</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Invoices</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Locations</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Patient Coverage Junctions</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Payment/Adjustments</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Payment Arrangements</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Payment Methods</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Payment Plans</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Payments</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Payors</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Providers</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Service Rollups</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Services</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Statements</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Transactions</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Object</controllingFieldValue>
+                <valueName>Transaction Types</valueName>
+            </valueSettings>
+        </valueSet>
     </fields>
     <fields>
         <fullName>Origin_Code__c</fullName>
@@ -2242,25 +2255,21 @@
         <fullName>Origin__c</fullName>
         <externalId>false</externalId>
         <label>Origin</label>
-        <picklist>
-            <picklistValues>
-                <fullName>Currently not used</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
-    </fields>
-    <fields>
-        <fullName>OwnerId</fullName>
-        <trackFeedHistory>true</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Currently not used</fullName>
+                    <default>false</default>
+                    <label>Currently not used</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>Owner_ID__c</fullName>
@@ -2273,13 +2282,6 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>ParentId</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Patient_DOB__c</fullName>
@@ -2383,344 +2385,87 @@
         <fullName>Plan_Type__c</fullName>
         <externalId>false</externalId>
         <label>Plan Type</label>
-        <picklist>
-            <picklistValues>
-                <fullName>HMO</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Other</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>PPO</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
-    </fields>
-    <fields>
-        <fullName>Priority</fullName>
-        <inlineHelpText>Priority represents the importance of fixing a case, and reflects a business decision as to how soon that case should be fixed.</inlineHelpText>
-        <picklist>
-            <picklistValues>
-                <fullName>High</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Medium</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Low</fullName>
-                <default>true</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
-        <trackFeedHistory>true</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Picklist</type>
-    </fields>
-    <fields>
-        <fullName>Reason</fullName>
-        <picklist>
-            <picklistValues>
-                <fullName>Bankruptcy</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Charge Group</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Compliance Issue</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>CTI</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Demographic Update</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Discount Request</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Dispute of Charges</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Feature Request</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Fields</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Formula</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Guarantor Requests Itemized Statement</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Insurance Agent Called</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Insurance Error</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Insurance Follow-up</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Liability Account</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Mailed Form Request: Charity Application</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Mailed Form Request: HIPAA Release</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Mailed Form Request: Itemized Statement</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Mailed Form Request: Receipt</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Merge Request</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Missing Payment</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Move Payment</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>New Insurance</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Object</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Page Design</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Patient is Deceased</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Payment Plan</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Payment Processor</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Payroll Deduction</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Profile Access</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Quality of Care Minor Complaint</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Quality of Care Urgent Request</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Questions - Insurance</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Refund/Credit Request</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Reports/ListView</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Salesforce - Sirono</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Scheduler/Batch</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Security</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Sirono - Salesforce</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Special Discount</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Third Party Liability</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Training/UAT</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Trigger/Class</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Update Insurance</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>VIP Called</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Visual Force</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Workers Comp</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Workflows</fullName>
-                <default>false</default>
-                <cssExposed>false</cssExposed>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>HMO</fullName>
+                    <default>false</default>
+                    <label>HMO</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>Other</label>
+                </value>
+                <value>
+                    <fullName>PPO</fullName>
+                    <default>false</default>
+                    <label>PPO</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>Severity__c</fullName>
         <externalId>false</externalId>
         <inlineHelpText>Severity represents “how bad a case is.” For example, a case that causes the program to crash would be considered Critical severity, while a small spelling error might be low severity.</inlineHelpText>
         <label>Severity</label>
-        <picklist>
-            <controllingField>Priority</controllingField>
-            <picklistValues>
-                <fullName>Critical</fullName>
-                <default>false</default>
-                <controllingFieldValues>High</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Major</fullName>
-                <default>false</default>
-                <controllingFieldValues>High</controllingFieldValues>
-                <controllingFieldValues>Medium</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Minor</fullName>
-                <default>true</default>
-                <controllingFieldValues>Low</controllingFieldValues>
-                <controllingFieldValues>Medium</controllingFieldValues>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Information</fullName>
-                <default>false</default>
-                <controllingFieldValues>Low</controllingFieldValues>
-            </picklistValues>
-            <restrictedPicklist>true</restrictedPicklist>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
-    </fields>
-    <fields>
-        <fullName>SourceId</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
+        <valueSet>
+            <controllingField>Priority</controllingField>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Critical</fullName>
+                    <default>false</default>
+                    <label>Critical</label>
+                </value>
+                <value>
+                    <fullName>Major</fullName>
+                    <default>false</default>
+                    <label>Major</label>
+                </value>
+                <value>
+                    <fullName>Minor</fullName>
+                    <default>true</default>
+                    <label>Minor</label>
+                </value>
+                <value>
+                    <fullName>Information</fullName>
+                    <default>false</default>
+                    <label>Information</label>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>High</controllingFieldValue>
+                <valueName>Critical</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>High</controllingFieldValue>
+                <controllingFieldValue>Medium</controllingFieldValue>
+                <valueName>Major</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Low</controllingFieldValue>
+                <controllingFieldValue>Medium</controllingFieldValue>
+                <valueName>Minor</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Low</controllingFieldValue>
+                <valueName>Information</valueName>
+            </valueSettings>
+        </valueSet>
     </fields>
     <fields>
         <fullName>Special_Instructions__c</fullName>
@@ -2741,82 +2486,6 @@
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>TextArea</type>
-    </fields>
-    <fields>
-        <fullName>Status</fullName>
-        <picklist>
-            <picklistValues>
-                <fullName>New</fullName>
-                <default>true</default>
-                <closed>false</closed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>On Hold</fullName>
-                <default>false</default>
-                <closed>false</closed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Working</fullName>
-                <default>false</default>
-                <closed>false</closed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Review</fullName>
-                <default>false</default>
-                <closed>false</closed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>In Review</fullName>
-                <default>false</default>
-                <closed>false</closed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Investigating</fullName>
-                <default>false</default>
-                <closed>false</closed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Pending Update</fullName>
-                <default>false</default>
-                <closed>false</closed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Escalated</fullName>
-                <default>false</default>
-                <closed>false</closed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Resolved</fullName>
-                <default>false</default>
-                <closed>true</closed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Closed</fullName>
-                <default>false</default>
-                <closed>true</closed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Completed</fullName>
-                <default>false</default>
-                <closed>true</closed>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Cancelled</fullName>
-                <default>false</default>
-                <closed>true</closed>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Picklist</type>
-    </fields>
-    <fields>
-        <fullName>Subject</fullName>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
     </fields>
     <fields>
         <fullName>Subscriber_ID__c</fullName>
@@ -2853,22 +2522,6 @@
         <trackTrending>false</trackTrending>
         <type>LongTextArea</type>
         <visibleLines>3</visibleLines>
-    </fields>
-    <fields>
-        <fullName>SuppliedCompany</fullName>
-        <trackTrending>false</trackTrending>
-    </fields>
-    <fields>
-        <fullName>SuppliedEmail</fullName>
-        <trackTrending>false</trackTrending>
-    </fields>
-    <fields>
-        <fullName>SuppliedName</fullName>
-        <trackTrending>false</trackTrending>
-    </fields>
-    <fields>
-        <fullName>SuppliedPhone</fullName>
-        <trackTrending>false</trackTrending>
     </fields>
     <fields>
         <fullName>Supplied_Company__c</fullName>
@@ -2972,56 +2625,6 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Type</fullName>
-        <picklist>
-            <picklistValues>
-                <fullName>Address Change</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>General Question</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Insurance Change</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Payment Change</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Phone/Mobile Change</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Credit Card Failure</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Payment Plan Error</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Past Due Payment Plans</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Overdue</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Precollections</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Picklist</type>
     </fields>
     <listViews>
         <fullName>AllOpenCases</fullName>
@@ -3200,21 +2803,6 @@
         </sharedTo>
     </listViews>
     <listViews>
-        <fullName>MyCases</fullName>
-        <filterScope>Mine</filterScope>
-        <label>My Cases</label>
-    </listViews>
-    <listViews>
-        <fullName>MyOpenCases</fullName>
-        <filterScope>Mine</filterScope>
-        <filters>
-            <field>CASES.CLOSED</field>
-            <operation>equals</operation>
-            <value>0</value>
-        </filters>
-        <label>My Open Cases</label>
-    </listViews>
-    <listViews>
         <fullName>Quality_of_Care_Case</fullName>
         <filterScope>Queue</filterScope>
         <label>Queue: Quality of Care</label>
@@ -3250,8 +2838,6 @@
             <allInternalUsers></allInternalUsers>
         </sharedTo>
     </listViews>
-    <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
-    <recordTypeTrackHistory>true</recordTypeTrackHistory>
     <recordTypes>
         <fullName>Administrative_Case_Process</fullName>
         <active>true</active>
@@ -3301,6 +2887,87 @@
             </values>
             <values>
                 <fullName>%28E%29 80%25</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_annual_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-23%2C540</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>23%2C541-31%2C860</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>31%2C861-40%2C180</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>40%2C181-48%2C500</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>48%2C501-56%2C820</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>56%2C821-65%2C140</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>65%2C141-73%2C460</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>73%2C461-81%2C780</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <values>
+                <fullName>12 months</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3 months</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-1%2C962</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>1%2C963-2%2C655</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2%2C656-3%2C348</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3%2C349-4%2C042</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C043-4%2C735</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C736-5%2C428</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>5%2C429-6%2C122</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>6%2C123-8%2C178</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -4615,6 +4282,87 @@
             </values>
         </picklistValues>
         <picklistValues>
+            <picklist>Est_annual_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-23%2C540</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>23%2C541-31%2C860</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>31%2C861-40%2C180</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>40%2C181-48%2C500</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>48%2C501-56%2C820</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>56%2C821-65%2C140</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>65%2C141-73%2C460</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>73%2C461-81%2C780</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <values>
+                <fullName>12 months</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3 months</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-1%2C962</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>1%2C963-2%2C655</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2%2C656-3%2C348</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3%2C349-4%2C042</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C043-4%2C735</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C736-5%2C428</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>5%2C429-6%2C122</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>6%2C123-8%2C178</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
             <picklist>Form_to_be_Mailed__c</picklist>
             <values>
                 <fullName>Charity Application</fullName>
@@ -5422,6 +5170,87 @@
             </values>
             <values>
                 <fullName>%28E%29 80%25</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_annual_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-23%2C540</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>23%2C541-31%2C860</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>31%2C861-40%2C180</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>40%2C181-48%2C500</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>48%2C501-56%2C820</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>56%2C821-65%2C140</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>65%2C141-73%2C460</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>73%2C461-81%2C780</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <values>
+                <fullName>12 months</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3 months</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <values>
+                <fullName>0-1%2C962</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>1%2C963-2%2C655</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2%2C656-3%2C348</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3%2C349-4%2C042</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C043-4%2C735</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4%2C736-5%2C428</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>5%2C429-6%2C122</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>6%2C123-8%2C178</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -7016,6 +6845,8 @@
             </values>
         </picklistValues>
     </recordTypes>
+    <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
+    <recordTypeTrackHistory>true</recordTypeTrackHistory>
     <searchLayouts>
         <customTabListAdditionalFields>CASES.CASE_NUMBER</customTabListAdditionalFields>
         <customTabListAdditionalFields>CASES.PRIORITY</customTabListAdditionalFields>

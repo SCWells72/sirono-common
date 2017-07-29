@@ -21,10 +21,6 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -50,6 +46,7 @@
     <description>Meta data about Charge Transactions</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
+    <enableChangeDataCapture>false</enableChangeDataCapture>
     <enableEnhancedLookup>true</enableEnhancedLookup>
     <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
@@ -63,21 +60,25 @@
         <description>Account Type</description>
         <externalId>false</externalId>
         <label>Account Type (Deprecated)</label>
-        <picklist>
-            <picklistValues>
-                <fullName>HB</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>PB</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>HB</fullName>
+                    <default>false</default>
+                    <label>HB</label>
+                </value>
+                <value>
+                    <fullName>PB</fullName>
+                    <default>false</default>
+                    <label>PB</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>Amount__c</fullName>
@@ -367,4 +368,5 @@ TEXT(YEAR(Service_Date__c))</formula>
         <searchResultsAdditionalFields>Charge_Group__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
 </CustomObject>

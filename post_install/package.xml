@@ -4,5 +4,5 @@
         <members>*</members>
         <name>PermissionSet</name>
     </types>
-    <version>37.0</version>
+    <version>40.0</version>
 </Package>

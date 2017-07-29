@@ -8,8 +8,7 @@
         <defaultValue>true</defaultValue>
         <description>When enabled, cases are automatically created for statements with overdue balances.</description>
         <externalId>false</externalId>
-        <inlineHelpText>When enabled, cases are automatically created for statements with overdue balances.
-        </inlineHelpText>
+        <inlineHelpText>When enabled, cases are automatically created for statements with overdue balances.</inlineHelpText>
         <label>Auto Create Overdue Cases</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -27,11 +26,9 @@
     <fields>
         <fullName>Auto_Create_Precollection_Cases__c</fullName>
         <defaultValue>true</defaultValue>
-        <description>When enabled, cases are automatically created for statements with delinquent balances.
-        </description>
+        <description>When enabled, cases are automatically created for statements with delinquent balances.</description>
         <externalId>false</externalId>
-        <inlineHelpText>When enabled, cases are automatically created for statements with delinquent balances.
-        </inlineHelpText>
+        <inlineHelpText>When enabled, cases are automatically created for statements with delinquent balances.</inlineHelpText>
         <label>Auto Create Precollection Cases</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>

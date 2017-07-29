@@ -54,14 +54,17 @@
     <filter>
         <criteriaItems>
             <column>OPEN</column>
+            <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
             <value>1</value>
         </criteriaItems>
         <criteriaItems>
             <column>PRIORITY</column>
+            <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
             <value>High</value>
         </criteriaItems>
+        <language>en_US</language>
     </filter>
     <format>Summary</format>
     <groupingsDown>

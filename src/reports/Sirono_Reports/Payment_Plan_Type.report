@@ -42,14 +42,17 @@
     <filter>
         <criteriaItems>
             <column>Payment_Plan__c$Active__c</column>
+            <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
             <value>1</value>
         </criteriaItems>
         <criteriaItems>
             <column>Payment_Plan__c$Plan_Type__c</column>
+            <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
             <value>automatic,manual</value>
         </criteriaItems>
+        <language>en_US</language>
     </filter>
     <format>Summary</format>
     <groupingsDown>

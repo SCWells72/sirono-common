@@ -40,9 +40,11 @@
     <filter>
         <criteriaItems>
             <column>Statement__c$Statement_Date__c</column>
+            <isUnlocked>false</isUnlocked>
             <operator>greaterThan</operator>
             <value>9/30/2016</value>
         </criteriaItems>
+        <language>en_US</language>
     </filter>
     <format>Summary</format>
     <groupingsDown>

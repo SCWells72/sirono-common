@@ -21,10 +21,6 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -52,6 +48,7 @@
     <deploymentStatus>Deployed</deploymentStatus>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
+    <enableChangeDataCapture>false</enableChangeDataCapture>
     <enableEnhancedLookup>true</enableEnhancedLookup>
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
@@ -332,6 +329,15 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Has_Chargegroup__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Are there are any related Charge_Group__c ?</description>
+        <externalId>false</externalId>
+        <label>Has Chargegroup</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Individual_Deductible_Remaining__c</fullName>
         <externalId>false</externalId>
         <formula>Individual_Deductible__c -  Individual_Deductible_Used__c</formula>
@@ -521,29 +527,35 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <fullName>Status__c</fullName>
         <externalId>false</externalId>
         <label>Status</label>
-        <picklist>
-            <picklistValues>
-                <fullName>In Process</fullName>
-                <default>true</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Error</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Ready</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>Cancelled</fullName>
-                <default>false</default>
-            </picklistValues>
-            <restrictedPicklist>true</restrictedPicklist>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>In Process</fullName>
+                    <default>true</default>
+                    <label>In Process</label>
+                </value>
+                <value>
+                    <fullName>Error</fullName>
+                    <default>false</default>
+                    <label>Error</label>
+                </value>
+                <value>
+                    <fullName>Ready</fullName>
+                    <default>false</default>
+                    <label>Ready</label>
+                </value>
+                <value>
+                    <fullName>Cancelled</fullName>
+                    <default>false</default>
+                    <label>Cancelled</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>Total_Charges__c</fullName>
@@ -569,20 +581,24 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <fullName>Type__c</fullName>
         <externalId>false</externalId>
         <label>Type</label>
-        <picklist>
-            <picklistValues>
-                <fullName>HB</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>PB</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>HB</fullName>
+                    <default>false</default>
+                    <label>HB</label>
+                </value>
+                <value>
+                    <fullName>PB</fullName>
+                    <default>false</default>
+                    <label>PB</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <label>Encounter</label>
     <listViews>
@@ -622,6 +638,7 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <startsWith>Vowel</startsWith>
+    <visibility>Public</visibility>
     <webLinks>
         <fullName>Add_Attachment</fullName>
         <availability>online</availability>

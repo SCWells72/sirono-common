@@ -53,9 +53,11 @@
     <filter>
         <criteriaItems>
             <column>RECORDTYPE</column>
+            <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
             <value>Case.Internal_Case</value>
         </criteriaItems>
+        <language>en_US</language>
     </filter>
     <format>Matrix</format>
     <groupingsAcross>

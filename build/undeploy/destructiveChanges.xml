@@ -53,6 +53,10 @@
         <name>ApexTrigger</name>
     </types>
     <types>
+        <members>SFPlus</members>
+        <name>CallCenter</name>
+    </types>
+    <types>
         <members>Encounter__c.Has_Chargegroup__c</members>
         <members>Location__c.Code__c</members>
         <members>Payment_Adjustment__c.Transaction_Type__c</members>
@@ -100,5 +104,5 @@
         <members>Encounter__c.New_Payment_Arrangement</members>
         <name>WebLink</name>
     </types>
-    <version>38.0</version>
+    <version>40.0</version>
 </Package>

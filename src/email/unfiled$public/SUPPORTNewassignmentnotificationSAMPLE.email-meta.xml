@@ -7,4 +7,5 @@
     <style>none</style>
     <subject>Sirono Case # {!Case.CaseNumber}:!Case.Priority}: {!Case.Reason} has been assigned to you.</subject>
     <type>text</type>
+    <uiType>Aloha</uiType>
 </EmailTemplate>
