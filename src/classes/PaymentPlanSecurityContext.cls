@@ -18,6 +18,7 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
     private static final String GUARANTOR = 'Guarantor__c';
     private static final String HAS_ERROR = 'Has_Error__c';
     private static final String INSTALLMENT_AMOUNT = 'Installment_Amount__c';
+    private static final String INSTALLMENT_COMPLETE = 'Installments_Completed__c';
     private static final String NAME = 'Name';
     private static final String NEXTPAYMENTDATE = 'NextPaymentDate__c';
     private static final String ORIGINAL_BALANCE = 'Original_Balance__c';
@@ -64,7 +65,8 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
 
     // The fields for selecting a Payment_Plan__c in PaymentPlanDao
     private static final Set<String> SELECT_FIELDS = new Set<String> {
-        ID, SIRONO_ID, ACTIVE, GUARANTOR, STANDING, PLAN_TYPE, NEXTPAYMENTDATE, INSTALLMENT_AMOUNT
+        ID, SIRONO_ID, ACTIVE, GUARANTOR, STANDING, PLAN_TYPE, NEXTPAYMENTDATE, INSTALLMENT_AMOUNT,
+        ORIGINAL_INSTALLMENT_COUNT, INSTALLMENT_COMPLETE
     };
 
     // The fields for selecting a Payment_Plan__c in CallListUtilities
