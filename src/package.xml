@@ -1139,15 +1139,9 @@
         <name>ReportType</name>
     </types>
     <types>
-        <members>CEO</members>
-        <members>COO</members>
-        <members>Call_Center_Agent</members>
-        <members>Call_Center_Manager</members>
         <members>HospitalCustomerUser</members>
         <members>HospitalPartnerUser</members>
-        <members>Integration_Admin</members>
         <members>MakanaHealthCustomerUser</members>
-        <members>Operations_Team</members>
         <members>SironoPartnerPartnerUser</members>
         <name>Role</name>
     </types>
