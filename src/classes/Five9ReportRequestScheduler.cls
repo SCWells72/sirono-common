@@ -17,7 +17,7 @@ public class Five9ReportRequestScheduler implements Schedulable {
 
     }
 
-    @future(callout=true)
+    @Future(Callout=true)
     private static void requestReport() {
         // Instantiate a report definition to request a report for non-agent calls.
         // TODO - use custom metadata to set these values instead of hardcoding values.

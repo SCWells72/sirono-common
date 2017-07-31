@@ -154,7 +154,7 @@ public with sharing class AddDiscount {
             chargeGroupsSelected = false;
 
             //Call Payment, Transaction, ChargeGroups, Payment Plan Request.
-            PayStaffWSUtill.parsePaymentReponse(csrfToken, jwtToken, responseBody, false);
+            PayStaffWSUtill.parsePaymentReponse(jwtToken, responseBody, false);
 
         } else {
             System.debug('AddDiscount req: ' + req);

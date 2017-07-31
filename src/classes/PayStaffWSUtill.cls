@@ -229,7 +229,7 @@ public with sharing class PayStaffWSUtill {
     * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
     * Parse Payment response and call Transaction Request.
     */
-    public static void parsePaymentReponse(String csrfToken, String jwtToken, String jsonStr, Boolean isPayment) {
+    public static void parsePaymentReponse(String jwtToken, String jsonStr, Boolean isPayment) {
 
         // We have change Payment__c object to List of Payment__c and this list pass in Methods as a parameter.
         // This changes do to resolve Security Scan related issue.

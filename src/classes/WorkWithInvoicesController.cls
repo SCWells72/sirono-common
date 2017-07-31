@@ -214,7 +214,7 @@ public with sharing class WorkWithInvoicesController {
                     totalCharges += pa.Amount__c;
                     String displayName = getName(pa);
                     if (serviceMap.containsKey(displayName)) {
-                        serviceMap.get(displayName).Amount += pa.Amount__c;
+                        serviceMap.get(displayName).amount += pa.Amount__c;
                     } else {
                         serviceMap.put(displayName, new ServiceWrapper(displayName, pa.Amount__c));
                     }
@@ -222,7 +222,7 @@ public with sharing class WorkWithInvoicesController {
                     totalCredits += pa.Amount__c;
                     String displayName = getName(pa);
                     if (adjustMap.containsKey(displayName)) {
-                        adjustMap.get(displayName).Amount += pa.Amount__c;
+                        adjustMap.get(displayName).amount += pa.Amount__c;
                     } else {
                         adjustMap.put(displayName, new ServiceWrapper(displayName, pa.Amount__c));
                     }

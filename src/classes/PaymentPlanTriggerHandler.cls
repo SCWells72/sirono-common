@@ -153,11 +153,11 @@ public with sharing class PaymentPlanTriggerHandler {
         for (Payment_Plan__c paymentPlan : paymentPlans) {
             if (Trigger.isInsert && paymentPlan.Guarantor__c != null && paymentPlan.Active__c == true && paymentPlan.Delinquent__c == true) {
                 contactToCreateCaseIds .add(paymentPlan.Guarantor__c);
-            } else if (Trigger.isUpdate && paymentPlan.Guarantor__c != null && (paymentPlan.Active__c == true && paymentPlan.Delinquent__c == true && (oldPaymentPlansById.get(paymentPlan.Id).active__c == false || oldPaymentPlansById.get(paymentPlan.Id).Delinquent__c == false))) {
+            } else if (Trigger.isUpdate && paymentPlan.Guarantor__c != null && (paymentPlan.Active__c == true && paymentPlan.Delinquent__c == true && (oldPaymentPlansById.get(paymentPlan.Id).Active__c == false || oldPaymentPlansById.get(paymentPlan.Id).Delinquent__c == false))) {
                 contactToCreateCaseIds.add(paymentPlan.Guarantor__c);
             }
 
-            if (Trigger.isUpdate && paymentPlan.Guarantor__c != null && ((paymentPlan.Active__c == false && oldPaymentPlansById.get(paymentPlan.Id).active__c == true) || (paymentPlan.Delinquent__c == false && oldPaymentPlansById.get(paymentPlan.Id).Delinquent__c == true))) {
+            if (Trigger.isUpdate && paymentPlan.Guarantor__c != null && ((paymentPlan.Active__c == false && oldPaymentPlansById.get(paymentPlan.Id).Active__c == true) || (paymentPlan.Delinquent__c == false && oldPaymentPlansById.get(paymentPlan.Id).Delinquent__c == true))) {
                 contactToCloseCase.add(paymentPlan.Guarantor__c);
                 paymentPlanId.add(paymentPlan.Id);
             }

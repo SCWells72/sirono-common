@@ -156,7 +156,7 @@ public with sharing class CreateAdjustment {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO,
                 'Created Successfully!'));
             //Call Payment, Transaction, ChargeGroups, Payment Plan Request.
-            PayStaffWSUtill.parsePaymentReponse(csrfToken, jwtToken, responseBody, false);
+            PayStaffWSUtill.parsePaymentReponse(jwtToken, responseBody, false);
         } else {
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'csrfToken : '+ csrfToken));
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'jwtToken : '+ jwtToken));
