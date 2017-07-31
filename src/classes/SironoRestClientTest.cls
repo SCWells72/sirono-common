@@ -160,7 +160,7 @@ private class SironoRestClientTest {
         Test.startTest();
         try {
             AuthRestClient = new SironoRestClient.AuthRestClient();
-            List<String> errors = AuthRestClient.processFailedResponse('["dummy": "JSON"]');
+            AuthRestClient.processFailedResponse('["dummy": "JSON"]');
         } catch (JSONException jsonException) {
             Test.stopTest();
 
@@ -201,7 +201,9 @@ private class SironoRestClientTest {
     }
 
     public class JSONTestObj {
+        //noinspection ApexUnusedDeclaration
         public String tag;
+        //noinspection ApexUnusedDeclaration
         public String tag_date;
     }
 

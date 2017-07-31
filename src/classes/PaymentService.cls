@@ -98,18 +98,27 @@ public class PaymentService extends AbstractService {
         String url;
         String guarantor;
         Integer amount;
+        //noinspection ApexUnusedDeclaration
         String transaction_number;
         String payment_date;
         String method;
         String last_4;
         String processor_transaction_id;
+        //noinspection ApexUnusedDeclaration
         String receipt_link;
+        //noinspection ApexUnusedDeclaration
         String payment_info;
+        //noinspection ApexUnusedDeclaration
         String payment_type;
+        //noinspection ApexUnusedDeclaration
         String account_number;
+        //noinspection ApexUnusedDeclaration
         String routing_number;
+        //noinspection ApexUnusedDeclaration
         String bank_account_type;
+        //noinspection ApexUnusedDeclaration
         String is_voidable;
+        //noinspection ApexUnusedDeclaration
         String post_date;
     }
 
@@ -176,11 +185,16 @@ public class PaymentService extends AbstractService {
         String post_date;
         String fail_date;
         String export_date;
+        //noinspection ApexUnusedDeclaration
         String created_at;
+        //noinspection ApexUnusedDeclaration
         String modified_at;
+        //noinspection ApexUnusedDeclaration
         String method;
+        //noinspection ApexUnusedDeclaration
         String notes;
         Boolean credit_balance;
+        //noinspection ApexUnusedDeclaration
         String payment;
         String chargegroup;
     }
@@ -322,16 +336,4 @@ public class PaymentService extends AbstractService {
         PaymentDao.insertPayment(new List<Payment__c> { payment });
         return PaymentDao.getPayment(payment.Id);
     }
-
-    /**
-     * Get a credit card by id.
-     *
-     * @param String cardId - The credit card id.
-     * @return Payment_Method__c - The credit card Payment_Method__c object.
-     */
-    public static Payment_Method__c getCreditCard(String cardId) {
-        List<Payment_Method__c> cards = PaymentMethodDao.getCreditCard(cardId);
-        return (!cards.isEmpty()) ? cards[0] : null;
-    }
-
 }

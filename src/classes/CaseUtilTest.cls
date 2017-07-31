@@ -197,8 +197,6 @@ public class CaseUtilTest {
     // Method to code coverage for createPrecollectionsAutoCase
     @IsTest
     public static void preCollCaseWithComplianceIssue() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -261,8 +259,6 @@ public class CaseUtilTest {
     //Method to code coverage for callPrecollectionsAutoCaseCloser
     @IsTest
     public static void callPrecollAutoCaseCloserWithTodayStatement() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -304,8 +300,6 @@ public class CaseUtilTest {
     //Method to code coverage for callClosePrecollectionsAutoCase
     @IsTest
     public static void closePrecollAutoCaseToCheckCaseReason() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -379,8 +373,6 @@ public class CaseUtilTest {
     //Method to code coverage for createEncounterAutoCase
     @IsTest
     public static void checkEncounterAutoCaseWithComplianceIssue() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -465,8 +457,6 @@ public class CaseUtilTest {
     //Method to code coverage for createEncounterAutoCase
     @IsTest
     public static void createEncounterAutoCase() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -541,8 +531,6 @@ public class CaseUtilTest {
     //Method to code coverage for createDelinquentPaymentCase
     @IsTest
     public static void delinquentPaymentCase() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -605,8 +593,6 @@ public class CaseUtilTest {
     //Method to code coverage for createDelinquentPaymentCase
     @IsTest
     public static void delinquentPaymentCaseWithComplianceIssue() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -677,8 +663,6 @@ public class CaseUtilTest {
     //Method to code coverage for createDelinquentPaymentCase
     @IsTest
     public static void createDelinquentPaymentCase() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -755,8 +739,6 @@ public class CaseUtilTest {
      **/
     @IsTest
     public static void closeDelinquentPaymentCaseWithSameGuarantor() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -844,8 +826,6 @@ public class CaseUtilTest {
     //Method to code coverage for closeDelinquentPaymentCase
     @IsTest
     public static void closeDelinquentPaymentCase() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -926,8 +906,6 @@ public class CaseUtilTest {
     //Method to code coverage for createCCErrorCase
     @IsTest
     public static void createCCErrorCase() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -985,8 +963,6 @@ public class CaseUtilTest {
     //Method to code coverage for createCCErrorCase1
     @IsTest
     public static void createCCErrorCaseWithComplianceIssue() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -1043,8 +1019,6 @@ public class CaseUtilTest {
     //Method to code coverage for createCCErrorCase1
     @IsTest
     public static void createCCErrorCaseWithoutComplianceIssue() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -1092,8 +1066,6 @@ public class CaseUtilTest {
     //Method to code coverage for closeCCErrorCase
     @IsTest
     public static void closeCCErrorCaseWithPaymentPlan() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -1166,8 +1138,6 @@ public class CaseUtilTest {
     //Method to code coverage for closeCCErrorCase
     @IsTest
     public static void closeCCErrorCaseWithCampaignMember() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 

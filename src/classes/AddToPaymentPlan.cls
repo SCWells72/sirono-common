@@ -12,7 +12,6 @@ public abstract class AddToPaymentPlan {
     public String paymentPlanId { get; set; }
     public String paymentPlanExtId { get; set; }
     public List<ChargeGroupWrapper> chargeGroupList { get; set; }
-    public String errorMessage { get; set; }
 
    /**
     * Set the proper page on cancel

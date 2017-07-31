@@ -103,22 +103,13 @@ public abstract with sharing class SironoRestClient {
     }
 
     /**
-     * Configure the request for the PUT method.
-     *
-     * @returns - SironoRestClient The SironoRestClient object, allows chaining.
-     */
-    public SironoRestClient putRequestor() {
-        req.setMethod(RestClientConstants.PUT);
-        return this;
-    }
-
-    /**
      * Set a header on the request.
      *
      * @param - String key The header key value.
      * @param - String value The value to set for the header.
      * @returns - SironoRestClient The SironoRestClient object, allows chaining.
      */
+    //noinspection ApexUnusedDeclaration
     public SironoRestClient header(String key, String value) {
         req.setHeader(key, value);
         return this;
@@ -141,6 +132,7 @@ public abstract with sharing class SironoRestClient {
      * @param Integer timeout The request timeout value.
      * @returns - SironoRestClient The SironoRestClient object, allows chaining.
      */
+    //noinspection ApexUnusedDeclaration
     public SironoRestClient timeout(Integer timeout) {
         req.setTimeout(timeout);
         return this;
@@ -234,6 +226,7 @@ public abstract with sharing class SironoRestClient {
      *
      * @returns - String the response body.
      */
+    //noinspection ApexUnusedDeclaration
     public String getResponseBody() {
         checkResponse();
         return res.getBody();
@@ -405,6 +398,7 @@ public abstract with sharing class SironoRestClient {
      *
      * Return the given sironoId formatted as a paymentplan absolute URI
      */
+    //noinspection ApexUnusedDeclaration
     protected String asPaymentPlanURL(String planId) {
         String ppUrl = String.format(RestClientConstants.PAYMENT_PLAN_URLS.get(RestClientConstants.PAYMENT_PLAN_KEY), new String[] {
             stripCommas(planId)

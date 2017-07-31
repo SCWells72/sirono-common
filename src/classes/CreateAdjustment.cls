@@ -16,10 +16,6 @@ public with sharing class CreateAdjustment {
     //Mohan Kumar 2016-08-16: 127328707 to show the adjustment type from the metadata type which are only enabled
     public List<SelectOption> adjustmentTypeOptions { get; set; }
     public String adjustmentTypeSelected { get; set; }
-    private Payment__c objPayment = new Payment__c();
-    private List<Transaction__c> lsttransaction = new List<Transaction__c>();
-    private List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
-    private List<Payment_Plan__c> lstPaymentPlan = new List<Payment_Plan__c>();
 
     /*Constructor initializing variables ,check login user is admin or not.
      * Fetch Adjustment_Type__mdt records.

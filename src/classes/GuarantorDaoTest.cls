@@ -370,14 +370,16 @@ public with sharing class GuarantorDaoTest {
     @IsTest
     static void getContactsByRecordTypeTest() {
 
-        // This varible is required as a limiting factor in the returned query string.
-        List<Id> existingMembers = new List<Id> {};
         Test.startTest();
         String getContactQueryString = GuarantorDao.getBatchContactsQuery();
         Test.stopTest();
 
         System.assert(getContactQueryString != null, 'Query string should not be null.');
         System.assert(getContactQueryString.length() != 0, 'Query string should not be zero length.');
+
+        // A variable with this name is required as a bind parameter for the query string
+        //noinspection ApexUnusedDeclaration
+        List<Id> existingMembers = new List<Id> {};
 
         List<Contact> contacts = Database.query(getContactQueryString);
         System.assert(contacts != null, 'Should be a query to get contacts.');

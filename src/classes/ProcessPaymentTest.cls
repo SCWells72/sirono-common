@@ -7,14 +7,26 @@
  */
 @IsTest
 private class ProcessPaymentTest {
-    
+
+    @IsTest
+    private static void testExpYearOptions() {
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        ProcessPayment processPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
+        System.assertEquals(UIUtils.expYearOptions, processPayment.expYearOptions);
+    }
+
+    @IsTest
+    private static void testExpMonthOptions() {
+        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        ProcessPayment processPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
+        System.assertEquals(UIUtils.expMonthOptions, processPayment.expMonthOptions);
+    }
+
     /**
      * Coverage the code for the Init the Global Veriables,Constructor, Call expYearOptions,expMonthOptions method,
      * doNext Method,Submit Method,checkAmountValidation Method and checkCardValidation Method
      */
     static testMethod void submitElse() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
@@ -29,8 +41,6 @@ private class ProcessPaymentTest {
 
         //Create object of ProcessPayment and call the Process Payment constructor & submit method.
         ProcessPayment objProcessPayment = new ProcessPayment(new ApexPages.StandardController(guarantorContact));
-        List<SelectOption> expYearOptions = objProcessPayment.expYearOptions;
-        List<SelectOption> expMonthOptions = objProcessPayment.expMonthOptions;
         objProcessPayment.submit();
 
         //Create Invoice record.
@@ -97,8 +107,6 @@ private class ProcessPaymentTest {
      * Submit Method,checkAmountValidation Method and checkCardValidation Method.
      */
     static testMethod void checkCardValidation() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_ID__c = 123;
@@ -173,8 +181,6 @@ private class ProcessPaymentTest {
      * Submit Method,checkAmountValidation Method and checkCardValidation Method
      */
     static testMethod void checkAmountEmpty() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_ID__c = 123;
@@ -255,8 +261,6 @@ private class ProcessPaymentTest {
      * checkAmountValidation Method, checkCardValidation Method
      */
     static testMethod void fillNameAndAddress() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_ID__c = 123;
@@ -335,8 +339,6 @@ private class ProcessPaymentTest {
      * checkAmountValidation Method, checkCardValidation Method
      */
     static testMethod void checkExceedBalance() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_ID__c = 123;
@@ -424,8 +426,6 @@ private class ProcessPaymentTest {
      * checkAmountValidation Method, checkCardValidation Method
      */
     static testMethod void checkAmountNegative() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_ID__c = 123;
@@ -506,8 +506,6 @@ private class ProcessPaymentTest {
      * checkCardValidation Method,processPayment Method
      */
     static testMethod void submit() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_ID__c = 123;
@@ -593,8 +591,6 @@ private class ProcessPaymentTest {
     
    /*Coverage the code for the Init the Global Veriables,checkCardValidation Method for chargeGroupId */
     static testMethod void checkChargeGroupId() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_ID__c = 123;
@@ -667,8 +663,6 @@ private class ProcessPaymentTest {
    * processPayment Method with get response
    */
     static testMethod void paymentException() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_ID__c = 123;
@@ -759,8 +753,6 @@ private class ProcessPaymentTest {
    * processPayment Method get response where 'kind' value doesnot exist in responseBody
    */
     static testMethod void wrapperListException() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_ID__c = 123;
@@ -853,8 +845,6 @@ private class ProcessPaymentTest {
      * processPayment Method get response where 'kind' value doesnot exist in responseBody
      */
     static testMethod void chargeGroupException() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_ID__c = 123;
@@ -947,8 +937,6 @@ private class ProcessPaymentTest {
      * processPayment Method get response where 'kind' AND 'chargegroups' value doesnot exist in responseBody
      */
     static testMethod void ResponseElse() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_ID__c = 123;
@@ -1040,8 +1028,6 @@ private class ProcessPaymentTest {
      * processPayment Method get response where 'kind' AND 'chargegroups' value doesnot exist in responseBody
      */
     static testMethod void validationException() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_ID__c = 123;
@@ -1136,8 +1122,6 @@ private class ProcessPaymentTest {
      * processPayment Method get response where only non_field_errors exist in responseBody
      */
     static testMethod void nonFieldException() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         guarantorContact.Profile_Pointer_ID__c = 123;

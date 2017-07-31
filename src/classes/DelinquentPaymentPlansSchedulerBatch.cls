@@ -47,6 +47,7 @@ public with sharing class DelinquentPaymentPlansSchedulerBatch
         }
         return null;
     }
+
     //Checks if the members exist if not Creates new Campaign members
     public void execute(Database.BatchableContext bc, List<SObject> scope) {
         List<Contact> guarantors = (List<Contact>) scope;

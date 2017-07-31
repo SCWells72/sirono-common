@@ -14,13 +14,10 @@ public class TestUtility {
     public static Integer statusCode3 = 200;
     public static Integer statusCode4 = 200;
     public static String status = 'CREATED';
-    public static Boolean isTest = false;
-    public static Boolean setBlank = false;
     public static String errorbody = '' ;
     public static Integer currentDay = 22;
     public static Integer currentMonth = 12;
     public static Integer currentYear = 2017;
-    public static Boolean hasException = false;
     public static String planType = 'auto';
     public static String errorDate = '2016-05-13';
     public static String delinquentDate = '2016-05-13';
@@ -51,6 +48,10 @@ public class TestUtility {
         JSON_BODY_TYPE.UNAUTHORIZED => '{"kind":"Permission Denied Exception","errors":["Incorrect authentication credentials."]}',
         JSON_BODY_TYPE.VALIDATION_EXISTING_PLAN => '{"kind":"Validation exception","errors":[{"non_field_errors":"Cannot directly change ChargeGroups on an existing plan"}]}'
     };
+
+    private TestUtility() {
+        // Utility class
+    }
 
     private static Decimal getUniqueId() {
         return Decimal.valueOf(Math.random());
@@ -245,25 +246,6 @@ public class TestUtility {
         objTask.Status = Constants.TASK_STATUS_NEW;
         objTask.CallDisposition = 'Final';
         objTask.Five9__Five9Campaign__c = 'Pre-collection';
-        return objTask;
-    }
-
-    /**
-     * Generate Task record with given Parameter.
-     *
-     * @param ID guarantorContactId, The contact Id for the guarantor.
-     * @param Id caseId, The associated case id.
-     * @param String callDisposition, The call result value.
-     * @returns Task record, The Task object using defaults and parameters.
-     **/
-    public static Task generateTask(Id guarantorContactId, Id caseId, String callDisposition) {
-        Task objTask = new Task();
-        objTask.WhoId = guarantorContactId;
-        objTask.WhatId = caseId;
-        objTask.Priority = Constants.TASK_PRIORITY_NORMAL;
-        objTask.Status = Constants.TASK_STATUS_NEW;
-        objTask.CallDisposition = callDisposition;
-        objTask.Five9__Five9Campaign__c = 'OB PreCollections';
         return objTask;
     }
 

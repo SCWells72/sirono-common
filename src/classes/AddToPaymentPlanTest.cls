@@ -295,8 +295,6 @@ private class AddToPaymentPlanTest {
      * call Cancel Method
      */
     static testMethod void cancel() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
         ApexPages.currentPage().getParameters().put('paymentPlanId', '121212');
         AddToPaymentPlanVF ppCon = new AddToPaymentPlanVF();
@@ -313,8 +311,6 @@ private class AddToPaymentPlanTest {
      * call Cancel Method else part and 'guarantorRecordId' value not found
      */
     static testMethod void cancelElse() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create AddToPaymentPlan object and Call AddToPaymentPlan constructor.
         AddToPaymentPlanVF ppCon = new AddToPaymentPlanVF();
 

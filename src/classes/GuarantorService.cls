@@ -251,16 +251,6 @@ public with sharing class GuarantorService extends AbstractService {
     }
 
     /**
-     * Get Contact based on Id.
-     *
-     * @param Id contactId - That contains Id of Contact.
-     * @returns Contact - The requested Contact based on Id.
-     **/
-    public static Contact getContactById(Id contactId) {
-        return GuarantorDao.getContactById(contactId);
-    }
-
-    /**
      * Get Contacts with Invoice_Offset_Date__c field filtered by contactIds
      *
      * @param Set<Id> contactIds - A set of Contact Ids.

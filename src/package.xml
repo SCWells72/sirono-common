@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>AbstractDao</members>
@@ -147,7 +147,6 @@
         <members>MockHttpResponseGeneratorTest</members>
         <members>MyProfilePageController</members>
         <members>MyProfilePageControllerTest</members>
-        <members>NamedCredentialSecurityContext</members>
         <members>NumVerifyValidator</members>
         <members>NumVerifyValidatorTest</members>
         <members>PatientDao</members>
@@ -208,7 +207,6 @@
         <members>PreServiceSchedulerBatchTest</members>
         <members>ProcessPayment</members>
         <members>ProcessPaymentTest</members>
-        <members>ProfileSecurityContext</members>
         <members>RecordTypeSecurityContext</members>
         <members>RecordTypeUtil</members>
         <members>RestClientConstants</members>
@@ -251,7 +249,6 @@
         <members>UIUtils</members>
         <members>UIUtilsTest</members>
         <members>UserDao</members>
-        <members>UserSecurityContext</members>
         <members>UserService</members>
         <members>UserTimezoneMdtSecurityContext</members>
         <members>UserWrapper</members>
@@ -274,7 +271,6 @@
         <members>WrapperErrorArray</members>
         <members>WrapperListError</members>
         <members>WrapperNonFieldErrorArray</members>
-        <members>WrapperPaymentPlan</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -752,17 +748,13 @@
         <name>CustomMetadata</name>
     </types>
     <types>
-        <!--<members>Account</members>-->
-        <!--<members>Activity</members>-->
         <members>Adjustment_Type__mdt</members>
         <members>Campaign_Mapping__mdt</members>
-        <!--<members>Case</members>-->
         <members>Case_Charge_Group_Junction__c</members>
         <members>Case_Contact_Junction__c</members>
         <members>Case_to_Campaign__mdt</members>
         <members>Charge_Group_Coverage_Junction__c</members>
         <members>Charge_Group__c</members>
-        <!--<members>Contact</members>-->
         <members>Coverage__c</members>
         <members>Discount_Type__mdt</members>
         <members>Encounter__c</members>
@@ -784,7 +776,6 @@
         <members>Statement__c</members>
         <members>TransactionPayerType__mdt</members>
         <members>Transaction__c</members>
-        <!--<members>User</members>-->
         <members>User_Timezone_Setting__mdt</members>
         <name>CustomObject</name>
     </types>

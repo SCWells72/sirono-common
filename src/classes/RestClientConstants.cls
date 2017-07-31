@@ -15,7 +15,6 @@ public with sharing class RestClientConstants {
     public static final String CSRF_KEY = 'csrf';
     public static final String GUARANTOR_KEY = 'guarantor';
     public static final String PAY_CHARGEGROUPS_KEY = 'pay_chargegroups';
-    public static final String PAYMENT_KEY = 'payment';
     public static final String PAYMENT_TXNS_KEY = 'payment_txns';
 
     public static final String PAYMENT_PLAN_KEY = 'payment_plan';
@@ -72,10 +71,11 @@ public with sharing class RestClientConstants {
     public static final Integer HTTP_DELETED = 204;
     public static final Integer HTTP_BAD_REQUEST = 400;
 
-    // HTTP types.
+    // HTTP methods
     public static final String GET = 'GET';
     public static final String POST = 'POST';
     public static final String PATCH = 'PATCH';
+    //noinspection ApexUnusedDeclaration
     public static final String PUT = 'PUT';
     public static final String REMOVE = 'DELETE';
 
@@ -90,7 +90,6 @@ public with sharing class RestClientConstants {
     public static final String CHARGE_GROUP_ID = '192837465';
     public static final String GUARANTOR_ID = String.valueOf(TestUtility.PROFILE_POINTER);
     public static final String PAYMENT_PLAN_EXT_ID = 'paym3ntplan1d';
-    public static final String PAYMENT_EXT_ID = 'paym3nt1d';
     public static final String[] STATEMENT_DATES = new String[] { '10/07/2016', '11/07/2016', '12/07/2016', '01/07/2017', '02/07/2017' };
     public static final String STATEMENTS_JSON =
         '[{"statement_date": "2016-10-07", "pdf_url": "https://accudoc-dev.s3.amazonaws.com/20161007/13_55_13_sir.0x1355137f.pdf?Signature=E5pZzByCMFcRraYK102YGi6lbhE%3D&Expires=1497709690&AWSAccessKeyId=AKIAIG3KNVYUQ4EURDHA"}, ' +

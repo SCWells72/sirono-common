@@ -17,16 +17,22 @@ public class PaymentPlanJSONParsing {
     public Integer execute_on_day;
     public String guarantor;
     public String next_payment_date;
+    //noinspection ApexUnusedDeclaration
     public Integer installments_paid;
+    //noinspection ApexUnusedDeclaration
     public Integer installments_total;
+    //noinspection ApexUnusedDeclaration
     public Credit_card credit_card;
     public Boolean has_error;
+    //noinspection ApexUnusedDeclaration
     public String charges_added_since_start;
     public Date error_date;
     public List<String> chargegroups;
     public Boolean delinquent;
     public Date delinquent_date;
+    //noinspection ApexUnusedDeclaration
     public List<Encounters> encounters;
+    //noinspection ApexUnusedDeclaration
     public Integer authorized_amount;
     public String skip_payment_until;
     public String status;
@@ -35,7 +41,9 @@ public class PaymentPlanJSONParsing {
     }
 
     public class Credit_card {
+        //noinspection ApexUnusedDeclaration
         public String card_type;
+        //noinspection ApexUnusedDeclaration
         public String last_4;
     }
 
@@ -56,8 +64,7 @@ public class PaymentPlanJSONParsing {
     }
 
     //TODO when do we pass in a chargegroupId? why don't we just always retrieve all that were sent back with the plan?
-    public static PaymentPlanWrapper createPaymentPlanRecord(String json, String contactId,
-        String paymentPlanId, String chargeGroupId) {
+    public static PaymentPlanWrapper createPaymentPlanRecord(String json, String contactId, String chargeGroupId) {
 
         List<String> lstString = new List<String>();
         Set<Decimal> setchargeGroupID = new Set<Decimal>();

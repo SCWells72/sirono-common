@@ -115,42 +115,6 @@ public with sharing class ChargeGroupDao extends AbstractDao {
     }
 
     /**
-     * Return the Charge_Group__c records associated with the given Guarantor Ids and account status equals to 'Billed'.
-     *
-     * @param Set<Id> guarantorIds - That contains Guarantor Ids.
-     * @returns List<Charge_Group__c> - That contains CG records based on guarantorIds and account status equals to 'Billed'.
-     **/
-    public static List<Charge_Group__c> getCGBasedOnGuarantor(Set<Id> guarantorIds) {
-        if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            return [
-                SELECT Id, Guarantor__c, Account_Sub_Status__c
-                FROM Charge_Group__c
-                WHERE Account_Status__c = :Constants.ACCT_STATUS_BILLED
-                AND Guarantor__c = :guarantorIds
-            ];
-        }
-        return null;
-    }
-
-    /**
-     * Return the Charge_Group__c records associated with the given Encounter Ids.
-     *
-     * @param Set<Id> encounterIds - That contains Encounter Ids.
-     * @returns List<Charge_Group__c> - That contains CG records based on encounterIds.
-     **/
-    public static List<Charge_Group__c> getCGBasedOnEncounter(Set<Id> encounterIds) {
-        if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            return [
-                SELECT Id, Encounter__c
-                FROM Charge_Group__c
-                WHERE Encounter__c IN :encounterIds
-                AND Encounter__c != NULL
-            ];
-        }
-        return null;
-    }
-
-    /**
      * Return the Charge_Group__c records associated with the given Invoices.
      *
      * @param Set<Id> invoiceIds - the Invoice ids.

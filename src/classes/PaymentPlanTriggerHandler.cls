@@ -227,8 +227,6 @@ public with sharing class PaymentPlanTriggerHandler {
 
     // If the plan value modified date changes, then set the charges added since start field to 0
     private static void resetChargesAdded(List<Payment_Plan__c> paymentPlans, Map<Id, Payment_Plan__c> oldPaymentPlansById) {
-        List<Id> planIds = new List<Id>();
-
         for (Payment_Plan__c paymentPlan : paymentPlans) {
             Datetime newDate = paymentPlan.Plan_Value_Modified_Date__c;
             Datetime oldDate = oldPaymentPlansById.get(paymentPlan.Id).Plan_Value_Modified_Date__c;

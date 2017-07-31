@@ -13,11 +13,15 @@ public class TransactionJSONParsing {
     public String post_date;
     public String fail_date;
     public String export_date;
+    //noinspection ApexUnusedDeclaration
     public String created_at;
+    //noinspection ApexUnusedDeclaration
     public String modified_at;
     public String method;
+    //noinspection ApexUnusedDeclaration
     public String notes;
     public Boolean credit_balance;
+    //noinspection ApexUnusedDeclaration
     public String payment;
     public String chargegroup;
 

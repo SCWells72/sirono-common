@@ -65,7 +65,6 @@ public class MissedCallReportProcessorTest {
         String DNIS = '';
         String HANDLE_TIME = '';
         String COST = '';
-        String salesforce_id = '';
         String TIME_STRING = '';
         String AFTER_CALL_WORK_TIME = '';
         String CONTACT_ID = '';

@@ -7,11 +7,10 @@ public with sharing class PaymentMethodServiceTest {
 
     @IsTest
     public static void testGetPaymentMethods() {
-        User portalUser = TestUtility.getGuarantorCommunityUser();
+        // Required as part of setup even though it's not used
+        TestUtility.getGuarantorCommunityUser();
         Contact guarantorContact = TestUtility.getPortalGuarantor();
-        List<Payment_Method__c> pms = createPaymentMethods(guarantorContact);
-        Payment_Method__c pm1 = pms.get(0);
-        Payment_Method__c pm2 = pms.get(1);
+        createPaymentMethods(guarantorContact);
 
         Test.startTest();
         List<Payment_Method__c> results = PaymentMethodService.getPaymentMethods(guarantorContact.Id);
@@ -22,7 +21,9 @@ public with sharing class PaymentMethodServiceTest {
 
     @IsTest
     public static void testGetPaymentMethodsNoResults() {
-        User portalUser = TestUtility.getGuarantorCommunityUser();
+        // Required as part of setup even though it's not used
+        TestUtility.getGuarantorCommunityUser();
+
         Contact guarantorContact = TestUtility.getPortalGuarantor();
 
         Test.startTest();
@@ -34,7 +35,9 @@ public with sharing class PaymentMethodServiceTest {
 
     @IsTest
     public static void testGetCreditCard() {
-        User portalUser = TestUtility.getGuarantorCommunityUser();
+        // Required as part of setup even though it's not used
+        TestUtility.getGuarantorCommunityUser();
+
         Contact guarantorContact = TestUtility.getPortalGuarantor();
         List<Payment_Method__c> pms = createPaymentMethods(guarantorContact);
         Payment_Method__c card = pms.get(0);

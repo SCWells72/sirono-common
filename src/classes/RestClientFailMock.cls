@@ -9,8 +9,6 @@
 public class RestClientFailMock implements HttpCalloutMock {
     private String body = '';
 
-    public RestClientFailMock() {
-    }
     public RestClientFailMock(String responseBody) {
         body = responseBody;
     }

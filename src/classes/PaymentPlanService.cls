@@ -209,16 +209,22 @@ public with sharing class PaymentPlanService extends AbstractService {
         public Integer execute_on_day;
         public String guarantor;
         public String next_payment_date;
+        //noinspection ApexUnusedDeclaration
         public Integer installments_paid;
+        //noinspection ApexUnusedDeclaration
         public Integer installments_total;
+        //noinspection ApexUnusedDeclaration
         public Credit_Card credit_card;
         public Boolean has_error;
+        //noinspection ApexUnusedDeclaration
         public String charges_added_since_start;
         public String error_date;
         public List<String> chargegroups;
         public Boolean delinquent;
         public String delinquent_date;
+        //noinspection ApexUnusedDeclaration
         public List<Encounters> encounters;
+        //noinspection ApexUnusedDeclaration
         public Integer authorized_amount;
         public String skip_payment_until;
         public String status;
@@ -230,7 +236,9 @@ public with sharing class PaymentPlanService extends AbstractService {
 
     // This class only exists to be able to parse the Sirono JSON
     private class Credit_Card {
+        //noinspection ApexUnusedDeclaration
         public String card_type;
+        //noinspection ApexUnusedDeclaration
         public String last_4;
     }
 
@@ -647,10 +655,4 @@ public with sharing class PaymentPlanService extends AbstractService {
 
         return payPlan;
     }
-
-    //TODO this is just here until ProcessPaymentLightning can be removed
-    public static String convertToCents(String amount) {
-        return SironoRestClient.convertToCents(amount);
-    }
-
 }

@@ -112,26 +112,6 @@ public class ChargeGroupService extends AbstractService {
     }
 
     /**
-     * This method is use to get Charge_Group__c records associated with the given Guarantor Ids and account status equals to 'Billed'
-     *
-     * @param Set<Id> guarantorIds - That contains Guarantor Ids.
-     * @returns List<Charge_Group__c> - That contains CG records based on setGuarantorIds and account status equals to 'Billed'.
-     **/
-    public static List<Charge_Group__c> getCGBasedOnGuarantor(Set<Id> guarantorIds) {
-        return ChargeGroupDao.getCGBasedOnGuarantor(guarantorIds);
-    }
-
-    /**
-     * This method is use to get Charge_Group__c records associated with the given Encounter Ids.
-     *
-     * @param Set<Id> encounterIds - That contains Encounter Ids.
-     * @returns List<Charge_Group__c> - That contains CG records based on encounterIds.
-     **/
-    public static List<Charge_Group__c> getCGBasedOnEncounter(Set<Id> encounterIds) {
-        return ChargeGroupDao.getCGBasedOnEncounter(encounterIds);
-    }
-
-    /**
      * This method is use to get Charge_Group__c records associated with the given Guarantors and Pre_Collection_Sent__c equals to preCollDate.
      *
      * @param List<Contact> guarantors - That contains list of Contacts.

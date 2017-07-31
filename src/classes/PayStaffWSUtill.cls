@@ -36,11 +36,6 @@ public with sharing class PayStaffWSUtill {
         return sironoId;
     }
 
-    //get the charge group list
-    public static List<ChargeGroupWrapper> fetchChargeGroupList(Contact gc) {
-        return ChargeGroupWrapper.buildList(gc);
-    }
-
     //get the charge group list based on the record type
     //TODO - make sure we always retrieve the recordTypeId with every Contact & then this can move into the
     //ChargeGroupWrapper.buildList method - without the recordType parameter
@@ -256,10 +251,10 @@ public with sharing class PayStaffWSUtill {
         }
 
         if (payments.size() > 0) {
-            callTransactionRequest(csrfToken, jwtToken, payments, null, isPayment);
+            callTransactionRequest(jwtToken, payments, null, isPayment);
         } else if (lstPaymentAdjustment.size() > 0) {
             for (Payment_Adjustments__c objPaymentAdjustment : lstPaymentAdjustment) {
-                objPaymentAdjustmentwrapper = callTransactionRequest(csrfToken, jwtToken, null, String.valueOf(objPaymentAdjustment.Sirono_ID__c), isPayment);
+                objPaymentAdjustmentwrapper = callTransactionRequest(jwtToken, null, String.valueOf(objPaymentAdjustment.Sirono_ID__c), isPayment);
 
                 lstTransaction.add(objPaymentAdjustmentwrapper.objTransaction);
                 mapTranPayAdjId.put(objPaymentAdjustment.Sirono_ID__c, objPaymentAdjustmentwrapper.objTransaction.Sirono_ID__c);
@@ -316,7 +311,7 @@ public with sharing class PayStaffWSUtill {
     /*
     * Call Transaction Request and get all Transactions based on Payment.
     */
-    private static PaymentAdjustmentwrapper callTransactionRequest(String csrfToken, String jwtToken, List<Payment__c> payments, String paymentAdjustmentSironoId, Boolean isPayment) {
+    private static PaymentAdjustmentwrapper callTransactionRequest(String jwtToken, List<Payment__c> payments, String paymentAdjustmentSironoId, Boolean isPayment) {
 
         PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
 
@@ -356,7 +351,7 @@ public with sharing class PayStaffWSUtill {
         }
 
         if (res.getStatusCode() != null && res.getStatusCode() == 200) {
-            objPaymentAdjustmentwrapper = parseTransactionResponse(csrfToken, jwtToken, responseBody, payments, isPayment);
+            objPaymentAdjustmentwrapper = parseTransactionResponse(jwtToken, responseBody, payments, isPayment);
         } else {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'RESPONSE : ' + res.toString() +
@@ -368,7 +363,7 @@ public with sharing class PayStaffWSUtill {
     /*
     * Parse Transaction response and based on Charge group call Charge group request.
     */
-    private static PaymentAdjustmentwrapper parseTransactionResponse(String csrfToken, String jwtToken, String jsonStr, List<Payment__c> payments, Boolean isPayment) {
+    private static PaymentAdjustmentwrapper parseTransactionResponse(String jwtToken, String jsonStr, List<Payment__c> payments, Boolean isPayment) {
         TransactionJSONParsing.TransactionWrapper objTransactionWrapper;
         objTransactionWrapper = TransactionJSONParsing.parse(jsonStr);
 
@@ -492,7 +487,7 @@ public with sharing class PayStaffWSUtill {
         }
         if (res.getStatusCode() != null && res.getStatusCode() == 200) {
             System.debug('Charge Group Response Body : ' + responseBody);
-            chargeGroup = parseChargeGroupResponse(responseBody, jwtToken);
+            chargeGroup = parseChargeGroupResponse(responseBody);
         } else {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'RESPONSE : ' + res.toString() +
@@ -505,7 +500,7 @@ public with sharing class PayStaffWSUtill {
     * Update the Account_Sub_Status__c and Account_Status__c.
     * if Account_Sub_Status__c = On Payment Plan than call Payment Plan request.
     */
-    private static Charge_Group__c parseChargeGroupResponse(String responseBody, String jwtToken) {
+    private static Charge_Group__c parseChargeGroupResponse(String responseBody) {
 
         ChargeGroupJSONParser objChargeGroup = ChargeGroupJSONParser.parse(responseBody);
         Charge_Group__c cg = new Charge_Group__c();
@@ -568,7 +563,7 @@ public with sharing class PayStaffWSUtill {
     private static Payment_Plan__c parsePaymentPlanResponse(String jsonStr, String guarantorId) {
 
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
-        objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorId, null, null);
+        objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorId, null);
 
         Payment_Plan__c paymentPlanObj = new Payment_Plan__c();
         paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;

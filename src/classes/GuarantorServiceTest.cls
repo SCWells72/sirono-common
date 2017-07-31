@@ -116,7 +116,7 @@ public with sharing class GuarantorServiceTest {
     @IsTest
     public static void getSironoIdExceptionTest() {
         try {
-            String foundId = GuarantorService.getGuarantorSironoId(null);
+            GuarantorService.getGuarantorSironoId(null);
             System.assert(false, 'Expected SironoServiceException to be thrown');
         } catch (SironoServiceException ex) {
             System.assertEquals(ex.getMessage(), 'Invalid request - Contact required to retrieve SironoId');

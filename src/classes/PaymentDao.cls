@@ -20,7 +20,8 @@ public with sharing class PaymentDao {
     public static void insertPaymentAndTransactions(List<SObject> paymentsAndTransactions) {
         if (PaymentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
             // Create the Payment and associated Transactions
-            Database.SaveResult[] results = Database.insert(paymentsAndTransactions);
+            // TODO: Why is this using Database.insert() instead of insert? Because it's heterogenerous?
+            Database.insert(paymentsAndTransactions);
         }
     }
 

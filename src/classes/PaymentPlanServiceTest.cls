@@ -243,7 +243,7 @@ public with sharing class PaymentPlanServiceTest {
 
         Test.startTest();
         try {
-            Payment_Plan__c updatedPlan = PaymentPlanService.updateAutoPaymentPlanTerms(PLAN_SIRONO_ID, ppInfo);
+            PaymentPlanService.updateAutoPaymentPlanTerms(PLAN_SIRONO_ID, ppInfo);
         } catch (AbstractService.ServiceException svcException) {
             Test.stopTest();
             System.assertNotEquals(null, svcException, 'Should have thrown the service exception');
@@ -393,7 +393,6 @@ public with sharing class PaymentPlanServiceTest {
     @IsTest
     public static void testAddPaymentMethod_NewNoSave() {
         Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
-        String cardNumber = '378282246310005';
         String lastFour = '0005';
 
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
@@ -421,7 +420,7 @@ public with sharing class PaymentPlanServiceTest {
         System.assertNotEquals(0, plans.size(), 'Should have found a plan.');
         Payment_Plan__c planWithMethod = plans.get(0);
 
-        System.assertNotEquals(lastFour, plan.Payment_Method__r.Last_4__c, 'Should not have the new method.');
+        System.assertNotEquals(lastFour, planWithMethod.Payment_Method__r.Last_4__c, 'Should not have the new method.');
     }
 
     /**

@@ -3,8 +3,6 @@
  */
 
 public with sharing class EditPaymentPlan {
-    public String username { get; set; }
-    public String password { get; set; }
     public String guarantorId { get; set; }
     public String paymentPlanId { get; set; }
     public String paymentPlanRecordId { get; set; }
@@ -35,7 +33,6 @@ public with sharing class EditPaymentPlan {
     public Boolean chargeGroupsSelected { get; set; }
     public List<ChargeGroupWrapper> chargeGroupList { get; set; }
     public Decimal totalAmount { get; set; }
-    public String responseBody = '';
     public Contact gc;
 
     //adding values to picklist
@@ -501,8 +498,7 @@ public with sharing class EditPaymentPlan {
     public void parseResponse(String jsonStr) {
 
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
-        objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorRecordId,
-            null, chargeGroupId);
+        objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorRecordId, chargeGroupId);
         Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
 
         if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {

@@ -38,11 +38,6 @@ public with sharing class CaseCGJunctionSecurityContext extends SecurityContext 
     public static final CaseCGJunctionSecurityContext CREATE_CONTEXT = new CaseCGJunctionSecurityContext(CREATE_FIELDS, ACTION.OBJ_CREATE);
 
     /**
-     * The delete context for Case_Charge_Group_Junction__c in CampaignMemberTriggerHandler
-     **/
-    public static final CaseCGJunctionSecurityContext DELETE_CONTEXT = new CaseCGJunctionSecurityContext(null, ACTION.OBJ_DELETE);
-
-    /**
      * The select context for CaseCGJunction in CaseCommentTriggerHandler
      **/
     public static final CaseCGJunctionSecurityContext SELECT_CONTEXT = new CaseCGJunctionSecurityContext(SELECT_FIELDS, ACTION.OBJ_READ);

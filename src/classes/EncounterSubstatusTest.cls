@@ -43,7 +43,6 @@ public with sharing class EncounterSubstatusTest {
      **/
     @IsTest
     public static void testEncounterSubstatusUnavailable() {
-        Contact guarantorContact = [SELECT Id FROM Contact WHERE Name = :GUARANTOR_CONTACT LIMIT 1];
         Encounter__c encounter = getTestEncounter();
 
         Test.startTest();
@@ -70,7 +69,6 @@ public with sharing class EncounterSubstatusTest {
      **/
     @IsTest
     public static void testEncounterSubstatusCancelled() {
-        Contact guarantorContact = [SELECT Id FROM Contact WHERE Name = :GUARANTOR_CONTACT LIMIT 1];
         Encounter__c encounter = getTestEncounter();
 
         Test.startTest();
@@ -90,7 +88,6 @@ public with sharing class EncounterSubstatusTest {
      **/
     @IsTest
     public static void testEncounterSubstatusPaymentDue() {
-        Contact guarantorContact = [SELECT Id FROM Contact WHERE Name = :GUARANTOR_CONTACT LIMIT 1];
         Encounter__c encounter = getTestEncounter();
 
         Test.startTest();
@@ -161,7 +158,6 @@ public with sharing class EncounterSubstatusTest {
      **/
     @IsTest
     public static void testEncounterSubstatusNegative() {
-        Contact guarantorContact = [SELECT Id FROM Contact WHERE Name = :GUARANTOR_CONTACT LIMIT 1];
         Encounter__c encounter = getTestEncounter();
 
         Test.startTest();

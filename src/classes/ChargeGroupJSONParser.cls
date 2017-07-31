@@ -4,39 +4,61 @@
 
 public with sharing class ChargeGroupJSONParser extends AbstractSironoJSONParser {
     public class Patient_data {
+        //noinspection ApexUnusedDeclaration
         public String mrn;
+        //noinspection ApexUnusedDeclaration
         public String patient_name;
     }
 
     public class Invoice {
+        //noinspection ApexUnusedDeclaration
         public String invoice_date;
+        //noinspection ApexUnusedDeclaration
         public String due_date;
     }
 
     public String url;
+    //noinspection ApexUnusedDeclaration
     public String account_type;
+    //noinspection ApexUnusedDeclaration
     public String account_number;
     public Boolean active;
+    //noinspection ApexUnusedDeclaration
     public String status;
+    //noinspection ApexUnusedDeclaration
     public String extended_status;
+    //noinspection ApexUnusedDeclaration
     public String pas_specific_origin_code;
+    //noinspection ApexUnusedDeclaration
     public Integer balance;
+    //noinspection ApexUnusedDeclaration
     public Invoice invoice;
+    //noinspection ApexUnusedDeclaration
     public Boolean bad_debt_status;
+    //noinspection ApexUnusedDeclaration
     public String date_of_service_start;
+    //noinspection ApexUnusedDeclaration
     public String date_of_service_end;
+    //noinspection ApexUnusedDeclaration
     public Boolean charges_since_paymentplan;
+    //noinspection ApexUnusedDeclaration
     public String mapped_location_or_provider;
+    //noinspection ApexUnusedDeclaration
     public String processed_charges_details;
+    //noinspection ApexUnusedDeclaration
     public Patient_data patient_data;
+    //noinspection ApexUnusedDeclaration
     public Guarantor_data guarantor_data;
     public String account_status;
     public String account_sub_status;
     public String paymentplan;
 
     public class Guarantor_data {
+        //noinspection ApexUnusedDeclaration
         public String display_id;
+        //noinspection ApexUnusedDeclaration
         public String url;
+        //noinspection ApexUnusedDeclaration
         public String full_name;
     }
 

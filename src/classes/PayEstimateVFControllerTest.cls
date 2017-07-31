@@ -45,8 +45,11 @@ public class PayEstimateVFControllerTest {
         objPayEstimate.state = 'Test State';
         objPayEstimate.address = 'Test Address';
         objPayEstimate.city = 'Test City';
+
         // Call below parameters for Code Coverage.
+        //noinspection ApexUnusedDeclaration
         List<SelectOption> expYearOptions = objPayEstimate.expYearOptions;
+        //noinspection ApexUnusedDeclaration
         List<SelectOption> expMonthOptions = objPayEstimate.expMonthOptions;
 
         // Call submit method. that take/create payment for Encounter Record.

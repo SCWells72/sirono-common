@@ -3,8 +3,6 @@
  */
 
 public with sharing class ProcessPayment {
-    public String username { get; set; }
-    public String password { get; set; }
     public String creditCardNumber { get; set; }
     public String cardHolderName { get; set; }
     public String expirationYear { get; set; }
@@ -22,10 +20,6 @@ public with sharing class ProcessPayment {
     public String chargeGroupId { get; set; }
     public List<ChargeGroupWrapper> chargeGroupList { get; set; }
     public Contact gc { get; set; }
-    private Payment__c objPayment = new Payment__c();
-    private List<Transaction__c> lsttransaction = new List<Transaction__c>();
-    private List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
-    private List<Payment_Plan__c> lstPaymentPlan = new List<Payment_Plan__c>();
 
     public List<SelectOption> expYearOptions {
         get {

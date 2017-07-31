@@ -12,8 +12,6 @@ private class WorkWithStatementsControllerTest {
 
 
         System.runAs(adminUser) {
-            Account testAcc = TestUtility.getPortalAccount();
-
             Contact guarantorContact = GuarantorService.getPortalGuarantor(gtUser.Id);
 
             List<Statement__c> statements = new List<Statement__c>();

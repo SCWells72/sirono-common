@@ -14,8 +14,6 @@ public class CallListUtilitiesTest {
     // Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @IsTest
     public static void removeCMWithOverdueDelinquentBalance() {
-        TestUtility objTestUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact ;
 
@@ -86,8 +84,6 @@ public class CallListUtilitiesTest {
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @IsTest
     public static void preCollectionCallListRemoval() {
-        TestUtility objTestUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact ;
 
@@ -110,7 +106,8 @@ public class CallListUtilitiesTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
-        List<Charge_Group__c> lst = TestUtility.generateChargeGroupList(guarantorContact.Id);
+        // The charge groups are required as a test fixture
+        TestUtility.generateChargeGroupList(guarantorContact.Id);
         transactionObj = TestUtility.generateTransaction(chargeGroup, -500, Constants.AUTOMATIC);
         insert transactionObj ;
 
@@ -152,8 +149,6 @@ public class CallListUtilitiesTest {
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @IsTest
     public static void earlyOutCallListRemovalWithoutCG() {
-        TestUtility objTestUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact ;
 
@@ -195,8 +190,6 @@ public class CallListUtilitiesTest {
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @IsTest
     public static void delinquentCaseWithoutCG() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -223,8 +216,6 @@ public class CallListUtilitiesTest {
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @IsTest
     public static void preCollectionCaseWithoutCG() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -250,8 +241,6 @@ public class CallListUtilitiesTest {
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @IsTest
     public static void earlyOutCaseUpdate() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -277,8 +266,6 @@ public class CallListUtilitiesTest {
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @IsTest
     public static void ccErrorCaseUpdate() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -302,8 +289,6 @@ public class CallListUtilitiesTest {
     //Viraj Rana : 09-15-2016: Unit test of preCollectionCallListRemoval method
     @IsTest
     public static void encounterCaseUpdate() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -327,9 +312,6 @@ public class CallListUtilitiesTest {
     //Viraj Rana : 09-15-2016: Unit test of caseEarlyOutClose method
     @IsTest
     public static void checkContactOverdueBalance() {
-        TestUtility objUtility = new TestUtility();
-        CaseUtil obj = new CaseUtil();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -365,9 +347,6 @@ public class CallListUtilitiesTest {
     //Viraj Rana : 09-15-2016: Unit test of caseEarlyOutClose method
     @IsTest
     public static void checkContactDelinquentBalance() {
-        TestUtility objUtility = new TestUtility();
-        CaseUtil obj = new CaseUtil();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 

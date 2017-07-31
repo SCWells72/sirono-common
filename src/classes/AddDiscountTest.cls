@@ -9,8 +9,6 @@ public class AddDiscountTest {
      * call the doNext, getDiscountRate,submit and addDiscountRequest (else condition) method
      */
     static testMethod void submit() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact ;
@@ -25,7 +23,6 @@ public class AddDiscountTest {
 
         //Create Add Discount object and Call Add Discount constructor.
         AddDiscount objAddDiscount = new AddDiscount(new ApexPages.StandardController(guarantorContact));
-        List<ApexPages.Message> msgList = ApexPages.getMessages();
 
         //Create Invoice record.
         Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
@@ -77,8 +74,6 @@ public class AddDiscountTest {
      * call the doNext Method,getDiscountRate Method,Submit method Else statement
      */
     static testMethod void SubmitElse() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact ;
@@ -163,8 +158,6 @@ public class AddDiscountTest {
      * call the doNext Method,getDiscountRate Method,Submit method and addDiscountRequest Method
      */
     public static testMethod void webServiceCallout() {
-        TestUtility objTestUtility = new TestUtility();
-
         //Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact ;
@@ -179,7 +172,6 @@ public class AddDiscountTest {
 
         //Create Add Discount object and Call Add Discount constructor.
         AddDiscount objAddDiscount = new AddDiscount(new ApexPages.StandardController(guarantorContact));
-        List<ApexPages.Message> msgList = ApexPages.getMessages();
 
         //Create Invoice record.
         Invoice__c invoice = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);

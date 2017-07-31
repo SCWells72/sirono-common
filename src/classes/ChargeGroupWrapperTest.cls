@@ -8,8 +8,6 @@
 @IsTest
 public with sharing class ChargeGroupWrapperTest {
 
-    private static Decimal CG_SIRONO_ID = 56789;
-
     @TestSetup
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();

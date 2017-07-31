@@ -82,7 +82,7 @@ public class PaymentServiceTest {
     @IsTest
     public static void buildPayChargeGroupsBodyTest() {
         PaymentRequest pmtRequest = buildValidRequest();
-        List<String> errors = pmtRequest.validate();
+        pmtRequest.validate();
 
         Test.setMock(HttpCalloutMock.class, new PaymentRestClientMock());
 
