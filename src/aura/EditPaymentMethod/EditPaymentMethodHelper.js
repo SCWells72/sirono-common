@@ -5,18 +5,19 @@
 ({
     getDefaultCard: function (cmp) {
         var date = new Date();
-        date.setMonth(date.getMonth() + 1);
+        // Set the date for a year from now as the expiration year must be in the future.
+        date.setMonth(date.getMonth() + 13);
         return {
             isSaved: false,
-            expirationMonth: '02',
+            expirationMonth: '01',
             expirationYear: date.getFullYear(),
-            cardHolderName: 'Charles Green',
-            creditCardNumber: '4111111111111111',
-            cvv: '123',
-            address: '1221 Congress Ave',
-            city: 'Austin',
-            zip: '78701',
-            state: 'TX'
+            cardHolderName: '',
+            creditCardNumber: '',
+            cvv: '',
+            address: '',
+            city: '',
+            zip: '',
+            state: ''
         };
     },
     showError: function (cmp, message) {
