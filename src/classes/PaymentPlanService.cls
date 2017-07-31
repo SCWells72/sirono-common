@@ -88,7 +88,7 @@ public with sharing class PaymentPlanService extends AbstractService {
          **/
         private HttpResponse updatePaymentPlanPaymentMethod(String sironoPaymentPlanId, PaymentPlanInformation ppInfo) {
             return putRequestor()
-                .url(RestClientConstants.PAYMENT_PLAN_KEY, new String[] {sironoPaymentPlanId})
+                .url(RestClientConstants.PAYMENT_PLAN_KEY, new String[] { sironoPaymentPlanId })
                 .body(buildCreatePaymentPlanBody(ppInfo))
                 .call();
         }
@@ -680,7 +680,7 @@ public with sharing class PaymentPlanService extends AbstractService {
         if (String.isEmpty(creditCardId)) {
             // Need to add the Charge Groups for the plan.
             List<Charge_Group__c> cgs = ChargeGroupDao.getCGForPaymentPlan(sfPlan.Id);
-            for (Charge_Group__c charge_group: cgs) {
+            for (Charge_Group__c charge_group : cgs) {
                 paymentInfo.chargeGroupIds.add(charge_group.Sirono_ID__c.toPlainString());
             }
 

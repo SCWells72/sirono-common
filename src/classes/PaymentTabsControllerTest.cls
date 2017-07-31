@@ -131,7 +131,7 @@ public with sharing class PaymentTabsControllerTest {
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
         User adminUser = TestUtility.getPortalAdminUser();
-        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_ID__c.toPlainString();
 
 
         Payment_Plan__c createdPlan = insertPaymentPlan(adminUser);
@@ -173,7 +173,7 @@ public with sharing class PaymentTabsControllerTest {
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
         User adminUser = TestUtility.getPortalAdminUser();
-        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_ID__c.toPlainString();
 
 
         Payment_Plan__c createdPlan = insertPaymentPlan(adminUser);
@@ -208,9 +208,9 @@ public with sharing class PaymentTabsControllerTest {
         System.assertEquals(1, savedMethods.size(), 'Should have saved the new payment method.');
     }
 
-    @isTest
+    @IsTest
     public static void testDoEditPaymentPlanServiceExcpetion() {
-        User portalUser = TestUtility.getGuarantorCommunityUser();
+        TestUtility.getGuarantorCommunityUser();
         Map<String, Object> ppInfoMap = new Map<String, Object>();
         // Fake Id
         ppInfoMap.put('id', '548302');
@@ -230,7 +230,7 @@ public with sharing class PaymentTabsControllerTest {
 
     }
 
-    @isTest
+    @IsTest
     public static void testDoEditPaymentPlanNoId() {
         TestUtility.getGuarantorCommunityUser();
         Map<String, Object> ppInfoMap = new Map<String, Object>();

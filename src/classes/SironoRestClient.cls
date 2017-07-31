@@ -121,7 +121,7 @@ public abstract with sharing class SironoRestClient {
         if (addDefaults) {
             addDefaults();
         }
-        setSuccessStatuses(new Set<Integer>{
+        setSuccessStatuses(new Set<Integer> {
             RestClientConstants.HTTP_SUCCESS
         });
         req.setMethod(RestClientConstants.PUT);

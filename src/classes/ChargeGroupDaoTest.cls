@@ -383,23 +383,23 @@ public with sharing class ChargeGroupDaoTest {
         }
     }
 
-    @isTest
+    @IsTest
     public static void testGetCGForPaymentPlan() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
         Payment_Plan__c payPlan = TestUtility.generatePaymentPlan(guarantorContact);
-        INSERT payPlan;
+        insert payPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1234);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         chargeGroup.Payment_Plan__c = payPlan.Id;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, null, 12345);
         chargeGroup1.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_BAD_DEBT;
         chargeGroup1.Payment_Plan__c = payPlan.Id;
-        INSERT chargeGroup1;
+        insert chargeGroup1;
 
         Test.startTest();
         List<Charge_Group__c> cgs = ChargeGroupDao.getCGForPaymentPlan(payPlan.Id);
