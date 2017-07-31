@@ -115,6 +115,25 @@ public with sharing class ChargeGroupDao extends AbstractDao {
     }
 
     /**
+     * Get the list of charge groups assoicated with a particualar payment plan.
+     *
+     * @param Id planId - The payment plan id.
+     * @return List<Charge_Group__c> - Any change groups that are assoicated with the payment plan.
+     */
+    public static List<Charge_Group__c> getCGForPaymentPlan(Id planId) {
+        List<Charge_Group__c> cgs = new List<Charge_Group__c>();
+        if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            cgs = [
+                SELECT Id, Sirono_ID__c
+                FROM Charge_Group__c
+                WHERE Payment_Plan__c = :planId
+            ];
+
+        }
+        return cgs;
+    }
+
+    /**
      * Return the Charge_Group__c records associated with the given Invoices.
      *
      * @param Set<Id> invoiceIds - the Invoice ids.

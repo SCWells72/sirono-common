@@ -8,13 +8,17 @@
 
         var cardId = cmp.get('v.PaymentInfo.paymentPlan.Payment_Method__c');
         var CreditCard = hlpr.getDefaultCard();
-
         if (PaymentInfo && PaymentInfo.creditCards.length) {
             PaymentInfo.creditCards.forEach(function (card) {
                 if (card.sfId === cardId) {
                     CreditCard = card;
+                    cmp.set('v.hasCreditCard', true);
                 }
             });
+        } else {
+            // If no payment methods were found display the create view.
+          $A.util.toggleClass(cmp.find('editPaymentMethod'), 'slds-hide');
+          $A.util.toggleClass(cmp.find('editCreditCard'), 'slds-hide');
         }
 
         cmp.set('v.selectedCardId', cardId);
@@ -50,6 +54,10 @@
     cancelAction: function (cmp, e, hlpr) {
         cmp.getEvent('initPlanInfo').fire();
     },
+
+    /**
+     * Edit an existing credit card.
+     */
     editCreditCard: function (cmp, e, hlpr) {
         e.stopPropagation();
         //Temporary solution
@@ -58,6 +66,10 @@
         $A.util.toggleClass(cmp.find('editCreditCard'), 'slds-hide');
         return false;
     },
+
+    /**
+     * Create a new credit card.
+     */
     addNewCreditCard: function (cmp, e, hlpr) {
         e.stopPropagation();
 

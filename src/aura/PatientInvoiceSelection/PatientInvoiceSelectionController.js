@@ -6,7 +6,7 @@
     doInit: function (component, event, helper) {
         var invoiceId = component.get('v.invoiceId');
         var isEstimate = component.get('v.isEstimateType');
-        if (invoiceId == null) {
+        if (!invoiceId) {
             helper.init(component);
         } else if (!isEstimate) {
             var filters = component.find('filters');
@@ -21,14 +21,14 @@
     selectAllInvoices: function (component, event, helper) {
         $A.util.removeClass(component.find('filters'), 'slds-hide');
         $A.util.removeClass(component.find('invoicesNotOnPaymentPlanSection'), 'slds-hide');
-        console.log('SELECT ALL INVOICES');
+
         var areAllInvoicesSelected = component.get('v.AreAllInvoicesSelected');
         $A.get("e.c:SelectInvoicesEvent").setParams({"SelectAll": !areAllInvoicesSelected}).fire();
         component.set('v.AreAllInvoicesSelected', !areAllInvoicesSelected);
     },
 
     refreshAllInvoicesSelected: function (component, event, helper) {
-        console.log('Refresh All Invoices Selected');
+
         var areAllinvoicesSelected = true;
         component.get('v.invoices').forEach(function (item, i, arr) {
             areAllinvoicesSelected = areAllinvoicesSelected && item.get('v.activated');
@@ -68,8 +68,8 @@
         component.set('v.selectedTab', activeTab);
         var invoiceId = component.get('v.invoiceId');
         var isEstimate = event.getParam('isEstimateType');
-        component.set('v.isEstimateType', isEstimate)
-        if (invoiceId == null || activeTab == 'CreatePaymentPlan') {
+        component.set('v.isEstimateType', isEstimate);
+        if (!invoiceId || activeTab === 'CreatePaymentPlan') {
             helper.getAllInvoices(component);
         } else if (!isEstimate) {
             var filters = component.find('filters');
@@ -92,7 +92,7 @@
         var patientLabel = '';
         var selectCounter = 0;
         for (var i = 0; i < patientSetOld.length; i++) {
-            if (patientSetOld[i].id == patientId) {
+            if (patientSetOld[i].id === patientId) {
                 patientSetOld[i].isSelected = $A.util.hasClass(event.currentTarget, 'slds-is-selected');
             }
             if (patientSetOld[i].isSelected) {
@@ -101,8 +101,8 @@
             }
         }
         patientLabel = patientLabel.substring(0, patientLabel.length - 2);
-        if (selectCounter != patientSetOld.length) {
-            if (selectCounter == 0) {
+        if (selectCounter !== patientSetOld.length) {
+            if (selectCounter === 0) {
                 component.set('v.patientLabel', 'Not Selected');
             } else {
                 component.set('v.patientLabel', patientLabel);

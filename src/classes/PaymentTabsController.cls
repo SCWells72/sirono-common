@@ -81,10 +81,21 @@ public with sharing class PaymentTabsController {
             throw new AuraHandledException('Payment Plan id must be provided.');
         }
 
-        PaymentPlanInformation ppInfo = new PaymentPlanInformation(ppInfoMap);
+        Payment_Plan__c updatedPlan;
 
+        try {
+            PaymentPlanInformation ppInfo = new PaymentPlanInformation(ppInfoMap);
+            updatedPlan = PaymentPlanService.addPaymentMethod(planId, creditCardId, ppInfo, isCreditCardSaved);
 
-        return PaymentPlanService.addPaymentMethod(planId, creditCardId, ppInfo, isCreditCardSaved);
+        } catch (Exception e) {
+            System.debug('ERROR: ' + e.getMessage());
+            String errMsg = 'Error encountered updating plan payment method. Please contact support';
+            AuraHandledException ex = new AuraHandledException(errMsg);
+            ex.setMessage(errMsg);
+            throw ex;
+        }
+
+        return updatedPlan;
     }
 
     /**
