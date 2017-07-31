@@ -100,7 +100,7 @@ public with sharing class CreateAdjustment {
                 String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
                 String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
                 if (csrfToken != null && jwtToken != null) {
-                    createAdjustmetWSCall(csrfToken, jwtToken);
+                    createAdjustmentWSCall(csrfToken, jwtToken);
                 }
             } else {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
@@ -117,7 +117,7 @@ public with sharing class CreateAdjustment {
     }
 
     //Send request to the endpoint.
-    private void createAdjustmetWSCall(String csrfToken, String jwtToken) {
+    private void createAdjustmentWSCall(String csrfToken, String jwtToken) {
         String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '",' +
             '"chargegroup":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/chargegroups/' + chargeGroupId + '/",' +
             '"amount":' + SironoRestClient.convertToCents(amount) + ',' +
