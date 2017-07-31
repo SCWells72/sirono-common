@@ -5,6 +5,5 @@
     <description>Sirono Partner Partner User</description>
     <mayForecastManagerShare>false</mayForecastManagerShare>
     <name>Sirono Partner Partner User</name>
-    <opportunityAccessLevel>Edit</opportunityAccessLevel>
-    <parentRole>Call_Center_Agent</parentRole>
+    <parentRole>CEO</parentRole>
 </Role>
