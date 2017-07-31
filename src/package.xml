@@ -607,7 +607,6 @@
         <members>User.Community_Password__c</members>
         <members>User.Is_Demo_Active__c</members>
         <members>User.Is_Demo_Locked__c</members>
-        <members>User.Legacy_User_Id__c</members>
         <name>CustomField</name>
     </types>
     <types>
