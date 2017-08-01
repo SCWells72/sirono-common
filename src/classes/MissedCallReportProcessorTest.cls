@@ -65,6 +65,7 @@ public class MissedCallReportProcessorTest {
         String DNIS = '';
         String HANDLE_TIME = '';
         String COST = '';
+        String salesforce_id = '';
         String TIME_STRING = '';
         String AFTER_CALL_WORK_TIME = '';
         String CONTACT_ID = '';
@@ -79,9 +80,10 @@ public class MissedCallReportProcessorTest {
         List<Contact> contacts = new List<Contact>([SELECT Id FROM Contact]);
         String resultString = '';
         for (Contact contact : contacts) {
+            salesforce_id = contact.Id;
             String tempResultString = SESSION_ID + ',' + CALL_ID + ',' + DATE_STRING + ',' + DISPOSITION + ',' + RECORDINGS + ',' +
                 AGENT_NAME + ',' + EXTENSION + ',' + ANI + ',' + CALL_TYPE + ',' + CAMPAIGN + ',' + DNIS + ',' +
-                HANDLE_TIME + ',' + COST + ',' + contact.Id + ',' + TIME_STRING + ',' + AFTER_CALL_WORK_TIME + ',' +
+                HANDLE_TIME + ',' + COST + ',' + salesforce_id + ',' + TIME_STRING + ',' + AFTER_CALL_WORK_TIME + ',' +
                 CONTACT_ID + ',' + CALL_TIME + '\r\n';
             resultString = resultString + tempResultString;
         }
