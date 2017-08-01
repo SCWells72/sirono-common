@@ -4,12 +4,17 @@
 
 ({
     getDefaultCard: function (cmp) {
-        var date = new Date();
-        // Set the date for a year from now as the expiration year must be in the future.
-        date.setMonth(date.getMonth() + 13);
+        var date = new Date(),
+            monthStr;
+
+        monthStr = (date.getMonth() + 1) + '';
+        if (monthStr.length === 1) {
+            monthStr = '0' + monthStr;
+        }
+
         return {
-            isSaved: false,
-            expirationMonth: '01',
+            isSaved: true,
+            expirationMonth: monthStr,
             expirationYear: date.getFullYear(),
             cardHolderName: '',
             creditCardNumber: '',

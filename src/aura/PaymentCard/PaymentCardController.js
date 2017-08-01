@@ -78,5 +78,5 @@
     },
     validateZip: function (cmp, e, hlpr) {
         hlpr.isValidCutNOTNumber(cmp, "zipcode");
-    },
+    }
 })

@@ -72,9 +72,9 @@ public with sharing class CampaignMemberService extends AbstractService {
     public static void deleteMembers(Map<String, Set<Id>> caseCmpnMemberMap) {
 
         List<CampaignMember> membersToDelete = new List<CampaignMember>();
-
+        CampaignMemberDao.ElevatedPrivilegesHelper helper = new CampaignMemberDao.ElevatedPrivilegesHelper();
         for (String caseType : caseCmpnMemberMap.keySet()) {
-            membersToDelete.addAll(CampaignMemberDao.getCampaignMembers(caseType, caseCmpnMemberMap.get(caseType)));
+            membersToDelete.addAll(helper.getCampaignMembers(caseType, caseCmpnMemberMap.get(caseType)));
         }
 
         CampaignMemberDao.deleteCampaignMembers(membersToDelete);
