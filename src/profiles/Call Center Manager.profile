@@ -2195,7 +2195,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Invoice__c.Invoice_Age__c</field>
+        <field>Invoice__c.Age__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2205,7 +2205,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Invoice__c.Invoice_Date__c</field>
+        <field>Invoice__c.Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

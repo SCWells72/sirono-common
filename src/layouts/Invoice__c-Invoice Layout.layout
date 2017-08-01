@@ -43,7 +43,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Invoice_Date__c</field>
+                <field>Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

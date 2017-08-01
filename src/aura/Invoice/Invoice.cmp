@@ -21,7 +21,7 @@
                     </span>
                 </div>
                 <a class="invoice-name">
-                    <ui:outputDate value="{!v.invoice.singleInvoice.Invoice_Date__c}" format="MMMM YYYY"/>
+                    <ui:outputDate value="{!v.invoice.singleInvoice.Date__c}" format="MMMM YYYY"/>
                 </a>
                 <!--<div class="title paid">
                     Paid on January 4, 2017

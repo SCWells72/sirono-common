@@ -41,7 +41,7 @@ public class EarlyOutSchedulerBatchTest {
         Date dt = System.today().addDays(-50);
 
         Invoice__c i = TestUtility.generateInvoice(con1.Id, p.Id);
-        i.Invoice_Date__c = dt;
+        i.Date__c = dt;
         i.Guarantor__c = con1.Id;
         insert i;
 

@@ -16,11 +16,11 @@ public with sharing class InvoiceSecurityContext extends SecurityContext {
     private static final String DUE_DATE = 'Due_Date__c';
     private static final String GUARANTOR = 'Guarantor__c';
     private static final String ID = 'Id';
-    private static final String INVOICE_AGE = 'Invoice_Age__c';
-    private static final String INVOICE_DATE = 'Invoice_Date__c';
+    private static final String AGE = 'Age__c';
+    private static final String INVOICE_DATE = 'Date__c';
     private static final String NAME = 'Name';
     private static final String PARTIAL_PAYMENT_PLAN = 'Partial_Payment_Plan__c';
-    private static final String SIRONO_ID = 'Sirono_ID__c';
+    private static final String SIRONO_ID = 'Sirono_Id__c';
     private static final String STATUS = 'Status__c';
 
     // The fields for updating a Invoice__c's Status_Index__c field in InvoiceUtil
@@ -45,7 +45,7 @@ public with sharing class InvoiceSecurityContext extends SecurityContext {
 
     // The fields for selecting the details on Invoices
     private static final Set<String> DETAIL_FIELDS = new Set<String> {
-        ID, NAME, BALANCE, SIRONO_ID, INVOICE_DATE, INVOICE_AGE, STATUS, DUE_DATE, PARTIAL_PAYMENT_PLAN
+        ID, NAME, BALANCE, SIRONO_ID, INVOICE_DATE, AGE, STATUS, DUE_DATE, PARTIAL_PAYMENT_PLAN
     };
 
     /**

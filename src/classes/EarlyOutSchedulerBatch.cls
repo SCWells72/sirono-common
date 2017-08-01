@@ -57,18 +57,18 @@ public with sharing class EarlyOutSchedulerBatch implements Database.Batchable<S
             List<CampaignMember> memberList = new List<CampaignMember>();
             if (InvoiceSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                 for (Invoice__c invoice : [
-                    SELECT Id, Name, Guarantor__c, Invoice_Date__c,
+                    SELECT Id, Name, Guarantor__c, Date__c,
                         Guarantor__r.Overdue_Balance__c, Guarantor__r.Delinquent_Balance__c
                     FROM Invoice__c
                     WHERE Guarantor__c IN :guarantors
-                    AND Invoice_Date__c = :dt
+                    AND Date__c = :dt
                 ]) {
                     Double bal = invoice.Guarantor__r.Overdue_Balance__c + invoice.Guarantor__r.Delinquent_Balance__c;
                     if (invoice.Guarantor__r.Overdue_Balance__c < 0 && bal <= -100 && bal > -5000
                         && guarantorMap.containsKey(invoice.Guarantor__c)
                         && guarantorMap.get(invoice.Guarantor__c).Statements__r != null
                         && guarantorMap.get(invoice.Guarantor__c).Statements__r.size() != 0
-                        && guarantorMap.get(invoice.Guarantor__c).Statements__r.get(0).Statement_Date__c > invoice.Invoice_Date__c
+                        && guarantorMap.get(invoice.Guarantor__c).Statements__r.get(0).Statement_Date__c > invoice.Date__c
                         && !existingMembers.contains(invoice.Guarantor__c)) {
                         existingMembers.add(invoice.Guarantor__c);
                         memberList.add(new CampaignMember(

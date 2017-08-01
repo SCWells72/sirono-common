@@ -379,7 +379,7 @@
     <fields>
         <fullName>Invoice_Age__c</fullName>
         <externalId>false</externalId>
-        <formula>If(ISBLANK(Invoice__c),-1,Invoice__r.Invoice_Age__c)</formula>
+        <formula>If(ISBLANK(Invoice__c),-1,Invoice__r.Age__c)</formula>
         <label>Invoice Age</label>
         <precision>18</precision>
         <required>false</required>

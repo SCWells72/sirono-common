@@ -26,7 +26,7 @@
             </aura:if>
             <div class="title">{!v.invoice.singleInvoice.Patient__r.Name + ' (MRN: ' + v.invoice.singleInvoice.Patient__r.Medical_Record_Number__c + ')'}</div>
             <a class="invoice-name" onclick="{!c.selectInvoice}">
-                <ui:outputdate value="{!v.invoice.singleInvoice.Invoice_Date__c}" format="MMMM YYYY"/>
+                <ui:outputdate value="{!v.invoice.singleInvoice.Date__c}" format="MMMM YYYY"/>
             </a>
         </div>
         <div class="col right">
