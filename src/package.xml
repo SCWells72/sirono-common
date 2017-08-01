@@ -873,7 +873,10 @@
         <name>FieldSet</name>
     </types>
     <types>
-        <members>Agent_View</members>
+        <members>Contact_External_Guarantor_Record_Page</members>
+        <members>Contact_External_Patient_Record_Page</members>
+        <members>Contact_Guarantor_Record_Page</members>
+        <members>Contact_Patient_Record_Page</members>
         <members>Encounter_Record_Page</members>
         <members>Sirono_Call_Center_UtilityBar</members>
         <name>FlexiPage</name>

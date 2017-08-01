@@ -92,7 +92,7 @@
         <name>sidebar</name>
         <type>Region</type>
     </flexiPageRegions>
-    <masterLabel>Agent View</masterLabel>
+    <masterLabel>Patient View</masterLabel>
     <sobjectType>Contact</sobjectType>
     <template>
         <name>flexipage:recordHomeTemplateDesktop</name>
