@@ -28,6 +28,21 @@ public with sharing class CampaignMemberDao extends AbstractDao {
                 delete membersToRemove;
             }
         }
+
+        /**
+         * Get the campaign member records based on case type and contacts.
+         **/
+        public List<CampaignMember> getCampaignMembers(String caseType, Set<Id> guarantors) {
+            // Get Campaign Names from Metadata.
+            Set<String> campaignNames = getSFCampaignNames(caseType);
+
+            return [
+                SELECT Id, ContactId
+                FROM CampaignMember
+                WHERE Campaign.Name IN :campaignNames
+                AND ContactId IN :guarantors
+            ];
+        }
     }
 
     /**
@@ -53,25 +68,6 @@ public with sharing class CampaignMemberDao extends AbstractDao {
             ];
         }
         return campaigns;
-    }
-
-    /**
-     * Get the campaign member records based on case type and contacts.
-     *
-     **/
-    public static List<CampaignMember> getCampaignMembers(String caseType, Set<Id> guarantors) {
-        // Get Campaign Names from Metadata.
-        Set<String> campaignNames = getSFCampaignNames(caseType);
-
-        if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            return [
-                SELECT Id, ContactId
-                FROM CampaignMember
-                WHERE Campaign.Name IN :campaignNames
-                AND ContactId IN :guarantors
-            ];
-        }
-        return new List<CampaignMember>();
     }
 
     /**
