@@ -9,8 +9,6 @@
 private class EncounterTriggerTest {
 
     static testMethod void myUnitTest() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -37,8 +35,6 @@ private class EncounterTriggerTest {
     }
 
     static testMethod void myUnitTest1() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -72,9 +68,6 @@ private class EncounterTriggerTest {
 
     //Viraj Rana 09-15-2016 : Improve the code coverage of EncounterTriggerHandler
     static testMethod void myUnitTest2() {
-        TestUtility objUtility = new TestUtility();
-
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -105,8 +98,6 @@ private class EncounterTriggerTest {
 
     //Viraj Rana 09-15-2016 : Improve the code coverage of EncounterTriggerHandler
     static testMethod void checkCallListRemove() {
-        TestUtility objUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -136,7 +127,6 @@ private class EncounterTriggerTest {
             FROM CampaignMember
             WHERE ContactId = :guarantorContact2.Id
         ];
-        List<ApexPages.Message> msgList = ApexPages.getMessages();
         System.assertEquals(0, lstCamp.size());
     }
     

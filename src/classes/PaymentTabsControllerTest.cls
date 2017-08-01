@@ -5,8 +5,6 @@
 @IsTest
 public with sharing class PaymentTabsControllerTest {
 
-    private static String PLAN_SIRONO_ID = '2876';
-
     @IsTest
     public static void getCardSelectOptionsTest() {
         Test.startTest();
@@ -62,7 +60,7 @@ public with sharing class PaymentTabsControllerTest {
         User adminUser = TestUtility.getPortalAdminUser();
 
         PaymentTabsController.GuarantorPaymentInfo gpi;
-        insertPaymentPlan(adminUser, portalUser);
+        insertPaymentPlan(adminUser);
 
         System.runAs(portalUser) {
             Test.startTest();
@@ -116,7 +114,7 @@ public with sharing class PaymentTabsControllerTest {
 
         try {
             Test.startTest();
-            Payment_Plan__c plan = PaymentTabsController.doEditPaymentMethod(ppInfoMap);
+            PaymentTabsController.doEditPaymentMethod(ppInfoMap);
             System.assert(false, 'Should have thown aura exception.');
         } catch (AuraHandledException e) {
             Test.stopTest();
@@ -133,10 +131,10 @@ public with sharing class PaymentTabsControllerTest {
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
         User adminUser = TestUtility.getPortalAdminUser();
-        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_ID__c.toPlainString();
 
 
-        Payment_Plan__c createdPlan = insertPaymentPlan(adminUser, portalUser);
+        Payment_Plan__c createdPlan = insertPaymentPlan(adminUser);
         String cHolderName = 'Pork nBeans';
 
         Map<String, Object> ppInfoMap = new Map<String, Object>();
@@ -175,10 +173,10 @@ public with sharing class PaymentTabsControllerTest {
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
         User adminUser = TestUtility.getPortalAdminUser();
-        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_ID__c.toPlainString();
 
 
-        Payment_Plan__c createdPlan = insertPaymentPlan(adminUser, portalUser);
+        Payment_Plan__c createdPlan = insertPaymentPlan(adminUser);
         String cHolderName = 'Pork nBeans';
 
         Map<String, Object> ppInfoMap = new Map<String, Object>();
@@ -210,9 +208,9 @@ public with sharing class PaymentTabsControllerTest {
         System.assertEquals(1, savedMethods.size(), 'Should have saved the new payment method.');
     }
 
-    @isTest
+    @IsTest
     public static void testDoEditPaymentPlanServiceExcpetion() {
-        User portalUser = TestUtility.getGuarantorCommunityUser();
+        TestUtility.getGuarantorCommunityUser();
         Map<String, Object> ppInfoMap = new Map<String, Object>();
         // Fake Id
         ppInfoMap.put('id', '548302');
@@ -232,9 +230,9 @@ public with sharing class PaymentTabsControllerTest {
 
     }
 
-    @isTest
+    @IsTest
     public static void testDoEditPaymentPlanNoId() {
-        User portalUser = TestUtility.getGuarantorCommunityUser();
+        TestUtility.getGuarantorCommunityUser();
         Map<String, Object> ppInfoMap = new Map<String, Object>();
 
         try {
@@ -257,7 +255,7 @@ public with sharing class PaymentTabsControllerTest {
         User adminUser = TestUtility.getPortalAdminUser();
         MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_ID__c.toPlainString();
 
-        Payment_Plan__c createdPlan = insertPaymentPlan(adminUser, portalUser);
+        insertPaymentPlan(adminUser);
 
         Map<String, Object> ppInfoMap = new Map<String, Object>();
         ppInfoMap.put(PaymentPlanInformation.AMOUNT_KEY, '12345');
@@ -275,10 +273,11 @@ public with sharing class PaymentTabsControllerTest {
     @IsTest
     public static void testDoEditPaymentPlanBadPlanId() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
-        User portalUser = TestUtility.getGuarantorCommunityUser();
+        // Required as part of setup even though it's not used
+        TestUtility.getGuarantorCommunityUser();
         User adminUser = TestUtility.getPortalAdminUser();
 
-        Payment_Plan__c createdPlan = insertPaymentPlan(adminUser, portalUser);
+        insertPaymentPlan(adminUser);
 
         Map<String, Object> ppInfoMap = new Map<String, Object>();
         ppInfoMap.put(PaymentPlanInformation.AMOUNT_KEY, '12345');
@@ -307,7 +306,7 @@ public with sharing class PaymentTabsControllerTest {
         MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_ID__c.toPlainString();
 
 
-        Payment_Plan__c createdPlan = insertPaymentPlan(adminUser, portalUser);
+        Payment_Plan__c createdPlan = insertPaymentPlan(adminUser);
         MockHttpResponseGenerator.planSironoId = createdPlan.Sirono_ID__c.toPlainString();
 
         Payment_Plan__c p1 = [SELECT Id, Active__c, Cancellation_Date__c FROM Payment_Plan__c WHERE Id = :createdPlan.Id];
@@ -549,7 +548,7 @@ public with sharing class PaymentTabsControllerTest {
 
     }
 
-    private static Payment_Plan__c insertPaymentPlan(User adminUser, User portalUser) {
+    private static Payment_Plan__c insertPaymentPlan(User adminUser) {
         Contact guarantorContact;
         Contact patientContact;
         Payment_Plan__c testPP;

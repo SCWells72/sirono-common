@@ -236,93 +236,6 @@ public with sharing class ChargeGroupDaoTest {
     }
 
     /**
-     * This method tests the logic of getCGBasedOnGuarantor method Positive.
-     **/
-    @IsTest
-    public static void getCGBasedOnGuarantorPositiveTest() {
-
-        Contact guarantorContact = [SELECT Id FROM Contact];
-
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1234);
-        chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
-        insert chargeGroup;
-
-        Test.startTest();
-        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnGuarantor(new Set<Id> { guarantorContact.Id });
-        Test.stopTest();
-
-        // Check system assert.
-        System.assertEquals(guarantorContact.Id, chargeGroups[0].Guarantor__c, 'Expected CG Guarantor__c equals to ' + guarantorContact.Id + ' but we got ' + chargeGroups[0].Guarantor__c);
-        System.assertEquals(1, chargeGroups.size(), 'Expected chargeGroups size to be 1 but we got ' + chargeGroups.size());
-    }
-
-    /**
-     * This method tests the logic of getCGBasedOnGuarantor method negative.
-     **/
-    @IsTest
-    public static void getCGBasedOnGuarantorNegativeTest() {
-
-        Contact guarantorContact = [SELECT Id FROM Contact];
-
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 12345);
-        chargeGroup.Account_Status__c = Constants.ACCT_STATUS_PENDING;
-        insert chargeGroup;
-
-        Test.startTest();
-        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnGuarantor(new Set<Id> { guarantorContact.Id });
-        Test.stopTest();
-
-        // Check system assert.
-        System.assertEquals(0, chargeGroups.size(), 'chargeGroups size should have 0 but we got ' + chargeGroups.size());
-    }
-
-    /**
-     * This method tests the logic of getCGBasedOnEncounter method positive.
-     **/
-    @IsTest
-    public static void getCGBasedOnEncounterPositiveTest() {
-
-        Contact guarantorContact = [SELECT Id FROM Contact];
-
-        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
-        insert encounter;
-
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1222);
-        chargeGroup.Encounter__c = encounter.Id;
-        insert chargeGroup;
-
-        Test.startTest();
-        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnEncounter(new Set<Id> { encounter.Id });
-        Test.stopTest();
-
-        // Check system assert.
-        System.assertEquals(encounter.Id, chargeGroups[0].Encounter__c, 'Expected CG Encounter__c equals to ' + encounter.Id + ' but we got ' + chargeGroups[0].Encounter__c);
-        System.assertEquals(1, chargeGroups.size(), 'Expected chargeGroups size to be 1 but we got ' + chargeGroups.size());
-    }
-
-    /**
-     * This method tests the logic of getCGBasedOnEncounter method negative.
-     **/
-    @IsTest
-    public static void getCGBasedOnEncounterNegativeTest() {
-
-        Contact guarantorContact = [SELECT Id FROM Contact];
-
-        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
-        insert encounter;
-
-        Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1214);
-        insert chargeGroup;
-
-        Test.startTest();
-        List<Charge_Group__c> chargeGroups = ChargeGroupDao.getCGBasedOnEncounter(new Set<Id> { encounter.Id });
-        Test.stopTest();
-
-        // Check system assert.
-        System.assertEquals(0, chargeGroups.size(), 'chargeGroups size should have 0 but we got ' + chargeGroups.size());
-    }
-
-    /**
      * This method tests the logic of getCGBasedOnGuarantorAndPreCollDate method.
      **/
     @IsTest
@@ -470,23 +383,23 @@ public with sharing class ChargeGroupDaoTest {
         }
     }
 
-    @isTest
+    @IsTest
     public static void testGetCGForPaymentPlan() {
 
         Contact guarantorContact = [SELECT Id FROM Contact];
 
         Payment_Plan__c payPlan = TestUtility.generatePaymentPlan(guarantorContact);
-        INSERT payPlan;
+        insert payPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1234);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         chargeGroup.Payment_Plan__c = payPlan.Id;
-        INSERT chargeGroup;
+        insert chargeGroup;
 
         Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, null, 12345);
         chargeGroup1.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_BAD_DEBT;
         chargeGroup1.Payment_Plan__c = payPlan.Id;
-        INSERT chargeGroup1;
+        insert chargeGroup1;
 
         Test.startTest();
         List<Charge_Group__c> cgs = ChargeGroupDao.getCGForPaymentPlan(payPlan.Id);

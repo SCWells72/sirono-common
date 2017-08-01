@@ -369,7 +369,6 @@ public with sharing class TaskTriggerHandler {
             for (Task objTask : newList) {
                 if (!lstUserSetting.isEmpty() && !String.isBlank(lstUserSetting[0].Timezone_Name__c)) {
                     String selectedTimeZone = lstUserSetting[0].Timezone_Name__c;
-                    String strConvertedDate = objTask.CreatedDate.format('MM/dd/yyyy HH:mm:ss', selectedTimeZone);
                     String strHours = objTask.CreatedDate.format('HH', selectedTimeZone);
                     if (isUpdate) {
                         objTask.Hours_of_Day__c = Integer.valueOf(strHours);

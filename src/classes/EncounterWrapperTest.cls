@@ -6,7 +6,6 @@
 private class EncounterWrapperTest {
     public static final String GUARANTOR_CONTACT_ONE = 'guarantorContact1';
     public static final String GUARANTOR_CONTACT_TWO = 'guarantorContact2';
-    public static final String GUARANTOR_CONTACT_THREE = 'guarantorContact3';
 
     @TestSetup
     public static void setup() {

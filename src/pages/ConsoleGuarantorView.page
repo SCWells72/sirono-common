@@ -8,15 +8,14 @@
     <head>
         <meta http-equiv="x-ua-compatible" content="ie=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <apex:stylesheet
-            value="{!URLFOR($Resource.SLDS203, 'assets/styles/salesforce-lightning-design-system-vf.min.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.SLDS203, 'assets/styles/salesforce-lightning-design-system-vf.min.css')}"/>
         <apex:includescript value="{!URLFOR($Resource.jquery_11_1)}"/>
         <script src="{!URLFOR($Resource.aljs, '/jquery.aljs-all.min.js')}"></script>
         <script src="{!URLFOR($Resource.aljs, '/jquery.aljs-tabs.min.js')}"></script>
 
         <apex:includeScript value="/xdomain/xdomain.js"/>
-        <apex:includeScript value="/soap/ajax/37.0/connection.js"/>
-        <apex:includeScript value="/support/console/37.0/integration.js"/>
+        <apex:includeScript value="/soap/ajax/40.0/connection.js"/>
+        <apex:includeScript value="/support/console/40.0/integration.js"/>
         <style>
 
         </style>

@@ -13,14 +13,20 @@ public class Constants {
     // Constant variables for account substatus values.
     public static final String ACCT_SUBSTATUS_DUE_BY = 'Due By';
     public static final String ACCT_SUBSTATUS_PAYMENT_PLAN = Constants.ON_PAYMENT_PLAN;
+    //noinspection ApexUnusedDeclaration
     public static final String ACCT_SUBSTATUS_INACTIVE = 'Inactive';
     public static final String ACCT_SUBSTATUS_OVERDUE = Constants.OVERDUE;
     public static final String ACCT_SUBSTATUS_DELINQUENT = Constants.DELIQUENT;
     public static final String ACCT_SUBSTATUS_BAD_DEBT = 'Bad Debt';
+    //noinspection ApexUnusedDeclaration
     public static final String ACCT_SUBSTATUS_OPEN = 'Open';
+    //noinspection ApexUnusedDeclaration
     public static final String ACCT_SUBSTATUS_DNFB = 'Pending Billing';
+    //noinspection ApexUnusedDeclaration
     public static final String ACCT_SUBSTATUS_PENDING_INS = 'Pending Insurance';
+    //noinspection ApexUnusedDeclaration
     public static final String ACCT_SUBSTATUS_UNKNOWN = 'Unknown';
+    //noinspection ApexUnusedDeclaration
     public static final String ACCT_SUBSTATUS_INS_VERIFY = 'Insurance Verification';
     public static final String ACCT_SUBSTATUS_THIRD_PARTY = 'Third Party Payer';
     public static final String ACCT_SUBSTATUS_CREDIT = 'Credit';
@@ -71,6 +77,7 @@ public class Constants {
 
     // Case.Priority values
     public static final String CASE_PRIORITY_MEDIUM = 'Medium';
+    //noinspection ApexUnusedDeclaration
     public static final String CASE_PRIORITY_NORMAL = 'Normal';
 
     // Case.Reason values
@@ -79,14 +86,23 @@ public class Constants {
     public static final String CASE_REASON_COMPLIANCE_ISSUE = 'Compliance Issue';
     public static final String CASE_REASON_CASE_CLOSED_EXHAUSTED = 'Case Closed - Exhausted';
     public static final String CASE_REASON_CASE_CLOSED_FINAL = 'Case Closed - FINAL';
+    //noinspection ApexUnusedDeclaration
     public static final String CASE_REASON_INSURANCE_AGENT_CALLED = 'Insurance Agent Called';
+    //noinspection ApexUnusedDeclaration
     public static final String CASE_REASON_INSURANCE_ERROR = 'Insurance Error';
+    //noinspection ApexUnusedDeclaration
     public static final String CASE_REASON_MAILED_FORM_REQUEST_CHARITY_APPLICATION = 'Mailed Form Request: Charity Application';
+    //noinspection ApexUnusedDeclaration
     public static final String CASE_REASON_MAILED_FORM_REQUEST_RECEIPT = 'Mailed Form Request: Receipt';
+    //noinspection ApexUnusedDeclaration
     public static final String CASE_REASON_MERGE_REQUEST = 'Merge Request';
+    //noinspection ApexUnusedDeclaration
     public static final String CASE_REASON_MISSING_PAYMENT = 'Missing Payment';
+    //noinspection ApexUnusedDeclaration
     public static final String CASE_REASON_MOVE_PAYMENT = 'Move Payment';
+    //noinspection ApexUnusedDeclaration
     public static final String CASE_REASON_NEW_INSURANCE = 'New Insurance';
+    //noinspection ApexUnusedDeclaration
     public static final String CASE_REASON_PATIENT_IS_DECEASED = 'Patient is Deceased';
 
     // Case.Subject values
@@ -135,7 +151,9 @@ public class Constants {
     public static final String PAGE_MESSAGE_CC_NAME_REQUIRE = 'Name is a required field.';
 
     // Constant variables for transaction method (txn_method) values.
+    //noinspection ApexUnusedDeclaration
     public static final String ADJUSTMENT = 'Adjustment';
+    //noinspection ApexUnusedDeclaration
     public static final String PAYMENT = 'Payment';
     public static final String SERVICE = 'Service';
     public static final String UNKNOWN = 'Unknown';

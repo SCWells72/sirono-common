@@ -392,7 +392,7 @@ SironoPRSPostInstallHandler.initializeSironoSettings();
             <login username="@{username}" password="@{password}" serverurl="@{serverurl}"/>
 
             <!-- Execute using HTTP GET -->
-            <ml:http url="${instance}/services/data/v34.0/tooling/executeAnonymous"
+            <ml:http url="${instance}/services/data/v40.0/tooling/executeAnonymous"
                      method="GET" outfile="${workDir}/executeAnonymousResult.json"
                      statusProperty="loginResponseStatus">
                 <headers>
@@ -423,7 +423,7 @@ SironoPRSPostInstallHandler.initializeSironoSettings();
         <sequential>
             <!-- Obtain Session Id via Login SOAP service -->
             <mkdir dir="${workDir}"/>
-            <ml:http url="@{serverurl}/services/Soap/c/34.0" method="POST" failonunexpected="false"
+            <ml:http url="@{serverurl}/services/Soap/c/40.0" method="POST" failonunexpected="false"
                      outfile="${workDir}/loginResult.xml" statusProperty="loginResponseStatus">
                 <headers>
                     <header name="Content-Type" value="text/xml"/>

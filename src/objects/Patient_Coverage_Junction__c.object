@@ -21,10 +21,6 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -50,6 +46,7 @@
     <description>Junction object to create many-to-many relationship between Patients and Coverages</description>
     <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
+    <enableChangeDataCapture>false</enableChangeDataCapture>
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
     <enableReports>true</enableReports>
@@ -62,7 +59,7 @@
         <externalId>false</externalId>
         <label>Coverage</label>
         <referenceTo>Coverage__c</referenceTo>
-        <relationshipLabel>Patient Coverage Juntions</relationshipLabel>
+        <relationshipLabel>Patient Coverage Junctions</relationshipLabel>
         <relationshipName>Patient_Coverage_Juntions</relationshipName>
         <relationshipOrder>0</relationshipOrder>
         <reparentableMasterDetail>false</reparentableMasterDetail>
@@ -95,7 +92,7 @@
             <isOptional>false</isOptional>
         </lookupFilter>
         <referenceTo>Contact</referenceTo>
-        <relationshipLabel>Patient Coverage Juntions</relationshipLabel>
+        <relationshipLabel>Patient Coverage Junctions</relationshipLabel>
         <relationshipName>Patient_Coverage_Juntions</relationshipName>
         <relationshipOrder>1</relationshipOrder>
         <reparentableMasterDetail>false</reparentableMasterDetail>
@@ -128,4 +125,5 @@
     <pluralLabel>Patient Coverage Junctions</pluralLabel>
     <searchLayouts/>
     <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
 </CustomObject>

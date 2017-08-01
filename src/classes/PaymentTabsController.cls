@@ -6,10 +6,6 @@
  * PaymentTabsController used by various Lightning components.
  */
 public with sharing class PaymentTabsController {
-
-    public static final String ADD_SUCCESS = 'Added Successfully!';
-    public static final String NO_PPLAN_MSG = 'No active Payment Plan exist for this Guarantor. Please click Cancel to go previous page.';
-
     /**
      * Get the Map used to populate the credit card expiration month and year fields.
      *

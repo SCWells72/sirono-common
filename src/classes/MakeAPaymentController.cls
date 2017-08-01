@@ -3,8 +3,6 @@
  */
 
 public with sharing class MakeAPaymentController {
-    public CardInformation cInfo { get; set; }
-
     @AuraEnabled
     public static CardInformation getCardInformation() {
         return new CardInformation();
@@ -21,10 +19,7 @@ public with sharing class MakeAPaymentController {
         System.debug(invoiceIds);
 
         Contact guarantor = GuarantorService.getPortalGuarantor(UserInfo.getUserId());
-
-        ApexPages.StandardController sc = new ApexPages.StandardController(guarantor);
         List<Charge_Group__c> chargeGroups = ChargeGroupService.getPayableByInvoiceId(invoiceIds);
-
         PaymentRequest pmtRequest = buildPaymentRequest(guarantor, chargeGroups, cInfo);
         List<String> errors = pmtRequest.validate();
 

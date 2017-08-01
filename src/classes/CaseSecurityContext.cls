@@ -11,7 +11,6 @@ public with sharing class CaseSecurityContext extends SecurityContext {
     private static final String PATIENT = 'Patient__c';
     private static final String CONTACTID = 'ContactId';
     private static final String ENCOUNTER = 'Encounter__c';
-    private static final String ESTIMATE_BALANCE = 'Estimate_Balance__c';
     private static final String GUARANTOR_INFORMATION = 'Guarantor_Information__c';
     private static final String ORIGIN = 'Origin';
     private static final String OWNERID = 'ownerId';

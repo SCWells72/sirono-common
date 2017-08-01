@@ -16,10 +16,6 @@ public with sharing class CreateAdjustment {
     //Mohan Kumar 2016-08-16: 127328707 to show the adjustment type from the metadata type which are only enabled
     public List<SelectOption> adjustmentTypeOptions { get; set; }
     public String adjustmentTypeSelected { get; set; }
-    private Payment__c objPayment = new Payment__c();
-    private List<Transaction__c> lsttransaction = new List<Transaction__c>();
-    private List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
-    private List<Payment_Plan__c> lstPaymentPlan = new List<Payment_Plan__c>();
 
     /*Constructor initializing variables ,check login user is admin or not.
      * Fetch Adjustment_Type__mdt records.
@@ -104,7 +100,7 @@ public with sharing class CreateAdjustment {
                 String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
                 String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
                 if (csrfToken != null && jwtToken != null) {
-                    createAdjustmetWSCall(csrfToken, jwtToken);
+                    createAdjustmentWSCall(csrfToken, jwtToken);
                 }
             } else {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
@@ -121,7 +117,7 @@ public with sharing class CreateAdjustment {
     }
 
     //Send request to the endpoint.
-    private void createAdjustmetWSCall(String csrfToken, String jwtToken) {
+    private void createAdjustmentWSCall(String csrfToken, String jwtToken) {
         String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '",' +
             '"chargegroup":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/chargegroups/' + chargeGroupId + '/",' +
             '"amount":' + SironoRestClient.convertToCents(amount) + ',' +
@@ -160,7 +156,7 @@ public with sharing class CreateAdjustment {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO,
                 'Created Successfully!'));
             //Call Payment, Transaction, ChargeGroups, Payment Plan Request.
-            PayStaffWSUtill.parsePaymentReponse(csrfToken, jwtToken, responseBody, false);
+            PayStaffWSUtill.parsePaymentReponse(jwtToken, responseBody, false);
         } else {
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'csrfToken : '+ csrfToken));
             //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'jwtToken : '+ jwtToken));

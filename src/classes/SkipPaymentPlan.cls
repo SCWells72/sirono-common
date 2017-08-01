@@ -175,8 +175,7 @@ public with sharing class SkipPaymentPlan {
     public void parseResponse(String jsonStr) {
 
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
-        objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorId,
-            null, null);
+        objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorId, null);
         Payment_Plan__c paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;
 
         if (PaymentPlanSecurityContext.UPSERT_CONTEXT.actionAllowed()) {

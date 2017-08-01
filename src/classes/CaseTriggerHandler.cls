@@ -117,8 +117,6 @@ public with sharing class CaseTriggerHandler {
     private static void createCaseCGJunctions(List<Case> cases) {
         Map<String, List<Case>> filteredCases = new Map<String, List<Case>>();
 
-        Map<Id, List<Charge_Group__c>> chargeGroups = new Map<Id, List<Charge_Group__c>>();
-
         for (Case aCase : cases) {
             if (!String.isEmpty(aCase.Guarantor_Information__c)) {
                 if (Constants.CASE_CG_SUBSTATUS.containsKey(aCase.Type)) {

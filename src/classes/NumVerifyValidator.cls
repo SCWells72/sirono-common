@@ -18,14 +18,23 @@ public class NumVerifyValidator {
     private static final Integer LENGTH_TOO_LONG = 12;
 
     private class NumVerifyResponse {
+        //noinspection ApexUnusedDeclaration
         Boolean valid;
+        //noinspection ApexUnusedDeclaration
         String phone_number;
+        //noinspection ApexUnusedDeclaration
         String local_format;
+        //noinspection ApexUnusedDeclaration
         String international_format;
+        //noinspection ApexUnusedDeclaration
         String country_prefix;
+        //noinspection ApexUnusedDeclaration
         String country_code;
+        //noinspection ApexUnusedDeclaration
         String country_name;
+        //noinspection ApexUnusedDeclaration
         String location;
+        //noinspection ApexUnusedDeclaration
         String carrier;
         String line_type;
     }

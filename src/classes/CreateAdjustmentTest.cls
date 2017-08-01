@@ -297,7 +297,8 @@ private class CreateAdjustmentTest {
             insert g;
 
             Test.startTest();
-            CreateAdjustment objCreateAdjustment = new CreateAdjustment(new ApexPages.StandardController(g));
+            //noinspection ApexUnusedDeclaration
+            CreateAdjustment createAdjustment = new CreateAdjustment(new ApexPages.StandardController(g));
             Test.stopTest();
         }
 

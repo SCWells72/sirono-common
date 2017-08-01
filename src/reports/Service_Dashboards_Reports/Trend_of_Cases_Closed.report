@@ -59,6 +59,7 @@
     <filter>
         <criteriaItems>
             <column>STATUS</column>
+            <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
             <value>Closed</value>
         </criteriaItems>

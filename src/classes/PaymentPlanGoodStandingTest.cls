@@ -21,8 +21,6 @@ public class PaymentPlanGoodStandingTest {
     }
 
     static testMethod void myUnitTest2() {
-        TestUtility objTestUtil = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -58,8 +56,6 @@ public class PaymentPlanGoodStandingTest {
     }
 
     public static testMethod void testSuccess() {
-        TestUtility objTestUtil = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
@@ -99,8 +95,6 @@ public class PaymentPlanGoodStandingTest {
     }
 
     static testMethod void myUnitTest4() {
-        TestUtility objTestUtil = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 

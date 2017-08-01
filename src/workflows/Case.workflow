@@ -108,7 +108,6 @@
     </rules>
     <tasks>
         <fullName>CASE_ESCALATION</fullName>
-        <assignedTo></assignedTo>
         <assignedToType>owner</assignedToType>
         <dueDateOffset>1</dueDateOffset>
         <notifyAssignee>false</notifyAssignee>

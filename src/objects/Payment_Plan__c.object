@@ -21,10 +21,6 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -50,6 +46,7 @@
     <description>Guarantor Payment Plan details</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
+    <enableChangeDataCapture>false</enableChangeDataCapture>
     <enableEnhancedLookup>true</enableEnhancedLookup>
     <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
@@ -85,7 +82,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -440,6 +436,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <searchResultsAdditionalFields>Original_Balance__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
     <webLinks>
         <fullName>Add_to_Payment_Plan</fullName>
         <availability>online</availability>
@@ -452,7 +449,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}AddToPaymentPlan?guarantorId={!Payment_Plan__c.GuarantorId__c}&amp;paymentPlanId={!Payment_Plan__c.Id}&amp;paymentPlanExtId={!TEXT(Payment_Plan__c.Sirono_ID__c)}</url>
     </webLinks>
     <webLinks>
-        <fullName>Canecl_Payment_Plan</fullName>
+        <fullName>Cancel_Payment_Plan</fullName>
         <availability>online</availability>
         <displayType>button</displayType>
         <encodingKey>UTF-8</encodingKey>

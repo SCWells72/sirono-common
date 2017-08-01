@@ -10,18 +10,27 @@ public class PaymentJSONParsing {
     public String url;
     public String guarantor;
     public Integer amount;
+    //noinspection ApexUnusedDeclaration
     public String transaction_number;
     public String payment_date;
     public String method;
     public String last_4;
     public String processor_transaction_id;
+    //noinspection ApexUnusedDeclaration
     public String receipt_link;
+    //noinspection ApexUnusedDeclaration
     public String payment_info;
+    //noinspection ApexUnusedDeclaration
     public String payment_type;
+    //noinspection ApexUnusedDeclaration
     public String account_number;
+    //noinspection ApexUnusedDeclaration
     public String routing_number;
+    //noinspection ApexUnusedDeclaration
     public String bank_account_type;
+    //noinspection ApexUnusedDeclaration
     public String is_voidable;
+    //noinspection ApexUnusedDeclaration
     public String post_date;
 
     public static Payment__c parse(String json) {

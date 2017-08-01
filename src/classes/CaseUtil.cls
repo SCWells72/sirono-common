@@ -6,10 +6,7 @@
  * @Util Class for the All Auto Case Creation, Auto Case Closure, Add\Remove the guarantor to the campaign functionality.
  **/
 public class CaseUtil {
-    public static Boolean executeCampaignMemberTrigger = true;
     public static Boolean executeRemoveCampaignTrigger = true;
-
-    public static Boolean createCaseInTrigger = true;
 
     // Final variables for Contact Query filter.
     public static final String Delinquent_Bal_GT = 'Delinquent_Bal_GT';
@@ -20,8 +17,8 @@ public class CaseUtil {
     // Create instant of CmpnMemberSecurityContext class. It is use to check Delete access on Object.
     public static CmpnMemberSecurityContext cmpnMemSecurityContext = new CmpnMemberSecurityContext();
 
-    public CaseUtil() {
-
+    private CaseUtil() {
+        // Utility class
     }
 
     /*
@@ -332,8 +329,6 @@ public class CaseUtil {
         Map<Id, Contact> mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(contactIds, null));
 
         for (String strContactId : mapContact.keySet()) {
-            Contact objContact = mapContact.get(strContactId);
-
             Case objCase = new Case();
             objCase.Guarantor_Information__c = strContactId;
             objCase.ContactId = strContactId;
@@ -430,8 +425,6 @@ public class CaseUtil {
         }
         mapContact = new Map<Id, Contact>(GuarantorService.getGuarantorsByFilter(contactIds, null));
         for (String strContactId : mapContact.keySet()) {
-            Contact objContact = mapContact.get(strContactId);
-
             Case objCase = new Case();
             objCase.Guarantor_Information__c = strContactId;
             objCase.ContactId = strContactId;

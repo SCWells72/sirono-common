@@ -7,7 +7,19 @@
  **/
 @IsTest
 public class EditPaymentPlanTest {
-    
+
+    @IsTest
+    private static void testExpYearOptions() {
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
+        System.assertEquals(UIUtils.expYearOptions, editPaymentPlan.expYearOptions);
+    }
+
+    @IsTest
+    private static void testExpMonthOptions() {
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
+        System.assertEquals(UIUtils.expMonthOptions, editPaymentPlan.expMonthOptions);
+    }
+
     /**
      * This method tests the logic of Amount Validation.
      **/
@@ -23,18 +35,18 @@ public class EditPaymentPlanTest {
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234';
-        objEditPaymentPlan.cvv = '';
-        objEditPaymentPlan.zip = 'asdsads';
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234';
+        editPaymentPlan.cvv = '';
+        editPaymentPlan.zip = 'asdsads';
 
-        objEditPaymentPlan.cardHolderName = '';
+        editPaymentPlan.cardHolderName = '';
 
         Test.startTest();
-        objEditPaymentPlan.doSubmit();
+        editPaymentPlan.doSubmit();
         Test.stopTest();
 
         // Check system assert.
@@ -47,7 +59,7 @@ public class EditPaymentPlanTest {
         }
         System.assert(isError, 'Should we got error Amount must be greater than zero.');
 
-        objEditPaymentPlan.cancel();
+        editPaymentPlan.cancel();
     }
     
     /**
@@ -69,27 +81,27 @@ public class EditPaymentPlanTest {
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
 
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year());
-        objEditPaymentPlan.expirationMonth = String.valueOf(System.today().month() - 1) ;
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.amount = '0';
-        objEditPaymentPlan.planType = 'auto';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = '11112';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year());
+        editPaymentPlan.expirationMonth = String.valueOf(System.today().month() - 1) ;
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.amount = '0';
+        editPaymentPlan.planType = 'auto';
+        editPaymentPlan.planValue = '0';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = '11112';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
-        objEditPaymentPlan.doSubmit();
+        editPaymentPlan.doSubmit();
         Test.stopTest();
 
         // Check system assert.
@@ -102,7 +114,7 @@ public class EditPaymentPlanTest {
         }
         System.assert(isError, 'Should have failed due to missing CG');
 
-        objEditPaymentPlan.cancel();
+        editPaymentPlan.cancel();
     }
     
     /**
@@ -123,36 +135,34 @@ public class EditPaymentPlanTest {
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert txn;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
 
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
 
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.amount = '-1';
-        objEditPaymentPlan.planType = 'auto';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.amount = '-1';
+        editPaymentPlan.planType = 'auto';
+        editPaymentPlan.planValue = '0';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
-        objEditPaymentPlan.doSubmit();
+        editPaymentPlan.doSubmit();
         Test.stopTest();
 
         // Check system assert.
@@ -165,7 +175,7 @@ public class EditPaymentPlanTest {
         }
         System.assert(isError, 'Should we got Amount related Error.');
 
-        objEditPaymentPlan.cancel();
+        editPaymentPlan.cancel();
     }
     
     /**
@@ -184,36 +194,34 @@ public class EditPaymentPlanTest {
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert txn;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
 
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
 
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.amount = '20';
-        objEditPaymentPlan.planType = 'auto';
-        objEditPaymentPlan.planValue = '301';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.amount = '20';
+        editPaymentPlan.planType = 'auto';
+        editPaymentPlan.planValue = '301';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
-        objEditPaymentPlan.doSubmit();
+        editPaymentPlan.doSubmit();
         Test.stopTest();
 
         // Check system assert.
@@ -226,7 +234,7 @@ public class EditPaymentPlanTest {
         }
         System.assert(isError, 'Should have failed due to amount exceed balance');
 
-        objEditPaymentPlan.cancel();
+        editPaymentPlan.cancel();
     }
     
     /**
@@ -250,39 +258,37 @@ public class EditPaymentPlanTest {
         Service__c svc = TestUtility.generateService(chargeGroup, 24 * 250);
         insert svc;
 
-        Transaction__c objTransaction = TestUtility.generateServiceTxn(chargeGroup, svc.Amount__c, svc);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateServiceTxn(chargeGroup, svc.Amount__c, svc);
+        insert txn;
 
         chargeGroup = [SELECT Id, Balance__c FROM Charge_Group__c WHERE Id = :chargeGroup.Id];
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
 
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
 
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.amount = '100';
-        objEditPaymentPlan.payableAmount = String.valueOf(SironoSettingsUtil.getPaymentPlanSettings().Max_Number_Plan_Installments__c * 250);
-        objEditPaymentPlan.planType = 'auto';
-        objEditPaymentPlan.planValue = '301';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.amount = '100';
+        editPaymentPlan.payableAmount = String.valueOf(SironoSettingsUtil.getPaymentPlanSettings().Max_Number_Plan_Installments__c * 250);
+        editPaymentPlan.planType = 'auto';
+        editPaymentPlan.planValue = '301';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
-        objEditPaymentPlan.doSubmit();
+        editPaymentPlan.doSubmit();
         Test.stopTest();
 
         // Check system assert.
@@ -295,7 +301,7 @@ public class EditPaymentPlanTest {
         }
         System.assert(isError, 'Should have failed due to monthly amount exceed');
 
-        objEditPaymentPlan.cancel();
+        editPaymentPlan.cancel();
     }
     
     /**
@@ -316,37 +322,35 @@ public class EditPaymentPlanTest {
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert txn;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
 
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
 
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.promiseAmount = '100';
-        objEditPaymentPlan.amount = '10';
-        objEditPaymentPlan.planType = 'auto';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.promiseAmount = '100';
+        editPaymentPlan.amount = '10';
+        editPaymentPlan.planType = 'auto';
+        editPaymentPlan.planValue = '0';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
-        objEditPaymentPlan.doSubmit();
+        editPaymentPlan.doSubmit();
         Test.stopTest();
 
         // Check system assert.
@@ -359,7 +363,7 @@ public class EditPaymentPlanTest {
         }
         System.assert(isError, 'Should have failed due to amount is greater than balance value.');
 
-        objEditPaymentPlan.cancel();
+        editPaymentPlan.cancel();
     }
     
     /**
@@ -373,12 +377,12 @@ public class EditPaymentPlanTest {
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
 
         Test.startTest();
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        PageReference pr = objEditPaymentPlan.cancel();
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
+        PageReference pageReference = editPaymentPlan.cancel();
         Test.stopTest();
 
         // Check system assert, It is redirect into Contact or not?        
-        System.assert(String.valueOf(pr).contains(guarantorContact.Id), 'Should have failed to redirect into contact page.');
+        System.assert(String.valueOf(pageReference).contains(guarantorContact.Id), 'Should have failed to redirect into contact page.');
     }
     
     /**
@@ -389,13 +393,13 @@ public class EditPaymentPlanTest {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
         Test.startTest();
-        PageReference pr = objEditPaymentPlan.cancel();
+        PageReference pageReference = editPaymentPlan.cancel();
         Test.stopTest();
 
         // Check system assert, It is redirect into Home or not?        
-        System.assert(String.valueOf(pr).contains('home'), 'Should have failed to redirect into home page.');
+        System.assert(String.valueOf(pageReference).contains('home'), 'Should have failed to redirect into home page.');
     }
     
     /**
@@ -417,37 +421,35 @@ public class EditPaymentPlanTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert txn;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
 
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
 
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.promiseAmount = '100';
-        objEditPaymentPlan.amount = '100';
-        objEditPaymentPlan.planType = 'auto';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.promiseAmount = '100';
+        editPaymentPlan.amount = '100';
+        editPaymentPlan.planType = 'auto';
+        editPaymentPlan.planValue = '0';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
-        objEditPaymentPlan.doSubmit();
+        editPaymentPlan.doSubmit();
         Test.stopTest();
 
         // Check system assert.
@@ -479,41 +481,39 @@ public class EditPaymentPlanTest {
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert txn;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
 
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
 
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.promiseAmount = '100';
-        objEditPaymentPlan.amount = '100';
-        objEditPaymentPlan.planType = 'auto';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.promiseAmount = '100';
+        editPaymentPlan.amount = '100';
+        editPaymentPlan.planType = 'auto';
+        editPaymentPlan.planValue = '0';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 200;
 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objEditPaymentPlan.doSubmit();
+        editPaymentPlan.doSubmit();
         Test.stopTest();
 
         // Check system assert.
@@ -548,41 +548,39 @@ public class EditPaymentPlanTest {
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert txn;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
 
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
 
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.promiseAmount = '100';
-        objEditPaymentPlan.amount = '100';
-        objEditPaymentPlan.planType = 'promise';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.promiseAmount = '100';
+        editPaymentPlan.amount = '100';
+        editPaymentPlan.planType = 'promise';
+        editPaymentPlan.planValue = '0';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 200;
         TestUtility.responsebody = PaymentPlanJSONParsing.testResponse();
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objEditPaymentPlan.doSubmit();
+        editPaymentPlan.doSubmit();
         Test.stopTest();
 
         // Check system assert.
@@ -620,34 +618,32 @@ public class EditPaymentPlanTest {
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert txn;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
 
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
-        objEditPaymentPlan.paymentPlanType = '2';
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.promiseAmount = '100';
-        objEditPaymentPlan.amount = '100';
-        objEditPaymentPlan.planType = 'promise';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.paymentPlanType = '2';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.promiseAmount = '100';
+        editPaymentPlan.amount = '100';
+        editPaymentPlan.planType = 'promise';
+        editPaymentPlan.planValue = '0';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
         TestUtility.status = 'CREATED';
@@ -655,7 +651,7 @@ public class EditPaymentPlanTest {
         TestUtility.responsebody = PaymentPlanJSONParsing.testResponse();
 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objEditPaymentPlan.doSubmit();
+        editPaymentPlan.doSubmit();
         Test.stopTest();
 
         // Check system assert.
@@ -693,34 +689,32 @@ public class EditPaymentPlanTest {
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert txn;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
 
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
-        objEditPaymentPlan.paymentPlanType = '2';
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.promiseAmount = '100';
-        objEditPaymentPlan.amount = '100';
-        objEditPaymentPlan.planType = 'promise';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.paymentPlanType = '2';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.promiseAmount = '100';
+        editPaymentPlan.amount = '100';
+        editPaymentPlan.planType = 'promise';
+        editPaymentPlan.planValue = '0';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
         TestUtility.status = 'CREATED';
@@ -728,7 +722,7 @@ public class EditPaymentPlanTest {
         TestUtility.responsebody = PaymentPlanJSONParsing.testResponse();
 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objEditPaymentPlan.doSubmit();
+        editPaymentPlan.doSubmit();
         Test.stopTest();
 
         // Check system assert.
@@ -766,41 +760,39 @@ public class EditPaymentPlanTest {
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert txn;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
 
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
-        objEditPaymentPlan.paymentPlanType = '2';
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.promiseAmount = '100';
-        objEditPaymentPlan.amount = '100';
-        objEditPaymentPlan.planType = 'auto';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.paymentPlanType = '2';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.promiseAmount = '100';
+        editPaymentPlan.amount = '100';
+        editPaymentPlan.planType = 'auto';
+        editPaymentPlan.planValue = '0';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objEditPaymentPlan.doSubmit();
+        editPaymentPlan.doSubmit();
         Test.stopTest();
 
         // Check system assert.
@@ -837,34 +829,32 @@ public class EditPaymentPlanTest {
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert txn;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
 
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
-        objEditPaymentPlan.paymentPlanType = '2';
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.promiseAmount = '100';
-        objEditPaymentPlan.amount = '100';
-        objEditPaymentPlan.planType = 'auto';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.paymentPlanType = '2';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.promiseAmount = '100';
+        editPaymentPlan.amount = '100';
+        editPaymentPlan.planType = 'auto';
+        editPaymentPlan.planValue = '0';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
         TestUtility.status = 'CREATED';
@@ -872,7 +862,7 @@ public class EditPaymentPlanTest {
         TestUtility.responsebody = PaymentPlanJSONParsing.testResponse();
 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objEditPaymentPlan.doSubmit();
+        editPaymentPlan.doSubmit();
         Test.stopTest();
 
         // Check system assert.
@@ -909,34 +899,32 @@ public class EditPaymentPlanTest {
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert txn;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
 
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
-        objEditPaymentPlan.paymentPlanType = '2';
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.promiseAmount = '100';
-        objEditPaymentPlan.amount = '100';
-        objEditPaymentPlan.planType = 'auto';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.paymentPlanType = '2';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.promiseAmount = '100';
+        editPaymentPlan.amount = '100';
+        editPaymentPlan.planType = 'auto';
+        editPaymentPlan.planValue = '0';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
         TestUtility.status = 'CREATED';
@@ -944,7 +932,7 @@ public class EditPaymentPlanTest {
         TestUtility.responsebody = PaymentPlanJSONParsing.testResponse();
         TestUtility.errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_EXISTING_PLAN);
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objEditPaymentPlan.doSubmit();
+        editPaymentPlan.doSubmit();
         Test.stopTest();
 
         // Check system assert.
@@ -980,41 +968,39 @@ public class EditPaymentPlanTest {
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert txn;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
 
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
-        objEditPaymentPlan.paymentPlanType = '2';
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.promiseAmount = '100';
-        objEditPaymentPlan.amount = '100';
-        objEditPaymentPlan.planType = 'auto';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.paymentPlanType = '2';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.promiseAmount = '100';
+        editPaymentPlan.amount = '100';
+        editPaymentPlan.planType = 'auto';
+        editPaymentPlan.planValue = '0';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
         TestUtility.errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_LIST);
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objEditPaymentPlan.doSubmit();
+        editPaymentPlan.doSubmit();
         Test.stopTest();
 
         // Check system assert.
@@ -1050,42 +1036,40 @@ public class EditPaymentPlanTest {
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert txn;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
 
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
-        objEditPaymentPlan.paymentPlanType = '2';
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.promiseAmount = '100';
-        objEditPaymentPlan.amount = '100';
-        objEditPaymentPlan.planType = 'auto';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.paymentPlanType = '2';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.promiseAmount = '100';
+        editPaymentPlan.amount = '100';
+        editPaymentPlan.planType = 'auto';
+        editPaymentPlan.planValue = '0';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
         TestUtility.errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.PAYMENT_CHARGEGROUPS);
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objEditPaymentPlan.doSubmit();
-        objEditPaymentPlan.doTesting();
+        editPaymentPlan.doSubmit();
+        editPaymentPlan.doTesting();
         Test.stopTest();
 
         // Check system assert.
@@ -1119,11 +1103,11 @@ public class EditPaymentPlanTest {
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
         Test.stopTest();
 
         // Check system assert.
-        System.assertEquals(objEditPaymentPlan.executeOnDayExisting, '1', 'Should have failed due to execute On Day Existing.');
+        System.assertEquals(editPaymentPlan.executeOnDayExisting, '1', 'Should have failed due to execute On Day Existing.');
     }    
     
     /**
@@ -1148,44 +1132,41 @@ public class EditPaymentPlanTest {
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert txn;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        objEditPaymentPlan.fillNameAndAddress();
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
+        editPaymentPlan.fillNameAndAddress();
 
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
-
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
-        objEditPaymentPlan.paymentPlanType = '2';
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.promiseAmount = '100';
-        objEditPaymentPlan.amount = '100';
-        objEditPaymentPlan.planType = 'auto';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.paymentPlanType = '2';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.promiseAmount = '100';
+        editPaymentPlan.amount = '100';
+        editPaymentPlan.planType = 'auto';
+        editPaymentPlan.planValue = '0';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
         TestUtility.errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.VALIDATION_EXISTING_PLAN);
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objEditPaymentPlan.doSubmit();
-        objEditPaymentPlan.doTesting();
+        editPaymentPlan.doSubmit();
+        editPaymentPlan.doTesting();
         Test.stopTest();
 
         // Check system assert.
@@ -1220,41 +1201,39 @@ public class EditPaymentPlanTest {
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert txn;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
 
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
 
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.promiseAmount = '100';
-        objEditPaymentPlan.amount = '100';
-        objEditPaymentPlan.planType = 'promise';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.promiseAmount = '100';
+        editPaymentPlan.amount = '100';
+        editPaymentPlan.planType = 'promise';
+        editPaymentPlan.planValue = '0';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 200;
         TestUtility.responsebody = PaymentPlanJSONParsing.testResponse1();
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objEditPaymentPlan.doSubmit();
+        editPaymentPlan.doSubmit();
         Test.stopTest();
 
         // Check system assert.
@@ -1290,44 +1269,41 @@ public class EditPaymentPlanTest {
         chargeGroup.Reported_Selfpay_Balance__c = -100;
         insert chargeGroup;
 
-        Transaction__c objTransaction = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
-        insert objTransaction;
+        Transaction__c txn = TestUtility.generateTransaction(chargeGroup, 100, Constants.AUTOMATIC);
+        insert txn;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
-        EditPaymentPlan objEditPaymentPlan = new EditPaymentPlan();
-        objEditPaymentPlan.fillNameAndAddress();
+        EditPaymentPlan editPaymentPlan = new EditPaymentPlan();
+        editPaymentPlan.fillNameAndAddress();
 
-        List<SelectOption> expYearOptions = objEditPaymentPlan.expYearOptions;
-        List<SelectOption> expMonthOptions = objEditPaymentPlan.expMonthOptions;
-
-        for (ChargeGroupWrapper objChargeGroupWrapper : objEditPaymentPlan.chargeGroupList) {
-            objChargeGroupWrapper.isSelected = true;
+        for (ChargeGroupWrapper chargeGroupWrapper : editPaymentPlan.chargeGroupList) {
+            chargeGroupWrapper.isSelected = true;
         }
-        objEditPaymentPlan.paymentPlanType = '2';
-        objEditPaymentPlan.creditCardNumber = '';
-        objEditPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
-        objEditPaymentPlan.expirationMonth = '07';
-        objEditPaymentPlan.creditCardNumber = '1234567891113';
-        objEditPaymentPlan.cardHolderName = '1234567891113';
-        objEditPaymentPlan.zip = '07897';
-        objEditPaymentPlan.promiseAmount = '100';
-        objEditPaymentPlan.amount = '100';
-        objEditPaymentPlan.planType = 'auto';
-        objEditPaymentPlan.planValue = '0';
-        objEditPaymentPlan.executeOnDay = '10';
-        objEditPaymentPlan.cvv = 'test';
-        objEditPaymentPlan.state = 'test';
-        objEditPaymentPlan.address = 'test';
-        objEditPaymentPlan.city = 'test';
+        editPaymentPlan.paymentPlanType = '2';
+        editPaymentPlan.creditCardNumber = '';
+        editPaymentPlan.expirationYear = String.valueOf(System.today().year() + 1);
+        editPaymentPlan.expirationMonth = '07';
+        editPaymentPlan.creditCardNumber = '1234567891113';
+        editPaymentPlan.cardHolderName = '1234567891113';
+        editPaymentPlan.zip = '07897';
+        editPaymentPlan.promiseAmount = '100';
+        editPaymentPlan.amount = '100';
+        editPaymentPlan.planType = 'auto';
+        editPaymentPlan.planValue = '0';
+        editPaymentPlan.executeOnDay = '10';
+        editPaymentPlan.cvv = 'test';
+        editPaymentPlan.state = 'test';
+        editPaymentPlan.address = 'test';
+        editPaymentPlan.city = 'test';
 
         Test.startTest();
         TestUtility.status = 'CREATED';
         TestUtility.statusCode = 201;
         TestUtility.errorbody = TestUtility.JSON_ERROR_BODIES.get(TestUtility.JSON_BODY_TYPE.VALIDATION_EXISTING_PLAN);
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-        objEditPaymentPlan.doSubmit();
-        objEditPaymentPlan.doTesting();
+        editPaymentPlan.doSubmit();
+        editPaymentPlan.doTesting();
         Test.stopTest();
 
         // Check system assert.

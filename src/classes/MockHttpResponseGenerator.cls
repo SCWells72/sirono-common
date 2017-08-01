@@ -37,6 +37,7 @@ global class MockHttpResponseGenerator implements HttpCalloutMock {
             }
 
             if (hasBeenDeleted) {
+                //noinspection ApexUnusedDeclaration
                 String jsonBody = getPaymentPlanJSONBody();
             }
             return res;

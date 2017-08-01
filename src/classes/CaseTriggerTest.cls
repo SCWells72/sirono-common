@@ -200,7 +200,7 @@ private class CaseTriggerTest {
         insert campaignMembers;
 
         List<CampaignMember> queriedCampaignMembers = [SELECT Id FROM CampaignMember WHERE ContactId = :guarantorContact.Id];
-        System.assertEquals(2, campaignMembers.size(), 'Should be campaignMembers size is 2 but we got ' + campaignMembers.size());
+        System.assertEquals(2, queriedCampaignMembers.size(), 'Should be campaignMembers size is 2 but we got ' + campaignMembers.size());
 
         Test.startTest();
         Case testCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_PAYMENT_PLAN_ERROR, guarantorContact.Id);

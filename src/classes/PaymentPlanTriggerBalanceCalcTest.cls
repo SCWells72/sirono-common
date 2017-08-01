@@ -7,7 +7,6 @@ public class PaymentPlanTriggerBalanceCalcTest {
 
     private static Contact g;
     private static Charge_Group__c cg1;
-    private static Charge_Group__c cg2;
     private static Transaction__c txn;
 
     static void init() {

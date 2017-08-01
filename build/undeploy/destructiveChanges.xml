@@ -23,6 +23,7 @@
         <members>GuarantorsRestClientTest</members>
         <members>LightningValidations</members>
         <members>LightningValidationsTest</members>
+        <members>NamedCredentialSecurityContext</members>
         <members>PayEstimate</members>
         <members>PayEstimateTest</members>
         <members>PayEstimateLightning</members>
@@ -36,9 +37,12 @@
         <members>PayStaffWSUtillLightningTest</members>
         <members>ProcessPaymentLightning</members>
         <members>ProcessPaymentLightningTest</members>
+        <members>ProfileSecurityContext</members>
         <members>SironoSettingsSecurityContext</members>
         <members>StatementProcessBuilderFlowTest</members>
         <members>TransactionTypeSecurityContext</members>
+        <members>UserSecurityContext</members>
+        <members>WrapperPaymentPlan</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -53,12 +57,18 @@
         <name>ApexTrigger</name>
     </types>
     <types>
+        <members>SironoSecure</members>
+        <name>CallCenter</name>
+    </types>
+    <types>
         <members>Encounter__c.Has_Chargegroup__c</members>
         <members>Location__c.Code__c</members>
         <members>Payment_Adjustment__c.Transaction_Type__c</members>
         <members>Provider__c.Code__c</members>
+        <members>Service_Rollup__c.Code__c</members>
         <members>Sirono_Settings__c.Automated_Case_Record_Type_Id__c</members>
         <members>Sirono_Settings__c.Business_Hours_Id__c</members>
+        <members>User.Legacy_User_Id__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -87,6 +97,11 @@
         <name>Layout</name>
     </types>
     <types>
+        <members>Account</members>
+        <members>Contact</members>
+        <name>MatchingRule</name>
+    </types>
+    <types>
         <members>Encounter__c.New_Payment_Arrangement</members>
         <name>QuickAction</name>
     </types>
@@ -105,7 +120,8 @@
     <types>
         <members>Contact.View_On_Portal</members>
         <members>Encounter__c.New_Payment_Arrangement</members>
+        <members>Payment_Plan__c.Canecl_Payment_Plan</members>
         <name>WebLink</name>
     </types>
-    <version>38.0</version>
+    <version>40.0</version>
 </Package>

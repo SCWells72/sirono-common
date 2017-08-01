@@ -38,6 +38,7 @@
         <filter>
             <criteriaItems>
                 <column>CUST_NAME</column>
+                <isUnlocked>false</isUnlocked>
                 <operator>contains</operator>
                 <value>Patient P</value>
             </criteriaItems>

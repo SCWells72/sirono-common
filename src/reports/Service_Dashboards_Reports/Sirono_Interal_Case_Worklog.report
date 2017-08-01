@@ -27,11 +27,13 @@
     <filter>
         <criteriaItems>
             <column>RECORDTYPE</column>
+            <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
             <value>Case.Internal_Case</value>
         </criteriaItems>
         <criteriaItems>
             <column>STATUS</column>
+            <isUnlocked>false</isUnlocked>
             <operator>notEqual</operator>
             <value>Closed,Completed,Cancelled</value>
         </criteriaItems>

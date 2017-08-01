@@ -4,7 +4,6 @@
 
 public class SimpleLoginToCommunityController {
     Id userId = null;
-    String username = null;
 
     public PageReference login() {
         User user = [
@@ -52,6 +51,8 @@ public class SimpleLoginToCommunityController {
     public Id getUserId() {
         return userId;
     }
+
+    //noinspection ApexUnusedDeclaration
     public void setUserId(Id userId) {
         this.userId = userId;
     }

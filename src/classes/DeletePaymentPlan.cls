@@ -122,8 +122,7 @@ public with sharing class DeletePaymentPlan {
     private void parsePaymentPlanResponse(String jsonStr, String csrfToken, String jwtToken) {
 
         PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
-        objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorId,
-            null, null);
+        objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorId, null);
 
         paymentPlanObj = new Payment_Plan__c();
         paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;

@@ -30,8 +30,6 @@ private class SkipPaymentPlanTest {
     }
 
     static testMethod void myUnitTest2() {
-        TestUtility objTestUtility = new TestUtility();
-
         Contact guarantorContact = TestUtility.generateGuarantorContact();
         insert guarantorContact;
 

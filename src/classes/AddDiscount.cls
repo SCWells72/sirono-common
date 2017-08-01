@@ -11,10 +11,6 @@ public with sharing class AddDiscount {
     public List<ChargeGroupWrapper> chargeGroupList { get; set; }
     public String messageToShow { get; set; }
 
-    private Payment__c objPayment = new Payment__c();
-    private List<Transaction__c> lsttransaction = new List<Transaction__c>();
-    private List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
-    private List<Payment_Plan__c> lstPaymentPlan = new List<Payment_Plan__c>();
     // Constructor of a class and initialize the variables.
     public AddDiscount(ApexPages.StandardController sc) {
 
@@ -158,7 +154,7 @@ public with sharing class AddDiscount {
             chargeGroupsSelected = false;
 
             //Call Payment, Transaction, ChargeGroups, Payment Plan Request.
-            PayStaffWSUtill.parsePaymentReponse(csrfToken, jwtToken, responseBody, false);
+            PayStaffWSUtill.parsePaymentReponse(jwtToken, responseBody, false);
 
         } else {
             System.debug('AddDiscount req: ' + req);

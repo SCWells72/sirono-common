@@ -7,4 +7,5 @@
     <style>none</style>
     <subject>Internal Sirono Case Number {!Case.CaseNumber}:{!Case.Priority}</subject>
     <type>text</type>
+    <uiType>Aloha</uiType>
 </EmailTemplate>

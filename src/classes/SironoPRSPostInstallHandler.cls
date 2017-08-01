@@ -5,6 +5,7 @@
 /**
  * Perform setup needed after installing the package
  */
+//noinspection ApexUnusedDeclaration
 public with sharing class SironoPRSPostInstallHandler implements InstallHandler {
 
     public void onInstall(InstallContext context) {

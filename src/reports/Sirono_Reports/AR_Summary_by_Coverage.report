@@ -42,11 +42,13 @@
     <filter>
         <criteriaItems>
             <column>Charge_Group__c$Account_Status__c</column>
+            <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
             <value>billed</value>
         </criteriaItems>
         <criteriaItems>
             <column>Charge_Group__c$Account_Sub_Status__c</column>
+            <isUnlocked>false</isUnlocked>
             <operator>notEqual</operator>
             <value>paid,inactive,unknown,credit</value>
         </criteriaItems>

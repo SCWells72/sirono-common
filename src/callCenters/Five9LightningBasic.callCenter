@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CallCenter xmlns="http://soap.sforce.com/2006/04/metadata">
-    <adapterUrl>https://webstatic.five9.com/integrations/sfopencti.toolbar3.html</adapterUrl>
-    <customSettings>{&quot;reqSoftphoneHeight&quot;:&quot;470&quot;,&quot;reqUseApi&quot;:&quot;true&quot;,&quot;reqSoftphoneWidth&quot;:&quot;200&quot;}</customSettings>
-    <displayName>Sirono Secure</displayName>
+    <adapterUrl>https://app.five9.com/clients/integrations/sfli.base.main.html</adapterUrl>
+    <customSettings>{&quot;reqSoftphoneHeight&quot;:&quot;650&quot;,&quot;reqUseApi&quot;:&quot;true&quot;,&quot;reqSoftphoneWidth&quot;:&quot;250&quot;,&quot;reqSalesforceCompatibilityMode&quot;:&quot;Lightning&quot;}</customSettings>
+    <displayName>Five9 Lightning NA</displayName>
     <displayNameLabel>Display Name</displayNameLabel>
     <internalNameLabel>Five9 Domain Name</internalNameLabel>
     <sections>
@@ -14,7 +14,7 @@
         <items>
             <label>CTI Adapter URL</label>
             <name>reqAdapterUrl</name>
-            <value>https://webstatic.five9.com/integrations/sfopencti.toolbar3.html</value>
+            <value>https://app.five9.com/clients/integrations/sfli.base.main.html</value>
         </items>
         <items>
             <label>Use CTI API</label>
@@ -24,12 +24,17 @@
         <items>
             <label>Softphone Height</label>
             <name>reqSoftphoneHeight</name>
-            <value>470</value>
+            <value>650</value>
         </items>
         <items>
             <label>Softphone Width</label>
             <name>reqSoftphoneWidth</name>
-            <value>200</value>
+            <value>250</value>
+        </items>
+        <items>
+            <label>Salesforce Compatibility Mode</label>
+            <name>reqSalesforceCompatibilityMode</name>
+            <value>Classic_and_Lightning</value>
         </items>
         <label>General Info</label>
         <name>reqGeneralInfo</name>
@@ -57,12 +62,12 @@
         <items>
             <label>Created By Five9 User</label>
             <name>createdByFive9User</name>
-            <value>tony.thomas@cloudcoop.io</value>
+            <value>five9</value>
         </items>
         <items>
             <label>Created On</label>
             <name>createdOn</name>
-            <value>Wed May 04 18:04:13 EDT 2016</value>
+            <value>Wed Jun 01 02:08:07 PDT 2016</value>
         </items>
         <label>Five9 Info</label>
         <name>Five9Info</name>

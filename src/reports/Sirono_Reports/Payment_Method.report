@@ -41,6 +41,7 @@
     <filter>
         <criteriaItems>
             <column>Payment__c.Method__c</column>
+            <isUnlocked>false</isUnlocked>
             <operator>notEqual</operator>
             <value></value>
         </criteriaItems>

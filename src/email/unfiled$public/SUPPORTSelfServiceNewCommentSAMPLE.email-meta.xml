@@ -7,4 +7,5 @@
     <style>none</style>
     <subject>Your case {!Case.CaseNumber} has been updated</subject>
     <type>text</type>
+    <uiType>Aloha</uiType>
 </EmailTemplate>

@@ -82,8 +82,6 @@ private class WorkWithInvoicesControllerTest {
             };
             insert lstPayment;
 
-            List<Payment__c> pays = [SELECT Id FROM Payment__c];
-
             List<Transaction__c> lstTransaction = new List<Transaction__c>();
             Transaction__c transaction1 = TestUtility.generatePaymentTxn(chargeGroup1, 20, payment1);
             lstTransaction.add(transaction1);
@@ -100,8 +98,6 @@ private class WorkWithInvoicesControllerTest {
             Transaction__c transaction5 = TestUtility.generateAdjTxn(chargeGroup2, 200, paymentAdjTest);
             lstTransaction.add(transaction5);
             insert lstTransaction;
-
-            List<Transaction__c> txns = [SELECT Id FROM Transaction__c];
 
             invoice1.Invoice_Status_Index__c = 9;
             invoice2.Invoice_Status_Index__c = 4;

@@ -5,5 +5,6 @@
     <description>Makana Health Partner User</description>
     <mayForecastManagerShare>false</mayForecastManagerShare>
     <name>Makana Health Partner User</name>
+    <opportunityAccessLevel>Edit</opportunityAccessLevel>
     <parentRole>CEO</parentRole>
 </Role>

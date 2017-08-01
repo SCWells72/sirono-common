@@ -243,7 +243,7 @@ public with sharing class PaymentPlanServiceTest {
 
         Test.startTest();
         try {
-            Payment_Plan__c updatedPlan = PaymentPlanService.updateAutoPaymentPlanTerms(PLAN_SIRONO_ID, ppInfo);
+            PaymentPlanService.updateAutoPaymentPlanTerms(PLAN_SIRONO_ID, ppInfo);
         } catch (AbstractService.ServiceException svcException) {
             Test.stopTest();
             System.assertNotEquals(null, svcException, 'Should have thrown the service exception');
@@ -395,9 +395,8 @@ public with sharing class PaymentPlanServiceTest {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
         Contact gt = [SELECT Id, Profile_Pointer_ID__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
-        String cardNumber = '378282246310005';
         String lastFour = '0005';
-        MockHttpResponseGenerator.guarantorSironoId = gt.Profile_Pointer_Id__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = gt.Profile_Pointer_ID__c.toPlainString();
 
 
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
@@ -408,7 +407,7 @@ public with sharing class PaymentPlanServiceTest {
         objPPInfo.expirationMonth = '07';
         objPPInfo.creditCardNumber = '1234567891113';
         objPPInfo.cardholderName = '1234567891113';
-        objPPInfo.chargeGroupIds = new String[]{String.valueOf(CG_TO_ADD_ID)};
+        objPPInfo.chargeGroupIds = new String[] { String.valueOf(CG_TO_ADD_ID) };
         objPPInfo.guarantorId = gt.Id;
         objPPInfo.planType = Constants.PLANTYPE_AUTO;
         objPPInfo.zip = '07897';
@@ -437,7 +436,7 @@ public with sharing class PaymentPlanServiceTest {
         System.assertNotEquals(0, plans.size(), 'Should have found a plan.');
         Payment_Plan__c planWithMethod = plans.get(0);
 
-        System.assertNotEquals(lastFour, plan.Payment_Method__r.Last_4__c, 'Should not have the new method.');
+        System.assertNotEquals(lastFour, planWithMethod.Payment_Method__r.Last_4__c, 'Should not have the new method.');
     }
 
     /**
@@ -447,10 +446,10 @@ public with sharing class PaymentPlanServiceTest {
     public static void testAddPaymentMethod_NewSave() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
-        Contact gt = [SELECT Id, Profile_Pointer_Id__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+        Contact gt = [SELECT Id, Profile_Pointer_ID__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
         String cardNumber = '378282246310005';
         String lastFour = '0005';
-        MockHttpResponseGenerator.guarantorSironoId = gt.Profile_Pointer_Id__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = gt.Profile_Pointer_ID__c.toPlainString();
 
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
         System.assertNotEquals(null, pp, 'Should find an existing plan.');
@@ -460,7 +459,7 @@ public with sharing class PaymentPlanServiceTest {
         objPPInfo.expirationMonth = '07';
         objPPInfo.creditCardNumber = cardNumber;
         objPPInfo.cardholderName = '1234567891113';
-        objPPInfo.chargeGroupIds = new String[]{String.valueOf(CG_TO_ADD_ID)};
+        objPPInfo.chargeGroupIds = new String[] { String.valueOf(CG_TO_ADD_ID) };
         objPPInfo.guarantorId = gt.Id;
         objPPInfo.planType = Constants.PLANTYPE_AUTO;
         objPPInfo.zip = '07897';
@@ -499,10 +498,10 @@ public with sharing class PaymentPlanServiceTest {
     public static void testAddPaymentMethod_ExistingSave() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
-        Contact gt = [SELECT Id, Profile_Pointer_Id__c  FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+        Contact gt = [SELECT Id, Profile_Pointer_ID__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
         String cardNumber = '378282246310005';
         String lastFour = '0005';
-        MockHttpResponseGenerator.guarantorSironoId = gt.Profile_Pointer_Id__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = gt.Profile_Pointer_ID__c.toPlainString();
 
 
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
@@ -513,7 +512,7 @@ public with sharing class PaymentPlanServiceTest {
         objPPInfo.expirationMonth = '07';
         objPPInfo.creditCardNumber = cardNumber;
         objPPInfo.cardholderName = '1234567891113';
-        objPPInfo.chargeGroupIds = new String[]{String.valueOf(CG_TO_ADD_ID)};
+        objPPInfo.chargeGroupIds = new String[] { String.valueOf(CG_TO_ADD_ID) };
         objPPInfo.guarantorId = gt.Id;
         objPPInfo.planType = Constants.PLANTYPE_AUTO;
         objPPInfo.zip = '07897';
@@ -576,7 +575,7 @@ public with sharing class PaymentPlanServiceTest {
             WHERE Sirono_ID__c = :Decimal.valueOf(PLAN_SIRONO_ID)
         ];
         plan.Plan_Type__c = Constants.PLANTYPE_AUTO;
-        UPDATE plan;
+        update plan;
 
         System.assertEquals(true, plan.Active__c, 'Should be active before delete.');
         System.assertEquals(null, plan.Cancellation_Date__c, 'Should not have a cancelation date.');
@@ -584,7 +583,7 @@ public with sharing class PaymentPlanServiceTest {
         List<Charge_Group__c> cgs = ChargeGroupDao.getBySironoIds(new List<Decimal> { CG_SIRONO_ID });
         Charge_Group__c cg = (cgs.size() >= 1) ? cgs.get(0) : null;
         cg.Account_Sub_Status__c = Constants.ON_PAYMENT_PLAN;
-        UPDATE cg;
+        update cg;
 
         System.assertEquals(plan.Id, cg.Payment_Plan__c, 'Should have payment plan.');
 

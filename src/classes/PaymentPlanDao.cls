@@ -7,7 +7,7 @@
  * TODO eventually all the PPlan SOQl & DML should be here & then the PaymentPlanSecurityContext can become in innerclass here
  */
 public with sharing class PaymentPlanDao extends AbstractDao {
-//TODO
+
     /**
       * Return the active payment plan for the given guarantorId, null if there is none
       * @param - String guarantorId  The guarantorId of the plan.

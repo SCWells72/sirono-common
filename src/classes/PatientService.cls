@@ -33,16 +33,6 @@ public with sharing class PatientService extends AbstractService {
     }
 
     /**
-     * Get Patient Contact details filtered by Id.
-     *
-     * @param String recordId - That contains Contact Id.
-     * @returns Contact pc - That contains Patient Contact details.
-     **/
-    public static Contact getPatientContact(String recordId) {
-        return PatientDao.getPatientContact(recordId);
-    }
-
-    /**
      * Get Contact details with active Charge Groups filtered by Account Sub Status
      *
      * @param String contactId - The Contact RecordId.
