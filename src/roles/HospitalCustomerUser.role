@@ -5,5 +5,5 @@
     <description>Makana Health Customer User</description>
     <mayForecastManagerShare>false</mayForecastManagerShare>
     <name>Makana Health Customer User</name>
-    <parentRole>Integration_Admin</parentRole>
+    <parentRole>CEO</parentRole>
 </Role>
