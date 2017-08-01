@@ -174,7 +174,7 @@ global with sharing class HiMSS_SummaryWidgetRESTService {
                 Guarantor__c
             FROM Invoice__c
             WHERE Guarantor__c IN :contactIds
-            AND Invoice_Status__c = :Constants.DUE
+            AND Status__c = :Constants.DUE
             ORDER BY CreatedDate
         ];
         Map<Id, Invoice__c> invoiceMap = new Map<Id, Invoice__c>();

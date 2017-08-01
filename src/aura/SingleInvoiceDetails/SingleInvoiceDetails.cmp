@@ -20,21 +20,21 @@
                 <section class="invoice-detail">
                     <header class="grid">
                         <div class="col intro">
-                            <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Due'}">
+                            <aura:if isTrue="{!v.invoice.singleInvoice.Status__c == 'Due'}">
                                 <div class="issue warning">{! $Label.c.Invoice_Details_Due_Message_Before_Date}&nbsp;<ui:outputDate value="{!v.invoice.singleInvoice.Due_Date__c}"/>{! $Label.c.Invoice_Details_Due_Message_After_Date}
                                 </div>
                             </aura:if>
-                            <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Overdue'}">
+                            <aura:if isTrue="{!v.invoice.singleInvoice.Status__c == 'Overdue'}">
                                 <div class="issue warning">{! $Label.c.Invoice_Details_Overdue_Message}</div>
                             </aura:if>
-                            <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Delinquent'}">
+                            <aura:if isTrue="{!v.invoice.singleInvoice.Status__c == 'Delinquent'}">
                                 <div class="issue slds-theme--error">{! $Label.c.Invoice_Details_Delinquent_Message}</div>
                             </aura:if>
-                            <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'On Payment Plan'}">
+                            <aura:if isTrue="{!v.invoice.singleInvoice.Status__c == 'On Payment Plan'}">
                                 <div style="padding-bottom: 10px;">{! $Label.c.Invoice_Details_On_Payment_Plan_Message_Before_Amount}&nbsp;<ui:outputCurrency value="{!v.invoice.nextPayment}"/>&nbsp;{! $Label.c.Invoice_Details_On_Payment_Plan_Message_After_Amount}&nbsp;<ui:outputDate value="{!v.invoice.nextDate}"/>{! $Label.c.Invoice_Details_On_Payment_Plan_Message_After_Date}
                                 </div>
                             </aura:if>
-                            <aura:if isTrue="{!v.invoice.singleInvoice.Invoice_Status__c == 'Invoice Voided'}">
+                            <aura:if isTrue="{!v.invoice.singleInvoice.Status__c == 'Invoice Voided'}">
                                 <div style="padding-bottom: 10px;">{! $Label.c.Invoice_Details_Invoice_Voided_Message}</div>
                             </aura:if>
                             <aura:if isTrue="{!v.invoice.singleInvoice.Partial_Payment_Plan__c}">

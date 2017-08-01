@@ -21,7 +21,7 @@ public with sharing class InvoiceDao extends AbstractDao {
                     Due_Date__c
                 FROM Invoice__c
                 WHERE Guarantor__c = :guarantorId
-                AND Invoice_Status__c = :status
+                AND Status__c = :status
                 ORDER BY CreatedDate
                 LIMIT 1
             ];
@@ -40,7 +40,7 @@ public with sharing class InvoiceDao extends AbstractDao {
 
         if (InvoiceSecurityContext.DETAIL_CONTEXT.actionAllowed() && ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
-                SELECT Id, Name, Invoice_Balance__c, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c,
+                SELECT Id, Name, Balance__c, Sirono_Id__c, Invoice_Date__c, Invoice_Age__c, Status__c,
                     Due_Date__c, Partial_Payment_Plan__c,Patient__r.Name, Patient__r.Medical_Record_Number__c,
                     Guarantor__r.Overdue_Balance__c, Guarantor__r.Invoiced_Balance__c, Guarantor__r.Due_Balance__c,
                     Guarantor__r.Delinquent_Balance__c,Guarantor__r.Payment_Plan_Balance__c,
@@ -66,7 +66,7 @@ public with sharing class InvoiceDao extends AbstractDao {
      */
     public static List<Invoice__c> getInvoicesForUser(Id userId, Set<String> statuses, List<String> patients) {
         // TODO FLS/CRUD
-        String query = 'SELECT Id, Name, Invoice_Balance__c, Patient__r.Name, Patient__r.Medical_Record_Number__c, Sirono_ID__c, Invoice_Date__c, Invoice_Age__c, Invoice_Status__c, ' +
+        String query = 'SELECT Id, Name, Balance__c, Patient__r.Name, Patient__r.Medical_Record_Number__c, Sirono_Id__c, Invoice_Date__c, Invoice_Age__c, Status__c, ' +
             'Due_Date__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Add_to_Payment_Plan__c, Guarantor__r.Invoiced_Balance__c, ' +
             'Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c, Partial_Payment_Plan__c, ' +
             'Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Pre_Invoiced_Balance__c, ' +
@@ -79,7 +79,7 @@ public with sharing class InvoiceDao extends AbstractDao {
         }
 
         if (statuses != null && statuses.size() != 0) {
-            query += ' AND Invoice_Status__c in :statuses';
+            query += ' AND Status__c in :statuses';
         }
 
         // Add order by clause

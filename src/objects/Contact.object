@@ -598,7 +598,7 @@
         <externalId>false</externalId>
         <label>Delinquent Invoices</label>
         <summaryFilterItems>
-            <field>Invoice__c.Invoice_Status_Index__c</field>
+            <field>Invoice__c.Status_Index__c</field>
             <operation>equals</operation>
             <value>9</value>
         </summaryFilterItems>
@@ -772,7 +772,7 @@ CASE(Invoice_Status_Rollup__c,
         <fullName>Invoice_Status_Rollup__c</fullName>
         <externalId>false</externalId>
         <label>Invoice Status</label>
-        <summarizedField>Invoice__c.Invoice_Status_Index__c</summarizedField>
+        <summarizedField>Invoice__c.Status_Index__c</summarizedField>
         <summaryForeignKey>Invoice__c.Guarantor__c</summaryForeignKey>
         <summaryOperation>max</summaryOperation>
         <trackHistory>false</trackHistory>
@@ -877,7 +877,7 @@ CASE(Invoice_Status_Rollup__c,
         <externalId>false</externalId>
         <label>Non-Payment Plan Invoices</label>
         <summaryFilterItems>
-            <field>Invoice__c.Invoice_Status_Index__c</field>
+            <field>Invoice__c.Status_Index__c</field>
             <operation>greaterThan</operation>
             <value>6</value>
         </summaryFilterItems>
@@ -941,7 +941,7 @@ CASE(Invoice_Status_Rollup__c,
         <externalId>false</externalId>
         <label>Outstanding Invoices</label>
         <summaryFilterItems>
-            <field>Invoice__c.Invoice_Status_Index__c</field>
+            <field>Invoice__c.Status_Index__c</field>
             <operation>greaterOrEqual</operation>
             <value>6</value>
         </summaryFilterItems>
@@ -971,7 +971,7 @@ CASE(Invoice_Status_Rollup__c,
         <externalId>false</externalId>
         <label>Overdue Invoices</label>
         <summaryFilterItems>
-            <field>Invoice__c.Invoice_Status_Index__c</field>
+            <field>Invoice__c.Status_Index__c</field>
             <operation>equals</operation>
             <value>8</value>
         </summaryFilterItems>

@@ -21,7 +21,7 @@ public with sharing class InvoiceUtil {
             for (Id invoiceId : chargeGroupInvoiceIds) {
                 Invoice__c tempInvoice = new Invoice__c();
                 tempInvoice.Id = invoiceId;
-                tempInvoice.Invoice_Status_Index__c = 0;
+                tempInvoice.Status_Index__c = 0;
 
                 invoicesToUpdate.put(invoiceId, tempInvoice);
             }
@@ -42,7 +42,7 @@ public with sharing class InvoiceUtil {
                             + '[Max Status Value]: ' + qr.get('maxStatusValue'));
 
                         // Update the Invoice Status Index field directly within the map, else the field remains 0
-                        invoicesToUpdate.get((Id) qr.get('inv')).Invoice_Status_Index__c = Integer.valueOf(qr.get('maxStatusValue'));
+                        invoicesToUpdate.get((Id) qr.get('inv')).Status_Index__c = Integer.valueOf(qr.get('maxStatusValue'));
                     }
                 }
                 if (InvoiceSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
@@ -116,7 +116,7 @@ public with sharing class InvoiceUtil {
             for (Id invoiceId : chargeGroupInvoiceIds) {
                 Invoice__c tempInvoice = new Invoice__c();
                 tempInvoice.Id = invoiceId;
-                tempInvoice.Invoice_Balance__c = 0.00;
+                tempInvoice.Balance__c = 0.00;
                 invoicesToUpdate.put(invoiceId, tempInvoice);
             }
 
@@ -137,7 +137,7 @@ public with sharing class InvoiceUtil {
 
                         if ((Decimal) qr.get('sumBalances') != 0 || (Decimal) qr.get('sumBalances') != null) {
                             // Update the Invoice Balance field directly within the map, else the balance will remain 0.00
-                            invoicesToUpdate.get((Id) qr.get('inv')).Invoice_Balance__c = (Decimal) qr.get('sumBalances');
+                            invoicesToUpdate.get((Id) qr.get('inv')).Balance__c = (Decimal) qr.get('sumBalances');
                         }
                     }
                 }

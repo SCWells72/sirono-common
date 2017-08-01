@@ -55,12 +55,12 @@ public class InvoiceUtilTest {
         Test.startTest();
 
         Invoice__c inv = [
-            SELECT Id, Invoice_Status_Index__c
+            SELECT Id, Status_Index__c
             FROM Invoice__c
             LIMIT 1
         ];
 
-        Decimal maxInvoiceStatusIndex = inv.Invoice_Status_Index__c;
+        Decimal maxInvoiceStatusIndex = inv.Status_Index__c;
 
         Charge_Group__c cg = [
             SELECT Id, Sub_Status_Index__c
@@ -92,12 +92,12 @@ public class InvoiceUtilTest {
         update maxChargeGroup;
 
         Invoice__c inv = [
-            SELECT Id, Invoice_Status_Index__c
+            SELECT Id, Status_Index__c
             FROM Invoice__c
             LIMIT 1
         ];
 
-        Decimal updatedInvoiceIndex = inv.Invoice_Status_Index__c;
+        Decimal updatedInvoiceIndex = inv.Status_Index__c;
 
         Test.stopTest();
 
@@ -109,12 +109,12 @@ public class InvoiceUtilTest {
         Test.startTest();
 
         Invoice__c originalInvoice = [
-            SELECT Id, Invoice_Status_Index__c
+            SELECT Id, Status_Index__c
             FROM Invoice__c
             LIMIT 1
         ];
 
-        Decimal originalInvIndex = originalInvoice.Invoice_Status_Index__c;
+        Decimal originalInvIndex = originalInvoice.Status_Index__c;
 
         List<Charge_Group__c> chargeGroupList = [
             SELECT Id, Active__c, Sub_Status_Index__c
@@ -128,12 +128,12 @@ public class InvoiceUtilTest {
         update chargeGroupList;
 
         Invoice__c updatedInvoice = [
-            SELECT Id, Invoice_Status_Index__c
+            SELECT Id, Status_Index__c
             FROM Invoice__c
             LIMIT 1
         ];
 
-        Decimal updatedInvIndex = updatedInvoice.Invoice_Status_Index__c;
+        Decimal updatedInvIndex = updatedInvoice.Status_Index__c;
 
         Test.stopTest();
 
@@ -146,12 +146,12 @@ public class InvoiceUtilTest {
         Test.startTest();
 
         Invoice__c inv = [
-            SELECT Id, Invoice_Status_Index__c
+            SELECT Id, Status_Index__c
             FROM Invoice__c
             LIMIT 1
         ];
 
-        Decimal originalIndexValue = inv.Invoice_Status_Index__c;
+        Decimal originalIndexValue = inv.Status_Index__c;
 
         List<Charge_Group__c> deleteChargeGroups = [
             SELECT Id
@@ -162,12 +162,12 @@ public class InvoiceUtilTest {
         delete deleteChargeGroups;
 
         Invoice__c updatedInvoice = [
-            SELECT Id, Invoice_Status_Index__c
+            SELECT Id, Status_Index__c
             FROM Invoice__c
             LIMIT 1
         ];
 
-        Decimal updatedIndexValue = updatedInvoice.Invoice_Status_Index__c;
+        Decimal updatedIndexValue = updatedInvoice.Status_Index__c;
 
         Test.stopTest();
 
@@ -263,7 +263,7 @@ public class InvoiceUtilTest {
         Test.startTest();
 
         Invoice__c inv = [
-            SELECT Id, Invoice_Balance__c
+            SELECT Id, Balance__c
             FROM Invoice__c
             LIMIT 1
         ];
@@ -282,8 +282,8 @@ public class InvoiceUtilTest {
 
         Test.stopTest();
 
-        System.assertNotEquals(null, inv.Invoice_Balance__c);
-        System.assertEquals(sumChargeGroupBalance, inv.Invoice_Balance__c);
+        System.assertNotEquals(null, inv.Balance__c);
+        System.assertEquals(sumChargeGroupBalance, inv.Balance__c);
     }
 
     @IsTest
@@ -291,12 +291,12 @@ public class InvoiceUtilTest {
         Test.startTest();
 
         Invoice__c inv = [
-            SELECT Id, Invoice_Balance__c
+            SELECT Id, Balance__c
             FROM Invoice__c
             LIMIT 1
         ];
 
-        Decimal originalBalance = inv.Invoice_Balance__c;
+        Decimal originalBalance = inv.Balance__c;
 
         Charge_Group__c deleteChargeGroup = [
             SELECT Id
@@ -307,12 +307,12 @@ public class InvoiceUtilTest {
         delete deleteChargeGroup;
 
         Invoice__c updatedInv = [
-            SELECT Id, Invoice_Balance__c
+            SELECT Id, Balance__c
             FROM Invoice__c
             LIMIT 1
         ];
 
-        Decimal updatedBalance = updatedInv.Invoice_Balance__c;
+        Decimal updatedBalance = updatedInv.Balance__c;
 
         Test.stopTest();
 
@@ -324,12 +324,12 @@ public class InvoiceUtilTest {
         Test.startTest();
 
         Invoice__c inv = [
-            SELECT Id, Invoice_Balance__c
+            SELECT Id, Balance__c
             FROM Invoice__c
             LIMIT 1
         ];
 
-        Decimal originalBalance = inv.Invoice_Balance__c;
+        Decimal originalBalance = inv.Balance__c;
 
         List<Charge_Group__c> deleteAllChargeGroups = [
             SELECT Id
@@ -339,12 +339,12 @@ public class InvoiceUtilTest {
         delete deleteAllChargeGroups;
 
         Invoice__c updatedInv = [
-            SELECT Id, Invoice_Balance__c
+            SELECT Id, Balance__c
             FROM Invoice__c
             LIMIT 1
         ];
 
-        Decimal updatedBalance = updatedInv.Invoice_Balance__c;
+        Decimal updatedBalance = updatedInv.Balance__c;
 
         Test.stopTest();
 
