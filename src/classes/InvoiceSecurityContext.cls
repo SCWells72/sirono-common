@@ -20,7 +20,7 @@ public with sharing class InvoiceSecurityContext extends SecurityContext {
     private static final String INVOICE_DATE = 'Invoice_Date__c';
     private static final String NAME = 'Name';
     private static final String PARTIAL_PAYMENT_PLAN = 'Partial_Payment_Plan__c';
-    private static final String SIRONO_ID = 'Sirono_ID__c';
+    private static final String SIRONO_ID = 'Sirono_Id__c';
     private static final String STATUS = 'Status__c';
 
     // The fields for updating a Invoice__c's Status_Index__c field in InvoiceUtil

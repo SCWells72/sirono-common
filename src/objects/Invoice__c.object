@@ -220,10 +220,10 @@ CASE(Status_Index__c,
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Sirono_ID__c</fullName>
-        <description>Invoice ID External</description>
+        <fullName>Sirono_Id__c</fullName>
+        <description>Invoice Id External</description>
         <externalId>true</externalId>
-        <label>Invoice ID</label>
+        <label>Invoice Id</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -254,7 +254,7 @@ CASE(Status_Index__c,
         <customTabListAdditionalFields>Due_Date__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Guarantor__c</customTabListAdditionalFields>
         <searchResultsAdditionalFields>Guarantor__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Sirono_ID__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Sirono_Id__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Invoice_Date__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Due_Date__c</searchResultsAdditionalFields>
     </searchLayouts>
