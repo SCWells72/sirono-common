@@ -64,10 +64,10 @@ public with sharing class PaymentTabsController {
      * @return Payment_Plan__c The newly created payment plan.
      */
     @AuraEnabled
-    public static Payment_Plan__c createPaymentPlan(Map<String, Object> ppInfoMap, Boolean isCreditCardSaved) {
+    public static Payment_Plan__c createPaymentPlan(Map<String, Object> ppInfoMap) {
         PaymentPlanInformation ppInfo = new PaymentPlanInformation(ppInfoMap);
         UserWrapper user = UserService.getCurrentUser();
-        Payment_Plan__c paymentPlanObj = PaymentPlanService.addPaymentPlanWithPaymentMethod(ppInfo, isCreditCardSaved, user.contactId);
+        Payment_Plan__c paymentPlanObj = PaymentPlanService.addPaymentPlanWithPaymentMethod(ppInfo, true, user.contactId);
         return paymentPlanObj;
     }
 
@@ -77,7 +77,7 @@ public with sharing class PaymentTabsController {
      * @param Map<String, Object> ppInfoMap - A map containing info about the payment plan and credit card.
      */
     @AuraEnabled
-    public static Payment_Plan__c doEditPaymentMethod(Map<String, Object> ppInfoMap, Boolean isCreditCardSaved) {
+    public static Payment_Plan__c doEditPaymentMethod(Map<String, Object> ppInfoMap) {
         String planId = ppInfoMap.containsKey('id') ? String.valueOf(ppInfoMap.get('id')) : '';
         String creditCardId = ppInfoMap.containsKey('creditCardId') ? String.valueOf(ppInfoMap.get('creditCardId')) : '';
 
@@ -89,7 +89,7 @@ public with sharing class PaymentTabsController {
 
         try {
             PaymentPlanInformation ppInfo = new PaymentPlanInformation(ppInfoMap);
-            updatedPlan = PaymentPlanService.addPaymentMethod(planId, creditCardId, ppInfo, isCreditCardSaved);
+            updatedPlan = PaymentPlanService.addPaymentMethod(planId, creditCardId, ppInfo, true);
 
         } catch (Exception e) {
             System.debug('ERROR: ' + e.getMessage());

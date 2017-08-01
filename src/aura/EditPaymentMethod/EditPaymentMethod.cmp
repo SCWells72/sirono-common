@@ -35,8 +35,7 @@
                     </lightning:select>
                 </div>
                 <div class="col slds-align-middle">
-                    <div class="title">
-                        <a href="javascript:void(0);" onclick="{!c.editCreditCard}">Edit</a> or
+                    <div class="add-new-card title">
                         <a href="javascript:void(0);" onclick="{!c.addNewCreditCard}">Add New Card</a>
                     </div>
                 </div>

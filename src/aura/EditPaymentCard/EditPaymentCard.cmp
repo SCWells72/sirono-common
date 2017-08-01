@@ -36,16 +36,6 @@
         </div>
         <div class="credit-card-form grid slds-wrap">
             <c:PaymentCard CheckValidation="{!v.IsValid}" CreditCard="{!v.CreditCard}" months="{!v.months}" years="{!v.years}" states="{!v.states}"/>
-            <aura:if isTrue="{!!v.CreditCard.sfId}">
-                <div class="col slds-size--1-of-1">
-                    <lightning:input type="checkbox" label="Save this card for later use" name="options" value="{!v.CreditCard.isSaved}" class="display--inline" onchange="{!c.bindChangeSave}"/>
-                    <div class="status info sldsjs-popover">
-                        <span class="slds-icon_container sldsjs-popover-action">
-                            <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info"/>
-                        </span>
-                    </div>
-                </div>
-            </aura:if>
             <div class="slds-size--1-of-1 grid slds-wrap slds-p-bottom--large">
                 <aura:if isTrue="{!and(v.PaymentInfo, not(v.PaymentInfo.hasPaymentPlan))}">
                     <div class="col slds-size--1-of-1 border-top slds-p-around--large">

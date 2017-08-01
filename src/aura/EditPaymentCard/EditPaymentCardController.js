@@ -33,14 +33,10 @@
         });
         $A.enqueueAction(credtCardSelections);
 
-        // init exp date values
-        var date = new Date();
-        date.setMonth(date.getMonth() + 1);
         var CreditCard = cmp.get('v.CreditCard') || {};
         if (CreditCard.length === undefined || CreditCard.length === 0) {
             CreditCard = hlpr.getDefaultCard(cmp);
         }
-        var curr_month = date.getMonth() + 1;
 
         cmp.set('v.CreditCard', CreditCard);
     },
@@ -80,8 +76,7 @@
 
                 var editPaymentMethod = cmp.get('c.doEditPaymentMethod');
                 editPaymentMethod.setParams({
-                    'ppInfoMap': planInfo,
-                    'isCreditCardSaved': creditCard.isSaved
+                    'ppInfoMap': planInfo
                 });
 
                 editPaymentMethod.setCallback(this, function (response) {
@@ -122,8 +117,7 @@
 
             paymentPlanService.getPaymentPlanInfoMap(paymentRequestInfo, creditCard, function (planInfo) {
                 createPlan.setParams({
-                    'ppInfoMap': planInfo,
-                    'isCreditCardSaved': creditCard.isSaved
+                    'ppInfoMap': planInfo
                 });
                 createPlan.setCallback(this, function (response) {
                     if (response.getState() === 'SUCCESS') {

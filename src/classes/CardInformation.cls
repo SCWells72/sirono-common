@@ -43,7 +43,7 @@ public with sharing class CardInformation {
         this.sfId = '';
         this.displayName = '';
         this.cardType = '';
-        this.isSaved = false;
+        this.isSaved = true;
 
         this.password = '';
         this.creditCardNumber = '';

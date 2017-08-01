@@ -100,8 +100,7 @@
 
             var doEditPaymentMethod = cmp.get('c.doEditPaymentMethod');
             doEditPaymentMethod.setParams({
-                'ppInfoMap': planInfo,
-                'isCreditCardSaved': CreditCard.isSaved
+                'ppInfoMap': planInfo
             });
             doEditPaymentMethod.setCallback(this, function (response) {
                 if (response.getState() === 'SUCCESS') {

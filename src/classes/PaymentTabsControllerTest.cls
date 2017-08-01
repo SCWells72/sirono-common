@@ -101,12 +101,12 @@ public with sharing class PaymentTabsControllerTest {
         Payment_Plan__c plan;
         System.runAs(portalUser) {
             Test.startTest();
-            plan = PaymentTabsController.createPaymentPlan(ppInfoMap, false);
+            plan = PaymentTabsController.createPaymentPlan(ppInfoMap);
             Test.stopTest();
         }
 
         System.assertNotEquals(null, plan, 'Should create a paymentPlan.');
-        System.assertEquals(null, plan.Payment_Method__c, 'Should not have inserted the payment method.');
+        System.assertNotEquals(null, plan.Payment_Method__c, 'Should have inserted the payment method.');
     }
 
     @IsTest
@@ -116,7 +116,7 @@ public with sharing class PaymentTabsControllerTest {
 
         try {
             Test.startTest();
-            Payment_Plan__c plan = PaymentTabsController.doEditPaymentMethod(ppInfoMap, false);
+            Payment_Plan__c plan = PaymentTabsController.doEditPaymentMethod(ppInfoMap);
             System.assert(false, 'Should have thown aura exception.');
         } catch (AuraHandledException e) {
             Test.stopTest();
@@ -128,7 +128,7 @@ public with sharing class PaymentTabsControllerTest {
     }
 
     @IsTest
-    public static void testDoEditPaymentMethodNewCardNoSave() {
+    public static void testDoEditPaymentMethodNewCardSave() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
@@ -160,13 +160,13 @@ public with sharing class PaymentTabsControllerTest {
         Payment_Plan__c plan;
         System.runAs(portalUser) {
             Test.startTest();
-            plan = PaymentTabsController.doEditPaymentMethod(ppInfoMap, false);
+            plan = PaymentTabsController.doEditPaymentMethod(ppInfoMap);
             Test.stopTest();
         }
 
         List<Payment_Method__c> savedMethods = [SELECT Id FROM Payment_Method__c WHERE Card_Holder_Name__c = :cHolderName];
         System.assertNotEquals(null, plan, 'Should return payment plan');
-        System.assertEquals(0, savedMethods.size(), 'Should not have saved the new payment method.');
+        System.assertEquals(1, savedMethods.size(), 'Should have saved the new payment method.');
     }
 
     @IsTest
@@ -201,7 +201,7 @@ public with sharing class PaymentTabsControllerTest {
         Payment_Plan__c plan;
         System.runAs(portalUser) {
             Test.startTest();
-            plan = PaymentTabsController.doEditPaymentMethod(ppInfoMap, true);
+            plan = PaymentTabsController.doEditPaymentMethod(ppInfoMap);
             Test.stopTest();
         }
 
@@ -220,7 +220,7 @@ public with sharing class PaymentTabsControllerTest {
 
         try {
             Test.startTest();
-            PaymentTabsController.doEditPaymentMethod(ppInfoMap, false);
+            PaymentTabsController.doEditPaymentMethod(ppInfoMap);
             System.assert(false, 'Should have thown aura exception.');
         } catch (AuraHandledException e) {
             Test.stopTest();
