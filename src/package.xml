@@ -43,7 +43,6 @@
     <types>
         <members>Account.Account_Compact_Layout</members>
         <members>Contact.Agent_Highlight</members>
-        <members>Contact.Agent_Hightlight</members>
         <name>CompactLayout</name>
     </types>
     <types>
