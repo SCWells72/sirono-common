@@ -13,156 +13,86 @@ public with sharing class CreateAdjustment {
     public Boolean isAdmin { get; set; }
     public List<ChargeGroupWrapper> chargeGroupList { get; set; }
 
-    //Mohan Kumar 2016-08-16: 127328707 to show the adjustment type from the metadata type which are only enabled
     public List<SelectOption> adjustmentTypeOptions { get; set; }
-    public String adjustmentTypeSelected { get; set; }
+    public String selectedAdjType { get; set; }
 
     /*Constructor initializing variables ,check login user is admin or not.
      * Fetch Adjustment_Type__mdt records.
      */
     public CreateAdjustment(ApexPages.StandardController sc) {
         /*
-         * 08-26-2016: Sirono - Tracker # 127767953
-         * The Add Adjustment button should only appear when the user has Admin profile. 
-         * Do the Query and set the flag isAdmin.
+         * The Add Adjustment button should only appear when the user has the appropriate permission.
+         * Check for permission and set the isAdmin flag.
          */
 
-        isAdmin = true;
-//TODO Figure out how to identify the user that can make adjustments in the final release
-//        if (UserSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-//            List<User> lstUser = new List<User>(
-//            [
-//                    SELECT Id, ProfileId
-//                    FROM User
-//                    WHERE Id = :UserInfo.getUserId()
-//                    AND Profile.Name = 'System Administrator'
-//            ]
-//            );
-//            if (lstUser.size() == 0) {
-//                ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO,
-//                        System.Label.Adjustment_for_Admin));
-//                isAdmin = false;
-//            }
-//        }
+        isAdmin = false;
 
+        try {
+            if (AdjustmentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+                isAdmin = true;
+            }
+        } catch (SecurityException e) {
+            System.debug('User: ' + UserInfo.getUserId() + ' cannot create adjustments');
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, System.Label.Adjustment_for_Admin));
+        }
 
         chargeGroupsSelected = false;
         guarantorName = '';
         chargeGroupList = new List<ChargeGroupWrapper>();
         guarantorRecordId = sc.getId();
 
-        //Mohan Kumar 2016-08-16: fetch only those metadata type which are marked as enabled
+        //Fetch only enabled AdjustmentType metadata
         adjustmentTypeOptions = new List<SelectOption>();
         adjustmentTypeOptions.add(new SelectOption('', '--None--'));
         if (AdjustmentTypeMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             for (Adjustment_Type__mdt aType : [
-                SELECT a.Id, a.Enabled__c, a.Description__c, a.Code__c
-                FROM Adjustment_Type__mdt a
-                WHERE Enabled__c = TRUE
+                    SELECT a.Id, a.Enabled__c, a.Description__c, a.Code__c
+                    FROM Adjustment_Type__mdt a
+                    WHERE Enabled__c = TRUE
             ]) {
                 adjustmentTypeOptions.add(new SelectOption(aType.Code__c, aType.Description__c));
             }
         }
+
         if (guarantorRecordId != null) {
-            Contact gc = GuarantorService.getGuarantorWithActiveCG(guarantorRecordId);
-            guarantorName = GuarantorService.buildGuarantorDetailString(gc);
-            guarantorId = PayStaffWSUtill.fetchGuarantorId(gc);
-            chargeGroupList = ChargeGroupWrapper.buildList(gc);
+            Contact gt = GuarantorService.getGuarantorWithActiveCG(guarantorRecordId);
+            guarantorName = GuarantorService.buildGuarantorDetailString(gt);
+            guarantorId = gt.Profile_Pointer_ID__c.toPlainString();
+            chargeGroupList = ChargeGroupWrapper.buildList(gt);
             chargeGroupId = '';
         }
     }
 
-    /*Controller Method invoked from Visualforce page and get the chargegroup Id
+    /**
+     * Controller Method invoked from Visualforce page to get the chargegroup Id selected
      * also check is any chargegroup is selected or not.
      */
     public PageReference doNext() {
         chargeGroupsSelected = false;
         chargeGroupId = PayStaffWSUtill.fetchChargeGroupIds(chargeGroupList);
-        if (!isEmpty(chargeGroupId)) {
+        if (String.isNotBlank(chargeGroupId)) {
             chargeGroupsSelected = true;
-        }/*else {
-            chargeGroupsSelected = false;
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR, 
-                                        'Please select atleast one Charge Group'));
-        }*/
+        }
         return null;
     }
 
-    //Check pass string is empty or not.
-    private Boolean isEmpty(String str) {
-        return (str == null || str.trim().equals(''));
-    }
-
-    //Check All information is enter or not and call the method createAdjustmetWSCall
+    //Verify all information is entered & then call the AdjustmentService to create the adjustment
     public void submit() {
-        try {
-            if (!isEmpty(amount) && !isEmpty(chargeGroupId) && !isEmpty(adjustmentTypeSelected)) {
-                String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
-                String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
-                if (csrfToken != null && jwtToken != null) {
-                    createAdjustmentWSCall(csrfToken, jwtToken);
-                }
-            } else {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
-                    'Please provide all details.'));
-                if (Test.isRunningTest()) {
-                    TestUtility.generateException();
-                }
-            }
-        } catch (Exception e) {
-            // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
-                'ERROR: ' + e.getMessage()));
-        }
-    }
 
-    //Send request to the endpoint.
-    private void createAdjustmentWSCall(String csrfToken, String jwtToken) {
-        String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '",' +
-            '"chargegroup":"' + SironoSettingsUtil.getServerEndpoint() + '/paystaff/api/chargegroups/' + chargeGroupId + '/",' +
-            '"amount":' + SironoRestClient.convertToCents(amount) + ',' +
-            '"code":"' + adjustmentTypeSelected + '"}';
-
-        HttpRequest req = new HttpRequest();
-        HttpResponse res = new HttpResponse();
-
-        Http http = new Http();
-        String responseBody;
-
-        req.setMethod('POST');
-        req.setHeader('Authorization', 'JWT ' + jwtToken);
-        req.setHeader('Content-type', 'application/json');
-        req.setEndpoint(RestClientConstants.SIRONO_BASE_URL + '/paystaff/api/adjustments/');
-
-        req.setBody(requestData);
-
-        try {
-            res = http.send(req);
-            responseBody = res.getBody();
-            System.debug('RESPONSE : ' + res.toString() + '  RESPONSE BODY::' + responseBody);
-            if (Test.isRunningTest()) {
-                TestUtility.generateException();
-            }
-        } catch (Exception e) {
-            // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
-                'PROCESS PAYMENT EXCEPTION RESPONSE : ' + res.toString() +
-                    '  RESPONSE BODY::' + responseBody +
-                    ' EXCEPTION:: ' + e.getMessage()));
-        }
-
-        if (res.getStatus() != null && res.getStatus().trim().equalsIgnoreCase('CREATED')
-            && res.getStatusCode() != null && res.getStatusCode() == 201) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO,
-                'Created Successfully!'));
-            //Call Payment, Transaction, ChargeGroups, Payment Plan Request.
-            PayStaffWSUtill.parsePaymentReponse(jwtToken, responseBody, false);
+        if (String.isBlank(amount) || String.isBlank(chargeGroupId) || String.isBlank(selectedAdjType) || String.isBlank(guarantorRecordId)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Please provide all details.'));
         } else {
-            //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'csrfToken : '+ csrfToken));
-            //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'jwtToken : '+ jwtToken));
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
-                'RESPONSE : ' + res.toString() +
-                    '  RESPONSE BODY::' + responseBody));
+            try {
+                AdjustmentService.AdjustmentRequest req = new AdjustmentService.AdjustmentRequest(guarantorRecordId,
+                        Decimal.valueOf(chargeGroupId), selectedAdjType, Decimal.valueOf(amount));
+
+                AdjustmentService.createAdjustment(req);
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Adjustment created successfully'));
+
+            } catch (Exception e) {
+                // Debug error response
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ERROR: ' + e.getMessage()));
+            }
         }
     }
 }

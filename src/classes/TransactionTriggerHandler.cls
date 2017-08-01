@@ -27,8 +27,8 @@ public with sharing class TransactionTriggerHandler {
                 svcIds.add(txn.Service2__c);
             }
 
-            if (txn.Adjustment__c != null) {
-                adjIds.add(txn.Adjustment__c);
+            if (txn.Adjustment2__c != null) {
+                adjIds.add(txn.Adjustment2__c);
             }
 
 
@@ -60,8 +60,8 @@ public with sharing class TransactionTriggerHandler {
                 svcIds.add(newTxn.Service2__c);
             }
 
-            if (newTxn.Adjustment__c != null) {
-                adjIds.add(newTxn.Adjustment__c);
+            if (newTxn.Adjustment2__c != null) {
+                adjIds.add(newTxn.Adjustment2__c);
             }
 
             if (newTxn.Payment__c != null) {
@@ -76,8 +76,8 @@ public with sharing class TransactionTriggerHandler {
             if (newId != oldId) {
                 if (oldTxn.Payment__c != null) {
                     pmtIds.add(oldTxn.Payment__c);
-                } else if (oldTxn.Adjustment__c != null) {
-                    adjIds.add(oldTxn.Adjustment__c);
+                } else if (oldTxn.Adjustment2__c != null) {
+                    adjIds.add(oldTxn.Adjustment2__c);
                 } else if (oldTxn.Service2__c != null) {
                     svcIds.add(oldTxn.Service2__c);
                 }
@@ -98,7 +98,7 @@ public with sharing class TransactionTriggerHandler {
             return txn.Payment__c ;
         }
 
-        return txn.Adjustment__c;
+        return txn.Adjustment2__c;
 
     }
 }

@@ -72,7 +72,7 @@
     <fields>
         <fullName>Aggregate_Id__c</fullName>
         <caseSensitive>false</caseSensitive>
-        <description>The composite key for the aggregated service data. The key is the concatenation of:  Charge Group, Post Date, Service Date, Charge Code, CPT Code, CPT Code Modifiers, CPT Code Override, Provider, Revenue Code</description>
+        <description>The composite key for the service data. The key is the concatenation of External Guarantor Sirono Id, Service Date, Charge Code, CPT Code, CPT Code Modifiers, CPT Code Override, Provider, Revenue Code and Quantity with ':' as separator</description>
         <externalId>true</externalId>
         <label>Aggregate ID</label>
         <length>128</length>

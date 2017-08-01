@@ -37,36 +37,34 @@ public with sharing class AddDiscount {
         messageToShow = 'Please select Charge Group(s) to add Discount.';
         chargeGroupsSelected = false;
         chargeGroupId = PayStaffWSUtill.fetchChargeGroupIds(chargeGroupList);
-        if (!isEmpty(chargeGroupId)) {
+        if (String.isNotBlank(chargeGroupId)) {
             chargeGroupsSelected = true;
-            Decimal totalAmount = 0, discountToApply = 0;
+            Decimal totalAmount = 0,
+                    discountToApply = 0;
+
             for (ChargeGroupWrapper cgw : chargeGroupList) {
                 if (cgw.isSelected) {
                     totalAmount += cgw.cg.Balance__c;
                 }
             }
             totalAmount = totalAmount.setScale(2);
-            /*Mohan Kumar 08-02-2016: Changed the below calculation to multiply by 0.15 rather then 0.0015
-            * 10-03-2016: Viraj Rana - Tracker #127404597: Use custom setting for discount to calculate discount amount based on Adjustment Rate.
-            */
             Decimal discountRate = 0;
             discountRate = getDiscountRate();
 
             if (discountRate > 0) {
-                discountToApply = ((totalAmount * discountRate) / 100).setScale(2); // 0.15 %
+                discountToApply = ((totalAmount * discountRate) / 100).setScale(2);
             }
 
             messageToShow = 'Clicking add discount will apply a $' + discountToApply + ' discount. '
                 + 'The total will be adjusted from $' + totalAmount + ' to $' + (totalAmount - discountToApply) + '.';
-        }/*else {
-            chargeGroupsSelected = false;
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.ERROR,
-                                     'Please select atleast one Charge Group'));
-        }*/
+        }
+
         return null;
     }
 
-    //10-03-2016: Viraj Rana - Tracker #127404597: Use custom setting for discount to calculate discount amount based on Adjustment Rate.
+    /**
+     * Retrieve the custom setting for Adjustment rate to apply for discount
+     */
     public Decimal getDiscountRate() {
         Decimal rate = 0;
         if (DiscountTypeMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
@@ -80,20 +78,13 @@ public with sharing class AddDiscount {
         return rate;
     }
 
-    //Check String is empty or not
-    private Boolean isEmpty(String str) {
-        return (str == null || str.trim().equals(''));
-    }
-
-    //call addDiscount and send the request to end point.
+    /**
+     * Call addDiscount and send the request to end point
+     */
     public void submit() {
         try {
-            if (!isEmpty(chargeGroupId)) {
-                String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
-                String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
-                if (csrfToken != null && jwtToken != null) {
-                    addDiscountRequest(csrfToken, jwtToken);
-                }
+            if (String.isNotBlank(chargeGroupId)) {
+                addDiscountRequest();
             } else {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                     'Please provide all details.'));
@@ -109,7 +100,10 @@ public with sharing class AddDiscount {
     }
 
     //call addDiscount and send the request to end point.
-    private void addDiscountRequest(String csrfToken, String jwtToken) {
+    private void addDiscountRequest() {
+        String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
+        String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
+
         String requestData = '{"csrfmiddlewaretoken":"' + csrfToken + '",' +
             '"code":"DIS",' +
             '"chargegroups": ' + PayStaffWSUtill.buildChargeGroupsURL(chargeGroupId) + '}';
@@ -142,10 +136,6 @@ public with sharing class AddDiscount {
                     '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' +
                     e.getMessage()));
         }
-        /*}else {
-            res.setStatus('CREATED');
-            res.setStatusCode(201);
-        }*/
 
         if (res.getStatus() != null && res.getStatus().trim().equalsIgnoreCase('CREATED')
             && res.getStatusCode() != null && res.getStatusCode() == 201) {
@@ -154,15 +144,13 @@ public with sharing class AddDiscount {
             chargeGroupsSelected = false;
 
             //Call Payment, Transaction, ChargeGroups, Payment Plan Request.
-            PayStaffWSUtill.parsePaymentReponse(jwtToken, responseBody, false);
+            PayStaffWSUtill.processDiscount(responseBody);
 
         } else {
             System.debug('AddDiscount req: ' + req);
             System.debug('AddDiscount req body: ' + req.getBody());
             System.debug('AddDiscount response: ' + res);
             System.debug('AddDiscount res body: ' + res.getBody());
-            //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'CSRF_Token : '+ csrfToken));
-            //ApexPages.addMessage(new ApexPages.Message(ApexPages.SEVERITY.INFO, 'JWT_Token : '+ jwtToken));
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'RESPONSE : ' + res.toString() +
                     '  RESPONSE BODY::' + responseBody));

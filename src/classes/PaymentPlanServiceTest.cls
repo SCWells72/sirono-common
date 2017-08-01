@@ -578,7 +578,7 @@ public with sharing class PaymentPlanServiceTest {
         update plan;
 
         System.assertEquals(true, plan.Active__c, 'Should be active before delete.');
-        System.assertEquals(null, plan.Cancellation_Date__c, 'Should not have a cancelation date.');
+        System.assertEquals(null, plan.Cancellation_Date__c, 'Should not have a cancellation date.');
 
         List<Charge_Group__c> cgs = ChargeGroupDao.getBySironoIds(new List<Decimal> { CG_SIRONO_ID });
         Charge_Group__c cg = (cgs.size() >= 1) ? cgs.get(0) : null;
@@ -598,14 +598,14 @@ public with sharing class PaymentPlanServiceTest {
         ];
 
         System.assertEquals(false, planAfterDelete.Active__c, 'Should not be active after delete.');
-        System.assertNotEquals(null, planAfterDelete.Cancellation_Date__c, 'Should populate cancelation date.');
+        System.assertNotEquals(null, planAfterDelete.Cancellation_Date__c, 'Should populate cancellation date.');
 
         cgs = ChargeGroupDao.getBySironoIds(new List<Decimal> { CG_SIRONO_ID });
         Charge_Group__c updatedCg = (cgs.size() >= 1) ? cgs.get(0) : null;
 
         // Note the mock here makes use of the existing cg json body, and in that body the Account_Sub_Status is third party payer.
-        System.assertNotEquals(cg.Account_Sub_Status__c, updatedCg.Account_Sub_Status__c, 'Should have updated Accont substatus.');
-        System.assertEquals(Constants.ACCT_SUBSTATUS_THIRD_PARTY, updatedCg.Account_Sub_Status__c, 'Should match the substate of mock cg.');
+        System.assertNotEquals(cg.Account_Sub_Status__c, updatedCg.Account_Sub_Status__c, 'Should have updated Account substatus.');
+        System.assertEquals(Constants.ACCT_SUBSTATUS_THIRD_PARTY, updatedCg.Account_Sub_Status__c, 'Should match the substatus of mock cg.');
         System.assertEquals(null, updatedCg.Payment_Plan__c, 'Should not be assigned to payment plan.');
     }
 

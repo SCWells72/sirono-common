@@ -20,10 +20,10 @@ public with sharing class TxnAggregationUtils {
             if (TransactionSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                 // Get the SUM of the associated transaction amounts
                 AggregateResult[] results = [
-                    SELECT Adjustment__c obj, SUM(Amount__c) Total
+                    SELECT Adjustment2__c obj, SUM(Amount__c) Total
                     FROM Transaction__c
-                    WHERE Adjustment__c IN :ids
-                    GROUP BY Adjustment__c
+                    WHERE Adjustment2__c IN :ids
+                    GROUP BY Adjustment2__c
                 ];
 
                 Map<Id, Decimal> resultsMap = mapAggregateResults(ids, results);
@@ -33,23 +33,18 @@ public with sharing class TxnAggregationUtils {
     }
 
     private static void updateAdjustments(Map<Id, Decimal> resultsMap) {
-        List<Payment_Adjustments__c> adjs = new List<Payment_Adjustments__c>();
+        List<Adjustment__c> adjs = new List<Adjustment__c>();
 
         for (Id objId : resultsMap.keySet()) {
             System.debug('adjId: ' + objId);
             System.debug('adjTotal: ' + resultsMap.get(objId));
 
-            Payment_Adjustments__c adj = new Payment_Adjustments__c(Id = (Id) objId);
+            Adjustment__c adj = new Adjustment__c(Id=(Id) objId);
             adj.Amount__c = -1.0 * resultsMap.get(objId);
             adjs.add(adj);
         }
 
-        // Update the database
-        if (adjs.size() > 0) {
-            if (PaymentAdjustmentsSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                update adjs;
-            }
-        }
+        AdjustmentDao.updateAll(adjs);
     }
 
     /**

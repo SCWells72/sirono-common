@@ -12,6 +12,7 @@ public with sharing class RecordTypeUtil {
     public static Id guarantorRt;
     public static Id patientRt;
     public static Id staffRt;
+    public static Id externalGtRt;
 
     static {
         rtMap = new Map<String, Id>();
@@ -24,6 +25,8 @@ public with sharing class RecordTypeUtil {
                     patientRt = rt.Id;
                 } else if ('Staff'.equalsIgnoreCase(rt.Name)) {
                     staffRt = rt.Id;
+                } else if ('External Guarantor'.equalsIgnoreCase(rt.Name)) {
+                    externalGtRt = rt.Id;
                 }
                 rtMap.put(rt.Name, rt.Id);
             }

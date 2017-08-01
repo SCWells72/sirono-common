@@ -221,6 +221,14 @@
         <fields>TASK.LAST_UPDATE</fields>
         <relatedList>RelatedHistoryList</relatedList>
     </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Display_Name__c</fields>
+        <fields>Amount__c</fields>
+        <fields>Post_Date__c</fields>
+        <fields>Payor__c</fields>
+        <relatedList>Adjustment__c.External_Guarantor__c</relatedList>
+    </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

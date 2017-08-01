@@ -222,6 +222,7 @@ public with sharing class PaymentPlanService extends AbstractService {
         }
     }
 
+    @TestVisible
     private class PaymentPlanSironoJSON {
         public String url;
         public Boolean active;
@@ -233,36 +234,30 @@ public with sharing class PaymentPlanService extends AbstractService {
         public Integer execute_on_day;
         public String guarantor;
         public String next_payment_date;
-        //noinspection ApexUnusedDeclaration
         public Integer installments_paid;
-        //noinspection ApexUnusedDeclaration
         public Integer installments_total;
-        //noinspection ApexUnusedDeclaration
         public Credit_Card credit_card;
         public Boolean has_error;
-        //noinspection ApexUnusedDeclaration
         public String charges_added_since_start;
         public String error_date;
         public List<String> chargegroups;
         public Boolean delinquent;
         public String delinquent_date;
-        //noinspection ApexUnusedDeclaration
         public List<Encounters> encounters;
-        //noinspection ApexUnusedDeclaration
         public Integer authorized_amount;
         public String skip_payment_until;
         public String status;
     }
 
     // This class only exists to be able to parse the Sirono JSON
+    @TestVisible
     private class Encounters {
     }
 
     // This class only exists to be able to parse the Sirono JSON
+    @TestVisible
     private class Credit_Card {
-        //noinspection ApexUnusedDeclaration
         public String card_type;
-        //noinspection ApexUnusedDeclaration
         public String last_4;
     }
 
@@ -344,9 +339,6 @@ public with sharing class PaymentPlanService extends AbstractService {
                         paymentPlanObj.Name = strPaymentPlan;
                     }
                 }
-            } else { // VR: We thing else condition not needed because of URL Cannot be null in response. 
-                //I don't really see how this is possible with valid JSON & if the JSON is not valid, we should have already puked
-                paymentPlanObj = new Payment_Plan__c();
             }
 
             paymentPlanObj.Active__c = objJson.active;
@@ -396,6 +388,14 @@ public with sharing class PaymentPlanService extends AbstractService {
         client = new PaymentPlanRestClient();
         HttpResponse response = client.getPlan(planId);
         updateObjects(response.getBody(), chargegroupIds);
+    }
+
+    public static Payment_Plan__c retrievePlan(Decimal planId) {
+        PaymentPlanRestClient client = new PaymentPlanRestClient();
+        HttpResponse response = client.getPlan(planId.toPlainString());
+
+        PaymentPlanJSONParser parser = new PaymentPlanJSONParser(response.getBody());
+        return parser.parseAsPaymentPlan();
     }
     
     /**
@@ -476,7 +476,7 @@ public with sharing class PaymentPlanService extends AbstractService {
      */
     public static void removePaymentPlan(String paymentPlanId) {
 
-        // Look up the SF payment plan in ordr to get the Sirono Id.
+        // Look up the SF payment plan in order to get the Sirono Id.
         Payment_Plan__c payPlan = getPaymentPlan(paymentPlanId);
         if (payPlan == null) {
             System.debug('No payment plan found for id: ' + paymentPlanId);
@@ -485,7 +485,7 @@ public with sharing class PaymentPlanService extends AbstractService {
 
         String sironoPaymentPlanId = payPlan.Sirono_ID__c.toPlainString();
 
-        // Go get the plan from Siron pre-delete in order to have the cgs we need to update
+        // Go get the plan from Sirono pre-delete in order to have the cgs we need to update
         PaymentPlanRestClient getRestClient = new PaymentPlanRestClient();
         HttpResponse getRes = getRestClient.getPlan(sironoPaymentPlanId);
 
@@ -512,14 +512,14 @@ public with sharing class PaymentPlanService extends AbstractService {
         List<Decimal> cgSironoIds = ChargeGroupService.getSironoIds(cgs);
 
         // Get the charge groups from the Sirono service.
-        Map<Decimal, ChargeGroupJSONParser> cgWrappers = ChargeGroupService.retrieveMapByIds(cgSironoIds);
+        Map<Decimal, ChargeGroupJSONParser.ChargeGroupJSON> cgJsonMap = ChargeGroupService.retrieveMapByIds(cgSironoIds);
 
         // Now update all SF cg records with the data from the Sirono server.
         for (Charge_Group__c cg : cgs) {
-            if (cgWrappers.containsKey(cg.Sirono_ID__c)) {
-                ChargeGroupJSONParser parsing = cgWrappers.get(cg.Sirono_ID__c);
-                cg.Account_Sub_Status__c = parsing.account_sub_status;
-                cg.Account_Status__c = parsing.account_status;
+            if (cgJsonMap.containsKey(cg.Sirono_ID__c)) {
+                ChargeGroupJSONParser.ChargeGroupJSON cgJson = cgJsonMap.get(cg.Sirono_ID__c);
+                cg.Account_Sub_Status__c = cgJson.account_sub_status;
+                cg.Account_Status__c = cgJson.account_status;
                 cg.Payment_Plan__c = null;
             } else {
                 System.debug('Did not find charge group to update on plan delete for sironoId: ' + cg.Sirono_ID__c);
@@ -529,7 +529,7 @@ public with sharing class PaymentPlanService extends AbstractService {
 
         // Finally persist the SF PaymentPlan and ChargeGroups
         PaymentPlanDao.upsertPlan(deletedPlan);
-        ChargeGroupService.updateChargeGroupsWithStatus(cgs);
+        ChargeGroupService.updateChargeGroups(cgs);
     }
 
     /**

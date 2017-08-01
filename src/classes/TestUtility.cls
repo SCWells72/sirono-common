@@ -84,6 +84,15 @@ public class TestUtility {
         return patientContact;
     }
 
+    // Return ExternalGuarantor Contact record
+    public static Contact generateExternalGuarantor() {
+        Contact externalGT = new Contact();
+        externalGT.RecordTypeId = RecordTypeUtil.externalGtRt;
+        externalGT.LastName = 'Test External GT';
+        externalGT.External_Guarantor_Id__c = getUniqueId();
+        return externalGT;
+    }
+
     // Return charge group record
     public static Charge_Group__c generateChargeGroup(String guarantorContactId,
         String patientContactId,
@@ -291,6 +300,11 @@ public class TestUtility {
         return payment;
     }
 
+    public static Adjustment__c generateAdjustment(Id guarantorId, String aggregateKey, Id externalGuarantorId) {
+        return new Adjustment__c(Guarantor__c = guarantorId, Aggregate_Id__c = aggregateKey, External_Guarantor__c = externalGuarantorId);
+
+    }
+
     // Return a payment transaction
     public static Transaction__c generatePaymentTxn(Charge_Group__c chargeGroup,
         Decimal amount,
@@ -313,9 +327,9 @@ public class TestUtility {
     // Return an adjustment transaction
     public static Transaction__c generateAdjTxn(Charge_Group__c chargeGroup,
         Decimal amount,
-        Payment_Adjustments__c adj) {
+        Adjustment__c adj) {
         Transaction__c objTransaction = generateTxn(chargeGroup, amount);
-        objTransaction.Adjustment__c = adj.Id;
+        objTransaction.Adjustment2__c = adj.Id;
 
         // Check system assert.
         System.assertNotEquals(objTransaction, null, 'Should have failed due to Transaction object is null.');

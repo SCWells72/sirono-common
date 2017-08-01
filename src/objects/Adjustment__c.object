@@ -43,7 +43,7 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <description>Meta data about Adjustment Transactions</description>
+    <description>Metadata about Adjustments</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableChangeDataCapture>false</enableChangeDataCapture>
@@ -54,7 +54,19 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>Private</externalSharingModel>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Aggregate_Id__c</fullName>
+        <description>Composite key: External Guarantor Id, Post Date, Payor</description>
+        <externalId>true</externalId>
+        <label>Aggregate Id</label>
+        <length>128</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
     <fields>
         <fullName>Amount__c</fullName>
         <externalId>false</externalId>
@@ -67,25 +79,24 @@
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Charge_Group__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
+        <fullName>Description__c</fullName>
         <externalId>false</externalId>
-        <label>Charge Group</label>
-        <referenceTo>Charge_Group__c</referenceTo>
-        <relationshipName>Payment_Adjustments</relationshipName>
+        <label>Description</label>
+        <length>254</length>
         <required>false</required>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
-        <type>Lookup</type>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Custom_Name__c</fullName>
+        <fullName>Display_Name__c</fullName>
         <externalId>false</externalId>
         <formula>IF(OR(ISBLANK(Payor__c), Payor__r.Name == &quot;Patient&quot;), &quot;&quot;, Payor__r.Name &amp; &quot; &quot;) &amp;
-&apos;Adjustment - &apos; &amp;
-TEXT(MONTH(Post_Date__c)) &amp; &quot;/&quot; &amp;
-TEXT(DAY(Post_Date__c)) &amp; &quot;/&quot; &amp;
-TEXT(YEAR(Post_Date__c))</formula>
+            &apos;Adjustment - &apos; &amp;
+            TEXT(MONTH(Post_Date__c)) &amp; &quot;/&quot; &amp;
+            TEXT(DAY(Post_Date__c)) &amp; &quot;/&quot; &amp;
+            TEXT(YEAR(Post_Date__c))</formula>
         <label>Display Name</label>
         <required>false</required>
         <trackHistory>false</trackHistory>
@@ -94,100 +105,48 @@ TEXT(YEAR(Post_Date__c))</formula>
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Deleted__c</fullName>
-        <defaultValue>false</defaultValue>
+        <fullName>External_Guarantor__c</fullName>
+        <deleteConstraint>Restrict</deleteConstraint>
         <externalId>false</externalId>
-        <label>Deleted (Deprecated)</label>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
-        <fullName>Description__c</fullName>
-        <externalId>false</externalId>
-        <label>Description (Deprecated)</label>
-        <length>254</length>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Export_Date__c</fullName>
-        <externalId>false</externalId>
-        <label>Export Date (Deprecated)</label>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>DateTime</type>
-    </fields>
-    <fields>
-        <fullName>External_ID__c</fullName>
-        <externalId>true</externalId>
-        <label>External ID (Deprecated)</label>
-        <length>254</length>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>ID__c</fullName>
-        <description>Composite key: Charge Group, Post Date, Code, Payor</description>
-        <externalId>true</externalId>
-        <label>ID</label>
-        <length>128</length>
+        <label>External Guarantor</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>Contact.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>External Guarantor</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Adjustments (External Guarantor)</relationshipLabel>
+        <relationshipName>AdjustmentsExtGT</relationshipName>
         <required>false</required>
         <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Imported__c</fullName>
-        <defaultValue>false</defaultValue>
-        <externalId>false</externalId>
-        <label>Imported (Deprecated)</label>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
-        <fullName>Origin_Code__c</fullName>
-        <externalId>false</externalId>
-        <label>Origin Code (Deprecated)</label>
-        <length>20</length>
-        <required>false</required>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Payment__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <externalId>false</externalId>
-        <label>Payment (Deprecated)</label>
-        <referenceTo>Payment__c</referenceTo>
-        <relationshipLabel>Adjustments</relationshipLabel>
-        <relationshipName>Payment_Adjustments</relationshipName>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Payor_ID__c</fullName>
+        <fullName>Guarantor__c</fullName>
         <externalId>false</externalId>
-        <label>Payor ID (Deprecated)</label>
-        <length>254</length>
-        <required>false</required>
+        <label>Guarantor</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>Contact.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Guarantor</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Contact</referenceTo>
+        <relationshipName>Adjustments</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
     <fields>
         <fullName>Payor__c</fullName>
@@ -195,7 +154,7 @@ TEXT(YEAR(Post_Date__c))</formula>
         <externalId>false</externalId>
         <label>Payor</label>
         <referenceTo>Payor__c</referenceTo>
-        <relationshipName>Payments_Adjustments</relationshipName>
+        <relationshipName>Adjustments</relationshipName>
         <required>false</required>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
@@ -210,31 +169,7 @@ TEXT(YEAR(Post_Date__c))</formula>
         <trackTrending>false</trackTrending>
         <type>Date</type>
     </fields>
-    <fields>
-        <fullName>Sirono_ID__c</fullName>
-        <externalId>true</externalId>
-        <label>Sirono ID (Deprecated)</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>true</unique>
-    </fields>
-    <fields>
-        <fullName>Transaction__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <externalId>false</externalId>
-        <label>Transaction (Deprecated)</label>
-        <referenceTo>Transaction__c</referenceTo>
-        <relationshipLabel>Adjustments</relationshipLabel>
-        <relationshipName>Payment_Adjustments</relationshipName>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
-    </fields>
+
     <label>Adjustment</label>
     <listViews>
         <fullName>All</fullName>
@@ -243,45 +178,38 @@ TEXT(YEAR(Post_Date__c))</formula>
         <label>All</label>
     </listViews>
     <nameField>
+        <displayFormat>ADJ-{0000000000}</displayFormat>
         <label>Name</label>
         <trackHistory>false</trackHistory>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Adjustments</pluralLabel>
     <searchLayouts>
-        <customTabListAdditionalFields>Custom_Name__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Display_Name__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Amount__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Post_Date__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Payor__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Charge_Group__c</customTabListAdditionalFields>
         <lookupDialogsAdditionalFields>Amount__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Custom_Name__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Post_Date__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Payor__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Charge_Group__c</lookupDialogsAdditionalFields>
         <lookupFilterFields>NAME</lookupFilterFields>
-        <lookupFilterFields>Custom_Name__c</lookupFilterFields>
+        <lookupFilterFields>Display_Name__c</lookupFilterFields>
         <lookupFilterFields>Amount__c</lookupFilterFields>
         <lookupFilterFields>Post_Date__c</lookupFilterFields>
         <lookupFilterFields>Payor__c</lookupFilterFields>
-        <lookupFilterFields>Charge_Group__c</lookupFilterFields>
-        <lookupPhoneDialogsAdditionalFields>Custom_Name__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Display_Name__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Amount__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Post_Date__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Payor__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Charge_Group__c</lookupPhoneDialogsAdditionalFields>
         <searchFilterFields>NAME</searchFilterFields>
-        <searchFilterFields>Custom_Name__c</searchFilterFields>
+        <searchFilterFields>Display_Name__c</searchFilterFields>
         <searchFilterFields>Amount__c</searchFilterFields>
         <searchFilterFields>Post_Date__c</searchFilterFields>
         <searchFilterFields>Payor__c</searchFilterFields>
-        <searchFilterFields>Charge_Group__c</searchFilterFields>
-        <searchResultsAdditionalFields>Custom_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Display_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Amount__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Post_Date__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Payor__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Charge_Group__c</searchResultsAdditionalFields>
     </searchLayouts>
-    <sharingModel>Private</sharingModel>
-    <visibility>Public</visibility>
+    <sharingModel>ControlledByParent</sharingModel>
 </CustomObject>

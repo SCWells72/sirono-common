@@ -66,43 +66,7 @@ private class PayStaffWSUtillTest {
 
         System.assert(urlJSONString == '[]', 'Should have gotten an empty List for a null parameter.');
     }
-
-    /**
-     * This method tests the logic of get CSRF Token.
-     **/
-    @IsTest
-    static void checkCSRFToken() {
-        TestUtility.status = 'CREATED';
-        TestUtility.statusCode = 200;
-        TestUtility.body = 'sirono<input type=\'hidden\' name=\'csrfmiddlewaretoken\' value=\'';
-        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGeneratorTest());
-
-        Test.startTest();
-        String str = new SironoRestClient.AuthRestClient().getCsrfToken();
-        Test.stopTest();
-
-        // Check System assert.
-        System.assertNotEquals(str, null, 'Should have failed due to CSRF Token is null.');
-    }
-
-    /**
-     * This method tests the logic of Cent to Dollar Convert with rounded.
-     **/
-    @IsTest
-    static void convertCentToDollarsRounded() {
-        Decimal inputCents = 150;
-
-        Test.startTest();
-        Decimal outputDollars = PayStaffWSUtill.convertToDollars(inputCents);
-        Test.stopTest();
-
-        // Check system assert.
-        System.assert('1.5'.equals(outputDollars.format()), 'Expected 1.5, but got ' + outputDollars);
-    }
-
-    /**
-     * This method tests the logic of Cent to Dollar Convert.
-     **/
+        
     @IsTest
     static void convertCentToDollars() {
         String inputCents = '100';

@@ -44,6 +44,8 @@ public with sharing class StatementSecurityContext extends SecurityContext {
      **/
     public static final StatementSecurityContext CU_SELECT_CONTEXT = new StatementSecurityContext(CU_SELECT_FIELDS, ACTION.OBJ_READ);
 
+    public static final StatementSecurityContext ADD_ATTACHMENT_CONTEXT = new StatementSecurityContext(new Set<String>(), ACTION.OBJ_UPDATE);
+
     /**
      * Override getObjectType method of SecurityContext class
      **/

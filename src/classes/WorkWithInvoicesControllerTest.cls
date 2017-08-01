@@ -68,11 +68,10 @@ private class WorkWithInvoicesControllerTest {
             );
             insert serviceTest;
 
-            Payment_Adjustments__c paymentAdjTest = new Payment_Adjustments__c(
-                Name = 'paymentAdjTest',
-                Charge_Group__c = chargeGroup2.Id
+            Adjustment__c testAdjustment = new Adjustment__c(
+                Description__c = 'BC/BS adjustment', Amount__c = 200, Guarantor__c = guarantorContact.Id
             );
-            insert paymentAdjTest;
+            insert testAdjustment;
 
             Payment__c payment1 = TestUtility.generateSironoPayment(guarantorContact.Id, 1234, 12);
             Payment__c payment2 = TestUtility.generateSironoPayment(guarantorContact.Id, 1235, 25);
@@ -94,7 +93,7 @@ private class WorkWithInvoicesControllerTest {
             Transaction__c transaction4 = TestUtility.generateServiceTxn(chargeGroup2, 200, serviceTest);
             lstTransaction.add(transaction4);
 
-            Transaction__c transaction5 = TestUtility.generateAdjTxn(chargeGroup2, 200, paymentAdjTest);
+            Transaction__c transaction5 = TestUtility.generateAdjTxn(chargeGroup2, 200, testAdjustment);
             lstTransaction.add(transaction5);
             insert lstTransaction;
 

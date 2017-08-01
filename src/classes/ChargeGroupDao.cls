@@ -4,7 +4,6 @@
 
 /**
  * Database actions for Charge_Group__c objects
- * TODO: fix our sharing model
  */
 public with sharing class ChargeGroupDao extends AbstractDao {
 
@@ -16,9 +15,9 @@ public with sharing class ChargeGroupDao extends AbstractDao {
      **/
     public static List<Charge_Group__c> getBySironoIds(List<Decimal> sironoIds) {
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            return [
-                SELECT Id, Sirono_ID__c, Account_Sub_Status__c,
-                    Payment_Plan__c, Payment_Plan__r.Sirono_ID__c, Payment_Plan__r.Guarantor__c
+            return [SELECT Id, Sirono_ID__c, Account_Status__c, Account_Sub_Status__c, External_Guarantor_ID__c,
+                    External_Guarantor_ID__r.External_Guarantor_Id__c, Payment_Plan__c,
+                    Payment_Plan__r.Sirono_ID__c, Payment_Plan__r.Guarantor__c
                 FROM Charge_Group__c
                 WHERE Sirono_ID__c IN :sironoIds
             ];
@@ -110,6 +109,26 @@ public with sharing class ChargeGroupDao extends AbstractDao {
                 }
             }
             return chargeGroupIds;
+        }
+        return null;
+    }
+
+
+    /**
+     * Return the Active Charge_Group__c records associated with the given PaymentPlan Ids
+     *
+     * @param paymentPlanIds - The paymentPlanIds
+     * @returns The chargegroups on that payment plan
+     **/
+    public static List<Charge_Group__c> getByPaymentPlan(Set<Id> paymentPlanIds) {
+        if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+            return [
+                    SELECT Id, Guarantor__c, External_Guarantor_ID__c, Account_Status__c, Account_Sub_Status__c,
+                            Sirono_ID__c, External_Guarantor_ID__r.External_Guarantor_Id__c
+                    FROM Charge_Group__c
+                    WHERE Active__c = true
+                    AND Payment_Plan__c IN :paymentPlanIds
+            ];
         }
         return null;
     }
@@ -227,17 +246,6 @@ public with sharing class ChargeGroupDao extends AbstractDao {
      **/
     public static void updateChargeGroups(List<Charge_Group__c> chargeGroups) {
         if (ChargeGroupSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-            update chargeGroups;
-        }
-    }
-
-    /**
-     * This method is use to update Charge Groups with Account Status.
-     *
-     * @param List<Charge_Group__c> chargeGroups - That contains CG records.
-     **/
-    public static void updateChargeGroupsWithStatus(List<Charge_Group__c> chargeGroups) {
-        if (ChargeGroupSecurityContext.UPDATE_WITH_STATUS_CONTEXT.actionAllowed()) {
             update chargeGroups;
         }
     }

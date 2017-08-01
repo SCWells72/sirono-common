@@ -200,20 +200,4 @@ private class SironoRestClientTest {
         System.assert('10000'.equals(outputCents), 'Expected 10000, but got ' + outputCents);
     }
 
-    public class JSONTestObj {
-        //noinspection ApexUnusedDeclaration
-        public String tag;
-        //noinspection ApexUnusedDeclaration
-        public String tag_date;
-    }
-
-    @IsTest
-    public static void testEnsureJSONList() {
-        String json = '{"Tag": "something", "tag_date": "2016-10-07"}';
-
-        String listJson = SironoRestClient.ensureJsonList(json);
-        List<JSONTestObj> objs = (List<JSONTestObj>) System.JSON.deserialize(listJson, List<JSONTestObj>.class);
-        System.assert(objs.size() == 1, 'Expected 1 JSONTestObj in the list');
-    }
-
 }

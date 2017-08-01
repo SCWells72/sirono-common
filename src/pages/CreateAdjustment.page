@@ -117,7 +117,7 @@
                         </tr>
                         <tr>
                             <td colspan="3">
-                                <apex:selectList styleClass="pay-staff-input" value="{!adjustmentTypeSelected}"
+                                <apex:selectList styleClass="pay-staff-input" value="{!selectedAdjType}"
                                                  size="1">
                                     <apex:selectOptions value="{!adjustmentTypeOptions}"/>
                                 </apex:selectList>

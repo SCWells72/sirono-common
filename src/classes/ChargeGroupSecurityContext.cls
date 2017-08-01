@@ -34,14 +34,10 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
     private static final String REPORTED_SELFPAY_BALANCE = 'Reported_Selfpay_Balance__c';
     private static final String SIRONO_ID = 'Sirono_ID__c';
     private static final String SUB_STATUS_INDEX = 'Sub_Status_Index__c';
-
-    // The fields for updating a Charge Group in AddToPaymentPlan & AddCreditCard.
+    
+    // The fields for updating a Charge Group
     private static final Set<String> UPDATE_FIELDS = new Set<String> {
-        ACCOUNT_SUB_STATUS, PAYMENT_PLAN
-    };
-
-    // The fields for updating a Charge Group in PayStaffWSUtill & DeletePaymentPlan.
-    private static final Set<String> UPDATE_WITH_STATUS_FIELDS = new Set<String> {
+    
         ACCOUNT_STATUS, ACCOUNT_SUB_STATUS, PAYMENT_PLAN
     };
 
@@ -80,11 +76,6 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
      * The update context for Charge Group in AddToPaymentPlan & AddCreditCard.
      **/
     public static final ChargeGroupSecurityContext UPDATE_CONTEXT = new ChargeGroupSecurityContext(UPDATE_FIELDS, ACTION.OBJ_UPDATE);
-    
-    /**
-     * The update with CG status context for Charge Group in PayStaffWSUtill & DeletePaymentPlan.
-     **/
-    public static final ChargeGroupSecurityContext UPDATE_WITH_STATUS_CONTEXT = new ChargeGroupSecurityContext(UPDATE_WITH_STATUS_FIELDS, ACTION.OBJ_UPDATE);
 
     /**
      * The select context for Charge Group in ChargeGroupDao, CaseCommentTriggerHandler, PaymentPlanJSONParsing,

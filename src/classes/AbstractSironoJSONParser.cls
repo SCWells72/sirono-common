@@ -8,7 +8,16 @@
 public virtual class AbstractSironoJSONParser {
 
     public static Decimal convertToDollars(Decimal amount) {
-        return PayStaffWSUtill.convertToDollars(amount);
+        Decimal dollarAmount = (amount != null ? (amount / 100) : amount);
+        System.debug('converted cent amount: ' + amount + ' to dollars: '+ dollarAmount);
+        return dollarAmount;
+    }
+
+    // Convert Transaction amounts to dollars.
+    public static Decimal convertToDollarsNegative(Decimal amount) {
+        Decimal dollarAmount = (amount != null ? (amount / -100) : amount);
+        System.debug('converted cent amount: ' + amount + ' to negative dollars: '+ dollarAmount);
+        return dollarAmount;
     }
 
     /*
@@ -42,5 +51,22 @@ public virtual class AbstractSironoJSONParser {
             }
         }
         return decimalSet;
+    }
+
+    /**
+     * Take the given jsonBody and make sure it is formatted as a JSON List
+     *
+     * @param jsonBody - the json that needs to be a list
+     */
+    public static String ensureJsonList(String jsonBody) {
+        String json = jsonBody;
+        if (!json.endsWith(']')) {
+            json = json + ']';
+        }
+
+        if (!json.startsWith('[')) {
+            json = '[' + json;
+        }
+        return json;
     }
 }

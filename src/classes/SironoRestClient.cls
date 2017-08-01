@@ -411,6 +411,7 @@ public abstract with sharing class SironoRestClient {
      *
      * Return the given sironoId formatted as a chargegroup absolute URI
      */
+    @TestVisible
     protected String asChargeGroupURL(String chargeGroupId) {
         String cgUrl = String.format(RestClientConstants.CHARGE_GROUP_URLS.get(RestClientConstants.CHARGEGROUP_KEY),
             new String[] {
@@ -424,6 +425,7 @@ public abstract with sharing class SironoRestClient {
      *
      * Return the given sironoId formatted as a paymentplan absolute URI
      */
+    @TestVisible
     //noinspection ApexUnusedDeclaration
     protected String asPaymentPlanURL(String planId) {
         String ppUrl = String.format(RestClientConstants.PAYMENT_PLAN_URLS.get(RestClientConstants.PAYMENT_PLAN_KEY), new String[] {
@@ -437,6 +439,7 @@ public abstract with sharing class SironoRestClient {
      *
      * Return the given sironoId formatted as a guarantor absolute URI
      **/
+    @TestVisible
     protected String asGuarantorURL(String guarantorId) {
         String guarantorUrl = String.format(RestClientConstants.GUARANTOR_URLS.get(RestClientConstants.GUARANTOR_KEY), new String[] {
             stripCommas(guarantorId)
@@ -492,23 +495,6 @@ public abstract with sharing class SironoRestClient {
     public static String convertToCents(Decimal amount) {
         String centAmount = String.valueOf((amount * 100).intValue());
         return centAmount;
-    }
-
-    /**
-     * Take the given jsonBody and make sure it is formatted as a JSON List
-     *
-     * @param jsonBody - the json that needs to be a list
-     */
-    public static String ensureJsonList(String jsonBody) {
-        String json = jsonBody;
-        if (!json.endsWith(']')) {
-            json = json + ']';
-        }
-
-        if (!json.startsWith('[')) {
-            json = '[' + json;
-        }
-        return json;
     }
 
 

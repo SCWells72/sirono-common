@@ -16,14 +16,6 @@
                 </sidebarComponents>
                 <sidebarComponents>
                     <componentType>RelatedList</componentType>
-                    <label>Adjustments</label>
-                    <relatedLists>
-                        <hideOnDetail>true</hideOnDetail>
-                        <name>Payment_Adjustments__c.Charge_Group__c</name>
-                    </relatedLists>
-                </sidebarComponents>
-                <sidebarComponents>
-                    <componentType>RelatedList</componentType>
                     <label>Charge Group Coverage Junctions</label>
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>
@@ -259,11 +251,6 @@
         <relatedList>Transaction__c.Charge_Group__c</relatedList>
         <sortField>Post_Date__c</sortField>
         <sortOrder>Desc</sortOrder>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Amount__c</fields>
-        <relatedList>Payment_Adjustments__c.Charge_Group__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>

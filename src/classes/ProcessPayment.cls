@@ -296,7 +296,7 @@ public with sharing class ProcessPayment {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Created Successfully!'));
 
             //Call Payment, Transaction, ChargeGroups, Payment Plan Request.
-            PayStaffWSUtill.parsePaymentReponse(jwtToken, responseBody, true);
+            PayStaffWSUtill.processPayment(responseBody);
         } else {
             if (Test.isRunningTest()) {
                 responseBody = TestUtility.errorbody;
