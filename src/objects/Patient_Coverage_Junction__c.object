@@ -59,7 +59,7 @@
         <externalId>false</externalId>
         <label>Coverage</label>
         <referenceTo>Coverage__c</referenceTo>
-        <relationshipLabel>Patient Coverage Juntions</relationshipLabel>
+        <relationshipLabel>Patient Coverage Junctions</relationshipLabel>
         <relationshipName>Patient_Coverage_Juntions</relationshipName>
         <relationshipOrder>0</relationshipOrder>
         <reparentableMasterDetail>false</reparentableMasterDetail>
@@ -92,7 +92,7 @@
             <isOptional>false</isOptional>
         </lookupFilter>
         <referenceTo>Contact</referenceTo>
-        <relationshipLabel>Patient Coverage Juntions</relationshipLabel>
+        <relationshipLabel>Patient Coverage Junctions</relationshipLabel>
         <relationshipName>Patient_Coverage_Juntions</relationshipName>
         <relationshipOrder>1</relationshipOrder>
         <reparentableMasterDetail>false</reparentableMasterDetail>
