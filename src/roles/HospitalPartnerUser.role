@@ -6,5 +6,5 @@
     <mayForecastManagerShare>false</mayForecastManagerShare>
     <name>Makana Health Partner User</name>
     <opportunityAccessLevel>Edit</opportunityAccessLevel>
-    <parentRole>Integration_Admin</parentRole>
+    <parentRole>CEO</parentRole>
 </Role>
