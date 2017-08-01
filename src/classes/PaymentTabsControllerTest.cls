@@ -375,7 +375,7 @@ public with sharing class PaymentTabsControllerTest {
             lstInvoice.add(invoice2);
 
             Invoice__c invoice3 = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
-            invoice3.Invoice_Status_Index__c = 2;
+            invoice3.Status_Index__c = 2;
             lstInvoice.add(invoice3);
 
             insert lstInvoice;
@@ -425,8 +425,8 @@ public with sharing class PaymentTabsControllerTest {
             insert lstTransaction;
 
 
-            invoice1.Invoice_Status_Index__c = 9;
-            invoice2.Invoice_Status_Index__c = 4;
+            invoice1.Status_Index__c = 9;
+            invoice2.Status_Index__c = 4;
             List<Invoice__c> lstInvoiceUpdate = new List<Invoice__c> {
                 invoice1, invoice2
             };
@@ -604,7 +604,7 @@ public with sharing class PaymentTabsControllerTest {
             insert testTransaction;
 
             // Update invoide status to ensure the charge groups show up.
-            invoiceOne.Invoice_Status_Index__c = 9;
+            invoiceOne.Status_Index__c = 9;
             update invoiceOne;
 
             List<Charge_Group__c> createdChargeGroups = PaymentTabsController.getChargeGroups(guarantorContact.Id);

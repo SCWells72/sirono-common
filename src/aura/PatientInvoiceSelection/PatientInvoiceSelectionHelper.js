@@ -218,7 +218,7 @@
         if (selectedTab !== 'MakeAPayment') {
             for (var i = 0; i < listOfInvoices.length; i++) {
                 // Add additional checks for filling list of invoices in if conditions
-                if (listOfInvoices[i].singleInvoice.Invoice_Status__c !== 'On Payment Plan') {
+                if (listOfInvoices[i].singleInvoice.Status__c !== 'On Payment Plan') {
                     $A.createComponent(
                         "c:SingleInvoice",
                         {

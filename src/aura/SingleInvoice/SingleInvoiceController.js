@@ -20,7 +20,7 @@
         console.log('isLock', isPayment);*/
         var invoice = component.get('v.invoice');
         var selectedTab = component.get('v.selectedTab');
-        if (invoice.singleInvoice.Invoice_Status__c == 'On Payment Plan' && selectedTab == 'CreatePaymentPlan') {
+        if (invoice.singleInvoice.Status__c == 'On Payment Plan' && selectedTab == 'CreatePaymentPlan') {
             component.set('v.isLock', true);
         }
     },

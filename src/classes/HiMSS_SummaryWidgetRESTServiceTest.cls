@@ -29,7 +29,7 @@ private class HiMSS_SummaryWidgetRESTServiceTest {
 //		    	Due_Date__c = Date.today().addDays(4),
 //		    	Guarantor__c = portalContact.Id,
 //		    	Name = 'invoice for test',
-//		    	Invoice_Status_Index__c = 7
+//		    	Status_Index__c = 7
 //		    );
 //		    insert invoice;
 //

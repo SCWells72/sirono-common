@@ -65,16 +65,6 @@
         <type>TextArea</type>
     </fields>
     <fields>
-        <fullName>Deactivated_Charge_Groups__c</fullName>
-        <defaultValue>false</defaultValue>
-        <description>Deactivated Charge Groups</description>
-        <externalId>false</externalId>
-        <label>Deactivated Charge Groups</label>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
         <fullName>Display_Name__c</fullName>
         <externalId>false</externalId>
         <formula>TRIM(Guarantor__r.Full_Name__c) &amp; &quot; (&quot; &amp;
@@ -139,10 +129,10 @@ TEXT(YEAR(Invoice_Date__c))</formula>
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Invoice_Balance__c</fullName>
+        <fullName>Balance__c</fullName>
         <defaultValue>0.00</defaultValue>
         <externalId>false</externalId>
-        <label>Invoice Balance</label>
+        <label>Balance</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -161,7 +151,7 @@ TEXT(YEAR(Invoice_Date__c))</formula>
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>Invoice_Status_Index__c</fullName>
+        <fullName>Status_Index__c</fullName>
         <externalId>false</externalId>
         <label>Invoice Status Index</label>
         <precision>18</precision>
@@ -173,10 +163,10 @@ TEXT(YEAR(Invoice_Date__c))</formula>
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Invoice_Status__c</fullName>
+        <fullName>Status__c</fullName>
         <externalId>false</externalId>
-        <formula>IF(AND(Invoice_Balance__c &lt;&gt; NULL, Invoice_Balance__c ==0), &quot;Paid&quot;,
-CASE(Invoice_Status_Index__c,
+        <formula>IF(AND(Balance__c &lt;&gt; NULL, Balance__c ==0), &quot;Paid&quot;,
+CASE(Status_Index__c,
 9, &quot;Delinquent&quot;,
 8, &quot;Overdue&quot;,
 7, &quot;Due&quot;,
@@ -189,7 +179,7 @@ CASE(Invoice_Status_Index__c,
 0, &quot;Invoice Voided&quot;,
 &quot;Error&quot;))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Invoice Status</label>
+        <label>Status</label>
         <required>false</required>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -199,7 +189,7 @@ CASE(Invoice_Status_Index__c,
     <fields>
         <fullName>Partial_Payment_Plan__c</fullName>
         <externalId>false</externalId>
-        <formula>AND(Invoice_Balance__c &gt; 0, Invoice_Status_Index__c &lt;&gt; 6, CONTAINS(All_Substatus__c, &quot;Payment&quot;))</formula>
+        <formula>AND(Balance__c &gt; 0, Status_Index__c &lt;&gt; 6, CONTAINS(All_Substatus__c, &quot;Payment&quot;))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Partial Payment Plan</label>
         <trackHistory>false</trackHistory>

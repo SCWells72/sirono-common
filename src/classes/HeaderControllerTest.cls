@@ -56,7 +56,7 @@ public with sharing class HeaderControllerTest {
             lstInvoice.add(invoice2);
 
             Invoice__c invoice3 = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
-            invoice3.Invoice_Status_Index__c = 2;
+            invoice3.Status_Index__c = 2;
             lstInvoice.add(invoice3);
 
             insert lstInvoice;
@@ -106,8 +106,8 @@ public with sharing class HeaderControllerTest {
             insert lstTransaction;
 
 
-            invoice1.Invoice_Status_Index__c = 9;
-            invoice2.Invoice_Status_Index__c = 4;
+            invoice1.Status_Index__c = 9;
+            invoice2.Status_Index__c = 4;
             List<Invoice__c> lstInvoiceUpdate = new List<Invoice__c> {
                 invoice1, invoice2
             };

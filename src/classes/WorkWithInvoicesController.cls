@@ -167,7 +167,7 @@ public with sharing class WorkWithInvoicesController {
 
         public InvoicesWrapper(Invoice__c invoice, Map<Id, Charge_Group__c> allGroupsMap) {
             this.singleInvoice = invoice;
-            this.balanceDue = invoice.Invoice_Balance__c;
+            this.balanceDue = invoice.Balance__c;
 
             allGroups = new List<ChargeGroupWrapper>();
 

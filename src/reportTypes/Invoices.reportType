@@ -48,11 +48,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Deactivated_Charge_Groups__c</field>
-            <table>Invoice__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Patient__c</field>
             <table>Invoice__c</table>
         </columns>
