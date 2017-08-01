@@ -37,7 +37,6 @@
             <operator>notEqual</operator>
             <value>Closed,Completed,Cancelled</value>
         </criteriaItems>
-        <language>en_US</language>
     </filter>
     <format>Tabular</format>
     <name>Sirono Interal Case Worklog</name>

@@ -56,7 +56,6 @@
             <operator>notEqual</operator>
             <value>paid,inactive,unknown,credit</value>
         </criteriaItems>
-        <language>en_US</language>
     </filter>
     <format>Summary</format>
     <groupingsDown>

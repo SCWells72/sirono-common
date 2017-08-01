@@ -62,10 +62,6 @@
     </blockInfo>
     <format>MultiBlock</format>
     <name>Total payments</name>
-    <params>
-        <name>lsk</name>
-        <value>1</value>
-    </params>
     <reportType>CustomEntity$Payment__c</reportType>
     <showDetails>true</showDetails>
 </Report>

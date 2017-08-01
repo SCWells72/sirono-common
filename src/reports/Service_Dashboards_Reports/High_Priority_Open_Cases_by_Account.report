@@ -64,7 +64,6 @@
             <operator>equals</operator>
             <value>High</value>
         </criteriaItems>
-        <language>en_US</language>
     </filter>
     <format>Summary</format>
     <groupingsDown>

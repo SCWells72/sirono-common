@@ -55,7 +55,6 @@
             <operator>lessThan</operator>
             <value>1/1/2017 12:00 AM</value>
         </criteriaItems>
-        <language>en_US</language>
     </filter>
     <format>Summary</format>
     <groupingsDown>
