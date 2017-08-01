@@ -315,7 +315,6 @@
         <name>Document</name>
     </types>
     <types>
-        <members>unfiled$public</members>
         <members>unfiled$public/Internal_Case_Comment_Update</members>
         <members>unfiled$public/Internal_Case_Creation</members>
         <members>unfiled$public/SUPPORTNewassignmentnotificationSAMPLE</members>
