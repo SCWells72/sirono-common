@@ -8,6 +8,15 @@
     <formFactors>Large</formFactors>
     <label>Sirono Call Center</label>
     <navType>Console</navType>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Agent_View</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Contact</pageOrSobjectType>
+        <recordType>Contact.Guarantor</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
     <tab>standard-Case</tab>
     <tab>Charge_Group__c</tab>
     <tab>standard-Contact</tab>

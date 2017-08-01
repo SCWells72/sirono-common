@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <excludeButtons>Clone</excludeButtons>
-    <excludeButtons>DataDotComClean</excludeButtons>
     <excludeButtons>DisableCustomerPortal</excludeButtons>
     <excludeButtons>DisablePartnerPortal</excludeButtons>
     <excludeButtons>DisablePrmSuperUser</excludeButtons>
     <excludeButtons>EnablePrmSuperUser</excludeButtons>
     <excludeButtons>RequestUpdate</excludeButtons>
-    <excludeButtons>RequestUseSfdc</excludeButtons>
     <excludeButtons>SendEmail</excludeButtons>
     <excludeButtons>Share</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
@@ -87,46 +85,6 @@
             <actionType>StandardButton</actionType>
             <sortOrder>1</sortOrder>
         </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Clone</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>2</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>LogACall</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>3</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>NewTask</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>4</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>NewEvent</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>5</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>FeedItem.ContentNote</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>6</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>SendEmail</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>7</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>FeedItem.TextPost</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>8</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>FeedItem.ContentPost</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>9</sortOrder>
-        </platformActionListItems>
     </platformActionList>
     <relatedLists>
         <fields>NAME</fields>
@@ -139,7 +97,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h36000002Ug8v</masterLabel>
+        <masterLabel>00hf4000000MvPm</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

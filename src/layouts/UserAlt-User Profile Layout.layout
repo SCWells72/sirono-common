@@ -14,10 +14,6 @@
                 <behavior>Edit</behavior>
                 <field>ManagerId</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Legacy_User_Id__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

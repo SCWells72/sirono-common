@@ -311,6 +311,51 @@
     </miniLayout>
     <platformActionList>
         <actionListContext>Record</actionListContext>
+        <platformActionListItems>
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>0</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Delete</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>1</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Add_Adjustment</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>2</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Add_Discount</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>3</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Create_Payment_Plan</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>4</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Process_Payment</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>5</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Add_Case</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>6</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Add_to_Payment_Plan</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>7</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Pay_Estimate</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>8</sortOrder>
+        </platformActionListItems>
     </platformActionList>
     <quickActionList/>
     <relatedContent>
