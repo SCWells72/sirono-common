@@ -4,13 +4,18 @@
 
 ({
     getDefaultCard: function (cmp) {
-        var date = new Date();
-        date.setMonth(date.getMonth() + 1);
+        var date = new Date(),
+            monthStr;
+
+        monthStr = (date.getMonth() + 1) + '';
+        if (monthStr.length === 1) {
+            monthStr = '0' + monthStr;
+        }
         return {
             isSaved: false,
-            expirationMonth: '04',
+            expirationMonth: monthStr,
             expirationYear: date.getFullYear(),
-            cardHolderName: 'Test2',
+            cardHolderName: '',
             creditCardNumber: '',
             cvv: '',
             address: '',
@@ -30,9 +35,8 @@
                         console.log('getCardInformation');
                         if (component.isValid() && response.getState() == 'SUCCESS') {
                             var info = response.getReturnValue();
-                            console.log('Init Payment Card');
+                            console.log({info: info}, 'CC info callback.');
                             component.set('v.CreditCard', info);
-                            console.log('Finish Init Payment Card', info);
                         } else {
                             console.error(response.getError()[0].message);
                         }
