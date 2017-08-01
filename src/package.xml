@@ -422,6 +422,7 @@
     </types>
     <types>
         <members>Five9LightningBasic</members>
+        <members>SFPlus</members>
         <name>CallCenter</name>
     </types>
     <types>
@@ -951,8 +952,6 @@
         <members>TransactionPayerType__mdt-Transaction Payer Type Layout</members>
         <members>Transaction__c-Transaction Layout</members>
         <members>Transaction__c-Transactions</members>
-        <members>User-User Layout</members>
-        <members>UserAlt-User Profile Layout</members>
         <members>UserAppMenuItem-Application Layout</members>
         <members>UserProvAccount-User Provisioning Account Layout</members>
         <members>UserProvisioningLog-User Provisioning Log Layout</members>
@@ -1191,7 +1190,7 @@
         <members>Encounter__c.Pay_Estimate</members>
         <members>Payment_Method__c.Update_Credit_Card</members>
         <members>Payment_Plan__c.Add_to_Payment_Plan</members>
-        <members>Payment_Plan__c.Canecl_Payment_Plan</members>
+        <members>Payment_Plan__c.Cancel_Payment_Plan</members>
         <members>Payment_Plan__c.Edit_Payment_Plan</members>
         <members>Payment_Plan__c.Payment_Plan_Good_Standing</members>
         <members>Payment_Plan__c.Skip_Payment</members>

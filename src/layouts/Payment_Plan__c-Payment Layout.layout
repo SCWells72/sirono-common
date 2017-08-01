@@ -3,7 +3,7 @@
     <customButtons>Add_to_Payment_Plan</customButtons>
     <customButtons>Edit_Payment_Plan</customButtons>
     <customButtons>Skip_Payment</customButtons>
-    <customButtons>Canecl_Payment_Plan</customButtons>
+    <customButtons>Cancel_Payment_Plan</customButtons>
     <customButtons>Payment_Plan_Good_Standing</customButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>

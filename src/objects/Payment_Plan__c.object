@@ -449,7 +449,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}AddToPaymentPlan?guarantorId={!Payment_Plan__c.GuarantorId__c}&amp;paymentPlanId={!Payment_Plan__c.Id}&amp;paymentPlanExtId={!TEXT(Payment_Plan__c.Sirono_ID__c)}</url>
     </webLinks>
     <webLinks>
-        <fullName>Canecl_Payment_Plan</fullName>
+        <fullName>Cancel_Payment_Plan</fullName>
         <availability>online</availability>
         <displayType>button</displayType>
         <encodingKey>UTF-8</encodingKey>

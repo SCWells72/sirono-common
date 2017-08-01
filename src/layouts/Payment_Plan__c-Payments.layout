@@ -2,7 +2,7 @@
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <customButtons>Edit_Payment_Plan</customButtons>
     <customButtons>Skip_Payment</customButtons>
-    <customButtons>Canecl_Payment_Plan</customButtons>
+    <customButtons>Cancel_Payment_Plan</customButtons>
     <customButtons>Payment_Plan_Good_Standing</customButtons>
     <customConsoleComponents>
         <subtabComponents>

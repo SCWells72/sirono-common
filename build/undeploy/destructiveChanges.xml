@@ -57,7 +57,7 @@
         <name>ApexTrigger</name>
     </types>
     <types>
-        <members>SFPlus</members>
+        <members>SironoSecure</members>
         <name>CallCenter</name>
     </types>
     <types>
@@ -120,6 +120,7 @@
     <types>
         <members>Contact.View_On_Portal</members>
         <members>Encounter__c.New_Payment_Arrangement</members>
+        <members>Payment_Plan__c.Canecl_Payment_Plan</members>
         <name>WebLink</name>
     </types>
     <version>40.0</version>
