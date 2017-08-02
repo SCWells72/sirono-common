@@ -13,22 +13,42 @@
         getLoginAttributesAction.setParams({
             "contactId": recordId
         });
-        getLoginAttributesAction.setCallback(this, function(response) {
-            var state = response.getState();
-            if (state === 'SUCCESS') {
-                var loginAttributes = response.getReturnValue();
+        getLoginAttributesAction.setCallback(this,
+            /**
+             * @param {Action} response
+             */
+            function(response) {
+                var state = response.getState();
 
-                console.log('recordId = ' + recordId);
-                var loginUrl = "/servlet/servlet.su?" +
-                    "retURL=/" + recordId + "&" +
-                    "oid=" + loginAttributes.orgId + "&" +
-                    "sunetworkid=" + loginAttributes.networkId + "&" +
-                    "sunetworkuserid=" + loginAttributes.userId;
-                console.log('loginUrl = ' + loginUrl);
+                // If all was well, go to the impersonated user login URL
+                if (component.isValid() && (state === "SUCCESS")) {
+                    var loginAttributes = response.getReturnValue();
 
-                document.location.href = loginUrl;
-            }
-        });
+                    var loginUrl = "/servlet/servlet.su?" +
+                        "retURL=/" + recordId + "&" +
+                        "oid=" + loginAttributes.orgId + "&" +
+                        "sunetworkid=" + loginAttributes.networkId + "&" +
+                        "sunetworkuserid=" + loginAttributes.userId;
+
+                    document.location.href = loginUrl;
+                }
+
+                // If there was an error, hide the spinner and show the message
+                else if (component.isValid() && (state === "ERROR")) {
+                    var errorMessage = "";
+                    var errors = response.getError();
+                    if (errors !== null) {
+                        for (var i = 0; i < errors.length; i++) {
+                            errorMessage += errors[i].message;
+                            if (i < (errors.length - 1)) {
+                                errorMessage += "\n";
+                            }
+                        }
+                    }
+                    component.set("v.errorMessage", errorMessage);
+                    $A.get("e.force:refreshView").fire();
+                }
+            });
         $A.enqueueAction(getLoginAttributesAction);
     }
 });

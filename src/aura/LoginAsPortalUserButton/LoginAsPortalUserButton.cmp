@@ -7,10 +7,18 @@
                 description="Lightning quick action component that logs in as the portal user">
 
     <aura:attribute name="recordId" type="String" description="The record ID from force:hasRecordId"/>
+    <aura:attribute name="errorMessage" type="String" description="Any error message encountered when logging in"/>
 
-    <div class="login-spinner">
-        <lightning:spinner aura:id="spinner" size="large" alternativeText="Logging in"/>
-    </div>
+    <aura:if isTrue="{!empty(v.errorMessage)}">
+        <div class="login-spinner">
+            <lightning:spinner aura:id="spinner" size="large" alternativeText="Logging in"/>
+        </div>
+    </aura:if>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:if isTrue="{!not(empty(v.errorMessage))}">
+        <ui:message aura:id="message" title="Warning" severity="warning" closable="false">{!v.errorMessage}</ui:message>
+    </aura:if>
+
 </aura:component>
