@@ -195,7 +195,7 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Encounter_ID__c</fullName>
+        <fullName>Encounter_Id__c</fullName>
         <externalId>false</externalId>
         <label>Encounter ID</label>
         <length>254</length>
@@ -223,7 +223,7 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Estimate_ID__c</fullName>
+        <fullName>Estimate_Id__c</fullName>
         <externalId>false</externalId>
         <label>Estimate ID</label>
         <length>254</length>

@@ -90,9 +90,9 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Large_Statement_ID__c</fullName>
+        <fullName>Large_Statement_Id__c</fullName>
         <externalId>false</externalId>
-        <label>Large Statement Id</label>
+        <label>Large Statement ID</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -146,9 +146,9 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Sirono_ID__c</fullName>
+        <fullName>Sirono_Id__c</fullName>
         <externalId>true</externalId>
-        <label>Sirono Id</label>
+        <label>Sirono ID</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -158,9 +158,9 @@
         <unique>true</unique>
     </fields>
     <fields>
-        <fullName>Small_Statement_ID__c</fullName>
+        <fullName>Small_Statement_Id__c</fullName>
         <externalId>false</externalId>
-        <label>Small Statement Id</label>
+        <label>Small Statement ID</label>
         <precision>10</precision>
         <required>false</required>
         <scale>0</scale>
@@ -180,11 +180,11 @@
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>Statement_ID__c</fullName>
+        <fullName>Statement_Id__c</fullName>
         <externalId>false</externalId>
         <formula>TEXT(Large_Statement_ID__c) &amp; &apos;-&apos; &amp; TEXT(Small_Statement_ID__c)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Statement Id</label>
+        <label>Statement ID</label>
         <required>false</required>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
