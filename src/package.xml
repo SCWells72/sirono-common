@@ -507,6 +507,7 @@
     <types>
         <members>Campaign.Child_Campaign</members>
         <members>Case.NewChildCase</members>
+        <members>Contact.Login_As_Portal_User</members>
         <members>FeedItem.NewTaskFromFeedItem</members>
         <members>Follow_Up</members>
         <members>LogACall</members>

@@ -1,0 +1,16 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
+<aura:component controller="LoginAsPortalUserController"
+                implements="force:lightningQuickActionWithoutHeader,force:hasRecordId"
+                description="Lightning quick action component that logs in as the portal user">
+
+    <aura:attribute name="recordId" type="String" description="The record ID from force:hasRecordId"/>
+
+    <div class="login-spinner">
+        <lightning:spinner aura:id="spinner" size="large" alternativeText="Logging in"/>
+    </div>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+</aura:component>
