@@ -74,7 +74,7 @@
         <caseSensitive>false</caseSensitive>
         <description>The composite key for the aggregated service data. The key is the concatenation of:  Charge Group, Post Date, Service Date, Charge Code, CPT Code, CPT Code Modifiers, CPT Code Override, Provider, Revenue Code</description>
         <externalId>true</externalId>
-        <label>Aggregate Id</label>
+        <label>Aggregate ID</label>
         <length>128</length>
         <required>false</required>
         <trackHistory>false</trackHistory>
