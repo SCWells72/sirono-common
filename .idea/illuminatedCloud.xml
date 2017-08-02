@@ -4,9 +4,9 @@
     <option name="connections">
       <list>
         <IlluminatedCloudConnection>
-          <option name="connectionName" value="sirono_local" />
+          <option name="connectionName" value="Justinbox" />
           <option name="defaultModuleName" value="sirono-salesforce" />
-          <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/sirono_local/OfflineSymbolTable.zip" />
+          <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/Justinbox/OfflineSymbolTable.zip" />
         </IlluminatedCloudConnection>
       </list>
     </option>
