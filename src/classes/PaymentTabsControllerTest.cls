@@ -594,8 +594,7 @@ public with sharing class PaymentTabsControllerTest {
             insert testCG;
             Test.setCreatedDate(testCG.Id, newCreateDate);
 
-            Service__c testService = TestUtility.generateService(testCG, TestUtility.generateRandomCurrency());
-            testService.Post_Date__c = newCreateDate.date();
+            Service2__c testService = TestUtility.generateService(guarantorContact, TestUtility.generateRandomCurrency());
             insert testService;
 
             Transaction__c testTransaction = TestUtility.generateServiceTxn(testCG, testService.Amount__c, testService);

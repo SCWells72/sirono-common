@@ -170,7 +170,7 @@ TEXT(YEAR(Service_Date__c))</formula>
         </lookupFilter>
         <referenceTo>Contact</referenceTo>
         <relationshipLabel>Services (External Guarantors)</relationshipLabel>
-        <relationshipName>Services_EG</relationshipName>
+        <relationshipName>Services2_EG</relationshipName>
         <required>false</required>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -193,7 +193,7 @@ TEXT(YEAR(Service_Date__c))</formula>
         </lookupFilter>
         <referenceTo>Contact</referenceTo>
         <relationshipLabel>Services (Guarantors)</relationshipLabel>
-        <relationshipName>Services</relationshipName>
+        <relationshipName>Services2</relationshipName>
         <reparentableMasterDetail>true</reparentableMasterDetail>
         <required>false</required>
         <trackHistory>false</trackHistory>
@@ -208,7 +208,7 @@ TEXT(YEAR(Service_Date__c))</formula>
         <label>Provider</label>
         <referenceTo>Provider__c</referenceTo>
         <relationshipLabel>Services</relationshipLabel>
-        <relationshipName>Services</relationshipName>
+        <relationshipName>Services2</relationshipName>
         <required>false</required>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
@@ -243,7 +243,7 @@ TEXT(YEAR(Service_Date__c))</formula>
         <label>Revenue Code</label>
         <referenceTo>Service_Rollup__c</referenceTo>
         <relationshipLabel>Services</relationshipLabel>
-        <relationshipName>Services</relationshipName>
+        <relationshipName>Services2</relationshipName>
         <required>false</required>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>

@@ -251,7 +251,7 @@
         <members>Payor__c</members>
         <members>Provider__c</members>
         <members>Service_Rollup__c</members>
-        <members>Service__c</members>
+        <members>Service2__c</members>
         <members>Sirono_Call_Center_Settings__c</members>
         <members>Sirono_Settings__c</members>
         <members>State__mdt</members>
@@ -281,7 +281,7 @@
         <members>Payor__c</members>
         <members>Provider__c</members>
         <members>Service_Rollup__c</members>
-        <members>Service__c</members>
+        <members>Service2__c</members>
         <members>Statement__c</members>
         <members>Transaction__c</members>
         <name>CustomTab</name>
@@ -421,8 +421,8 @@
         <members>Provider__c-Providers</members>
         <members>Service_Rollup__c-Service Rollup Layout</members>
         <members>Service_Rollup__c-Service Rollups</members>
-        <members>Service__c-Service Layout</members>
-        <members>Service__c-Services</members>
+        <members>Service2__c-Service Layout</members>
+        <members>Service2__c-Services</members>
         <members>Statement__c-Statement Layout</members>
         <members>Statement__c-Statements</members>
         <members>Task-Task Layout</members>
@@ -606,13 +606,11 @@
         <members>Charge_Groups_Only</members>
         <members>Collections_Total</members>
         <members>Contacts_with_Charge_Groups_with_Charge_Group_Coverage_Junctions</members>
-        <members>Contacts_with_Charge_Groups_with_Services</members>
         <members>Contacts_with_Charge_Groups_with_Transactions</members>
         <members>Contacts_with_Payment_Plans_with_Payments</members>
         <members>Coverage</members>
         <members>Invoices</members>
         <members>Payment_Plans</members>
-        <members>Services</members>
         <members>Statements</members>
         <name>ReportType</name>
     </types>
