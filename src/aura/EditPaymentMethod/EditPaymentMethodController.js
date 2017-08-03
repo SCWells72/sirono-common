@@ -11,7 +11,6 @@
         if (PaymentInfo && PaymentInfo.creditCards.length) {
             PaymentInfo.creditCards.forEach(function (card) {
                 if (card.sfId === cardId) {
-                    CreditCard = card;
                     cmp.set('v.hasCreditCard', true);
                 }
             });
@@ -26,19 +25,29 @@
     },
 
     initCardSelectOptions: function (cmp, e, hlpr) {
-        var PaymentInfo = cmp.get('v.PaymentInfo');
-        var cardSelection = cmp.find('state');
+        var PaymentInfo = cmp.get('v.PaymentInfo'),
+            cardSelection = cmp.find('state'),
+            selectedCardId = PaymentInfo.paymentPlan.Payment_Method__c;
+
         if (cardSelection !== undefined) {
             cardSelection.set('v.body', []);
             var body = cardSelection.get('v.body');
             PaymentInfo.creditCards.forEach(function (card) {
+
+                var selected = false;
+                // if the current card is matches the selectedCardId make the option selected.
+                if (selectedCardId && card && (selectedCardId === card.sfId)) {
+                    selected = true;
+                }
+
                 $A.createComponent(
                     'aura:html',
                     {
                         tag: 'option',
                         HTMLAttributes: {
                             value: card.sfId,
-                            text: card.displayName
+                            text: card.displayName,
+                            selected: selected
                         }
                     },
                     function (newOption) {
@@ -91,9 +100,17 @@
      */
     updatePaymentMethod: function (cmp, e, hlpr) {
         var paymentPlanService = cmp.find('paymentPlanService'),
+            PaymentInfo = cmp.get('v.PaymentInfo'),
             PaymentRequestInfo = cmp.get('v.PaymentRequestInfo'),
-            CreditCard = cmp.get('v.CreditCard');
+            selectedCardId = cmp.get('v.selectedCardId'),
+            CreditCard;
 
+        // Iterate over the credit cards and get a reference to one the one selected in the select element.
+        PaymentInfo.creditCards.forEach(function(card) {
+            if (card && card.sfId == selectedCardId) {
+                CreditCard = card;
+            }
+        });
         cmp.set('v.hasError', false);
 
         paymentPlanService.getPaymentPlanInfoMap(PaymentRequestInfo, CreditCard, function (planInfo) {
