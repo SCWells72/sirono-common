@@ -24,6 +24,17 @@
         <componentInstances>
             <componentInstanceProperties>
                 <name>parentFieldApiName</name>
+                <value>Charge_Group__c.Id</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>relatedListApiName</name>
+                <value>Case_Charge_Groups__r</value>
+            </componentInstanceProperties>
+            <componentName>force:relatedListSingleContainer</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>parentFieldApiName</name>
                 <value>Charge_Group__c.Guarantor__c</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
@@ -73,17 +84,6 @@
             <componentInstanceProperties>
                 <name>relatedListApiName</name>
                 <value>Charge_Group_Coverages__r</value>
-            </componentInstanceProperties>
-            <componentName>force:relatedListSingleContainer</componentName>
-        </componentInstances>
-        <componentInstances>
-            <componentInstanceProperties>
-                <name>parentFieldApiName</name>
-                <value>Charge_Group__c.Id</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>relatedListApiName</name>
-                <value>Case_Charge_Groups__r</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
         </componentInstances>
