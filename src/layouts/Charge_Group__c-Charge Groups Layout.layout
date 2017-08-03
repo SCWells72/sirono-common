@@ -8,14 +8,6 @@
                 <region>Bottom</region>
                 <sidebarComponents>
                     <componentType>RelatedList</componentType>
-                    <label>Services</label>
-                    <relatedLists>
-                        <hideOnDetail>true</hideOnDetail>
-                        <name>Service__c.Charge_Group__c</name>
-                    </relatedLists>
-                </sidebarComponents>
-                <sidebarComponents>
-                    <componentType>RelatedList</componentType>
                     <label>Transactions</label>
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>
@@ -259,15 +251,10 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Amount__c</fields>
-        <relatedList>Service__c.Charge_Group__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Amount__c</fields>
         <fields>Txn_Method__c</fields>
         <fields>Post_Date__c</fields>
         <fields>Payment__c</fields>
-        <fields>Service__c</fields>
+        <fields>Service2__c</fields>
         <fields>Adjustment__c</fields>
         <relatedList>Transaction__c.Charge_Group__c</relatedList>
         <sortField>Post_Date__c</sortField>

@@ -46,8 +46,7 @@ public class PaymentPlanBalanceTest {
         insert testCG;
         Test.setCreatedDate(testCG.Id, newCreateDate);
 
-        Service__c testService = TestUtility.generateService(testCG, TestUtility.generateRandomCurrency());
-        testService.Post_Date__c = newCreateDate.date();
+        Service2__c testService = TestUtility.generateService(guarantor, TestUtility.generateRandomCurrency());
         insert testService;
 
         Transaction__c testTransaction = TestUtility.generateServiceTxn(testCG, testService.Amount__c, testService);
@@ -89,12 +88,13 @@ public class PaymentPlanBalanceTest {
         Test.startTest();
 
         Charge_Group__c testCG = [SELECT Id, Balance__c FROM Charge_Group__c LIMIT 1];
+        Contact guarantor = [SELECT Id FROM Contact WHERE RecordType.Name = 'Guarantor' LIMIT 1];
 
-        Service__c newService = TestUtility.generateService(testCG, TestUtility.generateRandomCurrency());
+        Service2__c newService = TestUtility.generateService(guarantor, TestUtility.generateRandomCurrency());
         insert newService;
 
         Transaction__c newServiceTransaction = TestUtility.generateServiceTxn(testCG, newService.Amount__c, newService);
-        newServiceTransaction.Post_Date__c = newService.Post_Date__c;
+        newServiceTransaction.Post_Date__c = System.today();
         newServiceTransaction.Transaction_Date__c = newServiceTransaction.Post_Date__c.date();
         insert newServiceTransaction;
 
@@ -119,8 +119,9 @@ public class PaymentPlanBalanceTest {
         Test.startTest();
 
         Charge_Group__c testCG = [SELECT Id, Balance__c FROM Charge_Group__c LIMIT 1];
+        Contact guarantor = [SELECT Id FROM Contact WHERE RecordType.Name = 'Guarantor' LIMIT 1];
 
-        Service__c newService = TestUtility.generateService(testCG, TestUtility.generateRandomCurrency());
+        Service2__c newService = TestUtility.generateService(guarantor, TestUtility.generateRandomCurrency());
         insert newService;
 
         Transaction__c secondTestTransaction = TestUtility.generateServiceTxn(testCG, newService.Amount__c, newService);

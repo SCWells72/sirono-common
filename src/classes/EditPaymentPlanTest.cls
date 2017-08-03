@@ -255,7 +255,7 @@ public class EditPaymentPlanTest {
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 
-        Service__c svc = TestUtility.generateService(chargeGroup, 24 * 250);
+        Service2__c svc = TestUtility.generateService(guarantorContact, 24 * 250);
         insert svc;
 
         Transaction__c txn = TestUtility.generateServiceTxn(chargeGroup, svc.Amount__c, svc);

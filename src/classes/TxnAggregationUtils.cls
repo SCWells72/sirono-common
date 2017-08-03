@@ -134,10 +134,10 @@ public with sharing class TxnAggregationUtils {
             if (TransactionSecurityContext.SELECT_CONTEXT_WITH_SERVICE.actionAllowed()) {
                 // Get the SUM of the associated transaction amounts
                 AggregateResult[] results = [
-                    SELECT Service__c obj, SUM(Amount__c) Total
+                    SELECT Service2__c obj, SUM(Amount__c) Total
                     FROM Transaction__c
-                    WHERE Service__c IN :ids
-                    GROUP BY Service__c
+                    WHERE Service2__c IN :ids
+                    GROUP BY Service2__c
                 ];
 
                 Map<Id, Decimal> resultsMap = mapAggregateResults(ids, results);
@@ -147,13 +147,13 @@ public with sharing class TxnAggregationUtils {
     }
 
     private static void updateServices(Map<Id, Decimal> resultsMap) {
-        List<Service__c> services = new List<Service__c>();
+        List<Service2__c> services = new List<Service2__c>();
 
         for (Id objId : resultsMap.keySet()) {
             System.debug('svcId: ' + objId);
             System.debug('svcTotal: ' + resultsMap.get(objId));
 
-            Service__c svc = new Service__c(Id = objId);
+            Service2__c svc = new Service2__c(Id = objId);
             svc.Amount__c = resultsMap.get(objId);
             services.add(svc);
         }
