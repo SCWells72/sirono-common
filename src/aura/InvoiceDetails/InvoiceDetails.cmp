@@ -76,8 +76,6 @@
                             </aura:if>
 
                         </aura:if>
-                        <!--<div class="float-right view-bill"><a>View Details</a></div>-->
-                        <div class="float-right view-bill"><a>View Itemized Bill</a></div>
                     </div>
                     <div class="invoice-content">
                         <div class="col details">
