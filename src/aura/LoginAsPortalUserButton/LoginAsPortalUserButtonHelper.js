@@ -46,7 +46,6 @@
                         }
                     }
                     component.set("v.errorMessage", errorMessage);
-                    $A.get("e.force:refreshView").fire();
                 }
             });
         $A.enqueueAction(getLoginAttributesAction);
