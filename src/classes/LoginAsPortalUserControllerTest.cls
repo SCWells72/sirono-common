@@ -30,7 +30,7 @@ private class LoginAsPortalUserControllerTest {
             LoginAsPortalUserController.getLoginAttributes(guarantorContact.Id);
             System.assert(false, 'Expected to receive an AuraHandledException');
         } catch (AuraHandledException e) {
-            System.assertNotEquals(null, e.getMessage(), 'AuraHandledException should contain a mesasage');
+            System.assert(e.getMessage().contains('No portal user found for contact'));
         }
         Test.stopTest();
     }
