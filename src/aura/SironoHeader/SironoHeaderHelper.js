@@ -25,7 +25,6 @@
                     component.set('v.errorMessage', guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent');
                 }
 
-
             }
         });
         $A.enqueueAction(action);
