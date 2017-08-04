@@ -76,7 +76,7 @@
                                     <apex:outputField value="{!cgw.cg.Balance__c}"/>
                                 </td>
                                 <td class="dataCell">
-                                    <apex:outputField value="{!cgw.cg.Invoice__r.Invoice_Date__c}"/>
+                                    <apex:outputField value="{!cgw.cg.Invoice__r.Date__c}"/>
                                 </td>
                                 <td class="dataCell">
                                     <apex:outputField value="{!cgw.cg.Account_Status__c}"/>

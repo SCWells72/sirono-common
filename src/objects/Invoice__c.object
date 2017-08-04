@@ -56,6 +56,20 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <fields>
+        <fullName>Age__c</fullName>
+        <externalId>false</externalId>
+        <formula>TODAY() - Date__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Age</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>All_Substatus__c</fullName>
         <externalId>false</externalId>
         <label>All Substatus</label>
@@ -77,13 +91,23 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Date__c</fullName>
+        <description>Date</description>
+        <externalId>false</externalId>
+        <label>Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
         <fullName>Display_Name__c</fullName>
         <externalId>false</externalId>
         <formula>TRIM(Guarantor__r.Full_Name__c) &amp; &quot; (&quot; &amp;
 TRIM(Patient__r.Full_Name__c) &amp; &quot;) - &quot; &amp;
-TEXT(MONTH(Invoice_Date__c))&amp; &quot;/&quot; &amp;
-TEXT(DAY(Invoice_Date__c)) &amp; &quot;/&quot; &amp;
-TEXT(YEAR(Invoice_Date__c))</formula>
+TEXT(MONTH(Date__c))&amp; &quot;/&quot; &amp;
+TEXT(DAY(Date__c)) &amp; &quot;/&quot; &amp;
+TEXT(YEAR(Date__c))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Display Name</label>
         <required>false</required>
@@ -127,30 +151,6 @@ TEXT(YEAR(Invoice_Date__c))</formula>
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
     <fields>
-        <fullName>Invoice_Age__c</fullName>
-        <externalId>false</externalId>
-        <formula>TODAY() - Invoice_Date__c</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Invoice Age</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Invoice_Date__c</fullName>
-        <description>Invoice Date</description>
-        <externalId>false</externalId>
-        <label>Invoice Date</label>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Date</type>
-    </fields>
-    <fields>
         <fullName>Partial_Payment_Plan__c</fullName>
         <externalId>false</externalId>
         <formula>AND(Balance__c &gt; 0, Status_Index__c &lt;&gt; 6, CONTAINS(All_Substatus__c, &quot;Payment&quot;))</formula>
@@ -187,7 +187,7 @@ TEXT(YEAR(Invoice_Date__c))</formula>
         <fullName>Sirono_Id__c</fullName>
         <description>Invoice Id External</description>
         <externalId>true</externalId>
-        <label>Invoice Id</label>
+        <label>Sirono ID</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -199,7 +199,7 @@ TEXT(YEAR(Invoice_Date__c))</formula>
     <fields>
         <fullName>Status_Index__c</fullName>
         <externalId>false</externalId>
-        <label>Invoice Status Index</label>
+        <label>Status Index</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -237,7 +237,7 @@ CASE(Status_Index__c,
         <fullName>All</fullName>
         <columns>NAME</columns>
         <columns>Due_Date__c</columns>
-        <columns>Invoice_Date__c</columns>
+        <columns>Date__c</columns>
         <columns>Guarantor__c</columns>
         <columns>Patient__c</columns>
         <filterScope>Everything</filterScope>
@@ -250,12 +250,12 @@ CASE(Status_Index__c,
     </nameField>
     <pluralLabel>Invoices</pluralLabel>
     <searchLayouts>
-        <customTabListAdditionalFields>Invoice_Date__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Date__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Due_Date__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Guarantor__c</customTabListAdditionalFields>
         <searchResultsAdditionalFields>Guarantor__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Sirono_Id__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Invoice_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Date__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Due_Date__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>

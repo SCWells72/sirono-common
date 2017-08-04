@@ -63,7 +63,9 @@
     <types>
         <members>Encounter__c.Has_Chargegroup__c</members>
         <members>Invoice__c.Deactivated_Charge_Groups__c</members>
+        <members>Invoice__c.Invoice_Age__c</members>
         <members>Invoice__c.Invoice_Balance__c</members>
+        <members>Invoice__c.Invoice_Date__c</members>
         <members>Invoice__c.Invoice_Status__c</members>
         <members>Invoice__c.Invoice_Status_Index__c</members>
         <members>Location__c.Code__c</members>

@@ -203,7 +203,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Invoice_Date__c</fields>
+        <fields>Date__c</fields>
         <fields>Due_Date__c</fields>
         <fields>Guarantor__c</fields>
         <relatedList>Invoice__c.Patient__c</relatedList>

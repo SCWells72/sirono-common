@@ -49,7 +49,7 @@ public with sharing class PatientDao extends AbstractDao {
                         External_ID__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
                         Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
                         Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
-                        Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Invoice_Date__c, Account_Status__c,
+                        Balance__c, Invoice__c, Invoice__r.Name, Invoice__r.Date__c, Account_Status__c,
                         Account_Sub_Status__c, Provider__c, Provider__r.Name, Location__c, Location__r.Name
                     FROM Charge_Groups_Patient__r
                     WHERE Sirono_ID__c != NULL AND Active__c = TRUE AND Account_Status__c = :Constants.ACCT_STATUS_BILLED

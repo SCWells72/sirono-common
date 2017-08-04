@@ -40,7 +40,7 @@ public with sharing class InvoiceDao extends AbstractDao {
 
         if (InvoiceSecurityContext.DETAIL_CONTEXT.actionAllowed() && ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
-                SELECT Id, Name, Balance__c, Sirono_Id__c, Invoice_Date__c, Invoice_Age__c, Status__c,
+                SELECT Id, Name, Balance__c, Sirono_Id__c, Date__c, Age__c, Status__c,
                     Due_Date__c, Partial_Payment_Plan__c,Patient__r.Name, Patient__r.Medical_Record_Number__c,
                     Guarantor__r.Overdue_Balance__c, Guarantor__r.Invoiced_Balance__c, Guarantor__r.Due_Balance__c,
                     Guarantor__r.Delinquent_Balance__c,Guarantor__r.Payment_Plan_Balance__c,
@@ -66,7 +66,7 @@ public with sharing class InvoiceDao extends AbstractDao {
      */
     public static List<Invoice__c> getInvoicesForUser(Id userId, Set<String> statuses, List<String> patients) {
         // TODO FLS/CRUD
-        String query = 'SELECT Id, Name, Balance__c, Patient__r.Name, Patient__r.Medical_Record_Number__c, Sirono_Id__c, Invoice_Date__c, Invoice_Age__c, Status__c, ' +
+        String query = 'SELECT Id, Name, Balance__c, Patient__r.Name, Patient__r.Medical_Record_Number__c, Sirono_Id__c, Date__c, Age__c, Status__c, ' +
             'Due_Date__c, Guarantor__r.Overdue_Balance__c, Guarantor__r.Add_to_Payment_Plan__c, Guarantor__r.Invoiced_Balance__c, ' +
             'Guarantor__r.Due_Balance__c, Guarantor__r.Delinquent_Balance__c, Partial_Payment_Plan__c, ' +
             'Guarantor__r.Payment_Plan_Balance__c, Guarantor__r.Pre_Invoiced_Balance__c, ' +
@@ -83,7 +83,7 @@ public with sharing class InvoiceDao extends AbstractDao {
         }
 
         // Add order by clause
-        query += ' ORDER BY Invoice_Date__c DESC';
+        query += ' ORDER BY Date__c DESC';
 
         return Database.query(query);
     }

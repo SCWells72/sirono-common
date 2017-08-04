@@ -195,7 +195,7 @@ public class TestUtility {
         Invoice__c invoice = new Invoice__c();
         invoice.Guarantor__c = guarantorId;
         invoice.Due_Date__c = System.today();
-        invoice.Invoice_Date__c = System.today();
+        invoice.Date__c = System.today();
         invoice.Sirono_Id__c = getUniqueId();
         invoice.Patient__c = patientId;
         return invoice;
