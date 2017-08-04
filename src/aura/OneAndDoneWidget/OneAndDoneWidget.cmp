@@ -3,7 +3,13 @@
   -->
 
 <aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
     <aura:attribute name="guarantorWrapper" type="HeaderWrapper"/>
+    <aura:attribute name="showFinancialAid" type="Boolean" access="PRIVATE" default="true"/>
+    <aura:attribute name="financialAidPdfUrl" type="String" access="PRIVATE" default="javascript:void(0)"/>
+
+    <c:SironoSettingsService aura:id="settingsService" />
     <div class="col payment-actions">
         <div class="no-small main-body">
             <img src="{!$Resource.SironoData + '/assets/images/one-and-done.png'}" alt="One and Done"/>
@@ -19,8 +25,12 @@
             <div class="slds-button-group slds_btn_group" role="group">
                 <!-- Guarantor_Status__c == Due or On Payment Plan -->
                 <div class="btn_groupDue">
-                    <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Due') || (v.guarantorWrapper.contact.Guarantor_Status__c == 'On Payment Plan')}">
-                        <ui:button class="slds-button slds-button--neutral Due_OnPP_widget">Apply for Financial Aid</ui:button>
+                    <aura:if isTrue="{!and(v.showFinancialAid,(v.guarantorWrapper.contact.Guarantor_Status__c == 'Due') || (v.guarantorWrapper.contact.Guarantor_Status__c == 'On Payment Plan'))}">
+                        <a href="{!v.financialAidPdfUrl}" target="_blank">
+                            <ui:button class="slds-button slds-button--neutral Due_OnPP_widget">
+                                Apply for Financial Assistance
+                            </ui:button>
+                        </a>
                     </aura:if>
                 </div>
                 <!-- Guarantor_Status__c == Due or On Payment Plan END -->
@@ -28,7 +38,13 @@
                 <div class="PayOverdue">
                     <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Overdue')}">
                         <ui:button press="{!c.sendOverdueFilterToHeader}" class="slds-button warning btn_PayOverdueTop">Pay Overdue Invoices</ui:button>
-                        <ui:button class="slds-button slds-button--neutral btn_apply_aid">Apply for Financial Aid</ui:button>
+                        <aura:if isTrue="{!v.showFinancialAid}">
+                            <a href="{!v.financialAidPdfUrl}" target="_blank">
+                                <ui:button class="slds-button slds-button--neutral btn_apply_aid">
+                                        Apply for Financial Assistance
+                                </ui:button>
+                            </a>
+                        </aura:if>
                     </aura:if>
                 </div>
                 <!-- Guarantor_Status__c == 'Overdue' END -->
@@ -36,7 +52,13 @@
                 <div class="PayDelinquent">
                     <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent')}">
                         <ui:button press="{!c.sendDelinquentFilterToHeader}" class="slds-button slds-button--destructive btn_PayDelinquentTOP">Pay Delinquent Invoices</ui:button>
-                        <ui:button class="slds-button slds-button--neutral btn_apply_aid">Apply for Financial Aid</ui:button>
+                        <aura:if isTrue="{!v.showFinancialAid}">
+                            <a href="{!v.financialAidPdfUrl}" target="_blank">
+                                <ui:button class="slds-button slds-button--neutral btn_apply_aid">
+                                    Apply for Financial Assistance
+                                </ui:button>
+                            </a>
+                        </aura:if>
                     </aura:if>
                 </div>
                 <!-- Guarantor_Status__c == 'Delinquent' END -->

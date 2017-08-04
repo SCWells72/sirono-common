@@ -1,0 +1,14 @@
+<!--
+  - Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
+<!--
+ - Used to get the interact with the settings for the application.
+ -->
+<aura:component description="SironoSettingsService" controller="SettingsController">
+    <aura:method name="getSettings"
+                 access="public"
+                 action="{!c.getSettings}">
+        <aura:attribute name="callback" type="function"/>
+    </aura:method>
+</aura:component>
