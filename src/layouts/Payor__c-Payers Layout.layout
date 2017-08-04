@@ -48,7 +48,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Code__c</field>
+                <field>External_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

@@ -65,10 +65,12 @@
         <members>Invoice__c.Deactivated_Charge_Groups__c</members>
         <members>Invoice__c.Invoice_Age__c</members>
         <members>Invoice__c.Invoice_Balance__c</members>
+        <members>Invoice__c.Invoice_Date__c</members>
         <members>Invoice__c.Invoice_Status__c</members>
         <members>Invoice__c.Invoice_Status_Index__c</members>
         <members>Location__c.Code__c</members>
         <members>Payment_Adjustment__c.Transaction_Type__c</members>
+        <members>Payor__c.Code__c</members>
         <members>Provider__c.Code__c</members>
         <members>Service_Rollup__c.Code__c</members>
         <members>Sirono_Settings__c.Automated_Case_Record_Type_Id__c</members>

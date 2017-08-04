@@ -22,7 +22,7 @@ public with sharing class PaymentRequestTest {
         cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DUE_BY;
         insert cg;
 
-        Service__c svc = TestUtility.generateService(cg, 575.00);
+        Service2__c svc = TestUtility.generateService(gt, 575.00);
         insert svc;
 
         Transaction__c txn = TestUtility.generateServiceTxn(cg, 575.00, svc);

@@ -34,7 +34,7 @@ public with sharing class PaymentPlanServiceTest {
         cg.Sirono_ID__c = CG_SIRONO_ID;
         insert cg;
 
-        Service__c svc = TestUtility.generateService(cg, 450.00);
+        Service2__c svc = TestUtility.generateService(gt, 450.00);
         insert svc;
 
         Transaction__c txn = TestUtility.generateServiceTxn(cg, svc.Amount__c, svc);
@@ -44,7 +44,7 @@ public with sharing class PaymentPlanServiceTest {
         cg.Sirono_ID__c = CG_TO_ADD_ID;
         insert cg;
 
-        svc = TestUtility.generateService(cg, 200.00);
+        svc = TestUtility.generateService(gt, 200.00);
         insert svc;
 
         txn = TestUtility.generateServiceTxn(cg, svc.Amount__c, svc);

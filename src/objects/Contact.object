@@ -11,17 +11,6 @@
         <fields>Phone</fields>
         <label>Agent Highlight</label>
     </compactLayouts>
-    <compactLayouts>
-        <fullName>Agent_Hightlight</fullName>
-        <fields>Birthdate</fields>
-        <fields>Guarantor__c</fields>
-        <fields>Social_Security_Number__c</fields>
-        <fields>DoNotCall</fields>
-        <fields>HomePhone</fields>
-        <fields>MailingAddress</fields>
-        <fields>Phone</fields>
-        <label>Agent Hightlight</label>
-    </compactLayouts>
     <enableHistory>true</enableHistory>
     <externalSharingModel>Private</externalSharingModel>
     <fieldSets>
@@ -760,7 +749,7 @@ CASE(Invoice_Status_Rollup__c,
     <fields>
         <fullName>Invoice_Offset_Date__c</fullName>
         <externalId>false</externalId>
-        <label>Invoice  Offset Day</label>
+        <label>Invoice Offset Day</label>
         <precision>2</precision>
         <required>false</required>
         <scale>0</scale>

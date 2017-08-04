@@ -230,6 +230,19 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Service2__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Service</label>
+        <referenceTo>Service2__c</referenceTo>
+        <relationshipLabel>Transactions</relationshipLabel>
+        <relationshipName>Transactions</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>Sirono_ID__c</fullName>
         <externalId>true</externalId>
         <label>Sirono ID</label>
@@ -254,7 +267,7 @@
         <fullName>Txn_Method__c</fullName>
         <description>Determine the transaction method based on the linked objects</description>
         <externalId>false</externalId>
-        <formula>IF(Service__c != NULL, &apos;Service&apos;, IF(Adjustment__c != NULL, &apos;Adjustment&apos;, IF(Payment__c != NULL, &apos;Payment&apos;, &apos;Unknown&apos;)))</formula>
+        <formula>IF(Service2__c != NULL, &apos;Service&apos;, IF(Adjustment__c != NULL, &apos;Adjustment&apos;, IF(Payment__c != NULL, &apos;Payment&apos;, &apos;Unknown&apos;)))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Method</label>
         <required>false</required>

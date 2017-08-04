@@ -89,7 +89,7 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>External_ID__c</fullName>
+        <fullName>External_Id__c</fullName>
         <externalId>true</externalId>
         <label>External ID</label>
         <length>254</length>
@@ -153,7 +153,7 @@
         <type>Checkbox</type>
     </fields>
     <fields>
-        <fullName>Member_ID__c</fullName>
+        <fullName>Member_Id__c</fullName>
         <externalId>false</externalId>
         <label>Member ID</label>
         <length>254</length>
@@ -233,9 +233,9 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Sirono_ID__c</fullName>
+        <fullName>Sirono_Id__c</fullName>
         <externalId>true</externalId>
-        <label>Sirono Id</label>
+        <label>Sirono ID</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -255,7 +255,7 @@
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>Subscriber_ID__c</fullName>
+        <fullName>Subscriber_Id__c</fullName>
         <externalId>false</externalId>
         <label>Subscriber ID</label>
         <length>254</length>

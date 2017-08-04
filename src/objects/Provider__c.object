@@ -79,7 +79,7 @@
         <fullName>External_Id__c</fullName>
         <caseSensitive>false</caseSensitive>
         <externalId>true</externalId>
-        <label>External Id</label>
+        <label>External ID</label>
         <length>255</length>
         <required>false</required>
         <trackHistory>true</trackHistory>
@@ -99,7 +99,7 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Sirono_ID__c</fullName>
+        <fullName>Sirono_Id__c</fullName>
         <externalId>true</externalId>
         <label>Sirono ID</label>
         <precision>18</precision>
