@@ -10,7 +10,7 @@ private class WorkWithEstimatesControllerTest {
 
         Contact patientContact = TestUtility.generatePatientContact();
         patientContact.Medical_Record_Number__c = 'A12345';
-        insert patientContact;
+        INSERT patientContact;
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
 
@@ -34,25 +34,14 @@ private class WorkWithEstimatesControllerTest {
         encounter2.Insurance_Portion__c = 2;
         encounters.add(encounter2);
 
-        insert encounters;
-
-        //TODO Figure out sharing for portal users!
-        List<Encounter__Share> shares = new List<Encounter__Share>();
-        for (Encounter__c encounter : encounters) {
-            Encounter__Share share = new Encounter__Share();
-            share.ParentId = encounter.Id;
-            share.UserOrGroupId = portalUser.Id;
-            share.AccessLevel = 'edit';
-            shares.add(share);
-        }
-        insert shares;
+        INSERT encounters;
 
         Attachment testAttach = new Attachment(
             Body = Blob.valueOf('Test string'),
             Name = 'test attach',
             ParentId = encounter1.Id
         );
-        insert testAttach;
+        INSERT testAttach;
 
         System.runAs(portalUser) {
             Test.startTest();
@@ -64,6 +53,9 @@ private class WorkWithEstimatesControllerTest {
             System.assertEquals(1, estimateList.size());
 
             List<WorkWithInvoicesController.PatientWrapper> patientList = WorkWithEstimatesController.getPatientList();
+
+            Test.stopTest();
+
             System.assertEquals(2, patientList.size());
             for (WorkWithInvoicesController.PatientWrapper wrapper : patientList) {
                 System.debug('wrapper: ' + JSON.serializePretty(wrapper));
@@ -71,7 +63,6 @@ private class WorkWithEstimatesControllerTest {
                 System.debug(wrapper.name);
             }
 
-            Test.stopTest();
         }
     }
 }

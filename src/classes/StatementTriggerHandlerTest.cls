@@ -23,7 +23,7 @@ public class StatementTriggerHandlerTest {
 
         TestUtility.createAllCampaigns();
 
-        Service__c service = TestUtility.generateService(chargeGroup, amount);
+        Service2__c service = TestUtility.generateService(guarantor, amount);
         insert service;
 
         Transaction__c txn = TestUtility.generateServiceTxn(chargeGroup, amount, service);

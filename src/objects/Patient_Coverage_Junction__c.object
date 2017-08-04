@@ -101,9 +101,9 @@
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
     <fields>
-        <fullName>Sirono_ID__c</fullName>
+        <fullName>Sirono_Id__c</fullName>
         <externalId>true</externalId>
-        <label>Sirono Id</label>
+        <label>Sirono ID</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>

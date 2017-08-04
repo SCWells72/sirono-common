@@ -8,14 +8,6 @@
                 <region>Bottom</region>
                 <sidebarComponents>
                     <componentType>RelatedList</componentType>
-                    <label>Services</label>
-                    <relatedLists>
-                        <hideOnDetail>true</hideOnDetail>
-                        <name>Service__c.Charge_Group__c</name>
-                    </relatedLists>
-                </sidebarComponents>
-                <sidebarComponents>
-                    <componentType>RelatedList</componentType>
                     <label>Transactions</label>
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>
@@ -239,20 +231,30 @@
     </layoutSections>
     <platformActionList>
         <actionListContext>Record</actionListContext>
+        <platformActionListItems>
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>0</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Delete</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>1</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Clone</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>2</sortOrder>
+        </platformActionListItems>
     </platformActionList>
     <quickActionList/>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Amount__c</fields>
-        <relatedList>Service__c.Charge_Group__c</relatedList>
-    </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
         <fields>Amount__c</fields>
         <fields>Txn_Method__c</fields>
         <fields>Post_Date__c</fields>
         <fields>Payment__c</fields>
-        <fields>Service__c</fields>
+        <fields>Service2__c</fields>
         <fields>Adjustment__c</fields>
         <relatedList>Transaction__c.Charge_Group__c</relatedList>
         <sortField>Post_Date__c</sortField>
@@ -290,7 +292,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h36000003lPP4</masterLabel>
+        <masterLabel>00hf4000000MvPE</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>2</sizeY>
         <summaryLayoutItems>

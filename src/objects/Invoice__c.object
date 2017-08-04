@@ -65,6 +65,18 @@
         <type>TextArea</type>
     </fields>
     <fields>
+        <fullName>Balance__c</fullName>
+        <defaultValue>0.00</defaultValue>
+        <externalId>false</externalId>
+        <label>Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Display_Name__c</fullName>
         <externalId>false</externalId>
         <formula>TRIM(Guarantor__r.Full_Name__c) &amp; &quot; (&quot; &amp;

@@ -77,8 +77,7 @@
         <fields>Amount__c</fields>
         <fields>Service_Date__c</fields>
         <fields>Service_Rollup__c</fields>
-        <fields>Charge_Group__c</fields>
-        <relatedList>Service__c.Provider__c</relatedList>
+        <relatedList>Service2__c.Provider__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
