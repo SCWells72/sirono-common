@@ -3,6 +3,30 @@
  */
 
 ({
+    /**
+     * Initialization function.
+     *
+     * @param component
+     * @param event
+     * @param helper
+     */
+    doInit: function(component, event, helper) {
+        var settingsService = component.find('settingsService');
+        settingsService.getSettings(function(err, settings) {
+            if (err) {
+                //TODO: we need to figure out a general error handler
+                console.log(err);
+                return;
+            }
+
+            if (settings.hasFinancialAidPDF) {
+                component.set('v.showFinancialAid', true);
+                component.set('v.financialAidPdfUrl', $A.get('$Resource.' + settings.financialAidName));
+            } else {
+                component.set('v.showFinancialAid', false);
+            }
+        });
+    },
     changePage: function (component, event, helper) {
         $A.get("e.force:navigateToURL").setParams({
             'url': '/payments'

@@ -14,14 +14,16 @@
             var state = response.getState();
             if (state === 'SUCCESS') {
                 var guarantorWrapper = response.getReturnValue();
-                console.log({guarantorWrapper: guarantorWrapper}, 'Reponse from getAllHeaderInfo.');
                 component.set('v.guarantorWrapper', guarantorWrapper);
-                component.set('v.invoiceValue', formatter.format(Math.floor(guarantorWrapper.paymentPlan.Installment_Amount__c)));
-                component.set('v.invoiceValuePart', (guarantorWrapper.paymentPlan.Installment_Amount__c % 1).toFixed(2).toString().substring(2));
-                var isWarning = guarantorWrapper.contact.Guarantor_Status__c == 'Overdue';
-                component.set('v.warningMessage', isWarning);
-                var isError = guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent';
-                component.set('v.errorMessage', isError);
+                // Only update the paymentPlan specific attributes if a payment plan exists.
+                if (guarantorWrapper.paymentPlan) {
+                    component.set('v.invoiceValue', formatter.format(Math.floor(guarantorWrapper.paymentPlan.Installment_Amount__c)));
+                    component.set('v.invoiceValuePart', (guarantorWrapper.paymentPlan.Installment_Amount__c % 1).toFixed(2).toString().substring(2));
+                }
+                if (guarantorWrapper.contact) {
+                    component.set('v.warningMessage', guarantorWrapper.contact.Guarantor_Status__c == 'Overdue');
+                    component.set('v.errorMessage', guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent');
+                }
 
             }
         });
