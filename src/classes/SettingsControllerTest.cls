@@ -20,7 +20,7 @@ public with sharing class SettingsControllerTest {
 
     @isTest
     public static void testGetSironoSettingsFinancialAidDoc() {
-        Sirono_Settings__c sironoSettings = new Sirono_Settings__c();
+        Sirono_Portal_Settings__c sironoSettings = new Sirono_Portal_Settings__c();
         sironoSettings.Financial_Aid_Document__c = 'TestDoc';
 
         insert sironoSettings;

@@ -21,11 +21,11 @@ public with sharing class SettingsController {
         settings.put(HAS_PDF, false);
 
         try {
-            Sirono_Settings__c sironoSettings = Sirono_Settings__c.getInstance(UserInfo.getProfileId());
+            Sirono_Portal_Settings__c portalSettings = Sirono_Portal_Settings__c.getInstance(UserInfo.getProfileId());
 
-            if(sironoSettings != null) {
-                settings.put(HAS_PDF, !String.isEmpty(sironoSettings.Financial_Aid_Document__c));
-                settings.put(FINANCIAL_AID_NAME, sironoSettings.Financial_Aid_Document__c);
+            if(portalSettings != null) {
+                settings.put(HAS_PDF, !String.isEmpty(portalSettings.Financial_Aid_Document__c));
+                settings.put(FINANCIAL_AID_NAME, portalSettings.Financial_Aid_Document__c);
             }
         } catch (Exception ex) {
             System.debug('Exception encountered when getting settings: ' + ex.getMessage());
