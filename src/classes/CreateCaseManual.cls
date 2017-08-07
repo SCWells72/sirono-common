@@ -236,7 +236,7 @@ public with sharing class CreateCaseManual {
             if (CGCoverageJunctionSecurityContext.SELECT_CONTEXT.actionAllowed()) {
                 List<Charge_Group_Coverage_Junction__c> coverageDetail = [
                     SELECT Coverage__c, Coverage__r.Payor__c, Coverage__r.Payor__r.Name, Coverage__r.Plan_Name__c,
-                        Coverage__r.Date_Effective__c, Coverage__r.Subscriber_Name__c, Coverage__r.Subscriber_ID__c
+                        Coverage__r.Date_Effective__c, Coverage__r.Subscriber_Name__c, Coverage__r.Subscriber_Id__c
                     FROM Charge_Group_Coverage_Junction__c
                     WHERE Charge_Group__c = :cg.Id
                     ORDER BY LastModifiedDate DESC
