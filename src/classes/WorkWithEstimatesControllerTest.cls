@@ -10,7 +10,7 @@ private class WorkWithEstimatesControllerTest {
 
         Contact patientContact = TestUtility.generatePatientContact();
         patientContact.Medical_Record_Number__c = 'A12345';
-        INSERT patientContact;
+        insert patientContact;
 
         User portalUser = TestUtility.getGuarantorCommunityUser();
 
@@ -34,14 +34,14 @@ private class WorkWithEstimatesControllerTest {
         encounter2.Insurance_Portion__c = 2;
         encounters.add(encounter2);
 
-        INSERT encounters;
+        insert encounters;
 
         Attachment testAttach = new Attachment(
             Body = Blob.valueOf('Test string'),
             Name = 'test attach',
             ParentId = encounter1.Id
         );
-        INSERT testAttach;
+        insert testAttach;
 
         System.runAs(portalUser) {
             Test.startTest();

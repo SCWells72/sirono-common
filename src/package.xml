@@ -259,7 +259,6 @@
         <members>TransactionPayerType__mdt</members>
         <members>Transaction__c</members>
         <members>User_Timezone_Setting__mdt</members>
-        <members>Service2__c</members>
         <name>CustomObject</name>
     </types>
     <types>
