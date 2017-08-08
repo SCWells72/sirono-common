@@ -234,12 +234,12 @@ public with sharing class WorkWithInvoicesController {
 
         private String getName(Transaction__c pa) {
             String displayName = Constants.UNKNOWN;
-            if (pa.Adjustment__r.Custom_Name__c != null) {
-                displayName = pa.Adjustment__r.Custom_Name__c;
+            if (pa.Adjustment2__r.Display_Name__c != null) {
+                displayName = pa.Adjustment2__r.Display_Name__c;
             } else if (pa.Payment__r.Display_Name__c != null) {
                 displayName = pa.Payment__r.Display_Name__c;
-            } else if (pa.Service__r.Display_Name__c != null) {
-                displayName = pa.Service__r.Display_Name__c;
+            } else if (pa.Service2__r.Display_Name__c != null) {
+                displayName = pa.Service2__r.Display_Name__c;
                 displayName = displayName.split('-')[0]; //get Name e.g. Aetna Payment - 1/14/2016  finded(Aetna Payment )
             }
 
