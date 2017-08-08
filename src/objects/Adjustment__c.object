@@ -74,7 +74,7 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackHistory>true</trackHistory>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
     </fields>
@@ -84,7 +84,7 @@
         <label>Description</label>
         <length>254</length>
         <required>false</required>
-        <trackHistory>true</trackHistory>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
@@ -143,7 +143,7 @@
         <relationshipName>Adjustments</relationshipName>
         <relationshipOrder>0</relationshipOrder>
         <reparentableMasterDetail>true</reparentableMasterDetail>
-        <trackHistory>true</trackHistory>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>MasterDetail</type>
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
@@ -156,7 +156,7 @@
         <referenceTo>Payor__c</referenceTo>
         <relationshipName>Adjustments</relationshipName>
         <required>false</required>
-        <trackHistory>true</trackHistory>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
@@ -165,7 +165,7 @@
         <externalId>false</externalId>
         <label>Post Date</label>
         <required>false</required>
-        <trackHistory>true</trackHistory>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
     </fields>
