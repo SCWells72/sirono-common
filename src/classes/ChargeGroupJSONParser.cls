@@ -1,71 +1,71 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
 /**
  * JSONParser for the charge group responses form the Sirono service.
  */
 
 public with sharing class ChargeGroupJSONParser extends AbstractSironoJSONParser {
     public class Patient_data {
-        //noinspection ApexUnusedDeclaration
         public String mrn;
-        //noinspection ApexUnusedDeclaration
         public String patient_name;
     }
 
     public class Invoice {
-        //noinspection ApexUnusedDeclaration
         public String invoice_date;
-        //noinspection ApexUnusedDeclaration
         public String due_date;
     }
 
-    public String url;
-    //noinspection ApexUnusedDeclaration
-    public String account_type;
-    //noinspection ApexUnusedDeclaration
-    public String account_number;
-    public Boolean active;
-    //noinspection ApexUnusedDeclaration
-    public String status;
-    //noinspection ApexUnusedDeclaration
-    public String extended_status;
-    //noinspection ApexUnusedDeclaration
-    public String pas_specific_origin_code;
-    //noinspection ApexUnusedDeclaration
-    public Integer balance;
-    //noinspection ApexUnusedDeclaration
-    public Invoice invoice;
-    //noinspection ApexUnusedDeclaration
-    public Boolean bad_debt_status;
-    //noinspection ApexUnusedDeclaration
-    public String date_of_service_start;
-    //noinspection ApexUnusedDeclaration
-    public String date_of_service_end;
-    //noinspection ApexUnusedDeclaration
-    public Boolean charges_since_paymentplan;
-    //noinspection ApexUnusedDeclaration
-    public String mapped_location_or_provider;
-    //noinspection ApexUnusedDeclaration
-    public String processed_charges_details;
-    //noinspection ApexUnusedDeclaration
-    public Patient_data patient_data;
-    //noinspection ApexUnusedDeclaration
-    public Guarantor_data guarantor_data;
-    public String account_status;
-    public String account_sub_status;
-    public String paymentplan;
+    public class ChargeGroupJSON {
+        public String url;
+        public String account_type;
+        public String account_number;
+        public Boolean active;
+        public String status;
+        public String extended_status;
+        public String pas_specific_origin_code;
+        public Integer balance;
+        public Invoice invoice;
+        public Boolean bad_debt_status;
+        public String date_of_service_start;
+        public String date_of_service_end;
+        public Boolean charges_since_paymentplan;
+        public String mapped_location_or_provider;
+        public String processed_charges_details;
+        public Patient_data patient_data;
+        public Guarantor_data guarantor_data;
+        public String account_status;
+        public String account_sub_status;
+        public String paymentplan;
+    }
 
     public class Guarantor_data {
-        //noinspection ApexUnusedDeclaration
         public String display_id;
-        //noinspection ApexUnusedDeclaration
         public String url;
-        //noinspection ApexUnusedDeclaration
         public String full_name;
     }
 
-    public static ChargeGroupJSONParser parse(String json) {
-        return (ChargeGroupJSONParser) System.JSON.deserialize(json, ChargeGroupJSONParser.class);
+    public static ChargeGroupJSON parse(String json) {
+        return (ChargeGroupJSON) System.JSON.deserialize(json, ChargeGroupJSON.class);
     }
 
+    public Charge_Group__c asChargeGroup(ChargeGroupJSON cgJson) {
+        String gtId = parseSironoId(cgJson.guarantor_data.url, RestClientConstants.GUARANTOR_URL_RESOURCE_TYPE);
+        Contact gt = GuarantorDao.getGuarantorBySironoId(gtId);
+
+        String cgId = parseSironoId(cgJson.url, RestClientConstants.CHARGE_GROUP_URL_RESOURCE_TYPE);
+
+        Charge_Group__c cg = new Charge_Group__c(Sirono_ID__c=Decimal.valueOf(cgId), Account_Sub_Status__c = cgJson.account_sub_status,
+                Account_Status__c = cgJson.account_status, Guarantor__c = gt.Id);
+
+        if (cgJson.paymentplan != null) {
+            String pplanId = parseSironoId(cgJson.paymentplan, RestClientConstants.PPLAN_URL_RESOURCE_TYPE);
+            Payment_Plan__c pplan = PaymentPlanService.getPaymentPlanBySironoId(pplanId);
+            cg.Payment_Plan__c = pplan.Id;
+        }
+        return cg;
+    }
 
     public static String testResponse() {
         String json = '{' +

@@ -2,10 +2,10 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-@isTest
+@IsTest
 public with sharing class SettingsControllerTest {
 
-    @isTest
+    @IsTest
     public static void testGetSironoSettingsNoFinancialAidDoc() {
 
         Test.startTest();
@@ -18,7 +18,7 @@ public with sharing class SettingsControllerTest {
 
     }
 
-    @isTest
+    @IsTest
     public static void testGetSironoSettingsFinancialAidDoc() {
         Sirono_Portal_Settings__c sironoSettings = new Sirono_Portal_Settings__c();
         sironoSettings.Financial_Aid_Document__c = 'TestDoc';

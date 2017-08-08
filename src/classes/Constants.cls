@@ -235,4 +235,8 @@ public class Constants {
         PAID,
         INVOICE_VOIDED
     };
+
+    public static final String RECORD_TYPE_GUARANTOR = 'Guarantor';
+    public static final String RECORD_TYPE_PATIENT = 'Patient';
+    public static final String RECORD_TYPE_EXTERNAL_GUARANTOR = 'External Guarantor';
 }

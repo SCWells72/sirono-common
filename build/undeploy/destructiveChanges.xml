@@ -28,6 +28,8 @@
         <members>PayEstimateTest</members>
         <members>PayEstimateLightning</members>
         <members>PayEstimateLightningTest</members>
+        <members>PaymentAdjustmentJSONParsing</members>
+        <members>PaymentAdjustmentsSecurityContext</members>
         <members>PaymentArrangementTriggerHandler</members>
         <members>PaymentArrangementTest</members>
         <members>PaymentArrangement</members>
@@ -97,6 +99,8 @@
         <members>Campaign_Member_History__c-Campaign Member History Layout</members>
         <members>Campaign_Member_History__c-Campaign Members History</members>
         <members>Encounter_Coverage_Junction__c-Encounter Coverage Junction Layout</members>
+        <members>Payment_Adjustments__c-Adjustment Layout</members>
+        <members>Payment_Adjustments__c-Adjustments</members>
         <members>Payment_Arrangement__c-Payment Arrangement Layout</members>
         <members>Payment_Arrangement__c-Payment Arrangements</members>
         <members>Transaction_Type__c-Transaction Type Layout</members>
@@ -125,10 +129,23 @@
         <name>Role</name>
     </types>
     <types>
+        <members>Sirono_Reports/Total_payments</members>
+        <name>Reports</name>
+    </types>
+    <types>
+        <members>Collections_Total</members>
+        <name>ReportType</name>
+    </types>
+    <types>
         <members>Contact.View_On_Portal</members>
         <members>Encounter__c.New_Payment_Arrangement</members>
         <members>Payment_Plan__c.Canecl_Payment_Plan</members>
         <name>WebLink</name>
+    </types>
+    <types>
+        <members>Payment_Adjustments__c.CustomizeName</members>
+        <members>Payment_Adjustments__c.UpdateName</members>
+        <name>Workflow</name>
     </types>
     <version>40.0</version>
 </Package>

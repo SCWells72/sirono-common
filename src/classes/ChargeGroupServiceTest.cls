@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
@@ -52,7 +51,7 @@ public with sharing class ChargeGroupServiceTest {
         Test.setMock(HttpCalloutMock.class, new ChargeGroupRestClientMock());
 
         Test.startTest();
-        Map<Decimal, ChargeGroupJSONParser> cgMap = ChargeGroupService.retrieveMapByIds(new List<Decimal> {
+        Map<Decimal, ChargeGroupJSONParser.ChargeGroupJSON> cgMap = ChargeGroupService.retrieveMapByIds(new List<Decimal> {
             Decimal.valueOf(RestClientConstants.CHARGE_GROUP_ID)
         });
         Test.stopTest();
@@ -66,10 +65,10 @@ public with sharing class ChargeGroupServiceTest {
         Test.setMock(HttpCalloutMock.class, new ChargeGroupRestClientMock());
 
         String sironoId = RestClientConstants.CHARGE_GROUP_ID;
-        ChargeGroupJSONParser expected = ChargeGroupRestClientMock.getParsedChargeGroup();
+        ChargeGroupJSONParser.ChargeGroupJSON expected = ChargeGroupRestClientMock.getParsedChargeGroup();
 
         Test.startTest();
-        ChargeGroupJSONParser result = ChargeGroupService.retrieveBySironoId(sironoId);
+        ChargeGroupJSONParser.ChargeGroupJSON result = ChargeGroupService.retrieveBySironoId(sironoId);
         Test.stopTest();
 
         System.assert(result != null, 'Should get a result.');

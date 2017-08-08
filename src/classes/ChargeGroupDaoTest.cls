@@ -14,13 +14,25 @@ public with sharing class ChargeGroupDaoTest {
         insert gt;
         System.debug('gt.Id: ' + gt.Id);
 
+        Contact exgt = TestUtility.generateExternalGuarantor();
+        insert exgt;
+        System.debug('exgt.Id: ' + exgt.Id);
+
+        Contact pt = TestUtility.generatePatientContact();
+        insert pt;
+        System.debug('pt.Id: ' + pt.Id);
+
         List<Charge_Group__c> cgToAddList = TestUtility.generateChargeGroupList(gt.Id);
         Decimal i = 1;
         for (Charge_Group__c cg : cgToAddList) {
             cg.Sirono_ID__c = i++;
+            cg.External_Guarantor_ID__c = exgt.Id;
+            cg.Patient__c = pt.Id;
         }
 
         insert cgToAddList;
+
+
 
         // Check system assert.
         System.assertEquals(1, cgToAddList[0].Sirono_ID__c, 'Expected Chargegroup Sirono_ID__c equals to 1 but we got ' + cgToAddList[0].Sirono_ID__c);
@@ -96,7 +108,7 @@ public with sharing class ChargeGroupDaoTest {
     @IsTest
     public static void getBilledCGCountPositiveTest() {
 
-        Contact guarantorContact = [SELECT Id FROM Contact];
+        Contact guarantorContact = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
         Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
         insert encounter;
@@ -119,7 +131,7 @@ public with sharing class ChargeGroupDaoTest {
     @IsTest
     public static void getBilledCGCountNegativeTest() {
 
-        Contact guarantorContact = [SELECT Id FROM Contact];
+        Contact guarantorContact = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
         Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
         insert encounter;
@@ -141,7 +153,7 @@ public with sharing class ChargeGroupDaoTest {
     @IsTest
     public static void getCGOrderByCreatedDateTest() {
 
-        Contact guarantorContact = [SELECT Id FROM Contact];
+        Contact guarantorContact = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1244);
         insert chargeGroup;
@@ -165,7 +177,7 @@ public with sharing class ChargeGroupDaoTest {
     @IsTest
     public static void getCGOrderByServiceDateTest() {
 
-        Contact guarantorContact = [SELECT Id FROM Contact];
+        Contact guarantorContact = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1242);
         chargeGroup.Date_Of_Service_Start_Date__c = System.today().addDays(-5);
@@ -189,7 +201,7 @@ public with sharing class ChargeGroupDaoTest {
     @IsTest
     public static void getCGIdsFromCaseCGJunPositiveTest() {
 
-        Contact guarantorContact = [SELECT Id FROM Contact];
+        Contact guarantorContact = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
         Decimal cgSironoId = 123456;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, cgSironoId);
@@ -217,7 +229,7 @@ public with sharing class ChargeGroupDaoTest {
     @IsTest
     public static void getCGIdsFromCaseCGJunNegativeTest() {
 
-        Contact guarantorContact = [SELECT Id FROM Contact];
+        Contact guarantorContact = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
         Decimal cgSironoId = 123456;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, cgSironoId);
@@ -241,7 +253,7 @@ public with sharing class ChargeGroupDaoTest {
     @IsTest
     public static void getCGBasedOnGuarantorAndPreCollDateTest() {
 
-        Contact guarantorContact = [SELECT Id FROM Contact];
+        Contact guarantorContact = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
         Date preCollDate = System.today().addDays(-5);
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1242);
@@ -267,7 +279,7 @@ public with sharing class ChargeGroupDaoTest {
     @IsTest
     public static void getCGForInvoiceControllerWithOrderByTest() {
 
-        Contact guarantorContact = [SELECT Id FROM Contact];
+        Contact guarantorContact = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1244);
         insert chargeGroup;
@@ -291,7 +303,7 @@ public with sharing class ChargeGroupDaoTest {
     @IsTest
     public static void getCGForInvoiceControllerWithoutOrderByTest() {
 
-        Contact guarantorContact = [SELECT Id FROM Contact];
+        Contact guarantorContact = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1244);
         insert chargeGroup;
@@ -315,7 +327,7 @@ public with sharing class ChargeGroupDaoTest {
     @IsTest
     public static void testGetByGuarantorAndSubStatus() {
 
-        Contact guarantorContact = [SELECT Id FROM Contact];
+        Contact guarantorContact = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1234);
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
@@ -340,7 +352,7 @@ public with sharing class ChargeGroupDaoTest {
     @IsTest
     public static void testGetByGuarantorAndSubStatusNegative() {
 
-        Contact guarantorContact = [SELECT Id FROM Contact];
+        Contact guarantorContact = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 12345);
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_PENDING;
@@ -386,7 +398,7 @@ public with sharing class ChargeGroupDaoTest {
     @IsTest
     public static void testGetCGForPaymentPlan() {
 
-        Contact guarantorContact = [SELECT Id FROM Contact];
+        Contact guarantorContact = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
         Payment_Plan__c payPlan = TestUtility.generatePaymentPlan(guarantorContact);
         insert payPlan;
@@ -406,5 +418,45 @@ public with sharing class ChargeGroupDaoTest {
         Test.stopTest();
 
         System.assertEquals(2, cgs.size());
+    }
+
+    @IsTest
+    public static void testGetPayableByInvoiceId() {
+        Contact gt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+        Contact pt = [SELECT Id FROM Contact WHERE RecordTypeId = :RecordTypeUtil.patientRt];
+
+        Invoice__c invoice = TestUtility.generateInvoice(gt.Id, pt.Id);
+        insert invoice;
+
+        Charge_Group__c[] cgs = [SELECT Id FROM Charge_Group__c];
+        Service2__c[] svcs = new List<Service2__c>();
+        for (Integer i = 0; i < cgs.size(); i++) {
+            Charge_Group__c cg = cgs[i];
+            cg.Invoice__c = invoice.Id;
+            if (i == cgs.size()-1) {
+                cg.Active__c = false;
+            } else {
+                cg.Active__c = true;
+            }
+            cg.Account_Status__c = Constants.ACCT_STATUS_BILLED;
+            cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DUE_BY;
+            Service2__c svc = TestUtility.generateService(gt, 200.00);
+            svcs.add(svc);
+        }
+        insert svcs;
+        update cgs;
+
+        Transaction__c[] txns = new List<Transaction__c>();
+        for (Integer i = 0; i<svcs.size(); i++) {
+            Transaction__c txn = TestUtility.generateServiceTxn(cgs[i], 200.00, svcs[i]);
+            txns.add(txn);
+        }
+        insert txns;
+
+        Test.startTest();
+        Charge_Group__c[] byInvoice = ChargeGroupDao.getPayableByInvoiceId(new Set<String>(new List<String>{invoice.Id}));
+        Test.stopTest();
+
+        System.assertEquals(cgs.size()-1, byInvoice.size(), 'Expected a difference of 1 cg');
     }
 }

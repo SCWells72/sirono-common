@@ -59,7 +59,6 @@
         <members>Case.*</members>
         <members>Contact.*</members>
         <members>Coverage__c.Coverage_Sirono_Internal</members>
-        <members>Payment_Adjustments__c.PaymentAdj_Sirono_Internal</members>
         <members>Payment_Method__c.Credit_Card_Sirono_Internal</members>
         <members>Payment__c.Payment_Internal_Sirono</members>
         <name>SharingOwnerRule</name>
@@ -69,7 +68,6 @@
         <members>Contact</members>
         <members>Coverage__c</members>
         <members>Payment__c</members>
-        <members>Payment_Adjustments__c</members>
         <members>Payment_Method__c</members>
         <name>SharingRules</name>
     </types>]]></replacetoken>

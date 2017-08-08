@@ -118,7 +118,6 @@ public class PaymentService extends AbstractService {
         String bank_account_type;
         //noinspection ApexUnusedDeclaration
         String is_voidable;
-        //noinspection ApexUnusedDeclaration
         String post_date;
     }
 
@@ -189,12 +188,9 @@ public class PaymentService extends AbstractService {
         String created_at;
         //noinspection ApexUnusedDeclaration
         String modified_at;
-        //noinspection ApexUnusedDeclaration
         String method;
-        //noinspection ApexUnusedDeclaration
         String notes;
         Boolean credit_balance;
-        //noinspection ApexUnusedDeclaration
         String payment;
         String chargegroup;
     }
@@ -211,7 +207,7 @@ public class PaymentService extends AbstractService {
         @TestVisible
         TransactionJSONParser(Payment__c newPayment, String jsonBody) {
             this.payment = newPayment;
-            this.json = SironoRestClient.ensureJsonList(jsonBody.replace('_credit_balance', 'credit_balance'));
+            this.json = ensureJsonList(jsonBody.replace('_credit_balance','credit_balance'));
 
             txnJsons = (List<TransactionSironoJSON>) System.JSON.deserialize(json, List<TransactionSironoJSON>.class);
         }
@@ -223,16 +219,10 @@ public class PaymentService extends AbstractService {
                 String transactionExternalId = parseSironoId(txnJson.url, 'transaction');
 
                 txnObj.Sirono_ID__c = Decimal.valueOf(transactionExternalId);
-                txnObj.Amount__c = -1.00 * convertToDollars(txnJson.amount);
-                if (!String.isBlank(txnJson.post_date)) {
-                    txnObj.Post_Date__c = Date.valueOf(txnJson.post_date);
-                }
-                if (!String.isBlank(txnJson.fail_date)) {
-                    txnObj.Fail_Date__c = Date.valueOf(txnJson.fail_date);
-                }
-                if (!String.isBlank(txnJson.export_date)) {
-                    txnObj.Export_Date__c = Date.valueOf(txnJson.export_date);
-                }
+                txnObj.Amount__c = convertToDollarsNegative(txnJson.amount);
+                txnObj.Post_Date__c = parseDate(txnJson.post_date);
+                txnObj.Fail_Date__c = parseDate(txnJson.fail_date);
+                txnObj.Export_Date__c = parseDate(txnJson.export_date);
                 txnObj.Credit_Balance__c = txnJson.credit_balance;
 
                 if (txnJson.chargegroup != null) {

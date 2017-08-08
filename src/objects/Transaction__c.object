@@ -59,8 +59,21 @@
         <fullName>Adjustment__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
-        <label>Adjustment</label>
+        <label>Adjustment (Deprecated)</label>
         <referenceTo>Payment_Adjustments__c</referenceTo>
+        <relationshipLabel>Transactions</relationshipLabel>
+        <relationshipName>Transactions</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Adjustment2__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Adjustment</label>
+        <referenceTo>Adjustment__c</referenceTo>
         <relationshipLabel>Transactions</relationshipLabel>
         <relationshipName>Transactions</relationshipName>
         <required>false</required>
@@ -220,7 +233,7 @@
         <fullName>Service__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
-        <label>Service</label>
+        <label>Service (Deprecated)</label>
         <referenceTo>Service__c</referenceTo>
         <relationshipLabel>Transactions</relationshipLabel>
         <relationshipName>Transactions</relationshipName>
@@ -267,7 +280,7 @@
         <fullName>Txn_Method__c</fullName>
         <description>Determine the transaction method based on the linked objects</description>
         <externalId>false</externalId>
-        <formula>IF(Service2__c != NULL, &apos;Service&apos;, IF(Adjustment__c != NULL, &apos;Adjustment&apos;, IF(Payment__c != NULL, &apos;Payment&apos;, &apos;Unknown&apos;)))</formula>
+        <formula>IF(Service2__c != NULL, &apos;Service&apos;, IF(Adjustment2__c != NULL, &apos;Adjustment&apos;, IF(Payment__c != NULL, &apos;Payment&apos;, &apos;Unknown&apos;)))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Method</label>
         <required>false</required>

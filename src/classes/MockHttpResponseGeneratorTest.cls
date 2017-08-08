@@ -30,7 +30,7 @@ global class MockHttpResponseGeneratorTest implements HttpCalloutMock {
             if (req.getEndpoint().contains('/transactions/')) {
                 res.setBody(TransactionJSONParsing.testResponse());
             } else {
-                res.setBody(PaymentAdjustmentJSONParsing.testResponse());
+                res.setBody(AdjustmentServiceTest.CREATE_ADJUSTMENT_JSON_RESPONSE);
             }
         } else if (req.getEndpoint().contains('api/paychargegroups')) {
             if (req.getEndpoint().contains('/transactions/')) {

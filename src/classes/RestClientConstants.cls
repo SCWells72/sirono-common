@@ -11,22 +11,30 @@ public with sharing class RestClientConstants {
     public static final String SIRONO_NAMED_CREDS_ID = 'sirono_server';
     public static final String ADD_CHARGEGROUP_KEY = 'add_chargegroup';
     public static final String ADD_PAYMENTPLAN_KEY = 'add_paymentplan';
+    public static final String ADJUSTMENT_KEY = 'add_adjustment';
+    public static final String ADJUSTMENT_TXNS_KEY = 'adjustment_txns';
     public static final String CHARGEGROUP_KEY = 'chargegroup';
     public static final String CSRF_KEY = 'csrf';
+    public static final String CREATE_DISCOUNT_KEY = 'create_discount';
     public static final String GUARANTOR_KEY = 'guarantor';
     public static final String PAY_CHARGEGROUPS_KEY = 'pay_chargegroups';
     public static final String PAYMENT_TXNS_KEY = 'payment_txns';
 
     public static final String PAYMENT_PLAN_KEY = 'payment_plan';
+    public static final String TRANSACTION_KEY = 'transaction';
     public static final String SIRONO_BASE_URL = 'callout:sirono_server';
     public static final String STATEMENTS = 'statements';
     public static final String TOKEN_KEY = 'token';
 
+    public static final Map<String, String> ADJUSTMENT_URLS = new Map<String, String>{
+            ADJUSTMENT_KEY => 'callout:sirono_server/paystaff/api/adjustments/',
+            ADJUSTMENT_TXNS_KEY => 'callout:sirono_server/paystaff/api/adjustments/{0}/transactions/',
+            CREATE_DISCOUNT_KEY => 'callout:sirono_server/paystaff/api/adjustments/create-discount/'
+    };
 
     public static final Map<String, String> CHARGE_GROUP_URLS = new Map<String, String> {
         // 0 - the chargegroup sirono id
         CHARGEGROUP_KEY => 'callout:sirono_server/paystaff/api/chargegroups/{0}/'
-
     };
 
     public static final Map<String, String> GUARANTOR_URLS = new Map<String, String> {
@@ -50,13 +58,28 @@ public with sharing class RestClientConstants {
         PAYMENT_TXNS_KEY => 'callout:sirono_server/paystaff/api/payments/{0}/transactions/'
     };
 
+    public static final Map<String, String> TRANSACTION_URLS = new Map<String, String> {
+            // 0 - the transaction sirono id
+            TRANSACTION_KEY => 'callout:sirono_server/paystaff/api/transaction/{0}/'
+    };
+
     public static final Map<String, String> AUTH_URLS = new Map<String, String> {
         CSRF_KEY => 'callout:sirono_server/portal/account/forgot-password/',
         TOKEN_KEY => 'callout:sirono_server/paystaff/token-auth/'
     };
 
+    // Constants for parsing out sironoIds from resource urls
+    public static final String ADJUSTMENT_URL_RESOURCE_TYPE = 'adjustments';
+    public static final String CHARGE_GROUP_URL_RESOURCE_TYPE = 'chargegroups';
+    public static final String GUARANTOR_URL_RESOURCE_TYPE = 'guarantors';
+    public static final String PPLAN_URL_RESOURCE_TYPE = 'paymentplan';
+    public static final String TRANSACTION_URL_RESOURCE_TYPE = 'transaction';
+
     // JSON and body values
+    public static final String AMOUNT = 'amount';
+    public static final String CHARGE_GROUP = 'chargegroup';
     public static final String CHARGE_GROUPS = 'chargegroups';
+    public static final String CODE = 'code';
     public static final String CSRF_BODY_KEY = '<input type=\'hidden\' name=\'csrfmiddlewaretoken\' value=\'';
     public static final String CSRF_JSON_KEY = 'csrfmiddlewaretoken';
     public static final String TOKEN_BODY = 'username={!$Credential.Username}&password={!$Credential.Password}';
@@ -75,7 +98,7 @@ public with sharing class RestClientConstants {
     public static final String GET = 'GET';
     public static final String POST = 'POST';
     public static final String PATCH = 'PATCH';
-    //noinspection ApexUnusedDeclaration
+    //noinspection ApexUnusedDeclaration2
     public static final String PUT = 'PUT';
     public static final String REMOVE = 'DELETE';
 

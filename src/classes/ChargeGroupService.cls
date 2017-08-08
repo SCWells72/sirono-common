@@ -46,10 +46,10 @@ public class ChargeGroupService extends AbstractService {
      * @param String cgSironoId - The Sirono Id of the charge group.
      * @return ChargeGroupJSONParser - The parse respose from the server.
      */
-    public static ChargeGroupJSONParser retrieveBySironoId(String cgSironoId) {
+    public static ChargeGroupJSONParser.ChargeGroupJSON retrieveBySironoId(String cgSironoId) {
         ChargeGroupRestClient client = new ChargeGroupRestClient();
         HttpResponse res = client.getChargeGroup(cgSironoId);
-        ChargeGroupJSONParser parsing = ChargeGroupJSONParser.parse(res.getBody());
+        ChargeGroupJSONParser.ChargeGroupJSON parsing = ChargeGroupJSONParser.parse(res.getBody());
 
         return parsing;
     }
@@ -60,11 +60,11 @@ public class ChargeGroupService extends AbstractService {
      * @param List<Decimal> sironoChargeGroupIds - A list of Sirono Charge Group Ids.
      * @return Map<Decimal, ChargeGroupJSONParser> - The map of results.
      */
-    public static Map<Decimal, ChargeGroupJSONParser> retrieveMapByIds(List<Decimal> sironoChargeGroupIds) {
-        Map<Decimal, ChargeGroupJSONParser> idMap = new Map<Decimal, ChargeGroupJSONParser>();
+    public static Map<Decimal, ChargeGroupJSONParser.ChargeGroupJSON> retrieveMapByIds(List<Decimal> sironoChargeGroupIds) {
+        Map<Decimal, ChargeGroupJSONParser.ChargeGroupJSON> idMap = new Map<Decimal, ChargeGroupJSONParser.ChargeGroupJSON>();
 
         for (Decimal cgId : sironoChargeGroupIds) {
-            ChargeGroupJSONParser parsing = retrieveBySironoId(String.valueOf(cgId));
+            ChargeGroupJSONParser.ChargeGroupJSON parsing = retrieveBySironoId(String.valueOf(cgId));
             idMap.put(cgId, parsing);
         }
 
@@ -147,21 +147,12 @@ public class ChargeGroupService extends AbstractService {
     }
 
     /**
-     * This method is use to update Charge Groups.
+     * Update Charge Groups.
      *
      * @param List<Charge_Group__c> chargeGroups - That contains CG records.
      **/
     public static void updateChargeGroups(List<Charge_Group__c> chargeGroups) {
         ChargeGroupDao.updateChargeGroups(chargeGroups);
-    }
-
-    /**
-     * This method is use to update Charge Groups with Account Status.
-     *
-     * @param List<Charge_Group__c> chargeGroups - That contains CG records.
-     **/
-    public static void updateChargeGroupsWithStatus(List<Charge_Group__c> chargeGroups) {
-        ChargeGroupDao.updateChargeGroupsWithStatus(chargeGroups);
     }
 
     /**

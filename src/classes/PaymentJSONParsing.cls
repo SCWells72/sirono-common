@@ -5,67 +5,71 @@
 /**
  * Parse the JSON response from a server Payment request.
  */
-public class PaymentJSONParsing {
+public class PaymentJSONParsing extends AbstractSironoJSONParser {
+    private String jsonString;
 
-    public String url;
-    public String guarantor;
-    public Integer amount;
-    //noinspection ApexUnusedDeclaration
-    public String transaction_number;
-    public String payment_date;
-    public String method;
-    public String last_4;
-    public String processor_transaction_id;
-    //noinspection ApexUnusedDeclaration
-    public String receipt_link;
-    //noinspection ApexUnusedDeclaration
-    public String payment_info;
-    //noinspection ApexUnusedDeclaration
-    public String payment_type;
-    //noinspection ApexUnusedDeclaration
-    public String account_number;
-    //noinspection ApexUnusedDeclaration
-    public String routing_number;
-    //noinspection ApexUnusedDeclaration
-    public String bank_account_type;
-    //noinspection ApexUnusedDeclaration
-    public String is_voidable;
-    //noinspection ApexUnusedDeclaration
-    public String post_date;
+    public class PaymentJSONWrapper {
+        public String url;
+        public String guarantor;
+        public Integer amount;
+        //noinspection ApexUnusedDeclaration
+        public String transaction_number;
+        public String payment_date;
+        public String method;
+        public String last_4;
+        public String processor_transaction_id;
+        //noinspection ApexUnusedDeclaration
+        public String receipt_link;
+        //noinspection ApexUnusedDeclaration
+        public String payment_info;
+        //noinspection ApexUnusedDeclaration
+        public String payment_type;
+        //noinspection ApexUnusedDeclaration
+        public String account_number;
+        //noinspection ApexUnusedDeclaration
+        public String routing_number;
+        //noinspection ApexUnusedDeclaration
+        public String bank_account_type;
+        //noinspection ApexUnusedDeclaration
+        public String is_voidable;
+        //noinspection ApexUnusedDeclaration
+        public String post_date;
+    }
 
-    public static Payment__c parse(String json) {
-        if (json.contains('[')) {
-            json = json.replace('[', '');
-            json = json.replace(']', '');
+    public PaymentJSONParsing(String jsonString) {
+        this.jsonString = jsonString;
+    }
+
+    public Payment__c parse() {
+        if(jsonString.contains('[')){
+            jsonString = jsonString.replace('[','');
+            jsonString = jsonString.replace(']','');
         }
-        PaymentJSONParsing objJson = (PaymentJSONParsing) System.JSON.deserialize(json, PaymentJSONParsing.class);
+
+        PaymentJSONWrapper objJson = (PaymentJSONWrapper) System.JSON.deserialize(jsonString, PaymentJSONWrapper.class);
 
         Payment__c objPayment = new Payment__c();
 
-        String guarantorSironoId = getExternalID(objJson.guarantor, 'guarantors');
+        String guarantorSironoId = parseSironoId(objJson.guarantor, 'guarantors');
 
         Contact guarantorContact = GuarantorService.getGuarantorBySironoId(guarantorSironoId);
         objPayment.Guarantor__c = guarantorContact.Id;
 
-        if (!String.isBlank(objJson.payment_date)) {
-            objPayment.Charge_Date__c = Date.valueOf(objJson.payment_date);
-            objPayment.Deposit_Date__c = Date.valueOf(objJson.payment_date);
-        }
+        objPayment.Charge_Date__c = parseDate(objJson.payment_date);
+        objPayment.Deposit_Date__c = parseDate(objJson.payment_date);
+
         objPayment.Method__c = objJson.method;
         objPayment.Last_4__c = objJson.last_4;
         objPayment.Processor_Transaction_ID__c = objJson.processor_transaction_id;
 
-        objPayment.Amount__c = PayStaffWSUtill.convertToDollars(objJson.amount);
-        objPayment.Sirono_ID__c = Integer.valueOf(getExternalID(objJson.url, 'payments'));
-        objPayment.Name = getExternalID(objJson.url, 'payments');
+        objPayment.Amount__c = convertToDollars(objJson.amount);
+        String sironoId = parseSironoId(objJson.url,'payments');
+        objPayment.Sirono_ID__c = Decimal.valueOf(sironoId);
+        objPayment.Name = sironoId;
 
         return objPayment;
     }
 
-    public static String getExternalID(String url, String splitWith) {
-        String[] externalID = url.split(splitWith);
-        return externalID[externalID.size() - 1].replaceAll('/', '');
-    }
 
     public static String testResponse() {
 

@@ -110,6 +110,8 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
      **/
     public static final EncounterSecurityContext PSS_SELECT_CONTEXT = new EncounterSecurityContext(PSS_SELECT_FIELDS, ACTION.OBJ_READ);
 
+    public static final EncounterSecurityContext ADD_ATTACHMENT_CONTEXT = new EncounterSecurityContext(new Set<String>(), ACTION.OBJ_UPDATE);
+
     /**
      * Override getObjectType method of SecurityContext class
      **/

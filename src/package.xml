@@ -229,6 +229,7 @@
         <name>CustomMetadata</name>
     </types>
     <types>
+        <members>Adjustment__c</members>
         <members>Adjustment_Type__mdt</members>
         <members>Campaign_Mapping__mdt</members>
         <members>Case_Charge_Group_Junction__c</members>
@@ -243,7 +244,6 @@
         <members>Invoice__c</members>
         <members>Location__c</members>
         <members>Patient_Coverage_Junction__c</members>
-        <members>Payment_Adjustments__c</members>
         <members>Payment_Method__c</members>
         <members>Payment_Plan__c</members>
         <members>Payment__c</members>
@@ -266,6 +266,7 @@
         <name>CustomSite</name>
     </types>
     <types>
+        <members>Adjustment__c</members>
         <members>Charge_Group_Coverage_Junction__c</members>
         <members>Charge_Group__c</members>
         <members>Coverage__c</members>
@@ -273,7 +274,6 @@
         <members>Invoice__c</members>
         <members>Location__c</members>
         <members>Patient_Coverage_Junction__c</members>
-        <members>Payment_Adjustments__c</members>
         <members>Payment_Method__c</members>
         <members>Payment_Plan__c</members>
         <members>Payment__c</members>
@@ -374,6 +374,8 @@
         <name>InstalledPackage</name>
     </types>
     <types>
+        <members>Adjustment__c-Adjustment Layout</members>
+        <members>Adjustment__c-Adjustments</members>
         <members>Adjustment_Type__mdt-Adjustment Type Layout</members>
         <members>Campaign-Campaign Layout</members>
         <members>CampaignMember-Campaign Member Page Layout</members>
@@ -405,8 +407,6 @@
         <members>Location__c-Location Layout</members>
         <members>Location__c-Locations</members>
         <members>Patient_Coverage_Junction__c-Patient Coverage Junction Layout</members>
-        <members>Payment_Adjustments__c-Adjustment Layout</members>
-        <members>Payment_Adjustments__c-Adjustments</members>
         <members>Payment_Method__c-ACH</members>
         <members>Payment_Method__c-Cash%2FCheck</members>
         <members>Payment_Method__c-Credit Card</members>
@@ -437,6 +437,7 @@
     </types>
     <types>
         <members>Activity.All_Activities</members>
+        <members>Adjustment__c.All</members>
         <members>Case.AllOpenCases</members>
         <members>Case.Automated_Cases_Case</members>
         <members>Case.Demographic_Update</members>
@@ -462,7 +463,6 @@
         <members>Invoice__c.All</members>
         <members>Location__c.All</members>
         <members>Patient_Coverage_Junction__c.All</members>
-        <members>Payment_Adjustments__c.All</members>
         <members>Payment_Method__c.All</members>
         <members>Payment_Plan__c.All</members>
         <members>Payment__c.All</members>
@@ -597,14 +597,12 @@
         <members>Sirono_Reports/Report_3_Payments_by_Age</members>
         <members>Sirono_Reports/Report_4_Balance</members>
         <members>Sirono_Reports/Report_4_Balance_Collections</members>
-        <members>Sirono_Reports/Total_payments</members>
         <name>Report</name>
     </types>
     <types>
         <members>CGs</members>
         <members>Cg_only</members>
         <members>Charge_Groups_Only</members>
-        <members>Collections_Total</members>
         <members>Contacts_with_Charge_Groups_with_Charge_Group_Coverage_Junctions</members>
         <members>Contacts_with_Charge_Groups_with_Transactions</members>
         <members>Contacts_with_Payment_Plans_with_Payments</members>
@@ -622,10 +620,13 @@
         <name>Role</name>
     </types>
     <types>
+        <members>Name</members>
+        <name>Settings</name>
+    </types>
+    <types>
         <members>Case</members>
         <members>Contact</members>
         <members>Coverage__c</members>
-        <members>Payment_Adjustments__c</members>
         <members>Payment_Method__c</members>
         <members>Payment__c</members>
         <name>SharingRules</name>
@@ -666,16 +667,11 @@
         <members>Charge_Group__c</members>
         <members>Coverage__c</members>
         <members>Invoice__c</members>
-        <members>Payment_Adjustments__c</members>
         <members>Payment_Plan__c</members>
         <members>Payment__c</members>
         <members>Statement__c</members>
         <members>Transaction__c</members>
         <name>Workflow</name>
-    </types>
-    <types>
-        <members>Name</members>
-        <name>Settings</name>
     </types>
     <version>40.0</version>
 </Package>

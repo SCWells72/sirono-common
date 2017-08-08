@@ -2,38 +2,72 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-//TODO why doesn't this have sharing?
-public class AttachmentController {
+public with sharing class AttachmentController {
+    
+	public Attachment attachment {
+	  get {
+		  if (attachment == null) {
+			  attachment = new Attachment();
+		  }
+		  return attachment;
+		}
+	  set;
+	  }
 
-    public Attachment attachment {
-        get {
-            if (attachment == null) {
-                attachment = new Attachment();
-            }
-            return attachment;
-        }
-        set;
+	public PageReference upload() {
+		attachment.OwnerId = UserInfo.getUserId();
+		attachment.ParentId = ApexPages.currentPage().getParameters().get('id');
+
+		if (attachment.ParentId == null) {
+			ApexPages.addMessage(new ApexPages.message(ApexPages.severity.ERROR, 'Record for attachment is required'));
+			return null;
+		}
+
+		try {
+			SecurityContext relatedContext = getRelatedSecurityContext();
+
+			if (relatedContext.actionAllowed() && AttachmentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+				insert attachment;
+			}
+		} catch (Exception e) {
+			System.debug('caught exception: '+e.getMessage());
+			ApexPages.addMessage(new ApexPages.message(ApexPages.severity.ERROR,'Error uploading attachment: '+e.getMessage()));
+			return null;
+		} finally {
+			attachment = new Attachment(); 
+		}
+
+		ApexPages.addMessage(new ApexPages.message(ApexPages.severity.INFO,'Attachment uploaded successfully'));
+		return null;
+	}
+
+	public PageReference cancel() {
+		PageReference p = new PageReference('/' + ApexPages.currentPage().getParameters().get('id'));
+		p.setRedirect(true);
+		return p;  
     }
 
-    public PageReference upload() {
-        attachment.OwnerId = UserInfo.getUserId();
-        attachment.ParentId = ApexPages.currentPage().getParameters().get('id'); // the record the file is attached to
+	private SecurityContext getRelatedSecurityContext() {
 
-        try {
-            insert attachment;
-        } catch (DmlException e) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Error uploading attachment'));
-            return null;
-        } finally {
-            attachment = new Attachment();
-        }
+		String objType = getParentObjectType();
 
-        ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Attachment uploaded successfully'));
-        return null;
-    }
-    public PageReference cancel() {
-        PageReference p = new PageReference('/' + ApexPages.currentPage().getParameters().get('id'));
-        p.setRedirect(true);
-        return p;
-    }
+		if (objType != null) {
+			if (objType.equals(Statement__c.SObjectType.getDescribe().getName())) {
+				return StatementSecurityContext.ADD_ATTACHMENT_CONTEXT;
+			}
+
+			if (objType.equals(Encounter__c.SObjectType.getDescribe().getName())) {
+				return EncounterSecurityContext.ADD_ATTACHMENT_CONTEXT;
+			}
+		}
+
+		throw new SecurityUtils.SecurityException('Attempt to upload attachment for unsupported object type: '+objType);
+	}
+
+	private String getParentObjectType() {
+		String idString = ApexPages.currentPage().getParameters().get('id');
+        Id objId = Id.valueOf(idString);
+
+        return objId.getSobjectType().getDescribe().getName();
+	}
 }

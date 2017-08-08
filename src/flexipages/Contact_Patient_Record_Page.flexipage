@@ -37,7 +37,7 @@
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>relatedListApiName</name>
-                <value>Patient_Coverage_Juntions__r</value>
+                <value>Patient_Coverage_Junctions__r</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
         </componentInstances>

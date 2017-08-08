@@ -6,9 +6,8 @@
  * All common methods for PayStaff Web service
  */
 public with sharing class PayStaffWSUtill {
-    //11-23-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
-    //It is used to verified that Charge Group have longer Payment Plan Look up or not.
-    static Boolean hasChargeGroupPaymentPlan = false;
+    //Verify whether or not the Charge Group has an associated Payment Plan
+    private static Boolean chargeGroupOnPPlan = false;
 
     //get the Guarantor Id from given contact.
     public static String fetchGuarantorId(Contact gc) {
@@ -169,13 +168,6 @@ public with sharing class PayStaffWSUtill {
         }
     }
 
-    //Mohan Kumar 08-18-2016: Convert the amount in dollars
-    public static Decimal convertToDollars(Decimal amount) {
-        Decimal dollarAmount = (amount != null ? (amount / 100) : amount);
-        System.debug('converted cent amount: ' + dollarAmount);
-        return dollarAmount;
-    }
-
     //Viraj Rana 11-15-2016: Convert the amount in dollars with divided by -100.
     //It is used for covert Transaction Amount.
     public static Decimal convertToDollarsWithNegative(Decimal amount) {
@@ -190,6 +182,7 @@ public with sharing class PayStaffWSUtill {
         System.debug('converted: ' + cents + ' cents to dollar amount: ' + dollarAmount);
         return dollarAmount;
     }
+
     /*Mohan Kumar 07-28-2016: Convert the amount in cents before sending it to Sirono on Take Payment,
     *Add Adjustment, Add Discount actions
     */
@@ -216,104 +209,76 @@ public with sharing class PayStaffWSUtill {
         return cgList;
     }
 
-    //11-15-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF.
-    //This wrapper class is used whenever Adjustment/Discount occures.
-    public class PaymentAdjustmentwrapper {
+    //This wrapper class is used for Payment/Adjustment/Discount processing.
+    public class RelatedObjectWrapper {
         Transaction__c objTransaction = new Transaction__c();
         Charge_Group__c objChargeGroup = new Charge_Group__c();
         Payment_Plan__c objPaymentPlan = new Payment_Plan__c();
     }
 
-     /*
-    * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
-    * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
-    * Parse Payment response and call Transaction Request.
-    */
-    public static void parsePaymentReponse(String jwtToken, String jsonStr, Boolean isPayment) {
+    public static void processDiscount(String jsonString) {
+        AdjustmentJSONParser parser = new AdjustmentJSONParser(jsonString);
+        List<AdjustmentJSONParser.AdjustmentWrapper> sironoWrappers = parser.parse();
 
-        // We have change Payment__c object to List of Payment__c and this list pass in Methods as a parameter.
-        // This changes do to resolve Security Scan related issue.
-        List<Payment__c> payments = new List<Payment__c>();
-        List<Payment_Adjustments__c> lstPaymentAdjustment = new List<Payment_Adjustments__c>();
-        PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
+        if (!sironoWrappers.isEmpty()) {
+            List<Transaction__c> transactions = new List<Transaction__c>();
+            List<Charge_Group__c> chargeGroups = new List<Charge_Group__c>();
+            List<Payment_Plan__c> paymentPlans = new List<Payment_Plan__c>();
 
-        List<Transaction__c> lstTransaction = new List<Transaction__c>();
-        List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
-        List<Payment_Plan__c> lstPaymentPlan = new List<Payment_Plan__c>();
-        Map<Decimal, Decimal> mapTranPayAdjId = new Map<Decimal, Decimal>();
+            Map<AdjustmentJSONParser.AdjustmentWrapper, RelatedObjectWrapper> wrapperMap = new Map<AdjustmentJSONParser.AdjustmentWrapper, PayStaffWSUtill.RelatedObjectWrapper>();
 
-        if (isPayment) {
-            Payment__c objPayment = new Payment__c();
-            objPayment = PaymentJSONParsing.parse(jsonStr);
-            payments.add(objPayment);
-        } else {
-            lstPaymentAdjustment = PaymentAdjustmentJSONParsing.parse(jsonStr);
-        }
+            for (AdjustmentJSONParser.AdjustmentWrapper sironoWrapper : sironoWrappers) {
 
-        if (payments.size() > 0) {
-            callTransactionRequest(jwtToken, payments, null, isPayment);
-        } else if (lstPaymentAdjustment.size() > 0) {
-            for (Payment_Adjustments__c objPaymentAdjustment : lstPaymentAdjustment) {
-                objPaymentAdjustmentwrapper = callTransactionRequest(jwtToken, null, String.valueOf(objPaymentAdjustment.Sirono_ID__c), isPayment);
+                RelatedObjectWrapper relatedObjectWrapper = callTransactionRequest(null, sironoWrapper.sironoId.toPlainString(), false);
+                sironoWrapper.adjustment.Guarantor__c = relatedObjectWrapper.objChargeGroup.Guarantor__c;
+                sironoWrapper.adjustment.External_Guarantor__c = relatedObjectWrapper.objChargeGroup.External_Guarantor_ID__c;
+                wrapperMap.put(sironoWrapper, relatedObjectWrapper);
+            }
 
-                lstTransaction.add(objPaymentAdjustmentwrapper.objTransaction);
-                mapTranPayAdjId.put(objPaymentAdjustment.Sirono_ID__c, objPaymentAdjustmentwrapper.objTransaction.Sirono_ID__c);
+            List<Adjustment__c> adjustments = new List<Adjustment__c>();
+            for (AdjustmentJSONParser.AdjustmentWrapper sironoWrapper : sironoWrappers) {
+                adjustments.add(sironoWrapper.adjustment);
+            }
+            AdjustmentDao.save(adjustments);
 
-                lstChargeGroup.add(objPaymentAdjustmentwrapper.objChargeGroup);
-                objPaymentAdjustment.Charge_Group__c = objPaymentAdjustmentwrapper.objChargeGroup.Id;
+            for (AdjustmentJSONParser.AdjustmentWrapper sironoWrapper : sironoWrappers) {
+                RelatedObjectWrapper row = wrapperMap.get(sironoWrapper);
+                row.objTransaction.Adjustment__c = sironoWrapper.adjustment.Id;
+                transactions.add(row.objTransaction);
 
-                if (objPaymentAdjustmentwrapper.objPaymentPlan.Id != null) {
-                    lstPaymentPlan.add(objPaymentAdjustmentwrapper.objPaymentPlan);
+                chargeGroups.add(row.objChargeGroup);
+
+                if (row.objPaymentPlan.Id != null) {
+                    paymentPlans.add(row.objPaymentPlan);
                 }
             }
 
-            //Save all Records if it is Take Adjustment/Discount.
-            if (lstChargeGroup.size() > 0) {
-                ChargeGroupService.updateChargeGroupsWithStatus(lstChargeGroup);
+            if (chargeGroups.size() > 0) {
+                ChargeGroupService.updateChargeGroups(chargeGroups);
             }
 
-            if (lstPaymentPlan.size() > 0) {
-                if (PaymentPlanSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                    update lstPaymentPlan;
-                }
+            if (paymentPlans.size() > 0) {
+                PaymentPlanDao.updateAll(paymentPlans);
             }
 
-            if (lstTransaction.size() > 0) {
-                if (TransactionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                    insert lstTransaction;
-                }
-
-                if (TransactionSecurityContext.PSWSU_SELECT_CONTEXT.actionAllowed()) {
-                    List<Transaction__c> lstTran = [
-                        SELECT Id, Sirono_ID__c
-                        FROM Transaction__c
-                        WHERE Sirono_ID__c IN :mapTranPayAdjId.values()
-                    ];
-
-                    Map<Decimal, String> mapTran = new Map<Decimal, String>();
-                    for (Transaction__c t : lstTran) {
-                        mapTran.put(t.Sirono_ID__c, t.Id);
-                    }
-
-                    for (Payment_Adjustments__c pa : lstPaymentAdjustment) {
-                        Decimal tranId = mapTranPayAdjId.get(pa.Sirono_ID__c);
-                        pa.Transaction__c = mapTran.get(tranId);
-                    }
-                }
-
-                if (PaymentAdjustmentsSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                    insert lstPaymentAdjustment;
-                }
+            if (transactions.size() > 0) {
+                TransactionDao.save(transactions);
             }
         }
+    }
+
+    public static void processPayment(String jsonString) {
+        PaymentJSONParsing parser = new PaymentJSONParsing(jsonString);
+        Payment__c payment = parser.parse();
+        callTransactionRequest(new List<Payment__c>{payment}, null, true);
     }
 
     /*
     * Call Transaction Request and get all Transactions based on Payment.
     */
-    private static PaymentAdjustmentwrapper callTransactionRequest(String jwtToken, List<Payment__c> payments, String paymentAdjustmentSironoId, Boolean isPayment) {
+    private static RelatedObjectWrapper callTransactionRequest(List<Payment__c> payments, String paymentAdjustmentSironoId, Boolean isPayment) {
 
-        PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
+        RelatedObjectWrapper adjWrapper = new RelatedObjectWrapper();
 
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
@@ -322,14 +287,14 @@ public with sharing class PayStaffWSUtill {
         String responseBody;
 
         req.setMethod('GET');
-        req.setHeader('Authorization', 'JWT ' + jwtToken);
+        req.setHeader('Authorization', 'JWT ' + new SironoRestClient.AuthRestClient().getJwtToken());
         req.setHeader('Content-type', 'application/json');
         if (isPayment) {
             req.setEndpoint('callout:sirono_server/paystaff/api/payments/'
-                + String.valueOf(payments.get(0).Sirono_ID__c) + '/transactions/');
+                        + String.valueOf(payments.get(0).Sirono_ID__c) +'/transactions/');
         } else {
             req.setEndpoint('callout:sirono_server/paystaff/api/adjustments/'
-                + paymentAdjustmentSironoId + '/transactions/');
+                        + paymentAdjustmentSironoId +'/transactions/');
         }
 
         req.setTimeout(120000);
@@ -346,60 +311,59 @@ public with sharing class PayStaffWSUtill {
         } catch (Exception e) {
             // Debug error response
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
-                'TRANSACTION EXCEPTION RESPONSE : ' + res.toString() +
-                    '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage()));
+                    'TRANSACTION EXCEPTION RESPONSE : '+ res.toString() +
+                            '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage()));
         }
 
         if (res.getStatusCode() != null && res.getStatusCode() == 200) {
-            objPaymentAdjustmentwrapper = parseTransactionResponse(jwtToken, responseBody, payments, isPayment);
+            adjWrapper = parseTransactionResponse(responseBody, payments, isPayment);
         } else {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
-                'RESPONSE : ' + res.toString() +
-                    '  RESPONSE BODY::' + responseBody));
+                                    'RESPONSE : '+ res.toString() +
+                                    '  RESPONSE BODY::' + responseBody));
         }
-        return objPaymentAdjustmentwrapper;
+        return adjWrapper;
     }
 
     /*
     * Parse Transaction response and based on Charge group call Charge group request.
     */
-    private static PaymentAdjustmentwrapper parseTransactionResponse(String jwtToken, String jsonStr, List<Payment__c> payments, Boolean isPayment) {
-        TransactionJSONParsing.TransactionWrapper objTransactionWrapper;
-        objTransactionWrapper = TransactionJSONParsing.parse(jsonStr);
+    private static RelatedObjectWrapper parseTransactionResponse(String jsonStr, List<Payment__c> payments, boolean isPayment) {
 
-        List<Transaction__c> lstTransaction = new List<Transaction__c>();
-        List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
-        List<Payment_Plan__c> lstPaymentPlan = new List<Payment_Plan__c>();
+        TransactionJSONParsing parser = new TransactionJSONParsing(jsonStr);
+        TransactionJSONParsing.TransactionWrapper txnWrapper = parser.parse();
 
-        PaymentAdjustmentwrapper objPaymentAdjustmentwrapper = new PaymentAdjustmentwrapper();
+        List<Transaction__c> transactions = new List<Transaction__c>();
+        List<Charge_Group__c> chargeGroups = new List<Charge_Group__c>();
+        List<Payment_Plan__c> paymentPlans = new List<Payment_Plan__c>();
 
-        if (objTransactionWrapper != null) {
-            if (objTransactionWrapper.transactionRecords.size() > 0) {
-                System.debug('Transaction record size : ' + objTransactionWrapper.transactionRecords.size());
-                System.debug('Transaction records : ' + objTransactionWrapper.transactionRecords);
-                lstTransaction = objTransactionWrapper.transactionRecords;
+        RelatedObjectWrapper adjWrapper = new RelatedObjectWrapper();
+
+        if (txnWrapper != null) {
+            if (txnWrapper.transactionRecords.size() > 0) {
+                System.debug('Transaction record size : ' + txnWrapper.transactionRecords.size());
+                System.debug('Transaction records : ' + txnWrapper.transactionRecords);
+                transactions = txnWrapper.transactionRecords;
             }
-            if (objTransactionWrapper.chargeGroupRecords.size() > 0) {
-                System.debug('Charge Group record size : ' + objTransactionWrapper.chargeGroupRecords.size());
-                System.debug('Charge Group records : ' + objTransactionWrapper.chargeGroupRecords);
-                lstChargeGroup = objTransactionWrapper.chargeGroupRecords;
+            if (txnWrapper.chargeGroupRecords.size() > 0) {
+                System.debug('Charge Group record size : ' + txnWrapper.chargeGroupRecords.size());
+                System.debug('Charge Group records : ' + txnWrapper.chargeGroupRecords);
+                chargeGroups = txnWrapper.chargeGroupRecords;
 
-                for (Charge_Group__c cg : lstChargeGroup) {
-                    //Boolean variable set to false for all Charge Group whenever Request made.
-                    hasChargeGroupPaymentPlan = true;
+                for (Charge_Group__c cg : chargeGroups) {
+                    //Boolean variable set to false for all Charge Groups whenever Request made.
+                    chargeGroupOnPPlan = true;
 
-                    Charge_Group__c chargeGroup = new Charge_Group__c();
-                    chargeGroup = callChargeGroupRequest(String.valueOf(cg.Sirono_ID__c), jwtToken);
+                    Charge_Group__c chargeGroup = callChargeGroupRequest(cg.Sirono_ID__c);
 
                     if (cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_PAYMENT_PLAN) {
-                        Payment_Plan__c objPaymentPlan = new Payment_Plan__c();
-                        objPaymentPlan = callPaymentPlanRequest(jwtToken, String.valueOf(cg.Payment_Plan__r.Sirono_ID__c),
-                            cg.Payment_Plan__r.Guarantor__c);
-                        lstPaymentPlan.add(objPaymentPlan);
+                        Payment_Plan__c paymentPlan = callPaymentPlanRequest(cg.Payment_Plan__r.Sirono_ID__c,
+                                cg.Payment_Plan__r.Guarantor__c);
+                        paymentPlans.add(paymentPlan);
                     }
 
-                    //If Charge Group have no longer Payment Plan than set it null.
-                    if (!hasChargeGroupPaymentPlan) {
+                    //If Charge Group no longer has a Payment Plan, then set it null.
+                    if (!chargeGroupOnPPlan) {
                         cg.Payment_Plan__c = null;
                     }
 
@@ -414,85 +378,47 @@ public with sharing class PayStaffWSUtill {
             if (PaymentSecurityContext.PSWU_CREATE_CONTEXT.actionAllowed()) {
                 insert payments;
             }
-            Id paymentId = payments.get(0).Id;
+            Id paymentId = payments[0].Id;
 
-            if (lstTransaction.size() > 0) {
-                for (Transaction__c objTran : lstTransaction) {
+            if (!transactions.isEmpty()) {
+                for (Transaction__c objTran : transactions) {
                     objTran.Payment__c = paymentId;
                 }
-
-                if (TransactionSecurityContext.CREATE_WITH_PAYMENT_CONTEXT.actionAllowed()) {
-                    insert lstTransaction;
-                }
+                TransactionDao.save(transactions);
             }
 
-            if (lstChargeGroup.size() > 0) {
-                ChargeGroupService.updateChargeGroupsWithStatus(lstChargeGroup);
+            if (!chargeGroups.isEmpty()) {
+                ChargeGroupService.updateChargeGroups(chargeGroups);
             }
 
-            if (lstPaymentPlan.size() > 0) {
-                if (PaymentPlanSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                    update lstPaymentPlan;
-                }
+            if (!paymentPlans.isEmpty()) {
+                PaymentPlanDao.updateAll(paymentPlans);
             }
         } else {
             //It is used for Adjustment/Discount.
-            if (lstTransaction.size() > 0) {
-                objPaymentAdjustmentwrapper.objTransaction = lstTransaction[0];
+            if (!transactions.isEmpty()) {
+                adjWrapper.objTransaction = transactions[0];
             }
-            if (lstChargeGroup.size() > 0) {
-                objPaymentAdjustmentwrapper.objChargeGroup = lstChargeGroup[0];
+            if (!chargeGroups.isEmpty()) {
+                adjWrapper.objChargeGroup = chargeGroups[0];
             }
-            if (lstPaymentPlan.size() > 0) {
-                objPaymentAdjustmentwrapper.objPaymentPlan = lstPaymentPlan[0];
+            if (!paymentPlans.isEmpty()) {
+                adjWrapper.objPaymentPlan = paymentPlans[0];
             }
         }
-        return objPaymentAdjustmentwrapper;
+        return adjWrapper;
     }
 
-     /*
-    * 10-18-2016: Viraj Rana - Tracker # 129073825: Take Payment in SF
-    * 10-18-2016: Viraj Rana - Tracker # 129073861: Take Discount/Adjustment in SF
-    * make a Charge group Reqeuest to get the chargeGroupInformation
+    /**
+    *
+    * Retrieve the given chargegroup from Sirono
     */
-    private static Charge_Group__c callChargeGroupRequest(String chargeGroupId, String jwtToken) {
+    private static Charge_Group__c callChargeGroupRequest(Decimal chargeGroupId) {
         Charge_Group__c chargeGroup = new Charge_Group__c();
 
-        HttpRequest req = new HttpRequest();
-        HttpResponse res = new HttpResponse();
+        ChargeGroupJSONParser.ChargeGroupJSON wrapper = ChargeGroupService.retrieveBySironoId(chargeGroupId.toPlainString());
+        chargeGroup = parseChargeGroupResponse(wrapper);
 
-        Http http = new Http();
-        String responseBody;
-
-        req.setMethod('GET');
-        req.setHeader('Authorization', 'JWT ' + jwtToken);
-        req.setHeader('Content-type', 'application/json');
-        req.setEndpoint('callout:sirono_server/paystaff/api/chargegroups/'
-            + PayStaffWSUtill.trimCommas(chargeGroupId) + '/');
-
-        req.setTimeout(120000);
-        try {
-            res = http.send(req);
-            responseBody = res.getBody();
-
-            if (Test.isRunningTest()) {
-                res.setStatusCode(TestUtility.statusCode3);
-                TestUtility.generateException();
-            }
-        } catch (Exception e) {
-            // Debug error response
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
-                'ChargeGroup EXCEPTION RESPONSE : ' + res.toString() +
-                    '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage()));
-        }
-        if (res.getStatusCode() != null && res.getStatusCode() == 200) {
-            System.debug('Charge Group Response Body : ' + responseBody);
-            chargeGroup = parseChargeGroupResponse(responseBody);
-        } else {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
-                'RESPONSE : ' + res.toString() +
-                    '  RESPONSE BODY::' + responseBody));
-        }
         return chargeGroup;
     }
 
@@ -500,17 +426,18 @@ public with sharing class PayStaffWSUtill {
     * Update the Account_Sub_Status__c and Account_Status__c.
     * if Account_Sub_Status__c = On Payment Plan than call Payment Plan request.
     */
-    private static Charge_Group__c parseChargeGroupResponse(String responseBody) {
+    private static Charge_Group__c parseChargeGroupResponse(ChargeGroupJSONParser.ChargeGroupJSON cgWrapper) {
 
-        ChargeGroupJSONParser objChargeGroup = ChargeGroupJSONParser.parse(responseBody);
-        Charge_Group__c cg = new Charge_Group__c();
+        String gtId = AbstractSironoJSONParser.parseSironoId(cgWrapper.guarantor_data.url, RestClientConstants.GUARANTOR_URL_RESOURCE_TYPE);
 
-        cg.Account_Sub_Status__c = objChargeGroup.account_sub_status;
-        cg.Account_Status__c = objChargeGroup.account_status;
+        Contact gt = GuarantorDao.getGuarantorBySironoId(gtId);
 
-        //It is used to verified that Charge Group have longer Payment Plan Look up or not.
-        if (objChargeGroup.paymentplan == null) {
-            hasChargeGroupPaymentPlan = false;
+        Charge_Group__c cg = new Charge_Group__c(Account_Sub_Status__c = cgWrapper.account_sub_status,
+                Account_Status__c = cgWrapper.account_status, Guarantor__c = gt.Id);
+
+        //Does the Charge Group have a Payment Plan?.
+        if (cgWrapper.paymentplan == null) {
+            chargeGroupOnPPlan = false;
         }
 
         return cg;
@@ -519,7 +446,8 @@ public with sharing class PayStaffWSUtill {
     /*
     *  Call the paymentplan Web Service to get the paymentplan information.
     */
-    private static Payment_Plan__c callPaymentPlanRequest(String jwtToken, String paymentPlanExternalId, String guarantorId) {
+	//TODO replace with PaymentPlanService call
+    private static Payment_Plan__c callPaymentPlanRequest(Decimal paymentPlanSironoId, String guarantorId) {
         Payment_Plan__c objPaymentPlan = new Payment_Plan__c();
 
         HttpRequest req = new HttpRequest();
@@ -529,10 +457,10 @@ public with sharing class PayStaffWSUtill {
         String responseBody;
 
         req.setMethod('GET');
-        req.setHeader('Authorization', 'JWT ' + jwtToken);
+        req.setHeader('Authorization', 'JWT ' + new SironoRestClient.AuthRestClient().getJwtToken());
         req.setHeader('Content-type', 'application/json');
         req.setEndpoint('callout:sirono_server/paystaff/api/paymentplan/'
-            + PayStaffWSUtill.trimCommas(paymentPlanExternalId) + '/');
+                + paymentPlanSironoId.toPlainString() + '/');
         req.setTimeout(120000);
         try {
             res = http.send(req);
@@ -551,8 +479,8 @@ public with sharing class PayStaffWSUtill {
 
         } else {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
-                'RESPONSE : ' + res.toString() +
-                    '  RESPONSE BODY::' + responseBody));
+                                    'RESPONSE : '+ res.toString() +
+                                    '  RESPONSE BODY::' + responseBody));
         }
         return objPaymentPlan;
     }
@@ -562,8 +490,7 @@ public with sharing class PayStaffWSUtill {
     */
     private static Payment_Plan__c parsePaymentPlanResponse(String jsonStr, String guarantorId) {
 
-        PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper;
-        objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorId, null);
+        PaymentPlanJSONParsing.PaymentPlanWrapper objPaymentPlanWrapper = PaymentPlanJSONParsing.createPaymentPlanRecord(jsonStr, guarantorId, null);
 
         Payment_Plan__c paymentPlanObj = new Payment_Plan__c();
         paymentPlanObj = objPaymentPlanWrapper.paymentPlanRecord;

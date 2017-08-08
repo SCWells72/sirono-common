@@ -129,4 +129,10 @@ public with sharing class PaymentPlanDao extends AbstractDao {
         }
         return plans;
     }
+
+    public static void updateAll(List<Payment_Plan__c> plans) {
+        if (PaymentPlanSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
+            update plans;
+        }
+    }
 }

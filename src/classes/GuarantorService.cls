@@ -56,7 +56,7 @@ public with sharing class GuarantorService extends AbstractService {
          * @param jsonBody contains 0-n statement urls in JSON format
          */
         StatementURLJSONParser(String jsonBody) {
-            this.json = SironoRestClient.ensureJsonList(jsonBody);
+            this.json = ensureJsonList(jsonBody);
             this.statementUrls = (List<StatementURLJSON>) System.JSON.deserialize(json, List<StatementURLJSON>.class);
         }
     }

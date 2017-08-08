@@ -54,7 +54,7 @@
         </apex:outputPanel>
     </apex:form>
     <Script>
-        //Sirono 08-29-2016: 127326579 when Record Saved Successfully return to the PaymentPlan after few Sec.
+        //When process is successful, return to the PaymentPlan after few Sec.
         var delaymessage = 2000;
         $(document).ready(function () {
             returnToContact();

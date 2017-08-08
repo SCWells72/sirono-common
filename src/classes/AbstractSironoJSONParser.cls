@@ -7,15 +7,24 @@
  */
 public virtual class AbstractSironoJSONParser {
 
-    public static Decimal convertToDollars(Decimal amount) {
-        return PayStaffWSUtill.convertToDollars(amount);
+    public static Decimal convertToDollars(Integer amount) {
+        Decimal dollarAmount = (amount != null ? Decimal.valueOf(String.valueOf(amount)).divide(100, 2) : amount);
+        System.debug('converted cent amount: ' + amount + ' to dollars: '+ dollarAmount);
+        return dollarAmount;
+    }
+
+    // Convert Transaction amounts to dollars.
+    public static Decimal convertToDollarsNegative(Integer amount) {
+        Decimal dollarAmount = (amount != null ? Decimal.valueOf(String.valueOf(amount)).divide(-100, 2) : amount);
+        System.debug('converted cent amount: ' + amount + ' to negative dollars: '+ dollarAmount);
+        return dollarAmount;
     }
 
     /*
      * Helper to convert the given String to a Date
      */
     public static Date parseDate(String dateStr) {
-        if (!String.isBlank(dateStr)) {
+        if (String.isNotBlank(dateStr)) {
             return Date.valueOf(dateStr);
         }
         return null;
@@ -36,11 +45,28 @@ public virtual class AbstractSironoJSONParser {
         Set<Decimal> decimalSet = new Set<Decimal>();
         if (stringList != null) {
             for (String str : stringList) {
-                if (!String.isBlank(str) && str.isNumeric()) {
+                if (String.isNotBlank(str) && str.isNumeric()) {
                     decimalSet.add(Decimal.valueOf(str));
                 }
             }
         }
         return decimalSet;
+    }
+
+    /**
+     * Take the given jsonBody and make sure it is formatted as a JSON List
+     *
+     * @param jsonBody - the json that needs to be a list
+     */
+    public static String ensureJsonList(String jsonBody) {
+        String json = jsonBody;
+        if (!json.endsWith(']')) {
+            json = json + ']';
+        }
+
+        if (!json.startsWith('[')) {
+            json = '[' + json;
+        }
+        return json;
     }
 }

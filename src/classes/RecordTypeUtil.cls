@@ -11,19 +11,19 @@ public with sharing class RecordTypeUtil {
     public static Id automatedCaseRt;
     public static Id guarantorRt;
     public static Id patientRt;
-    public static Id staffRt;
+    public static Id externalGtRt;
 
     static {
         rtMap = new Map<String, Id>();
 
         if (RecordTypeSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             for (RecordType rt : [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Contact']) {
-                if ('Guarantor'.equalsIgnoreCase(rt.Name)) {
+                if (Constants.RECORD_TYPE_GUARANTOR.equalsIgnoreCase(rt.Name)) {
                     guarantorRt = rt.Id;
-                } else if ('Patient'.equalsIgnoreCase(rt.Name)) {
+                } else if (Constants.RECORD_TYPE_PATIENT.equalsIgnoreCase(rt.Name)) {
                     patientRt = rt.Id;
-                } else if ('Staff'.equalsIgnoreCase(rt.Name)) {
-                    staffRt = rt.Id;
+                } else if (Constants.RECORD_TYPE_EXTERNAL_GUARANTOR.equalsIgnoreCase(rt.Name)) {
+                    externalGtRt = rt.Id;
                 }
                 rtMap.put(rt.Name, rt.Id);
             }

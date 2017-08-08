@@ -16,10 +16,10 @@
                 </sidebarComponents>
                 <sidebarComponents>
                     <componentType>RelatedList</componentType>
-                    <label>Payments / Adjustments</label>
+                    <label>Adjustments</label>
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>
-                        <name>Payment_Adjustments__c.Payor__c</name>
+                        <name>Adjustment__c.Payor__c</name>
                     </relatedLists>
                 </sidebarComponents>
                 <style>Tabs</style>
@@ -116,10 +116,7 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Amount__c</fields>
-        <fields>Charge_Group__c</fields>
-        <fields>Payor_ID__c</fields>
-        <fields>Payment__c</fields>
-        <relatedList>Payment_Adjustments__c.Payor__c</relatedList>
+        <relatedList>Adjustment__c.Payor__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

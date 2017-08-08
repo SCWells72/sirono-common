@@ -60,7 +60,7 @@
         <label>Coverage</label>
         <referenceTo>Coverage__c</referenceTo>
         <relationshipLabel>Patient Coverage Junctions</relationshipLabel>
-        <relationshipName>Patient_Coverage_Juntions</relationshipName>
+        <relationshipName>Patient_Coverage_Junctions</relationshipName>
         <relationshipOrder>0</relationshipOrder>
         <reparentableMasterDetail>false</reparentableMasterDetail>
         <trackTrending>false</trackTrending>
@@ -93,7 +93,7 @@
         </lookupFilter>
         <referenceTo>Contact</referenceTo>
         <relationshipLabel>Patient Coverage Junctions</relationshipLabel>
-        <relationshipName>Patient_Coverage_Juntions</relationshipName>
+        <relationshipName>Patient_Coverage_Junctions</relationshipName>
         <relationshipOrder>1</relationshipOrder>
         <reparentableMasterDetail>false</reparentableMasterDetail>
         <trackTrending>false</trackTrending>

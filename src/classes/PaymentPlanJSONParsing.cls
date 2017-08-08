@@ -5,37 +5,40 @@
 /**
  * JSON Parsing Class for the response which comes from Request. 
  */
-public class PaymentPlanJSONParsing {
+public class PaymentPlanJSONParsing extends AbstractSironoJSONParser {
 
-    public String url;
-    public Boolean active;
-    public Integer installment_amount;
-    public Integer number_installments;
-    public Integer plan_value;
-    public String plan_type;
-    public Integer payable_amount;
-    public Integer execute_on_day;
-    public String guarantor;
-    public String next_payment_date;
-    //noinspection ApexUnusedDeclaration
-    public Integer installments_paid;
-    //noinspection ApexUnusedDeclaration
-    public Integer installments_total;
-    //noinspection ApexUnusedDeclaration
-    public Credit_card credit_card;
-    public Boolean has_error;
-    //noinspection ApexUnusedDeclaration
-    public String charges_added_since_start;
-    public Date error_date;
-    public List<String> chargegroups;
-    public Boolean delinquent;
-    public Date delinquent_date;
-    //noinspection ApexUnusedDeclaration
-    public List<Encounters> encounters;
-    //noinspection ApexUnusedDeclaration
-    public Integer authorized_amount;
-    public String skip_payment_until;
-    public String status;
+    public class PaymentPlanJSON {
+        public String url;
+        public Boolean active;
+        public Integer installment_amount;
+        public Integer number_installments;
+        public Integer plan_value;
+        public String plan_type;
+        public Integer payable_amount;
+        public Integer execute_on_day;
+        public String guarantor;
+        public String next_payment_date;
+        //noinspection ApexUnusedDeclaration
+        public Integer installments_paid;
+        //noinspection ApexUnusedDeclaration
+        public Integer installments_total;
+        //noinspection ApexUnusedDeclaration
+        public Credit_card credit_card;
+        public Boolean has_error;
+        //noinspection ApexUnusedDeclaration
+        public String charges_added_since_start;
+        public Date error_date;
+        public List<String> chargegroups;
+        public Boolean delinquent;
+        //noinspection ApexUnusedDeclaration
+        public Date delinquent_date;
+        //noinspection ApexUnusedDeclaration
+        public List<Encounters> encounters;
+        //noinspection ApexUnusedDeclaration
+        public Integer authorized_amount;
+        public String skip_payment_until;
+        public String status;
+    }
 
     public class Encounters {
     }
@@ -59,79 +62,67 @@ public class PaymentPlanJSONParsing {
         }
     }
 
-    public static PaymentPlanJSONParsing parse(String json) {
-        return (PaymentPlanJSONParsing) System.JSON.deserialize(json, PaymentPlanJSONParsing.class);
+    public static PaymentPlanJSON parse(String json) {
+        return (PaymentPlanJSON) System.JSON.deserialize(json, PaymentPlanJSON.class);
     }
 
     //TODO when do we pass in a chargegroupId? why don't we just always retrieve all that were sent back with the plan?
-    public static PaymentPlanWrapper createPaymentPlanRecord(String json, String contactId, String chargeGroupId) {
+    public static PaymentPlanWrapper createPaymentPlanRecord(String json, String guarantorId, String chargeGroupId) {
 
-        List<String> lstString = new List<String>();
-        Set<Decimal> setchargeGroupID = new Set<Decimal>();
-        if (!String.isBlank(chargeGroupId)) {
-            lstString = chargeGroupId.split(',');
-            for (String str : lstString) {
+        List<String> cgIds = new List<String>();
+        Set<Decimal> cgIdSet = new Set<Decimal>();
+        if (String.isNotBlank(chargeGroupId)) {
+            cgIds = chargeGroupId.split(',');
+            for (String str : cgIds) {
                 if (str.isNumeric()) {
-                    setchargeGroupID.add(Decimal.valueOf(str));
+                    cgIdSet.add(Decimal.valueOf(str));
                 }
             }
         }
+
         PaymentPlanWrapper objPaymentPlanWrapper = new PaymentPlanWrapper();
-        PaymentPlanJSONParsing objJson = parse(json);
+        PaymentPlanJSON objJson = parse(json);
 
         Payment_Plan__c paymentPlanObj = new Payment_Plan__c();
         paymentPlanObj.Active__c = objJson.active;
-        paymentPlanObj.Installment_Amount__c = PayStaffWSUtill.convertToDollars(objJson.installment_amount);
+        paymentPlanObj.Installment_Amount__c = AbstractSironoJSONParser.convertToDollars(objJson.installment_amount);
         paymentPlanObj.Original_Installment_Count__c = objJson.number_installments;
-        paymentPlanObj.Original_Balance__c = PayStaffWSUtill.convertToDollars(objJson.plan_value);
-        paymentPlanObj.Plan_Type__c = objJson.plan_type;
-        if (objJson.plan_type == 'auto') {
+        paymentPlanObj.Original_Balance__c = AbstractSironoJSONParser.convertToDollars(objJson.plan_value);
+
+        if (Constants.PLANTYPE_AUTO.equalsIgnoreCase(objJson.plan_type)) {
             paymentPlanObj.Plan_Type__c = Constants.AUTOMATIC;
-        } else if (objJson.plan_type == 'promise') {
-            paymentPlanObj.Plan_Type__c = 'Manual';
+        } else if (Constants.PLANTYPE_PROMISE.equalsIgnoreCase(objJson.plan_type)) {
+            paymentPlanObj.Plan_Type__c = Constants.MANUAL;
         }
 
-        paymentPlanObj.Remaining_Balance__c = PayStaffWSUtill.convertToDollars(objJson.payable_amount);
+        paymentPlanObj.Remaining_Balance__c = AbstractSironoJSONParser.convertToDollars(objJson.payable_amount);
         paymentPlanObj.Execute_on_Day__c = objJson.execute_on_day;
-        if (!String.isBlank(objJson.next_payment_date)) {
-            paymentPlanObj.NextPaymentDate__c = Date.valueOf(objJson.next_payment_date);
-        }
-        if (!String.isBlank(objJson.skip_payment_until)) {
-            paymentPlanObj.Skip_Payment_Until__c = Date.valueOf(objJson.skip_payment_until);
-        }
+        paymentPlanObj.NextPaymentDate__c = AbstractSironoJSONParser.parseDate(objJson.next_payment_date);
+        paymentPlanObj.Skip_Payment_Until__c = AbstractSironoJSONParser.parseDate(objJson.skip_payment_until);
         paymentPlanObj.Has_Error__c = objJson.has_error;
-        if (!String.isBlank(String.valueOf(objJson.error_date))) {
-            paymentPlanObj.Error_Date__c = Date.valueOf(objJson.error_date);
-        } else {
-            paymentPlanObj.Error_Date__c = null;
-        }
+        paymentPlanObj.Error_Date__c = objJson.error_date;
         paymentPlanObj.Delinquent__c = objJson.delinquent;
-        if (objJson.delinquent_date != null) {
-            paymentPlanObj.Delinquent_Date__c = objJson.delinquent_date;
-        } else {
-            paymentPlanObj.Delinquent_Date__c = null;
-        }
 
-        if (!String.isBlank(contactId)) {
-            paymentPlanObj.Guarantor__c = contactId;
+        if (!String.isBlank(guarantorId)) {
+            paymentPlanObj.Guarantor__c = guarantorId;
         } else {
-            String gtId = getExternalID(objJson.guarantor, 'guarantors');
+            String gtId = AbstractSironoJSONParser.parseSironoId(objJson.guarantor, RestClientConstants.GUARANTOR_URL_RESOURCE_TYPE);
             Contact gt = GuarantorService.getGuarantorBySironoId(gtId);
             paymentPlanObj.Guarantor__c = gt.Id;
         }
 
         paymentPlanObj.Status__c = objJson.status;
         if (!String.isBlank(objJson.url)) {
-            String strPaymentPlan = getExternalID(String.valueOf(objJson.url), 'paymentplan');
-            Decimal paymentPlanExternalID = Decimal.valueOf(strPaymentPlan);
-            if (!String.isBlank(strPaymentPlan)) {
-                paymentPlanObj.Sirono_ID__c = paymentPlanExternalID;
+            String planSironoIdStr = AbstractSironoJSONParser.parseSironoId(objJson.url, RestClientConstants.PPLAN_URL_RESOURCE_TYPE);
+
+            if (!String.isBlank(planSironoIdStr)) {
+                Decimal planSironoId = Decimal.valueOf(planSironoIdStr);
+                paymentPlanObj.Sirono_ID__c = planSironoId;
+                // TODO remove when name is turned into an autonumber field
                 paymentPlanObj.Name = String.valueOf(paymentPlanObj.Sirono_ID__c);
-                if (PaymentPlanSecurityContext.PP_SELECT_CONTEXT.actionAllowed()) {
-                    List<Payment_Plan__c> paymentPlan = [SELECT Id, Sirono_ID__c FROM Payment_Plan__c WHERE Sirono_ID__c = :paymentPlanExternalID];
-                    if (paymentPlan.size() > 0) {
-                        paymentPlanObj.Id = paymentPlan[0].Id ;
-                    }
+                Payment_Plan__c paymentPlan = PaymentPlanDao.getPaymentPlanBySironoId(planSironoId);
+                if (paymentPlan != null) {
+                    paymentPlanObj.Id = paymentPlan.Id ;
                 }
             }
         }
@@ -141,17 +132,17 @@ public class PaymentPlanJSONParsing {
         if (String.isBlank(chargeGroupId)) {
             System.debug('objJson.chargegroups' + objJson.chargegroups);
             for (String str : objJson.chargegroups) {
-                String strChargeGroupID = getExternalID(String.valueOf(str), 'chargegroups');
+                String strChargeGroupID = AbstractSironoJSONParser.parseSironoId(str, 'chargegroups');
                 if (strChargeGroupID.isNumeric()) {
-                    setchargeGroupID.add(Decimal.valueOf(strChargeGroupID));
+                    cgIdSet.add(Decimal.valueOf(strChargeGroupID));
                 }
             }
         }
 
-        System.debug('setchargeGroupID' + setchargeGroupID);
-        if (setchargeGroupID.size() > 0) {
-            List<Charge_Group__c> chargeGroups = ChargeGroupService.getBySironoIds(new List<Decimal>(setchargeGroupID));
-            for (Charge_Group__c objCG : chargeGroups) {
+        System.debug('cgIdSet' + cgIdSet);
+        if (!cgIdSet.isEmpty()) {
+            List<Charge_Group__c> chargeGroups = ChargeGroupService.getBySironoIds(new List<Decimal>(cgIdSet));
+            for (Charge_Group__c objCG: chargeGroups) {
                 objCG.Payment_Plan__c = paymentPlanObj.Id;
             }
             objPaymentPlanWrapper.chargeGroupRecords = chargeGroups;
@@ -159,13 +150,6 @@ public class PaymentPlanJSONParsing {
 
         objPaymentPlanWrapper.paymentPlanRecord = paymentPlanObj;
         return objPaymentPlanWrapper;
-    }
-
-    //Split the URL and return the last number which is external id.
-    //TODO this should be in a superclass for all the JSON parsers
-    public static String getExternalID(String url, String splitWith) {
-        String[] externalID = url.split(splitWith);
-        return externalID[externalID.size() - 1].replaceAll('/', '');
     }
 
     private static String testGuarantorSironoId = '23232323';
