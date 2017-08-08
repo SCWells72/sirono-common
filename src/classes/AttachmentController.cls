@@ -6,8 +6,9 @@ public with sharing class AttachmentController {
     
 	public Attachment attachment {
 	  get {
-		  if (attachment == null)
-			attachment = new Attachment();
+		  if (attachment == null) {
+			  attachment = new Attachment();
+		  }
 		  return attachment;
 		}
 	  set;
@@ -26,7 +27,7 @@ public with sharing class AttachmentController {
 			SecurityContext relatedContext = getRelatedSecurityContext();
 
 			if (relatedContext.actionAllowed() && AttachmentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-				INSERT attachment;
+				insert attachment;
 			}
 		} catch (Exception e) {
 			System.debug('caught exception: '+e.getMessage());

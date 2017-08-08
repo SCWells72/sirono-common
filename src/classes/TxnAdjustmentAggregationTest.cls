@@ -100,7 +100,7 @@ public with sharing class TxnAdjustmentAggregationTest {
 
         System.assertEquals(-500.00 , adj.Amount__c, 'Expected adjustment amount to be -500.00, but was: ' + adj.Amount__c);
 
-        DELETE txns[2];
+        delete txns[2];
 
         Test.stopTest();
 

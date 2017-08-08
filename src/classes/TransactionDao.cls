@@ -6,7 +6,7 @@ public with sharing class TransactionDao {
 
     public static void save(List<Transaction__c> transactions) {
         if (TransactionSecurityContext.CREATE_WITH_PAYMENT_CONTEXT.actionAllowed()) {
-            INSERT transactions;
+            insert transactions;
         }
     }
 }

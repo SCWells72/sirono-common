@@ -202,7 +202,7 @@ public with sharing class AdjustmentService extends AbstractService {
         if (dbChargeGroups[0].Payment_Plan__c != null) {
             originalPaymentPlan = PaymentPlanService.retrievePlan(dbChargeGroups[0].Payment_Plan__r.Sirono_ID__c);
 
-            dbChargeGroups = ChargeGroupDao.getByPaymentPlan(new Set<Id> {dbChargeGroups[0].Payment_Plan__c});
+            dbChargeGroups = ChargeGroupDao.getByPaymentPlanIds(new Set<Id> {dbChargeGroups[0].Payment_Plan__c});
         }
 
         List<Charge_Group__c> cgsToUpdate = new List<Charge_Group__c>();

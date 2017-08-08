@@ -12,11 +12,11 @@ public with sharing class AttachmentControllerTest {
         Test.startTest();
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Statement__c stmt = TestUtility.generateStatement(guarantorContact.Id);
         stmt.Statement_Date__c = Date.parse('11/22/2015');
-        INSERT stmt;
+        insert stmt;
 
         ApexPages.currentPage().getParameters().put('id', stmt.Id);
         AttachmentController ac = new AttachmentController();
@@ -58,14 +58,14 @@ public with sharing class AttachmentControllerTest {
 
         Test.startTest();
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Statement__c stmt = TestUtility.generateStatement(guarantorContact.Id);
         stmt.Statement_Date__c = Date.parse('11/22/2015');
-        INSERT stmt;
+        insert stmt;
 
         User readonly = TestUtility.generateReadOnlyUser();
-        INSERT readonly;
+        insert readonly;
 
         System.runAs(readonly) {
             ApexPages.currentPage().getParameters().put('id', stmt.Id);
@@ -91,10 +91,10 @@ public with sharing class AttachmentControllerTest {
         Test.startTest();
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 4500.00, System.today());
-        INSERT encounter;
+        insert encounter;
 
         ApexPages.currentPage().getParameters().put('id', encounter.Id);
         AttachmentController ac = new AttachmentController();
@@ -137,10 +137,10 @@ public with sharing class AttachmentControllerTest {
         Test.startTest();
 
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 4500.00, System.today());
-        INSERT encounter;
+        insert encounter;
 
         ApexPages.currentPage().getParameters().put('id', encounter.Id);
         AttachmentController ac = new AttachmentController();
@@ -159,13 +159,13 @@ public with sharing class AttachmentControllerTest {
 
         Test.startTest();
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        INSERT guarantorContact;
+        insert guarantorContact;
 
         Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 4500.00, System.today());
-        INSERT encounter;
+        insert encounter;
 
         User readonly = TestUtility.generateReadOnlyUser();
-        INSERT readonly;
+        insert readonly;
 
         System.runAs(readonly) {
             ApexPages.currentPage().getParameters().put('id', encounter.Id);
@@ -189,10 +189,10 @@ public with sharing class AttachmentControllerTest {
 
         Test.startTest();
         Campaign cmpn = TestUtility.generateCampaign('Test Campaign');
-        INSERT cmpn;
+        insert cmpn;
 
         User readonly = TestUtility.generateReadOnlyUser();
-        INSERT readonly;
+        insert readonly;
 
         System.runAs(readonly) {
             ApexPages.currentPage().getParameters().put('id', cmpn.Id);
@@ -219,7 +219,7 @@ public with sharing class AttachmentControllerTest {
         Campaign cmpn = TestUtility.generateCampaign('Test Campaign');
 
         User readonly = TestUtility.generateReadOnlyUser();
-        INSERT readonly;
+        insert readonly;
 
         System.runAs(readonly) {
             ApexPages.currentPage().getParameters().put('id', cmpn.Id);

@@ -45,8 +45,8 @@
                 <emptySpace>true</emptySpace>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Sirono_Id__c</field>
+                <behavior>Readonly</behavior>
+                <field>Aggregate_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

@@ -85,7 +85,7 @@ public class PaymentPlanJSONParsing extends AbstractSironoJSONParser {
 
         Payment_Plan__c paymentPlanObj = new Payment_Plan__c();
         paymentPlanObj.Active__c = objJson.active;
-        paymentPlanObj.Installment_Amount__c = AbstractSironoJSONParser.convertToDollars(Decimal.valueOf(objJson.installment_amount));
+        paymentPlanObj.Installment_Amount__c = AbstractSironoJSONParser.convertToDollars(objJson.installment_amount);
         paymentPlanObj.Original_Installment_Count__c = objJson.number_installments;
         paymentPlanObj.Original_Balance__c = AbstractSironoJSONParser.convertToDollars(objJson.plan_value);
 

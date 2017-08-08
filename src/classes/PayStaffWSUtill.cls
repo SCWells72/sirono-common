@@ -7,7 +7,7 @@
  */
 public with sharing class PayStaffWSUtill {
     //Verify whether or not the Charge Group has an associated Payment Plan
-    static Boolean chargeGroupOnPPlan = false;
+    private static Boolean chargeGroupOnPPlan = false;
 
     //get the Guarantor Id from given contact.
     public static String fetchGuarantorId(Contact gc) {

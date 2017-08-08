@@ -54,19 +54,4 @@ public class AdjustmentJSONParser extends AbstractSironoJSONParser {
         }
         return adjustments;
     }
-
-    public static String testResponse() {
-
-        String responseBody = '[{' +
-                '   "url": "https://toledo.stage.sirono.com/paystaff/api/adjustments/3151479/", ' +
-                '   "chargegroup":"https://toledo.stage.sirono.com/paystaff/api/chargegroups/51724/",' +
-                '   "amount":100,' +
-                '   "code":"ADM",' +
-                '   "description":"BC/BS adjustment",' +
-                '   "display_kind":"",' +
-                '   "post_date":"2016-10-13"' +
-                '}]';
-
-        return responseBody;
-    }
 }

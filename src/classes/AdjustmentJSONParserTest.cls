@@ -5,9 +5,19 @@
 @IsTest
 public with sharing class AdjustmentJSONParserTest {
 
+    private static final String MOCK_RESPONSE_BODY  = '[{' +
+                '   "url": "https://toledo.stage.sirono.com/paystaff/api/adjustments/3151479/", ' +
+                '   "chargegroup":"https://toledo.stage.sirono.com/paystaff/api/chargegroups/51724/",' +
+                '   "amount":100,' +
+                '   "code":"ADM",' +
+                '   "description":"BC/BS adjustment",' +
+                '   "display_kind":"",' +
+                '   "post_date":"2016-10-13"' +
+                '}]';
+
     @IsTest
     public static void testJsonParser() {
-        AdjustmentJSONParser parser = new AdjustmentJSONParser(AdjustmentJSONParser.testResponse());
+        AdjustmentJSONParser parser = new AdjustmentJSONParser(MOCK_RESPONSE_BODY);
         AdjustmentJSONParser.AdjustmentWrapper[] wrappers = parser.parse();
 
         AdjustmentJSONParser.AdjustmentWrapper wrapper = wrappers[0];

@@ -7,15 +7,15 @@
  */
 public virtual class AbstractSironoJSONParser {
 
-    public static Decimal convertToDollars(Decimal amount) {
-        Decimal dollarAmount = (amount != null ? (amount / 100) : amount);
+    public static Decimal convertToDollars(Integer amount) {
+        Decimal dollarAmount = (amount != null ? Decimal.valueOf(String.valueOf(amount)).divide(100, 2) : amount);
         System.debug('converted cent amount: ' + amount + ' to dollars: '+ dollarAmount);
         return dollarAmount;
     }
 
     // Convert Transaction amounts to dollars.
-    public static Decimal convertToDollarsNegative(Decimal amount) {
-        Decimal dollarAmount = (amount != null ? (amount / -100) : amount);
+    public static Decimal convertToDollarsNegative(Integer amount) {
+        Decimal dollarAmount = (amount != null ? Decimal.valueOf(String.valueOf(amount)).divide(-100, 2) : amount);
         System.debug('converted cent amount: ' + amount + ' to negative dollars: '+ dollarAmount);
         return dollarAmount;
     }
@@ -24,7 +24,7 @@ public virtual class AbstractSironoJSONParser {
      * Helper to convert the given String to a Date
      */
     public static Date parseDate(String dateStr) {
-        if (!String.isBlank(dateStr)) {
+        if (String.isNotBlank(dateStr)) {
             return Date.valueOf(dateStr);
         }
         return null;
@@ -45,7 +45,7 @@ public virtual class AbstractSironoJSONParser {
         Set<Decimal> decimalSet = new Set<Decimal>();
         if (stringList != null) {
             for (String str : stringList) {
-                if (!String.isBlank(str) && str.isNumeric()) {
+                if (String.isNotBlank(str) && str.isNumeric()) {
                     decimalSet.add(Decimal.valueOf(str));
                 }
             }

@@ -120,13 +120,13 @@ public with sharing class ChargeGroupDao extends AbstractDao {
      * @param paymentPlanIds - The paymentPlanIds
      * @returns The chargegroups on that payment plan
      **/
-    public static List<Charge_Group__c> getByPaymentPlan(Set<Id> paymentPlanIds) {
+    public static List<Charge_Group__c> getByPaymentPlanIds(Set<Id> paymentPlanIds) {
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
                     SELECT Id, Guarantor__c, External_Guarantor_ID__c, Account_Status__c, Account_Sub_Status__c,
                             Sirono_ID__c, External_Guarantor_ID__r.External_Guarantor_Id__c
                     FROM Charge_Group__c
-                    WHERE Active__c = true
+                    WHERE Active__c = TRUE
                     AND Payment_Plan__c IN :paymentPlanIds
             ];
         }

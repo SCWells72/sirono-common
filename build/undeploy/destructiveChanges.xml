@@ -99,6 +99,8 @@
         <members>Campaign_Member_History__c-Campaign Member History Layout</members>
         <members>Campaign_Member_History__c-Campaign Members History</members>
         <members>Encounter_Coverage_Junction__c-Encounter Coverage Junction Layout</members>
+        <members>Payment_Adjustments__c-Adjustment Layout</members>
+        <members>Payment_Adjustments__c-Adjustments</members>
         <members>Payment_Arrangement__c-Payment Arrangement Layout</members>
         <members>Payment_Arrangement__c-Payment Arrangements</members>
         <members>Transaction_Type__c-Transaction Type Layout</members>

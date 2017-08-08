@@ -10,7 +10,7 @@ public with sharing class AdjustmentDao extends AbstractDao {
     public static void save(List<Adjustment__c> adjustments) {
         if (!adjustments.isEmpty()) {
             if (AdjustmentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                INSERT adjustments;
+                insert adjustments;
             }
         }
     }
@@ -19,7 +19,7 @@ public with sharing class AdjustmentDao extends AbstractDao {
 
         if (!adjustments.isEmpty()) {
             if (AdjustmentSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                UPDATE adjustments;
+                update adjustments;
             }
         }
     }
