@@ -8,14 +8,14 @@
 public virtual class AbstractSironoJSONParser {
 
     public static Decimal convertToDollars(Integer amount) {
-        Decimal dollarAmount = (amount != null ? Decimal.valueOf(String.valueOf(amount)).divide(100, 2) : amount);
+        Decimal dollarAmount = amount == null ? amount : ((Decimal) amount).divide(100, 2, System.RoundingMode.HALF_UP);
         System.debug('converted cent amount: ' + amount + ' to dollars: '+ dollarAmount);
         return dollarAmount;
     }
 
     // Convert Transaction amounts to dollars.
     public static Decimal convertToDollarsNegative(Integer amount) {
-        Decimal dollarAmount = (amount != null ? Decimal.valueOf(String.valueOf(amount)).divide(-100, 2) : amount);
+        Decimal dollarAmount = amount == null ? amount : convertToDollars(amount) * -1;
         System.debug('converted cent amount: ' + amount + ' to negative dollars: '+ dollarAmount);
         return dollarAmount;
     }

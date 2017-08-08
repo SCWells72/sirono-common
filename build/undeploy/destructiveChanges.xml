@@ -83,6 +83,7 @@
     <types>
         <members>Campaign_Member_History__c</members>
         <members>Encounter_Coverage_Junction__c</members>
+        <members>Payment_Adjustments__c</members>
         <members>Payment_Arrangement__c</members>
         <members>Transaction_Type__c</members>
         <name>CustomObject</name>
