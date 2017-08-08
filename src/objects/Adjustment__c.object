@@ -169,7 +169,6 @@
         <trackTrending>false</trackTrending>
         <type>Date</type>
     </fields>
-
     <label>Adjustment</label>
     <listViews>
         <fullName>All</fullName>
@@ -212,4 +211,5 @@
         <searchResultsAdditionalFields>Payor__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
 </CustomObject>

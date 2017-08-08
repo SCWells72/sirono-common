@@ -56,11 +56,11 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <fields>
-        <fullName>Adjustment__c</fullName>
+        <fullName>Adjustment2__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
-        <label>Adjustment (Deprecated)</label>
-        <referenceTo>Payment_Adjustments__c</referenceTo>
+        <label>Adjustment</label>
+        <referenceTo>Adjustment__c</referenceTo>
         <relationshipLabel>Transactions</relationshipLabel>
         <relationshipName>Transactions</relationshipName>
         <required>false</required>
@@ -69,11 +69,11 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Adjustment2__c</fullName>
+        <fullName>Adjustment__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
-        <label>Adjustment</label>
-        <referenceTo>Adjustment__c</referenceTo>
+        <label>Adjustment (Deprecated)</label>
+        <referenceTo>Payment_Adjustments__c</referenceTo>
         <relationshipLabel>Transactions</relationshipLabel>
         <relationshipName>Transactions</relationshipName>
         <required>false</required>
@@ -230,11 +230,11 @@
         <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>Service__c</fullName>
+        <fullName>Service2__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
-        <label>Service (Deprecated)</label>
-        <referenceTo>Service__c</referenceTo>
+        <label>Service</label>
+        <referenceTo>Service2__c</referenceTo>
         <relationshipLabel>Transactions</relationshipLabel>
         <relationshipName>Transactions</relationshipName>
         <required>false</required>
@@ -243,11 +243,11 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Service2__c</fullName>
+        <fullName>Service__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
-        <label>Service</label>
-        <referenceTo>Service2__c</referenceTo>
+        <label>Service (Deprecated)</label>
+        <referenceTo>Service__c</referenceTo>
         <relationshipLabel>Transactions</relationshipLabel>
         <relationshipName>Transactions</relationshipName>
         <required>false</required>
