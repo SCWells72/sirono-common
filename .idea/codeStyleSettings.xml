@@ -5,6 +5,9 @@
       <value>
         <option name="HTML_ATTRIBUTE_WRAP" value="0" />
         <option name="HTML_TEXT_WRAP" value="0" />
+        <JSCodeStyleSettings>
+          <option name="SPACE_BEFORE_FUNCTION_LEFT_PARENTH" value="false" />
+        </JSCodeStyleSettings>
         <XML>
           <option name="XML_ATTRIBUTE_WRAP" value="0" />
           <option name="XML_TEXT_WRAP" value="0" />
@@ -19,6 +22,7 @@
           </indentOptions>
         </codeStyleSettings>
         <codeStyleSettings language="HTML">
+          <option name="RIGHT_MARGIN" value="1000" />
           <indentOptions>
             <option name="CONTINUATION_INDENT_SIZE" value="4" />
           </indentOptions>
@@ -33,6 +37,6 @@
         </codeStyleSettings>
       </value>
     </option>
-    <option name="PREFERRED_PROJECT_CODE_STYLE" value="Sirono" />
+    <option name="USE_PER_PROJECT_SETTINGS" value="true" />
   </component>
 </project>
