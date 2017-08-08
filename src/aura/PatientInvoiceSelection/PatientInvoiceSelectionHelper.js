@@ -137,7 +137,7 @@
         var action = component.get("c.getEstimate");
 
         action.setParams({
-            'invoiceId': invoiceId,
+            'invoiceId': invoiceId
         });
 
         action.setCallback(this, function (response) {

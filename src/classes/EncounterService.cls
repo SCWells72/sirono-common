@@ -74,6 +74,7 @@ public class EncounterService extends AbstractService {
      * @returns List<Encounter__c> - The list of encounters.
      */
     public static List<Encounter__c> getForInvoice(Id contactId, String invoiceId) {
-        return EncounterDao.getForInvoice(contactId, invoiceId);
+        EncounterDao.ElevatedPrivilegesHelper helper = new EncounterDao.ElevatedPrivilegesHelper();
+        return helper.getForInvoice(contactId, invoiceId);
     }
 }

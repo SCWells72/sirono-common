@@ -22,5 +22,5 @@
             'hideCreatePaymentPlanTab': true
         });
         appEvent.fire();
-    },
+    }
 })

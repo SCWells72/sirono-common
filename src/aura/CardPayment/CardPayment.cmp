@@ -83,7 +83,7 @@
             <div class="col slds-size--1-of-1">
                 <div class="float-right">
                 {!v.isValid}
-                    <button disabled="{!!v.IsValid}" class="slds-button slds-button--brand" onclick="{!c.makePayment}">Make Payment</button>
+                    <button disabled="{!!v.IsValid}" class="slds-button slds-button--brand" onclick="{!c.makePayment}">Make Deposit</button>
                 </div>
             </div>
         </div>
