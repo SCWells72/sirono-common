@@ -62,6 +62,7 @@
         <label>Aggregate Id</label>
         <length>128</length>
         <required>false</required>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
@@ -73,6 +74,7 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
     </fields>
@@ -82,6 +84,7 @@
         <label>Description</label>
         <length>254</length>
         <required>false</required>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
@@ -96,6 +99,7 @@
             TEXT(YEAR(Post_Date__c))</formula>
         <label>Display Name</label>
         <required>false</required>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
@@ -118,6 +122,7 @@
         <relationshipLabel>Adjustments (External Guarantor)</relationshipLabel>
         <relationshipName>AdjustmentsExtGT</relationshipName>
         <required>false</required>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
@@ -138,6 +143,7 @@
         <relationshipName>Adjustments</relationshipName>
         <relationshipOrder>0</relationshipOrder>
         <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>MasterDetail</type>
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
@@ -150,6 +156,7 @@
         <referenceTo>Payor__c</referenceTo>
         <relationshipName>Adjustments</relationshipName>
         <required>false</required>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
@@ -158,6 +165,7 @@
         <externalId>false</externalId>
         <label>Post Date</label>
         <required>false</required>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
     </fields>
@@ -171,6 +179,7 @@
     <nameField>
         <displayFormat>ADJ-{0000000000}</displayFormat>
         <label>Name</label>
+        <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Adjustments</pluralLabel>
