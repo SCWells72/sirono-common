@@ -15,11 +15,11 @@
         <nav class="navigation">
             <aura:if isTrue="{!v.hideCreatePaymentPlanTab}">
                 <div aura:id="MakeAPayment_tab" id="MakeAPayment" class="col make-payment-nav active">
-                    Make a Payment
+                    Make a Deposit
                 </div>
                 <aura:set attribute="else">
                     <div aura:id="MakeAPayment_tab" id="MakeAPayment" class="col make-payment-nav active" onclick="{!c.activateTab}">
-                        Make a Payment
+                        Make a Deposit
                     </div>
                 </aura:set>
             </aura:if>

@@ -61,9 +61,16 @@ public with sharing class PaymentTabsController {
      */
     @AuraEnabled
     public static Payment_Plan__c createPaymentPlan(Map<String, Object> ppInfoMap) {
-        PaymentPlanInformation ppInfo = new PaymentPlanInformation(ppInfoMap);
-        UserWrapper user = UserService.getCurrentUser();
-        Payment_Plan__c paymentPlanObj = PaymentPlanService.addPaymentPlanWithPaymentMethod(ppInfo, true, user.contactId);
+        Payment_Plan__c paymentPlanObj;
+        try {
+            PaymentPlanInformation ppInfo = new PaymentPlanInformation(ppInfoMap);
+            UserWrapper user = UserService.getCurrentUser();
+            paymentPlanObj = PaymentPlanService.addPaymentPlanWithPaymentMethod(ppInfo, true, user.contactId);
+        } catch(Exception ex) {
+            System.debug('Exception caught in createPaymentPlan: ' + ex.getMessage());
+            throw LightningUtil.newAuraHandledException('Error encountered creating playment plan.  Please contact support.');
+        }
+
         return paymentPlanObj;
     }
 
