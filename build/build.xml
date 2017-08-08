@@ -187,7 +187,7 @@ SironoPRSPostInstallHandler.initializeSironoSettings();
             password="${sf.target.password}"
             serverurl="${sf.target.serverurl}"
             deployRoot="${basedir}/build/undeploy"
-            testLevel="${sf.testLevel}"
+            testLevel="NoTestRun"
             purgeOnDelete="true"
             ignoreWarnings="true"/>
     </target>
