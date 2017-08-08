@@ -25,7 +25,7 @@ public with sharing class InvoiceSecurityContext extends SecurityContext {
 
     // The fields for updating a Invoice__c's Status_Index__c field in InvoiceUtil
     private static final Set<String> UPDATE_FIELDS = new Set<String> {
-            STATUS_INDEX
+        STATUS_INDEX
     };
 
     // The fields for updating a Invoice__c's All_Substatus__c field in InvoiceUtil
@@ -35,7 +35,7 @@ public with sharing class InvoiceSecurityContext extends SecurityContext {
 
     // The fields for updating a Invoice__c's Balance__c field in InvoiceUtil
     private static final Set<String> UPDATE_BALANCE_FIELDS = new Set<String> {
-            BALANCE
+        BALANCE
     };
 
     // The fields for selecting a Invoice__c in EarlyOutSchedulerBatch

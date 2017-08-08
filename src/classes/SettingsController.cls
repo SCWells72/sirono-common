@@ -23,7 +23,7 @@ public with sharing class SettingsController {
         try {
             Sirono_Portal_Settings__c portalSettings = Sirono_Portal_Settings__c.getInstance(UserInfo.getProfileId());
 
-            if(portalSettings != null) {
+            if (portalSettings != null) {
                 settings.put(HAS_PDF, String.isNotEmpty(portalSettings.Financial_Aid_Document__c));
                 settings.put(FINANCIAL_AID_NAME, portalSettings.Financial_Aid_Document__c);
             }
