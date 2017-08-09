@@ -23,17 +23,14 @@
         }
 
         action.setParams({
-            'groupFilter': component.get("v.groupFilter"),
-            'additionalFilter': additionalFilter
+            'paidFilter': component.get("v.groupFilter"),
+            'patientFilter': additionalFilter
         });
 
         action.setCallback(this, function (response) {
             var state = response.getState();
             if (state === "SUCCESS") {
                 var listOfEstimates = response.getReturnValue();
-                console.log('listOfEstimates', listOfEstimates);
-                console.log('component.get("v.groupFilter")', component.get("v.groupFilter"));
-                console.log('listOfEstimates.length', listOfEstimates.length);
 
                 if (listOfEstimates.length > 0 || selectedPatients.length > 0) {
                     $A.util.removeClass(component.find('main-body'), 'display-none');
