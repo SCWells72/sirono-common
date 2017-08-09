@@ -344,6 +344,7 @@ public class TestUtility {
         txn.Charge_Group__c = chargeGroup.Id;
         txn.Sirono_ID__c = getUniqueId();
         txn.Post_Date__c = System.today();
+        txn.Transaction_Date__c = System.today();
         return txn;
     }
 

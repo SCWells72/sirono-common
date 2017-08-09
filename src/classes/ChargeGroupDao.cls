@@ -204,7 +204,7 @@ public with sharing class ChargeGroupDao extends AbstractDao {
         queryString += 'Sirono_Assigned_Date__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c, ';
         queryString += '(';
         queryString += 'SELECT Adjustment2__r.Display_Name__c, Payment__r.Display_Name__c, Service2__r.Display_Name__c, ';
-        queryString += 'Amount__c, Txn_Method__c ';
+        queryString += 'Amount__c, Txn_Method__c, Transaction_Date__c ';
         queryString += 'FROM Transactions__r ';
         queryString += (hasOrderBy) ? 'ORDER BY Post_Date__c' : '';
         queryString += '), ';
