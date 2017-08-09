@@ -286,7 +286,7 @@
             <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
         </apex:outputPanel>
         <br/>
-        <apex:outputPanel id="opButtons">
+        <apex:outputPanel id="opButtons" rendered="{!NOT(isActivePaymentPlan)}">
             <div class="pay-staff-clear-both">
                 <table class="pay-staff-table-left">
                     <tr>
