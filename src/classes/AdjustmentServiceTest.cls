@@ -104,7 +104,7 @@ public with sharing class AdjustmentServiceTest {
                         Name,
                         Payment__c,
                         Post_Date__c,
-                        Service__c,
+                        Service2__c,
                         Sirono_ID__c,
                         Transaction_Date__c,
                         Txn_Method__c
@@ -113,7 +113,7 @@ public with sharing class AdjustmentServiceTest {
         System.assertEquals(1, txns.size(), 'Expected 1 adjustment transaction');
         System.assertEquals(-1.25, txns[0].Amount__c, 'Expected -1.25 adjustment transaction');
         System.assert(txns[0].Payment__c == null, 'Expected Payment__c to be null');
-        System.assert(txns[0].Service__c == null, 'Expected Service__c to be null');
+        System.assert(txns[0].Service2__c == null, 'Expected Service2__c to be null');
         System.assertEquals('10/13/2016', txns[0].Post_Date__c.format('MM/dd/yyyy'), 'Expected txn Post_Date__c to be 10/13/2016');
     }
 }

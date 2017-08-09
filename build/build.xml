@@ -137,6 +137,8 @@
             pollWaitMillis="${sf.pollWaitMillis}"
             maxPoll="${sf.maxPoll}"
             testLevel="${sf.testLevel}"
+            purgeondelete="true"
+            ignorewarnings="true"
             logType="Debugonly"/>
     </target>
 
