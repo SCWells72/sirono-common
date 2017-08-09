@@ -61,10 +61,6 @@
                                 <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
                             </a>
                         </th>
-                        <th class="slds-is-sortable" scope="col" aria-label="Print Receipt">
-                            <span class="slds-truncate" title="Amount Paid">LINK</span>
-
-                        </th>
                     </tr>
                     </thead>
                     <tbody>

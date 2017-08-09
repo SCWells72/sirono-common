@@ -7,7 +7,6 @@
         var action = component.get("c.getPaymentHistory");
         action.setCallback(this, function (response) {
             var state = response.getState();
-            console.log('state', state);
             if (state === 'SUCCESS') {
                 var payments = response.getReturnValue();
                 this.defaultSort(component, payments);
@@ -17,7 +16,7 @@
     },
     defaultSort: function (component, payments) {
         payments.sort(function (a, b) {
-            if (a['deposit'] == b['deposit'])
+            if (a['deposit'] === b['deposit'])
                 return b['amount'] - a['amount'];
             if (a['deposit'] > b['deposit'])
                 return -1;
@@ -31,7 +30,7 @@
     updateSorting: function (component, orderCriteria, orderType) {
         var payments = component.get('v.payments');
         payments.sort(function (a, b) {
-            if (a[orderCriteria] == b[orderCriteria])
+            if (a[orderCriteria] === b[orderCriteria])
                 return 0;
             if (a[orderCriteria] > b[orderCriteria])
                 return -1;
@@ -39,7 +38,7 @@
                 return 1;
             return 0;
         });
-        if (orderType == 'DESC') {
+        if (orderType === 'DESC') {
             payments.reverse();
         }
         component.set('v.payments', payments);

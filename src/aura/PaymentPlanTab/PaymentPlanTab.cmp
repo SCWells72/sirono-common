@@ -72,10 +72,10 @@
     </section>
     <section aura:id="message" class="pp-step-three payment-plan-content">
         <c:SuccessMessage PlanInfoRecord="{!v.PlanInfoRecord}" isEditTerms="{!v.showEditTermsMessage}" isSuccess="true"/>
-        <div class="slds-p-horizontal--medium border-top">
-            <div class="grid slds-grid--align-center">
+        <div class="slds-p-horizontal--medium border-top payment-play-btn-ctr">
+            <div class="grid slds-grid--align-end">
                 <div class="col">
-                    <button class="slds-button slds-button--neutral" onclick="{!c.resetCmp}">Ok</button>
+                    <button class="slds-button payment-plan-ok-btn slds-button--neutral" onclick="{!c.resetCmp}">Ok</button>
                 </div>
             </div>
         </div>
