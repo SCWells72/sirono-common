@@ -32,16 +32,19 @@ public with sharing class TransactionJSONParser extends AbstractSironoJSONParser
     }
 
     private Datetime parseDatetime(String str) {
+
         if (!String.isBlank(str)) {
             String[] parts = str.split('T');
             String[] timeParts = parts[1].replace('.', ':').split(':');
+
             return Datetime.newInstance(
                     Date.valueOf(parts[0]),
                     Time.newInstance(
                             Integer.valueOf(timeParts[0]),
                             Integer.valueOf(timeParts[1]),
                             Integer.valueOf(timeParts[2]),
-                            Integer.valueOf(timeParts[3])));
+							//There are no milliseconds when the time is 00:00:00
+                            timeParts.size() == 4 ? Integer.valueOf(timeParts[3]) : 0));
         }
         return null;
     }

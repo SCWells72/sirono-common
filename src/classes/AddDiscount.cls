@@ -10,6 +10,7 @@ public with sharing class AddDiscount {
     public String chargeGroupId { get; set; }
     public List<ChargeGroupWrapper> chargeGroupList { get; set; }
     public String messageToShow { get; set; }
+    public Contact gt {get; set;}
 
     // Constructor of a class and initialize the variables.
     public AddDiscount(ApexPages.StandardController sc) {
@@ -20,10 +21,10 @@ public with sharing class AddDiscount {
         guarantorRecordId = sc.getId();
         guarantorName = '';
         if (guarantorRecordId != null) {
-            Contact gc = GuarantorService.getGuarantorFilterCGByAcctSubStatus(guarantorRecordId, Constants.CGConstraintsForDiscount);
-            guarantorName = GuarantorService.buildGuarantorDetailString(gc);
-            //chargeGroupList = PayStaffWSUtill.fetchChargeGroupList(gc);
-            for (ChargeGroupWrapper cgw : ChargeGroupWrapper.buildList(gc)) {
+            gt = GuarantorService.getGuarantorFilterCGByAcctSubStatus(guarantorRecordId, Constants.CGConstraintsForDiscount);
+            guarantorName = GuarantorService.buildGuarantorDetailString(gt);
+            //chargeGroupList = PayStaffWSUtill.fetchChargeGroupList(gt);
+            for (ChargeGroupWrapper cgw : ChargeGroupWrapper.buildList(gt)) {
                 if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
                     chargeGroupList.add(cgw);
                 }
@@ -144,7 +145,7 @@ public with sharing class AddDiscount {
             chargeGroupsSelected = false;
 
             //Call Payment, Transaction, ChargeGroups, Payment Plan Request.
-            PayStaffWSUtill.processDiscount(responseBody);
+            PayStaffWSUtill.processDiscount(gt, responseBody);
 
         } else {
             System.debug('AddDiscount req: ' + req);

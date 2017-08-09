@@ -216,7 +216,13 @@ public with sharing class PayStaffWSUtill {
         Payment_Plan__c objPaymentPlan = new Payment_Plan__c();
     }
 
-    public static void processDiscount(String jsonString) {
+    public static void processDiscount(Contact gt, String jsonString) {
+
+        Map<Decimal, Charge_Group__c> cgSironoIdMap = new Map<Decimal, Charge_Group__c>();
+        for (Charge_Group__c cg : gt.Charge_Groups__r) {
+            cgSironoIdMap.put(cg.Sirono_ID__c, cg);
+        }
+
         AdjustmentJSONParser parser = new AdjustmentJSONParser(jsonString);
         List<AdjustmentJSONParser.AdjustmentWrapper> sironoWrappers = parser.parse();
 
@@ -230,8 +236,8 @@ public with sharing class PayStaffWSUtill {
             for (AdjustmentJSONParser.AdjustmentWrapper sironoWrapper : sironoWrappers) {
 
                 RelatedObjectWrapper relatedObjectWrapper = callTransactionRequest(null, sironoWrapper.sironoId.toPlainString(), false);
-                sironoWrapper.adjustment.Guarantor__c = relatedObjectWrapper.objChargeGroup.Guarantor__c;
-                sironoWrapper.adjustment.External_Guarantor__c = relatedObjectWrapper.objChargeGroup.External_Guarantor_ID__c;
+                sironoWrapper.adjustment.Guarantor__c = gt.Id;
+                sironoWrapper.adjustment.External_Guarantor__c = cgSironoIdMap.get(sironoWrapper.cgSironoId).External_Guarantor_ID__c;
                 wrapperMap.put(sironoWrapper, relatedObjectWrapper);
             }
 
@@ -243,7 +249,7 @@ public with sharing class PayStaffWSUtill {
 
             for (AdjustmentJSONParser.AdjustmentWrapper sironoWrapper : sironoWrappers) {
                 RelatedObjectWrapper row = wrapperMap.get(sironoWrapper);
-                row.objTransaction.Adjustment__c = sironoWrapper.adjustment.Id;
+                row.objTransaction.Adjustment2__c = sironoWrapper.adjustment.Id;
                 transactions.add(row.objTransaction);
 
                 chargeGroups.add(row.objChargeGroup);
