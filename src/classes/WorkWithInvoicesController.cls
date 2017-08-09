@@ -233,7 +233,7 @@ public with sharing class WorkWithInvoicesController {
         }
 
         private String getName(Transaction__c pa) {
-            String displayName = Constants.UNKNOWN;
+            String displayName = String.format('{0} - {1}', new String[]{pa.Txn_Method__c, pa.Transaction_Date__c.format()});
             if (pa.Adjustment2__r.Display_Name__c != null) {
                 displayName = pa.Adjustment2__r.Display_Name__c;
             } else if (pa.Payment__r.Display_Name__c != null) {
