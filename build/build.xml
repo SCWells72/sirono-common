@@ -137,6 +137,8 @@
             pollWaitMillis="${sf.pollWaitMillis}"
             maxPoll="${sf.maxPoll}"
             testLevel="${sf.testLevel}"
+            purgeondelete="true"
+            ignorewarnings="true"
             logType="Debugonly"/>
     </target>
 
@@ -221,6 +223,9 @@ SironoPRSPostInstallHandler.initializeSironoSettings();
     <!-- Check only; don't save to the server -->
     <target name="deployCheckOnly" depends="processTemplates, populateWorkSrcDir">
         <echo level="info">Validating in: ${sf.target.username} with test level: ${sf.testLevel}</echo>
+        <delete>
+            <fileset dir="${workDir}/src" includes="destructiveChanges*.xml"/>
+        </delete>
         <sf:deploy
             username="${sf.target.username}"
             password="${sf.target.password}"
@@ -236,6 +241,9 @@ SironoPRSPostInstallHandler.initializeSironoSettings();
     <!-- Check only; only run specified tests -->
     <target name="deployCheckSelectTests" depends="processTemplates, populateWorkSrcDir">
         <echo level="info">Running select tests in: ${sf.target.username}</echo>
+        <delete>
+            <fileset dir="${workDir}/src" includes="destructiveChanges*.xml"/>
+        </delete>
         <sf:deploy
             username="${sf.target.username}"
             password="${sf.target.password}"
