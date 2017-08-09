@@ -11,7 +11,7 @@ public class PaymentPlanGoodStandingTest {
     static testMethod void myUnitTest1() {
         PaymentPlanGoodStanding con = new PaymentPlanGoodStanding();
         PageReference pageRef = con.cancel();
-        System.assertEquals('/home/home.jsp', pageRef.getUrl());
+        System.assertEquals(VisualforceControllerUtil.HOME_PAGE_URL, pageRef.getUrl());
 
         ApexPages.currentPage().getParameters().put('guarantorId', '1212');
         PaymentPlanGoodStanding con1 = new PaymentPlanGoodStanding();

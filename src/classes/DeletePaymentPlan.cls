@@ -22,31 +22,26 @@ public with sharing class DeletePaymentPlan {
     }
 
     public PageReference cancel() {
-        PageReference pg = null;
-        if (String.isNotBlank(paymentPlanId)) {
-            pg = new PageReference('/' + paymentPlanId);
-        } else if (String.isNotBlank(guarantorId)) {
-            pg = new PageReference('/' + guarantorId);
-        } else {
-            pg = new PageReference('/home/home.jsp');
-        }
-        pg.setRedirect(true);
-        return pg;
+        return String.isNotBlank(paymentPlanId) ?
+            VisualforceControllerUtil.getRecordPageReference(paymentPlanId) :
+            VisualforceControllerUtil.getRecordPageReference(guarantorId);
     }
 
     //call doDeletePaymentPlan and send the request to end point.
-    public void doSubmit() {
+    public PageReference doSubmit() {
         try {
             if (String.isNotBlank(paymentPlanId)) {
                 PaymentPlanService.removePaymentPlan(paymentPlanId);
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Payment plan was successfully cancelled.'));
+                return VisualforceControllerUtil.getRecordPageReference(paymentPlanId);
             } else {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,  'Payment Plan Id is missing.'));
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Payment Plan Id is missing.'));
             }
         } catch (Exception e) {
             // Debug error response
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ERROR: ' + e.getMessage()));
-
         }
+
+        return null;
     }
 }

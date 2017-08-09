@@ -32,8 +32,7 @@ public with sharing class AddPaymentPlanVFController extends AddPaymentPlanContr
                 // Call CreatePaymentPlan method of super class.
                 createPaymentPlan();
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY));
-
-                return getGuarantorPageReference();
+                return VisualforceControllerUtil.getRecordPageReference(guarantorRecordId);
             }
         } catch (SironoServiceException se) {
             for (String err : se.errors) {
@@ -91,17 +90,6 @@ public with sharing class AddPaymentPlanVFController extends AddPaymentPlanContr
      * @returns PageReference pg - That contains page url.
      **/
     public PageReference doCancel() {
-        return getGuarantorPageReference();
-    }
-
-    private PageReference getGuarantorPageReference() {
-        PageReference pg = null;
-        if (String.isNotBlank(guarantorRecordId)) {
-            pg = new PageReference('/' + guarantorRecordId);
-        } else {
-            pg = new PageReference('/home/home.jsp');
-        }
-        pg.setRedirect(true);
-        return pg;
+        return VisualforceControllerUtil.getRecordPageReference(guarantorRecordId);
     }
 }

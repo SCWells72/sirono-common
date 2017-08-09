@@ -48,7 +48,7 @@ public with sharing class AddToPaymentPlanVF extends AddToPaymentPlan {
     /**
      * Add the chargeGroup to the paymentplan.
      */
-    public void submit() {
+    public PageReference submit() {
         try {
             if (String.isBlank(paymentPlanExtId) || String.isBlank(guarantorId) || !chargeGroupsSelected) {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
@@ -60,11 +60,14 @@ public with sharing class AddToPaymentPlanVF extends AddToPaymentPlan {
                 PaymentPlanService.addChargeGroups(paymentPlanExtId, chargeGroupIds);
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO,
                     'Added Successfully!'));
+                return VisualforceControllerUtil.getRecordPageReference(guarantorRecordId);
             }
         } catch (Exception e) {
             // Debug error response
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'ERROR: ' + e.getMessage()));
         }
+
+        return null;
     }
 }

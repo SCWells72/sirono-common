@@ -3,71 +3,74 @@
  */
 
 public with sharing class AttachmentController {
-    
-	public Attachment attachment {
-	  get {
-		  if (attachment == null) {
-			  attachment = new Attachment();
-		  }
-		  return attachment;
-		}
-	  set;
-	  }
 
-	public PageReference upload() {
-		attachment.OwnerId = UserInfo.getUserId();
-		attachment.ParentId = ApexPages.currentPage().getParameters().get('id');
-
-		if (attachment.ParentId == null) {
-			ApexPages.addMessage(new ApexPages.message(ApexPages.severity.ERROR, 'Record for attachment is required'));
-			return null;
-		}
-
-		try {
-			SecurityContext relatedContext = getRelatedSecurityContext();
-
-			if (relatedContext.actionAllowed() && AttachmentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-				insert attachment;
-			}
-		} catch (Exception e) {
-			System.debug('caught exception: '+e.getMessage());
-			ApexPages.addMessage(new ApexPages.message(ApexPages.severity.ERROR,'Error uploading attachment: '+e.getMessage()));
-			return null;
-		} finally {
-			attachment = new Attachment(); 
-		}
-
-		ApexPages.addMessage(new ApexPages.message(ApexPages.severity.INFO,'Attachment uploaded successfully'));
-		return null;
-	}
-
-	public PageReference cancel() {
-		PageReference p = new PageReference('/' + ApexPages.currentPage().getParameters().get('id'));
-		p.setRedirect(true);
-		return p;  
+    public Attachment attachment {
+        get {
+            if (attachment == null) {
+                attachment = new Attachment();
+            }
+            return attachment;
+        }
+        set;
     }
 
-	private SecurityContext getRelatedSecurityContext() {
+    public PageReference upload() {
+        attachment.OwnerId = UserInfo.getUserId();
+        attachment.ParentId = ApexPages.currentPage().getParameters().get('id');
 
-		String objType = getParentObjectType();
+        if (attachment.ParentId == null) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Record for attachment is required'));
+            return null;
+        }
 
-		if (objType != null) {
-			if (objType.equals(Statement__c.SObjectType.getDescribe().getName())) {
-				return StatementSecurityContext.ADD_ATTACHMENT_CONTEXT;
-			}
+        try {
+            SecurityContext relatedContext = getRelatedSecurityContext();
 
-			if (objType.equals(Encounter__c.SObjectType.getDescribe().getName())) {
-				return EncounterSecurityContext.ADD_ATTACHMENT_CONTEXT;
-			}
-		}
+            if (relatedContext.actionAllowed() && AttachmentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
+                insert attachment;
+            }
+        } catch (Exception e) {
+            System.debug('caught exception: ' + e.getMessage());
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Error uploading attachment: ' + e.getMessage()));
+            return null;
+        } finally {
+            attachment = new Attachment();
+        }
 
-		throw new SecurityUtils.SecurityException('Attempt to upload attachment for unsupported object type: '+objType);
-	}
+        ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Attachment uploaded successfully'));
 
-	private String getParentObjectType() {
-		String idString = ApexPages.currentPage().getParameters().get('id');
+        PageReference pageReference = new PageReference('/' + ApexPages.currentPage().getParameters().get('id'));
+        pageReference.setRedirect(true);
+        return pageReference;
+    }
+
+    public PageReference cancel() {
+        PageReference pageReference = new PageReference('/' + ApexPages.currentPage().getParameters().get('id'));
+        pageReference.setRedirect(true);
+        return pageReference;
+    }
+
+    private SecurityContext getRelatedSecurityContext() {
+
+        String objType = getParentObjectType();
+
+        if (objType != null) {
+            if (objType.equals(Statement__c.SObjectType.getDescribe().getName())) {
+                return StatementSecurityContext.ADD_ATTACHMENT_CONTEXT;
+            }
+
+            if (objType.equals(Encounter__c.SObjectType.getDescribe().getName())) {
+                return EncounterSecurityContext.ADD_ATTACHMENT_CONTEXT;
+            }
+        }
+
+        throw new SecurityUtils.SecurityException('Attempt to upload attachment for unsupported object type: ' + objType);
+    }
+
+    private String getParentObjectType() {
+        String idString = ApexPages.currentPage().getParameters().get('id');
         Id objId = Id.valueOf(idString);
 
         return objId.getSobjectType().getDescribe().getName();
-	}
+    }
 }

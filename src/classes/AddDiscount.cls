@@ -82,10 +82,11 @@ public with sharing class AddDiscount {
     /**
      * Call addDiscount and send the request to end point
      */
-    public void submit() {
+    public PageReference submit() {
         try {
             if (String.isNotBlank(chargeGroupId)) {
                 addDiscountRequest();
+                return VisualforceControllerUtil.getRecordPageReference(guarantorRecordId);
             } else {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                     'Please provide all details.'));
@@ -98,6 +99,8 @@ public with sharing class AddDiscount {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'ERROR: ' + e.getMessage()));
         }
+
+        return null;
     }
 
     //call addDiscount and send the request to end point.
