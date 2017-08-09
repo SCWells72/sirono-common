@@ -284,7 +284,9 @@
             </div>
             <br/>
             <div class="pay-staff-clear-both pay-staff-bottom-line"></div>
-            <br/>
+        </apex:outputPanel>
+        <br/>
+        <apex:outputPanel id="opButtons" rendered="{!NOT(isActivePaymentPlan)}">
             <div class="pay-staff-clear-both">
                 <table class="pay-staff-table-left">
                     <tr>
@@ -294,7 +296,7 @@
                         </td>
                         <td>
                             <apex:commandButton action="{!doSubmit}" value="Set Up Payment Plan"
-                                                styleClass="pay-staff-button" rendered="{!chargeGroupsSelected}"/>
+                                                styleClass="pay-staff-button" rendered="{!(planType != null) && chargeGroupsSelected}"/>
                         </td>
                     </tr>
                 </table>

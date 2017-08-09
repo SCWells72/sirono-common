@@ -318,6 +318,6 @@ private class AddToPaymentPlanTest {
         PageReference pageRef = ppCon.cancel();
 
         //Check system assert.
-        System.assertEquals('/home/home.jsp', pageRef.getUrl());
+        System.assertEquals(VisualforceControllerUtil.HOME_PAGE_URL, pageRef.getUrl());
     }
 }

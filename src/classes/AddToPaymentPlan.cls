@@ -17,16 +17,9 @@ public abstract class AddToPaymentPlan {
     * Set the proper page on cancel
     */
     public PageReference cancel() {
-        PageReference pg = null;
-        if (String.isNotBlank(paymentPlanId)) {
-            pg = new PageReference('/' + paymentPlanId);
-        } else if (String.isNotBlank(guarantorRecordId)) {
-            pg = new PageReference('/' + guarantorRecordId);
-        } else {
-            pg = new PageReference('/home/home.jsp');
-        }
-        pg.setRedirect(true);
-        return pg;
+        return String.isNotBlank(paymentPlanId) ?
+            VisualforceControllerUtil.getRecordPageReference(paymentPlanId) :
+            VisualforceControllerUtil.getRecordPageReference(guarantorRecordId);
     }
 
     //Check Charge group is selected or not.

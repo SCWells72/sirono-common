@@ -77,7 +77,7 @@ public with sharing class CreateAdjustment {
     }
 
     //Verify all information is entered & then call the AdjustmentService to create the adjustment
-    public void submit() {
+    public PageReference submit() {
 
         if (String.isBlank(amount) || String.isBlank(chargeGroupId) || String.isBlank(selectedAdjType) || String.isBlank(guarantorRecordId)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Please provide all details.'));
@@ -88,11 +88,14 @@ public with sharing class CreateAdjustment {
 
                 AdjustmentService.createAdjustment(req);
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Adjustment created successfully'));
+                return VisualforceControllerUtil.getRecordPageReference(guarantorRecordId);
 
             } catch (Exception e) {
                 // Debug error response
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ERROR: ' + e.getMessage()));
             }
         }
+
+        return null;
     }
 }

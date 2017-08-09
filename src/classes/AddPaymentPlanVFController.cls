@@ -26,12 +26,13 @@ public with sharing class AddPaymentPlanVFController extends AddPaymentPlanContr
     /**
      * This method is use to add payment plan.
      **/
-    public void doSubmit() {
+    public PageReference doSubmit() {
         try {
             if (isValid()) {
                 // Call CreatePaymentPlan method of super class.
                 createPaymentPlan();
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY));
+                return VisualforceControllerUtil.getRecordPageReference(guarantorRecordId);
             }
         } catch (SironoServiceException se) {
             for (String err : se.errors) {
@@ -43,6 +44,8 @@ public with sharing class AddPaymentPlanVFController extends AddPaymentPlanContr
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'ADD PAYMENT PLAN EXCEPTION:: ' + e.getMessage()));
         }
+
+        return null;
     }
 
     /**
@@ -87,13 +90,6 @@ public with sharing class AddPaymentPlanVFController extends AddPaymentPlanContr
      * @returns PageReference pg - That contains page url.
      **/
     public PageReference doCancel() {
-        PageReference pg = null;
-        if (String.isNotBlank(guarantorRecordId)) {
-            pg = new PageReference('/' + guarantorRecordId);
-        } else {
-            pg = new PageReference('/home/home.jsp');
-        }
-        pg.setRedirect(true);
-        return pg;
+        return VisualforceControllerUtil.getRecordPageReference(guarantorRecordId);
     }
 }

@@ -102,7 +102,7 @@ public with sharing class PayStaffWSUtill {
 
     public static void addNoteWSCallout(List<String> chargeGroupIds, String noteText) {
         try {
-            if (!chargeGroupIds.isEmpty() && !isEmpty(noteText)) {
+            if (!chargeGroupIds.isEmpty() && String.isNotBlank(noteText)) {
                 String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
                 String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
                 if (csrfToken != null && jwtToken != null) {
@@ -154,10 +154,6 @@ public with sharing class PayStaffWSUtill {
             // Debug error response
             handleErrorMessages(ApexPages.Severity.ERROR, 'ERROR: ' + e.getMessage());
         }
-    }
-
-    public static Boolean isEmpty(String str) {
-        return (str == null || str.trim().equals(''));
     }
 
     public static void handleErrorMessages(ApexPages.Severity messageSeverity, String messageText) {

@@ -130,7 +130,7 @@ public with sharing class EditPaymentPlan {
     public Pagereference doNext() {
         chargeGroupsSelected = false;
         chargeGroupId = PayStaffWSUtill.fetchChargeGroupIds(chargeGroupList);
-        if (!isEmpty(chargeGroupId)) {
+        if (String.isNotBlank(chargeGroupId)) {
             chargeGroupsSelected = true;
         }/*else{
             chargeGroupsSelected = false;
@@ -140,45 +140,36 @@ public with sharing class EditPaymentPlan {
         return null;
     }*/
 
-    private Boolean isEmpty(String str) {
-        return (str == null || str.trim().equals(''));
-    }
-
     //Controller Methods invoked from VisualForce
     public PageReference cancel() {
-        PageReference pg = null;
-        if (!isEmpty(paymentPlanRecordId)) {
-            pg = new PageReference('/' + paymentPlanRecordId);
-        } else if (!isEmpty(guarantorRecordId)) {
-            pg = new PageReference('/' + guarantorRecordId);
-        } else {
-            pg = new PageReference('/home/home.jsp');
-        }
-        if (pg != null) {
-            pg.setRedirect(true);
-        }
-        return pg;
+        return String.isNotBlank(paymentPlanRecordId) ?
+            VisualforceControllerUtil.getRecordPageReference(paymentPlanRecordId) :
+            VisualforceControllerUtil.getRecordPageReference(guarantorRecordId);
     }
     
     /*
      * 08-19-2016: Sirono - Tracker # 127324171
      * Method for check the validation.
      */
-    public void doSubmit() {
+    public PageReference doSubmit() {
         try {
             //doEditPaymentPlan('', '');
-            Boolean blnIsError = false;
+            Boolean isError = false;
             if (!planType.trim().equalsIgnoreCase('promise')) {
-                blnIsError = checkCardValidation();
+                isError = checkCardValidation();
             }
 
-            Boolean blnIsAmountError = checkAmountValidation();
+            Boolean isAmountError = checkAmountValidation();
 
-            if (blnIsError == false && !blnIsAmountError) {
+            if (!isError && !isAmountError) {
                 String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
                 String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
                 if (csrfToken != null && jwtToken != null) {
                     doEditPaymentPlan(csrfToken, jwtToken);
+
+                    return String.isNotBlank(paymentPlanRecordId) ?
+                        VisualforceControllerUtil.getRecordPageReference(paymentPlanRecordId) :
+                        VisualforceControllerUtil.getRecordPageReference(guarantorRecordId);
                 }
             } else {
                 if (Test.isRunningTest()) {
@@ -190,6 +181,8 @@ public with sharing class EditPaymentPlan {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'ERROR: ' + e.getMessage()));
         }
+
+        return null;
     }
 
     /*
@@ -202,9 +195,9 @@ public with sharing class EditPaymentPlan {
         Boolean blnIsError = false;
 
         if ((planType.trim().equalsIgnoreCase('promise') &&
-            (isEmpty(promiseAmount) || (promiseAmount.isNumeric() && Decimal.valueOf(promiseAmount) == 0))) ||
+            (String.isBlank(promiseAmount) || (promiseAmount.isNumeric() && Decimal.valueOf(promiseAmount) == 0))) ||
             (!planType.trim().equalsIgnoreCase('promise') &&
-                (isEmpty(amount) || (amount.isNumeric() && Decimal.valueOf(amount) == 0))
+                (String.isBlank(amount) || (amount.isNumeric() && Decimal.valueOf(amount) == 0))
             )) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Amount must be greater than zero.'));
             blnIsError = true;
@@ -262,7 +255,7 @@ public with sharing class EditPaymentPlan {
                 'Credit card number must be 12-19 digits.'));
             blnIsError = true;
         }
-        if (isEmpty(creditCardNumber)) {
+        if (String.isBlank(creditCardNumber)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'Card Number is a required field.'));
             blnIsError = true;
@@ -274,53 +267,53 @@ public with sharing class EditPaymentPlan {
                 'Expiration date must be in the future.'));
             blnIsError = true;
         }
-        if (!isEmpty(zip) && zip.length() != 5) {
+        if (String.isNotBlank(zip) && zip.length() != 5) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'Zip code must be 5 digits.'));
             blnIsError = true;
         }
-        if (!isEmpty(zip) && !zip.isNumeric()) {
+        if (String.isNotBlank(zip) && !zip.isNumeric()) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'Zip code can only contain numeric values.'));
             blnIsError = true;
         }
-        if (isEmpty(cardHolderName)) {
+        if (String.isBlank(cardHolderName)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'Name is a required field.'));
             blnIsError = true;
         }
 
-        if (isEmpty(cvv)) {
+        if (String.isBlank(cvv)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'CVV is a required field.'));
             blnIsError = true;
         }
 
-        if (isEmpty(address)) {
+        if (String.isBlank(address)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'Billing Address is a required field.'));
             blnIsError = true;
         }
 
-        if (!isEmpty(cvv) && (cvv.length() < 3 || cvv.length() > 4)) {
+        if (String.isNotBlank(cvv) && (cvv.length() < 3 || cvv.length() > 4)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'CVV must be 4 digits for American Express and 3 digits for other card types.'));
             blnIsError = true;
         }
 
-        if (isEmpty(zip)) {
+        if (String.isBlank(zip)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'Zip Code is a required field.'));
             blnIsError = true;
         }
 
-        if (isEmpty(chargeGroupId)) {
+        if (String.isBlank(chargeGroupId)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'Charge Group is a required field.'));
             blnIsError = true;
         }
 
-        if (isEmpty(executeOnDay) || Integer.valueOf(executeOnDay) < 1 || Integer.valueOf(executeOnDay) > 31) {
+        if (String.isBlank(executeOnDay) || Integer.valueOf(executeOnDay) < 1 || Integer.valueOf(executeOnDay) > 31) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'Date to Charge (each month) must be a number between 1 and 31.'));
             blnIsError = true;

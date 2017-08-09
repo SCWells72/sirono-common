@@ -10,16 +10,6 @@ public with sharing class VisualForceValidations {
     public static List<String> errorMessages = new List<String>();
 
     /**
-     * This method is use to check String is empty or null for Validation.
-     *
-     * @Param String str - That contains String value.
-     * @returns Boolean - If string is null or blank then it will become true else false.
-     **/
-    public static Boolean isEmpty(String str) {
-        return (str == null || str.trim().equals(''));
-    }
-
-    /**
      * This method is used to check Amount validations.
      *
      * @param String amount - That contains amount.
@@ -78,7 +68,7 @@ public with sharing class VisualForceValidations {
      * @returns List<String> errorMessages - That contains error message if amount is null or empty else it will be blank/size is zero.
      **/
     public static List<String> checkAmountNotEmpty(String amount) {
-        if (isEmpty(amount) || (amount.isNumeric() && Decimal.valueOf(amount) == 0)) {
+        if (String.isBlank(amount) || (amount.isNumeric() && Decimal.valueOf(amount) == 0)) {
             errorMessages.add(Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO);
         }
         return errorMessages;
@@ -234,7 +224,7 @@ public with sharing class VisualForceValidations {
      * @returns List<String> errorMessages - That contains error message if ccNumber is empty else it will be blank/size is zero.
      **/
     public static List<String> checkCcNumberNotEmpty(String ccNumber) {
-        if (isEmpty(ccNumber)) {
+        if (String.isBlank(ccNumber)) {
             errorMessages.add(Constants.PAGE_MESSAGE_CC_NUMBER_REQUIRE);
         }
         return errorMessages;
@@ -263,7 +253,7 @@ public with sharing class VisualForceValidations {
      * @returns List<String> errorMessages - That contains error message if zip digit is not five else it will be blank/size is zero.
      **/
     public static List<String> checkZipCodeDigit(String zip) {
-        if (!isEmpty(zip) && zip.length() != 5) {
+        if (String.isNotBlank(zip) && zip.length() != 5) {
             errorMessages.add(Constants.PAGE_MESSAGE_ZIP_CODE_FIVE_DIGIT);
         }
         return errorMessages;
@@ -276,7 +266,7 @@ public with sharing class VisualForceValidations {
      * @returns List<String> errorMessages - That contains error message if zip code is not numeric else it will be blank/size is zero.
      **/
     public static List<String> checkZipCodeIsNumeric(String zip) {
-        if (!isEmpty(zip) && !zip.isNumeric()) {
+        if (String.isNotBlank(zip) && !zip.isNumeric()) {
             errorMessages.add(Constants.PAGE_MESSAGE_ZIP_CODE_ONLY_NUMERIC);
         }
         return errorMessages;
@@ -289,7 +279,7 @@ public with sharing class VisualForceValidations {
      * @returns List<String> errorMessages - That contains error message if Card Holder Name is empty else it will be blank/size is zero.
      **/
     public static List<String> checkCardHolderNameNotEmpty(String cardHolderName) {
-        if (isEmpty(cardHolderName)) {
+        if (String.isBlank(cardHolderName)) {
             errorMessages.add(Constants.PAGE_MESSAGE_CC_NAME_REQUIRE);
         }
         return errorMessages;
@@ -302,7 +292,7 @@ public with sharing class VisualForceValidations {
      * @returns List<String> errorMessages - That contains error message if cvv length is not 3 or 4 else it will be blank/size is zero.
      **/
     public static List<String> checkCvvDigit(String cvv) {
-        if (!isEmpty(cvv) && (cvv.length() < 3 || cvv.length() > 4)) {
+        if (String.isNotBlank(cvv) && (cvv.length() < 3 || cvv.length() > 4)) {
             errorMessages.add(Constants.PAGE_MESSAGE_CC_CVV_4_OR_3_DIGIT);
         }
         return errorMessages;
@@ -315,7 +305,7 @@ public with sharing class VisualForceValidations {
      * @returns List<String> errorMessages - That contains error message if cvv is empty else it will be blank/size is zero.
      **/
     public static List<String> checkCvvNotEmpty(String cvv) {
-        if (isEmpty(cvv)) {
+        if (String.isBlank(cvv)) {
             errorMessages.add(Constants.PAGE_MESSAGE_CC_CVV_REQUIRE);
         }
         return errorMessages;
@@ -328,7 +318,7 @@ public with sharing class VisualForceValidations {
      * @returns List<String> errorMessages - That contains error message if address is empty else it will be blank/size is zero.
      **/
     public static List<String> checkAddressNotEmpty(String address) {
-        if (isEmpty(address)) {
+        if (String.isBlank(address)) {
             errorMessages.add(Constants.PAGE_MESSAGE_BILLING_ADDRESS_REQUIRE);
         }
         return errorMessages;
@@ -341,7 +331,7 @@ public with sharing class VisualForceValidations {
      * @returns List<String> errorMessages - That contains error message if zip is empty else it will be blank/size is zero.
      **/
     public static List<String> checkZipNotEmpty(String zip) {
-        if (isEmpty(zip)) {
+        if (String.isBlank(zip)) {
             errorMessages.add(Constants.PAGE_MESSAGE_ZIP_CODE_REQUIRE);
         }
         return errorMessages;
@@ -367,7 +357,7 @@ public with sharing class VisualForceValidations {
      * @returns List<String> errorMessages - That contains error message if executeOnDay is empty or not in between 1 to 31 else it will be blank/size is zero.
      **/
     public static List<String> checkExecuteOnDay(String executeOnDay) {
-        if (isEmpty(executeOnDay) || Integer.valueOf(executeOnDay) < 1 || Integer.valueOf(executeOnDay) > 31) {
+        if (String.isBlank(executeOnDay) || Integer.valueOf(executeOnDay) < 1 || Integer.valueOf(executeOnDay) > 31) {
             errorMessages.add(Constants.PAGE_MESSAGE_EXECUTE_ON_DAY);
         }
         return errorMessages;

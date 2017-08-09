@@ -12,7 +12,7 @@ public with sharing class CreateCaseManual {
     public String guarantorName { get; set; }
     public String[] chargeGroupIds { get; set; }
     public List<ChargeGroupWrapper> chargeGroupList { get; set; }
-    public Case caseObj { get; set; }
+    public Case manualCase { get; set; }
     public String caseType { get; set; }
     public Boolean caseTypeSelected { get; set; }
     public Contact gc { get; set; }
@@ -34,7 +34,7 @@ public with sharing class CreateCaseManual {
         chargeGroupsSelected = false;
         chargeGroupList = new List<ChargeGroupWrapper>();
         guarantorName = '';
-        caseObj = new Case();
+        manualCase = new Case();
         caseTypeSelected = false;
         patientContact = new Contact();
         guarantorContact = new Contact();
@@ -57,7 +57,7 @@ public with sharing class CreateCaseManual {
 
             guarantorName = GuarantorService.buildGuarantorDetailString(gc);
 
-            caseObj.ContactId = gc.Id;
+            manualCase.ContactId = gc.Id;
 
             for (ChargeGroupWrapper cgw : PayStaffWSUtill.fetchChargeGroupList(gc, objContact.RecordType.DeveloperName)) {
                 if (cgw.cg.Active__c && cgw.cg.Balance__c != 0) {
@@ -72,14 +72,7 @@ public with sharing class CreateCaseManual {
     * Cancel the case creation and back to the guarantor record.
     */
     public PageReference cancel() {
-        PageReference pg = null;
-        if (!isEmpty(guarantorRecordId)) {
-            pg = new PageReference('/' + guarantorRecordId);
-        } else {
-            pg = new PageReference('/home/home.jsp');
-        }
-        pg.setRedirect(true);
-        return pg;
+        return VisualforceControllerUtil.getRecordPageReference(guarantorRecordId);
     }
 
     /*
@@ -104,16 +97,11 @@ public with sharing class CreateCaseManual {
         return rtMapByName.get(rtName).getRecordTypeId();
     }
 
-    //check pass string is empty or not
-    private Boolean isEmpty(String str) {
-        return (str == null || str.trim().equals(''));
-    }
-
     //get the Patient and Guarantor information
     public void gotoCaseCreation() {
         if (String.isNotBlank(caseType)) {
             caseTypeSelected = true;
-            caseObj.RecordTypeId = getCaseRecordTypeId(caseType);
+            manualCase.RecordTypeId = getCaseRecordTypeId(caseType);
 
             //Check Charge Group is Selected
             if (caseType != 'General') {
@@ -131,18 +119,18 @@ public with sharing class CreateCaseManual {
             chargeGroup = ChargeGroupService.getCGOrderByCreatedDate(setChargeGroupId);
 
             if (gc.RecordType.DeveloperName == 'Patient') {
-                caseObj.Patient__c = gc.Id;
+                manualCase.Patient__c = gc.Id;
                 if (chargeGroup != null) {
-                    caseObj.Guarantor_Information__c = chargeGroup.Guarantor__c;
+                    manualCase.Guarantor_Information__c = chargeGroup.Guarantor__c;
                 }
-                guarantorContact = ContactService.getContactDetails(caseObj.Guarantor_Information__c);
+                guarantorContact = ContactService.getContactDetails(manualCase.Guarantor_Information__c);
                 patientContact = gc;
             } else if (gc.RecordType.DeveloperName == 'Guarantor') {
-                caseObj.Guarantor_Information__c = gc.Id;
+                manualCase.Guarantor_Information__c = gc.Id;
                 if (chargeGroup != null) {
-                    caseObj.Patient__c = chargeGroup.Patient__c;
+                    manualCase.Patient__c = chargeGroup.Patient__c;
                 }
-                patientContact = ContactService.getContactDetails(caseObj.Patient__c);
+                patientContact = ContactService.getContactDetails(manualCase.Patient__c);
                 guarantorContact = gc;
             }
 
@@ -158,12 +146,12 @@ public with sharing class CreateCaseManual {
 
             //Creating the DMLOptions for "Assign using active assignment rules" checkbox
             if (guarantorContact != null) {
-                caseObj.ContactId = guarantorContact.Id;
+                manualCase.ContactId = guarantorContact.Id;
             }
-            caseObj.Subject = caseObj.Reason;
-            AssignmentRule ar = new AssignmentRule();
+            manualCase.Subject = manualCase.Reason;
+            AssignmentRule assignmentRule = new AssignmentRule();
             if (AssignmentRuleSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                ar = [
+                assignmentRule = [
                     SELECT Id
                     FROM AssignmentRule
                     WHERE SobjectType = 'Case' AND Active = TRUE
@@ -172,35 +160,36 @@ public with sharing class CreateCaseManual {
             }
 
             Database.DMLOptions dmlOpts = new Database.DMLOptions();
-            dmlOpts.AssignmentRuleHeader.assignmentRuleId = ar.Id;
-            caseObj.setOptions(dmlOpts);
+            dmlOpts.AssignmentRuleHeader.assignmentRuleId = assignmentRule.Id;
+            manualCase.setOptions(dmlOpts);
 
             if (CaseSecurityContext.CREATE_WITH_GT_CONTEXT.actionAllowed()) {
-                insert caseObj;
+                // TODO: This has to be an upsert because the case has already been created at this point (by the standard controller?)
+                upsert manualCase;
             }
 
             //add selected Charge Groups to Case
-            List<Case_Charge_Group_Junction__c> caseCGs = new List<Case_Charge_Group_Junction__c>();
-            for (ChargeGroupWrapper cg : chargeGroupList) {
-                if (cg.isSelected) {
-                    Case_Charge_Group_Junction__c ccg = new Case_Charge_Group_Junction__c();
-                    ccg.Case__c = caseObj.Id;
-                    ccg.Charge_Group__c = cg.cg.Id;
-                    caseCGs.add(ccg);
+            List<Case_Charge_Group_Junction__c> caseChargeGroupJunctions = new List<Case_Charge_Group_Junction__c>();
+            for (ChargeGroupWrapper chargeGroupWrapper : chargeGroupList) {
+                if (chargeGroupWrapper.isSelected) {
+                    Case_Charge_Group_Junction__c caseChargeGroupJunction = new Case_Charge_Group_Junction__c();
+                    caseChargeGroupJunction.Case__c = manualCase.Id;
+                    caseChargeGroupJunction.Charge_Group__c = chargeGroupWrapper.cg.Id;
+                    caseChargeGroupJunctions.add(caseChargeGroupJunction);
                 }
             }
             if (CaseCGJunctionSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                insert caseCGs;
+                insert caseChargeGroupJunctions;
             }
 
             //create case comments
             if (String.isNotBlank(caseNotes)) {
-                CaseComment cc = new CaseComment();
-                cc.ParentId = caseObj.Id;
-                cc.CommentBody = caseNotes;
+                CaseComment caseComment = new CaseComment();
+                caseComment.ParentId = manualCase.Id;
+                caseComment.CommentBody = caseNotes;
 
                 if (CaseCommentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
-                    insert cc;
+                    insert caseComment;
                 }
             }
 
@@ -209,17 +198,18 @@ public with sharing class CreateCaseManual {
 
                 TestUtility.generateException();
             }
-
+            return VisualforceControllerUtil.getRecordPageReference(guarantorRecordId);
         } catch (Exception e) {
             // Debug error response
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ERROR: ' + e.getMessage()));
         }
+
         return null;
     }
 
     public void refresh() {
         if (ApexPages.currentPage().getParameters().containsKey('reason')) {
-            caseObj.Reason = ApexPages.currentPage().getParameters().get('reason');
+            manualCase.Reason = ApexPages.currentPage().getParameters().get('reason');
             
       /* 11-23-2016: Viraj Rana - Tracker # 132104143: Pre-populate manual case fields where necessary.
        * Populating coverage data using the selected Chargegroup with the oldest "Date Of Service Start" field.

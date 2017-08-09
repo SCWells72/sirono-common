@@ -63,34 +63,27 @@ public with sharing class SkipPaymentPlan {
         }
     }
 
-    private Boolean isEmpty(String str) {
-        return (str == null || str.trim().equals(''));
-    }
-
     /*
     * Mohan Kumar 08-01-2016: Ticket # 06638016 - Updated the QueryString parameter value
     * to fix the "URL No Longer Exists" error.
     */
     public PageReference cancel() {
-        PageReference pg = null;
-        if (!isEmpty(paymentPlanId)) {
-            pg = new PageReference('/' + paymentPlanId);
-        } else if (!isEmpty(guarantorId)) {
-            pg = new PageReference('/' + guarantorId);
-        } else {
-            pg = new PageReference('/home/home.jsp');
-        }
-        pg.setRedirect(true);
-        return pg;
+        return String.isNotBlank(paymentPlanId) ?
+            VisualforceControllerUtil.getRecordPageReference(paymentPlanId) :
+            VisualforceControllerUtil.getRecordPageReference(guarantorId);
     }
 
-    public void doSubmit() {
+    public PageReference doSubmit() {
         try {
-            if (!isEmpty(paymentPlanExtId)) {
+            if (String.isNotBlank(paymentPlanExtId)) {
                 String jwtToken = new SironoRestClient.AuthRestClient().getJwtToken();
                 String csrfToken = new SironoRestClient.AuthRestClient().getCsrfToken();
                 if (csrfToken != null && jwtToken != null) {
                     doSkipPaymentPlan(csrfToken, jwtToken);
+
+                    return String.isNotBlank(paymentPlanId) ?
+                        VisualforceControllerUtil.getRecordPageReference(paymentPlanId) :
+                        VisualforceControllerUtil.getRecordPageReference(guarantorId);
                 }
             } else {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
@@ -104,6 +97,8 @@ public with sharing class SkipPaymentPlan {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'ERROR: ' + e.getMessage()));
         }
+
+        return null;
     }
 
     /*

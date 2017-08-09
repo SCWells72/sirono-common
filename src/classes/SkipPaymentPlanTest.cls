@@ -77,7 +77,7 @@ private class SkipPaymentPlanTest {
 
 
         PageReference pageRef = objSkipPaymentPlan.cancel();
-        System.assertEquals('/home/home.jsp', pageRef.getUrl());
+        System.assertEquals(VisualforceControllerUtil.HOME_PAGE_URL, pageRef.getUrl());
 
     }
 
@@ -163,7 +163,7 @@ private class SkipPaymentPlanTest {
         Test.stopTest();
 
         PageReference pageRef = objSkipPaymentPlan.cancel();
-        System.assertEquals('/home/home.jsp', pageRef.getUrl());
+        System.assertEquals(VisualforceControllerUtil.HOME_PAGE_URL, pageRef.getUrl());
 
     }
 

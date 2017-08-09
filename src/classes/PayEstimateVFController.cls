@@ -30,7 +30,7 @@ public with sharing class PayEstimateVFController extends PayEstimateController 
      * This method is use to Create/Insert Payment record based on Encounter, Contact and Amount.
      * It is create record when all validations are successfully pass out.
      **/
-    public void submit() {
+    public PageReference submit() {
         try {
             errorMessages = new List<String>();
             Boolean validAmount = isValidAmount();
@@ -38,6 +38,8 @@ public with sharing class PayEstimateVFController extends PayEstimateController 
             if (validAmount && validCard) {
                 addPayment(null);
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, Constants.PAGE_MESSAGE_CREATED_SUCCESSFULLY));
+
+                return VisualforceControllerUtil.getRecordPageReference(guarantorRecordId);
             }
         } catch (SironoServiceException se) {
             for (String err : se.errors) {
@@ -49,6 +51,8 @@ public with sharing class PayEstimateVFController extends PayEstimateController 
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
                 'ERROR: ' + e.getMessage()));
         }
+
+        return null;
     }
 
     /**
