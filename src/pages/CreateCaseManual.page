@@ -329,7 +329,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <apex:inputField styleClass="pay-staff-input clsReason" value="{!caseObj.Reason}"
+                                <apex:inputField styleClass="pay-staff-input clsReason" value="{!manualCase.Reason}"
                                                  required="true" onchange="refreshCaseDetails();">
                                 </apex:inputField>
 
@@ -340,26 +340,26 @@
                         <apex:variable value="{!2}" var="counter"/>
 
                         <apex:repeat value="{!if(caseType == 'Billing',
-                                if(caseObj.Reason == 'Bankruptcy',$ObjectType.Case.FieldSets.Billing_Bankruptcy,
-                                        if(caseObj.Reason == 'Patient is Deceased',$ObjectType.Case.FieldSets.Billing_Deceased_Patient,
-                                                if(caseObj.Reason == 'Move Payment',$ObjectType.Case.FieldSets.Billing_Move_Payment,
+                                if(manualCase.Reason == 'Bankruptcy',$ObjectType.Case.FieldSets.Billing_Bankruptcy,
+                                        if(manualCase.Reason == 'Patient is Deceased',$ObjectType.Case.FieldSets.Billing_Deceased_Patient,
+                                                if(manualCase.Reason == 'Move Payment',$ObjectType.Case.FieldSets.Billing_Move_Payment,
                                                         $ObjectType.Case.FieldSets.Billing_Type)
                                                 )
                                         ),
                                 if(caseType == 'Payor',
-                                        if(caseObj.Reason == 'Insurance Agent Called',$ObjectType.Case.FieldSets.Payor_Insurance_Agent_Called,
-                                                if(caseObj.Reason == 'Insurance Error',$ObjectType.Case.FieldSets.Payor_Insurance_Error,
-                                                        if(caseObj.Reason == 'New Insurance',$ObjectType.Case.FieldSets.Payor_New_Insurance,
+                                        if(manualCase.Reason == 'Insurance Agent Called',$ObjectType.Case.FieldSets.Payor_Insurance_Agent_Called,
+                                                if(manualCase.Reason == 'Insurance Error',$ObjectType.Case.FieldSets.Payor_Insurance_Error,
+                                                        if(manualCase.Reason == 'New Insurance',$ObjectType.Case.FieldSets.Payor_New_Insurance,
                                                                 $ObjectType.Case.FieldSets.Payor)
                                                         )
                                                 ),
                                         if(caseType == 'Quality of Care',$ObjectType.Case.FieldSets.Quality_of_Care,
                                                 if(caseType == 'General',$ObjectType.Case.FieldSets.General,
                                                         if(caseType == 'Sirono Review',
-                                                                if(caseObj.Reason == 'Mailed Form Request: Charity Application',$ObjectType.Case.FieldSets.Sirono_Review_Mailed_Form_Request_Charit,
-                                                                        if(caseObj.Reason == 'Mailed Form Request: Receipt',$ObjectType.Case.FieldSets.Sirono_Review_Mailed_Form_Request_Receip,
-                                                                                if(caseObj.Reason == 'Merge Request',$ObjectType.Case.FieldSets.Sirono_Review_Merge_Request,
-                                                                                        if(caseObj.Reason == 'Missing Payment',$ObjectType.Case.FieldSets.Sirono_Review_Missing_Payment,
+                                                                if(manualCase.Reason == 'Mailed Form Request: Charity Application',$ObjectType.Case.FieldSets.Sirono_Review_Mailed_Form_Request_Charit,
+                                                                        if(manualCase.Reason == 'Mailed Form Request: Receipt',$ObjectType.Case.FieldSets.Sirono_Review_Mailed_Form_Request_Receip,
+                                                                                if(manualCase.Reason == 'Merge Request',$ObjectType.Case.FieldSets.Sirono_Review_Merge_Request,
+                                                                                        if(manualCase.Reason == 'Missing Payment',$ObjectType.Case.FieldSets.Sirono_Review_Missing_Payment,
                                                                                                 $ObjectType.Case.FieldSets.Sirono_Review)
                                                                                         )
                                                                                 )
@@ -380,7 +380,7 @@
                                 <apex:outputLabel styleClass="pay-staff-label"
                                                   value="{!$ObjectType.Case.Fields[f.fieldPath].label}"/>
                                 <apex:inputField Style="width: 100%;" styleClass="pay-staff-input"
-                                                 value="{!caseObj[f.fieldPath]}"
+                                                 value="{!manualCase[f.fieldPath]}"
                                                  required="{!IF(f.required == true,True, False)}"/>
 
                             </td>
@@ -427,9 +427,9 @@
                                         <td width="49%">
                                             <apex:outputLabel styleClass="pay-staff-label"
                                                               value="{!$ObjectType.Case.Fields[f.fieldPath].label}"/>
-                                            <!--<apex:inputField Style="width: 100%;" styleClass="pay-staff-input" html-disabled="disabled" value="{!caseObj[f.fieldPath]}"/>-->
+                                            <!--<apex:inputField Style="width: 100%;" styleClass="pay-staff-input" html-disabled="disabled" value="{!manualCase[f.fieldPath]}"/>-->
                                             <apex:inputField Style="width: 100%;" styleClass="pay-staff-input"
-                                                             value="{!caseObj[f.fieldPath]}"/>
+                                                             value="{!manualCase[f.fieldPath]}"/>
                                         </td>
 
                                         <apex:outputText rendered="{!mod(counter,2)=1}">
@@ -541,7 +541,7 @@
                     var objTransaction = JSON.parse('{!JSENCODE(transactionJson)}');
                 }
                 var caseType = '{!JSENCODE(caseType)}';
-                var reason = '{!JSENCODE(caseObj.Reason)}';
+                var reason = '{!JSENCODE(manualCase.Reason)}';
 
                 if (caseType == 'Billing') {
                     if (reason == 'Refund/Credit Request') {
