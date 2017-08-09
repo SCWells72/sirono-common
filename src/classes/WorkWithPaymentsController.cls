@@ -2,7 +2,6 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-//TODO remove withoud sharing
 public with sharing class WorkWithPaymentsController {
 
     @AuraEnabled

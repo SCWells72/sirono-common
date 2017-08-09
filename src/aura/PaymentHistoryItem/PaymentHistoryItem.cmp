@@ -7,12 +7,12 @@
     <aura:attribute name="row" type="Object" required="true" description="values in row"/>
 
     <tr class="slds-hint-parent">
-        <th scope="row" data-label="Payment Date">
+        <td scope="row" data-label="Payment Date">
             <div class="slds-truncate" title="{!v.row.deposit}">{!v.row.deposit}</div>
-        </th>
-        <th scope="row" data-label="Payment Date">
+        </td>
+        <td scope="row" data-label="Payment Date">
             <div class="slds-truncate" title="{!v.row.description}">{!v.row.method}</div>
-        </th>
+        </td>
         <td role="gridcell" data-label="Transaction Number">
             <div class="slds-truncate" title="">{!v.row.paymentId}</div>
         </td>
@@ -20,10 +20,6 @@
             <div class="slds-truncate slds-align-middle amount-paid" title="{!'$'+v.row.amount}">
                 <ui:outputCurrency value="{!v.row.amount}"/>
             </div>
-        </td>
-        <td role="gridcell" data-label="Print Receipt">
-            <div class="slds-truncate slds-align-middle" title="Print Receipt">
-                <a onclick="{!c.printReceipt}">Print Receipt</a></div>
         </td>
     </tr>
 

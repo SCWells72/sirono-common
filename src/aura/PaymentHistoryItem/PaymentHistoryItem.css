@@ -2,5 +2,6 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-.THIS {
+.THIS tbody tr td {
+    padding: 20px .5rem;
 }

@@ -2,5 +2,10 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-.THIS {
+.THIS .payment-play-btn-ctr {
+    padding: 1rem 1.875rem;
+}
+
+.THIS .payment-plan-ok-btn {
+    width: 6.25rem;
 }
