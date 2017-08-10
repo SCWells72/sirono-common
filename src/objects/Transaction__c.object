@@ -69,6 +69,19 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Adjustment__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Adjustment (Deprecated)</label>
+        <referenceTo>Payment_Adjustments__c</referenceTo>
+        <relationshipLabel>Transactions</relationshipLabel>
+        <relationshipName>Transactions</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>Amount__c</fullName>
         <description>Amount of case or payment</description>
         <externalId>false</externalId>
@@ -222,6 +235,19 @@
         <externalId>false</externalId>
         <label>Service</label>
         <referenceTo>Service2__c</referenceTo>
+        <relationshipLabel>Transactions</relationshipLabel>
+        <relationshipName>Transactions</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Service__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Service (Deprecated)</label>
+        <referenceTo>Service__c</referenceTo>
         <relationshipLabel>Transactions</relationshipLabel>
         <relationshipName>Transactions</relationshipName>
         <required>false</required>
