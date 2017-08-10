@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sorted>false</sorted>
+    <standardValue>
+        <fullName>Address Change</fullName>
+        <default>false</default>
+        <label>Address Change</label>
+    </standardValue>
+    <standardValue>
+        <fullName>General Question</fullName>
+        <default>false</default>
+        <label>General Question</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Insurance Change</fullName>
+        <default>false</default>
+        <label>Insurance Change</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Payment Change</fullName>
+        <default>false</default>
+        <label>Payment Change</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Phone/Mobile Change</fullName>
+        <default>false</default>
+        <label>Phone/Mobile Change</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Payment Plan Error</fullName>
+        <default>false</default>
+        <label>Payment Plan Error</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Past Due Payment Plans</fullName>
+        <default>false</default>
+        <label>Past Due Payment Plans</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Overdue</fullName>
+        <default>false</default>
+        <label>Overdue</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Precollections</fullName>
+        <default>false</default>
+        <label>Precollections</label>
+    </standardValue>
+</StandardValueSet>

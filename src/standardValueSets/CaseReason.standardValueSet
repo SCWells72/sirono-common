@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sorted>false</sorted>
+    <standardValue>
+        <fullName>Bankruptcy</fullName>
+        <default>false</default>
+        <label>Bankruptcy</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Charge Group</fullName>
+        <default>false</default>
+        <label>Charge Group</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Compliance Issue</fullName>
+        <default>false</default>
+        <label>Compliance Issue</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>CTI</fullName>
+        <default>false</default>
+        <label>CTI</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Demographic Update</fullName>
+        <default>false</default>
+        <label>Demographic Update</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Discount Request</fullName>
+        <default>false</default>
+        <label>Discount Request</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Dispute of Charges</fullName>
+        <default>false</default>
+        <label>Dispute of Charges</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Feature Request</fullName>
+        <default>false</default>
+        <label>Feature Request</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Fields</fullName>
+        <default>false</default>
+        <label>Fields</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Formula</fullName>
+        <default>false</default>
+        <label>Formula</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Guarantor Requests Itemized Statement</fullName>
+        <default>false</default>
+        <label>Guarantor Requests Itemized Statement</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Insurance Agent Called</fullName>
+        <default>false</default>
+        <label>Insurance Agent Called</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Insurance Error</fullName>
+        <default>false</default>
+        <label>Insurance Error</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Insurance Follow-up</fullName>
+        <default>false</default>
+        <label>Insurance Follow-up</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Liability Account</fullName>
+        <default>false</default>
+        <label>Liability Account</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Mailed Form Request: Charity Application</fullName>
+        <default>false</default>
+        <label>Mailed Form Request: Charity Application</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Mailed Form Request: HIPAA Release</fullName>
+        <default>false</default>
+        <label>Mailed Form Request: HIPAA Release</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Mailed Form Request: Itemized Statement</fullName>
+        <default>false</default>
+        <label>Mailed Form Request: Itemized Statement</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Mailed Form Request: Receipt</fullName>
+        <default>false</default>
+        <label>Mailed Form Request: Receipt</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Merge Request</fullName>
+        <default>false</default>
+        <label>Merge Request</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Missing Payment</fullName>
+        <default>false</default>
+        <label>Missing Payment</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Move Payment</fullName>
+        <default>false</default>
+        <label>Move Payment</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>New Insurance</fullName>
+        <default>false</default>
+        <label>New Insurance</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Object</fullName>
+        <default>false</default>
+        <label>Object</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Page Design</fullName>
+        <default>false</default>
+        <label>Page Design</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Patient is Deceased</fullName>
+        <default>false</default>
+        <label>Patient is Deceased</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Payment Plan</fullName>
+        <default>false</default>
+        <label>Payment Plan</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Payment Processor</fullName>
+        <default>false</default>
+        <label>Payment Processor</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Payroll Deduction</fullName>
+        <default>false</default>
+        <label>Payroll Deduction</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Profile Access</fullName>
+        <default>false</default>
+        <label>Profile Access</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Quality of Care Minor Complaint</fullName>
+        <default>false</default>
+        <label>Quality of Care Minor Complaint</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Quality of Care Urgent Request</fullName>
+        <default>false</default>
+        <label>Quality of Care Urgent Request</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Questions - Insurance</fullName>
+        <default>false</default>
+        <label>Questions - Insurance</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Refund/Credit Request</fullName>
+        <default>false</default>
+        <label>Refund/Credit Request</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Reports/ListView</fullName>
+        <default>false</default>
+        <label>Reports/ListView</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Salesforce - Sirono</fullName>
+        <default>false</default>
+        <label>Salesforce - Sirono</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Scheduler/Batch</fullName>
+        <default>false</default>
+        <label>Scheduler/Batch</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Security</fullName>
+        <default>false</default>
+        <label>Security</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Sirono - Salesforce</fullName>
+        <default>false</default>
+        <label>Sirono - Salesforce</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Special Discount</fullName>
+        <default>false</default>
+        <label>Special Discount</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Third Party Liability</fullName>
+        <default>false</default>
+        <label>Third Party Liability</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Training/UAT</fullName>
+        <default>false</default>
+        <label>Training/UAT</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Trigger/Class</fullName>
+        <default>false</default>
+        <label>Trigger/Class</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Update Insurance</fullName>
+        <default>false</default>
+        <label>Update Insurance</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>VIP Called</fullName>
+        <default>false</default>
+        <label>VIP Called</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Visual Force</fullName>
+        <default>false</default>
+        <label>Visual Force</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Workers Comp</fullName>
+        <default>false</default>
+        <label>Workers Comp</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+    <standardValue>
+        <fullName>Workflows</fullName>
+        <default>false</default>
+        <label>Workflows</label>
+        <cssExposed>false</cssExposed>
+    </standardValue>
+</StandardValueSet>
