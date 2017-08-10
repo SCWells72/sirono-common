@@ -37,7 +37,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Adjustment__c</field>
+                <field>Adjustment2__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
