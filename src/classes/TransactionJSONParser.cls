@@ -11,7 +11,6 @@ public with sharing class TransactionJSONParser extends AbstractSironoJSONParser
         public String post_date;
         public String fail_date;
         public String export_date;
-        //noinspection ApexUnusedDeclaration
         public String created_at;
         //noinspection ApexUnusedDeclaration
         public String modified_at;
@@ -62,6 +61,7 @@ public with sharing class TransactionJSONParser extends AbstractSironoJSONParser
 
             txn.Sirono_ID__c = Decimal.valueOf(txnSironoId);
             txn.Name = txnJson.method + '-' + txnSironoId;
+            txn.Transaction_Date__c = parseDate(txnJson.created_at);
             txn.Amount__c = convertToDollarsNegative(txnJson.amount);
             txn.Post_Date__c = parseDatetime(txnJson.post_date);
             txn.Fail_Date__c = parseDatetime(txnJson.fail_date);

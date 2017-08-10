@@ -220,6 +220,7 @@ public class PaymentService extends AbstractService {
 
                 txnObj.Sirono_ID__c = Decimal.valueOf(transactionExternalId);
                 txnObj.Amount__c = convertToDollarsNegative(txnJson.amount);
+                txnObj.Transaction_Date__c = parseDate(txnJson.created_at);
                 txnObj.Post_Date__c = parseDate(txnJson.post_date);
                 txnObj.Fail_Date__c = parseDate(txnJson.fail_date);
                 txnObj.Export_Date__c = parseDate(txnJson.export_date);
