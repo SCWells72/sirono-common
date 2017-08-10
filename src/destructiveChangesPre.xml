@@ -83,8 +83,6 @@
         <members>Service_Rollup__c.Code__c</members>
         <members>Sirono_Settings__c.Automated_Case_Record_Type_Id__c</members>
         <members>Sirono_Settings__c.Business_Hours_Id__c</members>
-        <members>Transaction__c.Adjustment__c</members>
-        <members>Transaction__c.Service__c</members>
         <members>User.Legacy_User_Id__c</members>
         <name>CustomField</name>
     </types>

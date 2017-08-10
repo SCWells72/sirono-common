@@ -5,6 +5,11 @@
 
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <members>Transaction__c.Adjustment__c</members>
+        <members>Transaction__c.Service__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
         <members>Payment_Adjustments__c-Adjustment Layout</members>
         <members>Service__c-Service Layout</members>
         <name>Layout</name>
