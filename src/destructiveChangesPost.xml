@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Payment_Adjustments__c-Adjustment Layout</members>
+        <members>Service__c-Service Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Campaign_Member_History__c</members>
+        <members>Encounter_Coverage_Junction__c</members>
+        <members>Payment_Adjustments__c</members>
+        <members>Payment_Arrangement__c</members>
+        <members>Service__c</members>
+        <members>Transaction_Type__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Call_Center_Manager</members>
+        <name>Role</name>
+    </types>
+    <version>40.0</version>
+</Package>
