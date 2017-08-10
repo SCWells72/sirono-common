@@ -19,7 +19,7 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
     private static final String SIRONO_ID = 'Sirono_ID__c';
 
     // Below field(s) are use for Select/Read permission.
-    private static final String ADJUSTMENT = 'Adjustment__c';
+    private static final String ADJUSTMENT = 'Adjustment2__c';
     private static final String CHARGE_ADDED_SINCE_PLAN_START = 'Charge_added_since_plan_start__c';
     private static final String ID = 'Id';
     private static final String LASTMODIFIEDDATE = 'LastModifiedDate';
