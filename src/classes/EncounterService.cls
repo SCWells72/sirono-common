@@ -42,7 +42,8 @@ public class EncounterService extends AbstractService {
      * @param List<String> patientIds - limit the returned Encounter__c records to those associated with these patients
 	 **/
     public static List<Encounter__c> getEncountersByGuarantor(Contact guarantor, String paidFilter, List<String> patientIds) {
-        return EncounterDao.getAllEncounters(guarantor, paidFilter, patientIds);
+        EncounterDao.ElevatedPrivilegesHelper helper = new EncounterDao.ElevatedPrivilegesHelper();
+        return helper.getAllEncounters(guarantor, paidFilter, patientIds);
     }
 
     /**
@@ -73,6 +74,7 @@ public class EncounterService extends AbstractService {
      * @returns List<Encounter__c> - The list of encounters.
      */
     public static List<Encounter__c> getForInvoice(Id contactId, String invoiceId) {
-        return EncounterDao.getForInvoice(contactId, invoiceId);
+        EncounterDao.ElevatedPrivilegesHelper helper = new EncounterDao.ElevatedPrivilegesHelper();
+        return helper.getForInvoice(contactId, invoiceId);
     }
 }
