@@ -517,6 +517,23 @@ public class TestUtility {
 
                 insert usr;
 
+                // Give the user the Guarantor permission sets
+                List<PermissionSetAssignment> permissionSetAssignments = new List<PermissionSetAssignment>();
+                List<PermissionSet> permissionSets = [
+                    SELECT Id
+                    FROM PermissionSet
+                    WHERE Name IN (:Constants.PERMISSION_SET_GUARANTOR, :Constants.PERMISSION_SET_GUARANTOR_LOCAL)
+                ];
+                System.assertEquals(2, permissionSets.size(), 'Guarantor permission sets not found.');
+                for (PermissionSet permissionSet : permissionSets) {
+                    PermissionSetAssignment permissionSetAssignment = new PermissionSetAssignment(
+                        AssigneeId = usr.Id,
+                        PermissionSetId = permissionSet.Id
+                    );
+                    permissionSetAssignments.add(permissionSetAssignment);
+                }
+                insert permissionSetAssignments;
+
                 usr = null;
                 usr = [
                     SELECT Id, Alias, Email, EmailEncodingKey, FirstName, LastName, LanguageLocaleKey,
@@ -528,16 +545,6 @@ public class TestUtility {
                 ];
 
                 System.assertNotEquals(usr, null, 'User with username: ' + testUsername + ' not found');
-
-                // Instead of sharing via roles, explicitly share the contact with this new portal user
-                // This is only valid while we are using a Community Plus profile for our portal user.
-                // We can't do explicit sharing with simple Community profile users
-                ContactShare cs = new ContactShare();
-                cs.ContactAccessLevel = 'Edit';
-                cs.ContactId = gt.Id;
-                cs.UserOrGroupId = usr.Id;
-
-                insert new ContactShare[] { cs };
             }
 
             System.assertNotEquals(usr, null, 'User with username: ' + testUsername + ' not found');

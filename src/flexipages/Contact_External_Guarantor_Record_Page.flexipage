@@ -41,7 +41,7 @@
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>relatedListApiName</name>
-                <value>Charge_Groups2_del__r</value>
+                <value>Charge_Groups2__r</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
         </componentInstances>

@@ -5,7 +5,6 @@
 /**
  * Utility class for setting the Total_Payments and BilledChargeGroupCount
  * These methods are invoked when either a Charge_Group or Payment's Encounter changes
- * TODO: remove without sharing
  */
 public with sharing class EncounterUtil {
 

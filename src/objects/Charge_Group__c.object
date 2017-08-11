@@ -203,7 +203,7 @@
         </lookupFilter>
         <referenceTo>Contact</referenceTo>
         <relationshipLabel>Charge Groups (External Guarantor ID)</relationshipLabel>
-        <relationshipName>Charge_Groups2_del</relationshipName>
+        <relationshipName>Charge_Groups2</relationshipName>
         <required>false</required>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>

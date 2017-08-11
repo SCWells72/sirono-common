@@ -166,18 +166,6 @@ private class WorkWithInvoicesControllerTest {
 
             insert encounters;
 
-
-            //TODO Figure out sharing for portal users!
-            List<Encounter__Share> shares = new List<Encounter__Share>();
-            for (Encounter__c encounter : encounters) {
-                Encounter__Share share = new Encounter__Share();
-                share.ParentId = encounter.Id;
-                share.UserOrGroupId = portalUser.Id;
-                share.AccessLevel = 'edit';
-                shares.add(share);
-            }
-            insert shares;
-
             Attachment testAttach = new Attachment(
                 Body = Blob.valueOf('Test string'),
                 Name = 'test attach',

@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  ~ Copyright (c) 2017-present Sirono LLC, All rights reserved
-  -->
-
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>AddCreditCard</members>
@@ -102,6 +98,11 @@
         <name>CustomTab</name>
     </types>
     <types>
+        <members>Call_Center_Agents</members>
+        <members>Data_Clerk</members>
+        <name>Group</name>
+    </types>
+    <types>
         <members>Campaign_Member_History__c-Campaign Member History Layout</members>
         <members>Campaign_Member_History__c-Campaign Members History</members>
         <members>Encounter_Coverage_Junction__c-Encounter Coverage Junction Layout</members>
@@ -119,6 +120,19 @@
         <name>MatchingRule</name>
     </types>
     <types>
+        <members>Sirono_Call_Center</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>Call Center Agent</members>
+        <members>Call Center Manager</members>
+        <members>Guarantor Community</members>
+        <members>Guarantor Community Plus</members>
+        <members>Operations Manager</members>
+        <members>Sirono Integration Admin</members>
+        <name>Profile</name>
+    </types>
+    <types>
         <members>Encounter__c.New_Payment_Arrangement</members>
         <name>QuickAction</name>
     </types>
@@ -131,6 +145,10 @@
         <members>Call_Center_Agent</members>
         <members>Integration_Admin</members>
         <members>Operations_Team</members>
+        <members>HospitalCustomerUser</members>
+        <members>HospitalPartnerUser</members>
+        <members>MakanaHealthCustomerUser</members>
+        <members>SironoPartnerPartnerUser</members>
         <name>Role</name>
     </types>
     <types>
@@ -140,6 +158,14 @@
     <types>
         <members>Collections_Total</members>
         <name>ReportType</name>
+    </types>
+    <types>
+        <members>Case</members>
+        <members>Contact</members>
+        <members>Coverage__c</members>
+        <members>Payment_Method__c</members>
+        <members>Payment__c</members>
+        <name>SharingRules</name>
     </types>
     <types>
         <members>TWS_Sync_Data.resource</members>

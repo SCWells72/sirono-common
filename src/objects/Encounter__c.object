@@ -329,15 +329,6 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Has_Chargegroup__c</fullName>
-        <defaultValue>false</defaultValue>
-        <description>Are there are any related Charge_Group__c ?</description>
-        <externalId>false</externalId>
-        <label>Has Chargegroup</label>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
         <fullName>Individual_Deductible_Remaining__c</fullName>
         <externalId>false</externalId>
         <formula>Individual_Deductible__c -  Individual_Deductible_Used__c</formula>

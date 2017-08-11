@@ -478,18 +478,6 @@ public with sharing class PaymentTabsControllerTest {
         payMethods.get(0).Type__c = Constants.CREDIT_CARD;
         insert payMethods;
 
-        //TODO Figure out sharing for portal users!
-        List<Payment_Method__Share> shares = new List<Payment_Method__Share>();
-        for (Payment_Method__c pm : payMethods) {
-            Payment_Method__Share share = new Payment_Method__Share();
-            share.ParentId = pm.Id;
-            share.UserOrGroupId = portalUser.Id;
-            share.AccessLevel = 'edit';
-            shares.add(share);
-        }
-
-        insert shares;
-
         System.runAs(portalUser) {
 
             Test.startTest();
@@ -524,18 +512,6 @@ public with sharing class PaymentTabsControllerTest {
         payMethods.add(pm2);
 
         insert payMethods;
-
-        //TODO Figure out sharing for portal users!
-        List<Payment_Method__Share> shares = new List<Payment_Method__Share>();
-        for (Payment_Method__c pm : payMethods) {
-            Payment_Method__Share share = new Payment_Method__Share();
-            share.ParentId = pm.Id;
-            share.UserOrGroupId = portalUser.Id;
-            share.AccessLevel = 'edit';
-            shares.add(share);
-        }
-
-        insert shares;
 
         System.runAs(portalUser) {
 

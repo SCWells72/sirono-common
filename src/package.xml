@@ -210,7 +210,7 @@
         <members>Contact.Skip_Invoice_Stmt_Until__c</members>
         <members>Contact.Social_Security_Number__c</members>
         <members>Contact.Statement_Preference__c</members>
-        <members>Contact.Test_ID__c</members>
+        <members>Contact.Test_Id__c</members>
         <members>Contact.Total_Balance__c</members>
         <members>Contact.Verified_Email__c</members>
         <members>Contact.Vital_Status__c</members>
@@ -260,6 +260,10 @@
         <members>Transaction__c</members>
         <members>User_Timezone_Setting__mdt</members>
         <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Add_Adjustment</members>
+        <name>CustomPermission</name>
     </types>
     <types>
         <members>Guarantor_Portal</members>
@@ -355,13 +359,18 @@
         <name>FieldSet</name>
     </types>
     <types>
-        <members>*</members>
+        <members>Case_Record_Page</members>
+        <members>Charge_Group_Record_Page</members>
+        <members>Contact_External_Guarantor_Record_Page</members>
+        <members>Contact_External_Patient_Record_Page</members>
+        <members>Contact_Guarantor_Record_Page</members>
+        <members>Contact_Patient_Record_Page</members>
+        <members>Encounter_Record_Page</members>
+        <members>Payment_Plan_Record_Page</members>
+        <members>Payment_Record_Page</members>
+        <members>Sirono_Call_Center_UtilityBar</members>
+        <members>Statement_Record_Page</members>
         <name>FlexiPage</name>
-    </types>
-    <types>
-        <members>Call_Center_Agents</members>
-        <members>Data_Clerk</members>
-        <name>Group</name>
     </types>
     <types>
         <members>Agent Dashboard</members>
@@ -484,17 +493,22 @@
         <name>Network</name>
     </types>
     <types>
-        <members>Sirono_Call_Center</members>
+        <members>Encounter_Reconciler</members>
+        <members>Encounter_Reconciler_Local</members>
+        <members>Guarantor</members>
+        <members>Guarantor_Local</members>
+        <members>Hospital_Manager</members>
+        <members>Hospital_Staff</members>
+        <members>Hospital_Staff_Local</members>
+        <members>Payment_Reconciler</members>
+        <members>Portal_User_Manager_Local</members>
+        <members>Sirono_Administrator</members>
+        <members>Sirono_Administrator_Local</members>
         <name>PermissionSet</name>
     </types>
+    <!-- TODO: Remove this once we can use Service Cloud licenses -->
     <types>
-        <members>Admin</members>
-        <members>Call Center Agent</members>
-        <members>Call Center Manager</members>
-        <members>Guarantor Community</members>
-        <members>Guarantor Community Plus</members>
-        <members>Operations Manager</members>
-        <members>Sirono Integration Admin</members>
+        <members>Sirono User</members>
         <name>Profile</name>
     </types>
     <types>
@@ -613,23 +627,12 @@
         <name>ReportType</name>
     </types>
     <types>
-        <members>HospitalCustomerUser</members>
-        <members>HospitalPartnerUser</members>
-        <members>MakanaHealthCustomerUser</members>
-        <members>SironoPartnerPartnerUser</members>
-        <name>Role</name>
-    </types>
-    <types>
         <members>Name</members>
         <name>Settings</name>
     </types>
     <types>
-        <members>Case</members>
-        <members>Contact</members>
-        <members>Coverage__c</members>
-        <members>Payment_Method__c</members>
-        <members>Payment__c</members>
-        <name>SharingRules</name>
+        <members>Guarantor_Sharing_Set</members>
+        <name>SharingSet</name>
     </types>
     <types>
         <members>Guarantor_Portal1</members>
