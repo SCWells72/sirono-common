@@ -142,6 +142,10 @@
         <name>ReportType</name>
     </types>
     <types>
+        <members>TWS_Sync_Data.resource</members>
+        <name>StaticResource</name>
+    </types>
+    <types>
         <members>Contact.View_On_Portal</members>
         <members>Encounter__c.New_Payment_Arrangement</members>
         <members>Payment_Plan__c.Canecl_Payment_Plan</members>

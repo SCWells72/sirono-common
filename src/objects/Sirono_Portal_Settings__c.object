@@ -4,10 +4,21 @@
     <description>Configuration for Sirono Portal application.</description>
     <enableFeeds>false</enableFeeds>
     <fields>
-        <fullName>Financial_Aid_Document__c</fullName>
+        <fullName>Financial_Assistance_Document__c</fullName>
         <description>The Name of the static resource that was uploaded to provide you users with information about financial aid.</description>
         <externalId>false</externalId>
-        <label>Financial Aid Document</label>
+        <label>Financial Assistance Document</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Portal_Header_Image__c</fullName>
+        <description>The API name of the static resource to use for the header image in the sirono customer portal.</description>
+        <externalId>false</externalId>
+        <label>Portal Header Image</label>
         <length>80</length>
         <required>false</required>
         <trackTrending>false</trackTrending>

@@ -24,8 +24,14 @@
     position: relative;
 }
 
-.THIS .PayOverdue, .THIS .PayDelinquent {
+.THIS .PayOverdue,
+.THIS .PayDelinquent {
     display: flex;
+}
+
+.THIS .PayOverdue button,
+.THIS .PayDelinquent button {
+    flex: 1;
 }
 
 .THIS .btn_PayOverdueTop, .THIS .btn_PayDelinquentTOP {
@@ -41,7 +47,7 @@
 
 .THIS .btn_apply_aid {
     display: inline-block;
-    width: 50% !important;
+    width: 100% !important;
     border-left: 1px solid #ccc;
 }
 
@@ -59,34 +65,6 @@
 .THIS .btn_PayOverdueBottom:hover {
     background: #fff;
 }
-
-/*
-.THIS .btn_PayAccountFullDue  {
-    border-radius:5px!important;
-    margin: 0 auto!important;
-    padding: 1px!important;
-    width:42%;
-}
-.THIS .slds_btn_group .single_btn_apply_aid {
-    border-radius:5px!important;
-    margin: 0 auto!important;
-    padding: 1px!important;
-    width:40%!important;
-}
-
-.THIS .payment-actions .slds-button-group {
-    padding-bottom:1rem;
-}
-.THIS .slds_btn_group button:last-child{
-    margin: 0 auto!important;
-    width:100%;
-    background:#fff;
-    border-left:none!important;
-    border-top:1px solid #ccc; 
-    outline:none;
-    box-shadow:none!important;   
-}
-*/
 
 .THIS .btn_OnPaymentPlan button:last-child,
 .THIS .PayDelinquent button:last-child,

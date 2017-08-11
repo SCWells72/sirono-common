@@ -4,24 +4,26 @@
 
 <aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="HeaderController">
     <aura:attribute name="userInfo" type="UserWrapper"/>
+    <aura:attribute name="headerLogoUrl" type="String" default=""/>
+
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/salesforce-lightning-design-system.min.css'}"/>
     <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/main.css'}"/>
+
+    <c:SironoSettingsService aura:id="settingsService" />
+
     <div class="wrapper">
         <div class="global-header">
             <div class="slds-grid">
                 <div class="slds-col slds-p-horizontal--medium slds-p-vertical--small">
-                    <img class="portal-logo" src="{!$Resource.SironoData + '/assets/images/health-system-logo.png'}" alt="Health System"/>
+                    <img aura:id="headerLogo" class="portal-logo slds-hide" src="{!v.headerLogoUrl}" alt="Header Logo"/>
                     <span class="welcome">Welcome back, {!v.userInfo.firstName}! ID: {!v.userInfo.profilePointerId}</span>
                 </div>
                 <div class="slds-col">
                     <div class="slds-grid nav-main">
                         <div class="slds-col settings sldsjs-popover">
                             <a href="" class="sldsjs-popover-action" onclick="{!c.showSettings}">
-                                <!--<span class="slds-icon_container">-->
                                 <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#settings'}" category="standard" size="medium" name="settings"/>
-                                <!--<span class="slds-assistive-text">Settings</span>
-                                </span>-->
                             </a>
                             <div aura:id="sldsjsPopoverAction" class="sldsjs-popover-target slds-dropdown slds-dropdown--left slds-nubbin--top-left slds-hide">
                                 <ul class="slds-dropdown__list" role="menu">
