@@ -4,11 +4,11 @@
 
 ({
     activateTab: function (component, event, helper) {
-        var tabToActivate = event.target.id;
-        console.log(tabToActivate);
-        var activeTab = component.get("v.activeTab");
-        console.log(activeTab);
-        if (activeTab != tabToActivate) {
+        var tabToActivate = event.target.id,
+            activeTab = component.get("v.activeTab"),
+            appEvent;
+
+        if (activeTab !== tabToActivate) {
             if (activeTab) {
                 $A.util.addClass(component.find(activeTab), 'display_false');
                 $A.util.removeClass(component.find(activeTab + '_tab'), 'active');
@@ -16,16 +16,17 @@
             $A.util.removeClass(component.find(tabToActivate), 'display_false');
             $A.util.addClass(component.find(tabToActivate + '_tab'), 'active');
             component.set("v.activeTab", tabToActivate);
-            var appEvent = $A.get("e.c:switchTab");
+            appEvent = $A.get("e.c:switchTab");
             appEvent.setParams({"tabName": component.get('v.activeTab')});
             appEvent.fire();
         }
 
     },
-    doInit: function (cmp, e, hlpr) {
-        var activeTab = cmp.get("v.activeTab");
 
-        console.log("activeTab", activeTab);
+    doInit: function (cmp, e, hlpr) {
+        var activeTab = cmp.get("v.activeTab"),
+            checkPPAction;
+
         if (!activeTab || activeTab === 'MakeAPayment') {
             //set default value
             cmp.set("v.activeTab", "MakeAPayment");
@@ -36,34 +37,38 @@
             $A.util.removeClass(cmp.find(activeTab), 'display_false');
         }
 
-        var checkPPAction = cmp.get("c.getPaymentPlanInfo");
+        checkPPAction = cmp.get("c.getPaymentPlanInfo");
         checkPPAction.setCallback(this, function (response) {
             var state = response.getState();
             if (state === 'SUCCESS') {
                 try {
-                    var paymentInfo = response.getReturnValue();
-                    var PaymentRequestInfo = hlpr.getInitPaymentRequestInfo(paymentInfo);
+                    var paymentInfo = response.getReturnValue(),
+                        PaymentRequestInfo = hlpr.getInitPaymentRequestInfo(paymentInfo);
                     cmp.set('v.PaymentInfo', paymentInfo);
-                    console.log('paymentInfo', paymentInfo, PaymentRequestInfo);
                     cmp.find('paymentPlanCmp').doCmpInit(paymentInfo, PaymentRequestInfo);
-                } catch (e) {console.log(e);}
+                } catch (e) {
+                    console.log(e);
+                }
             }
         });
         $A.enqueueAction(checkPPAction);
     },
+
     changePaymentBalance: function (cmp, e, hlpr) {
         var params = e.getParams();
         try {
-            var paymentInfo = cmp.get('v.PaymentInfo');
+            var paymentInfo = cmp.get('v.PaymentInfo'),
+                PaymentRequestInfo;
             if (paymentInfo) {
                 paymentInfo = hlpr.getAdjustedPaymentInfo(paymentInfo, params);
-                var PaymentRequestInfo = hlpr.getInitPaymentRequestInfo(paymentInfo);
-                console.info('PaymentInfooo', paymentInfo, params.paymentBalance);
+
+                PaymentRequestInfo = hlpr.getInitPaymentRequestInfo(paymentInfo);
                 PaymentRequestInfo.totalAmount = params.paymentBalance || PaymentRequestInfo.totalAmount;
-                console.info('PaymentRequestInfo', PaymentRequestInfo);
                 cmp.set('v.PaymentInfo', paymentInfo);
                 cmp.find('paymentPlanCmp').doCmpInit(paymentInfo, PaymentRequestInfo);
             }
-        } catch (e) { console.log(e);}
+        } catch (e) {
+            console.log(e);
+        }
     }
 })
