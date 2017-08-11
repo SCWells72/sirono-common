@@ -37,10 +37,6 @@
         <name>CallCenter</name>
     </types>
     <types>
-        <members>Internal Community</members>
-        <name>Community</name>
-    </types>
-    <types>
         <members>Account.Account_Compact_Layout</members>
         <members>Contact.Agent_Highlight</members>
         <name>CompactLayout</name>
@@ -51,7 +47,6 @@
     </types>
     <types>
         <members>Sirono_Call_Center</members>
-        <members>Sirono_Call_Center_Console</members>
         <name>CustomApplication</name>
     </types>
     <types>
@@ -215,9 +210,6 @@
         <members>Contact.Verified_Email__c</members>
         <members>Contact.Vital_Status__c</members>
         <members>Contact.X18_Digit_ID__c</members>
-        <members>User.Community_Password__c</members>
-        <members>User.Is_Demo_Active__c</members>
-        <members>User.Is_Demo_Locked__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -252,7 +244,6 @@
         <members>Service_Rollup__c</members>
         <members>Service2__c</members>
         <members>Sirono_Call_Center_Settings__c</members>
-        <members>Sirono_Portal_Settings__c</members>
         <members>Sirono_Settings__c</members>
         <members>State__mdt</members>
         <members>Statement__c</members>
@@ -264,10 +255,6 @@
     <types>
         <members>Add_Adjustment</members>
         <name>CustomPermission</name>
-    </types>
-    <types>
-        <members>Guarantor_Portal</members>
-        <name>CustomSite</name>
     </types>
     <types>
         <members>Adjustment__c</members>
@@ -297,23 +284,6 @@
         <name>Dashboard</name>
     </types>
     <types>
-        <members>Communities_Shared_Document_Folder</members>
-        <members>Communities_Shared_Document_Folder/Header_Portal_12.html</members>
-        <members>Communities_Shared_Document_Folder/Portal_Header.html</members>
-        <members>Communities_Shared_Document_Folder/Portal_Header_10.html</members>
-        <members>Communities_Shared_Document_Folder/Portal_Header_11.html</members>
-        <members>Communities_Shared_Document_Folder/Portal_Header_2.html</members>
-        <members>Communities_Shared_Document_Folder/Portal_Header_3.html</members>
-        <members>Communities_Shared_Document_Folder/Portal_Header_4.html</members>
-        <members>Communities_Shared_Document_Folder/Portal_Header_5.html</members>
-        <members>Communities_Shared_Document_Folder/Portal_Header_6.html</members>
-        <members>Communities_Shared_Document_Folder/Portal_Header_7.html</members>
-        <members>Communities_Shared_Document_Folder/Portal_Header_8.html</members>
-        <members>Communities_Shared_Document_Folder/Portal_Header_9.html</members>
-        <members>Communities_Shared_Document_Folder/Sirono_jpg.jpg</members>
-        <members>Communities_Shared_Document_Folder/header_2.jpg</members>
-        <members>Communities_Shared_Document_Folder/sirono_250x57_clear_png.png</members>
-        <members>Communities_Shared_Document_Folder/sirono_logo_clear.png</members>
         <members>SharedDocuments</members>
         <members>SharedDocuments/Sirono_Image_file.jpg</members>
         <name>Document</name>
@@ -437,10 +407,6 @@
         <members>TransactionPayerType__mdt-Transaction Payer Type Layout</members>
         <members>Transaction__c-Transaction Layout</members>
         <members>Transaction__c-Transactions</members>
-        <members>UserAppMenuItem-Application Layout</members>
-        <members>UserProvAccount-User Provisioning Account Layout</members>
-        <members>UserProvisioningLog-User Provisioning Log Layout</members>
-        <members>UserProvisioningRequest-User Provisioning Request Layout</members>
         <members>User_Timezone_Setting__mdt-User Timezone Layout</members>
         <name>Layout</name>
     </types>
@@ -489,10 +455,6 @@
         <name>NamedCredential</name>
     </types>
     <types>
-        <members>Guarantor Portal</members>
-        <name>Network</name>
-    </types>
-    <types>
         <members>Encounter_Reconciler</members>
         <members>Encounter_Reconciler_Local</members>
         <members>Guarantor</members>
@@ -504,9 +466,11 @@
         <members>Portal_User_Manager_Local</members>
         <members>Sirono_Administrator</members>
         <members>Sirono_Administrator_Local</members>
+        <members>Guarantor.permissionset</members>
+        <members>Hospital_Staff.permissionset</members>
+        <members>Sirono_Administrator.permissionset</members>
         <name>PermissionSet</name>
     </types>
-    <!-- TODO: Remove this once we can use Service Cloud licenses -->
     <types>
         <members>Sirono User</members>
         <name>Profile</name>
@@ -633,10 +597,6 @@
     <types>
         <members>Guarantor_Sharing_Set</members>
         <name>SharingSet</name>
-    </types>
-    <types>
-        <members>Guarantor_Portal1</members>
-        <name>SiteDotCom</name>
     </types>
     <types>
         <members>CampaignType</members>
