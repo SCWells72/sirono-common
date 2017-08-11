@@ -5,7 +5,7 @@
     <enableFeeds>false</enableFeeds>
     <fields>
         <fullName>Financial_Assistance_Document__c</fullName>
-        <description>The Name of the static resource that was uploaded to provide you users with information about financial aid.</description>
+        <description>The Name of the static resource that was uploaded to provide you users with information about financial assistance.</description>
         <externalId>false</externalId>
         <label>Financial Assistance Document</label>
         <length>80</length>
