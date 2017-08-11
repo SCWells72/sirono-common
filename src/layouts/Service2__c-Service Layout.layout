@@ -36,7 +36,7 @@
                 <emptySpace>true</emptySpace>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Guarantor__c</field>
             </layoutItems>
         </layoutColumns>

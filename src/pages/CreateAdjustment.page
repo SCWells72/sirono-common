@@ -145,24 +145,4 @@
             </div>
         </apex:outputPanel>
     </apex:form>
-
-    <Script>
-        //Sirono 08-22-2016: 127323475 when Record Saved Successfully return to the contact after few Sec.
-        var delaymessage = 2000;
-        $(document).ready(function () {
-            returnToContact();
-        });
-
-        function returnToContact() {
-            $('img[title="INFO"]').each(function () {
-                // We have created below variable, because of can not convert boolean directly to JSENCODE.
-                var isAdmin = Boolean('{!JSENCODE(IF(isAdmin, "true", "false"))}');
-                if (isAdmin == true) {
-                    setTimeout(function () {
-                        window.location = '/{!JSENCODE(guarantorRecordId)}';
-                    }, delaymessage);
-                }
-            });
-        }
-    </script>
 </apex:page>

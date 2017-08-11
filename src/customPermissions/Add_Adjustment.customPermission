@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomPermission xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Gives the user the ability to add adjustments. Must be granted in conjunction with the required CRUD permissions on Adjustment__c.</description>
+    <label>Add Adjustment</label>
+</CustomPermission>

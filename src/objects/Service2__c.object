@@ -21,10 +21,6 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -50,6 +46,7 @@
     <description>Meta data about Charge Transactions</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
+    <enableChangeDataCapture>false</enableChangeDataCapture>
     <enableEnhancedLookup>true</enableEnhancedLookup>
     <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
@@ -58,17 +55,6 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
-    <fields>
-        <fullName>Amount__c</fullName>
-        <externalId>false</externalId>
-        <label>Amount</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
     <fields>
         <fullName>Aggregate_Id__c</fullName>
         <caseSensitive>false</caseSensitive>
@@ -81,6 +67,17 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
     </fields>
     <fields>
         <fullName>CPT_Code_Modifiers__c</fullName>
@@ -156,6 +153,7 @@ TEXT(YEAR(Service_Date__c))</formula>
     </fields>
     <fields>
         <fullName>External_Guarantor__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
         <description>Related External Guarantor</description>
         <externalId>false</externalId>
         <label>External Guarantor</label>
@@ -175,7 +173,6 @@ TEXT(YEAR(Service_Date__c))</formula>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
-        <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
     <fields>
         <fullName>Guarantor__c</fullName>
@@ -194,8 +191,8 @@ TEXT(YEAR(Service_Date__c))</formula>
         <referenceTo>Contact</referenceTo>
         <relationshipLabel>Services (Guarantors)</relationshipLabel>
         <relationshipName>Services2</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
         <reparentableMasterDetail>true</reparentableMasterDetail>
-        <required>false</required>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>MasterDetail</type>
@@ -258,6 +255,7 @@ TEXT(YEAR(Service_Date__c))</formula>
     <nameField>
         <displayFormat>SVC-{0000000000}</displayFormat>
         <label>Name</label>
+        <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Services</pluralLabel>
@@ -296,4 +294,5 @@ TEXT(YEAR(Service_Date__c))</formula>
         <searchResultsAdditionalFields>Service_Rollup__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
 </CustomObject>

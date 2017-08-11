@@ -69,8 +69,9 @@
         <pageOrSobjectType>Contact</pageOrSobjectType>
         <recordType>Contact.Guarantor</recordType>
         <type>Flexipage</type>
-        <profile>Call Center Agent</profile>
+        <profile>ServiceCloud</profile>
     </profileActionOverrides>
+    <!-- TODO: Remove this once we can use Service Cloud licenses -->
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Contact_Guarantor_Record_Page</content>
@@ -78,16 +79,7 @@
         <pageOrSobjectType>Contact</pageOrSobjectType>
         <recordType>Contact.Guarantor</recordType>
         <type>Flexipage</type>
-        <profile>Call Center Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Contact_Guarantor_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Contact</pageOrSobjectType>
-        <recordType>Contact.Guarantor</recordType>
-        <type>Flexipage</type>
-        <profile>Standard</profile>
+        <profile>Sirono User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -105,8 +97,9 @@
         <pageOrSobjectType>Contact</pageOrSobjectType>
         <recordType>Contact.External_Guarantor</recordType>
         <type>Flexipage</type>
-        <profile>Call Center Agent</profile>
+        <profile>ServiceCloud</profile>
     </profileActionOverrides>
+    <!-- TODO: Remove this once we can use Service Cloud licenses -->
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Contact_External_Guarantor_Record_Page</content>
@@ -114,16 +107,7 @@
         <pageOrSobjectType>Contact</pageOrSobjectType>
         <recordType>Contact.External_Guarantor</recordType>
         <type>Flexipage</type>
-        <profile>Call Center Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Contact_External_Guarantor_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Contact</pageOrSobjectType>
-        <recordType>Contact.External_Guarantor</recordType>
-        <type>Flexipage</type>
-        <profile>Standard</profile>
+        <profile>Sirono User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -141,8 +125,9 @@
         <pageOrSobjectType>Contact</pageOrSobjectType>
         <recordType>Contact.Patient</recordType>
         <type>Flexipage</type>
-        <profile>Call Center Agent</profile>
+        <profile>ServiceCloud</profile>
     </profileActionOverrides>
+    <!-- TODO: Remove this once we can use Service Cloud licenses -->
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Contact_Patient_Record_Page</content>
@@ -150,16 +135,7 @@
         <pageOrSobjectType>Contact</pageOrSobjectType>
         <recordType>Contact.Patient</recordType>
         <type>Flexipage</type>
-        <profile>Call Center Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Contact_Patient_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Contact</pageOrSobjectType>
-        <recordType>Contact.Patient</recordType>
-        <type>Flexipage</type>
-        <profile>Standard</profile>
+        <profile>Sirono User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -177,8 +153,9 @@
         <pageOrSobjectType>Contact</pageOrSobjectType>
         <recordType>Contact.External_Patient</recordType>
         <type>Flexipage</type>
-        <profile>Call Center Agent</profile>
+        <profile>ServiceCloud</profile>
     </profileActionOverrides>
+    <!-- TODO: Remove this once we can use Service Cloud licenses -->
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Contact_External_Patient_Record_Page</content>
@@ -186,16 +163,7 @@
         <pageOrSobjectType>Contact</pageOrSobjectType>
         <recordType>Contact.External_Patient</recordType>
         <type>Flexipage</type>
-        <profile>Call Center Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Contact_External_Patient_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Contact</pageOrSobjectType>
-        <recordType>Contact.External_Patient</recordType>
-        <type>Flexipage</type>
-        <profile>Standard</profile>
+        <profile>Sirono User</profile>
     </profileActionOverrides>
     <tab>standard-Case</tab>
     <tab>Charge_Group__c</tab>

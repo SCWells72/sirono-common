@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ NOTE: These permission sets are very carefully maintained and should NOT be blindly overwritten by retrieved metadata.
+ Please carefully merge changes from the server into these files.
+-->
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>A portal user manager for Sirono applications. This permission set should be used with the Hospital Staff permission set and includes permissions for standard objects.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Portal User Manager (Local)</label>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Account</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ManagePartners</name>
+    </userPermissions>
+</PermissionSet>

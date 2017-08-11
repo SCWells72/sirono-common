@@ -182,7 +182,11 @@ public class Constants {
     public static final String READ_ONLY_PROFILE = 'Read Only';
     public static final String CHATTER_ONLY_USER_PROFILE = 'Chatter Only User';
     public static final String STANDARD_USER = 'Standard User';
-    public static final String GUARANTOR_PORTAL_PROFILE = 'Guarantor Community Plus';
+    public static final String GUARANTOR_PORTAL_PROFILE = 'Customer Community Login User';
+
+    // Constants for permission set names
+    public static final String PERMISSION_SET_GUARANTOR = 'Guarantor';
+    public static final String PERMISSION_SET_GUARANTOR_LOCAL = 'Guarantor_Local';
 
     public static final String CREDIT_CARD = 'Credit Card';
     public static final String MONTHS = 'MONTHS';

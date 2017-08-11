@@ -321,7 +321,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Test_ID__c</field>
+            <field>Test_Id__c</field>
             <table>Contact</table>
         </columns>
         <columns>

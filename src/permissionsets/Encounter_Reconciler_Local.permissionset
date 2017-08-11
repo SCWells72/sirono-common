@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ NOTE: These permission sets are very carefully maintained and should NOT be blindly overwritten by retrieved metadata.
+ Please carefully merge changes from the server into these files.
+-->
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>An encounter reconciler for Sirono applications. This permission set should be used with the Hospital Staff permission set and includes permissions for standard objects.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Encounter Reconciler (Local)</label>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Case</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+</PermissionSet>

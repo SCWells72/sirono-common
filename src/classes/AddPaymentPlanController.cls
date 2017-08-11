@@ -71,7 +71,7 @@ public abstract class AddPaymentPlanController {
             Payment_Plan__c activePaymentPlan = PaymentPlanService.getActivePaymentPlan(guarantorRecordId);
             if (activePaymentPlan != null) {
                 isActivePaymentPlan = true;
-                errorMessages.add(System.Label.Payment_Plan_Error);
+                errorMessages.add(Label.Payment_Plan_Error);
             }
         }
     }

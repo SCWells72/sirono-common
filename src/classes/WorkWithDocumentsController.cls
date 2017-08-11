@@ -23,7 +23,7 @@ public with sharing class WorkWithDocumentsController {
             orderType = orderType.center(orderType.length() + 2);
         }
         List<DocumentWrapper> documents = new List<DocumentWrapper>();
-        String searchFolderQuery = ' WHERE Folder.Name =: FOLDER_NAME';
+        String searchFolderQuery = ' WHERE Folder.Name = :FOLDER_NAME';
         String finalQuery = QUERY + searchFolderQuery + ORDER_BY + criteria + orderType + LIMIT_SUFFIX;
         System.debug('finalQuery=' + finalQuery);
         for (Document doc : Database.query(finalQuery)) {

@@ -5,7 +5,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Adjustment for Admin</shortDescription>
-        <value>Only Administrator Users can add Adjustments.</value>
+        <value>You are not authorized to add adjustments. Please contact your administrator if you require access to this feature.</value>
     </labels>
     <labels>
         <fullName>Case_Type_Require</fullName>
@@ -170,7 +170,7 @@ If you have any questions about the bill, please contact the Customer Service Ce
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Payment Plan Error</shortDescription>
-        <value>This guarantor have already active Payment Plan.</value>
+        <value>This guarantor already has an active Payment Plan.</value>
     </labels>
     <labels>
         <fullName>Payment_Plan_Installment_Error_Message</fullName>

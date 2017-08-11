@@ -10,7 +10,7 @@ public class AddPaymentPlanVFControllerTest {
 
     /**
      * This method tests the logic of constructor, init, doCancel, doNothing, doNext and getPaymentPlanSettings methods.
-     * If guarantor have already active payment plan than it will not allow to create another payment plan.
+     * If guarantor already has an active payment plan than it will not allow to create another payment plan.
      **/
     @IsTest
     static void testActivePaymentPlan() {
@@ -33,11 +33,11 @@ public class AddPaymentPlanVFControllerTest {
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
         for (ApexPages.Message msg : msgList) {
-            if (msg.getDetail().contains(System.Label.Payment_Plan_Error)) {
+            if (msg.getDetail().contains(Label.Payment_Plan_Error)) {
                 isError = true;
             }
         }
-        System.assert(isError, 'Expected ' + System.Label.Payment_Plan_Error + ' error message but got different');
+        System.assert(isError, 'Expected ' + Label.Payment_Plan_Error + ' error message but got different');
     }
 
     /**

@@ -25,15 +25,28 @@ public with sharing class CreateAdjustment {
          * Check for permission and set the isAdmin flag.
          */
 
+        // Assume the user is not allowed to do this
         isAdmin = false;
 
+        // First make sure that the user is allowed to create
         try {
             if (AdjustmentSecurityContext.CREATE_CONTEXT.actionAllowed()) {
                 isAdmin = true;
             }
         } catch (SecurityException e) {
-            System.debug('User: ' + UserInfo.getUserId() + ' cannot create adjustments');
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, System.Label.Adjustment_for_Admin));
+            System.debug('User: ' + UserInfo.getUserId() + ' cannot create adjustments.');
+        }
+
+        // If so, also check for the Add Adjustment custom permission
+        if (isAdmin) {
+            isAdmin &= CustomPermissionUtil.hasPermission('Add_Adjustment');
+            if (!isAdmin) {
+                System.debug('User: ' + UserInfo.getUserId() + ' does not have the Add Adjustment permission.');
+            }
+        }
+
+        if (!isAdmin) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, Label.Adjustment_for_Admin));
         }
 
         chargeGroupsSelected = false;
@@ -46,9 +59,9 @@ public with sharing class CreateAdjustment {
         adjustmentTypeOptions.add(new SelectOption('', '--None--'));
         if (AdjustmentTypeMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             for (Adjustment_Type__mdt aType : [
-                    SELECT a.Id, a.Enabled__c, a.Description__c, a.Code__c
-                    FROM Adjustment_Type__mdt a
-                    WHERE Enabled__c = TRUE
+                SELECT a.Id, a.Enabled__c, a.Description__c, a.Code__c
+                FROM Adjustment_Type__mdt a
+                WHERE Enabled__c = TRUE
             ]) {
                 adjustmentTypeOptions.add(new SelectOption(aType.Code__c, aType.Description__c));
             }
@@ -84,7 +97,7 @@ public with sharing class CreateAdjustment {
         } else {
             try {
                 AdjustmentService.AdjustmentRequest req = new AdjustmentService.AdjustmentRequest(guarantorRecordId,
-                        Decimal.valueOf(chargeGroupId), selectedAdjType, Decimal.valueOf(amount));
+                    Decimal.valueOf(chargeGroupId), selectedAdjType, Decimal.valueOf(amount));
 
                 AdjustmentService.createAdjustment(req);
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Adjustment created successfully'));

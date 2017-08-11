@@ -30,17 +30,6 @@ private class WorkWithPaymentsControllerTest {
             List<Payment_Method__c> paymentMethods = new List<Payment_Method__c> { pmCreditCard, pmCheck };
             insert paymentMethods;
 
-            //TODO Figure out sharing for portal users!
-            List<Payment_Method__Share> shares = new List<Payment_Method__Share>();
-            for (Payment_Method__c pm : paymentMethods) {
-                Payment_Method__Share share = new Payment_Method__Share();
-                share.ParentId = pm.Id;
-                share.UserOrGroupId = portalUser.Id;
-                share.AccessLevel = 'edit';
-                shares.add(share);
-            }
-            insert shares;
-
             Payment__c payment1 = TestUtility.generateSironoPayment(guarantorContact.Id, 1234, 12);
             payment1.Payment_Method__c = pmCreditCard.Id;
             payment1.Method__c = 'Credit';
@@ -52,17 +41,6 @@ private class WorkWithPaymentsControllerTest {
 
             List<Payment__c> payments = new List<Payment__c> { payment1, payment2 };
             insert payments;
-
-            //TODO Figure out sharing for portal users!
-            List<Payment__Share> pmtShares = new List<Payment__Share>();
-            for (Payment__c pmt : payments) {
-                Payment__Share share = new Payment__Share();
-                share.ParentId = pmt.Id;
-                share.UserOrGroupId = portalUser.Id;
-                share.AccessLevel = 'edit';
-                pmtShares.add(share);
-            }
-            insert pmtShares;
         }
 
         System.runAs(portalUser) {

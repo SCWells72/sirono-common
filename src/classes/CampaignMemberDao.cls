@@ -7,7 +7,6 @@
  **/
 public with sharing class CampaignMemberDao extends AbstractDao {
 
-
     /**
      *  Helper methods invoked from the TriggerHandlers to keep the system in a valid state
      *  Because this work could be triggered by a portal user creating a payment plan, no FLS/CRUD checks

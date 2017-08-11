@@ -2672,9 +2672,6 @@
             <value>New</value>
         </filters>
         <label>Demographic Update</label>
-        <sharedTo>
-            <group>Data_Clerk</group>
-        </sharedTo>
     </listViews>
     <listViews>
         <fullName>Encounter_Needed</fullName>
@@ -2750,9 +2747,6 @@
             <value>New</value>
         </filters>
         <label>Insurance Update</label>
-        <sharedTo>
-            <group>Data_Clerk</group>
-        </sharedTo>
     </listViews>
     <listViews>
         <fullName>Internal_Cases</fullName>
@@ -2798,9 +2792,6 @@
             <value>New</value>
         </filters>
         <label>Missing Payment</label>
-        <sharedTo>
-            <group>Data_Clerk</group>
-        </sharedTo>
     </listViews>
     <listViews>
         <fullName>Quality_of_Care_Case</fullName>
