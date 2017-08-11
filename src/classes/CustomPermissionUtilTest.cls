@@ -7,7 +7,7 @@ private class CustomPermissionUtilTest {
 
     @IsTest
     static void testHasPermissionNegative() {
-        System.assert(!CustomPermissionUtil.hasPermission('Add_Adjustment'), 'The user should not have the Add Adjustment permission.');
+        System.assert(!CustomPermissionUtil.hasPermission(CustomPermissionUtil.ADD_ADJUSTMENT), 'The user should not have the Add Adjustment permission.');
     }
 
     @IsTest
@@ -25,7 +25,7 @@ private class CustomPermissionUtilTest {
         insert permissionSetAssignment;
 
         // Verify that the user has the permission now
-        System.assert(CustomPermissionUtil.hasPermission('Add_Adjustment'), 'The user should have the Add Adjustment permission.');
+        System.assert(CustomPermissionUtil.hasPermission(CustomPermissionUtil.ADD_ADJUSTMENT), 'The user should have the Add Adjustment permission.');
     }
 
     @IsTest

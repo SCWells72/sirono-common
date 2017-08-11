@@ -39,7 +39,7 @@ public with sharing class CreateAdjustment {
 
         // If so, also check for the Add Adjustment custom permission
         if (isAdmin) {
-            isAdmin &= CustomPermissionUtil.hasPermission('Add_Adjustment');
+            isAdmin &= CustomPermissionUtil.hasPermission(CustomPermissionUtil.ADD_ADJUSTMENT);
             if (!isAdmin) {
                 System.debug('User: ' + UserInfo.getUserId() + ' does not have the Add Adjustment permission.');
             }

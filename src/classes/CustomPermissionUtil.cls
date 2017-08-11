@@ -7,6 +7,8 @@
  */
 public with sharing class CustomPermissionUtil {
 
+    public static final String ADD_ADJUSTMENT = 'Add_Adjustment';
+
     private CustomPermissionUtil() {
         // Utility class
     }
