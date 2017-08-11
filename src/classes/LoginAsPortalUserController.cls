@@ -29,13 +29,17 @@ public with sharing class LoginAsPortalUserController {
         }
         loginAttributes.put('userId', contactUser.Id);
 
-        // TODO: This should be a constant
-        List<Network> networks = [SELECT Id FROM Network WHERE Name = 'Guarantor Portal' LIMIT 1];
-        Network guarantorPortalNetwork = (networks.size() == 1) ? networks.get(0) : null;
-        if (guarantorPortalNetwork == null) {
+        Id guarantorPortalNetworkId = null;
+        if (Schema.getGlobalDescribe().containsKey('network')) {
+            // TODO: The network name should be a constant
+            List<SObject> networks = Database.query('SELECT Id FROM Network WHERE Name = \'Guarantor Portal\' LIMIT 1');
+            guarantorPortalNetworkId = (networks.size() == 1) ? networks.get(0).Id : null;
+        }
+
+        if (guarantorPortalNetworkId == null) {
             throw LightningUtil.newAuraHandledException('No network found with name Guarantor Portal.');
         }
-        loginAttributes.put('networkId', guarantorPortalNetwork.Id);
+        loginAttributes.put('networkId', guarantorPortalNetworkId);
 
         return loginAttributes;
     }
