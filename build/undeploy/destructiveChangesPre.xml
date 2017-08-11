@@ -160,14 +160,6 @@
         <name>ReportType</name>
     </types>
     <types>
-        <members>Case</members>
-        <members>Contact</members>
-        <members>Coverage__c</members>
-        <members>Payment_Method__c</members>
-        <members>Payment__c</members>
-        <name>SharingRules</name>
-    </types>
-    <types>
         <members>TWS_Sync_Data.resource</members>
         <name>StaticResource</name>
     </types>
