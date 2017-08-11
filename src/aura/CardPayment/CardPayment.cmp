@@ -6,6 +6,7 @@
     <aura:attribute name="listOfIds" type="String[]"/>
     <aura:attribute name="invoiceId" type="String"/>
     <aura:attribute name="isEstimate" type="Boolean"/>
+    <aura:attribute name="isDeposit" type="Boolean" default="false"/>
     <aura:attribute name="encounterId" type="String"/>
     <aura:attribute name="selectedPaymentSum" type="Decimal"/>
     <aura:attribute name="IsMakePaymentTab" type="Boolean"/>
@@ -83,7 +84,10 @@
             <div class="col slds-size--1-of-1">
                 <div class="float-right">
                 {!v.isValid}
-                    <button disabled="{!!v.IsValid}" class="slds-button slds-button--brand" onclick="{!c.makePayment}">Make Deposit</button>
+                    <button disabled="{!!v.IsValid}" class="slds-button slds-button--brand" onclick="{!c.makePayment}">
+                        <span class="{!v.isDeposit ? '' : 'slds-hide'}">Make Deposit</span>
+                        <span class="{!v.isDeposit ? 'slds-hide' : ''}">Make Payment</span>
+                    </button>
                 </div>
             </div>
         </div>

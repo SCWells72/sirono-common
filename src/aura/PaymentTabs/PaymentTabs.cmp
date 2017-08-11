@@ -19,7 +19,7 @@
                 </div>
                 <aura:set attribute="else">
                     <div aura:id="MakeAPayment_tab" id="MakeAPayment" class="col make-payment-nav active" onclick="{!c.activateTab}">
-                        Make a Deposit
+                        Make a Payment
                     </div>
                 </aura:set>
             </aura:if>
@@ -35,7 +35,7 @@
     </div>
 
     <section aura:id="MakeAPayment" class="make-payment-content">
-        <c:MakePaymentTab isEstimate="{!v.hideCreatePaymentPlanTab}" invoiceId="{!v.invoiceId}"/>
+        <c:MakePaymentTab isEstimate="{!v.hideCreatePaymentPlanTab}" invoiceId="{!v.invoiceId}" isDeposit="{!v.hideCreatePaymentPlanTab}"/>
     </section>
     <section aura:id="CreatePaymentPlan" class="make-payment-content display_false">
         <c:PaymentPlanTab aura:id="paymentPlanCmp" PaymentInfo="{!v.PaymentInfo}"/>

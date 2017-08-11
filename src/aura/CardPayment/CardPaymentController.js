@@ -39,7 +39,6 @@
     },
 
     changePaymentBalance: function (component, event, helper) {
-        console.log('Selected Balance Event');
         var rList = [];
         var balance = event.getParam('paymentBalance');
         var changeSum = event.getParam('changeSum');
