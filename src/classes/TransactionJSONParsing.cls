@@ -63,6 +63,7 @@ public class TransactionJSONParsing extends AbstractSironoJSONParser{
                 //TODO remove when TXN refactored
                 objTransaction.Name = objJson.method + '-' + transactionExternalId;
                 objTransaction.Amount__c = PayStaffWSUtill.convertToDollarsWithNegative(objJson.amount);
+                objTransaction.Transaction_Date__c = parseDate(objJson.created_at);
                 objTransaction.Post_Date__c = parseDate(objJson.post_date);
                 objTransaction.Fail_Date__c = parseDate(objJson.fail_date);
                 objTransaction.Export_Date__c = parseDate(objJson.export_date);

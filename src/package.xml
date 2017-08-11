@@ -636,6 +636,13 @@
         <name>SiteDotCom</name>
     </types>
     <types>
+        <members>CampaignType</members>
+        <members>CaseReason</members>
+        <members>CaseStatus</members>
+        <members>CaseType</members>
+        <name>StandardValueSet</name>
+    </types>
+    <types>
         <members>*</members>
         <name>StaticResource</name>
     </types>

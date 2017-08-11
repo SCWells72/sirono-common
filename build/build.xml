@@ -184,31 +184,29 @@ SironoPRSPostInstallHandler.initializeSironoSettings();
 
     <target name="undeployCode">
         <echo level="info">Remove metadata from: ${sf.target.username}</echo>
+        <mkdir dir="${workDir}"/>
+        <delete dir="${workDir}/undeploy" failonerror="false" quiet="true"/>
+        <mkdir dir="${workDir}/undeploy"/>
+        <copy file="${basedir}/build/undeploy/package.xml" tofile="${workDir}/undeploy/package.xml" overwrite="true"/>
+        <copy file="${basedir}/build/undeploy/destructiveChangesPre.xml" tofile="${workDir}/undeploy/destructiveChanges.xml" overwrite="true"/>
         <sf:deploy
             username="${sf.target.username}"
             password="${sf.target.password}"
             serverurl="${sf.target.serverurl}"
-            deployRoot="${basedir}/build/undeploy"
+            deployRoot="${workDir}/undeploy"
             testLevel="NoTestRun"
             purgeOnDelete="true"
             ignoreWarnings="true"/>
-    </target>
-
-    <!-- Check only; don't remove from server -->
-    <target name="undeployCheckOnly">
-        <echo level="info">Validate removal of metadata from: ${sf.target.username}</echo>
+        <copy file="${basedir}/build/undeploy/destructiveChangesPost.xml" tofile="${workDir}/undeploy/destructiveChanges.xml" overwrite="true"/>
         <sf:deploy
             username="${sf.target.username}"
             password="${sf.target.password}"
             serverurl="${sf.target.serverurl}"
-            deployRoot="${basedir}/build/undeploy"
-            ignoreWarnings="true"
-            pollWaitMillis="${sf.pollWaitMillis}"
-            maxPoll="${sf.maxPoll}"
-            testLevel="${sf.testLevel}"
-            logType="Debugonly"
+            deployRoot="${workDir}/undeploy"
+            testLevel="NoTestRun"
             purgeOnDelete="true"
-            checkOnly="true"/>
+            ignoreWarnings="true"/>
+        <delete dir="${workDir}/undeploy" failonerror="false" quiet="true"/>
     </target>
 
     <target name="populateWorkSrcDir">
@@ -223,8 +221,6 @@ SironoPRSPostInstallHandler.initializeSironoSettings();
     <!-- Check only; don't save to the server -->
     <target name="deployCheckOnly" depends="processTemplates, populateWorkSrcDir">
         <echo level="info">Validating in: ${sf.target.username} with test level: ${sf.testLevel}</echo>
-        <delete file="${workDir}/src/destructiveChangesPre.xml"/>
-        <delete file="${workDir}/src/destructiveChangesPost.xml"/>
         <sf:deploy
             username="${sf.target.username}"
             password="${sf.target.password}"
@@ -240,8 +236,6 @@ SironoPRSPostInstallHandler.initializeSironoSettings();
     <!-- Check only; only run specified tests -->
     <target name="deployCheckSelectTests" depends="processTemplates, populateWorkSrcDir">
         <echo level="info">Running select tests in: ${sf.target.username}</echo>
-        <delete file="${workDir}/src/destructiveChangesPre.xml"/>
-        <delete file="${workDir}/src/destructiveChangesPost.xml"/>
         <sf:deploy
             username="${sf.target.username}"
             password="${sf.target.password}"

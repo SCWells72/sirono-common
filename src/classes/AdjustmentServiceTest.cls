@@ -115,5 +115,6 @@ public with sharing class AdjustmentServiceTest {
         System.assert(txns[0].Payment__c == null, 'Expected Payment__c to be null');
         System.assert(txns[0].Service2__c == null, 'Expected Service2__c to be null');
         System.assertEquals('10/13/2016', txns[0].Post_Date__c.format('MM/dd/yyyy'), 'Expected txn Post_Date__c to be 10/13/2016');
+        System.assert(txns[0].Transaction_Date__c != null, 'Expected Tranaction_Date__c to be set');
     }
 }

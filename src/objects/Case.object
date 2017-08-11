@@ -4612,10 +4612,6 @@
         <picklistValues>
             <picklist>Type</picklist>
             <values>
-                <fullName>Credit Card Failure</fullName>
-                <default>false</default>
-            </values>
-            <values>
                 <fullName>Overdue</fullName>
                 <default>false</default>
             </values>
