@@ -15,9 +15,14 @@ private class LoginAsPortalUserControllerTest {
 
         System.assertEquals(UserInfo.getOrganizationId(), loginAttributes.get('orgId'));
         System.assertEquals(guarantorUser.Id, loginAttributes.get('userId'));
-        List<Network> networks = [SELECT Id FROM Network WHERE Name = 'Guarantor Portal' LIMIT 1];
-        Network guarantorPortalNetwork = (networks.size() == 1) ? networks.get(0) : null;
-        System.assertEquals(guarantorPortalNetwork.Id, loginAttributes.get('networkId'));
+
+        Id guarantorPortalNetworkId = null;
+        if (Schema.getGlobalDescribe().containsKey('network')) {
+            // TODO: The network name should be a constant or come from a custom setting
+            List<SObject> networks = Database.query('SELECT Id FROM Network WHERE Name = \'Guarantor Portal\' LIMIT 1');
+            guarantorPortalNetworkId = (networks.size() == 1) ? networks.get(0).Id : null;
+        }
+        System.assertEquals(guarantorPortalNetworkId, loginAttributes.get('networkId'));
     }
 
     @IsTest
