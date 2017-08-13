@@ -1,0 +1,249 @@
+<!--
+  ~ Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
+<project name="build-common" default="deployCheckOnly"
+         xmlns:sf="antlib:com.salesforce"
+         xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
+
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"
+             classpath="${basedir}/../build/lib/ant-contrib-1.0b3.jar"/>
+    <taskdef uri="antlib:com.salesforce"
+             resource="com/salesforce/antlib.xml"
+             classpath="${basedir}/../build/lib/ant-salesforce.jar"/>
+    <taskdef name="http" uri="org.missinglink.ant.task.http.HttpClientTask"
+             classname="org.missinglink.ant.task.http.HttpClientTask"
+             classpath="${basedir}/../build/lib/ml-ant-http-1.1.3.jar"/>
+
+    <property name="workDir" value="${basedir}/work"/>
+    <property name="execAnonWorkDir" value="${workDir}/execAnon"/>
+
+    <target name="populateWorkSrcDir">
+        <mkdir dir="${workDir}"/>
+        <delete dir="${workDir}/src" failonerror="false" quiet="true"/>
+        <mkdir dir="${workDir}/src"/>
+        <copy todir="${workDir}/src">
+            <fileset dir="${basedir}/src" includes="**/*"/>
+        </copy>
+    </target>
+
+    <target name="clean" description="Removes working files from the project">
+        <echo message="${ant.project.name} - build-common.clean"/>
+        <delete dir="${workDir}" failonerror="false" quiet="true"/>
+    </target>
+
+    <target name="retrieve">
+        <echo level="info">Retrieving from: ${sf.source.username} into: ${sf.retrieveTarget}</echo>
+        <delete dir="${sf.retrieveTarget}"/>
+        <mkdir dir="${sf.retrieveTarget}"/>
+        <sf:retrieve
+            retrieveTarget="${sf.retrieveTarget}"
+            username="${sf.source.username}"
+            password="${sf.source.password}"
+            serverurl="${sf.source.serverurl}"
+            unpackaged="${basedir}/src/package.xml"/>
+    </target>
+
+    <target name="retrievePkg">
+        <echo level="info">Retrieving ${sf.pkgName} from: ${sf.source.username} into: ${sf.retrieveTarget}</echo>
+        <delete dir="${sf.retrieveTarget}"/>
+        <mkdir dir="${sf.retrieveTarget}"/>
+        <sf:retrieve
+            retrieveTarget="${sf.retrieveTarget}"
+            username="${sf.source.username}"
+            password="${sf.source.password}"
+            serverurl="${sf.source.serverurl}"
+            packagenames="${sf.pkgName}"/>
+    </target>
+
+    <target name="_deploy">
+        <echo level="info">Deploying to: ${sf.target.username} with test level: ${sf.testLevel}</echo>
+        <sf:deploy
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${basedir}/src"
+            pollWaitMillis="${sf.pollWaitMillis}"
+            maxPoll="${sf.maxPoll}"
+            testLevel="${sf.testLevel}"
+            purgeondelete="true"
+            ignorewarnings="true"
+            logType="Debugonly"/>
+    </target>
+
+    <target name="_deployNoTests">
+        <echo level="info">Deploying to: ${sf.target.username} without tests</echo>
+        <sf:deploy
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${basedir}/src"
+            pollWaitMillis="${sf.pollWaitMillis}"
+            maxPoll="${sf.maxPoll}"
+            testLevel="NoTestRun"
+            logType="Debugonly"/>
+    </target>
+
+    <target name="deployZip">
+        <echo level="info">Deploying zip from ${sf.zipFile} to: ${sf.target.username} with test level: ${sf.testLevel}</echo>
+        <sf:deploy
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            zipfile="${sf.zipFile}"
+            pollWaitMillis="${sf.pollWaitMillis}"
+            maxPoll="${sf.maxPoll}"
+            testLevel="${sf.testLevel}"
+            logType="Debugonly"/>
+    </target>
+
+    <target name="undeployCode">
+        <echo level="info">Remove metadata from: ${sf.target.username}</echo>
+        <mkdir dir="${workDir}"/>
+        <delete dir="${workDir}/undeploy" failonerror="false" quiet="true"/>
+        <mkdir dir="${workDir}/undeploy"/>
+        <copy file="${basedir}/build/undeploy/package.xml" tofile="${workDir}/undeploy/package.xml" overwrite="true"/>
+        <copy file="${basedir}/build/undeploy/destructiveChangesPre.xml" tofile="${workDir}/undeploy/destructiveChanges.xml" overwrite="true"/>
+        <sf:deploy
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${workDir}/undeploy"
+            testLevel="NoTestRun"
+            purgeOnDelete="true"
+            ignoreWarnings="true"/>
+        <copy file="${basedir}/build/undeploy/destructiveChangesPost.xml" tofile="${workDir}/undeploy/destructiveChanges.xml" overwrite="true"/>
+        <sf:deploy
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${workDir}/undeploy"
+            testLevel="NoTestRun"
+            purgeOnDelete="true"
+            ignoreWarnings="true"/>
+        <delete dir="${workDir}/undeploy" failonerror="false" quiet="true"/>
+    </target>
+
+    <target name="echo_environment">
+        <echoproperties prefix="sf."/>
+        <echoproperties prefix="env."/>
+    </target>
+
+    <condition property="metadata_type" value="CustomObject">
+        <not>
+            <isset property="metadata_type"/>
+        </not>
+    </condition>
+
+    <macrodef name="listMetadata" description="Lists metadata of the specified type into the work directory.">
+        <attribute name="metadataType"/>
+        <sequential>
+            <local name="listMetadataOutput"/>
+            <property name="listMetadataOutput" value="${workDir}/listMetadata/list_@{metadataType}.log"/>
+            <echo level="info">List metadata type: @{metadataType} from: ${sf.source.username} into: ${listMetadataOutput}</echo>
+            <mkdir dir="${workDir}/listMetadata"/>
+            <delete file="${listMetadataOutput}" failonerror="false" quiet="true"/>
+            <sf:listMetadata
+                username="${sf.source.username}"
+                password="${sf.source.password}"
+                serverurl="${sf.source.serverurl}"
+                metadataType="@{metadataType}"
+                resultFilePath="${listMetadataOutput}"/>
+        </sequential>
+    </macrodef>
+
+    <target name="listMetadata">
+        <listMetadata metadataType="${metadata_type}"/>
+    </target>
+
+    <target name="stop_all_scheduled_jobs" description="Stops all scheduled jobs in the target org">
+        <!-- stop all scheduled jobs -->
+        <executeAnonymous
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}">
+            <![CDATA[
+                    for (SObject j : [SELECT Id FROM CronTrigger]) System.abortJob(j.Id);
+                ]]>
+        </executeAnonymous>
+    </target>
+
+    <macrodef name="executeAnonymous" description="Invoke executeAnonymous using Salesforce Tooling REST API">
+        <attribute name="username" description="Salesforce user name."/>
+        <attribute name="password" description="Salesforce password."/>
+        <attribute name="serverurl" description="Salesforce endpoint."/>
+        <text name="apexcode" description="Anonymous Apex to execute."/>
+        <sequential>
+            <!-- Login to populate serverUrl / sessionId / instance -->
+            <login username="@{username}" password="@{password}" serverurl="@{serverurl}"/>
+
+            <!-- Execute using HTTP GET -->
+            <ml:http url="${instance}/services/data/v40.0/tooling/executeAnonymous"
+                     method="GET" outfile="${execAnonWorkDir}/executeAnonymousResult.json"
+                     statusProperty="loginResponseStatus">
+                <headers>
+                    <header name="Authorization" value="Bearer ${sessionId}"/>
+                </headers>
+                <query>
+                    <parameter name="anonymousBody" value="@{apexcode}"/>
+                </query>
+            </ml:http>
+
+            <!-- Fail on error -->
+            <loadfile property="executeAnonymousResult" srcFile="${execAnonWorkDir}/executeAnonymousResult.json"/>
+            <fail message="Execute Anonymous failed: ${executeAnonymousResult}">
+                <condition>
+                    <resourcecontains resource="${execAnonWorkDir}/executeAnonymousResult.json" substring="&quot;success&quot;:false"/>
+                </condition>
+            </fail>
+
+            <!-- Show output -->
+            <echo message="${executeAnonymousResult}"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="login" description="Login to salesforce and populate serverUrl / sessionId / instance">
+        <attribute name="username" description="Salesforce user name."/>
+        <attribute name="password" description="Salesforce password."/>
+        <attribute name="serverurl" description="Salesforce endpoint."/>
+        <sequential>
+            <!-- Obtain Session Id via Login SOAP service -->
+            <mkdir dir="${execAnonWorkDir}"/>
+            <ml:http url="@{serverurl}/services/Soap/c/40.0" method="POST" failonunexpected="false"
+                     outfile="${execAnonWorkDir}/loginResult.xml" statusProperty="loginResponseStatus">
+                <headers>
+                    <header name="Content-Type" value="text/xml"/>
+                    <header name="SOAPAction" value="login"/>
+                </headers>
+                <entity><![CDATA[
+                    <env:Envelope xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'>
+                        <env:Body>
+                            <sf:login xmlns:sf='urn:enterprise.soap.sforce.com'>
+                                <sf:username>@{username}</sf:username>
+                                <sf:password>@{password}</sf:password>
+                            </sf:login>
+                        </env:Body>
+                    </env:Envelope>]]>
+                </entity>
+            </ml:http>
+
+            <!-- Fail on error -->
+            <loadfile property="loginResult" srcFile="${execAnonWorkDir}/loginResult.xml"/>
+            <fail message="Login failed: ${loginResult}">
+                <condition>
+                    <resourcecontains resource="${execAnonWorkDir}/loginResult.xml" substring="faultcode"/>
+                </condition>
+            </fail>
+
+            <!-- Parse response into properties -->
+            <xmlproperty file="${execAnonWorkDir}/loginResult.xml"/>
+            <echo file="${execAnonWorkDir}/serverUrl.txt" message="${soapenv:Envelope.soapenv:Body.loginResponse.result.serverUrl}"/>
+            <echo file="${execAnonWorkDir}/sessionId.txt" message="${soapenv:Envelope.soapenv:Body.loginResponse.result.sessionId}"/>
+            <echo file="${execAnonWorkDir}/instance.txt" message="${soapenv:Envelope.soapenv:Body.loginResponse.result.serverUrl}"/>
+            <replaceregexp file="${execAnonWorkDir}/instance.txt" match="(https://[^/]+)/.*" replace="\1"/>
+            <loadfile property="sessionId" srcFile="${execAnonWorkDir}/sessionId.txt"/>
+            <loadfile property="instance" srcFile="${execAnonWorkDir}/instance.txt"/>
+        </sequential>
+    </macrodef>
+
+</project>

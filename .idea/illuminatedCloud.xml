@@ -5,13 +5,13 @@
       <list>
         <IlluminatedCloudConnection>
           <option name="connectionName" value="mm-base-dev" />
-          <option name="defaultModuleName" value="portal" />
+          <option name="defaultModuleName" value="call-center" />
           <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/mm_base_dev/OfflineSymbolTable.zip" />
         </IlluminatedCloudConnection>
         <IlluminatedCloudConnection>
-          <option name="connectionName" value="sirono_local" />
-          <option name="defaultModuleName" value="sirono-salesforce" />
-          <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/sirono_local/OfflineSymbolTable.zip" />
+          <option name="connectionName" value="mmdev" />
+          <option name="defaultModuleName" value="portal" />
+          <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/mmdev/OfflineSymbolTable.zip" />
         </IlluminatedCloudConnection>
       </list>
     </option>
