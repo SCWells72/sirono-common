@@ -10,7 +10,7 @@ public with sharing class HeaderControllerTest {
 
     @IsTest
     public static void getUserInfoTest() {
-        User usr = TestUtility.getGuarantorCommunityUser();
+        User usr = PortalTestUtility.getGuarantorCommunityUser();
 
         System.runAs(usr) {
             Test.startTest();
@@ -33,40 +33,40 @@ public with sharing class HeaderControllerTest {
         Contact guarantorContact;
         Contact patientContact;
         Invoice__c invoice1;
-        User portalUser = TestUtility.getGuarantorCommunityUser();
-        User adminUser = TestUtility.getPortalAdminUser();
+        User portalUser = PortalTestUtility.getGuarantorCommunityUser();
+        User adminUser = PortalTestUtility.getPortalAdminUser();
 
         System.runAs(adminUser) {
-            Account testAcc = TestUtility.getPortalAccount();
-            guarantorContact = TestUtility.getPortalGuarantor();
+            Account testAcc = PortalTestUtility.getPortalAccount();
+            guarantorContact = PortalTestUtility.getPortalGuarantor();
 
-            patientContact = TestUtility.generatePatientContact();
+            patientContact = PortalTestUtility.generatePatientContact();
             patientContact.AccountId = testAcc.Id;
             patientContact.Medical_Record_Number__c = '1234512345';
             insert patientContact;
 
-            Payment_Plan__c pPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
+            Payment_Plan__c pPlan = PortalTestUtility.generatePaymentPlan(guarantorContact.Id);
             insert pPlan;
 
             List<Invoice__c> lstInvoice = new List<Invoice__c>();
-            invoice1 = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+            invoice1 = PortalTestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
             lstInvoice.add(invoice1);
 
-            Invoice__c invoice2 = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+            Invoice__c invoice2 = PortalTestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
             lstInvoice.add(invoice2);
 
-            Invoice__c invoice3 = TestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
+            Invoice__c invoice3 = PortalTestUtility.generateInvoice(guarantorContact.Id, patientContact.Id);
             invoice3.Status_Index__c = 2;
             lstInvoice.add(invoice3);
 
             insert lstInvoice;
 
             List<Charge_Group__c> lstChrgGroup = new List<Charge_Group__c>();
-            Charge_Group__c chargeGroup1 = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 1234, pPlan.Id);
+            Charge_Group__c chargeGroup1 = PortalTestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 1234, pPlan.Id);
             chargeGroup1.Invoice__c = invoice1.Id;
             lstChrgGroup.add(chargeGroup1);
 
-            Charge_Group__c chargeGroup2 = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 1234, pPlan.Id);
+            Charge_Group__c chargeGroup2 = PortalTestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 1234, pPlan.Id);
             chargeGroup2.Invoice__c = invoice2.Id;
             lstChrgGroup.add(chargeGroup2);
 
@@ -89,18 +89,18 @@ public with sharing class HeaderControllerTest {
             objCGCoverage.Coverage__c = objcoverage.Id;
             insert objCGCoverage;
 
-            Payment__c payment1 = TestUtility.generateSironoPayment(guarantorContact.Id, 1234, 12);
-            Payment__c payment2 = TestUtility.generateSironoPayment(guarantorContact.Id, 1235, 25);
+            Payment__c payment1 = PortalTestUtility.generateSironoPayment(guarantorContact.Id, 1234, 12);
+            Payment__c payment2 = PortalTestUtility.generateSironoPayment(guarantorContact.Id, 1235, 25);
             List<Payment__c> lstPayment = new List<Payment__c> {
                 payment1, payment2
             };
             insert lstPayment;
 
             List<Transaction__c> lstTransaction = new List<Transaction__c>();
-            Transaction__c transaction1 = TestUtility.generatePaymentTxn(chargeGroup1, 20, payment1);
+            Transaction__c transaction1 = PortalTestUtility.generatePaymentTxn(chargeGroup1, 20, payment1);
             lstTransaction.add(transaction1);
 
-            Transaction__c transaction2 = TestUtility.generatePaymentTxn(chargeGroup1, 200, payment2);
+            Transaction__c transaction2 = PortalTestUtility.generatePaymentTxn(chargeGroup1, 200, payment2);
             lstTransaction.add(transaction2);
 
             insert lstTransaction;
@@ -123,7 +123,7 @@ public with sharing class HeaderControllerTest {
             Test.stopTest();
 
             System.assertEquals(guarantorContact.Id, wrapper.contact.Id, 'Should have found info for Guarantor.');
-            System.assertEquals(Constants.DELIQUENT, wrapper.contact.Guarantor_Status__c, 'Should be deliquent.');
+            System.assertEquals(PortalConstants.DELINQUENT, wrapper.contact.Guarantor_Status__c, 'Should be delinquent.');
             System.assertEquals(null, wrapper.pastDueMessage, 'Should not have a past due message.');
             System.assertEquals(null, wrapper.paymentPlan, 'Should not have a paymentPlan.');
             System.assertEquals(0, wrapper.newEstimatesCount, 'Should not have new estimates.');
@@ -134,15 +134,15 @@ public with sharing class HeaderControllerTest {
     public static void getMessageInfo_GTStatus() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.paymentPlanExists = false;
-        hwm.paymentPlanStanding = Constants.PLANTYPE_GOOD_STANDING;
-        hwm.planType = Constants.AUTOMATIC;
+        hwm.paymentPlanStanding = PortalConstants.PLANTYPE_GOOD_STANDING;
+        hwm.planType = PortalConstants.AUTOMATIC;
         hwm.paymentPlanActive = true;
 
 
         Test.startTest();
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_OVERDUE;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_OVERDUE;
         String hasStatusError = HeaderController.getMessageInfo(hwm);
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_DELINQUENT;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_DELINQUENT;
         String delqError = HeaderController.getMessageInfo(hwm);
 
         Test.stopTest();
@@ -156,17 +156,17 @@ public with sharing class HeaderControllerTest {
     @IsTest
     public static void getMessageInfo_pastDue() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
-        hwm.paymentPlanStanding = Constants.PLANTYPE_GOOD_STANDING;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
+        hwm.paymentPlanStanding = PortalConstants.PLANTYPE_GOOD_STANDING;
         hwm.paymentPlanActive = true;
 
         Test.startTest();
         hwm.paymentPlanExists = true;
-        hwm.paymentPlanStanding = Constants.PAST_DUE;
+        hwm.paymentPlanStanding = PortalConstants.PAST_DUE;
 
-        hwm.planType = Constants.AUTOMATIC;
+        hwm.planType = PortalConstants.AUTOMATIC;
         String automaticMessage = HeaderController.getMessageInfo(hwm);
-        hwm.planType = Constants.MANUAL;
+        hwm.planType = PortalConstants.MANUAL;
         String manualMessage = HeaderController.getMessageInfo(hwm);
 
         Test.stopTest();
@@ -180,16 +180,16 @@ public with sharing class HeaderControllerTest {
     @IsTest
     public static void getMessageInfo_inError() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
         hwm.paymentPlanExists = false;
         hwm.paymentPlanActive = true;
 
         Test.startTest();
         // Error message condition
-        hwm.planType = Constants.AUTOMATIC;
-        hwm.paymentPlanStanding = Constants.IN_ERROR;
+        hwm.planType = PortalConstants.AUTOMATIC;
+        hwm.paymentPlanStanding = PortalConstants.IN_ERROR;
         String hasError = HeaderController.getMessageInfo(hwm);
-        hwm.paymentPlanStanding = Constants.DUE;
+        hwm.paymentPlanStanding = PortalConstants.DUE;
         String noError = HeaderController.getMessageInfo(hwm);
 
         Test.stopTest();
@@ -202,7 +202,7 @@ public with sharing class HeaderControllerTest {
     public static void hasBalanceAndNotAddPaymentPlan_AddToPaymentPlan() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.addPaymentPlan = true;
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_DUE;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_DUE;
 
         Test.startTest();
         Boolean onPlanCheck = HeaderController.hasBalanceAndNotAddPaymentPlan(hwm);
@@ -217,13 +217,13 @@ public with sharing class HeaderControllerTest {
         hwm.addPaymentPlan = false;
 
         Test.startTest();
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_DUE;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_DUE;
         Boolean dueCheck = HeaderController.hasBalanceAndNotAddPaymentPlan(hwm);
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_OVERDUE;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_OVERDUE;
         Boolean overdueCheck = HeaderController.hasBalanceAndNotAddPaymentPlan(hwm);
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_DELINQUENT;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_DELINQUENT;
         Boolean deliquentCheck = HeaderController.hasBalanceAndNotAddPaymentPlan(hwm);
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
         Boolean onPlanCheck = HeaderController.hasBalanceAndNotAddPaymentPlan(hwm);
         Test.stopTest();
 
@@ -236,7 +236,7 @@ public with sharing class HeaderControllerTest {
     @IsTest
     public static void hasBalanceAndAddPaymentPlan_VerifyPlan() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_OVERDUE;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_OVERDUE;
 
         Test.startTest();
         hwm.addPaymentPlan = true;
@@ -252,7 +252,7 @@ public with sharing class HeaderControllerTest {
     @IsTest
     public static void hasPaymentPlanInGoodStanding_noPPlan() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_DUE;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_DUE;
         hwm.addPaymentPlan = true;
 
         hwm.paymentPlanExists = false;
@@ -267,11 +267,11 @@ public with sharing class HeaderControllerTest {
     @IsTest
     public static void hasPaymentPlanInGoodStanding_notGoodStanding() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_DUE;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_DUE;
         hwm.addPaymentPlan = true;
 
         hwm.paymentPlanExists = true;
-        hwm.paymentPlanStanding = Constants.PLANTYPE_PROMISE;
+        hwm.paymentPlanStanding = PortalConstants.PLANTYPE_PROMISE;
 
         Test.startTest();
         Boolean notGoodStandingCheck = HeaderController.hasPaymentPlanInGoodStanding(hwm);
@@ -284,11 +284,11 @@ public with sharing class HeaderControllerTest {
     @IsTest
     public static void hasPaymentPlanInGoodStanding_GoodStanding() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_DUE;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_DUE;
         hwm.addPaymentPlan = true;
 
         hwm.paymentPlanExists = true;
-        hwm.paymentPlanStanding = Constants.PLANTYPE_GOOD_STANDING;
+        hwm.paymentPlanStanding = PortalConstants.PLANTYPE_GOOD_STANDING;
 
         Test.startTest();
         Boolean goodStandingCheck = HeaderController.hasPaymentPlanInGoodStanding(hwm);
@@ -301,7 +301,7 @@ public with sharing class HeaderControllerTest {
     public static void balanceDueOrError_notGoodStanding() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.paymentPlanExists = true;
-        hwm.paymentPlanStanding = Constants.PLANTYPE_AUTO;
+        hwm.paymentPlanStanding = PortalConstants.PLANTYPE_AUTO;
 
         Test.startTest();
         Boolean notGoodStandingCheck = HeaderController.balanceDueOrError(hwm);
@@ -314,8 +314,8 @@ public with sharing class HeaderControllerTest {
     public static void balanceDueOrError_hasBalAndPPlan() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.paymentPlanExists = true;
-        hwm.paymentPlanStanding = Constants.PLANTYPE_GOOD_STANDING;
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_DELINQUENT;
+        hwm.paymentPlanStanding = PortalConstants.PLANTYPE_GOOD_STANDING;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_DELINQUENT;
 
         Test.startTest();
         hwm.addPaymentPlan = true;
@@ -332,14 +332,14 @@ public with sharing class HeaderControllerTest {
     public static void balanceDueOrError_statusCheck() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.paymentPlanExists = true;
-        hwm.paymentPlanStanding = Constants.PLANTYPE_GOOD_STANDING;
+        hwm.paymentPlanStanding = PortalConstants.PLANTYPE_GOOD_STANDING;
         // HasBalanceAndPaymentPlan will return false
         hwm.addPaymentPlan = false;
 
         Test.startTest();
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
         Boolean onPaymentPlanCheck = HeaderController.balanceDueOrError(hwm);
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_DELINQUENT;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_DELINQUENT;
         Boolean notOnPaymentPlanCheck = HeaderController.balanceDueOrError(hwm);
         Test.stopTest();
 
@@ -354,9 +354,9 @@ public with sharing class HeaderControllerTest {
         hwm.addPaymentPlan = false;
 
         Test.startTest();
-        hwm.guarantorStatus = Constants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
         Boolean checkOnPPlan = HeaderController.onPaymentPlan(hwm);
-        hwm.guarantorStatus = Constants.DUE;
+        hwm.guarantorStatus = PortalConstants.DUE;
         Boolean checkOther = HeaderController.onPaymentPlan(hwm);
         Test.stopTest();
 

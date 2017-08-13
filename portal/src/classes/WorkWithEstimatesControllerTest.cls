@@ -8,11 +8,11 @@ private class WorkWithEstimatesControllerTest {
     @IsTest
     static void getAllEstimatesAndPatientTest() {
 
-        Contact patientContact = TestUtility.generatePatientContact();
+        Contact patientContact = PortalTestUtility.generatePatientContact();
         patientContact.Medical_Record_Number__c = 'A12345';
         insert patientContact;
 
-        User portalUser = TestUtility.getGuarantorCommunityUser();
+        User portalUser = PortalTestUtility.getGuarantorCommunityUser();
 
         Contact guarantorContact = [
             SELECT Id, Profile_Pointer_ID__c, Name
@@ -21,13 +21,13 @@ private class WorkWithEstimatesControllerTest {
         ];
 
         List<Encounter__c> encounters = new List<Encounter__c>();
-        Encounter__c encounter1 = TestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
+        Encounter__c encounter1 = PortalTestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
         encounter1.Patient__c = patientContact.Id;
         encounter1.Insurance_Discount__c = 2;
         encounter1.Insurance_Portion__c = 2;
         encounters.add(encounter1);
 
-        Encounter__c encounter2 = TestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
+        Encounter__c encounter2 = PortalTestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
         encounter2.Total_Payments__c = 5;
         encounter2.Patient__c = patientContact.Id;
         encounter2.Insurance_Discount__c = 3;

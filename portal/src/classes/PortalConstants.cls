@@ -2,25 +2,18 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-public class Constants {
+public class PortalConstants {
 
-    // Constant variables for account substatus values.
     public static final String ACCT_SUBSTATUS_DUE_BY = 'Due By';
-    public static final String ACCT_SUBSTATUS_PAYMENT_PLAN = Constants.ON_PAYMENT_PLAN;
-    //noinspection ApexUnusedDeclaration
+    public static final String ACCT_SUBSTATUS_PAYMENT_PLAN = PortalConstants.ON_PAYMENT_PLAN;
     public static final String ACCT_SUBSTATUS_INACTIVE = 'Inactive';
-    public static final String ACCT_SUBSTATUS_OVERDUE = Constants.OVERDUE;
-    public static final String ACCT_SUBSTATUS_DELINQUENT = Constants.DELINQUENT;
+    public static final String ACCT_SUBSTATUS_OVERDUE = PortalConstants.OVERDUE;
+    public static final String ACCT_SUBSTATUS_DELINQUENT = PortalConstants.DELINQUENT;
     public static final String ACCT_SUBSTATUS_BAD_DEBT = 'Bad Debt';
-    //noinspection ApexUnusedDeclaration
     public static final String ACCT_SUBSTATUS_OPEN = 'Open';
-    //noinspection ApexUnusedDeclaration
     public static final String ACCT_SUBSTATUS_DNFB = 'Pending Billing';
-    //noinspection ApexUnusedDeclaration
     public static final String ACCT_SUBSTATUS_PENDING_INS = 'Pending Insurance';
-    //noinspection ApexUnusedDeclaration
     public static final String ACCT_SUBSTATUS_UNKNOWN = 'Unknown';
-    //noinspection ApexUnusedDeclaration
     public static final String ACCT_SUBSTATUS_INS_VERIFY = 'Insurance Verification';
     public static final String ACCT_SUBSTATUS_THIRD_PARTY = 'Third Party Payer';
     public static final String ACCT_SUBSTATUS_CREDIT = 'Credit';
@@ -46,16 +39,6 @@ public class Constants {
     // Constant variables for Encounter Substatus values.
     public static final String EN_SUBSTATUS_PAYMENT_DUE = 'Payment Due';
 
-
-    //Map of CaseType to ChargeGroup substatus (TODO should this go in the metadata instead?)
-    public static final Map<String, String> CASE_CG_SUBSTATUS = new Map<String, String> {
-        // 0 - the chargegroup sirono id
-        CASE_TYPE_OVERDUE => ACCT_SUBSTATUS_OVERDUE,
-        CASE_TYPE_PRECOLLECTIONS => ACCT_SUBSTATUS_DELINQUENT,
-        CASE_TYPE_PAYMENT_PLAN_ERROR => ACCT_SUBSTATUS_PAYMENT_PLAN
-    };
-
-
     // Constant variables for Page Level Messages.
     public static final String PAGE_MESSAGE_AMOUNT_EXCEED_BALANCE = 'Amount cannot exceed balance.';
     public static final String PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO = 'Amount must be greater than zero.';
@@ -80,9 +63,7 @@ public class Constants {
     public static final String PAGE_MESSAGE_CC_NAME_REQUIRE = 'Name is a required field.';
 
     // Constant variables for transaction method (txn_method) values.
-    //noinspection ApexUnusedDeclaration
     public static final String ADJUSTMENT = 'Adjustment';
-    //noinspection ApexUnusedDeclaration
     public static final String PAYMENT = 'Payment';
     public static final String SERVICE = 'Service';
     public static final String UNKNOWN = 'Unknown';
@@ -127,4 +108,11 @@ public class Constants {
         PAID,
         INVOICE_VOIDED
     };
+
+    //Constants for Guarantor profile
+    public static final String GUARANTOR_PORTAL_PROFILE = 'Customer Community Login User';
+
+    // Constants for permission set names
+    public static final String PERMISSION_SET_GUARANTOR = 'Guarantor';
+    public static final String PERMISSION_SET_GUARANTOR_LOCAL = 'Guarantor_Local';
 }

@@ -30,7 +30,7 @@ public with sharing class HeaderController {
             contact = GuarantorService.getContactsForLightning(new Set<Id> {
                 user.contactId
             })[0];
-            invoices = InvoiceService.getByStatus(user.contactId, Constants.DUE);
+            invoices = InvoiceService.getByStatus(user.contactId, PortalConstants.DUE);
             paymentPlan = PaymentPlanService.getActivePaymentPlan(user.contactId);
             estimateCount = EncounterService.getCountByDate(user.contactId, Datetime.now().addDays(-30));
         }
@@ -71,23 +71,23 @@ public with sharing class HeaderController {
         String messageInfo = '';
 
         // Guanator overdue or delinquent check.
-        if (headerWrapper.getGuarantorStatus() == Constants.GUARANTOR_STATUS_OVERDUE) {
+        if (headerWrapper.getGuarantorStatus() == PortalConstants.GUARANTOR_STATUS_OVERDUE) {
             messageInfo = WARNING_MESSAGE;
-        } else if (headerWrapper.getGuarantorStatus() == Constants.GUARANTOR_STATUS_DELINQUENT) {
+        } else if (headerWrapper.getGuarantorStatus() == PortalConstants.GUARANTOR_STATUS_DELINQUENT) {
             messageInfo = DELINQUENT_MESSAGE;
         }
 
-        if (headerWrapper.hasPaymentPlan() && headerWrapper.getPaymentPlanStanding() == Constants.PAST_DUE) {
+        if (headerWrapper.hasPaymentPlan() && headerWrapper.getPaymentPlanStanding() == PortalConstants.PAST_DUE) {
 
             messageInfo += PASTDUE_MESSAGE;
-            if (headerWrapper.getPaymentPlanType() == Constants.MANUAL) { // Manual Past Due
+            if (headerWrapper.getPaymentPlanType() == PortalConstants.MANUAL) { // Manual Past Due
                 messageInfo += PASTDUE_MANUAL_MESSAGE;
             }
         }
 
         // Case of an automatic payment plan with an in error Standing.
-        if (headerWrapper.getPaymentPlanActive() && headerWrapper.getPaymentPlanType() == Constants.AUTOMATIC
-            && headerWrapper.getPaymentPlanStanding() == Constants.IN_ERROR) {
+        if (headerWrapper.getPaymentPlanActive() && headerWrapper.getPaymentPlanType() == PortalConstants.AUTOMATIC
+            && headerWrapper.getPaymentPlanStanding() == PortalConstants.IN_ERROR) {
             messageInfo += ERROR_MESSAGE;
         }
 
@@ -123,7 +123,7 @@ public with sharing class HeaderController {
     private static Boolean hasPaymentPlanInGoodStanding(HeaderWrapper headerWrapper) {
         return hasBalanceAndAddPaymentPlan(headerWrapper)
             && headerWrapper.hasPaymentPlan()
-            && headerWrapper.getPaymentPlanStanding() == Constants.PLANTYPE_GOOD_STANDING;
+            && headerWrapper.getPaymentPlanStanding() == PortalConstants.PLANTYPE_GOOD_STANDING;
     }
 
     /**
@@ -134,7 +134,7 @@ public with sharing class HeaderController {
     @TestVisible
     private static Boolean balanceDueOrError(HeaderWrapper headerWrapper) {
         return onPaymentPlan(headerWrapper)
-            || (headerWrapper.hasPaymentPlan() && headerWrapper.getPaymentPlanStanding() != Constants.PLANTYPE_GOOD_STANDING);
+            || (headerWrapper.hasPaymentPlan() && headerWrapper.getPaymentPlanStanding() != PortalConstants.PLANTYPE_GOOD_STANDING);
     }
 
   /**
@@ -144,7 +144,7 @@ public with sharing class HeaderController {
    */
     @TestVisible
     private static Boolean onPaymentPlan(HeaderWrapper headerWrapper) {
-        return hasBalanceAndAddPaymentPlan(headerWrapper) || headerWrapper.getGuarantorStatus() == Constants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
+        return hasBalanceAndAddPaymentPlan(headerWrapper) || headerWrapper.getGuarantorStatus() == PortalConstants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
     }
 
   /**
@@ -155,7 +155,7 @@ public with sharing class HeaderController {
    * it should be paid.
    */
     private static Boolean hasBalance(HeaderWrapper headerWrapper) {
-        return Constants.GuarantorStatusOverdue.contains(headerWrapper.getGuarantorStatus());
+        return PortalConstants.GuarantorStatusOverdue.contains(headerWrapper.getGuarantorStatus());
     }
 
 }

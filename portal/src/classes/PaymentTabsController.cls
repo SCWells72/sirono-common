@@ -166,7 +166,7 @@ public with sharing class PaymentTabsController {
         List<Charge_Group__c> chargeGroups = new List<Charge_Group__c>();
 
         if (contactId != null) {
-            List<Charge_Group__c> allGroups = InvoiceService.getInvoicedChargeGroups(contactId, Constants.INVOICE_UNPAID_STATUSES, new List<String>());
+            List<Charge_Group__c> allGroups = InvoiceService.getInvoicedChargeGroups(contactId, PortalConstants.INVOICE_UNPAID_STATUSES, new List<String>());
 
             for (Charge_Group__c chgGroup : allGroups) {
                 if (chgGroup.Active__c && chgGroup.Balance__c != 0) {

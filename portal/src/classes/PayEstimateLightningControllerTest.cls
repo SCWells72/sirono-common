@@ -8,14 +8,14 @@ public class PayEstimateLightningControllerTest {
     @IsTest
     public static void payEstimatePortalUser() {
 
-        User usr = TestUtility.getGuarantorCommunityUser();
+        User usr = PortalTestUtility.getGuarantorCommunityUser();
         Contact gt = GuarantorService.getPortalGuarantor(usr.Id);
-        Contact pt = TestUtility.generatePatientContact();
+        Contact pt = PortalTestUtility.generatePatientContact();
 
         System.assert(gt != null, 'No valid GT found');
 
         // Create Encounter record.
-        Encounter__c encounter = TestUtility.generateEncounter(gt.Id, 500, System.today());
+        Encounter__c encounter = PortalTestUtility.generateEncounter(gt.Id, 500, System.today());
         encounter.Patient__c = pt.Id;
         insert encounter;
 
@@ -77,11 +77,11 @@ public class PayEstimateLightningControllerTest {
     @IsTest
     static void checkPayEstimateProcess() {
         // Create Guarantor Contact record.
-        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        Contact guarantorContact = PortalTestUtility.generateGuarantorContact();
         insert guarantorContact;
 
         // Create Encounter record.
-        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
+        Encounter__c encounter = PortalTestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
         insert encounter;
 
         Test.startTest();
@@ -140,11 +140,11 @@ public class PayEstimateLightningControllerTest {
     @IsTest
     static void submitElsePart() {
         // Create Guarantor Contact record.
-        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        Contact guarantorContact = PortalTestUtility.generateGuarantorContact();
         insert guarantorContact;
 
         // Create Encounter record.
-        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
+        Encounter__c encounter = PortalTestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
         insert encounter;
 
         Test.startTest();
@@ -191,11 +191,11 @@ public class PayEstimateLightningControllerTest {
     @IsTest
     static void verifyEncounterIsSelected() {
         // Create Guarantor Contact record.
-        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        Contact guarantorContact = PortalTestUtility.generateGuarantorContact();
         insert guarantorContact;
 
         // Create Encounter record.
-        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
+        Encounter__c encounter = PortalTestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
         insert encounter;
 
         Test.startTest();
@@ -216,11 +216,11 @@ public class PayEstimateLightningControllerTest {
     @IsTest
     static void errorMessageTest() {
         // Create Guarantor Contact record.
-        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        Contact guarantorContact = PortalTestUtility.generateGuarantorContact();
         insert guarantorContact;
 
         // Create Encounter record.
-        Encounter__c encounter = TestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
+        Encounter__c encounter = PortalTestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
         insert encounter;
 
         Test.startTest();
@@ -257,11 +257,11 @@ public class PayEstimateLightningControllerTest {
         System.assert(!String.isEmpty(objPayEstimate.message), 'Expected message is not empty/null.');
 
         // Check Amount validation related error.
-        System.assert(objPayEstimate.message.contains(Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO),
-            'Expected ' + Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO + ' error message.');
+        System.assert(objPayEstimate.message.contains(PortalConstants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO),
+            'Expected ' + PortalConstants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO + ' error message.');
 
         // Check Credit Card validation related error.
-        System.assert(objPayEstimate.message.contains(Constants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO),
-            'Expected ' + Constants.PAGE_MESSAGE_CC_NUMBER_12_19_DIGITS + ' error message.');
+        System.assert(objPayEstimate.message.contains(PortalConstants.PAGE_MESSAGE_AMOUNT_GREATER_THAN_ZERO),
+            'Expected ' + PortalConstants.PAGE_MESSAGE_CC_NUMBER_12_19_DIGITS + ' error message.');
     }
 }

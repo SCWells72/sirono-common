@@ -6,9 +6,9 @@
 private class WorkWithPaymentsControllerTest {
 
     @IsTest static void getPaymentHistoryTest() {
-        User portalUser = TestUtility.getGuarantorCommunityUser();
-        Contact guarantorContact = TestUtility.getPortalGuarantor();
-        User adminUser = TestUtility.getPortalAdminUser();
+        User portalUser = PortalTestUtility.getGuarantorCommunityUser();
+        Contact guarantorContact = PortalTestUtility.getPortalGuarantor();
+        User adminUser = PortalTestUtility.getPortalAdminUser();
 
         System.runAs(adminUser) {
 
@@ -21,20 +21,20 @@ private class WorkWithPaymentsControllerTest {
                 recordTypeMap.put(recordType.Name, recordType.Id);
             }
 
-            Payment_Method__c pmCreditCard = TestUtility.generatePaymentMethod(guarantorContact.Id, recordTypeMap.get('Credit Card'));
+            Payment_Method__c pmCreditCard = PortalTestUtility.generatePaymentMethod(guarantorContact.Id, recordTypeMap.get('Credit Card'));
             pmCreditCard.Card_Type__c = 'Visa';
             pmCreditCard.Last_4__c = '1111';
 
-            Payment_Method__c pmCheck = TestUtility.generatePaymentMethod(guarantorContact.Id, recordTypeMap.get('Check/Cash'));
+            Payment_Method__c pmCheck = PortalTestUtility.generatePaymentMethod(guarantorContact.Id, recordTypeMap.get('Check/Cash'));
 
             List<Payment_Method__c> paymentMethods = new List<Payment_Method__c> { pmCreditCard, pmCheck };
             insert paymentMethods;
 
-            Payment__c payment1 = TestUtility.generateSironoPayment(guarantorContact.Id, 1234, 12);
+            Payment__c payment1 = PortalTestUtility.generateSironoPayment(guarantorContact.Id, 1234, 12);
             payment1.Payment_Method__c = pmCreditCard.Id;
             payment1.Method__c = 'Credit';
 
-            Payment__c payment2 = TestUtility.generateSironoPayment(guarantorContact.Id, 1235, 25);
+            Payment__c payment2 = PortalTestUtility.generateSironoPayment(guarantorContact.Id, 1235, 25);
             payment2.Payment_Method__c = pmCheck.Id;
             payment2.Method__c = 'Check';
             payment2.Processor_Transaction_ID__c = '12345qwert';

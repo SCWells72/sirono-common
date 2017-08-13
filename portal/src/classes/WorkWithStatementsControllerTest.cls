@@ -7,8 +7,8 @@ private class WorkWithStatementsControllerTest {
 
     @IsTest
     static void getStatementsTest() {
-        User gtUser = TestUtility.getGuarantorCommunityUser();
-        User adminUser = TestUtility.getPortalAdminUser();
+        User gtUser = PortalTestUtility.getGuarantorCommunityUser();
+        User adminUser = PortalTestUtility.getPortalAdminUser();
 
 
         System.runAs(adminUser) {
@@ -16,7 +16,7 @@ private class WorkWithStatementsControllerTest {
 
             List<Statement__c> statements = new List<Statement__c>();
             for (String stmtDate : RestClientConstants.STATEMENT_DATES) {
-                Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
+                Statement__c statement = PortalTestUtility.generateStatement(guarantorContact.Id);
                 statement.Statement_Date__c = Date.parse(stmtDate);
                 statements.add(statement);
             }

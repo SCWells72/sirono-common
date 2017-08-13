@@ -17,6 +17,10 @@
         <name>CustomLabels</name>
     </types>
     <types>
+        <members>Sirono_Portal_Settings__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
         <members>Communities_Shared_Document_Folder</members>
         <members>Communities_Shared_Document_Folder/Header_Portal_12.html</members>
         <members>Communities_Shared_Document_Folder/Portal_Header.html</members>
@@ -39,7 +43,12 @@
     <types>
         <members>Guarantor</members>
         <members>Guarantor_Local</members>
+        <members>Portal_User_Manager_Local</members>
         <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>Guarantor_Sharing_Set</members>
+        <name>SharingSet</name>
     </types>
     <types>
         <members>*</members>

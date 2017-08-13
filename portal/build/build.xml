@@ -1,0 +1,84 @@
+<project name="Sirono PFP" default="deployCheckOnly"
+         basedir=".."
+         xmlns:sf="antlib:com.salesforce"
+         xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
+
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"
+             classpath="${basedir}/../build/lib/ant-contrib-1.0b3.jar"/>
+    <taskdef uri="antlib:com.salesforce"
+             resource="com/salesforce/antlib.xml"
+             classpath="${basedir}/../build/lib/ant-salesforce.jar"/>
+    <taskdef name="http" uri="org.missinglink.ant.task.http.HttpClientTask"
+             classname="org.missinglink.ant.task.http.HttpClientTask"
+             classpath="${basedir}/../build/lib/ml-ant-http-1.1.3.jar"/>
+
+    <property file="${basedir}/../build/build.properties"/>
+    <property file="${basedir}/build/build.properties"/>
+    <property environment="env"/>
+
+    <import file="${basedir}/../build/build-common.xml"/>
+    <import file="build_initial_deploy.xml"/>
+
+    <!-- Setting default value for properties to empty string
+         so unset values are treated as empty. Without this, ant expressions such as ${sf.blah.username}
+         will be treated literally.
+    -->
+    <getOrgName text="${sf.target.username}" property="derivedOrgName"/>
+    <condition property="orgName" value="${sf.orgName}">
+        <isset property="sf.orgName"/>
+    </condition>
+    <condition property="orgName" value="${derivedOrgName}">
+        <not>
+            <isset property="sf.orgName"/>
+        </not>
+    </condition>
+    <condition property="sf.commSubDomain" value="${orgName}-sirono-community-developer-edition">
+        <not>
+            <isset property="sf.commSubDomain"/>
+        </not>
+    </condition>
+    <condition property="sf.siteAdmin" value="${sf.target.username}">
+        <not>
+            <isset property="sf.siteAdmin"/>
+        </not>
+    </condition>
+
+    <target name="deploy" depends="processTemplates, _deploy"/>
+
+    <!-- Check only; don't save to the server -->
+    <target name="deployCheckOnly" depends="processTemplates, populateWorkSrcDir">
+        <echo level="info" message="${ant.project.name} - Validating in: ${sf.target.username} with test level: ${sf.testLevel"/>
+        <sf:deploy
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${workDir}/src"
+            pollWaitMillis="${sf.pollWaitMillis}"
+            maxPoll="${sf.maxPoll}"
+            testLevel="${sf.testLevel}"
+            logType="Debugonly"
+            checkOnly="true"/>
+    </target>
+
+    <!-- Check only; only run specified tests -->
+    <target name="deployCheckSelectTests" depends="processTemplates, populateWorkSrcDir">
+        <echo level="info">Running select tests in: ${sf.target.username}</echo>
+        <sf:deploy
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${workDir}/src"
+            pollWaitMillis="${sf.pollWaitMillis}"
+            maxPoll="${sf.maxPoll}"
+            logType="Debugonly"
+            checkOnly="true"
+            testLevel="RunSpecifiedTests">
+            <!-- TODO: Make this use a property so that the build file doesn't have to be modified -->
+            <runTest>EncounterBalanceTest</runTest>
+        </sf:deploy>
+    </target>
+
+    <!-- Deploy without tests -->
+    <target name="deployNoTests" depends="processTemplates, _deployNoTests"/>
+
+</project>

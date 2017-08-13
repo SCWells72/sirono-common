@@ -134,7 +134,7 @@ public with sharing class WorkWithInvoicesController {
      * Get the List of InvoicesWrapper for the a user.
      *
      * @param UserWrapper user - The user for which to get the invoices.
-     * @param String groupFilter - The status to filter by.  Options are All, Constants.UNPAID, Constants.PAID, or a particular status value.
+     * @param String groupFilter - The status to filter by.  Options are All, PortalConstants.UNPAID, PortalConstants.PAID, or a particular status value.
      * @param List<String> patients - A list of the Ids of the patients to filter by.
      *
      * @returns List<InvoicesWrapper> - The list of wrapped Invoices.
@@ -144,10 +144,10 @@ public with sharing class WorkWithInvoicesController {
         List<Invoice__c> listOfInvoices = new List<Invoice__c>();
         Set<String> invoiceStatuses = new Set<String>();
         if (groupFilter != null && groupFilter != '' && groupFilter != 'All') {
-            if (groupFilter == Constants.UNPAID) {
-                invoiceStatuses = Constants.INVOICE_UNPAID_STATUSES;
-            } else if (groupFilter == Constants.PAID) {
-                invoiceStatuses = Constants.INVOICE_PAID_STATUSES;
+            if (groupFilter == PortalConstants.UNPAID) {
+                invoiceStatuses = PortalConstants.INVOICE_UNPAID_STATUSES;
+            } else if (groupFilter == PortalConstants.PAID) {
+                invoiceStatuses = PortalConstants.INVOICE_PAID_STATUSES;
             } else {
                 invoiceStatuses.add(groupFilter);
             }
@@ -210,7 +210,7 @@ public with sharing class WorkWithInvoicesController {
             }
             for (Integer i = 0; i < cGroup.Transactions__r.size(); i++) {
                 Transaction__c pa = cGroup.Transactions__r[i];
-                if (pa.Txn_Method__c == Constants.SERVICE) {
+                if (pa.Txn_Method__c == PortalConstants.SERVICE) {
                     totalCharges += pa.Amount__c;
                     String displayName = getName(pa);
                     if (serviceMap.containsKey(displayName)) {

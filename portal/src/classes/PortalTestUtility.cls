@@ -6,7 +6,7 @@
  * Test utilities to create records.
  */
 @IsTest
-public class TestUtility {
+public class PortalTestUtility {
     public static String body = '{"token":"bar"}';
     public static String responsebody = '{"token":"bar"}';
     public static Integer statusCode = 200;
@@ -49,7 +49,7 @@ public class TestUtility {
         JSON_BODY_TYPE.VALIDATION_EXISTING_PLAN => '{"kind":"Validation exception","errors":[{"non_field_errors":"Cannot directly change ChargeGroups on an existing plan"}]}'
     };
 
-    private TestUtility() {
+    private PortalTestUtility() {
         // Utility class
     }
 
@@ -123,8 +123,8 @@ public class TestUtility {
         cg.Charge_Group_External_ID__c = true;
         cg.Reported_Selfpay_Balance__c = 10;
         cg.Active__c = true;
-        cg.Account_Status__c = Constants.ACCT_STATUS_BILLED;
-        cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PREINVOICED;
+        cg.Account_Status__c = PortalConstants.ACCT_STATUS_BILLED;
+        cg.Account_Sub_Status__c = PortalConstants.ACCT_SUBSTATUS_PREINVOICED;
 
         return cg;
     }
@@ -152,20 +152,6 @@ public class TestUtility {
             Patient_Portion__c = patientPortion,
             Date_of_Service__c = serviceDate);
         return encounter;
-    }
-
-    // Return a new case record
-    public static Case generateCase(String rTypeId, String cType, String gId) {
-        Case objCase = new Case();
-        objCase.RecordTypeId = rTypeId;
-        objCase.Status = Constants.CASE_STATUS_NEW;
-        objCase.Priority = Constants.CASE_PRIORITY_MEDIUM;
-        objCase.Type = cType;
-        objCase.Origin = Constants.CASE_ORIGIN_EMAIL;
-        objCase.Subject = cType;
-        objCase.Description = 'Test';
-        objCase.Guarantor_Information__c = gId;
-        return objCase;
     }
 
     // Return a new Statement record
@@ -210,14 +196,6 @@ public class TestUtility {
         return invoice;
     }
 
-    // Return a new Case Comment
-    public static CaseComment generateCaseComment(String parentId) {
-        CaseComment cc = new CaseComment();
-        cc.CommentBody = 'Test';
-        cc.ParentId = parentId;
-        return cc;
-    }
-
     // Return payment method record
     public static Payment_Method__c generatePaymentMethod(String guarantorId, String recordTypeID) {
         Payment_Method__c paymentMethod = new Payment_Method__c();
@@ -238,25 +216,6 @@ public class TestUtility {
         return lstChargeGroup;
     }
 
-    // return CampaignMember record
-    public static CampaignMember generateCampaignMember(Id campaignId, Id guarantorContactId) {
-        CampaignMember objcampaignMember = new CampaignMember();
-        objcampaignMember.CampaignId = campaignId;
-        objcampaignMember.ContactId = guarantorContactId;
-        objcampaignMember.Status = Constants.SENT;
-        return objcampaignMember;
-    }
-
-    // return Task record
-    public static Task generateTask(Id guarantorContactId) {
-        Task objTask = new Task();
-        objTask.WhoId = guarantorContactId;
-        objTask.Priority = Constants.TASK_PRIORITY_NORMAL;
-        objTask.Status = Constants.TASK_STATUS_NEW;
-        objTask.CallDisposition = 'Final';
-        objTask.Five9__Five9Campaign__c = 'Pre-collection';
-        return objTask;
-    }
 
     /**
      * This method is use to Generate Exception.
@@ -355,42 +314,7 @@ public class TestUtility {
         srv.Guarantor__c = guarantor.Id;
         return srv;
     }
-    
-    /**
-     * This method is use to create/generate Read Only User.
-     *
-     * @returns User readOnlyUser - That contains User as a Read Only.
-     **/
-    public static User generateReadOnlyUser() {
-        Profile readOnlyProf = [SELECT Id FROM Profile WHERE Name = :Constants.READ_ONLY_PROFILE];
-        User readOnlyUser = new User(Alias = 'readonly', Email = 'readonlyuserr@testorg.com',
-            EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
-            LocaleSidKey = 'en_US', ProfileId = readOnlyProf.Id,
-            TimeZoneSidKey = 'America/Los_Angeles', Username = 'readonlyuserr@testorg.com');
 
-        // Check system assert.
-        System.assertNotEquals(readOnlyUser, null, 'Should have failed due to user is null.');
-
-        return readOnlyUser;
-    }
-
-    /**
-     * This method is use to create/generate Chatter Only User.
-     *
-     * @returns User chatterOnlyUser - That contains User as a Chatter Only (Read/Write/Update/Delete rights are not there).
-     **/
-    public static User generateChatterOnlyUser() {
-        Profile chatterOnlyProf = [SELECT Id FROM Profile WHERE Name = :Constants.CHATTER_ONLY_USER_PROFILE];
-        User chatterOnlyUser = new User(Alias = 'ctronly', Email = 'chatteronlyuserr@testorg.com',
-            EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US',
-            LocaleSidKey = 'en_US', ProfileId = chatterOnlyProf.Id,
-            TimeZoneSidKey = 'America/Los_Angeles', Username = 'chatteronlyuserr@testorg.com');
-
-        // Check system assert.
-        System.assertNotEquals(chatterOnlyUser, null, 'Should have failed due to user is null.');
-
-        return chatterOnlyUser;
-    }
 
     /**
      * This method is use to create/generate a User using the given profile.
@@ -504,7 +428,7 @@ public class TestUtility {
 
             System.runAs(portalAdminUser) {
                 //Create Guarantor Contact record
-                Contact gt = TestUtility.generateGuarantorContact();
+                Contact gt = PortalTestUtility.generateGuarantorContact();
                 gt.Profile_Pointer_ID__c = PROFILE_POINTER;
                 gt.AccountId = a.Id;
                 gt.OwnerId = portalAdminUser.Id;
@@ -512,7 +436,7 @@ public class TestUtility {
 
 
                 System.debug('Create portalUser for contact: ' + gt.Id);
-                usr = TestUtility.generateUser(Constants.GUARANTOR_PORTAL_PROFILE, gt.Id);
+                usr = PortalTestUtility.generateUser(PortalConstants.GUARANTOR_PORTAL_PROFILE, gt.Id);
                 usr.Username = testUsername;
 
                 insert usr;
@@ -522,7 +446,7 @@ public class TestUtility {
                 List<PermissionSet> permissionSets = [
                     SELECT Id
                     FROM PermissionSet
-                    WHERE Name IN (:Constants.PERMISSION_SET_GUARANTOR, :Constants.PERMISSION_SET_GUARANTOR_LOCAL)
+                    WHERE Name IN (:PortalConstants.PERMISSION_SET_GUARANTOR, :PortalConstants.PERMISSION_SET_GUARANTOR_LOCAL)
                 ];
                 System.assertEquals(2, permissionSets.size(), 'Guarantor permission sets not found.');
                 for (PermissionSet permissionSet : permissionSets) {
@@ -587,17 +511,5 @@ public class TestUtility {
 
         System.assert(accounts.size() != 0, 'Could not find the account for the community user.');
         return accounts[0];
-    }
-
-    public static void createAllCampaigns() {
-
-        List<Campaign> campaigns = new List<Campaign>();
-        for (String caseType : Constants.CASE_CG_SUBSTATUS.keySet()) {
-            Set<String> cmpnNames = CampaignMemberDao.getSFCampaignNames(caseType);
-            for (String cmpnName : cmpnNames) {
-                campaigns.add(TestUtility.generateCampaign(cmpnName));
-            }
-        }
-        insert campaigns;
     }
 }
