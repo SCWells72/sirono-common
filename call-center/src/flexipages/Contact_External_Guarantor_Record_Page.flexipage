@@ -15,6 +15,7 @@
         <name>header</name>
         <type>Region</type>
     </flexiPageRegions>
+    <!--
     <flexiPageRegions>
         <componentInstances>
             <componentName>force:detailPanel</componentName>
@@ -33,6 +34,7 @@
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>
+    -->
     <flexiPageRegions>
         <componentInstances>
             <componentInstanceProperties>

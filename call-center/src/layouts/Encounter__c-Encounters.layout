@@ -119,7 +119,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Encounter_ID__c</field>
+                <field>Encounter_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -140,7 +140,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Estimate_ID__c</field>
+                <field>Estimate_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -295,7 +295,7 @@
         <fields>NAME</fields>
         <fields>Payor__c</fields>
         <fields>Subscriber_Name__c</fields>
-        <fields>Subscriber_ID__c</fields>
+        <fields>Subscriber_Id__c</fields>
         <fields>Member_Name__c</fields>
         <fields>Date_Effective__c</fields>
         <fields>Date_Termination__c</fields>

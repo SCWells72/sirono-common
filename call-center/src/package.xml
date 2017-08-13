@@ -47,6 +47,7 @@
     </types>
     <types>
         <members>Sirono_Call_Center</members>
+        <members>Sirono_Call_Center_Console</members>
         <name>CustomApplication</name>
     </types>
     <types>
@@ -332,7 +333,6 @@
         <members>Case_Record_Page</members>
         <members>Charge_Group_Record_Page</members>
         <members>Contact_External_Guarantor_Record_Page</members>
-        <members>Contact_External_Patient_Record_Page</members>
         <members>Contact_Guarantor_Record_Page</members>
         <members>Contact_Patient_Record_Page</members>
         <members>Encounter_Record_Page</members>
@@ -457,18 +457,12 @@
     <types>
         <members>Encounter_Reconciler</members>
         <members>Encounter_Reconciler_Local</members>
-        <members>Guarantor</members>
-        <members>Guarantor_Local</members>
         <members>Hospital_Manager</members>
         <members>Hospital_Staff</members>
         <members>Hospital_Staff_Local</members>
         <members>Payment_Reconciler</members>
-        <members>Portal_User_Manager_Local</members>
         <members>Sirono_Administrator</members>
         <members>Sirono_Administrator_Local</members>
-        <members>Guarantor.permissionset</members>
-        <members>Hospital_Staff.permissionset</members>
-        <members>Sirono_Administrator.permissionset</members>
         <name>PermissionSet</name>
     </types>
     <types>
@@ -594,10 +588,7 @@
         <members>Name</members>
         <name>Settings</name>
     </types>
-    <types>
-        <members>Guarantor_Sharing_Set</members>
-        <name>SharingSet</name>
-    </types>
+
     <types>
         <members>CampaignType</members>
         <members>CaseReason</members>
