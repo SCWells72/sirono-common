@@ -6909,6 +6909,8 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/post_install_zip" />
+      <excludeFolder url="file://$MODULE_DIR$/work" />
     </content>
     <orderEntry type="jdk" jdkName="IlluminatedCloud (sirono-salesforce/mm-base-dev)" jdkType="IlluminatedCloud" />
     <orderEntry type="sourceFolder" forTests="false" />
