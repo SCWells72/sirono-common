@@ -20,7 +20,7 @@
              classpath="${libdir}/ml-ant-http-1.1.3.jar"/>
 
     <import file="build-common.xml"/>
-
+    <property name="deployRoot" value="${workDir}"/>
 
     <target name="help" description="default">
         <echo message="Targets to run to test/deploy the full suite"/>
@@ -34,7 +34,6 @@
             <fileset dir="${basedir}/call-center/src" includes="**/*" excludes="package.xml"/>
             <fileset dir="${basedir}/portal/src" includes="**/*" excludes="package.xml"/>
         </copy>
-        <property name="deployRoot" value="${workDir}"/>
 
         <echo message="Build uber package.xml"/>
         <copy file="${basedir}/call-center/src/package.xml" tofile="${workDir}/src/call-center-package.xyz">
@@ -75,7 +74,6 @@
             <fileset dir="${workDir}/src" includes="*.xyz"/>
         </delete>
     </target>
-
 
     <target name="processTemplates">
         <echo level="info">processTemplates in: ${ant.project.name}</echo>

@@ -20,6 +20,7 @@
 
     <import file="${basedir}/../build/build-common.xml"/>
     <import file="build_initial_deploy.xml"/>
+    <property name="deployRoot" value="${basedir}"/>
 
     <!-- Setting default value for properties to empty string
          so unset values are treated as empty. Without this, ant expressions such as ${sf.blah.username}
@@ -46,24 +47,6 @@
     </condition>
 
     <target name="deploy" depends="processTemplates, _deploy"/>
-
-    <!-- Check only; only run specified tests -->
-    <target name="deployCheckSelectTests" depends="processTemplates, populateWorkSrcDir">
-        <echo level="info">Running select tests in: ${sf.target.username}</echo>
-        <sf:deploy
-            username="${sf.target.username}"
-            password="${sf.target.password}"
-            serverurl="${sf.target.serverurl}"
-            deployRoot="${workDir}/src"
-            pollWaitMillis="${sf.pollWaitMillis}"
-            maxPoll="${sf.maxPoll}"
-            logType="Debugonly"
-            checkOnly="true"
-            testLevel="RunSpecifiedTests">
-            <!-- TODO: Make this use a property so that the build file doesn't have to be modified -->
-            <runTest>EncounterBalanceTest</runTest>
-        </sf:deploy>
-    </target>
 
     <!-- Deploy without tests -->
     <target name="deployNoTests" depends="processTemplates, _deployNoTests"/>

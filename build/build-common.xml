@@ -32,6 +32,24 @@
         <delete dir="${workDir}" failonerror="false" quiet="true"/>
     </target>
 
+    <!-- Check only; only run specified tests -->
+    <target name="deployCheckSelectTests" depends="processTemplates, populateWorkSrcDir">
+        <echo level="info">Running select tests in: ${sf.target.username}</echo>
+        <sf:deploy
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${deployRoot}/src"
+            pollWaitMillis="${sf.pollWaitMillis}"
+            maxPoll="${sf.maxPoll}"
+            logType="Debugonly"
+            checkOnly="true"
+            testLevel="RunSpecifiedTests">
+            <!-- TODO: Make this use a property so that the build file doesn't have to be modified -->
+            <runTest>EncounterBalanceTest</runTest>
+        </sf:deploy>
+    </target>
+
     <target name="retrieve">
         <echo level="info">Retrieving from: ${sf.source.username} into: ${sf.retrieveTarget}</echo>
         <delete dir="${sf.retrieveTarget}"/>
@@ -82,7 +100,7 @@
             username="${sf.target.username}"
             password="${sf.target.password}"
             serverurl="${sf.target.serverurl}"
-            deployRoot="${basedir}/src"
+            deployRoot="${deployRoot}/src"
             pollWaitMillis="${sf.pollWaitMillis}"
             maxPoll="${sf.maxPoll}"
             testLevel="NoTestRun"
@@ -109,7 +127,7 @@
             username="${sf.target.username}"
             password="${sf.target.password}"
             serverurl="${sf.target.serverurl}"
-            deployRoot="${workDir}/src"
+            deployRoot="${deployRoot}/src"
             pollWaitMillis="${sf.pollWaitMillis}"
             maxPoll="${sf.maxPoll}"
             testLevel="${sf.testLevel}"
