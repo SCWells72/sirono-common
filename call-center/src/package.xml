@@ -456,13 +456,10 @@
     </types>
     <types>
         <members>Encounter_Reconciler</members>
-        <members>Encounter_Reconciler_Local</members>
         <members>Hospital_Manager</members>
         <members>Hospital_Staff</members>
-        <members>Hospital_Staff_Local</members>
         <members>Payment_Reconciler</members>
         <members>Sirono_Administrator</members>
-        <members>Sirono_Administrator_Local</members>
         <name>PermissionSet</name>
     </types>
     <types>

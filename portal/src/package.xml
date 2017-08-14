@@ -42,8 +42,6 @@
     </types>
     <types>
         <members>Guarantor</members>
-        <members>Guarantor_Local</members>
-        <members>Portal_User_Manager_Local</members>
         <name>PermissionSet</name>
     </types>
     <types>

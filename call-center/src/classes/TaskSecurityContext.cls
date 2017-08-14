@@ -10,8 +10,8 @@ public with sharing class TaskSecurityContext extends SecurityContext {
     // Field constants for Task object.
     private static final String ACTIVITYDATE = 'ActivityDate';
     private static final String CALLDISPOSITION = 'CallDisposition';
-    private static final String FIVE9_FIVE9AGENTNAME = 'Five9__Five9ANI__c';
-    private static final String FIVE9_FIVE9ANI = 'Five9__Five9AgentName__c';
+    private static final String FIVE9_FIVE9AGENTNAME = 'Five9__Five9AgentName__c';
+    private static final String FIVE9_FIVE9ANI = 'Five9__Five9ANI__c';
     private static final String FIVE9_FIVE9CALLTYPE = 'Five9__Five9CallType__c';
     private static final String FIVE9_FIVE9CAMPAIGN = 'Five9__Five9Campaign__c';
     private static final String FIVE9_FIVE9DNIS = 'Five9__Five9DNIS__c';

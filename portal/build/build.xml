@@ -3,14 +3,16 @@
          xmlns:sf="antlib:com.salesforce"
          xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
 
+    <property name="libdir" value="${basedir}/../build/lib"/>
+
     <taskdef resource="net/sf/antcontrib/antcontrib.properties"
-             classpath="${basedir}/../build/lib/ant-contrib-1.0b3.jar"/>
+             classpath="${libdir}/ant-contrib-1.0b3.jar"/>
     <taskdef uri="antlib:com.salesforce"
              resource="com/salesforce/antlib.xml"
-             classpath="${basedir}/../build/lib/ant-salesforce.jar"/>
+             classpath="${libdir}/ant-salesforce.jar"/>
     <taskdef name="http" uri="org.missinglink.ant.task.http.HttpClientTask"
              classname="org.missinglink.ant.task.http.HttpClientTask"
-             classpath="${basedir}/../build/lib/ml-ant-http-1.1.3.jar"/>
+             classpath="${libdir}/ml-ant-http-1.1.3.jar"/>
 
     <property file="${basedir}/../build/build.properties"/>
     <property file="${basedir}/build/build.properties"/>
@@ -44,21 +46,6 @@
     </condition>
 
     <target name="deploy" depends="processTemplates, _deploy"/>
-
-    <!-- Check only; don't save to the server -->
-    <target name="deployCheckOnly" depends="processTemplates, populateWorkSrcDir">
-        <echo level="info" message="${ant.project.name} - Validating in: ${sf.target.username} with test level: ${sf.testLevel"/>
-        <sf:deploy
-            username="${sf.target.username}"
-            password="${sf.target.password}"
-            serverurl="${sf.target.serverurl}"
-            deployRoot="${workDir}/src"
-            pollWaitMillis="${sf.pollWaitMillis}"
-            maxPoll="${sf.maxPoll}"
-            testLevel="${sf.testLevel}"
-            logType="Debugonly"
-            checkOnly="true"/>
-    </target>
 
     <!-- Check only; only run specified tests -->
     <target name="deployCheckSelectTests" depends="processTemplates, populateWorkSrcDir">
