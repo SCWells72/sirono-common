@@ -124,9 +124,27 @@
         <delete dir="${workDir}/undeploy" failonerror="false" quiet="true"/>
     </target>
 
+    <target name="createPostInstallZip">
+        <delete dir="${basedir}/post_install_zip"/>
+        <mkdir dir="${basedir}/post_install_zip"/>
+        <property name="zip_dest" value="${basedir}/post_install_zip/${ant.project.name}_post_install.zip"/>
+        <zip destfile="${zip_dest}"
+             basedir="${basedir}/post_install/src"
+             excludes="**/.DS_Store, __MACOSX/*"
+        />
+    </target>
+
+    <target name="deployPostInstall" depends="createPostInstallZip">
+        <antcall target="deployZip">
+            <param name="sf.zipFile" value="${zip_dest}"/>
+            <param name="sf.testLevel" value="NoTestRun"/>
+        </antcall>
+    </target>
+
     <target name="echo_environment">
         <echoproperties prefix="sf."/>
         <echoproperties prefix="env."/>
+        <echoproperties prefix="ant."/>
     </target>
 
     <condition property="metadata_type" value="CustomObject">

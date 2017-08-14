@@ -1,4 +1,4 @@
-<project name="Sirono PRS" default="deployCheckOnly"
+<project name="SironoPRS" default="deployCheckOnly"
          basedir=".."
          xmlns:sf="antlib:com.salesforce"
          xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
@@ -52,22 +52,6 @@
         </executeAnonymous>
     </target>
 
-    <target name="createPostInstallZip">
-        <delete dir="${basedir}/post_install_zip"/>
-        <mkdir dir="${basedir}/post_install_zip"/>
-        <property name="zip_dest" value="${basedir}/post_install_zip/sirono_PRS_post_install.zip"/>
-        <zip destfile="${zip_dest}"
-             basedir="${basedir}/post_install"
-             excludes="**/.DS_Store, __MACOSX/*"
-        />
-    </target>
-
-    <target name="deployPostInstall" depends="createPostInstallZip">
-        <antcall target="deployZip">
-            <param name="sf.zipFile" value="${zip_dest}"/>
-            <param name="sf.testLevel" value="NoTestRun"/>
-        </antcall>
-    </target>
 
 
     <!-- Check only; don't save to the server -->

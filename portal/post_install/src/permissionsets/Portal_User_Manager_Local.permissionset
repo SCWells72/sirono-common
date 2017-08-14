@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
+<!--
  NOTE: These permission sets are very carefully maintained and should NOT be blindly overwritten by retrieved metadata.
  Please carefully merge changes from the server into these files.
 -->
@@ -16,13 +20,8 @@
         <object>Account</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
-    <!-- TODO Does this apply to our community or is it just valid for a partner community?
-    All Component Failures:
-    20. permissionsets/Portal_User_Manager_Local.permissionset .... Error: Unknown user permission: ManagePartners
-
     <userPermissions>
         <enabled>true</enabled>
         <name>ManagePartners</name>
     </userPermissions>
-    -->
 </PermissionSet>

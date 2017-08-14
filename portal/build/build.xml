@@ -1,4 +1,4 @@
-<project name="Sirono PFP" default="deployCheckOnly"
+<project name="SironoPFP" default="deployCheckOnly"
          basedir=".."
          xmlns:sf="antlib:com.salesforce"
          xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
