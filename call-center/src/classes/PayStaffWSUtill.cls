@@ -272,7 +272,7 @@ public with sharing class PayStaffWSUtill {
     public static void processPayment(String jsonString) {
         PaymentJSONParsing parser = new PaymentJSONParsing(jsonString);
         Payment__c payment = parser.parse();
-        callTransactionRequest(new List<Payment__c>{payment}, null, true);
+        callTransactionRequest(new List<Payment__c> { payment }, null, true);
     }
 
     /*
@@ -293,10 +293,10 @@ public with sharing class PayStaffWSUtill {
         req.setHeader('Content-type', 'application/json');
         if (isPayment) {
             req.setEndpoint('callout:sirono_server/paystaff/api/payments/'
-                        + String.valueOf(payments.get(0).Sirono_ID__c) +'/transactions/');
+                + String.valueOf(payments.get(0).Sirono_ID__c) + '/transactions/');
         } else {
             req.setEndpoint('callout:sirono_server/paystaff/api/adjustments/'
-                        + paymentAdjustmentSironoId +'/transactions/');
+                + paymentAdjustmentSironoId + '/transactions/');
         }
 
         req.setTimeout(120000);
@@ -313,16 +313,16 @@ public with sharing class PayStaffWSUtill {
         } catch (Exception e) {
             // Debug error response
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
-                    'TRANSACTION EXCEPTION RESPONSE : '+ res.toString() +
-                            '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage()));
+                'TRANSACTION EXCEPTION RESPONSE : ' + res.toString() +
+                    '  RESPONSE BODY::' + responseBody + ' EXCEPTION:: ' + e.getMessage()));
         }
 
         if (res.getStatusCode() != null && res.getStatusCode() == 200) {
             adjWrapper = parseTransactionResponse(responseBody, payments, isPayment);
         } else {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
-                                    'RESPONSE : '+ res.toString() +
-                                    '  RESPONSE BODY::' + responseBody));
+                'RESPONSE : ' + res.toString() +
+                    '  RESPONSE BODY::' + responseBody));
         }
         return adjWrapper;
     }
@@ -330,7 +330,7 @@ public with sharing class PayStaffWSUtill {
     /*
     * Parse Transaction response and based on Charge group call Charge group request.
     */
-    private static RelatedObjectWrapper parseTransactionResponse(String jsonStr, List<Payment__c> payments, boolean isPayment) {
+    private static RelatedObjectWrapper parseTransactionResponse(String jsonStr, List<Payment__c> payments, Boolean isPayment) {
 
         TransactionJSONParsing parser = new TransactionJSONParsing(jsonStr);
         TransactionJSONParsing.TransactionWrapper txnWrapper = parser.parse();
@@ -360,7 +360,7 @@ public with sharing class PayStaffWSUtill {
 
                     if (cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_PAYMENT_PLAN) {
                         Payment_Plan__c paymentPlan = callPaymentPlanRequest(cg.Payment_Plan__r.Sirono_ID__c,
-                                cg.Payment_Plan__r.Guarantor__c);
+                            cg.Payment_Plan__r.Guarantor__c);
                         paymentPlans.add(paymentPlan);
                     }
 
@@ -435,7 +435,7 @@ public with sharing class PayStaffWSUtill {
         Contact gt = GuarantorDao.getGuarantorBySironoId(gtId);
 
         Charge_Group__c cg = new Charge_Group__c(Account_Sub_Status__c = cgWrapper.account_sub_status,
-                Account_Status__c = cgWrapper.account_status, Guarantor__c = gt.Id);
+            Account_Status__c = cgWrapper.account_status, Guarantor__c = gt.Id);
 
         //Does the Charge Group have a Payment Plan?.
         if (cgWrapper.paymentplan == null) {
@@ -448,7 +448,7 @@ public with sharing class PayStaffWSUtill {
     /*
     *  Call the paymentplan Web Service to get the paymentplan information.
     */
-	//TODO replace with PaymentPlanService call
+    //TODO replace with PaymentPlanService call
     private static Payment_Plan__c callPaymentPlanRequest(Decimal paymentPlanSironoId, String guarantorId) {
         Payment_Plan__c objPaymentPlan = new Payment_Plan__c();
 
@@ -462,7 +462,7 @@ public with sharing class PayStaffWSUtill {
         req.setHeader('Authorization', 'JWT ' + new SironoRestClient.AuthRestClient().getJwtToken());
         req.setHeader('Content-type', 'application/json');
         req.setEndpoint('callout:sirono_server/paystaff/api/paymentplan/'
-                + paymentPlanSironoId.toPlainString() + '/');
+            + paymentPlanSironoId.toPlainString() + '/');
         req.setTimeout(120000);
         try {
             res = http.send(req);
@@ -481,8 +481,8 @@ public with sharing class PayStaffWSUtill {
 
         } else {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
-                                    'RESPONSE : '+ res.toString() +
-                                    '  RESPONSE BODY::' + responseBody));
+                'RESPONSE : ' + res.toString() +
+                    '  RESPONSE BODY::' + responseBody));
         }
         return objPaymentPlan;
     }

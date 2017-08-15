@@ -11,11 +11,11 @@ global class ParameterizedMockHttpResponseGenerator implements HttpCalloutMock {
     public static String TRANSACTION_KEY = 'transaction';
 
     private static Map<String, List<String>> ADJUSTMENT_MAP = new Map<String, List<String>> {
-        GUARANTOR_KEY => new String[]{MockHttpResponseGenerator.guarantorSironoId},
-        CHARGEGROUP_KEY => new String[]{RestClientConstants.CHARGE_GROUP_ID},
-        ADJUSTMENT_KEY => new String[]{'3151479'},
-        TRANSACTION_KEY => new String[]{'3874992'},
-        PAYMENTPLAN_KEY => new String[]{MockHttpResponseGenerator.planSironoId}
+        GUARANTOR_KEY => new String[] { MockHttpResponseGenerator.guarantorSironoId },
+        CHARGEGROUP_KEY => new String[] { RestClientConstants.CHARGE_GROUP_ID },
+        ADJUSTMENT_KEY => new String[] { '3151479' },
+        TRANSACTION_KEY => new String[] { '3874992' },
+        PAYMENTPLAN_KEY => new String[] { MockHttpResponseGenerator.planSironoId }
     };
 
     public static ParameterizedMockHttpResponseGenerator ADJUSTMENT_MOCK = new ParameterizedMockHttpResponseGenerator(ADJUSTMENT_MAP);
@@ -42,12 +42,12 @@ global class ParameterizedMockHttpResponseGenerator implements HttpCalloutMock {
     global HttpResponse respond(HttpRequest req) {
 
         if (req.getEndpoint().contains('/paystaff/token-auth/') ||
-                req.getEndpoint().contains('/portal/account/forgot-password/')) {
+            req.getEndpoint().contains('/portal/account/forgot-password/')) {
             AuthRestClientMock authMock = new AuthRestClientMock();
             return authMock.respond(req);
         }
 
-        System.debug('ParameterizedMockHttpResponseGenerator HttpRequest:\n'+req);
+        System.debug('ParameterizedMockHttpResponseGenerator HttpRequest:\n' + req);
         // Create a mock response based off the sironoIdMap
         HttpResponse res = new HttpResponse();
         res.setHeader('Content-Type', 'application/json');
@@ -56,7 +56,7 @@ global class ParameterizedMockHttpResponseGenerator implements HttpCalloutMock {
             res.setBody(buildPaymentPlanResponse());
         } else if (req.getEndpoint().contains('api/chargegroups')) {
             String[] parts = req.getEndpoint().split('/');
-            res.setBody(buildChargeGroupResponse(parts[parts.size()-1]));
+            res.setBody(buildChargeGroupResponse(parts[parts.size() - 1]));
         } else if (req.getEndpoint().contains('api/adjustments')) {
             if (req.getEndpoint().contains('/transactions/')) {
                 res.setBody(buildTransactionResponse('adjustment'));
@@ -83,12 +83,12 @@ global class ParameterizedMockHttpResponseGenerator implements HttpCalloutMock {
 
         // Check system assert, HttpResponse should not be null.
         System.assertNotEquals(res, null, 'HttpResponse is not generated for submitted HTTPRequest');
-        System.debug('ParameterizedMockHttpResponseGenerator response body:\n'+res.getBody());
+        System.debug('ParameterizedMockHttpResponseGenerator response body:\n' + res.getBody());
         return res;
     }
 
     private String buildAdjustmentURL() {
-        return RestClientConstants.ADJUSTMENT_URLS.get(RestClientConstants.ADJUSTMENT_KEY)+sironoIdMap.get(ADJUSTMENT_KEY)[0]+'/';
+        return RestClientConstants.ADJUSTMENT_URLS.get(RestClientConstants.ADJUSTMENT_KEY) + sironoIdMap.get(ADJUSTMENT_KEY)[0] + '/';
     }
 
     private String buildChargeGroupURL(String cgId) {
@@ -104,7 +104,7 @@ global class ParameterizedMockHttpResponseGenerator implements HttpCalloutMock {
     }
 
     private String buildTransactionURL(String txnId) {
-        return String.format(RestClientConstants.TRANSACTION_URLS.get(TRANSACTION_KEY), new String[]{txnId});
+        return String.format(RestClientConstants.TRANSACTION_URLS.get(TRANSACTION_KEY), new String[] { txnId });
     }
 
     private PaymentPlanService.PaymentPlanSironoJSON buildDefaultPlan() {
@@ -159,26 +159,9 @@ global class ParameterizedMockHttpResponseGenerator implements HttpCalloutMock {
         return System.JSON.serializePretty(aw);
     }
 
-    private String buildDiscountResponse() {
-        List<AdjustmentService.AdjJsonWrapper> aws = new List<AdjustmentService.AdjJsonWrapper>();
-        for (String cgId : sironoIdMap.get(CHARGEGROUP_KEY)) {
-            AdjustmentService.AdjJsonWrapper aw = new AdjustmentService.AdjJsonWrapper();
-            aw.url = buildAdjustmentURL();
-            aw.chargegroup = buildChargeGroupURL(cgId);
-            aw.amount = 125;
-            aw.code = 'DIS';
-            aw.description = 'Prompt Payment Discount';
-            aw.post_date = '2016-10-13';
-
-            aws.add(aw);
-        }
-
-        return System.JSON.serializePretty(aws);
-    }
-
     private String buildTransactionResponse(String method) {
         List<TransactionJSONParser.TransactionJSON> txnList = new List<TransactionJSONParser.TransactionJSON>();
-        for (Integer i=0; i < sironoIdMap.get(TRANSACTION_KEY).size(); i++) {
+        for (Integer i = 0; i < sironoIdMap.get(TRANSACTION_KEY).size(); i++) {
             TransactionJSONParser.TransactionJSON tj = new TransactionJSONParser.TransactionJSON();
             tj.url = buildTransactionURL(sironoIdMap.get(TRANSACTION_KEY)[i]);
             tj.amount = 125;
@@ -226,7 +209,7 @@ global class ParameterizedMockHttpResponseGenerator implements HttpCalloutMock {
         cgJson.patient_data.patient_name = 'PEYTON MANNING';
         cgJson.guarantor_data = new ChargeGroupJSONParser.Guarantor_data();
         cgJson.guarantor_data.url = buildGuarantorURL();
-        cgJson.guarantor_data.display_id = 'MH'+sironoIdMap.get(GUARANTOR_KEY)[0];
+        cgJson.guarantor_data.display_id = 'MH' + sironoIdMap.get(GUARANTOR_KEY)[0];
         cgJson.guarantor_data.full_name = 'Peyton Manning';
         cgJson.account_status = 'Billed';
         cgJson.account_sub_status = 'Billed';

@@ -24,23 +24,9 @@ public with sharing class AdjustmentService extends AbstractService {
         private HttpResponse addAdjustment(AdjustmentRequest info) {
 
             return postRequestor()
-                    .url(RestClientConstants.ADJUSTMENT_KEY, new String[] {})
-                    .body(buildAddAdjustmentBody(info))
-                    .call();
-        }
-
-        /**
-         * Make the call to create a discount
-         *
-         * @return HttpResponse The response to the call.
-         **/
-        @TestVisible
-        private HttpResponse addDiscount(DiscountRequest info) {
-
-            return postRequestor()
-                    .url(RestClientConstants.CREATE_DISCOUNT_KEY, new String[] {})
-                    .body(buildCreateDiscountBody(info))
-                    .call();
+                .url(RestClientConstants.ADJUSTMENT_KEY, new String[] {})
+                .body(buildAddAdjustmentBody(info))
+                .call();
         }
 
         /**
@@ -53,8 +39,8 @@ public with sharing class AdjustmentService extends AbstractService {
         private HttpResponse getTransactions(String adjSironoId) {
 
             return getRequestor()
-                    .url(RestClientConstants.ADJUSTMENT_TXNS_KEY, new String[] {adjSironoId})
-                    .call();
+                .url(RestClientConstants.ADJUSTMENT_TXNS_KEY, new String[] { adjSironoId })
+                .call();
         }
 
         /**
@@ -65,39 +51,15 @@ public with sharing class AdjustmentService extends AbstractService {
          */
         @TestVisible
         private String buildAddAdjustmentBody(AdjustmentRequest info) {
-            Map<String, Object> rawData = new Map<String,Object>{
-                    RestClientConstants.AMOUNT => convertToCents(info.adjustmentAmount),
-                    RestClientConstants.CHARGE_GROUP => asChargeGroupURL(info.chargeGroupSironoId.toPlainString()),
-                    RestClientConstants.CODE => info.adjustmentCode,
-                    RestClientConstants.CSRF_JSON_KEY => getCsrf()
+            Map<String, Object> rawData = new Map<String, Object> {
+                RestClientConstants.AMOUNT => convertToCents(info.adjustmentAmount),
+                RestClientConstants.CHARGE_GROUP => asChargeGroupURL(info.chargeGroupSironoId.toPlainString()),
+                RestClientConstants.CODE => info.adjustmentCode,
+                RestClientConstants.CSRF_JSON_KEY => getCsrf()
             };
 
             String body = JSON.serializePretty(rawData);
-            System.debug('addAdjustmentBody: '+body);
-            return body;
-        }
-
-        /**
-         * Build the JSON structure required to create a discount.
-          *
-          * @param - info  The DiscountRequest
-          * @return - The Json payload.
-         */
-        @TestVisible
-        private String buildCreateDiscountBody(DiscountRequest info) {
-            List<String> cgUrls = new List<String>();
-            for (Decimal chargeGroupId : info.chargeGroupSironoIds) {
-                cgUrls.add(asChargeGroupURL(chargeGroupId.toPlainString()));
-            }
-
-            Map<String, Object> rawData = new Map<String,Object>{
-                    RestClientConstants.CHARGE_GROUP => cgUrls,
-                    RestClientConstants.CODE => 'DIS',
-                    RestClientConstants.CSRF_JSON_KEY => getCsrf()
-            };
-
-            String body = JSON.serializePretty(rawData);
-            System.debug('createDiscountBody: '+body);
+            System.debug('addAdjustmentBody: ' + body);
             return body;
         }
     }
@@ -134,11 +96,11 @@ public with sharing class AdjustmentService extends AbstractService {
             AdjJsonWrapper wrapper = (AdjJsonWrapper) System.JSON.deserialize(jsonString, AdjJsonWrapper.class);
             //TODO we need to add the aggregateId to the JSON response body
             newAdjustment = new Adjustment__c(Description__c = wrapper.description,
-                    Amount__c = convertToDollars(wrapper.amount),
-                    Post_Date__c = parseDate(wrapper.post_date));
+                Amount__c = convertToDollars(wrapper.amount),
+                Post_Date__c = parseDate(wrapper.post_date));
             System.debug('adj parsed');
             adjSironoId = parseSironoId(wrapper.url, RestClientConstants.ADJUSTMENT_URL_RESOURCE_TYPE);
-            System.debug('adj id: '+adjSironoId);
+            System.debug('adj id: ' + adjSironoId);
 
             cgSironoId = parseSironoId(wrapper.chargegroup, RestClientConstants.CHARGE_GROUP_URL_RESOURCE_TYPE);
             System.debug('cg id: ' + cgSironoId);
@@ -163,20 +125,6 @@ public with sharing class AdjustmentService extends AbstractService {
         }
     }
 
-    public class DiscountRequest {
-        public DiscountRequest(Id gtId, List<Decimal> cgSironoIds) {
-            this.guarantorId = gtId;
-            this.chargeGroupSironoIds = cgSironoIds;
-        }
-
-        Id guarantorId;
-        Decimal[] chargeGroupSironoIds;
-
-        public Boolean isValid() {
-            return chargeGroupSironoIds != null && !chargeGroupSironoIds.isEmpty() && guarantorId != null;
-        }
-    }
-
     //TODO not ready for primetime
 //    public static void createDiscount(DiscountRequest request) {
 //        if (!request.isValid()) {
@@ -198,11 +146,11 @@ public with sharing class AdjustmentService extends AbstractService {
 
         Payment_Plan__c originalPaymentPlan = null;
         // Read the cg from the db to get the GTExternalId & PP Id
-        List<Charge_Group__c> dbChargeGroups = ChargeGroupDao.getBySironoIds(new List<Decimal>{Decimal.valueOf(parser.cgSironoId)});
+        List<Charge_Group__c> dbChargeGroups = ChargeGroupDao.getBySironoIds(new List<Decimal> { Decimal.valueOf(parser.cgSironoId) });
         if (dbChargeGroups[0].Payment_Plan__c != null) {
             originalPaymentPlan = PaymentPlanService.retrievePlan(dbChargeGroups[0].Payment_Plan__r.Sirono_ID__c);
 
-            dbChargeGroups = ChargeGroupDao.getByPaymentPlanIds(new Set<Id> {dbChargeGroups[0].Payment_Plan__c});
+            dbChargeGroups = ChargeGroupDao.getByPaymentPlanIds(new Set<Id> { dbChargeGroups[0].Payment_Plan__c });
         }
 
         List<Charge_Group__c> cgsToUpdate = new List<Charge_Group__c>();
@@ -225,7 +173,7 @@ public with sharing class AdjustmentService extends AbstractService {
         } else {
             aggregateIdStrings.add('');
         }
-        aggregateIdStrings.add(Datetime.newInstance(adj.Post_Date__c, Time.newInstance(0,0,0, 0)).format('YYYYMMdd'));
+        aggregateIdStrings.add(Datetime.newInstance(adj.Post_Date__c, Time.newInstance(0, 0, 0, 0)).format('YYYYMMdd'));
         if (adj.Payor__c != null) {
             //TODO get the payor's SironoId
         } else {
@@ -233,25 +181,25 @@ public with sharing class AdjustmentService extends AbstractService {
         }
 
         String aggregateId = String.join(aggregateIdStrings, ':');
-        System.debug('aggregateId: '+aggregateId);
+        System.debug('aggregateId: ' + aggregateId);
         adj.Aggregate_Id__c = aggregateId;
 
         //TODO hack until the ExternalGT is returned via the api
         adj.External_Guarantor__c = dbChargeGroups[0].External_Guarantor_ID__c;
-        AdjustmentDao.save(new List<Adjustment__c>{adj});
-        System.debug('Saved adj, Id: '+adj.Id);
+        AdjustmentDao.save(new List<Adjustment__c> { adj });
+        System.debug('Saved adj, Id: ' + adj.Id);
 
         if (originalPaymentPlan != null) {
-            System.debug('Updated pp, Id: '+originalPaymentPlan.Id);
-            PaymentPlanDao.updateAll(new List<Payment_Plan__c>{originalPaymentPlan});
+            System.debug('Updated pp, Id: ' + originalPaymentPlan.Id);
+            PaymentPlanDao.updateAll(new List<Payment_Plan__c> { originalPaymentPlan });
         }
-        System.debug('Updating '+cgsToUpdate.size()+' chargegroups');
+        System.debug('Updating ' + cgsToUpdate.size() + ' chargegroups');
         ChargeGroupDao.updateChargeGroups(cgsToUpdate);
 
         for (Transaction__c txn : transactions) {
             txn.Adjustment2__c = adj.Id;
         }
-        System.debug('Saving '+transactions.size()+' transactions');
+        System.debug('Saving ' + transactions.size() + ' transactions');
         TransactionDao.save(transactions);
     }
 
@@ -259,17 +207,7 @@ public with sharing class AdjustmentService extends AbstractService {
         //Create the adjustment
         AdjustmentRestClient client = new AdjustmentRestClient();
         HttpResponse response = client.addAdjustment(request);
-        System.debug('addAdjustment response: '+response.getBody());
-        AdjustmentResponseParser parser = new AdjustmentResponseParser(response.getBody());
-        parser.parse();
-        return parser;
-    }
-
-    private static AdjustmentResponseParser createSironoDiscount(DiscountRequest request) {
-        //Create the discount
-        AdjustmentRestClient client = new AdjustmentRestClient();
-        HttpResponse response = client.addDiscount(request);
-        System.debug('addDiscount response: '+response.getBody());
+        System.debug('addAdjustment response: ' + response.getBody());
         AdjustmentResponseParser parser = new AdjustmentResponseParser(response.getBody());
         parser.parse();
         return parser;

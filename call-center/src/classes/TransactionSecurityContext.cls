@@ -21,7 +21,6 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
     // Below field(s) are use for Select/Read permission.
     private static final String ADJUSTMENT = 'Adjustment2__c';
     private static final String CHARGE_ADDED_SINCE_PLAN_START = 'Charge_added_since_plan_start__c';
-    private static final String ID = 'Id';
     private static final String LASTMODIFIEDDATE = 'LastModifiedDate';
     private static final String SERVICE = 'Service2__c';
     private static final String TXN_METHOD = 'Txn_Method__c';
@@ -54,11 +53,6 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
     // The fields for selecting a Transaction__c in PaymentPlanUtil
     private static final Set<String> PPU_SELECT_FIELDS = new Set<String> {
         AMOUNT, CHARGE_ADDED_SINCE_PLAN_START, TXN_METHOD
-    };
-
-    // The fields for selecting a Transaction__c in PayStaffWSUtill
-    private static final Set<String> PSWSU_SELECT_FIELDS = new Set<String> {
-        ID, SIRONO_ID
     };
 
     // The fields for selecting a Transaction__c in CreateCaseManual
@@ -106,11 +100,6 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
      * The select context for Transaction__c in PaymentPlanUtil
      **/
     public static final TransactionSecurityContext PPU_SELECT_CONTEXT = new TransactionSecurityContext(PPU_SELECT_FIELDS, ACTION.OBJ_READ);
-
-    /**
-     * The select context for Transaction__c in PayStaffWSUtill
-     **/
-    public static final TransactionSecurityContext PSWSU_SELECT_CONTEXT = new TransactionSecurityContext(PSWSU_SELECT_FIELDS, ACTION.OBJ_READ);
 
     /**
      * The select context for Transaction__c in CreateCaseManual
