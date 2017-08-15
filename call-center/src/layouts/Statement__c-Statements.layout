@@ -156,7 +156,7 @@
         <fields>Amount__c</fields>
         <fields>Card_Holder_Name__c</fields>
         <fields>Deposit_Date__c</fields>
-        <fields>Collected_by__c</fields>
+        <fields>Collected_By__c</fields>
         <relatedList>Payment__c.Statement__c</relatedList>
     </relatedLists>
     <relatedLists>

@@ -54,10 +54,10 @@ public with sharing class PreServiceSchedulerBatch implements Database.Batchable
             List<CampaignMember> memberList = new List<CampaignMember>();
             if (EncounterSecurityContext.PSS_SELECT_CONTEXT.actionAllowed()) {
                 for (Encounter__c ps : [
-                    SELECT Id, Name, Guarantor__c, Liability__c, Date_of_Service__c
+                    SELECT Id, Name, Guarantor__c, Liability__c, Date_Of_Service__c
                     FROM Encounter__c
                     WHERE Patient__r.Guarantor__c IN :guarantors
-                    AND Date_of_Service__c > :dt AND Date_of_Service__c <= :dt14
+                    AND Date_Of_Service__c > :dt AND Date_Of_Service__c <= :dt14
                     AND Liability__c > :100 AND Cancelled__c = FALSE
                 ]) {
                     /*if(!existingMembers.contains(ps.Patient__r.Guarantor__c)){

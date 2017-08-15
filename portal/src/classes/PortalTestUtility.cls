@@ -81,7 +81,7 @@ public class PortalTestUtility {
         Date serviceDate) {
         Encounter__c encounter = new Encounter__c(Guarantor__c = guarantorId,
             Patient_Portion__c = patientPortion,
-            Date_of_Service__c = serviceDate);
+            Date_Of_Service__c = serviceDate);
         return encounter;
     }
 

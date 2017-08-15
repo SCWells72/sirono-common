@@ -155,7 +155,7 @@ public with sharing class GuarantorDao extends AbstractDao {
     }
 
     /**
-     * Get Contacts with Encounters filtered by Liability__c, Date_of_Service__c, Cancelled__c and contactIds
+     * Get Contacts with Encounters filtered by Liability__c, Date_Of_Service__c, Cancelled__c and contactIds
      *
      * @param Set<Id> contactIds - A set of Contact Ids.
      * @returns List<Contact> - The requested Contacts and all Encounters that meet the criteria.
@@ -165,10 +165,10 @@ public with sharing class GuarantorDao extends AbstractDao {
             EncounterSecurityContext.CLU_SELECT_CONTEXT.actionAllowed()) {
             return [
                 SELECT Id, (
-                    SELECT Id, Date_of_Service__c, Liability__c, Cancelled__c
+                    SELECT Id, Date_Of_Service__c, Liability__c, Cancelled__c
                     FROM Encounters__r
                     WHERE Liability__c < 100
-                    OR Date_of_Service__c != TODAY
+                    OR Date_Of_Service__c != TODAY
                     OR Cancelled__c = FALSE
                 )
                 FROM Contact
@@ -284,7 +284,7 @@ public with sharing class GuarantorDao extends AbstractDao {
     public static List<Contact> getContactsForLightning(Set<Id> contactIds) {
         return [
             SELECT Id, FirstName, Guarantor__c, Guarantor_Status__c, Invoiced_Balance__c,
-                Overdue_Invoices__c, Outstanding_Invoices__c, Delinquent_Invoices__c, Add_to_Payment_Plan__c
+                Overdue_Invoices__c, Outstanding_Invoices__c, Delinquent_Invoices__c, Add_To_Payment_Plan__c
             FROM Contact
             WHERE Id IN :contactIds
         ];
@@ -333,7 +333,7 @@ public with sharing class GuarantorDao extends AbstractDao {
         Contact contact = null;
         for (Contact c : [
             SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
-                Medical_Record_Number__c, Name, Add_to_Payment_Plan__c,
+                Medical_Record_Number__c, Name, Add_To_Payment_Plan__c,
                 Non_Payment_Plan_Invoices__c, Profile_Pointer_ID__c, MailingStreet,
                 MailingCity, MailingState, MailingPostalCode, (
                 SELECT Id, Name, Sirono_ID__c, Guarantor__c, Guarantor__r.Name,

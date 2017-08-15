@@ -37,7 +37,7 @@
             </div>
             <div class="{!v.isPaymentCompleted ? 'slds-hide' : ''}">
                 <p>Next payment of <ui:outputCurrency value="{!v.PlanInfoRecord.Installment_Amount__c}"/> scheduled for <ui:outputDate value="{!v.PlanInfoRecord.NextPaymentDate__c}" format="MMMM d, YYYY"/></p>
-                <p class="title"><em>Your card will be charged <ui:outputCurrency value="{!v.PlanInfoRecord.Installment_Amount__c}"/> on <ui:outputDate value="{!v.PlanInfoRecord.NextPaymentDate__c}" format="MMMM d, YYYY"/> and on day <ui:outputText value="{!v.PlanInfoRecord.Execute_on_Day__c}"/> of each month thereafter until paid in full.</em></p>
+                <p class="title"><em>Your card will be charged <ui:outputCurrency value="{!v.PlanInfoRecord.Installment_Amount__c}"/> on <ui:outputDate value="{!v.PlanInfoRecord.NextPaymentDate__c}" format="MMMM d, YYYY"/> and on day <ui:outputText value="{!v.PlanInfoRecord.Execute_On_Day__c}"/> of each month thereafter until paid in full.</em></p>
             </div>
 
             <div class="{!and(v.isPaymentCompleted, v.isOnPaymentPage) ? '' : 'slds-hide'}">

@@ -353,7 +353,7 @@ public with sharing class PaymentPlanService extends AbstractService {
             }
 
             paymentPlanObj.Remaining_Balance__c = convertToDollars(objJson.payable_amount);
-            paymentPlanObj.Execute_on_Day__c = objJson.execute_on_day;
+            paymentPlanObj.Execute_On_Day__c = objJson.execute_on_day;
             paymentPlanObj.NextPaymentDate__c = parseDate(objJson.next_payment_date);
             paymentPlanObj.Skip_Payment_Until__c = parseDate(objJson.skip_payment_until);
             paymentPlanObj.Has_Error__c = objJson.has_error;

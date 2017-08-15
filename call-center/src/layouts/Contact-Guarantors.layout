@@ -382,10 +382,10 @@
         <fields>NAME</fields>
         <fields>Patient__c</fields>
         <fields>Procedure__c</fields>
-        <fields>Date_of_Service__c</fields>
+        <fields>Date_Of_Service__c</fields>
         <fields>Balance__c</fields>
         <relatedList>Encounter__c.Guarantor__c</relatedList>
-        <sortField>Date_of_Service__c</sortField>
+        <sortField>Date_Of_Service__c</sortField>
         <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
@@ -395,7 +395,7 @@
         <fields>Plan_Type__c</fields>
         <fields>Payment_Plan_Standing__c</fields>
         <fields>Installment_Amount__c</fields>
-        <fields>Execute_on_Day__c</fields>
+        <fields>Execute_On_Day__c</fields>
         <fields>NextPaymentDate__c</fields>
         <relatedList>Payment_Plan__c.Guarantor__c</relatedList>
         <sortField>Active__c</sortField>

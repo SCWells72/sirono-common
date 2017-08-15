@@ -125,7 +125,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Link_to_item__c</field>
+                <field>Link_To_Item__c</field>
             </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>

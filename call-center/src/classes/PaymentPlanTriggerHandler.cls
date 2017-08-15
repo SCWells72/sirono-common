@@ -56,7 +56,7 @@ public with sharing class PaymentPlanTriggerHandler {
                 newListToSetDate.add(paymentPlan);
             } else {
                 Payment_Plan__c oldValue = oldPaymentPlansById.get(paymentPlan.Id);
-                if (paymentPlan.Execute_on_Day__c != oldValue.Execute_on_Day__c || paymentPlan.Skip_Payment_Until__c != oldValue.Skip_Payment_Until__c
+                if (paymentPlan.Execute_On_Day__c != oldValue.Execute_On_Day__c || paymentPlan.Skip_Payment_Until__c != oldValue.Skip_Payment_Until__c
                     || paymentPlan.Plan_Type__c != oldValue.Plan_Type__c) {
                     // || pp.NextPaymentDate__c != oldValue.NextPaymentDate__c
                     newListToSetDate.add(paymentPlan);
@@ -104,10 +104,10 @@ public with sharing class PaymentPlanTriggerHandler {
             // Figure out the next payment date relative to the reference date.
             Date nextDt;
             if (plan.Plan_Type__c == Constants.AUTOMATIC) {
-                if (plan.Execute_on_Day__c == null || plan.Execute_on_Day__c == 0) {
-                    plan.Execute_on_Day__c = START_DAY;
+                if (plan.Execute_On_Day__c == null || plan.Execute_On_Day__c == 0) {
+                    plan.Execute_On_Day__c = START_DAY;
                 }
-                nextDt = calculateNextPaymentDate(Integer.valueOf(plan.Execute_on_Day__c), 0, refDt);
+                nextDt = calculateNextPaymentDate(Integer.valueOf(plan.Execute_On_Day__c), 0, refDt);
             } else {
                 if (guarantor.Invoice_Offset_Date__c == null || guarantor.Invoice_Offset_Date__c == 0) {
                     guarantor.Invoice_Offset_Date__c = START_DAY;

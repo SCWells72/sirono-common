@@ -25,7 +25,7 @@
         <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>Day_of_Week__c</fullName>
+        <fullName>Day_Of_Week__c</fullName>
         <externalId>false</externalId>
         <formula>IF(
 ISBLANK(ActivityDate), NULL,
@@ -56,7 +56,7 @@ CASE(
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Five9_Call_Time_mins__c</fullName>
+        <fullName>Five9_Call_Time_Mins__c</fullName>
         <externalId>false</externalId>
         <formula>/* Get total seconds for the Handle Time */
 
@@ -81,7 +81,7 @@ VALUE(RIGHT(Five9__Five9WrapTime__c,2)) +
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Hour_of_Day__c</fullName>
+        <fullName>Hour_Of_Day__c</fullName>
         <externalId>false</externalId>
         <formula>VALUE( MID( TEXT(CreatedDate), 12, 2 ) ) - 7</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
@@ -94,7 +94,7 @@ VALUE(RIGHT(Five9__Five9WrapTime__c,2)) +
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Hours_of_Day__c</fullName>
+        <fullName>Hours_Of_Day__c</fullName>
         <externalId>false</externalId>
         <label>Hour of Day</label>
         <precision>2</precision>

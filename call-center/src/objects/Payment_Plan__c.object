@@ -139,7 +139,7 @@
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>Execute_on_Day__c</fullName>
+        <fullName>Execute_On_Day__c</fullName>
         <externalId>false</externalId>
         <label>Execute on Day</label>
         <precision>2</precision>
@@ -222,23 +222,23 @@
         <externalId>false</externalId>
         <formula>IF(ISBLANK(Skip_Payment_Until__c),
 IF(Plan_Type__c = &quot;Automatic&quot;,
-  IF(Execute_on_Day__c &gt;= DAY(Today()),
-    Today() + MIN(DATE(YEAR(Today()), MONTH(Today()), 1) + Execute_on_Day__c - Today(), IF(MONTH(Today()) = 12, DATE(YEAR(Today()) + 1, 1, 1), DATE(YEAR(Today()), MONTH(Today()) + 1, 1)) - Today()),
+  IF(Execute_On_Day__c &gt;= DAY(Today()),
+    Today() + MIN(DATE(YEAR(Today()), MONTH(Today()), 1) + Execute_On_Day__c - Today(), IF(MONTH(Today()) = 12, DATE(YEAR(Today()) + 1, 1, 1), DATE(YEAR(Today()), MONTH(Today()) + 1, 1)) - Today()),
     IF(MONTH(Today()) = 12,
-      DATE(YEAR(Today()) + 1, 1, 1) + Execute_on_Day__c,
-      Today() + MIN(DATE(YEAR(Today()), MONTH(Today()) + 1, 1) + Execute_on_Day__c - Today(), DATE(YEAR(Today()), MONTH(Today()) + 2, 1) - Today()))) - 1,
-  IF(DAY(Today()) &gt; Execute_on_Day__c + 21,
+      DATE(YEAR(Today()) + 1, 1, 1) + Execute_On_Day__c,
+      Today() + MIN(DATE(YEAR(Today()), MONTH(Today()) + 1, 1) + Execute_On_Day__c - Today(), DATE(YEAR(Today()), MONTH(Today()) + 2, 1) - Today()))) - 1,
+  IF(DAY(Today()) &gt; Execute_On_Day__c + 21,
     IF(MONTH(Today()) = 12, DATE(YEAR(Today()) + 1, 1, 1), DATE(YEAR(Today()), MONTH(Today()) + 1, 1)),
     IF(MONTH(Today()) = 1,
-      IF(DATE(YEAR(Today()) - 1, 12, Execute_on_Day__c) + 21 &gt; Today(),
+      IF(DATE(YEAR(Today()) - 1, 12, Execute_On_Day__c) + 21 &gt; Today(),
         DATE(YEAR(Today()) - 1, 12, 1),
         DATE(YEAR(Today()), MONTH(Today()), 1)),
-      IF(DATE(YEAR(Today()), MONTH(Today()) - 1, Execute_on_Day__c) + 21 &gt; Today(),
+      IF(DATE(YEAR(Today()), MONTH(Today()) - 1, Execute_On_Day__c) + 21 &gt; Today(),
         DATE(YEAR(Today()), MONTH(Today()) - 1, 1),
-        DATE(YEAR(Today()), MONTH(Today()), 1)))) + Execute_on_Day__c + 20),
+        DATE(YEAR(Today()), MONTH(Today()), 1)))) + Execute_On_Day__c + 20),
   Skip_Payment_Until__c)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Next Payment Date_old</label>
+        <label>Next Payment Date (Deprecated)</label>
         <required>false</required>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -388,7 +388,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Time_to_Delinquency__c</fullName>
+        <fullName>Time_To_Delinquency__c</fullName>
         <externalId>false</externalId>
         <formula>Delinquent_Date__c -   DATEVALUE( CreatedDate )</formula>
         <label>Time to Delinquency</label>
@@ -407,7 +407,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <columns>Guarantor__c</columns>
         <columns>Active__c</columns>
         <columns>Plan_Type__c</columns>
-        <columns>Execute_on_Day__c</columns>
+        <columns>Execute_On_Day__c</columns>
         <columns>Next_Payment_Date__c</columns>
         <columns>Skip_Payment_Until__c</columns>
         <columns>Delinquent__c</columns>
@@ -424,7 +424,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <customTabListAdditionalFields>Guarantor__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Active__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Plan_Type__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Execute_on_Day__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Execute_On_Day__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Next_Payment_Date__c</customTabListAdditionalFields>
         <lookupDialogsAdditionalFields>Original_Balance__c</lookupDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Original_Balance__c</lookupPhoneDialogsAdditionalFields>

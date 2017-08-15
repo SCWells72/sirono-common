@@ -74,7 +74,7 @@ public with sharing class EditPaymentPlan {
             if (PaymentPlanSecurityContext.EPP_SELECT_CONTEXT.actionAllowed()) {
                 for (Payment_Plan__c p : [
                     SELECT Id, Name, Original_Installment_Count__c, Remaining_Balance__c, NextPaymentDate__c,
-                        Plan_Type__c, Remaining_Installment_Count__c, Execute_on_Day__c, Sirono_ID__c
+                        Plan_Type__c, Remaining_Installment_Count__c, Execute_On_Day__c, Sirono_ID__c
                     FROM Payment_Plan__c
                     WHERE Id = :paymentPlanRecordId
                 ]) {
@@ -95,8 +95,8 @@ public with sharing class EditPaymentPlan {
                     } else {
                         installmentsPaid = '0';
                     }
-                    if (p.Execute_on_Day__c != null && p.Execute_on_Day__c != 0) {
-                        executeOnDayExisting = String.valueOf(p.Execute_on_Day__c);
+                    if (p.Execute_On_Day__c != null && p.Execute_On_Day__c != 0) {
+                        executeOnDayExisting = String.valueOf(p.Execute_On_Day__c);
                     } else {
                         executeOnDayExisting = '1';
                     }

@@ -42,7 +42,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Payment__c.Collected_by__c</field>
+        <field>Payment__c.Collected_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

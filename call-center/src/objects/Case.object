@@ -159,7 +159,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Date_of_Bankruptcy_Filing__c</field>
+            <field>Date_Of_Bankruptcy_Filing__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>true</isRequired>
         </displayedFields>
@@ -199,7 +199,7 @@
             <isRequired>true</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Date_of_Bankruptcy_Filing__c</field>
+            <field>Date_Of_Bankruptcy_Filing__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -239,7 +239,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Date_of_Bankruptcy_Filing__c</field>
+            <field>Date_Of_Bankruptcy_Filing__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -279,7 +279,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Date_of_Bankruptcy_Filing__c</field>
+            <field>Date_Of_Bankruptcy_Filing__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -334,17 +334,17 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>New_Home_phone__c</field>
+            <field>New_Home_Phone__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>New_Mobile_phone__c</field>
+            <field>New_Mobile_Phone__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>New_Work_phone__c</field>
+            <field>New_Work_Phone__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -629,17 +629,17 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Number_of_people_in_household__c</field>
+            <field>Number_Of_People_In_Household__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Est_income_measure_3_or_12_months__c</field>
+            <field>Est_Income_Measure_3_Or_12_Months__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Est_annual_gross_family_income__c</field>
+            <field>Est_Annual_Gross_Family_Income__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -659,12 +659,12 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Cred_Card_last_4_Check_Number__c</field>
+            <field>Cred_Card_Last_4_Check_Number__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Merge_with_Guarantor_ID__c</field>
+            <field>Merge_With_Guarantor_ID__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -699,17 +699,17 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Number_of_people_in_household__c</field>
+            <field>Number_Of_People_In_Household__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>true</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Est_income_measure_3_or_12_months__c</field>
+            <field>Est_Income_Measure_3_Or_12_Months__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>true</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Est_annual_gross_family_income__c</field>
+            <field>Est_Annual_Gross_Family_Income__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>true</isRequired>
         </displayedFields>
@@ -729,12 +729,12 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Cred_Card_last_4_Check_Number__c</field>
+            <field>Cred_Card_Last_4_Check_Number__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Merge_with_Guarantor_ID__c</field>
+            <field>Merge_With_Guarantor_ID__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -769,17 +769,17 @@
             <isRequired>true</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Number_of_people_in_household__c</field>
+            <field>Number_Of_People_In_Household__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Est_income_measure_3_or_12_months__c</field>
+            <field>Est_Income_Measure_3_Or_12_Months__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Est_annual_gross_family_income__c</field>
+            <field>Est_Annual_Gross_Family_Income__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -799,12 +799,12 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Cred_Card_last_4_Check_Number__c</field>
+            <field>Cred_Card_Last_4_Check_Number__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Merge_with_Guarantor_ID__c</field>
+            <field>Merge_With_Guarantor_ID__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -839,17 +839,17 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Number_of_people_in_household__c</field>
+            <field>Number_Of_People_In_Household__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Est_income_measure_3_or_12_months__c</field>
+            <field>Est_Income_Measure_3_Or_12_Months__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Est_annual_gross_family_income__c</field>
+            <field>Est_Annual_Gross_Family_Income__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -869,12 +869,12 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Cred_Card_last_4_Check_Number__c</field>
+            <field>Cred_Card_Last_4_Check_Number__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Merge_with_Guarantor_ID__c</field>
+            <field>Merge_With_Guarantor_ID__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>true</isRequired>
         </displayedFields>
@@ -909,17 +909,17 @@
             <isRequired>true</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Number_of_people_in_household__c</field>
+            <field>Number_Of_People_In_Household__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Est_income_measure_3_or_12_months__c</field>
+            <field>Est_Income_Measure_3_Or_12_Months__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Est_annual_gross_family_income__c</field>
+            <field>Est_Annual_Gross_Family_Income__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -939,12 +939,12 @@
             <isRequired>true</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Cred_Card_last_4_Check_Number__c</field>
+            <field>Cred_Card_Last_4_Check_Number__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>true</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Merge_with_Guarantor_ID__c</field>
+            <field>Merge_With_Guarantor_ID__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -1082,7 +1082,7 @@
         <type>TextArea</type>
     </fields>
     <fields>
-        <fullName>Charge_Group_for_Discount__c</fullName>
+        <fullName>Charge_Group_For_Discount__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Charge Group for Discount</label>
@@ -1198,7 +1198,7 @@
         <type>Phone</type>
     </fields>
     <fields>
-        <fullName>Contact_event__c</fullName>
+        <fullName>Contact_Event__c</fullName>
         <externalId>false</externalId>
         <label>Contact event</label>
         <length>200</length>
@@ -1244,7 +1244,7 @@
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>Cred_Card_last_4_Check_Number__c</fullName>
+        <fullName>Cred_Card_Last_4_Check_Number__c</fullName>
         <externalId>false</externalId>
         <label>Credit Card (last 4)/ Check Number</label>
         <length>10</length>
@@ -1266,7 +1266,7 @@
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>Date_of_Bankruptcy_Filing__c</fullName>
+        <fullName>Date_Of_Bankruptcy_Filing__c</fullName>
         <externalId>false</externalId>
         <label>Date of Bankruptcy Filing</label>
         <required>false</required>
@@ -1352,7 +1352,7 @@
         <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>Est_annual_gross_family_income__c</fullName>
+        <fullName>Est_Annual_Gross_Family_Income__c</fullName>
         <externalId>false</externalId>
         <label>Est. annual gross family income</label>
         <required>false</required>
@@ -1407,7 +1407,7 @@
         </valueSet>
     </fields>
     <fields>
-        <fullName>Est_income_measure_3_or_12_months__c</fullName>
+        <fullName>Est_Income_Measure_3_Or_12_Months__c</fullName>
         <externalId>false</externalId>
         <label>Est. income measure (3 or 12 months)</label>
         <required>false</required>
@@ -1432,7 +1432,7 @@
         </valueSet>
     </fields>
     <fields>
-        <fullName>Est_monthly_gross_family_income__c</fullName>
+        <fullName>Est_Monthly_Gross_Family_Income__c</fullName>
         <externalId>false</externalId>
         <label>Est. monthly gross family income</label>
         <required>false</required>
@@ -1498,7 +1498,7 @@
         <type>TextArea</type>
     </fields>
     <fields>
-        <fullName>Form_to_be_Mailed__c</fullName>
+        <fullName>Form_To_Be_Mailed__c</fullName>
         <externalId>false</externalId>
         <label>Form to be Mailed</label>
         <required>false</required>
@@ -1644,10 +1644,10 @@
         <unique>true</unique>
     </fields>
     <fields>
-        <fullName>Informed_Caller_to_mail_Death_Certificat__c</fullName>
+        <fullName>Informed_Caller_To_Mail_Death_Certificat__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
-        <label>Informed Caller to mail Death Certificat</label>
+        <label>Informed caller to mail death cert.</label>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -1757,7 +1757,7 @@
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>Link_to_item__c</fullName>
+        <fullName>Link_To_Item__c</fullName>
         <externalId>false</externalId>
         <inlineHelpText>Copy in the url link to where the problem resides.</inlineHelpText>
         <label>Link to item</label>
@@ -1768,7 +1768,7 @@
         <type>Url</type>
     </fields>
     <fields>
-        <fullName>Mail_in_Proof_of_Bankruptcy_and_Terms__c</fullName>
+        <fullName>Mail_In_Proof_Of_Bankruptcy_And_Terms__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
         <label>Mail in Proof of Bankruptcy and Terms</label>
@@ -1778,7 +1778,7 @@
         <type>Checkbox</type>
     </fields>
     <fields>
-        <fullName>Merge_with_Guarantor_ID__c</fullName>
+        <fullName>Merge_With_Guarantor_ID__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Merge with- Guarantor ID</label>
@@ -1864,7 +1864,7 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>New_Home_phone__c</fullName>
+        <fullName>New_Home_Phone__c</fullName>
         <externalId>false</externalId>
         <label>New- Home phone</label>
         <required>false</required>
@@ -1898,7 +1898,7 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>New_Mobile_phone__c</fullName>
+        <fullName>New_Mobile_Phone__c</fullName>
         <externalId>false</externalId>
         <label>New- Mobile phone</label>
         <required>false</required>
@@ -1968,7 +1968,7 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>New_Work_phone__c</fullName>
+        <fullName>New_Work_Phone__c</fullName>
         <externalId>false</externalId>
         <label>New- Work phone</label>
         <required>false</required>
@@ -2013,7 +2013,7 @@
         <type>Checkbox</type>
     </fields>
     <fields>
-        <fullName>Number_of_people_in_household__c</fullName>
+        <fullName>Number_Of_People_In_Household__c</fullName>
         <externalId>false</externalId>
         <label>Number of people in household</label>
         <precision>18</precision>
@@ -2570,7 +2570,7 @@
         <type>Phone</type>
     </fields>
     <fields>
-        <fullName>System_Mod_stamp__c</fullName>
+        <fullName>System_Mod_Stamp__c</fullName>
         <externalId>false</externalId>
         <label>System Mod stamp</label>
         <required>false</required>
@@ -2882,7 +2882,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_annual_gross_family_income__c</picklist>
+            <picklist>Est_Annual_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-23%2C540</fullName>
                 <default>false</default>
@@ -2917,7 +2917,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <picklist>Est_Income_Measure_3_Or_12_Months__c</picklist>
             <values>
                 <fullName>12 months</fullName>
                 <default>false</default>
@@ -2928,7 +2928,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <picklist>Est_Monthly_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-1%2C962</fullName>
                 <default>false</default>
@@ -2963,7 +2963,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Form_to_be_Mailed__c</picklist>
+            <picklist>Form_To_Be_Mailed__c</picklist>
             <values>
                 <fullName>Charity Application</fullName>
                 <default>false</default>
@@ -3357,7 +3357,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_annual_gross_family_income__c</picklist>
+            <picklist>Est_Annual_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-23%2C540</fullName>
                 <default>false</default>
@@ -3392,7 +3392,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <picklist>Est_Income_Measure_3_Or_12_Months__c</picklist>
             <values>
                 <fullName>12 months</fullName>
                 <default>false</default>
@@ -3403,7 +3403,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <picklist>Est_Monthly_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-1%2C962</fullName>
                 <default>false</default>
@@ -3438,7 +3438,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Form_to_be_Mailed__c</picklist>
+            <picklist>Form_To_Be_Mailed__c</picklist>
             <values>
                 <fullName>Charity Application</fullName>
                 <default>false</default>
@@ -3845,7 +3845,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_annual_gross_family_income__c</picklist>
+            <picklist>Est_Annual_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-23%2C540</fullName>
                 <default>false</default>
@@ -3880,7 +3880,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <picklist>Est_Income_Measure_3_Or_12_Months__c</picklist>
             <values>
                 <fullName>12 months</fullName>
                 <default>false</default>
@@ -3891,7 +3891,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <picklist>Est_Monthly_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-1%2C962</fullName>
                 <default>false</default>
@@ -3926,7 +3926,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Form_to_be_Mailed__c</picklist>
+            <picklist>Form_To_Be_Mailed__c</picklist>
             <values>
                 <fullName>Charity Application</fullName>
                 <default>false</default>
@@ -4273,7 +4273,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_annual_gross_family_income__c</picklist>
+            <picklist>Est_Annual_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-23%2C540</fullName>
                 <default>false</default>
@@ -4308,7 +4308,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <picklist>Est_Income_Measure_3_Or_12_Months__c</picklist>
             <values>
                 <fullName>12 months</fullName>
                 <default>false</default>
@@ -4319,7 +4319,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <picklist>Est_Monthly_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-1%2C962</fullName>
                 <default>false</default>
@@ -4354,7 +4354,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Form_to_be_Mailed__c</picklist>
+            <picklist>Form_To_Be_Mailed__c</picklist>
             <values>
                 <fullName>Charity Application</fullName>
                 <default>false</default>
@@ -4673,7 +4673,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_annual_gross_family_income__c</picklist>
+            <picklist>Est_Annual_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-23%2C540</fullName>
                 <default>false</default>
@@ -4708,7 +4708,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <picklist>Est_Income_Measure_3_Or_12_Months__c</picklist>
             <values>
                 <fullName>12 months</fullName>
                 <default>false</default>
@@ -4719,7 +4719,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <picklist>Est_Monthly_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-1%2C962</fullName>
                 <default>false</default>
@@ -4754,7 +4754,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Form_to_be_Mailed__c</picklist>
+            <picklist>Form_To_Be_Mailed__c</picklist>
             <values>
                 <fullName>Charity Application</fullName>
                 <default>false</default>
@@ -5161,7 +5161,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_annual_gross_family_income__c</picklist>
+            <picklist>Est_Annual_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-23%2C540</fullName>
                 <default>false</default>
@@ -5196,7 +5196,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <picklist>Est_Income_Measure_3_Or_12_Months__c</picklist>
             <values>
                 <fullName>12 months</fullName>
                 <default>false</default>
@@ -5207,7 +5207,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <picklist>Est_Monthly_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-1%2C962</fullName>
                 <default>false</default>
@@ -5242,7 +5242,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Form_to_be_Mailed__c</picklist>
+            <picklist>Form_To_Be_Mailed__c</picklist>
             <values>
                 <fullName>Charity Application</fullName>
                 <default>false</default>
@@ -5629,7 +5629,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_annual_gross_family_income__c</picklist>
+            <picklist>Est_Annual_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-23%2C540</fullName>
                 <default>false</default>
@@ -5664,7 +5664,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <picklist>Est_Income_Measure_3_Or_12_Months__c</picklist>
             <values>
                 <fullName>12 months</fullName>
                 <default>false</default>
@@ -5675,7 +5675,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <picklist>Est_Monthly_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-1%2C962</fullName>
                 <default>false</default>
@@ -5710,7 +5710,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Form_to_be_Mailed__c</picklist>
+            <picklist>Form_To_Be_Mailed__c</picklist>
             <values>
                 <fullName>Charity Application</fullName>
                 <default>false</default>
@@ -6053,7 +6053,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_annual_gross_family_income__c</picklist>
+            <picklist>Est_Annual_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-23%2C540</fullName>
                 <default>false</default>
@@ -6088,7 +6088,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <picklist>Est_Income_Measure_3_Or_12_Months__c</picklist>
             <values>
                 <fullName>12 months</fullName>
                 <default>false</default>
@@ -6099,7 +6099,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <picklist>Est_Monthly_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-1%2C962</fullName>
                 <default>false</default>
@@ -6134,7 +6134,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Form_to_be_Mailed__c</picklist>
+            <picklist>Form_To_Be_Mailed__c</picklist>
             <values>
                 <fullName>Charity Application</fullName>
                 <default>false</default>
@@ -6457,7 +6457,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_annual_gross_family_income__c</picklist>
+            <picklist>Est_Annual_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-23%2C540</fullName>
                 <default>false</default>
@@ -6492,7 +6492,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_income_measure_3_or_12_months__c</picklist>
+            <picklist>Est_Income_Measure_3_Or_12_Months__c</picklist>
             <values>
                 <fullName>12 months</fullName>
                 <default>false</default>
@@ -6503,7 +6503,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Est_monthly_gross_family_income__c</picklist>
+            <picklist>Est_Monthly_Gross_Family_Income__c</picklist>
             <values>
                 <fullName>0-1%2C962</fullName>
                 <default>false</default>
@@ -6538,7 +6538,7 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Form_to_be_Mailed__c</picklist>
+            <picklist>Form_To_Be_Mailed__c</picklist>
             <values>
                 <fullName>Charity Application</fullName>
                 <default>false</default>

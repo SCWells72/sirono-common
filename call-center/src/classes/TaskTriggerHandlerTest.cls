@@ -53,8 +53,8 @@ private class TaskTriggerHandlerTest {
 
         update taskListToInsert[0];
         // Check system assert.
-        List<Task> lstTask = [SELECT Id, Hours_of_Day__c FROM Task WHERE Id = :taskListToInsert[0].Id];
-        System.assertNotEquals(lstTask[0].Hours_of_Day__c, null);
+        List<Task> lstTask = [SELECT Id, Hours_Of_Day__c FROM Task WHERE Id = :taskListToInsert[0].Id];
+        System.assertNotEquals(lstTask[0].Hours_Of_Day__c, null);
         Test.stopTest();
     }
 

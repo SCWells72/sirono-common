@@ -71,7 +71,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Collected_by__c</field>
+                <field>Collected_By__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

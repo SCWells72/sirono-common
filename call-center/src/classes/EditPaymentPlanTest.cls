@@ -608,7 +608,7 @@ public class EditPaymentPlanTest {
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
-        paymentPlan.Execute_on_Day__c = null;
+        paymentPlan.Execute_On_Day__c = null;
         insert paymentPlan;
 
         System.debug('23121' + paymentPlan);
@@ -679,7 +679,7 @@ public class EditPaymentPlanTest {
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
-        paymentPlan.Execute_on_Day__c = null;
+        paymentPlan.Execute_On_Day__c = null;
         insert paymentPlan;
 
         System.debug('23121' + paymentPlan);
@@ -750,7 +750,7 @@ public class EditPaymentPlanTest {
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
-        paymentPlan.Execute_on_Day__c = null;
+        paymentPlan.Execute_On_Day__c = null;
         insert paymentPlan;
 
         System.debug('23121' + paymentPlan);
@@ -821,7 +821,7 @@ public class EditPaymentPlanTest {
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
-        paymentPlan.Execute_on_Day__c = null;
+        paymentPlan.Execute_On_Day__c = null;
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
@@ -891,7 +891,7 @@ public class EditPaymentPlanTest {
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
-        paymentPlan.Execute_on_Day__c = null;
+        paymentPlan.Execute_On_Day__c = null;
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
@@ -960,7 +960,7 @@ public class EditPaymentPlanTest {
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
-        paymentPlan.Execute_on_Day__c = null;
+        paymentPlan.Execute_On_Day__c = null;
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
@@ -1028,7 +1028,7 @@ public class EditPaymentPlanTest {
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
-        paymentPlan.Execute_on_Day__c = 1;
+        paymentPlan.Execute_On_Day__c = 1;
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
@@ -1098,7 +1098,7 @@ public class EditPaymentPlanTest {
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
-        paymentPlan.Execute_on_Day__c = null;
+        paymentPlan.Execute_On_Day__c = null;
         insert paymentPlan;
 
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
@@ -1124,7 +1124,7 @@ public class EditPaymentPlanTest {
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
-        paymentPlan.Execute_on_Day__c = 1;
+        paymentPlan.Execute_On_Day__c = 1;
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);
@@ -1261,7 +1261,7 @@ public class EditPaymentPlanTest {
         paymentPlan.Remaining_Balance__c = 100;
         paymentPlan.Installment_Amount__c = 10;
         paymentPlan.Original_Installment_Count__c = 10;
-        paymentPlan.Execute_on_Day__c = 1;
+        paymentPlan.Execute_On_Day__c = 1;
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 121114);

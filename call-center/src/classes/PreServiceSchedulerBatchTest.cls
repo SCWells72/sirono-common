@@ -51,14 +51,14 @@ private class PreServiceSchedulerBatchTest {
 
         Encounter__c encounter1 = TestUtility.generateEncounter(con.Id, -10, Date.today());
         encounter1.Patient__c = con2.Id;
-        encounter1.Date_of_Service__c = System.today().addDays(2);
+        encounter1.Date_Of_Service__c = System.today().addDays(2);
         encounter1.Liability__c = 101;
         encounter1.Cancelled__c = false;
         insert encounter1;
 
         encounter1 = TestUtility.generateEncounter(con1.Id, -10, Date.today());
         encounter1.Patient__c = con2.Id;
-        encounter1.Date_of_Service__c = System.today().addDays(2);
+        encounter1.Date_Of_Service__c = System.today().addDays(2);
         encounter1.Liability__c = 101;
         encounter1.Cancelled__c = false;
         insert encounter1;
@@ -116,14 +116,14 @@ private class PreServiceSchedulerBatchTest {
 
         Encounter__c encounter1 = TestUtility.generateEncounter(con.Id, -10, Date.today());
         encounter1.Patient__c = con2.Id;
-        encounter1.Date_of_Service__c = System.today().addDays(2);
+        encounter1.Date_Of_Service__c = System.today().addDays(2);
         encounter1.Liability__c = 101;
         encounter1.Cancelled__c = false;
         insert encounter1;
 
         encounter1 = TestUtility.generateEncounter(con1.Id, -10, Date.today());
         encounter1.Patient__c = con2.Id;
-        encounter1.Date_of_Service__c = System.today().addDays(2);
+        encounter1.Date_Of_Service__c = System.today().addDays(2);
         encounter1.Liability__c = 101;
         encounter1.Cancelled__c = false;
         insert encounter1;

@@ -72,7 +72,7 @@
             initInfo.paymentPlanId = paymentInfo.paymentPlan.Sirono_ID__c;
             initInfo.totalAmount = paymentInfo.paymentPlan.Remaining_Balance__c;
             initInfo.planValue = paymentInfo.paymentPlan.Installment_Amount__c;
-            initInfo.executeOnDay = paymentInfo.paymentPlan.Execute_on_Day__c;
+            initInfo.executeOnDay = paymentInfo.paymentPlan.Execute_On_Day__c;
             initInfo.totalInstallments = paymentInfo.paymentPlan.Remaining_Installment_Count__c;
             return initInfo;
         }

@@ -97,7 +97,7 @@ public with sharing class PaymentPlanDao extends AbstractDao {
         if (PaymentPlanSecurityContext.GUARANTOR_SELECT.actionAllowed() && PaymentMethodSecurityContext.GUARANTOR_SELECT.actionAllowed()) {
             plans = [
                 SELECT Id, Name, Original_Installment_Count__c, Remaining_Balance__c, Installment_Amount__c, CreatedDate,
-                    NextPaymentDate__c, Plan_Type__c, Remaining_Installment_Count__c, Execute_on_Day__c, Sirono_ID__c,
+                    NextPaymentDate__c, Plan_Type__c, Remaining_Installment_Count__c, Execute_On_Day__c, Sirono_ID__c,
                     Payment_Method__c, Payment_Method__r.Sirono_ID__c, Payment_Method__r.Display_Name__c,
                     Payment_Method__r.Card_Type__c, Payment_Method__r.Last_4__c
                 FROM Payment_Plan__c
@@ -120,7 +120,7 @@ public with sharing class PaymentPlanDao extends AbstractDao {
         if (PaymentPlanSecurityContext.GUARANTOR_SELECT.actionAllowed() && PaymentMethodSecurityContext.GUARANTOR_SELECT.actionAllowed()) {
             plans = [
                 SELECT Id, Name, Original_Installment_Count__c, Remaining_Balance__c, Installment_Amount__c, CreatedDate,
-                    NextPaymentDate__c, Plan_Type__c, Remaining_Installment_Count__c, Execute_on_Day__c, Sirono_ID__c, Guarantor__c,
+                    NextPaymentDate__c, Plan_Type__c, Remaining_Installment_Count__c, Execute_On_Day__c, Sirono_ID__c, Guarantor__c,
                     Payment_Method__c, Payment_Method__r.Sirono_ID__c, Payment_Method__r.Display_Name__c,
                     Payment_Method__r.Card_Type__c, Payment_Method__r.Last_4__c
                 FROM Payment_Plan__c

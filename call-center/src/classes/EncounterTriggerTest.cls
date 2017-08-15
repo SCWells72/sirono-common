@@ -58,7 +58,7 @@ private class EncounterTriggerTest {
 
         encounter.Liability__c = 500;
         encounter.Cancelled__c = true;
-        encounter.Date_of_Service__c = System.today() - 3;
+        encounter.Date_Of_Service__c = System.today() - 3;
         encounter.Guarantor__c = guarantorContact2.Id;
         update encounter;
 

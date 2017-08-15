@@ -27,7 +27,7 @@
                     <label>Cases (Charge Group for Discount)</label>
                     <relatedLists>
                         <hideOnDetail>true</hideOnDetail>
-                        <name>Case.Charge_Group_for_Discount__c</name>
+                        <name>Case.Charge_Group_For_Discount__c</name>
                     </relatedLists>
                 </sidebarComponents>
                 <style>Tabs</style>
@@ -267,7 +267,7 @@
         <fields>NAME</fields>
         <fields>Assigned_To__c</fields>
         <fields>Last_Modified_Date__c</fields>
-        <relatedList>Case.Charge_Group_for_Discount__c</relatedList>
+        <relatedList>Case.Charge_Group_For_Discount__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>

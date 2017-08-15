@@ -169,7 +169,7 @@ public with sharing class GuarantorService extends AbstractService {
     }
 
     /**
-     * Get Contacts with Encounters filtered by Liability__c, Date_of_Service__c, Cancelled__c and contactIds
+     * Get Contacts with Encounters filtered by Liability__c, Date_Of_Service__c, Cancelled__c and contactIds
      *
      * @param Set<Id> contactIds - A set of Contact Ids.
      * @returns List<Contact> - The requested Contacts and all Encounters that meet the criteria.

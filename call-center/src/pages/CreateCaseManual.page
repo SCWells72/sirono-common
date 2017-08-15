@@ -466,7 +466,7 @@
                     <apex:pageBlockSection columns="2">
                         <apex:repeat value="{!if(caseType == 'Billing',$ObjectType.Contact.FieldSets.Billing_Guarantor,
                                 if(caseType == 'Payor',$ObjectType.Contact.FieldSets.Payer_Guarantor,
-                                        if(caseType == 'Quality of Care',$ObjectType.Contact.FieldSets.Quality_of_Care_Guarantor,
+                                        if(caseType == 'Quality of Care',$ObjectType.Contact.FieldSets.Quality_Of_Care_Guarantor,
                                                 if(caseType == 'Sirono Review',$ObjectType.Contact.FieldSets.Sirono_Review_Guarantor,$ObjectType.Contact.FieldSets.Sirono_Review_Guarantor)
                                                 )
                                         )
@@ -486,7 +486,7 @@
                     <apex:pageBlockSection columns="2">
                         <apex:repeat value="{!if(caseType == 'Billing',$ObjectType.Contact.FieldSets.Billing_Patient,
                                 if(caseType == 'Payor',$ObjectType.Contact.FieldSets.Payer_Patient,
-                                        if(caseType == 'Quality of Care',$ObjectType.Contact.FieldSets.Quality_of_Care_Patient,
+                                        if(caseType == 'Quality of Care',$ObjectType.Contact.FieldSets.Quality_Of_Care_Patient,
                                                 if(caseType == 'Sirono Review',$ObjectType.Contact.FieldSets.Sirono_Review_Patient,$ObjectType.Contact.FieldSets.Sirono_Review_Patient)
                                                 )
                                         )

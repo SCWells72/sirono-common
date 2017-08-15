@@ -11,7 +11,7 @@
                 "July", "August", "September", "October", "November", "December"
             ];
             var estimate = component.get('v.estimate');
-            var dateOfService = new Date(estimate.singleEncounter.Date_of_Service__c);
+            var dateOfService = new Date(estimate.singleEncounter.Date_Of_Service__c);
             var year = dateOfService.getFullYear();
             var month = dateOfService.getMonth();
             var day = dateOfService.getDate();

@@ -73,11 +73,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Hours_of_Day__c</field>
+                <field>Hours_Of_Day__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Day_of_Week__c</field>
+                <field>Day_Of_Week__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>

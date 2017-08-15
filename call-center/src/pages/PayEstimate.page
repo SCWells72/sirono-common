@@ -56,7 +56,7 @@
                                     <apex:outputField value="{!enw.en.Patient__c}"/>
                                 </td>
                                 <td class="dataCell">
-                                    <apex:outputField value="{!enw.en.Date_of_Service__c}"/>
+                                    <apex:outputField value="{!enw.en.Date_Of_Service__c}"/>
                                 </td>
                                 <td class="dataCell">
                                     <apex:outputField value="{!enw.en.Procedure__c}"/>

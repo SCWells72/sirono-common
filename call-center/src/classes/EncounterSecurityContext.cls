@@ -14,7 +14,7 @@ public with sharing class EncounterSecurityContext extends SecurityContext {
     // Below field(s) are used for Select/Read permission.
     private static final String BALANCE = 'Balance__c';
     private static final String CANCELLED = 'Cancelled__c';
-    private static final String DATE_OF_SERVICE = 'Date_of_Service__c';
+    private static final String DATE_OF_SERVICE = 'Date_Of_Service__c';
     private static final String GUARANTOR = 'Guarantor__c';
     private static final String ID = 'Id';
     private static final String INSURANCE_DISCOUNT = 'Insurance_Discount__c';

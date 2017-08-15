@@ -81,7 +81,7 @@
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Amount_to_Aggregate__c</fullName>
+        <fullName>Amount_To_Aggregate__c</fullName>
         <externalId>false</externalId>
         <formula>IF(ISBLANK(Payment__c),
   Amount__c,
@@ -111,7 +111,7 @@
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
     <fields>
-        <fullName>Charge_added_since_plan_start__c</fullName>
+        <fullName>Charge_Added_Since_Plan_Start__c</fullName>
         <externalId>false</externalId>
         <formula>AND( Transaction_Date__c &gt; DATEVALUE(Charge_Group__r.Payment_Plan__r.Plan_Value_Modified_Date__c), Amount__c &gt; 0 , Txn_Method__c == &apos;Service&apos; )</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>

@@ -33,7 +33,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Execute_on_Day__c</field>
+                <field>Execute_On_Day__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -49,7 +49,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Time_to_Delinquency__c</field>
+                <field>Time_To_Delinquency__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

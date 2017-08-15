@@ -20,7 +20,7 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
 
     // Below field(s) are use for Select/Read permission.
     private static final String ADJUSTMENT = 'Adjustment2__c';
-    private static final String CHARGE_ADDED_SINCE_PLAN_START = 'Charge_added_since_plan_start__c';
+    private static final String CHARGE_ADDED_SINCE_PLAN_START = 'Charge_Added_Since_Plan_Start__c';
     private static final String LASTMODIFIEDDATE = 'LastModifiedDate';
     private static final String SERVICE = 'Service2__c';
     private static final String TXN_METHOD = 'Txn_Method__c';

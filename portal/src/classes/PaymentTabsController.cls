@@ -36,7 +36,7 @@ public with sharing class PaymentTabsController {
 
         GuarantorPaymentInfo paymentInfo = new GuarantorPaymentInfo();
         paymentInfo.guarantor = guarantor;
-        paymentInfo.addToPaymentAvail = guarantor.Add_to_Payment_Plan__c;
+        paymentInfo.addToPaymentAvail = guarantor.Add_To_Payment_Plan__c;
         paymentInfo.guarantorSironoId = user.guarantorSironoId;
         paymentInfo.chargeGroups = getChargeGroups(user.contactId);
         paymentInfo.settings = SironoSettingsUtil.getPaymentPlanSettings();

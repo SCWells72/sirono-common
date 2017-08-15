@@ -103,7 +103,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Date_of_Service__c</field>
+                <field>Date_Of_Service__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -198,15 +198,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Individual_Out_of_Pocket_Max__c</field>
+                <field>Individual_Out_Of_Pocket_Max__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Individual_Out_of_Pocket_Used__c</field>
+                <field>Individual_Out_Of_Pocket_Used__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Individual_Out_of_Pocket_Remaining__c</field>
+                <field>Individual_Out_Of_Pocket_Remaining__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -234,15 +234,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Family_Out_of_Pocket_MAX__c</field>
+                <field>Family_Out_Of_Pocket_Max__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Family_Out_of_Pocket_Used__c</field>
+                <field>Family_Out_Of_Pocket_Used__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Family_Out_of_Pocket_Remaining__c</field>
+                <field>Family_Out_Of_Pocket_Remaining__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -335,7 +335,7 @@
             <posY>0</posY>
         </summaryLayoutItems>
         <summaryLayoutItems>
-            <field>Date_of_Service__c</field>
+            <field>Date_Of_Service__c</field>
             <posX>0</posX>
             <posY>1</posY>
         </summaryLayoutItems>

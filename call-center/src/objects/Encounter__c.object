@@ -145,7 +145,7 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Date_of_Service__c</fullName>
+        <fullName>Date_Of_Service__c</fullName>
         <externalId>false</externalId>
         <label>Date of Service</label>
         <required>false</required>
@@ -265,7 +265,7 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Family_Out_of_Pocket_MAX__c</fullName>
+        <fullName>Family_Out_Of_Pocket_Max__c</fullName>
         <externalId>false</externalId>
         <label>Family Out of Pocket Max</label>
         <precision>18</precision>
@@ -275,9 +275,9 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Family_Out_of_Pocket_Remaining__c</fullName>
+        <fullName>Family_Out_Of_Pocket_Remaining__c</fullName>
         <externalId>false</externalId>
-        <formula>Family_Out_of_Pocket_MAX__c  - Family_Out_of_Pocket_Used__c</formula>
+        <formula>Family_Out_Of_Pocket_Max__c  - Family_Out_Of_Pocket_Used__c</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Family Out of Pocket Remaining</label>
         <precision>18</precision>
@@ -287,7 +287,7 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Family_Out_of_Pocket_Used__c</fullName>
+        <fullName>Family_Out_Of_Pocket_Used__c</fullName>
         <externalId>false</externalId>
         <label>Family Out of Pocket Used</label>
         <precision>18</precision>
@@ -361,7 +361,7 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Individual_Out_of_Pocket_Max__c</fullName>
+        <fullName>Individual_Out_Of_Pocket_Max__c</fullName>
         <externalId>false</externalId>
         <label>Individual Out of Pocket Max</label>
         <precision>18</precision>
@@ -371,9 +371,9 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Individual_Out_of_Pocket_Remaining__c</fullName>
+        <fullName>Individual_Out_Of_Pocket_Remaining__c</fullName>
         <externalId>false</externalId>
-        <formula>Individual_Out_of_Pocket_Max__c -  Individual_Out_of_Pocket_Used__c</formula>
+        <formula>Individual_Out_Of_Pocket_Max__c -  Individual_Out_Of_Pocket_Used__c</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Individual Out of Pocket Remaining</label>
         <precision>18</precision>
@@ -383,7 +383,7 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Individual_Out_of_Pocket_Used__c</fullName>
+        <fullName>Individual_Out_Of_Pocket_Used__c</fullName>
         <externalId>false</externalId>
         <label>Individual Out of Pocket Used</label>
         <precision>18</precision>
@@ -596,7 +596,7 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <fullName>All</fullName>
         <columns>NAME</columns>
         <columns>Patient__c</columns>
-        <columns>Date_of_Service__c</columns>
+        <columns>Date_Of_Service__c</columns>
         <columns>Procedure__c</columns>
         <columns>Location__c</columns>
         <columns>Patient_Portion__c</columns>
@@ -622,7 +622,7 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <lookupDialogsAdditionalFields>Procedure__c</lookupDialogsAdditionalFields>
         <searchResultsAdditionalFields>Patient__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Guarantor__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Date_of_Service__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Date_Of_Service__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Location__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Procedure__c</searchResultsAdditionalFields>
         <searchResultsCustomButtons>Pay_Estimate</searchResultsCustomButtons>

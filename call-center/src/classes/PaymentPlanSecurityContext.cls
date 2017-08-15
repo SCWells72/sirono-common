@@ -14,7 +14,7 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
     private static final String DELINQUENT = 'Delinquent__c';
     private static final String DELINQUENT_DATE = 'Delinquent_Date__c';
     private static final String ERROR_DATE = 'Error_Date__c';
-    private static final String EXECUTE_ON_DAY = 'Execute_on_Day__c';
+    private static final String EXECUTE_ON_DAY = 'Execute_On_Day__c';
     private static final String GUARANTOR = 'Guarantor__c';
     private static final String HAS_ERROR = 'Has_Error__c';
     private static final String INSTALLMENT_AMOUNT = 'Installment_Amount__c';

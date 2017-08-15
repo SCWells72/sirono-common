@@ -186,7 +186,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>System_Mod_stamp__c</field>
+                <field>System_Mod_Stamp__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

@@ -79,7 +79,7 @@
         <fields>Amount__c</fields>
         <fields>Method__c</fields>
         <fields>Deposit_Date__c</fields>
-        <fields>Collected_by__c</fields>
+        <fields>Collected_By__c</fields>
         <fields>Guarantor__c</fields>
         <relatedList>Payment__c.Payment_Method__c</relatedList>
     </relatedLists>
@@ -89,7 +89,7 @@
         <fields>Remaining_Balance__c</fields>
         <fields>Active__c</fields>
         <fields>Plan_Type__c</fields>
-        <fields>Execute_on_Day__c</fields>
+        <fields>Execute_On_Day__c</fields>
         <fields>NextPaymentDate__c</fields>
         <relatedList>Payment_Plan__c.Payment_Method__c</relatedList>
         <sortField>Active__c</sortField>
