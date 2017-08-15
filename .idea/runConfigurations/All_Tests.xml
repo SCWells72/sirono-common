@@ -1,0 +1,23 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="All Tests" type="com.illuminatedcloud.intellij" factoryName="Apex Unit Tests" show_console_on_std_err="false" show_console_on_std_out="false">
+    <option name="allTests" value="true" />
+    <option name="apexLogLevel" value="DEBUG" />
+    <option name="calloutsLogLevel" value="INFO" />
+    <option name="connectionName" value="sirono_local" />
+    <option name="contextConfiguration" value="false" />
+    <option name="databaseLogLevel" value="INFO" />
+    <option name="logLevelsInitialized" value="true" />
+    <option name="moduleToTestClassNames">
+      <map />
+    </option>
+    <option name="profilingLogLevel" value="INFO" />
+    <option name="systemLogLevel" value="DEBUG" />
+    <option name="testClassToTestMethodNames">
+      <map />
+    </option>
+    <option name="validationLogLevel" value="INFO" />
+    <option name="visualforceLogLevel" value="INFO" />
+    <option name="workflowLogLevel" value="INFO" />
+    <method />
+  </configuration>
+</component>

@@ -299,6 +299,8 @@
         <name>ContentAsset</name>
     </types>
     <types>
+        <members>Sirono_Administration</members>
+        <members>Sirono_Administration_Lightning</members>
         <members>Sirono_Call_Center</members>
         <members>Sirono_Call_Center_Console</members>
         <name>CustomApplication</name>
@@ -844,6 +846,7 @@
         <members>Sirono_Administrator</members>
         <name>PermissionSet</name>
     </types>
+    <!-- TODO: Remove this once we can use Service Cloud licenses -->
     <types>
         <members>Sirono User</members>
         <name>Profile</name>
