@@ -49,6 +49,9 @@
     <target name="deploy" depends="processTemplates, _deploy"/>
 
     <!-- Deploy without tests -->
-    <target name="deployNoTests" depends="processTemplates, _deployNoTests"/>
+    <target name="deployNoTests" depends="processTemplates, _deployNoTests" description="Deploys metadata without running unit tests"/>
+
+    <!-- Undeploy obsolete metadata -->
+    <target name="undeployCode" depends="build-common.undeployCode" description="Undeploys obsolete metadata without running unit tests"/>
 
 </project>

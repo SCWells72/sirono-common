@@ -2,7 +2,7 @@
   ~ Copyright (c) 2017-present Sirono LLC, All rights reserved
   -->
 
-<project name="sirono-all" default="deployCheckOnly"
+<project name="SironoAll" default="deployCheckOnly"
         xmlns:sf="antlib:com.salesforce"
         xmlns:ml="org.missinglink.ant.task.http.HttpClientTask"
         basedir="..">
@@ -22,7 +22,7 @@
     <import file="build-common.xml"/>
     <property name="deployRoot" value="${workDir}"/>
 
-    <target name="help" description="default">
+    <target name="help">
         <echo message="Targets to run to test/deploy the full suite"/>
     </target>
 
@@ -78,4 +78,17 @@
     <target name="processTemplates">
         <echo level="info">processTemplates in: ${ant.project.name}</echo>
     </target>
+
+    <!-- Composite targets for dev efficiency -->
+
+    <target name="deployNoTests" description="Deploys metadata for all modules without running unit tests">
+        <ant dir="call-center/build" antfile="build.xml" target="deployNoTests" inheritall="false" usenativebasedir="true"/>
+        <ant dir="portal/build" antfile="build.xml" target="deployNoTests" inheritall="false" usenativebasedir="true"/>
+    </target>
+
+    <target name="undeployCode" description="Undeploys obsolete metadata for all modules without running unit tests">
+        <ant dir="call-center/build" antfile="build.xml" target="undeployCode" inheritall="false" usenativebasedir="true"/>
+        <ant dir="portal/build" antfile="build.xml" target="undeployCode" inheritall="false" usenativebasedir="true"/>
+    </target>
+
 </project>
