@@ -65,7 +65,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Processor_Transaction_ID__c</field>
+                <field>Processor_Transaction_Id__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -131,7 +131,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Sirono_ID__c</field>
+                <field>Sirono_Id__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -144,7 +144,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>ID__c</field>
+                <field>Id__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>

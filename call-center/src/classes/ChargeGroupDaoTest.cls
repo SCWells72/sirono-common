@@ -25,8 +25,8 @@ public with sharing class ChargeGroupDaoTest {
         List<Charge_Group__c> cgToAddList = TestUtility.generateChargeGroupList(gt.Id);
         Decimal i = 1;
         for (Charge_Group__c cg : cgToAddList) {
-            cg.Sirono_ID__c = i++;
-            cg.External_Guarantor_ID__c = exgt.Id;
+            cg.Sirono_Id__c = i++;
+            cg.External_Guarantor_Id__c = exgt.Id;
             cg.Patient__c = pt.Id;
         }
 
@@ -35,7 +35,7 @@ public with sharing class ChargeGroupDaoTest {
 
 
         // Check system assert.
-        System.assertEquals(1, cgToAddList[0].Sirono_ID__c, 'Expected Chargegroup Sirono_ID__c equals to 1 but we got ' + cgToAddList[0].Sirono_ID__c);
+        System.assertEquals(1, cgToAddList[0].Sirono_Id__c, 'Expected Chargegroup Sirono_Id__c equals to 1 but we got ' + cgToAddList[0].Sirono_Id__c);
     }
 
     @IsTest
@@ -49,7 +49,7 @@ public with sharing class ChargeGroupDaoTest {
 
         Map<Decimal, Charge_Group__c> cgMap = new Map<Decimal, Charge_Group__c>();
         for (Charge_Group__c cg : cgs) {
-            cgMap.put(cg.Sirono_ID__c, cg);
+            cgMap.put(cg.Sirono_Id__c, cg);
         }
 
         for (Decimal sironoId : cgSironoIds) {
@@ -69,7 +69,7 @@ public with sharing class ChargeGroupDaoTest {
 
         Map<Decimal, Charge_Group__c> cgMap = new Map<Decimal, Charge_Group__c>();
         for (Charge_Group__c cg : cgs) {
-            cgMap.put(cg.Sirono_ID__c, cg);
+            cgMap.put(cg.Sirono_Id__c, cg);
         }
 
         for (Decimal sironoId : cgSironoIds) {
@@ -84,20 +84,20 @@ public with sharing class ChargeGroupDaoTest {
     @IsTest
     public static void updateChargeGroupsTest() {
 
-        Charge_Group__c[] cgs = [SELECT Id, Name, Sirono_ID__c FROM Charge_Group__c];
+        Charge_Group__c[] cgs = [SELECT Id, Name, Sirono_Id__c FROM Charge_Group__c];
 
         for (Charge_Group__c cg : cgs) {
-            cg.Name = 'test_name_' + cg.Sirono_ID__c;
+            cg.Name = 'test_name_' + cg.Sirono_Id__c;
         }
 
         Test.startTest();
         ChargeGroupDao.updateChargeGroups(cgs);
         Test.stopTest();
 
-        cgs = [SELECT Id, Name, Sirono_ID__c FROM Charge_Group__c];
+        cgs = [SELECT Id, Name, Sirono_Id__c FROM Charge_Group__c];
 
         for (Charge_Group__c cg : cgs) {
-            String newName = 'test_name_' + cg.Sirono_ID__c;
+            String newName = 'test_name_' + cg.Sirono_Id__c;
             System.assertEquals(cg.Name, newName, 'Chargegroup name expected: ' + newName + ' but is: ' + cg.Name);
         }
     }
@@ -205,7 +205,7 @@ public with sharing class ChargeGroupDaoTest {
         Decimal cgSironoId = 123456;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, cgSironoId);
-        chargeGroup.Sirono_ID__c = cgSironoId;
+        chargeGroup.Sirono_Id__c = cgSironoId;
         insert chargeGroup;
 
         Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);
@@ -233,7 +233,7 @@ public with sharing class ChargeGroupDaoTest {
         Decimal cgSironoId = 123456;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, cgSironoId);
-        chargeGroup.Sirono_ID__c = cgSironoId;
+        chargeGroup.Sirono_Id__c = cgSironoId;
         insert chargeGroup;
 
         Case objCase = TestUtility.generateCase(RecordTypeUtil.automatedCaseRt, Constants.CASE_TYPE_OVERDUE, guarantorContact.Id);

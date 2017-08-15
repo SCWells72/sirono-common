@@ -77,7 +77,7 @@
                                 <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_Start_Date__c}"/>
                                 -
                                 <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_End_Date__c}"/>
-                                <div>ID Number: {!group.cGroup.External_ID__c}</div>
+                                <div>ID Number: {!group.cGroup.External_Id__c}</div>
                                 <div>Location: {!group.cGroup.Location__r.Name}</div>
                             </div>
                             <div class="col charges">

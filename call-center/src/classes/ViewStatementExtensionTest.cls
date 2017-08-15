@@ -15,7 +15,7 @@ public class ViewStatementExtensionTest {
     @TestSetup
     static void setupData() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = Decimal.valueOf(RestClientConstants.GUARANTOR_ID);
+        guarantorContact.Profile_Pointer_Id__c = Decimal.valueOf(RestClientConstants.GUARANTOR_ID);
         insert guarantorContact;
 
         Statement__c statement = TestUtility.generateStatement(guarantorContact.Id);
@@ -40,7 +40,7 @@ public class ViewStatementExtensionTest {
         // Find the statement for the first statement date
         Date stmtDate = Date.parse(RestClientConstants.STATEMENT_DATES[0]);
         Statement__c stmt = [
-            SELECT Id, Guarantor__r.Profile_Pointer_ID__c, Statement_Date__c
+            SELECT Id, Guarantor__r.Profile_Pointer_Id__c, Statement_Date__c
             FROM Statement__c
             WHERE Statement_Date__c = :stmtDate
             LIMIT 1
@@ -79,7 +79,7 @@ public class ViewStatementExtensionTest {
         // Find the statement for the last statement date (it doesn't have a url)
         Date stmtDate = Date.parse(RestClientConstants.STATEMENT_DATES[RestClientConstants.STATEMENT_DATES.size() - 1]);
         Statement__c stmt = [
-            SELECT Id, Guarantor__r.Profile_Pointer_ID__c, Statement_Date__c
+            SELECT Id, Guarantor__r.Profile_Pointer_Id__c, Statement_Date__c
             FROM Statement__c
             WHERE Statement_Date__c = :stmtDate
             LIMIT 1

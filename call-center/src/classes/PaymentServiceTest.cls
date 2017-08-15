@@ -8,7 +8,7 @@ public class PaymentServiceTest {
     @TestSetup
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
-        gt.Profile_Pointer_ID__c = Decimal.valueOf(PaymentRestClientMock.GT_SIRONO_ID);
+        gt.Profile_Pointer_Id__c = Decimal.valueOf(PaymentRestClientMock.GT_SIRONO_ID);
         insert gt;
 
         Contact pt = TestUtility.generatePatientContact();
@@ -16,7 +16,7 @@ public class PaymentServiceTest {
         insert pt;
 
         Charge_Group__c cg = TestUtility.generateChargeGroup(gt.Id, pt.Id, 12345.00);
-        cg.Sirono_ID__c = Decimal.valueOf(PaymentRestClientMock.CG_SIRONO_ID);
+        cg.Sirono_Id__c = Decimal.valueOf(PaymentRestClientMock.CG_SIRONO_ID);
         cg.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DUE_BY;
         insert cg;
@@ -31,7 +31,7 @@ public class PaymentServiceTest {
     public static PaymentRequest buildValidRequest() {
         Contact gt = GuarantorDao.getGuarantorBySironoId(PaymentRestClientMock.GT_SIRONO_ID);
         Charge_Group__c[] cgs = [
-            SELECT Id, Guarantor__c, Balance__c, Sirono_ID__c
+            SELECT Id, Guarantor__c, Balance__c, Sirono_Id__c
             FROM Charge_Group__c
             WHERE Account_Status__c = :Constants.ACCT_STATUS_BILLED
             AND Guarantor__c = :gt.Id

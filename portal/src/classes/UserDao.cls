@@ -20,7 +20,7 @@ public with sharing class UserDao extends AbstractDao {
                 Id,
                 ContactId,
                 Contact.FirstName,
-                Contact.Profile_Pointer_ID__c
+                Contact.Profile_Pointer_Id__c
             FROM User
             WHERE Id = :userId
         ];

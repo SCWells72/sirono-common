@@ -117,9 +117,9 @@ public class PaymentPlanJSONParsing extends AbstractSironoJSONParser {
 
             if (!String.isBlank(planSironoIdStr)) {
                 Decimal planSironoId = Decimal.valueOf(planSironoIdStr);
-                paymentPlanObj.Sirono_ID__c = planSironoId;
+                paymentPlanObj.Sirono_Id__c = planSironoId;
                 // TODO remove when name is turned into an autonumber field
-                paymentPlanObj.Name = String.valueOf(paymentPlanObj.Sirono_ID__c);
+                paymentPlanObj.Name = String.valueOf(paymentPlanObj.Sirono_Id__c);
                 Payment_Plan__c paymentPlan = PaymentPlanDao.getPaymentPlanBySironoId(planSironoId);
                 if (paymentPlan != null) {
                     paymentPlanObj.Id = paymentPlan.Id ;

@@ -27,7 +27,7 @@ public with sharing class PaymentPlanSecurityContext extends SecurityContext {
     private static final String PLAN_TYPE = 'Plan_Type__c';
     private static final String PLAN_VALUE_MODIFIED_DATE = 'Plan_Value_Modified_Date__c';
     private static final String REMAINING_BALANCE = 'Remaining_Balance__c';
-    private static final String SIRONO_ID = 'Sirono_ID__c';
+    private static final String SIRONO_ID = 'Sirono_Id__c';
     private static final String SKIP_PAYMENT_UNTIL = 'Skip_Payment_Until__c';
     private static final String STANDING = 'Payment_Plan_Standing__c';
     private static final String STATUS = 'Status__c';

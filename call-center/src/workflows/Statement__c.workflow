@@ -3,7 +3,7 @@
     <fieldUpdates>
         <fullName>Statement_Name</fullName>
         <field>Name</field>
-        <formula>TEXT( Large_Statement_ID__c ) &amp; &apos;-&apos; &amp; TEXT( Small_Statement_ID__c )</formula>
+        <formula>TEXT( Large_Statement_Id__c ) &amp; &apos;-&apos; &amp; TEXT( Small_Statement_Id__c )</formula>
         <name>Statement Name</name>
         <notifyAssignee>false</notifyAssignee>
         <operation>Formula</operation>

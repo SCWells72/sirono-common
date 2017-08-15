@@ -10,13 +10,13 @@ private class DeletePaymentPlanTest {
     @TestSetup
     public static void setupData() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = 23232323;
+        guarantorContact.Profile_Pointer_Id__c = 23232323;
         insert guarantorContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
         paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
-        paymentPlan.Sirono_ID__c = 2876;
+        paymentPlan.Sirono_Id__c = 2876;
         insert paymentPlan;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1321212);
@@ -29,7 +29,7 @@ private class DeletePaymentPlanTest {
         Payment_Plan__c paymentPlan = [
                 SELECT Active__c,
                         Id,
-                        Sirono_ID__c
+                        Sirono_Id__c
                 FROM Payment_Plan__c
                 WHERE Guarantor__c = :guarantorContact.Id];
 
@@ -58,7 +58,7 @@ private class DeletePaymentPlanTest {
         Payment_Plan__c paymentPlan = [
                 SELECT Active__c,
                         Id,
-                        Sirono_ID__c
+                        Sirono_Id__c
                 FROM Payment_Plan__c
                 WHERE Guarantor__c = :guarantorContact.Id];
 
@@ -100,16 +100,16 @@ private class DeletePaymentPlanTest {
         Payment_Plan__c paymentPlan = [
                 SELECT Active__c,
                         Id,
-                        Guarantor__r.Profile_Pointer_ID__c,
-                        Sirono_ID__c
+                        Guarantor__r.Profile_Pointer_Id__c,
+                        Sirono_Id__c
                 FROM Payment_Plan__c];
-        ApexPages.currentPage().getParameters().put('guarantorId', paymentPlan.Guarantor__r.Profile_Pointer_ID__c.toPlainString());
-        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Sirono_ID__c.toPlainString());
+        ApexPages.currentPage().getParameters().put('guarantorId', paymentPlan.Guarantor__r.Profile_Pointer_Id__c.toPlainString());
+        ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Sirono_Id__c.toPlainString());
         DeletePaymentPlan objDeletePaymentPlan = new DeletePaymentPlan();
         PageReference pr = objDeletePaymentPlan.cancel();
 
         System.assertEquals(0, ApexPages.getMessages().size(), 'Expected no message on cancel');
-        System.assert(pr.getUrl().endsWith(paymentPlan.Sirono_ID__c.toPlainString()));
+        System.assert(pr.getUrl().endsWith(paymentPlan.Sirono_Id__c.toPlainString()));
     }
     
     /**

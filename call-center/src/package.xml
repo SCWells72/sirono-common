@@ -307,7 +307,7 @@
     <types>
         <members>Account.External_Account_Name__c</members>
         <members>Activity.Call_End_Time__c</members>
-        <members>Activity.Call_ID__c</members>
+        <members>Activity.Call_Id__c</members>
         <members>Activity.Call_Start_Time__c</members>
         <members>Activity.Day_Of_Week__c</members>
         <members>Activity.Disposition__c</members>
@@ -315,11 +315,11 @@
         <members>Activity.Hour_Of_Day__c</members>
         <members>Activity.Hours_Of_Day__c</members>
         <members>Activity.Recording__c</members>
-        <members>Activity.Salesforce_ID__c</members>
-        <members>CampaignMember.Case_ID__c</members>
-        <members>Case.Asset_ID__c</members>
+        <members>Activity.Salesforce_Id__c</members>
+        <members>CampaignMember.Case_Id__c</members>
+        <members>Case.Asset_Id__c</members>
         <members>Case.Assigned_To__c</members>
-        <members>Case.Author_ID__c</members>
+        <members>Case.Author_Id__c</members>
         <members>Case.Caller_CaseClaim__c</members>
         <members>Case.Caller_Contact_Fax__c</members>
         <members>Case.Caller_Contact_Number__c</members>
@@ -332,11 +332,11 @@
         <members>Case.Claim__c</members>
         <members>Case.Closed_Date__c</members>
         <members>Case.Closed_Reason__c</members>
-        <members>Case.Contact_ID__c</members>
+        <members>Case.Contact_Id__c</members>
         <members>Case.Contact_Number__c</members>
         <members>Case.Contact_Event__c</members>
         <members>Case.Created_At__c</members>
-        <members>Case.Created_By_ID__c</members>
+        <members>Case.Created_By_Id__c</members>
         <members>Case.Created_Date__c</members>
         <members>Case.Cred_Card_Last_4_Check_Number__c</members>
         <members>Case.Date_Of_Death__c</members>
@@ -356,16 +356,16 @@
         <members>Case.Guarantor_Information__c</members>
         <members>Case.Has_CSS_Comments__c</members>
         <members>Case.Has_Comments_Unread__c</members>
-        <members>Case.ID__c</members>
+        <members>Case.Id__c</members>
         <members>Case.Informed_Caller_To_Mail_Death_Certificat__c</members>
         <members>Case.Insurance_Type__c</members>
         <members>Case.Is_Closed__c</members>
         <members>Case.Is_Escalated__c</members>
-        <members>Case.Last_Modified_By_ID__c</members>
+        <members>Case.Last_Modified_By_Id__c</members>
         <members>Case.Last_Modified_Date__c</members>
         <members>Case.Link_To_Item__c</members>
         <members>Case.Mail_In_Proof_Of_Bankruptcy_And_Terms__c</members>
-        <members>Case.Merge_With_Guarantor_ID__c</members>
+        <members>Case.Merge_With_Guarantor_Id__c</members>
         <members>Case.Modified_At__c</members>
         <members>Case.New_City__c</members>
         <members>Case.New_Country__c</members>
@@ -389,20 +389,20 @@
         <members>Case.Object__c</members>
         <members>Case.Origin_Code__c</members>
         <members>Case.Origin__c</members>
-        <members>Case.Owner_ID__c</members>
+        <members>Case.Owner_Id__c</members>
         <members>Case.Patient_DOB__c</members>
         <members>Case.Patient_MRN__c</members>
         <members>Case.Patient__c</members>
         <members>Case.Payment_Delivered__c</members>
         <members>Case.Payment_Method__c</members>
-        <members>Case.Payment_Plan_ID__c</members>
+        <members>Case.Payment_Plan_Id__c</members>
         <members>Case.Payor__c</members>
         <members>Case.Person_To_Contact__c</members>
         <members>Case.Plan_Type__c</members>
         <members>Case.Severity__c</members>
         <members>Case.Special_Instructions__c</members>
         <members>Case.Special_Notes__c</members>
-        <members>Case.Subscriber_ID__c</members>
+        <members>Case.Subscriber_Id__c</members>
         <members>Case.Subscriber_Name__c</members>
         <members>Case.Summary_Text__c</members>
         <members>Case.Supplied_Company__c</members>
@@ -429,7 +429,7 @@
         <members>Contact.Due_Balance__c</members>
         <members>Contact.Estimate_Balance__c</members>
         <members>Contact.External_Guarantor_Id__c</members>
-        <members>Contact.External_ID__c</members>
+        <members>Contact.External_Id__c</members>
         <members>Contact.Full_Name__c</members>
         <members>Contact.Guarantor_Patient_Id__c</members>
         <members>Contact.Guarantor_Status__c</members>
@@ -455,7 +455,7 @@
         <members>Contact.Payment_Proclivity_Score__c</members>
         <members>Contact.Pre_Invoiced_Balance__c</members>
         <members>Contact.Preferred_Contact__c</members>
-        <members>Contact.Profile_Pointer_ID__c</members>
+        <members>Contact.Profile_Pointer_Id__c</members>
         <members>Contact.Sex__c</members>
         <members>Contact.Skip_Invoice_Stmt_Until__c</members>
         <members>Contact.Social_Security_Number__c</members>
@@ -464,7 +464,7 @@
         <members>Contact.Total_Balance__c</members>
         <members>Contact.Verified_Email__c</members>
         <members>Contact.Vital_Status__c</members>
-        <members>Contact.X18_Digit_ID__c</members>
+        <members>Contact.X18_Digit_Id__c</members>
         <name>CustomField</name>
     </types>
     <types>

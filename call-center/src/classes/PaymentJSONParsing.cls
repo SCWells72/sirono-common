@@ -60,11 +60,11 @@ public class PaymentJSONParsing extends AbstractSironoJSONParser {
 
         objPayment.Method__c = objJson.method;
         objPayment.Last_4__c = objJson.last_4;
-        objPayment.Processor_Transaction_ID__c = objJson.processor_transaction_id;
+        objPayment.Processor_Transaction_Id__c = objJson.processor_transaction_id;
 
         objPayment.Amount__c = convertToDollars(objJson.amount);
         String sironoId = parseSironoId(objJson.url,'payments');
-        objPayment.Sirono_ID__c = Decimal.valueOf(sironoId);
+        objPayment.Sirono_Id__c = Decimal.valueOf(sironoId);
         objPayment.Name = sironoId;
 
         return objPayment;

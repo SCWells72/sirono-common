@@ -240,7 +240,7 @@ public with sharing class CreateCaseManual {
             //Get Transaction detail based on Selected Charge Group.
             if (TransactionSecurityContext.CCM_SELECT_CONTEXT.actionAllowed()) {
                 List<Transaction__c> transactionDetail = [
-                    SELECT Sirono_ID__c, Amount__c
+                    SELECT Sirono_Id__c, Amount__c
                     FROM Transaction__c
                     WHERE Charge_Group__c = :chargeGroup.Id
                     ORDER BY LastModifiedDate DESC

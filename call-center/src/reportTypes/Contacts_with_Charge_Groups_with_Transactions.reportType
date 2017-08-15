@@ -296,7 +296,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Profile_Pointer_ID__c</field>
+            <field>Profile_Pointer_Id__c</field>
             <table>Contact</table>
         </columns>
         <columns>
@@ -356,7 +356,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>X18_Digit_ID__c</field>
+            <field>X18_Digit_Id__c</field>
             <table>Contact</table>
         </columns>
         <columns>
@@ -411,7 +411,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>External_ID__c</field>
+            <field>External_Id__c</field>
             <table>Contact</table>
         </columns>
         <columns>
@@ -479,12 +479,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Sirono_ID__c</field>
+            <field>Sirono_Id__c</field>
             <table>Contact.Charge_Groups__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>External_ID__c</field>
+            <field>External_Id__c</field>
             <table>Contact.Charge_Groups__r</table>
         </columns>
         <columns>
@@ -629,7 +629,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Charge_Group_External_ID__c</field>
+            <field>Charge_Group_External_Id__c</field>
             <table>Contact.Charge_Groups__r</table>
         </columns>
         <columns>
@@ -639,7 +639,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>External_Guarantor_ID__c</field>
+            <field>External_Guarantor_Id__c</field>
             <table>Contact.Charge_Groups__r</table>
         </columns>
         <columns>
@@ -722,7 +722,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Sirono_ID__c</field>
+            <field>Sirono_Id__c</field>
             <table>Contact.Charge_Groups__r.Transactions__r</table>
         </columns>
         <columns>

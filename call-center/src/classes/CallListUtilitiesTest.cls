@@ -23,7 +23,7 @@ public class CallListUtilitiesTest {
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DUE_BY;
-        chargeGroup.Sirono_ID__c = 123;
+        chargeGroup.Sirono_Id__c = 123;
         insert chargeGroup;
 
         Transaction__c transactionObj = TestUtility.generateTransaction(chargeGroup, -101, Constants.AUTOMATIC);
@@ -33,7 +33,7 @@ public class CallListUtilitiesTest {
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
-        chargeGroup.Sirono_ID__c = 123444;
+        chargeGroup.Sirono_Id__c = 123444;
         chargeGroup.Pre_Collection_Sent__c = System.today();
         insert chargeGroup;
 
@@ -72,7 +72,7 @@ public class CallListUtilitiesTest {
 
         // Check system assert.
         List<CampaignMember> campaignMembers = [
-            SELECT Id, CampaignId, ContactId, Case_ID__c
+            SELECT Id, CampaignId, ContactId, Case_Id__c
             FROM CampaignMember
             WHERE CampaignId = :lstCampaign[0].Id
         ];
@@ -94,7 +94,7 @@ public class CallListUtilitiesTest {
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DUE_BY;
-        chargeGroup.Sirono_ID__c = 123;
+        chargeGroup.Sirono_Id__c = 123;
         insert chargeGroup;
 
         Transaction__c transactionObj = TestUtility.generateTransaction(chargeGroup, -101, Constants.AUTOMATIC);
@@ -102,7 +102,7 @@ public class CallListUtilitiesTest {
 
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
         chargeGroup.Account_Status__c = Constants.ACCT_STATUS_BILLED;
-        chargeGroup.Sirono_ID__c = 123444;
+        chargeGroup.Sirono_Id__c = 123444;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_DELINQUENT;
         insert chargeGroup;
 
@@ -139,7 +139,7 @@ public class CallListUtilitiesTest {
 
         // Check system assert.
         List<CampaignMember> campaignMembers = [
-            SELECT Id, CampaignId, ContactId, Case_ID__c
+            SELECT Id, CampaignId, ContactId, Case_Id__c
             FROM CampaignMember
             WHERE CampaignId = :lstCampaign[0].Id
         ];
@@ -179,7 +179,7 @@ public class CallListUtilitiesTest {
 
         // Check system assert. Don't remove campaign member because of we do not insert charge group.
         List<CampaignMember> campaignMembers = [
-            SELECT Id, CampaignId, ContactId, Case_ID__c
+            SELECT Id, CampaignId, ContactId, Case_Id__c
             FROM CampaignMember
             WHERE CampaignId = :lstCampaign[0].Id
         ];

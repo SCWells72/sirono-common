@@ -23,7 +23,7 @@ public with sharing class ContactInvoicedBalanceTest {
 
         // Create Charge Group record with 'Overdue' Sub Status.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, CG_SIRONO_ID);
-        chargeGroup.Sirono_ID__c = CG_SIRONO_ID;
+        chargeGroup.Sirono_Id__c = CG_SIRONO_ID;
         insert chargeGroup;
 
         // Create Transaction Record.
@@ -47,7 +47,7 @@ public with sharing class ContactInvoicedBalanceTest {
         return [
             SELECT Id, Has_Credit_Balance__c, Has_Invoiced_Balance__c
             FROM Charge_Group__c
-            WHERE Sirono_ID__c = :CG_SIRONO_ID
+            WHERE Sirono_Id__c = :CG_SIRONO_ID
         ];
     }
 
@@ -134,7 +134,7 @@ public with sharing class ContactInvoicedBalanceTest {
 
         // Create Charge Group record with "Credit" Sub Status.
         Charge_Group__c cg = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1234);
-        cg.Sirono_ID__c = 1234;
+        cg.Sirono_Id__c = 1234;
         cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_CREDIT;
         insert cg;
 
@@ -175,7 +175,7 @@ public with sharing class ContactInvoicedBalanceTest {
 
         // Create Charge Group record with "Credit" Sub Status.
         Charge_Group__c cg = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1234);
-        cg.Sirono_ID__c = 1234;
+        cg.Sirono_Id__c = 1234;
         cg.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_CREDIT;
         insert cg;
 

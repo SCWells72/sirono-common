@@ -47,9 +47,9 @@ public with sharing class EncounterDao {
             }
 
             String query = 'SELECT (SELECT Amount__c, Deposit_Date__c FROM Payments__r), ' +
-                'Id, Name, Patient__r.Name, Estimate_ID__c, Patient_Portion__c, ' +
+                'Id, Name, Patient__r.Name, Estimate_Id__c, Patient_Portion__c, ' +
                 'Date_Of_Service__c, Patient__r.Medical_Record_Number__c, Procedure__c, ' +
-                'Location__c, Encounter_ID__c, Total_Charges__c, Insurance_Discount__c, ' +
+                'Location__c, Encounter_Id__c, Total_Charges__c, Insurance_Discount__c, ' +
                 'Insurance_Portion__c, Total_Payments__c, Balance__c, Type__c, Ordering_Physician__c, ' +
                 'Coverage__c, Coverage__r.Name, ' +
                 '(SELECT Id  FROM Attachments ORDER BY CreatedDate DESC LIMIT 1)' +

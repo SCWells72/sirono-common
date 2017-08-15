@@ -79,7 +79,7 @@ public with sharing class PaymentTabsControllerTest {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         User portalUser = PortalTestUtility.getGuarantorCommunityUser();
         // Update the mock response to use the community guarantor sirono id.
-        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_ID__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
 
         Map<String, Object> ppInfoMap = new Map<String, Object>();
         ppInfoMap.put(PaymentPlanInformation.PLAN_TYPE, PortalConstants.PLANTYPE_AUTO);
@@ -131,7 +131,7 @@ public with sharing class PaymentTabsControllerTest {
 
         User portalUser = PortalTestUtility.getGuarantorCommunityUser();
         User adminUser = PortalTestUtility.getPortalAdminUser();
-        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_ID__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
 
 
         Payment_Plan__c createdPlan = insertPaymentPlan(adminUser);
@@ -173,7 +173,7 @@ public with sharing class PaymentTabsControllerTest {
 
         User portalUser = PortalTestUtility.getGuarantorCommunityUser();
         User adminUser = PortalTestUtility.getPortalAdminUser();
-        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_ID__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
 
 
         Payment_Plan__c createdPlan = insertPaymentPlan(adminUser);
@@ -253,7 +253,7 @@ public with sharing class PaymentTabsControllerTest {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         User portalUser = PortalTestUtility.getGuarantorCommunityUser();
         User adminUser = PortalTestUtility.getPortalAdminUser();
-        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_ID__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
 
         insertPaymentPlan(adminUser);
 
@@ -303,11 +303,11 @@ public with sharing class PaymentTabsControllerTest {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         User portalUser = PortalTestUtility.getGuarantorCommunityUser();
         User adminUser = PortalTestUtility.getPortalAdminUser();
-        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_ID__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
 
 
         Payment_Plan__c createdPlan = insertPaymentPlan(adminUser);
-        MockHttpResponseGenerator.planSironoId = createdPlan.Sirono_ID__c.toPlainString();
+        MockHttpResponseGenerator.planSironoId = createdPlan.Sirono_Id__c.toPlainString();
 
         Payment_Plan__c p1 = [SELECT Id, Active__c, Cancellation_Date__c FROM Payment_Plan__c WHERE Id = :createdPlan.Id];
 
@@ -330,7 +330,7 @@ public with sharing class PaymentTabsControllerTest {
     public static void testDeletePaymentPlanNoPlanFound() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         User portalUser = PortalTestUtility.getGuarantorCommunityUser();
-        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_ID__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.Profile_Pointer_Id__c.toPlainString();
 
         System.runAs(portalUser) {
             try {

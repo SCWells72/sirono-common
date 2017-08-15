@@ -124,7 +124,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Profile_Pointer_ID__c</field>
+                <field>Profile_Pointer_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -270,7 +270,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>X18_Digit_ID__c</field>
+                <field>X18_Digit_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -305,7 +305,7 @@
         <fields>MobilePhone</fields>
         <fields>OtherPhone</fields>
         <fields>MailingAddress</fields>
-        <fields>Profile_Pointer_ID__c</fields>
+        <fields>Profile_Pointer_Id__c</fields>
         <relatedLists>
             <fields>NAME</fields>
             <relatedList>Charge_Group__c.Guarantor__c</relatedList>

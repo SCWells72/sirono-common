@@ -107,14 +107,14 @@ public class AddPaymentPlanVFControllerTest {
     @IsTest
     public static void testCreatePaymentPlan() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = 23232323;
+        guarantorContact.Profile_Pointer_Id__c = 23232323;
         insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();
         insert patientContact;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1321212);
-        chargeGroup.Sirono_ID__c = 1321212;
+        chargeGroup.Sirono_Id__c = 1321212;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
 

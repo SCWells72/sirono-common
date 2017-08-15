@@ -9,7 +9,7 @@ public class PaymentPlanTriggerHandlerTest {
     // NOTE: Keeping this out of setup method because it might be parameterized per-test
     private static Contact createPaymentPlanPrereqs() {
         Contact guarantor = TestUtility.generateGuarantorContact();
-        guarantor.Profile_Pointer_ID__c = 100.0;
+        guarantor.Profile_Pointer_Id__c = 100.0;
         insert guarantor;
 
         Contact patientContact = TestUtility.generatePatientContact();

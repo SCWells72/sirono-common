@@ -70,7 +70,7 @@ public with sharing class CreateAdjustment {
         if (guarantorRecordId != null) {
             Contact gt = GuarantorService.getGuarantorWithActiveCG(guarantorRecordId);
             guarantorName = GuarantorService.buildGuarantorDetailString(gt);
-            guarantorId = gt.Profile_Pointer_ID__c.toPlainString();
+            guarantorId = gt.Profile_Pointer_Id__c.toPlainString();
             chargeGroupList = ChargeGroupWrapper.buildList(gt);
             chargeGroupId = '';
         }

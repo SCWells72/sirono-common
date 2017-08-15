@@ -15,7 +15,7 @@ public with sharing class PaymentPlanServiceTest {
     @TestSetup
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
-        gt.Profile_Pointer_ID__c = 23232323;
+        gt.Profile_Pointer_Id__c = 23232323;
         insert gt;
 
         Contact pt = TestUtility.generatePatientContact();
@@ -25,13 +25,13 @@ public with sharing class PaymentPlanServiceTest {
 
         Payment_Plan__c pp = TestUtility.generatePaymentPlan(gt);
         pp.Plan_Type__c = Constants.AUTOMATIC;
-        pp.Sirono_ID__c = Decimal.valueOf(PLAN_SIRONO_ID);
+        pp.Sirono_Id__c = Decimal.valueOf(PLAN_SIRONO_ID);
         pp.Plan_Value_Modified_Date__c = createdDT;
         insert pp;
         Test.setCreatedDate(pp.Id, createdDT);
 
         Charge_Group__c cg = TestUtility.generateChargeGroup(gt.Id, pt.Id, CG_SIRONO_ID, pp.Id);
-        cg.Sirono_ID__c = CG_SIRONO_ID;
+        cg.Sirono_Id__c = CG_SIRONO_ID;
         insert cg;
 
         Service2__c svc = TestUtility.generateService(gt, 450.00);
@@ -41,7 +41,7 @@ public with sharing class PaymentPlanServiceTest {
         insert txn;
 
         cg = TestUtility.generateChargeGroup(gt.Id, pt.Id, CG_TO_ADD_ID);
-        cg.Sirono_ID__c = CG_TO_ADD_ID;
+        cg.Sirono_Id__c = CG_TO_ADD_ID;
         insert cg;
 
         svc = TestUtility.generateService(gt, 200.00);
@@ -51,7 +51,7 @@ public with sharing class PaymentPlanServiceTest {
         insert txn;
 
         // Check system assert.
-        System.assertEquals(Decimal.valueOf(PLAN_SIRONO_ID), pp.Sirono_ID__c, 'Expected ' + PLAN_SIRONO_ID + ' but got ' + pp.Sirono_ID__c);
+        System.assertEquals(Decimal.valueOf(PLAN_SIRONO_ID), pp.Sirono_Id__c, 'Expected ' + PLAN_SIRONO_ID + ' but got ' + pp.Sirono_Id__c);
     }
 
     /*
@@ -67,13 +67,13 @@ public with sharing class PaymentPlanServiceTest {
         Test.stopTest();
 
         Payment_Plan__c pp = [
-            SELECT Id, Sirono_ID__c, Plan_Value_Modified_Date__c, CreatedDate
+            SELECT Id, Sirono_Id__c, Plan_Value_Modified_Date__c, CreatedDate
             FROM Payment_Plan__c
-            WHERE Sirono_ID__c = :Decimal.valueOf(PLAN_SIRONO_ID)
+            WHERE Sirono_Id__c = :Decimal.valueOf(PLAN_SIRONO_ID)
             LIMIT 1
         ];
 
-        Charge_Group__c[] cgs = [SELECT Id, Sirono_ID__c, Payment_Plan__c FROM Charge_Group__c WHERE Payment_Plan__c = :pp.Id];
+        Charge_Group__c[] cgs = [SELECT Id, Sirono_Id__c, Payment_Plan__c FROM Charge_Group__c WHERE Payment_Plan__c = :pp.Id];
 
         System.assert(cgs.size() == 2, 'Expected 2 cgs on the payment plan, but had ' + cgs.size());
         System.assert(pp.Plan_Value_Modified_Date__c > pp.CreatedDate,
@@ -135,7 +135,7 @@ public with sharing class PaymentPlanServiceTest {
         // When we create new payment plan at that time we assign name in it.
         // As per below assert, we already insert payment plan with same sirono Id in set up data.
         // System.assertEquals(pp.Name, '2876', 'Plan Name is: '+pp.Name);
-        System.assertEquals(pp.Sirono_ID__c, Decimal.valueOf(PLAN_SIRONO_ID), 'Plan sirono_id is: ' + pp.Sirono_ID__c);
+        System.assertEquals(pp.Sirono_Id__c, Decimal.valueOf(PLAN_SIRONO_ID), 'Plan sirono_id is: ' + pp.Sirono_Id__c);
         System.assertEquals(pp.Installment_Amount__c, 50, 'Expected Installment_Amount to be 50, but was: ' + pp.Installment_Amount__c);
         System.assert(pp.Active__c, 'Expected Plan to be active, but was not');
         System.assertEquals(pp.Original_Balance__c, 327.72, 'Expected Plan Original_Balance__c to be 327.72, but was: ' + pp.Original_Balance__c);
@@ -394,9 +394,9 @@ public with sharing class PaymentPlanServiceTest {
     public static void testAddPaymentMethod_NewNoSave() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
-        Contact gt = [SELECT Id, Profile_Pointer_ID__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+        Contact gt = [SELECT Id, Profile_Pointer_Id__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
         String lastFour = '0005';
-        MockHttpResponseGenerator.guarantorSironoId = gt.Profile_Pointer_ID__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = gt.Profile_Pointer_Id__c.toPlainString();
 
 
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
@@ -446,10 +446,10 @@ public with sharing class PaymentPlanServiceTest {
     public static void testAddPaymentMethod_NewSave() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
-        Contact gt = [SELECT Id, Profile_Pointer_ID__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+        Contact gt = [SELECT Id, Profile_Pointer_Id__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
         String cardNumber = '378282246310005';
         String lastFour = '0005';
-        MockHttpResponseGenerator.guarantorSironoId = gt.Profile_Pointer_ID__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = gt.Profile_Pointer_Id__c.toPlainString();
 
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
         System.assertNotEquals(null, pp, 'Should find an existing plan.');
@@ -498,10 +498,10 @@ public with sharing class PaymentPlanServiceTest {
     public static void testAddPaymentMethod_ExistingSave() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
-        Contact gt = [SELECT Id, Profile_Pointer_ID__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+        Contact gt = [SELECT Id, Profile_Pointer_Id__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
         String cardNumber = '378282246310005';
         String lastFour = '0005';
-        MockHttpResponseGenerator.guarantorSironoId = gt.Profile_Pointer_ID__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = gt.Profile_Pointer_Id__c.toPlainString();
 
 
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
@@ -572,7 +572,7 @@ public with sharing class PaymentPlanServiceTest {
         Payment_Plan__c plan = [
             SELECT Id, Active__c, Cancellation_Date__c, Plan_Type__c
             FROM Payment_Plan__c
-            WHERE Sirono_ID__c = :Decimal.valueOf(PLAN_SIRONO_ID)
+            WHERE Sirono_Id__c = :Decimal.valueOf(PLAN_SIRONO_ID)
         ];
         plan.Plan_Type__c = Constants.PLANTYPE_AUTO;
         update plan;
@@ -594,7 +594,7 @@ public with sharing class PaymentPlanServiceTest {
         Payment_Plan__c planAfterDelete = [
             SELECT Id, Active__c, Cancellation_Date__c
             FROM Payment_Plan__c
-            WHERE Sirono_ID__c = :Decimal.valueOf(PLAN_SIRONO_ID)
+            WHERE Sirono_Id__c = :Decimal.valueOf(PLAN_SIRONO_ID)
         ];
 
         System.assertEquals(false, planAfterDelete.Active__c, 'Should not be active after delete.');
@@ -614,7 +614,7 @@ public with sharing class PaymentPlanServiceTest {
         Payment_Plan__c plan = [
             SELECT Id
             FROM Payment_Plan__c
-            WHERE Sirono_ID__c = :Decimal.valueOf(PLAN_SIRONO_ID)
+            WHERE Sirono_Id__c = :Decimal.valueOf(PLAN_SIRONO_ID)
         ];
         delete plan;
 

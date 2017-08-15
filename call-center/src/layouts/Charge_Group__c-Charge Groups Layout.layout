@@ -48,7 +48,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>External_Guarantor_ID__c</field>
+                <field>External_Guarantor_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -68,7 +68,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Sirono_ID__c</field>
+                <field>Sirono_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -128,7 +128,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>External_ID__c</field>
+                <field>External_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -283,7 +283,7 @@
         <sizeX>4</sizeX>
         <sizeY>2</sizeY>
         <summaryLayoutItems>
-            <field>External_ID__c</field>
+            <field>External_Id__c</field>
             <posX>0</posX>
             <posY>0</posY>
         </summaryLayoutItems>

@@ -64,7 +64,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Author_ID__c</field>
+                <field>Author_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -211,7 +211,7 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Charge_Group__c.NAME</fields>
-        <fields>Charge_Group__c.External_ID__c</fields>
+        <fields>Charge_Group__c.External_Id__c</fields>
         <fields>Charge_Group__c.Patient__c</fields>
         <fields>Charge_Group__c.Active__c</fields>
         <fields>Charge_Group__c.Account_Status__c</fields>

@@ -335,7 +335,7 @@ public with sharing class PaymentPlanService extends AbstractService {
                     paymentPlanObj = PaymentPlanDao.getPaymentPlanBySironoId(strPaymentPlan);
                     if (paymentPlanObj == null) {
                         paymentPlanObj = new Payment_Plan__c();
-                        paymentPlanObj.Sirono_ID__c = Decimal.valueOf(strPaymentPlan);
+                        paymentPlanObj.Sirono_Id__c = Decimal.valueOf(strPaymentPlan);
                         paymentPlanObj.Name = strPaymentPlan;
                     }
                 }
@@ -483,7 +483,7 @@ public with sharing class PaymentPlanService extends AbstractService {
             throw new ServiceException('No Payment Plan found.');
         }
 
-        String sironoPaymentPlanId = payPlan.Sirono_ID__c.toPlainString();
+        String sironoPaymentPlanId = payPlan.Sirono_Id__c.toPlainString();
 
         // Go get the plan from Sirono pre-delete in order to have the cgs we need to update
         PaymentPlanRestClient getRestClient = new PaymentPlanRestClient();
@@ -516,13 +516,13 @@ public with sharing class PaymentPlanService extends AbstractService {
 
         // Now update all SF cg records with the data from the Sirono server.
         for (Charge_Group__c cg : cgs) {
-            if (cgJsonMap.containsKey(cg.Sirono_ID__c)) {
-                ChargeGroupJSONParser.ChargeGroupJSON cgJson = cgJsonMap.get(cg.Sirono_ID__c);
+            if (cgJsonMap.containsKey(cg.Sirono_Id__c)) {
+                ChargeGroupJSONParser.ChargeGroupJSON cgJson = cgJsonMap.get(cg.Sirono_Id__c);
                 cg.Account_Sub_Status__c = cgJson.account_sub_status;
                 cg.Account_Status__c = cgJson.account_status;
                 cg.Payment_Plan__c = null;
             } else {
-                System.debug('Did not find charge group to update on plan delete for sironoId: ' + cg.Sirono_ID__c);
+                System.debug('Did not find charge group to update on plan delete for sironoId: ' + cg.Sirono_Id__c);
                 throw new ServiceException('Error occurred when looking up charge groups.');
             }
         }
@@ -566,7 +566,7 @@ public with sharing class PaymentPlanService extends AbstractService {
         System.debug('validateChargeGroupIds: ' + cgs);
         Map<String, Charge_Group__c> foundCGMap = new Map<String, Charge_Group__c>();
         for (Charge_Group__c cg : cgs) {
-            foundCGMap.put(String.valueOf(cg.Sirono_ID__c), cg);
+            foundCGMap.put(String.valueOf(cg.Sirono_Id__c), cg);
         }
         Set<String> unknownIds = new Set<String>();
         for (String cgId : chargegroupIds) {
@@ -681,11 +681,11 @@ public with sharing class PaymentPlanService extends AbstractService {
             // Need to add the Charge Groups for the plan.
             List<Charge_Group__c> cgs = ChargeGroupDao.getCGForPaymentPlan(sfPlan.Id);
             for (Charge_Group__c charge_group : cgs) {
-                paymentInfo.chargeGroupIds.add(charge_group.Sirono_ID__c.toPlainString());
+                paymentInfo.chargeGroupIds.add(charge_group.Sirono_Id__c.toPlainString());
             }
 
             // Call the Sirono server to update Plan including method.
-            payPlan = updatePlanPaymentMethod(sfPlan.Sirono_ID__c.toPlainString(), paymentInfo);
+            payPlan = updatePlanPaymentMethod(sfPlan.Sirono_Id__c.toPlainString(), paymentInfo);
 
         } else {
             // If we don't have all the info for updating the plan in Sirono just go get the SF plan in case the user

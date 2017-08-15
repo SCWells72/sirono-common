@@ -17,7 +17,7 @@ private class EncounterTriggerTest {
 
         Contact guarantorContact2 = TestUtility.generateGuarantorContact();
         guarantorContact2.LastName = 'G Test';
-        guarantorContact2.Profile_Pointer_ID__c = 1234;
+        guarantorContact2.Profile_Pointer_Id__c = 1234;
         guarantorContact2.Guarantor__c = guarantorContact.Id;
         insert guarantorContact2;
 
@@ -43,7 +43,7 @@ private class EncounterTriggerTest {
 
         Contact guarantorContact2 = TestUtility.generateGuarantorContact();
         guarantorContact2.LastName = 'G Test';
-        guarantorContact2.Profile_Pointer_ID__c = 1234;
+        guarantorContact2.Profile_Pointer_Id__c = 1234;
         guarantorContact2.Guarantor__c = guarantorContact.Id;
         insert guarantorContact2;
 
@@ -106,7 +106,7 @@ private class EncounterTriggerTest {
 
         Contact guarantorContact2 = TestUtility.generateGuarantorContact();
         guarantorContact2.LastName = 'G Test';
-        guarantorContact2.Profile_Pointer_ID__c = 1234;
+        guarantorContact2.Profile_Pointer_Id__c = 1234;
         guarantorContact2.Guarantor__c = guarantorContact.Id;
         insert guarantorContact2;
 

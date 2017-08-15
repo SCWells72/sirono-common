@@ -74,12 +74,12 @@ public with sharing class EditPaymentPlan {
             if (PaymentPlanSecurityContext.EPP_SELECT_CONTEXT.actionAllowed()) {
                 for (Payment_Plan__c p : [
                     SELECT Id, Name, Original_Installment_Count__c, Remaining_Balance__c, NextPaymentDate__c,
-                        Plan_Type__c, Remaining_Installment_Count__c, Execute_On_Day__c, Sirono_ID__c
+                        Plan_Type__c, Remaining_Installment_Count__c, Execute_On_Day__c, Sirono_Id__c
                     FROM Payment_Plan__c
                     WHERE Id = :paymentPlanRecordId
                 ]) {
                     System.debug('23' + p);
-                    paymentPlanId = String.valueOf(p.Sirono_ID__c);
+                    paymentPlanId = String.valueOf(p.Sirono_Id__c);
                     numberInstallments = String.valueOf(p.Original_Installment_Count__c);
                     if (p.Remaining_Balance__c != null) {
                         payableAmount = String.valueOf(p.Remaining_Balance__c);

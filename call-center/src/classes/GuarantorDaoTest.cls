@@ -11,7 +11,7 @@ public with sharing class GuarantorDaoTest {
     @TestSetup
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
-        gt.Profile_Pointer_ID__c = Decimal.valueOf(GT_SIRONO_ID);
+        gt.Profile_Pointer_Id__c = Decimal.valueOf(GT_SIRONO_ID);
         insert gt;
 
         Contact pt = TestUtility.generatePatientContact();
@@ -26,15 +26,15 @@ public with sharing class GuarantorDaoTest {
         insert transactionObj;
 
         // Check system asserts.
-        System.assertEquals(Decimal.valueOf(GT_SIRONO_ID), gt.Profile_Pointer_ID__c, 'Expected ' + GT_SIRONO_ID + ' but we got ' + gt.Profile_Pointer_ID__c);
+        System.assertEquals(Decimal.valueOf(GT_SIRONO_ID), gt.Profile_Pointer_Id__c, 'Expected ' + GT_SIRONO_ID + ' but we got ' + gt.Profile_Pointer_Id__c);
     }
 
     @IsTest
     public static void getGTBySironoIdTest() {
         Contact gt = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
         System.assertNotEquals(gt, null, 'Expected guarantor but got null');
-        System.assertEquals(GT_SIRONO_ID, String.valueOf(gt.Profile_Pointer_ID__c),
-            'Expected Sirono_ID__c of ' + GT_SIRONO_ID + ' but got: ' + gt.Profile_Pointer_ID__c);
+        System.assertEquals(GT_SIRONO_ID, String.valueOf(gt.Profile_Pointer_Id__c),
+            'Expected Sirono_Id__c of ' + GT_SIRONO_ID + ' but got: ' + gt.Profile_Pointer_Id__c);
         System.assertEquals(RecordTypeUtil.guarantorRt, gt.RecordTypeId,
             'Expected RecordTypeId of ' + RecordTypeUtil.guarantorRt + ' but got: ' + gt.RecordTypeId);
     }
@@ -140,8 +140,8 @@ public with sharing class GuarantorDaoTest {
         Contact gt1 = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
         Contact gt2 = GuarantorDao.getGuarantor(gt1.Id);
         System.assertEquals(gt1.Id, gt2.Id, 'Guarantor Ids should be the same');
-        System.assertEquals(GT_SIRONO_ID, gt2.Profile_Pointer_ID__c.toPlainString(),
-            'Expected Sirono_ID__c of ' + GT_SIRONO_ID + ' but got: ' + gt2.Profile_Pointer_ID__c.toPlainString());
+        System.assertEquals(GT_SIRONO_ID, gt2.Profile_Pointer_Id__c.toPlainString(),
+            'Expected Sirono_Id__c of ' + GT_SIRONO_ID + ' but got: ' + gt2.Profile_Pointer_Id__c.toPlainString());
         System.assertEquals(RecordTypeUtil.guarantorRt, gt2.RecordTypeId,
             'Expected RecordTypeId of ' + RecordTypeUtil.guarantorRt + ' but got: ' + gt2.RecordTypeId);
     }

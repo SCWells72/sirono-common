@@ -236,7 +236,7 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>ID__c</fullName>
+        <fullName>Id__c</fullName>
         <description>Either Sirono ID or composite key: Sirono ID, Guarantor, Post Date, Code, Payor</description>
         <externalId>true</externalId>
         <label>ID</label>
@@ -367,7 +367,7 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Processor_Transaction_ID__c</fullName>
+        <fullName>Processor_Transaction_Id__c</fullName>
         <description>Id of the processor</description>
         <externalId>false</externalId>
         <label>Processor Transaction ID</label>
@@ -389,7 +389,7 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>Sirono_ID__c</fullName>
+        <fullName>Sirono_Id__c</fullName>
         <description>Id number</description>
         <externalId>true</externalId>
         <label>Sirono ID</label>

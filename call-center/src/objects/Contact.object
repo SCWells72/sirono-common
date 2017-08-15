@@ -635,7 +635,7 @@
         <unique>true</unique>
     </fields>
     <fields>
-        <fullName>External_ID__c</fullName>
+        <fullName>External_Id__c</fullName>
         <externalId>true</externalId>
         <label>External ID</label>
         <length>255</length>
@@ -659,9 +659,9 @@
         <fullName>Guarantor_Patient_Id__c</fullName>
         <externalId>false</externalId>
         <formula>IF(
-! ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ISBLANK(Patient_Id__c), TEXT(Profile_Pointer_ID__c),
+! ISBLANK(Profile_Pointer_Id__c) &amp;&amp; ISBLANK(Patient_Id__c), TEXT(Profile_Pointer_Id__c),
 IF(
-ISBLANK(Profile_Pointer_ID__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient_Id__c), TEXT(Profile_Pointer_ID__c) + &quot; / &quot; + TEXT(Patient_Id__c)
+ISBLANK(Profile_Pointer_Id__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient_Id__c), TEXT(Profile_Pointer_Id__c) + &quot; / &quot; + TEXT(Patient_Id__c)
 )
 )</formula>
         <label>Guarantor/Patient Id</label>
@@ -1044,7 +1044,7 @@ CASE(Invoice_Status_Rollup__c,
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Profile_Pointer_ID__c</fullName>
+        <fullName>Profile_Pointer_Id__c</fullName>
         <externalId>true</externalId>
         <label>Guarantor ID</label>
         <precision>18</precision>
@@ -1112,7 +1112,7 @@ CASE(Invoice_Status_Rollup__c,
     <fields>
         <fullName>Test_Id__c</fullName>
         <externalId>false</externalId>
-        <formula>IF(ISBLANK(Account.Site), &quot;DD&quot;, Account.Site) + TEXT(Profile_Pointer_ID__c)</formula>
+        <formula>IF(ISBLANK(Account.Site), &quot;DD&quot;, Account.Site) + TEXT(Profile_Pointer_Id__c)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Test ID</label>
         <required>false</required>
@@ -1154,7 +1154,7 @@ CASE(Invoice_Status_Rollup__c,
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>X18_Digit_ID__c</fullName>
+        <fullName>X18_Digit_Id__c</fullName>
         <externalId>false</externalId>
         <formula>CASESAFEID(Id)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
@@ -1166,7 +1166,7 @@ CASE(Invoice_Status_Rollup__c,
     </fields>
     <listViews>
         <fullName>All_External_Guarantors</fullName>
-        <columns>Profile_Pointer_ID__c</columns>
+        <columns>Profile_Pointer_Id__c</columns>
         <columns>FULL_NAME</columns>
         <columns>CONTACT.PHONE1</columns>
         <columns>CONTACT.EMAIL</columns>
@@ -1193,7 +1193,7 @@ CASE(Invoice_Status_Rollup__c,
     </listViews>
     <listViews>
         <fullName>All_Guarantors</fullName>
-        <columns>Profile_Pointer_ID__c</columns>
+        <columns>Profile_Pointer_Id__c</columns>
         <columns>FULL_NAME</columns>
         <columns>CONTACT.BIRTHDATE</columns>
         <columns>CONTACT.PHONE4</columns>
@@ -2131,7 +2131,7 @@ CASE(Invoice_Status_Rollup__c,
         <lookupPhoneDialogsAdditionalFields>CONTACT.PHONE6</lookupPhoneDialogsAdditionalFields>
         <searchResultsAdditionalFields>FULL_NAME</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CONTACT.RECORDTYPE</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Profile_Pointer_ID__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Profile_Pointer_Id__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CONTACT.BIRTHDATE</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CONTACT.PHONE4</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CONTACT.PHONE3</searchResultsAdditionalFields>

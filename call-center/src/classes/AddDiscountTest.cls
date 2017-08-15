@@ -30,7 +30,7 @@ public class AddDiscountTest {
 
         //Create Charge Group record.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Sirono_ID__c = 123;
+        chargeGroup.Sirono_Id__c = 123;
         insert chargeGroup;
 
         //Create Transaction record.
@@ -39,7 +39,7 @@ public class AddDiscountTest {
 
         //Create Charge Group record.
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Sirono_ID__c = 124;
+        chargeGroup.Sirono_Id__c = 124;
         insert chargeGroup;
 
         //Call Add Discount constructor with Selected charge group records.
@@ -111,7 +111,7 @@ public class AddDiscountTest {
 
         //Create Charge Group record.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Sirono_ID__c = 123;
+        chargeGroup.Sirono_Id__c = 123;
         insert chargeGroup;
 
         //Create Transaction record.
@@ -120,7 +120,7 @@ public class AddDiscountTest {
 
         //Create Charge Group record.
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Sirono_ID__c = 124;
+        chargeGroup.Sirono_Id__c = 124;
         insert chargeGroup;
 
         //Call Add Discount constructor with Selected charge group records.
@@ -179,7 +179,7 @@ public class AddDiscountTest {
 
         //Create Charge Group record.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 123);
-        chargeGroup.Sirono_ID__c = 123;
+        chargeGroup.Sirono_Id__c = 123;
         insert chargeGroup;
 
         //Create Transaction record.
@@ -188,7 +188,7 @@ public class AddDiscountTest {
 
         //Create Charge Group record.
         chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 124);
-        chargeGroup.Sirono_ID__c = 124;
+        chargeGroup.Sirono_Id__c = 124;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_PAYMENT_PLAN;
         insert chargeGroup;
 

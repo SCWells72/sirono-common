@@ -11,7 +11,7 @@ public with sharing class ChargeGroupWrapperTest {
     @TestSetup
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
-        gt.Profile_Pointer_ID__c = 12345;
+        gt.Profile_Pointer_Id__c = 12345;
         insert gt;
 
         Contact pt = TestUtility.generatePatientContact();
@@ -22,13 +22,13 @@ public with sharing class ChargeGroupWrapperTest {
         List<Charge_Group__c> cgs = TestUtility.generateChargeGroupList(gt.Id);
         Decimal i = 1;
         for (Charge_Group__c cg : cgs) {
-            cg.Sirono_ID__c = i++;
+            cg.Sirono_Id__c = i++;
             cg.Active__c = true;
         }
         insert cgs;
 
         // Check system assert.
-        System.assertEquals(12345, gt.Profile_Pointer_ID__c, 'Expected Profile_Pointer_ID__c equals to "12345" but we got ' + gt.Profile_Pointer_ID__c);
+        System.assertEquals(12345, gt.Profile_Pointer_Id__c, 'Expected Profile_Pointer_Id__c equals to "12345" but we got ' + gt.Profile_Pointer_Id__c);
     }
 
     @IsTest

@@ -29,7 +29,7 @@ public with sharing class TxnPaymentAggregationTest {
         insert payment;
 
         // Check system asserts.
-        System.assertEquals(CG_EXT_ID, cg.External_ID__c, 'Expected CG External_ID__c is ' + CG_EXT_ID + ' but got ' + cg.External_ID__c);
+        System.assertEquals(CG_EXT_ID, cg.External_Id__c, 'Expected CG External_Id__c is ' + CG_EXT_ID + ' but got ' + cg.External_Id__c);
     }
 
     /*

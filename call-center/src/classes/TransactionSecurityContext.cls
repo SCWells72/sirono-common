@@ -16,7 +16,7 @@ public with sharing class TransactionSecurityContext extends SecurityContext {
     private static final String NAME = 'Name';
     private static final String PAYMENT = 'Payment__c';
     private static final String POST_DATE = 'Post_Date__c';
-    private static final String SIRONO_ID = 'Sirono_ID__c';
+    private static final String SIRONO_ID = 'Sirono_Id__c';
 
     // Below field(s) are use for Select/Read permission.
     private static final String ADJUSTMENT = 'Adjustment2__c';

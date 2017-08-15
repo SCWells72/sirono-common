@@ -15,7 +15,7 @@ private class WorkWithEstimatesControllerTest {
         User portalUser = PortalTestUtility.getGuarantorCommunityUser();
 
         Contact guarantorContact = [
-            SELECT Id, Profile_Pointer_ID__c, Name
+            SELECT Id, Profile_Pointer_Id__c, Name
             FROM Contact
             WHERE Id = :portalUser.ContactId
         ];

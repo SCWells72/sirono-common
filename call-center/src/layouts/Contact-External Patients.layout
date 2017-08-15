@@ -20,7 +20,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Profile_Pointer_ID__c</field>
+                <field>Profile_Pointer_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -32,7 +32,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>External_ID__c</field>
+                <field>External_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>

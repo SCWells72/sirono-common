@@ -61,7 +61,7 @@ public class TransactionJSONParsing extends AbstractSironoJSONParser {
                 Transaction__c objTransaction = new Transaction__c();
                 String transactionExternalId = parseSironoId(objJson.url, RestClientConstants.TRANSACTION_URL_RESOURCE_TYPE);
 
-                objTransaction.Sirono_ID__c = Decimal.valueOf(transactionExternalId);
+                objTransaction.Sirono_Id__c = Decimal.valueOf(transactionExternalId);
                 //TODO remove when TXN refactored
                 objTransaction.Name = objJson.method + '-' + transactionExternalId;
                 objTransaction.Amount__c = PayStaffWSUtill.convertToDollarsWithNegative(objJson.amount);
@@ -73,7 +73,7 @@ public class TransactionJSONParsing extends AbstractSironoJSONParser {
 
                 if (objJson.chargegroup != null) {
                     Decimal chargegroup = Decimal.valueOf(parseSironoId(objJson.chargegroup, RestClientConstants.CHARGE_GROUP_URL_RESOURCE_TYPE));
-                    mapTransactionChargeGroup.put(objTransaction.Sirono_ID__c, chargegroup);
+                    mapTransactionChargeGroup.put(objTransaction.Sirono_Id__c, chargegroup);
                 }
 
                 lstTransaction.add(objTransaction);
@@ -85,12 +85,12 @@ public class TransactionJSONParsing extends AbstractSironoJSONParser {
 
                 Map<Decimal, String> mapChargeGroup = new Map<Decimal, String>();
                 for (Charge_Group__c cg : lstChargeGroup) {
-                    mapChargeGroup.put(cg.Sirono_ID__c, cg.Id);
+                    mapChargeGroup.put(cg.Sirono_Id__c, cg.Id);
                 }
 
                 for (Transaction__c txn : lstTransaction) {
                     if (txn.Charge_Group__c == null) {
-                        Decimal cId = mapTransactionChargeGroup.get(txn.Sirono_ID__c);
+                        Decimal cId = mapTransactionChargeGroup.get(txn.Sirono_Id__c);
                         txn.Charge_Group__c = mapChargeGroup.get(cId);
                     }
                 }

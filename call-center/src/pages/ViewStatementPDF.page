@@ -5,7 +5,7 @@
 <apex:page standardController="Statement__c" extensions="ViewStatementExtension" sidebar="false"
            action="{!viewPdf}">
     <apex:form>
-        <apex:inputHidden value="{!stmt.Guarantor__r.Profile_Pointer_ID__c}"/>
+        <apex:inputHidden value="{!stmt.Guarantor__r.Profile_Pointer_Id__c}"/>
         <apex:inputHidden value="{!stmt.Statement_Date__c}"/>
         <apex:inputHidden value="{!stmt.Id}"/>
     </apex:form>

@@ -47,7 +47,7 @@ public with sharing class ChargeGroupWrapper {
         Set<String> idSet = new Set<String>();
         for (ChargeGroupWrapper cgw : chargeGroupList) {
             if (cgw.isSelected) {
-                idSet.add(cgw.cg.Sirono_ID__c.toPlainString());
+                idSet.add(cgw.cg.Sirono_Id__c.toPlainString());
             }
         }
         return new List<String>(idSet);

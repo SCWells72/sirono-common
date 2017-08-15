@@ -60,7 +60,7 @@ public with sharing class TransactionJSONParser extends AbstractSironoJSONParser
             Transaction__c txn = new Transaction__c();
             String txnSironoId = parseSironoId(txnJson.url, RestClientConstants.TRANSACTION_URL_RESOURCE_TYPE);
 
-            txn.Sirono_ID__c = Decimal.valueOf(txnSironoId);
+            txn.Sirono_Id__c = Decimal.valueOf(txnSironoId);
             txn.Name = txnJson.method + '-' + txnSironoId;
             txn.Transaction_Date__c = parseDate(txnJson.created_at);
             txn.Amount__c = convertToDollarsNegative(txnJson.amount);
@@ -71,7 +71,7 @@ public with sharing class TransactionJSONParser extends AbstractSironoJSONParser
 
             if (txnJson.chargegroup != null) {
                 String cgSironoId = parseSironoId(txnJson.chargegroup, RestClientConstants.CHARGE_GROUP_URL_RESOURCE_TYPE);
-                txn.Charge_Group__r = new Charge_Group__c(Sirono_ID__c = Decimal.valueOf(cgSironoId));
+                txn.Charge_Group__r = new Charge_Group__c(Sirono_Id__c = Decimal.valueOf(cgSironoId));
             }
 
             txns.add(txn);

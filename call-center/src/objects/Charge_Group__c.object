@@ -132,7 +132,7 @@
         <type>Summary</type>
     </fields>
     <fields>
-        <fullName>Charge_Group_External_ID__c</fullName>
+        <fullName>Charge_Group_External_Id__c</fullName>
         <defaultValue>false</defaultValue>
         <description>used for integration</description>
         <externalId>false</externalId>
@@ -188,7 +188,7 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>External_Guarantor_ID__c</fullName>
+        <fullName>External_Guarantor_Id__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>External Guarantor</label>
@@ -210,7 +210,7 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>External_ID__c</fullName>
+        <fullName>External_Id__c</fullName>
         <description>Account Number</description>
         <externalId>true</externalId>
         <label>Account Number</label>
@@ -628,7 +628,7 @@
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>Sirono_ID__c</fullName>
+        <fullName>Sirono_Id__c</fullName>
         <description>This is the external Charge Group iD</description>
         <externalId>true</externalId>
         <label>ID</label>
@@ -697,7 +697,7 @@ CASE(Account_Sub_Status__c,
         <customTabListAdditionalFields>Invoice__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Payment_Plan__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Origin_Subcode__c</customTabListAdditionalFields>
-        <searchResultsAdditionalFields>External_ID__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>External_Id__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Patient__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Account_Status__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Account_Sub_Status__c</searchResultsAdditionalFields>

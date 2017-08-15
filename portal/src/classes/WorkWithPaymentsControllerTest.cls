@@ -37,7 +37,7 @@ private class WorkWithPaymentsControllerTest {
             Payment__c payment2 = PortalTestUtility.generateSironoPayment(guarantorContact.Id, 1235, 25);
             payment2.Payment_Method__c = pmCheck.Id;
             payment2.Method__c = 'Check';
-            payment2.Processor_Transaction_ID__c = '12345qwert';
+            payment2.Processor_Transaction_Id__c = '12345qwert';
 
             List<Payment__c> payments = new List<Payment__c> { payment1, payment2 };
             insert payments;

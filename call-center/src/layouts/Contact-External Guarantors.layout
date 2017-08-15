@@ -10,7 +10,7 @@
                     <label>Charge Groups</label>
                     <relatedLists>
                         <hideOnDetail>false</hideOnDetail>
-                        <name>Charge_Group__c.External_Guarantor_ID__c</name>
+                        <name>Charge_Group__c.External_Guarantor_Id__c</name>
                     </relatedLists>
                 </sidebarComponents>
                 <style>Tabs</style>
@@ -84,7 +84,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>External_ID__c</field>
+                <field>External_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -189,7 +189,7 @@
         <fields>Account_Status__c</fields>
         <fields>Active__c</fields>
         <fields>Sirono_Assigned_Date__c</fields>
-        <relatedList>Charge_Group__c.External_Guarantor_ID__c</relatedList>
+        <relatedList>Charge_Group__c.External_Guarantor_Id__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>

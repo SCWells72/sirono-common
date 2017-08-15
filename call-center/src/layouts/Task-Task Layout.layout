@@ -69,7 +69,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Salesforce_ID__c</field>
+                <field>Salesforce_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

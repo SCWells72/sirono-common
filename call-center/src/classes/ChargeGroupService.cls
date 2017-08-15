@@ -164,7 +164,7 @@ public class ChargeGroupService extends AbstractService {
     public static List<Decimal> getSironoIds(List<Charge_Group__c> cgs) {
         List<Decimal> ids = new List<Decimal>();
         for (Charge_Group__c cg : cgs) {
-            ids.add(cg.Sirono_ID__c);
+            ids.add(cg.Sirono_Id__c);
         }
 
         return ids;

@@ -19,7 +19,7 @@ public with sharing class PaymentMethodDao {
         if (PaymentMethodSecurityContext.GUARANTOR_SELECT.actionAllowed()) {
             paymentMethods = [
                 SELECT Id, Account_Number__c, Card_Holder_Name__c, Card_Type__c, Display_Name__c, Expiration_Date__c, ID__c, Last_4__c,
-                    Payment_Method_Token__c, Routing_Number__c, Sirono_ID__c, Type__c, Guarantor__c
+                    Payment_Method_Token__c, Routing_Number__c, Sirono_Id__c, Type__c, Guarantor__c
                 FROM Payment_Method__c
                 WHERE Guarantor__c = :guarantorId AND Display_Name__c != NULL
             ];
@@ -40,7 +40,7 @@ public with sharing class PaymentMethodDao {
         if (PaymentMethodSecurityContext.GUARANTOR_SELECT.actionAllowed()) {
             paymentMethods = [
                 SELECT Id, Account_Number__c, Card_Holder_Name__c, Card_Type__c, Display_Name__c, Expiration_Date__c, ID__c, Last_4__c,
-                    Payment_Method_Token__c, Routing_Number__c, Sirono_ID__c, Type__c, Guarantor__c
+                    Payment_Method_Token__c, Routing_Number__c, Sirono_Id__c, Type__c, Guarantor__c
                 FROM Payment_Method__c
                 WHERE Id = :cardId
             ];

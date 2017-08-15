@@ -355,7 +355,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Sirono_ID__c</fullName>
+        <fullName>Sirono_Id__c</fullName>
         <externalId>true</externalId>
         <label>ID</label>
         <precision>18</precision>
@@ -446,7 +446,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <masterLabel>Add to Payment Plan</masterLabel>
         <openType>replace</openType>
         <protected>false</protected>
-        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}AddToPaymentPlan?guarantorId={!Payment_Plan__c.GuarantorId__c}&amp;paymentPlanId={!Payment_Plan__c.Id}&amp;paymentPlanExtId={!TEXT(Payment_Plan__c.Sirono_ID__c)}</url>
+        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}AddToPaymentPlan?guarantorId={!Payment_Plan__c.GuarantorId__c}&amp;paymentPlanId={!Payment_Plan__c.Id}&amp;paymentPlanExtId={!TEXT(Payment_Plan__c.Sirono_Id__c)}</url>
     </webLinks>
     <webLinks>
         <fullName>Cancel_Payment_Plan</fullName>
@@ -457,7 +457,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <masterLabel>Cancel Payment Plan</masterLabel>
         <openType>replace</openType>
         <protected>false</protected>
-        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}DeletePaymentPlan?guarantorId={!Payment_Plan__c.GuarantorId__c}&amp;paymentPlanId={!Payment_Plan__c.Id}&amp;paymentPlanExtId={!Payment_Plan__c.Sirono_ID__c}</url>
+        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}DeletePaymentPlan?guarantorId={!Payment_Plan__c.GuarantorId__c}&amp;paymentPlanId={!Payment_Plan__c.Id}&amp;paymentPlanExtId={!Payment_Plan__c.Sirono_Id__c}</url>
     </webLinks>
     <webLinks>
         <fullName>Edit_Payment_Plan</fullName>
@@ -479,7 +479,7 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <masterLabel>Payment Plan Good Standing</masterLabel>
         <openType>replace</openType>
         <protected>false</protected>
-        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}PaymentPlanGoodStanding?guarantorId={!Payment_Plan__c.GuarantorId__c}&amp;paymentPlanId={!Payment_Plan__c.Id}&amp;paymentPlanExtId={!Payment_Plan__c.Sirono_ID__c}</url>
+        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}PaymentPlanGoodStanding?guarantorId={!Payment_Plan__c.GuarantorId__c}&amp;paymentPlanId={!Payment_Plan__c.Id}&amp;paymentPlanExtId={!Payment_Plan__c.Sirono_Id__c}</url>
     </webLinks>
     <webLinks>
         <fullName>Skip_Payment</fullName>
@@ -490,6 +490,6 @@ IF(Plan_Type__c = &quot;Automatic&quot;,
         <masterLabel>Skip Payment</masterLabel>
         <openType>replace</openType>
         <protected>false</protected>
-        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}SkipPaymentPlan?guarantorId={!Payment_Plan__c.GuarantorId__c}&amp;paymentPlanId={!Payment_Plan__c.Id}&amp;paymentPlanExtId={!Payment_Plan__c.Sirono_ID__c}</url>
+        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}SkipPaymentPlan?guarantorId={!Payment_Plan__c.GuarantorId__c}&amp;paymentPlanId={!Payment_Plan__c.Id}&amp;paymentPlanExtId={!Payment_Plan__c.Sirono_Id__c}</url>
     </webLinks>
 </CustomObject>

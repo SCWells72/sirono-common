@@ -88,12 +88,12 @@ private class SkipPaymentPlanTest {
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
         paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
-        paymentPlan.Sirono_ID__c = 2876;
+        paymentPlan.Sirono_Id__c = 2876;
         insert paymentPlan;
 
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Id);
-        ApexPages.currentPage().getParameters().put('paymentPlanExtId', String.valueOf(paymentPlan.Sirono_ID__c));
+        ApexPages.currentPage().getParameters().put('paymentPlanExtId', String.valueOf(paymentPlan.Sirono_Id__c));
 
         SkipPaymentPlan objSkipPaymentPlan = new SkipPaymentPlan();
         Test.startTest();

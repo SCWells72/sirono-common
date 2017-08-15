@@ -66,13 +66,13 @@ public class PaymentService extends AbstractService {
 
             List<String> cgUrls = new List<String>();
             for (Charge_Group__c cg : pmtRequest.chargeGroups) {
-                cgUrls.add(asChargeGroupURL(cg.Sirono_ID__c.toPlainString()));
+                cgUrls.add(asChargeGroupURL(cg.Sirono_Id__c.toPlainString()));
             }
 
             Map<String, Object> rawData = new Map<String, Object> {
                 RestClientConstants.CHARGE_GROUPS => cgUrls,
                 RestClientConstants.CSRF_JSON_KEY => getCsrf(),
-                'guarantor' => asGuarantorURL(pmtRequest.guarantor.Profile_Pointer_ID__c.toPlainString()),
+                'guarantor' => asGuarantorURL(pmtRequest.guarantor.Profile_Pointer_Id__c.toPlainString()),
                 'number' => pmtRequest.chargeInfo.creditCardNumber,
                 'expiration_year' => pmtRequest.chargeInfo.expirationYear,
                 'cvv' => pmtRequest.chargeInfo.cvv,
@@ -153,7 +153,7 @@ public class PaymentService extends AbstractService {
                     paymentObj = PaymentDao.getPaymentBySironoId(Decimal.valueOf(pmtIdStr));
                     if (paymentObj == null) {
                         paymentObj = new Payment__c();
-                        paymentObj.Sirono_ID__c = Decimal.valueOf(pmtIdStr);
+                        paymentObj.Sirono_Id__c = Decimal.valueOf(pmtIdStr);
                     }
                 }
             } else {
@@ -172,7 +172,7 @@ public class PaymentService extends AbstractService {
             }
             paymentObj.Method__c = objJson.method;
             paymentObj.Last_4__c = objJson.last_4;
-            paymentObj.Processor_Transaction_ID__c = objJson.processor_transaction_id;
+            paymentObj.Processor_Transaction_Id__c = objJson.processor_transaction_id;
             paymentObj.Amount__c = convertToDollars(objJson.amount);
 
             return paymentObj;
@@ -219,10 +219,10 @@ public class PaymentService extends AbstractService {
         private void createTransactionObjects() {
             for (TransactionSironoJSON txnJson : txnJsons) {
                 Transaction__c txnObj = new Transaction__c();
-                txnObj.Payment__r = new Payment__c(Sirono_ID__c = payment.Sirono_ID__c);
+                txnObj.Payment__r = new Payment__c(Sirono_Id__c = payment.Sirono_Id__c);
                 String transactionExternalId = parseSironoId(txnJson.url, 'transaction');
 
-                txnObj.Sirono_ID__c = Decimal.valueOf(transactionExternalId);
+                txnObj.Sirono_Id__c = Decimal.valueOf(transactionExternalId);
                 txnObj.Amount__c = convertToDollarsNegative(txnJson.amount);
                 txnObj.Transaction_Date__c = parseDate(txnJson.created_at);
                 txnObj.Post_Date__c = parseDate(txnJson.post_date);
@@ -244,7 +244,7 @@ public class PaymentService extends AbstractService {
 
             List<Charge_Group__c> chargeGroups = ChargeGroupDao.getBySironoIds(cgSironoIds);
             for (Charge_Group__c cg : chargeGroups) {
-                cgIdTxnMap.get(cg.Sirono_ID__c).Charge_Group__c = cg.Id;
+                cgIdTxnMap.get(cg.Sirono_Id__c).Charge_Group__c = cg.Id;
             }
         }
 
@@ -303,7 +303,7 @@ public class PaymentService extends AbstractService {
 
     private static List<Transaction__c> retrieveSironoTransactions(Payment__c newPayment) {
         PaymentRestClient client = new PaymentRestClient();
-        HttpResponse response = client.getPaymentTransactions(newPayment.Sirono_ID__c.toPlainString());
+        HttpResponse response = client.getPaymentTransactions(newPayment.Sirono_Id__c.toPlainString());
         TransactionJSONParser txnParser = new TransactionJSONParser(newPayment, response.getBody());
         return txnParser.parse();
     }

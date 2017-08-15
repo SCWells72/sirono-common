@@ -15,12 +15,12 @@ private class PreServiceSchedulerBatchTest {
 
         Contact con1 = TestUtility.generateGuarantorContact();
         con1.LastName = 'Test';
-        con1.Profile_Pointer_ID__c = 123;
+        con1.Profile_Pointer_Id__c = 123;
         insert con1;
 
         Contact con2 = TestUtility.generatePatientContact();
         con2.LastName = 'Test';
-        con2.Profile_Pointer_ID__c = 123456;
+        con2.Profile_Pointer_Id__c = 123456;
         con2.Guarantor__c = con1.Id;
         insert con2;
 
@@ -84,12 +84,12 @@ private class PreServiceSchedulerBatchTest {
 
         Contact con1 = TestUtility.generateGuarantorContact();
         con1.LastName = 'Test';
-        con1.Profile_Pointer_ID__c = 123;
+        con1.Profile_Pointer_Id__c = 123;
         insert con1;
 
         Contact con2 = TestUtility.generatePatientContact();
         con2.LastName = 'Test';
-        con2.Profile_Pointer_ID__c = 123456;
+        con2.Profile_Pointer_Id__c = 123456;
         con2.Guarantor__c = con1.Id;
         insert con2;
 

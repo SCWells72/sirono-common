@@ -38,7 +38,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Sirono_ID__c</field>
+            <field>Sirono_Id__c</field>
             <table>Payment_Plan__c</table>
         </columns>
         <columns>

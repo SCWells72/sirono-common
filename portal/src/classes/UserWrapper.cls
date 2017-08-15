@@ -17,7 +17,7 @@ public with sharing class UserWrapper {
         this.id = user.Id;
         this.firstName = user.Contact.FirstName;
         this.contactId = user.ContactId;
-        this.profilePointerId = user.Contact.Profile_Pointer_ID__c;
+        this.profilePointerId = user.Contact.Profile_Pointer_Id__c;
 
         if (this.profilePointerId != null) {
             this.guarantorSironoId = this.profilePointerId.toPlainString();

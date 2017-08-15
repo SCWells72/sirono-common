@@ -85,7 +85,7 @@
         <externalId>false</externalId>
         <formula>IF(ISBLANK(Payment__c),
   Amount__c,
-  IF(ISBLANK(Payment__r.Sirono_ID__c), Amount__c, 0))</formula>
+  IF(ISBLANK(Payment__r.Sirono_Id__c), Amount__c, 0))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Amount to Aggregate</label>
         <precision>18</precision>
@@ -151,7 +151,7 @@
         <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>External_ID__c</fullName>
+        <fullName>External_Id__c</fullName>
         <description>External Id for the transaction&apos;s entity, not for the transaction itself</description>
         <externalId>false</externalId>
         <label>External ID</label>
@@ -230,7 +230,7 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Sirono_ID__c</fullName>
+        <fullName>Sirono_Id__c</fullName>
         <externalId>true</externalId>
         <label>Sirono ID</label>
         <precision>18</precision>

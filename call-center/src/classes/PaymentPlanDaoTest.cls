@@ -14,24 +14,24 @@ public with sharing class PaymentPlanDaoTest {
     @TestSetup
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
-        gt.Profile_Pointer_ID__c = Decimal.valueOf(GT_SIRONO_ID);
+        gt.Profile_Pointer_Id__c = Decimal.valueOf(GT_SIRONO_ID);
         insert gt;
         System.debug('gt.Id: ' + gt.Id);
 
         Payment_Plan__c pp = TestUtility.generatePaymentPlan(gt);
         pp.Active__c = true;
         pp.Plan_Type__c = Constants.AUTOMATIC;
-        pp.Sirono_ID__c = PP_SIRONO_ID;
+        pp.Sirono_Id__c = PP_SIRONO_ID;
         insert pp;
 
         pp = TestUtility.generatePaymentPlan(gt);
         pp.Active__c = false;
         pp.Plan_Type__c = Constants.AUTOMATIC;
-        pp.Sirono_ID__c = 434343;
+        pp.Sirono_Id__c = 434343;
         insert pp;
 
         // Check system assert.
-        System.assertEquals(Decimal.valueOf(GT_SIRONO_ID), gt.Profile_Pointer_ID__c, 'Expected Profile_Pointer_ID__c is ' + GT_SIRONO_ID + ' but got ' + gt.Profile_Pointer_ID__c);
+        System.assertEquals(Decimal.valueOf(GT_SIRONO_ID), gt.Profile_Pointer_Id__c, 'Expected Profile_Pointer_Id__c is ' + GT_SIRONO_ID + ' but got ' + gt.Profile_Pointer_Id__c);
     }
 
     @IsTest
@@ -42,7 +42,7 @@ public with sharing class PaymentPlanDaoTest {
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan((String) gt.Id);
 
         System.assertNotEquals(pp, null, 'Expected paymentplan but got null');
-        System.assertEquals(PP_SIRONO_ID, pp.Sirono_ID__c, 'Expected Sirono_ID__c of ' + PP_SIRONO_ID + ' but got: ' + pp.Sirono_ID__c);
+        System.assertEquals(PP_SIRONO_ID, pp.Sirono_Id__c, 'Expected Sirono_Id__c of ' + PP_SIRONO_ID + ' but got: ' + pp.Sirono_Id__c);
     }
 
     @IsTest
@@ -63,7 +63,7 @@ public with sharing class PaymentPlanDaoTest {
         Payment_Plan__c pp = PaymentPlanDao.getPaymentPlanBySironoId(PP_SIRONO_ID);
 
         System.assertNotEquals(pp, null, 'Expected paymentplan retrieved by sirono_id but got null');
-        System.assertEquals(PP_SIRONO_ID, pp.Sirono_ID__c, 'Expected Sirono_ID__c of ' + PP_SIRONO_ID + ' but got: ' + pp.Sirono_ID__c);
+        System.assertEquals(PP_SIRONO_ID, pp.Sirono_Id__c, 'Expected Sirono_Id__c of ' + PP_SIRONO_ID + ' but got: ' + pp.Sirono_Id__c);
     }
 
     @IsTest

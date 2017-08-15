@@ -57,7 +57,7 @@ public with sharing class PayStaffWSUtill {
         if (cgList != null && cgList.size() > 0) {
             for (ChargeGroupWrapper cg : cgList) {
                 if (cg.isSelected) {
-                    cgIds += glue + cg.cg.Sirono_ID__c;
+                    cgIds += glue + cg.cg.Sirono_Id__c;
                     glue = ',';
                 }
             }
@@ -216,7 +216,7 @@ public with sharing class PayStaffWSUtill {
 
         Map<Decimal, Charge_Group__c> cgSironoIdMap = new Map<Decimal, Charge_Group__c>();
         for (Charge_Group__c cg : gt.Charge_Groups__r) {
-            cgSironoIdMap.put(cg.Sirono_ID__c, cg);
+            cgSironoIdMap.put(cg.Sirono_Id__c, cg);
         }
 
         AdjustmentJSONParser parser = new AdjustmentJSONParser(jsonString);
@@ -233,7 +233,7 @@ public with sharing class PayStaffWSUtill {
 
                 RelatedObjectWrapper relatedObjectWrapper = callTransactionRequest(null, sironoWrapper.sironoId.toPlainString(), false);
                 sironoWrapper.adjustment.Guarantor__c = gt.Id;
-                sironoWrapper.adjustment.External_Guarantor__c = cgSironoIdMap.get(sironoWrapper.cgSironoId).External_Guarantor_ID__c;
+                sironoWrapper.adjustment.External_Guarantor__c = cgSironoIdMap.get(sironoWrapper.cgSironoId).External_Guarantor_Id__c;
                 wrapperMap.put(sironoWrapper, relatedObjectWrapper);
             }
 
@@ -293,7 +293,7 @@ public with sharing class PayStaffWSUtill {
         req.setHeader('Content-type', 'application/json');
         if (isPayment) {
             req.setEndpoint('callout:sirono_server/paystaff/api/payments/'
-                + String.valueOf(payments.get(0).Sirono_ID__c) + '/transactions/');
+                + String.valueOf(payments.get(0).Sirono_Id__c) + '/transactions/');
         } else {
             req.setEndpoint('callout:sirono_server/paystaff/api/adjustments/'
                 + paymentAdjustmentSironoId + '/transactions/');
@@ -356,10 +356,10 @@ public with sharing class PayStaffWSUtill {
                     //Boolean variable set to false for all Charge Groups whenever Request made.
                     chargeGroupOnPPlan = true;
 
-                    Charge_Group__c chargeGroup = callChargeGroupRequest(cg.Sirono_ID__c);
+                    Charge_Group__c chargeGroup = callChargeGroupRequest(cg.Sirono_Id__c);
 
                     if (cg.Account_Sub_Status__c == Constants.ACCT_SUBSTATUS_PAYMENT_PLAN) {
-                        Payment_Plan__c paymentPlan = callPaymentPlanRequest(cg.Payment_Plan__r.Sirono_ID__c,
+                        Payment_Plan__c paymentPlan = callPaymentPlanRequest(cg.Payment_Plan__r.Sirono_Id__c,
                             cg.Payment_Plan__r.Guarantor__c);
                         paymentPlans.add(paymentPlan);
                     }

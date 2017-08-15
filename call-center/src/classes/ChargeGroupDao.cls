@@ -15,11 +15,11 @@ public with sharing class ChargeGroupDao extends AbstractDao {
      **/
     public static List<Charge_Group__c> getBySironoIds(List<Decimal> sironoIds) {
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            return [SELECT Id, Sirono_ID__c, Account_Status__c, Account_Sub_Status__c, External_Guarantor_ID__c,
+            return [SELECT Id, Sirono_Id__c, Account_Status__c, Account_Sub_Status__c, External_Guarantor_Id__c,
                     External_Guarantor_ID__r.External_Guarantor_Id__c, Payment_Plan__c,
-                    Payment_Plan__r.Sirono_ID__c, Payment_Plan__r.Guarantor__c
+                    Payment_Plan__r.Sirono_Id__c, Payment_Plan__r.Guarantor__c
                 FROM Charge_Group__c
-                WHERE Sirono_ID__c IN :sironoIds
+                WHERE Sirono_Id__c IN :sironoIds
             ];
         }
 
@@ -96,7 +96,7 @@ public with sharing class ChargeGroupDao extends AbstractDao {
             CaseCGJunctionSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             List<String> chargeGroupIds = new List<String>();
             for (Charge_Group__c cg : [
-                SELECT Id, Sirono_ID__c
+                SELECT Id, Sirono_Id__c
                 FROM Charge_Group__c
                 WHERE Id IN (
                     SELECT Charge_Group__c
@@ -105,7 +105,7 @@ public with sharing class ChargeGroupDao extends AbstractDao {
                 )
             ]) {
                 if (cg != null) {
-                    chargeGroupIds.add(cg.Sirono_ID__c + '');
+                    chargeGroupIds.add(cg.Sirono_Id__c + '');
                 }
             }
             return chargeGroupIds;
@@ -123,8 +123,8 @@ public with sharing class ChargeGroupDao extends AbstractDao {
     public static List<Charge_Group__c> getByPaymentPlanIds(Set<Id> paymentPlanIds) {
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
-                    SELECT Id, Guarantor__c, External_Guarantor_ID__c, Account_Status__c, Account_Sub_Status__c,
-                            Sirono_ID__c, External_Guarantor_ID__r.External_Guarantor_Id__c
+                    SELECT Id, Guarantor__c, External_Guarantor_Id__c, Account_Status__c, Account_Sub_Status__c,
+                            Sirono_Id__c, External_Guarantor_ID__r.External_Guarantor_Id__c
                     FROM Charge_Group__c
                     WHERE Active__c = TRUE
                     AND Payment_Plan__c IN :paymentPlanIds
@@ -143,7 +143,7 @@ public with sharing class ChargeGroupDao extends AbstractDao {
         List<Charge_Group__c> cgs = new List<Charge_Group__c>();
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             cgs = [
-                SELECT Id, Sirono_ID__c
+                SELECT Id, Sirono_Id__c
                 FROM Charge_Group__c
                 WHERE Payment_Plan__c = :planId
             ];
@@ -161,7 +161,7 @@ public with sharing class ChargeGroupDao extends AbstractDao {
     public static List<Charge_Group__c> getPayableByInvoiceId(Set<String> invoiceIds) {
         if (ChargeGroupSecurityContext.IU_SELECT_CONTEXT.actionAllowed()) {
             return [
-                SELECT Id, Invoice__c, Balance__c, Active__c, Sirono_ID__c
+                SELECT Id, Invoice__c, Balance__c, Active__c, Sirono_Id__c
                 FROM Charge_Group__c
                 WHERE Invoice__c IN :invoiceIds
                 AND Active__c = TRUE
@@ -199,8 +199,8 @@ public with sharing class ChargeGroupDao extends AbstractDao {
      **/
     //TODO can both uses of this method work with the cgs ordered?
     public static List<Charge_Group__c> getCGForInvoiceController(Set<Id> chargeGroupIds, Boolean hasOrderBy) {
-        String queryString = 'SELECT Id, Name, Balance__c, Active__c, Sirono_ID__c, Location__c, Location__r.Name, Provider__r.Name, Account_Type__c, ';
-        queryString += 'External_ID__c, Payment_Plan__c, Payment_Plan__r.Active__c, Payment_Plan__r.Installment_Amount__c, Payment_Plan__r.NextPaymentDate__c, ';
+        String queryString = 'SELECT Id, Name, Balance__c, Active__c, Sirono_Id__c, Location__c, Location__r.Name, Provider__r.Name, Account_Type__c, ';
+        queryString += 'External_Id__c, Payment_Plan__c, Payment_Plan__r.Active__c, Payment_Plan__r.Installment_Amount__c, Payment_Plan__r.NextPaymentDate__c, ';
         queryString += 'Sirono_Assigned_Date__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c, ';
         queryString += '(';
         queryString += 'SELECT Adjustment2__r.Display_Name__c, Payment__r.Display_Name__c, Service2__r.Display_Name__c, ';

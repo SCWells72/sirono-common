@@ -8,7 +8,7 @@
         <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>Call_ID__c</fullName>
+        <fullName>Call_Id__c</fullName>
         <description>Call Id from Five9 reports</description>
         <externalId>false</externalId>
         <label>Call ID</label>
@@ -113,7 +113,7 @@ VALUE(RIGHT(Five9__Five9WrapTime__c,2)) +
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Salesforce_ID__c</fullName>
+        <fullName>Salesforce_Id__c</fullName>
         <externalId>false</externalId>
         <label>Salesforce ID</label>
         <length>18</length>
@@ -136,7 +136,7 @@ VALUE(RIGHT(Five9__Five9WrapTime__c,2)) +
     </listViews>
     <searchLayouts>
         <searchResultsAdditionalFields>TASK.SUBJECT</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Salesforce_ID__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Salesforce_Id__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Five9__Five9Campaign__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Disposition__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>TASK.CALLDISPOSITION</searchResultsAdditionalFields>

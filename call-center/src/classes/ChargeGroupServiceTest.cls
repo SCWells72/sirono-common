@@ -11,7 +11,7 @@ public with sharing class ChargeGroupServiceTest {
     public static void setup() {
 
         Contact gt = TestUtility.generateGuarantorContact();
-        gt.Profile_Pointer_ID__c = 23232323;
+        gt.Profile_Pointer_Id__c = 23232323;
         insert gt;
 
         Contact pt = TestUtility.generatePatientContact();
@@ -21,16 +21,16 @@ public with sharing class ChargeGroupServiceTest {
 
         Payment_Plan__c pp = TestUtility.generatePaymentPlan(gt);
         pp.Plan_Type__c = Constants.AUTOMATIC;
-        pp.Sirono_ID__c = 33556677;
+        pp.Sirono_Id__c = 33556677;
         pp.Plan_Value_Modified_Date__c = createdDT;
         insert pp;
         Test.setCreatedDate(pp.Id, createdDT);
 
         List<Charge_Group__c> cgs = new List<Charge_Group__c>();
         cgs.add(TestUtility.generateChargeGroup(gt.Id, pt.Id, cgOneSironoId, pp.Id));
-        cgs.get(0).Sirono_ID__c = cgOneSironoId;
+        cgs.get(0).Sirono_Id__c = cgOneSironoId;
         cgs.add(TestUtility.generateChargeGroup(gt.Id, pt.Id, cgTwoSironoId, pp.Id));
-        cgs.get(1).Sirono_ID__c = cgTwoSironoId;
+        cgs.get(1).Sirono_Id__c = cgTwoSironoId;
 
         insert cgs;
     }
@@ -79,7 +79,7 @@ public with sharing class ChargeGroupServiceTest {
     @IsTest
     public static void testGetSironoIds() {
         List<Charge_Group__c> cgs = [
-            SELECT Id, Sirono_ID__c
+            SELECT Id, Sirono_Id__c
             FROM Charge_Group__c
         ];
 

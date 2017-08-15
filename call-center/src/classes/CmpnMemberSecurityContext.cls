@@ -9,7 +9,7 @@ public with sharing class CmpnMemberSecurityContext extends SecurityContext {
 
     // Field constants for CampaignMember object.
     private static final String CAMPAIGNID = 'CampaignId';
-    private static final String CASE_ID = 'Case_ID__c';
+    private static final String CASE_ID = 'Case_Id__c';
     private static final String CONTACTID = 'ContactId';
     private static final String STATUS = 'Status';
 
