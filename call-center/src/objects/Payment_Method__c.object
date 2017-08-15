@@ -157,7 +157,7 @@ CASE(Type__c,
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>ID__c</fullName>
+        <fullName>Id__c</fullName>
         <externalId>true</externalId>
         <label>ID</label>
         <length>128</length>
@@ -200,7 +200,7 @@ CASE(Type__c,
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Sirono_ID__c</fullName>
+        <fullName>Sirono_Id__c</fullName>
         <externalId>true</externalId>
         <label>Sirono ID</label>
         <precision>18</precision>

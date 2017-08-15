@@ -14,7 +14,7 @@ public class EarlyOutSchedulerBatchTest {
 
         Contact con1 = TestUtility.generateGuarantorContact();
         con1.LastName = 'Test';
-        con1.Profile_Pointer_ID__c = 123;
+        con1.Profile_Pointer_Id__c = 123;
         insert con1;
 
         Contact p = TestUtility.generatePatientContact();

@@ -13,14 +13,14 @@ public with sharing class CaseServiceTest {
     @TestSetup
     public static void setup() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = Decimal.valueOf(GT_SIRONO_ID);
+        guarantorContact.Profile_Pointer_Id__c = Decimal.valueOf(GT_SIRONO_ID);
         insert guarantorContact;
 
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, null, 1214);
         insert chargeGroup;
 
         // Check system assert.
-        System.assertEquals(Decimal.valueOf(GT_SIRONO_ID), guarantorContact.Profile_Pointer_ID__c, 'Expected Profile_Pointer_ID__c is ' + GT_SIRONO_ID + ' but got ' + guarantorContact.Profile_Pointer_ID__c);
+        System.assertEquals(Decimal.valueOf(GT_SIRONO_ID), guarantorContact.Profile_Pointer_Id__c, 'Expected Profile_Pointer_Id__c is ' + GT_SIRONO_ID + ' but got ' + guarantorContact.Profile_Pointer_Id__c);
     }
 
     /**

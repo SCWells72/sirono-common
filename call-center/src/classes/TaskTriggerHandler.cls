@@ -371,10 +371,10 @@ public with sharing class TaskTriggerHandler {
                     String selectedTimeZone = lstUserSetting[0].Timezone_Name__c;
                     String strHours = objTask.CreatedDate.format('HH', selectedTimeZone);
                     if (isUpdate) {
-                        objTask.Hours_of_Day__c = Integer.valueOf(strHours);
+                        objTask.Hours_Of_Day__c = Integer.valueOf(strHours);
                     } else {
                         Task tempTask = objTask.clone(true);
-                        tempTask.Hours_of_Day__c = Integer.valueOf(strHours);
+                        tempTask.Hours_Of_Day__c = Integer.valueOf(strHours);
                         lstTask.add(tempTask);
                     }
                 }

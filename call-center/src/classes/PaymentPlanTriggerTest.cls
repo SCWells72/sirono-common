@@ -35,10 +35,10 @@ private class PaymentPlanTriggerTest {
         update paymentPlan;
 
         paymentPlan.Plan_Type__c = Constants.AUTOMATIC;
-        paymentPlan.Execute_on_Day__c = 0;
+        paymentPlan.Execute_On_Day__c = 0;
         update paymentPlan;
 
-        paymentPlan.Execute_on_Day__c = 31;
+        paymentPlan.Execute_On_Day__c = 31;
         update paymentPlan;
         Test.stopTest();
 
@@ -140,13 +140,13 @@ private class PaymentPlanTriggerTest {
         insert paymentPlan1;
         Test.stopTest();
 
-        // Check system assert, Execute_on_Day__c should be populated with '0' value.
+        // Check system assert, Execute_On_Day__c should be populated with '0' value.
         List<Payment_Plan__c> paymentPlans = [
-            SELECT Id, Execute_on_Day__c
+            SELECT Id, Execute_On_Day__c
             FROM Payment_Plan__c
             WHERE Guarantor__c = :guarantorContact.Id
         ];
-        System.assertEquals(paymentPlans[0].Execute_on_Day__c, 1, 'Execute_on_Day__c should be 1 for Payment Plan.');
+        System.assertEquals(paymentPlans[0].Execute_On_Day__c, 1, 'Execute_On_Day__c should be 1 for Payment Plan.');
     }
 
     /**

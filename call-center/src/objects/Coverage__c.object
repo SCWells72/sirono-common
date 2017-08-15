@@ -335,31 +335,31 @@
         <customTabListAdditionalFields>Priority__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Date_Effective__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Date_Termination__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Member_ID__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Member_Id__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Member_Name__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Payor__c</customTabListAdditionalFields>
         <lookupDialogsAdditionalFields>Date_Effective__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Date_Termination__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Member_ID__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Member_Id__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Member_Name__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Payor__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Verification_Status__c</lookupDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Priority__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Date_Effective__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Date_Termination__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Member_ID__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Member_Id__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Member_Name__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Payor__c</lookupPhoneDialogsAdditionalFields>
         <searchFilterFields>NAME</searchFilterFields>
         <searchFilterFields>Priority__c</searchFilterFields>
         <searchFilterFields>Date_Effective__c</searchFilterFields>
         <searchFilterFields>Date_Termination__c</searchFilterFields>
-        <searchFilterFields>External_ID__c</searchFilterFields>
+        <searchFilterFields>External_Id__c</searchFilterFields>
         <searchFilterFields>External_Last_Update__c</searchFilterFields>
         <searchFilterFields>Payor__c</searchFilterFields>
         <searchResultsAdditionalFields>Date_Effective__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Date_Termination__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Member_ID__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Member_Id__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Member_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Member_Relationship__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Payor__c</searchResultsAdditionalFields>

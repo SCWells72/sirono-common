@@ -13,7 +13,7 @@ public with sharing class PopulateNextPaymentDateBatch implements Database.Batch
             return Database.getQueryLocator([
                 SELECT
                     Id, Guarantor__c, Plan_Type__c,
-                    Execute_on_Day__c, NextPaymentDate__c,
+                    Execute_On_Day__c, NextPaymentDate__c,
                     Skip_Payment_Until__c
                 FROM Payment_Plan__c
                 WHERE Guarantor__c != NULL

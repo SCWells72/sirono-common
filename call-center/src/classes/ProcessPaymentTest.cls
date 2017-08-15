@@ -109,7 +109,7 @@ private class ProcessPaymentTest {
     static testMethod void checkCardValidation() {
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = 123;
+        guarantorContact.Profile_Pointer_Id__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -183,7 +183,7 @@ private class ProcessPaymentTest {
     static testMethod void checkAmountEmpty() {
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = 123;
+        guarantorContact.Profile_Pointer_Id__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -263,7 +263,7 @@ private class ProcessPaymentTest {
     static testMethod void fillNameAndAddress() {
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = 123;
+        guarantorContact.Profile_Pointer_Id__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -341,7 +341,7 @@ private class ProcessPaymentTest {
     static testMethod void checkExceedBalance() {
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = 123;
+        guarantorContact.Profile_Pointer_Id__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -428,7 +428,7 @@ private class ProcessPaymentTest {
     static testMethod void checkAmountNegative() {
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = 123;
+        guarantorContact.Profile_Pointer_Id__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -508,7 +508,7 @@ private class ProcessPaymentTest {
     static testMethod void submit() {
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = 123;
+        guarantorContact.Profile_Pointer_Id__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -593,7 +593,7 @@ private class ProcessPaymentTest {
     static testMethod void checkChargeGroupId() {
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = 123;
+        guarantorContact.Profile_Pointer_Id__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -665,7 +665,7 @@ private class ProcessPaymentTest {
     static testMethod void paymentException() {
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = 123;
+        guarantorContact.Profile_Pointer_Id__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -755,7 +755,7 @@ private class ProcessPaymentTest {
     static testMethod void wrapperListException() {
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = 123;
+        guarantorContact.Profile_Pointer_Id__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -847,7 +847,7 @@ private class ProcessPaymentTest {
     static testMethod void chargeGroupException() {
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = 123;
+        guarantorContact.Profile_Pointer_Id__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -939,7 +939,7 @@ private class ProcessPaymentTest {
     static testMethod void ResponseElse() {
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = 123;
+        guarantorContact.Profile_Pointer_Id__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -1030,7 +1030,7 @@ private class ProcessPaymentTest {
     static testMethod void validationException() {
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = 123;
+        guarantorContact.Profile_Pointer_Id__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.
@@ -1124,7 +1124,7 @@ private class ProcessPaymentTest {
     static testMethod void nonFieldException() {
         //Create Guarantor Contact record with different Profile_Pointer_Id.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = 123;
+        guarantorContact.Profile_Pointer_Id__c = 123;
         insert guarantorContact;
 
         //Create Patient Contact record.

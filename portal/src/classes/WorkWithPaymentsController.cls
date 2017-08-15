@@ -17,7 +17,7 @@ public with sharing class WorkWithPaymentsController {
                 Payment_Id__c,
                 Payment_Method__r.Last_4__c,
                 Payment_Method__r.Card_Type__c,
-                Processor_Transaction_ID__c,
+                Processor_Transaction_Id__c,
                 Amount__c
             FROM Payment__c
             WHERE Guarantor__c = :currentUser.ContactId
@@ -46,7 +46,7 @@ public with sharing class WorkWithPaymentsController {
             if (payment.Method__c == 'credit' || payment.Method__c == 'Credit') {
                 this.description += payment.Payment_Method__r.Card_Type__c + ' ' + payment.Payment_Method__r.Last_4__c;
             } else if (payment.Method__c == 'check' || payment.Method__c == 'Check') {
-                this.description += payment.Processor_Transaction_ID__c;
+                this.description += payment.Processor_Transaction_Id__c;
             }
             this.description = this.description.replaceAll('null', '');
         }

@@ -45,7 +45,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Subscriber_ID__c</field>
+                <field>Subscriber_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -81,7 +81,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Charge_Group_for_Discount__c</field>
+                <field>Charge_Group_For_Discount__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -93,19 +93,19 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Informed_Caller_to_mail_Death_Certificat__c</field>
+                <field>Informed_Caller_To_Mail_Death_Certificat__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Mail_in_Proof_of_Bankruptcy_and_Terms__c</field>
+                <field>Mail_In_Proof_Of_Bankruptcy_And_Terms__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Form_to_be_Mailed__c</field>
+                <field>Form_To_Be_Mailed__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Charge_Group_IDs__c</field>
+                <field>Charge_Group_Ids__c</field>
             </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>

@@ -12,7 +12,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Charge_Group_Coverage_Junction__c.Sirono_ID__c</field>
+        <field>Charge_Group_Coverage_Junction__c.Sirono_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -52,7 +52,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Charge_Group__c.Charge_Group_External_ID__c</field>
+        <field>Charge_Group__c.Charge_Group_External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -77,12 +77,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Charge_Group__c.External_Guarantor_ID__c</field>
+        <field>Charge_Group__c.External_Guarantor_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Charge_Group__c.External_ID__c</field>
+        <field>Charge_Group__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -252,12 +252,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Charge_Group__c.Sirono_ID__c</field>
+        <field>Charge_Group__c.Sirono_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Charge_Group__c.Sub_Status_Index__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Transaction__c.Amount_To_Aggregate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -267,12 +272,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Transaction__c.Amount_to_Aggregate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Transaction__c.Charge_added_since_plan_start__c</field>
+        <field>Transaction__c.Charge_Added_Since_Plan_Start__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -292,7 +292,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Transaction__c.External_ID__c</field>
+        <field>Transaction__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -327,7 +327,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Transaction__c.Sirono_ID__c</field>
+        <field>Transaction__c.Sirono_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

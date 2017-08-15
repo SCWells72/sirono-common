@@ -42,7 +42,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Payment__c.Collected_by__c</field>
+        <field>Payment__c.Collected_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -72,7 +72,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Payment__c.ID__c</field>
+        <field>Payment__c.Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -117,7 +117,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Payment__c.Processor_Transaction_ID__c</field>
+        <field>Payment__c.Processor_Transaction_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -127,7 +127,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Payment__c.Sirono_ID__c</field>
+        <field>Payment__c.Sirono_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

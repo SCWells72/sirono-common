@@ -66,7 +66,7 @@
                                         <apex:repeat value="{!chargeGroupList}" var="cgw">
                                             <tr class="dataRow" width="2%">
                                                 <td class="dataCell" width="18%">
-                                                    <apex:outputField value="{!cgw.cg.External_ID__c}"/>
+                                                    <apex:outputField value="{!cgw.cg.External_Id__c}"/>
                                                 </td>
                                                 <td class="dataCell" width="10%">
                                                     <apex:outputField value="{!cgw.cg.Account_Type__c}"/>

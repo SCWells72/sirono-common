@@ -81,7 +81,7 @@
             <!-- Guarantor_Status__c == 'On Payment Plan' END -->
 
             <!--  Plan = false -->
-            <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c == false)}">
+            <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_To_Payment_Plan__c == false)}">
                 <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Due')}">
                     <button class="slds-button slds-button--brand " onclick="{!c.sendUnpaidFilterToHeader}">Pay Account in Full</button>
                 </aura:if>
@@ -99,7 +99,7 @@
             <!--  Plan = false END -->
 
             <!--  Plan = true -->
-            <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_to_Payment_Plan__c == true)}">
+            <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_To_Payment_Plan__c == true)}">
                 <!-- Guarantor_Status__c == 'Due' -->
                 <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Due')}">
                     <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">

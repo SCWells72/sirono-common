@@ -154,7 +154,7 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Collected_by__c</fullName>
+        <fullName>Collected_By__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Collected By</label>
@@ -236,7 +236,7 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>ID__c</fullName>
+        <fullName>Id__c</fullName>
         <description>Either Sirono ID or composite key: Sirono ID, Guarantor, Post Date, Code, Payor</description>
         <externalId>true</externalId>
         <label>ID</label>
@@ -367,7 +367,7 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Processor_Transaction_ID__c</fullName>
+        <fullName>Processor_Transaction_Id__c</fullName>
         <description>Id of the processor</description>
         <externalId>false</externalId>
         <label>Processor Transaction ID</label>
@@ -389,7 +389,7 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>Sirono_ID__c</fullName>
+        <fullName>Sirono_Id__c</fullName>
         <description>Id number</description>
         <externalId>true</externalId>
         <label>Sirono ID</label>
@@ -496,13 +496,13 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <customTabListAdditionalFields>Amount__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Method__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Deposit_Date__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Collected_by__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Collected_By__c</customTabListAdditionalFields>
         <lookupDialogsAdditionalFields>Payor__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Guarantor__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Amount__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Method__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Deposit_Date__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Collected_by__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Collected_By__c</lookupDialogsAdditionalFields>
         <lookupFilterFields>NAME</lookupFilterFields>
         <lookupFilterFields>Payor__c</lookupFilterFields>
         <lookupFilterFields>Guarantor__c</lookupFilterFields>
@@ -514,20 +514,20 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <lookupPhoneDialogsAdditionalFields>Amount__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Method__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Deposit_Date__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Collected_by__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Collected_By__c</lookupPhoneDialogsAdditionalFields>
         <searchFilterFields>NAME</searchFilterFields>
         <searchFilterFields>Payor__c</searchFilterFields>
         <searchFilterFields>Guarantor__c</searchFilterFields>
         <searchFilterFields>Amount__c</searchFilterFields>
         <searchFilterFields>Method__c</searchFilterFields>
         <searchFilterFields>Deposit_Date__c</searchFilterFields>
-        <searchFilterFields>Collected_by__c</searchFilterFields>
+        <searchFilterFields>Collected_By__c</searchFilterFields>
         <searchResultsAdditionalFields>Payor__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Guarantor__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Amount__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Method__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Deposit_Date__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Collected_by__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Collected_By__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>Private</sharingModel>
     <visibility>Public</visibility>

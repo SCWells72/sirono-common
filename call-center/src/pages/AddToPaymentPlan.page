@@ -55,7 +55,7 @@
                                                         onclick="checkBoxStatus();startAjaxLoader('pg:frm:statusPanel');refreshJS();"/>
                                 </td>
                                 <td class="dataCell">
-                                    <apex:outputField value="{!cgw.cg.External_ID__c}"/>
+                                    <apex:outputField value="{!cgw.cg.External_Id__c}"/>
                                 </td>
                                 <td class="dataCell">
                                     <apex:outputField value="{!cgw.cg.Account_Type__c}"/>
@@ -146,7 +146,7 @@
                 <ul>
                     <apex:repeat value="{!chargeGroupList}" var="cgw">
                         <apex:outputPanel rendered="{!cgw.isSelected}">
-                            <li class="pay-staff-message">Account {!cgw.cg.External_ID__c}</li>
+                            <li class="pay-staff-message">Account {!cgw.cg.External_Id__c}</li>
                         </apex:outputPanel>
                     </apex:repeat>
                 </ul>

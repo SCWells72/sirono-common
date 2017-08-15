@@ -57,7 +57,7 @@ public with sharing class TxnAggregationUtils {
             List<Id> sironoPmtIds = new List<Id>(new Map<Id, Payment__c>([
                 SELECT Id
                 FROM Payment__c
-                WHERE Id IN :ids AND Sirono_ID__c != NULL
+                WHERE Id IN :ids AND Sirono_Id__c != NULL
             ]).keySet());
 
             if (sironoPmtIds.size() > 0) {

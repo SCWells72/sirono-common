@@ -62,7 +62,7 @@ public with sharing class GuarantorServiceTest {
         gt.Birthdate = BIRTHDATE;
         gt.Medical_Record_Number__c = MRN;
 
-        gt.Profile_Pointer_ID__c = Decimal.valueOf(SIRONO_ID);
+        gt.Profile_Pointer_Id__c = Decimal.valueOf(SIRONO_ID);
         insert gt;
 
         Contact pt = TestUtility.generatePatientContact();
@@ -83,7 +83,7 @@ public with sharing class GuarantorServiceTest {
         insert chargeGroup;
 
         // Check system asserts.
-        System.assertEquals(Decimal.valueOf(SIRONO_ID), gt.Profile_Pointer_ID__c, 'Expected ' + SIRONO_ID + ' but we got ' + gt.Profile_Pointer_ID__c);
+        System.assertEquals(Decimal.valueOf(SIRONO_ID), gt.Profile_Pointer_Id__c, 'Expected ' + SIRONO_ID + ' but we got ' + gt.Profile_Pointer_Id__c);
     }
 
     /*
@@ -127,8 +127,8 @@ public with sharing class GuarantorServiceTest {
     public static void getGTBySironoIdTest() {
         Contact gt = GuarantorService.getGuarantorBySironoId(SIRONO_ID);
         System.assertNotEquals(gt, null, 'Expected guarantor but got null');
-        System.assertEquals(SIRONO_ID, String.valueOf(gt.Profile_Pointer_ID__c),
-            'Expected Sirono_ID__c of ' + SIRONO_ID + ' but got: ' + gt.Profile_Pointer_ID__c);
+        System.assertEquals(SIRONO_ID, String.valueOf(gt.Profile_Pointer_Id__c),
+            'Expected Sirono_Id__c of ' + SIRONO_ID + ' but got: ' + gt.Profile_Pointer_Id__c);
         System.assertEquals(RecordTypeUtil.guarantorRt, gt.RecordTypeId,
             'Expected RecordTypeId of ' + RecordTypeUtil.guarantorRt + ' but got: ' + gt.RecordTypeId);
     }

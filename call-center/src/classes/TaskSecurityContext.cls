@@ -16,7 +16,7 @@ public with sharing class TaskSecurityContext extends SecurityContext {
     private static final String FIVE9_FIVE9CAMPAIGN = 'Five9__Five9Campaign__c';
     private static final String FIVE9_FIVE9DNIS = 'Five9__Five9DNIS__c';
     private static final String FIVE9_FIVE9SESSIONID = 'Five9__Five9SessionId__c';
-    private static final String HOURS_OF_DAY = 'Hours_of_Day__c';
+    private static final String HOURS_OF_DAY = 'Hours_Of_Day__c';
     private static final String STATUS = 'Status';
     private static final String WHOID = 'WhoId';
 

@@ -30,7 +30,7 @@
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Case.Author_ID__c</field>
+        <field>Case.Author_Id__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
     <name>Aged Cases by Agent</name>

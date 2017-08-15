@@ -148,7 +148,7 @@ public with sharing class AdjustmentService extends AbstractService {
         // Read the cg from the db to get the GTExternalId & PP Id
         List<Charge_Group__c> dbChargeGroups = ChargeGroupDao.getBySironoIds(new List<Decimal> { Decimal.valueOf(parser.cgSironoId) });
         if (dbChargeGroups[0].Payment_Plan__c != null) {
-            originalPaymentPlan = PaymentPlanService.retrievePlan(dbChargeGroups[0].Payment_Plan__r.Sirono_ID__c);
+            originalPaymentPlan = PaymentPlanService.retrievePlan(dbChargeGroups[0].Payment_Plan__r.Sirono_Id__c);
 
             dbChargeGroups = ChargeGroupDao.getByPaymentPlanIds(new Set<Id> { dbChargeGroups[0].Payment_Plan__c });
         }
@@ -185,7 +185,7 @@ public with sharing class AdjustmentService extends AbstractService {
         adj.Aggregate_Id__c = aggregateId;
 
         //TODO hack until the ExternalGT is returned via the api
-        adj.External_Guarantor__c = dbChargeGroups[0].External_Guarantor_ID__c;
+        adj.External_Guarantor__c = dbChargeGroups[0].External_Guarantor_Id__c;
         AdjustmentDao.save(new List<Adjustment__c> { adj });
         System.debug('Saved adj, Id: ' + adj.Id);
 

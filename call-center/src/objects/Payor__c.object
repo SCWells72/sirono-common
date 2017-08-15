@@ -138,7 +138,7 @@
         <columns>NAME</columns>
         <columns>Origin_Code__c</columns>
         <columns>External_Id__c</columns>
-        <columns>Sirono_ID__c</columns>
+        <columns>Sirono_Id__c</columns>
         <columns>Unique_Id__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>

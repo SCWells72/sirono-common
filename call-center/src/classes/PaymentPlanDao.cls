@@ -17,11 +17,11 @@ public with sharing class PaymentPlanDao extends AbstractDao {
 
         if (PaymentPlanSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             List<Payment_Plan__c> plans = [
-                SELECT Id, Sirono_ID__c, Active__c, Payment_Plan_Standing__c, Plan_Type__c, NextPaymentDate__c, Installment_Amount__c,
+                SELECT Id, Sirono_Id__c, Active__c, Payment_Plan_Standing__c, Plan_Type__c, NextPaymentDate__c, Installment_Amount__c,
                     Installments_Completed__c, Original_Installment_Count__c
                 FROM Payment_Plan__c
                 WHERE Active__c = TRUE
-                AND Sirono_ID__c != NULL
+                AND Sirono_Id__c != NULL
                 AND Guarantor__c = :guarantorId
                 LIMIT 1
             ];
@@ -35,7 +35,7 @@ public with sharing class PaymentPlanDao extends AbstractDao {
     }
 
     /**
-     * Return the Payment_Plan__c with the given Sirono_ID__c
+     * Return the Payment_Plan__c with the given Sirono_Id__c
      * @param - String sirionoId The sironoId of the plan
      * @return Payment_Plan__c The requested plan
      */
@@ -44,7 +44,7 @@ public with sharing class PaymentPlanDao extends AbstractDao {
     }
 
     /**
-     * Return the Payment_Plan__c with the given Sirono_ID__c
+     * Return the Payment_Plan__c with the given Sirono_Id__c
      * @param - Decimal sironoId The sironoId of the plan
      * @return Payment_Plan__c The requested plan
      */
@@ -52,9 +52,9 @@ public with sharing class PaymentPlanDao extends AbstractDao {
 
         if (PaymentPlanSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             List<Payment_Plan__c> plans = [
-                SELECT Id, Sirono_ID__c, Active__c
+                SELECT Id, Sirono_Id__c, Active__c
                 FROM Payment_Plan__c
-                WHERE Sirono_ID__c = :sironoId
+                WHERE Sirono_Id__c = :sironoId
                 LIMIT 1
             ];
 
@@ -97,8 +97,8 @@ public with sharing class PaymentPlanDao extends AbstractDao {
         if (PaymentPlanSecurityContext.GUARANTOR_SELECT.actionAllowed() && PaymentMethodSecurityContext.GUARANTOR_SELECT.actionAllowed()) {
             plans = [
                 SELECT Id, Name, Original_Installment_Count__c, Remaining_Balance__c, Installment_Amount__c, CreatedDate,
-                    NextPaymentDate__c, Plan_Type__c, Remaining_Installment_Count__c, Execute_on_Day__c, Sirono_ID__c,
-                    Payment_Method__c, Payment_Method__r.Sirono_ID__c, Payment_Method__r.Display_Name__c,
+                    NextPaymentDate__c, Plan_Type__c, Remaining_Installment_Count__c, Execute_On_Day__c, Sirono_Id__c,
+                    Payment_Method__c, Payment_Method__r.Sirono_Id__c, Payment_Method__r.Display_Name__c,
                     Payment_Method__r.Card_Type__c, Payment_Method__r.Last_4__c
                 FROM Payment_Plan__c
                 WHERE Guarantor__c = :guarantorId AND Active__c = TRUE
@@ -120,8 +120,8 @@ public with sharing class PaymentPlanDao extends AbstractDao {
         if (PaymentPlanSecurityContext.GUARANTOR_SELECT.actionAllowed() && PaymentMethodSecurityContext.GUARANTOR_SELECT.actionAllowed()) {
             plans = [
                 SELECT Id, Name, Original_Installment_Count__c, Remaining_Balance__c, Installment_Amount__c, CreatedDate,
-                    NextPaymentDate__c, Plan_Type__c, Remaining_Installment_Count__c, Execute_on_Day__c, Sirono_ID__c, Guarantor__c,
-                    Payment_Method__c, Payment_Method__r.Sirono_ID__c, Payment_Method__r.Display_Name__c,
+                    NextPaymentDate__c, Plan_Type__c, Remaining_Installment_Count__c, Execute_On_Day__c, Sirono_Id__c, Guarantor__c,
+                    Payment_Method__c, Payment_Method__r.Sirono_Id__c, Payment_Method__r.Display_Name__c,
                     Payment_Method__r.Card_Type__c, Payment_Method__r.Last_4__c
                 FROM Payment_Plan__c
                 WHERE Id = :planId

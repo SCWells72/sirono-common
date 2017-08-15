@@ -96,7 +96,7 @@ public class PaymentPlanJSONParsing extends AbstractSironoJSONParser {
         }
 
         paymentPlanObj.Remaining_Balance__c = AbstractSironoJSONParser.convertToDollars(objJson.payable_amount);
-        paymentPlanObj.Execute_on_Day__c = objJson.execute_on_day;
+        paymentPlanObj.Execute_On_Day__c = objJson.execute_on_day;
         paymentPlanObj.NextPaymentDate__c = AbstractSironoJSONParser.parseDate(objJson.next_payment_date);
         paymentPlanObj.Skip_Payment_Until__c = AbstractSironoJSONParser.parseDate(objJson.skip_payment_until);
         paymentPlanObj.Has_Error__c = objJson.has_error;
@@ -117,9 +117,9 @@ public class PaymentPlanJSONParsing extends AbstractSironoJSONParser {
 
             if (!String.isBlank(planSironoIdStr)) {
                 Decimal planSironoId = Decimal.valueOf(planSironoIdStr);
-                paymentPlanObj.Sirono_ID__c = planSironoId;
+                paymentPlanObj.Sirono_Id__c = planSironoId;
                 // TODO remove when name is turned into an autonumber field
-                paymentPlanObj.Name = String.valueOf(paymentPlanObj.Sirono_ID__c);
+                paymentPlanObj.Name = String.valueOf(paymentPlanObj.Sirono_Id__c);
                 Payment_Plan__c paymentPlan = PaymentPlanDao.getPaymentPlanBySironoId(planSironoId);
                 if (paymentPlan != null) {
                     paymentPlanObj.Id = paymentPlan.Id ;

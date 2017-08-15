@@ -29,7 +29,7 @@ public class PortalTestUtility {
         Contact guarantorContact = new Contact();
         guarantorContact.RecordTypeId = RecordTypeUtil.guarantorRt;
         guarantorContact.LastName = gurantorName;
-        guarantorContact.Profile_Pointer_ID__c = getUniqueId();
+        guarantorContact.Profile_Pointer_Id__c = getUniqueId();
         guarantorContact.HomePhone = '111';
         guarantorContact.MobilePhone = '111';
         return guarantorContact;
@@ -62,11 +62,11 @@ public class PortalTestUtility {
         Decimal chargeGroupExternalId) {
         Charge_Group__c cg = new Charge_Group__c();
         cg.Guarantor__c = guarantorContactId;
-        cg.Sirono_ID__c = getUniqueId();
+        cg.Sirono_Id__c = getUniqueId();
         cg.Patient__c = patientContactId;
-        cg.External_ID__c = String.valueOf(chargeGroupExternalId);
+        cg.External_Id__c = String.valueOf(chargeGroupExternalId);
         cg.Name = 'Sirono';
-        cg.Charge_Group_External_ID__c = true;
+        cg.Charge_Group_External_Id__c = true;
         cg.Reported_Selfpay_Balance__c = 10;
         cg.Active__c = true;
         cg.Account_Status__c = PortalConstants.ACCT_STATUS_BILLED;
@@ -81,7 +81,7 @@ public class PortalTestUtility {
         Date serviceDate) {
         Encounter__c encounter = new Encounter__c(Guarantor__c = guarantorId,
             Patient_Portion__c = patientPortion,
-            Date_of_Service__c = serviceDate);
+            Date_Of_Service__c = serviceDate);
         return encounter;
     }
 
@@ -96,7 +96,7 @@ public class PortalTestUtility {
     // Return a new payment plan record
     public static Payment_Plan__c generatePaymentPlan(String guarantorId) {
         Payment_Plan__c paymentPlan = new Payment_Plan__c();
-        paymentPlan.Sirono_ID__c = getUniqueId();
+        paymentPlan.Sirono_Id__c = getUniqueId();
         paymentPlan.Guarantor__c = guarantorId;
         return paymentPlan;
     }
@@ -142,7 +142,7 @@ public class PortalTestUtility {
     public static Payment__c generateSironoPayment(Id guarantorId, Decimal sironoId, Decimal amount) {
         Payment__c payment = generatePayment();
         payment.Guarantor__c = guarantorId;
-        payment.Sirono_ID__c = sironoId;
+        payment.Sirono_Id__c = sironoId;
         payment.Amount__c = amount;
         return payment;
     }
@@ -184,7 +184,7 @@ public class PortalTestUtility {
         Transaction__c txn = new Transaction__c();
         txn.Amount__c = amount == null ? 0 : amount;
         txn.Charge_Group__c = chargeGroup.Id;
-        txn.Sirono_ID__c = getUniqueId();
+        txn.Sirono_Id__c = getUniqueId();
         txn.Post_Date__c = System.today();
         txn.Transaction_Date__c = System.today();
         return txn;
@@ -262,7 +262,7 @@ public class PortalTestUtility {
         List<User> users = [
             SELECT Alias, Email, EmailEncodingKey, FirstName, LastName, LanguageLocaleKey,
                 LocaleSidKey, ProfileId, ContactId,
-                TimeZoneSidKey, Username, Contact.Profile_Pointer_ID__c
+                TimeZoneSidKey, Username, Contact.Profile_Pointer_Id__c
             FROM User
             WHERE Username = :testUsername
             LIMIT 1
@@ -275,7 +275,7 @@ public class PortalTestUtility {
             System.runAs(portalAdminUser) {
                 //Create Guarantor Contact record
                 Contact gt = PortalTestUtility.generateGuarantorContact();
-                gt.Profile_Pointer_ID__c = PROFILE_POINTER;
+                gt.Profile_Pointer_Id__c = PROFILE_POINTER;
                 gt.AccountId = a.Id;
                 gt.OwnerId = portalAdminUser.Id;
                 Database.insert(gt);
@@ -308,7 +308,7 @@ public class PortalTestUtility {
                 usr = [
                     SELECT Id, Alias, Email, EmailEncodingKey, FirstName, LastName, LanguageLocaleKey,
                         LocaleSidKey, ProfileId, ContactId,
-                        TimeZoneSidKey, Username, Contact.Profile_Pointer_ID__c
+                        TimeZoneSidKey, Username, Contact.Profile_Pointer_Id__c
                     FROM User
                     WHERE Username = :testUsername
                     LIMIT 1
@@ -341,7 +341,7 @@ public class PortalTestUtility {
      * @return Contact - The Guarantor.
      */
     public static Contact getPortalGuarantor() {
-        List<Contact> contacts = [SELECT Id FROM Contact WHERE Profile_Pointer_ID__c = :PROFILE_POINTER];
+        List<Contact> contacts = [SELECT Id FROM Contact WHERE Profile_Pointer_Id__c = :PROFILE_POINTER];
 
         System.assert(contacts.size() != 0, 'Could not find the guarantor for the community user.');
         return contacts[0];

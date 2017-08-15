@@ -125,7 +125,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Link_to_item__c</field>
+                <field>Link_To_Item__c</field>
             </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
@@ -199,27 +199,9 @@
         <style>CustomLinks</style>
     </layoutSections>
     <quickActionList>
-        <!--quickActionListItems>
-            <quickActionName>FeedItem.TextPost</quickActionName>
-        </quickActionListItems-->
         <quickActionListItems>
             <quickActionName>LogACall</quickActionName>
         </quickActionListItems>
-        <!--quickActionListItems>
-            <quickActionName>Case.CaseComment</quickActionName>
-        </quickActionListItems>
-        <quickActionListItems>
-            <quickActionName>Case.ChangeStatus</quickActionName>
-        </quickActionListItems>
-        <quickActionListItems>
-            <quickActionName>FeedItem.ContentPost</quickActionName>
-        </quickActionListItems>
-        <quickActionListItems>
-            <quickActionName>FeedItem.LinkPost</quickActionName>
-        </quickActionListItems>
-        <quickActionListItems>
-            <quickActionName>FeedItem.PollPost</quickActionName>
-        </quickActionListItems-->
     </quickActionList>
     <relatedContent>
         <relatedContentItems>

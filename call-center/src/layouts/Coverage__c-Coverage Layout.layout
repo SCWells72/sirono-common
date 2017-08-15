@@ -13,7 +13,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Subscriber_ID__c</field>
+                <field>Subscriber_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -39,7 +39,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Member_ID__c</field>
+                <field>Member_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

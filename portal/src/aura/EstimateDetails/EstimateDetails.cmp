@@ -33,8 +33,8 @@
                 </header>
                 <div class="invoice-content">
                     <div class="col details">
-                        <ui:outputDate value="{!v.estimate.singleEncounter.Date_of_Service__c}" format="MM/DD/YYYY"/>
-                        <div>{!'ID Number: '+v.estimate.singleEncounter.Encounter_ID__c}</div>
+                        <ui:outputDate value="{!v.estimate.singleEncounter.Date_Of_Service__c}" format="MM/DD/YYYY"/>
+                        <div>{!'ID Number: '+v.estimate.singleEncounter.Encounter_Id__c}</div>
                         <div>{!'Location: '+ if(v.estimate.singleEncounter.Type__c == 'HB', v.estimate.singleEncounter.Location__c, v.estimate.singleEncounter.Ordering_Physician__c)}</div>
                         <aura:if isTrue="{!v.estimate.fileUrl}">
                             <a target="_blank" href="{!v.estimate.fileUrl}" class="slds-button slds-button--brand slds-m-top--small clear">Download Estimate</a>

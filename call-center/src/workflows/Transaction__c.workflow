@@ -4,7 +4,7 @@
         <fullName>Set_Name</fullName>
         <description>Set the transaction&apos;s name</description>
         <field>Name</field>
-        <formula>Txn_Method__c + &quot; - &quot; +   TEXT(Sirono_ID__c)</formula>
+        <formula>Txn_Method__c + &quot; - &quot; +   TEXT(Sirono_Id__c)</formula>
         <name>Set Name</name>
         <notifyAssignee>false</notifyAssignee>
         <operation>Formula</operation>
@@ -18,7 +18,7 @@
         </actions>
         <active>true</active>
         <description>Set the name when the transaction is created</description>
-        <formula>Sirono_ID__c  &lt;&gt; 0</formula>
+        <formula>Sirono_Id__c  &lt;&gt; 0</formula>
         <triggerType>onAllChanges</triggerType>
     </rules>
 </Workflow>

@@ -38,7 +38,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Large_Statement_ID__c</field>
+            <field>Large_Statement_Id__c</field>
             <table>Statement__c</table>
         </columns>
         <columns>
@@ -73,7 +73,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Small_Statement_ID__c</field>
+            <field>Small_Statement_Id__c</field>
             <table>Statement__c</table>
         </columns>
         <columns>
@@ -83,12 +83,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Sirono_ID__c</field>
+            <field>Sirono_Id__c</field>
             <table>Statement__c</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Statement_ID__c</field>
+            <field>Statement_Id__c</field>
             <table>Statement__c</table>
         </columns>
         <masterLabel>Statements</masterLabel>

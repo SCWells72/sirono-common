@@ -48,7 +48,7 @@ private class AddToPaymentPlanTest {
         Charge_Group__c cg = TestUtility.generateChargeGroup(g.Id, null, 121114);
         cg.Invoice__c = i.Id;
         cg.Payment_Plan__c = t.Id;
-        cg.Charge_Group_External_ID__c = true;
+        cg.Charge_Group_External_Id__c = true;
         insert cg;
 
         //Create Transaction record.
@@ -59,8 +59,8 @@ private class AddToPaymentPlanTest {
         cg = TestUtility.generateChargeGroup(g.Id, null, 121114);
         cg.Invoice__c = i.Id;
         cg.Payment_Plan__c = t.Id;
-        cg.Sirono_ID__c = 124;
-        cg.Charge_Group_External_ID__c = true;
+        cg.Sirono_Id__c = 124;
+        cg.Charge_Group_External_Id__c = true;
         insert cg;
 
         //Create Transaction record.
@@ -134,7 +134,7 @@ private class AddToPaymentPlanTest {
         Charge_Group__c cg = TestUtility.generateChargeGroup(g.Id, null, 121114);
         cg.Invoice__c = i.Id;
         cg.Payment_Plan__c = t.Id;
-        cg.Charge_Group_External_ID__c = true;
+        cg.Charge_Group_External_Id__c = true;
         insert cg;
 
         //Create Transaction record.
@@ -145,8 +145,8 @@ private class AddToPaymentPlanTest {
         cg = TestUtility.generateChargeGroup(g.Id, null, 121114);
         cg.Invoice__c = i.Id;
         cg.Payment_Plan__c = t.Id;
-        cg.Sirono_ID__c = 124;
-        cg.Charge_Group_External_ID__c = true;
+        cg.Sirono_Id__c = 124;
+        cg.Charge_Group_External_Id__c = true;
         insert cg;
 
         //Create Transaction record.
@@ -231,7 +231,7 @@ private class AddToPaymentPlanTest {
         Charge_Group__c cg = TestUtility.generateChargeGroup(g.Id, null, 121114);
         cg.Invoice__c = i.Id;
         cg.Payment_Plan__c = t.Id;
-        cg.Charge_Group_External_ID__c = true;
+        cg.Charge_Group_External_Id__c = true;
         insert cg;
 
         //Create Transaction record.
@@ -242,8 +242,8 @@ private class AddToPaymentPlanTest {
         cg = TestUtility.generateChargeGroup(g.Id, null, 121114);
         cg.Invoice__c = i.Id;
         cg.Payment_Plan__c = t.Id;
-        cg.Sirono_ID__c = 124;
-        cg.Charge_Group_External_ID__c = true;
+        cg.Sirono_Id__c = 124;
+        cg.Charge_Group_External_Id__c = true;
         insert cg;
 
         //Create Transaction record.

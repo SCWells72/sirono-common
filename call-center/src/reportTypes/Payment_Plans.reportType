@@ -38,7 +38,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Sirono_ID__c</field>
+            <field>Sirono_Id__c</field>
             <table>Payment_Plan__c</table>
         </columns>
         <columns>
@@ -58,7 +58,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Time_to_Delinquency__c</field>
+            <field>Time_To_Delinquency__c</field>
             <table>Payment_Plan__c</table>
         </columns>
         <columns>
@@ -108,7 +108,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Execute_on_Day__c</field>
+            <field>Execute_On_Day__c</field>
             <table>Payment_Plan__c</table>
         </columns>
         <columns>

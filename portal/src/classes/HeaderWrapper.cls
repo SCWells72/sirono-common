@@ -33,7 +33,7 @@ public virtual with sharing class HeaderWrapper {
     }
 
     public virtual Boolean hasAddToPaymentPlan() {
-        return this.contact.Add_to_Payment_Plan__c == true;
+        return this.contact.Add_To_Payment_Plan__c == true;
     }
 
     public virtual String getPaymentPlanStanding() {

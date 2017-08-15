@@ -37,13 +37,13 @@
                             <div style="padding-bottom: 10px;" class="credit">{! $Label.c.Invoice_Details_Partial_Payment_Plan_Message}</div>
                         </aura:if>
 
-                        <!--<aura:if isTrue="{!and((v.invoice.singleInvoice.Status__c == 'Due' || v.invoice.singleInvoice.Status__c == 'Overdue' || v.invoice.singleInvoice.Status__c == 'Delinquent'), not(v.invoice.singleInvoice.Guarantor__r.Add_to_Payment_Plan__c))}">
+                        <!--<aura:if isTrue="{!and((v.invoice.singleInvoice.Status__c == 'Due' || v.invoice.singleInvoice.Status__c == 'Overdue' || v.invoice.singleInvoice.Status__c == 'Delinquent'), not(v.invoice.singleInvoice.Guarantor__r.Add_To_Payment_Plan__c))}">
                           <div class="title clear"><a onclick="{!c.sendInvoiceNowToHeader}">Pay Now</a> or <a onclick="{!c.sendInvoiceCreateToHeader}">Create Payment Plan</a></div>
                       </aura:if>
                       <aura:if isTrue="{!v.invoice.singleInvoice.Status__c == 'On Payment Plan'}">
                           <div class="title clear"><a onclick="{!c.sendInvoiceNowToHeader}">Make Additional Payment</a></div>
                       </aura:if>
-                      <aura:if isTrue="{!and((v.invoice.singleInvoice.Status__c == 'Due' || v.invoice.singleInvoice.Status__c == 'Overdue' || v.invoice.singleInvoice.Status__c == 'Delinquent'), v.invoice.singleInvoice.Guarantor__r.Add_to_Payment_Plan__c)}">
+                      <aura:if isTrue="{!and((v.invoice.singleInvoice.Status__c == 'Due' || v.invoice.singleInvoice.Status__c == 'Overdue' || v.invoice.singleInvoice.Status__c == 'Delinquent'), v.invoice.singleInvoice.Guarantor__r.Add_To_Payment_Plan__c)}">
                           <div class="title clear"><a onclick="{!c.sendInvoiceNowToHeader}">Pay Now</a> or <a onclick="{!c.sendInvoiceCreateToHeader}">Add to Payment Plan</a></div>
                         </aura:if>-->
                     </div>
@@ -82,7 +82,7 @@
                             <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_Start_Date__c}"/>
                             -
                             <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_End_Date__c}"/>
-                            <div>ID Number: {!group.cGroup.External_ID__c}</div>
+                            <div>ID Number: {!group.cGroup.External_Id__c}</div>
                             <aura:if isTrue="{!group.cGroup.Account_Type__c == 'HB'}">
                                 <div>Location: {!group.cGroup.Location__r.Name}</div>
                             </aura:if>

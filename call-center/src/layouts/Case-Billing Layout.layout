@@ -60,7 +60,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Author_ID__c</field>
+                <field>Author_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -92,11 +92,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Cred_Card_last_4_Check_Number__c</field>
+                <field>Cred_Card_Last_4_Check_Number__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Merge_with_Guarantor_ID__c</field>
+                <field>Merge_With_Guarantor_Id__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -118,7 +118,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Subscriber_ID__c</field>
+                <field>Subscriber_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -130,19 +130,19 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Number_of_people_in_household__c</field>
+                <field>Number_Of_People_In_Household__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Est_income_measure_3_or_12_months__c</field>
+                <field>Est_Income_Measure_3_Or_12_Months__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Est_monthly_gross_family_income__c</field>
+                <field>Est_Monthly_Gross_Family_Income__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Est_annual_gross_family_income__c</field>
+                <field>Est_Annual_Gross_Family_Income__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -210,7 +210,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Date_of_Bankruptcy_Filing__c</field>
+                <field>Date_Of_Bankruptcy_Filing__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -249,15 +249,15 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>New_Home_phone__c</field>
+                <field>New_Home_Phone__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>New_Work_phone__c</field>
+                <field>New_Work_Phone__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>New_Mobile_phone__c</field>
+                <field>New_Mobile_Phone__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -368,7 +368,7 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Charge_Group__c.NAME</fields>
-        <fields>Charge_Group__c.External_ID__c</fields>
+        <fields>Charge_Group__c.External_Id__c</fields>
         <fields>Charge_Group__c.Patient__c</fields>
         <fields>Charge_Group__c.Active__c</fields>
         <fields>Charge_Group__c.Account_Status__c</fields>

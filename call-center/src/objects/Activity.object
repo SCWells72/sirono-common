@@ -8,7 +8,7 @@
         <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>Call_ID__c</fullName>
+        <fullName>Call_Id__c</fullName>
         <description>Call Id from Five9 reports</description>
         <externalId>false</externalId>
         <label>Call ID</label>
@@ -25,7 +25,7 @@
         <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>Day_of_Week__c</fullName>
+        <fullName>Day_Of_Week__c</fullName>
         <externalId>false</externalId>
         <formula>IF(
 ISBLANK(ActivityDate), NULL,
@@ -56,7 +56,7 @@ CASE(
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Five9_Call_Time_mins__c</fullName>
+        <fullName>Five9_Call_Time_Mins__c</fullName>
         <externalId>false</externalId>
         <formula>/* Get total seconds for the Handle Time */
 
@@ -81,12 +81,12 @@ VALUE(RIGHT(Five9__Five9WrapTime__c,2)) +
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Hour_of_Day__c</fullName>
+        <fullName>Hour_Of_Day__c</fullName>
         <externalId>false</externalId>
         <formula>VALUE( MID( TEXT(CreatedDate), 12, 2 ) ) - 7</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <inlineHelpText>used to determine the Time of Day (Hr) based off of the created date.</inlineHelpText>
-        <label>Hour of Day (old)</label>
+        <label>Hour of Day (Deprecated)</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -94,7 +94,7 @@ VALUE(RIGHT(Five9__Five9WrapTime__c,2)) +
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Hours_of_Day__c</fullName>
+        <fullName>Hours_Of_Day__c</fullName>
         <externalId>false</externalId>
         <label>Hour of Day</label>
         <precision>2</precision>
@@ -113,7 +113,7 @@ VALUE(RIGHT(Five9__Five9WrapTime__c,2)) +
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Salesforce_ID__c</fullName>
+        <fullName>Salesforce_Id__c</fullName>
         <externalId>false</externalId>
         <label>Salesforce ID</label>
         <length>18</length>
@@ -136,7 +136,7 @@ VALUE(RIGHT(Five9__Five9WrapTime__c,2)) +
     </listViews>
     <searchLayouts>
         <searchResultsAdditionalFields>TASK.SUBJECT</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Salesforce_ID__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Salesforce_Id__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Five9__Five9Campaign__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Disposition__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>TASK.CALLDISPOSITION</searchResultsAdditionalFields>

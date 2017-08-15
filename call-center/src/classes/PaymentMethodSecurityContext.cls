@@ -12,10 +12,10 @@ public with sharing class PaymentMethodSecurityContext extends SecurityContext {
     private static final String EXPIRATION_DATE = 'Expiration_Date__c';
     private static final String GUARANTOR = 'Guarantor__c';
     private static final String ID = 'Id';
-    private static final String ID_C = 'ID__c';
+    private static final String ID_C = 'Id__c';
     private static final String LAST_4 = 'Last_4__c';
     private static final String ROUTING_NUMBER = 'Routing_Number__c';
-    private static final String SIRONO_ID = 'Sirono_ID__c';
+    private static final String SIRONO_ID = 'Sirono_Id__c';
     private static final String TOKEN = 'Payment_Method_Token__c';
     private static final String TYPE = 'Type__c';
 

@@ -55,7 +55,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Sirono_ID__c</field>
+                <field>Sirono_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -98,7 +98,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Execute_on_Day__c</field>
+                <field>Execute_On_Day__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

@@ -26,7 +26,7 @@ public class PaymentPlanGoodStandingTest {
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
         paymentPlan.Active__c = true;
-        paymentPlan.Sirono_ID__c = 12345;
+        paymentPlan.Sirono_Id__c = 12345;
         insert paymentPlan;
 
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -60,7 +60,7 @@ public class PaymentPlanGoodStandingTest {
         insert guarantorContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Sirono_ID__c = 12345;
+        paymentPlan.Sirono_Id__c = 12345;
         insert paymentPlan;
 
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);
@@ -99,7 +99,7 @@ public class PaymentPlanGoodStandingTest {
         insert guarantorContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Sirono_ID__c = 12345;
+        paymentPlan.Sirono_Id__c = 12345;
         insert paymentPlan;
 
         ApexPages.currentPage().getParameters().put('guarantorId', guarantorContact.Id);

@@ -20,7 +20,7 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
     private static final String DATE_OF_SERVICE_END_DATE = 'Date_Of_Service_End_Date__c';
     private static final String DATE_OF_SERVICE_START_DATE = 'Date_Of_Service_Start_Date__c';
     private static final String ENCOUNTER = 'Encounter__c';
-    private static final String EXTERNAL_ID = 'External_ID__c';
+    private static final String EXTERNAL_ID = 'External_Id__c';
     private static final String GUARANTOR = 'Guarantor__c';
     private static final String ID = 'Id';
     private static final String INVOICE = 'Invoice__c';
@@ -32,7 +32,7 @@ public with sharing class ChargeGroupSecurityContext extends SecurityContext {
     private static final String REPORTED_INSURANCE_BALANCE = 'Reported_Insurance_Balance__c';
     private static final String REPORTED_PREBILL_BALANCE = 'Reported_Prebill_Balance__c';
     private static final String REPORTED_SELFPAY_BALANCE = 'Reported_Selfpay_Balance__c';
-    private static final String SIRONO_ID = 'Sirono_ID__c';
+    private static final String SIRONO_ID = 'Sirono_Id__c';
     private static final String SUB_STATUS_INDEX = 'Sub_Status_Index__c';
     
     // The fields for updating a Charge Group

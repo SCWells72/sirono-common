@@ -56,7 +56,7 @@ public with sharing class ChargeGroupJSONParser extends AbstractSironoJSONParser
 
         String cgId = parseSironoId(cgJson.url, RestClientConstants.CHARGE_GROUP_URL_RESOURCE_TYPE);
 
-        Charge_Group__c cg = new Charge_Group__c(Sirono_ID__c=Decimal.valueOf(cgId), Account_Sub_Status__c = cgJson.account_sub_status,
+        Charge_Group__c cg = new Charge_Group__c(Sirono_Id__c=Decimal.valueOf(cgId), Account_Sub_Status__c = cgJson.account_sub_status,
                 Account_Status__c = cgJson.account_status, Guarantor__c = gt.Id);
 
         if (cgJson.paymentplan != null) {

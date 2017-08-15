@@ -46,7 +46,7 @@ public with sharing class InvoiceStatusTest {
         return [
             SELECT Id, Account_Sub_Status__c, Sub_Status_Index__c
             FROM Charge_Group__c
-            WHERE Sirono_ID__c = :CG_SIRONO_ID
+            WHERE Sirono_Id__c = :CG_SIRONO_ID
         ];
     }
 
@@ -68,7 +68,7 @@ public with sharing class InvoiceStatusTest {
         Test.startTest();
         // Create Charge Group record.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantor.Id, null, CG_SIRONO_ID);
-        chargeGroup.Sirono_ID__c = CG_SIRONO_ID;
+        chargeGroup.Sirono_Id__c = CG_SIRONO_ID;
         chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_CREDIT;
         insert chargeGroup;
@@ -95,7 +95,7 @@ public with sharing class InvoiceStatusTest {
 
         // Create Charge Group record.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantor.Id, null, CG_SIRONO_ID);
-        chargeGroup.Sirono_ID__c = CG_SIRONO_ID;
+        chargeGroup.Sirono_Id__c = CG_SIRONO_ID;
         chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_OVERDUE;
         insert chargeGroup;
@@ -134,7 +134,7 @@ public with sharing class InvoiceStatusTest {
 
         // Inserting Charge Group object
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantor.Id, null, CG_SIRONO_ID);
-        chargeGroup.Sirono_ID__c = CG_SIRONO_ID;
+        chargeGroup.Sirono_Id__c = CG_SIRONO_ID;
         chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Account_Sub_Status__c = Constants.ACCT_SUBSTATUS_CREDIT;
         insert chargeGroup;
@@ -171,7 +171,7 @@ public with sharing class InvoiceStatusTest {
         // Inserting Charge Group object
         Test.startTest();
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantor.Id, null, CG_SIRONO_ID);
-        chargeGroup.Sirono_ID__c = CG_SIRONO_ID;
+        chargeGroup.Sirono_Id__c = CG_SIRONO_ID;
         chargeGroup.Invoice__c = invoice.Id;
         insert chargeGroup;
 

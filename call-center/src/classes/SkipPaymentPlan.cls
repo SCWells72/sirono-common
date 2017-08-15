@@ -39,7 +39,7 @@ public with sharing class SkipPaymentPlan {
     private void validatePaymentPlanType() {
         if (PaymentPlanSecurityContext.SPP_SELECT_CONTEXT.actionAllowed()) {
             List<Payment_Plan__c> automaticPaymentPlans = [
-                SELECT Id, Sirono_ID__c, NextPaymentDate__c
+                SELECT Id, Sirono_Id__c, NextPaymentDate__c
                 FROM Payment_Plan__c
                 WHERE Id = :paymentPlanId
                 AND Plan_Type__c = :Constants.AUTOMATIC

@@ -42,12 +42,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Sirono_ID__c</field>
+            <field>Sirono_Id__c</field>
             <table>Charge_Group__c</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>External_ID__c</field>
+            <field>External_Id__c</field>
             <table>Charge_Group__c</table>
         </columns>
         <columns>
@@ -232,7 +232,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Charge_Group_External_ID__c</field>
+            <field>Charge_Group_External_Id__c</field>
             <table>Charge_Group__c</table>
         </columns>
         <columns>
@@ -242,7 +242,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>External_Guarantor_ID__c</field>
+            <field>External_Guarantor_Id__c</field>
             <table>Charge_Group__c</table>
         </columns>
         <columns>
@@ -300,7 +300,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Sirono_ID__c</field>
+            <field>Sirono_Id__c</field>
             <table>Charge_Group__c.Charge_Group_Coverages__r</table>
         </columns>
         <columns>

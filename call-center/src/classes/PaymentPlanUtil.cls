@@ -32,7 +32,7 @@ public with sharing class PaymentPlanUtil {
                 SELECT Charge_Group__r.Payment_Plan__c pp, SUM(Amount__c) chargesAdded
                 FROM Transaction__c
                 WHERE Charge_Group__r.Payment_Plan__c IN :planIds
-                AND Charge_added_since_plan_start__c = TRUE
+                AND Charge_Added_Since_Plan_Start__c = TRUE
                 AND Txn_Method__c = :Constants.SERVICE
                 GROUP BY Charge_Group__r.Payment_Plan__c
             ];

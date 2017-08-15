@@ -19,7 +19,7 @@ public with sharing class AdjustmentServiceTest {
     public static void setupData() {
         // Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = Decimal.valueOf(MockHttpResponseGenerator.guarantorSironoId);
+        guarantorContact.Profile_Pointer_Id__c = Decimal.valueOf(MockHttpResponseGenerator.guarantorSironoId);
         insert guarantorContact;
 
         Contact externalGT = TestUtility.generateExternalGuarantor();
@@ -31,7 +31,7 @@ public with sharing class AdjustmentServiceTest {
 
         // Create Payment Plan record.
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Sirono_ID__c = Decimal.valueOf(MockHttpResponseGenerator.planSironoId);
+        paymentPlan.Sirono_Id__c = Decimal.valueOf(MockHttpResponseGenerator.planSironoId);
         paymentPlan.Active__c = true;
         paymentPlan.Delinquent__c = true;
         insert paymentPlan;
@@ -43,13 +43,13 @@ public with sharing class AdjustmentServiceTest {
         // Create Charge Group record.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121114);
         chargeGroup.Invoice__c = invoice.Id;
-        chargeGroup.Sirono_ID__c = Decimal.valueOf(RestClientConstants.CHARGE_GROUP_ID);
+        chargeGroup.Sirono_Id__c = Decimal.valueOf(RestClientConstants.CHARGE_GROUP_ID);
         chargeGroup.Payment_Plan__c = paymentPlan.Id;
-        chargeGroup.Charge_Group_External_ID__c = true;
-        chargeGroup.External_Guarantor_ID__c = externalGT.Id;
+        chargeGroup.Charge_Group_External_Id__c = true;
+        chargeGroup.External_Guarantor_Id__c = externalGT.Id;
         insert chargeGroup;
 
-        Charge_Group__c[] someCGs = ChargeGroupDao.getBySironoIds(new Decimal[]{chargeGroup.Sirono_ID__c});
+        Charge_Group__c[] someCGs = ChargeGroupDao.getBySironoIds(new Decimal[]{chargeGroup.Sirono_Id__c});
 
         System.debug('>>>> Found '+someCGs.size()+' chargegroups');
         for (Charge_Group__c cg : someCGs) {
@@ -78,7 +78,7 @@ public with sharing class AdjustmentServiceTest {
     @IsTest
     public static void testCreateAdjustment() {
 
-        Contact gt = [SELECT Id, Profile_Pointer_ID__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+        Contact gt = [SELECT Id, Profile_Pointer_Id__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
         Decimal cgSironoId = Decimal.valueOf(RestClientConstants.CHARGE_GROUP_ID);
         String adjCode = 'ADM';
@@ -105,7 +105,7 @@ public with sharing class AdjustmentServiceTest {
                         Payment__c,
                         Post_Date__c,
                         Service2__c,
-                        Sirono_ID__c,
+                        Sirono_Id__c,
                         Transaction_Date__c,
                         Txn_Method__c
                 FROM Transaction__c WHERE Adjustment2__c = :adjs[0].Id];

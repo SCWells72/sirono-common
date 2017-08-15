@@ -56,7 +56,7 @@
                                                         onclick="checkBoxStatus();startAjaxLoader('pg:frm:statusPanel');refreshJS();"/>
                                 </td>
                                 <td class="dataCell">
-                                    <apex:outputField value="{!cgw.cg.External_ID__c}"/>
+                                    <apex:outputField value="{!cgw.cg.External_Id__c}"/>
                                 </td>
                                 <td class="dataCell">
                                     <apex:outputField value="{!cgw.cg.Account_Type__c}"/>
@@ -112,7 +112,7 @@
                             <apex:variable var="totalAmount" value="{!totalAmount + cgw.cg.Balance__c}"/>
                             <tr class="pay-staff-cg-detail-row">
                                 <td>
-                                    Account {!cgw.cg.External_ID__c}
+                                    Account {!cgw.cg.External_Id__c}
                                 </td>
                                 <td class="pay-staff-text-right">
                                         {!cgw.cg.Balance__c}

@@ -41,8 +41,8 @@ public with sharing class PaymentDao {
                         Method__c,
                         Name,
                         Payment_Id__c,
-                        Sirono_ID__c,
-                        ID__c
+                        Sirono_Id__c,
+                        Id__c
 
                     FROM Payment__c
                     WHERE Id = :paymentId
@@ -73,11 +73,11 @@ public with sharing class PaymentDao {
                         Method__c,
                         Name,
                         Payment_Id__c,
-                        Sirono_ID__c,
-                        ID__c
+                        Sirono_Id__c,
+                        Id__c
 
                     FROM Payment__c
-                    WHERE Sirono_ID__c = :sironoId
+                    WHERE Sirono_Id__c = :sironoId
                 ];
                 return payment;
             } catch (QueryException ex) {

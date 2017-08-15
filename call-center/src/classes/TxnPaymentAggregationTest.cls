@@ -4,7 +4,7 @@
 
 /**
  * Test Aggregation of Sirono Payment transactions
- * Sirono Payments are taken by an agent or via the portal. They have a sirono_id (ID__c) and a guarantor. The Amount
+ * Sirono Payments are taken by an agent or via the portal. They have a sirono_id (Id__c) and a guarantor. The Amount
  * is set at the time the payment is taken. The Posted_Amount is the sum of all of the payment's transactions
  */
 @IsTest
@@ -29,7 +29,7 @@ public with sharing class TxnPaymentAggregationTest {
         insert payment;
 
         // Check system asserts.
-        System.assertEquals(CG_EXT_ID, cg.External_ID__c, 'Expected CG External_ID__c is ' + CG_EXT_ID + ' but got ' + cg.External_ID__c);
+        System.assertEquals(CG_EXT_ID, cg.External_Id__c, 'Expected CG External_Id__c is ' + CG_EXT_ID + ' but got ' + cg.External_Id__c);
     }
 
     /*

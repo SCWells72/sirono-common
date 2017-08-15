@@ -12,7 +12,7 @@
         invoices.forEach(function (invoice) {
             ;(invoice.allGroups || []).forEach(function (groupWr) {
                 var group = groupWr.cGroup;
-                if (group.Active__c && group.Balance__c && group.Sirono_ID__c) {
+                if (group.Active__c && group.Balance__c && group.Sirono_Id__c) {
                     if (addOrRemove) {
                         groupsToAdd.push(group);
                     } else {
@@ -69,10 +69,10 @@
 
         if (paymentInfo.hasPaymentPlan) {
             initInfo.sfId = paymentInfo.paymentPlan.Id;
-            initInfo.paymentPlanId = paymentInfo.paymentPlan.Sirono_ID__c;
+            initInfo.paymentPlanId = paymentInfo.paymentPlan.Sirono_Id__c;
             initInfo.totalAmount = paymentInfo.paymentPlan.Remaining_Balance__c;
             initInfo.planValue = paymentInfo.paymentPlan.Installment_Amount__c;
-            initInfo.executeOnDay = paymentInfo.paymentPlan.Execute_on_Day__c;
+            initInfo.executeOnDay = paymentInfo.paymentPlan.Execute_On_Day__c;
             initInfo.totalInstallments = paymentInfo.paymentPlan.Remaining_Installment_Count__c;
             return initInfo;
         }
@@ -80,8 +80,8 @@
         if (paymentInfo.chargeGroups) {
             var groupsList = [];
             paymentInfo.chargeGroups.forEach(function (group) {
-                if (group.Balance__c && group.Sirono_ID__c) {
-                    groupsList.push(group.Sirono_ID__c);
+                if (group.Balance__c && group.Sirono_Id__c) {
+                    groupsList.push(group.Sirono_Id__c);
                     initInfo.totalAmount += parseFloat(group.Balance__c ? group.Balance__c : 0);
                 }
             });

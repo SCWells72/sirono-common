@@ -12,7 +12,7 @@ public class CreateAdjustmentTest {
     static void setupData() {
         // Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_ID__c = Decimal.valueOf(MockHttpResponseGenerator.guarantorSironoId);
+        guarantorContact.Profile_Pointer_Id__c = Decimal.valueOf(MockHttpResponseGenerator.guarantorSironoId);
         insert guarantorContact;
 
         // Create Patient Contact record.
@@ -21,7 +21,7 @@ public class CreateAdjustmentTest {
 
         // Create Payment Plan record.
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
-        paymentPlan.Sirono_ID__c = Decimal.valueOf(MockHttpResponseGenerator.planSironoId);
+        paymentPlan.Sirono_Id__c = Decimal.valueOf(MockHttpResponseGenerator.planSironoId);
         paymentPlan.Active__c = true;
         paymentPlan.Delinquent__c = true;
         insert paymentPlan;
@@ -33,9 +33,9 @@ public class CreateAdjustmentTest {
         // Create Charge Group record.
         Charge_Group__c chargeGroup = TestUtility.generateChargeGroup(guarantorContact.Id, patientContact.Id, 121114);
         chargeGroup.Invoice__c = invoice.Id;
-        chargeGroup.Sirono_ID__c = Decimal.valueOf(RestClientConstants.CHARGE_GROUP_ID);
+        chargeGroup.Sirono_Id__c = Decimal.valueOf(RestClientConstants.CHARGE_GROUP_ID);
         chargeGroup.Payment_Plan__c = paymentPlan.Id;
-        chargeGroup.Charge_Group_External_ID__c = true;
+        chargeGroup.Charge_Group_External_Id__c = true;
         insert chargeGroup;
 
         Service2__c svc = TestUtility.generateService(guarantorContact, 675.00);

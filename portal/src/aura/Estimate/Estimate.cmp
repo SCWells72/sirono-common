@@ -30,7 +30,7 @@
                 </div>
                 <span class="active invoice-name">
                     {!v.estimate.singleEncounter.Procedure__c} - 
-                    <ui:outputDate value="{!v.estimate.singleEncounter.Date_of_Service__c}" format="MM/DD/YYYY" class="{!v.isOnPaymentsPage ? 'slds-hide' : ''}"/>
+                    <ui:outputDate value="{!v.estimate.singleEncounter.Date_Of_Service__c}" format="MM/DD/YYYY" class="{!v.isOnPaymentsPage ? 'slds-hide' : ''}"/>
                     <ui:outputText value="{!v.invoiceNameDate}" class="{!!v.isOnPaymentsPage ? 'slds-hide' : ''}"/>
                 </span>
                 <div class="{!!v.isOnPaymentsPage ? 'slds-hide' : ''}">
@@ -60,7 +60,7 @@
                 <div class="col due">
                     <div class="title">
                         Deposit Due by <br/>
-                        <ui:outputdate class="{!v.isOnPaymentsPage ? 'slds-hide' : ''}" value="{!v.estimate.singleEncounter.Date_of_Service__c}" format="MMM d"/>
+                        <ui:outputdate class="{!v.isOnPaymentsPage ? 'slds-hide' : ''}" value="{!v.estimate.singleEncounter.Date_Of_Service__c}" format="MMM d"/>
                         <ui:outputtext value="{!v.depositDueBy}" class="{!!v.isOnPaymentsPage ? 'slds-hide' : ''}"/>
                     </div>
                 </div>

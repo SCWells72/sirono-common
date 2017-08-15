@@ -15,12 +15,12 @@ private class PreServiceSchedulerBatchTest {
 
         Contact con1 = TestUtility.generateGuarantorContact();
         con1.LastName = 'Test';
-        con1.Profile_Pointer_ID__c = 123;
+        con1.Profile_Pointer_Id__c = 123;
         insert con1;
 
         Contact con2 = TestUtility.generatePatientContact();
         con2.LastName = 'Test';
-        con2.Profile_Pointer_ID__c = 123456;
+        con2.Profile_Pointer_Id__c = 123456;
         con2.Guarantor__c = con1.Id;
         insert con2;
 
@@ -51,14 +51,14 @@ private class PreServiceSchedulerBatchTest {
 
         Encounter__c encounter1 = TestUtility.generateEncounter(con.Id, -10, Date.today());
         encounter1.Patient__c = con2.Id;
-        encounter1.Date_of_Service__c = System.today().addDays(2);
+        encounter1.Date_Of_Service__c = System.today().addDays(2);
         encounter1.Liability__c = 101;
         encounter1.Cancelled__c = false;
         insert encounter1;
 
         encounter1 = TestUtility.generateEncounter(con1.Id, -10, Date.today());
         encounter1.Patient__c = con2.Id;
-        encounter1.Date_of_Service__c = System.today().addDays(2);
+        encounter1.Date_Of_Service__c = System.today().addDays(2);
         encounter1.Liability__c = 101;
         encounter1.Cancelled__c = false;
         insert encounter1;
@@ -84,12 +84,12 @@ private class PreServiceSchedulerBatchTest {
 
         Contact con1 = TestUtility.generateGuarantorContact();
         con1.LastName = 'Test';
-        con1.Profile_Pointer_ID__c = 123;
+        con1.Profile_Pointer_Id__c = 123;
         insert con1;
 
         Contact con2 = TestUtility.generatePatientContact();
         con2.LastName = 'Test';
-        con2.Profile_Pointer_ID__c = 123456;
+        con2.Profile_Pointer_Id__c = 123456;
         con2.Guarantor__c = con1.Id;
         insert con2;
 
@@ -116,14 +116,14 @@ private class PreServiceSchedulerBatchTest {
 
         Encounter__c encounter1 = TestUtility.generateEncounter(con.Id, -10, Date.today());
         encounter1.Patient__c = con2.Id;
-        encounter1.Date_of_Service__c = System.today().addDays(2);
+        encounter1.Date_Of_Service__c = System.today().addDays(2);
         encounter1.Liability__c = 101;
         encounter1.Cancelled__c = false;
         insert encounter1;
 
         encounter1 = TestUtility.generateEncounter(con1.Id, -10, Date.today());
         encounter1.Patient__c = con2.Id;
-        encounter1.Date_of_Service__c = System.today().addDays(2);
+        encounter1.Date_Of_Service__c = System.today().addDays(2);
         encounter1.Liability__c = 101;
         encounter1.Cancelled__c = false;
         insert encounter1;

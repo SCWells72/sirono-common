@@ -13,7 +13,7 @@ public class PaymentTransactionTest {
 //                insert test;
 //                Id val;
 //                val = 'a0R11000006dbFNEAY';
-//                Transaction__c newTr = new Transaction__c(Sirono_ID__c=22148106, Name='credit-22148106', Notes__c='', Credit_Balance__c=false, Charge_Group__c=val);
+//                Transaction__c newTr = new Transaction__c(Sirono_Id__c=22148106, Name='credit-22148106', Notes__c='', Credit_Balance__c=false, Charge_Group__c=val);
 //        		insert newTr;
 //            }
 //    }

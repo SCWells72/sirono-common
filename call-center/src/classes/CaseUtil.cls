@@ -159,7 +159,7 @@ public class CaseUtil {
         List<Group> lstGroup = new List<Group>();
 
         for (Encounter__c obj : lstEncounter) {
-            if (obj.Patient_Portion__c > 0 && obj.Date_of_Service__c >= Date.today()) {
+            if (obj.Patient_Portion__c > 0 && obj.Date_Of_Service__c >= Date.today()) {
                 if (obj.Guarantor__c != null) {
                     setContact.add(obj.Guarantor__c);
                 }
@@ -195,7 +195,7 @@ public class CaseUtil {
             //Create a new Case
             for (Encounter__c obj : lstEncounter) {
                 String strContactId;
-                if (obj.Patient_Portion__c > 0 && obj.Date_of_Service__c >= Date.today()) {
+                if (obj.Patient_Portion__c > 0 && obj.Date_Of_Service__c >= Date.today()) {
                     if (obj.Guarantor__c != null) {
                         strContactId = obj.Guarantor__c;
                     }
@@ -231,7 +231,7 @@ public class CaseUtil {
         Set<String> setContact = new Set<String>();
         Set<String> setEncounterIds = new Set<String>();
         for (Encounter__c obj : lstEncounter) {
-            if (obj.Cancelled__c || obj.Date_of_Service__c < Date.today()
+            if (obj.Cancelled__c || obj.Date_Of_Service__c < Date.today()
                 || obj.Patient_Portion__c == 0 || fromPaymentMethod) {
                 if (obj.Guarantor__c != null) {
                     setContact.add(obj.Guarantor__c);
