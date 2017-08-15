@@ -86,7 +86,7 @@ VALUE(RIGHT(Five9__Five9WrapTime__c,2)) +
         <formula>VALUE( MID( TEXT(CreatedDate), 12, 2 ) ) - 7</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <inlineHelpText>used to determine the Time of Day (Hr) based off of the created date.</inlineHelpText>
-        <label>Hour of Day (old)</label>
+        <label>Hour of Day (Deprecated)</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>

@@ -100,8 +100,6 @@
         <members>EncounterWrapper</members>
         <members>EncounterWrapperTest</members>
         <members>ExhaustedCriteriaMdtSecurityContext</members>
-        <members>Five9CreateCallLogRecord</members>
-        <members>Five9CreateCallLogRecordTest</members>
         <members>Five9ReportingException</members>
         <members>Five9ReportRequestScheduler</members>
         <members>Five9SoapClient</members>
@@ -255,7 +253,6 @@
         <name>ApexPage</name>
     </types>
     <types>
-        <members>CampaignMemberTrigger</members>
         <members>CaseCommentTrigger</members>
         <members>CaseTrigger</members>
         <members>ChargeGroupTrigger</members>
@@ -327,7 +324,7 @@
         <members>Case.Carrier__c</members>
         <members>Case.Case_Claim__c</members>
         <members>Case.Case_ETA__c</members>
-        <members>Case.Charge_Group_IDs__c</members>
+        <members>Case.Charge_Group_Ids__c</members>
         <members>Case.Charge_Group_For_Discount__c</members>
         <members>Case.Claim__c</members>
         <members>Case.Closed_Date__c</members>
@@ -845,7 +842,6 @@
         <members>Sirono_Administrator</members>
         <name>PermissionSet</name>
     </types>
-    <!-- TODO: Remove this once we can use Service Cloud licenses -->
     <types>
         <members>Sirono User</members>
         <name>Profile</name>

@@ -21,7 +21,7 @@ public with sharing class CaseSecurityContext extends SecurityContext {
     private static final String TYPE = 'Type';
 
     // Below field(s) are use for Select/Read permission.
-    private static final String CHARGE_GROUP_IDS = 'Charge_Group_IDs__c';
+    private static final String CHARGE_GROUP_IDS = 'Charge_Group_Ids__c';
     private static final String DESCRIPTION = 'Description';
     private static final String ID = 'Id';
     private static final String ISCLOSED = 'IsClosed';

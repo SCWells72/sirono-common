@@ -4,7 +4,7 @@
 
 /**
  * Test Aggregation of Sirono Payment transactions
- * Sirono Payments are taken by an agent or via the portal. They have a sirono_id (ID__c) and a guarantor. The Amount
+ * Sirono Payments are taken by an agent or via the portal. They have a sirono_id (Id__c) and a guarantor. The Amount
  * is set at the time the payment is taken. The Posted_Amount is the sum of all of the payment's transactions
  */
 @IsTest

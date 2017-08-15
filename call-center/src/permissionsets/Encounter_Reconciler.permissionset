@@ -261,13 +261,13 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Transaction__c.Amount__c</field>
+        <editable>false</editable>
+        <field>Transaction__c.Amount_To_Aggregate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Transaction__c.Amount_To_Aggregate__c</field>
+        <editable>true</editable>
+        <field>Transaction__c.Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -42,7 +42,7 @@ public with sharing class PaymentDao {
                         Name,
                         Payment_Id__c,
                         Sirono_Id__c,
-                        ID__c
+                        Id__c
 
                     FROM Payment__c
                     WHERE Id = :paymentId
@@ -74,7 +74,7 @@ public with sharing class PaymentDao {
                         Name,
                         Payment_Id__c,
                         Sirono_Id__c,
-                        ID__c
+                        Id__c
 
                     FROM Payment__c
                     WHERE Sirono_Id__c = :sironoId

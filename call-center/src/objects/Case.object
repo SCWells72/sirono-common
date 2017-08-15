@@ -1072,16 +1072,6 @@
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>Charge_Group_IDs__c</fullName>
-        <externalId>false</externalId>
-        <label>Charge Group ID(s)</label>
-        <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>TextArea</type>
-    </fields>
-    <fields>
         <fullName>Charge_Group_For_Discount__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
@@ -1094,6 +1084,16 @@
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Charge_Group_Ids__c</fullName>
+        <externalId>false</externalId>
+        <label>Charge Group ID(s)</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
     </fields>
     <fields>
         <fullName>Claim__c</fullName>
@@ -1176,6 +1176,18 @@
         </valueSet>
     </fields>
     <fields>
+        <fullName>Contact_Event__c</fullName>
+        <externalId>false</externalId>
+        <label>Contact event</label>
+        <length>200</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Contact_Id__c</fullName>
         <externalId>false</externalId>
         <label>Contact ID</label>
@@ -1196,18 +1208,6 @@
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Phone</type>
-    </fields>
-    <fields>
-        <fullName>Contact_Event__c</fullName>
-        <externalId>false</externalId>
-        <label>Contact event</label>
-        <length>200</length>
-        <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Created_At__c</fullName>
@@ -1256,9 +1256,9 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Date_Of_Death__c</fullName>
+        <fullName>Date_Of_Bankruptcy_Filing__c</fullName>
         <externalId>false</externalId>
-        <label>Date Of Death</label>
+        <label>Date of Bankruptcy Filing</label>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
@@ -1266,9 +1266,9 @@
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>Date_Of_Bankruptcy_Filing__c</fullName>
+        <fullName>Date_Of_Death__c</fullName>
         <externalId>false</externalId>
-        <label>Date of Bankruptcy Filing</label>
+        <label>Date Of Death</label>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>

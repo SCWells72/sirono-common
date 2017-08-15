@@ -250,7 +250,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Charge_Group_IDs__c</field>
+                <field>Charge_Group_Ids__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>

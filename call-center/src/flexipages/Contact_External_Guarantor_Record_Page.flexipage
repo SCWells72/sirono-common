@@ -15,26 +15,6 @@
         <name>header</name>
         <type>Region</type>
     </flexiPageRegions>
-    <!--
-    <flexiPageRegions>
-        <componentInstances>
-            <componentName>force:detailPanel</componentName>
-        </componentInstances>
-        <componentInstances>
-            <componentInstanceProperties>
-                <name>parentFieldApiName</name>
-                <value>Contact.Id</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>relatedListApiName</name>
-                <value>Patient_Coverage_Junctions__r</value>
-            </componentInstanceProperties>
-            <componentName>force:relatedListSingleContainer</componentName>
-        </componentInstances>
-        <name>main</name>
-        <type>Region</type>
-    </flexiPageRegions>
-    -->
     <flexiPageRegions>
         <componentInstances>
             <componentInstanceProperties>

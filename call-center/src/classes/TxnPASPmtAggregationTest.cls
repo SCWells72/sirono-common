@@ -32,7 +32,7 @@ public with sharing class TxnPASPmtAggregationTest {
 
         // Check system asserts.
         System.assertEquals(CG_EXT_ID, cg.External_Id__c, 'Expected CG External_Id__c is ' + CG_EXT_ID + ' but got ' + cg.External_Id__c);
-        System.assertEquals(PAS_KEY, payment.ID__c, 'Expected ' + PAS_KEY + ' but got ' + payment.ID__c);
+        System.assertEquals(PAS_KEY, payment.Id__c, 'Expected ' + PAS_KEY + ' but got ' + payment.Id__c);
     }
 
     /*
@@ -41,7 +41,7 @@ public with sharing class TxnPASPmtAggregationTest {
      */
     @IsTest
     public static void testPASPaymentAmountAggregation() {
-        Payment__c payment = [SELECT Id FROM Payment__c WHERE ID__c = :PAS_KEY];
+        Payment__c payment = [SELECT Id FROM Payment__c WHERE Id__c = :PAS_KEY];
         Charge_Group__c cg = [SELECT Id FROM Charge_Group__c];
 
         Test.startTest();
@@ -63,7 +63,7 @@ public with sharing class TxnPASPmtAggregationTest {
      */
     @IsTest
     public static void testPASPaymentTxnDeleted() {
-        Payment__c payment = [SELECT Id FROM Payment__c WHERE ID__c = :PAS_KEY];
+        Payment__c payment = [SELECT Id FROM Payment__c WHERE Id__c = :PAS_KEY];
         Charge_Group__c cg = [SELECT Id FROM Charge_Group__c];
 
         Test.startTest();

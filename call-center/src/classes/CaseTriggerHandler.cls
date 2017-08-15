@@ -34,7 +34,7 @@ public with sharing class CaseTriggerHandler {
 
     /**
      * PRIVATE METHOD TO VALIDATE AND CALL ADD NOTE FUTURE METHOD
-     * Call a Method addNoteFuture with Charge_Group_IDs__c and Description parameter and send a Request to endpoint
+     * Call a Method addNoteFuture with Charge_Group_Ids__c and Description parameter and send a Request to endpoint
      *
      * @param List<Case> newCases - That contains List of Case.
      *

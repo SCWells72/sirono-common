@@ -69,18 +69,6 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Amount__c</fullName>
-        <description>Amount of case or payment</description>
-        <externalId>false</externalId>
-        <label>Amount</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
         <fullName>Amount_To_Aggregate__c</fullName>
         <externalId>false</externalId>
         <formula>IF(ISBLANK(Payment__c),
@@ -96,6 +84,28 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Amount__c</fullName>
+        <description>Amount of case or payment</description>
+        <externalId>false</externalId>
+        <label>Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Charge_Added_Since_Plan_Start__c</fullName>
+        <externalId>false</externalId>
+        <formula>AND( Transaction_Date__c &gt; DATEVALUE(Charge_Group__r.Payment_Plan__r.Plan_Value_Modified_Date__c), Amount__c &gt; 0 , Txn_Method__c == &apos;Service&apos; )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Charge added since payment plan start</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Charge_Group__c</fullName>
         <description>Charge Group</description>
         <externalId>false</externalId>
@@ -109,16 +119,6 @@
         <trackTrending>false</trackTrending>
         <type>MasterDetail</type>
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
-    </fields>
-    <fields>
-        <fullName>Charge_Added_Since_Plan_Start__c</fullName>
-        <externalId>false</externalId>
-        <formula>AND( Transaction_Date__c &gt; DATEVALUE(Charge_Group__r.Payment_Plan__r.Plan_Value_Modified_Date__c), Amount__c &gt; 0 , Txn_Method__c == &apos;Service&apos; )</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Charge added since payment plan start</label>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>Credit_Balance__c</fullName>
