@@ -212,7 +212,7 @@
         <listMetadata metadataType="${metadata_type}"/>
     </target>
 
-    <target name="stop_all_scheduled_jobs" description="Stops all scheduled jobs in the target org">
+    <target name="stop_all_scheduled_jobs">
         <!-- stop all scheduled jobs -->
         <executeAnonymous
             username="${sf.target.username}"

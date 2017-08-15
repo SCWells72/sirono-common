@@ -17,6 +17,7 @@ public with sharing class TransactionJSONParser extends AbstractSironoJSONParser
         public String method;
         public String notes;
         public Boolean credit_balance;
+        //noinspection ApexUnusedDeclaration
         public String payment;
         public String chargegroup;
     }
@@ -37,13 +38,13 @@ public with sharing class TransactionJSONParser extends AbstractSironoJSONParser
             String[] timeParts = parts[1].replace('.', ':').split(':');
 
             return Datetime.newInstance(
-                    Date.valueOf(parts[0]),
-                    Time.newInstance(
-                            Integer.valueOf(timeParts[0]),
-                            Integer.valueOf(timeParts[1]),
-                            Integer.valueOf(timeParts[2]),
-							//There are no milliseconds when the time is 00:00:00
-                            timeParts.size() == 4 ? Integer.valueOf(timeParts[3]) : 0));
+                Date.valueOf(parts[0]),
+                Time.newInstance(
+                    Integer.valueOf(timeParts[0]),
+                    Integer.valueOf(timeParts[1]),
+                    Integer.valueOf(timeParts[2]),
+                    //There are no milliseconds when the time is 00:00:00
+                    timeParts.size() == 4 ? Integer.valueOf(timeParts[3]) : 0));
         }
         return null;
     }
@@ -53,7 +54,7 @@ public with sharing class TransactionJSONParser extends AbstractSironoJSONParser
         List<Transaction__c> txns = new List<Transaction__c>();
 
         List<TransactionJSON> txnJsons =
-                (List<TransactionJSON>) System.JSON.deserialize(jsonString, List<TransactionJSON>.class);
+            (List<TransactionJSON>) System.JSON.deserialize(jsonString, List<TransactionJSON>.class);
 
         for (TransactionJSON txnJson : txnJsons) {
             Transaction__c txn = new Transaction__c();

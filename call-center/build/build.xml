@@ -55,10 +55,13 @@
     </target>
 
     <!-- Deploy without tests -->
-    <target name="deployNoTests" depends="processTemplates, _deployNoTests, runPostInstallHandler"/>
+    <target name="deployNoTests" depends="processTemplates, _deployNoTests, runPostInstallHandler"
+            description="Deploys metadata without running unit tests"/>
 
-    <target name="full_deploy" description="Full environment setup in target org"
-            depends="stop_all_scheduled_jobs, deploy, schedule_all_jobs"/>
+    <!-- Undeploy obsolete metadata -->
+    <target name="undeployCode" depends="build-common.undeployCode" description="Undeploys obsolete metadata without running unit tests"/>
+
+    <target name="full_deploy" depends="stop_all_scheduled_jobs, deploy, schedule_all_jobs"/>
 
     <!-- TODO: This could be quite a bit more efficient by only deploying what's needed in the second deployNoTests -->
     <target name="initial_deploy" description="Deploy into a DE org for the first time"

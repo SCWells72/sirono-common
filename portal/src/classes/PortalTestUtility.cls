@@ -7,47 +7,9 @@
  */
 @IsTest
 public class PortalTestUtility {
-    public static String body = '{"token":"bar"}';
-    public static String responsebody = '{"token":"bar"}';
-    public static Integer statusCode = 200;
-    public static Integer statusCode2 = 200;
-    public static Integer statusCode3 = 200;
-    public static Integer statusCode4 = 200;
-    public static String status = 'CREATED';
-    public static String errorbody = '' ;
-    public static Integer currentDay = 22;
-    public static Integer currentMonth = 12;
-    public static Integer currentYear = 2017;
-    public static String planType = 'auto';
-    public static String errorDate = '2016-05-13';
-    public static String delinquentDate = '2016-05-13';
     public static final String ACCOUNT_NAME = 'TestAccount';
     public static final String ADMIN_EMAIL = 'bruce.wayne@wayneenterprises.com';
     public static final Decimal PROFILE_POINTER = 999;
-
-    public static String url = 'http://127.0.0.1:8000/paystaff/api/paymentplan/2876/';
-
-    // Enum for JSON body type responses
-    public enum JSON_BODY_TYPE {
-        PAYMENT_CHARGEGROUPS,
-        PAYMENT_EXISTING_PLAN,
-        PAYMENT_NON_FIELD,
-        PAYMENT_LIST,
-        NO_KIND,
-        UNAUTHORIZED,
-        VALIDATION_EXISTING_PLAN
-    }
-
-    // Map of JSON_BODY_TYPE enum to json body response.
-    public static Map<JSON_BODY_TYPE, String> JSON_ERROR_BODIES = new Map<JSON_BODY_TYPE, String> {
-        JSON_BODY_TYPE.PAYMENT_CHARGEGROUPS => '{"kind":"Payments Exception","errors":{"chargegroups":["Invalid hyperlink - Object does not exist."],"guarantor":["Invalid hyperlink - Object does not exist."]}}',
-        JSON_BODY_TYPE.PAYMENT_EXISTING_PLAN => '{"kind":"Payments Exception","errors":{"non_field_errors":["Amount exceeds selected charge groups"]}}',
-        JSON_BODY_TYPE.PAYMENT_NON_FIELD => '{"kind":"Payments Exception","errors":{"non_field_errors":["Amount exceeds selected charge groups"]}}',
-        JSON_BODY_TYPE.PAYMENT_LIST => '{"kind":"Payments Exception","errors":["Credit card number is invalid.","Merchant account does not support payment instrument."]}',
-        JSON_BODY_TYPE.NO_KIND => '{"non_field_errors":["Cannot directly change ChargeGroups on an existing plan"]}',
-        JSON_BODY_TYPE.UNAUTHORIZED => '{"kind":"Permission Denied Exception","errors":["Incorrect authentication credentials."]}',
-        JSON_BODY_TYPE.VALIDATION_EXISTING_PLAN => '{"kind":"Validation exception","errors":[{"non_field_errors":"Cannot directly change ChargeGroups on an existing plan"}]}'
-    };
 
     private PortalTestUtility() {
         // Utility class
@@ -84,15 +46,6 @@ public class PortalTestUtility {
         return patientContact;
     }
 
-    // Return ExternalGuarantor Contact record
-    public static Contact generateExternalGuarantor() {
-        Contact externalGT = new Contact();
-        externalGT.RecordTypeId = RecordTypeUtil.externalGtRt;
-        externalGT.LastName = 'Test External GT';
-        externalGT.External_Guarantor_Id__c = getUniqueId();
-        return externalGT;
-    }
-
     // Return charge group record
     public static Charge_Group__c generateChargeGroup(String guarantorContactId,
         String patientContactId,
@@ -101,13 +54,6 @@ public class PortalTestUtility {
         Charge_Group__c chargeGroup = generateChargeGroup(guarantorContactId, patientContactId, chargeGroupExternalId);
         chargeGroup.Payment_Plan__c = paymentplanID;
         return chargeGroup;
-    }
-
-    // Return charge group record
-    public static Charge_Group__c generateChargeGroupWithExternalId(String guarantorContactId,
-        String patientContactId,
-        Decimal chargeGroupExternalId) {
-        return generateChargeGroup(guarantorContactId, patientContactId, chargeGroupExternalId);
     }
 
     // Return charge group record with external Id from parameter
@@ -129,21 +75,6 @@ public class PortalTestUtility {
         return cg;
     }
 
-    // Return transaction record
-    public static Transaction__c generateTransaction(Charge_Group__c chargeGroup,
-        Decimal amount,
-        String method) {
-        Transaction__c objTransaction = new Transaction__c();
-        objTransaction.Amount__c = amount == null ? 0 : amount;
-        objTransaction.Charge_Group__c = chargeGroup.Id;
-        objTransaction.Credit_Balance__c = amount < 0;
-        objTransaction.Fail_Date__c = null;
-        objTransaction.Sirono_ID__c = getUniqueId();
-        objTransaction.Notes__c = 'Test txn';
-        objTransaction.Post_Date__c = System.today().addDays('Credit'.equals(method) ? 7 : -7);
-        return objTransaction;
-    }
-
     // Return Encounter record
     public static Encounter__c generateEncounter(String guarantorId,
         Decimal patientPortion,
@@ -160,14 +91,6 @@ public class PortalTestUtility {
         stmt.Statement_Date__c = System.today();
         stmt.Guarantor__c = contactId;
         return stmt;
-    }
-
-    // Return a new campaign record
-    public static Campaign generateCampaign(String name) {
-        Campaign objCampaign = new Campaign();
-        objCampaign.Name = name;
-        objCampaign.IsActive = true;
-        return objCampaign;
     }
 
     // Return a new payment plan record
@@ -204,35 +127,6 @@ public class PortalTestUtility {
         return paymentMethod;
     }
 
-    // return list of charge_group__c records
-    public static List<Charge_Group__c> generateChargeGroupList(Id contID) {
-        List<Charge_Group__c> lstChargeGroup = new List<Charge_Group__c>();
-        for (Integer i = 0; i < 20; i++) {
-            Charge_Group__c chargeGroup = new Charge_Group__c();
-            chargeGroup.Name = 'xyz' + i;
-            chargeGroup.Guarantor__c = contID;
-            lstChargeGroup.add(chargeGroup);
-        }
-        return lstChargeGroup;
-    }
-
-
-    /**
-     * This method is use to Generate Exception.
-     *
-     * @returns Integer/Exception.
-     **/
-    public static Integer generateException() {
-        // We put try/catch here because of we need to check System Assert for this method.
-        // We got this method as a Missing assert in Security Scan Report.
-        try {
-            return 1 / 0;
-        } catch (Exception ex) {
-            System.assert(ex.getMessage().contains('Divide by 0'), 'Should have failed due to Arithmetic Operation.');
-            throw ex;
-        }
-    }
-
     public static Decimal generateRandomCurrency() {
         Double randomDouble = Math.random() * 100;
         Decimal randomCurrencyValue = Decimal.valueOf(randomDouble).setScale(2);
@@ -245,23 +139,12 @@ public class PortalTestUtility {
         return payment;
     }
 
-    public static Payment__c generatePASPayment(String pmtKey) {
-        Payment__c pmt = generatePayment();
-        pmt.ID__c = pmtKey;
-        return pmt;
-    }
-
     public static Payment__c generateSironoPayment(Id guarantorId, Decimal sironoId, Decimal amount) {
         Payment__c payment = generatePayment();
         payment.Guarantor__c = guarantorId;
         payment.Sirono_ID__c = sironoId;
         payment.Amount__c = amount;
         return payment;
-    }
-
-    public static Adjustment__c generateAdjustment(Id guarantorId, String aggregateKey, Id externalGuarantorId) {
-        return new Adjustment__c(Guarantor__c = guarantorId, Aggregate_Id__c = aggregateKey, External_Guarantor__c = externalGuarantorId);
-
     }
 
     // Return a payment transaction
@@ -336,43 +219,6 @@ public class PortalTestUtility {
         System.assertNotEquals(newUser, null, 'Expected valid user, but is null.');
 
         return newUser;
-    }
-
-    /**
-     * Assign the specified PermissionSet to the given User
-     *
-     **/
-    public static void assignPermissionSet(String psName, User newUser) {
-
-        PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name = :psName];
-        System.assert(ps != null, 'Unable to retrieve permission set: ' + psName);
-
-        insert new PermissionSetAssignment(AssigneeId = newUser.Id, PermissionSetId = ps.Id);
-    }
-
-    /**
-     * Creates and returns an unpersisted system administrator user.
-     *
-     * @returns a sys admin user
-     */
-    public static User getAdminUser() {
-        Profile adminProfile = [
-            SELECT Id
-            FROM Profile
-            WHERE Name = 'System Administrator'
-        ];
-        User adminUser = new User(
-            Alias = 'standt',
-            Email = 'admin@testorg.com',
-            EmailEncodingKey = 'UTF-8',
-            LastName = 'Testing',
-            LanguageLocaleKey = 'en_US',
-            LocaleSidKey = 'en_US',
-            ProfileId = adminProfile.Id,
-            TimeZoneSidKey = 'America/Los_Angeles',
-            Username = 'admin@testorg1212.com'
-        );
-        return adminUser;
     }
 
     /**

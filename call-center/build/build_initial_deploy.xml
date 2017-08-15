@@ -6,14 +6,14 @@
          xmlns:sf="antlib:com.salesforce"
          xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
 
-    <target name="help" description="default">
+    <target name="help">
         <echo message="Tasks to run for the initial deploy to a Dev org"/>
     </target>
 
     <!--
         Deploy just the settings needed in order to deploy the app
     -->
-    <target name="preDeploy" description="Deploy settings needed for the initial deploy to run successfully">
+    <target name="preDeploy">
         <echo level="info">Deploy settings needed for the initial source deploy to: ${sf.target.username} to run successfully</echo>
         <delete dir="${basedir}/pre_deploy"/>
         <mkdir dir="${basedir}/pre_deploy/settings"/>
@@ -74,7 +74,7 @@
         We can't deploy the sharing rules or deploy objects with history tracking turned on until the objects
         that they reference are deployed. Turn off history tracking across the board & hide the sharing rules
     -->
-    <target name="deployPrep" description="Prep source for initial deployment to a dev org">
+    <target name="deployPrep">
         <echo level="info">Perform prep on source in order to deploy to: ${sf.target.username}</echo>
         <antcall target="turnOffHistoryTracking"/>
     </target>

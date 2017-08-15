@@ -118,6 +118,7 @@ public class PaymentService extends AbstractService {
         String bank_account_type;
         //noinspection ApexUnusedDeclaration
         String is_voidable;
+        //noinspection ApexUnusedDeclaration
         String post_date;
     }
 
@@ -188,9 +189,12 @@ public class PaymentService extends AbstractService {
         String created_at;
         //noinspection ApexUnusedDeclaration
         String modified_at;
+        //noinspection ApexUnusedDeclaration
         String method;
+        //noinspection ApexUnusedDeclaration
         String notes;
         Boolean credit_balance;
+        //noinspection ApexUnusedDeclaration
         String payment;
         String chargegroup;
     }
@@ -207,7 +211,7 @@ public class PaymentService extends AbstractService {
         @TestVisible
         TransactionJSONParser(Payment__c newPayment, String jsonBody) {
             this.payment = newPayment;
-            this.json = ensureJsonList(jsonBody.replace('_credit_balance','credit_balance'));
+            this.json = ensureJsonList(jsonBody.replace('_credit_balance', 'credit_balance'));
 
             txnJsons = (List<TransactionSironoJSON>) System.JSON.deserialize(json, List<TransactionSironoJSON>.class);
         }

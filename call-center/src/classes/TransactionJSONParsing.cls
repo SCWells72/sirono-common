@@ -6,7 +6,7 @@
  * JSON Parsing Class for the response which comes from Transaction Request. Takes the response and turns it into
  * a list of Transaction__c & Charge_Group__c objects with the Charge_Group__c properly populated in the transactions.
  */
-public class TransactionJSONParsing extends AbstractSironoJSONParser{
+public class TransactionJSONParsing extends AbstractSironoJSONParser {
 
     String jsonString;
 
@@ -23,11 +23,13 @@ public class TransactionJSONParsing extends AbstractSironoJSONParser{
         public String fail_date;
         public String export_date;
         public String created_at;
+        //noinspection ApexUnusedDeclaration
         public String modified_at;
         public String method;
+        //noinspection ApexUnusedDeclaration
         public String notes;
         public Boolean credit_balance;
-        //noinspection ApexUnusedDeclaration2
+        //noinspection ApexUnusedDeclaration
         public String payment;
         public String chargegroup;
     }

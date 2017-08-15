@@ -11,8 +11,6 @@ public class TestUtility {
     public static String responsebody = '{"token":"bar"}';
     public static Integer statusCode = 200;
     public static Integer statusCode2 = 200;
-    public static Integer statusCode3 = 200;
-    public static Integer statusCode4 = 200;
     public static String status = 'CREATED';
     public static String errorbody = '' ;
     public static Integer currentDay = 22;
@@ -553,19 +551,6 @@ public class TestUtility {
     }
 
     /**
-     * Get the admin user associated with the getGuarantorCommunityUser user.
-     *
-     * @return Contact - The User used to created the GuarantorCommunityUser.
-     */
-    public static User getPortalAdminUser() {
-        List<User> admin = [SELECT Id FROM User WHERE Email = :ADMIN_EMAIL LIMIT 1];
-
-        System.assert(admin.size() != 0, 'Could not find the admin user that created the community user.');
-        return admin[0];
-    }
-
-
-    /**
      * Get the guarantor associated with the Guarantor Community User.
      *
      * @return Contact - The Guarantor.
@@ -575,18 +560,6 @@ public class TestUtility {
 
         System.assert(contacts.size() != 0, 'Could not find the guarantor for the community user.');
         return contacts[0];
-    }
-
-    /**
-     * Get the account assoicated with the GuarantorCommunityUser.
-     *
-     * @return Account - The account.
-     */
-    public static Account getPortalAccount() {
-        List<Account> accounts = [SELECT Id FROM Account WHERE Name = :ACCOUNT_NAME LIMIT 1];
-
-        System.assert(accounts.size() != 0, 'Could not find the account for the community user.');
-        return accounts[0];
     }
 
     public static void createAllCampaigns() {

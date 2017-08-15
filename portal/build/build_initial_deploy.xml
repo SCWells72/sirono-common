@@ -2,7 +2,7 @@
          xmlns:sf="antlib:com.salesforce"
          xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
 
-    <target name="help" description="default">
+    <target name="help">
         <echo message="Tasks to run for the initial deploy to a Dev org"/>
     </target>
 

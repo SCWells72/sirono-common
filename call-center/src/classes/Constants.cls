@@ -35,14 +35,19 @@ public class Constants {
 
     // Generic Status values
     public static final String DELIQUENT = 'Delinquent';
+    //noinspection ApexUnusedDeclaration
     public static final String INVOICE_VOIDED = 'Invoice Voided';
     public static final String ON_PAYMENT_PLAN = 'On Payment Plan';
     public static final String OVERDUE = 'Overdue';
 
     // Guarantor Status
+    //noinspection ApexUnusedDeclaration
     public static final String GUARANTOR_STATUS_DUE = 'Due';
+    //noinspection ApexUnusedDeclaration
     public static final String GUARANTOR_STATUS_DELINQUENT = 'Delinquent';
+    //noinspection ApexUnusedDeclaration
     public static final String GUARANTOR_STATUS_ON_PAYMENT_PLAN = ON_PAYMENT_PLAN;
+    //noinspection ApexUnusedDeclaration
     public static final String GUARANTOR_STATUS_OVERDUE = OVERDUE;
 
     // Constant variables for CG account status values.
@@ -156,16 +161,21 @@ public class Constants {
     //noinspection ApexUnusedDeclaration
     public static final String PAYMENT = 'Payment';
     public static final String SERVICE = 'Service';
+    //noinspection ApexUnusedDeclaration
     public static final String UNKNOWN = 'Unknown';
 
     //Constants for PaymentPlans
     public static final String AUTOMATIC = 'Automatic';
+    //noinspection ApexUnusedDeclaration
     public static final String DUE = 'Due';
+    //noinspection ApexUnusedDeclaration
     public static final String IN_ERROR = 'In Error';
     public static final String MANUAL = 'Manual';
+    //noinspection ApexUnusedDeclaration
     public static final String PAST_DUE = 'Past Due';
     public static final String PLANTYPE_AUTO = 'auto';
     public static final String PLANTYPE_AUTO_VALUE = 'Auto Draft';
+    //noinspection ApexUnusedDeclaration
     public static final String PLANTYPE_GOOD_STANDING = 'Good Standing';
     public static final String PLANTYPE_PROMISE = 'promise';
     public static final String PLANTYPE_PROMISE_VALUE = 'Promise To Pay';
@@ -189,9 +199,11 @@ public class Constants {
     public static final String PERMISSION_SET_GUARANTOR_LOCAL = 'Guarantor_Local';
 
     public static final String CREDIT_CARD = 'Credit Card';
+    //noinspection ApexUnusedDeclaration
     public static final String MONTHS = 'MONTHS';
     public static final String PAID = 'Paid';
     public static final String UNPAID = 'Unpaid';
+    //noinspection ApexUnusedDeclaration
     public static final String YEARS = 'YEARS';
 
     // Account Substatus constraints used for Cases
@@ -218,26 +230,6 @@ public class Constants {
         ACCT_SUBSTATUS_OVERDUE,
         ACCT_SUBSTATUS_PAYMENT_PLAN,
         ACCT_SUBSTATUS_PREINVOICED
-    };
-
-    // Guarantor Status Overdue
-    public static final Set<String> GuarantorStatusOverdue = new Set<String> {
-        GUARANTOR_STATUS_DUE,
-        GUARANTOR_STATUS_DELINQUENT,
-        GUARANTOR_STATUS_OVERDUE
-    };
-
-    // Invoice status groups
-    public static final Set<String> INVOICE_UNPAID_STATUSES = new Set<String> {
-        DELIQUENT,
-        OVERDUE,
-        DUE,
-        ON_PAYMENT_PLAN
-    };
-
-    public static final Set<String> INVOICE_PAID_STATUSES = new Set<String> {
-        PAID,
-        INVOICE_VOIDED
     };
 
     public static final String RECORD_TYPE_GUARANTOR = 'Guarantor';

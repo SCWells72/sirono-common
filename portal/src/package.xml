@@ -41,7 +41,6 @@
         <members>PortalUIConstantsTest</members>
         <members>SettingsController</members>
         <members>SettingsControllerTest</members>
-        <members>SimpleLoginToCommunityController</members>
         <members>SiteLoginController</members>
         <members>SiteLoginControllerTest</members>
         <members>SiteRegisterController</members>

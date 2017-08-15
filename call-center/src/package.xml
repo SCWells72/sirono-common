@@ -136,7 +136,6 @@
         <members>PayEstimateController</members>
         <members>PayEstimateVFController</members>
         <members>PayEstimateVFControllerTest</members>
-        <members>PaymentAdjustmentJSONParsing</members>
         <members>PaymentDao</members>
         <members>PaymentDaoTest</members>
         <members>PaymentJSONParsing</members>
@@ -970,7 +969,6 @@
         <members>Name</members>
         <name>Settings</name>
     </types>
-
     <types>
         <members>CampaignType</members>
         <members>CaseReason</members>

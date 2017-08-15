@@ -12,6 +12,7 @@ public class AdjustmentJSONParser extends AbstractSironoJSONParser {
     private class JSONWrapper {
         String url;
         Integer amount;
+        //noinspection ApexUnusedDeclaration
         String code;
         String description;
         String post_date;
@@ -37,15 +38,14 @@ public class AdjustmentJSONParser extends AbstractSironoJSONParser {
     public List<AdjustmentWrapper> parse() {
 
         List<JSONWrapper> jsonWrappers =
-                (List<JSONWrapper>) System.JSON.deserialize(ensureJsonList(jsonString), List<JSONWrapper>.class);
+            (List<JSONWrapper>) System.JSON.deserialize(ensureJsonList(jsonString), List<JSONWrapper>.class);
 
         List<AdjustmentWrapper> adjustments = new List<AdjustmentWrapper>();
-        Map<Decimal, String> mapCode = new Map<Decimal, String>();
 
         for (JSONWrapper adjJsonWrapper : jsonWrappers) {
             Adjustment__c adj = new Adjustment__c(Description__c = adjJsonWrapper.description,
-                    Amount__c = convertToDollars(adjJsonWrapper.amount),
-                    Post_Date__c = parseDate(adjJsonWrapper.post_date));
+                Amount__c = convertToDollars(adjJsonWrapper.amount),
+                Post_Date__c = parseDate(adjJsonWrapper.post_date));
             Decimal sironoId = Decimal.valueOf(parseSironoId(adjJsonWrapper.url, RestClientConstants.ADJUSTMENT_URL_RESOURCE_TYPE));
             Decimal cgSironoId = Decimal.valueOf(parseSironoId(adjJsonWrapper.chargegroup, RestClientConstants.CHARGE_GROUP_URL_RESOURCE_TYPE));
 
