@@ -1,0 +1,54 @@
+<project name="SironoPFP" default="deployCheckOnly"
+         basedir=".."
+         xmlns:sf="antlib:com.salesforce"
+         xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
+
+    <property name="libdir" value="${basedir}/../build/lib"/>
+
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"
+             classpath="${libdir}/ant-contrib-1.0b3.jar"/>
+    <taskdef uri="antlib:com.salesforce"
+             resource="com/salesforce/antlib.xml"
+             classpath="${libdir}/ant-salesforce.jar"/>
+    <taskdef name="http" uri="org.missinglink.ant.task.http.HttpClientTask"
+             classname="org.missinglink.ant.task.http.HttpClientTask"
+             classpath="${libdir}/ml-ant-http-1.1.3.jar"/>
+
+    <property file="${basedir}/../build/build.properties"/>
+    <property file="${basedir}/build/build.properties"/>
+    <property environment="env"/>
+
+    <import file="${basedir}/../build/build-common.xml"/>
+    <import file="build_initial_deploy.xml"/>
+    <property name="deployRoot" value="${basedir}"/>
+
+    <!-- Setting default value for properties to empty string
+         so unset values are treated as empty. Without this, ant expressions such as ${sf.blah.username}
+         will be treated literally.
+    -->
+    <getOrgName text="${sf.target.username}" property="derivedOrgName"/>
+    <condition property="orgName" value="${sf.orgName}">
+        <isset property="sf.orgName"/>
+    </condition>
+    <condition property="orgName" value="${derivedOrgName}">
+        <not>
+            <isset property="sf.orgName"/>
+        </not>
+    </condition>
+    <condition property="sf.commSubDomain" value="${orgName}-sirono-community-developer-edition">
+        <not>
+            <isset property="sf.commSubDomain"/>
+        </not>
+    </condition>
+    <condition property="sf.siteAdmin" value="${sf.target.username}">
+        <not>
+            <isset property="sf.siteAdmin"/>
+        </not>
+    </condition>
+
+    <target name="deploy" depends="processTemplates, _deploy"/>
+
+    <!-- Deploy without tests -->
+    <target name="deployNoTests" depends="processTemplates, _deployNoTests"/>
+
+</project>

@@ -50,6 +50,5 @@ IlluminatedCloud/
 
 # Ant generated
 .ant-targets-build.xml
-lib/
 post_install_zip
 work/
