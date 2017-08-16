@@ -70,18 +70,34 @@
         </replace>
     </target>
 
+    <target name="removeSironoCallCenterApp">
+        <echo message="Hide Sirono_Call_Center.app and remove Sirono_Call_Center from the apps in package.xml"/>
+        <replace dir="${basedir}/src/">
+            <replacetoken><![CDATA[<members>Sirono_Call_Center</members>]]></replacetoken>
+            <replacevalue><![CDATA[]]></replacevalue>
+            <include name="package.xml"/>
+        </replace>
+
+        <move file="${basedir}/src/applications/Sirono_Call_Center.app"
+              tofile="${basedir}/src/applications/Sirono_Call_Center.app.bak"/>
+    </target>
     <!--
-        We can't deploy the sharing rules or deploy objects with history tracking turned on until the objects
-        that they reference are deployed. Turn off history tracking across the board & hide the sharing rules
+        We can't deploy objects with history tracking turned on until the objects
+        that they reference are deployed; turn off history tracking across the board.
+
+        We can't deploy the Sirono_Call_Center.app until the Sirono User.profile is available, so
+        hide it for initial deploy
     -->
     <target name="deployPrep">
         <echo level="info">Perform prep on source in order to deploy to: ${sf.target.username}</echo>
         <antcall target="turnOffHistoryTracking"/>
+        <antcall target="removeSironoCallCenterApp"/>
     </target>
 
+
     <!--
-        Use git to revert the sweeping history tracking changes we made.
-        Remove the backup copies of the sharing rules
+        Use git to revert the sweeping history tracking changes we made (too hard to try to do any other way).
+        Remove the backup copies of other metadata made to 'hide' them
     -->
     <target name="revertPrep">
         <echo message="Revert all changes made in deployPrep"/>
