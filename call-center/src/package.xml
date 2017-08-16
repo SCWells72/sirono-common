@@ -831,11 +831,6 @@
         <name>ListView</name>
     </types>
     <types>
-        <members>Five9ServiceAdmin</members>
-        <members>sirono_server</members>
-        <name>NamedCredential</name>
-    </types>
-    <types>
         <members>Encounter_Reconciler</members>
         <members>Hospital_Manager</members>
         <members>Hospital_Staff</members>
