@@ -4,9 +4,14 @@
     <option name="connections">
       <list>
         <IlluminatedCloudConnection>
-          <option name="connectionName" value="sirono_local" />
+          <option name="connectionName" value="sirono-call-center" />
+          <option name="defaultModuleName" value="call-center" />
+          <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/sirono_call_center/OfflineSymbolTable.zip" />
+        </IlluminatedCloudConnection>
+        <IlluminatedCloudConnection>
+          <option name="connectionName" value="sirono-portal" />
           <option name="defaultModuleName" value="portal" />
-          <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/sirono_local/OfflineSymbolTable.zip" />
+          <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/sirono_portal/OfflineSymbolTable.zip" />
         </IlluminatedCloudConnection>
       </list>
     </option>

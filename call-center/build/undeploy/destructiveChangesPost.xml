@@ -5,6 +5,10 @@
 
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <name>Sirono_Call_Center_Console</name>
+        <name>CustomApplication</name>
+    </types>
+    <types>
         <members>Transaction__c.Adjustment__c</members>
         <members>Transaction__c.Service__c</members>
         <name>CustomField</name>

@@ -8,10 +8,6 @@
         <application>Sirono_Call_Center</application>
         <visible>true</visible>
     </applicationVisibilities>
-    <applicationVisibilities>
-        <application>Sirono_Call_Center_Console</application>
-        <visible>true</visible>
-    </applicationVisibilities>
     <classAccesses>
         <apexClass>AddDiscount</apexClass>
         <enabled>true</enabled>

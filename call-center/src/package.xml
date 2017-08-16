@@ -215,6 +215,8 @@
         <members>TxnAggregationUtils</members>
         <members>TxnPASPmtAggregationTest</members>
         <members>TxnPaymentAggregationTest</members>
+        <members>UIUtils</members>
+        <members>UIUtilsTest</members>
         <members>UserTimezoneMdtSecurityContext</members>
         <members>ViewStatementExtension</members>
         <members>ViewStatementExtensionTest</members>
@@ -298,7 +300,6 @@
         <members>Sirono_Administration</members>
         <members>Sirono_Administration_Lightning</members>
         <members>Sirono_Call_Center</members>
-        <members>Sirono_Call_Center_Console</members>
         <name>CustomApplication</name>
     </types>
     <types>
@@ -828,11 +829,6 @@
         <members>Statement__c.All</members>
         <members>Transaction__c.All</members>
         <name>ListView</name>
-    </types>
-    <types>
-        <members>Five9ServiceAdmin</members>
-        <members>sirono_server</members>
-        <name>NamedCredential</name>
     </types>
     <types>
         <members>Encounter_Reconciler</members>

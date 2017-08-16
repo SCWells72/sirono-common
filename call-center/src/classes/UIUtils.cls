@@ -58,13 +58,13 @@ public with sharing class UIUtils {
         for (SelectOption selection : expYearOptions) {
             yearOptions.put(selection.getValue(), selection.getLabel());
         }
-        outputMap.put(PortalConstants.YEARS, yearOptions);
+        outputMap.put(Constants.YEARS, yearOptions);
 
         Map<String, String> monthsOptions = new Map<String, String>();
         for (SelectOption selection : UIUtils.expMonthOptions) {
             monthsOptions.put(selection.getValue(), selection.getLabel());
         }
-        outputMap.put(PortalConstants.MONTHS, monthsOptions);
+        outputMap.put(Constants.MONTHS, monthsOptions);
         return outputMap;
     }
 }
