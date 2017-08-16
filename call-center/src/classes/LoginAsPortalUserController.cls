@@ -37,7 +37,7 @@ public with sharing class LoginAsPortalUserController {
         }
 
         if (guarantorPortalNetworkId == null) {
-            throw LightningUtil.newAuraHandledException('No network found with name Guarantor Portal.');
+            throw new AuraHandledException('No network found with name Guarantor Portal.');
         }
         loginAttributes.put('networkId', guarantorPortalNetworkId);
 

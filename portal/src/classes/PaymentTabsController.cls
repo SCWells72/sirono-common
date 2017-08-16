@@ -13,7 +13,7 @@ public with sharing class PaymentTabsController {
      */
     @AuraEnabled
     public static Map<String, Map<String, String>> getCardSelectOptions() {
-        return UIUtils.getCardDateOptions();
+        return PortalUIUtils.getCardDateOptions();
     }
 
     /**

@@ -3,13 +3,13 @@
  */
 
 @IsTest
-public with sharing class UIUtilsTest {
+public with sharing class PortalUIUtilsTest {
 
     @IsTest
     public static void getCardDateOptions_test() {
 
         Test.startTest();
-        Map<String, Map<String, String>> dateOptions = UIUtils.getCardDateOptions();
+        Map<String, Map<String, String>> dateOptions = PortalUIUtils.getCardDateOptions();
         Test.stopTest();
 
         Set<String> keys = dateOptions.keySet();

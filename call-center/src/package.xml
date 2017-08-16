@@ -215,6 +215,8 @@
         <members>TxnAggregationUtils</members>
         <members>TxnPASPmtAggregationTest</members>
         <members>TxnPaymentAggregationTest</members>
+        <members>UIUtils</members>
+        <members>UIUtilsTest</members>
         <members>UserTimezoneMdtSecurityContext</members>
         <members>ViewStatementExtension</members>
         <members>ViewStatementExtensionTest</members>

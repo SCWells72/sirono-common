@@ -39,14 +39,14 @@
         <members>PortalTestUtility</members>
         <members>PortalUIConstants</members>
         <members>PortalUIConstantsTest</members>
+        <members>PortalUIUtils</members>
+        <members>PortalUIUtilsTest</members>
         <members>SettingsController</members>
         <members>SettingsControllerTest</members>
         <members>SiteLoginController</members>
         <members>SiteLoginControllerTest</members>
         <members>SiteRegisterController</members>
         <members>SiteRegisterControllerTest</members>
-        <members>UIUtils</members>
-        <members>UIUtilsTest</members>
         <members>UserDao</members>
         <members>UserService</members>
         <members>UserWrapper</members>
