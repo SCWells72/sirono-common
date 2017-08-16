@@ -4,6 +4,12 @@
 
 public with sharing class LoginAsPortalUserController {
 
+    private static AuraHandledException newAuraHandledException(String message) {
+        AuraHandledException ex = new AuraHandledException(message);
+        ex.setMessage(message);
+        return ex;
+    }
+
     /**
      * Builds and returns a map of login attributes for logging in as the portal user.
      *
@@ -37,7 +43,7 @@ public with sharing class LoginAsPortalUserController {
         }
 
         if (guarantorPortalNetworkId == null) {
-            throw new AuraHandledException('No network found with name Guarantor Portal.');
+            throw newAuraHandledException('No network found with name Guarantor Portal.');
         }
         loginAttributes.put('networkId', guarantorPortalNetworkId);
 
