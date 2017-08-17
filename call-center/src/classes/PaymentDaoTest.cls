@@ -17,7 +17,6 @@ private class PaymentDaoTest {
         insert selectedEncounter;
 
         Payment__c payment = new Payment__c(
-            Name = 'Test Payment',
             Guarantor__c = guarantorContact.Id,
             Amount__c = 123,
             Encounter__c = selectedEncounter.Id,
