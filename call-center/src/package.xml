@@ -27,7 +27,6 @@
         <members>AuthRestClientFailMock</members>
         <members>AuthRestClientMock</members>
         <members>CGCoverageJunctionSecurityContext</members>
-        <members>CallCenterPermissionSetTest</members>
         <members>CallEarlyOutAutoCase</members>
         <members>CallEarlyOutAutoCaseTest</members>
         <members>CallListUtilities</members>
@@ -109,6 +108,7 @@
         <members>GuarantorEstimateBalanceTest</members>
         <members>GuarantorService</members>
         <members>GuarantorServiceTest</members>
+        <members>HospitalStaffPermissionSetTest</members>
         <members>InvoiceDao</members>
         <members>InvoiceSecurityContext</members>
         <members>InvoiceService</members>
