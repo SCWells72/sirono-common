@@ -26,13 +26,49 @@
         <echo message="Targets to run to test/deploy the full suite"/>
     </target>
 
-    <target name="populateWorkSrcDir">
+    <!-- Check only; don't save to the server -->
+    <target name="deployCheckOnly" depends="processTemplates, populateUberWorkSrcDir">
+        <echo level="info">Validating in: ${sf.target.username} with test level: ${sf.testLevel}</echo>
+        <sf:deploy
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${deployRoot}/src"
+            pollWaitMillis="${sf.pollWaitMillis}"
+            maxPoll="${sf.maxPoll}"
+            testLevel="${sf.testLevel}"
+            logType="Debugonly"
+            ignoreWarnings="true"
+            checkOnly="true"/>
+    </target>
+
+    <!-- Check only; only run specified tests -->
+    <target name="deployCheckSelectTests" depends="processTemplates, populateUberWorkSrcDir">
+        <echo level="info">Running select tests in: ${sf.target.username}</echo>
+        <sf:deploy
+            username="${sf.target.username}"
+            password="${sf.target.password}"
+            serverurl="${sf.target.serverurl}"
+            deployRoot="${deployRoot}/src"
+            pollWaitMillis="${sf.pollWaitMillis}"
+            maxPoll="${sf.maxPoll}"
+            logType="Debugonly"
+            checkOnly="true"
+            testLevel="RunSpecifiedTests">
+            <!-- TODO: Make this use a property so that the build file doesn't have to be modified -->
+            <runTest>EncounterBalanceTest</runTest>
+        </sf:deploy>
+    </target>
+
+    <target name="populateUberWorkSrcDir">
         <mkdir dir="${workDir}"/>
         <delete dir="${workDir}/src" failonerror="false" quiet="true"/>
         <mkdir dir="${workDir}/src"/>
         <copy todir="${workDir}/src">
             <fileset dir="${basedir}/call-center/src" includes="**/*" excludes="package.xml"/>
+            <fileset dir="${basedir}/call-center/post_install/src" includes="**/*" excludes="package.xml"/>
             <fileset dir="${basedir}/portal/src" includes="**/*" excludes="package.xml"/>
+            <fileset dir="${basedir}/portal/post_install/src" includes="**/*" excludes="package.xml"/>
         </copy>
 
         <echo message="Build uber package.xml"/>
@@ -48,7 +84,31 @@
                 </filterreader>
             </filterchain>
         </copy>
+        <copy file="${basedir}/call-center/post_install/src/package.xml" tofile="${workDir}/src/call-center-post_install.xyz">
+            <filterchain>
+                <filterreader classname="org.apache.tools.ant.filters.HeadFilter">
+                    <param name="lines" value="-1"/>
+                    <param name="skip" value="2"/>
+                </filterreader>
+                <filterreader classname="org.apache.tools.ant.filters.TailFilter">
+                    <param name="lines" value="-1"/>
+                    <param name="skip" value="2"/>
+                </filterreader>
+            </filterchain>
+        </copy>
         <copy file="${basedir}/portal/src/package.xml" tofile="${workDir}/src/portal-package.xyz">
+            <filterchain>
+                <filterreader classname="org.apache.tools.ant.filters.HeadFilter">
+                    <param name="lines" value="-1"/>
+                    <param name="skip" value="2"/>
+                </filterreader>
+                <filterreader classname="org.apache.tools.ant.filters.TailFilter">
+                    <param name="lines" value="-1"/>
+                    <param name="skip" value="2"/>
+                </filterreader>
+            </filterchain>
+        </copy>
+        <copy file="${basedir}/portal/post_install/src/package.xml" tofile="${workDir}/src/portal-post_install.xyz">
             <filterchain>
                 <filterreader classname="org.apache.tools.ant.filters.HeadFilter">
                     <param name="lines" value="-1"/>
@@ -84,6 +144,11 @@
     <target name="deployNoTests" description="Deploys metadata for all modules without running unit tests">
         <ant dir="call-center/build" antfile="build.xml" target="deployNoTests" inheritall="false" usenativebasedir="true"/>
         <ant dir="portal/build" antfile="build.xml" target="deployNoTests" inheritall="false" usenativebasedir="true"/>
+    </target>
+
+    <target name="deployPostInstall" description="Deploys post-install metadata for all modules">
+        <ant dir="call-center/build" antfile="build.xml" target="deployPostInstall" inheritall="false" usenativebasedir="true"/>
+        <ant dir="portal/build" antfile="build.xml" target="deployPostInstall" inheritall="false" usenativebasedir="true"/>
     </target>
 
     <target name="undeployCode" description="Undeploys obsolete metadata for all modules without running unit tests">

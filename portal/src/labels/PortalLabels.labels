@@ -1,43 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
-        <fullName>Adjustment_for_Admin</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Adjustment for Admin</shortDescription>
-        <value>You are not authorized to add adjustments. Please contact your administrator if you require access to this feature.</value>
-    </labels>
-    <labels>
-        <fullName>Case_Type_Require</fullName>
-        <categories>CreateCaseManual</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Case Type Require</shortDescription>
-        <value>Please select Case Type.</value>
-    </labels>
-    <labels>
-        <fullName>Charge_Groups_Require</fullName>
-        <categories>CreateCaseManual</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Charge Groups Require</shortDescription>
-        <value>Please select at least one Charge Group(s).</value>
-    </labels>
-    <labels>
-        <fullName>Commnunity_Header_Monday_Friday_Work_Hours</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Commnunity Header Monday - Friday Work Hours</shortDescription>
-        <value>8am to 9pm EST</value>
-    </labels>
-    <labels>
-        <fullName>Commnunity_Header_Saturday_Work_Hours</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Commnunity Header Saturday Work Hours</shortDescription>
-        <value>8:30am to 1pm EST</value>
-    </labels>
-    <labels>
         <fullName>Customer_Service_Center_Phone</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -45,40 +8,11 @@
         <value>(925)-231-2502</value>
     </labels>
     <labels>
-        <fullName>Delinquent_Message</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Delinquent Message</shortDescription>
-        <value>This account has delinquent invoices. Delinquent invoices will be sent to a collection agency if payment arrangements are not made within 30 days. Please pay the balance now or set up a payment plan.</value>
-    </labels>
-    <labels>
         <fullName>Documents_Tooltip</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Documents Tooltip</shortDescription>
         <value>To view PDF content, you will need software such as Adobe Reader that can read a PDF file. If the files do not open, you can download and install Adobe Reader for free now.</value>
-    </labels>
-    <labels>
-        <fullName>Help_Copyright</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Help Copyright</shortDescription>
-        <value>Copyright 2016 Sirono Concierge Terms of Service. Privacy Policy. Financial Assistance Policy.</value>
-    </labels>
-    <labels>
-        <fullName>Help_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Help Description</shortDescription>
-        <value>Questions about your hospital bill or need technical support?
-Contact the Customer Care Center:</value>
-    </labels>
-    <labels>
-        <fullName>Help_Header</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Help Header</shortDescription>
-        <value>Click Here for Live Chat Help</value>
     </labels>
     <labels>
         <fullName>Invoice_Details_Delinquent_Message</fullName>
@@ -142,42 +76,6 @@ Contact the Customer Care Center:</value>
         <protected>false</protected>
         <shortDescription>Invoice Details Partial Payment Plan Message</shortDescription>
         <value>Some charges on this invoice are not fully on your payment plan. Add this invoice to your payment plan to ensure it will be paid in full.</value>
-    </labels>
-    <labels>
-        <fullName>Overdue_Message</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Overdue Message</shortDescription>
-        <value>Overdue Your account has overdue invoices. Please pay the balance now or set up a payment plan to avoid becoming delinquent. 
-If you have any questions about the bill, please contact the Customer Service Center at (925)-231-2502.</value>
-    </labels>
-    <labels>
-        <fullName>Pastdue_Automatic_Message</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Pastdue Automatic Message</shortDescription>
-        <value>We have not received your latest payment plan installment. Please pay your previous installment amount now or pay your account in full to avoid payment plan cancellation.</value>
-    </labels>
-    <labels>
-        <fullName>Pastdue_Manual_Message</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Pastdue Manual Message</shortDescription>
-        <value>We have not received your latest payment plan installment. Please pay your previous installment amount now or pay your account in full to avoid payment plan cancellation. If you have any questions about the bill, call the Customer Service Center at (925)-231-2502.</value>
-    </labels>
-    <labels>
-        <fullName>Payment_Plan_Error</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Payment Plan Error</shortDescription>
-        <value>This guarantor already has an active Payment Plan.</value>
-    </labels>
-    <labels>
-        <fullName>Payment_Plan_Installment_Error_Message</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Payment Plan Installment Error Message</shortDescription>
-        <value>Your latest payment plan installment failed. Please update your payment method or pay your previous installment amount now to keep your account current.</value>
     </labels>
     <labels>
         <fullName>Payment_amount_and_time_tooltip_message_after_months</fullName>

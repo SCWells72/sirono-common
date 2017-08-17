@@ -465,8 +465,11 @@
         <name>CustomField</name>
     </types>
     <types>
-        <members>CustomLabels</members>
-        <name>CustomLabels</name>
+        <members>Adjustment_for_Admin</members>
+        <members>Case_Type_Require</members>
+        <members>Charge_Groups_Require</members>
+        <members>Payment_Plan_Error</members>
+        <name>CustomLabel</name>
     </types>
     <types>
         <members>Adjustment_Type.Administrative_Adj</members>
@@ -831,6 +834,7 @@
     </types>
     <types>
         <members>Encounter_Reconciler</members>
+        <members>Guarantor</members>
         <members>Hospital_Manager</members>
         <members>Hospital_Staff</members>
         <members>Payment_Reconciler</members>
