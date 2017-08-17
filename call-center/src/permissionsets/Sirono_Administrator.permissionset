@@ -2164,7 +2164,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Transaction__c.Adjustment2__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2361,11 +2361,7 @@
     <recordTypeVisibilities>
         <recordType>Contact.External_Guarantor</recordType>
         <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <recordType>Contact.External_Patient</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
+    </recordTypeVisibilities>>
     <recordTypeVisibilities>
         <recordType>Contact.General</recordType>
         <visible>true</visible>

@@ -5,7 +5,7 @@
 /**
  * ChargeGroupService with logic for working with Charge_Group__c object.
  **/
-public class ChargeGroupService extends AbstractService {
+global class ChargeGroupService extends AbstractService {
 
     private class ChargeGroupRestClient extends SironoRestClient {
 
@@ -130,7 +130,7 @@ public class ChargeGroupService extends AbstractService {
      *  only Order By related changes are there so we use this variable and set order by filter.
      * @returns List<Charge_Group__c> - That contains CG records based on Charge Group Ids.
      **/
-    public static List<Charge_Group__c> getCGForInvoiceController(Set<Id> chargeGroupIds, Boolean hasOrderBy) {
+    global static List<Charge_Group__c> getCGForInvoiceController(Set<Id> chargeGroupIds, Boolean hasOrderBy) {
         return ChargeGroupDao.getCGForInvoiceController(chargeGroupIds, hasOrderBy);
     }
 
@@ -142,7 +142,7 @@ public class ChargeGroupService extends AbstractService {
      *  only Order By related changes are there so we use this variable and set order by filter.
      * @returns List<Charge_Group__c> - That contains CG records based on Charge Group Ids.
      **/
-    public static List<Charge_Group__c> getPayableByInvoiceId(List<String> invoiceIds) {
+    global static List<Charge_Group__c> getPayableByInvoiceId(List<String> invoiceIds) {
         return ChargeGroupDao.getPayableByInvoiceId(new Set<String>(invoiceIds));
     }
 

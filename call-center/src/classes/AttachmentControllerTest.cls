@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
- 
+
 @IsTest
 public with sharing class AttachmentControllerTest {
 
@@ -21,30 +21,30 @@ public with sharing class AttachmentControllerTest {
         ApexPages.currentPage().getParameters().put('id', stmt.Id);
         AttachmentController ac = new AttachmentController();
         ac.attachment.Name = 'Some_Statement.pdf';
-        ac.attachment.Body =Blob.valueOf('A pdf of the statement');
+        ac.attachment.Body = Blob.valueOf('A pdf of the statement');
         ac.attachment.ContentType = 'application/pdf';
 
         ac.upload();
         Test.stopTest();
 
         List<Attachment> attachments = [
-                SELECT
-                        Body,
-                        BodyLength,
-                        ContentType,
-                        CreatedById,
-                        CreatedDate,
-                        Description,
-                        Id,
-                        IsDeleted,
-                        IsPrivate,
-                        LastModifiedById,
-                        LastModifiedDate,
-                        Name,
-                        OwnerId,
-                        ParentId,
-                        SystemModstamp
-                FROM Attachment
+            SELECT
+                Body,
+                BodyLength,
+                ContentType,
+                CreatedById,
+                CreatedDate,
+                Description,
+                Id,
+                IsDeleted,
+                IsPrivate,
+                LastModifiedById,
+                LastModifiedDate,
+                Name,
+                OwnerId,
+                ParentId,
+                SystemModstamp
+            FROM Attachment
         ];
 
         System.assertEquals(1, attachments.size());
@@ -99,30 +99,30 @@ public with sharing class AttachmentControllerTest {
         ApexPages.currentPage().getParameters().put('id', encounter.Id);
         AttachmentController ac = new AttachmentController();
         ac.attachment.Name = 'Some_Estimate.pdf';
-        ac.attachment.Body =Blob.valueOf('A pdf of the estimate');
+        ac.attachment.Body = Blob.valueOf('A pdf of the estimate');
         ac.attachment.ContentType = 'application/pdf';
 
         ac.upload();
         Test.stopTest();
 
         List<Attachment> attachments = [
-                SELECT
-                        Body,
-                        BodyLength,
-                        ContentType,
-                        CreatedById,
-                        CreatedDate,
-                        Description,
-                        Id,
-                        IsDeleted,
-                        IsPrivate,
-                        LastModifiedById,
-                        LastModifiedDate,
-                        Name,
-                        OwnerId,
-                        ParentId,
-                        SystemModstamp
-                FROM Attachment
+            SELECT
+                Body,
+                BodyLength,
+                ContentType,
+                CreatedById,
+                CreatedDate,
+                Description,
+                Id,
+                IsDeleted,
+                IsPrivate,
+                LastModifiedById,
+                LastModifiedDate,
+                Name,
+                OwnerId,
+                ParentId,
+                SystemModstamp
+            FROM Attachment
         ];
 
         System.assertEquals(1, attachments.size());
@@ -145,13 +145,13 @@ public with sharing class AttachmentControllerTest {
         ApexPages.currentPage().getParameters().put('id', encounter.Id);
         AttachmentController ac = new AttachmentController();
         ac.attachment.Name = 'Some_Estimate.pdf';
-        ac.attachment.Body =Blob.valueOf('A pdf of the estimate');
+        ac.attachment.Body = Blob.valueOf('A pdf of the estimate');
         ac.attachment.ContentType = 'application/pdf';
 
         PageReference pr = ac.cancel();
         Test.stopTest();
 
-        System.assert(pr.getUrl().endsWith(String.valueOf(encounter.Id)), 'pr.getUrl(): '+pr.getUrl());
+        System.assert(pr.getUrl().endsWith(String.valueOf(encounter.Id)), 'pr.getUrl(): ' + pr.getUrl());
     }
 
     @IsTest
@@ -171,7 +171,7 @@ public with sharing class AttachmentControllerTest {
             ApexPages.currentPage().getParameters().put('id', encounter.Id);
             AttachmentController ac = new AttachmentController();
             ac.attachment.Name = 'Some_Estimate.pdf';
-            ac.attachment.Body =Blob.valueOf('A pdf of the estimate');
+            ac.attachment.Body = Blob.valueOf('A pdf of the estimate');
             ac.attachment.ContentType = 'application/pdf';
             ac.upload();
         }
@@ -181,7 +181,7 @@ public with sharing class AttachmentControllerTest {
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         System.assertEquals(msgList.size(), 1);
 
-        System.assert(msgList[0].getDetail().contains('does not have Update rights on Encounter__c'), 'Unexpected message: '+msgList[0].getDetail());
+        System.assert(msgList[0].getDetail().contains('does not have Update rights on ' + Encounter__c.SObjectType.getDescribe().getName()), 'Unexpected message: ' + msgList[0].getDetail());
     }
 
     @IsTest
@@ -198,7 +198,7 @@ public with sharing class AttachmentControllerTest {
             ApexPages.currentPage().getParameters().put('id', cmpn.Id);
             AttachmentController ac = new AttachmentController();
             ac.attachment.Name = 'Some.pdf';
-            ac.attachment.Body =Blob.valueOf('A pdf');
+            ac.attachment.Body = Blob.valueOf('A pdf');
             ac.attachment.ContentType = 'application/pdf';
             ac.upload();
         }
@@ -208,7 +208,7 @@ public with sharing class AttachmentControllerTest {
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         System.assertEquals(msgList.size(), 1);
 
-        System.assert(msgList[0].getDetail().contains('Attempt to upload attachment for unsupported object type'), 'Unexpected message: '+msgList[0].getDetail());
+        System.assert(msgList[0].getDetail().contains('Attempt to upload attachment for unsupported object type'), 'Unexpected message: ' + msgList[0].getDetail());
     }
 
 
@@ -225,7 +225,7 @@ public with sharing class AttachmentControllerTest {
             ApexPages.currentPage().getParameters().put('id', cmpn.Id);
             AttachmentController ac = new AttachmentController();
             ac.attachment.Name = 'Some.pdf';
-            ac.attachment.Body =Blob.valueOf('A pdf');
+            ac.attachment.Body = Blob.valueOf('A pdf');
             ac.attachment.ContentType = 'application/pdf';
             ac.upload();
         }
@@ -235,6 +235,6 @@ public with sharing class AttachmentControllerTest {
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         System.assertEquals(msgList.size(), 1);
 
-        System.assertEquals(msgList[0].getDetail(), 'Record for attachment is required', 'Unexpected message: '+msgList[0].getDetail());
+        System.assertEquals(msgList[0].getDetail(), 'Record for attachment is required', 'Unexpected message: ' + msgList[0].getDetail());
     }
 }

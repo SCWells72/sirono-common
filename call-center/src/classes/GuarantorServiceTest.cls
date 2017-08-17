@@ -187,12 +187,14 @@ public with sharing class GuarantorServiceTest {
      */
     @IsTest
     public static void getPortalGuarantorTest() {
-        Test.startTest();
-        User usr = TestUtility.getGuarantorCommunityUser();
-        Contact gt = GuarantorService.getPortalGuarantor(usr.Id);
-        Test.stopTest();
+        if (Schema.getGlobalDescribe().containsKey('network')) {
+            Test.startTest();
+            User usr = TestUtility.getGuarantorCommunityUser();
+            Contact gt = GuarantorService.getPortalGuarantor(usr.Id);
+            Test.stopTest();
 
-        System.assert(gt != null, 'Guarantor contact not found for user: ' + usr.Username);
+            System.assert(gt != null, 'Guarantor contact not found for user: ' + usr.Username);
+        }
     }
 
     /*

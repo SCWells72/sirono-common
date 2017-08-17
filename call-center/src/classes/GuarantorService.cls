@@ -5,7 +5,7 @@
 /**
  * GuarantorService
  **/
-public with sharing class GuarantorService extends AbstractService {
+global with sharing class GuarantorService extends AbstractService {
 
     /**
      * Class used for making guarantor calls against the Sirono Rest service.
@@ -246,7 +246,7 @@ public with sharing class GuarantorService extends AbstractService {
      * @param Set<Id> contactIds - A set of Contact Ids.
      * @returns List<Contact> - The requested Contacts that meet the criteria.
      **/
-    public static List<Contact> getContactsForLightning(Set<Id> contactIds) {
+    global static List<Contact> getContactsForLightning(Set<Id> contactIds) {
         return GuarantorDao.getContactsForLightning(contactIds);
     }
 
@@ -266,7 +266,7 @@ public with sharing class GuarantorService extends AbstractService {
      * @param String contactId - That contains Id of Contact.
      * @returns Contact contact - That contains contact details with all active CGs based on contactId.
      **/
-    public static Contact getGuarantorWithActiveCGForLightning(String contactId) {
+    global static Contact getGuarantorWithActiveCGForLightning(String contactId) {
         return GuarantorDao.getGuarantorWithActiveCGForLightning(contactId);
     }
 
@@ -306,7 +306,7 @@ public with sharing class GuarantorService extends AbstractService {
      *
      * @param Contact - the Guarantor/Contact record
      **/
-    public static Contact getPortalGuarantor(String userId) {
+    global static Contact getPortalGuarantor(String userId) {
         User[] users = [SELECT Id, ContactId, Username FROM User WHERE Id = :userId];
 
         if (users.isEmpty()) {
@@ -325,7 +325,7 @@ public with sharing class GuarantorService extends AbstractService {
      * @param guarantorId - the guarantor's sironoId
      * @returns Map of statment pdf urls, keyed by statement date
      **/
-    public static Map<Date, String> getStatementMap(String guarantorId) {
+    global static Map<Date, String> getStatementMap(String guarantorId) {
         Map<Date, String> stmtUrlMap = new Map<Date, String>();
 
         GuarantorRestClient client = new GuarantorRestClient();

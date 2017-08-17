@@ -48,7 +48,7 @@ public class ChargeGroupTriggerTest {
         Contact cont = TestUtility.generateGuarantorContact();
         insert cont;
 
-        Contact c = new Contact(LastName = 'Matc');
+        Contact c = TestUtility.generateGuarantorContactByName('Matc');
         insert c;
 
         Payment_Plan__c pp = TestUtility.generatePaymentPlan(c.Id);
