@@ -27,7 +27,7 @@ public with sharing class MakeAPaymentController {
             try {
                 Payment__c pmt = PaymentService.makePayment(pmtRequest);
 
-                return 'Success;' + String.valueOf(pmt.Payment_Id__c) + ';$' + String.valueOf(pmt.Amount__c);
+                return String.format('Success;{0};${1}', new String[]{String.valueOf(pmt.Name), String.valueOf(pmt.Amount__c)});
             } catch (Exception ex) {
                 System.debug(ex.getStackTraceString());
                 return ex.getMessage();

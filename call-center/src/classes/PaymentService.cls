@@ -284,8 +284,10 @@ public class PaymentService extends AbstractService {
         List<Transaction__c> transactions = retrieveSironoTransactions(newPayment);
 
         savePaymentAndTransactions(newPayment, transactions);
+        // Go get the payment so it includes the auto generated name.
+        Payment__c payment = PaymentDao.getPayment(newPayment.Id);
 
-        return newPayment;
+        return payment;
     }
 
     private static void savePaymentAndTransactions(Payment__c payment, List<Transaction__c> transactions) {
@@ -320,7 +322,6 @@ public class PaymentService extends AbstractService {
     public static Payment__c createNewPayment(String guarantorRecordId, Decimal amount, String selectedEncounterId, Datetime depositeDate, String paymentMethod) {
         // Initialize new Payment record
         Payment__c payment = new Payment__c(
-            Name = PAYMENTNAME,
             Guarantor__c = guarantorRecordId,
             Amount__c = amount,
             Encounter__c = selectedEncounterId,

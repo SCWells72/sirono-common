@@ -65,7 +65,6 @@ public class PaymentJSONParsing extends AbstractSironoJSONParser {
         objPayment.Amount__c = convertToDollars(objJson.amount);
         String sironoId = parseSironoId(objJson.url,'payments');
         objPayment.Sirono_Id__c = Decimal.valueOf(sironoId);
-        objPayment.Name = sironoId;
 
         return objPayment;
     }
