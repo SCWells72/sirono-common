@@ -78,7 +78,7 @@
         <description>Namespace prefix used to address Objects, Fields &amp; Pages</description>
         <externalId>false</externalId>
         <label>Namespace Bar Prefix</label>
-        <length>12</length>
+        <length>27</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -90,7 +90,7 @@
         <description>Namespace prefix used for classes</description>
         <externalId>false</externalId>
         <label>Namespace Dot Prefix</label>
-        <length>11</length>
+        <length>26</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -102,7 +102,7 @@
         <description>Raw namespace prefix for the package</description>
         <externalId>false</externalId>
         <label>Namespace Prefix</label>
-        <length>10</length>
+        <length>25</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>

@@ -15,6 +15,7 @@
         <members>ForgotPasswordController</members>
         <members>ForgotPasswordControllerTest</members>
         <members>Guarantor</members>
+        <members>GuarantorProfilePermissionTest</members>
         <members>GuarantorTest</members>
         <members>HeaderController</members>
         <members>HeaderControllerTest</members>

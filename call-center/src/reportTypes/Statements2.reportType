@@ -3,8 +3,8 @@
     <baseObject>Statement__c</baseObject>
     <category>other</category>
     <deployed>true</deployed>
-    <description>This is a custom report type for creating a report of just Statements</description>
-    <label>Statements</label>
+    <description>Statements</description>
+    <label>Statements v2</label>
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>

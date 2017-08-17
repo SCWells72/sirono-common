@@ -932,7 +932,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.Invoice_Status_Rollup__c</field>
+        <field>Contact.Invoice_Status_Rollup2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

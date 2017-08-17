@@ -413,18 +413,6 @@ public class TestUtility {
     }
 
     /**
-     * Assign the specified PermissionSet to the given User
-     *
-     **/
-    public static void assignPermissionSet(String psName, User newUser) {
-
-        PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name = :psName];
-        System.assert(ps != null, 'Unable to retrieve permission set: ' + psName);
-
-        insert new PermissionSetAssignment(AssigneeId = newUser.Id, PermissionSetId = ps.Id);
-    }
-
-    /**
      * Creates and returns an unpersisted system administrator user.
      *
      * @returns a sys admin user
@@ -446,6 +434,10 @@ public class TestUtility {
             TimeZoneSidKey = 'America/Los_Angeles',
             Username = 'admin@testorg1212.com'
         );
+        insert adminUser;
+
+        assignPermissionSets(adminUser, Constants.PERMISSION_SETS_SIRONO_ADMIN);
+
         return adminUser;
     }
 
@@ -479,6 +471,8 @@ public class TestUtility {
         System.runAs(thisUser) {
             //Create portal account owner
             Database.insert(portalAdminUser);
+            assignPermissionSets(portalAdminUser, Constants.PERMISSION_SETS_SIRONO_ADMIN);
+
             //Create account
             a = new Account(Name = ACCOUNT_NAME, OwnerId = portalAdminUser.Id);
             Database.insert(a);
@@ -508,29 +502,13 @@ public class TestUtility {
                 gt.OwnerId = portalAdminUser.Id;
                 Database.insert(gt);
 
-
                 System.debug('Create portalUser for contact: ' + gt.Id);
                 usr = TestUtility.generateUser(Constants.GUARANTOR_PORTAL_PROFILE, gt.Id);
                 usr.Username = testUsername;
 
                 insert usr;
 
-                // Give the user the Guarantor permission sets
-                List<PermissionSetAssignment> permissionSetAssignments = new List<PermissionSetAssignment>();
-                List<PermissionSet> permissionSets = [
-                    SELECT Id
-                    FROM PermissionSet
-                    WHERE Name IN (:Constants.PERMISSION_SET_GUARANTOR, :Constants.PERMISSION_SET_GUARANTOR_LOCAL)
-                ];
-                System.assertEquals(2, permissionSets.size(), 'Guarantor permission sets not found.');
-                for (PermissionSet permissionSet : permissionSets) {
-                    PermissionSetAssignment permissionSetAssignment = new PermissionSetAssignment(
-                        AssigneeId = usr.Id,
-                        PermissionSetId = permissionSet.Id
-                    );
-                    permissionSetAssignments.add(permissionSetAssignment);
-                }
-                insert permissionSetAssignments;
+                assignPermissionSets(usr, Constants.PERMISSION_SETS_GUARANTOR);
 
                 usr = null;
                 usr = [
@@ -548,6 +526,25 @@ public class TestUtility {
             System.assertNotEquals(usr, null, 'User with username: ' + testUsername + ' not found');
         }
         return usr;
+    }
+
+    public static void assignPermissionSets(User appUser, String[] permSetNames) {
+        // Give the user the given permission sets
+        List<PermissionSetAssignment> permissionSetAssignments = new List<PermissionSetAssignment>();
+        List<PermissionSet> permissionSets = [
+            SELECT Id
+            FROM PermissionSet
+            WHERE Name IN :permSetNames
+        ];
+        System.assertEquals(2, permissionSets.size(), 'Permission sets: ' + String.join(permSetNames, ', ') + ' not found.');
+        for (PermissionSet permissionSet : permissionSets) {
+            PermissionSetAssignment permissionSetAssignment = new PermissionSetAssignment(
+                AssigneeId = appUser.Id,
+                PermissionSetId = permissionSet.Id
+            );
+            permissionSetAssignments.add(permissionSetAssignment);
+        }
+        insert permissionSetAssignments;
     }
 
     /**

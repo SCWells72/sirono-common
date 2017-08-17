@@ -3,12 +3,12 @@
     <baseObject>Charge_Group__c</baseObject>
     <category>other</category>
     <deployed>true</deployed>
-    <description>9/7/16</description>
+    <description>Charge Group</description>
     <join>
         <outerJoin>true</outerJoin>
         <relationship>Charge_Group_Coverages__r</relationship>
     </join>
-    <label>CGs with CG junction</label>
+    <label>Charge Groups</label>
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>

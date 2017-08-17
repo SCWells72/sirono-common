@@ -56,7 +56,7 @@
         <name>co</name>
         <value>1</value>
     </params>
-    <reportType>Statements__c</reportType>
+    <reportType>Statements2__c</reportType>
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <timeFrameFilter>

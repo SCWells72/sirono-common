@@ -25,13 +25,13 @@ public with sharing class LoginAsPortalUserController {
         List<Contact> contacts = [SELECT Id, Name FROM Contact WHERE Id = :contactId LIMIT 1];
         Contact contact = (contacts.size() == 1) ? contacts.get(0) : null;
         if (contact == null) {
-            throw LightningUtil.newAuraHandledException('No contact found for ID ' + contactId + '.');
+            throw newAuraHandledException('No contact found for ID ' + contactId + '.');
         }
 
         List<User> users = [SELECT Id FROM User WHERE ContactId = :contactId AND IsActive = TRUE LIMIT 1];
         User contactUser = (users.size() == 1) ? users.get(0) : null;
         if (contactUser == null) {
-            throw LightningUtil.newAuraHandledException('No portal user found for contact ' + contact.Name + '.');
+            throw newAuraHandledException('No portal user found for contact ' + contact.Name + '.');
         }
         loginAttributes.put('userId', contactUser.Id);
 

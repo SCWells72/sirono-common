@@ -674,7 +674,7 @@ ISBLANK(Profile_Pointer_Id__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient
         <fullName>Guarantor_Status__c</fullName>
         <externalId>false</externalId>
         <formula>IF(RecordType.Name == &apos;Guarantor&apos;,
-CASE(Invoice_Status_Rollup__c,
+CASE(Invoice_Status_Rollup2__c,
 9, &quot;Delinquent&quot;,
 8, &quot;Overdue&quot;,
 7, &quot;Due&quot;,
@@ -758,7 +758,7 @@ CASE(Invoice_Status_Rollup__c,
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Invoice_Status_Rollup__c</fullName>
+        <fullName>Invoice_Status_Rollup2__c</fullName>
         <externalId>false</externalId>
         <label>Invoice Status</label>
         <summarizedField>Invoice__c.Status_Index__c</summarizedField>
