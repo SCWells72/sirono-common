@@ -834,6 +834,7 @@
     </types>
     <types>
         <members>Encounter_Reconciler</members>
+        <members>Guarantor</members>
         <members>Hospital_Manager</members>
         <members>Hospital_Staff</members>
         <members>Payment_Reconciler</members>

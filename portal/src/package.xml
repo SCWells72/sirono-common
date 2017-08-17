@@ -179,10 +179,6 @@
         <name>Document</name>
     </types>
     <types>
-        <members>Guarantor</members>
-        <name>PermissionSet</name>
-    </types>
-    <types>
         <members>Guarantor_Sharing_Set</members>
         <name>SharingSet</name>
     </types>
