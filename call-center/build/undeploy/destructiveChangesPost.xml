@@ -9,6 +9,7 @@
         <name>CustomApplication</name>
     </types>
     <types>
+        <members>Contact.Invoice_Status_Rollup__c</members>
         <members>Transaction__c.Adjustment__c</members>
         <members>Transaction__c.Service__c</members>
         <name>CustomField</name>

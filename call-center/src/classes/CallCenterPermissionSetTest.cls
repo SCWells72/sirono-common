@@ -17,8 +17,7 @@ public with sharing class CallCenterPermissionSetTest {
             newUser.Username = CC_USERNAME;
             insert newUser;
 
-            TestUtility.assignPermissionSet(Constants.CALL_CENTER_PS, newUser);
-            TestUtility.assignPermissionSet(Constants.CALL_CENTER_LOCAL_PS, newUser);
+            TestUtility.assignPermissionSets(newUser, new String[] { Constants.CALL_CENTER_PS, Constants.CALL_CENTER_LOCAL_PS });
         }
     }
 

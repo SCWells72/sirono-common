@@ -64,7 +64,7 @@
         <name>co</name>
         <value>1</value>
     </params>
-    <reportType>CGs__c</reportType>
+    <reportType>CGs2__c</reportType>
     <scope>organization</scope>
     <showDetails>false</showDetails>
     <timeFrameFilter>

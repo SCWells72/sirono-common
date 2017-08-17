@@ -317,14 +317,6 @@
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
-    <listViews>
-        <fullName>test_coverage_view</fullName>
-        <columns>NAME</columns>
-        <columns>Subscriber_SSN__c</columns>
-        <columns>Priority__c</columns>
-        <filterScope>Everything</filterScope>
-        <label>test_coverage_view</label>
-    </listViews>
     <nameField>
         <label>Name</label>
         <trackHistory>false</trackHistory>

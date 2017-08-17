@@ -38,14 +38,6 @@
                         <name>RelatedHistoryList</name>
                     </relatedLists>
                 </sidebarComponents>
-                <sidebarComponents>
-                    <componentType>RelatedList</componentType>
-                    <label>Solutions</label>
-                    <relatedLists>
-                        <hideOnDetail>true</hideOnDetail>
-                        <name>RelatedSolutionList</name>
-                    </relatedLists>
-                </sidebarComponents>
                 <style>Tabs</style>
                 <unit>Percentage</unit>
             </containers>

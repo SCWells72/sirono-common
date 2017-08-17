@@ -26,6 +26,7 @@
         <members>AttachmentSecurityContext</members>
         <members>AuthRestClientFailMock</members>
         <members>AuthRestClientMock</members>
+        <members>CGCoverageJunctionSecurityContext</members>
         <members>CallCenterPermissionSetTest</members>
         <members>CallEarlyOutAutoCase</members>
         <members>CallEarlyOutAutoCaseTest</members>
@@ -50,7 +51,6 @@
         <members>CaseTriggerTest</members>
         <members>CaseUtil</members>
         <members>CaseUtilTest</members>
-        <members>CGCoverageJunctionSecurityContext</members>
         <members>ChargeGroupDao</members>
         <members>ChargeGroupDaoTest</members>
         <members>ChargeGroupJSONParser</members>
@@ -100,14 +100,13 @@
         <members>EncounterWrapper</members>
         <members>EncounterWrapperTest</members>
         <members>ExhaustedCriteriaMdtSecurityContext</members>
-        <members>Five9ReportingException</members>
         <members>Five9ReportRequestScheduler</members>
+        <members>Five9ReportingException</members>
         <members>Five9SoapClient</members>
         <members>GroupSecurityContext</members>
         <members>GuarantorDao</members>
         <members>GuarantorDaoTest</members>
         <members>GuarantorEstimateBalanceTest</members>
-        <members>GuarantorProfilePermissionTest</members>
         <members>GuarantorService</members>
         <members>GuarantorServiceTest</members>
         <members>InvoiceDao</members>
@@ -134,6 +133,8 @@
         <members>PayEstimateController</members>
         <members>PayEstimateVFController</members>
         <members>PayEstimateVFControllerTest</members>
+        <members>PayStaffWSUtill</members>
+        <members>PayStaffWSUtillTest</members>
         <members>PaymentDao</members>
         <members>PaymentDaoTest</members>
         <members>PaymentJSONParsing</members>
@@ -167,8 +168,6 @@
         <members>PaymentServiceTest</members>
         <members>PaymentTransactionTest</members>
         <members>PaymentTriggerHandler</members>
-        <members>PayStaffWSUtill</members>
-        <members>PayStaffWSUtillTest</members>
         <members>PhoneNumberCalloutResponseBody</members>
         <members>PopulateNextPaymentDateBatch</members>
         <members>PopulateNextPaymentDateBatchTest</members>
@@ -220,10 +219,10 @@
         <members>UserTimezoneMdtSecurityContext</members>
         <members>ViewStatementExtension</members>
         <members>ViewStatementExtensionTest</members>
-        <members>VisualforceControllerUtil</members>
-        <members>VisualforceControllerUtilTest</members>
         <members>VisualForceValidations</members>
         <members>VisualForceValidationsTest</members>
+        <members>VisualforceControllerUtil</members>
+        <members>VisualforceControllerUtilTest</members>
         <members>WrapperBadResponse</members>
         <members>WrapperError</members>
         <members>WrapperErrorArray</members>
@@ -434,7 +433,7 @@
         <members>Contact.Guarantor__c</members>
         <members>Contact.Home_Phone_Type__c</members>
         <members>Contact.Invoice_Offset_Date__c</members>
-        <members>Contact.Invoice_Status_Rollup__c</members>
+        <members>Contact.Invoice_Status_Rollup2__c</members>
         <members>Contact.Invoiced_Balance__c</members>
         <members>Contact.Languages__c</members>
         <members>Contact.Level__c</members>
@@ -507,9 +506,9 @@
         <members>Exhausted_Criteria.Answering_Machine</members>
         <members>Exhausted_Criteria.Busy</members>
         <members>Exhausted_Criteria.Caller_Disconnected</members>
+        <members>Exhausted_Criteria.DNC</members>
         <members>Exhausted_Criteria.Declined</members>
         <members>Exhausted_Criteria.Dial_Error</members>
-        <members>Exhausted_Criteria.DNC</members>
         <members>Exhausted_Criteria.Do_Not_Call</members>
         <members>Exhausted_Criteria.Duplicate_Callback_Request</members>
         <members>Exhausted_Criteria.Fax</members>
@@ -603,8 +602,8 @@
         <name>CustomMetadata</name>
     </types>
     <types>
-        <members>Adjustment__c</members>
         <members>Adjustment_Type__mdt</members>
+        <members>Adjustment__c</members>
         <members>Campaign_Mapping__mdt</members>
         <members>Case_Charge_Group_Junction__c</members>
         <members>Case_Contact_Junction__c</members>
@@ -623,8 +622,8 @@
         <members>Payment__c</members>
         <members>Payor__c</members>
         <members>Provider__c</members>
-        <members>Service_Rollup__c</members>
         <members>Service2__c</members>
+        <members>Service_Rollup__c</members>
         <members>Sirono_Call_Center_Settings__c</members>
         <members>Sirono_Settings__c</members>
         <members>State__mdt</members>
@@ -652,8 +651,8 @@
         <members>Payment__c</members>
         <members>Payor__c</members>
         <members>Provider__c</members>
-        <members>Service_Rollup__c</members>
         <members>Service2__c</members>
+        <members>Service_Rollup__c</members>
         <members>Statement__c</members>
         <members>Transaction__c</members>
         <name>CustomTab</name>
@@ -734,9 +733,9 @@
         <name>InstalledPackage</name>
     </types>
     <types>
+        <members>Adjustment_Type__mdt-Adjustment Type Layout</members>
         <members>Adjustment__c-Adjustment Layout</members>
         <members>Adjustment__c-Adjustments</members>
-        <members>Adjustment_Type__mdt-Adjustment Type Layout</members>
         <members>Campaign-Campaign Layout</members>
         <members>CampaignMember-Campaign Member Page Layout</members>
         <members>Case-Administrative Case</members>
@@ -778,10 +777,10 @@
         <members>Payor__c-Payers Layout</members>
         <members>Provider__c-Provider Layout</members>
         <members>Provider__c-Providers</members>
-        <members>Service_Rollup__c-Service Rollup Layout</members>
-        <members>Service_Rollup__c-Service Rollups</members>
         <members>Service2__c-Service Layout</members>
         <members>Service2__c-Services</members>
+        <members>Service_Rollup__c-Service Rollup Layout</members>
+        <members>Service_Rollup__c-Service Rollups</members>
         <members>Statement__c-Statement Layout</members>
         <members>Statement__c-Statements</members>
         <members>Task-Task Layout</members>
@@ -824,8 +823,8 @@
         <members>Payment__c.All</members>
         <members>Payor__c.All</members>
         <members>Provider__c.All</members>
-        <members>Service_Rollup__c.All</members>
         <members>Service2__c.All</members>
+        <members>Service_Rollup__c.All</members>
         <members>Statement__c.All</members>
         <members>Transaction__c.All</members>
         <name>ListView</name>
@@ -945,16 +944,9 @@
         <name>Report</name>
     </types>
     <types>
-        <members>CGs</members>
-        <members>Cg_only</members>
-        <members>Charge_Groups_Only</members>
-        <members>Contacts_with_Charge_Groups_with_Charge_Group_Coverage_Junctions</members>
-        <members>Contacts_with_Charge_Groups_with_Transactions</members>
-        <members>Contacts_with_Payment_Plans_with_Payments</members>
-        <members>Coverage</members>
-        <members>Invoices</members>
-        <members>Payment_Plans</members>
-        <members>Statements</members>
+        <members>CGs2</members>
+        <members>Payment_Plans2</members>
+        <members>Statements2</members>
         <name>ReportType</name>
     </types>
     <types>
@@ -969,14 +961,14 @@
         <name>StandardValueSet</name>
     </types>
     <types>
-        <members>ajax_loader</members>
-        <members>aljs</members>
-        <members>d3js</members>
         <members>Jquery</members>
-        <members>jquery_11_1</members>
         <members>PayStaffJS</members>
         <members>PayStaffStyle</members>
         <members>SLDS203</members>
+        <members>ajax_loader</members>
+        <members>aljs</members>
+        <members>d3js</members>
+        <members>jquery_11_1</members>
         <name>StaticResource</name>
     </types>
     <types>

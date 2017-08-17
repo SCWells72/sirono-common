@@ -3,8 +3,8 @@
     <baseObject>Payment_Plan__c</baseObject>
     <category>other</category>
     <deployed>true</deployed>
-    <description>solo</description>
-    <label>Payment Plans</label>
+    <description>Payment Plans</description>
+    <label>Payment Plans v2</label>
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>

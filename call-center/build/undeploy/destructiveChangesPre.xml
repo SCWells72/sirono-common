@@ -115,6 +115,10 @@
         <name>Layout</name>
     </types>
     <types>
+        <members>Coverage__c.test_coverage_view</members>
+        <name>ListView</name>
+    </types>
+    <types>
         <members>Account</members>
         <members>Contact</members>
         <name>MatchingRule</name>

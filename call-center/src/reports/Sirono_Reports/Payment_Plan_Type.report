@@ -64,7 +64,7 @@
         <name>co</name>
         <value>1</value>
     </params>
-    <reportType>Payment_Plans__c</reportType>
+    <reportType>Payment_Plans2__c</reportType>
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <timeFrameFilter>
