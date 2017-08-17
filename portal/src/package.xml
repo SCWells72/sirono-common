@@ -138,8 +138,21 @@
         <name>ContentAsset</name>
     </types>
     <types>
-        <members>CustomLabels</members>
-        <name>CustomLabels</name>
+        <members>Customer_Service_Center_Phone</members>
+        <members>Documents_Tooltip</members>
+        <members>Invoice_Details_Delinquent_Message</members>
+        <members>Invoice_Details_Due_Message_After_Date</members>
+        <members>Invoice_Details_Due_Message_Before_Date</members>
+        <members>Invoice_Details_Invoice_Voided_Message</members>
+        <members>Invoice_Details_On_Payment_Plan_Message_After_Amount</members>
+        <members>Invoice_Details_On_Payment_Plan_Message_After_Date</members>
+        <members>Invoice_Details_On_Payment_Plan_Message_Before_Amount</members>
+        <members>Invoice_Details_Overdue_Message</members>
+        <members>Invoice_Details_Partial_Payment_Plan_Message</members>
+        <members>Payment_amount_and_time_tooltip_message_after_months</members>
+        <members>Payment_amount_and_time_tooltip_message_before_months</members>
+        <members>Statements_Tooltip</members>
+        <name>CustomLabel</name>
     </types>
     <types>
         <members>Sirono_Portal_Settings__c</members>
