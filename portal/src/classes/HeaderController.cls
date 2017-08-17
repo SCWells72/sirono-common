@@ -134,7 +134,7 @@ public with sharing class HeaderController {
     @TestVisible
     private static Boolean balanceDueOrError(HeaderWrapper headerWrapper) {
         return onPaymentPlan(headerWrapper)
-            || (headerWrapper.hasPaymentPlan() && headerWrapper.getPaymentPlanStanding() != PortalConstants.PLANTYPE_GOOD_STANDING);
+            && (headerWrapper.hasPaymentPlan() && headerWrapper.getPaymentPlanStanding() != PortalConstants.PLANTYPE_GOOD_STANDING);
     }
 
   /**
