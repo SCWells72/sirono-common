@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2017-present Sirono LLC, All rights reserved
-  -->
-
-<!--
  NOTE: These permission sets are very carefully maintained and should NOT be blindly overwritten by retrieved metadata.
  Please carefully merge changes from the server into these files.
 -->
