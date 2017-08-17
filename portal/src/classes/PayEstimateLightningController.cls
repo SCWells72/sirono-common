@@ -97,7 +97,7 @@ public with sharing class PayEstimateLightningController {
     public String addPayment(String paymentMethod) {
         // Call createNewPayment method.
         Payment__c payment = PaymentService.createNewPayment(guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod);
-        return (payment == null) ? 'ERROR: ' + PortalConstants.PAGE_MESSAGE_CREATED_FAIL : 'Success;' + payment.Payment_Id__c + ';$' + amount;
+        return (payment == null) ? 'ERROR: ' + PortalConstants.PAGE_MESSAGE_CREATED_FAIL : 'Success;' + payment.Name + ';$' + amount;
     }
 
     /**
