@@ -7,9 +7,6 @@ public class Constants {
     // The name of the required Sirono Integration user
     public static final String SIRONO_INTEGRATION_USER_NAME = 'Sirono Integration';
 
-    public static final String CALL_CENTER_PS = 'Sirono_Call_Center';
-    public static final String CALL_CENTER_LOCAL_PS = 'Sirono_Call_Center_Local';
-
     // Constant variables for account substatus values.
     public static final String ACCT_SUBSTATUS_DUE_BY = 'Due By';
     public static final String ACCT_SUBSTATUS_PAYMENT_PLAN = Constants.ON_PAYMENT_PLAN;
@@ -208,6 +205,13 @@ public class Constants {
     public static final String[] PERMISSION_SETS_SIRONO_ADMIN = new String[] {
         PERMISSION_SET_SIRONO_ADMIN,
         PERMISSION_SET_SIRONO_ADMIN_LOCAL
+    };
+
+    public static final String PERMISSION_SET_HOSPITAL_STAFF = 'Hospital_Staff';
+    public static final String PERMISSION_SET_HOSPITAL_STAFF_LOCAL = 'Hospital_Staff_Local';
+    public static final String[] PERMISSION_SETS_HOSPITAL_STAFF = new String[] {
+        PERMISSION_SET_HOSPITAL_STAFF,
+        PERMISSION_SET_HOSPITAL_STAFF_LOCAL
     };
 
     public static final String CREDIT_CARD = 'Credit Card';

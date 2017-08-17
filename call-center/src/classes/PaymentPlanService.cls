@@ -5,7 +5,7 @@
 /**
  * Aggregate PaymentPlan services - access to/from the Sirono server & SOQL requests
  */
-public with sharing class PaymentPlanService extends AbstractService {
+global with sharing class PaymentPlanService extends AbstractService {
 
     @TestVisible
     private class PaymentPlanRestClient extends SironoRestClient {
@@ -421,7 +421,7 @@ public with sharing class PaymentPlanService extends AbstractService {
      * @param PaymentPlanInformation ppInfo - It as an object that holds the information required to create a payment plan.
      * @return Payment_Plan__c The updated payment plan.
      **/
-    public static Payment_Plan__c updateAutoPaymentPlanTerms(String sironoPaymentPlanId, PaymentPlanInformation ppInfo) {
+    global static Payment_Plan__c updateAutoPaymentPlanTerms(String sironoPaymentPlanId, PaymentPlanInformation ppInfo) {
 
         if (ppInfo.planType != Constants.PLANTYPE_AUTO) {
             throw new ServiceException('This method only supports auto payment plans.');
@@ -454,7 +454,7 @@ public with sharing class PaymentPlanService extends AbstractService {
      * @param Boolean persistPaymentMethod - Boolean that indicates if the Payment Method should be persisted in SF.
      * @param String guarantorId - The guarantor Id assoicated with the plan and payment method.
      */
-    public static Payment_Plan__c addPaymentPlanWithPaymentMethod(PaymentPlanInformation ppInfo, Boolean persistPaymentMethod, String guarantorId) {
+    global static Payment_Plan__c addPaymentPlanWithPaymentMethod(PaymentPlanInformation ppInfo, Boolean persistPaymentMethod, String guarantorId) {
         addPaymentPlan(ppInfo);
         Payment_Method__c payMethod = PaymentMethodService.generatePaymentMethod(ppInfo, guarantorId);
         Payment_Plan__c payPlan = getActivePaymentPlanWithMethod(guarantorId);
@@ -474,7 +474,7 @@ public with sharing class PaymentPlanService extends AbstractService {
      *
      * @param String paymentPlanId - The SF payment plan to delete.
      */
-    public static void removePaymentPlan(String paymentPlanId) {
+    global static void removePaymentPlan(String paymentPlanId) {
 
         // Look up the SF payment plan in order to get the Sirono Id.
         Payment_Plan__c payPlan = getPaymentPlan(paymentPlanId);
@@ -637,7 +637,7 @@ public with sharing class PaymentPlanService extends AbstractService {
      * @param - String guarantorId  The guarantorId of the plan.
      * @return - Payment_Plan__c The active plan.
      **/
-    public static Payment_Plan__c getActivePaymentPlan(String guarantorId) {
+    global static Payment_Plan__c getActivePaymentPlan(String guarantorId) {
         return PaymentPlanDao.getActivePaymentPlan(guarantorId);
     }
 
@@ -647,7 +647,7 @@ public with sharing class PaymentPlanService extends AbstractService {
      * @param Id guarantorId - The plan owner.
      * @return Payment_Plan__c - The payment plan. null if no payment plan was found.
      */
-    public static Payment_Plan__c getActivePaymentPlanWithMethod(Id guarantorId) {
+    global static Payment_Plan__c getActivePaymentPlanWithMethod(Id guarantorId) {
         List<Payment_Plan__c> plans = PaymentPlanDao.getActivePaymentPlanWithMethod(guarantorId);
         return (!plans.isEmpty()) ? plans[0] : null;
     }
@@ -671,7 +671,7 @@ public with sharing class PaymentPlanService extends AbstractService {
      * @param PaymentPlanInformation paymentInfo - The payment plan information object.
      * @param Boolean persistPaymentMethod - If true the generated Payment_Method__c to be saved as well as the payment plan updated.
      */
-    public static Payment_Plan__c addPaymentMethod(String planId, String creditCardId, PaymentPlanInformation paymentInfo, Boolean persistPaymentMethod) {
+    global static Payment_Plan__c addPaymentMethod(String planId, String creditCardId, PaymentPlanInformation paymentInfo, Boolean persistPaymentMethod) {
         Payment_Plan__c sfPlan = getPaymentPlan(planId);
         Payment_Plan__c payPlan;
 

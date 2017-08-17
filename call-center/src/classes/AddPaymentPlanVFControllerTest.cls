@@ -162,7 +162,7 @@ public class AddPaymentPlanVFControllerTest {
                 isSuccess = true;
             }
         }
-        System.assert(isSuccess, 'Expected Payment Plan record created but its not created.');
+        System.assert(isSuccess, 'Expected Payment Plan record created but it\'s not created.');
     }
 
     /**

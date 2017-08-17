@@ -66,8 +66,6 @@ public class TestUtility {
         guarantorContact.RecordTypeId = RecordTypeUtil.guarantorRt;
         guarantorContact.LastName = gurantorName;
         guarantorContact.Profile_Pointer_Id__c = getUniqueId();
-        guarantorContact.HomePhone = '111';
-        guarantorContact.MobilePhone = '111';
         return guarantorContact;
     }
 
@@ -76,8 +74,6 @@ public class TestUtility {
         Contact patientContact = new Contact();
         patientContact.RecordTypeId = RecordTypeUtil.patientRt;
         patientContact.LastName = 'Test Patient';
-        patientContact.HomePhone = '111';
-        patientContact.MobilePhone = '111';
         patientContact.Patient_Id__c = getUniqueId();
         return patientContact;
     }
@@ -536,7 +532,7 @@ public class TestUtility {
             FROM PermissionSet
             WHERE Name IN :permSetNames
         ];
-        System.assertEquals(2, permissionSets.size(), 'Permission sets: ' + String.join(permSetNames, ', ') + ' not found.');
+        System.assertEquals(permSetNames.size(), permissionSets.size(), 'Not all permission sets: ' + String.join(permSetNames, ', ') + ' found.');
         for (PermissionSet permissionSet : permissionSets) {
             PermissionSetAssignment permissionSetAssignment = new PermissionSetAssignment(
                 AssigneeId = appUser.Id,

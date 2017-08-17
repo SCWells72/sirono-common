@@ -66,7 +66,7 @@ private class PayStaffWSUtillTest {
 
         System.assert(urlJSONString == '[]', 'Should have gotten an empty List for a null parameter.');
     }
-        
+
     @IsTest
     static void convertCentToDollars() {
         String inputCents = '100';
@@ -83,7 +83,9 @@ private class PayStaffWSUtillTest {
      **/
     @IsTest
     static void checkPatientId() {
-        Contact con = new Contact(LastName = 'Sirono', Patient_Id__c = 123456);
+        Contact con = TestUtility.generatePatientContact();
+        con.LastName = 'Sirono';
+        con.Patient_Id__c = 123456;
         insert con;
 
         Test.startTest();
@@ -92,7 +94,7 @@ private class PayStaffWSUtillTest {
         Test.stopTest();
 
         // Check System assert.
-        System.assertEquals(Decimal.valueOf(patientId), con.Patient_Id__c, 'Should have failed due to different patient id.');
+        System.assertEquals(Decimal.valueOf(patientId), con.Patient_Id__c, 'Should have the same patient id.');
     }
 
     /**

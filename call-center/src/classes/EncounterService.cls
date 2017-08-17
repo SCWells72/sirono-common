@@ -5,12 +5,12 @@
 /**
  * EncounterService with logic for working with Encounter__c object.
  */
-public class EncounterService extends AbstractService {
+global class EncounterService extends AbstractService {
 	/**
 	 * This method is use to get Encounter Records based on Guarantor Id or Id and Balance is greater than zero.
      * @param String encounterId - encounter record Id
 	 **/
-    public static List<Encounter__c> getEncounterRecordsById(String encounterId) {
+    global static List<Encounter__c> getEncounterRecordsById(String encounterId) {
         List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.IdType.ENCOUNTER, encounterId);
         return encounterList;
     }
@@ -19,7 +19,7 @@ public class EncounterService extends AbstractService {
 	 * This method is use to get Encounter Records based on Guarantor Id or Id and Balance is greater than zero.
      * @param String guarantorId - guarantor record Id
 	 **/
-    public static List<Encounter__c> getEncounterRecordsByGuarantorId(String guarantorId) {
+    global static List<Encounter__c> getEncounterRecordsByGuarantorId(String guarantorId) {
         List<Encounter__c> encounterList = EncounterDao.getEncounterRecordsById(EncounterDao.IdType.GUARANTOR, guarantorId);
         return encounterList;
     }
@@ -41,7 +41,7 @@ public class EncounterService extends AbstractService {
      * @param String paidFilter - filter to return only 'Paid', 'Unpaid' encounters. If null == 'All'
      * @param List<String> patientIds - limit the returned Encounter__c records to those associated with these patients
 	 **/
-    public static List<Encounter__c> getEncountersByGuarantor(Contact guarantor, String paidFilter, List<String> patientIds) {
+    global static List<Encounter__c> getEncountersByGuarantor(Contact guarantor, String paidFilter, List<String> patientIds) {
         EncounterDao.ElevatedPrivilegesHelper helper = new EncounterDao.ElevatedPrivilegesHelper();
         return helper.getAllEncounters(guarantor, paidFilter, patientIds);
     }
@@ -52,7 +52,7 @@ public class EncounterService extends AbstractService {
      * @param Contact - the guarantor to retrieve Encounter__c for
      *
      */
-    public static List<Encounter__c> getAllPatients(Contact guarantor) {
+    global static List<Encounter__c> getAllPatients(Contact guarantor) {
         return EncounterDao.getAllPatients(guarantor);
     }
 
@@ -62,7 +62,7 @@ public class EncounterService extends AbstractService {
      *
      * @param Integer - The number of Encounters.
      **/
-    public static Integer getCountByDate(Id guarantorId, Datetime startDate) {
+    global static Integer getCountByDate(Id guarantorId, Datetime startDate) {
         return EncounterDao.getCountByDate(guarantorId, startDate);
     }
 
@@ -73,7 +73,7 @@ public class EncounterService extends AbstractService {
      * @param String invoiceId - The invoiceId associated with the Encounter.
      * @returns List<Encounter__c> - The list of encounters.
      */
-    public static List<Encounter__c> getForInvoice(Id contactId, String invoiceId) {
+    global static List<Encounter__c> getForInvoice(Id contactId, String invoiceId) {
         EncounterDao.ElevatedPrivilegesHelper helper = new EncounterDao.ElevatedPrivilegesHelper();
         return helper.getForInvoice(contactId, invoiceId);
     }

@@ -2475,10 +2475,6 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>Contact.External_Patient</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
         <recordType>Contact.General</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>

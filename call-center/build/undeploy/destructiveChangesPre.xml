@@ -11,6 +11,7 @@
         <members>AddPaymentPlanLightningControllerTest</members>
         <members>AddToPaymentPlanLightning</members>
         <members>AddToPaymentPlanLightningTest</members>
+        <members>CallCenterPermissionSetTest</members>
         <members>CampaignMemberTriggerHandler</members>
         <members>CampaignMemberTriggerHandlerTest</members>
         <members>ChargeGroupJSONParsing</members>

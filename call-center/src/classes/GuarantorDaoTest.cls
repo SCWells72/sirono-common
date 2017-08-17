@@ -270,12 +270,11 @@ public with sharing class GuarantorDaoTest {
         Test.startTest();
         gt.HomePhone = '6157187745';
         update gt;
-
-        List<Contact> contacts = GuarantorDao.getGuarantorsWithNumbers(new Set<Id> { gt.Id });
         Test.stopTest();
 
+        List<Contact> contacts = GuarantorDao.getGuarantorsWithNumbers(new Set<Id> { gt.Id });
         // Check system assert.
-        System.assertEquals(1, contacts.size(), 'Expected contact size equals to 1 but we got ' + contacts.size());
+        System.assertEquals(1, contacts.size(), 'Expected only 1 contact, but we got ' + contacts.size());
         System.assert(contacts[0].Home_Phone_Type__c != null, 'Expected Home_Phone_Type__c not equals to null but we got null.');
     }
 
@@ -308,7 +307,7 @@ public with sharing class GuarantorDaoTest {
         Contact gt = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
 
         // Check system assert.
-        System.assertEquals(0, gt.Tasks.size(), 'Should be defualt Task size is 0 but we got ' + gt.Tasks.size());
+        System.assertEquals(0, gt.Tasks.size(), 'Should have 1 Task, but we got ' + gt.Tasks.size());
 
         Task task = TestUtility.generateTask(gt.Id);
         insert task;
