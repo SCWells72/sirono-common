@@ -151,6 +151,8 @@ public class PaymentServiceTest {
         Test.stopTest();
 
         System.assert(payment != null, 'Payment not created');
+        System.assertNotEquals(null, payment.Name, 'Should have Payment name field.');
+        System.assertNotEquals(null, payment.Amount__c, 'Should have Payment name field.');
 
         List<Transaction__c> txns = [SELECT Id, Amount__c FROM Transaction__c WHERE Payment__c = :payment.Id];
         System.assert(!txns.isEmpty(), 'No transactions found for payment');

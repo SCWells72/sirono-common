@@ -1000,7 +1000,6 @@
         <members>Coverage__c</members>
         <members>Invoice__c</members>
         <members>Payment_Plan__c</members>
-        <members>Payment__c</members>
         <members>Statement__c</members>
         <members>Transaction__c</members>
         <name>Workflow</name>

@@ -27,12 +27,12 @@ public with sharing class PaymentSecurityContext extends SecurityContext {
 
     // The fields for inserting a Payment in PayEstimate
     private static final Set<String> CREATE_FIELDS = new Set<String> {
-        AMOUNT, DEPOSIT_DATE, ENCOUNTER, GUARANTOR, NAME
+        AMOUNT, DEPOSIT_DATE, ENCOUNTER, GUARANTOR
     };
 
     // The fields for inserting a Payment in PayStaffWSUtill
     private static final Set<String> PSWU_CREATE_FIELDS = new Set<String> {
-        GUARANTOR, CHARGE_DATE, METHOD, LAST_4, PROCESSOR_TRANSACTION_ID, AMOUNT, SIRONO_ID, NAME, DEPOSIT_DATE
+        GUARANTOR, CHARGE_DATE, METHOD, LAST_4, PROCESSOR_TRANSACTION_ID, AMOUNT, SIRONO_ID, DEPOSIT_DATE
     };
 
     // The fields for updating a Payment__c in TxnAggregationUtils

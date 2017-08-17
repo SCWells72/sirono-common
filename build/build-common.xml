@@ -132,6 +132,7 @@
             maxPoll="${sf.maxPoll}"
             testLevel="${sf.testLevel}"
             logType="Debugonly"
+            ignoreWarnings="true"
             checkOnly="true"/>
     </target>
 

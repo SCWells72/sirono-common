@@ -188,9 +188,14 @@
         <name>WebLink</name>
     </types>
     <types>
+        <members>Payment__c.Payment_Name_Update</members>
+        <name>WorkflowFieldUpdate</name>
+    </types>
+    <types>
         <members>Service__c.Service Name</members>
         <members>Payment_Adjustments__c.CustomizeName</members>
         <members>Payment_Adjustments__c.UpdateName</members>
+        <members>Payment__c.Payment_Name_Update</members>
         <name>WorkflowRule</name>
     </types>
     <version>40.0</version>

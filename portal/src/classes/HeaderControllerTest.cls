@@ -302,19 +302,20 @@ public with sharing class HeaderControllerTest {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.paymentPlanExists = true;
         hwm.paymentPlanStanding = PortalConstants.PLANTYPE_AUTO;
+        hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_ON_PAYMENT_PLAN;
 
         Test.startTest();
         Boolean notGoodStandingCheck = HeaderController.balanceDueOrError(hwm);
         Test.stopTest();
 
-        System.assertEquals(true, notGoodStandingCheck, 'Should true when there is a plan no in good standing.');
+        System.assertEquals(true, notGoodStandingCheck, 'Should true when there is a plan not in good standing.');
     }
 
     @IsTest
     public static void balanceDueOrError_hasBalAndPPlan() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.paymentPlanExists = true;
-        hwm.paymentPlanStanding = PortalConstants.PLANTYPE_GOOD_STANDING;
+        hwm.paymentPlanStanding = PortalConstants.DELINQUENT;
         hwm.guarantorStatus = PortalConstants.GUARANTOR_STATUS_DELINQUENT;
 
         Test.startTest();
@@ -324,7 +325,7 @@ public with sharing class HeaderControllerTest {
         Boolean balAndNoPPlan = HeaderController.balanceDueOrError(hwm);
         Test.stopTest();
 
-        System.assertEquals(true, balAndPPlan, 'Should be true if Add To PPlan is true.');
+        System.assertEquals(true, balAndPPlan, 'Should be true if Add To PPlan is true and not in good standing.');
         System.assertEquals(false, balAndNoPPlan, 'Should be false if Add To PPlan is false.');
     }
 
@@ -332,7 +333,7 @@ public with sharing class HeaderControllerTest {
     public static void balanceDueOrError_statusCheck() {
         HeaderWrapperMock hwm = new HeaderWrapperMock();
         hwm.paymentPlanExists = true;
-        hwm.paymentPlanStanding = PortalConstants.PLANTYPE_GOOD_STANDING;
+        hwm.paymentPlanStanding = PortalConstants.DELINQUENT;
         // HasBalanceAndPaymentPlan will return false
         hwm.addPaymentPlan = false;
 

@@ -437,9 +437,10 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <label>All</label>
     </listViews>
     <nameField>
+        <displayFormat>PMT-{0000000000}</displayFormat>
         <label>Name</label>
         <trackHistory>false</trackHistory>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Payments</pluralLabel>
     <recordTypeTrackHistory>true</recordTypeTrackHistory>
