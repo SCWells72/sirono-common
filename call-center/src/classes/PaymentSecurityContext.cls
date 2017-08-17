@@ -47,7 +47,7 @@ public with sharing class PaymentSecurityContext extends SecurityContext {
 
     // The fields for selecting a Payment__c in PaymentDao
     private static final Set<String> DAO_SELECT_FIELDS = new Set<String> {
-        ID, AMOUNT, DEPOSIT_DATE, ENCOUNTER, GUARANTOR, METHOD, PAYMENT_ID, SIRONO_ID, ID_C
+        ID, AMOUNT, DEPOSIT_DATE, ENCOUNTER, GUARANTOR, METHOD, NAME, PAYMENT_ID, SIRONO_ID, ID_C
     };
 
 
