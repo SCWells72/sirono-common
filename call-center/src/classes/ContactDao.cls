@@ -21,7 +21,7 @@ public with sharing class ContactDao extends AbstractDao {
                 SELECT Id, FirstName, MiddleName, LastName, Name, Suffix, Birthdate, Social_Security_Number__c,
                     Medical_Record_Number__c, RecordType.DeveloperName, HomePhone, MobilePhone, OtherPhone, Salutation,
                     MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet,
-                    Profile_Pointer_Id__c
+                    Guarantor_Id__c
                 FROM Contact
                 WHERE Id = :contactId
             ]) {

@@ -990,7 +990,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.Profile_Pointer_Id__c</field>
+        <field>Contact.Guarantor_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

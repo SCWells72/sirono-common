@@ -1553,7 +1553,7 @@
     <fields>
         <fullName>Guarantor_Id__c</fullName>
         <externalId>false</externalId>
-        <formula>Guarantor_Information__r.Profile_Pointer_Id__c</formula>
+        <formula>Guarantor_Information__r.Guarantor_Id__c</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Guarantor Id</label>
         <precision>18</precision>

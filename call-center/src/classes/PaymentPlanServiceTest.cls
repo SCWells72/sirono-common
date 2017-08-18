@@ -15,7 +15,7 @@ public with sharing class PaymentPlanServiceTest {
     @TestSetup
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
-        gt.Profile_Pointer_Id__c = 23232323;
+        gt.Guarantor_Id__c = 23232323;
         insert gt;
 
         Contact pt = TestUtility.generatePatientContact();
@@ -394,9 +394,9 @@ public with sharing class PaymentPlanServiceTest {
     public static void testAddPaymentMethod_NewNoSave() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
-        Contact gt = [SELECT Id, Profile_Pointer_Id__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+        Contact gt = [SELECT Id, Guarantor_Id__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
         String lastFour = '0005';
-        MockHttpResponseGenerator.guarantorSironoId = gt.Profile_Pointer_Id__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = gt.Guarantor_Id__c.toPlainString();
 
 
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
@@ -446,10 +446,10 @@ public with sharing class PaymentPlanServiceTest {
     public static void testAddPaymentMethod_NewSave() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
-        Contact gt = [SELECT Id, Profile_Pointer_Id__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+        Contact gt = [SELECT Id, Guarantor_Id__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
         String cardNumber = '378282246310005';
         String lastFour = '0005';
-        MockHttpResponseGenerator.guarantorSironoId = gt.Profile_Pointer_Id__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = gt.Guarantor_Id__c.toPlainString();
 
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);
         System.assertNotEquals(null, pp, 'Should find an existing plan.');
@@ -498,10 +498,10 @@ public with sharing class PaymentPlanServiceTest {
     public static void testAddPaymentMethod_ExistingSave() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
 
-        Contact gt = [SELECT Id, Profile_Pointer_Id__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+        Contact gt = [SELECT Id, Guarantor_Id__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
         String cardNumber = '378282246310005';
         String lastFour = '0005';
-        MockHttpResponseGenerator.guarantorSironoId = gt.Profile_Pointer_Id__c.toPlainString();
+        MockHttpResponseGenerator.guarantorSironoId = gt.Guarantor_Id__c.toPlainString();
 
 
         Payment_Plan__c pp = PaymentPlanDao.getActivePaymentPlan(gt.Id);

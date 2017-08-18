@@ -19,7 +19,7 @@ public with sharing class AdjustmentServiceTest {
     public static void setupData() {
         // Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = Decimal.valueOf(MockHttpResponseGenerator.guarantorSironoId);
+        guarantorContact.Guarantor_Id__c = Decimal.valueOf(MockHttpResponseGenerator.guarantorSironoId);
         insert guarantorContact;
 
         Contact externalGT = TestUtility.generateExternalGuarantor();
@@ -77,7 +77,7 @@ public with sharing class AdjustmentServiceTest {
     @IsTest
     public static void testCreateAdjustment() {
 
-        Contact gt = [SELECT Id, Profile_Pointer_Id__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
+        Contact gt = [SELECT Id, Guarantor_Id__c FROM Contact WHERE RecordTypeId = :RecordTypeUtil.guarantorRt];
 
         Decimal cgSironoId = Decimal.valueOf(RestClientConstants.CHARGE_GROUP_ID);
         String adjCode = 'ADM';

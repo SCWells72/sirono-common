@@ -65,7 +65,7 @@ public class TestUtility {
         Contact guarantorContact = new Contact();
         guarantorContact.RecordTypeId = RecordTypeUtil.guarantorRt;
         guarantorContact.LastName = gurantorName;
-        guarantorContact.Profile_Pointer_Id__c = getUniqueId();
+        guarantorContact.Guarantor_Id__c = getUniqueId();
         return guarantorContact;
     }
 
@@ -474,7 +474,7 @@ public class TestUtility {
         List<User> users = [
             SELECT Alias, Email, EmailEncodingKey, FirstName, LastName, LanguageLocaleKey,
                 LocaleSidKey, ProfileId, ContactId,
-                TimeZoneSidKey, Username, Contact.Profile_Pointer_Id__c
+                TimeZoneSidKey, Username, Contact.Guarantor_Id__c
             FROM User
             WHERE Username = :testUsername
             LIMIT 1
@@ -487,7 +487,7 @@ public class TestUtility {
             System.runAs(portalAdminUser) {
                 //Create Guarantor Contact record
                 Contact gt = TestUtility.generateGuarantorContact();
-                gt.Profile_Pointer_Id__c = PROFILE_POINTER;
+                gt.Guarantor_Id__c = PROFILE_POINTER;
                 gt.AccountId = a.Id;
                 gt.OwnerId = portalAdminUser.Id;
                 Database.insert(gt);
@@ -504,7 +504,7 @@ public class TestUtility {
                 usr = [
                     SELECT Id, Alias, Email, EmailEncodingKey, FirstName, LastName, LanguageLocaleKey,
                         LocaleSidKey, ProfileId, ContactId,
-                        TimeZoneSidKey, Username, Contact.Profile_Pointer_Id__c
+                        TimeZoneSidKey, Username, Contact.Guarantor_Id__c
                     FROM User
                     WHERE Username = :testUsername
                     LIMIT 1
@@ -543,7 +543,7 @@ public class TestUtility {
      * @return Contact - The Guarantor.
      */
     public static Contact getPortalGuarantor() {
-        List<Contact> contacts = [SELECT Id FROM Contact WHERE Profile_Pointer_Id__c = :PROFILE_POINTER];
+        List<Contact> contacts = [SELECT Id FROM Contact WHERE Guarantor_Id__c = :PROFILE_POINTER];
 
         System.assert(contacts.size() != 0, 'Could not find the guarantor for the community user.');
         return contacts[0];

@@ -45,7 +45,7 @@
         <field>TYPE</field>
     </columns>
     <columns>
-        <field>Contact.Profile_Pointer_Id__c</field>
+        <field>Contact.Guarantor_Id__c</field>
     </columns>
     <format>Summary</format>
     <name>Report#4 Balance - AR Summary</name>

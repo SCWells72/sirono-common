@@ -14,13 +14,13 @@ public with sharing class ViewStatementExtension {
     public ViewStatementExtension(ApexPages.StandardController controller) {
         if (!Test.isRunningTest()) {
             controller.addFields(new List<String> {
-                'Statement_Date__c', 'Guarantor__r.Profile_Pointer_Id__c'
+                'Statement_Date__c', 'Guarantor__r.Guarantor_Id__c'
             });
         }
         stmt = (Statement__c) controller.getRecord();
         id = stmt.Id;
         stmtDate = stmt.Statement_Date__c;
-        guarantorId = stmt.Guarantor__r.Profile_Pointer_Id__c.format();
+        guarantorId = stmt.Guarantor__r.Guarantor_Id__c.format();
         stmtUrlMap = new Map<Date, String>();
     }
 

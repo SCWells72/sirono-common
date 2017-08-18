@@ -62,7 +62,7 @@ global with sharing class GuarantorService extends AbstractService {
     }
 
     /**
-     * Get the Guarantor's Profile_Pointer_Id__c from the given contact.
+     * Get the Guarantor's Guarantor_Id__c from the given contact.
      * @param Contact contact - the Guarantor Contact
      * @returns String - the guarantor's sironoId
      * @throws SironoServiceException if the contact doesn't exist
@@ -72,12 +72,12 @@ global with sharing class GuarantorService extends AbstractService {
         if (contact == null) {
             throw new SironoServiceException('Invalid request - Contact required to retrieve SironoId');
         }
-        if (contact.Profile_Pointer_Id__c != null) {
-            return contact.Profile_Pointer_Id__c.toPlainString();
+        if (contact.Guarantor_Id__c != null) {
+            return contact.Guarantor_Id__c.toPlainString();
         } else {
             Contact gt = GuarantorDao.getGuarantor(contact.Id);
             if (gt != null) {
-                guarantorId = gt.Profile_Pointer_Id__c.toPlainString();
+                guarantorId = gt.Guarantor_Id__c.toPlainString();
             } else {
                 throw new SironoServiceException('Guarantor not found');
             }

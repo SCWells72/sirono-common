@@ -44,7 +44,7 @@ public with sharing class PatientDao extends AbstractDao {
             for (Contact c : [
                 SELECT Id, FirstName, MiddleName, LastName, Suffix, Birthdate,
                     Medical_Record_Number__c, RecordType.DeveloperName,
-                    Profile_Pointer_Id__c, Patient_Id__c, (
+                    Guarantor_Id__c, Patient_Id__c, (
                     SELECT Id, Name, Sirono_Id__c, Guarantor__c, Guarantor__r.Name,
                         External_Id__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
                         Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
