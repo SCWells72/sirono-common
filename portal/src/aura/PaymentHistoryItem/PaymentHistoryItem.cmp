@@ -14,7 +14,7 @@
             <div class="slds-truncate" title="{!v.row.description}">{!v.row.method}</div>
         </td>
         <td role="gridcell" data-label="Transaction Number">
-            <div class="slds-truncate" title="">{!v.row.paymentId}</div>
+            <div class="slds-truncate" title="">{!v.row.name}</div>
         </td>
         <td role="gridcell" data-label="Amount Paid">
             <div class="slds-truncate slds-align-middle amount-paid" title="{!'$'+v.row.amount}">

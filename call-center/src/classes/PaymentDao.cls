@@ -89,4 +89,35 @@ public with sharing class PaymentDao {
         return null;
     }
 
+    /**
+     * Get the payments for a contact.
+     *
+     * @param Id contactId
+     * @return List<Payment__c> - The list of payments.
+     */
+    public static List<Payment__c> getPayments(Id contactId) {
+        List<Payment__c> payments = new List<Payment__c>();
+        if (PaymentSecurityContext.DAO_SELECT_CONTEXT.actionAllowed() &&
+            PaymentMethodSecurityContext.GUARANTOR_SELECT.actionAllowed()) {
+            payments = [
+                SELECT
+                    Id,
+                    Method__c,
+                    Name,
+                    Deposit_Date__c,
+                    Payment_Id__c,
+                    Payment_Method__r.Last_4__c,
+                    Payment_Method__r.Card_Type__c,
+                    Processor_Transaction_Id__c,
+                    Amount__c
+                FROM Payment__c
+                WHERE Guarantor__c = :contactId
+                ORDER BY Name DESC
+                LIMIT 50000
+            ];
+        }
+
+        return payments;
+    }
+
 }

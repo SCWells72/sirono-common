@@ -274,7 +274,7 @@ public class TestUtility {
 
         return randomCurrencyValue;
     }
-    private static Payment__c generatePayment() {
+    public static Payment__c generatePayment() {
         Payment__c payment = new Payment__c();
         payment.Deposit_Date__c = System.today();
         return payment;

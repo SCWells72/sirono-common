@@ -4,3 +4,7 @@
 
 .THIS {
 }
+
+.THIS .payment-history tbody td {
+    padding: 20px .5rem;
+}
