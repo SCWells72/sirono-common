@@ -40,7 +40,6 @@ public with sharing class ContactSecurityContext extends SecurityContext {
     private static final String PROFILE_POINTER_ID = 'Profile_Pointer_Id__c';
     private static final String SALUTATION = 'Salutation';
     private static final String SOCIAL_SECURITY_NUMBER = 'Social_Security_Number__c';
-    private static final String STATEMENT_PREFERENCE = 'Statement_Preference__c';
     private static final String SUFFIX = 'Suffix';
 
     // The fields for updating a Contact in EncounterUtil
@@ -81,7 +80,7 @@ public with sharing class ContactSecurityContext extends SecurityContext {
 
     // The fields for selecting a Contact in CaseUtil, CallListUtilities, EarlyOutSchedulerBatch
     private static final Set<String> CU_SELECT_FIELDS = new Set<String> {
-        ID, NAME, STATEMENT_PREFERENCE, OVERDUE_BALANCE, DELINQUENT_BALANCE,
+        ID, NAME, OVERDUE_BALANCE, DELINQUENT_BALANCE,
         RECORDTYPEID, HOMEPHONE, MOBILEPHONE, OTHERPHONE
     };
 

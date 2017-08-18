@@ -187,7 +187,7 @@ public with sharing class GuarantorDao extends AbstractDao {
      **/
     public static List<Contact> getGuarantorsByFilter(Set<String> contactIds, String filterBy) {
         if (ContactSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-            String queryString = 'SELECT Id, Name, Statement_Preference__c, Overdue_Balance__c, Delinquent_Balance__c, ';
+            String queryString = 'SELECT Id, Name, Overdue_Balance__c, Delinquent_Balance__c, ';
             queryString += 'RecordType.DeveloperName, HomePhone, MobilePhone, OtherPhone ';
             queryString += 'FROM Contact ';
             queryString += 'WHERE Id IN :contactIds ';

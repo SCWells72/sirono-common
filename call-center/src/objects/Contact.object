@@ -532,18 +532,6 @@
         <type>Phone</type>
     </fields>
     <fields>
-        <fullName>Campaign__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <externalId>false</externalId>
-        <label>Campaign</label>
-        <referenceTo>Campaign</referenceTo>
-        <relationshipLabel>Contacts</relationshipLabel>
-        <relationshipName>Contacts</relationshipName>
-        <required>false</required>
-        <trackHistory>false</trackHistory>
-        <type>Lookup</type>
-    </fields>
-    <fields>
         <fullName>Credit_Balance__c</fullName>
         <externalId>false</externalId>
         <label>Credit Balance</label>
@@ -626,7 +614,7 @@
     <fields>
         <fullName>External_Guarantor_Id__c</fullName>
         <externalId>true</externalId>
-        <label>External Guarantor ID</label>
+        <label>Sirono External Guarantor ID</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -688,7 +676,7 @@ CASE(Invoice_Status_Rollup2__c,
 &quot;Error&quot;),
 &quot;&quot;)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Guarantor Status</label>
+        <label>Status</label>
         <required>false</required>
         <trackHistory>false</trackHistory>
         <type>Text</type>
@@ -972,7 +960,7 @@ CASE(Invoice_Status_Rollup2__c,
     <fields>
         <fullName>Patient_Id__c</fullName>
         <externalId>true</externalId>
-        <label>Patient ID</label>
+        <label>Sirono Patient ID</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -1033,20 +1021,9 @@ CASE(Invoice_Status_Rollup2__c,
         <type>Summary</type>
     </fields>
     <fields>
-        <fullName>Preferred_Contact__c</fullName>
-        <description>Preferred Contact method</description>
-        <externalId>false</externalId>
-        <label>Preferred Contact</label>
-        <length>15</length>
-        <required>false</required>
-        <trackHistory>false</trackHistory>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
         <fullName>Profile_Pointer_Id__c</fullName>
         <externalId>true</externalId>
-        <label>Guarantor ID</label>
+        <label>Sirono Guarantor ID</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -1079,14 +1056,6 @@ CASE(Invoice_Status_Rollup2__c,
         </valueSet>
     </fields>
     <fields>
-        <fullName>Skip_Invoice_Stmt_Until__c</fullName>
-        <externalId>false</externalId>
-        <label>Skip Invoice Stmt Until</label>
-        <required>false</required>
-        <trackHistory>false</trackHistory>
-        <type>Date</type>
-    </fields>
-    <fields>
         <fullName>Social_Security_Number__c</fullName>
         <description>Social Security number of guarantor</description>
         <externalId>false</externalId>
@@ -1097,28 +1066,6 @@ CASE(Invoice_Status_Rollup2__c,
         <required>false</required>
         <trackHistory>true</trackHistory>
         <type>EncryptedText</type>
-    </fields>
-    <fields>
-        <fullName>Statement_Preference__c</fullName>
-        <description>Preferred statement preference</description>
-        <externalId>false</externalId>
-        <label>Statement Preference</label>
-        <length>100</length>
-        <required>false</required>
-        <trackHistory>false</trackHistory>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Test_Id__c</fullName>
-        <externalId>false</externalId>
-        <formula>IF(ISBLANK(Account.Site), &quot;DD&quot;, Account.Site) + TEXT(Profile_Pointer_Id__c)</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Test ID</label>
-        <required>false</required>
-        <trackHistory>false</trackHistory>
-        <type>Text</type>
-        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Total_Balance__c</fullName>
@@ -1132,26 +1079,6 @@ CASE(Invoice_Status_Rollup2__c,
         <scale>2</scale>
         <trackHistory>false</trackHistory>
         <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Verified_Email__c</fullName>
-        <defaultValue>false</defaultValue>
-        <description>Box verifying Email</description>
-        <externalId>false</externalId>
-        <label>Verified Email</label>
-        <trackHistory>false</trackHistory>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
-        <fullName>Vital_Status__c</fullName>
-        <externalId>false</externalId>
-        <label>Vital Status</label>
-        <precision>2</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackHistory>true</trackHistory>
-        <type>Number</type>
-        <unique>false</unique>
     </fields>
     <fields>
         <fullName>X18_Digit_Id__c</fullName>
@@ -1177,19 +1104,6 @@ CASE(Invoice_Status_Rollup2__c,
             <value>Contact.External_Guarantor</value>
         </filters>
         <label>All External Guarantors</label>
-    </listViews>
-    <listViews>
-        <fullName>All_External_Patients</fullName>
-        <columns>FULL_NAME</columns>
-        <columns>CONTACT.PHONE1</columns>
-        <columns>CONTACT.EMAIL</columns>
-        <filterScope>Everything</filterScope>
-        <filters>
-            <field>CONTACT.RECORDTYPE</field>
-            <operation>equals</operation>
-            <value>Contact.External_Patient</value>
-        </filters>
-        <label>All External Patients</label>
     </listViews>
     <listViews>
         <fullName>All_Guarantors</fullName>
@@ -1229,22 +1143,6 @@ CASE(Invoice_Status_Rollup2__c,
         </filters>
         <label>All Patients</label>
     </listViews>
-    <listViews>
-        <fullName>All_Staff</fullName>
-        <columns>FULL_NAME</columns>
-        <columns>ACCOUNT.NAME</columns>
-        <columns>CONTACT.TITLE</columns>
-        <columns>CONTACT.PHONE1</columns>
-        <columns>CONTACT.EMAIL</columns>
-        <columns>CORE.USERS.ALIAS</columns>
-        <filterScope>Everything</filterScope>
-        <filters>
-            <field>CONTACT.RECORDTYPE</field>
-            <operation>equals</operation>
-            <value>Contact.Staff</value>
-        </filters>
-        <label>All Staff</label>
-    </listViews>
     <recordTypes>
         <fullName>External_Guarantor</fullName>
         <active>true</active>
@@ -1262,335 +1160,6 @@ CASE(Invoice_Status_Rollup2__c,
             </values>
             <values>
                 <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>LeadSource</picklist>
-            <values>
-                <fullName>Advertisement</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Customer Event</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Employee Referral</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Google AdWords</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Other</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Partner</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Purchased List</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Trade Show</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Webinar</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Website</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Level__c</picklist>
-            <values>
-                <fullName>Primary</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Secondary</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Tertiary</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Mobile_Phone_Type__c</picklist>
-            <values>
-                <fullName>Invalid</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Landline</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Name</picklist>
-            <values>
-                <fullName>Dr%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mr%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mrs%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Ms%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Prof%2E</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Other_Phone_Type__c</picklist>
-            <values>
-                <fullName>Invalid</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Landline</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Sex__c</picklist>
-            <values>
-                <fullName>Female</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Male</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-    </recordTypes>
-    <recordTypes>
-        <fullName>External_Patient</fullName>
-        <active>true</active>
-        <description>Created by Patient Accounting System</description>
-        <label>External Patient</label>
-        <picklistValues>
-            <picklist>Home_Phone_Type__c</picklist>
-            <values>
-                <fullName>Invalid</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Landline</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>LeadSource</picklist>
-            <values>
-                <fullName>Advertisement</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Customer Event</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Employee Referral</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Google AdWords</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Other</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Partner</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Purchased List</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Trade Show</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Webinar</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Website</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Level__c</picklist>
-            <values>
-                <fullName>Primary</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Secondary</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Tertiary</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Mobile_Phone_Type__c</picklist>
-            <values>
-                <fullName>Invalid</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Landline</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Name</picklist>
-            <values>
-                <fullName>Dr%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mr%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mrs%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Ms%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Prof%2E</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Other_Phone_Type__c</picklist>
-            <values>
-                <fullName>Invalid</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Landline</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Sex__c</picklist>
-            <values>
-                <fullName>Female</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Male</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-    </recordTypes>
-    <recordTypes>
-        <fullName>General</fullName>
-        <active>true</active>
-        <description>Used to create a contact when they are not identified as a Guarantor, Patient or Staff Contact.</description>
-        <label>General</label>
-        <picklistValues>
-            <picklist>Home_Phone_Type__c</picklist>
-            <values>
-                <fullName>Invalid</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Landline</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>LeadSource</picklist>
-            <values>
-                <fullName>Advertisement</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Customer Event</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Employee Referral</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Google AdWords</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Other</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Partner</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Purchased List</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Trade Show</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Webinar</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Website</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -1695,49 +1264,6 @@ CASE(Invoice_Status_Rollup2__c,
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>LeadSource</picklist>
-            <values>
-                <fullName>Advertisement</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Customer Event</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Employee Referral</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Google AdWords</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Other</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Partner</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Purchased List</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Trade Show</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Webinar</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Website</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
             <picklist>Level__c</picklist>
             <values>
                 <fullName>Primary</fullName>
@@ -1834,192 +1360,6 @@ CASE(Invoice_Status_Rollup2__c,
             </values>
             <values>
                 <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>LeadSource</picklist>
-            <values>
-                <fullName>Advertisement</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Customer Event</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Employee Referral</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Google AdWords</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Other</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Partner</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Purchased List</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Trade Show</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Webinar</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Website</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Level__c</picklist>
-            <values>
-                <fullName>Primary</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Secondary</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Tertiary</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Mobile_Phone_Type__c</picklist>
-            <values>
-                <fullName>Invalid</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Landline</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Name</picklist>
-            <values>
-                <fullName>Dr%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mr%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mrs%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Ms%2E</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Prof%2E</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Other_Phone_Type__c</picklist>
-            <values>
-                <fullName>Invalid</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Landline</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Sex__c</picklist>
-            <values>
-                <fullName>Female</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Male</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-    </recordTypes>
-    <recordTypes>
-        <fullName>Staff</fullName>
-        <active>true</active>
-        <description>This is for the staff of the contact Object</description>
-        <label>Staff</label>
-        <picklistValues>
-            <picklist>Home_Phone_Type__c</picklist>
-            <values>
-                <fullName>Invalid</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Landline</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mobile</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>LeadSource</picklist>
-            <values>
-                <fullName>Advertisement</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Customer Event</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Employee Referral</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Google AdWords</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Other</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Partner</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Purchased List</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Trade Show</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Webinar</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Website</fullName>
                 <default>false</default>
             </values>
         </picklistValues>

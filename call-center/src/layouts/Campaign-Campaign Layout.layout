@@ -248,16 +248,6 @@
         <fields>TOT_ACTUAL_COST</fields>
         <relatedList>RelatedCampaignHierarchyList</relatedList>
     </relatedLists>
-    <relatedLists>
-        <fields>FULL_NAME</fields>
-        <fields>CONTACT.PHONE4</fields>
-        <fields>CONTACT.EMAIL</fields>
-        <fields>CONTACT.ADDRESS2_CITY</fields>
-        <fields>CONTACT.ADDRESS2_STATE</fields>
-        <fields>CONTACT.RECORDTYPE</fields>
-        <fields>Total_Balance__c</fields>
-        <relatedList>Contact.Campaign__c</relatedList>
-    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>

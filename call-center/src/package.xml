@@ -417,7 +417,6 @@
         <members>Contact.CTINumber1__c</members>
         <members>Contact.CTINumber2__c</members>
         <members>Contact.CTINumber3__c</members>
-        <members>Contact.Campaign__c</members>
         <members>Contact.Credit_Balance__c</members>
         <members>Contact.Deleted__c</members>
         <members>Contact.Delinquent_Balance__c</members>
@@ -450,16 +449,10 @@
         <members>Contact.Payment_Plan_Balance__c</members>
         <members>Contact.Payment_Proclivity_Score__c</members>
         <members>Contact.Pre_Invoiced_Balance__c</members>
-        <members>Contact.Preferred_Contact__c</members>
         <members>Contact.Profile_Pointer_Id__c</members>
         <members>Contact.Sex__c</members>
-        <members>Contact.Skip_Invoice_Stmt_Until__c</members>
         <members>Contact.Social_Security_Number__c</members>
-        <members>Contact.Statement_Preference__c</members>
-        <members>Contact.Test_Id__c</members>
         <members>Contact.Total_Balance__c</members>
-        <members>Contact.Verified_Email__c</members>
-        <members>Contact.Vital_Status__c</members>
         <members>Contact.X18_Digit_Id__c</members>
         <name>CustomField</name>
     </types>
@@ -756,7 +749,6 @@
         <members>Charge_Group_Coverage_Junction__c-Charge Group Coverages</members>
         <members>Charge_Group__c-Charge Groups Layout</members>
         <members>Contact-External Guarantors</members>
-        <members>Contact-External Patients</members>
         <members>Contact-Guarantors</members>
         <members>Contact-Patients</members>
         <members>Coverage__c-Coverage Layout</members>
@@ -811,10 +803,8 @@
         <members>Charge_Group_Coverage_Junction__c.All</members>
         <members>Charge_Group__c.All</members>
         <members>Contact.All_External_Guarantors</members>
-        <members>Contact.All_External_Patients</members>
         <members>Contact.All_Guarantors</members>
         <members>Contact.All_Patients</members>
-        <members>Contact.All_Staff</members>
         <members>Coverage__c.All</members>
         <members>Encounter__c.All</members>
         <members>Invoice__c.All</members>
@@ -878,11 +868,8 @@
         <members>Case.Quality_of_Care</members>
         <members>Case.Sirono_Review</members>
         <members>Contact.External_Guarantor</members>
-        <members>Contact.External_Patient</members>
-        <members>Contact.General</members>
         <members>Contact.Guarantor</members>
         <members>Contact.Patient</members>
-        <members>Contact.Staff</members>
         <members>Payment_Method__c.ACH</members>
         <members>Payment_Method__c.Check_Cash</members>
         <members>Payment_Method__c.Credit_Card</members>
