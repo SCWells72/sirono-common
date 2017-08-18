@@ -2,6 +2,7 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>CardInformation</members>
+        <members>CardInformationTest</members>
         <members>ChangePasswordController</members>
         <members>ChangePasswordControllerTest</members>
         <members>CommunitiesLandingController</members>

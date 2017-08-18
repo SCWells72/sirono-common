@@ -160,4 +160,21 @@ public class PaymentServiceTest {
 
     }
 
+    @isTest
+    public static void testGetPayments() {
+        Contact gt = GuarantorDao.getGuarantorBySironoId(PaymentRestClientMock.GT_SIRONO_ID);
+        Payment__c payment = TestUtility.generatePayment();
+        payment.Guarantor__c = gt.Id;
+        payment.Sirono_Id__c = 11122333;
+        payment.Amount__c = 12345;
+        insert payment;
+
+        Test.startTest();
+        List<Payment__c> payments = PaymentService.getPayments(gt.Id);
+        Test.stopTest();
+
+        System.assertEquals(1, payments.size(), 'Should return a list.');
+
+    }
+
 }

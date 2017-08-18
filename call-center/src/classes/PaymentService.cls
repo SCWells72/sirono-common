@@ -329,4 +329,14 @@ public class PaymentService extends AbstractService {
         PaymentDao.insertPayment(new List<Payment__c> { payment });
         return PaymentDao.getPayment(payment.Id);
     }
+
+    /**
+     * Get the payments by contact Id.
+     *
+     * @param Id contactId
+     * @return List<Payment__c> - The list of payments.
+     */
+    public static List<Payment__c> getPayments(Id contactId) {
+        return PaymentDao.getPayments(contactId);
+    }
 }

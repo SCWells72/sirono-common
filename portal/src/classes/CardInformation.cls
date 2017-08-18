@@ -29,7 +29,18 @@ public with sharing class CardInformation {
     @AuraEnabled
     public String cvv { get; set; }
     @AuraEnabled
-    public String amount { get; set; }
+    public String amount {
+        get;
+        set {
+            if (value != null) {
+                // Javascript does some crazy things with decimals so we get values like
+                // 92.0000000001 or 91.9999999999998 so round to the nearest cent.
+                amount = Decimal.valueOf(value).setScale(2).toPlainString();
+            } else {
+                amount = value;
+            }
+        }
+    }
     @AuraEnabled
     public String address { get; set; }
     @AuraEnabled
