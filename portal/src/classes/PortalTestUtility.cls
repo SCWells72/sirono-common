@@ -62,7 +62,6 @@ public class PortalTestUtility {
         cg.Patient__c = patientContactId;
         cg.External_Id__c = String.valueOf(chargeGroupExternalId);
         cg.Name = 'Sirono';
-        cg.Charge_Group_External_Id__c = true;
         cg.Reported_Selfpay_Balance__c = 10;
         cg.Active__c = true;
         cg.Account_Status__c = PortalConstants.ACCT_STATUS_BILLED;

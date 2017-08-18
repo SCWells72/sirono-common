@@ -67,22 +67,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>SelfPay_Bucket__c</field>
-            <table>Charge_Group__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Active__c</field>
             <table>Charge_Group__c</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Inactivation_Date__c</field>
-            <table>Charge_Group__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Balance_Mismatch__c</field>
             <table>Charge_Group__c</table>
         </columns>
         <columns>
@@ -97,17 +87,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Financial_Class__c</field>
-            <table>Charge_Group__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ReCalculate_Fields__c</field>
-            <table>Charge_Group__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>OG_Balance__c</field>
+            <field>Original_Balance__c</field>
             <table>Charge_Group__c</table>
         </columns>
         <columns>
@@ -128,11 +108,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Reported_Bad_Debt__c</field>
-            <table>Charge_Group__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>In_Inventory__c</field>
             <table>Charge_Group__c</table>
         </columns>
         <columns>
@@ -172,17 +147,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Newly_Imported__c</field>
-            <table>Charge_Group__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Account_Sub_Status__c</field>
-            <table>Charge_Group__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ProcessRollupBatch__c</field>
             <table>Charge_Group__c</table>
         </columns>
         <columns>
@@ -228,11 +193,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Patient__c</field>
-            <table>Charge_Group__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Charge_Group_External_Id__c</field>
             <table>Charge_Group__c</table>
         </columns>
         <columns>

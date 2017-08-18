@@ -667,17 +667,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Charge_Group__c.Balance_Mismatch__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Charge_Group__c.Balance__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Charge_Group__c.Charge_Group_External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -708,11 +698,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Charge_Group__c.External_Id__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Charge_Group__c.Financial_Class__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -757,11 +742,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Charge_Group__c.In_Inventory__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Charge_Group__c.Inactivation_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -787,17 +767,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Charge_Group__c.Newly_Imported__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Charge_Group__c.Notes__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Charge_Group__c.OG_Balance__c</field>
+        <field>Charge_Group__c.Original_Balance__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -832,17 +807,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Charge_Group__c.ProcessRollupBatch__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Charge_Group__c.Provider__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Charge_Group__c.ReCalculate_Fields__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -863,11 +828,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Charge_Group__c.Reported_Selfpay_Balance__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Charge_Group__c.SelfPay_Bucket__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

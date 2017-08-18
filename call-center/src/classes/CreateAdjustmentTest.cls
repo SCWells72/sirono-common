@@ -35,7 +35,6 @@ public class CreateAdjustmentTest {
         chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Sirono_Id__c = Decimal.valueOf(RestClientConstants.CHARGE_GROUP_ID);
         chargeGroup.Payment_Plan__c = paymentPlan.Id;
-        chargeGroup.Charge_Group_External_Id__c = true;
         insert chargeGroup;
 
         Service2__c svc = TestUtility.generateService(guarantorContact, 675.00);
