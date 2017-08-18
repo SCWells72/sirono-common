@@ -62,14 +62,9 @@ public class TransactionJSONParsing extends AbstractSironoJSONParser {
                 String transactionExternalId = parseSironoId(objJson.url, RestClientConstants.TRANSACTION_URL_RESOURCE_TYPE);
 
                 objTransaction.Sirono_Id__c = Decimal.valueOf(transactionExternalId);
-                //TODO remove when TXN refactored
-                objTransaction.Name = objJson.method + '-' + transactionExternalId;
                 objTransaction.Amount__c = PayStaffWSUtill.convertToDollarsWithNegative(objJson.amount);
                 objTransaction.Transaction_Date__c = parseDate(objJson.created_at);
                 objTransaction.Post_Date__c = parseDate(objJson.post_date);
-                objTransaction.Fail_Date__c = parseDate(objJson.fail_date);
-                objTransaction.Export_Date__c = parseDate(objJson.export_date);
-                objTransaction.Credit_Balance__c = objJson.credit_balance;
 
                 if (objJson.chargegroup != null) {
                     Decimal chargegroup = Decimal.valueOf(parseSironoId(objJson.chargegroup, RestClientConstants.CHARGE_GROUP_URL_RESOURCE_TYPE));

@@ -93,7 +93,7 @@ public with sharing class AdjustmentServiceTest {
         System.debug('No exception thrown creating an adjustment!');
         Test.stopTest();
 
-        Adjustment__c[] adjs = [SELECT Id FROM Adjustment__c];
+        Adjustment__c[] adjs = [SELECT Id, Aggregate_Id__c FROM Adjustment__c];
         System.assertEquals(1, adjs.size(), 'Expected 1 Adjustment__c');
 
         Transaction__c[] txns = [
@@ -114,7 +114,8 @@ public with sharing class AdjustmentServiceTest {
         System.assertEquals(-1.25, txns[0].Amount__c, 'Expected -1.25 adjustment transaction');
         System.assert(txns[0].Payment__c == null, 'Expected Payment__c to be null');
         System.assert(txns[0].Service2__c == null, 'Expected Service2__c to be null');
-        System.assertEquals('10/13/2016', txns[0].Post_Date__c.format('MM/dd/yyyy'), 'Expected txn Post_Date__c to be 10/13/2016');
-        System.assert(txns[0].Transaction_Date__c != null, 'Expected Tranaction_Date__c to be set');
+        System.assertEquals('10/13/2016', txns[0].Post_Date__c.format(), 'Expected txn Post_Date__c to be 10/13/2016');
+        System.assert(txns[0].Transaction_Date__c != null, 'Expected Transaction_Date__c to be set');
+        System.assertNotEquals(null, adjs[0].Aggregate_Id__c);
     }
 }

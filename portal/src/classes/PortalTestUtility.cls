@@ -30,8 +30,6 @@ public class PortalTestUtility {
         guarantorContact.RecordTypeId = RecordTypeUtil.guarantorRt;
         guarantorContact.LastName = gurantorName;
         guarantorContact.Profile_Pointer_Id__c = getUniqueId();
-        guarantorContact.HomePhone = '111';
-        guarantorContact.MobilePhone = '111';
         return guarantorContact;
     }
 
@@ -40,8 +38,6 @@ public class PortalTestUtility {
         Contact patientContact = new Contact();
         patientContact.RecordTypeId = RecordTypeUtil.patientRt;
         patientContact.LastName = 'Test Patient';
-        patientContact.HomePhone = '111';
-        patientContact.MobilePhone = '111';
         patientContact.Patient_Id__c = getUniqueId();
         return patientContact;
     }
@@ -185,7 +181,7 @@ public class PortalTestUtility {
         txn.Amount__c = amount == null ? 0 : amount;
         txn.Charge_Group__c = chargeGroup.Id;
         txn.Sirono_Id__c = getUniqueId();
-        txn.Post_Date__c = System.today();
+        txn.Post_Date__c = Date.today();
         txn.Transaction_Date__c = System.today();
         return txn;
     }
