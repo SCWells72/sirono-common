@@ -72,7 +72,7 @@ public class PaymentService extends AbstractService {
             Map<String, Object> rawData = new Map<String, Object> {
                 RestClientConstants.CHARGE_GROUPS => cgUrls,
                 RestClientConstants.CSRF_JSON_KEY => getCsrf(),
-                'guarantor' => asGuarantorURL(pmtRequest.guarantor.Profile_Pointer_Id__c.toPlainString()),
+                'guarantor' => asGuarantorURL(pmtRequest.guarantor.Guarantor_Id__c.toPlainString()),
                 'number' => pmtRequest.chargeInfo.creditCardNumber,
                 'expiration_year' => pmtRequest.chargeInfo.expirationYear,
                 'cvv' => pmtRequest.chargeInfo.cvv,

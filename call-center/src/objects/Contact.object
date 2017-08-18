@@ -643,13 +643,26 @@
         <type>Text</type>
         <unique>false</unique>
     </fields>
+
+    <fields>
+        <fullName>Guarantor_Id__c</fullName>
+        <externalId>true</externalId>
+        <label>Sirono Guarantor ID</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <type>Number</type>
+        <unique>true</unique>
+    </fields>
+
     <fields>
         <fullName>Guarantor_Patient_Id__c</fullName>
         <externalId>false</externalId>
         <formula>IF(
-! ISBLANK(Profile_Pointer_Id__c) &amp;&amp; ISBLANK(Patient_Id__c), TEXT(Profile_Pointer_Id__c),
+! ISBLANK(Guarantor_Id__c) &amp;&amp; ISBLANK(Patient_Id__c), TEXT(Guarantor_Id__c),
 IF(
-ISBLANK(Profile_Pointer_Id__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient_Id__c), TEXT(Profile_Pointer_Id__c) + &quot; / &quot; + TEXT(Patient_Id__c)
+ISBLANK(Guarantor_Id__c) &amp;&amp; ! ISBLANK(Patient_Id__c), TEXT(Patient_Id__c), TEXT(Guarantor_Id__c) + &quot; / &quot; + TEXT(Patient_Id__c)
 )
 )</formula>
         <label>Guarantor/Patient Id</label>
@@ -1021,17 +1034,6 @@ CASE(Invoice_Status_Rollup2__c,
         <type>Summary</type>
     </fields>
     <fields>
-        <fullName>Profile_Pointer_Id__c</fullName>
-        <externalId>true</externalId>
-        <label>Sirono Guarantor ID</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackHistory>false</trackHistory>
-        <type>Number</type>
-        <unique>true</unique>
-    </fields>
-    <fields>
         <fullName>Sex__c</fullName>
         <description>Gender of Guarantor</description>
         <externalId>false</externalId>
@@ -1093,7 +1095,7 @@ CASE(Invoice_Status_Rollup2__c,
     </fields>
     <listViews>
         <fullName>All_External_Guarantors</fullName>
-        <columns>Profile_Pointer_Id__c</columns>
+        <columns>Guarantor_Id__c</columns>
         <columns>FULL_NAME</columns>
         <columns>CONTACT.PHONE1</columns>
         <columns>CONTACT.EMAIL</columns>
@@ -1107,7 +1109,7 @@ CASE(Invoice_Status_Rollup2__c,
     </listViews>
     <listViews>
         <fullName>All_Guarantors</fullName>
-        <columns>Profile_Pointer_Id__c</columns>
+        <columns>Guarantor_Id__c</columns>
         <columns>FULL_NAME</columns>
         <columns>CONTACT.BIRTHDATE</columns>
         <columns>CONTACT.PHONE4</columns>
@@ -1471,7 +1473,7 @@ CASE(Invoice_Status_Rollup2__c,
         <lookupPhoneDialogsAdditionalFields>CONTACT.PHONE6</lookupPhoneDialogsAdditionalFields>
         <searchResultsAdditionalFields>FULL_NAME</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CONTACT.RECORDTYPE</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Profile_Pointer_Id__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Guarantor_Id__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CONTACT.BIRTHDATE</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CONTACT.PHONE4</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CONTACT.PHONE3</searchResultsAdditionalFields>

@@ -13,7 +13,7 @@ public class DelinquentPaymentPlansSchedulerBatchTest {
 
         Contact con1 = TestUtility.generateGuarantorContact();
         con1.LastName = 'Test';
-        con1.Profile_Pointer_Id__c = 123;
+        con1.Guarantor_Id__c = 123;
         insert con1;
 
         Date dt = System.today().addDays(-10);

@@ -10,7 +10,7 @@ private class PayStaffWSUtillTest {
     @TestSetup
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
-        gt.Profile_Pointer_Id__c = 12345;
+        gt.Guarantor_Id__c = 12345;
         insert gt;
 
         Contact pt = TestUtility.generatePatientContact();
@@ -22,7 +22,7 @@ private class PayStaffWSUtillTest {
         insert cgs;
 
         // Check system assert.
-        System.assertEquals(12345, gt.Profile_Pointer_Id__c, 'Expected Profile_Pointer_Id__c equals to "12345" but got ' + gt.Profile_Pointer_Id__c);
+        System.assertEquals(12345, gt.Guarantor_Id__c, 'Expected Guarantor_Id__c equals to "12345" but got ' + gt.Guarantor_Id__c);
     }
 
     /**
@@ -38,7 +38,7 @@ private class PayStaffWSUtillTest {
         PayStaffWSUtill.buildChargeGroupsURL('1,2');
 
         // Check System assert.
-        System.assertEquals(guarantorSironoId, String.valueOf(gt.Profile_Pointer_Id__c), 'Expected Sirono Id ' + guarantorSironoId + ' but got ' + gt.Profile_Pointer_Id__c);
+        System.assertEquals(guarantorSironoId, String.valueOf(gt.Guarantor_Id__c), 'Expected Sirono Id ' + guarantorSironoId + ' but got ' + gt.Guarantor_Id__c);
     }
 
 

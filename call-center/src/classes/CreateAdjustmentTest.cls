@@ -12,7 +12,7 @@ public class CreateAdjustmentTest {
     static void setupData() {
         // Create Guarantor Contact record.
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = Decimal.valueOf(MockHttpResponseGenerator.guarantorSironoId);
+        guarantorContact.Guarantor_Id__c = Decimal.valueOf(MockHttpResponseGenerator.guarantorSironoId);
         insert guarantorContact;
 
         // Create Patient Contact record.

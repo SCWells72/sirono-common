@@ -107,7 +107,7 @@ public class AddPaymentPlanVFControllerTest {
     @IsTest
     public static void testCreatePaymentPlan() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 23232323;
+        guarantorContact.Guarantor_Id__c = 23232323;
         insert guarantorContact;
 
         Contact patientContact = TestUtility.generatePatientContact();

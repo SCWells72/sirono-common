@@ -10,7 +10,7 @@ private class DeletePaymentPlanTest {
     @TestSetup
     public static void setupData() {
         Contact guarantorContact = TestUtility.generateGuarantorContact();
-        guarantorContact.Profile_Pointer_Id__c = 23232323;
+        guarantorContact.Guarantor_Id__c = 23232323;
         insert guarantorContact;
 
         Payment_Plan__c paymentPlan = TestUtility.generatePaymentPlan(guarantorContact.Id);
@@ -100,10 +100,10 @@ private class DeletePaymentPlanTest {
         Payment_Plan__c paymentPlan = [
                 SELECT Active__c,
                         Id,
-                        Guarantor__r.Profile_Pointer_Id__c,
+                        Guarantor__r.Guarantor_Id__c,
                         Sirono_Id__c
                 FROM Payment_Plan__c];
-        ApexPages.currentPage().getParameters().put('guarantorId', paymentPlan.Guarantor__r.Profile_Pointer_Id__c.toPlainString());
+        ApexPages.currentPage().getParameters().put('guarantorId', paymentPlan.Guarantor__r.Guarantor_Id__c.toPlainString());
         ApexPages.currentPage().getParameters().put('paymentPlanId', paymentPlan.Sirono_Id__c.toPlainString());
         DeletePaymentPlan objDeletePaymentPlan = new DeletePaymentPlan();
         PageReference pr = objDeletePaymentPlan.cancel();

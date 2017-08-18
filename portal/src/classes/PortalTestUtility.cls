@@ -11,6 +11,8 @@ public class PortalTestUtility {
     public static final String ADMIN_EMAIL = 'bruce.wayne@wayneenterprises.com';
     public static final Decimal PROFILE_POINTER = 999;
 
+
+
     private PortalTestUtility() {
         // Utility class
     }
@@ -29,7 +31,7 @@ public class PortalTestUtility {
         Contact guarantorContact = new Contact();
         guarantorContact.RecordTypeId = RecordTypeUtil.guarantorRt;
         guarantorContact.LastName = gurantorName;
-        guarantorContact.Profile_Pointer_Id__c = getUniqueId();
+        guarantorContact.Guarantor_Id__c = getUniqueId();
         return guarantorContact;
     }
 
@@ -246,6 +248,8 @@ public class PortalTestUtility {
         System.runAs(thisUser) {
             //Create portal account owner
             Database.insert(portalAdminUser);
+            assignPermissionSets(portalAdminUser, PortalConstants.PERMISSION_SETS_SIRONO_ADMIN);
+
             //Create account
             a = new Account(Name = ACCOUNT_NAME, OwnerId = portalAdminUser.Id);
             Database.insert(a);
@@ -257,7 +261,7 @@ public class PortalTestUtility {
         List<User> users = [
             SELECT Alias, Email, EmailEncodingKey, FirstName, LastName, LanguageLocaleKey,
                 LocaleSidKey, ProfileId, ContactId,
-                TimeZoneSidKey, Username, Contact.Profile_Pointer_Id__c
+                TimeZoneSidKey, Username, Contact.Guarantor_Id__c
             FROM User
             WHERE Username = :testUsername
             LIMIT 1
@@ -270,7 +274,7 @@ public class PortalTestUtility {
             System.runAs(portalAdminUser) {
                 //Create Guarantor Contact record
                 Contact gt = PortalTestUtility.generateGuarantorContact();
-                gt.Profile_Pointer_Id__c = PROFILE_POINTER;
+                gt.Guarantor_Id__c = PROFILE_POINTER;
                 gt.AccountId = a.Id;
                 gt.OwnerId = portalAdminUser.Id;
                 Database.insert(gt);
@@ -282,28 +286,13 @@ public class PortalTestUtility {
 
                 insert usr;
 
-                // Give the user the Guarantor permission sets
-                List<PermissionSetAssignment> permissionSetAssignments = new List<PermissionSetAssignment>();
-                List<PermissionSet> permissionSets = [
-                    SELECT Id
-                    FROM PermissionSet
-                    WHERE Name IN (:PortalConstants.PERMISSION_SET_GUARANTOR, :PortalConstants.PERMISSION_SET_GUARANTOR_LOCAL)
-                ];
-                System.assertEquals(2, permissionSets.size(), 'Guarantor permission sets not found.');
-                for (PermissionSet permissionSet : permissionSets) {
-                    PermissionSetAssignment permissionSetAssignment = new PermissionSetAssignment(
-                        AssigneeId = usr.Id,
-                        PermissionSetId = permissionSet.Id
-                    );
-                    permissionSetAssignments.add(permissionSetAssignment);
-                }
-                insert permissionSetAssignments;
+                assignPermissionSets(usr, PortalConstants.PERMISSION_SETS_GUARANTOR);
 
                 usr = null;
                 usr = [
                     SELECT Id, Alias, Email, EmailEncodingKey, FirstName, LastName, LanguageLocaleKey,
                         LocaleSidKey, ProfileId, ContactId,
-                        TimeZoneSidKey, Username, Contact.Profile_Pointer_Id__c
+                        TimeZoneSidKey, Username, Contact.Guarantor_Id__c
                     FROM User
                     WHERE Username = :testUsername
                     LIMIT 1
@@ -336,7 +325,7 @@ public class PortalTestUtility {
      * @return Contact - The Guarantor.
      */
     public static Contact getPortalGuarantor() {
-        List<Contact> contacts = [SELECT Id FROM Contact WHERE Profile_Pointer_Id__c = :PROFILE_POINTER];
+        List<Contact> contacts = [SELECT Id FROM Contact WHERE Guarantor_Id__c = :PROFILE_POINTER];
 
         System.assert(contacts.size() != 0, 'Could not find the guarantor for the community user.');
         return contacts[0];
@@ -352,5 +341,25 @@ public class PortalTestUtility {
 
         System.assert(accounts.size() != 0, 'Could not find the account for the community user.');
         return accounts[0];
+    }
+
+
+    public static void assignPermissionSets(User appUser, String[] permSetNames) {
+        // Give the user the given permission sets
+        List<PermissionSetAssignment> permissionSetAssignments = new List<PermissionSetAssignment>();
+        List<PermissionSet> permissionSets = [
+            SELECT Id
+            FROM PermissionSet
+            WHERE Name IN :permSetNames
+        ];
+        System.assertEquals(permSetNames.size(), permissionSets.size(), 'Not all permission sets: ' + String.join(permSetNames, ', ') + ' found.');
+        for (PermissionSet permissionSet : permissionSets) {
+            PermissionSetAssignment permissionSetAssignment = new PermissionSetAssignment(
+                AssigneeId = appUser.Id,
+                PermissionSetId = permissionSet.Id
+            );
+            permissionSetAssignments.add(permissionSetAssignment);
+        }
+        insert permissionSetAssignments;
     }
 }

@@ -30,7 +30,7 @@ public with sharing class WorkWithStatementsController {
         try {
             Contact gt = GuarantorService.getPortalGuarantor(UserInfo.getUserId());
 
-            Map<Date, String> statementUrlMap = GuarantorService.getStatementMap(gt.Profile_Pointer_Id__c.toPlainString());
+            Map<Date, String> statementUrlMap = GuarantorService.getStatementMap(gt.Guarantor_Id__c.toPlainString());
 
             System.debug('UrlMap retrieved: ' + statementUrlMap);
 

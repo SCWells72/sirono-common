@@ -13,7 +13,7 @@ public with sharing class PatientDaoTest {
     @TestSetup
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
-        gt.Profile_Pointer_Id__c = Decimal.valueOf(SIRONO_ID);
+        gt.Guarantor_Id__c = Decimal.valueOf(SIRONO_ID);
         insert gt;
 
         Contact pt = TestUtility.generatePatientContact();

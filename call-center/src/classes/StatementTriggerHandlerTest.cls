@@ -6,7 +6,7 @@
 public class StatementTriggerHandlerTest {
     private static Contact createStatementPrereqs(String status, String substatus, Decimal amount) {
         Contact guarantor = TestUtility.generateGuarantorContact();
-        guarantor.Profile_Pointer_Id__c = 100.0;
+        guarantor.Guarantor_Id__c = 100.0;
         insert guarantor;
 
         Contact patientContact = TestUtility.generatePatientContact();

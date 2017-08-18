@@ -76,4 +76,16 @@ public class PortalConstants {
     // Constants for permission set names
     public static final String PERMISSION_SET_GUARANTOR = 'Guarantor';
     public static final String PERMISSION_SET_GUARANTOR_LOCAL = 'Guarantor_Local';
+    public static final String[] PERMISSION_SETS_GUARANTOR = new String[] {
+        PERMISSION_SET_GUARANTOR,
+        PERMISSION_SET_GUARANTOR_LOCAL
+    };
+
+    public static final String PERMISSION_SET_SIRONO_ADMIN = 'Sirono_Administrator';
+    public static final String PERMISSION_SET_SIRONO_ADMIN_LOCAL = 'Sirono_Administrator_Local';
+
+    public static final String[] PERMISSION_SETS_SIRONO_ADMIN = new String[] {
+        PERMISSION_SET_SIRONO_ADMIN,
+        PERMISSION_SET_SIRONO_ADMIN_LOCAL
+    };
 }

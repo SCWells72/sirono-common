@@ -14,7 +14,7 @@ public with sharing class PaymentPlanDaoTest {
     @TestSetup
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
-        gt.Profile_Pointer_Id__c = Decimal.valueOf(GT_SIRONO_ID);
+        gt.Guarantor_Id__c = Decimal.valueOf(GT_SIRONO_ID);
         insert gt;
         System.debug('gt.Id: ' + gt.Id);
 
@@ -31,7 +31,7 @@ public with sharing class PaymentPlanDaoTest {
         insert pp;
 
         // Check system assert.
-        System.assertEquals(Decimal.valueOf(GT_SIRONO_ID), gt.Profile_Pointer_Id__c, 'Expected Profile_Pointer_Id__c is ' + GT_SIRONO_ID + ' but got ' + gt.Profile_Pointer_Id__c);
+        System.assertEquals(Decimal.valueOf(GT_SIRONO_ID), gt.Guarantor_Id__c, 'Expected Guarantor_Id__c is ' + GT_SIRONO_ID + ' but got ' + gt.Guarantor_Id__c);
     }
 
     @IsTest

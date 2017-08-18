@@ -13,7 +13,7 @@ public with sharing class ContactDaoTest {
     @TestSetup
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
-        gt.Profile_Pointer_Id__c = Decimal.valueOf(SIRONO_ID);
+        gt.Guarantor_Id__c = Decimal.valueOf(SIRONO_ID);
         insert gt;
 
         Contact pt = TestUtility.generatePatientContact();
@@ -21,14 +21,14 @@ public with sharing class ContactDaoTest {
         insert pt;
 
         // Check system assert.
-        System.assertEquals(Decimal.valueOf(SIRONO_ID), gt.Profile_Pointer_Id__c, 'Expected ' + SIRONO_ID + ' but we got ' + gt.Profile_Pointer_Id__c);
+        System.assertEquals(Decimal.valueOf(SIRONO_ID), gt.Guarantor_Id__c, 'Expected ' + SIRONO_ID + ' but we got ' + gt.Guarantor_Id__c);
     }
 
     private static Contact getTestGuarantorContact() {
         return [
-            SELECT Id, Profile_Pointer_Id__c
+            SELECT Id, Guarantor_Id__c
             FROM Contact
-            WHERE Profile_Pointer_Id__c = :Decimal.valueOf(SIRONO_ID)
+            WHERE Guarantor_Id__c = :Decimal.valueOf(SIRONO_ID)
         ];
     }
 

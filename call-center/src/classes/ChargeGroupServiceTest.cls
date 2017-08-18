@@ -11,7 +11,7 @@ public with sharing class ChargeGroupServiceTest {
     public static void setup() {
 
         Contact gt = TestUtility.generateGuarantorContact();
-        gt.Profile_Pointer_Id__c = 23232323;
+        gt.Guarantor_Id__c = 23232323;
         insert gt;
 
         Contact pt = TestUtility.generatePatientContact();

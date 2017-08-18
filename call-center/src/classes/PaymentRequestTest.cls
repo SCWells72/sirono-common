@@ -11,7 +11,7 @@ public with sharing class PaymentRequestTest {
     @TestSetup
     public static void setup() {
         Contact gt = TestUtility.generateGuarantorContact();
-        gt.Profile_Pointer_Id__c = Decimal.valueOf(PaymentRestClientMock.GT_SIRONO_ID);
+        gt.Guarantor_Id__c = Decimal.valueOf(PaymentRestClientMock.GT_SIRONO_ID);
         insert gt;
 
         Contact pt = TestUtility.generatePatientContact();

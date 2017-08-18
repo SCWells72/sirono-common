@@ -37,7 +37,7 @@ public with sharing class ContactSecurityContext extends SecurityContext {
     private static final String OTHER_PHONE_TYPE = 'Other_Phone_Type__c';
     private static final String OVERDUE_BALANCE = 'Overdue_Balance__c';
     private static final String PATIENT_ID = 'Patient_Id__c';
-    private static final String PROFILE_POINTER_ID = 'Profile_Pointer_Id__c';
+    private static final String PROFILE_POINTER_ID = 'Guarantor_Id__c';
     private static final String SALUTATION = 'Salutation';
     private static final String SOCIAL_SECURITY_NUMBER = 'Social_Security_Number__c';
     private static final String SUFFIX = 'Suffix';
