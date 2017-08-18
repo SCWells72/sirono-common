@@ -169,7 +169,7 @@
     </fields>
     <fields>
         <fullName>Post_Date__c</fullName>
-        <description>Date the txn posted</description>
+        <description>Date the transaction posted</description>
         <externalId>false</externalId>
         <label>Post Date</label>
         <required>false</required>
