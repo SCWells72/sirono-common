@@ -1,0 +1,7 @@
+Query Submitted
+To retrieve query status use
+force bulk query status 750f4000000DmuaAAC 751f4000000E3qSAAS
+
+To retrieve query data use
+force bulk query retrieve 750f4000000DmuaAAC 751f4000000E3qSAAS
+
