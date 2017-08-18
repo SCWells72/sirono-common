@@ -190,11 +190,13 @@
         <name>WebLink</name>
     </types>
     <types>
+        <members>Charge_Group__c.OG_SelfPay_Balance</members>
         <members>Payment__c.Payment_Name_Update</members>
         <members>Transaction__c.Set_Name</members>
         <name>WorkflowFieldUpdate</name>
     </types>
     <types>
+        <members>Charge_Group__c.OG SelfPay</members>
         <members>Service__c.Service Name</members>
         <members>Payment_Adjustments__c.CustomizeName</members>
         <members>Payment_Adjustments__c.UpdateName</members>

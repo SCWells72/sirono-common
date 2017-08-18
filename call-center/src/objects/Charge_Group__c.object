@@ -59,7 +59,7 @@
         <fullName>Account_Status__c</fullName>
         <description>ChargeGroupStatus.preinvoiced</description>
         <externalId>false</externalId>
-        <label>Account Status</label>
+        <label>Status</label>
         <length>30</length>
         <required>false</required>
         <trackHistory>true</trackHistory>
@@ -70,7 +70,7 @@
     <fields>
         <fullName>Account_Sub_Status__c</fullName>
         <externalId>false</externalId>
-        <label>Account Sub Status</label>
+        <label>Substatus</label>
         <length>30</length>
         <required>false</required>
         <trackHistory>true</trackHistory>
@@ -111,16 +111,6 @@
         <type>Checkbox</type>
     </fields>
     <fields>
-        <fullName>Balance_Mismatch__c</fullName>
-        <defaultValue>false</defaultValue>
-        <description>balance did not match selfpay balance in inv/rcl/atb import</description>
-        <externalId>false</externalId>
-        <label>Balance Mismatch</label>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
         <fullName>Balance__c</fullName>
         <externalId>false</externalId>
         <label>Balance</label>
@@ -130,16 +120,6 @@
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Summary</type>
-    </fields>
-    <fields>
-        <fullName>Charge_Group_External_Id__c</fullName>
-        <defaultValue>false</defaultValue>
-        <description>used for integration</description>
-        <externalId>false</externalId>
-        <label>Charge Group External ID</label>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>Date_Of_Service_End_Date__c</fullName>
@@ -213,22 +193,10 @@
         <fullName>External_Id__c</fullName>
         <description>Account Number</description>
         <externalId>true</externalId>
-        <label>Account Number</label>
+        <label>External ID</label>
         <length>30</length>
         <required>false</required>
         <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Financial_Class__c</fullName>
-        <description>Financial Class</description>
-        <externalId>false</externalId>
-        <label>Financial Class</label>
-        <length>254</length>
-        <required>false</required>
-        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
@@ -345,16 +313,6 @@
         <type>Checkbox</type>
     </fields>
     <fields>
-        <fullName>In_Inventory__c</fullName>
-        <defaultValue>false</defaultValue>
-        <description>whether the account is present in the inventory file</description>
-        <externalId>false</externalId>
-        <label>In Inventory</label>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
         <fullName>Inactivation_Date__c</fullName>
         <description>Inactivation Date</description>
         <externalId>false</externalId>
@@ -416,16 +374,6 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Newly_Imported__c</fullName>
-        <defaultValue>false</defaultValue>
-        <description>Newly Imported</description>
-        <externalId>false</externalId>
-        <label>Newly Imported</label>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
         <fullName>Notes__c</fullName>
         <description>cannot delete</description>
         <externalId>false</externalId>
@@ -437,10 +385,10 @@
         <visibleLines>10</visibleLines>
     </fields>
     <fields>
-        <fullName>OG_Balance__c</fullName>
-        <description>Chargegroup balance at time chargegroup becomes Billed</description>
+        <fullName>Original_Balance__c</fullName>
+        <description>Chargegroup balance at the time it becomes Billed</description>
         <externalId>false</externalId>
-        <label>OG Balance</label>
+        <label>Original Balance</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -530,15 +478,6 @@
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>ProcessRollupBatch__c</fullName>
-        <defaultValue>false</defaultValue>
-        <externalId>false</externalId>
-        <label>Process Rollup Batch</label>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
         <fullName>Provider__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
@@ -550,15 +489,6 @@
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>ReCalculate_Fields__c</fullName>
-        <defaultValue>false</defaultValue>
-        <externalId>false</externalId>
-        <label>Re-Calculate Fields?</label>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>Reported_Bad_Debt__c</fullName>
@@ -606,18 +536,6 @@
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>SelfPay_Bucket__c</fullName>
-        <description>SelfPay Bucket</description>
-        <externalId>false</externalId>
-        <label>SelfPay Bucket</label>
-        <length>254</length>
-        <required>false</required>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
         <fullName>Sirono_Assigned_Date__c</fullName>
         <description>Date assigned to Sirono</description>
         <externalId>false</externalId>
@@ -631,7 +549,7 @@
         <fullName>Sirono_Id__c</fullName>
         <description>This is the external Charge Group iD</description>
         <externalId>true</externalId>
-        <label>ID</label>
+        <label>Sirono ID</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>

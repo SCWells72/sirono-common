@@ -9,6 +9,15 @@
         <name>CustomApplication</name>
     </types>
     <types>
+        <members>Charge_Group__c.Balance_Mismatch__c</members>
+        <members>Charge_Group__c.Charge_Group_External_Id__c</members>
+        <members>Charge_Group__c.Financial_Class__c</members>
+        <members>Charge_Group__c.In_Inventory__c</members>
+        <members>Charge_Group__c.Newly_Imported__c</members>
+        <members>Charge_Group__c.OG_Balance__c</members>
+        <members>Charge_Group__c.ProcessRollupBatch__c</members>
+        <members>Charge_Group__c.ReCalculate_Fields__c</members>
+        <members>Charge_Group__c.SelfPay_Bucket__c</members>
         <members>Contact.Invoice_Status_Rollup__c</members>
         <members>Transaction__c.Adjustment__c</members>
         <members>Transaction__c.Service__c</members>
