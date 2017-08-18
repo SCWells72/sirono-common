@@ -166,7 +166,6 @@
         <members>PaymentSecurityContext</members>
         <members>PaymentService</members>
         <members>PaymentServiceTest</members>
-        <members>PaymentTransactionTest</members>
         <members>PaymentTriggerHandler</members>
         <members>PhoneNumberCalloutResponseBody</members>
         <members>PopulateNextPaymentDateBatch</members>
@@ -1005,7 +1004,6 @@
         <members>Invoice__c</members>
         <members>Payment_Plan__c</members>
         <members>Statement__c</members>
-        <members>Transaction__c</members>
         <name>Workflow</name>
     </types>
     <version>40.0</version>

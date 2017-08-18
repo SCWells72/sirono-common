@@ -180,7 +180,7 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Amount__c</fields>
-        <fields>Method__c</fields>
+        <fields>Txn_Method__c</fields>
         <fields>Post_Date__c</fields>
         <fields>Transaction_Date__c</fields>
         <fields>Charge_Group__c</fields>

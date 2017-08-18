@@ -574,11 +574,11 @@ public with sharing class PaymentTabsControllerTest {
             insert testService;
 
             Transaction__c testTransaction = PortalTestUtility.generateServiceTxn(testCG, testService.Amount__c, testService);
-            testTransaction.Post_Date__c = newCreateDate;
+            testTransaction.Post_Date__c = newCreateDate.date();
             testTransaction.Transaction_Date__c = testPP.Plan_Value_Modified_Date__c.date();
             insert testTransaction;
 
-            // Update invoide status to ensure the charge groups show up.
+            // Update invoice status to ensure the charge groups show up.
             invoiceOne.Status_Index__c = 9;
             update invoiceOne;
 

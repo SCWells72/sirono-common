@@ -124,18 +124,13 @@ public class TestUtility {
     }
 
     // Return transaction record
-    public static Transaction__c generateTransaction(Charge_Group__c chargeGroup,
-        Decimal amount,
-        String method) {
-        Transaction__c objTransaction = new Transaction__c();
-        objTransaction.Amount__c = amount == null ? 0 : amount;
-        objTransaction.Charge_Group__c = chargeGroup.Id;
-        objTransaction.Credit_Balance__c = amount < 0;
-        objTransaction.Fail_Date__c = null;
-        objTransaction.Sirono_Id__c = getUniqueId();
-        objTransaction.Notes__c = 'Test txn';
-        objTransaction.Post_Date__c = System.today().addDays('Credit'.equals(method) ? 7 : -7);
-        return objTransaction;
+    public static Transaction__c generateTransaction(Charge_Group__c chargeGroup, Decimal amount, String method) {
+        Transaction__c txn = new Transaction__c();
+        txn.Amount__c = amount == null ? 0 : amount;
+        txn.Charge_Group__c = chargeGroup.Id;
+        txn.Sirono_Id__c = getUniqueId();
+        txn.Post_Date__c = Date.today().addDays('Credit'.equals(method) ? 7 : -7);
+        return txn;
     }
 
     // Return Encounter record

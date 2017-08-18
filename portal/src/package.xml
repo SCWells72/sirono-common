@@ -186,5 +186,9 @@
         <members>SironoData</members>
         <name>StaticResource</name>
     </types>
+    <types>
+        <members>PortalLabels</members>
+        <name>CustomLabels</name>
+    </types>
     <version>40.0</version>
 </Package>

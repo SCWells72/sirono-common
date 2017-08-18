@@ -48,7 +48,8 @@ IlluminatedCloud/
 .idea/workspace.xml
 *.iws
 
-# Ant generated
+# Generated
 .ant-targets-build.xml
 post_install_zip
 work/
+*/src/namedCredentials

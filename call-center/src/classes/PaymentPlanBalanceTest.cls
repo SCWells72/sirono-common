@@ -50,7 +50,7 @@ public class PaymentPlanBalanceTest {
         insert testService;
 
         Transaction__c testTransaction = TestUtility.generateServiceTxn(testCG, testService.Amount__c, testService);
-        testTransaction.Post_Date__c = newCreateDate;
+        testTransaction.Post_Date__c = newCreateDate.date();
         testTransaction.Transaction_Date__c = testPP.Plan_Value_Modified_Date__c.date();
         insert testTransaction;
 
@@ -95,7 +95,7 @@ public class PaymentPlanBalanceTest {
 
         Transaction__c newServiceTransaction = TestUtility.generateServiceTxn(testCG, newService.Amount__c, newService);
         newServiceTransaction.Post_Date__c = System.today();
-        newServiceTransaction.Transaction_Date__c = newServiceTransaction.Post_Date__c.date();
+        newServiceTransaction.Transaction_Date__c = newServiceTransaction.Post_Date__c;
         insert newServiceTransaction;
 
         Payment_Plan__c ppResults = [
@@ -166,7 +166,7 @@ public class PaymentPlanBalanceTest {
         insert pmt;
 
         Transaction__c secondTestTransaction = TestUtility.generatePaymentTxn(testCG, pmt.Amount__c, pmt);
-        secondTestTransaction.Transaction_Date__c = secondTestTransaction.Post_Date__c.date();
+        secondTestTransaction.Transaction_Date__c = secondTestTransaction.Post_Date__c;
         insert secondTestTransaction;
 
         Payment_Plan__c ppResults = [

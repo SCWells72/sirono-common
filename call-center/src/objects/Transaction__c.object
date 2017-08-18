@@ -142,15 +142,6 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Export_Date__c</fullName>
-        <externalId>false</externalId>
-        <label>Export Date (Deprecated)</label>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>DateTime</type>
-    </fields>
-    <fields>
         <fullName>External_Id__c</fullName>
         <description>External Id for the transaction&apos;s entity, not for the transaction itself</description>
         <externalId>false</externalId>
@@ -161,36 +152,6 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Fail_Date__c</fullName>
-        <description>Fail Date</description>
-        <externalId>false</externalId>
-        <label>Fail Date (Deprecated)</label>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>DateTime</type>
-    </fields>
-    <fields>
-        <fullName>Method__c</fullName>
-        <externalId>false</externalId>
-        <label>Method (Deprecated)</label>
-        <length>15</length>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Notes__c</fullName>
-        <externalId>false</externalId>
-        <label>Notes (Deprecated)</label>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>TextArea</type>
     </fields>
     <fields>
         <fullName>Payment__c</fullName>
@@ -208,13 +169,13 @@
     </fields>
     <fields>
         <fullName>Post_Date__c</fullName>
-        <description>Date and Time stamp</description>
+        <description>Date the transaction posted</description>
         <externalId>false</externalId>
         <label>Post Date</label>
         <required>false</required>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
-        <type>DateTime</type>
+        <type>Date</type>
     </fields>
     <fields>
         <fullName>Service2__c</fullName>
@@ -277,9 +238,10 @@
         <label>All</label>
     </listViews>
     <nameField>
+        <displayFormat>TX-{0000000000}</displayFormat>
         <label>Name</label>
         <trackHistory>false</trackHistory>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Transactions</pluralLabel>
     <searchLayouts>
