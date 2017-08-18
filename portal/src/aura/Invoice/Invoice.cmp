@@ -82,8 +82,7 @@
                     <a onclick="{!c.sendInvoiceNowToHeader}">Make Additional Payment</a>
                 </aura:if>
                 <aura:if isTrue="{!and((v.invoice.singleInvoice.Status__c == 'Due' || v.invoice.singleInvoice.Status__c == 'Overdue' || v.invoice.singleInvoice.Status__c == 'Delinquent'), v.invoice.singleInvoice.Guarantor__r.Add_To_Payment_Plan__c)}">
-                    <a onclick="{!c.sendInvoiceNowToHeader}">Pay Now</a> or
-                    <a onclick="{!c.sendInvoiceCreateToHeader}">Add to Payment Plan</a>
+                    <a onclick="{!c.sendInvoiceNowToHeader}">Pay Now</a>
                 </aura:if>
             </div>
         </div>
