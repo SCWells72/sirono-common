@@ -105,6 +105,7 @@
         <name>Group</name>
     </types>
     <types>
+        <members>Contact-External Patients</members>
         <members>Campaign_Member_History__c-Campaign Member History Layout</members>
         <members>Campaign_Member_History__c-Campaign Members History</members>
         <members>Encounter_Coverage_Junction__c-Encounter Coverage Junction Layout</members>
@@ -117,6 +118,8 @@
         <name>Layout</name>
     </types>
     <types>
+        <members>Contact.All_External_Patients</members>
+        <members>Contact.All_Staff</members>
         <members>Coverage__c.test_coverage_view</members>
         <name>ListView</name>
     </types>

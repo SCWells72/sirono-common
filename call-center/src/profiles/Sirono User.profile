@@ -73,23 +73,11 @@
         <recordType>Contact.External_Guarantor</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Contact-External Patients</layout>
-        <recordType>Contact.External_Patient</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Contact-Guarantors</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Contact-Guarantors</layout>
-        <recordType>Contact.General</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Contact-Guarantors</layout>
         <recordType>Contact.Guarantor</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Contact-Guarantors</layout>
-        <recordType>Contact.Staff</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Contact-Patients</layout>

@@ -9,6 +9,13 @@
         <name>CustomApplication</name>
     </types>
     <types>
+        <members>Contact.Campaign__c</members>
+        <members>Contaact.Preferred_Contact__c</members>
+        <members>Contact.Statement_Preference__c</members>
+        <members>Contact.Skip_Invoice_Stmt_Until__c</members>
+        <members>Contact.Test_Id__c</members>
+        <members>Contact.Verified_Email__c</members>
+        <members>Contact.Vital_Status__c</members>
         <members>Charge_Group__c.Balance_Mismatch__c</members>
         <members>Charge_Group__c.Charge_Group_External_Id__c</members>
         <members>Charge_Group__c.Financial_Class__c</members>
@@ -42,6 +49,14 @@
         <members>Transaction_Type__c</members>
         <name>CustomObject</name>
     </types>
+    <!-- These have to be deleted manually
+    <types>
+        <members>Contact.External_Patient</members>
+        <members>Contact.General</members>
+        <members>Contact.Staff</members>
+        <name>RecordType</name>
+    </types>
+     -->
     <types>
         <members>Call_Center_Manager</members>
         <name>Role</name>
