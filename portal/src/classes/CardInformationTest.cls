@@ -2,10 +2,6 @@
  * Copyright (c) 2017-present Sirono LLC, All rights reserved
  */
 
-/**
- * Created by gbockus on 8/18/17.
- */
-
 @IsTest
 private class CardInformationTest {
 
