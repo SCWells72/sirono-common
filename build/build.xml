@@ -169,7 +169,8 @@
         <concat destfile="${workDir}/src/package.xml" force="yes">
             <fileset dir="${workDir}/src" includes="*.xyz"/>
             <header><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Package xmlns="http://soap.sforce.com/2006/04/metadata">]]>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sirono PRS</fullName>]]>
             </header>
             <footer><![CDATA[<version>40.0</version>
 </Package>]]>

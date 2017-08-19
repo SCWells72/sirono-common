@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <members>Case.Delinquent Case Assignment</members>
+        <members>Case.Inbound Case Assignment</members>
+        <members>Case.Internal Case</members>
+        <members>Case.Outbound Case Assignment</members>
+        <name>AssignmentRules</name>
+    </types>
+    <types>
         <name>Sirono_Call_Center_Console</name>
         <name>CustomApplication</name>
     </types>
@@ -36,6 +43,11 @@
         <members>Transaction__c.Method__c</members>
         <members>Transaction__c.Notes__c</members>
         <name>CustomField</name>
+    </types>
+    <types>
+        <members>Case.Administration Escalation Rules</members>
+        <members>Case.Pre%2FPost-Service Escalation Rules</members>
+        <name>EscalationRules</name>
     </types>
     <types>
         <members>Payment_Adjustments__c-Adjustment Layout</members>
