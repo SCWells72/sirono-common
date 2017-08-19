@@ -29,16 +29,16 @@
         <name>CallCenter</name>
     </types>
     <types>
-        <members>Activity.sPRS__Call_End_Time__c</members>
-        <members>Activity.sPRS__Call_Id__c</members>
-        <members>Activity.sPRS__Call_Start_Time__c</members>
-        <members>Activity.sPRS__Day_Of_Week__c</members>
-        <members>Activity.sPRS__Disposition__c</members>
-        <members>Activity.sPRS__Five9_Call_Time_Mins__c</members>
-        <members>Activity.sPRS__Hour_Of_Day__c</members>
-        <members>Activity.sPRS__Hours_Of_Day__c</members>
-        <members>Activity.sPRS__Recording__c</members>
-        <members>Activity.sPRS__Salesforce_Id__c</members>
+        <members>Activity.Call_End_Time__c</members>
+        <members>Activity.Call_Id__c</members>
+        <members>Activity.Call_Start_Time__c</members>
+        <members>Activity.Day_Of_Week__c</members>
+        <members>Activity.Disposition__c</members>
+        <members>Activity.Five9_Call_Time_Mins__c</members>
+        <members>Activity.Hour_Of_Day__c</members>
+        <members>Activity.Hours_Of_Day__c</members>
+        <members>Activity.Recording__c</members>
+        <members>Activity.Salesforce_Id__c</members>
         <name>CustomField</name>
     </types>
     <!-- TODO: This should be a pre-install deployment -->
