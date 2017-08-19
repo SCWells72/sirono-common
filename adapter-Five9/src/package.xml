@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--
-  ~ Copyright (c) 2017-present Sirono LLC, All rights reserved
-  -->
-
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>Five9AdapterConstants</members>
