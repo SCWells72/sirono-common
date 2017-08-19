@@ -625,7 +625,6 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <searchResultsAdditionalFields>Date_Of_Service__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Location__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Procedure__c</searchResultsAdditionalFields>
-        <searchResultsCustomButtons>Pay_Estimate</searchResultsCustomButtons>
     </searchLayouts>
     <sharingModel>Private</sharingModel>
     <startsWith>Vowel</startsWith>

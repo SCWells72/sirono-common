@@ -349,7 +349,6 @@
         <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
-        <customButtons>Pay_Estimate</customButtons>
         <fields>NAME</fields>
         <fields>Patient__c</fields>
         <fields>Procedure__c</fields>
