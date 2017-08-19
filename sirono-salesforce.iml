@@ -10,7 +10,7 @@
       <excludeFolder url="file://$MODULE_DIR$/portal" />
       <excludeFolder url="file://$MODULE_DIR$/work" />
     </content>
-    <orderEntry type="jdk" jdkName="IlluminatedCloud (sirono-salesforce-base_package_upgrade/sPRSUpgrade2)" jdkType="IlluminatedCloud" />
+    <orderEntry type="jdk" jdkName="IlluminatedCloud (sirono-salesforce/sirono_local)" jdkType="IlluminatedCloud" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
