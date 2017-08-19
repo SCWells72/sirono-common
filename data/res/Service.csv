@@ -1,4 +1,4 @@
-"Aggregate_Id__c","CPT_Code_Modifiers__c","CPT_Code_Override__c","CPT_Code__c","Charge_Code_Description__c","Charge_Code__c","External_Guarantor__r.External_Guarantor_Id__c","Guarantor__r.Profile_Pointer_ID__c","Provider__c","Quantity__c","Service_Date__c","Service_Rollup__r.External_Id__c"
+"Aggregate_Id__c","CPT_Code_Modifiers__c","CPT_Code_Override__c","CPT_Code__c","Charge_Code_Description__c","Charge_Code__c","External_Guarantor__r.External_Guarantor_Id__c","Guarantor__r.Guarantor_Id__c","Provider__c","Quantity__c","Service_Date__c","Service_Rollup__r.External_Id__c"
 "181234:20161101:730027648:::::259:2","","","","IBUPROFEN 200 MG","730027648","181234.0","200019.0","","2","2016-11-01","259"
 "181234:20170113:678001305:::::450:1","","","","ER VISIT LEVEL 3","678001305","181234.0","200019.0","","1","2017-01-13","450"
 "181234:20170128:678001305:::::450:1","","","","ER VISIT LEVEL 3","678001305","181234.0","200019.0","","1","2017-01-28","450"

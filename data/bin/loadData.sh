@@ -5,20 +5,20 @@
 
 # First, need to download the record types from the target org and dump into ./accessoryFiles/Contact_RecordTypes.csv. Without it, user will not be able
 # to load contacts.
-echo "First, please run the following commands in a new tab to download Contact record types. \n"
+echo "First, please run the following commands in a new tab to download Contact record types."
 sleep 1s
 echo "force login"
-echo "force bulk query RecordType \"select name, id from recordtype where sobjecttype = 'Contact'\" \n"
+echo "force bulk query RecordType \"select name, id from recordtype where sobjecttype = 'Contact'\""
 sleep 2s
 read -p "After running the above commands, press the enter key to continue."
 echo "\n"
 echo "You should receive two commands in response: one for checking the status, one for retrieving the results."
-echo "Once downloaded, dump the file into data/res/accessoryFiles/Contact_RecordTypes.csv."
-echo "Run the following retrieve command and replace the Salesforce Id tags with the Ids returned by running the query: \n"
+echo "Once downloaded, dump the file into data/res/accessoryFiles/Contact_RecordTypes.csv"
+echo "Run the following retrieve command and replace the Salesforce Id tags with the Ids returned by running the query:"
 sleep 5s
-echo "force bulk query retrieve [Salesforce Id] [Salesforce Id] > ./res/accessoryFiles/Contact_RecordTypes.csv \n"
+echo "force bulk query retrieve [Salesforce Id] [Salesforce Id] > ./res/accessoryFiles/Contact_RecordTypes.csv"
 sleep 2s
-read -p "Once completed, press the enter key to continue. "
+read -p "Once completed, press the enter key to continue."
 
 
 # Store Contact record type Ids into variables to switch out with record type names.
@@ -27,6 +27,7 @@ PATIENT_ID=$(cat ./res/accessoryFiles/Contact_RecordTypes.csv | sed 's/\"//g' | 
 EXTERNAL_GUARANTOR_ID=$(cat ./res/accessoryFiles/Contact_RecordTypes.csv | sed 's/\"//g' | awk -F "," '{if($1 == "External Guarantor") print $2};')
 
 # Make a directory to put temporary, manipulated files for loading thus leaving the base files alone.
+rm -rf ./res/temp
 mkdir ./res/temp/
 mkdir ./res/temp/load/
 
@@ -84,7 +85,7 @@ if [ $? -eq 0 ]; then
     sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Account.csv -s Account -i External_Account_Name__c -w 5
     echo "***** Enough of the easy stuff, now we're going to load some Contacts. *****"
     echo "***** First, load some Guarantors *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Contact_Guarantor.csv -s Contact -i Profile_Pointer_Id__c -w 5
+    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Contact_Guarantor.csv -s Contact -i Guarantor_Id__c -w 5
     echo "***** Loading External Guarantors *****"
     sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Contact_ExternalGuarantor.csv -s Contact -i External_Guarantor_Id__c -w 5
     echo "***** Loading Patients *****"
@@ -123,7 +124,7 @@ if [ $? -eq 0 ]; then
     echo "***** Loading Patient Coverage Junctions *****"
     sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Patient_Coverage_Junction.csv -s Patient_Coverage_Junction__c -i Sirono_Id__c -w 5
     echo "***** Loading Guarantor Notes *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Contact_Notes.csv -s Contact -i Profile_Pointer_Id__c -w 5
+    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Contact_Notes.csv -s Contact -i Guarantor_Id__c -w 5
     echo "***** ... and now we're done! *****"
 else
     echo "Logging in didn't quite work correctly."
