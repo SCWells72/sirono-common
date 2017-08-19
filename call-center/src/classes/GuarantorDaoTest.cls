@@ -299,26 +299,6 @@ public with sharing class GuarantorDaoTest {
         System.assertEquals(1, contacts[0].Statements__r.size(), 'Expected contact\'s Statement size equals to 1 but we got ' + contacts[0].Statements__r.size());
     }
 
-    /**
-     * This method tests the logic of getGuarantorsWithTask method.
-     **/
-    @IsTest
-    public static void getGuarantorsWithTaskTest() {
-        Contact gt = GuarantorDao.getGuarantorBySironoId(GT_SIRONO_ID);
-
-        // Check system assert.
-        System.assertEquals(0, gt.Tasks.size(), 'Should have 1 Task, but we got ' + gt.Tasks.size());
-
-        Task task = TestUtility.generateTask(gt.Id);
-        insert task;
-
-        Test.startTest();
-        List<Contact> contacts = GuarantorDao.getGuarantorsWithTask(new Set<Id> { gt.Id }, null, new Set<String> { 'Pre-collection' }, new Set<String> { 'Final' });
-        Test.stopTest();
-
-        // Check system assert.
-        System.assertEquals(1, contacts[0].Tasks.size(), 'Expected contact\'s Task size equals to 1 but we got ' + contacts[0].Tasks.size());
-    }
 
     /**
      * Check all Read rights for a Chatter User using runAs.

@@ -355,34 +355,6 @@ public with sharing class GuarantorDao extends AbstractDao {
     }
 
     /**
-     * Get Contacts with Task based on contactIds, caseIds, five9Campaigns and callDispositions
-     *
-     * @param Set<Id> contactIds - A set of Contact Ids.
-     * @param Set<Id> caseIds - A set of Case Ids.
-     * @param Set<String> five9Campaigns - That contains five9Campaign names.
-     * @param Set<String> callDispositions - That contains call disposition values.
-     * @returns List<Contact> - The requested Contacts with Task that meet the criteria.
-     **/
-    public static List<Contact> getGuarantorsWithTask(Set<Id> contactIds, Set<Id> caseIds, Set<String> five9Campaigns, Set<String> callDispositions) {
-        if (ContactSecurityContext.SB_SELECT_CONTEXT.actionAllowed() &&
-            TaskSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            String queryString = 'SELECT Id, FirstName, LastName, ';
-            queryString += '( ';
-            queryString += 'SELECT Id, CallDisposition, Five9__Five9Campaign__c, WhatId ';
-            queryString += 'FROM Tasks ';
-            queryString += (caseIds != null) ? 'WHERE WhatId IN :caseIds AND CallDisposition != null AND WhoId != null ' : 'WHERE CallDisposition IN :callDispositions ';
-            queryString += 'AND Five9__Five9Campaign__c IN :five9Campaigns';
-            queryString += ') ';
-            queryString += 'FROM Contact ';
-            queryString += 'WHERE Id IN :contactIds';
-
-            return Database.query(queryString);
-        }
-
-        return null;
-    }
-
-    /**
      * This method is use to update Contacts.
      *
      * @param List<Contact> contacts - That contains Guarantor/Contact records.

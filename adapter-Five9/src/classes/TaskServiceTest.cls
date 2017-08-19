@@ -7,12 +7,14 @@
 **/
 @IsTest
 public with sharing class TaskServiceTest {
+
+
     @TestSetup
     public static void setup() {
         List<Contact> guarantorList = new List<Contact>();
         for (Integer i = 0; i < 3; i++) {
-            Contact guarantor = TestUtility.generateGuarantorContact();
-            guarantorList.add(guarantor);
+            // Return Guarantor Contact record
+            guarantorList.add(Five9AdapterTestUtility.generateGuarantorContact());
         }
         insert guarantorList;
     }

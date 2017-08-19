@@ -16,28 +16,28 @@ private class TaskTriggerHandlerTest {
     @IsTest
     static void testRemoveCampaignMember() {
         // Create Guarantor Contact Record.
-        Contact guarantorContact = TestUtility.generateGuarantorContact();
+        Contact guarantorContact = Five9AdapterTestUtility.generateGuarantorContact();
         insert guarantorContact;
 
         // Create Campaign Record.
-        Campaign campaign = TestUtility.generateCampaign('Pre-collection');
+        Campaign campaign = Five9AdapterTestUtility.generateCampaign('Pre-collection');
         insert campaign;
 
         // Create Campaign Member Record.
-        CampaignMember campaignMember = TestUtility.generateCampaignMember(campaign.Id, guarantorContact.Id);
+        CampaignMember campaignMember = Five9AdapterTestUtility.generateCampaignMember(campaign.Id, guarantorContact.Id);
         insert campaignMember;
 
         // Create Tasks Records.
         List<Task> taskListToInsert = new List<Task>();
-        Task objTask = TestUtility.generateTask(guarantorContact.Id);
+        Task objTask = Five9AdapterTestUtility.generateTask(guarantorContact.Id);
         objTask.CallDisposition = 'Final';
         taskListToInsert.add(objTask);
 
-        objTask = TestUtility.generateTask(guarantorContact.Id);
+        objTask = Five9AdapterTestUtility.generateTask(guarantorContact.Id);
         objTask.CallDisposition = 'Retry';
         taskListToInsert.add(objTask);
 
-        objTask = TestUtility.generateTask(guarantorContact.Id);
+        objTask = Five9AdapterTestUtility.generateTask(guarantorContact.Id);
         objTask.CallDisposition = 'Error';
         taskListToInsert.add(objTask);
 
@@ -56,33 +56,5 @@ private class TaskTriggerHandlerTest {
         List<Task> lstTask = [SELECT Id, Hours_Of_Day__c FROM Task WHERE Id = :taskListToInsert[0].Id];
         System.assertNotEquals(lstTask[0].Hours_Of_Day__c, null);
         Test.stopTest();
-    }
-
-    /**
-     * Check all access rights for a read only User using runAs.
-     **/
-    @IsTest
-    static void checkAccessRights() {
-        List<CaseSecurityContext> allContexts = new List<CaseSecurityContext> {
-            CaseSecurityContext.CREATE_CONTEXT,
-            CaseSecurityContext.CREATE_WITH_GT_CONTEXT,
-            CaseSecurityContext.CU_CREATE_WITH_ENCOUNTER_CONTEXT,
-            CaseSecurityContext.UPDATE_CONTEXT,
-            CaseSecurityContext.UPSERT_CONTEXT,
-            CaseSecurityContext.DELETE_CONTEXT
-        };
-
-        System.runAs(TestUtility.generateReadOnlyUser()) {
-            for (CaseSecurityContext context : allContexts) {
-                try {
-                    context.actionAllowed();
-                    System.assert(false, 'Expected permission to be denied for ' + context);
-                } catch (SecurityUtils.SecurityException ex) {
-                    System.debug('SecurityException : ' + ex);
-                } catch (Exception e) {
-                    System.assert(false, 'Expected SecurityUtils.SecurityException to be thrown, but got ' + e);
-                }
-            }
-        }
     }
 }

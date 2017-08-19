@@ -181,9 +181,6 @@ public class Constants {
     // Constants for record types
     public static final String RECORD_TYPE_AUTOMATED_CASES = Constants.RECORD_TYPE_AUTOMATED_CASES;
 
-    // Constants for Task
-    public static final String TASK_PRIORITY_NORMAL = 'Normal';
-    public static final String TASK_STATUS_NEW = 'New';
 
     // Constant variable for Security Context Unit Testing Negative Profile.
     public static final String READ_ONLY_PROFILE = 'Read Only';

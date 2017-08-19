@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>SimpleLoginToCommunityController</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>SimpleLoginToCommunity</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>Community_Header_Monday_Friday_Work_Hours</members>
+        <members>Community_Header_Saturday_Work_Hours</members>
+        <members>Delinquent_Message</members>
+        <members>Help_Copyright</members>
+        <members>Help_Description</members>
+        <members>Help_Header</members>
+        <members>Overdue_Message</members>
+        <members>Pastdue_Automatic_Message</members>
+        <members>Pastdue_Manual_Message</members>
+        <members>Payment_Plan_Installment_Error_Message</members>
+        <name>CustomLabel</name>
+    </types>
+    <version>40.0</version>
+</Package>

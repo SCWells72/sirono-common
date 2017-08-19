@@ -56,7 +56,7 @@
             checkOnly="true"
             testLevel="RunSpecifiedTests">
             <!-- TODO: Make this use a property so that the build file doesn't have to be modified -->
-            <runTest>EncounterBalanceTest</runTest>
+            <runTest>WorkWithStatementsControllerTest</runTest>
         </sf:deploy>
     </target>
 
@@ -69,6 +69,7 @@
             <fileset dir="${basedir}/call-center/post_install/src" includes="**/*" excludes="package.xml"/>
             <fileset dir="${basedir}/portal/src" includes="**/*" excludes="package.xml"/>
             <fileset dir="${basedir}/portal/post_install/src" includes="**/*" excludes="package.xml"/>
+            <fileset dir="${basedir}/adapter-Five9/src" includes="**/*" excludes="package.xml"/>
         </copy>
 
         <echo message="Build uber package.xml"/>
@@ -120,6 +121,18 @@
                 </filterreader>
             </filterchain>
         </copy>
+        <copy file="${basedir}/adapter-Five9/src/package.xml" tofile="${workDir}/src/adapter-Five9-package.xyz">
+            <filterchain>
+                <filterreader classname="org.apache.tools.ant.filters.HeadFilter">
+                    <param name="lines" value="-1"/>
+                    <param name="skip" value="2"/>
+                </filterreader>
+                <filterreader classname="org.apache.tools.ant.filters.TailFilter">
+                    <param name="lines" value="-1"/>
+                    <param name="skip" value="2"/>
+                </filterreader>
+            </filterchain>
+        </copy>
 
         <concat destfile="${workDir}/src/package.xml" force="yes">
             <fileset dir="${workDir}/src" includes="*.xyz"/>
@@ -144,6 +157,7 @@
     <target name="deployNoTests" description="Deploys metadata for all modules without running unit tests">
         <ant dir="call-center/build" antfile="build.xml" target="deployNoTests" inheritall="false" usenativebasedir="true"/>
         <ant dir="portal/build" antfile="build.xml" target="deployNoTests" inheritall="false" usenativebasedir="true"/>
+        <ant dir="adapter-Five9/build" antfile="build.xml" target="deployNoTests" inheritall="false" usenativebasedir="true"/>
     </target>
 
     <target name="deployPostInstall" description="Deploys post-install metadata for all modules">
@@ -154,6 +168,7 @@
     <target name="undeployCode" description="Undeploys obsolete metadata for all modules without running unit tests">
         <ant dir="call-center/build" antfile="build.xml" target="undeployCode" inheritall="false" usenativebasedir="true"/>
         <ant dir="portal/build" antfile="build.xml" target="undeployCode" inheritall="false" usenativebasedir="true"/>
+        <ant dir="adapter-Five9/build" antfile="build.xml" target="undeployCode" inheritall="false" usenativebasedir="true"/>
     </target>
 
 </project>

@@ -99,9 +99,6 @@
         <members>EncounterWrapper</members>
         <members>EncounterWrapperTest</members>
         <members>ExhaustedCriteriaMdtSecurityContext</members>
-        <members>Five9ReportRequestScheduler</members>
-        <members>Five9ReportingException</members>
-        <members>Five9SoapClient</members>
         <members>GroupSecurityContext</members>
         <members>GuarantorDao</members>
         <members>GuarantorDaoTest</members>
@@ -117,11 +114,6 @@
         <members>InvoiceUtilTest</members>
         <members>LoginAsPortalUserController</members>
         <members>LoginAsPortalUserControllerTest</members>
-        <members>MissedCallReportDefinition</members>
-        <members>MissedCallReportDefinitionTest</members>
-        <members>MissedCallReportHandler</members>
-        <members>MissedCallReportProcessor</members>
-        <members>MissedCallReportProcessorTest</members>
         <members>MockHttpResponseGenerator</members>
         <members>MockHttpResponseGeneratorTest</members>
         <members>NumVerifyValidator</members>
@@ -197,12 +189,6 @@
         <members>StatementSecurityContext</members>
         <members>StatementTriggerHandler</members>
         <members>StatementTriggerHandlerTest</members>
-        <members>TaskDao</members>
-        <members>TaskSecurityContext</members>
-        <members>TaskService</members>
-        <members>TaskServiceTest</members>
-        <members>TaskTriggerHandler</members>
-        <members>TaskTriggerHandlerTest</members>
         <members>TestUtility</members>
         <members>TransactionDao</members>
         <members>TransactionJSONParser</members>
@@ -261,7 +247,6 @@
         <members>PaymentPlanTrigger</members>
         <members>PaymentTrigger</members>
         <members>StatementTrigger</members>
-        <members>TaskTrigger</members>
         <members>TransactionTrigger</members>
         <name>ApexTrigger</name>
     </types>
@@ -281,11 +266,6 @@
         <name>BusinessProcess</name>
     </types>
     <types>
-        <members>Five9LightningBasic</members>
-        <members>SFPlus</members>
-        <name>CallCenter</name>
-    </types>
-    <types>
         <members>Account.Account_Compact_Layout</members>
         <members>Contact.Agent_Highlight</members>
         <name>CompactLayout</name>
@@ -302,16 +282,6 @@
     </types>
     <types>
         <members>Account.External_Account_Name__c</members>
-        <members>Activity.Call_End_Time__c</members>
-        <members>Activity.Call_Id__c</members>
-        <members>Activity.Call_Start_Time__c</members>
-        <members>Activity.Day_Of_Week__c</members>
-        <members>Activity.Disposition__c</members>
-        <members>Activity.Five9_Call_Time_Mins__c</members>
-        <members>Activity.Hour_Of_Day__c</members>
-        <members>Activity.Hours_Of_Day__c</members>
-        <members>Activity.Recording__c</members>
-        <members>Activity.Salesforce_Id__c</members>
         <members>CampaignMember.Case_Id__c</members>
         <members>Case.Asset_Id__c</members>
         <members>Case.Assigned_To__c</members>
@@ -723,7 +693,6 @@
         <name>HomePageLayout</name>
     </types>
     <types>
-        <members>Five9</members>
         <members>Informatica</members>
         <name>InstalledPackage</name>
     </types>
@@ -785,7 +754,6 @@
         <name>Layout</name>
     </types>
     <types>
-        <members>Activity.All_Activities</members>
         <members>Adjustment__c.All</members>
         <members>Case.AllOpenCases</members>
         <members>Case.Automated_Cases_Case</members>
@@ -878,7 +846,6 @@
         <name>RecordType</name>
     </types>
     <types>
-        <members>Five9WebServices</members>
         <members>PhoneNumberVerification</members>
         <name>RemoteSiteSetting</name>
     </types>
@@ -917,7 +884,6 @@
         <members>Sirono_Reports/AR_Summary_Statement</members>
         <members>Sirono_Reports/AR_Summary_by_Coverage</members>
         <members>Sirono_Reports/A_R_Substatus_Final</members>
-        <members>Sirono_Reports/Call_Activity_Report</members>
         <members>Sirono_Reports/Payment_Frequency</members>
         <members>Sirono_Reports/Payment_Method</members>
         <members>Sirono_Reports/Payment_Plan_Type</members>

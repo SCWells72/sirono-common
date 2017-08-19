@@ -1,0 +1,44 @@
+<project name="init" default="help"
+         xmlns:sf="antlib:com.salesforce"
+         xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
+
+    <target name="help">
+        <echo message="Tasks to run for the initial deploy to a Dev org"/>
+    </target>
+
+
+    <target name="processTemplates"/>
+
+    <!-- TODO figure out when we actually want to deploy site -->
+    <target name="createSites">
+        <mkdir dir="${basedir}/src/sites"/>
+        <copy todir="${basedir}/src/sites" overwrite="true" encoding="UTF-8">
+            <fileset dir="${basedir}/template/sites"/>
+        </copy>
+
+        <echo message="Make ${sf.siteAdmin} admin for all sites"/>
+        <replace dir="${basedir}/src/sites" token="@SITE_ADMIN@" value="${sf.siteAdmin}" encoding="UTF-8">
+            <include name="*.site"/>
+        </replace>
+
+        <echo message="Set subdomain for all community sites to: ${sf.commSubDomain}"/>
+        <replace dir="${basedir}/src/sites" token="@SITE_SUBDOMAIN@" value="${sf.commSubDomain}" encoding="UTF-8">
+            <include name="Guarantor_Portal.site"/>
+        </replace>
+    </target>
+
+    <scriptdef name="getOrgName" language="javascript">
+        <attribute name="text"/>
+        <attribute name="property"/>
+        <![CDATA[
+       var str = attributes.get("text");
+       var end = str.indexOf("+");
+       project.setProperty(attributes.get("property"), str.substring(0, end));
+     ]]>
+    </scriptdef>
+
+    <target name="testGetOrgName">
+        <getOrgName text="${sf.target.username}" property="testorgName"/>
+        <echo message="testorgName = ${testorgName}"/>
+    </target>
+</project>
