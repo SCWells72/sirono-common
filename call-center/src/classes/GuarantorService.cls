@@ -271,19 +271,6 @@ global with sharing class GuarantorService extends AbstractService {
     }
 
     /**
-     * Get Contacts with Task based on contactIds, caseIds, five9Campaigns and callDispositions
-     *
-     * @param Set<Id> contactIds - A set of Contact Ids.
-     * @param Set<Id> caseIds - A set of Case Ids.
-     * @param Set<String> five9Campaigns - That contains five9Campaign names.
-     * @param Set<String> callDispositions - That contains call disposition values.
-     * @returns List<Contact> - The requested Contacts with Task that meet the criteria.
-     **/
-    public static List<Contact> getGuarantorsWithTask(Set<Id> contactIds, Set<Id> caseIds, Set<String> five9Campaigns, Set<String> callDispositions) {
-        return GuarantorDao.getGuarantorsWithTask(contactIds, caseIds, five9Campaigns, callDispositions);
-    }
-
-    /**
      * This method is use to update Contacts.
      *
      * @param List<Contact> contacts - That contains Guarantor/Contact records.

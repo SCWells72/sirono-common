@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (c) 2017-present Sirono LLC, All rights reserved
+  -->
+
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Five9AdapterConstants</members>
+        <members>Five9AdapterTestUtility</members>
+        <members>Five9ReportingException</members>
+        <members>Five9ReportRequestScheduler</members>
+        <members>Five9SoapClient</members>
+        <members>MissedCallReportDefinition</members>
+        <members>MissedCallReportDefinitionTest</members>
+        <members>MissedCallReportHandler</members>
+        <members>MissedCallReportProcessor</members>
+        <members>MissedCallReportProcessorTest</members>
+        <members>TaskDao</members>
+        <members>TaskDaoTest</members>
+        <members>TaskService</members>
+        <members>TaskServiceTest</members>
+        <members>TaskTriggerHandler</members>
+        <members>TaskTriggerHandlerTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>TaskTrigger</members>
+        <name>ApexTrigger</name>
+    </types>
+    <types>
+        <members>Five9LightningBasic</members>
+        <members>SFPlus</members>
+        <name>CallCenter</name>
+    </types>
+    <types>
+        <members>Activity.Call_End_Time__c</members>
+        <members>Activity.Call_Id__c</members>
+        <members>Activity.Call_Start_Time__c</members>
+        <members>Activity.Day_Of_Week__c</members>
+        <members>Activity.Disposition__c</members>
+        <members>Activity.Five9_Call_Time_Mins__c</members>
+        <members>Activity.Hour_Of_Day__c</members>
+        <members>Activity.Hours_Of_Day__c</members>
+        <members>Activity.Recording__c</members>
+        <members>Activity.Salesforce_Id__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Five9</members>
+        <name>InstalledPackage</name>
+    </types>
+    <types>
+        <members>Task-Task Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Activity.All_Activities</members>
+        <name>ListView</name>
+    </types>
+    <types>
+        <members>Five9WebServices</members>
+        <name>RemoteSiteSetting</name>
+    </types>
+    <types>
+        <members>Sirono_Reports/Call_Activity_Report</members>
+        <name>Report</name>
+    </types>
+    <version>40.0</version>
+</Package>

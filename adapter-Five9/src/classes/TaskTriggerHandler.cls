@@ -22,6 +22,30 @@ public with sharing class TaskTriggerHandler {
     public static final Integer MAX_RETRY_COUNT = 2;
     public static final Integer MAX_ERROR_COUNT = 5;
 
+    private static void assertAccessible(SObjectType type) {
+        if (!type.getDescribe().isAccessible()) {
+            throw new System.SecurityException('User does not have read access for '+type.getDescribe().name);
+        }
+    }
+
+    private static void assertUpdateable(SObjectType type) {
+        if (!type.getDescribe().isUpdateable()) {
+            throw new System.SecurityException('User does not have update permissions for '+type.getDescribe().name);
+        }
+    }
+
+    private static void assertDeletable(SObjectType type) {
+        if (!type.getDescribe().isDeletable()) {
+            throw new System.SecurityException('User does not have delete permissions for '+type.getDescribe().name);
+        }
+    }
+
+    private static void assertCreatable(SObjectType type) {
+        if (!type.getDescribe().isCreateable()) {
+            throw new System.SecurityException('User does not have create permissions for '+type.getDescribe().name);
+        }
+    }
+
     // Call removeFromCallList method when the task is inserted
     public static void afterInsert(List<Task> newList) {
         // Call closeCasesWithExhaustedCriteria method when Task is inserted.
@@ -54,14 +78,13 @@ public with sharing class TaskTriggerHandler {
         get {
             if (callListNameMap == null) {
                 callListNameMap = new Map<String, String>();
-                if (CampaignSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                    for (Campaign cm : [
-                        SELECT Id, Name, IsActive
-                        FROM Campaign
-                        WHERE IsActive = TRUE
-                    ]) {
-                        callListNameMap.put(cm.Name, String.valueOf(cm.Id));
-                    }
+                assertAccessible(Campaign.SObjectType);
+                for (Campaign cm : [
+                    SELECT Id, Name, IsActive
+                    FROM Campaign
+                    WHERE IsActive = TRUE
+                ]) {
+                    callListNameMap.put(cm.Name, String.valueOf(cm.Id));
                 }
             }
             return callListNameMap;
@@ -70,7 +93,6 @@ public with sharing class TaskTriggerHandler {
     }
     
     /**
-     * 11-28-2016 Viraj Rana: #133707065: Case to Call Activiy
      * This method is used to assign Latest Case Id in Task/Activity based on Campaign.
      *
      * @param List<Task> newList, New inserted Task List.
@@ -83,15 +105,15 @@ public with sharing class TaskTriggerHandler {
 
         Map<String, Task> mapTask = new Map<String, Task>();
 
-        if (CampaignMappingMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            for (Campaign_Mapping__mdt cm : [
-                SELECT MasterLabel, Salesforce_Campaign_Name__c
-                FROM Campaign_Mapping__mdt
-                WHERE Salesforce_Campaign_Name__c != NULL
-            ]) {
-                mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
-            }
+        assertAccessible(Campaign_Mapping__mdt.SObjectType);
+        for (Campaign_Mapping__mdt cm : [
+            SELECT MasterLabel, Salesforce_Campaign_Name__c
+            FROM Campaign_Mapping__mdt
+            WHERE Salesforce_Campaign_Name__c != NULL
+        ]) {
+            mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
         }
+
         for (Task t : newList) {
             String strFive9Campaign;
 
@@ -152,14 +174,12 @@ public with sharing class TaskTriggerHandler {
 
         Map<String, String> mapCampaignMapping = new Map<String, String>();
 
-        if (CampaignMappingMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            for (Campaign_Mapping__mdt cm : [
-                SELECT MasterLabel, Salesforce_Campaign_Name__c
-                FROM Campaign_Mapping__mdt
-                WHERE Salesforce_Campaign_Name__c != NULL
-            ]) {
-                mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
-            }
+        for (Campaign_Mapping__mdt cm : [
+            SELECT MasterLabel, Salesforce_Campaign_Name__c
+            FROM Campaign_Mapping__mdt
+            WHERE Salesforce_Campaign_Name__c != NULL
+        ]) {
+            mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
         }
 
         for (Task t : newList) {
@@ -196,23 +216,22 @@ public with sharing class TaskTriggerHandler {
             Set<String> exhaustedCaseIds = new Set<String>();
 
             // Get Exhausted Criteria data from Custom Meta Data.
-            if (ExhaustedCriteriaMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                for (Exhausted_Criteria__mdt ec : [
-                    SELECT MasterLabel, Disposition_Type__c
-                    FROM Exhausted_Criteria__mdt
-                    WHERE Disposition_Type__c != NULL
-                ]) {
-                    if (ec.Disposition_Type__c.equals(FINAL_DISPOSITION)) {
-                        finalDispositions.add(ec.MasterLabel);
-                    } else if (ec.Disposition_Type__c.equals(RETRY_DISPOSITION)) {
-                        retryDispositions.add(ec.MasterLabel);
-                    } else if (ec.Disposition_Type__c.equals(ERROR_DISPOSITION)) {
-                        errorDispositions.add(ec.MasterLabel);
-                    }
+            assertAccessible(Exhausted_Criteria__mdt.SObjectType);
+            for (Exhausted_Criteria__mdt ec : [
+                SELECT MasterLabel, Disposition_Type__c
+                FROM Exhausted_Criteria__mdt
+                WHERE Disposition_Type__c != NULL
+            ]) {
+                if (ec.Disposition_Type__c.equals(FINAL_DISPOSITION)) {
+                    finalDispositions.add(ec.MasterLabel);
+                } else if (ec.Disposition_Type__c.equals(RETRY_DISPOSITION)) {
+                    retryDispositions.add(ec.MasterLabel);
+                } else if (ec.Disposition_Type__c.equals(ERROR_DISPOSITION)) {
+                    errorDispositions.add(ec.MasterLabel);
                 }
             }
 
-            for (Contact c : GuarantorService.getGuarantorsWithTask(contactIds, caseIds, five9Campaigns, null)) {
+            for (Contact c : TaskDao.getGuarantorsWithTask(contactIds, caseIds, five9Campaigns, null)) {
                 Map<Id, ExhaustedCriteriaCounts> mapDispositionCounts = new Map<Id, ExhaustedCriteriaCounts>();
                 for (Task t : c.Tasks) {
                     if (finalDispositions.contains(t.CallDisposition)) {
@@ -243,33 +262,32 @@ public with sharing class TaskTriggerHandler {
                     }
                 }
             }
+
             if (finalCaseIds.size() > 0 || exhaustedCaseIds.size() > 0) {
                 Set<String> allCaseIds = new Set<String>();
                 allCaseIds.addAll(finalCaseIds);
                 allCaseIds.addAll(exhaustedCaseIds);
 
-                if (CaseSecurityContext.CU_SELECT_CONTEXT.actionAllowed()) {
-                    List<Case> lstCase = [
-                        SELECT Id, Status, Reason
-                        FROM Case
-                        WHERE Id IN :allCaseIds
-                        AND Status != :Constants.CASE_STATUS_CLOSED
-                    ];
+                assertAccessible(Case.SObjectType);
+                List<Case> lstCase = [
+                    SELECT Id, Status, Reason
+                    FROM Case
+                    WHERE Id IN :allCaseIds
+                    AND Status != :Constants.CASE_STATUS_CLOSED
+                ];
 
-                    if (lstCase.size() > 0) {
-                        for (Case c : lstCase) {
-                            if (finalCaseIds.contains(c.Id)) {
-                                c.Status = Constants.CASE_STATUS_CLOSED;
-                                c.Reason = Constants.CASE_REASON_CASE_CLOSED_FINAL;
-                            } else if (exhaustedCaseIds.contains(c.Id)) {
-                                c.Status = Constants.CASE_STATUS_CLOSED;
-                                c.Reason = Constants.CASE_REASON_CASE_CLOSED_EXHAUSTED;
-                            }
-                        }
-                        if (CaseSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                            update lstCase;
+                if (lstCase.size() > 0) {
+                    for (Case c : lstCase) {
+                        if (finalCaseIds.contains(c.Id)) {
+                            c.Status = Constants.CASE_STATUS_CLOSED;
+                            c.Reason = Constants.CASE_REASON_CASE_CLOSED_FINAL;
+                        } else if (exhaustedCaseIds.contains(c.Id)) {
+                            c.Status = Constants.CASE_STATUS_CLOSED;
+                            c.Reason = Constants.CASE_REASON_CASE_CLOSED_EXHAUSTED;
                         }
                     }
+                    assertUpdateable(Case.SObjectType);
+                    update lstCase;
                 }
             }
         }
@@ -292,20 +310,19 @@ public with sharing class TaskTriggerHandler {
         if (contactIds.size() > 0) {
             Map<String, ActivityCounterWrapper> counterMap = new Map<String, ActivityCounterWrapper>();
             Map<String, CampaignMember> cmMap = new Map<String, CampaignMember>();
-            if (CmpnMemberSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                for (CampaignMember cm : [
-                    SELECT Id, ContactId, CampaignId
-                    FROM CampaignMember
-                    WHERE ContactId IN :contactIds
-                    AND CampaignId IN :callListNameMap.values()
-                ]) {
-                    String keyStr = String.valueOf(cm.ContactId).substring(0, 15) + '-'
-                        + String.valueOf(cm.CampaignId).substring(0, 15);
-                    cmMap.put(keyStr, cm);
-                }
+            assertAccessible(CampaignMember.SObjectType);
+            for (CampaignMember cm : [
+                SELECT Id, ContactId, CampaignId
+                FROM CampaignMember
+                WHERE ContactId IN :contactIds
+                AND CampaignId IN :callListNameMap.values()
+            ]) {
+                String keyStr = String.valueOf(cm.ContactId).substring(0, 15) + '-'
+                    + String.valueOf(cm.CampaignId).substring(0, 15);
+                cmMap.put(keyStr, cm);
             }
 
-            for (Contact c : GuarantorService.getGuarantorsWithTask(contactIds, null, callListNameMap.keySet(), new Set<String> { 'Final', 'Retry', 'Error' })) {
+            for (Contact c : TaskDao.getGuarantorsWithTask(contactIds, null, callListNameMap.keySet(), new Set<String> { 'Final', 'Retry', 'Error' })) {
                 for (Task t : c.Tasks) {
                     if (callListNameMap.containsKey(t.Five9__Five9Campaign__c)) {
                         String keyStr = String.valueOf(c.Id).substring(0, 15) + '-'
@@ -327,6 +344,7 @@ public with sharing class TaskTriggerHandler {
                     }
                 }
             }
+
             List<CampaignMember> cmListToRemove = new List<CampaignMember>();
             for (String keyStr : counterMap.keySet()) {
                 ActivityCounterWrapper acw = counterMap.get(keyStr);
@@ -337,11 +355,8 @@ public with sharing class TaskTriggerHandler {
             }
 
             if (cmListToRemove.size() > 0) {
-                // Create instant of CmpnMemberSecurityContext class. It is use to check Delete access on Object.
-                CmpnMemberSecurityContext cmpnMemSecurityContext = new CmpnMemberSecurityContext();
-                if (cmpnMemSecurityContext.deleteActionAllowed()) {
-                    delete cmListToRemove;
-                }
+                assertDeletable(CampaignMember.SObjectType);
+                delete cmListToRemove;
             }
         }
     }
@@ -357,35 +372,32 @@ public with sharing class TaskTriggerHandler {
             return;
         }
 
-        if (UserTimezoneMdtSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            List<User_Timezone_Setting__mdt> lstUserSetting = [
-                SELECT Id, Timezone_Name__c
-                FROM User_Timezone_Setting__mdt
-                WHERE DeveloperName = 'Default'
-                LIMIT 1
-            ];
-            List<Task> lstTask = new List<Task>();
+        assertAccessible(User_Timezone_Setting__mdt.SObjectType);
+        List<User_Timezone_Setting__mdt> lstUserSetting = [
+            SELECT Id, Timezone_Name__c
+            FROM User_Timezone_Setting__mdt
+            WHERE DeveloperName = 'Default'
+            LIMIT 1
+        ];
+        List<Task> lstTask = new List<Task>();
 
-            for (Task objTask : newList) {
-                if (!lstUserSetting.isEmpty() && !String.isBlank(lstUserSetting[0].Timezone_Name__c)) {
-                    String selectedTimeZone = lstUserSetting[0].Timezone_Name__c;
-                    String strHours = objTask.CreatedDate.format('HH', selectedTimeZone);
-                    if (isUpdate) {
-                        objTask.Hours_Of_Day__c = Integer.valueOf(strHours);
-                    } else {
-                        Task tempTask = objTask.clone(true);
-                        tempTask.Hours_Of_Day__c = Integer.valueOf(strHours);
-                        lstTask.add(tempTask);
-                    }
+        for (Task objTask : newList) {
+            if (!lstUserSetting.isEmpty() && !String.isBlank(lstUserSetting[0].Timezone_Name__c)) {
+                String selectedTimeZone = lstUserSetting[0].Timezone_Name__c;
+                String strHours = objTask.CreatedDate.format('HH', selectedTimeZone);
+                if (isUpdate) {
+                    objTask.Hours_Of_Day__c = Integer.valueOf(strHours);
+                } else {
+                    Task tempTask = objTask.clone(true);
+                    tempTask.Hours_Of_Day__c = Integer.valueOf(strHours);
+                    lstTask.add(tempTask);
                 }
             }
-            if (!lstTask.isEmpty()) {
-                isRecursive = true;
-                if (TaskSecurityContext.UPDATE_CONTEXT.actionAllowed()) {
-                    update lstTask;
-                }
-                isRecursive = false;
-            }
+        }
+        if (!lstTask.isEmpty()) {
+            isRecursive = true;
+            TaskDao.upsertTasks(lstTask);
+            isRecursive = false;
         }
     }
 

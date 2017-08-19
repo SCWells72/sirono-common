@@ -235,17 +235,6 @@ public class TestUtility {
         return objcampaignMember;
     }
 
-    // return Task record
-    public static Task generateTask(Id guarantorContactId) {
-        Task objTask = new Task();
-        objTask.WhoId = guarantorContactId;
-        objTask.Priority = Constants.TASK_PRIORITY_NORMAL;
-        objTask.Status = Constants.TASK_STATUS_NEW;
-        objTask.CallDisposition = 'Final';
-        objTask.Five9__Five9Campaign__c = 'Pre-collection';
-        return objTask;
-    }
-
     /**
      * This method is use to Generate Exception.
      *

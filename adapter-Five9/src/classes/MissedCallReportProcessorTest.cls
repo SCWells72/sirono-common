@@ -11,7 +11,7 @@ public class MissedCallReportProcessorTest {
     public static void testData() {
         List<Contact> contacts = new List<Contact>();
         for (Integer i = 0; i < 3; i++) {
-            Contact contact = TestUtility.generateGuarantorContact();
+            Contact contact = Five9AdapterTestUtility.generateGuarantorContact();
             contact.LastName = 'LastName' + i;
             contact.FirstName = 'FirstName' + i;
             contacts.add(contact);

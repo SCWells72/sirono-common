@@ -35,7 +35,7 @@ public with sharing class TaskService extends AbstractService {
         }
 
         if (validatedTaskList.size() > 0) {
-            TaskDao.insertTasks(validatedTaskList);
+            TaskDao.upsertTasks(validatedTaskList);
         }
     }
 
