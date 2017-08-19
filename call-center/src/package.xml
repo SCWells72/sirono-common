@@ -208,8 +208,8 @@
         <members>ViewStatementExtensionTest</members>
         <members>VisualforceControllerUtil</members>
         <members>VisualforceControllerUtilTest</members>
-        <members>VisualforceValidations</members>
-        <members>VisualforceValidationsTest</members>
+        <members>VisualForceValidations</members>
+        <members>VisualForceValidationsTest</members>
         <members>WrapperBadResponse</members>
         <members>WrapperError</members>
         <members>WrapperErrorArray</members>
