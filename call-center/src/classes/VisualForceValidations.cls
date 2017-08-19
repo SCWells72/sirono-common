@@ -5,7 +5,7 @@
 /**
  * Validation class for Amount and Credit Card Validations.
  **/
-global with sharing class VisualforceValidations {
+global with sharing class VisualForceValidations {
 
     public static List<String> errorMessages = new List<String>();
 
