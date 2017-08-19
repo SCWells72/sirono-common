@@ -7,10 +7,10 @@
 */
 public virtual with sharing class HeaderWrapper {
     @AuraEnabled public Contact contact { get; set; }
-    @AuraEnabled public Invoice__c invoiceOverdue { get; set; }
+    @AuraEnabled public sPRS__Invoice__c invoiceOverdue { get; set; }
     @AuraEnabled public String messageInfo { get; set; }
     @AuraEnabled public String pastDueMessage { get; set; }
-    @AuraEnabled public Payment_Plan__c paymentPlan { get; set; }
+    @AuraEnabled public sPRS__Payment_Plan__c paymentPlan { get; set; }
     @AuraEnabled public Integer newEstimatesCount { get; set; }
     @AuraEnabled public Boolean balanceNoPaymentPlan { get; set; }
     @AuraEnabled public Boolean balanceHasPaymentPlan { get; set; }
@@ -19,7 +19,7 @@ public virtual with sharing class HeaderWrapper {
 
     public HeaderWrapper() {
     }
-    public HeaderWrapper(Contact contact, Invoice__c invoice, Payment_Plan__c paymentPlan, Integer estimateCount) {
+    public HeaderWrapper(Contact contact, sPRS__Invoice__c invoice, sPRS__Payment_Plan__c paymentPlan, Integer estimateCount) {
         this.messageInfo = '';
 
         this.invoiceOverdue = invoice;
@@ -29,23 +29,23 @@ public virtual with sharing class HeaderWrapper {
     }
 
     public virtual String getGuarantorStatus() {
-        return this.contact.Guarantor_Status__c;
+        return this.contact.sPRS__Guarantor_Status__c;
     }
 
     public virtual Boolean hasAddToPaymentPlan() {
-        return this.contact.Add_To_Payment_Plan__c == true;
+        return this.contact.sPRS__Add_To_Payment_Plan__c == true;
     }
 
     public virtual String getPaymentPlanStanding() {
-        return this.paymentPlan.Payment_Plan_Standing__c;
+        return this.paymentPlan.sPRS__Payment_Plan_Standing__c;
     }
 
     public virtual Boolean getPaymentPlanActive() {
-        return this.paymentPlan.Active__c == true;
+        return this.paymentPlan.sPRS__Active__c == true;
     }
 
     public virtual String getPaymentPlanType() {
-        return this.paymentPlan.Plan_Type__c;
+        return this.paymentPlan.sPRS__Plan_Type__c;
     }
 
     public virtual Boolean hasPaymentPlan() {

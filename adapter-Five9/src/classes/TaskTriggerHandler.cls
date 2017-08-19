@@ -24,25 +24,25 @@ public with sharing class TaskTriggerHandler {
 
     private static void assertAccessible(SObjectType type) {
         if (!type.getDescribe().isAccessible()) {
-            throw new System.SecurityException('User does not have read access for '+type.getDescribe().name);
+            throw new System.SecurityException('User does not have read access for ' + type.getDescribe().name);
         }
     }
 
     private static void assertUpdateable(SObjectType type) {
         if (!type.getDescribe().isUpdateable()) {
-            throw new System.SecurityException('User does not have update permissions for '+type.getDescribe().name);
+            throw new System.SecurityException('User does not have update permissions for ' + type.getDescribe().name);
         }
     }
 
     private static void assertDeletable(SObjectType type) {
         if (!type.getDescribe().isDeletable()) {
-            throw new System.SecurityException('User does not have delete permissions for '+type.getDescribe().name);
+            throw new System.SecurityException('User does not have delete permissions for ' + type.getDescribe().name);
         }
     }
 
     private static void assertCreatable(SObjectType type) {
         if (!type.getDescribe().isCreateable()) {
-            throw new System.SecurityException('User does not have create permissions for '+type.getDescribe().name);
+            throw new System.SecurityException('User does not have create permissions for ' + type.getDescribe().name);
         }
     }
 
@@ -107,11 +107,11 @@ public with sharing class TaskTriggerHandler {
 
         assertAccessible(Campaign_Mapping__mdt.SObjectType);
         for (Campaign_Mapping__mdt cm : [
-            SELECT MasterLabel, Salesforce_Campaign_Name__c
+            SELECT MasterLabel, sPRS__Salesforce_Campaign_Name__c
             FROM Campaign_Mapping__mdt
-            WHERE Salesforce_Campaign_Name__c != NULL
+            WHERE sPRS__Salesforce_Campaign_Name__c != NULL
         ]) {
-            mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
+            mapCampaignMapping.put(cm.MasterLabel, cm.sPRS__Salesforce_Campaign_Name__c);
         }
 
         for (Task t : newList) {
@@ -175,11 +175,11 @@ public with sharing class TaskTriggerHandler {
         Map<String, String> mapCampaignMapping = new Map<String, String>();
 
         for (Campaign_Mapping__mdt cm : [
-            SELECT MasterLabel, Salesforce_Campaign_Name__c
+            SELECT MasterLabel, sPRS__Salesforce_Campaign_Name__c
             FROM Campaign_Mapping__mdt
-            WHERE Salesforce_Campaign_Name__c != NULL
+            WHERE sPRS__Salesforce_Campaign_Name__c != NULL
         ]) {
-            mapCampaignMapping.put(cm.MasterLabel, cm.Salesforce_Campaign_Name__c);
+            mapCampaignMapping.put(cm.MasterLabel, cm.sPRS__Salesforce_Campaign_Name__c);
         }
 
         for (Task t : newList) {
@@ -218,15 +218,15 @@ public with sharing class TaskTriggerHandler {
             // Get Exhausted Criteria data from Custom Meta Data.
             assertAccessible(Exhausted_Criteria__mdt.SObjectType);
             for (Exhausted_Criteria__mdt ec : [
-                SELECT MasterLabel, Disposition_Type__c
+                SELECT MasterLabel, sPRS__Disposition_Type__c
                 FROM Exhausted_Criteria__mdt
-                WHERE Disposition_Type__c != NULL
+                WHERE sPRS__Disposition_Type__c != NULL
             ]) {
-                if (ec.Disposition_Type__c.equals(FINAL_DISPOSITION)) {
+                if (ec.sPRS__Disposition_Type__c.equals(FINAL_DISPOSITION)) {
                     finalDispositions.add(ec.MasterLabel);
-                } else if (ec.Disposition_Type__c.equals(RETRY_DISPOSITION)) {
+                } else if (ec.sPRS__Disposition_Type__c.equals(RETRY_DISPOSITION)) {
                     retryDispositions.add(ec.MasterLabel);
-                } else if (ec.Disposition_Type__c.equals(ERROR_DISPOSITION)) {
+                } else if (ec.sPRS__Disposition_Type__c.equals(ERROR_DISPOSITION)) {
                     errorDispositions.add(ec.MasterLabel);
                 }
             }
@@ -374,7 +374,7 @@ public with sharing class TaskTriggerHandler {
 
         assertAccessible(User_Timezone_Setting__mdt.SObjectType);
         List<User_Timezone_Setting__mdt> lstUserSetting = [
-            SELECT Id, Timezone_Name__c
+            SELECT Id, sPRS__Timezone_Name__c
             FROM User_Timezone_Setting__mdt
             WHERE DeveloperName = 'Default'
             LIMIT 1
@@ -382,14 +382,14 @@ public with sharing class TaskTriggerHandler {
         List<Task> lstTask = new List<Task>();
 
         for (Task objTask : newList) {
-            if (!lstUserSetting.isEmpty() && !String.isBlank(lstUserSetting[0].Timezone_Name__c)) {
-                String selectedTimeZone = lstUserSetting[0].Timezone_Name__c;
+            if (!lstUserSetting.isEmpty() && !String.isBlank(lstUserSetting[0].sPRS__Timezone_Name__c)) {
+                String selectedTimeZone = lstUserSetting[0].sPRS__Timezone_Name__c;
                 String strHours = objTask.CreatedDate.format('HH', selectedTimeZone);
                 if (isUpdate) {
-                    objTask.Hours_Of_Day__c = Integer.valueOf(strHours);
+                    objTask.sPRS__Hours_Of_Day__c = Integer.valueOf(strHours);
                 } else {
                     Task tempTask = objTask.clone(true);
-                    tempTask.Hours_Of_Day__c = Integer.valueOf(strHours);
+                    tempTask.sPRS__Hours_Of_Day__c = Integer.valueOf(strHours);
                     lstTask.add(tempTask);
                 }
             }

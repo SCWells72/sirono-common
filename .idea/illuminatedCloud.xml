@@ -4,14 +4,30 @@
     <option name="connections">
       <list>
         <IlluminatedCloudConnection>
-          <option name="connectionName" value="sirono-call-center" />
-          <option name="defaultModuleName" value="call-center" />
-          <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/sirono_call_center/OfflineSymbolTable.zip" />
-        </IlluminatedCloudConnection>
-        <IlluminatedCloudConnection>
-          <option name="connectionName" value="sirono-portal" />
-          <option name="defaultModuleName" value="portal" />
-          <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/sirono_portal/OfflineSymbolTable.zip" />
+          <option name="connectionName" value="sirono_local" />
+          <option name="developmentPackages">
+            <list>
+              <DevelopmentPackageExt>
+                <option name="description" value="Sirono Five9 Adapter" />
+                <option name="moduleName" value="adapter-Five9" />
+                <option name="name" value="Sirono Five9 Adapter" />
+              </DevelopmentPackageExt>
+              <DevelopmentPackageExt>
+                <option name="description" value="Sirono PRS" />
+                <option name="managed" value="true" />
+                <option name="moduleName" value="call-center" />
+                <option name="name" value="Sirono PRS" />
+                <option name="namespace" value="sPRS" />
+              </DevelopmentPackageExt>
+              <DevelopmentPackageExt>
+                <option name="description" value="Sirono PFP" />
+                <option name="moduleName" value="portal" />
+                <option name="name" value="Sirono PFP" />
+                <option name="namespace" value="sPRS" />
+              </DevelopmentPackageExt>
+            </list>
+          </option>
+          <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/sirono_local/OfflineSymbolTable.zip" />
         </IlluminatedCloudConnection>
       </list>
     </option>

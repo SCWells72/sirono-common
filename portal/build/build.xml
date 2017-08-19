@@ -15,8 +15,17 @@
              classpath="${libdir}/ml-ant-http-1.1.3.jar"/>
 
     <property file="${basedir}/../build/build.properties"/>
-    <property file="${basedir}/build/build.properties"/>
     <property environment="env"/>
+
+    <!-- Set the connection properties based on the sPFP values -->
+    <property name="sf.source.username" value="${sf.spfp.source.username}"/>
+    <property name="sf.source.password" value="${sf.spfp.source.password}"/>
+    <property name="sf.source.serverurl" value="${sf.spfp.source.serverurl}"/>
+    <property name="sf.target.username" value="${sf.spfp.target.username}"/>
+    <property name="sf.target.password" value="${sf.spfp.target.password}"/>
+    <property name="sf.target.serverurl" value="${sf.spfp.target.serverurl}"/>
+
+    <echo>Building sPFP for target ${sf.target.username} / source ${sf.source.username}.</echo>
 
     <import file="${basedir}/../build/build-common.xml"/>
     <import file="build_initial_deploy.xml"/>

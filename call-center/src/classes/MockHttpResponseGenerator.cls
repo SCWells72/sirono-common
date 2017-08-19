@@ -69,10 +69,8 @@ global class MockHttpResponseGenerator implements HttpCalloutMock {
         return null;
     }
 
-    @TestVisible
-    private static String guarantorSironoId = '23232323';
-    @TestVisible
-    private static String planSironoId = '2876';
+    global static String guarantorSironoId = '23232323';
+    global static String planSironoId = '2876';
 
     public static String getPaymentPlanJSONBody() {
         String body = '{' +

@@ -17,12 +17,12 @@
                 component.set('v.guarantorWrapper', guarantorWrapper);
                 // Only update the paymentPlan specific attributes if a payment plan exists.
                 if (guarantorWrapper.paymentPlan) {
-                    component.set('v.invoiceValue', formatter.format(Math.floor(guarantorWrapper.paymentPlan.Installment_Amount__c)));
-                    component.set('v.invoiceValuePart', (guarantorWrapper.paymentPlan.Installment_Amount__c % 1).toFixed(2).toString().substring(2));
+                    component.set('v.invoiceValue', formatter.format(Math.floor(guarantorWrapper.paymentPlan.sPRS__Installment_Amount__c)));
+                    component.set('v.invoiceValuePart', (guarantorWrapper.paymentPlan.sPRS__Installment_Amount__c % 1).toFixed(2).toString().substring(2));
                 }
                 if (guarantorWrapper.contact) {
-                    component.set('v.warningMessage', guarantorWrapper.contact.Guarantor_Status__c == 'Overdue');
-                    component.set('v.errorMessage', guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent');
+                    component.set('v.warningMessage', guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Overdue');
+                    component.set('v.errorMessage', guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Delinquent');
                 }
 
             }

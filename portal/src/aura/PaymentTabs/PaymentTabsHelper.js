@@ -12,7 +12,7 @@
         invoices.forEach(function (invoice) {
             ;(invoice.allGroups || []).forEach(function (groupWr) {
                 var group = groupWr.cGroup;
-                if (group.Active__c && group.Balance__c && group.Sirono_Id__c) {
+                if (group.sPRS__Active__c && group.sPRS__Balance__c && group.sPRS__Sirono_Id__c) {
                     if (addOrRemove) {
                         groupsToAdd.push(group);
                     } else {
@@ -69,34 +69,34 @@
 
         if (paymentInfo.hasPaymentPlan) {
             initInfo.sfId = paymentInfo.paymentPlan.Id;
-            initInfo.paymentPlanId = paymentInfo.paymentPlan.Sirono_Id__c;
-            initInfo.totalAmount = paymentInfo.paymentPlan.Remaining_Balance__c;
-            initInfo.planValue = paymentInfo.paymentPlan.Installment_Amount__c;
-            initInfo.executeOnDay = paymentInfo.paymentPlan.Execute_On_Day__c;
-            initInfo.totalInstallments = paymentInfo.paymentPlan.Remaining_Installment_Count__c;
+            initInfo.paymentPlanId = paymentInfo.paymentPlan.sPRS__Sirono_Id__c;
+            initInfo.totalAmount = paymentInfo.paymentPlan.sPRS__Remaining_Balance__c;
+            initInfo.planValue = paymentInfo.paymentPlan.sPRS__Installment_Amount__c;
+            initInfo.executeOnDay = paymentInfo.paymentPlan.sPRS__Execute_On_Day__c;
+            initInfo.totalInstallments = paymentInfo.paymentPlan.sPRS__Remaining_Installment_Count__c;
             return initInfo;
         }
 
         if (paymentInfo.chargeGroups) {
             var groupsList = [];
             paymentInfo.chargeGroups.forEach(function (group) {
-                if (group.Balance__c && group.Sirono_Id__c) {
-                    groupsList.push(group.Sirono_Id__c);
-                    initInfo.totalAmount += parseFloat(group.Balance__c ? group.Balance__c : 0);
+                if (group.sPRS__Balance__c && group.sPRS__Sirono_Id__c) {
+                    groupsList.push(group.sPRS__Sirono_Id__c);
+                    initInfo.totalAmount += parseFloat(group.sPRS__Balance__c ? group.sPRS__Balance__c : 0);
                 }
             });
             initInfo.chargeGroupId = groupsList.join(',');
         }
 
         if (paymentInfo.settings) {
-            if (paymentInfo.settings.Min_Installment_Amount__c) {
-                initInfo.planValue = paymentInfo.settings.Min_Installment_Amount__c;
+            if (paymentInfo.settings.sPRS__Min_Installment_Amount__c) {
+                initInfo.planValue = paymentInfo.settings.sPRS__Min_Installment_Amount__c;
 
             }
-            if (paymentInfo.settings.Max_Number_Plan_Installments__c) {
-                initInfo.totalInstallments = paymentInfo.settings.Max_Number_Plan_Installments__c;
+            if (paymentInfo.settings.sPRS__Max_Number_Plan_Installments__c) {
+                initInfo.totalInstallments = paymentInfo.settings.sPRS__Max_Number_Plan_Installments__c;
 
-                var calcPlanValue = parseFloat(initInfo.totalAmount / paymentInfo.settings.Max_Number_Plan_Installments__c, 10);
+                var calcPlanValue = parseFloat(initInfo.totalAmount / paymentInfo.settings.sPRS__Max_Number_Plan_Installments__c, 10);
                 //console.log('initially calcPlanValue: ' + calcPlanValue );
                 if (calcPlanValue < initInfo.planValue) {
                     initInfo.totalInstallments = Math.ceil(initInfo.totalAmount / initInfo.planValue, 10);

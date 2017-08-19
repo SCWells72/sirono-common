@@ -627,7 +627,7 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <searchResultsAdditionalFields>Procedure__c</searchResultsAdditionalFields>
         <searchResultsCustomButtons>Pay_Estimate</searchResultsCustomButtons>
     </searchLayouts>
-    <sharingModel>ReadWrite</sharingModel>
+    <sharingModel>Private</sharingModel>
     <startsWith>Vowel</startsWith>
     <visibility>Public</visibility>
     <webLinks>
@@ -640,7 +640,7 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <masterLabel>Add Attachment</masterLabel>
         <openType>sidebar</openType>
         <protected>false</protected>
-        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}UploadAttachmentPage?id={!Encounter__c.Id }</url>
+        <url>/apex/sPRS__UploadAttachmentPage?id={!Encounter__c.Id }</url>
     </webLinks>
     <webLinks>
         <fullName>Pay_Estimate</fullName>
@@ -652,6 +652,6 @@ IF(AND(ISPICKVAL(Status__c, &quot;Ready&quot;), Balance__c &lt;= 0, Billed_Charg
         <openType>replace</openType>
         <protected>false</protected>
         <requireRowSelection>false</requireRowSelection>
-        <url>&quot;/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}PayEstimate?id={!Contact.Id}&quot;</url>
+        <url>&quot;/apex/sPRS__PayEstimate?id={!Contact.Id}&quot;</url>
     </webLinks>
 </CustomObject>

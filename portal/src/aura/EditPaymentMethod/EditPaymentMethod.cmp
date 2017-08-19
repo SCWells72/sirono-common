@@ -50,7 +50,7 @@
         </div>
         <div class="float-right slds-p-top--large">
             <button class="slds-button slds-button--neutral" onclick="{!c.cancelAction}">Cancel</button>
-            <button class="slds-button slds-button--brand" disabled="{! not(v.hasCreditCard) || (v.selectedCardId == v.PaymentInfo.paymentPlan.Payment_Method__c)}" onclick="{!c.updatePaymentMethod}">Update Payment Method</button>
+            <button class="slds-button slds-button--brand" disabled="{! not(v.hasCreditCard) || (v.selectedCardId == v.PaymentInfo.paymentPlan.sPRS__Payment_Method__c)}" onclick="{!c.updatePaymentMethod}">Update Payment Method</button>
         </div>
     </div>
 

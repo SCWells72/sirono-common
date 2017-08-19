@@ -88,4 +88,8 @@ public class PortalConstants {
         PERMISSION_SET_SIRONO_ADMIN,
         PERMISSION_SET_SIRONO_ADMIN_LOCAL
     };
+    
+    public static final String RECORD_TYPE_GUARANTOR = 'Guarantor';
+    public static final String RECORD_TYPE_PATIENT = 'Patient';
+    public static final String RECORD_TYPE_EXTERNAL_GUARANTOR = 'External Guarantor';
 }

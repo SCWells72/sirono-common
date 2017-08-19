@@ -16,30 +16,30 @@ private class WorkWithPaymentsControllerTest {
             for (RecordType recordType : [
                 SELECT Id, Name
                 FROM RecordType
-                WHERE SobjectType = 'Payment_Method__c'
+                WHERE SobjectType = 'sPRS__Payment_Method__c'
             ]) {
                 recordTypeMap.put(recordType.Name, recordType.Id);
             }
 
-            Payment_Method__c pmCreditCard = PortalTestUtility.generatePaymentMethod(guarantorContact.Id, recordTypeMap.get('Credit Card'));
-            pmCreditCard.Card_Type__c = 'Visa';
-            pmCreditCard.Last_4__c = '1111';
+            sPRS__Payment_Method__c pmCreditCard = PortalTestUtility.generatePaymentMethod(guarantorContact.Id, recordTypeMap.get('Credit Card'));
+            pmCreditCard.sPRS__Card_Type__c = 'Visa';
+            pmCreditCard.sPRS__Last_4__c = '1111';
 
-            Payment_Method__c pmCheck = PortalTestUtility.generatePaymentMethod(guarantorContact.Id, recordTypeMap.get('Check/Cash'));
+            sPRS__Payment_Method__c pmCheck = PortalTestUtility.generatePaymentMethod(guarantorContact.Id, recordTypeMap.get('Check/Cash'));
 
-            List<Payment_Method__c> paymentMethods = new List<Payment_Method__c> { pmCreditCard, pmCheck };
+            List<sPRS__Payment_Method__c> paymentMethods = new List<sPRS__Payment_Method__c> { pmCreditCard, pmCheck };
             insert paymentMethods;
 
-            Payment__c payment1 = PortalTestUtility.generateSironoPayment(guarantorContact.Id, 1234, 12);
-            payment1.Payment_Method__c = pmCreditCard.Id;
-            payment1.Method__c = 'Credit';
+            sPRS__Payment__c payment1 = PortalTestUtility.generateSironoPayment(guarantorContact.Id, 1234, 12);
+            payment1.sPRS__Payment_Method__c = pmCreditCard.Id;
+            payment1.sPRS__Method__c = 'Credit';
 
-            Payment__c payment2 = PortalTestUtility.generateSironoPayment(guarantorContact.Id, 1235, 25);
-            payment2.Payment_Method__c = pmCheck.Id;
-            payment2.Method__c = 'Check';
-            payment2.Processor_Transaction_Id__c = '12345qwert';
+            sPRS__Payment__c payment2 = PortalTestUtility.generateSironoPayment(guarantorContact.Id, 1235, 25);
+            payment2.sPRS__Payment_Method__c = pmCheck.Id;
+            payment2.sPRS__Method__c = 'Check';
+            payment2.sPRS__Processor_Transaction_Id__c = '12345qwert';
 
-            List<Payment__c> payments = new List<Payment__c> { payment1, payment2 };
+            List<sPRS__Payment__c> payments = new List<sPRS__Payment__c> { payment1, payment2 };
             insert payments;
         }
 

@@ -56,7 +56,7 @@
                         </span>
                         <div aura:id="sldsjsPopoverInfo" class="sldsjs-popover-target slds-popover slds-popover--tooltip slds-nubbin--top-right slds-hide" role="tooltip" id="help" style="position:absolute;top:45px;right:-6px;">
                             <div class="slds-popover__body">
-                            {! $Label.c.Payment_amount_and_time_tooltip_message_before_months}&nbsp;{!v.PaymentInfo.settings.Max_Number_Plan_Installments__c}&nbsp;{! $Label.c.Payment_amount_and_time_tooltip_message_after_months}&nbsp;${!v.PaymentInfo.settings.Min_Installment_Amount__c}
+                            {! $Label.c.Payment_amount_and_time_tooltip_message_before_months}&nbsp;{!v.PaymentInfo.settings.sPRS__Max_Number_Plan_Installments__c}&nbsp;{! $Label.c.Payment_amount_and_time_tooltip_message_after_months}&nbsp;${!v.PaymentInfo.settings.sPRS__Min_Installment_Amount__c}
                             </div>
                         </div>
                     </div>

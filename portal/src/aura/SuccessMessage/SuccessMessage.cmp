@@ -4,7 +4,7 @@
 
 <aura:component>
     <aura:attribute name="PlanInfoRecord" type="Object" access="GLOBAL"/>
-    <aura:attribute name="Payment" type="Payment__c" access="GLOBAL"/>
+    <aura:attribute name="Payment" type="sPRS__Payment__c" access="GLOBAL"/>
     <aura:attribute name="isPaymentCompleted" type="Boolean" access="GLOBAL" default="false"/>
     <aura:attribute name="isEstimatePayment" type="Boolean" access="GLOBAL" default="false"/>
     <aura:attribute name="trNumber" type="String" access="GLOBAL"/>
@@ -36,8 +36,8 @@
                 </div>
             </div>
             <div class="{!v.isPaymentCompleted ? 'slds-hide' : ''}">
-                <p>Next payment of <ui:outputCurrency value="{!v.PlanInfoRecord.Installment_Amount__c}"/> scheduled for <ui:outputDate value="{!v.PlanInfoRecord.NextPaymentDate__c}" format="MMMM d, YYYY"/></p>
-                <p class="title"><em>Your card will be charged <ui:outputCurrency value="{!v.PlanInfoRecord.Installment_Amount__c}"/> on <ui:outputDate value="{!v.PlanInfoRecord.NextPaymentDate__c}" format="MMMM d, YYYY"/> and on day <ui:outputText value="{!v.PlanInfoRecord.Execute_On_Day__c}"/> of each month thereafter until paid in full.</em></p>
+                <p>Next payment of <ui:outputCurrency value="{!v.PlanInfoRecord.sPRS__Installment_Amount__c}"/> scheduled for <ui:outputDate value="{!v.PlanInfoRecord.sPRS__NextPaymentDate__c}" format="MMMM d, YYYY"/></p>
+                <p class="title"><em>Your card will be charged <ui:outputCurrency value="{!v.PlanInfoRecord.sPRS__Installment_Amount__c}"/> on <ui:outputDate value="{!v.PlanInfoRecord.sPRS__NextPaymentDate__c}" format="MMMM d, YYYY"/> and on day <ui:outputText value="{!v.PlanInfoRecord.sPRS__Execute_On_Day__c}"/> of each month thereafter until paid in full.</em></p>
             </div>
 
             <div class="{!and(v.isPaymentCompleted, v.isOnPaymentPage) ? '' : 'slds-hide'}">

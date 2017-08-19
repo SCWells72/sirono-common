@@ -298,42 +298,42 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>Contact.Login_As_Portal_User</actionName>
+            <actionName>Contact.sPRS__Login_As_Portal_User</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>2</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Add_Adjustment</actionName>
+            <actionName>sPRS__Add_Adjustment</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>3</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Add_Discount</actionName>
+            <actionName>sPRS__Add_Discount</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>4</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Create_Payment_Plan</actionName>
+            <actionName>sPRS__Create_Payment_Plan</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>5</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Process_Payment</actionName>
+            <actionName>sPRS__Process_Payment</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>6</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Add_Case</actionName>
+            <actionName>sPRS__Add_Case</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>7</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Add_to_Payment_Plan</actionName>
+            <actionName>sPRS__Add_to_Payment_Plan</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>8</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Pay_Estimate</actionName>
+            <actionName>sPRS__Pay_Estimate</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>9</sortOrder>
         </platformActionListItems>

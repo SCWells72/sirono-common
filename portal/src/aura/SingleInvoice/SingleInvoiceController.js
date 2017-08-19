@@ -10,8 +10,8 @@
         var isPayment = true;
         if(allGroups != undefined && allGroups.length != 0){
             for(var i = 0; i < allGroups.length; i++){
-            console.log('PP:', allGroups[i].cGroup.Payment_Plan__c);
-                if((allGroups[i].cGroup.Payment_Plan__c != undefined && allGroups[i].cGroup.Payment_Plan__r.Active__c == false) || allGroups[i].cGroup.Payment_Plan__c == undefined){
+            console.log('PP:', allGroups[i].cGroup.sPRS__Payment_Plan__c);
+                if((allGroups[i].cGroup.sPRS__Payment_Plan__c != undefined && allGroups[i].cGroup.sPRS__Payment_Plan__r.sPRS__Active__c == false) || allGroups[i].cGroup.sPRS__Payment_Plan__c == undefined){
                     isPayment = false;
                 }
             }
@@ -20,7 +20,7 @@
         console.log('isLock', isPayment);*/
         var invoice = component.get('v.invoice');
         var selectedTab = component.get('v.selectedTab');
-        if (invoice.singleInvoice.Status__c == 'On Payment Plan' && selectedTab == 'CreatePaymentPlan') {
+        if (invoice.singleInvoice.sPRS__Status__c == 'On Payment Plan' && selectedTab == 'CreatePaymentPlan') {
             component.set('v.isLock', true);
         }
     },

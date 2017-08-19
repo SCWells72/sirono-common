@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  ~ Copyright (c) 2017-present Sirono LLC, All rights reserved
-  -->
-
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <name>Sirono_Call_Center_Console</name>
@@ -26,6 +22,12 @@
         <members>Charge_Group__c.ReCalculate_Fields__c</members>
         <members>Charge_Group__c.SelfPay_Bucket__c</members>
         <members>Contact.Invoice_Status_Rollup__c</members>
+        <members>Sirono_Settings__c.Max_Number_Plan_Installments__c</members>
+        <members>Sirono_Settings__c.Min_Installment_Amount__c</members>
+        <members>Sirono_Settings__c.Min_Number_Plan_Installments__c</members>
+        <members>Sirono_Settings__c.NS_Bar_Prefix__c</members>
+        <members>Sirono_Settings__c.NS_Dot_Prefix__c</members>
+        <members>Sirono_Settings__c.NS_Prefix__c</members>
         <members>Transaction__c.Adjustment__c</members>
         <members>Transaction__c.Service__c</members>
         <members>Transaction__c.Credit_Balance__c</members>

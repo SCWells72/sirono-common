@@ -61,7 +61,7 @@ public with sharing class PortalUIUtils {
         outputMap.put(PortalConstants.YEARS, yearOptions);
 
         Map<String, String> monthsOptions = new Map<String, String>();
-        for (SelectOption selection : UIUtils.expMonthOptions) {
+        for (SelectOption selection : PortalUIUtils.expMonthOptions) {
             monthsOptions.put(selection.getValue(), selection.getLabel());
         }
         outputMap.put(PortalConstants.MONTHS, monthsOptions);

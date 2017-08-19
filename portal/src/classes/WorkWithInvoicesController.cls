@@ -56,9 +56,9 @@ public with sharing class WorkWithInvoicesController {
         UserWrapper user = UserService.getCurrentUser();
 
         if (user.contactId != null) {
-            List<Encounter__c> listOfEncounters = EncounterService.getForInvoice(user.contactId, invoiceId);
+            List<sPRS__Encounter__c> listOfEncounters = sPRS.EncounterService.getForInvoice(user.contactId, invoiceId);
 
-            for (Encounter__c encounter : listOfEncounters) {
+            for (sPRS__Encounter__c encounter : listOfEncounters) {
                 allEstimates.add(new WorkWithEstimatesController.EstimateWrapper(encounter));
             }
         }
@@ -77,7 +77,7 @@ public with sharing class WorkWithInvoicesController {
         UserWrapper user = UserService.getCurrentUser();
 
         if (user.contactId != null) {
-            List<Invoice__c> listOfInvoices = InvoiceService.getInvoiceDetails(user.contactId, invoiceId);
+            List<sPRS__Invoice__c> listOfInvoices = sPRS.InvoiceService.getInvoiceDetails(user.contactId, invoiceId);
             allInvoices = convertToInvoiceWrappers(listOfInvoices);
         }
 
@@ -90,19 +90,19 @@ public with sharing class WorkWithInvoicesController {
      * @param {List<Invoice__c> invoices - The list of invoice objects.
      * @returns {List<InvoicesWrapper> - The list of InvoicesWrapper objects.
      */
-    public static List<InvoicesWrapper> convertToInvoiceWrappers(List<Invoice__c> invoices) {
+    public static List<InvoicesWrapper> convertToInvoiceWrappers(List<sPRS__Invoice__c> invoices) {
         List<InvoicesWrapper> invoiceWrappers = new List<InvoicesWrapper>();
 
         if (invoices.size() > 0) {
 
-            Set<Id> allChargeGroupIds = InvoiceService.getChargeGroupIds(invoices);
+            Set<Id> allChargeGroupIds = sPRS.InvoiceService.getChargeGroupIds(invoices);
 
             // Get Charge Group List from ChargeGroupService class. Second parameter is use to get the order by result.
-            List<Charge_Group__c> allGroups = ChargeGroupService.getCGForInvoiceController(allChargeGroupIds, true);
+            List<sPRS__Charge_Group__c> allGroups = sPRS.ChargeGroupService.getCGForInvoiceController(allChargeGroupIds, true);
 
-            Map<Id, Charge_Group__c> allGroupsMap = new Map<Id, Charge_Group__c>(allGroups);
+            Map<Id, sPRS__Charge_Group__c> allGroupsMap = new Map<Id, sPRS__Charge_Group__c>(allGroups);
 
-            for (Invoice__c invoice : invoices) {
+            for (sPRS__Invoice__c invoice : invoices) {
                 invoiceWrappers.add(new InvoicesWrapper(invoice, allGroupsMap));
             }
         }
@@ -123,8 +123,8 @@ public with sharing class WorkWithInvoicesController {
             return patients;
         }
 
-        List<Invoice__c> invoiceList = InvoiceService.getPatientInvoices(user.contactId);
-        for (Invoice__c inv : invoiceList) {
+        List<sPRS__Invoice__c> invoiceList = sPRS.InvoiceService.getPatientInvoices(user.contactId);
+        for (sPRS__Invoice__c inv : invoiceList) {
             patients.add(new PatientWrapper(inv));
         }
         return patients;
@@ -141,7 +141,7 @@ public with sharing class WorkWithInvoicesController {
      */
     private static List<InvoicesWrapper> getInvoicesForUser(UserWrapper user, String groupFilter, List<String> patients) {
 
-        List<Invoice__c> listOfInvoices = new List<Invoice__c>();
+        List<sPRS__Invoice__c> listOfInvoices = new List<sPRS__Invoice__c>();
         Set<String> invoiceStatuses = new Set<String>();
         if (groupFilter != null && groupFilter != '' && groupFilter != 'All') {
             if (groupFilter == PortalConstants.UNPAID) {
@@ -153,30 +153,30 @@ public with sharing class WorkWithInvoicesController {
             }
         }
 
-        listOfInvoices = InvoiceService.getInvoicesForUser(user.contactId, invoiceStatuses, patients);
+        listOfInvoices = sPRS.InvoiceService.getInvoicesForUser(user.contactId, invoiceStatuses, patients);
 
         return convertToInvoiceWrappers(listOfInvoices);
     }
 
     public class InvoicesWrapper {
-        @AuraEnabled Invoice__c singleInvoice { get; set; }
+        @AuraEnabled sPRS__Invoice__c singleInvoice { get; set; }
         @AuraEnabled Decimal balanceDue { get; set; }
         @AuraEnabled public List<ChargeGroupWrapper> allGroups { get; set; }
         @AuraEnabled Decimal nextPayment { get; set; }
         @AuraEnabled Date nextDate { get; set; }
 
-        public InvoicesWrapper(Invoice__c invoice, Map<Id, Charge_Group__c> allGroupsMap) {
+        public InvoicesWrapper(sPRS__Invoice__c invoice, Map<Id, sPRS__Charge_Group__c> allGroupsMap) {
             this.singleInvoice = invoice;
-            this.balanceDue = invoice.Balance__c;
+            this.balanceDue = invoice.sPRS__Balance__c;
 
             allGroups = new List<ChargeGroupWrapper>();
 
-            for (Charge_Group__c cGroup : invoice.Charge_Groups__r) {
+            for (sPRS__Charge_Group__c cGroup : invoice.sPRS__Charge_Groups__r) {
                 allGroups.add(new ChargeGroupWrapper(allGroupsMap.get(cGroup.Id)));
 
-                if (cGroup.Payment_Plan__c != null) {
-                    this.nextPayment = cGroup.Payment_Plan__r.Installment_Amount__c;
-                    this.nextDate = cGroup.Payment_Plan__r.NextPaymentDate__c;
+                if (cGroup.sPRS__Payment_Plan__c != null) {
+                    this.nextPayment = cGroup.sPRS__Payment_Plan__r.sPRS__Installment_Amount__c;
+                    this.nextDate = cGroup.sPRS__Payment_Plan__r.sPRS__NextPaymentDate__c;
                 }
             }
         }
@@ -184,7 +184,7 @@ public with sharing class WorkWithInvoicesController {
 
     public class ChargeGroupWrapper {
         @AuraEnabled
-        public Charge_Group__c cGroup {
+        public sPRS__Charge_Group__c cGroup {
             get;
             set;
         }
@@ -194,37 +194,37 @@ public with sharing class WorkWithInvoicesController {
         @AuraEnabled List<ServiceWrapper> adjusts { get; set; }
         @AuraEnabled Boolean validPayer { get; set; }
 
-        public ChargeGroupWrapper(Charge_Group__c cGroup) {
+        public ChargeGroupWrapper(sPRS__Charge_Group__c cGroup) {
             this.cGroup = cGroup;
             totalCharges = 0;
             totalCredits = 0;
             Map<String, ServiceWrapper> adjustMap = new Map<String, ServiceWrapper>();
             Map<String, ServiceWrapper> serviceMap = new Map<String, ServiceWrapper>();
             validPayer = false;
-            for (Integer i = 0; i < cGroup.Charge_Group_Coverages__r.size(); i++) {
-                Charge_Group_Coverage_Junction__c coverageJunction = cGroup.Charge_Group_Coverages__r[i];
-                if (coverageJunction.Coverage__r.Payor__r != null) {
+            for (Integer i = 0; i < cGroup.sPRS__Charge_Group_Coverages__r.size(); i++) {
+                sPRS__Charge_Group_Coverage_Junction__c coverageJunction = cGroup.sPRS__Charge_Group_Coverages__r[i];
+                if (coverageJunction.sPRS__Coverage__r.sPRS__Payor__r != null) {
                     validPayer = true;
                     break;
                 }
             }
-            for (Integer i = 0; i < cGroup.Transactions__r.size(); i++) {
-                Transaction__c pa = cGroup.Transactions__r[i];
-                if (pa.Txn_Method__c == PortalConstants.SERVICE) {
-                    totalCharges += pa.Amount__c;
+            for (Integer i = 0; i < cGroup.sPRS__Transactions__r.size(); i++) {
+                sPRS__Transaction__c pa = cGroup.sPRS__Transactions__r[i];
+                if (pa.sPRS__Txn_Method__c == PortalConstants.SERVICE) {
+                    totalCharges += pa.sPRS__Amount__c;
                     String displayName = getName(pa);
                     if (serviceMap.containsKey(displayName)) {
-                        serviceMap.get(displayName).amount += pa.Amount__c;
+                        serviceMap.get(displayName).amount += pa.sPRS__Amount__c;
                     } else {
-                        serviceMap.put(displayName, new ServiceWrapper(displayName, pa.Amount__c));
+                        serviceMap.put(displayName, new ServiceWrapper(displayName, pa.sPRS__Amount__c));
                     }
                 } else {
-                    totalCredits += pa.Amount__c;
+                    totalCredits += pa.sPRS__Amount__c;
                     String displayName = getName(pa);
                     if (adjustMap.containsKey(displayName)) {
-                        adjustMap.get(displayName).amount += pa.Amount__c;
+                        adjustMap.get(displayName).amount += pa.sPRS__Amount__c;
                     } else {
-                        adjustMap.put(displayName, new ServiceWrapper(displayName, pa.Amount__c));
+                        adjustMap.put(displayName, new ServiceWrapper(displayName, pa.sPRS__Amount__c));
                     }
                 }
             }
@@ -232,14 +232,14 @@ public with sharing class WorkWithInvoicesController {
             this.services = serviceMap.values();
         }
 
-        private String getName(Transaction__c pa) {
-            String displayName = String.format('{0} - {1}', new String[]{pa.Txn_Method__c, pa.Transaction_Date__c.format()});
-            if (pa.Adjustment2__r.Display_Name__c != null) {
-                displayName = pa.Adjustment2__r.Display_Name__c;
-            } else if (pa.Payment__r.Display_Name__c != null) {
-                displayName = pa.Payment__r.Display_Name__c;
-            } else if (pa.Service2__r.Display_Name__c != null) {
-                displayName = pa.Service2__r.Display_Name__c;
+        private String getName(sPRS__Transaction__c pa) {
+            String displayName = String.format('{0} - {1}', new String[]{pa.sPRS__Txn_Method__c, pa.sPRS__Transaction_Date__c.format()});
+            if (pa.sPRS__Adjustment2__r.sPRS__Display_Name__c != null) {
+                displayName = pa.sPRS__Adjustment2__r.sPRS__Display_Name__c;
+            } else if (pa.sPRS__Payment__r.sPRS__Display_Name__c != null) {
+                displayName = pa.sPRS__Payment__r.sPRS__Display_Name__c;
+            } else if (pa.sPRS__Service2__r.sPRS__Display_Name__c != null) {
+                displayName = pa.sPRS__Service2__r.sPRS__Display_Name__c;
                 displayName = displayName.split('-')[0]; //get Name e.g. Aetna Payment - 1/14/2016  finded(Aetna Payment )
             }
 
@@ -267,22 +267,22 @@ public with sharing class WorkWithInvoicesController {
         @AuraEnabled public String id { get; set; }
         @AuraEnabled public Boolean isSelected { get; set; }
 
-        public PatientWrapper(Invoice__c invoice) {
-            this.name = invoice.Patient__r.Name;
-            this.id = invoice.Patient__r.Id;
+        public PatientWrapper(sPRS__Invoice__c invoice) {
+            this.name = invoice.sPRS__Patient__r.Name;
+            this.id = invoice.sPRS__Patient__r.Id;
             this.isSelected = true;
             this.MRN = '';
-            if (invoice.Patient__r.Medical_Record_Number__c != null) {
-                this.MRN = ' (MRN: ' + invoice.Patient__r.Medical_Record_Number__c + ')';
+            if (invoice.sPRS__Patient__r.sPRS__Medical_Record_Number__c != null) {
+                this.MRN = ' (MRN: ' + invoice.sPRS__Patient__r.sPRS__Medical_Record_Number__c + ')';
             }
         }
-        public PatientWrapper(Encounter__c estimate) {
-            this.name = estimate.Patient__r.Name;
-            this.id = estimate.Patient__r.Id;
+        public PatientWrapper(sPRS__Encounter__c estimate) {
+            this.name = estimate.sPRS__Patient__r.Name;
+            this.id = estimate.sPRS__Patient__r.Id;
             this.isSelected = true;
             this.MRN = '';
-            if (estimate.Patient__r.Medical_Record_Number__c != null) {
-                this.MRN = ' (MRN: ' + estimate.Patient__r.Medical_Record_Number__c + ')';
+            if (estimate.sPRS__Patient__r.sPRS__Medical_Record_Number__c != null) {
+                this.MRN = ' (MRN: ' + estimate.sPRS__Patient__r.sPRS__Medical_Record_Number__c + ')';
             }
         }
     }

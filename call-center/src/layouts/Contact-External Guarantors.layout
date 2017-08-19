@@ -178,7 +178,7 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>Contact.Login_As_Portal_User</actionName>
+            <actionName>Contact.sPRS__Login_As_Portal_User</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>2</sortOrder>
         </platformActionListItems>

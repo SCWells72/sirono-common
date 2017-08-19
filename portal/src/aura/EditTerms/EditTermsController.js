@@ -146,18 +146,18 @@
 
         function validateInstallments(planValue, totalAmount, Settings) {
             var message;
-            if (planValue < Settings.Min_Installment_Amount__c) {
-                message = 'Monthly amount must be equal to or greater than $' + Settings.Min_Installment_Amount__c + '.';
+            if (planValue < Settings.sPRS__Min_Installment_Amount__c) {
+                message = 'Monthly amount must be equal to or greater than $' + Settings.sPRS__Min_Installment_Amount__c + '.';
                 hlpr.showError(cmp, message);
                 return false;
             }
 
-            if (planValue >= Settings.Min_Installment_Amount__c) {
+            if (planValue >= Settings.sPRS__Min_Installment_Amount__c) {
                 var totalInstallment = hlpr.getCalculatedIntallments(PaymentRequestInfo.totalAmount, planValue);
 
-                if (totalInstallment > Settings.Max_Number_Plan_Installments__c) {
+                if (totalInstallment > Settings.sPRS__Max_Number_Plan_Installments__c) {
                     var minimumInstallmentAmount = hlpr.getCalculatedMinInstallmentAmount(Settings, totalAmount);
-                    message = 'This monthly amount would exceed ' + Settings.Max_Number_Plan_Installments__c + ' installments.' +
+                    message = 'This monthly amount would exceed ' + Settings.sPRS__Max_Number_Plan_Installments__c + ' installments.' +
                         ' The minimum allowed installment amount is $' + minimumInstallmentAmount.toFixed(2) + '.';
                     hlpr.showError(cmp, message);
                     return false;

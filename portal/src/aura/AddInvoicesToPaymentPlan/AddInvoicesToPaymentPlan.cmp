@@ -8,6 +8,6 @@
 
     <h2>Invoices Not on Payment Plan</h2>
     <p class="title">You have
-        <strong>{!v.PaymentInfo.guarantor.Non_Payment_Plan_Invoices__c}</strong> invoice(s) not completely enrolled on your payment plan. Please call the customer service center {! $Label.c.Customer_Service_Center_Phone} to add these invoices.
+        <strong>{!v.PaymentInfo.guarantor.sPRS__Non_Payment_Plan_Invoices__c}</strong> invoice(s) not completely enrolled on your payment plan. Please call the customer service center {! $Label.c.Customer_Service_Center_Phone} to add these invoices.
     </p>
 </aura:component>

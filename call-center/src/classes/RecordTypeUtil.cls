@@ -37,27 +37,5 @@ public with sharing class RecordTypeUtil {
                 automatedCaseRt = rt.Id;
             }
         }
-
-
     }
-
-     /**
-     * Get the record types for Payment_Method__c.
-     *
-     * @return Map<String, String> - The keys are the record type names and the value is the id.
-     */
-    public static Map<String, String> getPayMethodRecordTypes() {
-        Map<String, String> recordTypeMap = new Map<String, String>();
-        for (RecordType recordType : [
-            SELECT Id, Name
-            FROM RecordType
-            WHERE SobjectType = :Payment_Method__c.class.getName()
-        ]) {
-            recordTypeMap.put(recordType.Name, recordType.Id);
-        }
-
-        System.assert(recordTypeMap.size() != 0);
-        return recordTypeMap;
-    }
-
 }

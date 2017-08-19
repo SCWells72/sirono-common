@@ -28,9 +28,9 @@ public with sharing class WorkWithStatementsController {
         List<StatementWrapper> statements = new List<StatementWrapper>();
 
         try {
-            Contact gt = GuarantorService.getPortalGuarantor(UserInfo.getUserId());
+            Contact gt = sPRS.GuarantorService.getPortalGuarantor(UserInfo.getUserId());
 
-            Map<Date, String> statementUrlMap = GuarantorService.getStatementMap(gt.Guarantor_Id__c.toPlainString());
+            Map<Date, String> statementUrlMap = sPRS.GuarantorService.getStatementMap(gt.sPRS__Guarantor_Id__c.toPlainString());
 
             System.debug('UrlMap retrieved: ' + statementUrlMap);
 

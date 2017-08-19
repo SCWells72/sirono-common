@@ -17,12 +17,12 @@ public with sharing class PayEstimateLightningController {
     public String city { get; set; }
     public String creditCardNumber { get; set; }
     public String cvv { get; set; }
-    public List<EncounterWrapper> encounters { get; set; }
+    public List<sPRS.EncounterWrapper> encounters { get; set; }
     public String expirationMonth { get; set; }
     public String expirationYear { get; set; }
     public Contact guarantorContact { get; set; }
     public String guarantorRecordId { get; set; }
-    public Encounter__c selectedEncounter { get; set; }
+    public sPRS__Encounter__c selectedEncounter { get; set; }
     public String state { get; set; }
     public String zip { get; set; }
     public List<String> errorMessages { get; set; }
@@ -39,7 +39,7 @@ public with sharing class PayEstimateLightningController {
         errorMessages = new List<String>();
         if (guarantorRecordId != null) {
             // Fetch Guarantor Contact record based on Id.
-            guarantorContact = GuarantorService.getGuarantor(guarantorRecordId);
+            guarantorContact = sPRS.GuarantorService.getGuarantor(guarantorRecordId);
 
             // Call getEncounterRecords method.
             loadEncounters(encounterId);
@@ -47,8 +47,8 @@ public with sharing class PayEstimateLightningController {
     }
 
     private void loadEncounters(String encounterRecordId) {
-        Encounter__c[] encounterList = EncounterService.getEncounterRecordsById(encounterRecordId);
-        encounters = EncounterWrapper.buildList(encounterList);
+        sPRS__Encounter__c[] encounterList = sPRS.EncounterService.getEncounterRecordsById(encounterRecordId);
+        encounters = sPRS.EncounterWrapper.buildList(encounterList);
 
         // We just selected encounters by Id, there should only be one.  Make it selected.
         if (encounters != null && encounters.size() == 1) {
@@ -72,7 +72,7 @@ public with sharing class PayEstimateLightningController {
             if (validAmount && validCard) {
                 message = addPayment('credit');
             }
-        } catch (SironoServiceException se) {
+        } catch (sPRS.SironoServiceException se) {
             message = 'SERVER ERROR RESPONSE:: ' + String.join(se.errors, '');
         } catch (Exception e) {
             // Debug error response
@@ -86,7 +86,7 @@ public with sharing class PayEstimateLightningController {
      * This method is used to get selected record
      **/
     public void doNext() {
-        EncounterWrapper checkEncounter = checkNext(encounters);
+        sPRS.EncounterWrapper checkEncounter = checkNext(encounters);
         selectedEncounter = (checkEncounter.en != null) ? checkEncounter.en : selectedEncounter;
     }
 
@@ -96,7 +96,7 @@ public with sharing class PayEstimateLightningController {
      **/
     public String addPayment(String paymentMethod) {
         // Call createNewPayment method.
-        Payment__c payment = PaymentService.createNewPayment(guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod);
+        sPRS__Payment__c payment = sPRS.PaymentService.createNewPayment(guarantorRecordId, Decimal.valueOf(amount), selectedEncounter.Id, System.now(), paymentMethod);
         return (payment == null) ? 'ERROR: ' + PortalConstants.PAGE_MESSAGE_CREATED_FAIL : 'Success;' + payment.Name + ';$' + amount;
     }
 
@@ -105,12 +105,12 @@ public with sharing class PayEstimateLightningController {
      * @param List<EncounterWrapper> encounters - list of EncounterWrapper records
      * @return EncounterWrapper - selected EncounterWrapper record
      **/
-    private EncounterWrapper checkNext(List<EncounterWrapper> encounters) {
-        Encounter__c selectedEncounter;
+    private sPRS.EncounterWrapper checkNext(List<sPRS.EncounterWrapper> encounters) {
+        sPRS__Encounter__c selectedEncounter;
         Boolean encounterSelected = false;
         Integer count = 0;
         if (encounters != null && encounters.size() > 0) {
-            for (EncounterWrapper enw : encounters) {
+            for (sPRS.EncounterWrapper enw : encounters) {
                 if (enw.isSelected) {
                     count++;
                     selectedEncounter = enw.en;
@@ -120,7 +120,7 @@ public with sharing class PayEstimateLightningController {
                 encounterSelected = true;
             }
         }
-        return new EncounterWrapper(selectedEncounter, encounterSelected);
+        return new sPRS.EncounterWrapper(selectedEncounter, encounterSelected);
     }
 
     /**
@@ -130,7 +130,7 @@ public with sharing class PayEstimateLightningController {
      **/
     private Boolean isValidCard() {
         // Call creditCardValidation method that validate all informations/values for Credit Card.
-        errorMessages.addAll(VisualForceValidations.creditCardValidation(creditCardNumber, expirationYear, expirationMonth,
+        errorMessages.addAll(sPRS.VisualForceValidations.creditCardValidation(creditCardNumber, expirationYear, expirationMonth,
             zip, cardHolderName, cvv, address));
 
         if (errorMessages.size() > 0) {
@@ -147,7 +147,7 @@ public with sharing class PayEstimateLightningController {
      **/
     private Boolean isValidAmount() {
         // Call amountValidation method that validate amount.
-        errorMessages.addAll(VisualForceValidations.amountValidation(amount, String.valueOf(selectedEncounter.Balance__c)));
+        errorMessages.addAll(sPRS.VisualForceValidations.amountValidation(amount, String.valueOf(selectedEncounter.sPRS__Balance__c)));
 
         if (errorMessages.size() > 0) {
             message = String.join(errorMessages, '');

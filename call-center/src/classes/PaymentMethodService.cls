@@ -5,7 +5,7 @@
 /**
  * Service class interacting with Payment_Method__c objects.
  */
-public with sharing class PaymentMethodService extends AbstractService {
+global with sharing class PaymentMethodService extends AbstractService {
 
     /**
      * Get a list of Payment_Method__c object for a Guarantor.
@@ -13,7 +13,7 @@ public with sharing class PaymentMethodService extends AbstractService {
      * @param Id guarantorid - The Guarantor Id.
      * @return List<Payment_Method__c> - The list of payment methods associated with the Guarantor.
      */
-    public static List<Payment_Method__c> getPaymentMethods(Id guarantorId) {
+    global static List<Payment_Method__c> getPaymentMethods(Id guarantorId) {
         return PaymentMethodDao.getPaymentMethods(guarantorId);
     }
 

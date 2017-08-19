@@ -141,7 +141,7 @@
     },
     updateHeaderAmountAndDate: function (component, event, helper) {
         var plan = event.getParam('paymentPlan');
-        var amount = parseFloat(plan.Installment_Amount__c.toFixed(2));
+        var amount = parseFloat(plan.sPRS__Installment_Amount__c.toFixed(2));
         var delimiterPos = amount.toString().indexOf('.');
         if (delimiterPos >= 0) {
             component.set('v.invoiceValue', '$' + Math.floor(amount));
@@ -151,7 +151,7 @@
         }
 
         var guarantorWrapper = component.get('v.guarantorWrapper');
-        guarantorWrapper.paymentPlan.NextPaymentDate__c = plan.NextPaymentDate__c;
+        guarantorWrapper.paymentPlan.sPRS__NextPaymentDate__c = plan.sPRS__NextPaymentDate__c;
         component.set('v.guarantorWrapper', guarantorWrapper);
     }
 })

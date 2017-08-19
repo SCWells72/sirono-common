@@ -9,7 +9,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderType>CurrentUser</senderType>
-        <template>unfiled$public/SUPPORTNewassignmentnotificationSAMPLE</template>
+        <template>Sirono_PRS/SUPPORTNewassignmentnotificationSAMPLE</template>
     </alerts>
     <alerts>
         <fullName>Internal_Case_Notification</fullName>
@@ -20,7 +20,7 @@
             <type>owner</type>
         </recipients>
         <senderType>CurrentUser</senderType>
-        <template>unfiled$public/Internal_Case_Creation</template>
+        <template>Sirono_PRS/Internal_Case_Creation</template>
     </alerts>
     <alerts>
         <fullName>Internal_Case_Status_Update</fullName>
@@ -35,7 +35,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderType>CurrentUser</senderType>
-        <template>unfiled$public/Internal_Case_Comment_Update</template>
+        <template>Sirono_PRS/Internal_Case_Comment_Update</template>
     </alerts>
     <fieldUpdates>
         <fullName>Case_Escalation</fullName>

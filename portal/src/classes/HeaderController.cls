@@ -22,20 +22,20 @@ public with sharing class HeaderController {
     public static HeaderWrapper getAllHeaderInfo() {
         UserWrapper user = getUserInfo();
         Contact contact;
-        List<Invoice__c> invoices = new List<Invoice__c>();
-        Payment_Plan__c paymentPlan = new Payment_Plan__c();
+        List<sPRS__Invoice__c> invoices = new List<sPRS__Invoice__c>();
+        sPRS__Payment_Plan__c paymentPlan = new sPRS__Payment_Plan__c();
         Integer estimateCount = null;
 
         if (user.contactId != null) {
-            contact = GuarantorService.getContactsForLightning(new Set<Id> {
+            contact = sPRS.GuarantorService.getContactsForLightning(new Set<Id> {
                 user.contactId
             })[0];
-            invoices = InvoiceService.getByStatus(user.contactId, PortalConstants.DUE);
-            paymentPlan = PaymentPlanService.getActivePaymentPlan(user.contactId);
-            estimateCount = EncounterService.getCountByDate(user.contactId, Datetime.now().addDays(-30));
+            invoices = sPRS.InvoiceService.getByStatus(user.contactId, PortalConstants.DUE);
+            paymentPlan = sPRS.PaymentPlanService.getActivePaymentPlan(user.contactId);
+            estimateCount = sPRS.EncounterService.getCountByDate(user.contactId, Datetime.now().addDays(-30));
         }
 
-        Invoice__c invoice = (invoices.size() > 0) ? invoices[0] : new Invoice__c();
+        sPRS__Invoice__c invoice = (invoices.size() > 0) ? invoices[0] : new sPRS__Invoice__c();
 
         HeaderWrapper hWrapper = new HeaderWrapper(contact, invoice, paymentPlan, estimateCount);
 
@@ -157,5 +157,4 @@ public with sharing class HeaderController {
     private static Boolean hasBalance(HeaderWrapper headerWrapper) {
         return PortalConstants.GuarantorStatusOverdue.contains(headerWrapper.getGuarantorStatus());
     }
-
 }

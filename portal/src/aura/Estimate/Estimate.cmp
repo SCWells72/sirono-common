@@ -23,14 +23,14 @@
                     <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#check'}" category="standard" size="small" class="slds-button__icon" name="Check"/>
                 </div>
                 <div class="title">
-                {!v.estimate.singleEncounter.Patient__r.Name}
-                    <span class="{!'display_'+(v.estimate.singleEncounter.Patient__r.Medical_Record_Number__c != undefined)}">
-                            {!' (MRN: ' + v.estimate.singleEncounter.Patient__r.Medical_Record_Number__c + ')'}
+                {!v.estimate.singleEncounter.sPRS__Patient__r.Name}
+                    <span class="{!'display_'+(v.estimate.singleEncounter.sPRS__Patient__r.sPRS__Medical_Record_Number__c != undefined)}">
+                            {!' (MRN: ' + v.estimate.singleEncounter.sPRS__Patient__r.sPRS__Medical_Record_Number__c + ')'}
                     </span>
                 </div>
                 <span class="active invoice-name">
-                    {!v.estimate.singleEncounter.Procedure__c} - 
-                    <ui:outputDate value="{!v.estimate.singleEncounter.Date_Of_Service__c}" format="MM/DD/YYYY" class="{!v.isOnPaymentsPage ? 'slds-hide' : ''}"/>
+                    {!v.estimate.singleEncounter.sPRS__Procedure__c} -
+                    <ui:outputDate value="{!v.estimate.singleEncounter.sPRS__Date_Of_Service__c}" format="MM/DD/YYYY" class="{!v.isOnPaymentsPage ? 'slds-hide' : ''}"/>
                     <ui:outputText value="{!v.invoiceNameDate}" class="{!!v.isOnPaymentsPage ? 'slds-hide' : ''}"/>
                 </span>
                 <div class="{!!v.isOnPaymentsPage ? 'slds-hide' : ''}">
@@ -50,7 +50,7 @@
             <div class="{!v.isOnPaymentsPage ? 'col right ' : 'col right'}">
                 <div class="title">Balance</div>
                 <div class="value">
-                    <ui:outputCurrency value="{!v.estimate.singleEncounter.Balance__c}"/>
+                    <ui:outputCurrency value="{!v.estimate.singleEncounter.sPRS__Balance__c}"/>
                 </div>
 
             </div>
@@ -60,7 +60,7 @@
                 <div class="col due">
                     <div class="title">
                         Deposit Due by <br/>
-                        <ui:outputdate class="{!v.isOnPaymentsPage ? 'slds-hide' : ''}" value="{!v.estimate.singleEncounter.Date_Of_Service__c}" format="MMM d"/>
+                        <ui:outputdate class="{!v.isOnPaymentsPage ? 'slds-hide' : ''}" value="{!v.estimate.singleEncounter.sPRS__Date_Of_Service__c}" format="MMM d"/>
                         <ui:outputtext value="{!v.depositDueBy}" class="{!!v.isOnPaymentsPage ? 'slds-hide' : ''}"/>
                     </div>
                 </div>

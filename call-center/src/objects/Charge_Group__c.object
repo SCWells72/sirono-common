@@ -385,18 +385,6 @@
         <visibleLines>10</visibleLines>
     </fields>
     <fields>
-        <fullName>Original_Balance__c</fullName>
-        <description>Chargegroup balance at the time it becomes Billed</description>
-        <externalId>false</externalId>
-        <label>Original Balance</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
         <fullName>Origin_Code__c</fullName>
         <description>Origin Code of the source hospital</description>
         <externalId>false</externalId>
@@ -419,6 +407,18 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Original_Balance__c</fullName>
+        <description>Chargegroup balance at the time it becomes Billed</description>
+        <externalId>false</externalId>
+        <label>Original Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
     </fields>
     <fields>
         <fullName>Patient__c</fullName>

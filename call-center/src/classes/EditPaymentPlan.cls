@@ -126,7 +126,7 @@ public with sharing class EditPaymentPlan {
         planValue = '32772';
     }
 
-    /*//Controller Methods invoked from VisualForce
+    /*//Controller Methods invoked from Visualforce
     public Pagereference doNext() {
         chargeGroupsSelected = false;
         chargeGroupId = PayStaffWSUtill.fetchChargeGroupIds(chargeGroupList);
@@ -140,7 +140,7 @@ public with sharing class EditPaymentPlan {
         return null;
     }*/
 
-    //Controller Methods invoked from VisualForce
+    //Controller Methods invoked from Visualforce
     public PageReference cancel() {
         return String.isNotBlank(paymentPlanRecordId) ?
             VisualforceControllerUtil.getRecordPageReference(paymentPlanRecordId) :
@@ -202,7 +202,7 @@ public with sharing class EditPaymentPlan {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Amount must be greater than zero.'));
             blnIsError = true;
         } else {
-            Sirono_Settings__c planLimits = SironoSettingsUtil.getPaymentPlanSettings();
+            Sirono_Call_Center_Settings__c planLimits = SironoCallCenterSettingsUtil.getSironoCallCenterSettings();
             if ((planType.trim().equalsIgnoreCase('promise') && Decimal.valueOf(promiseAmount) < 0)
                 || (!planType.trim().equalsIgnoreCase('promise') && Decimal.valueOf(amount) < 0)
                 ) {

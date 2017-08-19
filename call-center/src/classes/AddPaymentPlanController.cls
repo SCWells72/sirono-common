@@ -29,7 +29,7 @@ public abstract class AddPaymentPlanController {
     public Boolean chargeGroupsSelected { get; set; }
     public List<ChargeGroupWrapper> chargeGroupList { get; set; }
     public Contact gc;
-    public Sirono_Settings__c paymentPlanSettings = new Sirono_Settings__c();
+    public Sirono_Call_Center_Settings__c paymentPlanSettings = new Sirono_Call_Center_Settings__c();
     public Boolean isActivePaymentPlan { get; set; }
     public List<String> errorMessages;
     public UIUtils uiUtils { get; set; }
@@ -93,8 +93,9 @@ public abstract class AddPaymentPlanController {
      * becuase of whenever profile is "Operations Manager or System Administrator" at that we need to create new custom setting for it.
      * If we create using class than we can't send Web Request after insert so we use this method using VF page.
      **/
+    // TODO: Can this go away?
     public void getPaymentPlanSettings() {
-        paymentPlanSettings = SironoSettingsUtil.getPaymentPlanSettings();
+        paymentPlanSettings = SironoCallCenterSettingsUtil.getSironoCallCenterSettings();
     }
 
     /**

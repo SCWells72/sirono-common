@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sirono PFP</fullName>
     <types>
         <members>CardInformation</members>
         <members>CardInformationTest</members>
-        <members>ChangePasswordController</members>
-        <members>ChangePasswordControllerTest</members>
         <members>CommunitiesLandingController</members>
         <members>CommunitiesLandingControllerTest</members>
         <members>CommunitiesLoginController</members>
@@ -13,10 +12,7 @@
         <members>CommunitiesSelfRegConfirmControllerTest</members>
         <members>CommunitiesSelfRegController</members>
         <members>CommunitiesSelfRegControllerTest</members>
-        <members>ForgotPasswordController</members>
-        <members>ForgotPasswordControllerTest</members>
         <members>Guarantor</members>
-        <members>GuarantorProfilePermissionTest</members>
         <members>GuarantorTest</members>
         <members>HeaderController</members>
         <members>HeaderControllerTest</members>
@@ -38,6 +34,7 @@
         <members>PaymentTabsController</members>
         <members>PaymentTabsControllerTest</members>
         <members>PortalConstants</members>
+        <members>PortalRecordTypeUtil</members>
         <members>PortalTestUtility</members>
         <members>PortalUIConstants</members>
         <members>PortalUIConstantsTest</members>
@@ -47,8 +44,6 @@
         <members>SettingsControllerTest</members>
         <members>SiteLoginController</members>
         <members>SiteLoginControllerTest</members>
-        <members>SiteRegisterController</members>
-        <members>SiteRegisterControllerTest</members>
         <members>UserDao</members>
         <members>UserService</members>
         <members>UserWrapper</members>
@@ -139,6 +134,11 @@
         <name>ContentAsset</name>
     </types>
     <types>
+        <members>Sirono_Portal_Settings__c.Financial_Assistance_Document__c</members>
+        <members>Sirono_Portal_Settings__c.Portal_Header_Image__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
         <members>Customer_Service_Center_Phone</members>
         <members>Documents_Tooltip</members>
         <members>Invoice_Details_Delinquent_Message</members>
@@ -186,10 +186,6 @@
     <types>
         <members>SironoData</members>
         <name>StaticResource</name>
-    </types>
-    <types>
-        <members>PortalLabels</members>
-        <name>CustomLabels</name>
     </types>
     <version>40.0</version>
 </Package>

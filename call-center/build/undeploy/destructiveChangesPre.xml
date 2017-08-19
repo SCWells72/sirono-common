@@ -42,6 +42,7 @@
         <members>ProcessPaymentLightning</members>
         <members>ProcessPaymentLightningTest</members>
         <members>ProfileSecurityContext</members>
+        <members>SironoPRSPostInstallHandler</members>
         <members>SironoSettingsSecurityContext</members>
         <members>StatementProcessBuilderFlowTest</members>
         <members>TransactionTypeSecurityContext</members>

@@ -5,25 +5,25 @@
 <aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
     <aura:attribute name="guarantorWrapper" type="HeaderWrapper"/>
     <aura:registerevent name="payRequest" type="c:payNowRequest"/>
-    <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.Active__c}">
+    <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.sPRS__Active__c}">
         <!--Automatic-->
-        <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.Plan_Type__c == 'Automatic'}">
-            <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing'}">
+        <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.sPRS__Plan_Type__c == 'Automatic'}">
+            <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Good Standing'}">
                 <div class="col payment-cta no-small">
                     <img src="{!$Resource.SironoData + '/assets/images/payment-plan-success.png'}" alt="Your Payment Plan"/>
                     <h2 class="actionsHeader">Your Payment Plan</h2>
-                    Next payment <ui:outputcurrency value="{!v.guarantorWrapper.paymentPlan.Installment_Amount__c}" /> scheduled for:<br/> <ui:outputdate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.NextPaymentDate__c}" /> | Payment {!v.guarantorWrapper.paymentPlan.Installments_Completed__c} of {!v.guarantorWrapper.paymentPlan.Original_Installment_Count__c}
+                    Next payment <ui:outputcurrency value="{!v.guarantorWrapper.paymentPlan.sPRS__Installment_Amount__c}" /> scheduled for:<br/> <ui:outputdate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.sPRS__NextPaymentDate__c}" /> | Payment {!v.guarantorWrapper.paymentPlan.sPRS__Installments_Completed__c} of {!v.guarantorWrapper.paymentPlan.sPRS__Original_Installment_Count__c}
                     <br/>
                     <a onclick="{!c.sendPageCreateToHeader}">
                         <button class="slds-button slds-button--neutral InstallmentBtn">Edit Payment Plan</button>
                     </a>
                 </div>
             </aura:if>
-            <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error'}">
+            <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'In Error'}">
                 <div class="col payment-cta no-small">
                     <img src="{!$Resource.SironoData + '/assets/images/payment-plan-warning.png'}" alt="Your Payment Plan is in Error"/>
                     <h2 class="actionsHeader">Your Payment Plan is in Error</h2>
-                    Next payment <ui:outputcurrency value="{!v.guarantorWrapper.paymentPlan.Installment_Amount__c}" /> scheduled for:<br/> <ui:outputdate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.NextPaymentDate__c}" /> | Payment {!v.guarantorWrapper.paymentPlan.Installments_Completed__c} of {!v.guarantorWrapper.paymentPlan.Original_Installment_Count__c}
+                    Next payment <ui:outputcurrency value="{!v.guarantorWrapper.paymentPlan.sPRS__Installment_Amount__c}" /> scheduled for:<br/> <ui:outputdate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.sPRS__NextPaymentDate__c}" /> | Payment {!v.guarantorWrapper.paymentPlan.sPRS__Installments_Completed__c} of {!v.guarantorWrapper.paymentPlan.sPRS__Original_Installment_Count__c}
                     <div class="inline-block" onclick="{!c.showTooltip}">
                         <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info"/>
                     </div>
@@ -38,11 +38,11 @@
                     </a>
                 </div>
             </aura:if>
-            <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due'}">
+            <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Past Due'}">
                 <div class="col payment-cta no-small">
                     <img src="{!$Resource.SironoData + '/assets/images/payment-plan-delinquent.png'}" alt="Your Payment Plan"/>
                     <h2 class="actionsHeader">Your Payment Plan is Past Due</h2>
-                    Next payment <ui:outputcurrency value="{!v.guarantorWrapper.paymentPlan.Installment_Amount__c}" /> scheduled for:<br/> <ui:outputdate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.NextPaymentDate__c}" /> | Payment {!v.guarantorWrapper.paymentPlan.Installments_Completed__c} of {!v.guarantorWrapper.paymentPlan.Original_Installment_Count__c}
+                    Next payment <ui:outputcurrency value="{!v.guarantorWrapper.paymentPlan.sPRS__Installment_Amount__c}" /> scheduled for:<br/> <ui:outputdate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.sPRS__NextPaymentDate__c}" /> | Payment {!v.guarantorWrapper.paymentPlan.sPRS__Installments_Completed__c} of {!v.guarantorWrapper.paymentPlan.sPRS__Original_Installment_Count__c}
                     <div class="inline-block" onclick="{!c.showTooltip}">
                         <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info"/>
                     </div>
@@ -60,12 +60,12 @@
         </aura:if>
         <!--Automatic END-->
         <!--Manual-->
-        <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.Plan_Type__c == 'Manual'}">
-            <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing'}">
+        <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.sPRS__Plan_Type__c == 'Manual'}">
+            <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Good Standing'}">
                 <div class="col payment-cta no-small">
                     <img src="{!$Resource.SironoData + '/assets/images/payment-plan-success.png'}" alt="Your Payment Plan"/>
                     <h2 class="actionsHeader">Your Payment Plan</h2>
-                    Next payment of <ui:outputcurrency value="{!v.guarantorWrapper.paymentPlan.Installment_Amount__c}" /> is due by:<br /> <ui:outputdate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.NextPaymentDate__c}" /> | Payment {!v.guarantorWrapper.paymentPlan.Installments_Completed__c} of {!v.guarantorWrapper.paymentPlan.Original_Installment_Count__c}
+                    Next payment of <ui:outputcurrency value="{!v.guarantorWrapper.paymentPlan.sPRS__Installment_Amount__c}" /> is due by:<br /> <ui:outputdate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.sPRS__NextPaymentDate__c}" /> | Payment {!v.guarantorWrapper.paymentPlan.sPRS__Installments_Completed__c} of {!v.guarantorWrapper.paymentPlan.sPRS__Original_Installment_Count__c}
                     <br/>
                     <a onclick="{!c.sendPageMakeToHeader}">
                         <button class="slds-button slds-button--neutral InstallmentBtn">Pay Installment</button>
@@ -75,11 +75,11 @@
                     </a>
                 </div>
             </aura:if>
-            <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due'}">
+            <aura:if isTrue="{!v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Past Due'}">
                 <div class="col payment-cta no-small">
                     <img src="{!$Resource.SironoData + '/assets/images/payment-plan-delinquent.png'}" alt="Your Payment Plan"/>
                     <h2 class="actionsHeader">Your Payment Plan is Past Due</h2>
-                    Next payment <ui:outputcurrency value="{!v.guarantorWrapper.paymentPlan.Installment_Amount__c}" />  is due by:<br/> <ui:outputdate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.NextPaymentDate__c}" /> | Payment {!v.guarantorWrapper.paymentPlan.Installments_Completed__c} of {!v.guarantorWrapper.paymentPlan.Original_Installment_Count__c}
+                    Next payment <ui:outputcurrency value="{!v.guarantorWrapper.paymentPlan.sPRS__Installment_Amount__c}" />  is due by:<br/> <ui:outputdate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.sPRS__NextPaymentDate__c}" /> | Payment {!v.guarantorWrapper.paymentPlan.sPRS__Installments_Completed__c} of {!v.guarantorWrapper.paymentPlan.sPRS__Original_Installment_Count__c}
                     <div class="inline-block" onclick="{!c.showTooltip}">
                         <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info"/>
                     </div>
@@ -117,22 +117,22 @@
     <!-- Collapsed Dashboard -->
     <div class="no-big">
         <!-- Guarantor_Status__c == 'On Payment Plan' -->
-        <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'On Payment Plan')}">
-            <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">
+        <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'On Payment Plan')}">
+            <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Good Standing')}">
                 <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
             </aura:if>
-            <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}">
+            <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'In Error')}">
                 <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button warning">Update Payment Method</ui:button>
             </aura:if>
-            <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due')}">
+            <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Past Due')}">
                 <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
             </aura:if>
         </aura:if>
         <!-- Guarantor_Status__c == 'On Payment Plan' END -->
 
         <!--  Plan = false -->
-        <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_To_Payment_Plan__c == false)}">
-            <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c != 'On Payment Plan')}">
+        <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Add_To_Payment_Plan__c == false)}">
+            <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Guarantor_Status__c != 'On Payment Plan')}">
                 <a onclick="{!c.sendPageCreateToHeader}">
                     <button class="slds-button slds-button--neutral">Create Payment Plan</button>
                 </a>
@@ -141,18 +141,18 @@
         <!--  Plan = false END -->
 
         <!--  Plan = true -->
-        <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_To_Payment_Plan__c == true)}">
+        <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Add_To_Payment_Plan__c == true)}">
             <!-- Guarantor_Status__c == 'Due' -->
-            <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Due')}">
-                <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">
+            <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Due')}">
+                <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Good Standing')}">
                     <a onclick="{!c.sendPageCreateToHeader}">
                         <button class="slds-button slds-button--brand">Add Invoice(s) to Plan</button>
                     </a>
                 </aura:if>
-                <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}">
+                <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'In Error')}">
                     <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
                 </aura:if>
-                <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due')}">
+                <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Past Due')}">
                     <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
                 </aura:if>
             </aura:if>
@@ -160,14 +160,14 @@
 
             <!-- Guarantor_Status__c == 'Overdue' -->
             <div>
-                <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Overdue')}">
-                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">
+                <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Overdue')}">
+                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Good Standing')}">
                         <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral PayOverdueBottom">Add Invoice(s) to Plan</ui:button>
                     </aura:if>
-                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}">
+                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'In Error')}">
                         <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button warning PayOverdueBottom">Update Payment Method</ui:button>
                     </aura:if>
-                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due')}">
+                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Past Due')}">
                         <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral PayOverdueBottom">Edit Payment Plan</ui:button>
                     </aura:if>
                 </aura:if>
@@ -176,14 +176,14 @@
 
             <!-- Guarantor_Status__c == 'Delinquent' -->
             <div>
-                <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent')}">
-                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">
+                <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Delinquent')}">
+                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Good Standing')}">
                         <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Add Invoice(s) to Plan</ui:button>
                     </aura:if>
-                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}">
+                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'In Error')}">
                         <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button warning">Update Payment Method</ui:button>
                     </aura:if>
-                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due')}">
+                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Past Due')}">
                         <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
                     </aura:if>
                 </aura:if>

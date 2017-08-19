@@ -126,7 +126,7 @@
     <fields>
         <fullName>PdfUrl__c</fullName>
         <externalId>false</externalId>
-        <formula>IF( S3_Key__c  &lt;&gt; &quot;&quot;, HYPERLINK(&quot;/apex/&quot; &amp; $Setup.Sirono_Settings__c.NS_Bar_Prefix__c &amp; &quot;ViewStatementPDF?id=&quot; &amp; Id , &quot;View PDF&quot;), &quot;N/A&quot;)</formula>
+        <formula>IF( S3_Key__c  &lt;&gt; &quot;&quot;, HYPERLINK(&quot;/apex/sPRS__ViewStatementPDF?id=&quot; &amp; Id , &quot;View PDF&quot;), &quot;N/A&quot;)</formula>
         <label>PDF</label>
         <required>false</required>
         <trackHistory>false</trackHistory>
@@ -239,6 +239,6 @@
         <masterLabel>Add Attachment</masterLabel>
         <openType>sidebar</openType>
         <protected>false</protected>
-        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}UploadAttachmentPage?id={!Statement__c.Id }</url>
+        <url>/apex/sPRS__UploadAttachmentPage?id={!Statement__c.Id }</url>
     </webLinks>
 </CustomObject>

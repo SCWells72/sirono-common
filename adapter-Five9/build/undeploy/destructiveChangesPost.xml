@@ -4,5 +4,9 @@
   -->
 
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>SFPlus</members>
+        <name>CallCenter</name>
+    </types>
     <version>40.0</version>
 </Package>

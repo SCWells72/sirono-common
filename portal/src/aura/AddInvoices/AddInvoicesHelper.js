@@ -15,11 +15,11 @@
         $A.util.toggleClass(cardCmp, 'slds-hide');
     },
     getCalculatedMinInstallmentAmount: function (Settings, totalAmount) {
-        var minimumInstallmentAmount = Settings.Min_Installment_Amount__c || 0;
-        if (Settings.Max_Number_Plan_Installments__c && Settings.Max_Number_Plan_Installments__c > 0) {
-            minimumInstallmentAmount = parseFloat(totalAmount / Settings.Max_Number_Plan_Installments__c);
+        var minimumInstallmentAmount = Settings.sPRS__Min_Installment_Amount__c || 0;
+        if (Settings.sPRS__Max_Number_Plan_Installments__c && Settings.sPRS__Max_Number_Plan_Installments__c > 0) {
+            minimumInstallmentAmount = parseFloat(totalAmount / Settings.sPRS__Max_Number_Plan_Installments__c);
             minimumInstallmentAmount.toFixed(2);
-            if (Settings.Min_Installment_Amount__c >= minimumInstallmentAmount) {
+            if (Settings.sPRS__Min_Installment_Amount__c >= minimumInstallmentAmount) {
                 minimumInstallmentAmount = 50;
             }
 

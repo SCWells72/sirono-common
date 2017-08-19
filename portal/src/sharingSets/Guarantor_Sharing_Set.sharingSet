@@ -9,7 +9,7 @@
     <accessMappings>
         <accessLevel>Edit</accessLevel>
         <object>Case</object>
-        <objectField>Guarantor_Information__c</objectField>
+        <objectField>sPRS__Guarantor_Information__c</objectField>
         <userField>Contact</userField>
     </accessMappings>
     <accessMappings>
@@ -20,26 +20,26 @@
     </accessMappings>
     <accessMappings>
         <accessLevel>Edit</accessLevel>
-        <object>Coverage__c</object>
-        <objectField>Encounter__c.Guarantor__c</objectField>
+        <object>sPRS__Coverage__c</object>
+        <objectField>sPRS__Encounter__c.sPRS__Guarantor__c</objectField>
         <userField>Contact</userField>
     </accessMappings>
     <accessMappings>
         <accessLevel>Edit</accessLevel>
-        <object>Encounter__c</object>
-        <objectField>Guarantor__c</objectField>
+        <object>sPRS__Encounter__c</object>
+        <objectField>sPRS__Guarantor__c</objectField>
         <userField>Contact</userField>
     </accessMappings>
     <accessMappings>
         <accessLevel>Edit</accessLevel>
-        <object>Payment_Method__c</object>
-        <objectField>Guarantor__c</objectField>
+        <object>sPRS__Payment_Method__c</object>
+        <objectField>sPRS__Guarantor__c</objectField>
         <userField>Contact</userField>
     </accessMappings>
     <accessMappings>
         <accessLevel>Edit</accessLevel>
-        <object>Payment__c</object>
-        <objectField>Guarantor__c</objectField>
+        <object>sPRS__Payment__c</object>
+        <objectField>sPRS__Guarantor__c</objectField>
         <userField>Contact</userField>
     </accessMappings>
     <description>Shares necessary data with guarantor contact community users.</description>

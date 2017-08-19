@@ -1523,7 +1523,7 @@ CASE(Invoice_Status_Rollup2__c,
         <masterLabel>Add to Payment Plan</masterLabel>
         <openType>replace</openType>
         <protected>false</protected>
-        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}AddToPaymentPlan?guarantorId={!Contact.Id}</url>
+        <url>/apex/sPRS__AddToPaymentPlan?guarantorId={!Contact.Id}</url>
     </webLinks>
     <webLinks>
         <fullName>Create_Payment_Plan</fullName>
@@ -1535,7 +1535,7 @@ CASE(Invoice_Status_Rollup2__c,
         <masterLabel>Create Payment Plan</masterLabel>
         <openType>noSidebar</openType>
         <protected>false</protected>
-        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}AddPaymentPlan?guarantorId={!Contact.Id}</url>
+        <url>/apex/sPRS__AddPaymentPlan?guarantorId={!Contact.Id}</url>
     </webLinks>
     <webLinks>
         <fullName>Pay_Estimate</fullName>

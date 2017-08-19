@@ -47,7 +47,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Disposition__c</field>
+                <field>sPRS__Disposition__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -69,15 +69,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Salesforce_Id__c</field>
+                <field>sPRS__Salesforce_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Hours_Of_Day__c</field>
+                <field>sPRS__Hours_Of_Day__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Day_Of_Week__c</field>
+                <field>sPRS__Day_Of_Week__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>

@@ -134,7 +134,7 @@ global with sharing class GuarantorService extends AbstractService {
      * @param String guarantor's record Id
      * @return Contact - the requested Contact
      **/
-    public static Contact getGuarantor(String recordId) {
+    global static Contact getGuarantor(String recordId) {
         return GuarantorDao.getGuarantor(recordId);
     }
 

@@ -5,7 +5,7 @@
 /**
  * Database actions for a User.
  */
-public with sharing class UserDao extends AbstractDao {
+public with sharing class UserDao {
 
   /**
    * Get a user by userId.
@@ -20,7 +20,7 @@ public with sharing class UserDao extends AbstractDao {
                 Id,
                 ContactId,
                 Contact.FirstName,
-                Contact.Guarantor_Id__c
+                Contact.sPRS__Guarantor_Id__c
             FROM User
             WHERE Id = :userId
         ];

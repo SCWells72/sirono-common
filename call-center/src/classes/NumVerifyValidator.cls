@@ -76,7 +76,7 @@ public class NumVerifyValidator {
 
     @TestVisible
     private static HttpRequest buildRequest(VerifiedNumber nbr) {
-        Sirono_Settings__c ss = SironoSettingsUtil.getPaymentPlanSettings();
+        Sirono_Settings__c ss = SironoSettingsUtil.getSironoSettings();
 
         //TODO do country_code & format belong in settings or just in the url constant?
         List<String> params = new String[] { ss.Apikey__c, ss.Country_Code__c, ss.Format__c.format(), nbr.cleanedPhoneNumber };
