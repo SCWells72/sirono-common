@@ -1,0 +1,74 @@
+# Getting Contact record types
+select name, id from recordtype where sobjecttype = 'Contact' # This should be queried against the target object, not the source like the rest of the queries here.
+
+# Location
+select name, description__c, external_description__c, external_id__c, origin_code__c, sirono_id__c, unmapped__c from location__c
+
+# Payor
+select name, description__c, external_description__c, origin_code__c, sirono_id__c, unique_id__c, unmapped__c, external_id__c from payor__c
+
+# Provider
+select name, description__c, external_description__c, external_id__c, origin_code__c, sirono_id__c, unmapped__c from provider__c
+
+# Service Rollup
+select name, description__c, detail_description__c, external_description__c, external_id__c, sirono_id__c, unmapped__c from service_rollup__c
+
+# Account
+select name, type, billingstreet, billingcity, billingstate, billingpostalcode, billingcountry, billinglatitude, billinglongitude, shippingstreet, shippingcity, shippingstate, shippingpostalcode, shippingcountry, shippinglatitude, shippinglongitude, phone, fax, accountnumber, website, photourl, sic, industry, annualrevenue, numberofemployees, ownership, tickersymbol, description, rating, site, jigsaw, jigsawcompanyid, accountsource, sicdesc, external_account_name__c from account
+
+# Guarantor contacts
+select account.external_account_name__c, lastname, firstname, middlename, suffix, recordtype.name, otherstreet, othercity, otherstate, otherpostalcode, mailingstreet, mailingcity, mailingstate, mailingpostalcode, mobilephone, homephone, otherphone, email, birthdate, deleted__c, external_guarantor_id__c, external_id__c, guarantor__r.profile_pointer_id__c, invoice_offset_date__c, medical_record_number__c, origin_code__c, preferred_contact__c, profile_pointer_id__c, sex__c, skip_invoice_stmt_until__c, social_security_number__c, statement_preference__c, verified_email__c, vital_status__c from contact where recordtype.name = 'Guarantor' and profile_pointer_id__c >= 200000
+
+# Patient contacts
+select account.external_account_name__c, lastname, firstname, middlename, suffix, recordtype.name, otherstreet, othercity, otherstate, otherpostalcode, mailingstreet, mailingcity, mailingstate, mailingpostalcode, mobilephone, homephone, otherphone, email, birthdate, deleted__c, external_guarantor_id__c, external_id__c, guarantor__r.profile_pointer_id__c, invoice_offset_date__c, medical_record_number__c, origin_code__c, patient_id__c, preferred_contact__c, profile_pointer_id__c, sex__c, skip_invoice_stmt_until__c, social_security_number__c, statement_preference__c, verified_email__c, vital_status__c from contact where recordtype.name = 'Patient' and id in (select patient__c from charge_group__c where guarantor__r.profile_pointer_id__c >= 200000)
+
+# External Guarantor contacts
+select account.external_account_name__c, lastname, firstname, middlename, suffix, recordtype.name, otherstreet, othercity, otherstate, otherpostalcode, mailingstreet, mailingcity, mailingstate, mailingpostalcode, mobilephone, homephone, otherphone, email, birthdate, deleted__c, external_guarantor_id__c, external_id__c, guarantor__r.profile_pointer_id__c, invoice_offset_date__c, medical_record_number__c, origin_code__c, patient_id__c, preferred_contact__c, profile_pointer_id__c, sex__c, skip_invoice_stmt_until__c, social_security_number__c, statement_preference__c, verified_email__c, vital_status__c from contact where recordtype.name = 'External Guarantor' and guarantor__r.profile_pointer_id__c >= 200000
+
+# Payment Method
+select name, expiration_date__c, card_holder_name__c, payment_method_token__c, guarantor__r.profile_pointer_id__c, card_type__c, sirono_id__c, last_4__c from payment_method__c where guarantor__r.profile_pointer_id__c >= 200000
+
+# Invoice
+select name, guarantor__r.profile_pointer_id__c, due_date__c, date__c, patient__r.patient_id__c, sirono_id__c from invoice__c where guarantor__r.profile_pointer_id__c >= 200000
+
+# Payment Plan
+select name, sirono_id__c, status__c, original_balance__c, has_error__c, error_date__c, delinquent__c, delinquent_date__c, installment_amount__c, skip_payment_until__c, active__c, plan_value_modified_date__c, execute_on_day__c, plan_type__c, original_installment_count__c, plan_origin__c, guarantor__r.profile_pointer_id__c, payment_method__r.sirono_id__c from payment_plan__c where guarantor__r.profile_pointer_id__c >= 200000
+
+# Statement
+select name, guarantor__r.profile_pointer_id__c, hex_code__c, large_statement_id__c, original_balance__c, original_charge_groups__c, s3_key__c, sirono_id__c, small_statement_id__c, statement_date__c from statement__c where guarantor__r.profile_pointer_id__c >= 200000
+
+# Charge Group
+select name, sirono_id__c, external_id__c, origin_code__c, origin_subcode__c, account_type__c, selfpay_bucket__c, active__c, inactivation_date__c, balance_mismatch__c, pre_collection_sent__c, sirono_assigned_date__c, financial_class__c, recalculate_fields__c, reported_selfpay_balance__c, reported_insurance_balance__c, reported_prebill_balance__c, reported_bad_debt__c, in_inventory__c, date_of_service_start_date__c, date_of_service_end_date__c, newly_imported__c, account_sub_status__c, payment_plan__r.sirono_id__c, location__r.external_id__c, invoice__r.sirono_id__c, provider__c, guarantor__r.profile_pointer_id__c, patient__r.patient_id__c, charge_group_external_id__c, pre_collection_history__c, external_guarantor_id__r.external_guarantor_id__c, inactivation_flags__c, account_status__c from charge_group__c where guarantor__r.profile_pointer_id__c >= 200000
+
+# Coverage
+select name, date_effective__c, date_termination__c, external_id__c, external_last_update__c, financial_class__c, group_name__c, group_number__c, member_id__c, member_name__c, member_relationship__c, origin_code__c, payor__r.unique_id__c, plan_name__c, priority__c, sirono_id__c, subscriber_dob__c, subscriber_id__c, subscriber_name__c, subscriber_ssn__c, subscriber_sex__c, verification_status__c from coverage__c
+
+# Patient Payment
+select payment_plan__r.sirono_id__c, sirono_id__c, payment_method__r.sirono_id__c, amount__c, method__c, processor_transaction_id__c, guarantor__r.profile_pointer_id__c, deposit_date__c, statement__r.sirono_id__c from payment__c where guarantor__r.profile_pointer_id__c >= 200000
+
+# Service (Service2)
+select aggregate_id__c, cpt_code_modifiers__c, cpt_code_override__c, cpt_code__c, charge_code_description__c, charge_code__c, external_guarantor__r.external_guarantor_id__c, guarantor__r.profile_pointer_id__c, provider__c, quantity__c, service_date__c, service_rollup__r.external_id__c from service2__c where guarantor__r.profile_pointer_id__c >= 200000
+
+# Adjustment
+select guarantor__r.profile_pointer_id__c, aggregate_id__c, amount__c, description__c, payor__r.unique_id__c, post_date__c, external_guarantor__r.external_guarantor_id__c from adjustment__c where guarantor__r.profile_pointer_id__c >= 200000
+
+# Payment
+select amount__c, deposit_date__c, id__c, payor__r.unique_id__c from payment__c where payor__c <> null
+
+# Service Transaction
+select name, charge_group__r.sirono_id__c, amount__c, external_id__c, post_date__c, sirono_id__c, transaction_date__c, service2__r.aggregate_id__c from transaction__c where service2__c <> null and service2__r.guarantor__r.profile_pointer_id__c >= 200000
+
+# Adjustment Transaction
+select name, charge_group__r.sirono_id__c, amount__c, external_id__c, post_date__c, sirono_id__c, transaction_date__c, adjustment2__r.aggregate_id__c from transaction__c where adjustment2__c <> null and adjustment2__r.guarantor__r.profile_pointer_id__c >= 200000
+
+# Payment Transaction
+select name, charge_group__r.sirono_id__c, amount__c, external_id__c, payment__r.id__c, post_date__c, sirono_id__c, transaction_date__c from transaction__c where payment__c <> null and charge_group__r.guarantor__r.profile_pointer_id__c >= 200000
+
+# Charge Group Coverage Junction
+select name, charge_group__r.sirono_id__c, coverage__r.sirono_id__c, sirono_id__c from charge_group_coverage_junction__c where charge_group__r.guarantor__r.profile_pointer_id__c >= 200000
+
+# Patient Coverage Junction
+select coverage__r.sirono_id__c, patient__r.patient_id__c, sirono_id__c from patient_coverage_junction__c and patient__c in (select patient__c from charge_group__c where guarantor__r.profile_pointer_id__c >= 200000)
+
+# Contact (Notes)
+select profile_pointer_id__c, notes__c from contact where profile_pointer_id__c >= 200000
