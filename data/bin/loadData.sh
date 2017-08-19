@@ -106,7 +106,7 @@ if [ $? -eq 0 ]; then
     echo "***** Loading Guarantor Payments *****"
     sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Payment_Guarantor.csv -s Payment__c -i Sirono_Id__c -w 5
     echo "***** Loading Services *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/temp/load/Service.csv -s Service2__c -i Aggregate_Id__c -w 5
+    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Service.csv -s Service2__c -i Aggregate_Id__c -w 5
     echo "***** Loading Adjustments *****"
     sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Adjustment.csv -s Adjustment__c -i Aggregate_Id__c -w 5
     echo "***** Loading Payor Payments *****"
