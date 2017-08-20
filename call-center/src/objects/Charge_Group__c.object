@@ -185,7 +185,7 @@
         <relationshipLabel>Charge Groups (External Guarantor ID)</relationshipLabel>
         <relationshipName>Charge_Groups2</relationshipName>
         <required>false</required>
-        <trackHistory>true</trackHistory>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
@@ -219,7 +219,7 @@
         <relationshipName>Charge_Groups</relationshipName>
         <relationshipOrder>0</relationshipOrder>
         <reparentableMasterDetail>true</reparentableMasterDetail>
-        <trackHistory>true</trackHistory>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>MasterDetail</type>
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
@@ -438,7 +438,7 @@
         <relationshipLabel>Charge Groups (Patient)</relationshipLabel>
         <relationshipName>Charge_Groups_Patient</relationshipName>
         <required>false</required>
-        <trackHistory>true</trackHistory>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>

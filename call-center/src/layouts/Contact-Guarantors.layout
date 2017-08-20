@@ -24,19 +24,6 @@
                 <unit>Percentage</unit>
                 <width>30</width>
             </containers>
-            <containers>
-                <isContainerAutoSizeEnabled>true</isContainerAutoSizeEnabled>
-                <region>Left</region>
-                <sidebarComponents>
-                    <componentType>VisualForcePage</componentType>
-                    <height>100</height>
-                    <page>Five9__Five9VMPage</page>
-                    <unit>Percentage</unit>
-                </sidebarComponents>
-                <style>Stack</style>
-                <unit>Pixel</unit>
-                <width>200</width>
-            </containers>
         </primaryTabComponents>
         <subtabComponents>
             <containers>

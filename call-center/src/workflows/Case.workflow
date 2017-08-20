@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+<!--
     <alerts>
         <fullName>Internal_Case_Assignment</fullName>
         <description>Internal Case Assignment</description>
@@ -11,6 +12,8 @@
         <senderType>CurrentUser</senderType>
         <template>Sirono_PRS/SUPPORTNewassignmentnotificationSAMPLE</template>
     </alerts>
+-->
+<!--
     <alerts>
         <fullName>Internal_Case_Notification</fullName>
         <ccEmails>david@CloudCoOp.io, andy.davidson@cloudcoop.io</ccEmails>
@@ -22,6 +25,8 @@
         <senderType>CurrentUser</senderType>
         <template>Sirono_PRS/Internal_Case_Creation</template>
     </alerts>
+-->
+<!--
     <alerts>
         <fullName>Internal_Case_Status_Update</fullName>
         <description>Internal Case Status Update</description>
@@ -37,6 +42,7 @@
         <senderType>CurrentUser</senderType>
         <template>Sirono_PRS/Internal_Case_Comment_Update</template>
     </alerts>
+-->
     <fieldUpdates>
         <fullName>Case_Escalation</fullName>
         <field>IsEscalated</field>
@@ -64,6 +70,7 @@
         </criteriaItems>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
+<!--
     <rules>
         <fullName>Internal Case - Assignment</fullName>
         <actions>
@@ -78,6 +85,8 @@
         </criteriaItems>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
+-->
+<!--
     <rules>
         <fullName>Internal Case - Status Change</fullName>
         <actions>
@@ -92,6 +101,8 @@
         </criteriaItems>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
+-->
+<!--
     <rules>
         <fullName>Internal Case Creation</fullName>
         <actions>
@@ -106,6 +117,7 @@
         </criteriaItems>
         <triggerType>onCreateOnly</triggerType>
     </rules>
+-->
     <tasks>
         <fullName>CASE_ESCALATION</fullName>
         <assignedToType>owner</assignedToType>

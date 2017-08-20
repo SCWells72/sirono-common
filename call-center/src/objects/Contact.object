@@ -1039,7 +1039,7 @@ CASE(Invoice_Status_Rollup2__c,
         <externalId>false</externalId>
         <label>Sex</label>
         <required>false</required>
-        <trackHistory>true</trackHistory>
+        <trackHistory>false</trackHistory>
         <type>Picklist</type>
         <valueSet>
             <valueSetDefinition>
@@ -1066,7 +1066,7 @@ CASE(Invoice_Status_Rollup2__c,
         <maskChar>X</maskChar>
         <maskType>ssn</maskType>
         <required>false</required>
-        <trackHistory>true</trackHistory>
+        <trackHistory>false</trackHistory>
         <type>EncryptedText</type>
     </fields>
     <fields>

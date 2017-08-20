@@ -158,9 +158,6 @@
         <layout>User-User Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>UserAlt-User Profile Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>UserAppMenuItem-Application Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -180,10 +177,12 @@
         <enabled>true</enabled>
         <name>AllowViewKnowledge</name>
     </userPermissions>
+<!--
     <userPermissions>
         <enabled>true</enabled>
         <name>ChatterInternalUser</name>
     </userPermissions>
+-->
     <userPermissions>
         <enabled>true</enabled>
         <name>LightningConsoleAllowedForUser</name>

@@ -41,20 +41,20 @@
         <members>Activity.Salesforce_Id__c</members>
         <name>CustomField</name>
     </types>
-    <!-- TODO: This should be a pre-install deployment -->
-<!--
     <types>
-        <members>Five9</members>
-        <name>InstalledPackage</name>
-    </types>
--->
-    <types>
+        <members>Campaign-Campaign Layout</members>
+        <members>Contact-Guarantor-Five9 Layout</members>
         <members>Task-Task Layout</members>
         <name>Layout</name>
     </types>
     <types>
         <members>Activity.All_Activities</members>
         <name>ListView</name>
+    </types>
+    <types>
+        <members>Sirono_Five9_User_Local</members>
+        <members>Sirono_Five9_Administrator_Local</members>
+        <name>PermissionSet</name>
     </types>
     <types>
         <members>Five9WebServices</members>

@@ -279,153 +279,7 @@
         <name>CustomApplication</name>
     </types>
     <types>
-        <!-- NOTE: All custom fields must be listed when deploying to package including those on listed custom objects -->
         <members>*</members>
-<!--
-        <members>Account.External_Account_Name__c</members>
-        <members>CampaignMember.Case_Id__c</members>
-        <members>Case.Asset_Id__c</members>
-        <members>Case.Assigned_To__c</members>
-        <members>Case.Author_Id__c</members>
-        <members>Case.Caller_CaseClaim__c</members>
-        <members>Case.Caller_Contact_Fax__c</members>
-        <members>Case.Caller_Contact_Number__c</members>
-        <members>Case.Callers_Name__c</members>
-        <members>Case.Carrier__c</members>
-        <members>Case.Case_Claim__c</members>
-        <members>Case.Case_ETA__c</members>
-        <members>Case.Charge_Group_Ids__c</members>
-        <members>Case.Charge_Group_For_Discount__c</members>
-        <members>Case.Claim__c</members>
-        <members>Case.Closed_Date__c</members>
-        <members>Case.Closed_Reason__c</members>
-        <members>Case.Contact_Id__c</members>
-        <members>Case.Contact_Number__c</members>
-        <members>Case.Contact_Event__c</members>
-        <members>Case.Created_At__c</members>
-        <members>Case.Created_By_Id__c</members>
-        <members>Case.Created_Date__c</members>
-        <members>Case.Cred_Card_Last_4_Check_Number__c</members>
-        <members>Case.Date_Of_Death__c</members>
-        <members>Case.Date_Of_Bankruptcy_Filing__c</members>
-        <members>Case.Effective_Date__c</members>
-        <members>Case.Eligible_Discount__c</members>
-        <members>Case.Encounter__c</members>
-        <members>Case.Entry_Time__c</members>
-        <members>Case.Est_Annual_Gross_Family_Income__c</members>
-        <members>Case.Est_Income_Measure_3_Or_12_Months__c</members>
-        <members>Case.Est_Monthly_Gross_Family_Income__c</members>
-        <members>Case.External_Author__c</members>
-        <members>Case.Form_To_Be_Mailed__c</members>
-        <members>Case.Group_Number__c</members>
-        <members>Case.Guarantor_DOB__c</members>
-        <members>Case.Guarantor_Id__c</members>
-        <members>Case.Guarantor_Information__c</members>
-        <members>Case.Has_CSS_Comments__c</members>
-        <members>Case.Has_Comments_Unread__c</members>
-        <members>Case.Id__c</members>
-        <members>Case.Informed_Caller_To_Mail_Death_Certificat__c</members>
-        <members>Case.Insurance_Type__c</members>
-        <members>Case.Is_Closed__c</members>
-        <members>Case.Is_Escalated__c</members>
-        <members>Case.Last_Modified_By_Id__c</members>
-        <members>Case.Last_Modified_Date__c</members>
-        <members>Case.Link_To_Item__c</members>
-        <members>Case.Mail_In_Proof_Of_Bankruptcy_And_Terms__c</members>
-        <members>Case.Merge_With_Guarantor_Id__c</members>
-        <members>Case.Modified_At__c</members>
-        <members>Case.New_City__c</members>
-        <members>Case.New_Country__c</members>
-        <members>Case.New_DOB__c</members>
-        <members>Case.New_Demographic_Information__c</members>
-        <members>Case.New_First_Name__c</members>
-        <members>Case.New_Home_Phone__c</members>
-        <members>Case.New_Last_Name__c</members>
-        <members>Case.New_Middle_Name__c</members>
-        <members>Case.New_Mobile_Phone__c</members>
-        <members>Case.New_PayorInsurance__c</members>
-        <members>Case.New_Social_Security_Number__c</members>
-        <members>Case.New_State__c</members>
-        <members>Case.New_Street_Address__c</members>
-        <members>Case.New_Suffix__c</members>
-        <members>Case.New_Work_Phone__c</members>
-        <members>Case.New_Zipcode__c</members>
-        <members>Case.Note_Type__c</members>
-        <members>Case.Notify_Assign_To__c</members>
-        <members>Case.Number_Of_People_In_Household__c</members>
-        <members>Case.Object__c</members>
-        <members>Case.Origin_Code__c</members>
-        <members>Case.Origin__c</members>
-        <members>Case.Owner_Id__c</members>
-        <members>Case.Patient_DOB__c</members>
-        <members>Case.Patient_MRN__c</members>
-        <members>Case.Patient__c</members>
-        <members>Case.Payment_Delivered__c</members>
-        <members>Case.Payment_Method__c</members>
-        <members>Case.Payment_Plan_Id__c</members>
-        <members>Case.Payor__c</members>
-        <members>Case.Person_To_Contact__c</members>
-        <members>Case.Plan_Type__c</members>
-        <members>Case.Severity__c</members>
-        <members>Case.Special_Instructions__c</members>
-        <members>Case.Special_Notes__c</members>
-        <members>Case.Subscriber_Id__c</members>
-        <members>Case.Subscriber_Name__c</members>
-        <members>Case.Summary_Text__c</members>
-        <members>Case.Supplied_Company__c</members>
-        <members>Case.Supplied_Email__c</members>
-        <members>Case.Supplied_Name__c</members>
-        <members>Case.Supplied_Phone__c</members>
-        <members>Case.System_Mod_Stamp__c</members>
-        <members>Case.Text__c</members>
-        <members>Case.Time_Worked_Mins__c</members>
-        <members>Case.Transaction_Amount__c</members>
-        <members>Case.Transaction_Code__c</members>
-        <members>Contact.Add_To_Payment_Plan__c</members>
-        <members>Contact.Address__c</members>
-        <members>Contact.Age__c</members>
-        <members>Contact.Bad_Debt_Balance__c</members>
-        <members>Contact.CTINumber1__c</members>
-        <members>Contact.CTINumber2__c</members>
-        <members>Contact.CTINumber3__c</members>
-        <members>Contact.Credit_Balance__c</members>
-        <members>Contact.Deleted__c</members>
-        <members>Contact.Delinquent_Balance__c</members>
-        <members>Contact.Delinquent_Invoices__c</members>
-        <members>Contact.Due_Balance__c</members>
-        <members>Contact.Estimate_Balance__c</members>
-        <members>Contact.External_Guarantor_Id__c</members>
-        <members>Contact.External_Id__c</members>
-        <members>Contact.Full_Name__c</members>
-        <members>Contact.Guarantor_Patient_Id__c</members>
-        <members>Contact.Guarantor_Status__c</members>
-        <members>Contact.Guarantor__c</members>
-        <members>Contact.Home_Phone_Type__c</members>
-        <members>Contact.Invoice_Offset_Date__c</members>
-        <members>Contact.Invoice_Status_Rollup2__c</members>
-        <members>Contact.Invoiced_Balance__c</members>
-        <members>Contact.Languages__c</members>
-        <members>Contact.Level__c</members>
-        <members>Contact.Medical_Record_Number__c</members>
-        <members>Contact.Mobile_Phone_Type__c</members>
-        <members>Contact.Non_Payment_Plan_Invoices__c</members>
-        <members>Contact.Notes__c</members>
-        <members>Contact.Origin_Code__c</members>
-        <members>Contact.Other_Phone_Type__c</members>
-        <members>Contact.Outstanding_Invoices__c</members>
-        <members>Contact.Overdue_Balance__c</members>
-        <members>Contact.Overdue_Invoices__c</members>
-        <members>Contact.Patient_Id__c</members>
-        <members>Contact.Patient_Satisfaction__c</members>
-        <members>Contact.Payment_Plan_Balance__c</members>
-        <members>Contact.Payment_Proclivity_Score__c</members>
-        <members>Contact.Pre_Invoiced_Balance__c</members>
-        <members>Contact.Guarantor_Id__c</members>
-        <members>Contact.Sex__c</members>
-        <members>Contact.Social_Security_Number__c</members>
-        <members>Contact.Total_Balance__c</members>
-        <members>Contact.X18_Digit_Id__c</members>
--->
         <name>CustomField</name>
     </types>
     <types>
@@ -637,6 +491,7 @@
         <name>Document</name>
     </types>
     <types>
+        <members>Sirono_PRS</members>
         <members>Sirono_PRS/Internal_Case_Comment_Update</members>
         <members>Sirono_PRS/Internal_Case_Creation</members>
         <members>Sirono_PRS/SUPPORTNewassignmentnotificationSAMPLE</members>
@@ -693,7 +548,6 @@
         <members>Adjustment_Type__mdt-Adjustment Type Layout</members>
         <members>Adjustment__c-Adjustment Layout</members>
         <members>Adjustment__c-Adjustments</members>
-        <members>Campaign-Campaign Layout</members>
         <members>CampaignMember-Campaign Member Page Layout</members>
         <members>Case-Administrative Case</members>
         <members>Case-Billing Layout</members>
@@ -739,7 +593,6 @@
         <members>Service_Rollup__c-Service Rollups</members>
         <members>Statement__c-Statement Layout</members>
         <members>Statement__c-Statements</members>
-        <members>Task-Task Layout</members>
         <members>TransactionPayerType__mdt-Transaction Payer Type Layout</members>
         <members>Transaction__c-Transaction Layout</members>
         <members>Transaction__c-Transactions</members>
@@ -807,7 +660,6 @@
         <members>Campaign.Child_Campaign</members>
         <members>Case.NewChildCase</members>
         <members>Contact.Login_As_Portal_User</members>
-        <members>FeedItem.NewTaskFromFeedItem</members>
         <members>Follow_Up</members>
         <members>LogACall</members>
         <members>NewEvent</members>
@@ -953,12 +805,6 @@
         <name>Workflow</name>
     </types>
     <types>
-        <members>Case.Internal_Case_Assignment</members>
-        <members>Case.Internal_Case_Notification</members>
-        <members>Case.Internal_Case_Status_Update</members>
-        <name>WorkflowAlert</name>
-    </types>
-    <types>
         <members>Case.Case_Escalation</members>
         <members>Charge_Group__c.Original_SelfPay_Balance</members>
         <members>Coverage__c.Coverage_Name</members>
@@ -969,9 +815,6 @@
     </types>
     <types>
         <members>Case.Case Escalation</members>
-        <members>Case.Internal Case - Assignment</members>
-        <members>Case.Internal Case - Status Change</members>
-        <members>Case.Internal Case Creation</members>
         <members>Charge_Group__c.OriginalSelfPay</members>
         <members>Coverage__c.Coverage Name</members>
         <members>Invoice__c.Invoice Name</members>

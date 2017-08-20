@@ -145,7 +145,7 @@ TEXT(YEAR(Date__c))</formula>
         <relationshipName>Guarantor</relationshipName>
         <relationshipOrder>0</relationshipOrder>
         <reparentableMasterDetail>true</reparentableMasterDetail>
-        <trackHistory>true</trackHistory>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>MasterDetail</type>
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
@@ -179,7 +179,7 @@ TEXT(YEAR(Date__c))</formula>
         <relationshipLabel>Invoices</relationshipLabel>
         <relationshipName>Invoices</relationshipName>
         <required>false</required>
-        <trackHistory>true</trackHistory>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
