@@ -144,6 +144,8 @@ if [ $? -eq 0 ]; then
     sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Patient_Coverage_Junction.csv -s "${OBJ_PREFIX}"Patient_Coverage_Junction__c -i "${OBJ_PREFIX}"Sirono_Id__c -w 5
     echo "***** Loading Guarantor Notes *****"
     sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Contact_Notes.csv -s Contact -i "${OBJ_PREFIX}"Guarantor_Id__c -w 5
+    echo "***** Loading Cases *****"
+    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Case.csv -s Case -i Id__c -w 5
     echo "***** ... and now we're done! *****"
 else
     echo "Logging in didn't quite work correctly."

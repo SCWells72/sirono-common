@@ -23,5 +23,5 @@ Statement.csv	"Name","xxXXxx__Guarantor__r.xxXXxx__Guarantor_Id__c","xxXXxx__Hex
 Transaction_Payment.csv	"xxXXxx__Charge_Group__r.xxXXxx__Sirono_ID__c","xxXXxx__Amount__c","xxXXxx__External_ID__c","xxXXxx__Payment__r.xxXXxx__ID__c","xxXXxx__Post_Date__c","xxXXxx__Sirono_ID__c","xxXXxx__Transaction_Date__c"
 Transaction_Service.csv	"xxXXxx__Charge_Group__r.xxXXxx__Sirono_ID__c","xxXXxx__Amount__c","xxXXxx__External_ID__c","xxXXxx__Post_Date__c","xxXXxx__Sirono_ID__c","xxXXxx__Transaction_Date__c","xxXXxx__Service2__r.xxXXxx__Aggregate_Id__c"
 Transaction_Adjustment.csv	"xxXXxx__Charge_Group__r.xxXXxx__Sirono_ID__c","xxXXxx__Amount__c","xxXXxx__External_ID__c","xxXXxx__Post_Date__c","xxXXxx__Sirono_ID__c","xxXXxx__Transaction_Date__c","xxXXxx__Adjustment2__r.xxXXxx__Aggregate_Id__c"
-
+Case.csv	"TYPE","STATUS","SUBJECT","ISCLOSED","ISESCALATED","ISCLOSEDONCREATE","xxXXxx__SEVERITY__C","xxXXxx__CALLERS_NAME__C","xxXXxx__Guarantor_Information__r.xxXXxx__Guarantor_Id__c","xxXXxx__SPECIAL_NOTES__C","xxXXxx__CALLER_CONTACT_NUMBER__C","xxXXxx__ID__c"
 
