@@ -1,4 +1,4 @@
-"Charge_Group__r.Sirono_ID__c","Amount__c","External_ID__c","Post_Date__c","Sirono_ID__c","Transaction_Date__c","Adjustment2__r.Aggregate_Id__c"
+"Charge_Group__r.Sirono_Id__c","Amount__c","External_Id__c","Post_Date__c","Sirono_ID__c","Transaction_Date__c","Adjustment2__r.Aggregate_Id__c"
 "1151021.0","60.6","A1532600054999957","2016-10-24T00:00:00.000Z","2.2155042E7","2017-04-11","181215:20161024:700006"
 "1151021.0","-60.6","A1532600054999971","2016-10-12T00:00:00.000Z","2.215504E7","2017-04-11","181215:20161012:700006"
 "1151021.0","-217.6","A1532600054999956","2016-10-24T00:00:00.000Z","2.2155041E7","2017-04-11","181215:20161024:700006"

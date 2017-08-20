@@ -21,4 +21,6 @@ Service_Rollup.csv	"Name","xxXXxx__Description__c","xxXXxx__Detail_Description__
 Statement.csv	"Name","xxXXxx__Guarantor__r.xxXXxx__Guarantor_Id__c","xxXXxx__Hex_Code__c","xxXXxx__Large_Statement_Id__c","xxXXxx__Original_Balance__c","xxXXxx__Original_Charge_Groups__c","xxXXxx__S3_Key__c","xxXXxx__Sirono_Id__c","xxXXxx__Small_Statement_Id__c","xxXXxx__Statement_Date__c"
 Transaction_Payment.csv	"xxXXxx__Charge_Group__r.xxXXxx__Sirono_ID__c","xxXXxx__Amount__c","xxXXxx__External_ID__c","xxXXxx__Payment__r.xxXXxx__ID__c","xxXXxx__Post_Date__c","xxXXxx__Sirono_ID__c","xxXXxx__Transaction_Date__c"
 Transaction_Service.csv	"xxXXxx__Charge_Group__r.xxXXxx__Sirono_ID__c","xxXXxx__Amount__c","xxXXxx__External_ID__c","xxXXxx__Post_Date__c","xxXXxx__Sirono_ID__c","xxXXxx__Transaction_Date__c","xxXXxx__Service2__r.xxXXxx__Aggregate_Id__c"
-Transaction_Adjustment.csv  "xxXXxx__Charge_Group__r.xxXXxx__Sirono_ID__c","xxXXxx__Amount__c","xxXXxx__External_ID__c","xxXXxx__Post_Date__c","xxXXxx__Sirono_ID__c","xxXXxx__Transaction_Date__c","xxXXxx__Adjustment2__r.xxXXxx__Aggregate_Id__c"
+Transaction_Adjustment.csv	"xxXXxx__Charge_Group__r.xxXXxx__Sirono_ID__c","xxXXxx__Amount__c","xxXXxx__External_ID__c","xxXXxx__Post_Date__c","xxXXxx__Sirono_ID__c","xxXXxx__Transaction_Date__c","xxXXxx__Adjustment2__r.xxXXxx__Aggregate_Id__c"
+
+

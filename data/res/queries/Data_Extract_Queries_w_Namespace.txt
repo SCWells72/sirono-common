@@ -43,17 +43,17 @@ select name, sPRS__sirono_id__c, sPRS__external_id__c, sPRS__origin_code__c, sPR
 # Coverage
 select name, sPRS__date_effective__c, sPRS__date_termination__c, sPRS__external_id__c, sPRS__external_last_update__c, sPRS__financial_class__c, sPRS__group_name__c, sPRS__group_number__c, sPRS__member_id__c, sPRS__member_name__c, sPRS__member_relationship__c, sPRS__origin_code__c, sPRS__payor__r.sPRS__unique_id__c, sPRS__plan_name__c, sPRS__priority__c, sPRS__sirono_id__c, sPRS__subscriber_dob__c, sPRS__subscriber_id__c, sPRS__subscriber_name__c, sPRS__subscriber_ssn__c, sPRS__subscriber_sex__c, sPRS__verification_status__c from sPRS__coverage__c
 
-# Patient Payment
-select sPRS__payment_plan__r.sPRS__sirono_id__c, sPRS__sirono_id__c, sPRS__payment_method__r.sPRS__sirono_id__c, sPRS__amount__c, sPRS__method__c, sPRS__processor_transaction_id__c, sPRS__guarantor__r.sPRS__Guarantor_Id__c, sPRS__deposit_date__c, sPRS__statement__r.sPRS__sirono_id__c from sPRS__payment__c where sPRS__guarantor__r.sPRS__Guarantor_Id__c >= 200000
-
 # Service (Service2)
 select sPRS__aggregate_id__c, sPRS__cpt_code_modifiers__c, sPRS__cpt_code_override__c, sPRS__cpt_code__c, sPRS__charge_code_description__c, sPRS__charge_code__c, sPRS__external_guarantor__r.sPRS__external_guarantor_id__c, sPRS__guarantor__r.sPRS__Guarantor_Id__c, sPRS__provider__c, sPRS__quantity__c, sPRS__service_date__c, sPRS__service_rollup__r.sPRS__external_id__c from service2__c where sPRS__guarantor__r.sPRS__Guarantor_Id__c >= 200000
 
 # Adjustment
 select sPRS__guarantor__r.sPRS__Guarantor_Id__c, sPRS__aggregate_id__c, sPRS__amount__c, sPRS__description__c, sPRS__payor__r.sPRS__unique_id__c, sPRS__post_date__c, sPRS__external_guarantor__r.sPRS__external_guarantor_id__c from sPRS__adjustment__c where sPRS__guarantor__r.sPRS__Guarantor_Id__c >= 200000
 
-# Payment
-select sPRS__amount__c, sPRS__deposit_date__c, sPRS__id__c, sPRS__payor__r.sPRS__unique_id__c from sPRS__payment__c where sPRS__payor__c <> null
+# Patient Payment
+select sPRS__payment_plan__r.sPRS__sirono_id__c, sPRS__sirono_id__c, sPRS__payment_method__r.sPRS__sirono_id__c, sPRS__amount__c, sPRS__method__c, sPRS__processor_transaction_id__c, sPRS__guarantor__r.sPRS__Guarantor_Id__c, sPRS__deposit_date__c, sPRS__statement__r.sPRS__sirono_id__c from sPRS__payment__c where sPRS__guarantor__r.sPRS__Guarantor_Id__c >= 200000
+
+# PAS Payment
+select sPRS__amount__c, sPRS__deposit_date__c, sPRS__id__c, sPRS__payor__r.sPRS__unique_id__c from sPRS__payment__c where sPRS__id__c <> null
 
 # Service Transaction
 select name, sPRS__charge_group__r.sPRS__sirono_id__c, sPRS__amount__c, sPRS__external_id__c, sPRS__post_date__c, sPRS__sirono_id__c, sPRS__transaction_date__c, service2__r.sPRS__aggregate_id__c from sPRS__transaction__c where service2__c <> null and service2__r.sPRS__guarantor__r.sPRS__Guarantor_Id__c >= 200000
@@ -61,8 +61,11 @@ select name, sPRS__charge_group__r.sPRS__sirono_id__c, sPRS__amount__c, sPRS__ex
 # Adjustment Transaction
 select name, sPRS__charge_group__r.sPRS__sirono_id__c, sPRS__amount__c, sPRS__external_id__c, sPRS__post_date__c, sPRS__sirono_id__c, sPRS__transaction_date__c, adjustment2__r.sPRS__aggregate_id__c from sPRS__transaction__c where adjustment2__c <> null and adjustment2__r.sPRS__guarantor__r.sPRS__Guarantor_Id__c >= 200000
 
-# Payment Transaction
-select name, sPRS__charge_group__r.sPRS__sirono_id__c, sPRS__amount__c, sPRS__external_id__c, sPRS__payment__r.sPRS__id__c, sPRS__post_date__c, sPRS__sirono_id__c, sPRS__transaction_date__c from sPRS__transaction__c where sPRS__payment__c <> null and sPRS__charge_group__r.sPRS__guarantor__r.sPRS__Guarantor_Id__c >= 200000
+# Patient Payment Transaction
+select name, sPRS__charge_group__r.sPRS__sirono_id__c, sPRS__amount__c, sPRS__external_id__c, sPRS__payment__r.sPRS__Sirono_Id__c, sPRS__post_date__c, sPRS__sirono_id__c, sPRS__transaction_date__c from sPRS__transaction__c where sPRS__payment__r.sPRS_Sirono_Id__c <> null and sPRS__charge_group__r.sPRS__guarantor__r.sPRS__Guarantor_Id__c >= 200000
+
+# PAS Payment Transaction
+select name, sPRS__charge_group__r.sPRS__sirono_id__c, sPRS__amount__c, sPRS__external_id__c, sPRS__payment__r.sPRS__id__c, sPRS__post_date__c, sPRS__sirono_id__c, sPRS__transaction_date__c from sPRS__transaction__c where sPRS__payment__r.sPRS_id__c <> null and sPRS__charge_group__r.sPRS__guarantor__r.sPRS__Guarantor_Id__c >= 200000
 
 # Charge Group Coverage Junction
 select name, sPRS__charge_group__r.sPRS__sirono_id__c, sPRS__coverage__r.sPRS__sirono_id__c, sPRS__sirono_id__c from sPRS__charge_group_coverage_junction__c where sPRS__charge_group__r.sPRS__guarantor__r.sPRS__Guarantor_Id__c >= 200000
