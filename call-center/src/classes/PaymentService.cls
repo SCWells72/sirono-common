@@ -336,7 +336,7 @@ global class PaymentService extends AbstractService {
      * @param Id contactId
      * @return List<Payment__c> - The list of payments.
      */
-    public static List<Payment__c> getPayments(Id contactId) {
+    global static List<Payment__c> getPayments(Id contactId) {
         return PaymentDao.getPayments(contactId);
     }
 }

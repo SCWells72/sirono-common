@@ -14,7 +14,7 @@ public with sharing class WorkWithPaymentsController {
         UserWrapper userWrapper = UserService.getCurrentUser();
 
 
-        List<sPRS__Payment__c> payments = PaymentService.getPayments(userWrapper.contactId);
+        List<sPRS__Payment__c> payments = sPRS.PaymentService.getPayments(userWrapper.contactId);
         List<PaymentsWrapper> wrappers = new List<PaymentsWrapper>();
         for (sPRS__Payment__c payment: payments) {
             wrappers.add(new PaymentsWrapper(payment));
