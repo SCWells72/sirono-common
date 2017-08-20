@@ -16,6 +16,11 @@
               <option name="substitutionPattern" value="\bsPRS(\.|__)" />
               <option name="substitutionText" value="sPRSburn1$1" />
             </SubstitutionRule>
+            <SubstitutionRule>
+              <option name="filenamePattern" value=".*-meta\.xml" />
+              <option name="substitutionPattern" value="\bsPRS\b" />
+              <option name="substitutionText" value="sPRSburn1" />
+            </SubstitutionRule>
           </list>
         </option>
         <option name="moduleContents">
@@ -31,6 +36,16 @@
               <option name="filenamePattern" value=".*" />
               <option name="substitutionPattern" value="\bsPRS:" />
               <option name="substitutionText" value="c:" />
+            </SubstitutionRule>
+            <SubstitutionRule>
+              <option name="filenamePattern" value=".*" />
+              <option name="substitutionPattern" value="\bsPRSburn1(\.|__)" />
+              <option name="substitutionText" value="sPRS$1" />
+            </SubstitutionRule>
+            <SubstitutionRule>
+              <option name="filenamePattern" value=".*-meta\.xml" />
+              <option name="substitutionPattern" value="\bsPRSburn1\b" />
+              <option name="substitutionText" value="sPRS" />
             </SubstitutionRule>
           </list>
         </option>

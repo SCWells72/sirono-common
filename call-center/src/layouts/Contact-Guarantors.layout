@@ -285,16 +285,6 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>Contact.sPRS__Login_As_Portal_User</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>2</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>sPRS__Add_Adjustment</actionName>
-            <actionType>CustomButton</actionType>
-            <sortOrder>3</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>sPRS__Add_Discount</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>4</sortOrder>
@@ -323,6 +313,16 @@
             <actionName>sPRS__Pay_Estimate</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>9</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Contact.sPRS__Login_As_Portal_User</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>2</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>sPRS__Add_Adjustment</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>3</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <quickActionList/>
