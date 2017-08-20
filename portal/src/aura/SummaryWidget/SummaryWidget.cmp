@@ -13,8 +13,8 @@
     <aura:attribute name="invoiceValue" type="Decimal" access="public" default="0"/>
     <aura:attribute name="invoiceValuePart" type="String" access="public" default="00"/>
     <!-- Invoiced_Balance__c END-->
-    <aura:attribute name="login" type="String" access="public"/>
-    <aura:attribute name="password" type="String" access="public"/>
+    <aura:attribute name="login" type="String" access="global"/>
+    <aura:attribute name="password" type="String" access="global"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler event="c:UpdateSummaryWidget" action="{!c.doInit}"/>
     <div class="{! if (v.isLanding, 'landing-padding', '')}">
