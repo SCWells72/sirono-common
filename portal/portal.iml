@@ -3,7 +3,21 @@
   <component name="FacetManager">
     <facet type="IlluminatedCloud" name="Illuminated Cloud">
       <configuration>
-        <option name="connectionName" value="sirono_local" />
+        <option name="connectionName" value="sPFPburn1" />
+        <option name="deploymentSubstitutionRules">
+          <list>
+            <SubstitutionRule>
+              <option name="filenamePattern" value=".*" />
+              <option name="substitutionPattern" value="\bc:" />
+              <option name="substitutionText" value="sPRS:" />
+            </SubstitutionRule>
+            <SubstitutionRule>
+              <option name="filenamePattern" value=".*" />
+              <option name="substitutionPattern" value="\bsPRS(\.|__)" />
+              <option name="substitutionText" value="sPRSburn1$1" />
+            </SubstitutionRule>
+          </list>
+        </option>
         <option name="moduleContents">
           <ModuleContents>
             <option name="contentSelectionType" value="PACKAGE_XML" />
@@ -11,6 +25,15 @@
           </ModuleContents>
         </option>
         <option name="packageName" value="Sirono PFP" />
+        <option name="retrievalSubstitutionRules">
+          <list>
+            <SubstitutionRule>
+              <option name="filenamePattern" value=".*" />
+              <option name="substitutionPattern" value="\bsPRS:" />
+              <option name="substitutionText" value="c:" />
+            </SubstitutionRule>
+          </list>
+        </option>
       </configuration>
     </facet>
   </component>
@@ -24,8 +47,7 @@
       <excludeFolder url="file://$MODULE_DIR$/dist" />
       <excludeFolder url="file://$MODULE_DIR$/work" />
     </content>
-    <orderEntry type="jdk" jdkName="IlluminatedCloud (sirono-salesforce/sirono_local)" jdkType="IlluminatedCloud" />
+    <orderEntry type="jdk" jdkName="IlluminatedCloud (sirono-salesforce/sPFPburn1)" jdkType="IlluminatedCloud" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="call-center" />
   </component>
 </module>
