@@ -146,7 +146,7 @@
             <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Due')}">
                 <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Good Standing')}">
                     <a onclick="{!c.sendPageCreateToHeader}">
-                        <button class="slds-button slds-button--brand">Add Invoice(s) to Plan</button>
+                        <button class="slds-button slds-button--brand">Edit Payment Plan</button>
                     </a>
                 </aura:if>
                 <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'In Error')}">
@@ -162,7 +162,7 @@
             <div>
                 <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Overdue')}">
                     <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Good Standing')}">
-                        <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral PayOverdueBottom">Add Invoice(s) to Plan</ui:button>
+                        <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral PayOverdueBottom">Edit Payment Plan</ui:button>
                     </aura:if>
                     <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'In Error')}">
                         <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button warning PayOverdueBottom">Update Payment Method</ui:button>
@@ -178,7 +178,7 @@
             <div>
                 <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Delinquent')}">
                     <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Good Standing')}">
-                        <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Add Invoice(s) to Plan</ui:button>
+                        <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button slds-button--neutral">Edit Payment Plan</ui:button>
                     </aura:if>
                     <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'In Error')}">
                         <ui:button press="{!c.sendPageCreateToHeader}" class="slds-button warning">Update Payment Method</ui:button>
