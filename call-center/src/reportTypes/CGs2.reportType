@@ -202,7 +202,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>External_Guarantor_Id__c</field>
+            <field>External_Guarantor__c</field>
             <table>Charge_Group__c</table>
         </columns>
         <columns>

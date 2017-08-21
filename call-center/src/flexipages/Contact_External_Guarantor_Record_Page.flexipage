@@ -23,7 +23,7 @@
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>relatedListApiName</name>
-                <value>sPRS__Charge_Groups2__r</value>
+                <value>sPRS__ExtGT_Charge_Groups__r</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
         </componentInstances>

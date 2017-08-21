@@ -168,7 +168,7 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>External_Guarantor_Id__c</fullName>
+        <fullName>External_Guarantor__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>External Guarantor</label>
@@ -182,8 +182,8 @@
             <isOptional>false</isOptional>
         </lookupFilter>
         <referenceTo>Contact</referenceTo>
-        <relationshipLabel>Charge Groups (External Guarantor ID)</relationshipLabel>
-        <relationshipName>Charge_Groups2</relationshipName>
+        <relationshipLabel>Charge Groups (External Guarantor)</relationshipLabel>
+        <relationshipName>ExtGT_Charge_Groups</relationshipName>
         <required>false</required>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>

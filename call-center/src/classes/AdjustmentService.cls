@@ -168,8 +168,8 @@ public with sharing class AdjustmentService extends AbstractService {
 
         //TODO hack the aggregateId
         List<String> aggregateIdStrings = new List<String>();
-        if (dbChargeGroups[0].External_Guarantor_ID__r != null) {
-            aggregateIdStrings.add(dbChargeGroups[0].External_Guarantor_ID__r.External_Guarantor_Id__c.toPlainString());
+        if (dbChargeGroups[0].External_Guarantor__r != null) {
+            aggregateIdStrings.add(dbChargeGroups[0].External_Guarantor__r.External_Guarantor_Id__c.toPlainString());
         } else {
             aggregateIdStrings.add('');
         }
@@ -185,7 +185,7 @@ public with sharing class AdjustmentService extends AbstractService {
         adj.Aggregate_Id__c = aggregateId;
 
         //TODO hack until the ExternalGT is returned via the api
-        adj.External_Guarantor__c = dbChargeGroups[0].External_Guarantor_Id__c;
+        adj.External_Guarantor__c = dbChargeGroups[0].External_Guarantor__c;
         AdjustmentDao.save(new List<Adjustment__c> { adj });
         System.debug('Saved adj, Id: ' + adj.Id);
 

@@ -26,7 +26,7 @@ public with sharing class ChargeGroupDaoTest {
         Decimal i = 1;
         for (Charge_Group__c cg : cgToAddList) {
             cg.Sirono_Id__c = i++;
-            cg.External_Guarantor_Id__c = exgt.Id;
+            cg.External_Guarantor__c = exgt.Id;
             cg.Patient__c = pt.Id;
         }
 
