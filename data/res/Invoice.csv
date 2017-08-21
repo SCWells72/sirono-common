@@ -1,4 +1,4 @@
-"Name","Guarantor__r.Profile_Pointer_ID__c","Due_Date__c","Date__c","Patient__r.Patient_Id__c","Sirono_Id__c"
+"Name","Guarantor__r.Guarantor_Id__c","Due_Date__c","Date__c","Patient__r.Patient_Id__c","Sirono_Id__c"
 "Charles  Green (Charles  Green) - 11/7/2016","200000.0","2016-11-28","2016-11-07","200000.0","45960.0"
 "Charles  Green (Charles  Green) - 2/6/2017","200000.0","2017-02-28","2017-02-06","200000.0","45961.0"
 "Charles  Green (Grace  Green) - 1/8/2017","200000.0","2017-01-29","2017-01-08","200001.0","45962.0"

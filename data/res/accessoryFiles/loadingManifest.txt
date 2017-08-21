@@ -4,8 +4,8 @@ Adjustment.csv   Adjustment__c   Aggregate_Id__c
 Charge_Group_Coverage_Junction.csv   Charge_Group_Coverage_Junction__c   Sirono_Id__c
 Charge_Group.csv Charge_Group__c Sirono_Id__c
 Contact_ExternalGuarantor.csv   Contact External_Guarantor_Id__c
-Contact_Guarantor.csv   Contact Profile_Pointer_Id__c
-Contact_Notes.csv   Contact Profile_Pointer_Id__c
+Contact_Guarantor.csv   Contact Guarantor_Id__c
+Contact_Notes.csv   Contact Guarantor_Id__c
 Contact_Patient.csv Contact Patient_Id__c
 Coverage.csv Coverage__c Sirono_Id__c
 Invoice.csv  Invoice__c  Sirono_Id__c
