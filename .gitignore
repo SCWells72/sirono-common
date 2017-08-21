@@ -53,3 +53,5 @@ IlluminatedCloud/
 dist/
 work/
 */src/namedCredentials
+data/res/temp/
+data/res/accessoryFiles/Contact_RecordTypes.csv
