@@ -59,7 +59,7 @@
         <fullName>Aggregate_Id__c</fullName>
         <description>Composite key: External Guarantor Id, Post Date, Payor</description>
         <externalId>true</externalId>
-        <label>Aggregate Id</label>
+        <label>Aggregate ID</label>
         <length>128</length>
         <required>false</required>
         <trackHistory>false</trackHistory>

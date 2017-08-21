@@ -39,6 +39,7 @@
         <members>Transaction__c.Adjustment__c</members>
         <members>Transaction__c.Service__c</members>
         <members>Transaction__c.Credit_Balance__c</members>
+        <members>Transaction__c.Display_Name__c</members>
         <members>Transaction__c.Export_Date__c</members>
         <members>Transaction__c.Fail_Date__c</members>
         <members>Transaction__c.Method__c</members>
