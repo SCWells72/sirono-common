@@ -95,7 +95,7 @@
                 <filterreader classname="org.apache.tools.ant.filters.HeadFilter">
                     <param name="lines" value="-1"/>
                     <!-- NOTE: Need to skip more here because of the packaging elements -->
-                    <param name="skip" value="3"/>
+                    <param name="skip" value="4"/>
                 </filterreader>
                 <filterreader classname="org.apache.tools.ant.filters.TailFilter">
                     <param name="lines" value="-1"/>
@@ -120,7 +120,7 @@
                 <filterreader classname="org.apache.tools.ant.filters.HeadFilter">
                     <param name="lines" value="-1"/>
                     <!-- NOTE: Need to skip more here because of the packaging elements -->
-                    <param name="skip" value="3"/>
+                    <param name="skip" value="4"/>
                 </filterreader>
                 <filterreader classname="org.apache.tools.ant.filters.TailFilter">
                     <param name="lines" value="-1"/>
