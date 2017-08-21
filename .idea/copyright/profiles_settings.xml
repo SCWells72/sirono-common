@@ -1,7 +1,7 @@
 <component name="CopyrightManager">
   <settings default="SironoSimple">
     <module2copyright>
-      <element module="All" copyright="SironoSimple" />
+      <element module="Salesforce Source Files" copyright="SironoSimple" />
     </module2copyright>
   </settings>
 </component>
