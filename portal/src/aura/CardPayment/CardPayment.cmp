@@ -28,7 +28,7 @@
     <aura:attribute name="years" type="String[]" access="private" default="[]"/>
     <aura:attribute name="selectedInvoices" type="String[]" default="[]"/>
 
-    <aura:attribute name="IsValid" type="Boolean" default="false"/>
+    <aura:attribute name="IsValid" type="Boolean" default="false" access="global"/>
     <aura:registerEvent name="toggleSuccessMessageEvent" type="c:ToggleSuccessMessageEvent"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
