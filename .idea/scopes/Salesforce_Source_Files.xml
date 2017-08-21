@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Salesforce Source Files" pattern="file:*.cls||file:*.trigger||file:*.page||file:*.component||file:*.js||file:*.css||file:aura/*/*.app||file:*.cmp||file:*.design||file:*.evt||file:*.intf||file:*.svg||file:*.auradoc||file:*.tokens" />
+</component>
