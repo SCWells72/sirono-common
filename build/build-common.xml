@@ -14,6 +14,18 @@
     <property name="workDir" value="${basedir}/work"/>
     <property name="execAnonWorkDir" value="${workDir}/execAnon"/>
 
+    <target name="setSingleOrgConnectionProperties">
+        <!-- Set the connection properties based on the sPRS values for single-org work -->
+        <property name="sf.source.username" value="${sf.sprs.source.username}"/>
+        <property name="sf.source.password" value="${sf.sprs.source.password}"/>
+        <property name="sf.source.serverurl" value="${sf.sprs.source.serverurl}"/>
+        <property name="sf.target.username" value="${sf.sprs.target.username}"/>
+        <property name="sf.target.password" value="${sf.sprs.target.password}"/>
+        <property name="sf.target.serverurl" value="${sf.sprs.target.serverurl}"/>
+
+        <echo>Building sPRS for target ${sf.target.username} / source ${sf.source.username}.</echo>
+    </target>
+
     <macrodef name="populateWorkSrcDirWithNamespaces"
               description="Populates a work source directory from the specified source replacing namespaces per-configuration.">
         <attribute name="srcDir"/>
@@ -195,7 +207,7 @@
         <listMetadata metadataType="${metadata_type}"/>
     </target>
 
-    <target name="stop_all_scheduled_jobs">
+    <target name="stop_all_scheduled_jobs" depends="setSingleOrgConnectionProperties">
         <!-- stop all scheduled jobs -->
         <executeAnonymous
             username="${sf.target.username}"
