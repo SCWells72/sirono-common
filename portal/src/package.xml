@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>The Sirono Patient Financial Portal is part of Sirono's holistic patient financial billing platform. Sirono’s Patient Financial Portal provides patients the convenience and flexibility of managing their account information online or via their devices.</description>
     <fullName>Sirono PFP</fullName>
+    <description>The Sirono Patient Financial Portal is part of Sirono's holistic patient financial billing platform. Sirono’s Patient Financial Portal provides patients the convenience and flexibility of managing their account information online or via their devices.</description>
     <types>
         <members>CardInformation</members>
         <members>CardInformationTest</members>
-        <members>CommunitiesLandingController</members>
-        <members>CommunitiesLandingControllerTest</members>
-        <members>CommunitiesLoginController</members>
-        <members>CommunitiesLoginControllerTest</members>
-        <members>CommunitiesSelfRegConfirmController</members>
-        <members>CommunitiesSelfRegConfirmControllerTest</members>
-        <members>CommunitiesSelfRegController</members>
-        <members>CommunitiesSelfRegControllerTest</members>
         <members>Guarantor</members>
         <members>GuarantorTest</members>
         <members>HeaderController</members>
@@ -28,8 +20,6 @@
         <members>LightningUtil</members>
         <members>LightningUtilTest</members>
         <members>MakeAPaymentController</members>
-        <members>MyProfilePageController</members>
-        <members>MyProfilePageControllerTest</members>
         <members>PayEstimateLightningController</members>
         <members>PayEstimateLightningControllerTest</members>
         <members>PaymentTabsController</members>
@@ -43,8 +33,6 @@
         <members>PortalUIUtilsTest</members>
         <members>SettingsController</members>
         <members>SettingsControllerTest</members>
-        <members>SiteLoginController</members>
-        <members>SiteLoginControllerTest</members>
         <members>UserDao</members>
         <members>UserService</members>
         <members>UserWrapper</members>
