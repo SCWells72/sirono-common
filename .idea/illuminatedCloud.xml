@@ -12,29 +12,6 @@
                 <option name="moduleName" value="adapter-Five9" />
                 <option name="name" value="Sirono Five9 Adapter" />
               </DevelopmentPackageExt>
-            </list>
-          </option>
-          <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/sirono_local/OfflineSymbolTable.zip" />
-        </IlluminatedCloudConnection>
-        <IlluminatedCloudConnection>
-          <option name="connectionName" value="sPFPburn1" />
-          <option name="developmentPackages">
-            <list>
-              <DevelopmentPackageExt>
-                <option name="description" value="Sirono PFP" />
-                <option name="managed" value="true" />
-                <option name="moduleName" value="portal" />
-                <option name="name" value="Sirono PFP" />
-                <option name="namespace" value="sPRS" />
-              </DevelopmentPackageExt>
-            </list>
-          </option>
-          <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/sPFPburn1/OfflineSymbolTable.zip" />
-        </IlluminatedCloudConnection>
-        <IlluminatedCloudConnection>
-          <option name="connectionName" value="sPRSburn1" />
-          <option name="developmentPackages">
-            <list>
               <DevelopmentPackageExt>
                 <option name="description" value="Sirono PRS" />
                 <option name="managed" value="true" />
@@ -42,9 +19,15 @@
                 <option name="name" value="Sirono PRS" />
                 <option name="namespace" value="sPRS" />
               </DevelopmentPackageExt>
+              <DevelopmentPackageExt>
+                <option name="description" value="Sirono PFP" />
+                <option name="moduleName" value="portal" />
+                <option name="name" value="Sirono PFP" />
+                <option name="namespace" value="sPRS" />
+              </DevelopmentPackageExt>
             </list>
           </option>
-          <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/sPRSburn1/OfflineSymbolTable.zip" />
+          <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/sirono_local/OfflineSymbolTable.zip" />
         </IlluminatedCloudConnection>
       </list>
     </option>
