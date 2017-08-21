@@ -50,6 +50,6 @@ IlluminatedCloud/
 
 # Generated
 .ant-targets-build.xml
-post_install_zip
+dist/
 work/
 */src/namedCredentials

@@ -41,7 +41,7 @@ public class NumVerifyValidatorTest {
         //Set up a valid number
         String phoneNumber = '+1 (852) 999-3451';
 
-        Sirono_Settings__c settings = SironoSettingsUtil.getPaymentPlanSettings();
+        Sirono_Settings__c settings = SironoSettingsUtil.getSironoSettings();
 
         //Make sure the query parameters are in alpha order to match the way HttpRequest constructs them
         String validUrl = 'https://apilayer.net/api/validate?access_key=' + settings.Apikey__c + '&country_code=' + settings.Country_Code__c + '&format=' + settings.Format__c + '&number=18529993451';

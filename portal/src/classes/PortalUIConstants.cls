@@ -35,9 +35,9 @@ public with sharing class PortalUIConstants {
     }
 
     public static List<String> getStates() {
-        List<State__mdt> statesList = [SELECT Label FROM State__mdt ORDER BY Label LIMIT 1000];
+        List<sPRS__State__mdt> statesList = [SELECT Label FROM sPRS__State__mdt ORDER BY Label LIMIT 1000];
         List<String> states = new List<String>();
-        for (State__mdt state : statesList) {
+        for (sPRS__State__mdt state : statesList) {
             states.add(state.Label);
         }
         return states;

@@ -15,8 +15,17 @@
              classpath="${libdir}/ml-ant-http-1.1.3.jar"/>
 
     <property file="${basedir}/../build/build.properties"/>
-    <property file="${basedir}/build/build.properties"/>
     <property environment="env"/>
+
+    <!-- Set the connection properties based on the sPRS values for single-org deployment -->
+    <property name="sf.source.username" value="${sf.sprs.source.username}"/>
+    <property name="sf.source.password" value="${sf.sprs.source.password}"/>
+    <property name="sf.source.serverurl" value="${sf.sprs.source.serverurl}"/>
+    <property name="sf.target.username" value="${sf.sprs.target.username}"/>
+    <property name="sf.target.password" value="${sf.sprs.target.password}"/>
+    <property name="sf.target.serverurl" value="${sf.sprs.target.serverurl}"/>
+
+    <echo>Building Five9 Adapter for target ${sf.target.username} / source ${sf.source.username}.</echo>
 
     <import file="${basedir}/../build/build-common.xml"/>
     <import file="build_initial_deploy.xml"/>

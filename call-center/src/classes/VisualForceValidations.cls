@@ -5,7 +5,7 @@
 /**
  * Validation class for Amount and Credit Card Validations.
  **/
-public with sharing class VisualForceValidations {
+global with sharing class VisualForceValidations {
 
     public static List<String> errorMessages = new List<String>();
 
@@ -16,7 +16,7 @@ public with sharing class VisualForceValidations {
      * @param String balance - That contains balance.
      * @returns List<String> errorMessages - That contains error messages if any else it will be blank/size is zero.
      **/
-    public static List<String> amountValidation(String amount, String balance) {
+    global static List<String> amountValidation(String amount, String balance) {
         // Call checkAmountNotEmpty method to check amount is empty or not.
         checkAmountNotEmpty(amount);
 
@@ -48,7 +48,7 @@ public with sharing class VisualForceValidations {
             checkAmountExceedBalance(amount, String.valueOf(selectedCGsBalance));
 
             // Get sirono settings/payment plan setting.
-            Sirono_Settings__c paymentPlanSettings = SironoSettingsUtil.getPaymentPlanSettings();
+            Sirono_Call_Center_Settings__c paymentPlanSettings = SironoCallCenterSettingsUtil.getSironoCallCenterSettings();
 
             // Call checkMinInstallmentAmount method to check amount is less than minimum installment amount or not.
             checkMinInstallmentAmount(Decimal.valueOf(amount), paymentPlanSettings.Min_Installment_Amount__c);
@@ -149,7 +149,7 @@ public with sharing class VisualForceValidations {
      * @param String address - That contains address.
      * @returns List<String> errorMessages - That contains error messages if any else it will be blank/size is zero.
      **/
-    public static List<String> creditCardValidation(String ccNumber, String expirationYear, String expirationMonth, String zip,
+    global static List<String> creditCardValidation(String ccNumber, String expirationYear, String expirationMonth, String zip,
         String cardHolderName, String cvv, String address) {
 
         // Call checkCcNumberDigit method to check cc number is 12 to 19 digit or not.

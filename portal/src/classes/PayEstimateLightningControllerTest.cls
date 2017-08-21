@@ -9,14 +9,14 @@ public class PayEstimateLightningControllerTest {
     public static void payEstimatePortalUser() {
 
         User usr = PortalTestUtility.getGuarantorCommunityUser();
-        Contact gt = GuarantorService.getPortalGuarantor(usr.Id);
+        Contact gt = sPRS.GuarantorService.getPortalGuarantor(usr.Id);
         Contact pt = PortalTestUtility.generatePatientContact();
 
         System.assert(gt != null, 'No valid GT found');
 
         // Create Encounter record.
-        Encounter__c encounter = PortalTestUtility.generateEncounter(gt.Id, 500, System.today());
-        encounter.Patient__c = pt.Id;
+        sPRS__Encounter__c encounter = PortalTestUtility.generateEncounter(gt.Id, 500, System.today());
+        encounter.sPRS__Patient__c = pt.Id;
         insert encounter;
 
         System.runAs(usr) {
@@ -45,30 +45,30 @@ public class PayEstimateLightningControllerTest {
 
 
         // Get List of Payment based on Encounter.
-        List<Payment__c> payments = [
-            SELECT Id, Amount__c, Guarantor__c, Encounter__c
-            FROM Payment__c
-            WHERE Encounter__c = :encounter.Id
+        List<sPRS__Payment__c> payments = [
+            SELECT Id, sPRS__Amount__c, sPRS__Guarantor__c, sPRS__Encounter__c
+            FROM sPRS__Payment__c
+            WHERE sPRS__Encounter__c = :encounter.Id
         ];
 
         System.assert(payments.size() == 1, 'Expected 1 payment, but found ' + payments.size());
         // Check system assert, Encounter Look up set in Payment Record or not.
-        System.assertEquals(payments[0].Encounter__c, encounter.Id);
+        System.assertEquals(payments[0].sPRS__Encounter__c, encounter.Id);
         // Check system assert, Guarantor is same for Payment and Encounter.
-        System.assertEquals(payments[0].Guarantor__c, gt.Id);
+        System.assertEquals(payments[0].sPRS__Guarantor__c, gt.Id);
         // Check system assert, We insert/set amount in object/record is assign into Payment.
-        System.assertEquals(payments[0].Amount__c, 100.00, 'Expected payment of $100.00, but got: ' + payments[0].Amount__c);
+        System.assertEquals(payments[0].sPRS__Amount__c, 100.00, 'Expected payment of $100.00, but got: ' + payments[0].sPRS__Amount__c);
 
         // Get List of Encounter based on Id.
-        List<Encounter__c> encounters = [
-            SELECT Id, Balance__c
-            FROM Encounter__c
+        List<sPRS__Encounter__c> encounters = [
+            SELECT Id, sPRS__Balance__c
+            FROM sPRS__Encounter__c
             WHERE Id = :encounter.Id
         ];
         // Set variable 500(Existing Balance in Encounter) minus Amount of Payment.
-        Decimal encounterAmount = 500 - payments[0].Amount__c;
+        Decimal encounterAmount = 500 - payments[0].sPRS__Amount__c;
         // Check system assert, Encounter balance decreased by the Amount of Payment.
-        System.assertEquals(encounters[0].Balance__c, encounterAmount);
+        System.assertEquals(encounters[0].sPRS__Balance__c, encounterAmount);
     }
 
     /**
@@ -81,7 +81,7 @@ public class PayEstimateLightningControllerTest {
         insert guarantorContact;
 
         // Create Encounter record.
-        Encounter__c encounter = PortalTestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
+        sPRS__Encounter__c encounter = PortalTestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
         insert encounter;
 
         Test.startTest();
@@ -110,28 +110,28 @@ public class PayEstimateLightningControllerTest {
         Test.stopTest();
 
         // Get List of Payment based on Encounter.
-        List<Payment__c> payments = [
-            SELECT Id, Amount__c, Guarantor__c, Encounter__c
-            FROM Payment__c
-            WHERE Encounter__c = :encounter.Id
+        List<sPRS__Payment__c> payments = [
+            SELECT Id, sPRS__Amount__c, sPRS__Guarantor__c, sPRS__Encounter__c
+            FROM sPRS__Payment__c
+            WHERE sPRS__Encounter__c = :encounter.Id
         ];
         // Check system assert, Encounter Look up set in Payment Record or not.
-        System.assertEquals(payments[0].Encounter__c, encounter.Id);
+        System.assertEquals(payments[0].sPRS__Encounter__c, encounter.Id);
         // Check system assert, Guarantor is same for Payment and Encounter.
-        System.assertEquals(payments[0].Guarantor__c, guarantorContact.Id);
+        System.assertEquals(payments[0].sPRS__Guarantor__c, guarantorContact.Id);
         // Check system assert, We insert/set amount in object/record is assign into Payment.
-        System.assertEquals(payments[0].Amount__c, Decimal.valueOf(objPayEstimate.amount));
+        System.assertEquals(payments[0].sPRS__Amount__c, Decimal.valueOf(objPayEstimate.amount));
 
         // Get List of Encounter based on Id.
-        List<Encounter__c> encounters = [
-            SELECT Id, Balance__c
-            FROM Encounter__c
+        List<sPRS__Encounter__c> encounters = [
+            SELECT Id, sPRS__Balance__c
+            FROM sPRS__Encounter__c
             WHERE Id = :encounter.Id
         ];
         // Set variable 500(Existing Balance in Encounter) minus Amount of Payment.
-        Decimal encounterAmount = 500 - payments[0].Amount__c;
+        Decimal encounterAmount = 500 - payments[0].sPRS__Amount__c;
         // Check system assert, Enconter balance is decreases by the Amount of Payment.
-        System.assertEquals(encounters[0].Balance__c, encounterAmount);
+        System.assertEquals(encounters[0].sPRS__Balance__c, encounterAmount);
     }
 
     /**
@@ -144,7 +144,7 @@ public class PayEstimateLightningControllerTest {
         insert guarantorContact;
 
         // Create Encounter record.
-        Encounter__c encounter = PortalTestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
+        sPRS__Encounter__c encounter = PortalTestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
         insert encounter;
 
         Test.startTest();
@@ -152,11 +152,11 @@ public class PayEstimateLightningControllerTest {
         PayEstimateLightningController objPayEstimate = new PayEstimateLightningController(new ApexPages.StandardController(guarantorContact), encounter.Id);
         objPayEstimate.guarantorRecordId = guarantorContact.Id;
 
-        Encounter__c[] encounterList = EncounterService.getEncounterRecordsByGuarantorId(guarantorContact.Id);
-        objPayEstimate.encounters = EncounterWrapper.buildList(encounterList);
+        sPRS__Encounter__c[] encounterList = sPRS.EncounterService.getEncounterRecordsByGuarantorId(guarantorContact.Id);
+        objPayEstimate.encounters = sPRS.EncounterWrapper.buildList(encounterList);
 
         // Based on Encounter List, Select Encounter record.
-        for (EncounterWrapper enw : objPayEstimate.encounters) {
+        for (sPRS.EncounterWrapper enw : objPayEstimate.encounters) {
             enw.isSelected = true;
         }
 
@@ -176,10 +176,10 @@ public class PayEstimateLightningControllerTest {
         Test.stopTest();
 
         // Get List of Payment based on Encounter.
-        List<Payment__c> payments = [
-            SELECT Id, Amount__c, Guarantor__c, Encounter__c
-            FROM Payment__c
-            WHERE Encounter__c = :encounter.Id
+        List<sPRS__Payment__c> payments = [
+            SELECT Id, sPRS__Amount__c, sPRS__Guarantor__c, sPRS__Encounter__c
+            FROM sPRS__Payment__c
+            WHERE sPRS__Encounter__c = :encounter.Id
         ];
         // Check system assert, Payment is not create for encounter.
         System.assertEquals(payments.size(), 0);
@@ -195,7 +195,7 @@ public class PayEstimateLightningControllerTest {
         insert guarantorContact;
 
         // Create Encounter record.
-        Encounter__c encounter = PortalTestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
+        sPRS__Encounter__c encounter = PortalTestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
         insert encounter;
 
         Test.startTest();
@@ -220,7 +220,7 @@ public class PayEstimateLightningControllerTest {
         insert guarantorContact;
 
         // Create Encounter record.
-        Encounter__c encounter = PortalTestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
+        sPRS__Encounter__c encounter = PortalTestUtility.generateEncounter(guarantorContact.Id, 500, System.today());
         insert encounter;
 
         Test.startTest();
@@ -228,11 +228,11 @@ public class PayEstimateLightningControllerTest {
         PayEstimateLightningController objPayEstimate = new PayEstimateLightningController(new ApexPages.StandardController(guarantorContact), encounter.Id);
         objPayEstimate.guarantorRecordId = guarantorContact.Id;
 
-        Encounter__c[] encounterList = EncounterService.getEncounterRecordsByGuarantorId(guarantorContact.Id);
-        objPayEstimate.encounters = EncounterWrapper.buildList(encounterList);
+        sPRS__Encounter__c[] encounterList = sPRS.EncounterService.getEncounterRecordsByGuarantorId(guarantorContact.Id);
+        objPayEstimate.encounters = sPRS.EncounterWrapper.buildList(encounterList);
 
         // Based on Encounter List, Select Encounter record.
-        for (EncounterWrapper enw : objPayEstimate.encounters) {
+        for (sPRS.EncounterWrapper enw : objPayEstimate.encounters) {
             enw.isSelected = true;
         }
 

@@ -3,13 +3,14 @@
   <component name="FacetManager">
     <facet type="IlluminatedCloud" name="Illuminated Cloud">
       <configuration>
-        <option name="connectionName" value="sirono-portal" />
+        <option name="connectionName" value="sirono_local" />
         <option name="moduleContents">
           <ModuleContents>
             <option name="contentSelectionType" value="PACKAGE_XML" />
             <option name="packageXmlRelativePath" value="portal/src/package.xml" />
           </ModuleContents>
         </option>
+        <option name="packageName" value="Sirono PFP" />
       </configuration>
     </facet>
   </component>
@@ -20,11 +21,10 @@
       <sourceFolder url="file://$MODULE_DIR$/build" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/post_install/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/template" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/post_install_zip" />
+      <excludeFolder url="file://$MODULE_DIR$/dist" />
       <excludeFolder url="file://$MODULE_DIR$/work" />
     </content>
-    <orderEntry type="jdk" jdkName="IlluminatedCloud (sirono-salesforce/sirono-portal)" jdkType="IlluminatedCloud" />
+    <orderEntry type="jdk" jdkName="IlluminatedCloud (sirono-salesforce/sirono_local)" jdkType="IlluminatedCloud" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="call-center" />
   </component>
 </module>

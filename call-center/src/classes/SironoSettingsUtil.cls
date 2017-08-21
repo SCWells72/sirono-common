@@ -12,7 +12,7 @@ public with sharing class SironoSettingsUtil {
     }
 
     //get settings specific to the user's profileId
-    public static Sirono_Settings__c getPaymentPlanSettings() {
+    public static Sirono_Settings__c getSironoSettings() {
         if (Test.isRunningTest()) {
             //if there are settings already out there for this user profile, return them
             Sirono_Settings__c sironoSettings = Sirono_Settings__c.getInstance(UserInfo.getProfileId());
@@ -21,20 +21,9 @@ public with sharing class SironoSettingsUtil {
                 sironoSettings = Sirono_Settings__c.getValues(UserInfo.getOrganizationId());
                 if (sironoSettings == null) {
                     sironoSettings = new Sirono_Settings__c();
-                    setNamespacePrefixes(sironoSettings);
-
                     sironoSettings.Apikey__c = 'testAPIKey';
                     sironoSettings.Country_Code__c = 'US';
                     sironoSettings.Format__c = 1;
-                    sironoSettings.Max_Number_Plan_Installments__c = 24;
-                    sironoSettings.Min_Installment_Amount__c = 25.00;
-                    sironoSettings.Min_Number_Plan_Installments__c = 1;
-                }
-
-                Set<Id> ids = (new Map<Id, Profile>([SELECT Id FROM Profile WHERE Name = 'System Administrator' OR Name = 'Operations Manager'])).keySet();
-                //Assume that if the user is one of these, we want the profile-specific settings
-                if (ids.contains(UserInfo.getProfileId())) {
-                    sironoSettings.Min_Installment_Amount__c = 1;
                 }
             }
 
@@ -42,14 +31,5 @@ public with sharing class SironoSettingsUtil {
         }
 
         return Sirono_Settings__c.getInstance(UserInfo.getProfileId());
-    }
-
-    public static void setNamespacePrefixes(Sirono_Settings__c sironoSettings) {
-        //This gives '' in any development org and 'ns' within the package
-        sironoSettings.NS_Prefix__c = SironoSettingsUtil.class.getName().substringBefore('SironoSettingsUtil').substringBefore('.');
-        //Getting a single token which can be used to qualify Apex Classes
-        sironoSettings.NS_Dot_Prefix__c = SironoSettingsUtil.class.getName().substringBefore('SironoSettingsUtil');
-        //Single token to qualify Salesforce Objects, fields & pages
-        sironoSettings.NS_Bar_Prefix__c = SObjectType.Charge_Group__c.name.substringBefore('Charge_Group__c');
     }
 }

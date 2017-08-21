@@ -220,22 +220,22 @@
             <sortOrder>4</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Edit_Payment_Plan</actionName>
+            <actionName>sPRS__Edit_Payment_Plan</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>5</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Skip_Payment</actionName>
+            <actionName>sPRS__Skip_Payment</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>6</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Cancel_Payment_Plan</actionName>
+            <actionName>sPRS__Cancel_Payment_Plan</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>7</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Payment_Plan_Good_Standing</actionName>
+            <actionName>sPRS__Payment_Plan_Good_Standing</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>8</sortOrder>
         </platformActionListItems>

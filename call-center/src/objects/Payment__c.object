@@ -231,7 +231,7 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <relationshipLabel>Payments</relationshipLabel>
         <relationshipName>Payments</relationshipName>
         <required>false</required>
-        <trackHistory>true</trackHistory>
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>

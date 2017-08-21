@@ -16,34 +16,34 @@
             <section id="march16" class="invoice-detail ">
                 <header class="grid">
                     <div class="col intro">
-                        <aura:if isTrue="{!v.invoice.singleInvoice.Status__c == 'Due'}">
-                            <div style="padding-bottom: 10px;">{! $Label.c.Invoice_Details_Due_Message_Before_Date}&nbsp;<ui:outputdate value="{!v.invoice.singleInvoice.Due_Date__c}"/>{! $Label.c.Invoice_Details_Due_Message_After_Date}
+                        <aura:if isTrue="{!v.invoice.singleInvoice.sPRS__Status__c == 'Due'}">
+                            <div style="padding-bottom: 10px;">{! $Label.c.Invoice_Details_Due_Message_Before_Date}&nbsp;<ui:outputdate value="{!v.invoice.singleInvoice.sPRS__Due_Date__c}"/>{! $Label.c.Invoice_Details_Due_Message_After_Date}
                             </div>
                         </aura:if>
-                        <aura:if isTrue="{!v.invoice.singleInvoice.Status__c == 'Overdue'}">
+                        <aura:if isTrue="{!v.invoice.singleInvoice.sPRS__Status__c == 'Overdue'}">
                             <div class="issue warning">{! $Label.c.Invoice_Details_Overdue_Message}</div>
                         </aura:if>
-                        <aura:if isTrue="{!v.invoice.singleInvoice.Status__c == 'Delinquent'}">
+                        <aura:if isTrue="{!v.invoice.singleInvoice.sPRS__Status__c == 'Delinquent'}">
                             <div class="issue error">{! $Label.c.Invoice_Details_Delinquent_Message}</div>
                         </aura:if>
-                        <aura:if isTrue="{!v.invoice.singleInvoice.Status__c == 'On Payment Plan'}">
+                        <aura:if isTrue="{!v.invoice.singleInvoice.sPRS__Status__c == 'On Payment Plan'}">
                             <div style="padding-bottom: 10px;">{! $Label.c.Invoice_Details_On_Payment_Plan_Message_Before_Amount}&nbsp;<ui:outputcurrency value="{!v.invoice.nextPayment}"/>&nbsp;{! $Label.c.Invoice_Details_On_Payment_Plan_Message_After_Amount}&nbsp;<ui:outputdate format="MMMM d, YYYY" value="{!v.invoice.nextDate}"/>{! $Label.c.Invoice_Details_On_Payment_Plan_Message_After_Date}
                             </div>
                         </aura:if>
-                        <aura:if isTrue="{!v.invoice.singleInvoice.Status__c == 'Invoice Voided'}">
+                        <aura:if isTrue="{!v.invoice.singleInvoice.sPRS__Status__c == 'Invoice Voided'}">
                             <div style="padding-bottom: 10px;">{! $Label.c.Invoice_Details_Invoice_Voided_Message}</div>
                         </aura:if>
-                        <aura:if isTrue="{!v.invoice.singleInvoice.Partial_Payment_Plan__c}">
+                        <aura:if isTrue="{!v.invoice.singleInvoice.sPRS__Partial_Payment_Plan__c}">
                             <div style="padding-bottom: 10px;" class="credit">{! $Label.c.Invoice_Details_Partial_Payment_Plan_Message}</div>
                         </aura:if>
 
-                        <!--<aura:if isTrue="{!and((v.invoice.singleInvoice.Status__c == 'Due' || v.invoice.singleInvoice.Status__c == 'Overdue' || v.invoice.singleInvoice.Status__c == 'Delinquent'), not(v.invoice.singleInvoice.Guarantor__r.Add_To_Payment_Plan__c))}">
+                        <!--<aura:if isTrue="{!and((v.invoice.singleInvoice.sPRS__Status__c == 'Due' || v.invoice.singleInvoice.sPRS__Status__c == 'Overdue' || v.invoice.singleInvoice.sPRS__Status__c == 'Delinquent'), not(v.invoice.singleInvoice.sPRS__Guarantor__r.sPRS__Add_To_Payment_Plan__c))}">
                           <div class="title clear"><a onclick="{!c.sendInvoiceNowToHeader}">Pay Now</a> or <a onclick="{!c.sendInvoiceCreateToHeader}">Create Payment Plan</a></div>
                       </aura:if>
-                      <aura:if isTrue="{!v.invoice.singleInvoice.Status__c == 'On Payment Plan'}">
+                      <aura:if isTrue="{!v.invoice.singleInvoice.sPRS__Status__c == 'On Payment Plan'}">
                           <div class="title clear"><a onclick="{!c.sendInvoiceNowToHeader}">Make Additional Payment</a></div>
                       </aura:if>
-                      <aura:if isTrue="{!and((v.invoice.singleInvoice.Status__c == 'Due' || v.invoice.singleInvoice.Status__c == 'Overdue' || v.invoice.singleInvoice.Status__c == 'Delinquent'), v.invoice.singleInvoice.Guarantor__r.Add_To_Payment_Plan__c)}">
+                      <aura:if isTrue="{!and((v.invoice.singleInvoice.sPRS__Status__c == 'Due' || v.invoice.singleInvoice.sPRS__Status__c == 'Overdue' || v.invoice.singleInvoice.sPRS__Status__c == 'Delinquent'), v.invoice.singleInvoice.sPRS__Guarantor__r.sPRS__Add_To_Payment_Plan__c)}">
                           <div class="title clear"><a onclick="{!c.sendInvoiceNowToHeader}">Pay Now</a> or <a onclick="{!c.sendInvoiceCreateToHeader}">Add to Payment Plan</a></div>
                         </aura:if>-->
                     </div>
@@ -56,16 +56,16 @@
                 <aura:iteration items="{!v.invoice.allGroups}" var="group">
                     <div class="invoice-alert">
                         <span class="status-bubble success"></span>
-                        <aura:if isTrue="{!group.cGroup.Charge_Group_Coverages__r.length > 0}">
+                        <aura:if isTrue="{!group.cGroup.sPRS__Charge_Group_Coverages__r.length > 0}">
 
                             <aura:set attribute="else">
                                 These services were not sent to insurance and are your responsibility.
                             </aura:set>
                             <aura:if isTrue="{!group.validPayer}">
-                                <aura:iteration items="{!group.cGroup.Charge_Group_Coverages__r}" var="coverage" indexVar="index">
-                                    <aura:if isTrue="{!coverage.Coverage__r.Payor__r != null}">
-                                    {!coverage.Coverage__r.Payor__r.Name}
-                                        <aura:if isTrue="{!index != (group.cGroup.Charge_Group_Coverages__r.length - 1)}">,&ensp;</aura:if>
+                                <aura:iteration items="{!group.cGroup.sPRS__Charge_Group_Coverages__r}" var="coverage" indexVar="index">
+                                    <aura:if isTrue="{!coverage.sPRS__Coverage__r.sPRS__Payor__r != null}">
+                                    {!coverage.sPRS__Coverage__r.sPRS__Payor__r.Name}
+                                        <aura:if isTrue="{!index != (group.cGroup.sPRS__Charge_Group_Coverages__r.length - 1)}">,&ensp;</aura:if>
                                     </aura:if>
 
                                 </aura:iteration>
@@ -79,15 +79,15 @@
                     </div>
                     <div class="invoice-content">
                         <div class="col details">
-                            <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_Start_Date__c}"/>
+                            <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.sPRS__Date_Of_Service_Start_Date__c}"/>
                             -
-                            <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.Date_Of_Service_End_Date__c}"/>
-                            <div>ID Number: {!group.cGroup.External_Id__c}</div>
-                            <aura:if isTrue="{!group.cGroup.Account_Type__c == 'HB'}">
-                                <div>Location: {!group.cGroup.Location__r.Name}</div>
+                            <ui:outputdate format="MM/DD/YYYY" value="{!group.cGroup.sPRS__Date_Of_Service_End_Date__c}"/>
+                            <div>ID Number: {!group.cGroup.sPRS__External_Id__c}</div>
+                            <aura:if isTrue="{!group.cGroup.sPRS__Account_Type__c == 'HB'}">
+                                <div>Location: {!group.cGroup.sPRS__Location__r.Name}</div>
                             </aura:if>
-                            <aura:if isTrue="{!group.cGroup.Account_Type__c == 'PB'}">
-                                <div>Provider: {!group.cGroup.Provider__r.Name}</div>
+                            <aura:if isTrue="{!group.cGroup.sPRS__Account_Type__c == 'PB'}">
+                                <div>Provider: {!group.cGroup.sPRS__Provider__r.Name}</div>
                             </aura:if>
                         </div>
                         <div class="col charges">

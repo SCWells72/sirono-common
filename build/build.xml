@@ -3,9 +3,9 @@
   -->
 
 <project name="SironoAll" default="deployCheckOnly"
-        xmlns:sf="antlib:com.salesforce"
-        xmlns:ml="org.missinglink.ant.task.http.HttpClientTask"
-        basedir="..">
+         xmlns:sf="antlib:com.salesforce"
+         xmlns:ml="org.missinglink.ant.task.http.HttpClientTask"
+         basedir="..">
 
     <property name="libdir" value="${basedir}/build/lib"/>
     <property file="${basedir}/build/build.properties"/>
@@ -26,8 +26,20 @@
         <echo message="Targets to run to test/deploy the full suite"/>
     </target>
 
+    <target name="setSingleOrgConnectionProperties">
+        <!-- Set the connection properties based on the sPRS values for single-org work -->
+        <property name="sf.source.username" value="${sf.sprs.source.username}"/>
+        <property name="sf.source.password" value="${sf.sprs.source.password}"/>
+        <property name="sf.source.serverurl" value="${sf.sprs.source.serverurl}"/>
+        <property name="sf.target.username" value="${sf.sprs.target.username}"/>
+        <property name="sf.target.password" value="${sf.sprs.target.password}"/>
+        <property name="sf.target.serverurl" value="${sf.sprs.target.serverurl}"/>
+
+        <echo>Building sPRS for target ${sf.target.username} / source ${sf.source.username}.</echo>
+    </target>
+
     <!-- Check only; don't save to the server -->
-    <target name="deployCheckOnly" depends="processTemplates, populateUberWorkSrcDir">
+    <target name="deployCheckOnly" depends="setSingleOrgConnectionProperties, processTemplates, populateUberWorkSrcDir">
         <echo level="info">Validating in: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <sf:deploy
             username="${sf.target.username}"
@@ -43,7 +55,7 @@
     </target>
 
     <!-- Check only; only run specified tests -->
-    <target name="deployCheckSelectTests" depends="processTemplates, populateUberWorkSrcDir">
+    <target name="deployCheckSelectTests" depends="setSingleOrgConnectionProperties, processTemplates, populateUberWorkSrcDir">
         <echo level="info">Running select tests in: ${sf.target.username}</echo>
         <sf:deploy
             username="${sf.target.username}"
@@ -65,11 +77,28 @@
         <delete dir="${workDir}/src" failonerror="false" quiet="true"/>
         <mkdir dir="${workDir}/src"/>
         <copy todir="${workDir}/src">
-            <fileset dir="${basedir}/call-center/src" includes="**/*" excludes="package.xml"/>
-            <fileset dir="${basedir}/call-center/post_install/src" includes="**/*" excludes="package.xml"/>
-            <fileset dir="${basedir}/portal/src" includes="**/*" excludes="package.xml"/>
-            <fileset dir="${basedir}/portal/post_install/src" includes="**/*" excludes="package.xml"/>
-            <fileset dir="${basedir}/adapter-Five9/src" includes="**/*" excludes="package.xml"/>
+            <fileset dir="${basedir}/call-center/src" includes="**/*" excludes="**/staticresources/*,**/contentassets/*,**/documents/**/*,labels/CustomLabels.labels,package.xml"/>
+            <fileset dir="${basedir}/call-center/post_install/src" includes="**/*" excludes="**/staticresources/*,**/contentassets/*,**/documents/**/*,package.xml"/>
+            <fileset dir="${basedir}/portal/src" includes="**/*" excludes="**/staticresources/*,**/contentassets/*,**/documents/**/*,labels/CustomLabels.labels,package.xml"/>
+            <fileset dir="${basedir}/portal/post_install/src" includes="**/*" excludes="**/staticresources/*,**/contentassets/*,**/documents/**/*,package.xml"/>
+            <fileset dir="${basedir}/adapter-Five9/src" includes="**/*" excludes="**/staticresources/*,**/contentassets/*,**/documents/**/*,package.xml"/>
+            <filterchain>
+                <!-- Change official namespace qualifications to development namespace qualifications before deployment -->
+                <replaceregex pattern="\b(${sf.sprs.official.namespace})(\.|__|:)" replace="${sf.sprs.development.namespace}\2" flags="gi"/>
+                <replaceregex pattern="\b(${sf.spfp.official.namespace})(\.|__|:)" replace="${sf.spfp.development.namespace}\2" flags="gi"/>
+            </filterchain>
+        </copy>
+        <!-- Copy custom labels renaming for uniqueness -->
+        <mkdir dir="${workDir}/src/labels"/>
+        <copy file="${basedir}/call-center/src/labels/CustomLabels.labels" tofile="${workDir}/src/labels/CallCenterLabels.labels"/>
+        <copy file="${basedir}/portal/src/labels/CustomLabels.labels" tofile="${workDir}/src/labels/PortalLabels.labels"/>
+        <!-- Copy binary files without performing any replacements -->
+        <copy todir="${workDir}/src">
+            <fileset dir="${basedir}/call-center/src" includes="**/staticresources/*,**/contentassets/*,**/documents/**/*"/>
+            <fileset dir="${basedir}/call-center/post_install/src" includes="**/staticresources/*,**/contentassets/*,**/documents/**/*"/>
+            <fileset dir="${basedir}/portal/src" includes="**/staticresources/*,**/contentassets/*,**/documents/**/*"/>
+            <fileset dir="${basedir}/portal/post_install/src" includes="**/staticresources/*,**/contentassets/*,**/documents/**/*"/>
+            <fileset dir="${basedir}/adapter-Five9/src" includes="**/staticresources/*,**/contentassets/*,**/documents/**/*"/>
         </copy>
 
         <echo message="Build uber package.xml"/>
@@ -77,7 +106,8 @@
             <filterchain>
                 <filterreader classname="org.apache.tools.ant.filters.HeadFilter">
                     <param name="lines" value="-1"/>
-                    <param name="skip" value="2"/>
+                    <!-- NOTE: Need to skip more here because of the packaging elements -->
+                    <param name="skip" value="3"/>
                 </filterreader>
                 <filterreader classname="org.apache.tools.ant.filters.TailFilter">
                     <param name="lines" value="-1"/>
@@ -101,7 +131,8 @@
             <filterchain>
                 <filterreader classname="org.apache.tools.ant.filters.HeadFilter">
                     <param name="lines" value="-1"/>
-                    <param name="skip" value="2"/>
+                    <!-- NOTE: Need to skip more here because of the packaging elements -->
+                    <param name="skip" value="3"/>
                 </filterreader>
                 <filterreader classname="org.apache.tools.ant.filters.TailFilter">
                     <param name="lines" value="-1"/>
@@ -125,7 +156,8 @@
             <filterchain>
                 <filterreader classname="org.apache.tools.ant.filters.HeadFilter">
                     <param name="lines" value="-1"/>
-                    <param name="skip" value="2"/>
+                    <!-- NOTE: Need to skip more here because of the packaging elements -->
+                    <param name="skip" value="3"/>
                 </filterreader>
                 <filterreader classname="org.apache.tools.ant.filters.TailFilter">
                     <param name="lines" value="-1"/>
@@ -137,7 +169,8 @@
         <concat destfile="${workDir}/src/package.xml" force="yes">
             <fileset dir="${workDir}/src" includes="*.xyz"/>
             <header><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Package xmlns="http://soap.sforce.com/2006/04/metadata">]]>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sirono PRS</fullName>]]>
             </header>
             <footer><![CDATA[<version>40.0</version>
 </Package>]]>
@@ -153,6 +186,11 @@
     </target>
 
     <!-- Composite targets for dev efficiency -->
+
+    <!--
+     - TODO: For single-org dev, create a target like the check-only target above that deploys everything at once.
+     - TODO: Note that this would bypass local packages, but that's probably okay.
+     -->
 
     <target name="deployNoTests" description="Deploys metadata for all modules without running unit tests">
         <ant dir="call-center/build" antfile="build.xml" target="deployNoTests" inheritall="false" usenativebasedir="true"/>

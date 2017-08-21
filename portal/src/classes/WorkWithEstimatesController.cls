@@ -14,7 +14,7 @@ public with sharing class WorkWithEstimatesController {
     @AuraEnabled
     public static List<EstimateWrapper> getAllEstimates(String paidFilter, String patientFilter) {
         List<EstimateWrapper> allEstimates = new List<EstimateWrapper>();
-        Contact guarantor = GuarantorService.getPortalGuarantor(UserInfo.getUserId());
+        Contact guarantor = sPRS.GuarantorService.getPortalGuarantor(UserInfo.getUserId());
 
         if (guarantor != null) {
             List<String> patientIds = null;
@@ -23,9 +23,9 @@ public with sharing class WorkWithEstimatesController {
                 patientIds = patientFilter.replace('\'', '').split(',');
             }
 
-            List<Encounter__c> listOfEncounters = EncounterService.getEncountersByGuarantor(guarantor, paidFilter, patientIds);
+            List<sPRS__Encounter__c> listOfEncounters = sPRS.EncounterService.getEncountersByGuarantor(guarantor, paidFilter, patientIds);
             System.debug('listOfEncounters :' + listOfEncounters);
-            for (Encounter__c encounter : listOfEncounters) {
+            for (sPRS__Encounter__c encounter : listOfEncounters) {
                 EstimateWrapper estimate = new EstimateWrapper(encounter);
                 allEstimates.add(estimate);
             }
@@ -40,41 +40,41 @@ public with sharing class WorkWithEstimatesController {
     @AuraEnabled
     public static List<WorkWithInvoicesController.PatientWrapper> getPatientList() {
         List<WorkWithInvoicesController.PatientWrapper> result = new List<WorkWithInvoicesController.PatientWrapper>();
-        Contact guarantor = GuarantorService.getPortalGuarantor(UserInfo.getUserId());
+        Contact guarantor = sPRS.GuarantorService.getPortalGuarantor(UserInfo.getUserId());
 
         if (guarantor == null) {
             return new List<WorkWithInvoicesController.PatientWrapper>();
         }
 
-        List<Encounter__c> encounterList = EncounterService.getAllPatients(guarantor);
+        List<sPRS__Encounter__c> encounterList = sPRS.EncounterService.getAllPatients(guarantor);
 
-        for (Encounter__c encounter : encounterList) {
+        for (sPRS__Encounter__c encounter : encounterList) {
             result.add(new WorkWithInvoicesController.PatientWrapper(encounter));
         }
         return result;
     }
 
     public class EstimateWrapper {
-        @AuraEnabled Encounter__c singleEncounter { get; set; }
+        @AuraEnabled sPRS__Encounter__c singleEncounter { get; set; }
         @AuraEnabled Decimal insuranceDiscount { get; set; }
         @AuraEnabled Decimal insurancePortion { get; set; }
         @AuraEnabled String estimateStatus { get; set; }
         @AuraEnabled String fileUrl { get; set; }
 
-        public EstimateWrapper(Encounter__c singleEncounter) {
+        public EstimateWrapper(sPRS__Encounter__c singleEncounter) {
             this.singleEncounter = singleEncounter;
-            if (singleEncounter.Insurance_Discount__c != null) {
+            if (singleEncounter.sPRS__Insurance_Discount__c != null) {
                 // TODO update after fields creation
-                insuranceDiscount = -singleEncounter.Insurance_Discount__c;
+                insuranceDiscount = -singleEncounter.sPRS__Insurance_Discount__c;
             }
-            if (singleEncounter.Insurance_Portion__c != null) {
+            if (singleEncounter.sPRS__Insurance_Portion__c != null) {
                 // TODO update after fields creation
-                insurancePortion = -singleEncounter.Insurance_Portion__c;
+                insurancePortion = -singleEncounter.sPRS__Insurance_Portion__c;
             }
             String status = '';
-            if (singleEncounter.Balance__c > 0 && (singleEncounter.Total_Payments__c == null || singleEncounter.Total_Payments__c == 0)) {
+            if (singleEncounter.sPRS__Balance__c > 0 && (singleEncounter.sPRS__Total_Payments__c == null || singleEncounter.sPRS__Total_Payments__c == 0)) {
                 status = 'Unpaid';
-            } else if ((singleEncounter.Balance__c > 0 && singleEncounter.Total_Payments__c > 0) || singleEncounter.Balance__c <= 0) {
+            } else if ((singleEncounter.sPRS__Balance__c > 0 && singleEncounter.sPRS__Total_Payments__c > 0) || singleEncounter.sPRS__Balance__c <= 0) {
                 status = 'Paid';
             }
             this.estimateStatus = status;

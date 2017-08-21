@@ -16,8 +16,8 @@
                 var guarantorWrapper = response.getReturnValue();
                 if (typeof(guarantorWrapper.contact) != "undefined") {
                     component.set('v.guarantorWrapper', guarantorWrapper);
-                    component.set('v.invoiceValue', formatter.format(Math.floor(guarantorWrapper.contact.Invoiced_Balance__c)));
-                    component.set('v.invoiceValuePart', (guarantorWrapper.contact.Invoiced_Balance__c % 1).toFixed(2).toString().substring(2));
+                    component.set('v.invoiceValue', formatter.format(Math.floor(guarantorWrapper.contact.sPRS__Invoiced_Balance__c)));
+                    component.set('v.invoiceValuePart', (guarantorWrapper.contact.sPRS__Invoiced_Balance__c % 1).toFixed(2).toString().substring(2));
                 }
             }
         });

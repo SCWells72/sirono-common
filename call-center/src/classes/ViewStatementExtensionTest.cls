@@ -53,7 +53,7 @@ public class ViewStatementExtensionTest {
         ViewStatementExtension ext = new ViewStatementExtension(stdController);
 
         // Setup the Mock
-        Test.setMock(HttpCalloutMock.class, new GuarantorServiceTest.GuarantorRestClientMock());
+        Test.setMock(HttpCalloutMock.class, new GuarantorRestClientMock());
 
         // Start Test Context, to reset all Governor limits
         Test.startTest();
@@ -91,7 +91,7 @@ public class ViewStatementExtensionTest {
         ApexPages.StandardController stdController = new ApexPages.StandardController(stmt);
         ViewStatementExtension ext = new ViewStatementExtension(stdController);
 
-        Test.setMock(HttpCalloutMock.class, new GuarantorServiceTest.GuarantorRestClientMock());
+        Test.setMock(HttpCalloutMock.class, new GuarantorRestClientMock());
 
         PageReference nextPage = ext.viewPdf();
         Test.stopTest();

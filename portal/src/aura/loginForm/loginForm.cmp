@@ -3,18 +3,18 @@
   -->
 
 <!-- add implements="forceCommunity:availableForAllPageTypes" to surface the component in community builder -->
-<aura:component controller="LightningLoginFormController" implements="forceCommunity:availableForAllPageTypes">
+<aura:component controller="LightningLoginFormController" implements="forceCommunity:availableForAllPageTypes" access="global">
     <aura:attribute name="showError" type="Boolean" required="true" description="" default="false" access="private"/>
     <aura:attribute name="errorMessage" type="String" required="false" description="" access="private"/>
-    <aura:attribute name="startUrl" type="String" required="false" description="The url you go to after a successful login"/>
-    <aura:attribute name="usernameLabel" type="String" required="false" default="Username"/>
-    <aura:attribute name="passwordLabel" type="String" required="false" default="Password"/>
-    <aura:attribute name="loginButtonLabel" type="String" required="false" default="Log in"/>
+    <aura:attribute name="startUrl" type="String" required="false" description="The url you go to after a successful login" access="global"/>
+    <aura:attribute name="usernameLabel" type="String" required="false" default="Username" access="global"/>
+    <aura:attribute name="passwordLabel" type="String" required="false" default="Password" access="global"/>
+    <aura:attribute name="loginButtonLabel" type="String" required="false" default="Log in" access="global"/>
 
-    <aura:attribute name="forgotPasswordLabel" type="String" required="false" default="Forgot your password?"/>
-    <aura:attribute name="selfRegisterLabel" type="String" required="false" default="Not a member?"/>
-    <aura:attribute name="forgotPasswordUrl" type="String" required="false" default="/ForgotPassword"/>
-    <aura:attribute name="selfRegisterUrl" type="String" required="false" default="/SelfRegister"/>
+    <aura:attribute name="forgotPasswordLabel" type="String" required="false" default="Forgot your password?" access="global"/>
+    <aura:attribute name="selfRegisterLabel" type="String" required="false" default="Not a member?" access="global"/>
+    <aura:attribute name="forgotPasswordUrl" type="String" required="false" default="/ForgotPassword" access="global"/>
+    <aura:attribute name="selfRegisterUrl" type="String" required="false" default="/SelfRegister" access="global"/>
 
     <aura:attribute name="isUsernamePasswordEnabled" type="Boolean" access="private"/>
     <aura:attribute name="isSelfRegistrationEnabled" type="Boolean" access="private"/>

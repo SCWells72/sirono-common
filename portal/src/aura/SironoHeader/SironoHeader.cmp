@@ -29,7 +29,7 @@
     <aura:attribute name="installmentValuePart" type="String" access="public" default="00"/>
     <!-- Invoiced_Balance__c END-->
 
-    <!-- transfers invoiceId betweem components -->
+    <!-- transfers invoiceId between components -->
     <aura:handler event="c:payNowRequest" action="{!c.setInvoice}"/>
     <aura:handler event="c:payCall" action="{!c.putInvoicePayment}"/>
     <aura:handler event="c:ToggleHeader" action="{!c.toggleHeader}"/>
@@ -40,7 +40,7 @@
     <aura:attribute name='filter' type="String"/>
     <aura:attribute name='hideCreatePaymentPlanTab' type="Boolean" default="false"/>
     <aura:attribute name="isEstimateRecord" type="Boolean" default="false"/>
-    <!-- transfers invoiceId betweem components END-->
+    <!-- transfers invoiceId between components END-->
 
     <div class="wrapper">
         <div aura:id="headerWrap" class="header-wrapper alert">
@@ -88,16 +88,16 @@
                     </div>
 
                     <!-- Guarantor_Status__c == 'Overdue' -->
-                    <aura:if isTrue="{! v.guarantorWrapper.contact.Guarantor_Status__c == 'Overdue'}">
+                    <aura:if isTrue="{! v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Overdue'}">
                         <div class="col issue no-big small-popover">
                             <div class="status warning sldsjs-popover">
                                 Your account is Overdue!
-                                <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_To_Payment_Plan__c)}">
-                                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}">
+                                <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Add_To_Payment_Plan__c)}">
+                                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'In Error')}">
                                         Your Payment Plan is In Error!
                                     </aura:if>
 
-                                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due')}">
+                                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Past Due')}">
                                         Your Payment Plan is Past Due!
                                     </aura:if>
                                 </aura:if>
@@ -114,15 +114,15 @@
                     </aura:if>
                     <!-- Guarantor_Status__c == 'Overdue' END-->
                     <!-- Guarantor_Status__c == 'Delinquent' -->
-                    <aura:if isTrue="{! v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent'}">
+                    <aura:if isTrue="{! v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Delinquent'}">
                         <div class="col issue no-big small-popover">
                             <div class="status error sldsjs-popover">
                                 Your account is Delinquent!
-                                <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_To_Payment_Plan__c)}">
-                                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}">
+                                <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Add_To_Payment_Plan__c)}">
+                                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'In Error')}">
                                         Your Payment Plan is In Error!
                                     </aura:if>
-                                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due')}">
+                                    <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Past Due')}">
                                         Your Payment Plan is Past Due!
                                     </aura:if>
                                 </aura:if>
@@ -140,13 +140,13 @@
                     <!-- Guarantor_Status__c == 'Delinquent' END -->
 
                     <!-- Guarantor_Status__c == 'On Payment Plan' or Guarantor_Status__c == 'Due'-->
-                    <aura:if isTrue="{! and (or (v.guarantorWrapper.contact.Guarantor_Status__c == 'On Payment Plan', and (v.guarantorWrapper.contact.Guarantor_Status__c == 'Due', v.guarantorWrapper.contact.Add_To_Payment_Plan__c)), or (v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error', v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due'))}">
+                    <aura:if isTrue="{! and (or (v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'On Payment Plan', and (v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Due', v.guarantorWrapper.contact.sPRS__Add_To_Payment_Plan__c)), or (v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'In Error', v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Past Due'))}">
                         <div class="col issue no-big small-popover">
                             <div class="status error sldsjs-popover">
-                                <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'In Error')}">
+                                <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'In Error')}">
                                     Your Payment Plan is In Error!
                                 </aura:if>
-                                <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Past Due')}">
+                                <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Past Due')}">
                                     Your Payment Plan is Past Due!
                                 </aura:if>
                                 <div class="inline-block" onclick="{!c.showTooltip}">
@@ -173,14 +173,14 @@
                     </div>
 
                     <!-- Guarantor_Status__c == 'Due' -->
-                    <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Due')}">
-                        <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_To_Payment_Plan__c == false)}">
+                    <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Due')}">
+                        <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Add_To_Payment_Plan__c == false)}">
                             <div class="col issue no-big">
                                 <div class="title">
                                     Payment Due Date
                                 </div>
                                 <div class="value">
-                                    <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.invoiceOverdue.Due_Date__c}"/>
+                                    <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.invoiceOverdue.sPRS__Due_Date__c}"/>
                                 </div>
                             </div>
                         </aura:if>
@@ -188,15 +188,15 @@
                     <!-- Guarantor_Status__c == 'Due' END -->
 
                     <!-- Guarantor_Status__c == 'Delinquent' -->
-                    <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent')}">
-                        <aura:if isTrue="{!(v.guarantorWrapper.contact.Add_To_Payment_Plan__c == true)}">
-                            <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">
+                    <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Delinquent')}">
+                        <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Add_To_Payment_Plan__c == true)}">
+                            <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Good Standing')}">
                                 <div class="col issue no-big section_header_Payment">
                                     <div class="title">
                                         Next Payment Due Date
                                     </div>
                                     <div class="value">
-                                        <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.NextPaymentDate__c}"/>
+                                        <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.sPRS__NextPaymentDate__c}"/>
                                     </div>
                                 </div>
                             </aura:if>
@@ -205,14 +205,14 @@
                     <!-- Guarantor_Status__c == 'Delinquent' END -->
 
                     <!-- Guarantor_Status__c == 'On Payment Plan' -->
-                    <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c == 'On Payment Plan')}">
-                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.Payment_Plan_Standing__c == 'Good Standing')}">
+                    <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'On Payment Plan')}">
+                        <aura:if isTrue="{!(v.guarantorWrapper.paymentPlan.sPRS__Payment_Plan_Standing__c == 'Good Standing')}">
                             <div class="col issue no-big">
                                 <div class="title">
                                     Next Payment Due Date
                                 </div>
                                 <div class="value">
-                                    <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.NextPaymentDate__c}"/>
+                                    <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.sPRS__NextPaymentDate__c}"/>
                                 </div>
                             </div>
                         </aura:if>
@@ -227,12 +227,12 @@
                                 <div class="value">
                                 {!v.invoiceValue}<span>.{!v.invoiceValuePart}</span>
                                 </div>
-                                <!--<ui:outputCurrency value="{!v.guarantorWrapper.paymentPlan.Installment_Amount__c}"/>-->
+                                <!--<ui:outputCurrency value="{!v.guarantorWrapper.paymentPlan.sPRS__Installment_Amount__c}"/>-->
                             </div>
                         </div>
                     </aura:if>
                     <!-- Guarantor_Status__c == 'On Payment Plan' END -->
-                    <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c != 'Paid')}">
+                    <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Guarantor_Status__c != 'Paid')}">
                         <div class="col payment-right">
                             <div class="slds-grid payment-container">
                                 <c:OneAndDoneWidget guarantorWrapper='{!v.guarantorWrapper}'/>

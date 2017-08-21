@@ -24,9 +24,9 @@
                     <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/action-sprite/svg/symbols.svg#password_unlock'}" category="standard" size="small" class="slds-button__icon" name="password_unlock"/>
                 </div>
             </aura:if>
-            <div class="title">{!v.invoice.singleInvoice.Patient__r.Name + ' (MRN: ' + v.invoice.singleInvoice.Patient__r.Medical_Record_Number__c + ')'}</div>
+            <div class="title">{!v.invoice.singleInvoice.sPRS__Patient__r.Name + ' (MRN: ' + v.invoice.singleInvoice.sPRS__Patient__r.sPRS__Medical_Record_Number__c + ')'}</div>
             <a class="invoice-name" onclick="{!c.selectInvoice}">
-                <ui:outputdate value="{!v.invoice.singleInvoice.Date__c}" format="MMMM YYYY"/>
+                <ui:outputdate value="{!v.invoice.singleInvoice.sPRS__Date__c}" format="MMMM YYYY"/>
             </a>
         </div>
         <div class="col right">
@@ -36,8 +36,8 @@
             </div>
         </div>
         <div class="col payment-due">
-            <em>{!v.invoice.singleInvoice.Status__c}</em>
-            <em class="{!v.invoice.singleInvoice.Partial_Payment_Plan__c != true ? 'slds-hide' : ''}"><br/>Partially on a Payment Plan</em>
+            <em>{!v.invoice.singleInvoice.sPRS__Status__c}</em>
+            <em class="{!v.invoice.singleInvoice.sPRS__Partial_Payment_Plan__c != true ? 'slds-hide' : ''}"><br/>Partially on a Payment Plan</em>
             <div class="float-right">
                 <a href="" class="modal-trigger" onclick="{!c.openInvoiceDetails}">View Details</a>
             </div>

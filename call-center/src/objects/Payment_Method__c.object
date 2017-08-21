@@ -466,6 +466,6 @@ CASE(Type__c,
         <masterLabel>Update Credit Card</masterLabel>
         <openType>sidebar</openType>
         <protected>false</protected>
-        <url>/apex/{!$Setup.Sirono_Settings__c.NS_Bar_Prefix__c}AddPaymentPlan?guarantorId={!Payment_Method__c.GuarantorId__c}</url>
+        <url>/apex/sPRS__AddPaymentPlan?guarantorId={!Payment_Method__c.GuarantorId__c}</url>
     </webLinks>
 </CustomObject>

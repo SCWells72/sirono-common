@@ -18,7 +18,7 @@
                 component.set("v.listOfInvoices", listOfInvoices);
                 var selectedBalance = 0;
                 for (var i = 0; i < listOfInvoices.length; i++) {
-                    selectedBalance += listOfInvoices[i].singleEncounter.Balance__c;
+                    selectedBalance += listOfInvoices[i].singleEncounter.sPRS__Balance__c;
                 }
                 var calculatePaymentBalance = $A.get("e.c:calculatePaymentBalanceEvent");
                 calculatePaymentBalance.setParams({
@@ -147,7 +147,7 @@
                 component.set("v.listOfInvoices", listOfInvoices);
                 var selectedBalance = 0;
                 for (var i = 0; i < listOfInvoices.length; i++) {
-                    selectedBalance += listOfInvoices[i].singleEncounter.Balance__c;
+                    selectedBalance += listOfInvoices[i].singleEncounter.sPRS__Balance__c;
                 }
                 var calculatePaymentBalance = $A.get("e.c:calculatePaymentBalanceEvent");
                 calculatePaymentBalance.setParams({
@@ -218,7 +218,7 @@
         if (selectedTab !== 'MakeAPayment') {
             for (var i = 0; i < listOfInvoices.length; i++) {
                 // Add additional checks for filling list of invoices in if conditions
-                if (listOfInvoices[i].singleInvoice.Status__c !== 'On Payment Plan') {
+                if (listOfInvoices[i].singleInvoice.sPRS__Status__c !== 'On Payment Plan') {
                     $A.createComponent(
                         "c:SingleInvoice",
                         {

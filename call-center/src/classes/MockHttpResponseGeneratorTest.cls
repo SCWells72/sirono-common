@@ -7,12 +7,12 @@
  * response.
  **/
 @IsTest
-global class MockHttpResponseGeneratorTest implements HttpCalloutMock {
+public class MockHttpResponseGeneratorTest implements HttpCalloutMock {
 
     /**
      * This method generates & returns HttpResponse for provided HTTPRequest.
      **/
-    global HttpResponse respond(HttpRequest req) {
+    public HttpResponse respond(HttpRequest req) {
 
         if (req.getEndpoint().contains('/paystaff/token-auth/') ||
             req.getEndpoint().contains('/portal/account/forgot-password/')) {

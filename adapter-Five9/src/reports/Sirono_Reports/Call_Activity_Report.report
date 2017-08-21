@@ -11,10 +11,10 @@
         <chartType>VerticalColumnStacked</chartType>
         <enableHoverLabels>true</enableHoverLabels>
         <expandOthers>true</expandOthers>
-        <groupingColumn>Activity.Day_Of_Week__c</groupingColumn>
+        <groupingColumn>Activity.sPRS__Day_Of_Week__c</groupingColumn>
         <legendPosition>Right</legendPosition>
         <location>CHART_TOP</location>
-        <secondaryGroupingColumn>Activity.Hour_Of_Day__c</secondaryGroupingColumn>
+        <secondaryGroupingColumn>Activity.sPRS__Hour_Of_Day__c</secondaryGroupingColumn>
         <showAxisLabels>true</showAxisLabels>
         <showPercentage>false</showPercentage>
         <showTotal>false</showTotal>
@@ -39,12 +39,12 @@
     <format>Matrix</format>
     <groupingsAcross>
         <dateGranularity>Day</dateGranularity>
-        <field>Activity.Day_Of_Week__c</field>
+        <field>Activity.sPRS__Day_Of_Week__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsAcross>
     <groupingsAcross>
         <dateGranularity>Day</dateGranularity>
-        <field>Activity.Hour_Of_Day__c</field>
+        <field>Activity.sPRS__Hour_Of_Day__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsAcross>
     <groupingsDown>

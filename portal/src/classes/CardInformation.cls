@@ -70,17 +70,17 @@ public with sharing class CardInformation {
         this.zip = '';
     }
 
-    public CardInformation(Payment_Method__c card) {
+    public CardInformation(sPRS__Payment_Method__c card) {
         this.sfId = card.Id;
-        this.cardHolderName = card.Card_Holder_Name__c;
-        this.cardType = card.Card_Type__c;
-        this.displayName = card.Display_Name__c;
-        this.creditCardNumber = '****-****-****-' + card.Last_4__c;
+        this.cardHolderName = card.sPRS__Card_Holder_Name__c;
+        this.cardType = card.sPRS__Card_Type__c;
+        this.displayName = card.sPRS__Display_Name__c;
+        this.creditCardNumber = '****-****-****-' + card.sPRS__Last_4__c;
         this.isSaved = true;
 
-        if (card.Expiration_Date__c != null) {
-            Integer monthKey = card.Expiration_Date__c.month();
-            Integer yearKey = card.Expiration_Date__c.year();
+        if (card.sPRS__Expiration_Date__c != null) {
+            Integer monthKey = card.sPRS__Expiration_Date__c.month();
+            Integer yearKey = card.sPRS__Expiration_Date__c.year();
             this.expirationMonth = monthKey > 10 ? String.valueOf(monthKey) : '0' + String.valueOf(monthKey);
             this.expirationYear = String.valueOf(yearKey);
         }

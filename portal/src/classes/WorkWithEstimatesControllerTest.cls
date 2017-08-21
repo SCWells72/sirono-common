@@ -9,29 +9,29 @@ private class WorkWithEstimatesControllerTest {
     static void getAllEstimatesAndPatientTest() {
 
         Contact patientContact = PortalTestUtility.generatePatientContact();
-        patientContact.Medical_Record_Number__c = 'A12345';
+        patientContact.sPRS__Medical_Record_Number__c = 'A12345';
         insert patientContact;
 
         User portalUser = PortalTestUtility.getGuarantorCommunityUser();
 
         Contact guarantorContact = [
-            SELECT Id, Guarantor_Id__c, Name
+            SELECT Id, sPRS__Guarantor_Id__c, Name
             FROM Contact
             WHERE Id = :portalUser.ContactId
         ];
 
-        List<Encounter__c> encounters = new List<Encounter__c>();
-        Encounter__c encounter1 = PortalTestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
-        encounter1.Patient__c = patientContact.Id;
-        encounter1.Insurance_Discount__c = 2;
-        encounter1.Insurance_Portion__c = 2;
+        List<sPRS__Encounter__c> encounters = new List<sPRS__Encounter__c>();
+        sPRS__Encounter__c encounter1 = PortalTestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
+        encounter1.sPRS__Patient__c = patientContact.Id;
+        encounter1.sPRS__Insurance_Discount__c = 2;
+        encounter1.sPRS__Insurance_Portion__c = 2;
         encounters.add(encounter1);
 
-        Encounter__c encounter2 = PortalTestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
-        encounter2.Total_Payments__c = 5;
-        encounter2.Patient__c = patientContact.Id;
-        encounter2.Insurance_Discount__c = 3;
-        encounter2.Insurance_Portion__c = 2;
+        sPRS__Encounter__c encounter2 = PortalTestUtility.generateEncounter(guarantorContact.Id, 10, Date.today());
+        encounter2.sPRS__Total_Payments__c = 5;
+        encounter2.sPRS__Patient__c = patientContact.Id;
+        encounter2.sPRS__Insurance_Discount__c = 3;
+        encounter2.sPRS__Insurance_Portion__c = 2;
         encounters.add(encounter2);
 
         insert encounters;

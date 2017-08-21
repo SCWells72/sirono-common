@@ -278,7 +278,7 @@ public class EditPaymentPlanTest {
         editPaymentPlan.cardHolderName = '1234567891113';
         editPaymentPlan.zip = '07897';
         editPaymentPlan.amount = '100';
-        editPaymentPlan.payableAmount = String.valueOf(SironoSettingsUtil.getPaymentPlanSettings().Max_Number_Plan_Installments__c * 250);
+        editPaymentPlan.payableAmount = String.valueOf(SironoCallCenterSettingsUtil.getSironoCallCenterSettings().Max_Number_Plan_Installments__c * 250);
         editPaymentPlan.planType = 'auto';
         editPaymentPlan.planValue = '301';
         editPaymentPlan.executeOnDay = '10';

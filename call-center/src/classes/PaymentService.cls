@@ -5,7 +5,7 @@
 /**
  * Payment Service with logic for working with Payment__c object.
  */
-public class PaymentService extends AbstractService {
+global class PaymentService extends AbstractService {
     // Constant variable.
     public static final String PAYMENTNAME = 'Payment';
 
@@ -267,7 +267,7 @@ public class PaymentService extends AbstractService {
      *
      * @param PaymentsRequestData pmtRequest - the data needed to make a payment for chargegroups
      */
-    public static Payment__c makePayment(PaymentRequest pmtRequest) {
+    global static Payment__c makePayment(PaymentRequest pmtRequest) {
         if (pmtRequest == null) {
             throw new SironoServiceException('Valid PaymentRequestData is required');
         }
@@ -316,7 +316,7 @@ public class PaymentService extends AbstractService {
      * @param Datetime depositeDate - payment deposite date
      * @param String paymentMethod - payment method
      **/
-    public static Payment__c createNewPayment(String guarantorRecordId, Decimal amount, String selectedEncounterId, Datetime depositeDate, String paymentMethod) {
+    global static Payment__c createNewPayment(String guarantorRecordId, Decimal amount, String selectedEncounterId, Datetime depositeDate, String paymentMethod) {
         // Initialize new Payment record
         Payment__c payment = new Payment__c(
             Guarantor__c = guarantorRecordId,
@@ -336,7 +336,7 @@ public class PaymentService extends AbstractService {
      * @param Id contactId
      * @return List<Payment__c> - The list of payments.
      */
-    public static List<Payment__c> getPayments(Id contactId) {
+    global static List<Payment__c> getPayments(Id contactId) {
         return PaymentDao.getPayments(contactId);
     }
 }

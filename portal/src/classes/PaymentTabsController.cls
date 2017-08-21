@@ -27,7 +27,7 @@ public with sharing class PaymentTabsController {
         UserWrapper user = UserService.getCurrentUser();
 
         if (user.contactId != null) {
-            guarantor = GuarantorService.getGuarantorWithActiveCGForLightning(user.contactId);
+            guarantor = sPRS.GuarantorService.getGuarantorWithActiveCGForLightning(user.contactId);
         }
 
         if (guarantor == null) {
@@ -36,11 +36,11 @@ public with sharing class PaymentTabsController {
 
         GuarantorPaymentInfo paymentInfo = new GuarantorPaymentInfo();
         paymentInfo.guarantor = guarantor;
-        paymentInfo.addToPaymentAvail = guarantor.Add_To_Payment_Plan__c;
+        paymentInfo.addToPaymentAvail = guarantor.sPRS__Add_To_Payment_Plan__c;
         paymentInfo.guarantorSironoId = user.guarantorSironoId;
         paymentInfo.chargeGroups = getChargeGroups(user.contactId);
-        paymentInfo.settings = SironoSettingsUtil.getPaymentPlanSettings();
-        paymentInfo.paymentPlan = PaymentPlanService.getActivePaymentPlanWithMethod(user.contactId);
+        paymentInfo.settings = sPRS.SironoCallCenterSettingsUtil.getSironoCallCenterSettings();
+        paymentInfo.paymentPlan = sPRS.PaymentPlanService.getActivePaymentPlanWithMethod(user.contactId);
 
         // Prevent creation of multiple active payment plans to check Guarantor has Active payment plan or not.
         paymentInfo.hasPaymentPlan = (paymentInfo.paymentPlan != null);
@@ -60,12 +60,12 @@ public with sharing class PaymentTabsController {
      * @return Payment_Plan__c The newly created payment plan.
      */
     @AuraEnabled
-    public static Payment_Plan__c createPaymentPlan(Map<String, Object> ppInfoMap) {
-        Payment_Plan__c paymentPlanObj;
+    public static sPRS__Payment_Plan__c createPaymentPlan(Map<String, Object> ppInfoMap) {
+        sPRS__Payment_Plan__c paymentPlanObj;
         try {
-            PaymentPlanInformation ppInfo = new PaymentPlanInformation(ppInfoMap);
+            sPRS.PaymentPlanInformation ppInfo = new sPRS.PaymentPlanInformation(ppInfoMap);
             UserWrapper user = UserService.getCurrentUser();
-            paymentPlanObj = PaymentPlanService.addPaymentPlanWithPaymentMethod(ppInfo, true, user.contactId);
+            paymentPlanObj = sPRS.PaymentPlanService.addPaymentPlanWithPaymentMethod(ppInfo, true, user.contactId);
         } catch(Exception ex) {
             System.debug('Exception caught in createPaymentPlan: ' + ex.getMessage());
             throw LightningUtil.newAuraHandledException('Error encountered creating playment plan.  Please contact support.');
@@ -80,7 +80,7 @@ public with sharing class PaymentTabsController {
      * @param Map<String, Object> ppInfoMap - A map containing info about the payment plan and credit card.
      */
     @AuraEnabled
-    public static Payment_Plan__c doEditPaymentMethod(Map<String, Object> ppInfoMap) {
+    public static sPRS__Payment_Plan__c doEditPaymentMethod(Map<String, Object> ppInfoMap) {
         String planId = ppInfoMap.containsKey('id') ? String.valueOf(ppInfoMap.get('id')) : '';
         String creditCardId = ppInfoMap.containsKey('creditCardId') ? String.valueOf(ppInfoMap.get('creditCardId')) : '';
 
@@ -88,11 +88,11 @@ public with sharing class PaymentTabsController {
             throw new AuraHandledException('Payment Plan id must be provided.');
         }
 
-        Payment_Plan__c updatedPlan;
+        sPRS__Payment_Plan__c updatedPlan;
 
         try {
-            PaymentPlanInformation ppInfo = new PaymentPlanInformation(ppInfoMap);
-            updatedPlan = PaymentPlanService.addPaymentMethod(planId, creditCardId, ppInfo, true);
+            sPRS.PaymentPlanInformation ppInfo = new sPRS.PaymentPlanInformation(ppInfoMap);
+            updatedPlan = sPRS.PaymentPlanService.addPaymentMethod(planId, creditCardId, ppInfo, true);
 
         } catch (Exception e) {
             System.debug('ERROR: ' + e.getMessage());
@@ -113,18 +113,18 @@ public with sharing class PaymentTabsController {
 
      */
     @AuraEnabled
-    public static Payment_Plan__c doEditPaymentPlan(Map<String, Object> ppInfoMap) {
+    public static sPRS__Payment_Plan__c doEditPaymentPlan(Map<String, Object> ppInfoMap) {
 
-        Payment_Plan__c paymentPlan = null;
-        PaymentPlanInformation planInfo = new PaymentPlanInformation(ppInfoMap);
-        String sironoPaymentPlanId = ppInfoMap.containsKey(PaymentPlanInformation.SIRONO_PP_KEY) ? String.valueOf(ppInfoMap.get(PaymentPlanInformation.SIRONO_PP_KEY)) : '';
+        sPRS__Payment_Plan__c paymentPlan = null;
+        sPRS.PaymentPlanInformation planInfo = new sPRS.PaymentPlanInformation(ppInfoMap);
+        String sironoPaymentPlanId = ppInfoMap.containsKey(sPRS.PaymentPlanInformation.SIRONO_PP_KEY) ? String.valueOf(ppInfoMap.get(sPRS.PaymentPlanInformation.SIRONO_PP_KEY)) : '';
 
         if (String.isBlank(sironoPaymentPlanId)) {
             System.debug('sironoPaymentPlanId must be provided.');
             throw new AuraHandledException('An Error has occurred, please contact support.');
         }
         try {
-            paymentPlan = PaymentPlanService.updateAutoPaymentPlanTerms(sironoPaymentPlanId, planInfo);
+            paymentPlan = sPRS.PaymentPlanService.updateAutoPaymentPlanTerms(sironoPaymentPlanId, planInfo);
         } catch (Exception e) {
             System.debug('ERROR: ' + e.getMessage());
             String errMsg = 'Error encountered updating plan. Please contact support';
@@ -145,7 +145,7 @@ public with sharing class PaymentTabsController {
     @AuraEnabled
     public static void deletePaymentPlan(String paymentPlanId) {
         try {
-            PaymentPlanService.removePaymentPlan(paymentPlanId);
+            sPRS.PaymentPlanService.removePaymentPlan(paymentPlanId);
         } catch (Exception e) {
             System.debug('Error occurred attempting to delete payment plan: ' + e.getMessage());
             String errMsg = 'An error has occurred, please contact support.';
@@ -162,14 +162,14 @@ public with sharing class PaymentTabsController {
      * @return List<Charge_Group__c> - The list of Charge_Group__c objects.
      */
     @TestVisible
-    private static List<Charge_Group__c> getChargeGroups(String contactId) {
-        List<Charge_Group__c> chargeGroups = new List<Charge_Group__c>();
+    private static List<sPRS__Charge_Group__c> getChargeGroups(String contactId) {
+        List<sPRS__Charge_Group__c> chargeGroups = new List<sPRS__Charge_Group__c>();
 
         if (contactId != null) {
-            List<Charge_Group__c> allGroups = InvoiceService.getInvoicedChargeGroups(contactId, PortalConstants.INVOICE_UNPAID_STATUSES, new List<String>());
+            List<sPRS__Charge_Group__c> allGroups = sPRS.InvoiceService.getInvoicedChargeGroups(contactId, PortalConstants.INVOICE_UNPAID_STATUSES, new List<String>());
 
-            for (Charge_Group__c chgGroup : allGroups) {
-                if (chgGroup.Active__c && chgGroup.Balance__c != 0) {
+            for (sPRS__Charge_Group__c chgGroup : allGroups) {
+                if (chgGroup.sPRS__Active__c && chgGroup.sPRS__Balance__c != 0) {
                     chargeGroups.add(chgGroup);
                 }
             }
@@ -189,7 +189,7 @@ public with sharing class PaymentTabsController {
     private static List<CardInformation> getCreditCards(Id guarantorContactId) {
 
         List<CardInformation> cards = new List<CardInformation>();
-        for (Payment_Method__c pCard : PaymentMethodService.getPaymentMethods(guarantorContactId)) {
+        for (sPRS__Payment_Method__c pCard : sPRS.PaymentMethodService.getPaymentMethods(guarantorContactId)) {
             cards.add(new CardInformation(pCard));
         }
 
@@ -198,7 +198,7 @@ public with sharing class PaymentTabsController {
 
     public class GuarantorPaymentInfo {
         @AuraEnabled
-        public Payment_Plan__c paymentPlan {
+        public sPRS__Payment_Plan__c paymentPlan {
             get;
             set;
         }
@@ -218,7 +218,7 @@ public with sharing class PaymentTabsController {
             set;
         }
         @AuraEnabled
-        public Sirono_Settings__c settings {
+        public sPRS__Sirono_Call_Center_Settings__c settings {
             get;
             set;
         }
@@ -228,7 +228,7 @@ public with sharing class PaymentTabsController {
             set;
         }
         @AuraEnabled
-        public List<Charge_Group__c> chargeGroups {
+        public List<sPRS__Charge_Group__c> chargeGroups {
             get;
             set;
         }
@@ -240,12 +240,11 @@ public with sharing class PaymentTabsController {
 
         public GuarantorPaymentInfo() {
             this.guarantor = new Contact();
-            this.settings = new Sirono_Settings__c();
+            this.settings = new sPRS__Sirono_Call_Center_Settings__c();
             this.hasPaymentPlan = false;
             this.addToPaymentAvail = false;
-            this.chargeGroups = new List<Charge_Group__c>();
+            this.chargeGroups = new List<sPRS__Charge_Group__c>();
             this.creditCards = new List<CardInformation>();
         }
     }
-
 }

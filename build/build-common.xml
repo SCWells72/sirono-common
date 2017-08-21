@@ -1,7 +1,3 @@
-<!--
-  ~ Copyright (c) 2017-present Sirono LLC, All rights reserved
-  -->
-
 <project name="build-common" default="deployCheckOnly"
          xmlns:sf="antlib:com.salesforce"
          xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
@@ -18,13 +14,33 @@
     <property name="workDir" value="${basedir}/work"/>
     <property name="execAnonWorkDir" value="${workDir}/execAnon"/>
 
+    <macrodef name="populateWorkSrcDirWithNamespaces"
+              description="Populates a work source directory from the specified source replacing namespaces per-configuration.">
+        <attribute name="srcDir"/>
+        <attribute name="destDirName"/>
+        <sequential>
+            <mkdir dir="${workDir}"/>
+            <delete dir="${workDir}/@{destDirName}" failonerror="false" quiet="true"/>
+            <mkdir dir="${workDir}/@{destDirName}"/>
+            <copy todir="${workDir}/@{destDirName}">
+                <fileset dir="@{srcDir}" includes="**/*" excludes="**/staticresources/*,**/contentassets/*,**/documents/**/*"/>
+                <filterchain>
+                    <!-- Change official namespace qualifications to development namespace qualifications before deployment -->
+                    <replaceregex pattern="\b(${sf.sprs.official.namespace})(\.|__|:)" replace="${sf.sprs.development.namespace}\2" flags="gi"/>
+                    <replaceregex pattern="\b(${sf.spfp.official.namespace})(\.|__|:)" replace="${sf.spfp.development.namespace}\2" flags="gi"/>
+                    <replaceregex pattern="(&lt;namespacePrefix&gt;)${sf.sprs.official.namespace}(&lt;/namespacePrefix&gt;)" replace="\1${sf.sprs.development.namespace}\2" flags="gi"/>
+                    <replaceregex pattern="(&lt;namespacePrefix&gt;)${sf.spfp.official.namespace}(&lt;/namespacePrefix&gt;)" replace="\1${sf.spfp.development.namespace}\2" flags="gi"/>
+                </filterchain>
+            </copy>
+            <!-- Copy binary files without performing any replacements -->
+            <copy todir="${workDir}/@{destDirName}">
+                <fileset dir="@{srcDir}" includes="**/staticresources/*,**/contentassets/*,**/documents/**/*"/>
+            </copy>
+        </sequential>
+    </macrodef>
+
     <target name="populateWorkSrcDir">
-        <mkdir dir="${workDir}"/>
-        <delete dir="${workDir}/src" failonerror="false" quiet="true"/>
-        <mkdir dir="${workDir}/src"/>
-        <copy todir="${workDir}/src">
-            <fileset dir="${basedir}/src" includes="**/*"/>
-        </copy>
+        <populateWorkSrcDirWithNamespaces srcDir="${basedir}/src" destDirName="src"/>
     </target>
 
     <target name="clean" description="Removes working files from the project">
@@ -56,7 +72,7 @@
             packagenames="${sf.pkgName}"/>
     </target>
 
-    <target name="_deploy">
+    <target name="_deploy" depends="populateWorkSrcDir">
         <echo level="info">Deploying to: ${sf.target.username} with test level: ${sf.testLevel}</echo>
         <condition property="deployRoot" value="${basedir}">
             <not>
@@ -67,7 +83,7 @@
             username="${sf.target.username}"
             password="${sf.target.password}"
             serverurl="${sf.target.serverurl}"
-            deployRoot="${deployRoot}/src"
+            deployRoot="${workDir}/src"
             pollWaitMillis="${sf.pollWaitMillis}"
             maxPoll="${sf.maxPoll}"
             testLevel="${sf.testLevel}"
@@ -76,13 +92,13 @@
             logType="Debugonly"/>
     </target>
 
-    <target name="_deployNoTests">
+    <target name="_deployNoTests" depends="populateWorkSrcDir">
         <echo level="info">Deploying to: ${sf.target.username} without tests</echo>
         <sf:deploy
             username="${sf.target.username}"
             password="${sf.target.password}"
             serverurl="${sf.target.serverurl}"
-            deployRoot="${deployRoot}/src"
+            deployRoot="${workDir}/src"
             pollWaitMillis="${sf.pollWaitMillis}"
             maxPoll="${sf.maxPoll}"
             testLevel="NoTestRun"
@@ -130,11 +146,11 @@
     </target>
 
     <target name="createPostInstallZip">
-        <delete dir="${basedir}/post_install_zip"/>
-        <mkdir dir="${basedir}/post_install_zip"/>
-        <property name="zip_dest" value="${basedir}/post_install_zip/${ant.project.name}_post_install.zip"/>
+        <populateWorkSrcDirWithNamespaces srcDir="${basedir}/post_install/src" destDirName="post_install_src"/>
+        <mkdir dir="${basedir}/dist"/>
+        <property name="zip_dest" value="${basedir}/dist/${ant.project.name}_post_install.zip"/>
         <zip destfile="${zip_dest}"
-             basedir="${basedir}/post_install/src"
+             basedir="${workDir}/post_install_src"
              excludes="**/.DS_Store, __MACOSX/*"
         />
     </target>

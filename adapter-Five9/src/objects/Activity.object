@@ -61,14 +61,14 @@ CASE(
         <formula>/* Get total seconds for the Handle Time */
 
 (
-VALUE(RIGHT(Five9__Five9HandleTime__c,2)) + 
+VALUE(RIGHT(Five9__Five9HandleTime__c,2)) +
 (VALUE(MID(Five9__Five9HandleTime__c, 4,2)) *60) + /* converts the minutes to seconds */
 (VALUE(LEFT(Five9__Five9HandleTime__c,2)) *3600) /* converts the hours to seconds */
 )
 - /* Subtract total seconds for Wrap (after call) Time */
 
 (
-VALUE(RIGHT(Five9__Five9WrapTime__c,2)) + 
+VALUE(RIGHT(Five9__Five9WrapTime__c,2)) +
 (VALUE(MID(Five9__Five9WrapTime__c, 4,2)) *60) + /* converts the minutes to seconds */
 (VALUE(LEFT(Five9__Five9WrapTime__c,2)) *3600) /* converts the hours to seconds */
 )</formula>

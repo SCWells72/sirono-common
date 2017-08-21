@@ -15,7 +15,7 @@ public with sharing class Five9AdapterTestUtility {
 
         Contact guarantorContact = new Contact(LastName = 'Test Guarantor',
             RecordTypeId = rt.Id,
-            Guarantor_Id__c = Decimal.valueOf(Math.random()));
+            sPRS__Guarantor_Id__c = Decimal.valueOf(Math.random()));
 
         return guarantorContact;
     }

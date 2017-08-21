@@ -2414,7 +2414,7 @@
     <fields>
         <fullName>Severity__c</fullName>
         <externalId>false</externalId>
-        <inlineHelpText>Severity represents “how bad a case is.” For example, a case that causes the program to crash would be considered Critical severity, while a small spelling error might be low severity.</inlineHelpText>
+        <inlineHelpText>Severity represents &quot;how bad a case is.&quot; For example, a case that causes the program to crash would be considered Critical severity, while a small spelling error might be low severity.</inlineHelpText>
         <label>Severity</label>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>

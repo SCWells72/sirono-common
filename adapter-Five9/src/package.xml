@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sirono Five9 Adapter</fullName>
     <types>
         <members>Five9AdapterConstants</members>
         <members>Five9AdapterTestUtility</members>
@@ -25,7 +26,6 @@
     </types>
     <types>
         <members>Five9LightningBasic</members>
-        <members>SFPlus</members>
         <name>CallCenter</name>
     </types>
     <types>
@@ -42,16 +42,19 @@
         <name>CustomField</name>
     </types>
     <types>
-        <members>Five9</members>
-        <name>InstalledPackage</name>
-    </types>
-    <types>
+        <members>Campaign-Campaign Layout</members>
+        <members>Contact-Guarantor-Five9 Layout</members>
         <members>Task-Task Layout</members>
         <name>Layout</name>
     </types>
     <types>
         <members>Activity.All_Activities</members>
         <name>ListView</name>
+    </types>
+    <types>
+        <members>Sirono_Five9_User_Local</members>
+        <members>Sirono_Five9_Administrator_Local</members>
+        <name>PermissionSet</name>
     </types>
     <types>
         <members>Five9WebServices</members>

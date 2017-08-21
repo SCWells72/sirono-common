@@ -5,7 +5,7 @@
 /**
  * UserService
  **/
-public with sharing class UserService extends AbstractService {
+public with sharing class UserService {
 
   /**
    * Get the UserWrapper for the current user.

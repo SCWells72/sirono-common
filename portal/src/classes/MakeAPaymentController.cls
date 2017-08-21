@@ -18,16 +18,16 @@ public with sharing class MakeAPaymentController {
         List<String> invoiceIds = (List<String>) JSON.deserialize(listIds, List<String>.class);
         System.debug(invoiceIds);
 
-        Contact guarantor = GuarantorService.getPortalGuarantor(UserInfo.getUserId());
-        List<Charge_Group__c> chargeGroups = ChargeGroupService.getPayableByInvoiceId(invoiceIds);
-        PaymentRequest pmtRequest = buildPaymentRequest(guarantor, chargeGroups, cInfo);
+        Contact guarantor = sPRS.GuarantorService.getPortalGuarantor(UserInfo.getUserId());
+        List<sPRS__Charge_Group__c> chargeGroups = sPRS.ChargeGroupService.getPayableByInvoiceId(invoiceIds);
+        sPRS.PaymentRequest pmtRequest = buildPaymentRequest(guarantor, chargeGroups, cInfo);
         List<String> errors = pmtRequest.validate();
 
         if (errors.isEmpty()) {
             try {
-                Payment__c pmt = PaymentService.makePayment(pmtRequest);
+                sPRS__Payment__c pmt = sPRS.PaymentService.makePayment(pmtRequest);
 
-                return String.format('Success;{0};${1}', new String[]{ pmt.Name, String.valueOf(pmt.Amount__c) });
+                return String.format('Success;{0};${1}', new String[]{ pmt.Name, String.valueOf(pmt.sPRS__Amount__c) });
             } catch (Exception ex) {
                 System.debug(ex.getStackTraceString());
                 return ex.getMessage();
@@ -39,8 +39,8 @@ public with sharing class MakeAPaymentController {
         }
     }
 
-    private static PaymentRequest buildPaymentRequest(Contact guarantor, Charge_Group__c[] chargeGroups, CardInformation cInfo) {
-        PaymentRequest pmtRequest = new PaymentRequest(guarantor, chargeGroups);
+    private static sPRS.PaymentRequest buildPaymentRequest(Contact guarantor, sPRS__Charge_Group__c[] chargeGroups, CardInformation cInfo) {
+        sPRS.PaymentRequest pmtRequest = new sPRS.PaymentRequest(guarantor, chargeGroups);
         pmtRequest.chargeInfo.creditCardNumber = cInfo.creditCardNumber;
         pmtRequest.chargeInfo.cardHolderName = cInfo.cardHolderName;
         pmtRequest.chargeInfo.expirationYear = cInfo.expirationYear.substring(2);
@@ -63,7 +63,7 @@ public with sharing class MakeAPaymentController {
         CardInformation cInfo = (CardInformation) JSON.deserialize(jsonPayment, CardInformation.class);
         System.debug(cInfo);
 
-        Contact guarantor = GuarantorService.getPortalGuarantor(UserInfo.getUserId());
+        Contact guarantor = sPRS.GuarantorService.getPortalGuarantor(UserInfo.getUserId());
 
         ApexPages.StandardController sc = new ApexPages.StandardController(guarantor);
         PayEstimateLightningController onePayment = new PayEstimateLightningController(sc, estimateId);

@@ -24,44 +24,44 @@
         <componentInstances>
             <componentInstanceProperties>
                 <name>parentFieldApiName</name>
-                <value>Charge_Group__c.Id</value>
+                <value>sPRS__Charge_Group__c.Id</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>relatedListApiName</name>
-                <value>Case_Charge_Groups__r</value>
+                <value>sPRS__Case_Charge_Groups__r</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
         </componentInstances>
         <componentInstances>
             <componentInstanceProperties>
                 <name>parentFieldApiName</name>
-                <value>Charge_Group__c.Guarantor__c</value>
+                <value>sPRS__Charge_Group__c.sPRS__Guarantor__c</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>relatedListApiName</name>
-                <value>Cases__r</value>
+                <value>sPRS__Cases__r</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
         </componentInstances>
         <componentInstances>
             <componentInstanceProperties>
                 <name>parentFieldApiName</name>
-                <value>Charge_Group__c.Id</value>
+                <value>sPRS__Charge_Group__c.Id</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>relatedListApiName</name>
-                <value>Transactions__r</value>
+                <value>sPRS__Transactions__r</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
         </componentInstances>
         <componentInstances>
             <componentInstanceProperties>
                 <name>parentFieldApiName</name>
-                <value>Charge_Group__c.Id</value>
+                <value>sPRS__Charge_Group__c.Id</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>relatedListApiName</name>
-                <value>Charge_Group_Coverages__r</value>
+                <value>sPRS__Charge_Group_Coverages__r</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
         </componentInstances>

@@ -27,15 +27,15 @@
                             Balance
                         </span>
                         <span class="value">
-                            <ui:outputCurrency value="{!v.estimate.singleEncounter.Balance__c}"/>
+                            <ui:outputCurrency value="{!v.estimate.singleEncounter.sPRS__Balance__c}"/>
                         </span>
                     </div>
                 </header>
                 <div class="invoice-content">
                     <div class="col details">
-                        <ui:outputDate value="{!v.estimate.singleEncounter.Date_Of_Service__c}" format="MM/DD/YYYY"/>
-                        <div>{!'ID Number: '+v.estimate.singleEncounter.Encounter_Id__c}</div>
-                        <div>{!'Location: '+ if(v.estimate.singleEncounter.Type__c == 'HB', v.estimate.singleEncounter.Location__c, v.estimate.singleEncounter.Ordering_Physician__c)}</div>
+                        <ui:outputDate value="{!v.estimate.singleEncounter.sPRS__Date_Of_Service__c}" format="MM/DD/YYYY"/>
+                        <div>{!'ID Number: '+v.estimate.singleEncounter.sPRS__Encounter_Id__c}</div>
+                        <div>{!'Location: '+ if(v.estimate.singleEncounter.sPRS__Type__c == 'HB', v.estimate.singleEncounter.sPRS__Location__c, v.estimate.singleEncounter.sPRS__Ordering_Physician__c)}</div>
                         <aura:if isTrue="{!v.estimate.fileUrl}">
                             <a target="_blank" href="{!v.estimate.fileUrl}" class="slds-button slds-button--brand slds-m-top--small clear">Download Estimate</a>
                         </aura:if>
@@ -43,15 +43,15 @@
                     <div class="col charges">
                         <h3>Estimated Charges</h3>
                         <div class="charge-details">
-                            <div class="col">{!v.estimate.singleEncounter.Procedure__c}</div>
+                            <div class="col">{!v.estimate.singleEncounter.sPRS__Procedure__c}</div>
                             <div class="col align-right">
-                                <ui:outputCurrency value="{!v.estimate.singleEncounter.Total_Charges__c}"/>
+                                <ui:outputCurrency value="{!v.estimate.singleEncounter.sPRS__Total_Charges__c}"/>
                             </div>
                             <div class="col footer">
                                 <div class="title">Total Charges</div>
                             </div>
                             <div class="col footer align-right">
-                                <ui:outputCurrency value="{!v.estimate.singleEncounter.Total_Charges__c}"/>
+                                <ui:outputCurrency value="{!v.estimate.singleEncounter.sPRS__Total_Charges__c}"/>
                             </div>
                         </div>
                     </div>
@@ -59,33 +59,33 @@
                         <h3>Estimated Payment and Adjustments</h3>
                         <div class="payment-details">
 
-                            <aura:if isTrue="{! v.estimate.singleEncounter.Insurance_Discount__c != null }">
+                            <aura:if isTrue="{! v.estimate.singleEncounter.sPRS__Insurance_Discount__c != null }">
                                 <div class="col">
-                                        {! if ( v.estimate.singleEncounter.Coverage__c != NULL, v.estimate.singleEncounter.Coverage__r.Name + ' Adjustment', 'Insurance Adjustment')}
+                                        {! if ( v.estimate.singleEncounter.sPRS__Coverage__c != NULL, v.estimate.singleEncounter.sPRS__Coverage__r.Name + ' Adjustment', 'Insurance Adjustment')}
                                 </div>
-                                <div class="{! 'col credit align-right ' + if(or (v.estimate.singleEncounter.Insurance_Discount__c == null, v.estimate.singleEncounter.Insurance_Discount__c == 0), 'zero-credit', '')}">
-                                    <aura:if isTrue="{!v.estimate.singleEncounter.Insurance_Discount__c > 0}">-</aura:if>
-                                    <ui:outputCurrency value="{!v.estimate.singleEncounter.Insurance_Discount__c}"/>
+                                <div class="{! 'col credit align-right ' + if(or (v.estimate.singleEncounter.sPRS__Insurance_Discount__c == null, v.estimate.singleEncounter.sPRS__Insurance_Discount__c == 0), 'zero-credit', '')}">
+                                    <aura:if isTrue="{!v.estimate.singleEncounter.sPRS__Insurance_Discount__c > 0}">-</aura:if>
+                                    <ui:outputCurrency value="{!v.estimate.singleEncounter.sPRS__Insurance_Discount__c}"/>
                                 </div>
                             </aura:if>
 
-                            <aura:if isTrue="{! v.estimate.singleEncounter.Insurance_Portion__c != NULL}">
+                            <aura:if isTrue="{! v.estimate.singleEncounter.sPRS__Insurance_Portion__c != NULL}">
                                 <div class="col">
-                                        {! if ( v.estimate.singleEncounter.Coverage__c != NULL, v.estimate.singleEncounter.Coverage__r.Name + ' Payment', 'Insurance Payment')}
+                                        {! if ( v.estimate.singleEncounter.sPRS__Coverage__c != NULL, v.estimate.singleEncounter.sPRS__Coverage__r.Name + ' Payment', 'Insurance Payment')}
                                 </div>
-                                <div class="{! 'col credit align-right ' + if(or (v.estimate.singleEncounter.Insurance_Portion__c == null, v.estimate.singleEncounter.Insurance_Portion__c == 0), 'zero-credit', '')}">
-                                    <aura:if isTrue="{!v.estimate.singleEncounter.Insurance_Portion__c > 0}">-</aura:if>
-                                    <ui:outputCurrency value="{!v.estimate.singleEncounter.Insurance_Portion__c}"/>
+                                <div class="{! 'col credit align-right ' + if(or (v.estimate.singleEncounter.sPRS__Insurance_Portion__c == null, v.estimate.singleEncounter.sPRS__Insurance_Portion__c == 0), 'zero-credit', '')}">
+                                    <aura:if isTrue="{!v.estimate.singleEncounter.sPRS__Insurance_Portion__c > 0}">-</aura:if>
+                                    <ui:outputCurrency value="{!v.estimate.singleEncounter.sPRS__Insurance_Portion__c}"/>
                                 </div>
                             </aura:if>
 
-                            <aura:if isTrue="{! or (v.estimate.singleEncounter.Insurance_Discount__c != NULL, v.estimate.singleEncounter.Insurance_Portion__c != NULL)}">
+                            <aura:if isTrue="{! or (v.estimate.singleEncounter.sPRS__Insurance_Discount__c != NULL, v.estimate.singleEncounter.sPRS__Insurance_Portion__c != NULL)}">
                                 <div class="col footer">
                                     <div class="title">Total Credits</div>
                                 </div>
-                                <div class="{! 'col footer credit align-right ' + if(and(or (v.estimate.singleEncounter.Insurance_Discount__c == null, v.estimate.singleEncounter.Insurance_Discount__c == 0), or (v.estimate.singleEncounter.Insurance_Portion__c == null, v.estimate.singleEncounter.Insurance_Portion__c == 0)), 'zero-credit', '')}">
-                                    <aura:if isTrue="{! if ( and (v.estimate.singleEncounter.Insurance_Portion__c != null, v.estimate.singleEncounter.Insurance_Discount__c != null), v.estimate.singleEncounter.Insurance_Portion__c + v.estimate.singleEncounter.Insurance_Discount__c > 0, if ( v.estimate.singleEncounter.Insurance_Portion__c != null, v.estimate.singleEncounter.Insurance_Portion__c > 0, if (v.estimate.singleEncounter.Insurance_Discount__c != null, v.estimate.singleEncounter.Insurance_Discount__c > 0, false) ) ) }">-</aura:if>
-                                    <ui:outputCurrency value="{! if ( and (v.estimate.singleEncounter.Insurance_Portion__c != null, v.estimate.singleEncounter.Insurance_Discount__c != null), v.estimate.singleEncounter.Insurance_Portion__c + v.estimate.singleEncounter.Insurance_Discount__c, if ( v.estimate.singleEncounter.Insurance_Portion__c != null, v.estimate.singleEncounter.Insurance_Portion__c, if (v.estimate.singleEncounter.Insurance_Discount__c != null, v.estimate.singleEncounter.Insurance_Discount__c, null) ) )}"/>
+                                <div class="{! 'col footer credit align-right ' + if(and(or (v.estimate.singleEncounter.sPRS__Insurance_Discount__c == null, v.estimate.singleEncounter.sPRS__Insurance_Discount__c == 0), or (v.estimate.singleEncounter.sPRS__Insurance_Portion__c == null, v.estimate.singleEncounter.sPRS__Insurance_Portion__c == 0)), 'zero-credit', '')}">
+                                    <aura:if isTrue="{! if ( and (v.estimate.singleEncounter.sPRS__Insurance_Portion__c != null, v.estimate.singleEncounter.sPRS__Insurance_Discount__c != null), v.estimate.singleEncounter.sPRS__Insurance_Portion__c + v.estimate.singleEncounter.sPRS__Insurance_Discount__c > 0, if ( v.estimate.singleEncounter.sPRS__Insurance_Portion__c != null, v.estimate.singleEncounter.sPRS__Insurance_Portion__c > 0, if (v.estimate.singleEncounter.sPRS__Insurance_Discount__c != null, v.estimate.singleEncounter.sPRS__Insurance_Discount__c > 0, false) ) ) }">-</aura:if>
+                                    <ui:outputCurrency value="{! if ( and (v.estimate.singleEncounter.sPRS__Insurance_Portion__c != null, v.estimate.singleEncounter.sPRS__Insurance_Discount__c != null), v.estimate.singleEncounter.sPRS__Insurance_Portion__c + v.estimate.singleEncounter.sPRS__Insurance_Discount__c, if ( v.estimate.singleEncounter.sPRS__Insurance_Portion__c != null, v.estimate.singleEncounter.sPRS__Insurance_Portion__c, if (v.estimate.singleEncounter.sPRS__Insurance_Discount__c != null, v.estimate.singleEncounter.sPRS__Insurance_Discount__c, null) ) )}"/>
                                 </div>
                             </aura:if>
                         </div>
@@ -95,22 +95,22 @@
                             Estimated Patient Portion
                         </span>
                         <span class="value">
-                            <ui:outputCurrency value="{!v.estimate.singleEncounter.Patient_Portion__c}"/>
+                            <ui:outputCurrency value="{!v.estimate.singleEncounter.sPRS__Patient_Portion__c}"/>
                         </span>
-                        <hr class="{! 'divLine display_'+(v.estimate.singleEncounter.Total_Payments__c > 0)}"/>
+                        <hr class="{! 'divLine display_'+(v.estimate.singleEncounter.sPRS__Total_Payments__c > 0)}"/>
                     </div>
                     <div class="col"/>
                     <div class="col"/>
-                    <div class="{! 'col payments display_'+(v.estimate.singleEncounter.Total_Payments__c > 0)}">
+                    <div class="{! 'col payments display_'+(v.estimate.singleEncounter.sPRS__Total_Payments__c > 0)}">
                         <h3>Payments Received</h3>
                         <div class="payment-details">
-                            <aura:iteration items="{!v.estimate.singleEncounter.Payments__r}" var="payment">
+                            <aura:iteration items="{!v.estimate.singleEncounter.sPRS__Payments__r}" var="payment">
                                 <div class="col">
                                     Thank you for your payment -
-                                    <ui:outputDate value="{! payment.Deposit_Date__c}" format="MM/DD/YYYY"/>
+                                    <ui:outputDate value="{! payment.sPRS__Deposit_Date__c}" format="MM/DD/YYYY"/>
                                 </div>
                                 <div class="col credit align-right">
-                                    <ui:outputCurrency value="{!payment.Amount__c}"/>
+                                    <ui:outputCurrency value="{!payment.sPRS__Amount__c}"/>
                                 </div>
                             </aura:iteration>
 
@@ -118,16 +118,16 @@
                                 <div class="title">Total Credits</div>
                             </div>
                             <div class="col footer credit align-right">
-                                <ui:outputCurrency value="{!v.estimate.singleEncounter.Total_Payments__c}"/>
+                                <ui:outputCurrency value="{!v.estimate.singleEncounter.sPRS__Total_Payments__c}"/>
                             </div>
                         </div>
                     </div>
-                    <div class="{! 'col total align-right display_'+(v.estimate.singleEncounter.Total_Payments__c > 0)}">
+                    <div class="{! 'col total align-right display_'+(v.estimate.singleEncounter.sPRS__Total_Payments__c > 0)}">
                         <span class="title balance">
                             Balance
                         </span>
                         <span class="value">
-                            <ui:outputCurrency value="{!v.estimate.singleEncounter.Balance__c}"/>
+                            <ui:outputCurrency value="{!v.estimate.singleEncounter.sPRS__Balance__c}"/>
                         </span>
                     </div>
                 </div>

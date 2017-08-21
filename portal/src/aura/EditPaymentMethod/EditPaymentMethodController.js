@@ -6,7 +6,7 @@
     doCmpInit: function (cmp, e, hlpr) {
         var PaymentInfo = cmp.get('v.PaymentInfo');
 
-        var cardId = cmp.get('v.PaymentInfo.paymentPlan.Payment_Method__c');
+        var cardId = cmp.get('v.PaymentInfo.paymentPlan.sPRS__Payment_Method__c');
         var CreditCard = hlpr.getDefaultCard();
         if (PaymentInfo && PaymentInfo.creditCards.length) {
             PaymentInfo.creditCards.forEach(function (card) {
@@ -27,7 +27,7 @@
     initCardSelectOptions: function (cmp, e, hlpr) {
         var PaymentInfo = cmp.get('v.PaymentInfo'),
             cardSelection = cmp.find('state'),
-            selectedCardId = PaymentInfo.paymentPlan.Payment_Method__c;
+            selectedCardId = PaymentInfo.paymentPlan.sPRS__Payment_Method__c;
 
         if (cardSelection !== undefined) {
             cardSelection.set('v.body', []);

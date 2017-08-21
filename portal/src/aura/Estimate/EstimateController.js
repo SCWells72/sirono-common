@@ -11,7 +11,7 @@
                 "July", "August", "September", "October", "November", "December"
             ];
             var estimate = component.get('v.estimate');
-            var dateOfService = new Date(estimate.singleEncounter.Date_Of_Service__c);
+            var dateOfService = new Date(estimate.singleEncounter.sPRS__Date_Of_Service__c);
             var year = dateOfService.getFullYear();
             var month = dateOfService.getMonth();
             var day = dateOfService.getDate();
@@ -62,7 +62,7 @@
         $A.util.toggleClass(component.find('selectIcon'), 'selected');
         var activated = component.get('v.activated');
         var estimate = component.get('v.estimate');
-        var balanceDue = estimate.singleEncounter.Patient_Portion__c;
+        var balanceDue = estimate.singleEncounter.sPRS__Patient_Portion__c;
         if (!activated) {
             balanceDue = -balanceDue;
         }

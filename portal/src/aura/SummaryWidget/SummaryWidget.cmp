@@ -13,12 +13,12 @@
     <aura:attribute name="invoiceValue" type="Decimal" access="public" default="0"/>
     <aura:attribute name="invoiceValuePart" type="String" access="public" default="00"/>
     <!-- Invoiced_Balance__c END-->
-    <aura:attribute name="login" type="String" access="public"/>
-    <aura:attribute name="password" type="String" access="public"/>
+    <aura:attribute name="login" type="String" access="global"/>
+    <aura:attribute name="password" type="String" access="global"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler event="c:UpdateSummaryWidget" action="{!c.doInit}"/>
     <div class="{! if (v.isLanding, 'landing-padding', '')}">
-        <aura:if isTrue="{! v.guarantorWrapper.contact.Guarantor_Status__c == 'Overdue'}">
+        <aura:if isTrue="{! v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Overdue'}">
             <div class="no-small">
                 <div class="status warning sldsjs-popover">
                     Your account is overdue!
@@ -33,7 +33,7 @@
                 </div>
             </div>
         </aura:if>
-        <aura:if isTrue="{! v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent'}">
+        <aura:if isTrue="{! v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Delinquent'}">
             <div class="no-small">
                 <div class="status error sldsjs-popover">
                     Your account is Delinquent!
@@ -52,22 +52,22 @@
         <!-- Your account is overdue/delinquent message END-->
 
         <!-- YOU OWE -->
-        <aura:if isTrue="{!(v.guarantorWrapper.contact.Guarantor_Status__c != 'Paid')}">
+        <aura:if isTrue="{!(v.guarantorWrapper.contact.sPRS__Guarantor_Status__c != 'Paid')}">
             <div class="title">You Owe</div>
             <div class="value">
             {!v.invoiceValue}<span>.{!v.invoiceValuePart}</span>
             </div>
             <div class="no-small">
                 <div class="title">
-                {!v.guarantorWrapper.contact.Outstanding_Invoices__c} Outstanding Invoices
+                {!v.guarantorWrapper.contact.sPRS__Outstanding_Invoices__c} Outstanding Invoices
                 </div>
             </div>
-            <aura:if isTrue="{! v.guarantorWrapper.contact.Guarantor_Status__c == 'Due'}">
+            <aura:if isTrue="{! v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Due'}">
                 <div class="no-small">
                     <div class="section_header_Payment">
                         <div class="title">
                             Payment Due By
-                            <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.invoiceOverdue.Due_Date__c}"/>
+                            <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.invoiceOverdue.sPRS__Due_Date__c}"/>
                         </div>
                     </div>
                 </div>
@@ -87,21 +87,21 @@
         </aura:if>
 
         <!-- Guarantor Status == Overdue OR Delinquent With overdue invoices -->
-        <aura:if isTrue="{! v.guarantorWrapper.contact.Guarantor_Status__c == 'Overdue'}">
+        <aura:if isTrue="{! v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Overdue'}">
             <div class="no-small">
                 <div class="title warning">
                     <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info"/>
-                    You have {!v.guarantorWrapper.contact.Overdue_Invoices__c} overdue invoices |
+                    You have {!v.guarantorWrapper.contact.sPRS__Overdue_Invoices__c} overdue invoices |
                     <a onclick="{! c.goToInvoices}">View</a>
                 </div>
             </div>
         </aura:if>
 
-        <aura:if isTrue="{! v.guarantorWrapper.contact.Guarantor_Status__c == 'Delinquent'}">
+        <aura:if isTrue="{! v.guarantorWrapper.contact.sPRS__Guarantor_Status__c == 'Delinquent'}">
             <div class="no-small">
                 <div class="title error">
                     <c:svgIcon svgPath="{!$Resource.SironoData + '/assets/icons/utility-sprite/svg/symbols.svg#info'}" category="standard" size="small" name="info"/>
-                    You have {!v.guarantorWrapper.contact.Delinquent_Invoices__c} delinquent invoices |
+                    You have {!v.guarantorWrapper.contact.sPRS__Delinquent_Invoices__c} delinquent invoices |
                     <a onclick="{! c.goToInvoices}">View</a>
                 </div>
             </div>
@@ -119,12 +119,12 @@
         <!-- estimate notification END -->
 
         <!-- Version #3 Outstanding balance, payment plan, good standing -->
-        <aura:if isTrue="{! and(v.guarantorWrapper.balanceHasPaymentPlan, v.guarantorWrapper.contact.Guarantor_Status__c != 'Due')}">
+        <aura:if isTrue="{! and(v.guarantorWrapper.balanceHasPaymentPlan, v.guarantorWrapper.contact.sPRS__Guarantor_Status__c != 'Due')}">
             <div class="no-small">
                 <div class="section_header_Payment">
                     <div class="title">
                         Next Payment Installment Due
-                        <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.NextPaymentDate__c}"/>
+                        <ui:outputDate format="MMMM d, YYYY" value="{!v.guarantorWrapper.paymentPlan.sPRS__NextPaymentDate__c}"/>
                     </div>
                 </div>
             </div>

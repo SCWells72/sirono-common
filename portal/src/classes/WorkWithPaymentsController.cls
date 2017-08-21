@@ -14,9 +14,9 @@ public with sharing class WorkWithPaymentsController {
         UserWrapper userWrapper = UserService.getCurrentUser();
 
 
-        List<Payment__c> payments = PaymentService.getPayments(userWrapper.contactId);
+        List<sPRS__Payment__c> payments = sPRS.PaymentService.getPayments(userWrapper.contactId);
         List<PaymentsWrapper> wrappers = new List<PaymentsWrapper>();
-        for (Payment__c payment: payments) {
+        for (sPRS__Payment__c payment: payments) {
             wrappers.add(new PaymentsWrapper(payment));
         }
         return wrappers;
@@ -30,17 +30,17 @@ public with sharing class WorkWithPaymentsController {
         @AuraEnabled public String paymentId { get; set; }
         @AuraEnabled public String description { get; set; }
 
-        public PaymentsWrapper(Payment__c payment) {
-            this.paymentId = payment.Payment_Id__c;
+        public PaymentsWrapper(sPRS__Payment__c payment) {
+            this.paymentId = payment.sPRS__Payment_Id__c;
             this.name = payment.Name;
-            this.deposit = payment.Deposit_Date__c != null ? payment.Deposit_Date__c.date().format() : '';
-            this.method = payment.Method__c;
+            this.deposit = payment.sPRS__Deposit_Date__c != null ? payment.sPRS__Deposit_Date__c.date().format() : '';
+            this.method = payment.sPRS__Method__c;
             this.description = '';
-            this.amount = payment.Amount__c;
-            if (payment.Method__c == 'credit' || payment.Method__c == 'Credit') {
-                this.description += payment.Payment_Method__r.Card_Type__c + ' ' + payment.Payment_Method__r.Last_4__c;
-            } else if (payment.Method__c == 'check' || payment.Method__c == 'Check') {
-                this.description += payment.Processor_Transaction_Id__c;
+            this.amount = payment.sPRS__Amount__c;
+            if (payment.sPRS__Method__c == 'credit' || payment.sPRS__Method__c == 'Credit') {
+                this.description += payment.sPRS__Payment_Method__r.sPRS__Card_Type__c + ' ' + payment.sPRS__Payment_Method__r.sPRS__Last_4__c;
+            } else if (payment.sPRS__Method__c == 'check' || payment.sPRS__Method__c == 'Check') {
+                this.description += payment.sPRS__Processor_Transaction_Id__c;
             }
             this.description = this.description.replaceAll('null', '');
         }

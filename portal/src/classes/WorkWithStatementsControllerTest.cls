@@ -5,6 +5,8 @@
 @IsTest
 private class WorkWithStatementsControllerTest {
 
+    private static final String[] STATEMENT_DATES = new String[] { '10/07/2016', '11/07/2016', '12/07/2016', '01/07/2017', '02/07/2017' };
+
     @IsTest
     static void getStatementsTest() {
         User gtUser = PortalTestUtility.getGuarantorCommunityUser();
@@ -12,12 +14,12 @@ private class WorkWithStatementsControllerTest {
 
 
         System.runAs(adminUser) {
-            Contact guarantorContact = GuarantorService.getPortalGuarantor(gtUser.Id);
+            Contact guarantorContact = sPRS.GuarantorService.getPortalGuarantor(gtUser.Id);
 
-            List<Statement__c> statements = new List<Statement__c>();
-            for (String stmtDate : RestClientConstants.STATEMENT_DATES) {
-                Statement__c statement = PortalTestUtility.generateStatement(guarantorContact.Id);
-                statement.Statement_Date__c = Date.parse(stmtDate);
+            List<sPRS__Statement__c> statements = new List<sPRS__Statement__c>();
+            for (String stmtDate : STATEMENT_DATES) {
+                sPRS__Statement__c statement = PortalTestUtility.generateStatement(guarantorContact.Id);
+                statement.sPRS__Statement_Date__c = Date.parse(stmtDate);
                 statements.add(statement);
             }
 
@@ -25,7 +27,7 @@ private class WorkWithStatementsControllerTest {
         }
 
         System.runAs(gtUser) {
-            Test.setMock(HttpCalloutMock.class, new GuarantorServiceTest.GuarantorRestClientMock());
+            Test.setMock(HttpCalloutMock.class, new sPRS.GuarantorRestClientMock());
             Test.startTest();
 
             List<WorkWithStatementsController.StatementWrapper> statements = WorkWithStatementsController.getStatements();

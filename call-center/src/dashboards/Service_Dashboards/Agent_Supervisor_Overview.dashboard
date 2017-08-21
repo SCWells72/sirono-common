@@ -31,7 +31,6 @@
             <legendPosition>Bottom</legendPosition>
             <report>Service_Dashboards_Reports/Cases_Currently_Open_by_Priority</report>
             <showPercentage>false</showPercentage>
-            <showPicturesOnCharts>false</showPicturesOnCharts>
             <showValues>false</showValues>
             <sortBy>RowLabelAscending</sortBy>
             <title>Open Cases by Priority</title>
@@ -50,7 +49,6 @@
             <indicatorMiddleColor>#C2C254</indicatorMiddleColor>
             <maxValuesDisplayed>9</maxValuesDisplayed>
             <report>Service_Dashboards_Reports/Top_10_Cases_by_Age</report>
-            <showPicturesOnTables>true</showPicturesOnTables>
             <sortBy>RowValueDescending</sortBy>
             <title>Top Open Cases by Age (Days)</title>
         </components>
@@ -79,7 +77,6 @@
             <indicatorMiddleColor>#54C254</indicatorMiddleColor>
             <maxValuesDisplayed>6</maxValuesDisplayed>
             <report>Service_Dashboards_Reports/Cases_Closed_MTD_by_Agent</report>
-            <showPicturesOnTables>true</showPicturesOnTables>
             <sortBy>RowValueDescending</sortBy>
             <title>Top Agents by Closed Cases MTD</title>
         </components>
@@ -96,7 +93,6 @@
             <indicatorMiddleColor>#C2C254</indicatorMiddleColor>
             <maxValuesDisplayed>7</maxValuesDisplayed>
             <report>Service_Dashboards_Reports/Cases_Currently_Open_by_Account</report>
-            <showPicturesOnTables>true</showPicturesOnTables>
             <sortBy>RowValueDescending</sortBy>
             <title>Top Customers by Open Cases</title>
         </components>
@@ -127,7 +123,6 @@
             <legendPosition>Bottom</legendPosition>
             <report>Service_Dashboards_Reports/Cases_Currently_Open</report>
             <showPercentage>false</showPercentage>
-            <showPicturesOnCharts>false</showPicturesOnCharts>
             <showValues>false</showValues>
             <sortBy>RowLabelAscending</sortBy>
             <title>Open Cases by Status</title>
@@ -176,7 +171,6 @@
             <indicatorMiddleColor>#54C254</indicatorMiddleColor>
             <maxValuesDisplayed>6</maxValuesDisplayed>
             <report>Service_Dashboards_Reports/Avg_Case_Resolution_Time_MTD_by_Agen</report>
-            <showPicturesOnTables>true</showPicturesOnTables>
             <sortBy>RowValueAscending</sortBy>
             <title>Top Agents by Case Resolution Time MTD</title>
         </components>
@@ -193,7 +187,6 @@
             <indicatorMiddleColor>#C2C254</indicatorMiddleColor>
             <maxValuesDisplayed>7</maxValuesDisplayed>
             <report>Service_Dashboards_Reports/Aged_Cases_by_Account</report>
-            <showPicturesOnTables>true</showPicturesOnTables>
             <sortBy>RowValueDescending</sortBy>
             <title>Top Customers by Open Case Age (Days)</title>
         </components>
@@ -224,7 +217,6 @@
             <legendPosition>Bottom</legendPosition>
             <report>Service_Dashboards_Reports/Cases_Currently_Open_by_Type</report>
             <showPercentage>false</showPercentage>
-            <showPicturesOnCharts>false</showPicturesOnCharts>
             <showValues>false</showValues>
             <sortBy>RowLabelAscending</sortBy>
             <title>Open Cases by Type</title>
@@ -243,7 +235,6 @@
             <indicatorMiddleColor>#C2C254</indicatorMiddleColor>
             <maxValuesDisplayed>8</maxValuesDisplayed>
             <report>Service_Dashboards_Reports/Aged_Cases_by_Agent</report>
-            <showPicturesOnTables>true</showPicturesOnTables>
             <sortBy>RowValueDescending</sortBy>
             <title>Top Agents by Open Case Age</title>
         </components>
@@ -271,7 +262,6 @@
             <indicatorLowColor>#54C254</indicatorLowColor>
             <indicatorMiddleColor>#C2C254</indicatorMiddleColor>
             <report>Service_Dashboards_Reports/Average_Case_Resolution_Time_MTD</report>
-            <showPicturesOnTables>false</showPicturesOnTables>
             <sortBy>RowLabelAscending</sortBy>
             <title>Case Resolution Time MTD by Priority</title>
         </components>
@@ -288,7 +278,6 @@
             <indicatorMiddleColor>#C25454</indicatorMiddleColor>
             <maxValuesDisplayed>7</maxValuesDisplayed>
             <report>Service_Dashboards_Reports/High_Priority_Open_Cases_by_Account</report>
-            <showPicturesOnTables>true</showPicturesOnTables>
             <sortBy>RowValueDescending</sortBy>
             <title>Top Customers by Open Case Priority</title>
         </components>

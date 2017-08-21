@@ -145,7 +145,7 @@
             <sortOrder>4</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Add_Attachment</actionName>
+            <actionName>sPRS__Add_Attachment</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>5</sortOrder>
         </platformActionListItems>

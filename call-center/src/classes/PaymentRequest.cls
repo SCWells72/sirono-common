@@ -5,31 +5,31 @@
 /**
  * Pay the given amount against these chargegroups with this credit card
  */
-public with sharing class PaymentRequest {
-    public PaymentRequest() {
+global with sharing class PaymentRequest {
+    global PaymentRequest() {
         this.chargeInfo = new ChargeInfo();
     }
 
-    public PaymentRequest(Contact guarantor, List<Charge_Group__c> chargeGroupList) {
+    global PaymentRequest(Contact guarantor, List<Charge_Group__c> chargeGroupList) {
         this.chargeInfo = new ChargeInfo();
         this.guarantor = guarantor;
         this.chargeGroups = chargeGroupList;
 
     }
 
-    public class ChargeInfo {
-        public String address { get; set; }
-        public String amount { get; set; }
-        public String cardHolderName { get; set; }
-        public String city { get; set; }
-        public String creditCardNumber { get; set; }
-        public String cvv { get; set; }
-        public String expirationMonth { get; set; }
-        public String expirationYear { get; set; }
-        public String state { get; set; }
-        public String zip { get; set; }
+    global class ChargeInfo {
+        global String address { get; set; }
+        global String amount { get; set; }
+        global String cardHolderName { get; set; }
+        global String city { get; set; }
+        global String creditCardNumber { get; set; }
+        global String cvv { get; set; }
+        global String expirationMonth { get; set; }
+        global String expirationYear { get; set; }
+        global String state { get; set; }
+        global String zip { get; set; }
 
-        public List<String> validate() {
+        global List<String> validate() {
             List<String> errors = new List<String>();
             if (String.isEmpty(creditCardNumber)) {
                 errors.add('Card Number is a required field.');
@@ -79,9 +79,9 @@ public with sharing class PaymentRequest {
         }
     }
 
-    public Contact guarantor { get; set; }
-    public List<Charge_Group__c> chargeGroups { get; set; }
-    public ChargeInfo chargeInfo { get; set; }
+    global Contact guarantor { get; set; }
+    global List<Charge_Group__c> chargeGroups { get; set; }
+    global ChargeInfo chargeInfo { get; set; }
 
     private List<String> validateAmount() {
         List<String> errors = new List<String>();
@@ -110,7 +110,7 @@ public with sharing class PaymentRequest {
         return cgBalanceTotal;
     }
 
-    public List<String> validate() {
+    global List<String> validate() {
         List<String> errors = new List<String>();
         errors.addAll(chargeInfo.validate());
         errors.addAll(validateAmount());
