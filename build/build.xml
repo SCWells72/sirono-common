@@ -26,18 +26,6 @@
         <echo message="Targets to run to test/deploy the full suite"/>
     </target>
 
-    <target name="setSingleOrgConnectionProperties">
-        <!-- Set the connection properties based on the sPRS values for single-org work -->
-        <property name="sf.source.username" value="${sf.sprs.source.username}"/>
-        <property name="sf.source.password" value="${sf.sprs.source.password}"/>
-        <property name="sf.source.serverurl" value="${sf.sprs.source.serverurl}"/>
-        <property name="sf.target.username" value="${sf.sprs.target.username}"/>
-        <property name="sf.target.password" value="${sf.sprs.target.password}"/>
-        <property name="sf.target.serverurl" value="${sf.sprs.target.serverurl}"/>
-
-        <echo>Building sPRS for target ${sf.target.username} / source ${sf.source.username}.</echo>
-    </target>
-
     <!-- Check only; don't save to the server -->
     <target name="deployCheckOnly" depends="setSingleOrgConnectionProperties, processTemplates, populateUberWorkSrcDir">
         <echo level="info">Validating in: ${sf.target.username} with test level: ${sf.testLevel}</echo>

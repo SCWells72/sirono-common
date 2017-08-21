@@ -694,6 +694,7 @@
         <members>Adjustment_Type__mdt-Adjustment Type Layout</members>
         <members>Adjustment__c-Adjustment Layout</members>
         <members>Adjustment__c-Adjustments</members>
+        <members>Campaign-Campaign Layout</members>
         <members>CampaignMember-Campaign Member Page Layout</members>
         <members>Case-Administrative Case</members>
         <members>Case-Billing Layout</members>
