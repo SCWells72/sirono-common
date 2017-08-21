@@ -8,7 +8,7 @@
 
     <aura:registerEvent name="payNowRequest" type="c:payNowRequest"/>
 
-    <aura:attribute name="invoice" type="WorkWithInvoicesController.InvoicesWrapper"/>
+    <aura:attribute name="invoice" type="Object"/>
     <aura:attribute name="tileId" type="Integer"/>
 
     <article class="invoice-record" aura:id="tile" onclick="{!c.activateTile}">
