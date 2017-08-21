@@ -607,7 +607,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Charge_Group__c.External_Guarantor_Id__c</field>
+        <field>Charge_Group__c.External_Guarantor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

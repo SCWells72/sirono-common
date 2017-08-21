@@ -233,7 +233,7 @@ public with sharing class PayStaffWSUtill {
 
                 RelatedObjectWrapper relatedObjectWrapper = callTransactionRequest(null, sironoWrapper.sironoId.toPlainString(), false);
                 sironoWrapper.adjustment.Guarantor__c = gt.Id;
-                sironoWrapper.adjustment.External_Guarantor__c = cgSironoIdMap.get(sironoWrapper.cgSironoId).External_Guarantor_Id__c;
+                sironoWrapper.adjustment.External_Guarantor__c = cgSironoIdMap.get(sironoWrapper.cgSironoId).External_Guarantor__c;
                 wrapperMap.put(sironoWrapper, relatedObjectWrapper);
             }
 

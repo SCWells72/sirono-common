@@ -13,7 +13,7 @@
     </types>
     <types>
         <members>Contact.Campaign__c</members>
-        <members>Contaact.Preferred_Contact__c</members>
+        <members>Contact.Preferred_Contact__c</members>
         <members>Contact.Statement_Preference__c</members>
         <members>Contact.Skip_Invoice_Stmt_Until__c</members>
         <members>Contact.Test_Id__c</members>
@@ -21,6 +21,7 @@
         <members>Contact.Vital_Status__c</members>
         <members>Charge_Group__c.Balance_Mismatch__c</members>
         <members>Charge_Group__c.Charge_Group_External_Id__c</members>
+        <members>Charge_Group__c.External_Guarantor_Id__c</members>
         <members>Charge_Group__c.Financial_Class__c</members>
         <members>Charge_Group__c.In_Inventory__c</members>
         <members>Charge_Group__c.Newly_Imported__c</members>

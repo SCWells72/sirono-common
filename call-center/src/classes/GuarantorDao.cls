@@ -87,7 +87,7 @@ public with sharing class GuarantorDao extends AbstractDao {
                     Medical_Record_Number__c, RecordType.DeveloperName, Social_Security_Number__c,
                     Guarantor_Id__c, Patient_Id__c, HomePhone, MobilePhone, OtherPhone,
                     MailingCity, MailingCountry, MailingPostalCode, MailingState, MailingStreet, RecordTypeId, (
-                    SELECT Id, Name, Sirono_Id__c, Guarantor__c, Guarantor__r.Name, External_Guarantor_Id__c,
+                    SELECT Id, Name, Sirono_Id__c, Guarantor__c, Guarantor__r.Name, External_Guarantor__c,
                         External_Id__c, Active__c, Reported_Insurance_Balance__c, Reported_Prebill_Balance__c,
                         Reported_Selfpay_Balance__c, Patient__c, Patient__r.Name,
                         Account_Type__c, Date_Of_Service_Start_Date__c, Date_Of_Service_End_Date__c,
