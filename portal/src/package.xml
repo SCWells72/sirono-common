@@ -173,6 +173,7 @@
         <name>SharingSet</name>
     </types>
     <types>
+        <members>PortalStyles</members>
         <members>SironoData</members>
         <name>StaticResource</name>
     </types>
