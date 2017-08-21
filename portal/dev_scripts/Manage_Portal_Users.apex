@@ -45,9 +45,9 @@ if (!existingPortalUsers.isEmpty()) {
 
 // Create a new portal user for each contact
 List<Contact> guarantorContacts = [
-    SELECT Id, FirstName, LastName, Name, Profile_Pointer_Id__c
+    SELECT Id, FirstName, LastName, Name, sPRS__Guarantor_Id__c
     FROM Contact
-    WHERE Profile_Pointer_Id__c <> NULL
+    WHERE sPRS__Guarantor_Id__c <> NULL
     ORDER BY Name
 ];
 if (!guarantorContacts.isEmpty()) {
@@ -60,7 +60,7 @@ if (!guarantorContacts.isEmpty()) {
 
     Map<Id, User> portalUsersByGuarantorContactId = new Map<Id, User>();
     List<User> existingUsers = [
-        SELECT Id, ContactId, Contact.Name, Contact.Profile_Pointer_Id__c, Username
+        SELECT Id, ContactId, Contact.Name, Contact.sPRS__Guarantor_Id__c, Username
         FROM User
         WHERE ProfileId = :customerCommunityLoginUserProfile.Id
         AND ContactId IN :guarantorContactIds
@@ -68,7 +68,7 @@ if (!guarantorContacts.isEmpty()) {
     ];
     System.debug('Found ' + existingUsers.size() + ' existing portal users.');
     for (User existingUser : existingUsers) {
-        System.debug('Found existing user ' + existingUser.Username + ' for Guarantor contact ' + existingUser.Contact.Name + ' (' + existingUser.Contact.Profile_Pointer_Id__c + ').');
+        System.debug('Found existing user ' + existingUser.Username + ' for Guarantor contact ' + existingUser.Contact.Name + ' (' + existingUser.Contact.sPRS__Guarantor_Id__c + ').');
         portalUsersByGuarantorContactId.put(existingUser.ContactId, existingUser);
     }
 
@@ -77,14 +77,14 @@ if (!guarantorContacts.isEmpty()) {
     for (Contact guarantorContact : guarantorContacts) {
         User portalUser = portalUsersByGuarantorContactId.get(guarantorContact.Id);
         if (portalUser == null) {
-            System.debug('Creating a new portal user for contact ' + guarantorContact.Name + ' (' + guarantorContact.Profile_Pointer_Id__c + ').');
+            System.debug('Creating a new portal user for contact ' + guarantorContact.Name + ' (' + guarantorContact.sPRS__Guarantor_Id__c + ').');
             portalUser = new User();
             portalUser.ContactId = guarantorContact.Id;
         } else {
-            System.debug('Updating an existing portal user for contact ' + guarantorContact.Name + ' (' + guarantorContact.Profile_Pointer_Id__c + ').');
+            System.debug('Updating an existing portal user for contact ' + guarantorContact.Name + ' (' + guarantorContact.sPRS__Guarantor_Id__c + ').');
         }
 
-        String alias = String.valueOf((Integer) guarantorContact.Profile_Pointer_Id__c);
+        String alias = String.valueOf((Integer) guarantorContact.sPRS__Guarantor_Id__c);
         String nickname = guarantorContact.FirstName.toLowerCase() + '.' + guarantorContact.LastName.toLowerCase() + '.' + alias;
 
         portalUser.ProfileId = customerCommunityLoginUserProfile.Id;
