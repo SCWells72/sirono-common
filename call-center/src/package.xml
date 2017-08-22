@@ -276,7 +276,6 @@
     <types>
         <members>Sirono_Administration</members>
         <members>Sirono_Administration_Lightning</members>
-        <members>Sirono_Call_Center</members>
         <name>CustomApplication</name>
     </types>
     <types>
