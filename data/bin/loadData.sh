@@ -95,14 +95,20 @@ do
         # First, put the namespaced headers into a file, then append the file's guts to the results
         head -1 ./res/$file | sed -e "s/sPRS__/${NAMESPACE}__/g" > ./res/temp/load/$file
         tail -n +2 ./res/$file >> ./res/temp/load/$file
-
-        # Update the apex file with the namespace, as well.
-        cat ./res/apex/template/EncounterCreator.apex | sed -e "s/sPRS__/${NAMESPACE}__/g" > ./res/apex/load/EncounterCreator.apex
     else
         echo "Please provide a namespace. You should have one."
         exit 1
-#        cat ./res/accessoryFiles/templateNamespaceFileHeaders.txt | awk -F '\t' -v FILENAME=$file '{OFS=","; if($1 == FILENAME) print $2};' | sed s/sPRS__//g > ./res/temp/load/$file
-#        cat ./res/$file | tail -n +2 >> ./res/temp/load/$file
+    fi
+done
+
+# Now, loop through the template apex files and update the namespace on them, as well.
+for file in `ls ./res/apex/template | grep .apex`;
+do
+    if [ "${#NAMESPACE}" -gt 1 ]; then
+        cat ./res/apex/template/$file | sed -e "s/sPRS__/${NAMESPACE}__/g" > ./res/apex/load/$file
+    else
+        echo "Please provide a namespace. You should have one."
+        exit 1
     fi
 done
 
@@ -186,6 +192,8 @@ if [ $? -eq 0 ]; then
     loadData Contact_Notes.csv "Contact" "${OBJ_PREFIX}Guarantor_Id__c"
     echo "***** Creating Encounters *****"
     createData "EncounterCreator.apex"
+    echo "***** Creating Attachments ****"
+    createData "AttachmentAttacher.apex"
     echo "***** ... and now we're done! *****"
 else
     echo "Logging in didn't quite work correctly."
