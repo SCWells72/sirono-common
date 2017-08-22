@@ -149,19 +149,20 @@ public with sharing class CreateCaseManual {
                 manualCase.ContactId = guarantorContact.Id;
             }
             manualCase.Subject = manualCase.Reason;
-            AssignmentRule assignmentRule = new AssignmentRule();
-            if (AssignmentRuleSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-                assignmentRule = [
-                    SELECT Id
-                    FROM AssignmentRule
-                    WHERE SobjectType = 'Case' AND Active = TRUE
-                    LIMIT 1
-                ];
-            }
-
-            Database.DMLOptions dmlOpts = new Database.DMLOptions();
-            dmlOpts.AssignmentRuleHeader.assignmentRuleId = assignmentRule.Id;
-            manualCase.setOptions(dmlOpts);
+            // TODO: Restore this when we know what the requirements are for assignment rules
+//            AssignmentRule assignmentRule = new AssignmentRule();
+//            if (AssignmentRuleSecurityContext.SELECT_CONTEXT.actionAllowed()) {
+//                assignmentRule = [
+//                    SELECT Id
+//                    FROM AssignmentRule
+//                    WHERE SobjectType = 'Case' AND Active = TRUE
+//                    LIMIT 1
+//                ];
+//            }
+//
+//            Database.DMLOptions dmlOpts = new Database.DMLOptions();
+//            dmlOpts.AssignmentRuleHeader.assignmentRuleId = assignmentRule.Id;
+//            manualCase.setOptions(dmlOpts);
 
             if (CaseSecurityContext.CREATE_WITH_GT_CONTEXT.actionAllowed()) {
                 // TODO: This has to be an upsert because the case has already been created at this point (by the standard controller?)

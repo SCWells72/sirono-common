@@ -7,7 +7,7 @@
         <value xsi:type="xsd:string">Overdue</value>
     </values>
     <values>
-        <field>Five9_Campaign_Name__c</field>
+        <field>Dialer_Campaign_Name__c</field>
         <value xsi:type="xsd:string">OB Overdue</value>
     </values>
     <values>

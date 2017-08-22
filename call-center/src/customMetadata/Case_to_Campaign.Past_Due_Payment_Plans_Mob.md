@@ -7,7 +7,7 @@
         <value xsi:type="xsd:string">Past Due Payment Plans</value>
     </values>
     <values>
-        <field>Five9_Campaign_Name__c</field>
+        <field>Dialer_Campaign_Name__c</field>
         <value xsi:type="xsd:string">OB Past Due M</value>
     </values>
     <values>
