@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+<!--
     <flexiPageRegions>
         <componentInstances>
             <componentInstanceProperties>
@@ -41,6 +42,8 @@
         <name>header</name>
         <type>Region</type>
     </flexiPageRegions>
+-->
+<!--
     <flexiPageRegions>
         <componentInstances>
             <componentInstanceProperties>
@@ -97,6 +100,8 @@
         <name>featured</name>
         <type>Region</type>
     </flexiPageRegions>
+-->
+<!--
     <flexiPageRegions>
         <componentInstances>
             <componentInstanceProperties>
@@ -140,6 +145,8 @@
         <name>left</name>
         <type>Region</type>
     </flexiPageRegions>
+-->
+<!--
     <flexiPageRegions>
         <componentInstances>
             <componentInstanceProperties>
@@ -170,6 +177,7 @@
         <name>right</name>
         <type>Region</type>
     </flexiPageRegions>
+-->
     <flexiPageRegions>
         <componentInstances>
             <componentInstanceProperties>

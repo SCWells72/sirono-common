@@ -4,6 +4,7 @@
         <name>header</name>
         <type>Region</type>
     </flexiPageRegions>
+<!--
     <flexiPageRegions>
         <componentInstances>
             <componentInstanceProperties>
@@ -79,6 +80,7 @@
         <name>content</name>
         <type>Region</type>
     </flexiPageRegions>
+-->
     <flexiPageRegions>
         <name>footer</name>
         <type>Region</type>

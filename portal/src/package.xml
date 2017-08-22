@@ -188,17 +188,12 @@
         <members>Guarantor_Portal_Dashboard_List</members>
         <members>Guarantor_Portal_Dashboard_Related_List</members>
         <members>Guarantor_Portal_Error</members>
-        <members>Guarantor_Portal_Feed_Detail</members>
         <members>Guarantor_Portal_Forgot_Password</members>
-        <members>Guarantor_Portal_Group_Detail</members>
-        <members>Guarantor_Portal_Group_List</members>
-        <members>Guarantor_Portal_Group_Related_List</members>
         <members>Guarantor_Portal_Home</members>
         <members>Guarantor_Portal_Login</members>
         <members>Guarantor_Portal_Login_Error</members>
         <members>Guarantor_Portal_Messages</members>
         <members>Guarantor_Portal_Payments</members>
-        <members>Guarantor_Portal_Question_Detail</members>
         <members>Guarantor_Portal_Record_Detail</members>
         <members>Guarantor_Portal_Record_List</members>
         <members>Guarantor_Portal_Register</members>

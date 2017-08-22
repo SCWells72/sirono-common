@@ -7,6 +7,7 @@
         <name>customHeader</name>
         <type>Region</type>
     </flexiPageRegions>
+<!--
     <flexiPageRegions>
         <componentInstances>
             <componentInstanceProperties>
@@ -125,6 +126,7 @@
         <name>search</name>
         <type>Region</type>
     </flexiPageRegions>
+-->
     <flexiPageRegions>
         <componentInstances>
             <componentInstanceProperties>
