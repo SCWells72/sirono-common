@@ -15,8 +15,8 @@ public with sharing class ChargeGroupDao extends AbstractDao {
      **/
     public static List<Charge_Group__c> getBySironoIds(List<Decimal> sironoIds) {
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
-            return [SELECT Id, Sirono_Id__c, Account_Status__c, Account_Sub_Status__c, External_Guarantor_Id__c,
-                    External_Guarantor_ID__r.External_Guarantor_Id__c, Payment_Plan__c,
+            return [SELECT Id, Sirono_Id__c, Account_Status__c, Account_Sub_Status__c, External_Guarantor__c,
+                    External_Guarantor__r.External_Guarantor_Id__c, Payment_Plan__c,
                     Payment_Plan__r.Sirono_Id__c, Payment_Plan__r.Guarantor__c
                 FROM Charge_Group__c
                 WHERE Sirono_Id__c IN :sironoIds
@@ -123,8 +123,8 @@ public with sharing class ChargeGroupDao extends AbstractDao {
     public static List<Charge_Group__c> getByPaymentPlanIds(Set<Id> paymentPlanIds) {
         if (ChargeGroupSecurityContext.SELECT_CONTEXT.actionAllowed()) {
             return [
-                    SELECT Id, Guarantor__c, External_Guarantor_Id__c, Account_Status__c, Account_Sub_Status__c,
-                            Sirono_Id__c, External_Guarantor_ID__r.External_Guarantor_Id__c
+                    SELECT Id, Guarantor__c, External_Guarantor__c, Account_Status__c, Account_Sub_Status__c,
+                            Sirono_Id__c, External_Guarantor__r.External_Guarantor_Id__c
                     FROM Charge_Group__c
                     WHERE Active__c = TRUE
                     AND Payment_Plan__c IN :paymentPlanIds

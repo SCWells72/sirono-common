@@ -45,14 +45,14 @@ public with sharing class AdjustmentServiceTest {
         chargeGroup.Invoice__c = invoice.Id;
         chargeGroup.Sirono_Id__c = Decimal.valueOf(RestClientConstants.CHARGE_GROUP_ID);
         chargeGroup.Payment_Plan__c = paymentPlan.Id;
-        chargeGroup.External_Guarantor_Id__c = externalGT.Id;
+        chargeGroup.External_Guarantor__c = externalGT.Id;
         insert chargeGroup;
 
         Charge_Group__c[] someCGs = ChargeGroupDao.getBySironoIds(new Decimal[]{chargeGroup.Sirono_Id__c});
 
         System.debug('>>>> Found '+someCGs.size()+' chargegroups');
         for (Charge_Group__c cg : someCGs) {
-            System.debug('exgt: '+cg.External_Guarantor_ID__r.External_Guarantor_Id__c);
+            System.debug('exgt: '+cg.External_Guarantor__r.External_Guarantor_Id__c);
         }
 
         Service2__c svc = TestUtility.generateService(guarantorContact, 675.00);

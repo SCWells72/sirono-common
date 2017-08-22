@@ -48,7 +48,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>External_Guarantor_Id__c</field>
+                <field>External_Guarantor__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
