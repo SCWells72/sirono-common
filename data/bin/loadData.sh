@@ -3,6 +3,51 @@
 # directory to sirono-salesforce/data/ for the following commands to run successfully. As soon as I can figure out how to do that reliably, I'll probably
 # force a change directory command somewhere in here.
 
+# BEGIN FUNCTIONS
+
+loadData() {
+    if [ $# -ne 3 ]; then
+        echo "Usage: loadData <csvFilename> <sobjectType> <externalIdField>"
+        exit 1
+    fi
+
+    CSV_FILENAME=$1
+    SOBJECT_TYPE=$2
+    EXTERNAL_ID_FIELD=$3
+
+    CSV_FILE=./res/temp/load/${CSV_FILENAME}
+    if [ -s ${CSV_FILE} ]; then
+        sfdx force:data:bulk:upsert -u sirono-salesforce -f ${CSV_FILE} -s ${SOBJECT_TYPE} -i ${EXTERNAL_ID_FIELD} -w 5
+        if [ $? -ne 0 ]; then
+            echo "Failed to load ${SOBJECT_TYPE} from ${CSV_FILENAME}."
+            exit 1
+        fi
+    else
+        echo "Skipping empty file ${CSV_FILENAME}."
+    fi
+}
+
+createData() {
+    if [ $# -ne 1 ]; then
+        echo "Usage: createData <apexFileName>"
+        exit 1
+    fi
+
+    APEX_FILENAME=$1
+
+    APEX_FILE=./res/apex/load/${APEX_FILENAME}
+    if [ -s ${APEX_FILE} ]; then
+        sfdx force:apex:execute -u sirono-salesforce -f ${APEX_FILE}
+        if [ $? -ne 0 ]; then
+            echo "Failed to execute ${APEX_FILENAME}."
+            exit 1
+        fi
+    else
+        echo "Nothing found in the apex file."
+    fi
+}
+# END FUNCTIONS
+
 # First, need to download the record types from the target org and dump into ./accessoryFiles/Contact_RecordTypes.csv. Without it, user will not be able
 # to load contacts.
 echo "First, please run the following commands in a new tab to download Contact record types."
@@ -27,27 +72,18 @@ PATIENT_ID=$(cat ./res/accessoryFiles/Contact_RecordTypes.csv | sed 's/\"//g' | 
 EXTERNAL_GUARANTOR_ID=$(cat ./res/accessoryFiles/Contact_RecordTypes.csv | sed 's/\"//g' | awk -F "," '{if($1 == "External Guarantor") print $2};')
 
 # Make a directory to put temporary, manipulated files for loading thus leaving the base files alone.
-rm -rf ./res/temp
+rm -rf ./res/temp ./res/apex/load/
 mkdir ./res/temp/
 mkdir ./res/temp/load/
-
-# Fix each Contact extract to remove line breaks within address fields; store in a .bak file.
-if [ $? -eq 0 ]; then
-    echo "Removing unnecessary line breaks in address fields."
-    awk -F"\"" '!$NF{print;next}{printf("%s ", $0)}' ./res/Contact_Guarantor.csv > ./res/temp/Contact_Guarantor.csv.new
-    awk -F"\"" '!$NF{print;next}{printf("%s ", $0)}' ./res/Contact_Patient.csv > ./res/temp/Contact_Patient.csv.new
-    awk -F"\"" '!$NF{print;next}{printf("%s ", $0)}' ./res/Contact_ExternalGuarantor.csv > ./res/temp/Contact_ExternalGuarantor.csv.new
-else
-    echo "Something bad happened when trying to set the record type Ids."
-    exit 1
-fi
+mkdir ./res/apex/load/
 
 # Replace the Guarantor record type name with the associated Id value; overwrite the original .csv file.
 echo "Replacing record type field header and values with record type Id ... "
-cat ./res/temp/Contact_Guarantor.csv.new | awk -F ',' -v GUARANTOR_ID=$GUARANTOR_ID '{OFS=","; if(NR==1) $6="RecordTypeId"; else $6=GUARANTOR_ID; print $0};' > ./res/temp/Contact_Guarantor.csv
-cat ./res/temp/Contact_Patient.csv.new | awk -F ',' -v PATIENT_ID=$PATIENT_ID '{OFS=","; if(NR==1) $6="RecordTypeId"; else $6=PATIENT_ID; print $0};' > ./res/temp/Contact_Patient.csv
-cat ./res/temp/Contact_ExternalGuarantor.csv.new | awk -F ',' -v EXTERNAL_GUARANTOR_ID=$EXTERNAL_GUARANTOR_ID '{OFS=","; if(NR==1) $6="RecordTypeId"; else $6=EXTERNAL_GUARANTOR_ID; print $0};' > ./res/temp/Contact_ExternalGuarantor.csv
+cat ./res/Contact_Guarantor.csv | awk -F ',' -v GUARANTOR_ID=$GUARANTOR_ID '{OFS=","; if(NR==1) $6="RecordTypeId"; else $6=GUARANTOR_ID; print $0};' > ./res/temp/Contact_Guarantor.csv.new
+cat ./res/Contact_Patient.csv | awk -F ',' -v PATIENT_ID=$PATIENT_ID '{OFS=","; if(NR==1) $6="RecordTypeId"; else $6=PATIENT_ID; print $0};' > ./res/temp/Contact_Patient.csv.new
+cat ./res/Contact_ExternalGuarantor.csv | awk -F ',' -v EXTERNAL_GUARANTOR_ID=$EXTERNAL_GUARANTOR_ID '{OFS=","; if(NR==1) $6="RecordTypeId"; else $6=EXTERNAL_GUARANTOR_ID; print $0};' > ./res/temp/Contact_ExternalGuarantor.csv.new
 
+# TODO: We can get the namespace from ../build/build.properties as the value for sf.sprs.development.namespace
 # Get the namespace from the user's target org (user input).
 echo "Please enter your target org's namespace. If no namespace, just hit enter."
 read NAMESPACE
@@ -57,14 +93,24 @@ for file in `ls ./res | grep .csv`;
 do
     if [ "${#NAMESPACE}" -gt 1 ]; then
         # First, put the namespaced headers into a file, then append the file's guts to the results
-        cat ./res/accessoryFiles/templateNamespaceFileHeaders.txt | awk -F '\t' -v FILENAME=$file '{OFS=","; if($1 == FILENAME) print $2};' | sed s/xxXXxx__/"${NAMESPACE}__"/g > ./res/temp/load/$file
-        cat ./res/$file | tail -n +2 >> ./res/temp/load/$file
+        head -1 ./res/$file | sed -e "s/sPRS__/${NAMESPACE}__/g" > ./res/temp/load/$file
+        tail -n +2 ./res/$file >> ./res/temp/load/$file
     else
-        cat ./res/accessoryFiles/templateNamespaceFileHeaders.txt | awk -F '\t' -v FILENAME=$file '{OFS=","; if($1 == FILENAME) print $2};' | sed s/xxXXxx__//g > ./res/temp/load/$file
-        cat ./res/$file | tail -n +2 >> ./res/temp/load/$file
+        echo "Please provide a namespace. You should have one."
+        exit 1
     fi
 done
 
+# Now, loop through the template apex files and update the namespace on them, as well.
+for file in `ls ./res/apex/template | grep .apex`;
+do
+    if [ "${#NAMESPACE}" -gt 1 ]; then
+        cat ./res/apex/template/$file | sed -e "s/sPRS__/${NAMESPACE}__/g" > ./res/apex/load/$file
+    else
+        echo "Please provide a namespace. You should have one."
+        exit 1
+    fi
+done
 
 # For each Contact temp file, replace the header row with the chosen namespace and put into the temporary load directory.
 for file in `ls ./res/temp | grep .csv  | grep -v .new`;
@@ -93,57 +139,61 @@ sfdx force:auth:web:login -a sirono-salesforce
 # NOW, start loadin' some files.
 if [ $? -eq 0 ]; then
     echo "***** First, we load the Location object *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Location.csv -s "${OBJ_PREFIX}"Location__c -i "${OBJ_PREFIX}"Sirono_Id__c -w 5
+    loadData Location.csv "${OBJ_PREFIX}Location__c" "${OBJ_PREFIX}Sirono_Id__c"
     echo "***** Now loading the Payor object *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Payor.csv -s "${OBJ_PREFIX}"Payor__c -i "${OBJ_PREFIX}"Unique_Id__c -w 5
+    loadData Payor.csv "${OBJ_PREFIX}Payor__c" "${OBJ_PREFIX}Unique_Id__c"
     echo "***** Now loading the Provider object *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Provider.csv -s "${OBJ_PREFIX}"Provider__c -i "${OBJ_PREFIX}"Sirono_Id__c -w 5
+    loadData Provider.csv "${OBJ_PREFIX}Provider__c" "${OBJ_PREFIX}Sirono_Id__c"
     echo "***** Now loading Service Rollups *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Service_Rollup.csv -s "${OBJ_PREFIX}"Service_Rollup__c -i "${OBJ_PREFIX}"Sirono_Id__c -w 5
+    loadData Service_Rollup.csv "${OBJ_PREFIX}Service_Rollup__c" "${OBJ_PREFIX}Sirono_Id__c"
     echo "***** Now loading The Account *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Account.csv -s Account -i "${OBJ_PREFIX}"External_Account_Name__c -w 5
+    loadData Account.csv "Account" "${OBJ_PREFIX}External_Account_Name__c"
     echo "***** Enough of the easy stuff, now we're going to load some Contacts. *****"
     echo "***** First, load some Guarantors *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Contact_Guarantor.csv -s Contact -i "${OBJ_PREFIX}"Guarantor_Id__c -w 5
+    loadData Contact_Guarantor.csv "Contact" "${OBJ_PREFIX}Guarantor_Id__c"
     echo "***** Loading External Guarantors *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Contact_ExternalGuarantor.csv -s Contact -i "${OBJ_PREFIX}"External_Guarantor_Id__c -w 5
+    loadData Contact_ExternalGuarantor.csv "Contact" "${OBJ_PREFIX}External_Guarantor_Id__c"
     echo "***** Loading Patients *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Contact_Patient.csv -s Contact -i "${OBJ_PREFIX}"Patient_Id__c -w 5
+    loadData Contact_Patient.csv "Contact" "${OBJ_PREFIX}Patient_Id__c"
     echo "***** FINALLY ... done with loading Contacts *****"
     echo "***** Loading Payment Methods *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Payment_Method.csv -s "${OBJ_PREFIX}"Payment_Method__c -i "${OBJ_PREFIX}"Sirono_Id__c -w 5
+    loadData Payment_Method.csv "${OBJ_PREFIX}Payment_Method__c" "${OBJ_PREFIX}Sirono_Id__c"
     echo "***** Loading Invoices *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Invoice.csv -s "${OBJ_PREFIX}"Invoice__c -i "${OBJ_PREFIX}"Sirono_Id__c -w 5
+    loadData Invoice.csv "${OBJ_PREFIX}Invoice__c" "${OBJ_PREFIX}Sirono_Id__c"
     echo "***** Loading Payment Plans *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Payment_Plan.csv -s "${OBJ_PREFIX}"Payment_Plan__c -i "${OBJ_PREFIX}"Sirono_Id__c -w 5
+    loadData Payment_Plan.csv "${OBJ_PREFIX}Payment_Plan__c" "${OBJ_PREFIX}Sirono_Id__c"
     echo "***** Loading Statements *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Statement.csv -s "${OBJ_PREFIX}"Statement__c -i "${OBJ_PREFIX}"Sirono_Id__c -w 5
+    loadData Statement.csv "${OBJ_PREFIX}Statement__c" "${OBJ_PREFIX}Sirono_Id__c"
     echo "***** You think this is a lot to load? Think about typing all this crap out! *****"
     echo "***** Loading Charge Groups *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Charge_Group.csv -s "${OBJ_PREFIX}"Charge_Group__c -i "${OBJ_PREFIX}"Sirono_Id__c -w 5
+    loadData Charge_Group.csv "${OBJ_PREFIX}Charge_Group__c" "${OBJ_PREFIX}Sirono_Id__c"
     echo "***** Loading Coverages *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Coverage.csv -s "${OBJ_PREFIX}"Coverage__c -i "${OBJ_PREFIX}"Sirono_Id__c -w 5
+    loadData Coverage.csv "${OBJ_PREFIX}Coverage__c" "${OBJ_PREFIX}Sirono_Id__c"
     echo "***** Loading Guarantor Payments *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Payment_Guarantor.csv -s "${OBJ_PREFIX}"Payment__c -i "${OBJ_PREFIX}"Sirono_Id__c -w 5
+    loadData Payment_Guarantor.csv "${OBJ_PREFIX}Payment__c" "${OBJ_PREFIX}Sirono_Id__c"
     echo "***** Loading Services *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Service.csv -s "${OBJ_PREFIX}"Service2__c -i "${OBJ_PREFIX}"Aggregate_Id__c -w 5
+    loadData Service.csv "${OBJ_PREFIX}Service2__c" "${OBJ_PREFIX}Aggregate_Id__c"
     echo "***** Loading Adjustments *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Adjustment.csv -s "${OBJ_PREFIX}"Adjustment__c -i "${OBJ_PREFIX}"Aggregate_Id__c -w 5
+    loadData Adjustment.csv "${OBJ_PREFIX}Adjustment__c" "${OBJ_PREFIX}Aggregate_Id__c"
     echo "***** Loading Payor Payments *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Payment_Payor.csv -s "${OBJ_PREFIX}"Payment__c -i "${OBJ_PREFIX}"Id__c -w 5
+    loadData Payment_Payor.csv "${OBJ_PREFIX}Payment__c" "${OBJ_PREFIX}Id__c"
     echo "***** Loading Service Transactions *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Transaction_Service.csv -s "${OBJ_PREFIX}"Transaction__c -i "${OBJ_PREFIX}"Sirono_Id__c -w 5
+    loadData Transaction_Service.csv "${OBJ_PREFIX}Transaction__c" "${OBJ_PREFIX}Sirono_Id__c"
     echo "***** Loading Adjustment Transactions *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Transaction_Adjustment.csv -s "${OBJ_PREFIX}"Transaction__c -i "${OBJ_PREFIX}"Sirono_Id__c -w 5
+    loadData Transaction_Adjustment.csv "${OBJ_PREFIX}Transaction__c" "${OBJ_PREFIX}Sirono_Id__c"
     echo "***** Loading Payment Transactions *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Transaction_Payment.csv -s "${OBJ_PREFIX}"Transaction__c -i "${OBJ_PREFIX}"Sirono_Id__c -w 5
+    loadData Transaction_Payment.csv "${OBJ_PREFIX}Transaction__c" "${OBJ_PREFIX}Sirono_Id__c"
     echo "***** Almost there ... *****"
     echo "***** Loading Charge Group Coverage Junctions *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Charge_Group_Coverage_Junction.csv -s "${OBJ_PREFIX}"Charge_Group_Coverage_Junction__c -i "${OBJ_PREFIX}"Sirono_Id__c -w 5
+    loadData Charge_Group_Coverage_Junction.csv "${OBJ_PREFIX}Charge_Group_Coverage_Junction__c" "${OBJ_PREFIX}Sirono_Id__c"
     echo "***** Loading Patient Coverage Junctions *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Patient_Coverage_Junction.csv -s "${OBJ_PREFIX}"Patient_Coverage_Junction__c -i "${OBJ_PREFIX}"Sirono_Id__c -w 5
+    loadData Patient_Coverage_Junction.csv "${OBJ_PREFIX}Patient_Coverage_Junction__c" "${OBJ_PREFIX}Sirono_Id__c"
     echo "***** Loading Guarantor Notes *****"
-    sfdx force:data:bulk:upsert -u sirono-salesforce -f ./res/temp/load/Contact_Notes.csv -s Contact -i "${OBJ_PREFIX}"Guarantor_Id__c -w 5
+    loadData Contact_Notes.csv "Contact" "${OBJ_PREFIX}Guarantor_Id__c"
+    echo "***** Creating Encounters *****"
+    createData "EncounterCreator.apex"
+    echo "***** Creating Attachments ****"
+    createData "AttachmentAttacher.apex"
     echo "***** ... and now we're done! *****"
 else
     echo "Logging in didn't quite work correctly."

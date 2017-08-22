@@ -1,4 +1,4 @@
-"Guarantor__r.Guarantor_Id__c","Aggregate_Id__c","Amount__c","Description__c","Payor__r.Unique_Id__c","Post_Date__c","External_Guarantor__r.External_Guarantor_Id__c"
+"sPRS__Guarantor__r.sPRS__Guarantor_Id__c","sPRS__Aggregate_Id__c","sPRS__Amount__c","sPRS__Description__c","sPRS__Payor__r.sPRS__Unique_Id__c","sPRS__Post_Date__c","sPRS__External_Guarantor__r.sPRS__External_Guarantor_Id__c"
 "200000.0","181215:20161012:700006","60.6","PCON UNINSURED DISCOUNT","TOLEDO_STAR700006","2016-10-12","181215.0"
 "200000.0","181215:20161024:700006","157.0","PCON UNINSURED DISCOUNT","TOLEDO_STAR700006","2016-10-24","181215.0"
 "200000.0","181215:20161116:851004","0.0","PCON MANAGED MCAID NO BILL","TOLEDO_STAR851004","2016-11-16","181215.0"

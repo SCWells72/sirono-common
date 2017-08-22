@@ -1,0 +1,161 @@
+TYPE,STATUS,SUBJECT,sPRS__SEVERITY__C,sPRS__CALLERS_NAME__C,sPRS__Guarantor_Information__r.sPRS__Guarantor_Id__c,sPRS__SPECIAL_NOTES__C,sPRS__CALLER_CONTACT_NUMBER__C,sPRS__ID__c
+CC Error,Closed,CC Error,Minor,Charles Green,200000,Guarantor will call back with valid Credit Card,(512) 415-0254,1
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200000,Credit card updated and payment made.,(512) 415-0254,2
+Early Out,New,Early Out,Minor,,200000,,,3
+Billing,Closed,Dispute of Charges,Minor,,200000,,,4
+CC Error,Closed,CC Error,Minor,Charles Green,200001,Guarantor will call back with valid Credit Card,(512) 415-0254,5
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200001,Credit card updated and payment made.,(512) 415-0254,6
+Early Out,New,Early Out,Minor,,200001,,,7
+Billing,Closed,Dispute of Charges,Minor,,200001,,,8
+CC Error,Closed,CC Error,Minor,Charles Green,200002,Guarantor will call back with valid Credit Card,(512) 415-0254,9
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200002,Credit card updated and payment made.,(512) 415-0254,10
+Early Out,New,Early Out,Minor,,200002,,,11
+Billing,Closed,Dispute of Charges,Minor,,200002,,,12
+CC Error,Closed,CC Error,Minor,Charles Green,200003,Guarantor will call back with valid Credit Card,(512) 415-0254,13
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200003,Credit card updated and payment made.,(512) 415-0254,14
+Early Out,New,Early Out,Minor,,200003,,,15
+Billing,Closed,Dispute of Charges,Minor,,200003,,,16
+CC Error,Closed,CC Error,Minor,Charles Green,200004,Guarantor will call back with valid Credit Card,(512) 415-0254,17
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200004,Credit card updated and payment made.,(512) 415-0254,18
+Early Out,New,Early Out,Minor,,200004,,,19
+Billing,Closed,Dispute of Charges,Minor,,200004,,,20
+CC Error,Closed,CC Error,Minor,Charles Green,200005,Guarantor will call back with valid Credit Card,(512) 415-0254,21
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200005,Credit card updated and payment made.,(512) 415-0254,22
+Early Out,New,Early Out,Minor,,200005,,,23
+Billing,Closed,Dispute of Charges,Minor,,200005,,,24
+CC Error,Closed,CC Error,Minor,Charles Green,200006,Guarantor will call back with valid Credit Card,(512) 415-0254,25
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200006,Credit card updated and payment made.,(512) 415-0254,26
+Early Out,New,Early Out,Minor,,200006,,,27
+Billing,Closed,Dispute of Charges,Minor,,200006,,,28
+CC Error,Closed,CC Error,Minor,Charles Green,200007,Guarantor will call back with valid Credit Card,(512) 415-0254,29
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200007,Credit card updated and payment made.,(512) 415-0254,30
+Early Out,New,Early Out,Minor,,200007,,,31
+Billing,Closed,Dispute of Charges,Minor,,200007,,,32
+CC Error,Closed,CC Error,Minor,Charles Green,200008,Guarantor will call back with valid Credit Card,(512) 415-0254,33
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200008,Credit card updated and payment made.,(512) 415-0254,34
+Early Out,New,Early Out,Minor,,200008,,,35
+Billing,Closed,Dispute of Charges,Minor,,200008,,,36
+CC Error,Closed,CC Error,Minor,Charles Green,200009,Guarantor will call back with valid Credit Card,(512) 415-0254,37
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200009,Credit card updated and payment made.,(512) 415-0254,38
+Early Out,New,Early Out,Minor,,200009,,,39
+Billing,Closed,Dispute of Charges,Minor,,200009,,,40
+CC Error,Closed,CC Error,Minor,Charles Green,200010,Guarantor will call back with valid Credit Card,(512) 415-0254,41
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200010,Credit card updated and payment made.,(512) 415-0254,42
+Early Out,New,Early Out,Minor,,200010,,,43
+Billing,Closed,Dispute of Charges,Minor,,200010,,,44
+CC Error,Closed,CC Error,Minor,Charles Green,200011,Guarantor will call back with valid Credit Card,(512) 415-0254,45
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200011,Credit card updated and payment made.,(512) 415-0254,46
+Early Out,New,Early Out,Minor,,200011,,,47
+Billing,Closed,Dispute of Charges,Minor,,200011,,,48
+CC Error,Closed,CC Error,Minor,Charles Green,200012,Guarantor will call back with valid Credit Card,(512) 415-0254,49
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200012,Credit card updated and payment made.,(512) 415-0254,50
+Early Out,New,Early Out,Minor,,200012,,,51
+Billing,Closed,Dispute of Charges,Minor,,200012,,,52
+CC Error,Closed,CC Error,Minor,Charles Green,200013,Guarantor will call back with valid Credit Card,(512) 415-0254,53
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200013,Credit card updated and payment made.,(512) 415-0254,54
+Early Out,New,Early Out,Minor,,200013,,,55
+Billing,Closed,Dispute of Charges,Minor,,200013,,,56
+CC Error,Closed,CC Error,Minor,Charles Green,200014,Guarantor will call back with valid Credit Card,(512) 415-0254,57
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200014,Credit card updated and payment made.,(512) 415-0254,58
+Early Out,New,Early Out,Minor,,200014,,,59
+Billing,Closed,Dispute of Charges,Minor,,200014,,,60
+CC Error,Closed,CC Error,Minor,Charles Green,200015,Guarantor will call back with valid Credit Card,(512) 415-0254,61
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200015,Credit card updated and payment made.,(512) 415-0254,62
+Early Out,New,Early Out,Minor,,200015,,,63
+Billing,Closed,Dispute of Charges,Minor,,200015,,,64
+CC Error,Closed,CC Error,Minor,Charles Green,200016,Guarantor will call back with valid Credit Card,(512) 415-0254,65
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200016,Credit card updated and payment made.,(512) 415-0254,66
+Early Out,New,Early Out,Minor,,200016,,,67
+Billing,Closed,Dispute of Charges,Minor,,200016,,,68
+CC Error,Closed,CC Error,Minor,Charles Green,200017,Guarantor will call back with valid Credit Card,(512) 415-0254,69
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200017,Credit card updated and payment made.,(512) 415-0254,70
+Early Out,New,Early Out,Minor,,200017,,,71
+Billing,Closed,Dispute of Charges,Minor,,200017,,,72
+CC Error,Closed,CC Error,Minor,Charles Green,200018,Guarantor will call back with valid Credit Card,(512) 415-0254,73
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200018,Credit card updated and payment made.,(512) 415-0254,74
+Early Out,New,Early Out,Minor,,200018,,,75
+Billing,Closed,Dispute of Charges,Minor,,200018,,,76
+CC Error,Closed,CC Error,Minor,Charles Green,200019,Guarantor will call back with valid Credit Card,(512) 415-0254,77
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200019,Credit card updated and payment made.,(512) 415-0254,78
+Early Out,New,Early Out,Minor,,200019,,,79
+Billing,Closed,Dispute of Charges,Minor,,200019,,,80
+CC Error,Closed,CC Error,Minor,Charles Green,200020,Guarantor will call back with valid Credit Card,(512) 415-0254,81
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200020,Credit card updated and payment made.,(512) 415-0254,82
+Early Out,New,Early Out,Minor,,200020,,,83
+Billing,Closed,Dispute of Charges,Minor,,200020,,,84
+CC Error,Closed,CC Error,Minor,Charles Green,200021,Guarantor will call back with valid Credit Card,(512) 415-0254,85
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200021,Credit card updated and payment made.,(512) 415-0254,86
+Early Out,New,Early Out,Minor,,200021,,,87
+Billing,Closed,Dispute of Charges,Minor,,200021,,,88
+CC Error,Closed,CC Error,Minor,Charles Green,200022,Guarantor will call back with valid Credit Card,(512) 415-0254,89
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200022,Credit card updated and payment made.,(512) 415-0254,90
+Early Out,New,Early Out,Minor,,200022,,,91
+Billing,Closed,Dispute of Charges,Minor,,200022,,,92
+CC Error,Closed,CC Error,Minor,Charles Green,200023,Guarantor will call back with valid Credit Card,(512) 415-0254,93
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200023,Credit card updated and payment made.,(512) 415-0254,94
+Early Out,New,Early Out,Minor,,200023,,,95
+Billing,Closed,Dispute of Charges,Minor,,200023,,,96
+CC Error,Closed,CC Error,Minor,Charles Green,200024,Guarantor will call back with valid Credit Card,(512) 415-0254,97
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200024,Credit card updated and payment made.,(512) 415-0254,98
+Early Out,New,Early Out,Minor,,200024,,,99
+Billing,Closed,Dispute of Charges,Minor,,200024,,,100
+CC Error,Closed,CC Error,Minor,Charles Green,200025,Guarantor will call back with valid Credit Card,(512) 415-0254,101
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200025,Credit card updated and payment made.,(512) 415-0254,102
+Early Out,New,Early Out,Minor,,200025,,,103
+Billing,Closed,Dispute of Charges,Minor,,200025,,,104
+CC Error,Closed,CC Error,Minor,Charles Green,200026,Guarantor will call back with valid Credit Card,(512) 415-0254,105
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200026,Credit card updated and payment made.,(512) 415-0254,106
+Early Out,New,Early Out,Minor,,200026,,,107
+Billing,Closed,Dispute of Charges,Minor,,200026,,,108
+CC Error,Closed,CC Error,Minor,Charles Green,200027,Guarantor will call back with valid Credit Card,(512) 415-0254,109
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200027,Credit card updated and payment made.,(512) 415-0254,110
+Early Out,New,Early Out,Minor,,200027,,,111
+Billing,Closed,Dispute of Charges,Minor,,200027,,,112
+CC Error,Closed,CC Error,Minor,Charles Green,200028,Guarantor will call back with valid Credit Card,(512) 415-0254,113
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200028,Credit card updated and payment made.,(512) 415-0254,114
+Early Out,New,Early Out,Minor,,200028,,,115
+Billing,Closed,Dispute of Charges,Minor,,200028,,,116
+CC Error,Closed,CC Error,Minor,Charles Green,200029,Guarantor will call back with valid Credit Card,(512) 415-0254,117
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200029,Credit card updated and payment made.,(512) 415-0254,118
+Early Out,New,Early Out,Minor,,200029,,,119
+Billing,Closed,Dispute of Charges,Minor,,200029,,,120
+CC Error,Closed,CC Error,Minor,Charles Green,200030,Guarantor will call back with valid Credit Card,(512) 415-0254,121
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200030,Credit card updated and payment made.,(512) 415-0254,122
+Early Out,New,Early Out,Minor,,200030,,,123
+Billing,Closed,Dispute of Charges,Minor,,200030,,,124
+CC Error,Closed,CC Error,Minor,Charles Green,200031,Guarantor will call back with valid Credit Card,(512) 415-0254,125
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200031,Credit card updated and payment made.,(512) 415-0254,126
+Early Out,New,Early Out,Minor,,200031,,,127
+Billing,Closed,Dispute of Charges,Minor,,200031,,,128
+CC Error,Closed,CC Error,Minor,Charles Green,200032,Guarantor will call back with valid Credit Card,(512) 415-0254,129
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200032,Credit card updated and payment made.,(512) 415-0254,130
+Early Out,New,Early Out,Minor,,200032,,,131
+Billing,Closed,Dispute of Charges,Minor,,200032,,,132
+CC Error,Closed,CC Error,Minor,Charles Green,200033,Guarantor will call back with valid Credit Card,(512) 415-0254,133
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200033,Credit card updated and payment made.,(512) 415-0254,134
+Early Out,New,Early Out,Minor,,200033,,,135
+Billing,Closed,Dispute of Charges,Minor,,200033,,,136
+CC Error,Closed,CC Error,Minor,Charles Green,200034,Guarantor will call back with valid Credit Card,(512) 415-0254,137
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200034,Credit card updated and payment made.,(512) 415-0254,138
+Early Out,New,Early Out,Minor,,200034,,,139
+Billing,Closed,Dispute of Charges,Minor,,200034,,,140
+CC Error,Closed,CC Error,Minor,Charles Green,200035,Guarantor will call back with valid Credit Card,(512) 415-0254,141
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200035,Credit card updated and payment made.,(512) 415-0254,142
+Early Out,New,Early Out,Minor,,200035,,,143
+Billing,Closed,Dispute of Charges,Minor,,200035,,,144
+CC Error,Closed,CC Error,Minor,Charles Green,200036,Guarantor will call back with valid Credit Card,(512) 415-0254,145
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200036,Credit card updated and payment made.,(512) 415-0254,146
+Early Out,New,Early Out,Minor,,200036,,,147
+Billing,Closed,Dispute of Charges,Minor,,200036,,,148
+CC Error,Closed,CC Error,Minor,Charles Green,200037,Guarantor will call back with valid Credit Card,(512) 415-0254,149
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200037,Credit card updated and payment made.,(512) 415-0254,150
+Early Out,New,Early Out,Minor,,200037,,,151
+Billing,Closed,Dispute of Charges,Minor,,200037,,,152
+CC Error,Closed,CC Error,Minor,Charles Green,200038,Guarantor will call back with valid Credit Card,(512) 415-0254,153
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200038,Credit card updated and payment made.,(512) 415-0254,154
+Early Out,New,Early Out,Minor,,200038,,,155
+Billing,Closed,Dispute of Charges,Minor,,200038,,,156
+CC Error,Closed,CC Error,Minor,Charles Green,200039,Guarantor will call back with valid Credit Card,(512) 415-0254,157
+Delinquent Payment Plans,Closed,Delinquent Payment Plans,Minor,Charles Green,200039,Credit card updated and payment made.,(512) 415-0254,158
+Early Out,New,Early Out,Minor,,200039,,,159
+Billing,Closed,Dispute of Charges,Minor,,200039,,,160
