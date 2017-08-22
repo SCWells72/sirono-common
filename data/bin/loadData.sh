@@ -136,6 +136,15 @@ echo "Please log into the target org using sfdx ... (this is annoying, I know)."
 sleep 1s
 sfdx force:auth:web:login -a sirono-salesforce
 
+# Load the static resource used to create attachments.
+sfdx force:mdapi:deploy -d ./res/staticResource -u sirono-salesforce -w 5
+
+# Make sure it deploys because if it doesn't, no use creating attachments later on.
+if [ $? -ne 0 ]; then
+    echo "The static resource did not deploy correctly."
+    exit 1
+fi
+
 # NOW, start loadin' some files.
 if [ $? -eq 0 ]; then
     echo "***** First, we load the Location object *****"
@@ -199,3 +208,6 @@ else
     echo "Logging in didn't quite work correctly."
     exit 1
 fi
+
+# To close out the show, delete the HIMSS_Estimate static resource.
+sfdx force:apex:execute -f ./res/apex/StaticResourceDeleter.apex -u sirono-salesforce
