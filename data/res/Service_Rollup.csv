@@ -1,4 +1,4 @@
-"Name","Description__c","Detail_Description__c","External_Description__c","External_Id__c","Sirono_Id__c","Unmapped__c"
+"Name","sPRS__Description__c","sPRS__Detail_Description__c","sPRS__External_Description__c","sPRS__External_Id__c","sPRS__Sirono_Id__c","sPRS__Unmapped__c"
 "Pharmacy","Pharmacy","General Classification","Pharmacy","630","309.0","false"
 "Pharmacy","Pharmacy","Single Source Drug","Pharmacy","631","310.0","false"
 "Pharmacy","Pharmacy","Multiple Source Drug","Pharmacy","632","311.0","false"

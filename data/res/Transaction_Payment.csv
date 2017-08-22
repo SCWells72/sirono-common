@@ -1,4 +1,4 @@
-"Charge_Group__r.Sirono_ID__c","Amount__c","External_ID__c","Payment__r.ID__c","Post_Date__c","Sirono_ID__c","Transaction_Date__c"
+"sPRS__Charge_Group__r.sPRS__Sirono_ID__c","sPRS__Amount__c","sPRS__External_ID__c","sPRS__Payment__r.sPRS__ID__c","sPRS__Post_Date__c","sPRS__Sirono_ID__c","sPRS__Transaction_Date__c"
 "1151021.0","-100.0","","","2017-02-06T19:52:09.000Z","2.2155043E7","2017-04-11"
 "1151022.0","-528.0","","","2017-02-17T00:41:12.000Z","2.2155046E7","2017-04-11"
 "1151023.0","-336.0","","","2017-02-17T00:41:12.000Z","2.215505E7","2017-04-11"
