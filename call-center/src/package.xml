@@ -793,10 +793,6 @@
         <name>PermissionSet</name>
     </types>
     <types>
-        <members>Sirono User</members>
-        <name>Profile</name>
-    </types>
-    <types>
         <members>Automated_Cases</members>
         <members>Hospital_Staff</members>
         <members>Hospital_Staff_Billing</members>

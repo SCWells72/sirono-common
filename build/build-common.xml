@@ -157,8 +157,11 @@
         <delete dir="${workDir}/undeploy" failonerror="false" quiet="true"/>
     </target>
 
-    <target name="createPostInstallZip">
+    <target name="populatePostInstallSrcDir">
         <populateWorkSrcDirWithNamespaces srcDir="${basedir}/post_install/src" destDirName="post_install_src"/>
+    </target>
+
+    <target name="createPostInstallZip" depends="populatePostInstallSrcDir">
         <mkdir dir="${basedir}/dist"/>
         <property name="zip_dest" value="${basedir}/dist/${ant.project.name}_post_install.zip"/>
         <zip destfile="${zip_dest}"
