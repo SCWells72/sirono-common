@@ -28,7 +28,7 @@ List<Contact> guarantorList = [
     FROM Contact
     WHERE RecordType.Name = 'Guarantor'
     AND sPRS__Guarantor_Id__c >= 200000
-    ORDER BY sPRS__Profile_Pointer_Id__c ASC
+    ORDER BY sPRS__Guarantor_Id__c ASC
 ];
 
 List<Contact> patientList = [
