@@ -9,8 +9,8 @@
 
 
     <aura:handler event="c:payNowResponse" action="{!c.payCall}"/>
-
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:registerEvent name="payCall" type="c:payCall"/>
 
     <c:SingleInvoiceDetails/>
 
