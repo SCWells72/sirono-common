@@ -191,6 +191,11 @@
         <ant dir="portal/build" antfile="build.xml" target="deployPostInstall" inheritall="false" usenativebasedir="true"/>
     </target>
 
+    <target name="deployPostInstallToTest" description="Deploys post-install metadata for all modules into the test environment">
+        <ant dir="call-center/build" antfile="build.xml" target="deployPostInstallToTest" inheritall="false" usenativebasedir="true"/>
+        <ant dir="portal/build" antfile="build.xml" target="deployPostInstallToTest" inheritall="false" usenativebasedir="true"/>
+    </target>
+
     <target name="undeployCode" description="Undeploys obsolete metadata for all modules without running unit tests">
         <ant dir="call-center/build" antfile="build.xml" target="undeployCode" inheritall="false" usenativebasedir="true"/>
         <ant dir="portal/build" antfile="build.xml" target="undeployCode" inheritall="false" usenativebasedir="true"/>

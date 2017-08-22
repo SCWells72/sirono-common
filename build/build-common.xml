@@ -177,6 +177,16 @@
         </antcall>
     </target>
 
+    <target name="deployPostInstallToTest">
+        <antcall target="deployZip">
+            <param name="sf.target.username" value="${sf.test.username}"/>
+            <param name="sf.target.password" value="${sf.test.password}"/>
+            <param name="sf.target.serverurl" value="${sf.test.serverurl}"/>
+            <param name="sf.zipFile" value="${basedir}/dist/${ant.project.name}_post_install.zip"/>
+            <param name="sf.testLevel" value="NoTestRun"/>
+        </antcall>
+    </target>
+
     <target name="echo_environment">
         <echoproperties prefix="sf."/>
         <echoproperties prefix="env."/>
