@@ -51,10 +51,31 @@
         </not>
     </condition>
 
-    <target name="deploy" depends="processTemplates, _deploy"/>
+    <target name="deploy" depends="createSironoNamedCreds, _deploy"/>
+
+    <!-- TODO: Need to move the the Five9 named credentials into the Five9 adapter module -->
+    <target name="createSironoNamedCreds">
+        <mkdir dir="${basedir}/src/namedCredentials"/>
+        <copy todir="${basedir}/src/namedCredentials" overwrite="true" encoding="UTF-8">
+            <fileset file="${basedir}/template/namedCredentials/sirono_server.namedCredential"/>
+        </copy>
+
+        <echo message="Set ${sirono.endpoint} as the Sirono_Server NamedCredential endpoint"/>
+        <replace dir="${basedir}/src/namedCredentials" token="@ENDPOINT@" value="${sirono.endpoint}" encoding="UTF-8">
+            <include name="sirono_server.namedCredential"/>
+        </replace>
+
+        <echo message="Set username and password for Sirono_Server NamedCredential"/>
+        <replace dir="${basedir}/src/namedCredentials" token="@USERNAME@" value="${sirono.user}" encoding="UTF-8">
+            <include name="sirono_server.namedCredential"/>
+        </replace>
+        <replace dir="${basedir}/src/namedCredentials" token="@PASSWORD@" value="${sirono.pw}" encoding="UTF-8">
+            <include name="sirono_server.namedCredential"/>
+        </replace>
+    </target>
 
     <!-- Deploy without tests -->
-    <target name="deployNoTests" depends="processTemplates, _deployNoTests"
+    <target name="deployNoTests" depends="createSironoNamedCreds, _deployNoTests"
             description="Deploys metadata without running unit tests"/>
 
     <!-- Undeploy obsolete metadata -->
