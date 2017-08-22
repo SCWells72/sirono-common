@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flexiPageRegions>
+        <name>header</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>richTextValue</name>
+                <value>&lt;div style=&quot;text-align: center;&quot;&gt;Invalid Page&lt;/div&gt;</value>
+            </componentInstanceProperties>
+            <componentName>forceCommunity:richTextInline</componentName>
+        </componentInstances>
+        <name>content</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <name>footer</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <masterLabel>Login Error</masterLabel>
+    <template>
+        <name>siteforce:oneColumnLayout</name>
+    </template>
+    <type>CommAppPage</type>
+</FlexiPage>

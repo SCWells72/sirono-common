@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flexiPageRegions>
+        <name>header</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>filterName</name>
+                <value>{!filterId}</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>layout</name>
+                <value>FULL</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>pageSize</name>
+                <value>25</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>scope</name>
+                <value>{!objectName}</value>
+            </componentInstanceProperties>
+            <componentName>forceCommunity:objectHome</componentName>
+        </componentInstances>
+        <name>content</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <name>footer</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <masterLabel>Record List</masterLabel>
+    <sobjectType>Site</sobjectType>
+    <template>
+        <name>siteforce:oneColumnLayout</name>
+    </template>
+    <type>CommObjectPage</type>
+</FlexiPage>

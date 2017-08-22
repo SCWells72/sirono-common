@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flexiPageRegions>
+        <name>header</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>id</name>
+                <value>{!feedItemId}</value>
+            </componentInstanceProperties>
+            <componentName>forceCommunity:feedItemDetail</componentName>
+        </componentInstances>
+        <name>content</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <name>footer</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <masterLabel>Feed Detail</masterLabel>
+    <sobjectType>FeedItem</sobjectType>
+    <template>
+        <name>siteforce:oneColumnLayout</name>
+    </template>
+    <type>CommRecordPage</type>
+</FlexiPage>

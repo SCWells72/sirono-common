@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flexiPageRegions>
+        <name>header</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>id</name>
+                <value>{!userId}</value>
+            </componentInstanceProperties>
+            <componentName>forceCommunity:userSettings</componentName>
+        </componentInstances>
+        <name>content</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <name>footer</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <masterLabel>User Settings</masterLabel>
+    <sobjectType>User</sobjectType>
+    <template>
+        <name>siteforce:oneColumnLayout</name>
+    </template>
+    <type>CommRecordPage</type>
+</FlexiPage>

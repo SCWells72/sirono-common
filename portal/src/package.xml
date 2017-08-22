@@ -119,8 +119,16 @@
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
-        <members>sironologomarknoborder</members>
-        <name>ContentAsset</name>
+        <members>Guarantor_Portal</members>
+        <name>BrandingSet</name>
+    </types>
+    <types>
+        <members>Guarantor_Portal</members>
+        <name>CommunityTemplateDefinition</name>
+    </types>
+    <types>
+        <members>Guarantor_Portal</members>
+        <name>CommunityThemeDefinition</name>
     </types>
     <types>
         <members>Sirono_Portal_Settings__c.Financial_Assistance_Document__c</members>
@@ -169,12 +177,56 @@
         <name>Document</name>
     </types>
     <types>
+        <members>Guarantor_Portal_Canvasapp_Page</members>
+        <members>Guarantor_Portal_Case_Detail</members>
+        <members>Guarantor_Portal_Case_List</members>
+        <members>Guarantor_Portal_Case_Related_List</members>
+        <members>Guarantor_Portal_Check_Password</members>
+        <members>Guarantor_Portal_Contact_Support</members>
+        <members>Guarantor_Portal_Create_Record</members>
+        <members>Guarantor_Portal_Dashboard_Detail</members>
+        <members>Guarantor_Portal_Dashboard_List</members>
+        <members>Guarantor_Portal_Dashboard_Related_List</members>
+        <members>Guarantor_Portal_Error</members>
+        <members>Guarantor_Portal_Feed_Detail</members>
+        <members>Guarantor_Portal_Forgot_Password</members>
+        <members>Guarantor_Portal_Group_Detail</members>
+        <members>Guarantor_Portal_Group_List</members>
+        <members>Guarantor_Portal_Group_Related_List</members>
+        <members>Guarantor_Portal_Home</members>
+        <members>Guarantor_Portal_Login</members>
+        <members>Guarantor_Portal_Login_Error</members>
+        <members>Guarantor_Portal_Messages</members>
+        <members>Guarantor_Portal_Payments</members>
+        <members>Guarantor_Portal_Question_Detail</members>
+        <members>Guarantor_Portal_Record_Detail</members>
+        <members>Guarantor_Portal_Record_List</members>
+        <members>Guarantor_Portal_Register</members>
+        <members>Guarantor_Portal_Related_Record_List</members>
+        <members>Guarantor_Portal_Report_Detail</members>
+        <members>Guarantor_Portal_Report_List</members>
+        <members>Guarantor_Portal_Report_Related_List</members>
+        <members>Guarantor_Portal_Search</members>
+        <members>Guarantor_Portal_Sfdc_Page</members>
+        <members>Guarantor_Portal_Topic_Catalog</members>
+        <members>Guarantor_Portal_Topic_Detail</members>
+        <members>Guarantor_Portal_User_List</members>
+        <members>Guarantor_Portal_User_Profile</members>
+        <members>Guarantor_Portal_User_Related_List</members>
+        <members>Guarantor_Portal_User_Settings</members>
+        <members>Guarantor_Portal_themeLayout_Home</members>
+        <members>Guarantor_Portal_themeLayout_Inner</members>
+        <members>Guarantor_Portal_themeLayout_Login</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
         <members>Guarantor_Sharing_Set</members>
         <name>SharingSet</name>
     </types>
     <types>
         <members>PortalStyles</members>
         <members>SironoData</members>
+        <members>SironoLogo</members>
         <name>StaticResource</name>
     </types>
     <version>40.0</version>

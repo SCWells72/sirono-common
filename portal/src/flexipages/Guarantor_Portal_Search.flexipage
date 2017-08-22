@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>bannerText</name>
+                <value>Results Scoped to &quot;{!topicName}&quot; • &lt;a href=&quot;javascript:void(0)&quot; class=&quot;searchAll&quot;&gt;Search All&lt;/a&gt;</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>bannerTextWithKnowledge</name>
+                <value>Explore other &lt;a href=&quot;javascript:void(0)&quot; class=&quot;headlineArticles&quot;&gt;articles&lt;/a&gt; and &lt;a href=&quot;javascript:void(0)&quot; class=&quot;headlineDiscussions&quot;&gt;discussions&lt;/a&gt; on this topic.</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>bannerTextWithoutKnowledge</name>
+                <value>Explore other &lt;a href=&quot;javascript:void(0)&quot; class=&quot;headlineDiscussions&quot;&gt;discussions&lt;/a&gt; on this topic.</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>pageType</name>
+                <value>search</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>searchTerm</name>
+                <value>{!searchString}</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>showSubTopics</name>
+                <value>true</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Results for &quot;{!searchString}&quot;</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>topicId</name>
+                <value>{!topicId}</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>uniqueNameOrId</name>
+                <value>{!topicName}</value>
+            </componentInstanceProperties>
+            <componentName>forceCommunity:headline</componentName>
+        </componentInstances>
+        <name>header</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>scopes</name>
+                <value>[]</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>searchTerm</name>
+                <value>{!searchString}</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>showTopResults</name>
+                <value>true</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>topicId</name>
+                <value>{!topicId}</value>
+            </componentInstanceProperties>
+            <componentName>forceCommunity:search</componentName>
+        </componentInstances>
+        <name>content</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>askCommunityLabel</name>
+                <value>Ask A Question</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>contactSupportLabel</name>
+                <value>Contact Support</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>headerLabel</name>
+                <value>Don&apos;t see what you&apos;re looking for?</value>
+            </componentInstanceProperties>
+            <componentName>siteforce:napiliFooter</componentName>
+        </componentInstances>
+        <name>footer</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <masterLabel>Search</masterLabel>
+    <template>
+        <name>siteforce:oneColumnLayout</name>
+    </template>
+    <type>CommSearchResultPage</type>
+</FlexiPage>
