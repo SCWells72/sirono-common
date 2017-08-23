@@ -2,7 +2,7 @@
 <ApexClass xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>40.0</apiVersion>
     <packageVersions>
-        <majorNumber>1</majorNumber>
+        <majorNumber>20170823</majorNumber>
         <minorNumber>0</minorNumber>
         <namespace>sPRS</namespace>
     </packageVersions>

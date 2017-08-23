@@ -93,39 +93,6 @@ public with sharing class PaymentTabsControllerTest {
     }
 
     @IsTest
-    public static void testCreatePaymentPlan() {
-        Test.setMock(HttpCalloutMock.class, new sPRS.MockHttpResponseGenerator());
-        User portalUser = PortalTestUtility.getGuarantorCommunityUser();
-        // Update the mock response to use the community guarantor sirono id.
-        sPRS.MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.sPRS__Guarantor_Id__c.toPlainString();
-
-        Map<String, Object> ppInfoMap = new Map<String, Object>();
-        ppInfoMap.put(PLAN_TYPE, PortalConstants.PLANTYPE_AUTO);
-        ppInfoMap.put(PLAN_VALUE, '');
-        ppInfoMap.put(AMOUNT_KEY, '234');
-        ppInfoMap.put(EXECUTE_ON_DAY, '1');
-        ppInfoMap.put(GUARANTOR_ID, portalUser.ContactId);
-        ppInfoMap.put(CARD_HOLDER_NAME, 'Pork nBeans');
-        ppInfoMap.put(EXPIRATION_YEAR, String.valueOf(System.today().year() + 1));
-        ppInfoMap.put(EXPIRATION_MONTH, '7');
-        ppInfoMap.put(CVV_KEY, '127');
-        ppInfoMap.put(STATE_KEY, 'CA');
-        ppInfoMap.put(ZIP_KEY, '78717');
-        ppInfoMap.put(ADDRESS_KEY, '123 St. Road');
-        ppInfoMap.put(CITY_KEY, 'San Diego');
-
-        sPRS__Payment_Plan__c plan;
-        System.runAs(portalUser) {
-            Test.startTest();
-            plan = PaymentTabsController.createPaymentPlan(ppInfoMap);
-            Test.stopTest();
-        }
-
-        System.assertNotEquals(null, plan, 'Should create a paymentPlan.');
-        System.assertNotEquals(null, plan.sPRS__Payment_Method__c, 'Should have inserted the payment method.');
-    }
-
-    @IsTest
     public static void testDoEditPaymentMethodNoId() {
         Test.setMock(HttpCalloutMock.class, new sPRS.MockHttpResponseGenerator());
         Map<String, Object> ppInfoMap = new Map<String, Object>();
@@ -141,89 +108,6 @@ public with sharing class PaymentTabsControllerTest {
             System.assert(false, 'Should not have thrown unexpected exception.');
         }
 
-    }
-
-    @IsTest
-    public static void testDoEditPaymentMethodNewCardSave() {
-        Test.setMock(HttpCalloutMock.class, new sPRS.MockHttpResponseGenerator());
-
-        User portalUser = PortalTestUtility.getGuarantorCommunityUser();
-        User adminUser = PortalTestUtility.getPortalAdminUser();
-        sPRS.MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.sPRS__Guarantor_Id__c.toPlainString();
-
-
-        sPRS__Payment_Plan__c createdPlan = insertPaymentPlan(adminUser);
-        String cHolderName = 'Pork nBeans';
-
-        Map<String, Object> ppInfoMap = new Map<String, Object>();
-        ppInfoMap.put(CARD_HOLDER_NAME, cHolderName);
-        ppInfoMap.put(EXPIRATION_YEAR, String.valueOf(System.today().year() + 1));
-        ppInfoMap.put(EXPIRATION_MONTH, '7');
-        ppInfoMap.put(CVV_KEY, '127');
-        ppInfoMap.put(CREDITCARD_NUMBER, '4111111111111111');
-        ppInfoMap.put('id', createdPlan.Id);
-        ppInfoMap.put(PLAN_TYPE, PortalConstants.PLANTYPE_AUTO);
-        ppInfoMap.put(PLAN_VALUE, '');
-        ppInfoMap.put(AMOUNT_KEY, '234');
-        ppInfoMap.put(EXECUTE_ON_DAY, '1');
-        ppInfoMap.put(GUARANTOR_ID, portalUser.ContactId);
-        ppInfoMap.put(STATE_KEY, 'CA');
-        ppInfoMap.put(ZIP_KEY, '78717');
-        ppInfoMap.put(ADDRESS_KEY, '123 St. Road');
-        ppInfoMap.put(CITY_KEY, 'San Diego');
-
-
-        sPRS__Payment_Plan__c plan;
-        System.runAs(portalUser) {
-            Test.startTest();
-            plan = PaymentTabsController.doEditPaymentMethod(ppInfoMap);
-            Test.stopTest();
-        }
-
-        List<sPRS__Payment_Method__c> savedMethods = [SELECT Id FROM sPRS__Payment_Method__c WHERE sPRS__Card_Holder_Name__c = :cHolderName];
-        System.assertNotEquals(null, plan, 'Should return payment plan');
-        System.assertEquals(1, savedMethods.size(), 'Should have saved the new payment method.');
-    }
-
-    @IsTest
-    public static void testDoEditPaymentMethodNewCardSaved() {
-        Test.setMock(HttpCalloutMock.class, new sPRS.MockHttpResponseGenerator());
-
-        User portalUser = PortalTestUtility.getGuarantorCommunityUser();
-        User adminUser = PortalTestUtility.getPortalAdminUser();
-        sPRS.MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.sPRS__Guarantor_Id__c.toPlainString();
-
-
-        sPRS__Payment_Plan__c createdPlan = insertPaymentPlan(adminUser);
-        String cHolderName = 'Pork nBeans';
-
-        Map<String, Object> ppInfoMap = new Map<String, Object>();
-        ppInfoMap.put(CARD_HOLDER_NAME, cHolderName);
-        ppInfoMap.put(EXPIRATION_YEAR, String.valueOf(System.today().year() + 1));
-        ppInfoMap.put(EXPIRATION_MONTH, '7');
-        ppInfoMap.put(CVV_KEY, '127');
-        ppInfoMap.put(CREDITCARD_NUMBER, '4111111111111111');
-        ppInfoMap.put('id', createdPlan.Id);
-        ppInfoMap.put(PLAN_TYPE, PortalConstants.PLANTYPE_AUTO);
-        ppInfoMap.put(PLAN_VALUE, '');
-        ppInfoMap.put(AMOUNT_KEY, '234');
-        ppInfoMap.put(EXECUTE_ON_DAY, '1');
-        ppInfoMap.put(GUARANTOR_ID, portalUser.ContactId);
-        ppInfoMap.put(STATE_KEY, 'CA');
-        ppInfoMap.put(ZIP_KEY, '78717');
-        ppInfoMap.put(ADDRESS_KEY, '123 St. Road');
-        ppInfoMap.put(CITY_KEY, 'San Diego');
-
-        sPRS__Payment_Plan__c plan;
-        System.runAs(portalUser) {
-            Test.startTest();
-            plan = PaymentTabsController.doEditPaymentMethod(ppInfoMap);
-            Test.stopTest();
-        }
-
-        List<sPRS__Payment_Method__c> savedMethods = [SELECT Id FROM sPRS__Payment_Method__c WHERE sPRS__Card_Holder_Name__c = :cHolderName];
-        System.assertNotEquals(null, plan, 'Should return payment plan');
-        System.assertEquals(1, savedMethods.size(), 'Should have saved the new payment method.');
     }
 
     @IsTest
@@ -267,28 +151,6 @@ public with sharing class PaymentTabsControllerTest {
     }
 
     @IsTest
-    public static void testDoEditPaymentPlanSuccess() {
-        Test.setMock(HttpCalloutMock.class, new sPRS.MockHttpResponseGenerator());
-        User portalUser = PortalTestUtility.getGuarantorCommunityUser();
-        User adminUser = PortalTestUtility.getPortalAdminUser();
-        sPRS.MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.sPRS__Guarantor_Id__c.toPlainString();
-
-        insertPaymentPlan(adminUser);
-
-        Map<String, Object> ppInfoMap = new Map<String, Object>();
-        ppInfoMap.put(AMOUNT_KEY, '12345');
-        ppInfoMap.put(sPRS.PaymentPlanInformation.SIRONO_PP_KEY, '2876');
-        ppInfoMap.put(PLAN_TYPE, PortalConstants.PLANTYPE_AUTO);
-
-        Test.startTest();
-        sPRS__Payment_Plan__c updatedPlan = PaymentTabsController.doEditPaymentPlan(ppInfoMap);
-        Test.stopTest();
-
-        System.assertNotEquals(null, updatedPlan, 'Should have updated the plan and returned it.');
-        System.debug(updatedPlan);
-    }
-
-    @IsTest
     public static void testDoEditPaymentPlanBadPlanId() {
         Test.setMock(HttpCalloutMock.class, new sPRS.MockHttpResponseGenerator());
         // Required as part of setup even though it's not used
@@ -313,34 +175,6 @@ public with sharing class PaymentTabsControllerTest {
         } catch (Exception ex) {
             System.assert(false, 'Should not have thrown unexpected exception.');
         }
-
-    }
-
-    @IsTest
-    public static void testDeletePaymentPlan() {
-        Test.setMock(HttpCalloutMock.class, new sPRS.MockHttpResponseGenerator());
-        User portalUser = PortalTestUtility.getGuarantorCommunityUser();
-        User adminUser = PortalTestUtility.getPortalAdminUser();
-        sPRS.MockHttpResponseGenerator.guarantorSironoId = portalUser.Contact.sPRS__Guarantor_Id__c.toPlainString();
-
-
-        sPRS__Payment_Plan__c createdPlan = insertPaymentPlan(adminUser);
-        sPRS.MockHttpResponseGenerator.planSironoId = createdPlan.sPRS__Sirono_Id__c.toPlainString();
-
-        sPRS__Payment_Plan__c p1 = [SELECT Id, sPRS__Active__c, sPRS__Cancellation_Date__c FROM sPRS__Payment_Plan__c WHERE Id = :createdPlan.Id];
-
-        System.assertEquals(null, p1.sPRS__Cancellation_Date__c, 'Should not have a cancelation date.');
-        System.assertEquals(true, p1.sPRS__Active__c, 'Should be an active plan.');
-
-        System.runAs(portalUser) {
-            Test.startTest();
-            PaymentTabsController.deletePaymentPlan(createdPlan.Id);
-            Test.stopTest();
-        }
-
-        p1 = [SELECT Id, sPRS__Active__c, sPRS__Cancellation_Date__c FROM sPRS__Payment_Plan__c WHERE Id = :createdPlan.Id];
-        System.assertNotEquals(null, p1.sPRS__Cancellation_Date__c, 'Should be canceled.');
-        System.assertEquals(false, p1.sPRS__Active__c, 'Should be inactive.');
 
     }
 

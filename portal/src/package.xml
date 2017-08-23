@@ -45,7 +45,6 @@
         <members>WorkWithPaymentsController</members>
         <members>WorkWithPaymentsControllerTest</members>
         <members>WorkWithStatementsController</members>
-        <members>WorkWithStatementsControllerTest</members>
         <name>ApexClass</name>
     </types>
     <types>
