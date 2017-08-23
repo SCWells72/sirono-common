@@ -8,6 +8,11 @@
         <name>AssignmentRules</name>
     </types>
     <types>
+        <members>Five9LightningBasic</members>
+        <members>SFPlus</members>
+        <name>CallCenter</name>
+    </types>
+    <types>
         <name>Sirono_Call_Center_Console</name>
         <name>CustomApplication</name>
     </types>

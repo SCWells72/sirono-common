@@ -6,10 +6,6 @@
 build.properties
 config
 
-# Assets created from templates
-src/sites/
-src/namedCredentials/
-
 # Apex Log as optional
 apex-scripts/log
 
@@ -52,4 +48,5 @@ IlluminatedCloud/
 .ant-targets-build.xml
 dist/
 work/
-*/src/namedCredentials
+data/res/temp/
+data/res/accessoryFiles/Contact_RecordTypes.csv

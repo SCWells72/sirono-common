@@ -48,28 +48,6 @@
         </replace>
     </target>
 
-    <target name="processTemplates" depends="createSironoNamedCreds"/>
-
-    <target name="createSironoNamedCreds">
-        <mkdir dir="${basedir}/src/namedCredentials"/>
-        <copy todir="${basedir}/src/namedCredentials" overwrite="true" encoding="UTF-8">
-            <fileset dir="${basedir}/template/namedCredentials"/>
-        </copy>
-
-        <echo message="Set ${sirono.endpoint} as the Sirono_Server NamedCredential endpoint"/>
-        <replace dir="${basedir}/src/namedCredentials" token="@ENDPOINT@" value="${sirono.endpoint}" encoding="UTF-8">
-            <include name="sirono_server.namedCredential"/>
-        </replace>
-
-        <echo message="Set username and password for Sirono_Server NamedCredential"/>
-        <replace dir="${basedir}/src/namedCredentials" token="@USERNAME@" value="${sirono.user}" encoding="UTF-8">
-            <include name="sirono_server.namedCredential"/>
-        </replace>
-        <replace dir="${basedir}/src/namedCredentials" token="@PASSWORD@" value="${sirono.pw}" encoding="UTF-8">
-            <include name="sirono_server.namedCredential"/>
-        </replace>
-    </target>
-
     <target name="removeSironoCallCenterApp">
         <echo message="Hide Sirono_Call_Center.app and remove Sirono_Call_Center from the apps in package.xml"/>
         <replace dir="${basedir}/src/">

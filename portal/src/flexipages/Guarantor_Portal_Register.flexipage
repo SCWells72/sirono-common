@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flexiPageRegions>
+        <componentInstances>
+            <componentName>salesforceIdentity:communityLogo2</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>richTextValue</name>
+                <value>&lt;div style=&quot;text-align: center;&quot;&gt;Join the community to receive personalized information and customer support.&lt;/div&gt;</value>
+            </componentInstanceProperties>
+            <componentName>forceCommunity:richTextInline</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>confirmPasswordLabel</name>
+                <value>Confirm Password</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>emailLabel</name>
+                <value>Email</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>extraFieldsFieldSet</name>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>firstnameLabel</name>
+                <value>First Name</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>includePasswordField</name>
+                <value>false</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>lastnameLabel</name>
+                <value>Last Name</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>passwordLabel</name>
+                <value>Create Password</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>regConfirmUrl</name>
+                <value>./CheckPasswordResetEmail</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>startUrl</name>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>submitButtonLabel</name>
+                <value>Sign Up</value>
+            </componentInstanceProperties>
+            <componentName>salesforceIdentity:selfRegister2</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>headerText</name>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>showHeader</name>
+                <value>false</value>
+            </componentInstanceProperties>
+            <componentName>salesforceIdentity:socialLogin2</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>richTextValue</name>
+                <value>&lt;div style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;./&quot;&gt;Already have an account?&lt;/a&gt;&lt;/div&gt;</value>
+            </componentInstanceProperties>
+            <componentName>forceCommunity:richTextInline</componentName>
+        </componentInstances>
+        <name>content</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <masterLabel>Register</masterLabel>
+    <template>
+        <name>siteforce:sldsOneColLayout</name>
+    </template>
+    <type>CommSelfRegisterPage</type>
+</FlexiPage>

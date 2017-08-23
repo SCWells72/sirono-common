@@ -3,7 +3,7 @@
     <apiVersion>40.0</apiVersion>
     <packageVersions>
         <majorNumber>1</majorNumber>
-        <minorNumber>2</minorNumber>
+        <minorNumber>0</minorNumber>
         <namespace>sPRS</namespace>
     </packageVersions>
     <status>Active</status>

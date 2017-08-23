@@ -9,6 +9,7 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/salesforce-lightning-design-system.min.css'}"/>
     <link rel="stylesheet" type="text/css" href="{!$Resource.SironoData + '/assets/styles/main.css'}"/>
+    <link rel="stylesheet" type="text/css" href="{!$Resource.PortalStyles}"/>
 
     <c:SironoSettingsService aura:id="settingsService" />
 

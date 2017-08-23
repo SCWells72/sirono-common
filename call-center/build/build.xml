@@ -51,16 +51,32 @@
         </not>
     </condition>
 
-    <target name="deploy" depends="processTemplates, _deploy"/>
+    <target name="deploy" depends="_deploy"/>
 
     <!-- Deploy without tests -->
-    <target name="deployNoTests" depends="processTemplates, _deployNoTests"
+    <target name="deployNoTests" depends="_deployNoTests"
             description="Deploys metadata without running unit tests"/>
 
     <!-- Undeploy obsolete metadata -->
     <target name="undeployCode" depends="build-common.undeployCode" description="Undeploys obsolete metadata without running unit tests"/>
 
     <target name="full_deploy" depends="stop_all_scheduled_jobs, deploy, schedule_all_jobs"/>
+
+    <!-- Override this target to populate the named credentials as well -->
+    <target name="populatePostInstallSrcDir" depends="build-common.populatePostInstallSrcDir">
+        <echo message="Set ${sirono.endpoint} as the Sirono_Server NamedCredential endpoint"/>
+        <replace dir="${workDir}/post_install_src/namedCredentials" token="@ENDPOINT@" value="${sirono.endpoint}" encoding="UTF-8">
+            <include name="sirono_server.namedCredential"/>
+        </replace>
+
+        <echo message="Set username and password for Sirono_Server NamedCredential"/>
+        <replace dir="${workDir}/post_install_src/namedCredentials" token="@USERNAME@" value="${sirono.user}" encoding="UTF-8">
+            <include name="sirono_server.namedCredential"/>
+        </replace>
+        <replace dir="${workDir}/post_install_src/namedCredentials" token="@PASSWORD@" value="${sirono.pw}" encoding="UTF-8">
+            <include name="sirono_server.namedCredential"/>
+        </replace>
+    </target>
 
     <!-- TODO: This could be quite a bit more efficient by only deploying what's needed in the second deployNoTests -->
     <target name="initial_deploy" description="Deploy into a DE org for the first time"
