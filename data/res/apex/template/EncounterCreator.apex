@@ -21,6 +21,20 @@ public Datetime parseDatetime(String str) {
     return null;
 }
 
+public void deleteEncounters() {
+    List<sPRS__Encounter__c> encounters = [
+        SELECT Id
+        FROM sPRS__Encounter__c
+    ];
+
+    if (encounters.size() > 0) {
+        delete encounters;
+    }
+}
+
+// First delete existing encounters (will also take care of attachments) then load new ones.
+deleteEncounters();
+
 List<sPRS__Encounter__c> encounterList = new List<sPRS__Encounter__c>();
 
 List<Contact> guarantorList = [
@@ -74,6 +88,7 @@ for (Integer i = 0; i < guarantorList.size(); i++) {
     encounter.sPRS__Patient_Portion__c = 683;
     encounter.sPRS__Guarantor__c = guarantorList[i].Id;
     encounter.sPRS__Diagnosis__c = 'M79.672 – Pain in left foot';
+    encounter.sPRS__Status__c = 'Ready';
 
     encounterList.add(encounter);
 }
