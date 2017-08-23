@@ -6,12 +6,11 @@
       <sourceFolder url="file://$MODULE_DIR$/build" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/data/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/data/bin" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/adapter-Five9" />
       <excludeFolder url="file://$MODULE_DIR$/call-center" />
       <excludeFolder url="file://$MODULE_DIR$/portal" />
       <excludeFolder url="file://$MODULE_DIR$/work" />
     </content>
-    <orderEntry type="jdk" jdkName="IlluminatedCloud (sirono-salesforce/sPRS)" jdkType="IlluminatedCloud" />
+    <orderEntry type="jdk" jdkName="IlluminatedCloud (sirono-salesforce/sirono_local)" jdkType="IlluminatedCloud" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

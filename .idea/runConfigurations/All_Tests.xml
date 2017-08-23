@@ -3,7 +3,7 @@
     <option name="allTests" value="true" />
     <option name="apexLogLevel" value="DEBUG" />
     <option name="calloutsLogLevel" value="INFO" />
-    <option name="connectionName" value="sPFP" />
+    <option name="connectionName" value="sirono_local" />
     <option name="contextConfiguration" value="false" />
     <option name="databaseLogLevel" value="INFO" />
     <option name="logLevelsInitialized" value="true" />
