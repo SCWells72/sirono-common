@@ -168,10 +168,8 @@
         <mkdir dir="${basedir}/dist"/>
 
         <delete file="${basedir}/dist/${ant.project.name}_profiles.zip" quiet="true"/>
-        <fileset id="fileset.profiles" dir="${workDir}/post_install_src" includes="**/profiles/*.profiles"/>
-        <pathconvert refid="fileset.profiles" property="has.profiles" setonempty="false"/>
         <if>
-            <isset property="has.profiles"/>
+            <available file="${workDir}/post_install_src/profiles"/>
             <then>
                 <delete file="${basedir}/dist/${ant.project.name}_profiles.zip" quiet="true"/>
                 <zip destfile="${basedir}/dist/${ant.project.name}_profiles.zip"
