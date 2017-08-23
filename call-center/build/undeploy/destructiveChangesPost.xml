@@ -19,6 +19,7 @@
     <types>
         <members>Contact.Campaign__c</members>
         <members>Contact.Preferred_Contact__c</members>
+        <members>Contact.Profile_Pointer_Id__c</members>
         <members>Contact.Statement_Preference__c</members>
         <members>Contact.Skip_Invoice_Stmt_Until__c</members>
         <members>Contact.Test_Id__c</members>

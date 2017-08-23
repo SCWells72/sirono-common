@@ -5,7 +5,7 @@
 /**
  * ChargeGroupService with logic for working with Charge_Group__c object.
  **/
-global class ChargeGroupService extends AbstractService {
+global with sharing class ChargeGroupService extends AbstractService {
 
     private class ChargeGroupRestClient extends SironoRestClient {
 

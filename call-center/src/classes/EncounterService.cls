@@ -5,7 +5,7 @@
 /**
  * EncounterService with logic for working with Encounter__c object.
  */
-global class EncounterService extends AbstractService {
+global with sharing class EncounterService extends AbstractService {
 	/**
 	 * This method is use to get Encounter Records based on Guarantor Id or Id and Balance is greater than zero.
      * @param String encounterId - encounter record Id
