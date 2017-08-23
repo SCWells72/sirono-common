@@ -30,6 +30,8 @@ public void deleteEncounters() {
     if (encounters.size() > 0) {
         delete encounters;
     }
+
+    Database.emptyRecycleBin(encounters);
 }
 
 // First delete existing encounters (will also take care of attachments) then load new ones.
