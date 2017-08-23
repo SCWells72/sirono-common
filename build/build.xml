@@ -74,6 +74,10 @@
                 <!-- Change official namespace qualifications to development namespace qualifications before deployment -->
                 <replaceregex pattern="\b(${sf.sprs.official.namespace})(\.|__|:)" replace="${sf.sprs.development.namespace}\2" flags="gi"/>
                 <replaceregex pattern="\b(${sf.spfp.official.namespace})(\.|__|:)" replace="${sf.spfp.development.namespace}\2" flags="gi"/>
+                <!-- Populate named credentials -->
+                <replacestring from="@ENDPOINT@" to="${sirono.endpoint}"/>
+                <replacestring from="@USERNAME@" to="${sirono.user}"/>
+                <replacestring from="@PASSWORD@" to="${sirono.pw}"/>
             </filterchain>
         </copy>
         <!-- Copy custom labels renaming for uniqueness -->
@@ -95,7 +99,7 @@
                 <filterreader classname="org.apache.tools.ant.filters.HeadFilter">
                     <param name="lines" value="-1"/>
                     <!-- NOTE: Need to skip more here because of the packaging elements -->
-                    <param name="skip" value="3"/>
+                    <param name="skip" value="4"/>
                 </filterreader>
                 <filterreader classname="org.apache.tools.ant.filters.TailFilter">
                     <param name="lines" value="-1"/>
@@ -120,7 +124,7 @@
                 <filterreader classname="org.apache.tools.ant.filters.HeadFilter">
                     <param name="lines" value="-1"/>
                     <!-- NOTE: Need to skip more here because of the packaging elements -->
-                    <param name="skip" value="3"/>
+                    <param name="skip" value="4"/>
                 </filterreader>
                 <filterreader classname="org.apache.tools.ant.filters.TailFilter">
                     <param name="lines" value="-1"/>
@@ -189,6 +193,11 @@
     <target name="deployPostInstall" description="Deploys post-install metadata for all modules">
         <ant dir="call-center/build" antfile="build.xml" target="deployPostInstall" inheritall="false" usenativebasedir="true"/>
         <ant dir="portal/build" antfile="build.xml" target="deployPostInstall" inheritall="false" usenativebasedir="true"/>
+    </target>
+
+    <target name="deployPostInstallToTest" description="Deploys post-install metadata for all modules into the test environment">
+        <ant dir="call-center/build" antfile="build.xml" target="deployPostInstallToTest" inheritall="false" usenativebasedir="true"/>
+        <ant dir="portal/build" antfile="build.xml" target="deployPostInstallToTest" inheritall="false" usenativebasedir="true"/>
     </target>
 
     <target name="undeployCode" description="Undeploys obsolete metadata for all modules without running unit tests">

@@ -52,6 +52,10 @@
         <name>ListView</name>
     </types>
     <types>
+        <members>Five9ServiceAdmin</members>
+        <name>NamedCredential</name>
+    </types>
+    <types>
         <members>Sirono_Five9_User_Local</members>
         <members>Sirono_Five9_Administrator_Local</members>
         <name>PermissionSet</name>

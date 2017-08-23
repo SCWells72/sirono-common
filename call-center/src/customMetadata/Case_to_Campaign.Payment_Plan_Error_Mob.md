@@ -7,7 +7,7 @@
         <value xsi:type="xsd:string">Payment Plan Error</value>
     </values>
     <values>
-        <field>Five9_Campaign_Name__c</field>
+        <field>Dialer_Campaign_Name__c</field>
         <value xsi:type="xsd:string">OB Payment Plan Error M</value>
     </values>
     <values>

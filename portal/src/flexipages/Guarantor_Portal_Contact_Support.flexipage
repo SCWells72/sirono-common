@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flexiPageRegions>
+        <name>header</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>attachFiles</name>
+                <value>true</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>authenticatedActionName</name>
+                <value>NewCase</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>confirmationMessageDescription</name>
+                <value>You&apos;ll hear back from us soon.</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>confirmationMessageTitle</name>
+                <value>Your request was submitted successfully.</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>deflectionCategoryGroupName</name>
+                <value>{!DataCategoryGroupName}</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>deflectionNotHelpful</name>
+                <value>Didn&apos;t find what you&apos;re looking for?</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>deflectionNumberOfArticles</name>
+                <value>6</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>deflectionParentCategory</name>
+                <value>{!TopLevelCategory}</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>deflectionSubHeader</name>
+                <value>Check out these articles...</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>deflectionTitle</name>
+                <value>Need Answers Fast?</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>hasDeflection</name>
+                <value>true</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>headerTitle</name>
+                <value>Create a Case</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>isReCaptchaEnabled</name>
+                <value>false</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>reCaptchaPrivateKey</name>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>reCaptchaPublicKey</name>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>unauthenticatedActionName</name>
+                <value>NewCase</value>
+            </componentInstanceProperties>
+            <componentName>selfService:caseCreate</componentName>
+        </componentInstances>
+        <name>content</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <name>footer</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <masterLabel>Contact Support</masterLabel>
+    <template>
+        <name>siteforce:oneColumnLayout</name>
+    </template>
+    <type>CommAppPage</type>
+</FlexiPage>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flexiPageRegions>
+        <name>header</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>height</name>
+                <value>1065</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>recordId</name>
+                <value>{!recordId}</value>
+            </componentInstanceProperties>
+            <componentName>forceCommunity:dashboard</componentName>
+        </componentInstances>
+        <name>content</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>askCommunityLabel</name>
+                <value>Ask A Question</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>contactSupportLabel</name>
+                <value>Contact Support</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>headerLabel</name>
+                <value>Don&apos;t see what you&apos;re looking for?</value>
+            </componentInstanceProperties>
+            <componentName>siteforce:napiliFooter</componentName>
+        </componentInstances>
+        <name>footer</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <masterLabel>Dashboard Detail</masterLabel>
+    <sobjectType>Dashboard</sobjectType>
+    <template>
+        <name>siteforce:oneColumnLayout</name>
+    </template>
+    <type>CommRecordPage</type>
+</FlexiPage>

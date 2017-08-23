@@ -11,10 +11,10 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Five9_Campaign_Name__c</fullName>
+        <fullName>Dialer_Campaign_Name__c</fullName>
         <externalId>false</externalId>
         <fieldManageability>DeveloperControlled</fieldManageability>
-        <label>Five9 Campaign Name</label>
+        <label>Dialer Campaign Name</label>
         <length>255</length>
         <required>false</required>
         <type>Text</type>

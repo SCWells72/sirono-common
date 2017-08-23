@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Sirono PRS</fullName>
+    <description>The Sirono Patient Receivables Suite is part of Sirono's holistic patient financial billing platform. Sirono's advanced patient-centric technology provides healthcare organizations with the needed tools to meet patient expectations and adjust to the shifting reimbursement environment.</description>
     <types>
         <members>AbstractDao</members>
         <members>AbstractService</members>
@@ -275,7 +276,6 @@
     <types>
         <members>Sirono_Administration</members>
         <members>Sirono_Administration_Lightning</members>
-        <members>Sirono_Call_Center</members>
         <name>CustomApplication</name>
     </types>
     <types>
@@ -792,10 +792,6 @@
         <name>PermissionSet</name>
     </types>
     <types>
-        <members>Sirono User</members>
-        <name>Profile</name>
-    </types>
-    <types>
         <members>Automated_Cases</members>
         <members>Hospital_Staff</members>
         <members>Hospital_Staff_Billing</members>
@@ -900,13 +896,6 @@
     <types>
         <members>Name</members>
         <name>Settings</name>
-    </types>
-    <types>
-        <members>CampaignType</members>
-        <members>CaseReason</members>
-        <members>CaseStatus</members>
-        <members>CaseType</members>
-        <name>StandardValueSet</name>
     </types>
     <types>
         <members>Jquery</members>
