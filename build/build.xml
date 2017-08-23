@@ -74,6 +74,10 @@
                 <!-- Change official namespace qualifications to development namespace qualifications before deployment -->
                 <replaceregex pattern="\b(${sf.sprs.official.namespace})(\.|__|:)" replace="${sf.sprs.development.namespace}\2" flags="gi"/>
                 <replaceregex pattern="\b(${sf.spfp.official.namespace})(\.|__|:)" replace="${sf.spfp.development.namespace}\2" flags="gi"/>
+                <!-- Populate named credentials -->
+                <replacestring from="@ENDPOINT@" to="${sirono.endpoint}"/>
+                <replacestring from="@USERNAME@" to="${sirono.user}"/>
+                <replacestring from="@PASSWORD@" to="${sirono.pw}"/>
             </filterchain>
         </copy>
         <!-- Copy custom labels renaming for uniqueness -->
