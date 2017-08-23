@@ -40,6 +40,7 @@ IlluminatedCloud/
 .idea/shelf/
 .idea/compiler.xml
 .idea/encodings.xml
+.idea/jenkinsSettings.xml
 .idea/misc.xml
 .idea/workspace.xml
 *.iws
