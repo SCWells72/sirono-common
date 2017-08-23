@@ -217,6 +217,8 @@ echo "***** Creating Encounters *****"
 createData "EncounterCreator.apex"
 echo "***** Creating Attachments ****"
 createData "AttachmentAttacher.apex"
+echo "***** Set Sirono Portal Settings *****"
+createData "CustomSettingsLoader.apex"
 echo "***** ... and now we're done! *****"
 
 # To close out the show, delete the HIMSS_Estimate static resource.
