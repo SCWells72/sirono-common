@@ -164,7 +164,7 @@ public with sharing class CreateCaseManual {
 //            dmlOpts.AssignmentRuleHeader.assignmentRuleId = assignmentRule.Id;
 //            manualCase.setOptions(dmlOpts);
 
-            if (CaseSecurityContext.CREATE_WITH_GT_CONTEXT.actionAllowed()) {
+            if (CaseSecurityContext.MANUAL_UPSERT_CONTEXT.actionAllowed()) {
                 // TODO: This has to be an upsert because the case has already been created at this point (by the standard controller?)
                 upsert manualCase;
             }

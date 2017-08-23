@@ -81,6 +81,7 @@ public with sharing class CaseSecurityContext extends SecurityContext {
      * The context used to create a Case with a Guarantor in CaseUtil
      **/
     public static final CaseSecurityContext CREATE_WITH_GT_CONTEXT = new CaseSecurityContext(CU_CREATE_FIELDS, ACTION.OBJ_CREATE);
+    public static final CaseSecurityContext MANUAL_UPSERT_CONTEXT = new CaseSecurityContext(CU_CREATE_FIELDS, ACTION.OBJ_UPSERT);
 
     /**
      * The context used to create a Case with an Encounter in CaseUtil
