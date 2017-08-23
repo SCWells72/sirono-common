@@ -215,11 +215,6 @@
             <sortOrder>3</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>ChangeRecordType</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>4</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>sPRS__Edit_Payment_Plan</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>5</sortOrder>
@@ -238,6 +233,11 @@
             <actionName>sPRS__Payment_Plan_Good_Standing</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>8</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>ChangeRecordType</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>4</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedLists>
