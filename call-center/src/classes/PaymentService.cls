@@ -5,7 +5,7 @@
 /**
  * Payment Service with logic for working with Payment__c object.
  */
-global class PaymentService extends AbstractService {
+global with sharing class PaymentService extends AbstractService {
     // Constant variable.
     public static final String PAYMENTNAME = 'Payment';
 
