@@ -16,5 +16,12 @@
         <members>*</members>
         <name>Profile</name>
     </types>
+    <types>
+        <members>CampaignType</members>
+        <members>CaseReason</members>
+        <members>CaseStatus</members>
+        <members>CaseType</members>
+        <name>StandardValueSet</name>
+    </types>
     <version>40.0</version>
 </Package>

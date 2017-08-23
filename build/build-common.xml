@@ -2,6 +2,8 @@
          xmlns:sf="antlib:com.salesforce"
          xmlns:ml="org.missinglink.ant.task.http.HttpClientTask">
 
+    <property name="libdir" value="${basedir}/lib"/>
+
     <taskdef resource="net/sf/antcontrib/antcontrib.properties"
              classpath="${libdir}/ant-contrib-1.0b3.jar"/>
     <taskdef uri="antlib:com.salesforce"
@@ -127,6 +129,7 @@
             pollWaitMillis="${sf.pollWaitMillis}"
             maxPoll="${sf.maxPoll}"
             testLevel="${sf.testLevel}"
+            allowMissingFiles="true"
             logType="Debugonly"/>
     </target>
 
@@ -163,21 +166,49 @@
 
     <target name="createPostInstallZip" depends="populatePostInstallSrcDir">
         <mkdir dir="${basedir}/dist"/>
-        <property name="zip_dest" value="${basedir}/dist/${ant.project.name}_post_install.zip"/>
-        <zip destfile="${zip_dest}"
+
+        <delete file="${basedir}/dist/${ant.project.name}_profiles.zip" quiet="true"/>
+        <zip destfile="${basedir}/dist/${ant.project.name}_profiles.zip"
              basedir="${workDir}/post_install_src"
-             excludes="**/.DS_Store, __MACOSX/*"
-        />
+             includes="**/profiles/*.profile,package.xml"/>
+
+        <delete file="${basedir}/dist/${ant.project.name}_post_install.zip" quiet="true"/>
+        <zip destfile="${basedir}/dist/${ant.project.name}_post_install.zip"
+             basedir="${workDir}/post_install_src"
+             excludes="**/profiles/*.profile,**/.DS_Store,__MACOSX/*"/>
     </target>
 
     <target name="deployPostInstall" depends="createPostInstallZip">
+        <if>
+            <available file="${basedir}/dist/${ant.project.name}_profiles.zip"/>
+            <then>
+                <antcall target="deployZip">
+                    <param name="sf.zipFile" value="${basedir}/dist/${ant.project.name}_profiles.zip"/>
+                    <param name="sf.testLevel" value="NoTestRun"/>
+                </antcall>
+            </then>
+        </if>
+
         <antcall target="deployZip">
-            <param name="sf.zipFile" value="${zip_dest}"/>
+            <param name="sf.zipFile" value="${basedir}/dist/${ant.project.name}_post_install.zip"/>
             <param name="sf.testLevel" value="NoTestRun"/>
         </antcall>
     </target>
 
     <target name="deployPostInstallToTest">
+        <if>
+            <available file="${basedir}/dist/${ant.project.name}_profiles.zip"/>
+            <then>
+                <antcall target="deployZip">
+                    <param name="sf.target.username" value="${sf.test.username}"/>
+                    <param name="sf.target.password" value="${sf.test.password}"/>
+                    <param name="sf.target.serverurl" value="${sf.test.serverurl}"/>
+                    <param name="sf.zipFile" value="${basedir}/dist/${ant.project.name}_profiles.zip"/>
+                    <param name="sf.testLevel" value="NoTestRun"/>
+                </antcall>
+            </then>
+        </if>
+
         <antcall target="deployZip">
             <param name="sf.target.username" value="${sf.test.username}"/>
             <param name="sf.target.password" value="${sf.test.password}"/>

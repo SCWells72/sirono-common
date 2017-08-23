@@ -898,13 +898,6 @@
         <name>Settings</name>
     </types>
     <types>
-        <members>CampaignType</members>
-        <members>CaseReason</members>
-        <members>CaseStatus</members>
-        <members>CaseType</members>
-        <name>StandardValueSet</name>
-    </types>
-    <types>
         <members>Jquery</members>
         <members>PayStaffJS</members>
         <members>PayStaffStyle</members>

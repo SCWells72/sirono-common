@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
-    <custom>true</custom>
+    <custom>false</custom>
     <layoutAssignments>
         <layout>Case-sPRS__Administrative Case</layout>
         <recordType>Case.sPRS__Administrative_Case_Process</recordType>

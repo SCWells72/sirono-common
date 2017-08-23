@@ -55,8 +55,15 @@
         </not>
     </condition>
 
-    <target name="preDeploy">
-        <!-- TODO: Need to deploy the Sirono User profile before anything else -->
+    <target name="deployConsolePostInstallToPortal">
+        <echo>Deploying sPRS profiles.</echo>
+        <antcall target="deployZip">
+            <param name="sf.target.username" value="${sf.spfp.target.username}"/>
+            <param name="sf.target.password" value="${sf.spfp.target.password}"/>
+            <param name="sf.target.serverurl" value="${sf.spfp.target.serverurl}"/>
+            <param name="sf.zipFile" value="${basedir}/../call-center/dist/SironoPRS_profiles.zip"/>
+            <param name="sf.testLevel" value="NoTestRun"/>
+        </antcall>
         <echo>Deploying sPRS post-install.</echo>
         <antcall target="deployZip">
             <param name="sf.target.username" value="${sf.spfp.target.username}"/>
