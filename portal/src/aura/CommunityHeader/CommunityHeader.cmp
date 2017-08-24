@@ -29,7 +29,7 @@
                             <div aura:id="sldsjsPopoverAction" class="sldsjs-popover-target slds-dropdown slds-dropdown--left slds-nubbin--top-left slds-hide">
                                 <ul class="slds-dropdown__list" role="menu">
                                     <li class="slds-dropdown__item" role="presentation">
-                                        <a href="/" role="menuitem" tabindex="0"><span class="slds-truncate">Logout</span></a>
+                                        <a href="/guarantor/secur/logout.jsp" role="menuitem" tabindex="0"><span class="slds-truncate">Logout</span></a>
                                     </li>
                                 </ul>
                             </div>
