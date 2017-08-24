@@ -67,93 +67,6 @@
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Cancelled__c</fullName>
-        <defaultValue>false</defaultValue>
-        <description>Transaction was canceled</description>
-        <externalId>false</externalId>
-        <label>Cancelled (Deprecated)</label>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
-        <fullName>Card_Holder_Name__c</fullName>
-        <externalId>false</externalId>
-        <label>Card Holder Name (Deprecated)</label>
-        <length>100</length>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Card_Type__c</fullName>
-        <externalId>false</externalId>
-        <label>Card Type (Deprecated)</label>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Picklist</type>
-        <valueSet>
-            <valueSetDefinition>
-                <sorted>false</sorted>
-                <value>
-                    <fullName>Visa</fullName>
-                    <default>false</default>
-                    <label>Visa</label>
-                </value>
-                <value>
-                    <fullName>MasterCard</fullName>
-                    <default>false</default>
-                    <label>MasterCard</label>
-                </value>
-                <value>
-                    <fullName>Discover</fullName>
-                    <default>false</default>
-                    <label>Discover</label>
-                </value>
-                <value>
-                    <fullName>American Express</fullName>
-                    <default>false</default>
-                    <label>American Express</label>
-                </value>
-            </valueSetDefinition>
-        </valueSet>
-    </fields>
-    <fields>
-        <fullName>Charge_Date_Test__c</fullName>
-        <externalId>false</externalId>
-        <label>Charge Date Test (Deprecated)</label>
-        <required>false</required>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Date</type>
-    </fields>
-    <fields>
-        <fullName>Charge_Date__c</fullName>
-        <description>Date of transaction</description>
-        <externalId>false</externalId>
-        <label>Charge Date (Deprecated)</label>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>DateTime</type>
-    </fields>
-    <fields>
-        <fullName>Check_Number__c</fullName>
-        <description>Number of the payment check</description>
-        <externalId>false</externalId>
-        <label>Check Number (Deprecated)</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
         <fullName>Collected_By__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
@@ -204,15 +117,6 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Expiration_Date__c</fullName>
-        <externalId>false</externalId>
-        <label>Expiration Date (Deprecated)</label>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Date</type>
-    </fields>
-    <fields>
         <fullName>Guarantor__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <description>Customer of the account</description>
@@ -243,17 +147,6 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <length>128</length>
         <required>false</required>
         <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Last_4__c</fullName>
-        <externalId>false</externalId>
-        <label>Last 4 (Deprecated)</label>
-        <length>4</length>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
@@ -379,16 +272,6 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Scheduled_Date__c</fullName>
-        <description>Date of scheduled payment</description>
-        <externalId>false</externalId>
-        <label>Scheduled Date (Deprecated)</label>
-        <required>false</required>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>DateTime</type>
-    </fields>
-    <fields>
         <fullName>Sirono_Id__c</fullName>
         <description>Id number</description>
         <externalId>true</externalId>
@@ -413,16 +296,6 @@ TEXT(YEAR(DATEVALUE(Deposit_Date__c)))</formula>
         <trackHistory>true</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>Successful__c</fullName>
-        <defaultValue>false</defaultValue>
-        <description>If transaction was successful</description>
-        <externalId>false</externalId>
-        <label>Successful (Deprecated)</label>
-        <trackHistory>true</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
     </fields>
     <label>Payment</label>
     <listViews>

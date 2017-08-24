@@ -27,11 +27,10 @@ public void deleteEncounters() {
         FROM sPRS__Encounter__c
     ];
 
-    if (encounters.size() > 0) {
+    if (!encounters.isEmpty()) {
         delete encounters;
+        Database.emptyRecycleBin(encounters);
     }
-
-    Database.emptyRecycleBin(encounters);
 }
 
 // First delete existing encounters (will also take care of attachments) then load new ones.

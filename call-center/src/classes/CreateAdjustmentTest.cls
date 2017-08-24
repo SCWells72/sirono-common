@@ -56,7 +56,7 @@ public class CreateAdjustmentTest {
 
         List<ApexPages.Message> msgList = ApexPages.getMessages();
         Boolean isError = false;
-        for (Apexpages.Message msg: msgList) {
+        for (ApexPages.Message msg: msgList) {
             System.debug('testDataVerification.msg: '+msg.getDetail());
             if (msg.getDetail().contains('Please provide all details.')) {
                 isError = true;
