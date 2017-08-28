@@ -52,4 +52,5 @@ work/
 data/res/temp/
 data/res/accessoryFiles/Contact_RecordTypes.csv
 data/res/apex/load/AttachmentAttacher.apex
+data/res/apex/load/CustomSettingsLoader.apex
 data/res/apex/load/EncounterCreator.apex
