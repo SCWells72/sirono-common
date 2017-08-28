@@ -8,7 +8,7 @@
  */
 
 // We're going to set the org defaults for the financial aid application.
-sPRS__Sirono_Portal_Settings__c settings = sPRS__Sirono_Portal_Settings__c.getOrgDefaults();
-settings.sPRS__Financial_Assistance_Document__c = 'Financial_Aid_Doc';
+sPFP__Sirono_Portal_Settings__c settings = sPFP__Sirono_Portal_Settings__c.getOrgDefaults();
+settings.sPFP__Financial_Assistance_Document__c = 'Financial_Aid_Doc';
 
 upsert settings;
