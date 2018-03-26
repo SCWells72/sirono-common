@@ -8,7 +8,7 @@ practices](https://developer.salesforce.com/page/Trigger_Frameworks_and_Apex_Tri
 interfaces and classes in the framework are:
 
 * `TriggerHandler` - the common interface for all trigger handlers
-* `AbstractTriggerHandler` - an abstract base implementation of `TriggerHandler` that provides default on-op
+* `AbstractTriggerHandler` - an abstract base implementation of `TriggerHandler` that provides default no-op
   implementations of all trigger event handler methods and common utility methods for processing trigger data.
 * `TriggerHandlerFactory` - the factory interface for the creation of `TriggerHandler` implementations in response
   to DML events.
