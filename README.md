@@ -21,7 +21,7 @@ A typical trigger handler implementation would follow the pattern:
 
 **Trigger**
 ```java
-trigger TestContactTrigger on Contact (before insert, before update, ...) {
+trigger ContactTrigger on Contact (before insert, before update, ...) {
     TriggerHandlerDispatcher.dispatch(ContactTriggerHandler.Factory.class);
 }
 ```
