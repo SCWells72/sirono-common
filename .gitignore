@@ -1,0 +1,6 @@
+# IntelliJ IDEA config
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/workspace.xml
+
+# Illuminated Cloud
+/IlluminatedCloud/*/OfflineSymbolTable.zip
