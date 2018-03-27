@@ -1,5 +1,11 @@
 # sirono-common
-Common Apex utility classes and frameworks used by Sirono products.
+Common Apex utility classes and frameworks used by Sirono products including:
+
+* [Trigger handler framework](#trigger-handler-framework)
+* [Multimap collection and collection utilities](#multimap-and-collection-utilities)
+* [Apex picklist enum wrapper to provide symbolic constants for picklist field values](#picklist-enums)
+* [Apex type-safe enums](#type-safe-enums)
+* [Logging-style wrapper for `System.debug()`](#logging-wrapper)
 
 ## Trigger handler framework
 
