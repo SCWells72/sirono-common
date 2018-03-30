@@ -275,7 +275,7 @@ private class CollectionUtilTest {
     }
 
     @IsTest
-    static void testToStrings() {
+    static void testToStrings_Set() {
         Set<Object> rawValues = new Set<Object> {
             'Foobar',
             10,
@@ -292,7 +292,7 @@ private class CollectionUtilTest {
     }
 
     @IsTest
-    static void testToStringsWithNulls() {
+    static void testToStringsWithNulls_Set() {
         Set<Object> rawValues = new Set<Object> {
             'Foobar',
             null
@@ -303,6 +303,83 @@ private class CollectionUtilTest {
             Assert.fail('Expected an IllegalArgumentException');
         } catch (IllegalArgumentException e) {
         }
+    }
+
+    @IsTest
+    static void testToStrings_List() {
+        List<Object> rawValues = new List<Object> {
+            'Foobar',
+            10,
+            20.0,
+            true,
+            LoggingLevel.DEBUG
+        };
+
+        List<String> stringValues = CollectionUtil.toStrings(rawValues);
+        Assert.equals(rawValues.size(), stringValues.size());
+        for (Integer i = 0; i < stringValues.size(); i++) {
+            Object rawValue = rawValues.get(i);
+            String stringValue = stringValues.get(i);
+            Assert.equals(String.valueOf(rawValue), stringValue);
+        }
+    }
+
+    @IsTest
+    static void testToStringsWithNulls_List() {
+        List<Object> rawValues = new List<Object> {
+            'Foobar',
+            null
+        };
+
+        try {
+            CollectionUtil.toStrings(rawValues);
+            Assert.fail('Expected an IllegalArgumentException');
+        } catch (IllegalArgumentException e) {
+        }
+    }
+
+    @IsTest
+    static void testGetIds() {
+        List<Account> accounts = new List<Account>();
+        for (Integer i = 0; i < 5; i++) {
+            accounts.add(new Account(
+                Name = 'Account ' + (i + 1)
+            ));
+        }
+        insert accounts;
+
+        List<Id> accountIds = CollectionUtil.getIds(accounts);
+        Assert.equals(accounts.size(), accountIds.size());
+        for (Integer i = 0; i < accounts.size(); i++) {
+            Account account = accounts.get(i);
+            Id accountId = accountIds.get(i);
+            Assert.equals(account.Id, accountId);
+        }
+    }
+
+    @IsTest
+    static void testGetIdSet() {
+        List<Account> accounts = new List<Account>();
+        for (Integer i = 0; i < 5; i++) {
+            accounts.add(new Account(
+                Name = 'Account ' + (i + 1)
+            ));
+        }
+        insert accounts;
+
+        // Create a list with duplicate entries
+        List<Account> duplicateAccounts = new List<Account>();
+        duplicateAccounts.addAll(accounts);
+        duplicateAccounts.addAll(accounts);
+
+        Set<Id> accountIds = CollectionUtil.getIdSet(duplicateAccounts);
+        Assert.equals(accounts.size(), accountIds.size());
+        for (Account account : accounts) {
+            Id accountId = account.Id;
+            Assert.isTrue(accountIds.contains(accountId));
+            accountIds.remove(accountId);
+        }
+        Assert.isTrue(accountIds.isEmpty());
     }
 
     @IsTest

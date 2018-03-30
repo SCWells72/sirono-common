@@ -15,7 +15,7 @@
  */
 
 /**
- * Exception type used to report an illegal/unexpected state.
+ * Used to report an illegal/unexpected state.
  */
 public with sharing class IllegalStateException extends Exception {
 }

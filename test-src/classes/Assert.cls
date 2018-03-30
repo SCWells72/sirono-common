@@ -24,6 +24,9 @@ public with sharing class Assert {
         // Utility class
     }
 
+    // A few of these may seem silly since they're direct passthroughs, but it provides a consistent interface for
+    // all assertions instead of using System.assert* sometimes and Assert.* others
+
     /**
      * Assert that the given logical expression evaluates to true.
      *

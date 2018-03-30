@@ -47,7 +47,7 @@ public with sharing class Logger {
     @TestVisible
     private static LoggerAdapter LOGGER_ADAPTER = new DefaultLoggerAdapter();
 
-    private Type apexClass;
+    private final Type apexClass;
 
     private Logger(Type apexClass) {
         this.apexClass = apexClass;

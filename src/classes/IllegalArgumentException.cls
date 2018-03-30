@@ -15,7 +15,7 @@
  */
 
 /**
- * Exception type used to report an illegal/unexpected value for a provided invocation argument.
+ * Used to report an illegal/unexpected value for a provided invocation argument.
  */
 public with sharing class IllegalArgumentException extends Exception {
 }

@@ -231,24 +231,85 @@ public with sharing class CollectionUtil {
      *
      * @param rawObjects the raw objects
      *
-     * @return the set of Strings
+     * @return the set of string values
      */
     public static Set<String> toStrings(Set<Object> rawObjects) {
-        Set<String> stringSet = new Set<String>();
+        Set<String> strings = new Set<String>();
 
         if (rawObjects != null) {
-            for (Object raw : rawObjects) {
-                if (raw == null) {
-                    throw new IllegalArgumentException('Provided value is null.');
-                } else if (!(raw instanceof String)) {
-                    stringSet.add(String.valueOf(raw));
-                } else {
-                    stringSet.add((String) raw);
-                }
+            for (Object rawObject : rawObjects) {
+                strings.add(toString(rawObject));
             }
         }
 
-        return stringSet;
+        return strings;
+    }
+
+    /**
+     * Converts a list of <code>String</code> values as a list of <code>Object</code> to be strongly-typed. This is useful
+     * when the keys or values from a <code>MultiMap</code> are used as SOQL bind parameters.
+     *
+     * @param rawObjects the raw objects
+     *
+     * @return the list of string values
+     */
+    public static List<String> toStrings(List<Object> rawObjects) {
+        List<String> strings = new List<String>();
+
+        if (rawObjects != null) {
+            for (Object rawObject : rawObjects) {
+                strings.add(toString(rawObject));
+            }
+        }
+
+        return strings;
+    }
+
+    /**
+     * Converts a single raw <code>Object</code> value into the corresponding <code>String</code> value.
+     *
+     * @param rawObject the raw value
+     *
+     * @return the corresponding string value
+     */
+    private static String toString(Object rawObject) {
+        if (rawObject == null) {
+            throw new IllegalArgumentException('Provided value is null.');
+        } else if (rawObject instanceof String) {
+            return (String) rawObject;
+        } else {
+            return String.valueOf(rawObject);
+        }
+    }
+
+    /**
+     * Extracts the IDs from a provided SObjects as a list.
+     *
+     * @param objects the SObjects
+     *
+     * @return the provided SObjects' IDs as a list
+     */
+    public static List<Id> getIds(List<SObject> objects) {
+        List<Id> ids = new List<Id>();
+        for (SObject obj : objects) {
+            ids.add(obj.Id);
+        }
+        return ids;
+    }
+
+    /**
+     * Extracts the IDs from a provided list of SObjects as a set.
+     *
+     * @param objects the SObjects
+     *
+     * @return the provided SObjects' IDs as a set
+     */
+    public static Set<Id> getIdSet(List<SObject> objects) {
+        Set<Id> ids = new Set<Id>();
+        for (SObject obj : objects) {
+            ids.add(obj.Id);
+        }
+        return ids;
     }
 
     /**
@@ -259,6 +320,9 @@ public with sharing class CollectionUtil {
      *
      * <code>SObject</code> instances of a type not corresponding to <code>SObjectFieldType</code> are ignored as
      * are null <code>SObject</code> instances and null keys.
+     *
+     * If duplicate values are found for the same key, an <code>IllegalStateException</code> is thrown. Use
+     * <code>multiMapByField()</code> when duplicate values are expected.
      *
      * @param sObjects the list of <code>SObject</code>s to map.
      * @param field the <code>SObjectField</code> to use as the key
@@ -296,6 +360,9 @@ public with sharing class CollectionUtil {
      * <code>SObject</code> instances of a type not corresponding to <code>SObjectFieldType</code> are ignored as
      * are null <code>SObject</code> instances and null keys.
      *
+     * If duplicate values are found for the same key, an <code>IllegalStateException</code> is thrown. Use
+     * <code>multiMapByField</code> when duplicate values are expected.
+     *
      * @param sObjects the list of <code>SObject</code>s to map
      * @param field the <code>SObjectField</code> to use as the key
      *
@@ -321,8 +388,8 @@ public with sharing class CollectionUtil {
 
     /**
      *
-     * Take the given list of <code>SObject</code> instances and create a <code>MultiMap</code> from them using the field value
-     * specified by <code>SObjectField</code> field as the key.
+     * Take the given list of <code>SObject</code> instances and create a <code>MultiMap</code> from them using the field
+     * value specified by <code>SObjectField</code> field as the key.
      *
      * <code>SObject</code> instances of a type not corresponding to <code>SObjectFieldType</code> are ignored as
      * are null <code>SObject</code> instances and null keys.
