@@ -11,7 +11,7 @@ private class AbstractTriggerHandlerTest {
         // Happy path
         Contact c = new Contact(LastName = 'Foo');
         Object lastNameValue = triggerHandler.getFieldValue(c, Contact.LastName);
-        System.assertEquals('Foo', lastNameValue);
+        Assert.equals('Foo', lastNameValue);
 
         // Null handling
         Assert.isNull(triggerHandler.getFieldValue(null, null));
@@ -35,7 +35,7 @@ private class AbstractTriggerHandlerTest {
         Contact newContact = new Contact(FirstName = 'Baz', LastName = 'Bar');
 
         // Happy path
-        System.assert(triggerHandler.fieldValueChanged(oldContact, newContact, Contact.LastName));
+        Assert.isTrue(triggerHandler.fieldValueChanged(oldContact, newContact, Contact.LastName));
         Assert.isFalse(triggerHandler.fieldValueChanged(oldContact, newContact, Contact.FirstName));
 
         // Null handling
@@ -44,8 +44,8 @@ private class AbstractTriggerHandlerTest {
         Assert.isFalse(triggerHandler.fieldValueChanged(null, newContact, null));
         Assert.isFalse(triggerHandler.fieldValueChanged(null, null, Contact.LastName));
         Assert.isFalse(triggerHandler.fieldValueChanged(oldContact, newContact, null));
-        System.assert(triggerHandler.fieldValueChanged(null, newContact, Contact.LastName));
-        System.assert(triggerHandler.fieldValueChanged(oldContact, null, Contact.LastName));
+        Assert.isTrue(triggerHandler.fieldValueChanged(null, newContact, Contact.LastName));
+        Assert.isTrue(triggerHandler.fieldValueChanged(oldContact, null, Contact.LastName));
 
         // Invalid field for type
         try {
@@ -64,7 +64,7 @@ private class AbstractTriggerHandlerTest {
         Contact newContact = new Contact(FirstName = 'Baz', LastName = 'Bar');
 
         // Happy path
-        System.assert(triggerHandler.fieldValueSet(oldContact, newContact, Contact.FirstName));
+        Assert.isTrue(triggerHandler.fieldValueSet(oldContact, newContact, Contact.FirstName));
         Assert.isFalse(triggerHandler.fieldValueSet(oldContact, newContact, Contact.LastName));
 
         // Null handling
@@ -73,7 +73,7 @@ private class AbstractTriggerHandlerTest {
         Assert.isFalse(triggerHandler.fieldValueSet(null, newContact, null));
         Assert.isFalse(triggerHandler.fieldValueSet(null, null, Contact.FirstName));
         Assert.isFalse(triggerHandler.fieldValueSet(oldContact, newContact, null));
-        System.assert(triggerHandler.fieldValueSet(null, newContact, Contact.FirstName));
+        Assert.isTrue(triggerHandler.fieldValueSet(null, newContact, Contact.FirstName));
         Assert.isFalse(triggerHandler.fieldValueSet(oldContact, null, Contact.FirstName));
 
         // Invalid field for type

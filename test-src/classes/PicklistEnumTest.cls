@@ -24,17 +24,17 @@ private class PicklistEnumTest extends PicklistEnum {
         for (PicklistEntry picklistEntry : picklistEntries) {
             String value = picklistEntry.getValue();
             PicklistEnum.Entry entry = PicklistEnumTest.valueOf(value);
-            Assert.notNull(entry, 'Expected to find a picklist enum entry for ' + value);
-            System.assertEquals(value, entry.value(), 'Incorrect value for entry.');
+            Assert.isNotNull(entry, 'Expected to find a picklist enum entry for ' + value);
+            Assert.equals(value, entry.value(), 'Incorrect value for entry.');
 
             String label = picklistEntry.getLabel();
-            System.assertEquals(label, entry.label(), 'Incorrect label for entry.');
+            Assert.equals(label, entry.label(), 'Incorrect label for entry.');
 
             Boolean active = picklistEntry.isActive();
-            System.assertEquals(active, entry.isActive(), 'Incorrect active state for entry.');
+            Assert.equals(active, entry.isActive(), 'Incorrect active state for entry.');
 
             Boolean defaultValue = picklistEntry.isDefaultValue();
-            System.assertEquals(defaultValue, entry.isDefaultValue(), 'Incorrect default value state for entry.');
+            Assert.equals(defaultValue, entry.isDefaultValue(), 'Incorrect default value state for entry.');
         }
     }
 
@@ -43,7 +43,7 @@ private class PicklistEnumTest extends PicklistEnum {
     private static void testOpportunityTypeEnum() {
         PicklistEnumTestUtil.verifyPicklistEnum(
             Opportunity.Type,
-            new Map<String, PicklistEnum.Entry>{
+            new Map<String, PicklistEnum.Entry> {
                 PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE_VALUE => PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE,
                 PicklistEnumTest.EXISTING_CUSTOMER_REPLACEMENT_VALUE => PicklistEnumTest.EXISTING_CUSTOMER_REPLACEMENT,
                 PicklistEnumTest.EXISTING_CUSTOMER_DOWNGRADE_VALUE => PicklistEnumTest.EXISTING_CUSTOMER_DOWNGRADE,
@@ -55,15 +55,15 @@ private class PicklistEnumTest extends PicklistEnum {
 
     @IsTest
     static void testEqualTo() {
-        System.assert(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.equalTo(EXISTING_CUSTOMER_UPGRADE_VALUE));
-        System.assert(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.equalTo(EXISTING_CUSTOMER_UPGRADE_VALUE.toLowerCase()));
-        System.assert(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.equalTo(EXISTING_CUSTOMER_UPGRADE_VALUE.toUpperCase()));
+        Assert.isTrue(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.equalTo(EXISTING_CUSTOMER_UPGRADE_VALUE));
+        Assert.isTrue(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.equalTo(EXISTING_CUSTOMER_UPGRADE_VALUE.toLowerCase()));
+        Assert.isTrue(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.equalTo(EXISTING_CUSTOMER_UPGRADE_VALUE.toUpperCase()));
         Assert.isFalse(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.equalTo(NEW_CUSTOMER_VALUE));
     }
 
     @IsTest
     static void testNotEqualTo() {
-        System.assert(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.notEqualTo(NEW_CUSTOMER_VALUE));
+        Assert.isTrue(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.notEqualTo(NEW_CUSTOMER_VALUE));
         Assert.isFalse(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.notEqualTo(EXISTING_CUSTOMER_UPGRADE_VALUE));
         Assert.isFalse(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.notEqualTo(EXISTING_CUSTOMER_UPGRADE_VALUE.toLowerCase()));
         Assert.isFalse(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.notEqualTo(EXISTING_CUSTOMER_UPGRADE_VALUE.toUpperCase()));
@@ -71,10 +71,10 @@ private class PicklistEnumTest extends PicklistEnum {
 
     @IsTest
     static void testToString() {
-        System.assertEquals(EXISTING_CUSTOMER_UPGRADE_VALUE, PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.toString());
-        System.assertEquals(EXISTING_CUSTOMER_REPLACEMENT_VALUE, PicklistEnumTest.EXISTING_CUSTOMER_REPLACEMENT.toString());
-        System.assertEquals(EXISTING_CUSTOMER_DOWNGRADE_VALUE, PicklistEnumTest.EXISTING_CUSTOMER_DOWNGRADE.toString());
-        System.assertEquals(NEW_CUSTOMER_VALUE, PicklistEnumTest.NEW_CUSTOMER.toString());
+        Assert.equals(EXISTING_CUSTOMER_UPGRADE_VALUE, PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.toString());
+        Assert.equals(EXISTING_CUSTOMER_REPLACEMENT_VALUE, PicklistEnumTest.EXISTING_CUSTOMER_REPLACEMENT.toString());
+        Assert.equals(EXISTING_CUSTOMER_DOWNGRADE_VALUE, PicklistEnumTest.EXISTING_CUSTOMER_DOWNGRADE.toString());
+        Assert.equals(NEW_CUSTOMER_VALUE, PicklistEnumTest.NEW_CUSTOMER.toString());
     }
 
     // Sample implementation of PicklistEnum for testing purposes.

@@ -35,31 +35,31 @@ private class MultiMapTest {
 
         // Add a value for the key
         testMultiMap.putValue('key', 'value1');
-        System.assert(testMultiMap.containsKey('key'));
+        Assert.isTrue(testMultiMap.containsKey('key'));
 
         // Add a second value for the key
         testMultiMap.putValue('key', 'value2');
-        System.assert(testMultiMap.containsKey('key'));
+        Assert.isTrue(testMultiMap.containsKey('key'));
 
         // Remove the second value for the key
         testMultiMap.removeValue('key', 'value2');
-        System.assert(testMultiMap.containsKey('key'));
+        Assert.isTrue(testMultiMap.containsKey('key'));
 
         // Remove the first value for the key
         testMultiMap.removeValue('key', 'value1');
         Assert.isFalse(testMultiMap.containsKey('key'));
 
         // Add multiple values for the key
-        testMultiMap.putValues('key', new String[]{'value1', ' value2'});
-        System.assert(testMultiMap.containsKey('key'));
+        testMultiMap.putValues('key', new String[] { 'value1', ' value2' });
+        Assert.isTrue(testMultiMap.containsKey('key'));
 
         // Remove all values for the key
         testMultiMap.remove('key');
         Assert.isFalse(testMultiMap.containsKey('key'));
 
         // Add multiple values for the key
-        testMultiMap.putValues('key', new String[]{'value1', ' value2'});
-        System.assert(testMultiMap.containsKey('key'));
+        testMultiMap.putValues('key', new String[] { 'value1', ' value2' });
+        Assert.isTrue(testMultiMap.containsKey('key'));
 
         // Clear the map
         testMultiMap.clear();
@@ -80,28 +80,28 @@ private class MultiMapTest {
         MultiMap testMultiMap = createMultiMap(allowDuplicates);
 
         // Add a value
-        System.assertEquals(0, testMultiMap.size());
-        System.assertEquals(0, testMultiMap.values().size());
-        System.assertEquals(0, testMultiMap.getValues('key').size());
+        Assert.equals(0, testMultiMap.size());
+        Assert.equals(0, testMultiMap.values().size());
+        Assert.equals(0, testMultiMap.getValues('key').size());
         testMultiMap.putValue('key', 'value1');
-        System.assertEquals(1, testMultiMap.size());
-        System.assertEquals(1, testMultiMap.values().size());
-        System.assertEquals(1, testMultiMap.getValues('key').size());
-        verifyContents(new String[]{'value1'}, testMultiMap.getValues('key'), allowDuplicates);
+        Assert.equals(1, testMultiMap.size());
+        Assert.equals(1, testMultiMap.values().size());
+        Assert.equals(1, testMultiMap.getValues('key').size());
+        verifyContents(new String[] { 'value1' }, testMultiMap.getValues('key'), allowDuplicates);
 
         // Add a different value
         testMultiMap.putValue('key', 'value2');
-        System.assertEquals(1, testMultiMap.size());
-        System.assertEquals(2, testMultiMap.values().size());
-        System.assertEquals(2, testMultiMap.getValues('key').size());
-        verifyContents(new String[]{'value1', 'value2'}, testMultiMap.getValues('key'), allowDuplicates);
+        Assert.equals(1, testMultiMap.size());
+        Assert.equals(2, testMultiMap.values().size());
+        Assert.equals(2, testMultiMap.getValues('key').size());
+        verifyContents(new String[] { 'value1', 'value2' }, testMultiMap.getValues('key'), allowDuplicates);
 
         // Add a value for another key
         testMultiMap.putValue('key2', 'value2_1');
-        System.assertEquals(2, testMultiMap.size());
-        System.assertEquals(3, testMultiMap.values().size());
-        System.assertEquals(1, testMultiMap.getValues('key2').size());
-        verifyContents(new String[]{'value2_1'}, testMultiMap.getValues('key2'), allowDuplicates);
+        Assert.equals(2, testMultiMap.size());
+        Assert.equals(3, testMultiMap.values().size());
+        Assert.equals(1, testMultiMap.getValues('key2').size());
+        verifyContents(new String[] { 'value2_1' }, testMultiMap.getValues('key2'), allowDuplicates);
     }
 
     @IsTest
@@ -120,56 +120,56 @@ private class MultiMapTest {
         // List signature
 
         // Add a single value
-        System.assertEquals(0, testMultiMap.size());
-        System.assertEquals(0, testMultiMap.values().size());
-        System.assertEquals(0, testMultiMap.getValues('key').size());
-        testMultiMap.putValues('key', new String[]{'value1'});
-        System.assertEquals(1, testMultiMap.size());
-        System.assertEquals(1, testMultiMap.values().size());
-        System.assertEquals(1, testMultiMap.getValues('key').size());
-        verifyContents(new String[]{'value1'}, testMultiMap.getValues('key'), allowDuplicates);
+        Assert.equals(0, testMultiMap.size());
+        Assert.equals(0, testMultiMap.values().size());
+        Assert.equals(0, testMultiMap.getValues('key').size());
+        testMultiMap.putValues('key', new String[] { 'value1' });
+        Assert.equals(1, testMultiMap.size());
+        Assert.equals(1, testMultiMap.values().size());
+        Assert.equals(1, testMultiMap.getValues('key').size());
+        verifyContents(new String[] { 'value1' }, testMultiMap.getValues('key'), allowDuplicates);
 
         // Add multiple values
-        testMultiMap.putValues('key', new String[]{'value2', 'value3'});
-        System.assertEquals(1, testMultiMap.size());
-        System.assertEquals(3, testMultiMap.values().size());
-        System.assertEquals(3, testMultiMap.getValues('key').size());
-        verifyContents(new String[]{'value1', 'value2', 'value3'}, testMultiMap.getValues('key'), allowDuplicates);
+        testMultiMap.putValues('key', new String[] { 'value2', 'value3' });
+        Assert.equals(1, testMultiMap.size());
+        Assert.equals(3, testMultiMap.values().size());
+        Assert.equals(3, testMultiMap.getValues('key').size());
+        verifyContents(new String[] { 'value1', 'value2', 'value3' }, testMultiMap.getValues('key'), allowDuplicates);
 
         // Add multiple values for another key
-        testMultiMap.putValues('key2', new String[]{'value2_1', 'value2_2'});
-        System.assertEquals(2, testMultiMap.size());
-        System.assertEquals(5, testMultiMap.values().size());
-        System.assertEquals(2, testMultiMap.getValues('key2').size());
-        verifyContents(new String[]{'value2_1', 'value2_2'}, testMultiMap.getValues('key2'), allowDuplicates);
+        testMultiMap.putValues('key2', new String[] { 'value2_1', 'value2_2' });
+        Assert.equals(2, testMultiMap.size());
+        Assert.equals(5, testMultiMap.values().size());
+        Assert.equals(2, testMultiMap.getValues('key2').size());
+        verifyContents(new String[] { 'value2_1', 'value2_2' }, testMultiMap.getValues('key2'), allowDuplicates);
 
         // Set signature
 
         testMultiMap = createMultiMap(allowDuplicates);
 
         // Add a single value
-        System.assertEquals(0, testMultiMap.size());
-        System.assertEquals(0, testMultiMap.values().size());
-        System.assertEquals(0, testMultiMap.getValues('key').size());
-        testMultiMap.putValues('key', new Set<Object>{'value1', 'value1'});
-        System.assertEquals(1, testMultiMap.size());
-        System.assertEquals(1, testMultiMap.values().size());
-        System.assertEquals(1, testMultiMap.getValues('key').size());
-        verifyContents(new String[]{'value1'}, testMultiMap.getValues('key'), allowDuplicates);
+        Assert.equals(0, testMultiMap.size());
+        Assert.equals(0, testMultiMap.values().size());
+        Assert.equals(0, testMultiMap.getValues('key').size());
+        testMultiMap.putValues('key', new Set<Object> { 'value1', 'value1' });
+        Assert.equals(1, testMultiMap.size());
+        Assert.equals(1, testMultiMap.values().size());
+        Assert.equals(1, testMultiMap.getValues('key').size());
+        verifyContents(new String[] { 'value1' }, testMultiMap.getValues('key'), allowDuplicates);
 
         // Add multiple values
-        testMultiMap.putValues('key', new Set<Object>{'value2', 'value3', 'value2', 'value3'});
-        System.assertEquals(1, testMultiMap.size());
-        System.assertEquals(3, testMultiMap.values().size());
-        System.assertEquals(3, testMultiMap.getValues('key').size());
-        verifyContents(new String[]{'value1', 'value2', 'value3'}, testMultiMap.getValues('key'), allowDuplicates);
+        testMultiMap.putValues('key', new Set<Object> { 'value2', 'value3', 'value2', 'value3' });
+        Assert.equals(1, testMultiMap.size());
+        Assert.equals(3, testMultiMap.values().size());
+        Assert.equals(3, testMultiMap.getValues('key').size());
+        verifyContents(new String[] { 'value1', 'value2', 'value3' }, testMultiMap.getValues('key'), allowDuplicates);
 
         // Add multiple values for another key
-        testMultiMap.putValues('key2', new Set<Object>{'value2_1', 'value2_2', 'value2_1', 'value2_2'});
-        System.assertEquals(2, testMultiMap.size());
-        System.assertEquals(5, testMultiMap.values().size());
-        System.assertEquals(2, testMultiMap.getValues('key2').size());
-        verifyContents(new String[]{'value2_1', 'value2_2'}, testMultiMap.getValues('key2'), allowDuplicates);
+        testMultiMap.putValues('key2', new Set<Object> { 'value2_1', 'value2_2', 'value2_1', 'value2_2' });
+        Assert.equals(2, testMultiMap.size());
+        Assert.equals(5, testMultiMap.values().size());
+        Assert.equals(2, testMultiMap.getValues('key2').size());
+        verifyContents(new String[] { 'value2_1', 'value2_2' }, testMultiMap.getValues('key2'), allowDuplicates);
     }
 
     @IsTest
@@ -185,32 +185,32 @@ private class MultiMapTest {
     static void testPutAllValues(Boolean allowDuplicates) {
         // Create a source multi-map
         MultiMap sourceMultiMap1 = createMultiMap(allowDuplicates);
-        sourceMultiMap1.putValues('key1', new String[]{'value1_1', 'value1_2'});
-        sourceMultiMap1.putValues('key2', new String[]{'value2_1', 'value2_2'});
+        sourceMultiMap1.putValues('key1', new String[] { 'value1_1', 'value1_2' });
+        sourceMultiMap1.putValues('key2', new String[] { 'value2_1', 'value2_2' });
 
         // Use that to populate a new multi-map
         MultiMap testMultiMap = createMultiMap(allowDuplicates);
         testMultiMap.putAllValues(sourceMultiMap1);
-        System.assertEquals(sourceMultiMap1.size(), testMultiMap.size());
-        System.assertEquals(sourceMultiMap1.keySet(), testMultiMap.keySet());
-        System.assertEquals(sourceMultiMap1.values(), testMultiMap.values());
+        Assert.equals(sourceMultiMap1.size(), testMultiMap.size());
+        Assert.equals(sourceMultiMap1.keySet(), testMultiMap.keySet());
+        Assert.equals(sourceMultiMap1.values(), testMultiMap.values());
 
         // Create a second source multi-map
         MultiMap sourceMultiMap2 = createMultiMap(allowDuplicates);
-        sourceMultiMap2.putValues('key1', new String[]{'value1_3', 'value1_4'});
-        sourceMultiMap2.putValues('key2', new String[]{'value2_3', 'value2_4'});
-        sourceMultiMap2.putValues('key3', new String[]{'value3_1', 'value3_2'});
+        sourceMultiMap2.putValues('key1', new String[] { 'value1_3', 'value1_4' });
+        sourceMultiMap2.putValues('key2', new String[] { 'value2_3', 'value2_4' });
+        sourceMultiMap2.putValues('key3', new String[] { 'value3_1', 'value3_2' });
 
         // Add those as well
         testMultiMap.putAllValues(sourceMultiMap2);
         // NOTE: We only added one new key
-        System.assertEquals(sourceMultiMap1.size() + 1, testMultiMap.size());
-        System.assertEquals(sourceMultiMap1.keySet().size() + 1, testMultiMap.keySet().size());
+        Assert.equals(sourceMultiMap1.size() + 1, testMultiMap.size());
+        Assert.equals(sourceMultiMap1.keySet().size() + 1, testMultiMap.keySet().size());
         // Make sure that all keys were copied over
-        System.assert(testMultiMap.keySet().containsAll(sourceMultiMap1.keySet()));
-        System.assert(testMultiMap.keySet().containsAll(sourceMultiMap2.keySet()));
+        Assert.isTrue(testMultiMap.keySet().containsAll(sourceMultiMap1.keySet()));
+        Assert.isTrue(testMultiMap.keySet().containsAll(sourceMultiMap2.keySet()));
         // And all values
-        System.assertEquals(sourceMultiMap1.values().size() + sourceMultiMap2.values().size(), testMultiMap.values().size());
+        Assert.equals(sourceMultiMap1.values().size() + sourceMultiMap2.values().size(), testMultiMap.values().size());
         // TODO: Apex doesn't really have a good way to do a containsAll() on lists
     }
 
@@ -228,40 +228,40 @@ private class MultiMapTest {
         MultiMap testMultiMap = createMultiMap(allowDuplicates);
 
         // Shouldn't ever return null even when nothing has ever been added for a key
-        Assert.notNull(testMultiMap.getValues('key'));
+        Assert.isNotNull(testMultiMap.getValues('key'));
         testMultiMap.remove('key');
-        Assert.notNull(testMultiMap.getValues('key'));
+        Assert.isNotNull(testMultiMap.getValues('key'));
         testMultiMap.clear();
-        Assert.notNull(testMultiMap.getValues('key'));
+        Assert.isNotNull(testMultiMap.getValues('key'));
 
         // Add a single value and make sure we get that value back
         testMultiMap.putValue('key1', 'value1');
-        System.assertEquals(1, testMultiMap.getValues('key1').size());
-        verifyContents(new String[]{'value1'}, testMultiMap.getValues('key1'), allowDuplicates);
+        Assert.equals(1, testMultiMap.getValues('key1').size());
+        verifyContents(new String[] { 'value1' }, testMultiMap.getValues('key1'), allowDuplicates);
 
         // Add multiple values for a different key
-        testMultiMap.putValues('key2', new String[]{'value2_1', 'value2_2'});
-        System.assertEquals(1, testMultiMap.getValues('key1').size());
-        verifyContents(new String[]{'value1'}, testMultiMap.getValues('key1'), allowDuplicates);
-        System.assertEquals(2, testMultiMap.getValues('key2').size());
-        verifyContents(new String[]{'value2_1', 'value2_2'}, testMultiMap.getValues('key2'), allowDuplicates);
+        testMultiMap.putValues('key2', new String[] { 'value2_1', 'value2_2' });
+        Assert.equals(1, testMultiMap.getValues('key1').size());
+        verifyContents(new String[] { 'value1' }, testMultiMap.getValues('key1'), allowDuplicates);
+        Assert.equals(2, testMultiMap.getValues('key2').size());
+        verifyContents(new String[] { 'value2_1', 'value2_2' }, testMultiMap.getValues('key2'), allowDuplicates);
 
         // Remove the values for the first key and make sure we still get back an empty list
         testMultiMap.removeValue('key1', 'value1');
-        Assert.notNull(testMultiMap.getValues('key1'));
-        System.assert(testMultiMap.getValues('key1').isEmpty());
+        Assert.isNotNull(testMultiMap.getValues('key1'));
+        Assert.isTrue(testMultiMap.getValues('key1').isEmpty());
 
         // Same with the second
         testMultiMap.remove('key2');
-        Assert.notNull(testMultiMap.getValues('key2'));
-        System.assert(testMultiMap.getValues('key2').isEmpty());
+        Assert.isNotNull(testMultiMap.getValues('key2'));
+        Assert.isTrue(testMultiMap.getValues('key2').isEmpty());
 
         // And now clear the multi-map and make sure we still get back empty lists
         testMultiMap.clear();
-        Assert.notNull(testMultiMap.getValues('key1'));
-        System.assert(testMultiMap.getValues('key1').isEmpty());
-        Assert.notNull(testMultiMap.getValues('key2'));
-        System.assert(testMultiMap.getValues('key2').isEmpty());
+        Assert.isNotNull(testMultiMap.getValues('key1'));
+        Assert.isTrue(testMultiMap.getValues('key1').isEmpty());
+        Assert.isNotNull(testMultiMap.getValues('key2'));
+        Assert.isTrue(testMultiMap.getValues('key2').isEmpty());
     }
 
     @IsTest
@@ -278,25 +278,25 @@ private class MultiMapTest {
         MultiMap testMultiMap = createMultiMap(allowDuplicates);
 
         // Shouldn't ever return null even when nothing has ever been added for a key
-        Assert.notNull(testMultiMap.getValueSet('key'));
+        Assert.isNotNull(testMultiMap.getValueSet('key'));
         testMultiMap.remove('key');
-        Assert.notNull(testMultiMap.getValueSet('key'));
+        Assert.isNotNull(testMultiMap.getValueSet('key'));
         testMultiMap.clear();
-        Assert.notNull(testMultiMap.getValueSet('key'));
+        Assert.isNotNull(testMultiMap.getValueSet('key'));
 
         // Add a single value and make sure we get that value back
         testMultiMap.putValue('key1', 'value1');
-        System.assertEquals(1, testMultiMap.getValueSet('key1').size());
-        System.assertEquals(new Set<Object>{'value1'}, testMultiMap.getValueSet('key1'));
+        Assert.equals(1, testMultiMap.getValueSet('key1').size());
+        Assert.equals(new Set<Object> { 'value1' }, testMultiMap.getValueSet('key1'));
 
         // Add the same value and make sure we only get it back once
         testMultiMap.putValue('key1', 'value1');
         // First make sure the actual storage is correct
-        System.assertEquals(allowDuplicates ? 2 : 1, testMultiMap.getValues('key1').size());
-        verifyContents(allowDuplicates ? new String[]{'value1', 'value1'} : new String[]{'value1'}, testMultiMap.getValues('key1'), allowDuplicates);
+        Assert.equals(allowDuplicates ? 2 : 1, testMultiMap.getValues('key1').size());
+        verifyContents(allowDuplicates ? new String[] { 'value1', 'value1' } : new String[] { 'value1' }, testMultiMap.getValues('key1'), allowDuplicates);
         // And then verify the result of getValueSet()
-        System.assertEquals(1, testMultiMap.getValueSet('key1').size());
-        System.assertEquals(new Set<Object>{'value1'}, testMultiMap.getValueSet('key1'));
+        Assert.equals(1, testMultiMap.getValueSet('key1').size());
+        Assert.equals(new Set<Object> { 'value1' }, testMultiMap.getValueSet('key1'));
     }
 
     @IsTest
@@ -317,28 +317,28 @@ private class MultiMapTest {
         testMultiMap.putValue('key2', 'value2_1');
         testMultiMap.putValue('key2', 'value2_2');
         testMultiMap.putValue('key2', 'value2_3');
-        System.assertEquals(2, testMultiMap.getValues('key1').size());
-        System.assertEquals(3, testMultiMap.getValues('key2').size());
+        Assert.equals(2, testMultiMap.getValues('key1').size());
+        Assert.equals(3, testMultiMap.getValues('key2').size());
 
         // Remove the first key and make sure the second still looks right
-        System.assert(testMultiMap.remove('key1'));
-        System.assertEquals(0, testMultiMap.getValues('key1').size());
-        System.assertEquals(3, testMultiMap.getValues('key2').size());
+        Assert.isTrue(testMultiMap.remove('key1'));
+        Assert.equals(0, testMultiMap.getValues('key1').size());
+        Assert.equals(3, testMultiMap.getValues('key2').size());
 
         // Try to remove the key again and it should return false
         Assert.isFalse(testMultiMap.remove('key1'));
-        System.assertEquals(0, testMultiMap.getValues('key1').size());
-        System.assertEquals(3, testMultiMap.getValues('key2').size());
+        Assert.equals(0, testMultiMap.getValues('key1').size());
+        Assert.equals(3, testMultiMap.getValues('key2').size());
 
         // Remove the second key
-        System.assert(testMultiMap.remove('key2'));
-        System.assertEquals(0, testMultiMap.getValues('key1').size());
-        System.assertEquals(0, testMultiMap.getValues('key2').size());
+        Assert.isTrue(testMultiMap.remove('key2'));
+        Assert.equals(0, testMultiMap.getValues('key1').size());
+        Assert.equals(0, testMultiMap.getValues('key2').size());
 
         // Try to remove the second key again and it should return false
         Assert.isFalse(testMultiMap.remove('key2'));
-        System.assertEquals(0, testMultiMap.getValues('key1').size());
-        System.assertEquals(0, testMultiMap.getValues('key2').size());
+        Assert.equals(0, testMultiMap.getValues('key1').size());
+        Assert.equals(0, testMultiMap.getValues('key2').size());
     }
 
     @IsTest
@@ -359,28 +359,28 @@ private class MultiMapTest {
         testMultiMap.putValue('key2', 'value2_1');
         testMultiMap.putValue('key2', 'value2_2');
         testMultiMap.putValue('key2', 'value2_3');
-        System.assertEquals(2, testMultiMap.getValues('key1').size());
-        System.assertEquals(3, testMultiMap.getValues('key2').size());
+        Assert.equals(2, testMultiMap.getValues('key1').size());
+        Assert.equals(3, testMultiMap.getValues('key2').size());
 
         // Remove a value for the first key
-        System.assertEquals('value1_1', testMultiMap.removeValue('key1', 'value1_1'));
-        System.assertEquals(1, testMultiMap.getValues('key1').size());
-        System.assertEquals(3, testMultiMap.getValues('key2').size());
+        Assert.equals('value1_1', testMultiMap.removeValue('key1', 'value1_1'));
+        Assert.equals(1, testMultiMap.getValues('key1').size());
+        Assert.equals(3, testMultiMap.getValues('key2').size());
 
         // Now try to remove the same value again and it should return null
         Assert.isNull(testMultiMap.removeValue('key1', 'value1_1'));
-        System.assertEquals(1, testMultiMap.getValues('key1').size());
-        System.assertEquals(3, testMultiMap.getValues('key2').size());
+        Assert.equals(1, testMultiMap.getValues('key1').size());
+        Assert.equals(3, testMultiMap.getValues('key2').size());
 
         // Remove a value for the second key
-        System.assertEquals('value2_3', testMultiMap.removeValue('key2', 'value2_3'));
-        System.assertEquals(1, testMultiMap.getValues('key1').size());
-        System.assertEquals(2, testMultiMap.getValues('key2').size());
+        Assert.equals('value2_3', testMultiMap.removeValue('key2', 'value2_3'));
+        Assert.equals(1, testMultiMap.getValues('key1').size());
+        Assert.equals(2, testMultiMap.getValues('key2').size());
 
         // Now try to remove the same value again and it should return null
         Assert.isNull(testMultiMap.removeValue('key2', 'value2_3'));
-        System.assertEquals(1, testMultiMap.getValues('key1').size());
-        System.assertEquals(2, testMultiMap.getValues('key2').size());
+        Assert.equals(1, testMultiMap.getValues('key1').size());
+        Assert.equals(2, testMultiMap.getValues('key2').size());
     }
 
     @IsTest
@@ -402,14 +402,14 @@ private class MultiMapTest {
         testMultiMap.putValue('key2', 'value2_2');
         testMultiMap.putValue('key2', 'value2_3');
         Assert.isFalse(testMultiMap.isEmpty());
-        System.assertEquals(2, testMultiMap.keySet().size());
-        System.assertEquals(5, testMultiMap.values().size());
+        Assert.equals(2, testMultiMap.keySet().size());
+        Assert.equals(5, testMultiMap.values().size());
 
         // And now clear it
         testMultiMap.clear();
-        System.assert(testMultiMap.isEmpty());
-        System.assertEquals(0, testMultiMap.keySet().size());
-        System.assertEquals(0, testMultiMap.values().size());
+        Assert.isTrue(testMultiMap.isEmpty());
+        Assert.equals(0, testMultiMap.keySet().size());
+        Assert.equals(0, testMultiMap.values().size());
     }
 
     @IsTest
@@ -425,7 +425,7 @@ private class MultiMapTest {
     static void testKeySet(Boolean allowDuplicates) {
         // Start empty
         MultiMap testMultiMap = createMultiMap(allowDuplicates);
-        System.assert(testMultiMap.keySet().isEmpty());
+        Assert.isTrue(testMultiMap.keySet().isEmpty());
 
         // Add data
         testMultiMap.putValue('key1', 'value1_1');
@@ -433,19 +433,19 @@ private class MultiMapTest {
         testMultiMap.putValue('key2', 'value2_1');
         testMultiMap.putValue('key2', 'value2_2');
         testMultiMap.putValue('key2', 'value2_3');
-        System.assertEquals(2, testMultiMap.keySet().size());
-        System.assert(testMultiMap.keySet().contains('key1'));
-        System.assert(testMultiMap.keySet().contains('key2'));
+        Assert.equals(2, testMultiMap.keySet().size());
+        Assert.isTrue(testMultiMap.keySet().contains('key1'));
+        Assert.isTrue(testMultiMap.keySet().contains('key2'));
 
         // Remove all values for one key
         testMultiMap.remove('key1');
-        System.assertEquals(1, testMultiMap.keySet().size());
+        Assert.equals(1, testMultiMap.keySet().size());
         Assert.isFalse(testMultiMap.keySet().contains('key1'));
-        System.assert(testMultiMap.keySet().contains('key2'));
+        Assert.isTrue(testMultiMap.keySet().contains('key2'));
 
         // And now clear it
         testMultiMap.clear();
-        System.assert(testMultiMap.keySet().isEmpty());
+        Assert.isTrue(testMultiMap.keySet().isEmpty());
     }
 
     @IsTest
@@ -461,7 +461,7 @@ private class MultiMapTest {
     static void testValues(Boolean allowDuplicates) {
         // Start empty
         MultiMap testMultiMap = createMultiMap(allowDuplicates);
-        System.assert(testMultiMap.values().isEmpty());
+        Assert.isTrue(testMultiMap.values().isEmpty());
 
         // Add data
         testMultiMap.putValue('key1', 'value1_1');
@@ -469,19 +469,19 @@ private class MultiMapTest {
         testMultiMap.putValue('key2', 'value2_1');
         testMultiMap.putValue('key2', 'value2_2');
         testMultiMap.putValue('key2', 'value2_3');
-        System.assertEquals(5, testMultiMap.values().size());
+        Assert.equals(5, testMultiMap.values().size());
 
         // Remove a value for one key
         testMultiMap.removeValue('key1', 'value1_1');
-        System.assertEquals(4, testMultiMap.values().size());
+        Assert.equals(4, testMultiMap.values().size());
 
         // Remove all values for one key
         testMultiMap.remove('key2');
-        System.assertEquals(1, testMultiMap.values().size());
+        Assert.equals(1, testMultiMap.values().size());
 
         // And now clear it
         testMultiMap.clear();
-        System.assert(testMultiMap.values().isEmpty());
+        Assert.isTrue(testMultiMap.values().isEmpty());
     }
 
     @IsTest
@@ -497,7 +497,7 @@ private class MultiMapTest {
     static void testIsEmpty(Boolean allowDuplicates) {
         // Start empty
         MultiMap testMultiMap = createMultiMap(allowDuplicates);
-        System.assert(testMultiMap.values().isEmpty());
+        Assert.isTrue(testMultiMap.values().isEmpty());
 
         // Add data
         testMultiMap.putValue('key1', 'value1_1');
@@ -517,7 +517,7 @@ private class MultiMapTest {
 
         // And now clear it
         testMultiMap.clear();
-        System.assert(testMultiMap.values().isEmpty());
+        Assert.isTrue(testMultiMap.values().isEmpty());
     }
 
     @IsTest
@@ -533,7 +533,7 @@ private class MultiMapTest {
     static void testSize(Boolean allowDuplicates) {
         // Start empty
         MultiMap testMultiMap = createMultiMap(allowDuplicates);
-        System.assertEquals(0, testMultiMap.size());
+        Assert.equals(0, testMultiMap.size());
 
         // Add data
         testMultiMap.putValue('key1', 'value1_1');
@@ -541,26 +541,26 @@ private class MultiMapTest {
         testMultiMap.putValue('key2', 'value2_1');
         testMultiMap.putValue('key2', 'value2_2');
         testMultiMap.putValue('key2', 'value2_3');
-        System.assertEquals(2, testMultiMap.size());
+        Assert.equals(2, testMultiMap.size());
 
         // Add more data
         testMultiMap.putValue('key3', 'value3_1');
         testMultiMap.putValue('key3', 'value3_2');
         testMultiMap.putValue('key3', 'value3_3');
         testMultiMap.putValue('key3', 'value3_4');
-        System.assertEquals(3, testMultiMap.size());
+        Assert.equals(3, testMultiMap.size());
 
         // Remove a value for one key
         testMultiMap.removeValue('key1', 'value1_1');
-        System.assertEquals(3, testMultiMap.size());
+        Assert.equals(3, testMultiMap.size());
 
         // Remove all values for one key
         testMultiMap.remove('key2');
-        System.assertEquals(2, testMultiMap.size());
+        Assert.equals(2, testMultiMap.size());
 
         // And now clear it
         testMultiMap.clear();
-        System.assertEquals(0, testMultiMap.size());
+        Assert.equals(0, testMultiMap.size());
     }
 
     @IsTest
@@ -571,23 +571,23 @@ private class MultiMapTest {
         testMultiMap.putValue('key', 'value2');
         // Add the same value twice
         testMultiMap.putValue('key', 'value1');
-        System.assertEquals(3, testMultiMap.getValues('key').size());
-        verifyContents(new String[]{'value1', 'value2', 'value1'}, testMultiMap.getValues('key'), true);
+        Assert.equals(3, testMultiMap.getValues('key').size());
+        verifyContents(new String[] { 'value1', 'value2', 'value1' }, testMultiMap.getValues('key'), true);
 
         // Remove the duplicate value
-        System.assertEquals('value1', testMultiMap.removeValue('key', 'value1'));
-        System.assertEquals(2, testMultiMap.getValues('key').size());
-        verifyContents(new String[]{'value2', 'value1'}, testMultiMap.getValues('key'), true);
+        Assert.equals('value1', testMultiMap.removeValue('key', 'value1'));
+        Assert.equals(2, testMultiMap.getValues('key').size());
+        verifyContents(new String[] { 'value2', 'value1' }, testMultiMap.getValues('key'), true);
 
         // Remove the same value which was added in duplicate
-        System.assertEquals('value1', testMultiMap.removeValue('key', 'value1'));
-        System.assertEquals(1, testMultiMap.getValues('key').size());
-        verifyContents(new String[]{'value2'}, testMultiMap.getValues('key'), true);
+        Assert.equals('value1', testMultiMap.removeValue('key', 'value1'));
+        Assert.equals(1, testMultiMap.getValues('key').size());
+        verifyContents(new String[] { 'value2' }, testMultiMap.getValues('key'), true);
 
         // Now try to remove the same value again and it should return null
         Assert.isNull(testMultiMap.removeValue('key', 'value1'));
-        System.assertEquals(1, testMultiMap.getValues('key').size());
-        verifyContents(new String[]{'value2'}, testMultiMap.getValues('key'), true);
+        Assert.equals(1, testMultiMap.getValues('key').size());
+        verifyContents(new String[] { 'value2' }, testMultiMap.getValues('key'), true);
     }
 
     @IsTest
@@ -598,18 +598,18 @@ private class MultiMapTest {
         testMultiMap.putValue('key', 'value2');
         // Add the same value twice
         testMultiMap.putValue('key', 'value1');
-        System.assertEquals(2, testMultiMap.getValues('key').size());
-        verifyContents(new String[]{'value1', 'value2'}, testMultiMap.getValues('key'), false);
+        Assert.equals(2, testMultiMap.getValues('key').size());
+        verifyContents(new String[] { 'value1', 'value2' }, testMultiMap.getValues('key'), false);
 
         // Remove the attempted duplicate value
-        System.assertEquals('value1', testMultiMap.removeValue('key', 'value1'));
-        System.assertEquals(1, testMultiMap.getValues('key').size());
-        verifyContents(new String[]{'value2'}, testMultiMap.getValues('key'), false);
+        Assert.equals('value1', testMultiMap.removeValue('key', 'value1'));
+        Assert.equals(1, testMultiMap.getValues('key').size());
+        verifyContents(new String[] { 'value2' }, testMultiMap.getValues('key'), false);
 
         // Now try to remove the same value again and it should return null
         Assert.isNull(testMultiMap.removeValue('key', 'value1'));
-        System.assertEquals(1, testMultiMap.getValues('key').size());
-        verifyContents(new String[]{'value2'}, testMultiMap.getValues('key'), false);
+        Assert.equals(1, testMultiMap.getValues('key').size());
+        verifyContents(new String[] { 'value2' }, testMultiMap.getValues('key'), false);
     }
 
     static MultiMap createMultiMap(Boolean allowDuplicates) {
@@ -617,20 +617,20 @@ private class MultiMapTest {
     }
 
     static void verifyContents(List<Object> expectedValues, List<Object> actualValues, Boolean orderMatters) {
-        System.assertEquals(expectedValues.size(), actualValues.size(), 'The list sizes do not match.');
+        Assert.equals(expectedValues.size(), actualValues.size(), 'The list sizes do not match.');
 
         if (orderMatters) {
             for (Integer i = 0, numValues = expectedValues.size(); i < numValues; i++) {
                 Object expectedValue = expectedValues.get(i);
                 Object actualValue = actualValues.get(i);
-                System.assertEquals(expectedValue, actualValue, 'Elements at index ' + i + ' do not match.');
+                Assert.equals(expectedValue, actualValue, 'Elements at index ' + i + ' do not match.');
             }
         } else {
             Set<Object> expectedValuesSet = new Set<Object>();
             expectedValuesSet.addAll(expectedValues);
             Set<Object> actualValuesSet = new Set<Object>();
             actualValuesSet.addAll(actualValues);
-            System.assertEquals(expectedValuesSet, actualValuesSet, 'The contents do not match.');
+            Assert.equals(expectedValuesSet, actualValuesSet, 'The contents do not match.');
         }
     }
 }

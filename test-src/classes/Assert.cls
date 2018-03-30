@@ -25,22 +25,83 @@ public with sharing class Assert {
     }
 
     /**
-     * Assert that the given object is false.
+     * Assert that the given logical expression evaluates to true.
      *
-     * @param obj The object to check.
+     * @param logicalExpression The expression
      */
-    public static void isFalse(Object obj) {
-        isFalse(obj, '');
+    public static void isTrue(Boolean logicalExpression) {
+        System.assert(logicalExpression, '');
     }
 
     /**
-     * Assert that the given object is false.
+     * Assert that the given logical expression evaluates to true.
      *
-     * @param obj The object to check.
+     * @param logicalExpression the expression
      * @param message Custom message returned as part of the error message.
      */
-    public static void isFalse(Object obj, String message) {
-        System.assertEquals(false, obj, message);
+    public static void isTrue(Boolean logicalExpression, String message) {
+        System.assert(logicalExpression, message);
+    }
+
+    /**
+     * Assert that the given logical expression evaluates to false.
+     *
+     * @param logicalExpression The expression
+     */
+    public static void isFalse(Boolean logicalExpression) {
+        System.assert(!logicalExpression);
+    }
+
+    /**
+     * Assert that the given logical expression evaluates to false.
+     *
+     * @param logicalExpression the expression
+     * @param message Custom message returned as part of the error message.
+     */
+    public static void isFalse(Boolean logicalExpression, String message) {
+        System.assert(!logicalExpression, message);
+    }
+
+    /**
+     * Assert that the two values are equivalent.
+     *
+     * @param expected the expected value
+     * @param actual the actual value
+     */
+    public static void equals(Object expected, Object actual) {
+        System.assertEquals(expected, actual);
+    }
+
+    /**
+     * Assert that the two values are equivalent.
+     *
+     * @param expected the expected value
+     * @param actual the actual value
+     * @param message the message to be displayed when the two values are not equivalent
+     */
+    public static void equals(Object expected, Object actual, String message) {
+        System.assertEquals(expected, actual, message);
+    }
+
+    /**
+     * Assert that the two values are different.
+     *
+     * @param expected the expected value
+     * @param actual the actual value
+     */
+    public static void notEquals(Object expected, Object actual) {
+        System.assertNotEquals(expected, actual);
+    }
+
+    /**
+     * Assert that the two values are different.
+     *
+     * @param expected the expected value
+     * @param actual the actual value
+     * @param message the message to be displayed when the two values are not different
+     */
+    public static void notEquals(Object expected, Object actual, String message) {
+        System.assertNotEquals(expected, actual, message);
     }
 
     /**
@@ -49,7 +110,7 @@ public with sharing class Assert {
      * @param message Custom message returned as part of the error message.
      */
     public static void fail(String message) {
-        System.assert(false, message);
+        isTrue(false, message);
     }
 
     /**
@@ -68,7 +129,7 @@ public with sharing class Assert {
      * @param message Custom message returned as part of the error message.
      */
     public static void isNull(Object obj, String message) {
-        System.assertEquals(null, obj, message);
+        equals(null, obj, message);
     }
 
     /**
@@ -76,8 +137,8 @@ public with sharing class Assert {
      *
      * @param obj The object to check.
      */
-    public static void notNull(Object obj) {
-        notNull(obj, '');
+    public static void isNotNull(Object obj) {
+        isNotNull(obj, '');
     }
 
     /**
@@ -86,8 +147,8 @@ public with sharing class Assert {
      * @param obj The object to check.
      * @param message Custom message returned as part of the error message.
      */
-    public static void notNull(Object obj, String message) {
-        System.assertNotEquals(null, obj, message);
+    public static void isNotNull(Object obj, String message) {
+        notEquals(null, obj, message);
     }
 
     /**
@@ -98,10 +159,10 @@ public with sharing class Assert {
      * @param actualException the actual exception which should be verified against the expected message
      */
     public static void exceptionMessage(String expectedMessage, Exception actualException) {
-        Assert.notNull(expectedMessage, 'Null expected message.');
-        Assert.notNull(actualException, 'Null actual exception.');
-        Assert.notNull(actualException.getMessage(), 'Null actual exception message.');
-        System.assert(checkExceptionMessage(expectedMessage, actualException.getMessage()), '"' + actualException.getMessage() + '" does not contain "' + expectedMessage + '".');
+        isNotNull(expectedMessage, 'Null expected message.');
+        isNotNull(actualException, 'Null actual exception.');
+        isNotNull(actualException.getMessage(), 'Null actual exception message.');
+        isTrue(checkExceptionMessage(expectedMessage, actualException.getMessage()), '"' + actualException.getMessage() + '" does not contain "' + expectedMessage + '".');
     }
 
     /**
@@ -116,8 +177,8 @@ public with sharing class Assert {
      * @see DmlException
      */
     public static void dmlExceptionMessage(SObjectField expectedField, String expectedMessage, DmlException actualException) {
-        Assert.notNull(expectedMessage, 'Null expected message.');
-        Assert.notNull(actualException, 'Null actual exception.');
+        isNotNull(expectedMessage, 'Null expected message.');
+        isNotNull(actualException, 'Null actual exception.');
 
         Boolean matched = false;
         for (Integer i = 0; i < actualException.getNumDml() && !matched; i++) {
@@ -129,7 +190,7 @@ public with sharing class Assert {
             }
         }
 
-        System.assert(matched, 'Failed to find "' + expectedMessage + '" in the provided DmlException.');
+        isTrue(matched, 'Failed to find "' + expectedMessage + '" in the provided DmlException.');
     }
 
     /**
@@ -158,8 +219,8 @@ public with sharing class Assert {
      * @see DmlException
      */
     public static void pageMessage(SObjectField expectedField, String expectedMessage) {
-        Assert.notNull(expectedField, 'Null expected field.');
-        Assert.notNull(expectedMessage, 'Null expected message.');
+        isNotNull(expectedField, 'Null expected field.');
+        isNotNull(expectedMessage, 'Null expected message.');
 
         Boolean matched = false;
         String expectedFieldName = expectedField.getDescribe().getLabel();
@@ -177,7 +238,7 @@ public with sharing class Assert {
             }
         }
 
-        System.assert(matched, 'Failed to find "' + expectedMessage + '" for field "' + expectedFieldName + '" in the page messages.');
+        isTrue(matched, 'Failed to find "' + expectedMessage + '" for field "' + expectedFieldName + '" in the page messages.');
     }
 
     private static Boolean checkExceptionMessage(String expectedMessage, String actualMessage) {

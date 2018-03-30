@@ -173,6 +173,17 @@ public with sharing class CollectionUtil {
     }
 
     /**
+     * Returns the last item from the provided list of values if the list is non-null and has at least one item.
+     *
+     * @param values the list of values
+     *
+     * @return the last item in the list or <code>null</code> if the list is null or empty
+     */
+    public static Object getLastItem(List<Object> values) {
+        return isNotEmpty(values) ? values.get(values.size() - 1) : null;
+    }
+
+    /**
      * Converts a set of <code>Id</code> values as a set of <code>Object</code> to be strongly-typed. This is useful
      * when the keys or values from a <code>MultiMap</code> are used as SOQL bind parameters.
      *
