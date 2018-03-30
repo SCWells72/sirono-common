@@ -30,7 +30,7 @@ public with sharing class Assert {
      * @param logicalExpression The expression
      */
     public static void isTrue(Boolean logicalExpression) {
-        System.assert(logicalExpression, '');
+        System.assert(logicalExpression);
     }
 
     /**
@@ -119,7 +119,7 @@ public with sharing class Assert {
      * @param obj The object to check.
      */
     public static void isNull(Object obj) {
-        isNull(obj, '');
+        equals(null, obj);
     }
 
     /**
@@ -138,7 +138,7 @@ public with sharing class Assert {
      * @param obj The object to check.
      */
     public static void isNotNull(Object obj) {
-        isNotNull(obj, '');
+        notEquals(null, obj);
     }
 
     /**
