@@ -137,10 +137,11 @@ for (Object key : contactsByAccountId.keySet()) {
 ```
 
 As you can see, a small amount of explicit casting is required, but overall the code is more compact, especially during
-population.
+population. It's always safe to iterate the results of `MultiMap` key and value extractors (`keySet()`, `getValues()`, etc.)
+because they will always return a non-null collection.
 
-Apex `MultiMap` collections can be created with either `List`- or `Set`-based backing storage, and the resulting
-characteristics are the same as the underlying collection type. Use `List`-based storage via `MultiMap.newListInstance()` 
+Apex `MultiMap` collections can be created with either `List`- or `Set`-based backing storage, and values in the `MultiMap`
+share behavioral characteristics with the underlying collection type. Use `List`-based storage via `MultiMap.newListInstance()` 
 when you need duplicate values for the same key and/or preservation of value insertion order is important. Use 
 `Set`-based storage via `MultiMap.newSetInstance()` when you need distinct values and/or value order is unimportant.
 
