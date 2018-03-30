@@ -36,7 +36,7 @@ private class CollectionUtilTest {
 //    private static final Map<Integer, Integer> TEST_MAP = new Map<Integer, Integer> { 10 => 100, 20 => 200, 30 => 300 };
 
     @IsTest
-    static void isEmpty_List() {
+    static void testIsEmpty_List() {
         Assert.isTrue(CollectionUtil.isEmpty(NULL_LIST), 'Expected true for null list.');
         Assert.isTrue(CollectionUtil.isEmpty(NULL_ARRAY), 'Expected true for null array.');
         Assert.isTrue(CollectionUtil.isEmpty(EMPTY_LIST), 'Expected true for empty list.');
@@ -46,7 +46,7 @@ private class CollectionUtilTest {
     }
 
     @IsTest
-    static void isNotEmpty_List() {
+    static void testIsNotEmpty_List() {
         Assert.isFalse(CollectionUtil.isNotEmpty(NULL_LIST), 'Expected false for null list.');
         Assert.isFalse(CollectionUtil.isNotEmpty(NULL_ARRAY), 'Expected false for null array.');
         Assert.isFalse(CollectionUtil.isNotEmpty(EMPTY_LIST), 'Expected false for empty list.');
@@ -56,28 +56,28 @@ private class CollectionUtilTest {
     }
 
 //    @IsTest
-//    static void isEmpty_Set() {
+//    static void testIsEmpty_Set() {
 //        Assert.isTrue(CollectionUtil.isEmpty(NULL_SET), 'Expected true for null set.');
 //        Assert.isTrue(CollectionUtil.isEmpty(EMPTY_SET), 'Expected true for empty set.');
 //        Assert.isFalse(CollectionUtil.isEmpty(TEST_SET), 'Expected false for set with values.');
 //    }
 //
 //    @IsTest
-//    static void isNotEmpty_Set() {
+//    static void testIsNotEmpty_Set() {
 //        Assert.isFalse(CollectionUtil.isNotEmpty(NULL_SET), 'Expected false for null set.');
 //        Assert.isFalse(CollectionUtil.isNotEmpty(EMPTY_SET), 'Expected false for empty set.');
 //        Assert.isTrue(CollectionUtil.isNotEmpty(TEST_SET), 'Expected true for set with values.');
 //    }
 //
 //    @IsTest
-//    static void isEmpty_Map() {
+//    static void testIsEmpty_Map() {
 //        Assert.isTrue(CollectionUtil.isEmpty(NULL_MAP), 'Expected true for null map.');
 //        Assert.isTrue(CollectionUtil.isEmpty(EMPTY_MAP), 'Expected true for empty map.');
 //        Assert.isFalse(CollectionUtil.isEmpty(TEST_MAP), 'Expected false for map with values.');
 //    }
 //
 //    @IsTest
-//    static void isNotEmpty_Map() {
+//    static void testIsNotEmpty_Map() {
 //        Assert.isFalse(CollectionUtil.isNotEmpty(NULL_MAP), 'Expected false for null map.');
 //        Assert.isFalse(CollectionUtil.isNotEmpty(EMPTY_MAP), 'Expected false for empty map.');
 //        Assert.isTrue(CollectionUtil.isNotEmpty(TEST_MAP), 'Expected true for map with values.');
@@ -275,6 +275,37 @@ private class CollectionUtilTest {
     }
 
     @IsTest
+    static void testToStrings() {
+        Set<Object> rawValues = new Set<Object> {
+            'Foobar',
+            10,
+            20.0,
+            true,
+            LoggingLevel.DEBUG
+        };
+
+        Set<String> stringValues = CollectionUtil.toStrings(rawValues);
+        Assert.equals(rawValues.size(), stringValues.size());
+        for (Object rawValue : rawValues) {
+            Assert.isTrue(stringValues.contains(String.valueOf(rawValue)));
+        }
+    }
+
+    @IsTest
+    static void testToStringsWithNulls() {
+        Set<Object> rawValues = new Set<Object> {
+            'Foobar',
+            null
+        };
+
+        try {
+            CollectionUtil.toStrings(rawValues);
+            Assert.fail('Expected an IllegalArgumentException');
+        } catch (IllegalArgumentException e) {
+        }
+    }
+
+    @IsTest
     static void testHasField() {
         Assert.isFalse(CollectionUtil.hasField(new Account(), Contact.FirstName), 'Unexpected field');
         Assert.isFalse(CollectionUtil.hasField(null, Contact.FirstName), 'Unexpected field');
@@ -283,111 +314,147 @@ private class CollectionUtilTest {
         Assert.isTrue(CollectionUtil.hasField(new Account(), Account.AccountNumber));
     }
 
-    // TODO: Change these to use standard objects
+    @IsTest
+    static void testMapByIdField() {
+        List<Account> accounts = new List<Account>();
+        for (Integer i = 0; i < 2; i++) {
+            accounts.add(new Account(
+                Name = 'Account ' + (i + 1)
+            ));
+        }
+        insert accounts;
 
-//    @IsTest
-//    static void testMapByIdField() {
-//        Contact contact = new Contact(
-//            FirstName = 'Test',
-//            LastName = 'User'
-//        );
-//        insert contact;
-//
-//        Statement__c[] statements = TestFixtureBuilder.createStatements(contact, 10);
-//        Map<Id, SObject> stmtMap = CollectionUtil.mapByIdField(statements, Statement__c.Id);
-//        Assert.equals(statements.size(), stmtMap.size());
-//    }
+        List<Contact> contacts = new List<Contact>();
+        for (Integer i = 0; i < 2; i++) {
+            contacts.add(new Contact(
+                FirstName = 'Test',
+                LastName = 'User ' + (i + 1),
+                AccountId = accounts.get(i).Id
+            ));
+        }
+        insert contacts;
 
-//    @IsTest
-//    static void testMapByIdFieldWithDupes() {
-//        Contact gt = TestUtility.generateGuarantorContact();
-//        insert gt;
-//
-//        Statement__c[] statements = TestFixtureBuilder.createStatements(gt, 10);
-//
-//        try {
-//            CollectionUtil.mapByIdField(statements, Statement__c.Guarantor__c);
-//            Assert.fail('Expected IllegalStateException');
-//        } catch (IllegalStateException ex) {
-//        }
-//
-//    }
+        Map<Id, SObject> contactsByAccountId = CollectionUtil.mapByIdField(contacts, Contact.AccountId);
+        Assert.equals(contacts.size(), contactsByAccountId.size());
+        for (Id accountId : contactsByAccountId.keySet()) {
+            Contact contact = (Contact) contactsByAccountId.get(accountId);
+            Assert.equals(accountId, contact.AccountId);
+        }
+    }
 
-//    @IsTest
-//    static void testMapByField() {
-//        Contact gt = TestUtility.generateGuarantorContact();
-//        insert gt;
-//
-//        Statement__c[] statements = TestFixtureBuilder.createStatements(gt, 10);
-//        Map<Object, SObject> stmtMap = CollectionUtil.mapByField(statements, Statement__c.Statement_Date__c);
-//        Assert.equals(statements.size(), stmtMap.size());
-//    }
+    @IsTest
+    static void testMapByIdFieldWithDupes() {
+        Account account = new Account(
+            Name = 'Account'
+        );
+        insert account;
 
-//    @IsTest
-//    static void testMapByFieldWithDupes() {
-//        Contact gt = TestUtility.generateGuarantorContact();
-//        insert gt;
-//
-//        Statement__c[] statements = TestFixtureBuilder.createStatements(gt, 10);
-//        try {
-//            CollectionUtil.mapByField(statements, Statement__c.Guarantor__c);
-//            Assert.fail('Expected IllegalStateException');
-//        } catch (IllegalStateException ex) {
-//        }
-//    }
+        List<Contact> contacts = new List<Contact>();
+        for (Integer i = 0; i < 2; i++) {
+            contacts.add(new Contact(
+                FirstName = 'Test',
+                LastName = 'User ' + (i + 1),
+                AccountId = account.Id
+            ));
+        }
+        insert contacts;
 
-//    @IsTest
-//    static void testMapByFieldWithNullFieldValues() {
-//        Contact gt = TestUtility.generateGuarantorContact();
-//        insert gt;
-//
-//        Statement__c[] statements = TestFixtureBuilder.createStatements(gt, 10);
-//        for (Integer idx = 0; idx < 5; idx++) {
-//            statements[idx].Statement_Date__c = null;
-//        }
-//        Map<Object, SObject> stmtMap = CollectionUtil.mapByField(statements, Statement__c.Statement_Date__c);
-//        Assert.equals(statements.size() - 5, stmtMap.size());
-//    }
+        try {
+            CollectionUtil.mapByIdField(contacts, Contact.AccountId);
+            Assert.fail('Expected IllegalStateException');
+        } catch (IllegalStateException e) {
+        }
+    }
 
-//    @IsTest
-//    static void testAsSObjectList() {
-//        List<Object> contacts = new List<Object>();
-//        for (Integer i = 0; i < 5; i++) {
-//            contacts.add(TestUtility.generateGuarantorContactByName('Schmoe ' + String.valueOf(i)));
-//        }
-//
-//        List<SObject> sobjectList = CollectionUtil.asSObjects(contacts);
-//        Assert.equals(contacts.size(), sobjectList.size());
-//
-//    }
+    @IsTest
+    static void testMapByField() {
+        List<Contact> contacts = new List<Contact>();
+        for (Integer i = 0; i < 2; i++) {
+            contacts.add(new Contact(
+                FirstName = 'Test',
+                LastName = 'User ' + (i + 1)
+            ));
+        }
+        insert contacts;
 
+        Map<Object, SObject> contactsByAccountId = CollectionUtil.mapByField(contacts, Contact.LastName);
+        Assert.equals(contacts.size(), contactsByAccountId.size());
+        for (Object lastName : contactsByAccountId.keySet()) {
+            Contact contact = (Contact) contactsByAccountId.get(lastName);
+            Assert.equals(lastName, contact.LastName);
+        }
+    }
 
-//    @IsTest
-//    static void testFilteredList() {
-//        List<Contact> contacts = new List<Contact>();
-//        for (Integer i = 0; i < 5; i++) {
-//            Contact c = TestUtility.generateGuarantorContactByName('Schmoe ' + String.valueOf(i));
-//            c.FirstName = null;
-//            contacts.add(c);
-//        }
-//
-//        List<SObject> sobjectList = CollectionUtil.filteredList(contacts, Contact.LastName, 'Schmoe 3');
-//        Assert.equals(1, sobjectList.size());
-//
-//
-//        sobjectList = CollectionUtil.filteredList(contacts, Contact.FirstName, null);
-//        Assert.equals(5, sobjectList.size());
-//    }
+    @IsTest
+    static void testMapByFieldWithDupes() {
+        List<Contact> contacts = new List<Contact>();
+        for (Integer i = 0; i < 2; i++) {
+            contacts.add(new Contact(
+                FirstName = 'Test',
+                LastName = 'User ' + (i + 1)
+            ));
+        }
+        insert contacts;
 
-//    @IsTest
-//    static void testMultiMapByField() {
-//        Contact gt = TestUtility.generateGuarantorContact();
-//        insert gt;
-//
-//        Statement__c[] statements = TestFixtureBuilder.createStatements(gt, 10);
-//        MultiMap stmtMap = CollectionUtil.multiMapByField(statements, Statement__c.Guarantor__c);
-//        Assert.equals(1, stmtMap.keySet().size());
-//
-//        Assert.isTrue(stmtMap.containsKey(gt.Id), 'Expected stmtMap to contain gt.Id, but doesn\'t. stmtMap: ' + JSON.serializePretty(stmtMap));
-//    }
+        try {
+            CollectionUtil.mapByField(contacts, Contact.FirstName);
+            Assert.fail('Expected IllegalStateException');
+        } catch (IllegalStateException e) {
+        }
+    }
+
+    @IsTest
+    static void testMapByFieldWithNullFieldValues() {
+        List<Account> accounts = new List<Account>();
+        for (Integer i = 0; i < 2; i++) {
+            accounts.add(new Account(
+                Name = 'Account ' + (i + 1),
+                AccountNumber = (i == 0) ? null : '12345'
+            ));
+        }
+        insert accounts;
+
+        Map<Object, SObject> accountsByAccountNumber = CollectionUtil.mapByField(accounts, Account.AccountNumber);
+        Assert.equals(accounts.size() - 1, accountsByAccountNumber.size());
+        for (Object accountNumber : accountsByAccountNumber.keySet()) {
+            Account account = (Account) accountsByAccountNumber.get(accountNumber);
+            Assert.isNotNull(account.AccountNumber);
+            Assert.equals(accountNumber, account.AccountNumber);
+        }
+    }
+
+    @IsTest
+    static void testMultiMapByField() {
+        List<Account> accounts = new List<Account>();
+        for (Integer i = 0; i < 2; i++) {
+            accounts.add(new Account(
+                Name = 'Account ' + (i + 1)
+            ));
+        }
+        insert accounts;
+
+        List<Contact> contacts = new List<Contact>();
+        for (Integer i = 0; i < 10; i++) {
+            Account account = accounts.get(Math.mod(i, 2));
+            contacts.add(new Contact(
+                FirstName = 'Test',
+                LastName = 'User ' + (i + 1),
+                AccountId = account.Id
+            ));
+        }
+        insert contacts;
+
+        MultiMap contactsByAccountId = CollectionUtil.multiMapByField(contacts, Contact.AccountId);
+        Assert.equals(accounts.size(), contactsByAccountId.keySet().size());
+        Assert.equals(contacts.size(), contactsByAccountId.values().size());
+        for (Object key : contactsByAccountId.keySet()) {
+            Id accountId = (Id) key;
+            List<Object> values = contactsByAccountId.getValues(accountId);
+            Assert.equals(contacts.size() / 2, values.size());
+            for (Object value : values) {
+                Contact contact = (Contact) value;
+                Assert.equals(accountId, contact.AccountId);
+            }
+        }
+    }
 }
