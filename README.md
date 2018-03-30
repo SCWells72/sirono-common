@@ -117,7 +117,7 @@ multi-valued map data structure.
 
 This class library includes an Apex implementation of `MultiMap`. Unlike the standard collection types, it does not 
 support type parameterization. However, it is still quite simple to extract both keys and values from the map and
-work with them in a type-safe manner. Here is the same example displayed above but using a `MultiMap`:
+work with them in a strongly-typed manner. Here is the same example displayed above but using a `MultiMap`:
 
 ```java
 // Populate the multi-valued map
@@ -140,9 +140,9 @@ As you can see, a small amount of explicit casting is required, but overall the 
 population.
 
 Apex `MultiMap` collections can be created with either `List`- or `Set`-based backing storage, and the resulting
-characteristics are the same. Use `List`-based storage via `MultiMap.newListInstance()` when you need duplicate
-values for the same key and/or preservation of value insertion order is important. Use `Set`-based storage via
-`MultiMap.newSetInstance()` when you need distinct values and/or value order is unimportant.
+characteristics are the same as the underlying collection type. Use `List`-based storage via `MultiMap.newListInstance()` 
+when you need duplicate values for the same key and/or preservation of value insertion order is important. Use 
+`Set`-based storage via `MultiMap.newSetInstance()` when you need distinct values and/or value order is unimportant.
 
 ### Collection Utilities
 
@@ -184,7 +184,7 @@ Once it has been addressed this library will be updated to support all three col
 
 ## Test Assertions
 
-Apex includes three methods for use during unit testing to verify test expectations:
+Apex includes three methods for verification of test expectations:
 `System.assert(condition)`, `System.assertEquals(expected, actual)`, and `System.assertNotEquals(expected, actual)`.
 You can express pretty much any test expectation using these three methods (in fact, you **really** only need the first one).
 For example, if you want to verify that a value is non-null, you can use either `assert(value != null)` or
@@ -192,7 +192,7 @@ For example, if you want to verify that a value is non-null, you can use either 
 raised, you can use `assert(false, 'Expected some exception')`. These work, but they're not as expressive as they
 could be. Many other test frameworks include more extensive sets of assertions. The previous two examples could be
 expressed as `assertNotNull(value)` and `fail('Expected some exception')` respectively. While these are functionally
-identical, the latter is arguably more clear in its intent.
+identical, the latter are more explicit in their intent.
 
 This class library includes a test assertion facade, `Assert`, with methods for the most common types of test
 assertions (all of the methods also accept an optional message):
@@ -211,8 +211,9 @@ Assert.equals('Me', contact.FirstName);
 Assert.isTrue(contact.Name.startsWith('Me'));
 ```
 
-`Assert` also includes higher-level assertions for verifying expected messages from raised exceptions including special
-handling for object- and field-level errors as a result of failed validation rules or errors added in trigger logic:
+`Assert` also includes higher-level assertions for verifying expected messages (up to the first embedded formatting
+specifier) from raised exceptions including special handling for object- and field-level errors as a result of failed
+validation rules or errors added in trigger logic:
 
 * `exceptionMessage(expectedMessage, actualException)`
 * `dmlExceptionMessage(expectedField, expectedMessage, actualDmlException)` - field-level errors
@@ -220,14 +221,13 @@ handling for object- and field-level errors as a result of failed validation rul
 * `pageMessage(expectedField, expectedMessage)` - field-level errors added to page messages; required when
   multiple levels of triggers have fired even if not using Visualforce
 
-Messages are matched up to the first embedded formatting specifier. Again, in practice this looks like:
+Again, in practice this looks like:
 
 ```java
 try {
     update contact;
     Assert.fail('Expected DmlException here');
-} catch (DMLException e) {
+} catch (DmlException e) {
     Assert.dmlExceptionMessage(Contact.FirstName, Label.Invalid_First_Name, e);
 }
 ```
-
