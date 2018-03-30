@@ -1,11 +1,23 @@
 /*
- * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ * Copyright 2017-present Sirono LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 /**
  * Shared base class for type-safe enums.
  */
-global with sharing abstract class TypeSafeEnum {
+public with sharing abstract class TypeSafeEnum {
     // This contains the values for all type-safe enums keyed by derived enum type
     private static final Map<Type, Map<String, TypeSafeEnum>> INSTANCE_MAPS_BY_ENUM_TYPE = new Map<Type, Map<String, TypeSafeEnum>>();
 
@@ -40,7 +52,7 @@ global with sharing abstract class TypeSafeEnum {
      *
      * @return the enum entry's string value
      */
-    global String value() {
+    public String value() {
         return value;
     }
 
@@ -49,7 +61,7 @@ global with sharing abstract class TypeSafeEnum {
      *
      * @return the enum entry's ordinal
      */
-    global Integer ordinal() {
+    public Integer ordinal() {
         return ordinal;
     }
 
@@ -60,7 +72,7 @@ global with sharing abstract class TypeSafeEnum {
      *
      * @return <code>true</code> if the specified value matches this entry; otherwise <code>false</code>
      */
-    global Boolean equalTo(String testValue) {
+    public Boolean equalTo(String testValue) {
         return value().equalsIgnoreCase(testValue);
     }
 
@@ -71,7 +83,7 @@ global with sharing abstract class TypeSafeEnum {
      *
      * @return <code>true</code> if the specified value is different from this entry; otherwise <code>false</code>
      */
-    global Boolean notEqualTo(String testValue) {
+    public Boolean notEqualTo(String testValue) {
         return !equalTo(testValue);
     }
 
@@ -80,7 +92,7 @@ global with sharing abstract class TypeSafeEnum {
      *
      * @return the enum entry's string value
      */
-    global override String toString() {
+    public override String toString() {
         return value;
     }
 

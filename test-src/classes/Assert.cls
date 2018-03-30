@@ -1,12 +1,24 @@
 /*
- * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ * Copyright 2017-present Sirono LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 /**
  * Utility functions to streamline assertions in tests.
  */
 @IsTest
-global with sharing class Assert {
+public with sharing class Assert {
 
     private Assert() {
         // Utility class
@@ -17,7 +29,7 @@ global with sharing class Assert {
      *
      * @param obj The object to check.
      */
-    global static void isFalse(Object obj) {
+    public static void isFalse(Object obj) {
         isFalse(obj, '');
     }
 
@@ -27,7 +39,7 @@ global with sharing class Assert {
      * @param obj The object to check.
      * @param message Custom message returned as part of the error message.
      */
-    global static void isFalse(Object obj, String message) {
+    public static void isFalse(Object obj, String message) {
         System.assertEquals(false, obj, message);
     }
 
@@ -36,7 +48,7 @@ global with sharing class Assert {
      *
      * @param message Custom message returned as part of the error message.
      */
-    global static void fail(String message) {
+    public static void fail(String message) {
         System.assert(false, message);
     }
 
@@ -45,7 +57,7 @@ global with sharing class Assert {
      *
      * @param obj The object to check.
      */
-    global static void isNull(Object obj) {
+    public static void isNull(Object obj) {
         isNull(obj, '');
     }
 
@@ -55,16 +67,16 @@ global with sharing class Assert {
      * @param obj The object to check.
      * @param message Custom message returned as part of the error message.
      */
-    global static void isNull(Object obj, String message) {
+    public static void isNull(Object obj, String message) {
         System.assertEquals(null, obj, message);
     }
 
     /**
      * Verifies that the specified value is not null.
      *
-     * @param message Custom message returned as part of the error message.
+     * @param obj The object to check.
      */
-    global static void notNull(Object obj) {
+    public static void notNull(Object obj) {
         notNull(obj, '');
     }
 
@@ -74,7 +86,7 @@ global with sharing class Assert {
      * @param obj The object to check.
      * @param message Custom message returned as part of the error message.
      */
-    global static void notNull(Object obj, String message) {
+    public static void notNull(Object obj, String message) {
         System.assertNotEquals(null, obj, message);
     }
 
@@ -85,7 +97,7 @@ global with sharing class Assert {
      * @param expectedMessage the expected message which may include embedded formatting specifiers
      * @param actualException the actual exception which should be verified against the expected message
      */
-    global static void exceptionMessage(String expectedMessage, Exception actualException) {
+    public static void exceptionMessage(String expectedMessage, Exception actualException) {
         Assert.notNull(expectedMessage, 'Null expected message.');
         Assert.notNull(actualException, 'Null actual exception.');
         Assert.notNull(actualException.getMessage(), 'Null actual exception message.');
@@ -103,7 +115,7 @@ global with sharing class Assert {
      *
      * @see DmlException
      */
-    global static void dmlExceptionMessage(SObjectField expectedField, String expectedMessage, DmlException actualException) {
+    public static void dmlExceptionMessage(SObjectField expectedField, String expectedMessage, DmlException actualException) {
         Assert.notNull(expectedMessage, 'Null expected message.');
         Assert.notNull(actualException, 'Null actual exception.');
 
@@ -129,7 +141,7 @@ global with sharing class Assert {
      *
      * @see DmlException
      */
-    global static void dmlExceptionMessage(String expectedMessage, DmlException actualException) {
+    public static void dmlExceptionMessage(String expectedMessage, DmlException actualException) {
         dmlExceptionMessage(null, expectedMessage, actualException);
     }
 
@@ -145,7 +157,7 @@ global with sharing class Assert {
      * @see ApexPages.Message
      * @see DmlException
      */
-    global static void pageMessage(SObjectField expectedField, String expectedMessage) {
+    public static void pageMessage(SObjectField expectedField, String expectedMessage) {
         Assert.notNull(expectedField, 'Null expected field.');
         Assert.notNull(expectedMessage, 'Null expected message.');
 

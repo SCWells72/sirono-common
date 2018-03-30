@@ -1,5 +1,17 @@
 /*
- * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ * Copyright 2017-present Sirono LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 @IsTest
@@ -9,10 +21,10 @@ private class CollectionUtilTest {
     private static final Integer[] NULL_ARRAY = null;
     private static final List<Integer> EMPTY_LIST = new List<Integer>();
     private static final Integer[] EMPTY_ARRAY = new Integer[0];
-    private static final List<Integer> TEST_LIST = new List<Integer> { 10, 20, 30 };
-    private static final List<Integer> TEST_LIST_WITH_NULL = new List<Integer> { 10, 20, 30, null };
-    private static final Integer[] TEST_ARRAY = new Integer[] { 10, 20, 30 };
-    private static final Integer[] TEST_ARRAY_WITH_NULL = new Integer[] { 10, 20, 30, null };
+    private static final List<Integer> TEST_LIST = new List<Integer>{10, 20, 30};
+    private static final List<Integer> TEST_LIST_WITH_NULL = new List<Integer>{10, 20, 30, null};
+    private static final Integer[] TEST_ARRAY = new Integer[]{10, 20, 30};
+    private static final Integer[] TEST_ARRAY_WITH_NULL = new Integer[]{10, 20, 30, null};
 
     @IsTest
     static void isEmpty_List() {
@@ -74,7 +86,7 @@ private class CollectionUtilTest {
             // Expected
         }
 
-        List<Integer> ints = new List<Integer> { 1, 2, 3 };
+        List<Integer> ints = new List<Integer>{1, 2, 3};
         CollectionUtil.addIfNotNull(ints, null);
         System.assertEquals(3, ints.size(), 'Expected the list size to be unchanged.');
         Assert.isFalse(ints.contains(null), 'Expected the list not to contain a null value.');
@@ -112,7 +124,7 @@ private class CollectionUtilTest {
             // Expected
         }
 
-        List<Integer> ints = new List<Integer> { 1, 2, 3 };
+        List<Integer> ints = new List<Integer>{1, 2, 3};
         CollectionUtil.addAllNotNull(ints, null);
         System.assertEquals(3, ints.size(), 'Expected the list size to be unchanged.');
         Assert.isFalse(ints.contains(null), 'Expected the list not to contain a null value.');
@@ -121,14 +133,14 @@ private class CollectionUtilTest {
         System.assertEquals(3, ints.size(), 'Expected the list size to be unchanged.');
         Assert.isFalse(ints.contains(null), 'Expected the list not to contain a null value.');
 
-        List<Integer> moreIntsAndSomeNulls = new List<Integer> { 4, null, 5, null, 6 };
+        List<Integer> moreIntsAndSomeNulls = new List<Integer>{4, null, 5, null, 6};
         CollectionUtil.addAllNotNull(ints, moreIntsAndSomeNulls);
         System.assertEquals(6, ints.size(), 'Expected the list size to increase by three.');
         System.assert(ints.contains(4) && ints.contains(5) && ints.contains(6),
             'Expected the list to contain the non-null values.');
         Assert.isFalse(ints.contains(null), 'Expected the list not to contain a null value.');
 
-        List<Integer> allNulls = new List<Integer> { null, null, null, null };
+        List<Integer> allNulls = new List<Integer>{null, null, null, null};
         CollectionUtil.addAllNotNull(ints, allNulls);
         System.assertEquals(6, ints.size(), 'Expected the list size to be unchanged.');
         Assert.isFalse(ints.contains(null), 'Expected the list not to contain a null value.');
@@ -139,9 +151,9 @@ private class CollectionUtilTest {
         Assert.isNull(CollectionUtil.getFirstItem(null), 'Expected a null first item for a null list.');
         Assert.isNull(CollectionUtil.getFirstItem(new List<String>()), 'Expected a null first item for an empty list.');
         Assert.isNull(CollectionUtil.getFirstItem(new String[0]), 'Expected a null first item for an empty array.');
-        System.assertEquals('Foo', CollectionUtil.getFirstItem(new List<String> { 'Foo' }));
-        System.assertEquals('Foo', CollectionUtil.getFirstItem(new String[] { 'Foo' }));
-        System.assertEquals('Foo', CollectionUtil.getFirstItem(new String[] { 'Foo', 'Bar' }));
+        System.assertEquals('Foo', CollectionUtil.getFirstItem(new List<String>{'Foo'}));
+        System.assertEquals('Foo', CollectionUtil.getFirstItem(new String[]{'Foo'}));
+        System.assertEquals('Foo', CollectionUtil.getFirstItem(new String[]{'Foo', 'Bar'}));
     }
 
     @IsTest
@@ -171,28 +183,28 @@ private class CollectionUtilTest {
     static void testToIdsInvalid() {
         // Null entry should result in IllegalArgumentException
         try {
-            CollectionUtil.toIds(new List<Object> { null });
+            CollectionUtil.toIds(new List<Object>{null});
             Assert.fail('Expected IllegalArgumentException.');
         } catch (IllegalArgumentException e) {
         }
 
         // Null entry should result in IllegalArgumentException
         try {
-            CollectionUtil.toIds(new Set<Object> { null });
+            CollectionUtil.toIds(new Set<Object>{null});
             Assert.fail('Expected IllegalArgumentException.');
         } catch (IllegalArgumentException e) {
         }
 
         // Wrong type entry should result in IllegalArgumentException
         try {
-            CollectionUtil.toIds(new List<Object> { 10 });
+            CollectionUtil.toIds(new List<Object>{10});
             Assert.fail('Expected IllegalArgumentException.');
         } catch (IllegalArgumentException e) {
         }
 
         // Wrong type entry should result in IllegalArgumentException
         try {
-            CollectionUtil.toIds(new Set<Object> { 10 });
+            CollectionUtil.toIds(new Set<Object>{10});
             Assert.fail('Expected IllegalArgumentException.');
         } catch (IllegalArgumentException e) {
         }

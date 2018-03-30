@@ -1,5 +1,17 @@
 /*
- * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ * Copyright 2017-present Sirono LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 @IsTest
@@ -58,7 +70,7 @@ private class TypeSafeEnumTest extends TypeSafeEnum {
         List<TypeSafeEnumTest> values = TypeSafeEnumTest.values();
         Assert.notNull(values);
 
-        Set<TypeSafeEnumTest> expectedValues = new Set<TypeSafeEnumTest> {
+        Set<TypeSafeEnumTest> expectedValues = new Set<TypeSafeEnumTest>{
             TypeSafeEnumTest.FIRST_NAME,
             TypeSafeEnumTest.MIDDLE_NAME,
             TypeSafeEnumTest.LAST_NAME
@@ -83,24 +95,24 @@ private class TypeSafeEnumTest extends TypeSafeEnum {
     @IsTest
     private static void testMatchesAny() {
         Assert.isFalse(TypeSafeEnumTest.matchesAny(null, TypeSafeEnumTest.FIRST_NAME.value()));
-        Assert.isFalse(TypeSafeEnumTest.matchesAny(new TypeSafeEnumTest[] {}, TypeSafeEnumTest.FIRST_NAME.value()));
-        Assert.isFalse(TypeSafeEnumTest.matchesAny(new TypeSafeEnumTest[] { TypeSafeEnumTest.FIRST_NAME }, 'foo'));
-        Assert.isFalse(TypeSafeEnumTest.matchesAny(new TypeSafeEnumTest[] { TypeSafeEnumTest.FIRST_NAME }, ''));
-        Assert.isFalse(TypeSafeEnumTest.matchesAny(new TypeSafeEnumTest[] { TypeSafeEnumTest.FIRST_NAME }, null));
+        Assert.isFalse(TypeSafeEnumTest.matchesAny(new TypeSafeEnumTest[]{}, TypeSafeEnumTest.FIRST_NAME.value()));
+        Assert.isFalse(TypeSafeEnumTest.matchesAny(new TypeSafeEnumTest[]{TypeSafeEnumTest.FIRST_NAME}, 'foo'));
+        Assert.isFalse(TypeSafeEnumTest.matchesAny(new TypeSafeEnumTest[]{TypeSafeEnumTest.FIRST_NAME}, ''));
+        Assert.isFalse(TypeSafeEnumTest.matchesAny(new TypeSafeEnumTest[]{TypeSafeEnumTest.FIRST_NAME}, null));
         Assert.isFalse(TypeSafeEnumTest.matchesAny(
-            new TypeSafeEnumTest[] { TypeSafeEnumTest.LAST_NAME },
+            new TypeSafeEnumTest[]{TypeSafeEnumTest.LAST_NAME},
             TypeSafeEnumTest.FIRST_NAME.value()
         ));
         Assert.isFalse(TypeSafeEnumTest.matchesAny(
-            new TypeSafeEnumTest[] { TypeSafeEnumTest.LAST_NAME, TypeSafeEnumTest.MIDDLE_NAME },
+            new TypeSafeEnumTest[]{TypeSafeEnumTest.LAST_NAME, TypeSafeEnumTest.MIDDLE_NAME},
             TypeSafeEnumTest.FIRST_NAME.value()
         ));
         System.assert(TypeSafeEnumTest.matchesAny(
-            new TypeSafeEnumTest[] { TypeSafeEnumTest.FIRST_NAME },
+            new TypeSafeEnumTest[]{TypeSafeEnumTest.FIRST_NAME},
             TypeSafeEnumTest.FIRST_NAME.value()
         ));
         System.assert(TypeSafeEnumTest.matchesAny(
-            new TypeSafeEnumTest[] { TypeSafeEnumTest.LAST_NAME, TypeSafeEnumTest.MIDDLE_NAME, TypeSafeEnumTest.FIRST_NAME },
+            new TypeSafeEnumTest[]{TypeSafeEnumTest.LAST_NAME, TypeSafeEnumTest.MIDDLE_NAME, TypeSafeEnumTest.FIRST_NAME},
             TypeSafeEnumTest.FIRST_NAME.value()
         ));
     }
@@ -108,24 +120,24 @@ private class TypeSafeEnumTest extends TypeSafeEnum {
     @IsTest
     private static void testMatchesNone() {
         System.assert(TypeSafeEnumTest.matchesNone(null, TypeSafeEnumTest.FIRST_NAME.value()));
-        System.assert(TypeSafeEnumTest.matchesNone(new TypeSafeEnumTest[] {}, TypeSafeEnumTest.FIRST_NAME.value()));
-        System.assert(TypeSafeEnumTest.matchesNone(new TypeSafeEnumTest[] { TypeSafeEnumTest.FIRST_NAME }, 'foo'));
-        System.assert(TypeSafeEnumTest.matchesNone(new TypeSafeEnumTest[] { TypeSafeEnumTest.FIRST_NAME }, ''));
-        System.assert(TypeSafeEnumTest.matchesNone(new TypeSafeEnumTest[] { TypeSafeEnumTest.FIRST_NAME }, null));
+        System.assert(TypeSafeEnumTest.matchesNone(new TypeSafeEnumTest[]{}, TypeSafeEnumTest.FIRST_NAME.value()));
+        System.assert(TypeSafeEnumTest.matchesNone(new TypeSafeEnumTest[]{TypeSafeEnumTest.FIRST_NAME}, 'foo'));
+        System.assert(TypeSafeEnumTest.matchesNone(new TypeSafeEnumTest[]{TypeSafeEnumTest.FIRST_NAME}, ''));
+        System.assert(TypeSafeEnumTest.matchesNone(new TypeSafeEnumTest[]{TypeSafeEnumTest.FIRST_NAME}, null));
         System.assert(TypeSafeEnumTest.matchesNone(
-            new TypeSafeEnumTest[] { TypeSafeEnumTest.LAST_NAME },
+            new TypeSafeEnumTest[]{TypeSafeEnumTest.LAST_NAME},
             TypeSafeEnumTest.FIRST_NAME.value()
         ));
         System.assert(TypeSafeEnumTest.matchesNone(
-            new TypeSafeEnumTest[] { TypeSafeEnumTest.LAST_NAME, TypeSafeEnumTest.MIDDLE_NAME },
+            new TypeSafeEnumTest[]{TypeSafeEnumTest.LAST_NAME, TypeSafeEnumTest.MIDDLE_NAME},
             TypeSafeEnumTest.FIRST_NAME.value()
         ));
         Assert.isFalse(TypeSafeEnumTest.matchesNone(
-            new TypeSafeEnumTest[] { TypeSafeEnumTest.FIRST_NAME },
+            new TypeSafeEnumTest[]{TypeSafeEnumTest.FIRST_NAME},
             TypeSafeEnumTest.FIRST_NAME.value()
         ));
         Assert.isFalse(TypeSafeEnumTest.matchesNone(
-            new TypeSafeEnumTest[] { TypeSafeEnumTest.LAST_NAME, TypeSafeEnumTest.MIDDLE_NAME, TypeSafeEnumTest.FIRST_NAME },
+            new TypeSafeEnumTest[]{TypeSafeEnumTest.LAST_NAME, TypeSafeEnumTest.MIDDLE_NAME, TypeSafeEnumTest.FIRST_NAME},
             TypeSafeEnumTest.FIRST_NAME.value()
         ));
     }

@@ -1,16 +1,28 @@
 /*
- * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ * Copyright 2017-present Sirono LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 /**
  * Base class for enum-like classes which provide Apex compile-time constants for picklist field values.
  */
-global with sharing abstract class PicklistEnum {
+public with sharing abstract class PicklistEnum {
 
     /**
      * Each entry corresponds to a single distinct value for the enum's picklist field.
      */
-    global with sharing class Entry {
+    public with sharing class Entry {
         private String value { get; set; }
         private String label { get; set; }
         private Boolean active { get; set; }
@@ -49,7 +61,7 @@ global with sharing abstract class PicklistEnum {
          *
          * @return the enum entry's string value
          */
-        global String value() {
+        public String value() {
             return value;
         }
 
@@ -58,7 +70,7 @@ global with sharing abstract class PicklistEnum {
          *
          * @return the enum entry's label
          */
-        global String label() {
+        public String label() {
             return label;
         }
 
@@ -67,7 +79,7 @@ global with sharing abstract class PicklistEnum {
          *
          * @return whether the enum entry is active
          */
-        global Boolean isActive() {
+        public Boolean isActive() {
             return active;
         }
 
@@ -76,7 +88,7 @@ global with sharing abstract class PicklistEnum {
          *
          * @return whether the enum entry is the enum's default value
          */
-        global Boolean isDefaultValue() {
+        public Boolean isDefaultValue() {
             return defaultValue;
         }
 
@@ -87,7 +99,7 @@ global with sharing abstract class PicklistEnum {
          *
          * @return <code>true</code> if the specified value matches this entry; otherwise <code>false</code>
          */
-        global Boolean equalTo(String testValue) {
+        public Boolean equalTo(String testValue) {
             return value.equalsIgnoreCase(testValue);
         }
 
@@ -98,7 +110,7 @@ global with sharing abstract class PicklistEnum {
          *
          * @return <code>true</code> if the specified value is different from this entry; otherwise <code>false</code>
          */
-        global Boolean notEqualTo(String testValue) {
+        public Boolean notEqualTo(String testValue) {
             return !equalTo(testValue);
         }
 
@@ -107,7 +119,7 @@ global with sharing abstract class PicklistEnum {
          *
          * @return the enum entry's string value
          */
-        global override String toString() {
+        public override String toString() {
             return value;
         }
     }

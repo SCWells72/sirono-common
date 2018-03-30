@@ -1,11 +1,23 @@
 /*
- * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ * Copyright 2017-present Sirono LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 /**
  * Utility methods for working with collections such as <code>List</code>, <code>Set</code>, <code>Map</code> and arrays.
  */
-global with sharing class CollectionUtil {
+public with sharing class CollectionUtil {
 
     private CollectionUtil() {
         // Utility class
@@ -20,7 +32,7 @@ global with sharing class CollectionUtil {
      *
      * @see List
      */
-    global static Boolean isEmpty(List<Object> values) {
+    public static Boolean isEmpty(List<Object> values) {
         return (values == null) || values.isEmpty();
     }
 
@@ -34,7 +46,7 @@ global with sharing class CollectionUtil {
      *
      * @see List
      */
-    global static Boolean isNotEmpty(List<Object> values) {
+    public static Boolean isNotEmpty(List<Object> values) {
         return !isEmpty(values);
     }
 
@@ -50,7 +62,7 @@ global with sharing class CollectionUtil {
 //     *
 //     * @see Set
 //     */
-//    global static Boolean isEmpty(Set<Object> values) {
+//    public static Boolean isEmpty(Set<Object> values) {
 //        return (values == null) || values.isEmpty();
 //    }
 //
@@ -64,7 +76,7 @@ global with sharing class CollectionUtil {
 //     *
 //     * @see Set
 //     */
-//    global static Boolean isNotEmpty(Set<Object> values) {
+//    public static Boolean isNotEmpty(Set<Object> values) {
 //        return !isEmpty(values);
 //    }
 //
@@ -77,7 +89,7 @@ global with sharing class CollectionUtil {
 //     *
 //     * @see Map
 //     */
-//    global static Boolean isEmpty(Map<Object, Object> values) {
+//    public static Boolean isEmpty(Map<Object, Object> values) {
 //        return (values == null) || values.isEmpty();
 //    }
 //
@@ -91,7 +103,7 @@ global with sharing class CollectionUtil {
 //     *
 //     * @see Map
 //     */
-//    global static Boolean isNotEmpty(Map<Object, Object> values) {
+//    public static Boolean isNotEmpty(Map<Object, Object> values) {
 //        return !isEmpty(values);
 //    }
 
@@ -242,7 +254,7 @@ global with sharing class CollectionUtil {
      *
      * @return Map keyed by the <code>Id</code> values contained in the given field
      */
-    global static Map<Id, SObject> mapByIdField(List<SObject> sobjects, SObjectField field) {
+    public static Map<Id, SObject> mapByIdField(List<SObject> sobjects, SObjectField field) {
         Map<Id, SObject> sobjectsByIdFieldValue = new Map<Id, SObject>();
 
         DisplayType fieldType = field.getDescribe().getType();
@@ -278,7 +290,7 @@ global with sharing class CollectionUtil {
      *
      * @return Map keyed by the values contained in the given field
      */
-    global static Map<Object, SObject> mapByField(List<SObject> sobjects, SObjectField field) {
+    public static Map<Object, SObject> mapByField(List<SObject> sobjects, SObjectField field) {
         Map<Object, SObject> sobjectsByFieldValue = new Map<Object, SObject>();
 
         for (SObject sobj : sobjects) {
