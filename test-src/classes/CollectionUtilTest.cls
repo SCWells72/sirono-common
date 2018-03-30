@@ -22,9 +22,18 @@ private class CollectionUtilTest {
     private static final List<Integer> EMPTY_LIST = new List<Integer>();
     private static final Integer[] EMPTY_ARRAY = new Integer[0];
     private static final List<Integer> TEST_LIST = new List<Integer> { 10, 20, 30 };
-    private static final List<Integer> TEST_LIST_WITH_NULL = new List<Integer> { 10, 20, 30, null };
     private static final Integer[] TEST_ARRAY = new Integer[] { 10, 20, 30 };
-    private static final Integer[] TEST_ARRAY_WITH_NULL = new Integer[] { 10, 20, 30, null };
+
+    // TODO: These are disabled for now because of issues with proper polymorphic behavior with type parameters of
+    // TODO: Set and Map. Once those issues are resolved by Salesforce these can be restored.
+
+//    private static final Set<Integer> NULL_SET = null;
+//    private static final Set<Integer> EMPTY_SET = new Set<Integer>();
+//    private static final Set<Integer> TEST_SET = new Set<Integer> { 10, 20, 30 };
+//
+//    private static final Map<Integer, Integer> NULL_MAP = null;
+//    private static final Map<Integer, Integer> EMPTY_MAP = new Map<Integer, Integer>();
+//    private static final Map<Integer, Integer> TEST_MAP = new Map<Integer, Integer> { 10 => 100, 20 => 200, 30 => 300 };
 
     @IsTest
     static void isEmpty_List() {
@@ -46,20 +55,17 @@ private class CollectionUtilTest {
         Assert.isTrue(CollectionUtil.isNotEmpty(TEST_ARRAY), 'Expected true for array with values.');
     }
 
-    // TODO: These are disabled for now because of what seems to be a bug in the Apex compiler where it thinks
-    // TODO: the return value of is[Not]Empty() for Set and Map is void instead of Boolean
-
 //    @IsTest
 //    static void isEmpty_Set() {
 //        Assert.isTrue(CollectionUtil.isEmpty(NULL_SET), 'Expected true for null set.');
 //        Assert.isTrue(CollectionUtil.isEmpty(EMPTY_SET), 'Expected true for empty set.');
-//        AssertUtil.assertFalse(CollectionUtil.isEmpty(TEST_SET), 'Expected false for set with values.');
+//        Assert.isFalse(CollectionUtil.isEmpty(TEST_SET), 'Expected false for set with values.');
 //    }
 //
 //    @IsTest
 //    static void isNotEmpty_Set() {
-//        AssertUtil.assertFalse(CollectionUtil.isNotEmpty(NULL_SET), 'Expected false for null set.');
-//        AssertUtil.assertFalse(CollectionUtil.isNotEmpty(EMPTY_SET), 'Expected false for empty set.');
+//        Assert.isFalse(CollectionUtil.isNotEmpty(NULL_SET), 'Expected false for null set.');
+//        Assert.isFalse(CollectionUtil.isNotEmpty(EMPTY_SET), 'Expected false for empty set.');
 //        Assert.isTrue(CollectionUtil.isNotEmpty(TEST_SET), 'Expected true for set with values.');
 //    }
 //
@@ -67,13 +73,13 @@ private class CollectionUtilTest {
 //    static void isEmpty_Map() {
 //        Assert.isTrue(CollectionUtil.isEmpty(NULL_MAP), 'Expected true for null map.');
 //        Assert.isTrue(CollectionUtil.isEmpty(EMPTY_MAP), 'Expected true for empty map.');
-//        AssertUtil.assertFalse(CollectionUtil.isEmpty(TEST_MAP), 'Expected false for map with values.');
+//        Assert.isFalse(CollectionUtil.isEmpty(TEST_MAP), 'Expected false for map with values.');
 //    }
 //
 //    @IsTest
 //    static void isNotEmpty_Map() {
-//        AssertUtil.assertFalse(CollectionUtil.isNotEmpty(NULL_MAP), 'Expected false for null map.');
-//        AssertUtil.assertFalse(CollectionUtil.isNotEmpty(EMPTY_MAP), 'Expected false for empty map.');
+//        Assert.isFalse(CollectionUtil.isNotEmpty(NULL_MAP), 'Expected false for null map.');
+//        Assert.isFalse(CollectionUtil.isNotEmpty(EMPTY_MAP), 'Expected false for empty map.');
 //        Assert.isTrue(CollectionUtil.isNotEmpty(TEST_MAP), 'Expected true for map with values.');
 //    }
 

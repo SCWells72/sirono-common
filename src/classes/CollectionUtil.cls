@@ -50,8 +50,8 @@ public with sharing class CollectionUtil {
         return !isEmpty(values);
     }
 
-    // TODO: These are disabled for now because of what seems to be a bug in the Apex compiler where it thinks
-    // TODO: the return value of is[Not]Empty() for Set and Map is void instead of Boolean
+    // TODO: These are disabled for now because of issues with proper polymorphic behavior with type parameters of
+    // TODO: Set and Map. Once those issues are resolved by Salesforce these can be restored.
 
 //    /**
 //     * Determines if the provided set is <code>null</code> or empty.
@@ -123,7 +123,7 @@ public with sharing class CollectionUtil {
         }
     }
 
-    // TODO: Same issue as above. It's like the Apex compiler doesn't properly allow assignment of Set<NotObject> to Set<Object>
+    // TODO: Same issue as above
 
 //    /**
 //     * Adds the provided value to the specified set if both are non-null.

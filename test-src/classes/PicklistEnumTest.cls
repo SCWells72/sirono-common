@@ -87,6 +87,7 @@ private class PicklistEnumTest extends PicklistEnum {
     private static final String EXISTING_CUSTOMER_DOWNGRADE_VALUE = 'Existing Customer - Downgrade';
     private static final String NEW_CUSTOMER_VALUE = 'New Customer';
 
+    // TODO: Unfortunately no picklist entry is flagged as default so that logic isn't tested
     private static final Entry EXISTING_CUSTOMER_UPGRADE = valueOf(EXISTING_CUSTOMER_UPGRADE_VALUE);
     private static final Entry EXISTING_CUSTOMER_REPLACEMENT = valueOf(EXISTING_CUSTOMER_REPLACEMENT_VALUE);
     private static final Entry EXISTING_CUSTOMER_DOWNGRADE = valueOf(EXISTING_CUSTOMER_DOWNGRADE_VALUE);
