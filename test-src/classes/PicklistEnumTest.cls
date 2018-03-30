@@ -1,0 +1,94 @@
+/*
+ * Copyright (c) 2017-present Sirono LLC, All rights reserved
+ */
+
+@IsTest
+private class PicklistEnumTest extends PicklistEnum {
+
+    // Test generic functionality for the base class
+    @IsTest
+    private static void testPicklistEnum() {
+        List<Schema.PicklistEntry> picklistEntries = Opportunity.Type.getDescribe().getPicklistValues();
+        for (PicklistEntry picklistEntry : picklistEntries) {
+            String value = picklistEntry.getValue();
+            PicklistEnum.Entry entry = PicklistEnumTest.valueOf(value);
+            Assert.notNull(entry, 'Expected to find a picklist enum entry for ' + value);
+            System.assertEquals(value, entry.value(), 'Incorrect value for entry.');
+
+            String label = picklistEntry.getLabel();
+            System.assertEquals(label, entry.label(), 'Incorrect label for entry.');
+
+            Boolean active = picklistEntry.isActive();
+            System.assertEquals(active, entry.isActive(), 'Incorrect active state for entry.');
+
+            Boolean defaultValue = picklistEntry.isDefaultValue();
+            System.assertEquals(defaultValue, entry.isDefaultValue(), 'Incorrect default value state for entry.');
+        }
+    }
+
+    // Test a sample implementation of the base class
+    @IsTest
+    private static void testOpportunityTypeEnum() {
+        PicklistEnumTestUtil.verifyPicklistEnum(
+            Opportunity.Type,
+            new Map<String, PicklistEnum.Entry> {
+                PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE_VALUE => PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE,
+                PicklistEnumTest.EXISTING_CUSTOMER_REPLACEMENT_VALUE => PicklistEnumTest.EXISTING_CUSTOMER_REPLACEMENT,
+                PicklistEnumTest.EXISTING_CUSTOMER_DOWNGRADE_VALUE => PicklistEnumTest.EXISTING_CUSTOMER_DOWNGRADE,
+                PicklistEnumTest.NEW_CUSTOMER_VALUE => PicklistEnumTest.NEW_CUSTOMER
+            },
+            PicklistEnumTest.values()
+        );
+    }
+
+    @IsTest
+    static void testEqualTo() {
+        System.assert(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.equalTo(EXISTING_CUSTOMER_UPGRADE_VALUE));
+        System.assert(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.equalTo(EXISTING_CUSTOMER_UPGRADE_VALUE.toLowerCase()));
+        System.assert(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.equalTo(EXISTING_CUSTOMER_UPGRADE_VALUE.toUpperCase()));
+        Assert.isFalse(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.equalTo(NEW_CUSTOMER_VALUE));
+    }
+
+    @IsTest
+    static void testNotEqualTo() {
+        System.assert(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.notEqualTo(NEW_CUSTOMER_VALUE));
+        Assert.isFalse(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.notEqualTo(EXISTING_CUSTOMER_UPGRADE_VALUE));
+        Assert.isFalse(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.notEqualTo(EXISTING_CUSTOMER_UPGRADE_VALUE.toLowerCase()));
+        Assert.isFalse(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.notEqualTo(EXISTING_CUSTOMER_UPGRADE_VALUE.toUpperCase()));
+    }
+
+    @IsTest
+    static void testToString() {
+        System.assertEquals(EXISTING_CUSTOMER_UPGRADE_VALUE, PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.toString());
+        System.assertEquals(EXISTING_CUSTOMER_REPLACEMENT_VALUE, PicklistEnumTest.EXISTING_CUSTOMER_REPLACEMENT.toString());
+        System.assertEquals(EXISTING_CUSTOMER_DOWNGRADE_VALUE, PicklistEnumTest.EXISTING_CUSTOMER_DOWNGRADE.toString());
+        System.assertEquals(NEW_CUSTOMER_VALUE, PicklistEnumTest.NEW_CUSTOMER.toString());
+    }
+
+    // Sample implementation of PicklistEnum for testing purposes.
+    // NOTE: Cannot be an inner class because inner classes can't be static.
+
+    private static final PicklistEnumTest INSTANCE = new PicklistEnumTest();
+
+    private static final String EXISTING_CUSTOMER_UPGRADE_VALUE = 'Existing Customer - Upgrade';
+    private static final String EXISTING_CUSTOMER_REPLACEMENT_VALUE = 'Existing Customer - Replacement';
+    private static final String EXISTING_CUSTOMER_DOWNGRADE_VALUE = 'Existing Customer - Downgrade';
+    private static final String NEW_CUSTOMER_VALUE = 'New Customer';
+
+    private static final Entry EXISTING_CUSTOMER_UPGRADE = valueOf(EXISTING_CUSTOMER_UPGRADE_VALUE);
+    private static final Entry EXISTING_CUSTOMER_REPLACEMENT = valueOf(EXISTING_CUSTOMER_REPLACEMENT_VALUE);
+    private static final Entry EXISTING_CUSTOMER_DOWNGRADE = valueOf(EXISTING_CUSTOMER_DOWNGRADE_VALUE);
+    private static final Entry NEW_CUSTOMER = valueOf(NEW_CUSTOMER_VALUE);
+
+    private PicklistEnumTest() {
+        super(Opportunity.Type);
+    }
+
+    public static Entry valueOf(String value) {
+        return INSTANCE.getEntry(value);
+    }
+
+    public static Entry[] values() {
+        return INSTANCE.getEntries();
+    }
+}
