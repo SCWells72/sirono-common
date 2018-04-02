@@ -418,5 +418,5 @@ to work around those issues.
 The logging wrapper was also designed to have a pluggable back end with `System.debug()` as the default implementation.
 In the future we'd like to investigate the use of alternative back ends, in particular some type of remote/federated
 logging facility. Unfortunately this is complicated by various limitations of the Salesforce platform. It's possible
-that platform events may provide a good option for remote logging, and if so, once implemented no client client should
-need to change if written against the logging wrapper instead of directly against `System.debug()`.
+that platform events may provide a good option for remote logging and, if so, once implemented no client should need
+to change if written against the logging wrapper instead of directly against `System.debug()`.
