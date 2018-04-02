@@ -203,6 +203,8 @@ assertions (all of the methods also accept an optional message):
 * `isNull(actual)` / `isNotNull(actual)`
 * `fail(message)`
 
+### Example
+
 In practice test code looks like:
 
 ```java
@@ -240,6 +242,8 @@ though, so this can lead to a proliferation of hard-coded strings or, at least a
 The class library includes a framework for modeling enum-like data types as wrappers for picklist field values, at
 least those for whom the candidate values are known at compile-time.
 
+### Implementation
+
 In order to create a new picklist enum for a picklist field's known values, create a new subclass of `PicklistEnum`
 with the following pattern (using `Opportunity.Type` as an example):
 
@@ -271,6 +275,8 @@ public with sharing class OpportunityTypeEnum extends PicklistEnum {
     }
 }
 ```
+
+### Example
 
 Picklist enum values can then be referenced from Apex as:
 
@@ -317,61 +323,74 @@ enums and also from the picklist enums described above. They are more sophistica
 known values for a picklist field like the latter. They are particularly useful to provide Apex symbolic constants for the
 values of string formula fields.
 
+Ordinals are computed automatically for each enum constant based on the order of declaration within the containing type.
+Additional information can be captured in the concrete type-safe enum implementation as appropriate, e.g., the name of
+an image to represent the process status, a severity index, etc., and behavior can be extended because the enum is just
+an Apex class.
+
+### Implementation
+
 In order to create a new type-safe enum, create a new subclass of `TypeSafeEnum` with the following pattern:
 
 ```java
-public with sharing class ProcessStatusEnum extends TypeSafeEnum {
+public with sharing class ComputedScoreEnum extends TypeSafeEnum {
     // Initialize the enum constants with the distinct string value for each
-    public static final ProcessStatusEnum QUEUED = new ProcessStatusEnum('QUEUED');
-    public static final ProcessStatusEnum STARTED = new ProcessStatusEnum('STARTED');
-    public static final ProcessStatusEnum COMPLETED = new ProcessStatusEnum('COMPLETED');
-    public static final ProcessStatusEnum FAILED = new ProcessStatusEnum('FAILED');
+    public static final ComputedScoreEnum HIGH = new ComputedScoreEnum('HIGH', '/images/stoplight-green.png');
+    public static final ComputedScoreEnum MEDIUM = new ComputedScoreEnum('MEDIUM', '/images/stoplight-yellow.png');
+    public static final ComputedScoreEnum LOW = new ComputedScoreEnum('LOW', '/images/stoplight-red.png');
     
-    // Private constructor for singleton initialized using the concrete sub-type and distinct value for that type
-    private ProcessStatusEnum(String value) {
-        super(ProcessStatusEnum.class, value);
+    // Optionally extend the enum interface with custom properties and behavior
+    public final String imagePath { get; private set; }
+    
+    // Private constructor for singleton initialized using the concrete sub-type and distinct value for that type.
+    // Note that the signature minimally needs the value to delegate to the base constructor, but additional state
+    // can be gathered for each enum constant as required.
+    private ComputedScoreEnum(String value, String imagePath) {
+        super(ComputedScoreEnum.class, value);
+        this.imagePath = imagePath;
     }
 
     // The following must be provided in each implementation to provide strongly-typed versions
     // of class method class-level for the enum
 
-    public static ProcessStatusEnum valueOf(String value) {
-        return (ProcessStatusEnum) TypeSafeEnum.valueOf(ProcessStatusEnum.class, value);
+    public static ComputedScoreEnum valueOf(String value) {
+        return (ComputedScoreEnum) TypeSafeEnum.valueOf(ComputedScoreEnum.class, value);
     }
 
-    public static List<ProcessStatusEnum> values() {
-        return (List<ProcessStatusEnum>) TypeSafeEnum.values(ProcessStatusEnum.class, new List<ProcessStatusEnum>());
+    public static List<ComputedScoreEnum> values() {
+        return (List<ComputedScoreEnum>) TypeSafeEnum.values(ComputedScoreEnum.class, new List<ComputedScoreEnum>());
     }
 
-    public static Boolean matchesAny(ProcessStatusEnum[] values, String testValues) {
+    public static Boolean matchesAny(ComputedScoreEnum[] values, String testValues) {
         return TypeSafeEnum.matchesAny(values, testValues);
     }
 
-    public static Boolean matchesNone(ProcessStatusEnum[] values, String testValue) {
+    public static Boolean matchesNone(ComputedScoreEnum[] values, String testValue) {
         return TypeSafeEnum.matchesNone(values, testValue);
     }
 }
 ```
 
+Again, the inclusion of `imagePath` is to demonstrate the extensible nature of these enums. If no additional state is required, 
+all references to that property would be removed and the concrete `TypeSafeEnum` subclass would simply include its enum constants, 
+the private constructor, and the strongly-typed class methods.
+
+### Example
+
 Type-safe enum values can then be referenced from Apex as:
 
 ```java
-List<ProcessStatusEnum> processStatuses = ProcessStatusEnum.values();
-for (ProcessStatusEnum processStatus : processStatuses) {
-    System.debug('Value = ' + processStatus.value() + ', ordinal = ' + processStatus.ordinal());
+List<ComputedScoreEnum> computedScores = ComputedScoreEnum.values();
+for (ComputedScoreEnum computedScore : computedScores) {
+    System.debug('Value = ' + computedScore.value() + ', ordinal = ' + computedScore.ordinal() + ', image path = ' computedScore.imagePath);
 }
 
 // You can also perform direct comparisons with string values
-String processStatus = getProcessStatus();
-if (ProcessStatusEnum.FAILED.equalTo(processStatus)) {
-    // Handle process failure
+String computedScore = getComputedScore();
+if (ProcessStatusEnum.LOW.equalTo(computedScore)) {
+    // Handle low scores
 }
 ```
-
-Ordinals are computed automatically for each enum constant based on the order of declaration within the containing type.
-Additional information can be captured in the concrete type-safe enum implementation as appropriate, e.g., the name of
-an image to represent the process status, a severity index, etc., and behavior can be extended because the enum is just
-an Apex class.
 
 ## Logging Wrapper
 
