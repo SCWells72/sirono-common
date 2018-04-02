@@ -10,9 +10,9 @@ Common Apex utility classes and frameworks used by Sirono products including:
 
 ## Trigger handler framework
 
-The library includes a simple, lightweight framework for handling DML events in accordance with [documented best
-practices](https://developer.salesforce.com/page/Trigger_Frameworks_and_Apex_Trigger_Best_Practices). The primary
-interfaces and classes in the framework are:
+The class library includes a simple, lightweight framework for handling DML events in accordance with 
+[documented best practices](https://developer.salesforce.com/page/Trigger_Frameworks_and_Apex_Trigger_Best_Practices). 
+The primary interfaces and classes in the framework are:
 
 * `TriggerHandler` - the common interface for all trigger handlers
 * `AbstractTriggerHandler` - an abstract base implementation of `TriggerHandler` that provides default no-op
@@ -115,7 +115,7 @@ However, this is quite a bit of boilerplate code that's required every time this
 collection type exists for exactly this reason. It is [by definition](https://en.wikipedia.org/wiki/Multimap) a 
 multi-valued map data structure.
 
-This class library includes an Apex implementation of `MultiMap`. Unlike the standard collection types, it does not 
+The class library includes an Apex implementation of `MultiMap`. Unlike the standard collection types, it does not 
 support type parameterization. However, it is still quite simple to extract both keys and values from the map and
 work with them in a strongly-typed manner. Here is the same example displayed above but using a `MultiMap`:
 
@@ -152,7 +152,7 @@ whether a provided collection is non-null and actually has contents, extracting 
 (which may be null or empty, so best to check first!), converting a list of SObjects to a list of Ids for use in a
 SOQL query IN clause, and many other common idioms and patterns.
 
-This class library includes `CollectionUtil` a set of common utility methods for many of these frequently required 
+The class library includes `CollectionUtil` a set of common utility methods for many of these frequently required 
 collection operations, for example:
 
 * `isEmpty(list)` - Checks whether a collection is non-null and contains any elements.
@@ -181,7 +181,7 @@ Refer to the ApexDoc for more comprehensive and up-to-date documentation.
 **NOTE:** Due to current Apex bugs, many of these utility methods are only available for `List` collections. This is
 because Apex currently does not properly support polymorphic assignment of `Set` or `Map` collections based on type
 parameters. We have reported this to Salesforce and hope that it will be addressed in a relatively near-term release.
-Once it has been addressed this library will be updated to support all three collection types.
+Once it has been addressed the class library will be updated to support all three collection types.
 
 ## Test Assertions
 
@@ -195,7 +195,7 @@ could be. Many other test frameworks include more extensive sets of assertions. 
 expressed as `assertNotNull(value)` and `fail('Expected some exception')` respectively. While these are functionally
 identical, the latter are more explicit in their intent.
 
-This class library includes a test assertion facade, `Assert`, with methods for the most common types of test
+The class library includes a test assertion facade, `Assert`, with methods for the most common types of test
 assertions (all of the methods also accept an optional message):
 
 * `isTrue(condition)` / `isFalse(condition)`
@@ -237,7 +237,7 @@ try {
 
 We often need to refer to known values of picklist enums from Apex. These values are not modeled as symbolic constants,
 though, so this can lead to a proliferation of hard-coded strings or, at least a bit better, one-off string constants.
-This class library includes a framework for modeling enum-like data types as wrappers for picklist field values, at
+The class library includes a framework for modeling enum-like data types as wrappers for picklist field values, at
 least those for whom the candidate values are known at compile-time.
 
 In order to create a new picklist enum for a picklist field's known values, create a new subclass of `PicklistEnum`
@@ -310,10 +310,12 @@ In order to get the best results from picklist enums and the underlying picklist
 
 Apex supports first-class enum types. However, unlike in other languages, Apex enums are very simple and cannot include
 information other than the enum constants themselves. There are times when it's desirable to have additional information stored
-with each enum constant, or to have enum constant values be distinct from enum constant names. This class library includes a
-framework for modeling extensible type-safe enums. These should be considered distinct from Apex enums and also from the picklist
-enums described above. They are more sophisticated than the former and do not represent the known values for a picklist field like
-the latter. They are particularly useful to provide Apex symbolic constants for the values of string formula fields.
+with each enum constant, or to have enum constant values be distinct from enum constant names.
+
+The class library includes a framework for modeling extensible type-safe enums. These should be considered distinct from Apex
+enums and also from the picklist enums described above. They are more sophisticated than the former and do not represent the
+known values for a picklist field like the latter. They are particularly useful to provide Apex symbolic constants for the
+values of string formula fields.
 
 In order to create a new type-safe enum, create a new subclass of `TypeSafeEnum` with the following pattern:
 
@@ -367,6 +369,54 @@ if (ProcessStatusEnum.FAILED.equalTo(processStatus)) {
 ```
 
 Ordinals are computed automatically for each enum constant based on the order of declaration within the containing type.
-As needed, additional information can be captured in the concrete type-safe enum implementation as appropriate, e.g., 
-the name of an image to represent the process status, a severity index, etc., and behavior can be extended because the 
-enum is just an Apex class.
+Additional information can be captured in the concrete type-safe enum implementation as appropriate, e.g., the name of
+an image to represent the process status, a severity index, etc., and behavior can be extended because the enum is just
+an Apex class.
+
+## Logging Wrapper
+
+The primary Apex logging facility is `System.debug()`. While this is a useful diagnostic tool, the calling interface
+certainly has its limitations. If you'd like to log at different level than the default (`DEBUG`), you must include a
+value for the `LoggingLevel` enum as the first argument which can lead to unnecessarily verbose logging statements.
+Additionally, if you'd like to log messages of any complexity, you must either use string concatenation or 
+`String.format()` to build a more sophisticated message, again muddying the actual message that is being constructed.
+
+For these reasons the class library includes a simple logging wrapper that more closely mimics loggers in other
+environments. The logging wrapper supports level-specific logging and direct construction of more complex logged 
+messages via `String.format()` embedded formatting specifiers as call arguments (up to 6 after which you must provide
+your own list of parameters).
+
+### Example
+
+```java
+public with sharing class ExternalServiceInvoker {
+
+    // Create the logger as a class constant, providing the type name of the containing class
+    private static final Logger LOG = Logger.getInstance(ExternalServiceInvoker.class);
+    
+    public void invokeExternalService(String host, Integer port, String path, String externalId) {
+        LOG.info('Invoking service at https://{0}:{1}/{2}?id={3}.', host, port, path, externalId);
+        
+        try {
+            HttpResponse response = // actually invoke the service
+            if (response.getStatusCode() != 200) {
+                LOG.warn('Failed to invoke the service: status code = {0}, status = {1}', 
+                    response.getStatusCode(), response.getStatus());
+            }
+        } catch (Exception e) {
+            LOG.error('Exception while invoking the service: {0}', e);
+        }
+    }
+}
+```
+
+There are some gotchas when using loggers from inner classes. Consult the ApexDoc for `Logger` for more details and how
+to work around those issues.
+
+### Future Thoughts
+
+The logging wrapper was also designed to have a pluggable back end with `System.debug()` as the default implementation.
+In the future we'd like to investigate the use of alternative back ends, in particular some type of remote/federated
+logging facility. Unfortunately this is complicated by various limitations of the Salesforce platform. It's possible
+that platform events may provide a good option for remote logging, and if so, once implemented no client client should
+need to change if written against the logging wrapper instead of directly against `System.debug()`.
