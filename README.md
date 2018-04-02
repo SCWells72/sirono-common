@@ -235,7 +235,7 @@ try {
 
 ## Apex Picklist Enums
 
-We often need to refer to known values of picklist enums from Apex. These values are not modeled as symbolic constants,
+We often need to refer to known values of picklist fields from Apex. These values are not modeled as symbolic constants,
 though, so this can lead to a proliferation of hard-coded strings or, at least a bit better, one-off string constants.
 The class library includes a framework for modeling enum-like data types as wrappers for picklist field values, at
 least those for whom the candidate values are known at compile-time.
