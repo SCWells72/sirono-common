@@ -4,8 +4,8 @@ Common Apex utility classes and frameworks used by Sirono products including:
 * [Trigger handler framework](#trigger-handler-framework)
 * [MultiMap collection and collection utilities](#multimap-collection-and-collection-utilities)
 * [Additional test assertions](#test-assertions)
-* [Apex picklist enum wrapper to provide symbolic constants for picklist field values](#picklist-enums)
-* [Apex type-safe enums](#type-safe-enums)
+* [Apex picklist enum wrapper to provide symbolic constants for picklist field values](#apex-picklist-enums)
+* [Apex type-safe enums](#apex-type-safe-enums)
 * [Logging-style wrapper for `System.debug()`](#logging-wrapper)
 
 ## Trigger handler framework
@@ -216,10 +216,10 @@ Assert.isTrue(contact.Name.startsWith('Me'));
 specifier) from raised exceptions including special handling for object- and field-level errors as a result of failed
 validation rules or errors added in trigger logic:
 
-* `exceptionMessage(expectedMessage, actualException)`
-* `dmlExceptionMessage(expectedField, expectedMessage, actualDmlException)` - field-level errors
-* `dmlExceptionMessage(expectedMessage, actualDmlException)` - object-level errors
-* `pageMessage(expectedField, expectedMessage)` - field-level errors added to page messages; required when
+* `hasExceptionMessage(expectedMessage, actualException)`
+* `hasDmlExceptionMessage(expectedField, expectedMessage, actualDmlException)` - field-level errors
+* `hasDmlExceptionMessage(expectedMessage, actualDmlException)` - object-level errors
+* `hasPageMessage(expectedField, expectedMessage)` - field-level errors added to page messages; required when
   multiple levels of triggers have fired even if not using Visualforce
 
 Again, in practice this looks like:
@@ -232,3 +232,141 @@ try {
     Assert.dmlExceptionMessage(Contact.FirstName, Label.Invalid_First_Name, e);
 }
 ```
+
+## Apex Picklist Enums
+
+We often need to refer to known values of picklist enums from Apex. These values are not modeled as symbolic constants,
+though, so this can lead to a proliferation of hard-coded strings or, at least a bit better, one-off string constants.
+This class library includes a framework for modeling enum-like data types as wrappers for picklist field values, at
+least those for whom the candidate values are known at compile-time.
+
+In order to create a new picklist enum for a picklist field's known values, create a new subclass of `PicklistEnum`
+with the following pattern (using `Opportunity.Type` as an example):
+
+```java
+public with sharing class OpportunityTypeEnum extends PicklistEnum {
+    // Model the enum as a private singleton for convenient access from class methods below
+    private static final OpportunityTypeEnum INSTANCE = new OpportunityTypeEnum();
+
+    // Initialize the enum values by using valueOf() on each picklist field value (values, not labels)
+    public static final Entry EXISTING_CUSTOMER_UPGRADE = valueOf('Existing Customer - Upgrade');
+    public static final Entry EXISTING_CUSTOMER_REPLACEMENT = valueOf('Existing Customer - Replacement');
+    public static final Entry EXISTING_CUSTOMER_DOWNGRADE = valueOf('Existing Customer - Downgrade');
+    public static final Entry NEW_CUSTOMER = valueOf('New Customer');
+
+    // Private constructor for singleton initialized off of the picklist field's SObjectField
+    private OpportunityTypeEnum() {
+        super(Opportunity.Type);
+    }
+    
+    // The following must be provided in each implementation to provide class-level access to entries based on
+    // the type-specific singleton
+
+    public static Entry valueOf(String value) {
+        return INSTANCE.getEntry(value);
+    }
+
+    public static Entry[] values() {
+        return INSTANCE.getEntries();
+    }
+}
+```
+
+Picklist enum values can then be referenced from Apex as:
+
+```java
+Entry[] opportunityTypes = OpportunityTypeEnum.values();
+for (Entry opportunityType : opportunityTypes) {
+    System.debug('Value = ' + opportunityType.value() + 
+                 ', label = ' + opportunityType.label() + 
+                 ', active = ' + opportunityType.isActive() +
+                 ', defaultValue = ' + opportunityType.isDefaultValue());
+}
+
+// You can also perform direct comparisons with string values from SObject instances
+Opportunity opp = [SELECT Type FROM Opportunity LIMIT 1];
+if (OpportunityTypeEnum.NEW_CUSTOMER.equalTo(opp.Type)) {
+    // Do something new customer-ish
+}
+```
+
+### Best Practices for Picklist Enums
+
+In order to get the best results from picklist enums and the underlying picklist fields, we recommend the following guidelines:
+
+* **Picklist field value naming** - Picklist field values should be named the same as the symbolic constant that will be used 
+  in Apex. Traditionally it was difficult to provide distinct values and labels for picklist field values, but now it's quite
+  easy. As a result, we would have recommended that the entries for `Opportunity.Type` above have values like `EXISTING_CUSTOMER_UPGRADE`,
+  `EXISTING_CUSTOMER_REPLACEMENT`, `EXISTING_CUSTOMER_DOWNGRADE`, and `NEW_CUSTOMER` and labels as shown above. Ultimately what
+  you see as the value in the database should be the exact same as the name of the enum constant used to reference that value
+  from Apex. This won't be possible for existing picklist fields which have already been deployed into production, but it's a
+  good practice for new picklist fields going forward.
+* **Picklist enum type naming** - The picklist enum type should reflect the SObject type and field as closely as possible within
+  the constraints of Apex type naming (maximum 40 characters). In the example above, the two names are concatenated into a type
+  name with an `Enum` suffix. Sometimes the type and field names will have overlap, for example, `Account.AccountSource`. Picklist
+  enum types for such fields should merge overlapping name portions, e.g., `AccountSourceEnum`.
+
+## Apex Type-Safe Enums
+
+Apex supports first-class enum types. However, unlike in other languages, Apex enums are very simple and cannot include
+information other than the enum constants themselves. There are times when it's desirable to have additional information stored
+with each enum constant, or to have enum constant values be distinct from enum constant names. This class library includes a
+framework for modeling extensible type-safe enums. These should be considered distinct from Apex enums and also from the picklist
+enums described above. They are more sophisticated than the former and do not represent the known values for a picklist field like
+the latter. They are particularly useful to provide Apex symbolic constants for the values of string formula fields.
+
+In order to create a new type-safe enum, create a new subclass of `TypeSafeEnum` with the following pattern:
+
+```java
+public with sharing class ProcessStatusEnum extends TypeSafeEnum {
+    // Initialize the enum constants with the distinct string value for each
+    public static final ProcessStatusEnum QUEUED = new ProcessStatusEnum('QUEUED');
+    public static final ProcessStatusEnum STARTED = new ProcessStatusEnum('STARTED');
+    public static final ProcessStatusEnum COMPLETED = new ProcessStatusEnum('COMPLETED');
+    public static final ProcessStatusEnum FAILED = new ProcessStatusEnum('FAILED');
+    
+    // Private constructor for singleton initialized using the concrete sub-type and distinct value for that type
+    private ProcessStatusEnum(String value) {
+        super(ProcessStatusEnum.class, value);
+    }
+
+    // The following must be provided in each implementation to provide strongly-typed versions
+    // of class method class-level for the enum
+
+    public static ProcessStatusEnum valueOf(String value) {
+        return (ProcessStatusEnum) TypeSafeEnum.valueOf(ProcessStatusEnum.class, value);
+    }
+
+    public static List<ProcessStatusEnum> values() {
+        return (List<ProcessStatusEnum>) TypeSafeEnum.values(ProcessStatusEnum.class, new List<ProcessStatusEnum>());
+    }
+
+    public static Boolean matchesAny(ProcessStatusEnum[] values, String testValues) {
+        return TypeSafeEnum.matchesAny(values, testValues);
+    }
+
+    public static Boolean matchesNone(ProcessStatusEnum[] values, String testValue) {
+        return TypeSafeEnum.matchesNone(values, testValue);
+    }
+}
+```
+
+Type-safe enum values can then be referenced from Apex as:
+
+```java
+List<ProcessStatusEnum> processStatuses = ProcessStatusEnum.values();
+for (ProcessStatusEnum processStatus : processStatuses) {
+    System.debug('Value = ' + processStatus.value() + ', ordinal = ' + processStatus.ordinal());
+}
+
+// You can also perform direct comparisons with string values
+String processStatus = getProcessStatus();
+if (ProcessStatusEnum.FAILED.equalTo(processStatus)) {
+    // Handle process failure
+}
+```
+
+Ordinals are computed automatically for each enum constant based on the order of declaration within the containing type.
+As needed, additional information can be captured in the concrete type-safe enum implementation as appropriate, e.g., 
+the name of an image to represent the process status, a severity index, etc., and behavior can be extended because the 
+enum is just an Apex class.

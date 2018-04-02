@@ -161,7 +161,7 @@ public with sharing class Assert {
      * @param expectedMessage the expected message which may include embedded formatting specifiers
      * @param actualException the actual exception which should be verified against the expected message
      */
-    public static void exceptionMessage(String expectedMessage, Exception actualException) {
+    public static void hasExceptionMessage(String expectedMessage, Exception actualException) {
         isNotNull(expectedMessage, 'Null expected message.');
         isNotNull(actualException, 'Null actual exception.');
         isNotNull(actualException.getMessage(), 'Null actual exception message.');
@@ -179,7 +179,7 @@ public with sharing class Assert {
      *
      * @see DmlException
      */
-    public static void dmlExceptionMessage(SObjectField expectedField, String expectedMessage, DmlException actualException) {
+    public static void hasDmlExceptionMessage(SObjectField expectedField, String expectedMessage, DmlException actualException) {
         isNotNull(expectedMessage, 'Null expected message.');
         isNotNull(actualException, 'Null actual exception.');
 
@@ -205,8 +205,8 @@ public with sharing class Assert {
      *
      * @see DmlException
      */
-    public static void dmlExceptionMessage(String expectedMessage, DmlException actualException) {
-        dmlExceptionMessage(null, expectedMessage, actualException);
+    public static void hasDmlExceptionMessage(String expectedMessage, DmlException actualException) {
+        hasDmlExceptionMessage(null, expectedMessage, actualException);
     }
 
     /**
@@ -221,7 +221,7 @@ public with sharing class Assert {
      * @see ApexPages.Message
      * @see DmlException
      */
-    public static void pageMessage(SObjectField expectedField, String expectedMessage) {
+    public static void hasPageMessage(SObjectField expectedField, String expectedMessage) {
         isNotNull(expectedField, 'Null expected field.');
         isNotNull(expectedMessage, 'Null expected message.');
 
