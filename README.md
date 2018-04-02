@@ -229,7 +229,7 @@ try {
     update contact;
     Assert.fail('Expected DmlException here');
 } catch (DmlException e) {
-    Assert.dmlExceptionMessage(Contact.FirstName, Label.Invalid_First_Name, e);
+    Assert.hasDmlExceptionMessage(Contact.FirstName, Label.Invalid_First_Name, e);
 }
 ```
 
