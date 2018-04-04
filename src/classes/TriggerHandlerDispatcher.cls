@@ -22,6 +22,8 @@
  * @see TriggerHandler
  */
 public with sharing class TriggerHandlerDispatcher {
+    private static final Logger LOG = Logger.getInstance(TriggerHandlerDispatcher.class);
+
     /**
      * Dispatch the current trigger event to a trigger handler created using the specified factory.
      *
@@ -31,14 +33,14 @@ public with sharing class TriggerHandlerDispatcher {
         // Make sure this is running in the context of a trigger
         if (!Trigger.isExecuting) {
             String message = 'Trigger handler must only be invoked in the context of an executing trigger.';
-            System.debug(LoggingLevel.ERROR, message);
+            LOG.error(message);
             throw new IllegalStateException(message);
         }
 
         // Make sure a factory type was provided
         if (factoryType == null) {
             String message = 'Factory type must be specified.';
-            System.debug(LoggingLevel.ERROR, message);
+            LOG.error(message);
             throw new IllegalArgumentException(message);
         }
 
@@ -46,7 +48,7 @@ public with sharing class TriggerHandlerDispatcher {
         Object instance = factoryType.newInstance();
         if (!(instance instanceof TriggerHandlerFactory)) {
             String message = 'Trigger handler factory must implement ' + TriggerHandlerFactory.class.getName() + '.';
-            System.debug(LoggingLevel.ERROR, message);
+            LOG.error(message);
             throw new IllegalArgumentException(message);
         }
         TriggerHandlerFactory factory = (TriggerHandlerFactory) instance;
@@ -55,7 +57,7 @@ public with sharing class TriggerHandlerDispatcher {
         TriggerHandler handler = factory.create(Trigger.isDelete ? Trigger.old : Trigger.new, Trigger.oldMap);
         if (handler == null) {
             String message = 'The trigger handler factory must create a trigger handler.';
-            System.debug(LoggingLevel.ERROR, message);
+            LOG.error(message);
             throw new IllegalStateException(message);
         }
 

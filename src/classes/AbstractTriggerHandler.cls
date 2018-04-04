@@ -55,7 +55,7 @@ public abstract with sharing class AbstractTriggerHandler implements TriggerHand
      *
      * @return the requested field value, or <code>null</code> if either the object or the field is <code>null</code>
      */
-    protected Object getFieldValue(SObject obj, SObjectField field) {
+    @TestVisible protected Object getFieldValue(SObject obj, SObjectField field) {
         Object fieldValue = (obj != null) && (field != null) ? obj.get(field) : null;
         return fieldValue;
     }
@@ -69,7 +69,7 @@ public abstract with sharing class AbstractTriggerHandler implements TriggerHand
      *
      * @return <code>true</code> if the value has changed; otherwise <code>false</code>
      */
-    protected Boolean fieldValueChanged(SObject oldObject, SObject newObject, SObjectField field) {
+    @TestVisible protected Boolean fieldValueChanged(SObject oldObject, SObject newObject, SObjectField field) {
         Object oldValue = getFieldValue(oldObject, field);
         Object newValue = getFieldValue(newObject, field);
         return oldValue != newValue;
@@ -85,7 +85,7 @@ public abstract with sharing class AbstractTriggerHandler implements TriggerHand
      *
      * @return <code>true</code> if the value has been set; otherwise <code>false</code>
      */
-    protected Boolean fieldValueSet(SObject oldObject, SObject newObject, SObjectField field) {
+    @TestVisible protected Boolean fieldValueSet(SObject oldObject, SObject newObject, SObjectField field) {
         Object oldValue = getFieldValue(oldObject, field);
         Object newValue = getFieldValue(newObject, field);
         return (oldValue == null) && (newValue != null);

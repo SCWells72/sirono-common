@@ -14,8 +14,5 @@
  * limitations under the License.
  */
 
-/**
- * Used to report an illegal/unexpected value for a provided invocation argument.
- */
-public with sharing class IllegalArgumentException extends Exception {
+public with sharing class AuthorizationException extends Exception {
 }
