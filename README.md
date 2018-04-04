@@ -3,6 +3,7 @@ Common Apex utility classes and frameworks used by Sirono products including:
 
 * [Trigger handler framework](#trigger-handler-framework)
 * [MultiMap collection and collection utilities](#multimap-collection-and-collection-utilities)
+* [Authorization utilities](#authorization-utilities)
 * [Additional test assertions](#test-assertions)
 * [Apex picklist enum wrapper to provide symbolic constants for picklist field values](#apex-picklist-enums)
 * [Apex type-safe enums](#apex-type-safe-enums)
@@ -182,6 +183,71 @@ Refer to the ApexDoc for more comprehensive and up-to-date documentation.
 because Apex currently does not properly support polymorphic assignment of `Set` or `Map` collections based on type
 parameters. We have reported this to Salesforce and hope that it will be addressed in a relatively near-term release.
 Once it has been addressed the class library will be updated to support all three collection types.
+
+## Authorization utilities
+
+By default Apex currently does not enforce authorization. The onus is placed upon the developer to ensure that access to
+data is verified for authorization before providing that access. These access checks generally fall into three categories:
+
+* **CRUD** - Whether the user has Create/Read/Update/Delete access to an entire object type.
+* **FLS** - Whether the user has Field-Level access(/Security) for the distinct fields on an object type.
+* **Sharing** - Whether the user has access to specific rows for an object type.
+
+Failure to verify authorization properly can lead to major issues (it can also prevent you from passing security review!).
+Salesforce provides [good documentation](https://developer.salesforce.com/page/Enforcing_CRUD_and_FLS) on how to address
+these types of issues.
+
+The class library includes a simple authorization utility class, `AuthorizationUtil`, that currently helps to address the 
+CRUD aspects. It provides both check and assertion methods of verifying the various types of object-level operations that 
+are allowed for the current user. The check methods should be used when an alternative execution path is available if the 
+user is not authorized; the assertion methods should be used when a lack of sufficient authorization should terminate the 
+operation immediately, though recovery is possible through exception handling.
+
+### Example
+
+**Check methods**
+```java
+// Use an empty list by default
+List<Contact> contacts = new List<Contact>();
+
+// If the user is authorized to read contacts and accounts, query the appropriate contacts and their accounts
+if (AuthorizationUtil.isAccessible(Contact.SObjectType) && AuthorizationUtil.isAccessible(Account.SObjectType)) {
+    contacts = [SELECT Id, Account.Id FROM Contact];
+
+    // If the user is authorized to update contacts, update them
+    if (AuthorizationUtil.isUpdateable(Contact.SObjectType)) {
+        for (Contact contact : contacts) {
+            // Do something interesting to each contact
+        }
+        update contacts;
+    } else {
+        // Report the lack of access
+    }
+} else {
+    // Report the lack of access
+}
+```
+
+**Assert methods**
+```java
+// Exception handling would generally occur in the service or presentation tier and queries/DML in the data access tier,
+// but showing both together here to demonstrate how assertion handling might work
+try {
+    // If the user is authorized to read contacts and accounts, query the appropriate contacts and their accounts
+    AuthorizationUtil.assertAccessible(Contact.SObjectType);
+    AuthorizationUtil.assertAccessible(Account.SObjectType);
+    List<Contact> contacts = [SELECT Id, Account.Id FROM Contact];
+
+    // If the user is authorized to update contacts, update them
+    AuthorizationUtil.assertUpdateable(Contact.SObjectType);
+    for (Contact contact : contacts) {
+        // Do something interesting to each contact
+    }
+    update contacts;
+} catch (AuthorizationException e) {
+    // Report the failure
+}
+```
 
 ## Test Assertions
 
