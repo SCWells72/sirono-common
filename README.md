@@ -192,17 +192,18 @@ Once it has been addressed the class library will be updated to support all thre
 
 ## Comparator-based sorting
 
-While Apex includes a `Comparable` interface that can be implemented by custom classes, it does not include a more
+While Apex includes a `Comparable` interface that can be implemented by custom classes, it does not include the more
 decoupled notion of a standalone `Comparator` that you'd find in other languages/libraries. Comparators are useful
 for sorting of types which cannot implement `Comparable` such as SObjects and system Apex classes as well as for
 performing usage-specific ordering that is different from the standard `Comparable` implementation for a type.
 
 The class library provides a `Comparator` interface which can be implemented and supplied to `CollectionUtil.sort()`
 along with a list of values to order those values according to the comparator's logic. It also includes a set of
-standard comparators for ordering lists of primitive types and lists of SObjects by a particular field value. These
-standard comparators can be configured for the direction of sorting (ascending vs. descending), how null values are
-handled (nulls first vs. nulls last), and as appropriate, case-sensitivity of string comparisons. The standard
-comparators can also be used as building blocks for more complex comparators via composition and delegation.
+standard comparators via the `Comparators` factory class for ordering lists of primitive types and lists of SObjects
+by a particular field value. These standard comparators can be configured for the direction of sorting (ascending vs.
+descending), how null values are handled (nulls first vs. nulls last), and as appropriate, case-sensitivity of string
+comparisons. The standard comparators can also be used as building blocks for more complex comparators via composition
+and delegation.
 
 Comparator-based sorting of SObjects is particularly useful when required ordering of a result set cannot be accomplished
 as part of a SOQL query's `ORDER BY` clause, for example because the ordering logic is more complex than `ORDER BY`
@@ -219,7 +220,7 @@ List<Contact> contacts = [SELECT Id, Birthdate FROM Contact];
 CollectionUtil.sort(contacts, Comparators.sobjectFieldValueComparator(Contact.Birthdate).ascending(false).nullsFirst(false));
 ```
 
-**Standard string value comparator**
+**Standard string comparator**
 ```java
 List<Contact> contacts = [SELECT Name FROM Contact];
 List<String> contactNames = new List<String>();
@@ -235,6 +236,7 @@ CollectionUtil.sort(contactNames, Comparators.stringComparator().caseSensitive(f
 public with sharing class OpportunityDateComparator implements Comparator {
     // Initialize a delegate that can be used to sort by the respective date values in descending order
     private static final Comparator DATE_COMPARATOR = Comparators.dateComparator().ascending(false);
+
     public Integer compare(Object value1, Object value2) {
         Opportunity opportunity1 = (Opportunity) value1;
         Opportunity opportunity2 = (Opportunity) value2;
