@@ -3,6 +3,7 @@ Common Apex utility classes and frameworks used by Sirono products including:
 
 * [Trigger handler framework](#trigger-handler-framework)
 * [MultiMap collection and collection utilities](#multimap-collection-and-collection-utilities)
+* [Comparator-based sorting](#comparator-based-sorting)
 * [Authorization utilities](#authorization-utilities)
 * [Additional test assertions](#test-assertions)
 * [Apex picklist enum wrapper to provide symbolic constants for picklist field values](#apex-picklist-enums)
@@ -170,12 +171,17 @@ collection operations, for example:
   `SELECT Id FROM Account WHERE Id IN :CollectionUtil.toIds(contactsByAccountId.keySet())`.
 * `toStrings(values)` - Converts a collection of arbtrarily typed data into string values. This is particularly useful
   when used with `String.format()`.
+* `toTypedList(sourceValues, targetValues)` - Converts an untyped list of values into a typed list of values. This is
+  particularly useful when used with `MultiMap` because of the untyped nature of its keys and values, e.g.
+  `List<Contact> contacts = CollectionUtil.toTypedList(contactsByAccountId.values(), new List<Contact>());`
 * `getIds(sobjects)` - Extracts IDs from a list of SObjects.
 * `getIdSet(sobjects)` - Extracts distinct IDs from a list of SObjects.
 * `mapByIdField(sobjects, field)` - Slices the provided list of SObjects by the specified Id field.
 * `mapByField(sobjects, field)` - Slices the provided list of SObjects by the specified field of any type.
 * `multiMapByField(sobjects, field)` - Slices the provided list of SObjects by the specified field of any type allowing
   for duplicate values.
+* `sort(objects, comparator)` - Uses the specified comparator to sort the provided list of objects. See
+  [comparator-based sorting](#comparator-based-sorting) for more details.
   
 Refer to the ApexDoc for more comprehensive and up-to-date documentation. 
 
@@ -183,6 +189,92 @@ Refer to the ApexDoc for more comprehensive and up-to-date documentation.
 because Apex currently does not properly support polymorphic assignment of `Set` or `Map` collections based on type
 parameters. We have reported this to Salesforce and hope that it will be addressed in a relatively near-term release.
 Once it has been addressed the class library will be updated to support all three collection types.
+
+## Comparator-based sorting
+
+While Apex includes a `Comparable` interface that can be implemented by custom classes, it does not include a more
+decoupled notion of a standalone `Comparator` that you'd find in other languages/libraries. Comparators are useful
+for sorting of types which cannot implement `Comparable` such as SObjects and system Apex classes as well as for
+performing usage-specific ordering that is different from the standard `Comparable` implementation for a type.
+
+The class library provides a `Comparator` interface which can be implemented and supplied to `CollectionUtil.sort()`
+along with a list of values to order those values according to the comparator's logic. It also includes a set of
+standard comparators for ordering lists of primitive types and lists of SObjects by a particular field value. These
+standard comparators can be configured for the direction of sorting (ascending vs. descending), how null values are
+handled (nulls first vs. nulls last), and as appropriate, case-sensitivity of string comparisons. The standard
+comparators can also be used as building blocks for more complex comparators via composition and delegation.
+
+Comparator-based sorting of SObjects is particularly useful when required ordering of a result set cannot be accomplished
+as part of a SOQL query's `ORDER BY` clause, for example because the ordering logic is more complex than `ORDER BY`
+allows or because the data cannot be ordered as part of the query due to features such as Salesforce Shield Platform
+Encryption. 
+
+### Example
+
+**Standard SObject field value comparator**
+```java
+// Query contacts from an org where birth date is encrypted and cannot be used in an ORDER BY clause
+List<Contact> contacts = [SELECT Id, Birthdate FROM Contact];
+// Sort the contacts by birth date descending with null birth dates at the end
+CollectionUtil.sort(contacts, Comparators.sobjectFieldValueComparator(Contact.Birthdate).ascending(false).nullsFirst(false));
+```
+
+**Standard string value comparator**
+```java
+List<Contact> contacts = [SELECT Name FROM Contact];
+List<String> contactNames = new List<String>();
+for (Contact c : contacts) {
+    CollectionUtil.addIfNotNull(contactNames, c.Name);
+}
+// Sort the contact names ascending case-insensitive
+CollectionUtil.sort(contactNames, Comparators.stringComparator().caseSensitive(false));
+```
+
+**Custom comparator**
+```java
+public with sharing class OpportunityDateComparator implements Comparator {
+    // Initialize a delegate that can be used to sort by the respective date values in descending order
+    private static final Comparator DATE_COMPARATOR = Comparators.dateComparator().ascending(false);
+    public Integer compare(Object value1, Object value2) {
+        Opportunity opportunity1 = (Opportunity) value1;
+        Opportunity opportunity2 = (Opportunity) value2;
+        
+        // NOTE: Null checks omitted here for brevity, but generally you'd want to check any values that are not
+        // guaranteed to be non-null for null values. You could also extend Comparators.ConfigurableComparator
+        // and use its native ability to perform null checks.
+        
+        // Primarily order by close date if one or both opportunities have been closed
+        Date closeDate1 = opportunity1.CloseDate;
+        Date closeDate2 = opportunity2.CloseDate;
+        if ((closeDate1 != null) && (closeDate2 == null)) {
+            return -1;
+        } else if ((closeDate1 == null) && (closeDate2 != null)) {
+            return 1;
+        } else if ((closeDate1 != null) && (closeDate2 != null)) {
+            // Both opportunities have been closed, so sort by close date descending
+            return DATE_COMPARATOR.compare(closeDate1, closeDate2);
+        }
+        
+        // Neither is closed, so compare by last activity date if possible
+        Date lastActivityDate1 = opportunity1.LastActivityDate;
+        Date lastActivityDate2 = opportunity2.LastActivityDate;
+        if ((lastActivityDate1 != null) && (lastActivityDate2 == null)) {
+            return -1;
+        } else if ((lastActivityDate1 == null) && (lastActivityDate2 != null)) {
+            return 1;
+        } else if ((lastActivityDate1 != null) && (lastActivityDate2 != null)) {
+            return DATE_COMPARATOR.compare(lastActivityDate1, lastActivityDate2);
+        }
+        
+        // Worst-case scenario sort by created date
+        return DATE_COMPARATOR.compare(opportunity1.CreatedDate, opportunity2.CreatedDate);
+    }
+}
+
+// Using the custom comparator
+List<Opportunity> opportunities = [SELECT Id, CloseDate, LastActivityDate, CreatedDate FROM Opportunity];
+CollectionUtil.sort(opportunities, new OpportunityDateComparator());
+```
 
 ## Authorization utilities
 
@@ -469,8 +561,7 @@ Additionally, if you'd like to log messages of any complexity, you must either u
 
 For these reasons the class library includes a simple logging wrapper that more closely mimics loggers in other
 environments. The logging wrapper supports level-specific logging and direct construction of more complex logged 
-messages via `String.format()` embedded formatting specifiers as call arguments (up to 6 after which you must provide
-your own list of parameters).
+messages via `String.format()` embedded formatting specifiers as call arguments.
 
 ### Example
 

@@ -17,7 +17,7 @@
 @IsTest
 private class AuthorizationUtilTest {
 
-    private static final String UNAUTHORIZED_PROFILE_NAME = 'Guest License User';
+    private static final String UNAUTHORIZED_PROFILE_NAME = 'Chatter Free User';
     private static final String UNAUTHORIZED_USER_NAME = 'unauthorized@nowhere.com';
     private static final SObjectType TEST_OBJECT_TYPE = Opportunity.SObjectType;
 
