@@ -229,6 +229,36 @@ private class CollectionUtilTest {
     }
 
     @IsTest
+    static void testToTypedList() {
+        // Bad args
+        try {
+            CollectionUtil.toTypedList(null, null);
+            Assert.fail('Expected an IllegalArgumentException for a null list.');
+        } catch (IllegalArgumentException e) {
+            // Expected
+        }
+
+        // Nothing begets nothing, null flavor
+        List<Object> typedStringList = CollectionUtil.toTypedList(null, new List<String>());
+        Assert.isTrue(typedStringList instanceof List<String>, 'Expected a list of strings.');
+        Assert.isTrue(typedStringList.isEmpty(), 'Expected the list of strings to be empty.');
+
+        // Nothing begets nothing, empty flavor
+        List<Object> typedStringList2 = CollectionUtil.toTypedList(new List<String>(), new List<String>());
+        Assert.isTrue(typedStringList2 instanceof List<String>, 'Expected a list of strings.');
+        Assert.isTrue(typedStringList2.isEmpty(), 'Expected the list of strings to be empty.');
+
+        // General happy path
+        List<Object> untypedList = new List<Object> { 1, 2, 3, null };
+        List<Object> typedIntList = CollectionUtil.toTypedList(untypedList, new List<Integer>());
+        Assert.isTrue(typedIntList instanceof List<Integer>, 'Expected a list of integers.');
+        Assert.equals(untypedList.size(), typedIntList.size(), 'Expected the lists to have the same size.');
+        for (Object intValue : untypedList) {
+            Assert.isTrue(typedIntList.contains(intValue), 'Expected the typed list to contain the value ' + intValue + '.');
+        }
+    }
+
+    @IsTest
     static void testToIds() {
         // Create a few dummy objects to give us IDs to work with
         List<User> users = new List<User>();

@@ -62,6 +62,7 @@ public with sharing class TriggerHandlerDispatcher {
         }
 
         // Call the appropriate trigger handler method
+        // TODO: Update this to use switch once Summer '18 is available
         if (Trigger.isBefore && Trigger.isInsert) {
             handler.beforeInsert();
         } else if (Trigger.isAfter && Trigger.isInsert) {

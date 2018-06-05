@@ -85,6 +85,30 @@ public with sharing class Logger {
         LOGGER_ADAPTER.log(LoggingLevel.DEBUG, apexClass, msg, new Object[] { param0, param1, param2, param3, param4, param5 });
     }
 
+    public void debug(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5,
+        Object param6) {
+        LOGGER_ADAPTER.log(LoggingLevel.DEBUG, apexClass, msg,
+            new Object[] { param0, param1, param2, param3, param4, param5, param6 });
+    }
+
+    public void debug(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5,
+        Object param6, Object param7) {
+        LOGGER_ADAPTER.log(LoggingLevel.DEBUG, apexClass, msg,
+            new Object[] { param0, param1, param2, param3, param4, param5, param6, param7 });
+    }
+
+    public void debug(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5,
+        Object param6, Object param7, Object param8) {
+        LOGGER_ADAPTER.log(LoggingLevel.DEBUG, apexClass, msg,
+            new Object[] { param0, param1, param2, param3, param4, param5, param6, param7, param8 });
+    }
+
+    public void debug(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5,
+        Object param6, Object param7, Object param8, Object param9) {
+        LOGGER_ADAPTER.log(LoggingLevel.DEBUG, apexClass, msg,
+            new Object[] { param0, param1, param2, param3, param4, param5, param6, param7, param8, param9 });
+    }
+
     public void debug(String msg, Object[] params) {
         LOGGER_ADAPTER.log(LoggingLevel.DEBUG, apexClass, msg, params);
     }
@@ -117,6 +141,30 @@ public with sharing class Logger {
         LOGGER_ADAPTER.log(LoggingLevel.INFO, apexClass, msg, new Object[] { param0, param1, param2, param3, param4, param5 });
     }
 
+    public void info(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5,
+        Object param6) {
+        LOGGER_ADAPTER.log(LoggingLevel.INFO, apexClass, msg,
+            new Object[] { param0, param1, param2, param3, param4, param5, param6 });
+    }
+
+    public void info(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5,
+        Object param6, Object param7) {
+        LOGGER_ADAPTER.log(LoggingLevel.INFO, apexClass, msg,
+            new Object[] { param0, param1, param2, param3, param4, param5, param6, param7 });
+    }
+
+    public void info(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5,
+        Object param6, Object param7, Object param8) {
+        LOGGER_ADAPTER.log(LoggingLevel.INFO, apexClass, msg,
+            new Object[] { param0, param1, param2, param3, param4, param5, param6, param7, param8 });
+    }
+
+    public void info(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5,
+        Object param6, Object param7, Object param8, Object param9) {
+        LOGGER_ADAPTER.log(LoggingLevel.INFO, apexClass, msg,
+            new Object[] { param0, param1, param2, param3, param4, param5, param6, param7, param8, param9 });
+    }
+
     public void info(String msg, Object[] params) {
         LOGGER_ADAPTER.log(LoggingLevel.INFO, apexClass, msg, params);
     }
@@ -147,6 +195,30 @@ public with sharing class Logger {
 
     public void warn(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5) {
         LOGGER_ADAPTER.log(LoggingLevel.WARN, apexClass, msg, new Object[] { param0, param1, param2, param3, param4, param5 });
+    }
+
+    public void warn(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5,
+        Object param6) {
+        LOGGER_ADAPTER.log(LoggingLevel.WARN, apexClass, msg,
+            new Object[] { param0, param1, param2, param3, param4, param5, param6 });
+    }
+
+    public void warn(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5,
+        Object param6, Object param7) {
+        LOGGER_ADAPTER.log(LoggingLevel.WARN, apexClass, msg,
+            new Object[] { param0, param1, param2, param3, param4, param5, param6, param7 });
+    }
+
+    public void warn(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5,
+        Object param6, Object param7, Object param8) {
+        LOGGER_ADAPTER.log(LoggingLevel.WARN, apexClass, msg,
+            new Object[] { param0, param1, param2, param3, param4, param5, param6, param7, param8 });
+    }
+
+    public void warn(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5,
+        Object param6, Object param7, Object param8, Object param9) {
+        LOGGER_ADAPTER.log(LoggingLevel.WARN, apexClass, msg,
+            new Object[] { param0, param1, param2, param3, param4, param5, param6, param7, param8, param9 });
     }
 
     public void warn(String msg, Object[] params) {
@@ -183,6 +255,30 @@ public with sharing class Logger {
 
     public void error(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5) {
         LOGGER_ADAPTER.log(LoggingLevel.ERROR, apexClass, msg, new Object[] { param0, param1, param2, param3, param4, param5 });
+    }
+
+    public void error(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5,
+        Object param6) {
+        LOGGER_ADAPTER.log(LoggingLevel.ERROR, apexClass, msg,
+            new Object[] { param0, param1, param2, param3, param4, param5, param6 });
+    }
+
+    public void error(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5,
+        Object param6, Object param7) {
+        LOGGER_ADAPTER.log(LoggingLevel.ERROR, apexClass, msg,
+            new Object[] { param0, param1, param2, param3, param4, param5, param6, param7 });
+    }
+
+    public void error(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5,
+        Object param6, Object param7, Object param8) {
+        LOGGER_ADAPTER.log(LoggingLevel.ERROR, apexClass, msg,
+            new Object[] { param0, param1, param2, param3, param4, param5, param6, param7, param8 });
+    }
+
+    public void error(String msg, Object param0, Object param1, Object param2, Object param3, Object param4, Object param5,
+        Object param6, Object param7, Object param8, Object param9) {
+        LOGGER_ADAPTER.log(LoggingLevel.ERROR, apexClass, msg,
+            new Object[] { param0, param1, param2, param3, param4, param5, param6, param7, param8, param9 });
     }
 
     public void error(String msg, Object[] params) {

@@ -33,9 +33,9 @@ public with sharing class LoggerTest {
         String testMessage = 'message';
         for (LoggingLevel level : LEVELS_TO_TEST) {
             loggerAdapter.log(level, Assert.class, testMessage, null);
-            System.assertEquals(level, loggerAdapter.lastLogLevel);
-            System.assertEquals(testMessage, loggerAdapter.lastLogMsg);
-            System.assertEquals(Assert.class.getName(), loggerAdapter.lastClass);
+            Assert.equals(level, loggerAdapter.lastLogLevel);
+            Assert.equals(testMessage, loggerAdapter.lastLogMsg);
+            Assert.equals(Assert.class.getName(), loggerAdapter.lastClass);
         }
     }
 
@@ -52,30 +52,30 @@ public with sharing class LoggerTest {
             // attempt to log with different numbers of parameters. Note that the behavior of String.format() is such
             // that if no values are specified for a placeholder, the placeholder is just left in place unchanged.
             loggerAdapter.log(level, Assert.class, msg, new Object[] {});
-            System.assertEquals(msg, loggerAdapter.lastLogMsg);
+            Assert.equals(msg, loggerAdapter.lastLogMsg);
 
             loggerAdapter.log(level, Assert.class, msg, new Object[] { 'param0' });
-            System.assertEquals('msg: param0.', loggerAdapter.lastLogMsg);
+            Assert.equals('msg: param0.', loggerAdapter.lastLogMsg);
 
             loggerAdapter.log(level, Assert.class, msg, new Object[] { 'param0', 'param1' });
-            System.assertEquals('msg: param0.', loggerAdapter.lastLogMsg);
+            Assert.equals('msg: param0.', loggerAdapter.lastLogMsg);
 
             loggerAdapter.log(level, Assert.class, msg, new Object[] { 'param0', 'param1', 'param2'});
-            System.assertEquals('msg: param0.', loggerAdapter.lastLogMsg);
+            Assert.equals('msg: param0.', loggerAdapter.lastLogMsg);
 
             // attempt to log with different types of parameters.
             loggerAdapter.log(level, Assert.class, msg, new Object[] { null });
-            System.assertEquals('msg: null.', loggerAdapter.lastLogMsg);
+            Assert.equals('msg: null.', loggerAdapter.lastLogMsg);
 
             loggerAdapter.log(level, Assert.class, msg, new Object[] { 1 });
-            System.assertEquals('msg: 1.', loggerAdapter.lastLogMsg);
+            Assert.equals('msg: 1.', loggerAdapter.lastLogMsg);
 
             loggerAdapter.log(level, Assert.class, msg, new Object[] { 3.14159 });
-            System.assertEquals('msg: 3.14159.', loggerAdapter.lastLogMsg);
+            Assert.equals('msg: 3.14159.', loggerAdapter.lastLogMsg);
 
             Contact testObj = new Contact(LastName = 'lastName');
             loggerAdapter.log(level, Assert.class, msg, new Object[] { testObj });
-            System.assertEquals('msg: ' + String.valueOf(testObj) + '.', loggerAdapter.lastLogMsg);
+            Assert.equals('msg: ' + String.valueOf(testObj) + '.', loggerAdapter.lastLogMsg);
         }
     }
 
@@ -85,7 +85,7 @@ public with sharing class LoggerTest {
 
         // Note that the behavior of String.format() is such that if no values are specified for a placeholder,
         // the placeholder is just left in place unchanged.
-        String formatString = '{0},{1},{2},{3},{4},{5},{6}';
+        String formatString = '{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}';
 
         TestLoggerAdapter loggerAdapter = new TestLoggerAdapter();
         Logger.LOGGER_ADAPTER = loggerAdapter;
@@ -93,36 +93,48 @@ public with sharing class LoggerTest {
         Logger log = Logger.getInstance(Assert.class);
 
         log.debug(formatString);
-        System.assertEquals('{0},{1},{2},{3},{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
+        Assert.equals('{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
 
         log.debug(formatString, 'param0');
-        System.assertEquals('param0,{1},{2},{3},{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,{1},{2},{3},{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
 
         log.debug(formatString, 'param0', 'param1');
-        System.assertEquals('param0,param1,{2},{3},{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,{2},{3},{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
 
         log.debug(formatString, 'param0', 'param1', 'param2');
-        System.assertEquals('param0,param1,param2,{3},{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,param2,{3},{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
 
         log.debug(formatString, 'param0', 'param1', 'param2', 'param3');
-        System.assertEquals('param0,param1,param2,param3,{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,param2,param3,{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
 
         log.debug(formatString, 'param0', 'param1', 'param2', 'param3', 'param4');
-        System.assertEquals('param0,param1,param2,param3,param4,{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,param2,param3,param4,{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
 
         log.debug(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5');
-        System.assertEquals('param0,param1,param2,param3,param4,param5,{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,param2,param3,param4,param5,{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
 
-        log.debug(formatString, new Object[] { 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6' } );
-        System.assertEquals('param0,param1,param2,param3,param4,param5,param6', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
+        log.debug(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6');
+        Assert.equals('param0,param1,param2,param3,param4,param5,param6,{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
+
+        log.debug(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6', 'param7');
+        Assert.equals('param0,param1,param2,param3,param4,param5,param6,param7,{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
+
+        log.debug(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6', 'param7', 'param8');
+        Assert.equals('param0,param1,param2,param3,param4,param5,param6,param7,param8,{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
+
+        log.debug(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6', 'param7', 'param8', 'param9');
+        Assert.equals('param0,param1,param2,param3,param4,param5,param6,param7,param8,param9', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.DEBUG, loggerAdapter.lastLogLevel);
     }
 
     @IsTest
@@ -131,7 +143,7 @@ public with sharing class LoggerTest {
 
         // Note that the behavior of String.format() is such that if no values are specified for a placeholder,
         // the placeholder is just left in place unchanged.
-        String formatString = '{0},{1},{2},{3},{4},{5},{6}';
+        String formatString = '{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}';
 
         TestLoggerAdapter loggerAdapter = new TestLoggerAdapter();
         Logger.LOGGER_ADAPTER = loggerAdapter;
@@ -139,36 +151,48 @@ public with sharing class LoggerTest {
         Logger log = Logger.getInstance(Assert.class);
 
         log.info(formatString);
-        System.assertEquals('{0},{1},{2},{3},{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
+        Assert.equals('{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
 
         log.info(formatString, 'param0');
-        System.assertEquals('param0,{1},{2},{3},{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,{1},{2},{3},{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
 
         log.info(formatString, 'param0', 'param1');
-        System.assertEquals('param0,param1,{2},{3},{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,{2},{3},{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
 
         log.info(formatString, 'param0', 'param1', 'param2');
-        System.assertEquals('param0,param1,param2,{3},{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,param2,{3},{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
 
         log.info(formatString, 'param0', 'param1', 'param2', 'param3');
-        System.assertEquals('param0,param1,param2,param3,{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,param2,param3,{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
 
         log.info(formatString, 'param0', 'param1', 'param2', 'param3', 'param4');
-        System.assertEquals('param0,param1,param2,param3,param4,{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,param2,param3,param4,{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
 
         log.info(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5');
-        System.assertEquals('param0,param1,param2,param3,param4,param5,{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,param2,param3,param4,param5,{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
 
-        log.info(formatString, new Object[] { 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6' } );
-        System.assertEquals('param0,param1,param2,param3,param4,param5,param6', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
+        log.info(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6');
+        Assert.equals('param0,param1,param2,param3,param4,param5,param6,{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
+
+        log.info(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6', 'param7');
+        Assert.equals('param0,param1,param2,param3,param4,param5,param6,param7,{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
+
+        log.info(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6', 'param7', 'param8');
+        Assert.equals('param0,param1,param2,param3,param4,param5,param6,param7,param8,{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
+
+        log.info(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6', 'param7', 'param8', 'param9');
+        Assert.equals('param0,param1,param2,param3,param4,param5,param6,param7,param8,param9', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.INFO, loggerAdapter.lastLogLevel);
     }
 
     @IsTest
@@ -177,7 +201,7 @@ public with sharing class LoggerTest {
 
         // Note that the behavior of String.format() is such that if no values are specified for a placeholder,
         // the placeholder is just left in place unchanged.
-        String formatString = '{0},{1},{2},{3},{4},{5},{6}';
+        String formatString = '{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}';
 
         TestLoggerAdapter loggerAdapter = new TestLoggerAdapter();
         Logger.LOGGER_ADAPTER = loggerAdapter;
@@ -185,36 +209,48 @@ public with sharing class LoggerTest {
         Logger log = Logger.getInstance(Assert.class);
 
         log.warn(formatString);
-        System.assertEquals('{0},{1},{2},{3},{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
+        Assert.equals('{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
 
         log.warn(formatString, 'param0');
-        System.assertEquals('param0,{1},{2},{3},{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,{1},{2},{3},{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
 
         log.warn(formatString, 'param0', 'param1');
-        System.assertEquals('param0,param1,{2},{3},{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,{2},{3},{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
 
         log.warn(formatString, 'param0', 'param1', 'param2');
-        System.assertEquals('param0,param1,param2,{3},{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,param2,{3},{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
 
         log.warn(formatString, 'param0', 'param1', 'param2', 'param3');
-        System.assertEquals('param0,param1,param2,param3,{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,param2,param3,{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
 
         log.warn(formatString, 'param0', 'param1', 'param2', 'param3', 'param4');
-        System.assertEquals('param0,param1,param2,param3,param4,{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,param2,param3,param4,{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
 
         log.warn(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5');
-        System.assertEquals('param0,param1,param2,param3,param4,param5,{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,param2,param3,param4,param5,{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
 
-        log.warn(formatString, new Object[] { 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6' } );
-        System.assertEquals('param0,param1,param2,param3,param4,param5,param6', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
+        log.warn(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6');
+        Assert.equals('param0,param1,param2,param3,param4,param5,param6,{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
+
+        log.warn(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6', 'param7');
+        Assert.equals('param0,param1,param2,param3,param4,param5,param6,param7,{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
+
+        log.warn(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6', 'param7', 'param8');
+        Assert.equals('param0,param1,param2,param3,param4,param5,param6,param7,param8,{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
+
+        log.warn(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6', 'param7', 'param8', 'param9');
+        Assert.equals('param0,param1,param2,param3,param4,param5,param6,param7,param8,param9', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.WARN, loggerAdapter.lastLogLevel);
     }
 
     @IsTest
@@ -223,7 +259,7 @@ public with sharing class LoggerTest {
 
         // Note that the behavior of String.format() is such that if no values are specified for a placeholder,
         // the placeholder is just left in place unchanged.
-        String formatString = '{0},{1},{2},{3},{4},{5},{6}';
+        String formatString = '{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}';
 
         TestLoggerAdapter loggerAdapter = new TestLoggerAdapter();
         Logger.LOGGER_ADAPTER = loggerAdapter;
@@ -231,36 +267,48 @@ public with sharing class LoggerTest {
         Logger log = Logger.getInstance(Assert.class);
 
         log.error(formatString);
-        System.assertEquals('{0},{1},{2},{3},{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
+        Assert.equals('{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
 
         log.error(formatString, 'param0');
-        System.assertEquals('param0,{1},{2},{3},{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,{1},{2},{3},{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
 
         log.error(formatString, 'param0', 'param1');
-        System.assertEquals('param0,param1,{2},{3},{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,{2},{3},{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
 
         log.error(formatString, 'param0', 'param1', 'param2');
-        System.assertEquals('param0,param1,param2,{3},{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,param2,{3},{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
 
         log.error(formatString, 'param0', 'param1', 'param2', 'param3');
-        System.assertEquals('param0,param1,param2,param3,{4},{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,param2,param3,{4},{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
 
         log.error(formatString, 'param0', 'param1', 'param2', 'param3', 'param4');
-        System.assertEquals('param0,param1,param2,param3,param4,{5},{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,param2,param3,param4,{5},{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
 
         log.error(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5');
-        System.assertEquals('param0,param1,param2,param3,param4,param5,{6}', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
+        Assert.equals('param0,param1,param2,param3,param4,param5,{6},{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
 
-        log.error(formatString, new Object[] { 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6' } );
-        System.assertEquals('param0,param1,param2,param3,param4,param5,param6', loggerAdapter.lastLogMsg);
-        System.assertEquals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
+        log.error(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6');
+        Assert.equals('param0,param1,param2,param3,param4,param5,param6,{7},{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
+
+        log.error(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6', 'param7');
+        Assert.equals('param0,param1,param2,param3,param4,param5,param6,param7,{8},{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
+
+        log.error(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6', 'param7', 'param8');
+        Assert.equals('param0,param1,param2,param3,param4,param5,param6,param7,param8,{9}', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
+
+        log.error(formatString, 'param0', 'param1', 'param2', 'param3', 'param4', 'param5', 'param6', 'param7', 'param8', 'param9');
+        Assert.equals('param0,param1,param2,param3,param4,param5,param6,param7,param8,param9', loggerAdapter.lastLogMsg);
+        Assert.equals(LoggingLevel.ERROR, loggerAdapter.lastLogLevel);
     }
 
     @IsTest
@@ -273,10 +321,10 @@ public with sharing class LoggerTest {
         Logger log = Logger.getInstance(Assert.class);
         Assert.isFalse(loggerAdapter.exceptionThrown);
         log.debug('test throwing an exception');
-        System.assert(loggerAdapter.exceptionThrown);
+        Assert.isTrue(loggerAdapter.exceptionThrown);
     }
 
-    private class TestLoggerAdapter extends Logger.AbstractLoggerAdapter {
+    public class TestLoggerAdapter extends Logger.AbstractLoggerAdapter {
         public LoggingLevel lastLogLevel;
         public String lastLogMsg;
         public String lastClass;

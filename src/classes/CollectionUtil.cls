@@ -184,6 +184,27 @@ public with sharing class CollectionUtil {
     }
 
     /**
+     * Copies the contents of the source list into the strongly-typed target list and returns the populated copy.
+     * This is useful when working with the keys or values of a <code>MultiMap</code>.
+     *
+     * @param sourceValues the untyped source list
+     * @param targetValues the strongly-typed target list
+     *
+     * @return the populated target list
+     */
+    public static List<Object> toTypedList(List<Object> sourceValues, List<Object> targetValues) {
+        if (targetValues == null) {
+            throw new IllegalArgumentException('The target list must be non-null.');
+        }
+
+        if (isNotEmpty(sourceValues)) {
+            targetValues.addAll(sourceValues);
+        }
+
+        return targetValues;
+    }
+
+    /**
      * Converts a set of <code>Id</code> values as a set of <code>Object</code> to be strongly-typed. This is useful
      * when the keys or values from a <code>MultiMap</code> are used as SOQL bind parameters.
      *
@@ -432,5 +453,57 @@ public with sharing class CollectionUtil {
         SObjectType type = sobj.getSObjectType();
         Set<SObjectField> typeFields = new Set<SObjectField>(type.getDescribe().fields.getMap().values());
         return typeFields.contains(field);
+    }
+
+    /**
+     * Sorts the provided list of objects in-place using the specific comparator.
+     *
+     * @param objects the list of objects to be sorted
+     * @param comparator the comparator to be used to order list entries
+     *
+     * @see Comparator
+     */
+    public static void sort(List<Object> objects, Comparator comparator) {
+        if (comparator == null) {
+            throw new IllegalArgumentException('A non-null comparator is required.');
+        }
+
+        if (isNotEmpty(objects)) {
+            // Adapt
+            List<ComparatorAdapter> adapters = new List<ComparatorAdapter>();
+            for (Object obj : objects) {
+                adapters.add(new ComparatorAdapter(obj, comparator));
+            }
+
+            // Sort
+            adapters.sort();
+
+            // Reload the provided list with the sorted values
+            objects.clear();
+            for (ComparatorAdapter adapter : adapters) {
+                objects.add(adapter.getValue());
+            }
+        }
+    }
+
+    // Adapts the Comparable interface supported by List.sort() into the Comparator interface
+    private class ComparatorAdapter implements Comparable {
+        private final Object thisValue;
+        private final Comparator comparator;
+
+        public ComparatorAdapter(Object value, Comparator comparator) {
+            this.thisValue = value;
+            this.comparator = comparator;
+        }
+
+        public Integer compareTo(Object thatValue) {
+            ComparatorAdapter thatAdapter = (ComparatorAdapter) thatValue;
+            thatValue = thatAdapter.getValue();
+            return comparator.compare(thisValue, thatValue);
+        }
+
+        public Object getValue() {
+            return thisValue;
+        }
     }
 }
