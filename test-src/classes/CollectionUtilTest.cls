@@ -373,7 +373,8 @@ private class CollectionUtilTest {
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 5; i++) {
             accounts.add(new Account(
-                Name = 'Account ' + (i + 1)
+                Name = 'Account ' + (i + 1),
+                External_Account_Name__c = 'Account ' + (i + 1)
             ));
         }
         insert accounts;
@@ -392,7 +393,8 @@ private class CollectionUtilTest {
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 5; i++) {
             accounts.add(new Account(
-                Name = 'Account ' + (i + 1)
+                Name = 'Account ' + (i + 1),
+                External_Account_Name__c = 'Account ' + (i + 1)
             ));
         }
         insert accounts;
@@ -426,7 +428,8 @@ private class CollectionUtilTest {
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 2; i++) {
             accounts.add(new Account(
-                Name = 'Account ' + (i + 1)
+                Name = 'Account ' + (i + 1),
+                External_Account_Name__c = 'Account ' + (i + 1)
             ));
         }
         insert accounts;
@@ -516,7 +519,8 @@ private class CollectionUtilTest {
         for (Integer i = 0; i < 2; i++) {
             accounts.add(new Account(
                 Name = 'Account ' + (i + 1),
-                AccountNumber = (i == 0) ? null : '12345'
+                AccountNumber = (i == 0) ? null : '12345',
+                External_Account_Name__c = 'Account ' + (i + 1)
             ));
         }
         insert accounts;
@@ -535,7 +539,8 @@ private class CollectionUtilTest {
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 2; i++) {
             accounts.add(new Account(
-                Name = 'Account ' + (i + 1)
+                Name = 'Account ' + (i + 1),
+                External_Account_Name__c = 'Account ' + (i + 1)
             ));
         }
         insert accounts;
