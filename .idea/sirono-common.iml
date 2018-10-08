@@ -13,6 +13,7 @@
             <option name="packageXmlRelativePath" value="sirono-common/src/package.xml" />
           </ModuleContents>
         </option>
+        <option name="packageName" value="Sirono Common" />
       </configuration>
     </facet>
   </component>
