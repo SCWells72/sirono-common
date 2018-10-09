@@ -370,48 +370,48 @@ private class CollectionUtilTest {
 
     @IsTest
     static void testGetIds() {
-        List<Account> accounts = new List<Account>();
+        List<Contact> contacts = new List<Contact>();
         for (Integer i = 0; i < 5; i++) {
-            accounts.add(new Account(
-                Name = 'Account ' + (i + 1),
-                External_Account_Name__c = 'Account ' + (i + 1)
+            contacts.add(new Contact(
+                FirstName = 'Test',
+                LastName = 'User ' + (i + 1)
             ));
         }
-        insert accounts;
+        insert contacts;
 
-        List<Id> accountIds = CollectionUtil.getIds(accounts);
-        Assert.equals(accounts.size(), accountIds.size());
-        for (Integer i = 0; i < accounts.size(); i++) {
-            Account account = accounts.get(i);
-            Id accountId = accountIds.get(i);
-            Assert.equals(account.Id, accountId);
+        List<Id> contactIds = CollectionUtil.getIds(contacts);
+        Assert.equals(contacts.size(), contactIds.size());
+        for (Integer i = 0; i < contacts.size(); i++) {
+            Contact contact = contacts.get(i);
+            Id contactId = contactIds.get(i);
+            Assert.equals(contact.Id, contactId);
         }
     }
 
     @IsTest
     static void testGetIdSet() {
-        List<Account> accounts = new List<Account>();
+        List<Contact> contacts = new List<Contact>();
         for (Integer i = 0; i < 5; i++) {
-            accounts.add(new Account(
-                Name = 'Account ' + (i + 1),
-                External_Account_Name__c = 'Account ' + (i + 1)
+            contacts.add(new Contact(
+                FirstName = 'Test',
+                LastName = 'User ' + (i + 1)
             ));
         }
-        insert accounts;
+        insert contacts;
 
         // Create a list with duplicate entries
-        List<Account> duplicateAccounts = new List<Account>();
-        duplicateAccounts.addAll(accounts);
-        duplicateAccounts.addAll(accounts);
+        List<Contact> duplicateContacts = new List<Contact>();
+        duplicateContacts.addAll(contacts);
+        duplicateContacts.addAll(contacts);
 
-        Set<Id> accountIds = CollectionUtil.getIdSet(duplicateAccounts);
-        Assert.equals(accounts.size(), accountIds.size());
-        for (Account account : accounts) {
-            Id accountId = account.Id;
-            Assert.isTrue(accountIds.contains(accountId));
-            accountIds.remove(accountId);
+        Set<Id> contactIds = CollectionUtil.getIdSet(duplicateContacts);
+        Assert.equals(contacts.size(), contactIds.size());
+        for (Contact contact : contacts) {
+            Id contactId = contact.Id;
+            Assert.isTrue(contactIds.contains(contactId));
+            contactIds.remove(contactId);
         }
-        Assert.isTrue(accountIds.isEmpty());
+        Assert.isTrue(contactIds.isEmpty());
     }
 
     @IsTest
@@ -425,30 +425,30 @@ private class CollectionUtilTest {
 
     @IsTest
     static void testMapByIdField() {
-        List<Account> accounts = new List<Account>();
+        List<Contact> managers = new List<Contact>();
         for (Integer i = 0; i < 2; i++) {
-            accounts.add(new Account(
-                Name = 'Account ' + (i + 1),
-                External_Account_Name__c = 'Account ' + (i + 1)
+            managers.add(new Contact(
+                FirstName = 'Manager',
+                LastName = 'User ' + (i + 1)
             ));
         }
-        insert accounts;
+        insert managers;
 
         List<Contact> contacts = new List<Contact>();
         for (Integer i = 0; i < 2; i++) {
             contacts.add(new Contact(
                 FirstName = 'Test',
                 LastName = 'User ' + (i + 1),
-                AccountId = accounts.get(i).Id
+                ReportsToId = managers.get(i).Id
             ));
         }
         insert contacts;
 
-        Map<Id, SObject> contactsByAccountId = CollectionUtil.mapByIdField(contacts, Contact.AccountId);
-        Assert.equals(contacts.size(), contactsByAccountId.size());
-        for (Id accountId : contactsByAccountId.keySet()) {
-            Contact contact = (Contact) contactsByAccountId.get(accountId);
-            Assert.equals(accountId, contact.AccountId);
+        Map<Id, SObject> contactsByManagerId = CollectionUtil.mapByIdField(contacts, Contact.ReportsToId);
+        Assert.equals(contacts.size(), contactsByManagerId.size());
+        for (Id managerId : contactsByManagerId.keySet()) {
+            Contact contact = (Contact) contactsByManagerId.get(managerId);
+            Assert.equals(managerId, contact.ReportsToId);
         }
     }
 
@@ -515,57 +515,57 @@ private class CollectionUtilTest {
 
     @IsTest
     static void testMapByFieldWithNullFieldValues() {
-        List<Account> accounts = new List<Account>();
+        List<Contact> contacts = new List<Contact>();
         for (Integer i = 0; i < 2; i++) {
-            accounts.add(new Account(
-                Name = 'Account ' + (i + 1),
-                AccountNumber = (i == 0) ? null : '12345',
-                External_Account_Name__c = 'Account ' + (i + 1)
+            contacts.add(new Contact(
+                FirstName = 'Test',
+                LastName = 'User ' + (i + 1),
+                Birthdate = (i == 0) ? null : System.today()
             ));
         }
-        insert accounts;
+        insert contacts;
 
-        Map<Object, SObject> accountsByAccountNumber = CollectionUtil.mapByField(accounts, Account.AccountNumber);
-        Assert.equals(accounts.size() - 1, accountsByAccountNumber.size());
-        for (Object accountNumber : accountsByAccountNumber.keySet()) {
-            Account account = (Account) accountsByAccountNumber.get(accountNumber);
-            Assert.isNotNull(account.AccountNumber);
-            Assert.equals(accountNumber, account.AccountNumber);
+        Map<Object, SObject> contactsByBirthDate = CollectionUtil.mapByField(contacts, Contact.Birthdate);
+        Assert.equals(contacts.size() - 1, contactsByBirthDate.size());
+        for (Object birthDate : contactsByBirthDate.keySet()) {
+            Contact contact = (Contact) contactsByBirthDate.get(birthDate);
+            Assert.isNotNull(contact.Birthdate);
+            Assert.equals(birthDate, contact.Birthdate);
         }
     }
 
     @IsTest
     static void testMultiMapByField() {
-        List<Account> accounts = new List<Account>();
+        List<Contact> managers = new List<Contact>();
         for (Integer i = 0; i < 2; i++) {
-            accounts.add(new Account(
-                Name = 'Account ' + (i + 1),
-                External_Account_Name__c = 'Account ' + (i + 1)
+            managers.add(new Contact(
+                FirstName = 'Manager',
+                LastName = 'User ' + (i + 1)
             ));
         }
-        insert accounts;
+        insert managers;
 
         List<Contact> contacts = new List<Contact>();
         for (Integer i = 0; i < 10; i++) {
-            Account account = accounts.get(Math.mod(i, 2));
+            Contact manager = managers.get(Math.mod(i, 2));
             contacts.add(new Contact(
                 FirstName = 'Test',
                 LastName = 'User ' + (i + 1),
-                AccountId = account.Id
+                ReportsToId = manager.Id
             ));
         }
         insert contacts;
 
-        MultiMap contactsByAccountId = CollectionUtil.multiMapByField(contacts, Contact.AccountId);
-        Assert.equals(accounts.size(), contactsByAccountId.keySet().size());
-        Assert.equals(contacts.size(), contactsByAccountId.values().size());
-        for (Object key : contactsByAccountId.keySet()) {
-            Id accountId = (Id) key;
-            List<Object> values = contactsByAccountId.getValues(accountId);
+        MultiMap contactsByManagerId = CollectionUtil.multiMapByField(contacts, Contact.ReportsToId);
+        Assert.equals(managers.size(), contactsByManagerId.keySet().size());
+        Assert.equals(contacts.size(), contactsByManagerId.values().size());
+        for (Object key : contactsByManagerId.keySet()) {
+            Id managerId = (Id) key;
+            List<Object> values = contactsByManagerId.getValues(managerId);
             Assert.equals(contacts.size() / 2, values.size());
             for (Object value : values) {
                 Contact contact = (Contact) value;
-                Assert.equals(accountId, contact.AccountId);
+                Assert.equals(managerId, contact.ReportsToId);
             }
         }
     }
