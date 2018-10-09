@@ -17,12 +17,12 @@
 /**
  * Base class for enum-like classes which provide Apex compile-time constants for picklist field values.
  */
-global with sharing abstract class PicklistEnum {
+public with sharing abstract class PicklistEnum {
 
     /**
      * Each entry corresponds to a single distinct value for the enum's picklist field.
      */
-    global with sharing class Entry {
+    public with sharing virtual class Entry {
         private String value { get; set; }
         private String label { get; set; }
         private Boolean active { get; set; }
@@ -34,7 +34,7 @@ global with sharing abstract class PicklistEnum {
          * @param picklistEnum the parent picklist enum
          * @param picklistEntry the picklist field entry
          */
-        private Entry(PicklistEnum picklistEnum, Schema.PicklistEntry picklistEntry) {
+        protected Entry(PicklistEnum picklistEnum, Schema.PicklistEntry picklistEntry) {
             this.value = picklistEntry.getValue();
             this.label = picklistEntry.getLabel();
             this.active = picklistEntry.isActive();
@@ -61,7 +61,7 @@ global with sharing abstract class PicklistEnum {
          *
          * @return the enum entry's string value
          */
-        global String value() {
+        public virtual String value() {
             return value;
         }
 
@@ -70,7 +70,7 @@ global with sharing abstract class PicklistEnum {
          *
          * @return the enum entry's label
          */
-        global String label() {
+        public virtual String label() {
             return label;
         }
 
@@ -79,7 +79,7 @@ global with sharing abstract class PicklistEnum {
          *
          * @return whether the enum entry is active
          */
-        global Boolean isActive() {
+        public virtual Boolean isActive() {
             return active;
         }
 
@@ -88,7 +88,7 @@ global with sharing abstract class PicklistEnum {
          *
          * @return whether the enum entry is the enum's default value
          */
-        global Boolean isDefaultValue() {
+        public virtual Boolean isDefaultValue() {
             return defaultValue;
         }
 
@@ -99,7 +99,7 @@ global with sharing abstract class PicklistEnum {
          *
          * @return <code>true</code> if the specified value matches this entry; otherwise <code>false</code>
          */
-        global Boolean equalTo(String testValue) {
+        public virtual Boolean equalTo(String testValue) {
             return value.equalsIgnoreCase(testValue);
         }
 
@@ -110,7 +110,7 @@ global with sharing abstract class PicklistEnum {
          *
          * @return <code>true</code> if the specified value is different from this entry; otherwise <code>false</code>
          */
-        global Boolean notEqualTo(String testValue) {
+        public virtual Boolean notEqualTo(String testValue) {
             return !equalTo(testValue);
         }
 
@@ -119,7 +119,7 @@ global with sharing abstract class PicklistEnum {
          *
          * @return the enum entry's string value
          */
-        global override String toString() {
+        public override String toString() {
             return value;
         }
     }
@@ -150,9 +150,20 @@ global with sharing abstract class PicklistEnum {
     private void createEntries() {
         Schema.DescribeFieldResult picklistDescribe = picklistField.getDescribe();
         for (Schema.PicklistEntry picklistEntry : picklistDescribe.getPicklistValues()) {
-            Entry entry = new Entry(this, picklistEntry);
+            Entry entry = createEntry(picklistEntry);
             entriesByValue.put(entry.value, entry);
         }
+    }
+
+    /**
+     * Creates an picklist enum entry for the specified picklist entry.
+     *
+     * @param picklistEntry the picklist entry for which a picklist enum entry should be created
+     *
+     * @return the picklist enum entry
+     */
+    protected virtual Entry createEntry(PicklistEntry picklistEntry) {
+        return new Entry(this, picklistEntry);
     }
 
     /**
@@ -162,7 +173,7 @@ global with sharing abstract class PicklistEnum {
      *
      * @return the corresponding entry or <code>null</code> if no entry exists for the specified value
      */
-    global Entry getEntry(String value) {
+    public Entry getEntry(String value) {
         return entriesByValue.get(value);
     }
 
@@ -171,7 +182,7 @@ global with sharing abstract class PicklistEnum {
      *
      * @return all entries for this picklist enum
      */
-    global Entry[] getEntries() {
+    public Entry[] getEntries() {
         return entries;
     }
 }
