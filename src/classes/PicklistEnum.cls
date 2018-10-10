@@ -156,7 +156,7 @@ public with sharing abstract class PicklistEnum {
     }
 
     /**
-     * Creates an picklist enum entry for the specified picklist entry.
+     * Creates a picklist enum entry for the specified picklist entry.
      *
      * @param picklistEntry the picklist entry for which a picklist enum entry should be created
      *
