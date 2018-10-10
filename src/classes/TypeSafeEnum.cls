@@ -52,7 +52,7 @@ public with sharing abstract class TypeSafeEnum {
      *
      * @return the enum entry's string value
      */
-    public String value() {
+    public virtual String value() {
         return value;
     }
 
@@ -61,7 +61,7 @@ public with sharing abstract class TypeSafeEnum {
      *
      * @return the enum entry's ordinal
      */
-    public Integer ordinal() {
+    public virtual Integer ordinal() {
         return ordinal;
     }
 
@@ -72,7 +72,7 @@ public with sharing abstract class TypeSafeEnum {
      *
      * @return <code>true</code> if the specified value matches this entry; otherwise <code>false</code>
      */
-    public Boolean equalTo(String testValue) {
+    public virtual Boolean equalTo(String testValue) {
         return value().equalsIgnoreCase(testValue);
     }
 
@@ -83,7 +83,7 @@ public with sharing abstract class TypeSafeEnum {
      *
      * @return <code>true</code> if the specified value is different from this entry; otherwise <code>false</code>
      */
-    public Boolean notEqualTo(String testValue) {
+    public virtual Boolean notEqualTo(String testValue) {
         return !equalTo(testValue);
     }
 

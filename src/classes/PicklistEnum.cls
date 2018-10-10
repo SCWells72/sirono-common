@@ -22,7 +22,7 @@ public with sharing abstract class PicklistEnum {
     /**
      * Each entry corresponds to a single distinct value for the enum's picklist field.
      */
-    public with sharing class Entry {
+    public with sharing virtual class Entry {
         private String value { get; set; }
         private String label { get; set; }
         private Boolean active { get; set; }
@@ -34,7 +34,7 @@ public with sharing abstract class PicklistEnum {
          * @param picklistEnum the parent picklist enum
          * @param picklistEntry the picklist field entry
          */
-        private Entry(PicklistEnum picklistEnum, Schema.PicklistEntry picklistEntry) {
+        protected Entry(PicklistEnum picklistEnum, Schema.PicklistEntry picklistEntry) {
             this.value = picklistEntry.getValue();
             this.label = picklistEntry.getLabel();
             this.active = picklistEntry.isActive();
@@ -61,7 +61,7 @@ public with sharing abstract class PicklistEnum {
          *
          * @return the enum entry's string value
          */
-        public String value() {
+        public virtual String value() {
             return value;
         }
 
@@ -70,7 +70,7 @@ public with sharing abstract class PicklistEnum {
          *
          * @return the enum entry's label
          */
-        public String label() {
+        public virtual String label() {
             return label;
         }
 
@@ -79,7 +79,7 @@ public with sharing abstract class PicklistEnum {
          *
          * @return whether the enum entry is active
          */
-        public Boolean isActive() {
+        public virtual Boolean isActive() {
             return active;
         }
 
@@ -88,7 +88,7 @@ public with sharing abstract class PicklistEnum {
          *
          * @return whether the enum entry is the enum's default value
          */
-        public Boolean isDefaultValue() {
+        public virtual Boolean isDefaultValue() {
             return defaultValue;
         }
 
@@ -99,7 +99,7 @@ public with sharing abstract class PicklistEnum {
          *
          * @return <code>true</code> if the specified value matches this entry; otherwise <code>false</code>
          */
-        public Boolean equalTo(String testValue) {
+        public virtual Boolean equalTo(String testValue) {
             return value.equalsIgnoreCase(testValue);
         }
 
@@ -110,7 +110,7 @@ public with sharing abstract class PicklistEnum {
          *
          * @return <code>true</code> if the specified value is different from this entry; otherwise <code>false</code>
          */
-        public Boolean notEqualTo(String testValue) {
+        public virtual Boolean notEqualTo(String testValue) {
             return !equalTo(testValue);
         }
 
@@ -150,9 +150,20 @@ public with sharing abstract class PicklistEnum {
     private void createEntries() {
         Schema.DescribeFieldResult picklistDescribe = picklistField.getDescribe();
         for (Schema.PicklistEntry picklistEntry : picklistDescribe.getPicklistValues()) {
-            Entry entry = new Entry(this, picklistEntry);
+            Entry entry = createEntry(picklistEntry);
             entriesByValue.put(entry.value, entry);
         }
+    }
+
+    /**
+     * Creates a picklist enum entry for the specified picklist entry.
+     *
+     * @param picklistEntry the picklist entry for which a picklist enum entry should be created
+     *
+     * @return the picklist enum entry
+     */
+    protected virtual Entry createEntry(PicklistEntry picklistEntry) {
+        return new Entry(this, picklistEntry);
     }
 
     /**
