@@ -3,17 +3,16 @@
   <component name="FacetManager">
     <facet type="IlluminatedCloud" name="Illuminated Cloud">
       <configuration>
-        <option name="connectionName" value="sirono_local" />
+        <option name="connectionName" value="sirono-common" />
         <option name="moduleContents">
           <ModuleContents>
             <option name="contentSelectionType" value="PACKAGE_XML" />
             <option name="manifest">
               <Manifest />
             </option>
-            <option name="packageXmlRelativePath" value="sirono-common/src/package.xml" />
+            <option name="packageXmlRelativePath" value="src/package.xml" />
           </ModuleContents>
         </option>
-        <option name="packageName" value="Sirono Common" />
       </configuration>
     </facet>
   </component>
@@ -23,7 +22,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test-src" isTestSource="true" />
     </content>
-    <orderEntry type="jdk" jdkName="IlluminatedCloud (sirono-salesforce/sirono_local)" jdkType="IlluminatedCloud" />
+    <orderEntry type="jdk" jdkName="IlluminatedCloud (sirono-common/sirono-common)" jdkType="IlluminatedCloud" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
