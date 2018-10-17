@@ -143,10 +143,10 @@ private class TypeSafeEnumTest extends TypeSafeEnum {
     }
 
     @IsTest
-    private static void testCollectStringValues() {
+    private static void testToStrings() {
         String[] expectedValues = new String[]{TypeSafeEnumTest.FIRST_NAME.value(), TypeSafeEnumTest.LAST_NAME.value()};
 
-        String[] stringValues = TypeSafeEnumTest.collectStringValues(new TypeSafeEnumTest[]{TypeSafeEnumTest.LAST_NAME, TypeSafeEnumTest.FIRST_NAME});
+        String[] stringValues = TypeSafeEnumTest.toStrings(new TypeSafeEnumTest[]{TypeSafeEnumTest.LAST_NAME, null, TypeSafeEnumTest.FIRST_NAME});
         stringValues.sort();
 
         Assert.equals(expectedValues.size(), stringValues.size());

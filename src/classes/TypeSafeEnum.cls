@@ -171,17 +171,19 @@ public with sharing abstract class TypeSafeEnum {
     }
 
     /**
-     * Return a list of the non-null values for the type-safe enum instances in the given list
+     * Return a list of the non-null values for the <code>TypeSafeEnum</code> instances in the given list
      *
      * @param enumInstances the enum instances whose values will be collected
      *
-     * @return list of the collected values
+     * @return list of the enum's <code>String</code> values
      */
-    public static String[] collectStringValues(TypeSafeEnum[] enumInstances) {
+    public static String[] toStrings(TypeSafeEnum[] enumInstances) {
         String[] valueStrings = new String[]{};
 
         for (TypeSafeEnum enumInstance : enumInstances) {
-            CollectionUtil.addIfNotNull(valueStrings, enumInstance.value());
+            if (enumInstance != null) {
+                CollectionUtil.addIfNotNull(valueStrings, enumInstance.value());
+            }
         }
 
         return valueStrings;
