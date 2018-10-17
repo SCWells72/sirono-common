@@ -142,6 +142,17 @@ private class TypeSafeEnumTest extends TypeSafeEnum {
         ));
     }
 
+    @IsTest
+    private static void testToStrings() {
+        String[] expectedValues = new String[]{TypeSafeEnumTest.FIRST_NAME.value(), TypeSafeEnumTest.LAST_NAME.value()};
+
+        String[] stringValues = TypeSafeEnumTest.toStrings(new TypeSafeEnumTest[]{TypeSafeEnumTest.LAST_NAME, null, TypeSafeEnumTest.FIRST_NAME});
+        stringValues.sort();
+
+        Assert.equals(expectedValues.size(), stringValues.size());
+        Assert.equals(expectedValues, stringValues);
+    }
+
     // Sample implementation of TypeSafeEnum for testing purposes.
     // NOTE: Cannot be an inner class because inner classes can't be static.
 
