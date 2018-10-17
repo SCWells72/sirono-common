@@ -169,4 +169,21 @@ public with sharing abstract class TypeSafeEnum {
     public static Boolean matchesNone(TypeSafeEnum[] values, String testValue) {
         return !matchesAny(values, testValue);
     }
+
+    /**
+     * Return a list of the non-null values for the type-safe enum instances in the given list
+     *
+     * @param enumInstances the enum instances whose values will be collected
+     *
+     * @return list of the collected values
+     */
+    public static String[] collectStringValues(TypeSafeEnum[] enumInstances) {
+        String[] valueStrings = new String[]{};
+
+        for (TypeSafeEnum enumInstance : enumInstances) {
+            CollectionUtil.addIfNotNull(valueStrings, enumInstance.value());
+        }
+
+        return valueStrings;
+    }
 }
