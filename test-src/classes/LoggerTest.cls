@@ -324,7 +324,7 @@ public with sharing class LoggerTest {
         Assert.isTrue(loggerAdapter.exceptionThrown);
     }
 
-    public class TestLoggerAdapter extends Logger.AbstractLoggerAdapter {
+    private class TestLoggerAdapter extends Logger.AbstractLoggerAdapter {
         public LoggingLevel lastLogLevel;
         public String lastLogMsg;
         public String lastClass;

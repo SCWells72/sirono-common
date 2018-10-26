@@ -487,7 +487,7 @@ public with sharing class CollectionUtil {
     }
 
     // Adapts the Comparable interface supported by List.sort() into the Comparator interface
-    private class ComparatorAdapter implements Comparable {
+    private with sharing class ComparatorAdapter implements Comparable {
         private final Object thisValue;
         private final Comparator comparator;
 

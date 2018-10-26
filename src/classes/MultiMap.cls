@@ -317,7 +317,7 @@ public with sharing class MultiMap {
     /**
      * A concrete implementation of <code>CollectionAdapterFactory</code> for <code>List</code>-based collections.
      */
-    private class ListCollectionAdapterFactory implements CollectionAdapterFactory {
+    private with sharing class ListCollectionAdapterFactory implements CollectionAdapterFactory {
         public CollectionAdapter createCollectionAdapter() {
             return new ListCollectionAdapter();
         }
@@ -326,7 +326,7 @@ public with sharing class MultiMap {
     /**
      * A concrete implementation of <code>CollectionAdapter</code> for <code>List</code>-based collections.
      */
-    private class ListCollectionAdapter implements CollectionAdapter {
+    private with sharing class ListCollectionAdapter implements CollectionAdapter {
         private List<Object> delegate = new List<Object>();
 
         public Boolean isEmpty() {
@@ -370,7 +370,7 @@ public with sharing class MultiMap {
     /**
      * A concrete implementation of <code>CollectionAdapterFactory</code> for <code>Set</code>-based collections.
      */
-    private class SetCollectionAdapterFactory implements CollectionAdapterFactory {
+    private with sharing class SetCollectionAdapterFactory implements CollectionAdapterFactory {
         public CollectionAdapter createCollectionAdapter() {
             return new SetCollectionAdapter();
         }
@@ -379,7 +379,7 @@ public with sharing class MultiMap {
     /**
      * A concrete implementation of <code>CollectionAdapter</code> for <code>Set</code>-based collections.
      */
-    private class SetCollectionAdapter implements CollectionAdapter {
+    private with sharing class SetCollectionAdapter implements CollectionAdapter {
         private Set<Object> delegate = new Set<Object>();
 
         public Boolean isEmpty() {
