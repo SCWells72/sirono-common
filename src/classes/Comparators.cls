@@ -34,7 +34,7 @@ public with sharing class Comparators {
      * The common base class for comparators that support specification of sorting direction, how null values should
      * be handled, and whether textual comparisons are performed in a case-sensitive/-insensitive manner.
      */
-    public abstract class ConfigurableComparator implements Comparator {
+    public with sharing abstract class ConfigurableComparator implements Comparator {
         private Boolean caseSensitive = true;
         private Boolean ascending = true;
         private Boolean nullsFirst = true;
@@ -150,7 +150,7 @@ public with sharing class Comparators {
         public abstract Integer compare(Object value1, Object value2);
     }
 
-    private class LongComparator extends ConfigurableComparator {
+    private with sharing class LongComparator extends ConfigurableComparator {
         public override Integer compare(Object value1, Object value2) {
             Integer relationship = compareNullValues(value1, value2);
             if (relationship == null) {
@@ -187,7 +187,7 @@ public with sharing class Comparators {
         return longComparator();
     }
 
-    private class DecimalComparator extends ConfigurableComparator {
+    private with sharing class DecimalComparator extends ConfigurableComparator {
         public override Integer compare(Object value1, Object value2) {
             Integer relationship = compareNullValues(value1, value2);
             if (relationship == null) {
@@ -224,7 +224,7 @@ public with sharing class Comparators {
         return decimalComparator();
     }
 
-    private class DatetimeComparator extends ConfigurableComparator {
+    private with sharing class DatetimeComparator extends ConfigurableComparator {
         public override Integer compare(Object value1, Object value2) {
             Integer relationship = compareNullValues(value1, value2);
             if (relationship == null) {
@@ -258,7 +258,7 @@ public with sharing class Comparators {
         return datetimeComparator();
     }
 
-    private class StringComparator extends ConfigurableComparator {
+    private with sharing class StringComparator extends ConfigurableComparator {
         public override Integer compare(Object value1, Object value2) {
             Integer relationship = compareNullValues(value1, value2);
             if (relationship == null) {
@@ -286,7 +286,7 @@ public with sharing class Comparators {
     }
 
     // Comparator for sorting lists of SObjects by field values
-    private class SObjectFieldValueComparator extends ConfigurableComparator {
+    private with sharing class SObjectFieldValueComparator extends ConfigurableComparator {
         private final SObjectField field;
 
         public SObjectFieldValueComparator(SObjectField field) {

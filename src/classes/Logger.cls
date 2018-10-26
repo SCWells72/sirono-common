@@ -300,7 +300,7 @@ public with sharing class Logger {
         void log(LoggingLevel logLevel, Type apexClass, String msg, Object[] params);
     }
 
-    public abstract class AbstractLoggerAdapter implements LoggerAdapter {
+    public with sharing abstract class AbstractLoggerAdapter implements LoggerAdapter {
         public void log(LoggingLevel level, Type apexClass, String msg, Object[] params) {
             try {
                 if (CollectionUtil.isEmpty(params)) {
@@ -352,7 +352,7 @@ public with sharing class Logger {
     /**
      * Implementation of LoggerAdapter that directs all logging through the built-in Apex method <code>System.debug()</code>
      */
-    public class DefaultLoggerAdapter extends AbstractLoggerAdapter {
+    public with sharing class DefaultLoggerAdapter extends AbstractLoggerAdapter {
         private String FORMAT_STRING = '{0}: {1}';
 
         protected override void writeToLog(LoggingLevel level, Type apexClass, String msg) {
