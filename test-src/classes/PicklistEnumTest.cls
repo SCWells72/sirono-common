@@ -77,6 +77,32 @@ private class PicklistEnumTest extends PicklistEnum {
         Assert.equals(NEW_CUSTOMER_VALUE, PicklistEnumTest.NEW_CUSTOMER.toString());
     }
 
+    @IsTest
+    static void testMatchesAny() {
+        Assert.isTrue(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), EXISTING_CUSTOMER_UPGRADE_VALUE));
+        Assert.isTrue(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), EXISTING_CUSTOMER_REPLACEMENT_VALUE));
+        Assert.isTrue(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), EXISTING_CUSTOMER_DOWNGRADE_VALUE));
+        Assert.isTrue(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), NEW_CUSTOMER_VALUE));
+        Assert.isTrue(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), NEW_CUSTOMER_VALUE.toLowerCase().capitalize()));
+
+        Assert.isFalse(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), null));
+        Assert.isFalse(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), 'Yadda Yadda'));
+        Assert.isFalse(PicklistEnumTest.matchesAny(new Entry[]{}, 'Yadda Yadda'));
+    }
+
+    @IsTest
+    static void testMatchesNone() {
+        Assert.isFalse(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), EXISTING_CUSTOMER_UPGRADE_VALUE));
+        Assert.isFalse(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), EXISTING_CUSTOMER_REPLACEMENT_VALUE));
+        Assert.isFalse(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), EXISTING_CUSTOMER_DOWNGRADE_VALUE));
+        Assert.isFalse(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), NEW_CUSTOMER_VALUE));
+        Assert.isFalse(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), NEW_CUSTOMER_VALUE.toLowerCase().capitalize()));
+
+        Assert.isTrue(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), null));
+        Assert.isTrue(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), 'Yadda Yadda'));
+        Assert.isTrue(PicklistEnumTest.matchesNone(new Entry[]{}, 'Yadda Yadda'));
+    }
+
     // Sample implementation of PicklistEnum for testing purposes.
     // NOTE: Cannot be an inner class because inner classes can't be static.
 

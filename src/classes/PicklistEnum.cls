@@ -185,4 +185,39 @@ public with sharing abstract class PicklistEnum {
     public Entry[] getEntries() {
         return entries;
     }
+
+
+    /**
+     * Determines whether the specified string value matches (case-insensitive) any of the provided <code>Entry</code> values.
+     *
+     * @param values the Entry instances to check testValue against
+     * @param testValue the value to be tested
+     *
+     * @return <code>true</code> if the specified value matches any of the enum entry values; otherwise <code>false</code>
+     */
+    public static Boolean matchesAny(Entry[] values, String testValue) {
+        if (CollectionUtil.isEmpty(values)) {
+            return false;
+        }
+
+        for (Entry value : values) {
+            if (value.equalTo(testValue)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Determines whether the specified string value matches (case-insensitive) none of the provided type-safe enum values.
+     *
+     * @param values the Entry instances to check testValue against
+     * @param testValue the value to be tested
+     *
+     * @return <code>true</code> if the specified value matches none of the enum entry values; otherwise <code>false</code>
+     */
+    public static Boolean matchesNone(Entry[] values, String testValue) {
+        return !matchesAny(values, testValue);
+    }
 }
