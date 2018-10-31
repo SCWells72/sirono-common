@@ -220,4 +220,23 @@ public with sharing abstract class PicklistEnum {
     public static Boolean matchesNone(Entry[] values, String testValue) {
         return !matchesAny(values, testValue);
     }
+
+    /**
+     * Return the non-null values for all non-null <code>Entry</code> instances in the given list.
+     *
+     * @param entries the enum instances whose values will be collected
+     *
+     * @return list of the <code>String</code> values
+     */
+    public static List<String> toStrings(Entry[] entries) {
+        List<String> valueStrings = new List<String>();
+
+        for (Entry entry : entries) {
+            if (entry != null) {
+                CollectionUtil.addIfNotNull(valueStrings, entry.value());
+            }
+        }
+
+        return valueStrings;
+    }
 }

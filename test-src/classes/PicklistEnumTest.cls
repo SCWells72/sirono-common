@@ -103,6 +103,21 @@ private class PicklistEnumTest extends PicklistEnum {
         Assert.isTrue(PicklistEnumTest.matchesNone(new Entry[]{}, 'Yadda Yadda'));
     }
 
+    @IsTest
+    static void testToStrings() {
+        String[] expectedValues = new String[]{
+            EXISTING_CUSTOMER_UPGRADE_VALUE,
+            EXISTING_CUSTOMER_REPLACEMENT_VALUE,
+            EXISTING_CUSTOMER_DOWNGRADE_VALUE,
+            NEW_CUSTOMER_VALUE};
+        expectedValues.sort();
+
+        String[] allStringValues = PicklistEnumTest.toStrings(PicklistEnumTest.values());
+        allStringValues.sort();
+
+        Assert.equals(expectedValues, allStringValues);
+    }
+
     // Sample implementation of PicklistEnum for testing purposes.
     // NOTE: Cannot be an inner class because inner classes can't be static.
 
