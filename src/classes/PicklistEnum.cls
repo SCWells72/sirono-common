@@ -185,4 +185,57 @@ public with sharing abstract class PicklistEnum {
     public Entry[] getEntries() {
         return entries;
     }
+
+    /**
+     * Determines whether the specified string value matches (case-insensitive) any of the provided <code>Entry</code> values.
+     *
+     * @param values the Entry instances to check testValue against
+     * @param testValue the value to be tested
+     *
+     * @return <code>true</code> if the specified value matches any of the enum entry values; otherwise <code>false</code>
+     */
+    public static Boolean matchesAny(Entry[] values, String testValue) {
+        if (CollectionUtil.isEmpty(values)) {
+            return false;
+        }
+
+        for (Entry value : values) {
+            if (value.equalTo(testValue)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Determines whether the specified string value matches (case-insensitive) none of the provided <code>Entry</code> values.
+     *
+     * @param values the Entry instances to check testValue against
+     * @param testValue the value to be tested
+     *
+     * @return <code>true</code> if the specified value matches none of the enum entry values; otherwise <code>false</code>
+     */
+    public static Boolean matchesNone(Entry[] values, String testValue) {
+        return !matchesAny(values, testValue);
+    }
+
+    /**
+     * Return the non-null values for all non-null <code>Entry</code> instances in the given list.
+     *
+     * @param entries the enum instances whose values will be collected
+     *
+     * @return list of the <code>String</code> values
+     */
+    public static List<String> toStrings(Entry[] entries) {
+        List<String> valueStrings = new List<String>();
+
+        for (Entry entry : entries) {
+            if (entry != null) {
+                CollectionUtil.addIfNotNull(valueStrings, entry.value());
+            }
+        }
+
+        return valueStrings;
+    }
 }
