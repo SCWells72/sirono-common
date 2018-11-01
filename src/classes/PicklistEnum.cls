@@ -186,7 +186,6 @@ public with sharing abstract class PicklistEnum {
         return entries;
     }
 
-
     /**
      * Determines whether the specified string value matches (case-insensitive) any of the provided <code>Entry</code> values.
      *
@@ -210,7 +209,7 @@ public with sharing abstract class PicklistEnum {
     }
 
     /**
-     * Determines whether the specified string value matches (case-insensitive) none of the provided type-safe enum values.
+     * Determines whether the specified string value matches (case-insensitive) none of the provided <code>Entry</code> values.
      *
      * @param values the Entry instances to check testValue against
      * @param testValue the value to be tested
