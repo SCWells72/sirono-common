@@ -64,7 +64,7 @@ public with sharing class TriggerHandlerDispatcher {
         // Call the appropriate trigger handler method
         switch on Trigger.operationType {
             when BEFORE_INSERT {
-				handler.beforeInsert();
+                handler.beforeInsert();
             }
             when AFTER_INSERT {
                 handler.afterInsert();
@@ -84,6 +84,6 @@ public with sharing class TriggerHandlerDispatcher {
             when AFTER_UNDELETE {
                 handler.afterUndelete();
             }
-		}
+        }
     }
 }
