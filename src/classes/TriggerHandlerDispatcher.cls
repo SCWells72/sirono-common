@@ -62,21 +62,28 @@ public with sharing class TriggerHandlerDispatcher {
         }
 
         // Call the appropriate trigger handler method
-        // TODO: Update this to use switch once Summer '18 is available
-        if (Trigger.isBefore && Trigger.isInsert) {
-            handler.beforeInsert();
-        } else if (Trigger.isAfter && Trigger.isInsert) {
-            handler.afterInsert();
-        } else if (Trigger.isBefore && Trigger.isUpdate) {
-            handler.beforeUpdate();
-        } else if (Trigger.isAfter && Trigger.isUpdate) {
-            handler.afterUpdate();
-        } else if (Trigger.isBefore && Trigger.isDelete) {
-            handler.beforeDelete();
-        } else if (Trigger.isAfter && Trigger.isDelete) {
-            handler.afterDelete();
-        } else if (Trigger.isAfter && Trigger.isUndelete) {
-            handler.afterUndelete();
+        switch on Trigger.operationType {
+            when BEFORE_INSERT {
+                handler.beforeInsert();
+            }
+            when AFTER_INSERT {
+                handler.afterInsert();
+            }
+            when BEFORE_UPDATE {
+                handler.beforeUpdate();
+            }
+            when AFTER_UPDATE {
+                handler.afterUpdate();
+            }
+            when BEFORE_DELETE {
+                handler.beforeDelete();
+            }
+            when AFTER_DELETE {
+                handler.afterDelete();
+            }
+            when AFTER_UNDELETE {
+                handler.afterUndelete();
+            }
         }
     }
 }
