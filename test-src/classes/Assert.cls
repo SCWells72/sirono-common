@@ -30,7 +30,7 @@ public with sharing class Assert {
     /**
      * Assert that the given logical expression evaluates to true.
      *
-     * @param logicalExpression The expression
+     * @param logicalExpression the expression
      */
     public static void isTrue(Boolean logicalExpression) {
         System.assert(logicalExpression);
@@ -40,7 +40,7 @@ public with sharing class Assert {
      * Assert that the given logical expression evaluates to true.
      *
      * @param logicalExpression the expression
-     * @param message Custom message returned as part of the error message.
+     * @param message custom message returned as part of the error message
      */
     public static void isTrue(Boolean logicalExpression, String message) {
         System.assert(logicalExpression, message);
@@ -49,7 +49,7 @@ public with sharing class Assert {
     /**
      * Assert that the given logical expression evaluates to false.
      *
-     * @param logicalExpression The expression
+     * @param logicalExpression the expression
      */
     public static void isFalse(Boolean logicalExpression) {
         System.assert(!logicalExpression);
@@ -59,7 +59,7 @@ public with sharing class Assert {
      * Assert that the given logical expression evaluates to false.
      *
      * @param logicalExpression the expression
-     * @param message Custom message returned as part of the error message.
+     * @param message custom message returned as part of the error message
      */
     public static void isFalse(Boolean logicalExpression, String message) {
         System.assert(!logicalExpression, message);
@@ -110,7 +110,7 @@ public with sharing class Assert {
     /**
      * Used to indicate that a test has arrived in a state where it should fail.
      *
-     * @param message Custom message returned as part of the error message.
+     * @param message custom message returned as part of the error message
      */
     public static void fail(String message) {
         isTrue(false, message);
@@ -119,7 +119,7 @@ public with sharing class Assert {
     /**
      * Verifies that the specified value is null.
      *
-     * @param obj The object to check.
+     * @param obj the object to check
      */
     public static void isNull(Object obj) {
         equals(null, obj);
@@ -128,8 +128,8 @@ public with sharing class Assert {
     /**
      * Verifies that the specified value is null.
      *
-     * @param obj The object to check.
-     * @param message Custom message returned as part of the error message.
+     * @param obj the object to check
+     * @param message custom message returned as part of the error message
      */
     public static void isNull(Object obj, String message) {
         equals(null, obj, message);
@@ -138,7 +138,7 @@ public with sharing class Assert {
     /**
      * Verifies that the specified value is not null.
      *
-     * @param obj The object to check.
+     * @param obj the object to check
      */
     public static void isNotNull(Object obj) {
         notEquals(null, obj);
@@ -147,11 +147,71 @@ public with sharing class Assert {
     /**
      * Verifies that the specified value is not null.
      *
-     * @param obj The object to check.
-     * @param message Custom message returned as part of the error message.
+     * @param obj the object to check
+     * @param message custom message returned as part of the error message
      */
     public static void isNotNull(Object obj, String message) {
         notEquals(null, obj, message);
+    }
+
+    /**
+     * Verifies that the specified <code>String</code> value is white space, empty (''), or null.
+     *
+     * @param str the <code>String</code> to check
+     * @param message custom message returned as part of the error message
+     */
+    public static void isBlank(String str, String message) {
+        isTrue(String.isBlank(str), message);
+    }
+
+    /**
+     * Verifies that the specified <code>String</code> value is not whitespace, not empty (''), and not null.
+     *
+     * @param str the <code>String</code> value to check
+     * @param message custom message returned as part of the error message
+     */
+    public static void isNotBlank(String str, String message) {
+        isTrue(String.isNotBlank(str), message);
+    }
+
+    /**
+     * Verifies that the specified <code>String</code> value is empty ('') or null.
+     *
+     * @param str the <code>String</code> to check
+     * @param message custom message returned as part of the error message
+     */
+    public static void isEmpty(String str, String message) {
+        isTrue(String.isEmpty(str), message);
+    }
+
+    /**
+     * Verifies that the specified <code>String</code> value is not empty ('') and not null.
+     *
+     * @param str the <code>String</code> value to check
+     * @param message custom message returned as part of the error message
+     */
+    public static void isNotEmpty(String str, String message) {
+        isTrue(String.isNotEmpty(str), message);
+    }
+
+    /**
+     * Verifies that the specified <code>List</code> value is <code>null</code> or empty.
+     *
+     * @param values the <code>List</code> value to check
+     * @param message custom message returned as part of the error message
+     */
+    public static void isEmpty(List<Object> values, String message) {
+        isTrue(CollectionUtil.isEmpty(values), message);
+    }
+
+    /**
+     * Verifies that the specified <code>List</code> value is not <code>null</code> or empty.
+     *
+     * @param values the <code>List</code> value to check
+     * @param message custom message returned as part of the error message
+     */
+    public static void isNotEmpty(List<Object> values, String message) {
+        isTrue(CollectionUtil.isNotEmpty(values), message);
     }
 
     /**
