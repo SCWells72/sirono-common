@@ -155,43 +155,63 @@ public with sharing class Assert {
     }
 
     /**
-     * Verifies that the specified value is null or empty
+     * Verifies that the specified <code>String</code> value is null or empty
      *
-     * @param obj The <code>String</code> to check
+     * @param str The <code>String</code> to check
      * @param message Custom message returned as part of the error message.
      */
-    public static void isBlank(String obj, String message) {
-        isTrue(String.isBlank(obj), message);
+    public static void isBlank(String str, String message) {
+        isTrue(String.isBlank(str), message);
     }
 
     /**
      * Verifies that the specified <code>String</code> value is not <code>null</code> or empty
      *
-     * @param obj The <code>String</code> value to check
+     * @param str The <code>String</code> value to check
      * @param message Custom message returned as part of the error message.
      */
-    public static void isNotBlank(String obj, String message) {
-        isTrue(String.isNotBlank(obj), message);
+    public static void isNotBlank(String str, String message) {
+        isTrue(String.isNotBlank(str), message);
+    }
+
+    /**
+     * Verifies that the specified <code>String</code> value is empty
+     *
+     * @param str The <code>String</code> to check
+     * @param message Custom message returned as part of the error message.
+     */
+    public static void isEmpty(String str, String message) {
+        isTrue(String.isEmpty(str), message);
+    }
+
+    /**
+     * Verifies that the specified <code>String</code> value is not empty
+     *
+     * @param str The <code>String</code> value to check
+     * @param message Custom message returned as part of the error message.
+     */
+    public static void isNotEmpty(String str, String message) {
+        isTrue(String.isNotEmpty(str), message);
     }
 
     /**
      * Verifies that the specified <code>List</code> value is <code>null</code> or empty
      *
-     * @param objList The <code>List</code> value to check
+     * @param values The <code>List</code> value to check
      * @param message Custom message returned as part of the error message.
      */
-    public static void isEmpty(List<Object> objList, String message) {
-        isTrue(CollectionUtil.isEmpty(objList), message);
+    public static void isEmpty(List<Object> values, String message) {
+        isTrue(CollectionUtil.isEmpty(values), message);
     }
 
     /**
      * Verifies that the specified <code>List</code> value is not <code>null</code> or empty
      *
-     * @param objList The <code>List</code> value to check
+     * @param values The <code>List</code> value to check
      * @param message Custom message returned as part of the error message.
      */
-    public static void isNotEmpty(List<Object> objList, String message) {
-        isTrue(CollectionUtil.isNotEmpty(objList), message);
+    public static void isNotEmpty(List<Object> values, String message) {
+        isTrue(CollectionUtil.isNotEmpty(values), message);
     }
 
     /**
