@@ -178,10 +178,28 @@ public with sharing class Assert {
      * Verifies that the specified <code>String</code> value is empty ('') or null.
      *
      * @param str the <code>String</code> to check
+     */
+    public static void isEmpty(String str) {
+        isTrue(String.isEmpty(str));
+    }
+
+    /**
+     * Verifies that the specified <code>String</code> value is empty ('') or null.
+     *
+     * @param str the <code>String</code> to check
      * @param message custom message returned as part of the error message
      */
     public static void isEmpty(String str, String message) {
         isTrue(String.isEmpty(str), message);
+    }
+
+    /**
+     * Verifies that the specified <code>String</code> value is not empty ('') and not null.
+     *
+     * @param str the <code>String</code> value to check
+     */
+    public static void isNotEmpty(String str) {
+        isTrue(String.isNotEmpty(str));
     }
 
     /**
@@ -198,10 +216,28 @@ public with sharing class Assert {
      * Verifies that the specified <code>List</code> value is <code>null</code> or empty.
      *
      * @param values the <code>List</code> value to check
+     */
+    public static void isEmpty(List<Object> values) {
+        isTrue(CollectionUtil.isEmpty(values));
+    }
+
+    /**
+     * Verifies that the specified <code>List</code> value is <code>null</code> or empty.
+     *
+     * @param values the <code>List</code> value to check
      * @param message custom message returned as part of the error message
      */
     public static void isEmpty(List<Object> values, String message) {
         isTrue(CollectionUtil.isEmpty(values), message);
+    }
+
+    /**
+     * Verifies that the specified <code>List</code> value is not <code>null</code> or empty.
+     *
+     * @param values the <code>List</code> value to check
+     */
+    public static void isNotEmpty(List<Object> values) {
+        isTrue(CollectionUtil.isNotEmpty(values));
     }
 
     /**
