@@ -505,19 +505,19 @@ private class MultiMapTest {
         testMultiMap.putValue('key2', 'value2_1');
         testMultiMap.putValue('key2', 'value2_2');
         testMultiMap.putValue('key2', 'value2_3');
-        Assert.isFalse(testMultiMap.values().isEmpty());
+        Assert.isNotEmpty(testMultiMap.values());
 
         // Remove a value for one key
         testMultiMap.removeValue('key1', 'value1_1');
-        Assert.isFalse(testMultiMap.values().isEmpty());
+        Assert.isNotEmpty(testMultiMap.values());
 
         // Remove all values for one key
         testMultiMap.remove('key2');
-        Assert.isFalse(testMultiMap.values().isEmpty());
+        Assert.isNotEmpty(testMultiMap.values());
 
         // And now clear it
         testMultiMap.clear();
-        Assert.isTrue(testMultiMap.values().isEmpty());
+        Assert.isEmpty(testMultiMap.values());
     }
 
     @IsTest
