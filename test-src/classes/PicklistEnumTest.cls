@@ -45,9 +45,10 @@ private class PicklistEnumTest extends PicklistEnum {
             Opportunity.Type,
             new Map<String, PicklistEnum.Entry> {
                 PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE_VALUE => PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE,
-                PicklistEnumTest.EXISTING_CUSTOMER_REPLACEMENT_VALUE => PicklistEnumTest.EXISTING_CUSTOMER_REPLACEMENT,
-                PicklistEnumTest.EXISTING_CUSTOMER_DOWNGRADE_VALUE => PicklistEnumTest.EXISTING_CUSTOMER_DOWNGRADE,
-                PicklistEnumTest.NEW_CUSTOMER_VALUE => PicklistEnumTest.NEW_CUSTOMER
+                PicklistEnumTest.EXISTING_CUSTOMER_REPLACEMENT_VALUE => PicklistEnumTest.EXISTING_CUSTOMER_REPLACEMENT
+//                ,
+//                PicklistEnumTest.EXISTING_CUSTOMER_DOWNGRADE_VALUE => PicklistEnumTest.EXISTING_CUSTOMER_DOWNGRADE,
+//                PicklistEnumTest.NEW_CUSTOMER_VALUE => PicklistEnumTest.NEW_CUSTOMER
             },
             PicklistEnumTest.values()
         );
@@ -58,12 +59,12 @@ private class PicklistEnumTest extends PicklistEnum {
         Assert.isTrue(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.equalTo(EXISTING_CUSTOMER_UPGRADE_VALUE));
         Assert.isTrue(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.equalTo(EXISTING_CUSTOMER_UPGRADE_VALUE.toLowerCase()));
         Assert.isTrue(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.equalTo(EXISTING_CUSTOMER_UPGRADE_VALUE.toUpperCase()));
-        Assert.isFalse(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.equalTo(NEW_CUSTOMER_VALUE));
+//        Assert.isFalse(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.equalTo(NEW_CUSTOMER_VALUE));
     }
 
     @IsTest
     static void testNotEqualTo() {
-        Assert.isTrue(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.notEqualTo(NEW_CUSTOMER_VALUE));
+//        Assert.isTrue(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.notEqualTo(NEW_CUSTOMER_VALUE));
         Assert.isFalse(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.notEqualTo(EXISTING_CUSTOMER_UPGRADE_VALUE));
         Assert.isFalse(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.notEqualTo(EXISTING_CUSTOMER_UPGRADE_VALUE.toLowerCase()));
         Assert.isFalse(PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.notEqualTo(EXISTING_CUSTOMER_UPGRADE_VALUE.toUpperCase()));
@@ -73,17 +74,17 @@ private class PicklistEnumTest extends PicklistEnum {
     static void testToString() {
         Assert.equals(EXISTING_CUSTOMER_UPGRADE_VALUE, PicklistEnumTest.EXISTING_CUSTOMER_UPGRADE.toString());
         Assert.equals(EXISTING_CUSTOMER_REPLACEMENT_VALUE, PicklistEnumTest.EXISTING_CUSTOMER_REPLACEMENT.toString());
-        Assert.equals(EXISTING_CUSTOMER_DOWNGRADE_VALUE, PicklistEnumTest.EXISTING_CUSTOMER_DOWNGRADE.toString());
-        Assert.equals(NEW_CUSTOMER_VALUE, PicklistEnumTest.NEW_CUSTOMER.toString());
+//        Assert.equals(EXISTING_CUSTOMER_DOWNGRADE_VALUE, PicklistEnumTest.EXISTING_CUSTOMER_DOWNGRADE.toString());
+//        Assert.equals(NEW_CUSTOMER_VALUE, PicklistEnumTest.NEW_CUSTOMER.toString());
     }
 
     @IsTest
     static void testMatchesAny() {
         Assert.isTrue(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), EXISTING_CUSTOMER_UPGRADE_VALUE));
         Assert.isTrue(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), EXISTING_CUSTOMER_REPLACEMENT_VALUE));
-        Assert.isTrue(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), EXISTING_CUSTOMER_DOWNGRADE_VALUE));
-        Assert.isTrue(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), NEW_CUSTOMER_VALUE));
-        Assert.isTrue(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), NEW_CUSTOMER_VALUE.toLowerCase().capitalize()));
+//        Assert.isTrue(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), EXISTING_CUSTOMER_DOWNGRADE_VALUE));
+//        Assert.isTrue(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), NEW_CUSTOMER_VALUE));
+//        Assert.isTrue(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), NEW_CUSTOMER_VALUE.toLowerCase().capitalize()));
 
         Assert.isFalse(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), null));
         Assert.isFalse(PicklistEnumTest.matchesAny(PicklistEnumTest.values(), 'Yadda Yadda'));
@@ -94,9 +95,9 @@ private class PicklistEnumTest extends PicklistEnum {
     static void testMatchesNone() {
         Assert.isFalse(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), EXISTING_CUSTOMER_UPGRADE_VALUE));
         Assert.isFalse(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), EXISTING_CUSTOMER_REPLACEMENT_VALUE));
-        Assert.isFalse(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), EXISTING_CUSTOMER_DOWNGRADE_VALUE));
-        Assert.isFalse(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), NEW_CUSTOMER_VALUE));
-        Assert.isFalse(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), NEW_CUSTOMER_VALUE.toLowerCase().capitalize()));
+//        Assert.isFalse(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), EXISTING_CUSTOMER_DOWNGRADE_VALUE));
+//        Assert.isFalse(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), NEW_CUSTOMER_VALUE));
+//        Assert.isFalse(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), NEW_CUSTOMER_VALUE.toLowerCase().capitalize()));
 
         Assert.isTrue(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), null));
         Assert.isTrue(PicklistEnumTest.matchesNone(PicklistEnumTest.values(), 'Yadda Yadda'));
@@ -107,9 +108,11 @@ private class PicklistEnumTest extends PicklistEnum {
     static void testToStrings() {
         String[] expectedValues = new String[]{
             EXISTING_CUSTOMER_UPGRADE_VALUE,
-            EXISTING_CUSTOMER_REPLACEMENT_VALUE,
-            EXISTING_CUSTOMER_DOWNGRADE_VALUE,
-            NEW_CUSTOMER_VALUE};
+            EXISTING_CUSTOMER_REPLACEMENT_VALUE
+//            ,
+//            EXISTING_CUSTOMER_DOWNGRADE_VALUE,
+//            NEW_CUSTOMER_VALUE
+        };
         expectedValues.sort();
 
         String[] allStringValues = PicklistEnumTest.toStrings(PicklistEnumTest.values());
@@ -123,16 +126,16 @@ private class PicklistEnumTest extends PicklistEnum {
 
     private static final PicklistEnumTest INSTANCE = new PicklistEnumTest();
 
-    private static final String EXISTING_CUSTOMER_UPGRADE_VALUE = 'Existing Customer - Upgrade';
-    private static final String EXISTING_CUSTOMER_REPLACEMENT_VALUE = 'Existing Customer - Replacement';
-    private static final String EXISTING_CUSTOMER_DOWNGRADE_VALUE = 'Existing Customer - Downgrade';
-    private static final String NEW_CUSTOMER_VALUE = 'New Customer';
+    private static final String EXISTING_CUSTOMER_UPGRADE_VALUE = 'Existing Business';
+    private static final String EXISTING_CUSTOMER_REPLACEMENT_VALUE = 'New Business';
+//    private static final String EXISTING_CUSTOMER_DOWNGRADE_VALUE = 'Existing Customer - Downgrade';
+//    private static final String NEW_CUSTOMER_VALUE = 'New Customer';
 
     // TODO: Unfortunately no picklist entry is flagged as default so that logic isn't tested
     private static final Entry EXISTING_CUSTOMER_UPGRADE = valueOf(EXISTING_CUSTOMER_UPGRADE_VALUE);
     private static final Entry EXISTING_CUSTOMER_REPLACEMENT = valueOf(EXISTING_CUSTOMER_REPLACEMENT_VALUE);
-    private static final Entry EXISTING_CUSTOMER_DOWNGRADE = valueOf(EXISTING_CUSTOMER_DOWNGRADE_VALUE);
-    private static final Entry NEW_CUSTOMER = valueOf(NEW_CUSTOMER_VALUE);
+//    private static final Entry EXISTING_CUSTOMER_DOWNGRADE = valueOf(EXISTING_CUSTOMER_DOWNGRADE_VALUE);
+//    private static final Entry NEW_CUSTOMER = valueOf(NEW_CUSTOMER_VALUE);
 
     private PicklistEnumTest() {
         super(Opportunity.Type);
