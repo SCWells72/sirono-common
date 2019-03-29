@@ -344,6 +344,7 @@ public with sharing class Logger {
                 '\nclass=' + apexClass +
                 '\nmessage=' + msg +
                 '\nparameters=' + params +
+                '\nexceptionMessage=' + e.getMessage() +
                 '\nstackTrace=' + e.getStackTraceString();
             System.debug(LoggingLevel.ERROR, errorMessage);
         }
