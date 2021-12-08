@@ -21,7 +21,7 @@
  * @see TriggerHandlerFactory
  * @see TriggerHandler
  */
-public with sharing class TriggerHandlerDispatcher {
+public inherited sharing class TriggerHandlerDispatcher {
     private static final Logger LOG = Logger.getInstance(TriggerHandlerDispatcher.class);
 
     /**
