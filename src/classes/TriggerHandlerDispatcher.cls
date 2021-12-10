@@ -31,7 +31,7 @@ public inherited sharing class TriggerHandlerDispatcher {
      */
     public static void dispatch(Type factoryType) {
         // Make sure this is running in the context of a trigger
-        if (!Trigger.isExecuting) {
+        if (!isExecuting()) {
             String message = 'Trigger handler must only be invoked in the context of an executing trigger.';
             LOG.error(message);
             throw new IllegalStateException(message);
@@ -54,7 +54,7 @@ public inherited sharing class TriggerHandlerDispatcher {
         TriggerHandlerFactory factory = (TriggerHandlerFactory) instance;
 
         // Create the trigger handler
-        TriggerHandler handler = factory.create(Trigger.isDelete ? Trigger.old : Trigger.new, Trigger.oldMap);
+        TriggerHandler handler = factory.create(isDelete() ? Trigger.old : Trigger.new, Trigger.oldMap);
         if (handler == null) {
             String message = 'The trigger handler factory must create a trigger handler.';
             LOG.error(message);
@@ -62,7 +62,7 @@ public inherited sharing class TriggerHandlerDispatcher {
         }
 
         // Call the appropriate trigger handler method
-        switch on Trigger.operationType {
+        switch on getOperationType() {
             when BEFORE_INSERT {
                 handler.beforeInsert();
             }
@@ -85,5 +85,54 @@ public inherited sharing class TriggerHandlerDispatcher {
                 handler.afterUndelete();
             }
         }
+    }
+
+    /**
+     * Specifies the trigger event when the TriggerHandlerDispatcher is mocked.
+     */
+    private static TriggerOperation mockOperationType = null;
+
+    /**
+     * Mocks the TriggerHandlerDispatcher so that it operated as if it is within a trigger context.
+     *
+     * @param operationType the trigger event
+     */
+    public static void mock(TriggerOperation operationType) {
+        if (!Test.isRunningTest()) {
+            String message = 'TriggerHandlerDispatcher may only be mocked in a test.';
+            LOG.error(message);
+            throw new IllegalStateException(message);
+        }
+
+        mockOperationType = operationType;
+    }
+
+    /**
+     * Gets the trigger event, either from the trigger context or as specified when mocked.
+     *
+     * @return the trigger event
+     */
+    private static TriggerOperation getOperationType() {
+        return mockOperationType != null ? mockOperationType : Trigger.operationType;
+    }
+
+    /**
+     * Determines whether operating in a trigger context or if mocked as if operating in a trigger context.
+     *
+     * @return whether operating in a trigger context or if mocked as if operating in a trigger context
+     */
+    private static Boolean isExecuting() {
+        return mockOperationType != null ? true : Trigger.isExecuting;
+    }
+
+    /**
+     * Determines whether the trigger event is a delete.
+     *
+     * @return whether the trigger event is a delete
+     */
+    private static Boolean isDelete() {
+        return mockOperationType != null ?
+            mockOperationType == TriggerOperation.BEFORE_DELETE || mockOperationType == TriggerOperation.AFTER_DELETE :
+            Trigger.isDelete;
     }
 }
