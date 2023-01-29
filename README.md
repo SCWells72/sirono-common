@@ -29,14 +29,14 @@ The primary interfaces and classes in the framework are:
 A typical trigger handler implementation would follow the pattern:
 
 **Trigger**
-```java
-trigger ContactTrigger on Contact (before insert, before update, ...) {
+```apex
+trigger ContactTrigger on Contact (before insert, before update/*, ...*/) {
     TriggerHandlerDispatcher.dispatch(ContactTriggerHandler.Factory.class);
 }
 ```
 
 **Trigger handler**
-```java
+```apex
 public with sharing class ContactTriggerHandler extends AbstractTriggerHandler {
     // Trigger handler factory as inner class to avoid top-level namespace pollution
     public class Factory implements TriggerHandlerFactory {
@@ -73,7 +73,7 @@ public with sharing class ContactTriggerHandler extends AbstractTriggerHandler {
         }
     }
 
-    ...
+    //...
 }
 ```
 
@@ -86,7 +86,7 @@ more complex in-memory data storage mechanisms are required. One of the most use
 map with multiple values per-key. This can be easily modeled using a standard map with a `List` or `Set` of some
 other type as its value type, e.g.:
 
-```java
+```apex
 // Populate the multi-valued map
 Map<Id, List<Contact>> contactsByAccountId = new Map<Id, List<Contact>>();
 for (Contact contact : [SELECT Id, AccountId FROM Contact]) {
@@ -121,7 +121,7 @@ The class library includes an Apex implementation of `MultiMap`. Unlike the stan
 support type parameterization. However, it is still quite simple to extract both keys and values from the map and
 work with them in a strongly-typed manner. Here is the same example displayed above but using a `MultiMap`:
 
-```java
+```apex
 // Populate the multi-valued map
 MultiMap contactsByAccountId = MultiMap.newSetInstance();
 for (Contact contact : [SELECT Id, AccountId FROM Contact]) {
@@ -169,7 +169,7 @@ collection operations, for example:
 * `toIds(rawIds)` - Converts an untyped collection of IDs to a typed collection of IDs. This is particularly useful
   when used with `MultiMap` because of the untyped nature of its keys and values, e.g. 
   `SELECT Id FROM Account WHERE Id IN :CollectionUtil.toIds(contactsByAccountId.keySet())`.
-* `toStrings(values)` - Converts a collection of arbtrarily typed data into string values. This is particularly useful
+* `toStrings(values)` - Converts a collection of arbitrarily typed data into string values. This is particularly useful
   when used with `String.format()`.
 * `toTypedList(sourceValues, targetValues)` - Converts an untyped list of values into a typed list of values. This is
   particularly useful when used with `MultiMap` because of the untyped nature of its keys and values, e.g.
@@ -213,7 +213,7 @@ Encryption.
 ### Example
 
 **Standard SObject field value comparator**
-```java
+```apex
 // Query contacts from an org where birth date is encrypted and cannot be used in an ORDER BY clause
 List<Contact> contacts = [SELECT Id, Birthdate FROM Contact];
 // Sort the contacts by birth date descending with null birth dates at the end
@@ -221,7 +221,7 @@ CollectionUtil.sort(contacts, Comparators.sobjectFieldValueComparator(Contact.Bi
 ```
 
 **Standard string comparator**
-```java
+```apex
 List<Contact> contacts = [SELECT Name FROM Contact];
 List<String> contactNames = new List<String>();
 for (Contact c : contacts) {
@@ -232,7 +232,7 @@ CollectionUtil.sort(contactNames, Comparators.stringComparator().caseSensitive(f
 ```
 
 **Custom comparator**
-```java
+```apex
 public with sharing class OpportunityDateComparator implements Comparator {
     // Initialize a delegate that can be used to sort by the respective date values in descending order
     private static final Comparator DATE_COMPARATOR = Comparators.dateComparator().ascending(false);
@@ -301,7 +301,7 @@ operation immediately, though recovery is possible through exception handling.
 ### Example
 
 **Check methods**
-```java
+```apex
 // Use an empty list by default
 List<Contact> contacts = new List<Contact>();
 
@@ -324,7 +324,7 @@ if (AuthorizationUtil.isAccessible(Contact.SObjectType) && AuthorizationUtil.isA
 ```
 
 **Assert methods**
-```java
+```apex
 // Exception handling would generally occur in the service or presentation tier and queries/DML in the data access tier,
 // but showing both together here to demonstrate how assertion handling might work
 try {
@@ -346,53 +346,46 @@ try {
 
 ## Test Assertions
 
-Apex includes three methods for verification of test expectations:
-`System.assert(condition)`, `System.assertEquals(expected, actual)`, and `System.assertNotEquals(expected, actual)`.
-You can express pretty much any test expectation using these three methods (in fact, you **really** only need the first one).
-For example, if you want to verify that a value is non-null, you can use either `assert(value != null)` or
-`assertNotEquals(null, value)`. Similarly, if you want to force a test failure when an expected exception has not been
-raised, you can use `assert(false, 'Expected some exception')`. These work, but they're not as expressive as they
-could be. Many other test frameworks include more extensive sets of assertions. The previous two examples could be
-expressed as `assertNotNull(value)` and `fail('Expected some exception')` respectively. While these are functionally
-identical, the latter are more explicit in their intent.
+With the introduction of the standard Apex
+[`System.Assert`](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_class_System_Assert.htm)
+class, much of this library's original `Assert` utility class has been rendered superfluous. As a result, it has been
+removed and only the assertion methods that are not present in the system analog have been preserved. To avoid any
+ambiguity around the type named `Assert`, the library's type with that name has been removed and the remaining methods
+have been moved into a utility class called `Asserts`. Also, the library's `equals` and `notEquals` methods are not
+present with those exact same names in `System.Assert` which instead uses `areEqual` and `areNotEqual` respectively.
 
-The class library includes a test assertion facade, `Assert`, with methods for the most common types of test
-assertions (all of the methods also accept an optional message):
+This does result in a backward-incompatible change, but hopefully one that is trivial to resolve for existing library
+consumers. A simple (mostly) passthrough implementation of the library's original `Assert` class is available under
+`migration/classes` that can help with the migration as follows:
 
-* `isTrue(condition)` / `isFalse(condition)`
-* `equals(expected, actual)` / `notEquals(expected, actual)`
-* `isNull(actual)` / `isNotNull(actual)`
-* `fail(message)`
+1. Deploy the migration `Assert` class using:
+    ```text
+     sfdx force:mdapi:deploy -d migration -u <alias> -w 10
+    ```
+1. Deploy/push all other updated library types from `force/app` as appropriate for your project.
+1. Remove the migration `Assert` class using:
+    ```text
+    sfdx force:source:delete -m ApexClass:Assert -u <alias> -r -w 10
+    ```
 
-### Example
-
-In practice test code looks like:
-
-```java
-Contact contact = [SELECT Id, FirstName FROM Contact WHERE Name = :expectedName];
-Assert.isNotNull(contact.FirstName);
-Assert.equals('Me', contact.FirstName);
-Assert.isTrue(contact.Name.startsWith('Me'));
-```
-
-`Assert` also includes higher-level assertions for verifying expected messages (up to the first embedded formatting
-specifier) from raised exceptions including special handling for object- and field-level errors as a result of failed
-validation rules or errors added in trigger logic:
+The remaining assertions are for verifying expected messages (up to the first embedded formatting specifier) from
+raised exceptions including special handling for object- and field-level errors as a result of failed validation rules
+or errors added in trigger logic:
 
 * `hasExceptionMessage(expectedMessage, actualException)`
 * `hasDmlExceptionMessage(expectedField, expectedMessage, actualDmlException)` - field-level errors
 * `hasDmlExceptionMessage(expectedMessage, actualDmlException)` - object-level errors
-* `hasPageMessage(expectedField, expectedMessage)` - field-level errors added to page messages; required when
-  multiple levels of triggers have fired even if not using Visualforce
+* `hasPageMessage(expectedField, expectedMessage)` - field-level errors added to page messages; required when multiple
+  levels of triggers have fired even if not using Visualforce
 
-Again, in practice this looks like:
+In practice this looks like:
 
-```java
+```apex
 try {
     update contact;
     Assert.fail('Expected DmlException here');
 } catch (DmlException e) {
-    Assert.hasDmlExceptionMessage(Contact.FirstName, Label.Invalid_First_Name, e);
+    Asserts.hasDmlExceptionMessage(Contact.FirstName, Label.Invalid_First_Name, e);
 }
 ```
 
@@ -408,7 +401,7 @@ least those for whom the candidate values are known at compile-time.
 In order to create a new picklist enum for a picklist field's known values, create a new subclass of `PicklistEnum`
 with the following pattern (using `Opportunity.Type` as an example):
 
-```java
+```apex
 public with sharing class OpportunityTypeEnum extends PicklistEnum {
     // Model the enum as a private singleton for convenient access from class methods below
     private static final OpportunityTypeEnum INSTANCE = new OpportunityTypeEnum();
@@ -441,7 +434,7 @@ public with sharing class OpportunityTypeEnum extends PicklistEnum {
 
 Picklist enum values can then be referenced from Apex as:
 
-```java
+```apex
 Entry[] opportunityTypes = OpportunityTypeEnum.values();
 for (Entry opportunityType : opportunityTypes) {
     System.debug('Value = ' + opportunityType.value() + 
@@ -493,7 +486,7 @@ an Apex class.
 
 In order to create a new type-safe enum, create a new subclass of `TypeSafeEnum` with the following pattern:
 
-```java
+```apex
 public with sharing class ComputedScoreEnum extends TypeSafeEnum {
     // Initialize the enum constants with the distinct string value for each
     public static final ComputedScoreEnum HIGH = new ComputedScoreEnum('HIGH', '/images/stoplight-green.png');
@@ -540,10 +533,10 @@ the private constructor, and the strongly-typed class methods.
 
 Type-safe enum values can then be referenced from Apex as:
 
-```java
+```apex
 List<ComputedScoreEnum> computedScores = ComputedScoreEnum.values();
 for (ComputedScoreEnum computedScore : computedScores) {
-    System.debug('Value = ' + computedScore.value() + ', ordinal = ' + computedScore.ordinal() + ', image path = ' computedScore.imagePath);
+    System.debug('Value = ' + computedScore.value() + ', ordinal = ' + computedScore.ordinal() + ', image path = ' + computedScore.imagePath);
 }
 
 // You can also perform direct comparisons with string values
@@ -567,7 +560,7 @@ messages via `String.format()` embedded formatting specifiers as call arguments.
 
 ### Example
 
-```java
+```apex
 public with sharing class ExternalServiceInvoker {
 
     // Create the logger as a class constant, providing the type name of the containing class
@@ -577,7 +570,7 @@ public with sharing class ExternalServiceInvoker {
         LOG.info('Invoking service at https://{0}:{1}/{2}?id={3}.', host, port, path, externalId);
         
         try {
-            HttpResponse response = // actually invoke the service
+            HttpResponse response = invokeExternalService();
             if (response.getStatusCode() != 200) {
                 LOG.warn('Failed to invoke the service: status code = {0}, status = {1}', 
                     response.getStatusCode(), response.getStatus());
