@@ -4,23 +4,21 @@
     <facet type="IlluminatedCloud" name="Illuminated Cloud">
       <configuration>
         <option name="connectionName" value="sirono-common" />
-        <option name="moduleContents">
-          <ModuleContents>
-            <option name="contentSelectionType" value="PACKAGE_XML" />
-            <option name="manifest">
-              <Manifest />
-            </option>
-            <option name="packageXmlRelativePath" value="src/package.xml" />
-          </ModuleContents>
-        </option>
+        <option name="connectionType" value="SFDX" />
+        <option name="defaultSourceRootUrl" value="file://$MODULE_DIR$/force-app/main/default" />
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/test-src" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/config" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/force-app/main/default" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/force-app/test/default" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/.sfdx" />
+      <excludeFolder url="file://$MODULE_DIR$/.sf" />
+      <excludeFolder url="file://$MODULE_DIR$/migration" />
+      <excludeFolder url="file://$MODULE_DIR$/IlluminatedCloud" />
     </content>
     <orderEntry type="jdk" jdkName="IlluminatedCloud (sirono-common/sirono-common)" jdkType="IlluminatedCloud" />
     <orderEntry type="sourceFolder" forTests="false" />

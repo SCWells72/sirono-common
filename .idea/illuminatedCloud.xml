@@ -5,6 +5,7 @@
       <list>
         <IlluminatedCloudConnection>
           <option name="connectionName" value="sirono-common" />
+          <option name="connectionType" value="SFDX" />
           <option name="defaultModuleName" value="sirono-common" />
           <option name="offlineSymbolTablePath" value="$PROJECT_DIR$/IlluminatedCloud/sirono_common/OfflineSymbolTable.zip" />
         </IlluminatedCloudConnection>

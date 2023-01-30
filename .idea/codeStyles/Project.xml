@@ -1,6 +1,15 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
+    <ApexCodeStyleSettings>
+      <option name="USAGE_CASE_APEX_CHANGE_CASE_WHEN_FORMATTING" value="true" />
+      <option name="KEYWORD_CASE_APEX_CHANGE_CASE_WHEN_FORMATTING" value="true" />
+      <option name="KEYWORD_CASE_SOQL_SOSL_CHANGE_CASE_WHEN_FORMATTING" value="true" />
+      <option name="KEYWORD_CASE_VISUALFORCE_CHANGE_CASE_WHEN_FORMATTING" value="true" />
+      <option name="KEYWORD_CASE_AURA_CHANGE_CASE_WHEN_FORMATTING" value="true" />
+      <option name="APEX_DOC_REFORMAT_APEX_DOC" value="true" />
+    </ApexCodeStyleSettings>
     <codeStyleSettings language="Apex">
+      <option name="LINE_COMMENT_AT_FIRST_COLUMN" value="false" />
       <option name="SPACE_WITHIN_ARRAY_INITIALIZER_BRACES" value="true" />
       <option name="SPACE_BEFORE_ARRAY_INITIALIZER_LBRACE" value="true" />
       <option name="KEEP_SIMPLE_BLOCKS_IN_ONE_LINE" value="true" />
