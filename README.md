@@ -348,7 +348,7 @@ try {
 
 With the introduction of the standard Apex
 [`System.Assert`](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_class_System_Assert.htm)
-class, much of this library's original `Assert` utility class has been rendered superfluous. As a result, it has been
+class, this library's original `Assert` utility class has been rendered largely obsolete. As a result, it has been
 removed and only the assertion methods that are not present in the system analog have been preserved. To avoid any
 ambiguity around the type named `Assert`, the library's type with that name has been removed and the remaining methods
 have been moved into a utility class called `Asserts`. Also, the library's `equals` and `notEquals` methods are not
@@ -362,7 +362,7 @@ consumers. A simple (mostly) passthrough implementation of the library's origina
     ```text
      sfdx force:mdapi:deploy -d migration -u <alias> -w 10
     ```
-1. Deploy/push all other updated library types from `force/app` as appropriate for your project.
+1. Deploy/push all other updated library types from `force-app` as appropriate for your project.
 1. Remove the migration `Assert` class using:
     ```text
     sfdx force:source:delete -m ApexClass:Assert -u <alias> -r -w 10
