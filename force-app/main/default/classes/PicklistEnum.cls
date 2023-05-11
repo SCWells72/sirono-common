@@ -97,7 +97,7 @@ public with sharing abstract class PicklistEnum {
          *
          * @param testValue the value to be tested for equivalence
          *
-         * @return <code>true</code> if the specified value matches this entry; otherwise <code>false</code>
+         * @return `true` if the specified value matches this entry; otherwise `false`
          */
         public virtual Boolean equalTo(String testValue) {
             return value.equalsIgnoreCase(testValue);
@@ -108,7 +108,7 @@ public with sharing abstract class PicklistEnum {
          *
          * @param testValue the value to be tested for difference
          *
-         * @return <code>true</code> if the specified value is different from this entry; otherwise <code>false</code>
+         * @return `true` if the specified value is different from this entry; otherwise `false`
          */
         public virtual Boolean notEqualTo(String testValue) {
             return !equalTo(testValue);
@@ -173,7 +173,7 @@ public with sharing abstract class PicklistEnum {
      *
      * @param value the value for which a picklist enum entry should be returned
      *
-     * @return the corresponding entry or <code>null</code> if no entry exists for the specified value
+     * @return the corresponding entry or `null` if no entry exists for the specified value
      */
     public Entry getEntry(String value) {
         return entriesByValue.get(value);

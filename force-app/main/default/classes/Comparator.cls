@@ -27,8 +27,8 @@ public interface Comparator {
      * @param value1 the first value
      * @param value2 the second value
      *
-     * @return a negative integer if <code>value1</code> should be ordered before <code>value2</code>; a positive
-     * integer if <code>value1</code> should be ordered after <code>value2</code>; zero if the two values should be
+     * @return a negative integer if `value1` should be ordered before `value2`; a positive
+     * integer if `value1` should be ordered after `value2`; zero if the two values should be
      * considered equivalent for ordering purposes
      */
     Integer compare(Object value1, Object value2);

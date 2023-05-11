@@ -30,7 +30,7 @@ public with sharing class AuthorizationUtil {
      *
      * @param sobjectType the sobject type
      *
-     * @return <code>true</code> if the sobject type can be accessed; otherwise <code>false</code>
+     * @return `true` if the sobject type can be accessed; otherwise `false`
      */
     public static Boolean isAccessible(SObjectType sobjectType) {
         return (sobjectType != null) && sobjectType.getDescribe().isAccessible();
@@ -41,7 +41,7 @@ public with sharing class AuthorizationUtil {
      *
      * @param sobjectType the sobject type
      *
-     * @return <code>true</code> if the sobject type can be created; otherwise <code>false</code>
+     * @return `true` if the sobject type can be created; otherwise `false`
      */
     public static Boolean isCreateable(SObjectType sobjectType) {
         return (sobjectType != null) && sobjectType.getDescribe().isCreateable();
@@ -52,7 +52,7 @@ public with sharing class AuthorizationUtil {
      *
      * @param sobjectType the sobject type
      *
-     * @return <code>true</code> if the sobject type can be updated; otherwise <code>false</code>
+     * @return `true` if the sobject type can be updated; otherwise `false`
      */
     public static Boolean isUpdateable(SObjectType sobjectType) {
         return (sobjectType != null) && sobjectType.getDescribe().isUpdateable();
@@ -63,7 +63,7 @@ public with sharing class AuthorizationUtil {
      *
      * @param sobjectType the sobject type
      *
-     * @return <code>true</code> if the sobject type can be created and updated; otherwise <code>false</code>
+     * @return `true` if the sobject type can be created and updated; otherwise `false`
      */
     public static Boolean isUpsertable(SObjectType sobjectType) {
         return isCreateable(sobjectType) && isUpdateable(sobjectType);
@@ -74,7 +74,7 @@ public with sharing class AuthorizationUtil {
      *
      * @param sobjectType the sobject type
      *
-     * @return <code>true</code> if the sobject type can be deleted; otherwise <code>false</code>
+     * @return `true` if the sobject type can be deleted; otherwise `false`
      */
     public static Boolean isDeletable(SObjectType sobjectType) {
         return (sobjectType != null) && sobjectType.getDescribe().isDeletable();
@@ -85,7 +85,7 @@ public with sharing class AuthorizationUtil {
      *
      * @param sobjectType the sobject type
      *
-     * @return <code>true</code> if the sobject type can be undeleted; otherwise <code>false</code>
+     * @return `true` if the sobject type can be undeleted; otherwise `false`
      */
     public static Boolean isUndeletable(SObjectType sobjectType) {
         return (sobjectType != null) && sobjectType.getDescribe().isUndeletable();
@@ -96,7 +96,7 @@ public with sharing class AuthorizationUtil {
      *
      * @param sobjectType the sobject type
      *
-     * @return <code>true</code> if the sobject type can be merged; otherwise <code>false</code>
+     * @return `true` if the sobject type can be merged; otherwise `false`
      */
     public static Boolean isMergeable(SObjectType sobjectType) {
         return (sobjectType != null) && sobjectType.getDescribe().isMergeable();
@@ -207,7 +207,7 @@ public with sharing class AuthorizationUtil {
      *
      * @param sobjectType the object type
      *
-     * @return the name of the object type or <code>&lt;unknown&gt;</code> if the object type is <code>null</code>
+     * @return the name of the object type or `<unknown>` if the object type is `null`
      */
     private static String getSobjectTypeName(SObjectType sobjectType) {
         return (sobjectType != null) ? sobjectType.getDescribe().getName() : '<unknown>';

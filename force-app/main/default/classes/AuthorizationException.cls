@@ -14,5 +14,8 @@
  * limitations under the License.
  */
 
+/**
+ * Used to report authorization problems.
+ */
 public with sharing class AuthorizationException extends Exception {
 }

@@ -15,8 +15,8 @@
  */
 
 /**
- * Shared base class for {@link TriggerHandler}s. Derived classes should override all methods required to handle
- * registered DML timing and events.
+ * Shared base class for [trigger handlers](TriggerHandler). Derived classes should override all methods required to
+ * handle registered DML timing and events.
  *
  * @see Trigger
  * @see TriggerHandler
@@ -53,7 +53,7 @@ public abstract with sharing class AbstractTriggerHandler implements TriggerHand
      * @param obj the SObject from which the value should be extracted
      * @param field the field for which the value should be extracted
      *
-     * @return the requested field value, or <code>null</code> if either the object or the field is <code>null</code>
+     * @return the requested field value, or `null` if either the object or the field is `null`
      */
     @TestVisible protected Object getFieldValue(SObject obj, SObjectField field) {
         Object fieldValue = (obj != null) && (field != null) ? obj.get(field) : null;
@@ -67,7 +67,7 @@ public abstract with sharing class AbstractTriggerHandler implements TriggerHand
      * @param newObject the new object, typically from {@link Trigger.new}
      * @param field the field which should be checked for a value change
      *
-     * @return <code>true</code> if the value has changed; otherwise <code>false</code>
+     * @return `true` if the value has changed; otherwise `false`
      */
     @TestVisible protected Boolean fieldValueChanged(SObject oldObject, SObject newObject, SObjectField field) {
         Object oldValue = getFieldValue(oldObject, field);
@@ -76,14 +76,14 @@ public abstract with sharing class AbstractTriggerHandler implements TriggerHand
     }
 
     /**
-     * Determines whether the specified field value has been set (changed from <code>null</code> to non-<code>null</code>
+     * Determines whether the specified field value has been set (changed from `null` to non-`null`)
      * on the new object.
      *
      * @param oldObject the old object, typically from {@link Trigger.oldMap}
      * @param newObject the new object, typically from {@link Trigger.new}
      * @param field the field which should be checked as being set
      *
-     * @return <code>true</code> if the value has been set; otherwise <code>false</code>
+     * @return `true` if the value has been set; otherwise `false`
      */
     @TestVisible protected Boolean fieldValueSet(SObject oldObject, SObject newObject, SObjectField field) {
         Object oldValue = getFieldValue(oldObject, field);

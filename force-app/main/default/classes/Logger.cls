@@ -16,27 +16,20 @@
 
 /**
  * A wrapper class for logging messages. The formatting and destination of the messages will depend on the
- * the configuration of the {@link Logger.LoggerAdapter}.
- * <p/>
- * <b>Sample usage</b>
- * <pre>
- *     private static final Logger LOG = Logger.getInstance(MyClass.class);
- *     ...
- *     LOG.debug('Hello {0}! This logging stuff is {1}.', 'handsome', 'the bomb');
- * </pre>
- * <p/>
+ * configuration of the {@link Logger.LoggerAdapter}.
+ *
+ * **Sample usage**
+ * ```apex
+ * private static final Logger LOG = Logger.getInstance(MyClass.class);
+ * ...
+ * LOG.debug('Hello {0}! This logging stuff is {1}.', 'programmer', 'the bomb');
+ * ```
+ *
  * A couple of notes on how to work around some Apex quirks:
- * <ul>
- *     <li>
- *         When you use the logger in subclasses whose superclass also has a logger, you'll need to qualify
- *         each reference within the subclass. For example: <code>SubClass.LOG.debug()</code>.
- *     </li>
- *     <li>
- *         You can't declare static attributes in inner classes. In that case, either consider moving the inner class
- *         to be a standalone class, or use the containing class's logger (using a qualified reference:
- *         <code>ContainingClass.LOG.debug()</code>).
- *     </li>
- * </ul>
+ * * When you use the logger in subclasses whose superclass also has a logger, you'll need to qualify each reference
+ *   within the subclass, e.g. `SubClass.LOG.debug(...)`.
+ * * You can't declare static attributes in inner classes. In that case, either consider moving the inner class to be
+ *   a top-level class, or use the containing class' logger using a qualified reference, e.g. `ContainingClass.LOG.debug(...)`.
  */
 @SuppressWarnings('PMD.ExcessivePublicCount')
 public with sharing class Logger {
@@ -52,6 +45,13 @@ public with sharing class Logger {
         this.apexClass = apexClass;
     }
 
+    /**
+     * Returns the logger for the specified Apex class.
+     *
+     * @param apexClass the class for which a logger should be returned
+     *
+     * @return the logger for the specified class
+     */
     public static Logger getInstance(Type apexClass) {
         return new Logger(apexClass);
     }
@@ -299,6 +299,9 @@ public with sharing class Logger {
         void log(LoggingLevel logLevel, Type apexClass, String msg, Object[] params);
     }
 
+    /**
+     * Abstract base class for concrete implementations of {@link Logger.LoggerAdapter}.
+     */
     public abstract class AbstractLoggerAdapter implements LoggerAdapter {
         public void log(LoggingLevel level, Type apexClass, String msg, Object[] params) {
             try {

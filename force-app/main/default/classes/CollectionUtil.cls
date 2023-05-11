@@ -24,11 +24,11 @@ public with sharing class CollectionUtil {
     }
 
     /**
-     * Determines if the provided list is <code>null</code> or empty.
+     * Determines if the provided list is `null` or empty.
      *
      * @param values the list of values
      *
-     * @return <code>true</code> if the provided list is <code>null</code> or empty; otherwise <code>false</code>
+     * @return `true` if the provided list is `null` or empty; otherwise `false`
      *
      * @see List
      */
@@ -37,12 +37,12 @@ public with sharing class CollectionUtil {
     }
 
     /**
-     * Determines if the provided list is non-<code>null</code> and contains at least a single value.
+     * Determines if the provided list is non-`null` and contains at least a single value.
      *
      * @param values the list of values
      *
-     * @return <code>true</code> if the provided list is non-<code>null</code> and contains at least one value;
-     * otherwise <code>false</code>
+     * @return `true` if the provided list is non-`null` and contains at least one value;
+     * otherwise `false`
      *
      * @see List
      */
@@ -54,11 +54,11 @@ public with sharing class CollectionUtil {
     // TODO: Set and Map. Once those issues are resolved by Salesforce these can be restored.
 
 //    /**
-//     * Determines if the provided set is <code>null</code> or empty.
+//     * Determines if the provided set is `null` or empty.
 //     *
 //     * @param values the set of values
 //     *
-//     * @return <code>true</code> if the provided set is <code>null</code> or empty; otherwise <code>false</code>
+//     * @return `true` if the provided set is `null` or empty; otherwise `false`
 //     *
 //     * @see Set
 //     */
@@ -67,12 +67,12 @@ public with sharing class CollectionUtil {
 //    }
 //
 //    /**
-//     * Determines if the provided set is non-<code>null</code> and contains at least a single value.
+//     * Determines if the provided set is non-`null` and contains at least a single value.
 //     *
 //     * @param values the set of values
 //     *
-//     * @return <code>true</code> if the provided set is non-<code>null</code> and contains at least one value;
-//     * otherwise <code>false</code>
+//     * @return `true` if the provided set is non-`null` and contains at least one value;
+//     * otherwise `false`
 //     *
 //     * @see Set
 //     */
@@ -81,11 +81,11 @@ public with sharing class CollectionUtil {
 //    }
 //
 //    /**
-//     * Determines if the provided map is <code>null</code> or empty.
+//     * Determines if the provided map is `null` or empty.
 //     *
 //     * @param values the map of values
 //     *
-//     * @return <code>true</code> if the provided map is <code>null</code> or empty; otherwise <code>false</code>
+//     * @return `true` if the provided map is `null` or empty; otherwise `false`
 //     *
 //     * @see Map
 //     */
@@ -94,12 +94,12 @@ public with sharing class CollectionUtil {
 //    }
 //
 //    /**
-//     * Determines if the provided map is non-<code>null</code> and contains at least a single value.
+//     * Determines if the provided map is non-`null` and contains at least a single value.
 //     *
 //     * @param values the map of values
 //     *
-//     * @return <code>true</code> if the provided map is non-<code>null</code> and contains at least one value;
-//     * otherwise <code>false</code>
+//     * @return `true` if the provided map is non-`null` and contains at least one value;
+//     * otherwise `false`
 //     *
 //     * @see Map
 //     */
@@ -172,7 +172,7 @@ public with sharing class CollectionUtil {
      *
      * @param values the list of values
      *
-     * @return the first item in the list or <code>null</code> if the list is null or empty
+     * @return the first item in the list or `null` if the list is null or empty
      */
     public static Object getFirstItem(List<Object> values) {
         return isNotEmpty(values) ? values.get(0) : null;
@@ -183,7 +183,7 @@ public with sharing class CollectionUtil {
      *
      * @param values the list of values
      *
-     * @return the last item in the list or <code>null</code> if the list is null or empty
+     * @return the last item in the list or `null` if the list is null or empty
      */
     public static Object getLastItem(List<Object> values) {
         return isNotEmpty(values) ? values.get(values.size() - 1) : null;
@@ -213,7 +213,7 @@ public with sharing class CollectionUtil {
     }
 
     /**
-     * Converts a set of {@link Id} values as a set of <code>Object</code> to be strongly-typed. This is useful
+     * Converts a set of {@link Id} values as a set of `Object` to be strongly-typed. This is useful
      * when the keys or values from a {@link MultiMap} are used as SOQL bind parameters.
      *
      * @param rawIds the raw IDs
@@ -241,7 +241,7 @@ public with sharing class CollectionUtil {
     }
 
     /**
-     * Converts a list of {@link Id} values as a set of <code>Object</code> to be strongly-typed. This is useful
+     * Converts a list of {@link Id} values as a set of `Object` to be strongly-typed. This is useful
      * when the keys or values from a {@link MultiMap} are used as SOQL bind parameters.
      *
      * @param rawIds the raw IDs
@@ -257,7 +257,7 @@ public with sharing class CollectionUtil {
     }
 
     /**
-     * Converts a set of {@link String} values as a set of <code>Object</code> to be strongly-typed. This is useful
+     * Converts a set of {@link String} values as a set of `Object` to be strongly-typed. This is useful
      * when the keys or values from a {@link MultiMap} are used as SOQL bind parameters.
      *
      * @param rawObjects the raw objects
@@ -277,7 +277,7 @@ public with sharing class CollectionUtil {
     }
 
     /**
-     * Converts a list of {@link String} values as a list of <code>Object</code> to be strongly-typed. This is useful
+     * Converts a list of {@link String} values as a list of `Object` to be strongly-typed. This is useful
      * when the keys or values from a {@link MultiMap} are used as SOQL bind parameters.
      *
      * @param rawObjects the raw objects
@@ -297,7 +297,7 @@ public with sharing class CollectionUtil {
     }
 
     /**
-     * Converts a single raw <code>Object</code> value into the corresponding {@link String} value.
+     * Converts a single raw `Object` value into the corresponding {@link String} value.
      *
      * @param rawObject the raw value
      *
@@ -348,11 +348,11 @@ public with sharing class CollectionUtil {
     /**
      * Take the given list of {@link SObject} instances and create a map from them using the value
      * returned from {@link SObjectField} field as the key. The {@link DisplayType} of the {@link SObjectField}
-     * must be <code>REFERENCE</code>.
-     * <p/>
-     * {@link SObject} instances of a type not corresponding to <code>SObjectFieldType</code> are ignored as
+     * must be `REFERENCE`.
+     *
+     * {@link SObject} instances of a type not corresponding to `SObjectFieldType` are ignored as
      * are null {@link SObject} instances and null keys.
-     * <p/>
+     *
      * If duplicate values are found for the same key, an {@link IllegalStateException} is thrown. Use
      * {@link CollectionUtil.multiMapByField} when duplicate values are expected.
      *
@@ -390,10 +390,10 @@ public with sharing class CollectionUtil {
     /**
      * Take the given list of {@link SObject} instances and create a map from them using the field value
      * specified by {@link SObjectField} field as the key.
-     * <p/>
-     * {@link SObject} instances of a type not corresponding to <code>SObjectFieldType</code> are ignored as
+     *
+     * {@link SObject} instances of a type not corresponding to `SObjectFieldType` are ignored as
      * are null {@link SObject} instances and null keys.
-     * <p/>
+     *
      * If duplicate values are found for the same key, an {@link IllegalStateException} is thrown. Use
      * {@link CollectionUtil.multiMapByField} when duplicate values are expected.
      *
@@ -425,8 +425,8 @@ public with sharing class CollectionUtil {
     /**
      * Take the given list of {@link SObject} instances and create a {@link MultiMap} from them using the field
      * value specified by {@link SObjectField} field as the key.
-     * <p/>
-     * {@link SObject} instances of a type not corresponding to <code>SObjectFieldType</code> are ignored as
+     *
+     * {@link SObject} instances of a type not corresponding to `SObjectFieldType` are ignored as
      * are null {@link SObject} instances and null keys.
      *
      * @param sobjects the list of {@link SObject}s to map
@@ -454,7 +454,7 @@ public with sharing class CollectionUtil {
      * understands this {@link SObjectField}. Returns false if either sObj or field is null
      *
      * @param sobj the {@link SObject} instance to verify
-     * @param field the {@link SObjectTypeField} to look for
+     * @param field the {@link SObjectField} to look for
      *
      * @return true/false indicating that this {@link SObject} type includes this {@link SObjectField}
      */
