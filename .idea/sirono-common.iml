@@ -18,6 +18,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.sfdx" />
       <excludeFolder url="file://$MODULE_DIR$/.sf" />
       <excludeFolder url="file://$MODULE_DIR$/migration" />
+      <excludeFolder url="file://$MODULE_DIR$/node_modules" />
       <excludeFolder url="file://$MODULE_DIR$/IlluminatedCloud" />
     </content>
     <orderEntry type="jdk" jdkName="IlluminatedCloud (sirono-common/sirono-common)" jdkType="IlluminatedCloud" />
