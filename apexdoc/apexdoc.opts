@@ -1,0 +1,15 @@
+# Project config
+-p
+sfdx-project.json
+# Overview file
+-f
+apexdoc/overview.md
+# Output directory
+-o
+apexdoc/generated
+# Title
+-t
+Sirono Common
+# Download org types
+-u
+sirono-common
