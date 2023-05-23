@@ -16,6 +16,8 @@
 
 /**
  * Used to report authorization problems.
+ *
+ * @group Authorization
  */
 public with sharing class AuthorizationException extends Exception {
 }

@@ -30,6 +30,8 @@
  *   within the subclass, e.g. `SubClass.LOG.debug(...)`.
  * * You can't declare static attributes in inner classes. In that case, either consider moving the inner class to be
  *   a top-level class, or use the containing class' logger using a qualified reference, e.g. `ContainingClass.LOG.debug(...)`.
+ *
+ * @group Logging
  */
 @SuppressWarnings('PMD.ExcessivePublicCount')
 public with sharing class Logger {

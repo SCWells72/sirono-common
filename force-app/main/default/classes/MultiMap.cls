@@ -21,6 +21,8 @@
  *
  * @see Map
  * @see CollectionUtil
+ *
+ * @group Collections
  */
 public with sharing class MultiMap {
 

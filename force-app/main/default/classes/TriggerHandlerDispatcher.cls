@@ -20,6 +20,8 @@
  * @see Trigger
  * @see TriggerHandlerFactory
  * @see TriggerHandler
+ *
+ * @group Trigger handler framework
  */
 public with sharing class TriggerHandlerDispatcher {
     private static final Logger LOG = Logger.getInstance(TriggerHandlerDispatcher.class);

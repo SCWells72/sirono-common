@@ -19,6 +19,8 @@
  *
  * @see Comparator
  * @see CollectionUtil
+ *
+ * @group Collections
  */
 public with sharing class Comparators {
     //private static final Logger LOG = Logger.getInstance(Comparators.class);

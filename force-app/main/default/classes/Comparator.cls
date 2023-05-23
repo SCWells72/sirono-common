@@ -19,6 +19,8 @@
  * {@link CollectionUtil.sort}.
  *
  * @see CollectionUtil
+ *
+ * @group Collections
  */
 public interface Comparator {
     /**

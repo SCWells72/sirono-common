@@ -16,7 +16,9 @@
 
 /**
  * Utility class that provides convenient methods for performing CRUD authorization checks and assertions.
- **/
+ *
+ * @group Authorization
+ */
 public with sharing class AuthorizationUtil {
 
     private AuthorizationUtil() {

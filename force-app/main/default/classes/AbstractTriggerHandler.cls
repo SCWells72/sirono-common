@@ -21,6 +21,8 @@
  * @see Trigger
  * @see TriggerHandler
  * @see TriggerHandlerDispatcher
+ *
+ * @group Trigger handler framework
  */
 public abstract with sharing class AbstractTriggerHandler implements TriggerHandler {
 

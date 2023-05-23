@@ -16,6 +16,8 @@
 
 /**
  * Utility methods for working with collections such as {@link List}, {@link Set}, {@link Map} and arrays.
+ *
+ * @group Collections
  */
 public with sharing class CollectionUtil {
 
@@ -50,62 +52,67 @@ public with sharing class CollectionUtil {
         return !isEmpty(values);
     }
 
-    // TODO: These are disabled for now because of issues with proper polymorphic behavior with type parameters of
-    // TODO: Set and Map. Once those issues are resolved by Salesforce these can be restored.
+    // NOTE: As of Summer '23, Set implements Iterable so the following works. Oddly, though, even though List also
+    // implements Iterable, things do NOT work for Lists/arrays if you remove the List-specific signatures above.
 
-//    /**
-//     * Determines if the provided set is `null` or empty.
-//     *
-//     * @param values the set of values
-//     *
-//     * @return `true` if the provided set is `null` or empty; otherwise `false`
-//     *
-//     * @see Set
-//     */
-//    public static Boolean isEmpty(Set<Object> values) {
-//        return (values == null) || values.isEmpty();
-//    }
-//
-//    /**
-//     * Determines if the provided set is non-`null` and contains at least a single value.
-//     *
-//     * @param values the set of values
-//     *
-//     * @return `true` if the provided set is non-`null` and contains at least one value;
-//     * otherwise `false`
-//     *
-//     * @see Set
-//     */
-//    public static Boolean isNotEmpty(Set<Object> values) {
-//        return !isEmpty(values);
-//    }
-//
-//    /**
-//     * Determines if the provided map is `null` or empty.
-//     *
-//     * @param values the map of values
-//     *
-//     * @return `true` if the provided map is `null` or empty; otherwise `false`
-//     *
-//     * @see Map
-//     */
-//    public static Boolean isEmpty(Map<Object, Object> values) {
-//        return (values == null) || values.isEmpty();
-//    }
-//
-//    /**
-//     * Determines if the provided map is non-`null` and contains at least a single value.
-//     *
-//     * @param values the map of values
-//     *
-//     * @return `true` if the provided map is non-`null` and contains at least one value;
-//     * otherwise `false`
-//     *
-//     * @see Map
-//     */
-//    public static Boolean isNotEmpty(Map<Object, Object> values) {
-//        return !isEmpty(values);
-//    }
+    /**
+     * Determines if the provided set (as an {@link Iterable}) is `null` or empty.
+     *
+     * @param values the set of values
+     *
+     * @return `true` if the provided set is `null` or empty; otherwise `false`
+     *
+     * @see Set
+     * @see Iterable
+     */
+    public static Boolean isEmpty(Iterable<Object> values) {
+        return (values == null) || !values.iterator().hasNext();
+    }
+
+    /**
+     * Determines if the provided set (as an {@link Iterable}) is non-`null` and contains at least a single value.
+     *
+     * @param values the set of values
+     *
+     * @return `true` if the provided set is non-`null` and contains at least one value;
+     * otherwise `false`
+     *
+     * @see Set
+     * @see Iterable
+     */
+    public static Boolean isNotEmpty(Iterable<Object> values) {
+        return !isEmpty(values);
+    }
+
+    // TODO: These are disabled for now because of issues with proper polymorphic behavior with type parameters of Map.
+    //  Once those issues are resolved by Salesforce these can be restored.
+
+    ///**
+    // * Determines if the provided map is `null` or empty.
+    // *
+    // * @param values the map of values
+    // *
+    // * @return `true` if the provided map is `null` or empty; otherwise `false`
+    // *
+    // * @see Map
+    // */
+    //public static Boolean isEmpty(Map<Object, Object> values) {
+    //    return (values == null) || values.isEmpty();
+    //}
+    //
+    ///**
+    // * Determines if the provided map is non-`null` and contains at least a single value.
+    // *
+    // * @param values the map of values
+    // *
+    // * @return `true` if the provided map is non-`null` and contains at least one value;
+    // * otherwise `false`
+    // *
+    // * @see Map
+    // */
+    //public static Boolean isNotEmpty(Map<Object, Object> values) {
+    //    return !isEmpty(values);
+    //}
 
     /**
      * Adds the provided value to the specified list if both are non-null.
@@ -125,25 +132,25 @@ public with sharing class CollectionUtil {
         }
     }
 
-    // TODO: Same issue as above
+    // TODO: Similar to above, Set doesn't work properly polymorphically, and you can't add via Iterable
 
-//    /**
-//     * Adds the provided value to the specified set if both are non-null.
-//     *
-//     * @param values the set of values to which the non-null value should be added
-//     * @param value a value which will be added to the set if non-null
-//     *
-//     * @throws IllegalArgumentException if provided a null list of values
-//     */
-//    public static void addIfNotNull(Set<Object> values, Object value) {
-//        if (values == null) {
-//            throw new IllegalArgumentException('The set must be non-null.');
-//        }
-//
-//        if (value != null) {
-//            values.add(value);
-//        }
-//    }
+    ///**
+    // * Adds the provided value to the specified set if both are non-null.
+    // *
+    // * @param values the set of values to which the non-null value should be added
+    // * @param value a value which will be added to the set if non-null
+    // *
+    // * @throws IllegalArgumentException if provided a null list of values
+    // */
+    //public static void addIfNotNull(Set<Object> values, Object value) {
+    //    if (values == null) {
+    //        throw new IllegalArgumentException('The set must be non-null.');
+    //    }
+    //
+    //    if (value != null) {
+    //        values.add(value);
+    //    }
+    //}
 
     /**
      * Adds all non-null values from the source list to the target list. The source values list may be null.
@@ -187,6 +194,38 @@ public with sharing class CollectionUtil {
      */
     public static Object getLastItem(List<Object> values) {
         return isNotEmpty(values) ? values.get(values.size() - 1) : null;
+    }
+
+    /**
+     * Returns the first item from the provided set (as an {@link Iterable}) of values if the set is non-null and has
+     * at least one item. Note that due to the unordered nature of sets, this method may not yield a consistent value
+     * as the set's contents change over time.
+     *
+     * @param values the set of values
+     *
+     * @return the first item in the set or `null` if the set is null or empty
+     */
+    public static Object getFirstItem(Iterable<Object> values) {
+        return isNotEmpty(values) ? values.iterator().next() : null;
+    }
+
+    /**
+     * Returns the last item from the provided set (as an {@link Iterable}) of values if the set is non-null and has
+     * at least one item. Note that the last item is retrieved by iterating the entire set to find it, and due to the
+      * unordered nature of sets, may not yield a consistent value.
+     *
+     * @param values the set of values
+     *
+     * @return the last item in the set or `null` if the set is null or empty
+     */
+    public static Object iterateAndGetLastItem(Iterable<Object> values) {
+        if (isEmpty(values)) {
+            return null;
+        }
+
+        Object lastItem = null;
+        for (Iterator<Object> iterator = values.iterator(); iterator.hasNext(); lastItem = iterator.next());
+        return lastItem;
     }
 
     /**

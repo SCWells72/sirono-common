@@ -16,6 +16,8 @@
 
 /**
  * Shared base class for type-safe enums.
+ *
+ * @group Type-safe enums
  */
 public with sharing abstract class TypeSafeEnum {
     // This contains the values for all type-safe enums keyed by derived enum type

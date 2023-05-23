@@ -16,6 +16,8 @@
 
 /**
  * Base class for enum-like classes which provide Apex compile-time constants for picklist field values.
+ *
+ * @group Type-safe enums
  */
 public with sharing abstract class PicklistEnum {
 

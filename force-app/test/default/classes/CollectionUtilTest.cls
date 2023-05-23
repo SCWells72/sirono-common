@@ -27,13 +27,13 @@ private class CollectionUtilTest {
     // TODO: These are disabled for now because of issues with proper polymorphic behavior with type parameters of
     // TODO: Set and Map. Once those issues are resolved by Salesforce these can be restored.
 
-//    private static final Set<Integer> NULL_SET = null;
-//    private static final Set<Integer> EMPTY_SET = new Set<Integer>();
-//    private static final Set<Integer> TEST_SET = new Set<Integer> { 10, 20, 30 };
-//
-//    private static final Map<Integer, Integer> NULL_MAP = null;
-//    private static final Map<Integer, Integer> EMPTY_MAP = new Map<Integer, Integer>();
-//    private static final Map<Integer, Integer> TEST_MAP = new Map<Integer, Integer> { 10 => 100, 20 => 200, 30 => 300 };
+    private static final Set<Integer> NULL_SET = null;
+    private static final Set<Integer> EMPTY_SET = new Set<Integer>();
+    private static final Set<Integer> TEST_SET = new Set<Integer> { 10, 20, 30 };
+
+    //private static final Map<Integer, Integer> NULL_MAP = null;
+    //private static final Map<Integer, Integer> EMPTY_MAP = new Map<Integer, Integer>();
+    //private static final Map<Integer, Integer> TEST_MAP = new Map<Integer, Integer> { 10 => 100, 20 => 200, 30 => 300 };
 
     @IsTest
     static void testIsEmpty_List() {
@@ -55,33 +55,33 @@ private class CollectionUtilTest {
         Assert.isTrue(CollectionUtil.isNotEmpty(TEST_ARRAY), 'Expected true for array with values.');
     }
 
-//    @IsTest
-//    static void testIsEmpty_Set() {
-//        Assert.isTrue(CollectionUtil.isEmpty(NULL_SET), 'Expected true for null set.');
-//        Assert.isTrue(CollectionUtil.isEmpty(EMPTY_SET), 'Expected true for empty set.');
-//        Assert.isFalse(CollectionUtil.isEmpty(TEST_SET), 'Expected false for set with values.');
-//    }
-//
-//    @IsTest
-//    static void testIsNotEmpty_Set() {
-//        Assert.isFalse(CollectionUtil.isNotEmpty(NULL_SET), 'Expected false for null set.');
-//        Assert.isFalse(CollectionUtil.isNotEmpty(EMPTY_SET), 'Expected false for empty set.');
-//        Assert.isTrue(CollectionUtil.isNotEmpty(TEST_SET), 'Expected true for set with values.');
-//    }
-//
-//    @IsTest
-//    static void testIsEmpty_Map() {
-//        Assert.isTrue(CollectionUtil.isEmpty(NULL_MAP), 'Expected true for null map.');
-//        Assert.isTrue(CollectionUtil.isEmpty(EMPTY_MAP), 'Expected true for empty map.');
-//        Assert.isFalse(CollectionUtil.isEmpty(TEST_MAP), 'Expected false for map with values.');
-//    }
-//
-//    @IsTest
-//    static void testIsNotEmpty_Map() {
-//        Assert.isFalse(CollectionUtil.isNotEmpty(NULL_MAP), 'Expected false for null map.');
-//        Assert.isFalse(CollectionUtil.isNotEmpty(EMPTY_MAP), 'Expected false for empty map.');
-//        Assert.isTrue(CollectionUtil.isNotEmpty(TEST_MAP), 'Expected true for map with values.');
-//    }
+    @IsTest
+    static void testIsEmpty_Set() {
+        Assert.isTrue(CollectionUtil.isEmpty(NULL_SET), 'Expected true for null set.');
+        Assert.isTrue(CollectionUtil.isEmpty(EMPTY_SET), 'Expected true for empty set.');
+        Assert.isFalse(CollectionUtil.isEmpty(TEST_SET), 'Expected false for set with values.');
+    }
+
+    @IsTest
+    static void testIsNotEmpty_Set() {
+        Assert.isFalse(CollectionUtil.isNotEmpty(NULL_SET), 'Expected false for null set.');
+        Assert.isFalse(CollectionUtil.isNotEmpty(EMPTY_SET), 'Expected false for empty set.');
+        Assert.isTrue(CollectionUtil.isNotEmpty(TEST_SET), 'Expected true for set with values.');
+    }
+
+    //@IsTest
+    //static void testIsEmpty_Map() {
+    //    Assert.isTrue(CollectionUtil.isEmpty(NULL_MAP), 'Expected true for null map.');
+    //    Assert.isTrue(CollectionUtil.isEmpty(EMPTY_MAP), 'Expected true for empty map.');
+    //    Assert.isFalse(CollectionUtil.isEmpty(TEST_MAP), 'Expected false for map with values.');
+    //}
+    //
+    //@IsTest
+    //static void testIsNotEmpty_Map() {
+    //    Assert.isFalse(CollectionUtil.isNotEmpty(NULL_MAP), 'Expected false for null map.');
+    //    Assert.isFalse(CollectionUtil.isNotEmpty(EMPTY_MAP), 'Expected false for empty map.');
+    //    Assert.isTrue(CollectionUtil.isNotEmpty(TEST_MAP), 'Expected true for map with values.');
+    //}
 
     @IsTest
     static void testAddIfNotNull_List() {
@@ -106,7 +106,7 @@ private class CollectionUtilTest {
 //    static void testAddIfNotNull_Set() {
 //        try {
 //            CollectionUtil.addIfNotNull((List<Object>) null, null);
-//            AssertUtil.fail('Expected an IllegalArgumentException for a null set.');
+//            Assert.fail('Expected an IllegalArgumentException for a null set.');
 //        } catch (IllegalArgumentException e) {
 //            // Expected
 //        }
@@ -114,7 +114,7 @@ private class CollectionUtilTest {
 //        Set<Integer> ints = new Set<Integer> { 1, 2, 3 };
 //        CollectionUtil.addIfNotNull(ints, null);
 //        Assert.areEqual(3, ints.size(), 'Expected the set size to be unchanged.');
-//        AssertUtil.assertFalse(ints.contains(null), 'Expected the set not to contain a null value.');
+//        Assert.isFalse(ints.contains(null), 'Expected the set not to contain a null value.');
 //
 //        CollectionUtil.addIfNotNull(ints, 4);
 //        Assert.areEqual(4, ints.size(), 'Expected the set size to increase by one.');
@@ -153,8 +153,8 @@ private class CollectionUtilTest {
     }
 
     @IsTest
-    static void testGetFirstItem() {
-        Assert.isNull(CollectionUtil.getFirstItem(null), 'Expected a null first item for a null list.');
+    static void testGetFirstItem_List() {
+        Assert.isNull(CollectionUtil.getFirstItem((List<Object>) null), 'Expected a null first item for a null list.');
         Assert.isNull(CollectionUtil.getFirstItem(new List<String>()), 'Expected a null first item for an empty list.');
         Assert.isNull(CollectionUtil.getFirstItem(new String[0]), 'Expected a null first item for an empty array.');
         Assert.areEqual('Foo', CollectionUtil.getFirstItem(new List<String> { 'Foo' }));
@@ -172,6 +172,28 @@ private class CollectionUtilTest {
         Assert.areEqual('Foo', CollectionUtil.getLastItem(new String[] { 'Foo' }));
         Assert.areEqual('Bar', CollectionUtil.getLastItem(new List<String> { 'Foo', 'Bar' }));
         Assert.areEqual('Bar', CollectionUtil.getLastItem(new String[] { 'Foo', 'Bar' }));
+    }
+
+    @IsTest
+    static void testGetFirstItem_Set() {
+        Assert.isNull(CollectionUtil.getFirstItem((Set<Object>) null), 'Expected a null first item for a null set.');
+        Assert.isNull(CollectionUtil.getFirstItem(new Set<String>()), 'Expected a null first item for an empty set.');
+        Assert.areEqual('Foo', CollectionUtil.getFirstItem(new Set<String> { 'Foo' }));
+        // We can't be sure which element will be "first" in the set, so check against the first iterated element
+        Set<String> testSet = new Set<String> { 'Foo', 'Bar' };
+        Assert.areEqual(testSet.iterator().next(), CollectionUtil.getFirstItem(testSet));
+    }
+
+    @IsTest
+    static void testIterateAndGetLastItem() {
+        Assert.isNull(CollectionUtil.iterateAndGetLastItem(null), 'Expected a null last item for a null set.');
+        Assert.isNull(CollectionUtil.iterateAndGetLastItem(new Set<String>()), 'Expected a null last item for an empty set.');
+        Assert.areEqual('Foo', CollectionUtil.iterateAndGetLastItem(new Set<String> { 'Foo' }));
+        // We can't be sure which element will be "last" in the set, so check against against the one that's not "first"
+        Set<String> testSet = new Set<String> { 'Foo', 'Bar' };
+        String firstItem = (String) CollectionUtil.getFirstItem(testSet);
+        String lastItem = 'Foo'.equals(firstItem) ? 'Bar' : 'Foo';
+        Assert.areEqual(lastItem, CollectionUtil.iterateAndGetLastItem(testSet));
     }
 
     @IsTest
@@ -568,5 +590,40 @@ private class CollectionUtilTest {
                 Assert.areEqual(managerId, contact.ReportsToId);
             }
         }
+    }
+
+    private class StringLengthComparator implements Comparator
+    {
+        public Integer compare(Object value1, Object value2) {
+            String string1 = (String) value1;
+            String string2 = (String) value2;
+            return string1.length() - string2.length();
+        }
+    }
+
+    @IsTest
+    static void testSort()
+    {
+        List<String> unsortedStrings = new List<String> {
+            'FooBarBaz',
+            'Foo',
+            'FooBar'
+        };
+        List<String> sortedStrings = new List<String> {
+            'Foo',
+            'FooBar',
+            'FooBarBaz'
+        };
+
+        // First try to sort without a comparator and make sure that we get the expected exception
+        try {
+            CollectionUtil.sort(unsortedStrings, null);
+            Assert.fail('Expected IllegalArgumentException.');
+        } catch (IllegalArgumentException expected) {
+        }
+
+        // Now actually sort using our simple comparator
+        CollectionUtil.sort(unsortedStrings, new StringLengthComparator());
+        Assert.areEqual(sortedStrings, unsortedStrings);
     }
 }
