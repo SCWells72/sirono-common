@@ -212,7 +212,7 @@ public with sharing class CollectionUtil {
     /**
      * Returns the last item from the provided set (as an {@link Iterable}) of values if the set is non-null and has
      * at least one item. Note that the last item is retrieved by iterating the entire set to find it, and due to the
-      * unordered nature of sets, may not yield a consistent value.
+     * unordered nature of sets, may not yield a consistent value.
      *
      * @param values the set of values
      *

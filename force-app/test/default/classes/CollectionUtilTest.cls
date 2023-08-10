@@ -592,8 +592,7 @@ private class CollectionUtilTest {
         }
     }
 
-    private class StringLengthComparator implements Comparator
-    {
+    private class StringLengthComparator implements Comparator {
         public Integer compare(Object value1, Object value2) {
             String string1 = (String) value1;
             String string2 = (String) value2;
@@ -602,8 +601,7 @@ private class CollectionUtilTest {
     }
 
     @IsTest
-    static void testSort()
-    {
+    static void testSort() {
         List<String> unsortedStrings = new List<String> {
             'FooBarBaz',
             'Foo',
