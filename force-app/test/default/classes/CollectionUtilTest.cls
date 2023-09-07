@@ -189,7 +189,7 @@ private class CollectionUtilTest {
         Assert.isNull(CollectionUtil.iterateAndGetLastItem(null), 'Expected a null last item for a null set.');
         Assert.isNull(CollectionUtil.iterateAndGetLastItem(new Set<String>()), 'Expected a null last item for an empty set.');
         Assert.areEqual('Foo', CollectionUtil.iterateAndGetLastItem(new Set<String> { 'Foo' }));
-        // We can't be sure which element will be "last" in the set, so check against against the one that's not "first"
+        // We can't be sure which element will be "last" in the set, so check against the one that's not "first"
         Set<String> testSet = new Set<String> { 'Foo', 'Bar' };
         String firstItem = (String) CollectionUtil.getFirstItem(testSet);
         String lastItem = 'Foo'.equals(firstItem) ? 'Bar' : 'Foo';
