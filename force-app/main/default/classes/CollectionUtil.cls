@@ -124,7 +124,7 @@ public with sharing class CollectionUtil {
      */
     public static void addIfNotNull(List<Object> values, Object value) {
         if (values == null) {
-            throw new IllegalArgumentException('The list must be non-null.');
+            throw new System.IllegalArgumentException('The list must be non-null.');
         }
 
         if (value != null) {
@@ -144,7 +144,7 @@ public with sharing class CollectionUtil {
     // */
     //public static void addIfNotNull(Set<Object> values, Object value) {
     //    if (values == null) {
-    //        throw new IllegalArgumentException('The set must be non-null.');
+    //        throw new System.IllegalArgumentException('The set must be non-null.');
     //    }
     //
     //    if (value != null) {
@@ -162,7 +162,7 @@ public with sharing class CollectionUtil {
      */
     public static void addAllNotNull(List<Object> targetValues, List<Object> sourceValues) {
         if (targetValues == null) {
-            throw new IllegalArgumentException('The target list must be non-null.');
+            throw new System.IllegalArgumentException('The target list must be non-null.');
         }
 
         if (isNotEmpty(sourceValues)) {
@@ -241,7 +241,7 @@ public with sharing class CollectionUtil {
      */
     public static List<Object> toTypedList(List<Object> sourceValues, List<Object> targetValues) {
         if (targetValues == null) {
-            throw new IllegalArgumentException('The target list must be non-null.');
+            throw new System.IllegalArgumentException('The target list must be non-null.');
         }
 
         if (isNotEmpty(sourceValues)) {
@@ -267,9 +267,9 @@ public with sharing class CollectionUtil {
         if (rawIds != null) {
             for (Object rawId : rawIds) {
                 if (rawId == null) {
-                    throw new IllegalArgumentException('Provided value is null.');
+                    throw new System.IllegalArgumentException('Provided value is null.');
                 } else if (!(rawId instanceof Id)) {
-                    throw new IllegalArgumentException('Provided value is not an ID.');
+                    throw new System.IllegalArgumentException('Provided value is not an ID.');
                 } else {
                     ids.add((Id) rawId);
                 }
@@ -346,7 +346,7 @@ public with sharing class CollectionUtil {
      */
     private static String toString(Object rawObject) {
         if (rawObject == null) {
-            throw new IllegalArgumentException('Provided value is null.');
+            throw new System.IllegalArgumentException('Provided value is null.');
         } else if (rawObject instanceof String) {
             return (String) rawObject;
         } else {
@@ -420,7 +420,7 @@ public with sharing class CollectionUtil {
                 }
             }
         } else {
-            throw new IllegalArgumentException('SObjectField ' + field.getDescribe().name + ' must be of type Id but is: ' + fieldType);
+            throw new System.IllegalArgumentException('SObjectField ' + field.getDescribe().name + ' must be of type Id but is: ' + fieldType);
         }
 
         return sobjectsByIdFieldValue;
@@ -522,7 +522,7 @@ public with sharing class CollectionUtil {
      */
     public static void sort(List<Object> objects, System.Comparator<Object> comparator) {
         if (comparator == null) {
-            throw new IllegalArgumentException('A non-null comparator is required.');
+            throw new System.IllegalArgumentException('A non-null comparator is required.');
         }
 
         if (isNotEmpty(objects)) {

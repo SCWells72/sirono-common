@@ -139,12 +139,12 @@ public with sharing abstract class PicklistEnum {
      */
     protected PicklistEnum(Schema.SObjectField picklistField) {
         if (picklistField == null) {
-            throw new IllegalArgumentException('A field must be provided.');
+            throw new System.IllegalArgumentException('A field must be provided.');
         }
 
         Schema.DescribeFieldResult fieldDescribe = picklistField.getDescribe();
         if (fieldDescribe.getType() != Schema.DisplayType.PICKLIST) {
-            throw new IllegalArgumentException('The provided field ' + picklistField.getDescribe().getName() + ' is not a picklist.');
+            throw new System.IllegalArgumentException('The provided field ' + picklistField.getDescribe().getName() + ' is not a picklist.');
         }
 
         this.picklistField = picklistField;

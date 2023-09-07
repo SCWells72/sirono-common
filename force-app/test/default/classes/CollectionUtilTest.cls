@@ -88,7 +88,7 @@ private class CollectionUtilTest {
         try {
             CollectionUtil.addIfNotNull((List<Object>) null, null);
             Assert.fail('Expected an IllegalArgumentException for a null list.');
-        } catch (IllegalArgumentException e) {
+        } catch (System.IllegalArgumentException e) {
             // Expected
         }
 
@@ -102,31 +102,31 @@ private class CollectionUtilTest {
         Assert.isTrue(ints.contains(4), 'Expected the list to contain the new value.');
     }
 
-//    @IsTest
-//    static void testAddIfNotNull_Set() {
-//        try {
-//            CollectionUtil.addIfNotNull((List<Object>) null, null);
-//            Assert.fail('Expected an IllegalArgumentException for a null set.');
-//        } catch (IllegalArgumentException e) {
-//            // Expected
-//        }
-//
-//        Set<Integer> ints = new Set<Integer> { 1, 2, 3 };
-//        CollectionUtil.addIfNotNull(ints, null);
-//        Assert.areEqual(3, ints.size(), 'Expected the set size to be unchanged.');
-//        Assert.isFalse(ints.contains(null), 'Expected the set not to contain a null value.');
-//
-//        CollectionUtil.addIfNotNull(ints, 4);
-//        Assert.areEqual(4, ints.size(), 'Expected the set size to increase by one.');
-//        Assert.isTrue(ints.contains(4), 'Expected the set to contain the new value.');
-//    }
+    //@IsTest
+    //static void testAddIfNotNull_Set() {
+    //    try {
+    //        CollectionUtil.addIfNotNull((List<Object>) null, null);
+    //        Assert.fail('Expected an IllegalArgumentException for a null set.');
+    //    } catch (System.IllegalArgumentException e) {
+    //        // Expected
+    //    }
+    //
+    //    Set<Integer> ints = new Set<Integer> { 1, 2, 3 };
+    //    CollectionUtil.addIfNotNull(ints, null);
+    //    Assert.areEqual(3, ints.size(), 'Expected the set size to be unchanged.');
+    //    Assert.isFalse(ints.contains(null), 'Expected the set not to contain a null value.');
+    //
+    //    CollectionUtil.addIfNotNull(ints, 4);
+    //    Assert.areEqual(4, ints.size(), 'Expected the set size to increase by one.');
+    //    Assert.isTrue(ints.contains(4), 'Expected the set to contain the new value.');
+    //}
 
     @IsTest
     static void testAddAllNotNull_List() {
         try {
             CollectionUtil.addAllNotNull((List<Object>) null, null);
             Assert.fail('Expected an IllegalArgumentException for a null list.');
-        } catch (IllegalArgumentException e) {
+        } catch (System.IllegalArgumentException e) {
             // Expected
         }
 
@@ -225,28 +225,28 @@ private class CollectionUtilTest {
         try {
             CollectionUtil.toIds(new List<Object> { null });
             Assert.fail('Expected IllegalArgumentException.');
-        } catch (IllegalArgumentException expected) {
+        } catch (System.IllegalArgumentException expected) {
         }
 
         // Null entry should result in IllegalArgumentException
         try {
             CollectionUtil.toIds(new Set<Object> { null });
             Assert.fail('Expected IllegalArgumentException.');
-        } catch (IllegalArgumentException expected) {
+        } catch (System.IllegalArgumentException expected) {
         }
 
         // Wrong type entry should result in IllegalArgumentException
         try {
             CollectionUtil.toIds(new List<Object> { 10 });
             Assert.fail('Expected IllegalArgumentException.');
-        } catch (IllegalArgumentException expected) {
+        } catch (System.IllegalArgumentException expected) {
         }
 
         // Wrong type entry should result in IllegalArgumentException
         try {
             CollectionUtil.toIds(new Set<Object> { 10 });
             Assert.fail('Expected IllegalArgumentException.');
-        } catch (IllegalArgumentException expected) {
+        } catch (System.IllegalArgumentException expected) {
         }
     }
 
@@ -256,7 +256,7 @@ private class CollectionUtilTest {
         try {
             CollectionUtil.toTypedList(null, null);
             Assert.fail('Expected an IllegalArgumentException for a null list.');
-        } catch (IllegalArgumentException e) {
+        } catch (System.IllegalArgumentException e) {
             // Expected
         }
 
@@ -353,7 +353,7 @@ private class CollectionUtilTest {
         try {
             CollectionUtil.toStrings(rawValues);
             Assert.fail('Expected an IllegalArgumentException');
-        } catch (IllegalArgumentException expected) {
+        } catch (System.IllegalArgumentException expected) {
         }
     }
 
@@ -386,7 +386,7 @@ private class CollectionUtilTest {
         try {
             CollectionUtil.toStrings(rawValues);
             Assert.fail('Expected an IllegalArgumentException');
-        } catch (IllegalArgumentException expected) {
+        } catch (System.IllegalArgumentException expected) {
         }
     }
 
@@ -617,7 +617,7 @@ private class CollectionUtilTest {
         try {
             CollectionUtil.sort(unsortedStrings, null);
             Assert.fail('Expected IllegalArgumentException.');
-        } catch (IllegalArgumentException expected) {
+        } catch (System.IllegalArgumentException expected) {
         }
 
         // Now actually sort using our simple comparator

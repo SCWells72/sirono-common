@@ -47,7 +47,7 @@ public with sharing class TriggerHandlerDispatcher {
         if (factoryType == null) {
             String message = 'Factory type must be specified.';
             LOG.error(message);
-            throw new IllegalArgumentException(message);
+            throw new System.IllegalArgumentException(message);
         }
 
         // Instantiate the trigger handler factory
@@ -55,7 +55,7 @@ public with sharing class TriggerHandlerDispatcher {
         if (!(instance instanceof TriggerHandlerFactory)) {
             String message = 'Trigger handler factory must implement ' + TriggerHandlerFactory.class.getName() + '.';
             LOG.error(message);
-            throw new IllegalArgumentException(message);
+            throw new System.IllegalArgumentException(message);
         }
         TriggerHandlerFactory factory = (TriggerHandlerFactory) instance;
 
