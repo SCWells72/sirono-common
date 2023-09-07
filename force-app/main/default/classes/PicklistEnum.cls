@@ -25,10 +25,10 @@ public with sharing abstract class PicklistEnum {
      * Each entry corresponds to a single distinct value for the enum's picklist field.
      */
     public with sharing virtual class Entry {
-        private String value { get; set; }
-        private String label { get; set; }
-        private Boolean active { get; set; }
-        private Boolean defaultValue { get; set; }
+        private final String value { get; set; }
+        private final String label { get; set; }
+        private final Boolean active { get; set; }
+        private final Boolean defaultValue { get; set; }
 
         /**
          * Creates a new picklist enum entry for the specified enum and picklist field entry.
