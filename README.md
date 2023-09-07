@@ -158,7 +158,7 @@ Refer to the ApexDoc for more comprehensive and up-to-date documentation.
 
 ## Configurable `Comparator` factory
 
-With the introduction of a standard Apex [`System.Comparator`](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_interface_System_Comparator.htm) interface in Winter '24 / API v59.0, `sirono-common`'s custom interface with the same name has been removed. However, the `Comparators` factory class remains, as does the `CollectionUtil.sort()` utility method, though it is now simply a pass-through for `List.sort()` on the provided list and migration to the latter is encouraged.
+With the introduction of a standard Apex [`System.Comparator`](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_interface_System_Comparator.htm) interface in Winter '24 / API v59.0, `sirono-common`'s custom interface with the same name has been removed. However, the `Comparators` factory class remains, as does the `CollectionUtil.sort()` utility method, though it is now simply a deprecated pass-through for `List.sort()` on the provided list, and migration to the latter is encouraged.
 
 To update existing `sirono-common` deployments:
 1. Deploy the latest source which includes explicit references to `System.Comparator` to remove references to the class library's now-obsolete custom `Comparator` interface.
@@ -175,7 +175,7 @@ To update existing `sirono-common` deployments:
 
 As stated previously, the class library includes a set of standard comparators via the `Comparators` factory class for ordering lists of primitive types and lists of SObjects by a particular field value. These standard comparators can be configured for the direction of sorting (ascending vs. descending), how null values are handled (nulls first vs. nulls last), and as appropriate, case-sensitivity of string comparisons. The standard comparators can also be used as building blocks for more complex comparators via composition and delegation.
 
-Comparator-based sorting of SObjects is particularly useful when required ordering of a result set cannot be accomplished as part of a SOQL query's `ORDER BY` clause, for example because the ordering logic is more complex than `ORDER BY` allows or because the data cannot be ordered as part of the query due to features such as Salesforce Shield Platform Encryption. 
+Comparator-based sorting of SObjects is particularly useful when required ordering of a result set cannot be accomplished as part of a SOQL query's `ORDER BY` clause, for example, because the ordering logic is more complex than `ORDER BY` allows or because the data cannot be ordered as part of the query due to features such as Salesforce Shield Platform Encryption. 
 
 ### Example
 
