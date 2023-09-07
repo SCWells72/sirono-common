@@ -158,7 +158,7 @@ Refer to the ApexDoc for more comprehensive and up-to-date documentation.
 
 ## Configurable `Comparator` factory
 
-With the introduction of a standard Apex [`System.Comparator`](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_interface_System_Comparator.htm) interface in Winter '24 / API v59.0, `sirono-common`'s custom interface with the same name has been removed. However, the `Comparators` factory class remains, as does the `CollectionUtil.sort()` utility method, though it is now simply a deprecated pass-through for `List.sort()` on the provided list, and migration to the latter is encouraged.
+With the introduction of a standard Apex [`System.Comparator`](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_interface_System_Comparator.htm) interface in Winter '24 / API v59.0, `sirono-common`'s custom interface with the same name has been removed. However, the `Comparators` factory class remains, as does the `CollectionUtil.sort()` utility method, though it is now simply a deprecated pass-through for `List.sort(Comparator)` on the provided list, and migration to the latter is encouraged.
 
 To update existing `sirono-common` deployments:
 1. Deploy the latest source which includes explicit references to `System.Comparator` to remove references to the class library's now-obsolete custom `Comparator` interface.
@@ -184,7 +184,7 @@ Comparator-based sorting of SObjects is particularly useful when required orderi
 // Query contacts from an org where birth date is encrypted and cannot be used in an ORDER BY clause
 List<Contact> contacts = [SELECT Id, Birthdate FROM Contact];
 // Sort the contacts by birth date descending with null birth dates at the end
-CollectionUtil.sort(contacts, Comparators.sobjectFieldValueComparator(Contact.Birthdate).ascending(false).nullsFirst(false));
+contacts.sort(Comparators.sobjectFieldValueComparator(Contact.Birthdate).ascending(false).nullsFirst(false));
 ```
 
 **Standard string comparator**
@@ -195,7 +195,7 @@ for (Contact c : contacts) {
     CollectionUtil.addIfNotNull(contactNames, c.Name);
 }
 // Sort the contact names ascending case-insensitive
-CollectionUtil.sort(contactNames, Comparators.stringComparator().caseSensitive(false));
+contactNames.sort(Comparators.stringComparator().caseSensitive(false));
 ```
 
 **Custom composite comparator**
@@ -239,7 +239,7 @@ public with sharing class OpportunityDateComparator implements Comparator<Opport
 
 // Using the custom comparator
 List<Opportunity> opportunities = [SELECT Id, CloseDate, LastActivityDate, CreatedDate FROM Opportunity];
-CollectionUtil.sort(opportunities, new OpportunityDateComparator());
+opportunities.sort(new OpportunityDateComparator());
 ```
 
 ## Authorization utilities

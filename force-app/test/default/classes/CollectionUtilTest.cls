@@ -615,12 +615,14 @@ private class CollectionUtilTest {
 
         // First try to sort without a comparator and make sure that we get the expected exception
         try {
+            //noinspection ApexDeprecatedApiUsage
             CollectionUtil.sort(unsortedStrings, null);
             Assert.fail('Expected IllegalArgumentException.');
         } catch (System.IllegalArgumentException expected) {
         }
 
         // Now actually sort using our simple comparator
+        //noinspection ApexDeprecatedApiUsage
         CollectionUtil.sort(unsortedStrings, new StringLengthComparator());
         Assert.areEqual(sortedStrings, unsortedStrings);
     }
