@@ -158,7 +158,7 @@ Refer to the ApexDoc for more comprehensive and up-to-date documentation.
 
 ## Configurable `Comparator` factory
 
-With the introduction of a standard `System.Comparator` interface in Winter '24 / API v59.0, `sirono-common`'s custom interface with the same name has been removed. However, the `Comparators` factory class remains, as does the `CollectionUtil.sort()` utility method, though it is now simply a pass-through for `List.sort()` on the provided list and migration to the latter is encouraged.
+With the introduction of a standard Apex [`System.Comparator`](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_interface_System_Comparator.htm) interface in Winter '24 / API v59.0, `sirono-common`'s custom interface with the same name has been removed. However, the `Comparators` factory class remains, as does the `CollectionUtil.sort()` utility method, though it is now simply a pass-through for `List.sort()` on the provided list and migration to the latter is encouraged.
 
 To update existing `sirono-common` deployments:
 1. Deploy the latest source which includes explicit references to `System.Comparator` to remove references to the class library's now-obsolete custom `Comparator` interface.
