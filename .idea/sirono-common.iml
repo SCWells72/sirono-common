@@ -15,11 +15,13 @@
       <sourceFolder url="file://$MODULE_DIR$/config" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/force-app/main/default" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/force-app/test/default" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/apexdoc" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/.sfdx" />
       <excludeFolder url="file://$MODULE_DIR$/.sf" />
       <excludeFolder url="file://$MODULE_DIR$/migration" />
       <excludeFolder url="file://$MODULE_DIR$/node_modules" />
       <excludeFolder url="file://$MODULE_DIR$/IlluminatedCloud" />
+      <excludeFolder url="file://$MODULE_DIR$/apexdoc/generated" />
     </content>
     <orderEntry type="jdk" jdkName="IlluminatedCloud (sirono-common/sirono-common)" jdkType="IlluminatedCloud" />
     <orderEntry type="sourceFolder" forTests="false" />

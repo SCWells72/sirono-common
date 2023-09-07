@@ -44,7 +44,8 @@ $RECYCLE.BIN/
 **/.venv/
 **/venv/
 
-# Added by Illuminated Cloud
+# Illuminated Cloud
 /IlluminatedCloud/
 /out/
 target/
+/apexdoc/generated/

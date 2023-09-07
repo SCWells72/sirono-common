@@ -509,7 +509,7 @@ public with sharing class CollectionUtil {
     }
 
     /**
-     * Sorts the provided list of objects in-place using the specific {@link Comparator}.
+     * Sorts the provided list of objects in-place using the specified {@link Comparator}.
      *
      * @param objects the list of objects to be sorted
      * @param comparator the comparator to be used to order list entries
@@ -517,48 +517,16 @@ public with sharing class CollectionUtil {
      * @throws IllegalArgumentException if a null comparator is provided
      *
      * @see Comparator
+     *
+     * @deprecated as of Winter '24/API v59.0, use {@link List.sort(Comparator)} instead
      */
-    public static void sort(List<Object> objects, Comparator comparator) {
+    public static void sort(List<Object> objects, System.Comparator<Object> comparator) {
         if (comparator == null) {
             throw new IllegalArgumentException('A non-null comparator is required.');
         }
 
         if (isNotEmpty(objects)) {
-            // Adapt
-            List<ComparatorAdapter> adapters = new List<ComparatorAdapter>();
-            for (Object obj : objects) {
-                adapters.add(new ComparatorAdapter(obj, comparator));
-            }
-
-            // Sort
-            adapters.sort();
-
-            // Reload the provided list with the sorted values
-            objects.clear();
-            for (ComparatorAdapter adapter : adapters) {
-                objects.add(adapter.getValue());
-            }
-        }
-    }
-
-    // Adapts the Comparable interface supported by List.sort() into the Comparator interface
-    private class ComparatorAdapter implements Comparable {
-        private final Object thisValue;
-        private final Comparator comparator;
-
-        public ComparatorAdapter(Object value, Comparator comparator) {
-            this.thisValue = value;
-            this.comparator = comparator;
-        }
-
-        public Integer compareTo(Object thatValue) {
-            ComparatorAdapter thatAdapter = (ComparatorAdapter) thatValue;
-            thatValue = thatAdapter.getValue();
-            return comparator.compare(thisValue, thatValue);
-        }
-
-        public Object getValue() {
-            return thisValue;
+            objects.sort(comparator);
         }
     }
 }

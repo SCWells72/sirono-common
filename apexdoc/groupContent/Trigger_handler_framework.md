@@ -1,0 +1,1 @@
+The class library includes a simple, lightweight framework for handling DML events in accordance with [documented best practices](https://developer.salesforce.com/page/Trigger_Frameworks_and_Apex_Trigger_Best_Practices). 

@@ -15,7 +15,7 @@
  */
 
 /**
- * Common implementations of {@link Comparator} that can be used with {@link CollectionUtil.sort}.
+ * Common implementations of {@link Comparator} that can be used with {@link List.sort}.
  *
  * @see Comparator
  * @see CollectionUtil
@@ -36,7 +36,7 @@ public with sharing class Comparators {
      * The common base class for comparators that support specification of sorting direction, how null values should
      * be handled, and whether textual comparisons are performed in a case-sensitive/-insensitive manner.
      */
-    public abstract class ConfigurableComparator implements Comparator {
+    public abstract class ConfigurableComparator implements System.Comparator<Object> {
         private Boolean caseSensitive = true;
         private Boolean ascending = true;
         private Boolean nullsFirst = true;

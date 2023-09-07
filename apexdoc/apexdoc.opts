@@ -4,6 +4,9 @@ sfdx-project.json
 # Overview file
 -f
 apexdoc/overview.md
+# Group content files
+-gc
+apexdoc/groupContent
 # Output directory
 -o
 apexdoc/generated

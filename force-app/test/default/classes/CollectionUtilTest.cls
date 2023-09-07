@@ -592,7 +592,7 @@ private class CollectionUtilTest {
         }
     }
 
-    private class StringLengthComparator implements Comparator {
+    private class StringLengthComparator implements System.Comparator<Object> {
         public Integer compare(Object value1, Object value2) {
             String string1 = (String) value1;
             String string2 = (String) value2;
