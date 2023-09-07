@@ -25,7 +25,9 @@
     <inspection_tool class="ApexScopeAgreement" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="ApexUnresolvableReference" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="ApexUnresolvableSignature" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="ApexUnusedDeclaration" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ApexUnusedDeclaration" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="checkUsedOnlyInTests" value="false" />
+    </inspection_tool>
     <inspection_tool class="ApexVariableAssignedToItself" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ArrayCanBeReplacedWithEnumValues" enabled="true" level="INFORMATION" enabled_by_default="true" />
     <inspection_tool class="ArrayCreationWithoutNewKeyword" enabled="true" level="INFORMATION" enabled_by_default="true" />
