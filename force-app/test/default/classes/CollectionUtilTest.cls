@@ -24,12 +24,12 @@ private class CollectionUtilTest {
     private static final List<Integer> TEST_LIST = new List<Integer> { 10, 20, 30 };
     private static final Integer[] TEST_ARRAY = new Integer[] { 10, 20, 30 };
 
-    // TODO: These are disabled for now because of issues with proper polymorphic behavior with type parameters of
-    // TODO: Set and Map. Once those issues are resolved by Salesforce these can be restored.
-
     private static final Set<Integer> NULL_SET = null;
     private static final Set<Integer> EMPTY_SET = new Set<Integer>();
     private static final Set<Integer> TEST_SET = new Set<Integer> { 10, 20, 30 };
+
+    // TODO: These are disabled for now because of issues with proper polymorphic behavior with type parameters of
+    // TODO: Set and Map. Once those issues are resolved by Salesforce these can be restored.
 
     //private static final Map<Integer, Integer> NULL_MAP = null;
     //private static final Map<Integer, Integer> EMPTY_MAP = new Map<Integer, Integer>();
