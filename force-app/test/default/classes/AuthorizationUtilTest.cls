@@ -95,12 +95,12 @@ private class AuthorizationUtilTest {
             Assert.isFalse(authorized);
         }
         // TODO: Evidently even the unauthorized user can merge
-//        try {
-//            AuthorizationUtil.assertMergeable(Opportunity.SObjectType);
-//            Assert.isTrue(authorized);
-//        } catch (AuthorizationException e) {
-//            Assert.isFalse(authorized);
-//        }
+        //try {
+        //    AuthorizationUtil.assertMergeable(Opportunity.SObjectType);
+        //    Assert.isTrue(authorized);
+        //} catch (AuthorizationException e) {
+        //    Assert.isFalse(authorized);
+        //}
     }
 
     @IsTest

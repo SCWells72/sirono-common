@@ -15,10 +15,12 @@
  */
 
 /**
- * Common implementations of {@link Comparator} that can be used with {@link CollectionUtil.sort}.
+ * Common implementations of {@link Comparator} that can be used with {@link List.sort}.
  *
  * @see Comparator
  * @see CollectionUtil
+ *
+ * @group Collections
  */
 public with sharing class Comparators {
     //private static final Logger LOG = Logger.getInstance(Comparators.class);
@@ -34,7 +36,7 @@ public with sharing class Comparators {
      * The common base class for comparators that support specification of sorting direction, how null values should
      * be handled, and whether textual comparisons are performed in a case-sensitive/-insensitive manner.
      */
-    public abstract class ConfigurableComparator implements Comparator {
+    public abstract class ConfigurableComparator implements System.Comparator<Object> {
         private Boolean caseSensitive = true;
         private Boolean ascending = true;
         private Boolean nullsFirst = true;
@@ -55,7 +57,7 @@ public with sharing class Comparators {
         /**
          * Sets the comparator's case-sensitivity for textual comparisons. The default is case-sensitive.
          *
-         * @param caseSensitive true if textual comparisons should be case-sensitive; false if not
+         * @param caseSensitive `true` if textual comparisons should be case-sensitive; `false` if not
          *
          * @return the configurable comparator
          */
@@ -67,7 +69,7 @@ public with sharing class Comparators {
         /**
          * Whether the comparator is case-sensitive or not.
          *
-         * @return true if textual comparisons should be case-sensitive; false if not
+         * @return `true` if textual comparisons should be case-sensitive; `false` if not
          */
         protected Boolean isCaseSensitive() {
             return caseSensitive;
@@ -88,7 +90,7 @@ public with sharing class Comparators {
         /**
          * Whether the comparator compares in ascending or descending order.
          *
-         * @return true if ascending; false if descending
+         * @return `true` if ascending; `false` if descending
          */
         protected Boolean isAscending() {
             return ascending;
@@ -109,7 +111,7 @@ public with sharing class Comparators {
         /**
          * Whether the comparator orders null values first or last.
          *
-         * @return true if nulls are ordered first; false if nulls are ordered last
+         * @return `true` if nulls are ordered first; `false` if nulls are ordered last
          */
         protected Boolean isNullsFirst() {
             return nullsFirst;
@@ -122,7 +124,7 @@ public with sharing class Comparators {
          * @param value2 the second value
          *
          * @return if one or both values are null, returns -1, 0, or 1 depending on the relationship between the values
-         * based on how <code>nullsFirst</code> is specified; if both values are non-null, returns null
+         * based on how `nullsFirst` is specified; if both values are non-null, returns null
          */
         protected Integer compareNullValues(Object value1, Object value2) {
             // Both null values => equivalent

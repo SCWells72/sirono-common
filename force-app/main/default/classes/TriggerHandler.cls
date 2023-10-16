@@ -22,6 +22,8 @@
  * @see Trigger
  * @see TriggerHandlerFactory
  * @see TriggerHandlerDispatcher
+ *
+ * @group Trigger handler framework
  */
 public interface TriggerHandler {
 

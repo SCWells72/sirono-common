@@ -18,7 +18,8 @@
  * Utility methods for simplified testing of picklist enum implementations.
  */
 @IsTest
-public class PicklistEnumTestUtil {
+@TestVisible
+private class PicklistEnumTestUtil {
 
     private PicklistEnumTestUtil() {
         // Utility class

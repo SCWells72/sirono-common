@@ -21,6 +21,8 @@
  *
  * @see Map
  * @see CollectionUtil
+ *
+ * @group Collections
  */
 public with sharing class MultiMap {
 
@@ -74,7 +76,7 @@ public with sharing class MultiMap {
      *
      * @param key the key
      *
-     * @return <code>true</code> if the multi-map contains values for the specified key; otherwise <code>false</code>
+     * @return `true` if the multi-map contains values for the specified key; otherwise `false`
      */
     public Boolean containsKey(Object key) {
         CollectionAdapter collectionAdapter = getCollectionAdapter(key);
@@ -158,7 +160,7 @@ public with sharing class MultiMap {
      *
      * @param key the key for which all values should be removed
      *
-     * @return <code>true</code> if the key had values which were removed; otherwise <code>false</code>
+     * @return `true` if the key had values which were removed; otherwise `false`
      */
     public Boolean remove(Object key) {
         CollectionAdapter collectionAdapter = getCollectionAdapter(key);
@@ -220,7 +222,7 @@ public with sharing class MultiMap {
     /**
      * Returns whether or not the multi-map has contents.
      *
-     * @return <code>true</code> if the multi-map is empty; otherwise <code>false</code>
+     * @return `true` if the multi-map is empty; otherwise `false`
      */
     public Boolean isEmpty() {
         for (CollectionAdapter collectionAdapter : storage.values()) {
@@ -255,7 +257,7 @@ public with sharing class MultiMap {
     }
 
     /**
-     * Provides indirect access to collections since Apex doesn't include a common <code>Collection</code> interface
+     * Provides indirect access to collections since Apex doesn't include a common `Collection` interface
      * for both {@link List} and {@link Set}. Concrete implementations should adapt the interface methods as
      * appropriate for the underlying actual storage mechanism.
      */
@@ -263,7 +265,7 @@ public with sharing class MultiMap {
         /**
          * Returns whether or not the collection has contents.
          *
-         * @return <code>true</code> if the collection is empty; otherwise <code>false</code>
+         * @return `true` if the collection is empty; otherwise `false`
          */
         Boolean isEmpty();
 
@@ -295,7 +297,7 @@ public with sharing class MultiMap {
          *
          * @param value the object to be removed
          *
-         * @return the removed object, or <code>null</code> if the specified object was not in the collection
+         * @return the removed object, or `null` if the specified object was not in the collection
          */
         Object remove(Object value);
 

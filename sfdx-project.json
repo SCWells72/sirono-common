@@ -12,5 +12,5 @@
   "name": "sirono-common",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "55.0"
+  "sourceApiVersion": "59.0"
 }

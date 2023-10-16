@@ -15,7 +15,7 @@
  */
 
 @IsTest
-public with sharing class LoggerTest {
+private class LoggerTest {
     private static final List<LoggingLevel> LEVELS_TO_TEST = new LoggingLevel[] {
         LoggingLevel.DEBUG,
         LoggingLevel.INFO,

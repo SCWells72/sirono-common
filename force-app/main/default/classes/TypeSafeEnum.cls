@@ -16,6 +16,8 @@
 
 /**
  * Shared base class for type-safe enums.
+ *
+ * @group Type-safe enums
  */
 public with sharing abstract class TypeSafeEnum {
     // This contains the values for all type-safe enums keyed by derived enum type
@@ -70,7 +72,7 @@ public with sharing abstract class TypeSafeEnum {
      *
      * @param testValue the value to be tested for equivalence
      *
-     * @return <code>true</code> if the specified value matches this entry; otherwise <code>false</code>
+     * @return `true` if the specified value matches this entry; otherwise `false`
      */
     public virtual Boolean equalTo(String testValue) {
         return value().equalsIgnoreCase(testValue);
@@ -81,7 +83,7 @@ public with sharing abstract class TypeSafeEnum {
      *
      * @param testValue the value to be tested for difference
      *
-     * @return <code>true</code> if the specified value is different from this entry; otherwise <code>false</code>
+     * @return `true` if the specified value is different from this entry; otherwise `false`
      */
     public virtual Boolean notEqualTo(String testValue) {
         return !equalTo(testValue);
@@ -105,7 +107,7 @@ public with sharing abstract class TypeSafeEnum {
      * @param enumType the enum type for which the value should be returned
      * @param value the value for which an enum entry should be returned
      *
-     * @return the enum entry that matches the provided value; otherwise <code>null</code> is returned
+     * @return the enum entry that matches the provided value; otherwise `null` is returned
      */
     public static TypeSafeEnum valueOf(Type enumType, String value) {
         return value != null ? getInstanceMap(enumType).get(value.toUpperCase()) : null;
@@ -142,7 +144,7 @@ public with sharing abstract class TypeSafeEnum {
      * @param values the enum values against which the provided string value should be checked
      * @param testValue the value to be tested
      *
-     * @return <code>true</code> if the specified value matches any of the enum values; otherwise <code>false</code>
+     * @return `true` if the specified value matches any of the enum values; otherwise `false`
      */
     public static Boolean matchesAny(TypeSafeEnum[] values, String testValue) {
         if (CollectionUtil.isEmpty(values)) {
@@ -164,7 +166,7 @@ public with sharing abstract class TypeSafeEnum {
      * @param values the enum values against which the provided string value should be checked
      * @param testValue the value to be tested
      *
-     * @return <code>true</code> if the specified value matches none of the enum values; otherwise <code>false</code>
+     * @return `true` if the specified value matches none of the enum values; otherwise `false`
      */
     public static Boolean matchesNone(TypeSafeEnum[] values, String testValue) {
         return !matchesAny(values, testValue);

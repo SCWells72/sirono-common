@@ -16,15 +16,17 @@
 
 /**
  * Factory interface for creation of trigger handlers. Trigger handlers are created from triggers using:
- * <pre>
- * TriggerHandlerDispatcher.dispatch(<i>TriggerHandlerFactoryClassName</i>.class);
- * </pre>
+ * ```apex
+ * TriggerHandlerDispatcher.dispatch(TriggerHandlerFactoryClassName.class);
+ * ```
  * The trigger handler dispatcher is then responsible for creating the trigger handler and determining the correct
  * method to invoke based on the trigger context.
  *
  * @see Trigger
  * @see TriggerHandler
  * @see TriggerHandlerDispatcher
+ *
+ * @group Trigger handler framework
  */
 public interface TriggerHandlerFactory {
 

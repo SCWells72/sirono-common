@@ -1,0 +1,1 @@
+The class library includes a simple logging wrapper that more closely mimics loggers in other environments. The logging wrapper supports level-specific logging and direct construction of more complex logged messages via `String.format()` embedded formatting specifiers as call arguments.

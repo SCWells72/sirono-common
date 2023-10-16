@@ -16,6 +16,8 @@
 
 /**
  * Base class for enum-like classes which provide Apex compile-time constants for picklist field values.
+ *
+ * @group Type-safe enums
  */
 public with sharing abstract class PicklistEnum {
 
@@ -23,10 +25,10 @@ public with sharing abstract class PicklistEnum {
      * Each entry corresponds to a single distinct value for the enum's picklist field.
      */
     public with sharing virtual class Entry {
-        private String value { get; set; }
-        private String label { get; set; }
-        private Boolean active { get; set; }
-        private Boolean defaultValue { get; set; }
+        private final String value { get; set; }
+        private final String label { get; set; }
+        private final Boolean active { get; set; }
+        private final Boolean defaultValue { get; set; }
 
         /**
          * Creates a new picklist enum entry for the specified enum and picklist field entry.
@@ -97,7 +99,7 @@ public with sharing abstract class PicklistEnum {
          *
          * @param testValue the value to be tested for equivalence
          *
-         * @return <code>true</code> if the specified value matches this entry; otherwise <code>false</code>
+         * @return `true` if the specified value matches this entry; otherwise `false`
          */
         public virtual Boolean equalTo(String testValue) {
             return value.equalsIgnoreCase(testValue);
@@ -108,7 +110,7 @@ public with sharing abstract class PicklistEnum {
          *
          * @param testValue the value to be tested for difference
          *
-         * @return <code>true</code> if the specified value is different from this entry; otherwise <code>false</code>
+         * @return `true` if the specified value is different from this entry; otherwise `false`
          */
         public virtual Boolean notEqualTo(String testValue) {
             return !equalTo(testValue);
@@ -137,12 +139,12 @@ public with sharing abstract class PicklistEnum {
      */
     protected PicklistEnum(Schema.SObjectField picklistField) {
         if (picklistField == null) {
-            throw new IllegalArgumentException('A field must be provided.');
+            throw new System.IllegalArgumentException('A field must be provided.');
         }
 
         Schema.DescribeFieldResult fieldDescribe = picklistField.getDescribe();
         if (fieldDescribe.getType() != Schema.DisplayType.PICKLIST) {
-            throw new IllegalArgumentException('The provided field ' + picklistField.getDescribe().getName() + ' is not a picklist.');
+            throw new System.IllegalArgumentException('The provided field ' + picklistField.getDescribe().getName() + ' is not a picklist.');
         }
 
         this.picklistField = picklistField;
@@ -173,7 +175,7 @@ public with sharing abstract class PicklistEnum {
      *
      * @param value the value for which a picklist enum entry should be returned
      *
-     * @return the corresponding entry or <code>null</code> if no entry exists for the specified value
+     * @return the corresponding entry or `null` if no entry exists for the specified value
      */
     public Entry getEntry(String value) {
         return entriesByValue.get(value);
