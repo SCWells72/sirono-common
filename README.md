@@ -136,10 +136,11 @@ We often find ourselves doing the same repeated actions when working with collec
 
 The class library includes `CollectionUtil` a set of common utility methods for many of these frequently required collection operations, for example:
 
-* `isEmpty(list)` - Checks whether a collection is non-null and contains any elements.
-* `isNotEmpty(list)` Checks whether a collection is null or empty (technically a negation of `isEmpty()`, but makes for much more readable code).
-* `getFirstItem(list)` - Returns the first item from a list if the list is non-null and contains at least one item; otherwise safely returns null.
-* `getLastItem(list)` - Returns the last item from a list if the list is non-null and contains at least one item; otherwise safely returns null.
+* `isEmpty(collection)` - Checks whether a collection (list or set/iterable) is non-null and contains any elements.
+* `isNotEmpty(collection)` Checks whether a collection (list or set/iterable) is null or empty (technically a negation of `isEmpty()`, but makes for much more readable code).
+* `getFirstItem(collection)` - Returns the first item from a list or set/iterable if it is non-null and contains at least one item; otherwise safely returns null.
+* `getLastItem(list)` - Returns the last item from a list if it is non-null and contains at least one item; otherwise safely returns null.
+* `iterateAndGetLastItem(iterable)` - Returns the last item from a set/iterable if it is non-null and contains at least one item; otherwise safely returns null.
 * `addIfNotNull(toList, value)` - Adds a value to the list only if it's non-null.
 * `addAllNotNull(toList, fromList)` - Adds all non-null values from one (potentially null) list to another list.
 * `toIds(rawIds)` - Converts an untyped collection of IDs to a typed collection of IDs. This is particularly useful when used with `MultiMap` because of the untyped nature of its keys and values, e.g. `SELECT Id FROM Account WHERE Id IN :CollectionUtil.toIds(contactsByAccountId.keySet())`.
