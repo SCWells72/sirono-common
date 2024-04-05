@@ -6,18 +6,16 @@
     <description>PMD Apex configuration examples for sirono-common features.</description>
 
     <!-- NAMING -->
-    <rule ref="category/apex/codestyle.xml/MethodNamingConventions"
-          message="Method name does not begin with a lower case character.">
+    <rule ref="category/apex/codestyle.xml/MethodNamingConventions">
         <priority>3</priority>
         <properties>
             <!-- Required to support the test method naming conventions in this project -->
-            <property name="skipTestMethodUnderscores" value="true"/>
+            <property name="testPattern" value="[a-z][a-zA-Z0-9_]*"/>
         </properties>
     </rule>
 
     <!-- TESTS -->
-    <rule ref="category/apex/bestpractices.xml/ApexUnitTestClassShouldHaveAsserts"
-          message="Apex unit test classes should have at least one System.assert() or assertEquals() or AssertNotEquals() call">
+    <rule ref="category/apex/bestpractices.xml/ApexUnitTestClassShouldHaveAsserts">
         <priority>3</priority>
         <properties>
             <!-- Adds support for sirono-common's Asserts utility class -->
@@ -26,8 +24,7 @@
     </rule>
 
     <!-- SECURITY -->
-    <rule ref="category/apex/security.xml/ApexCRUDViolation"
-          message="Validate CRUD permission before SOQL/DML operation">
+    <rule ref="category/apex/security.xml/ApexCRUDViolation">
         <priority>3</priority>
         <properties>
             <!-- Adds support for sirono-common's AuthorizationUtil utility class -->
@@ -41,8 +38,7 @@
     </rule>
 
     <!-- EMPTY -->
-    <rule ref="category/apex/errorprone.xml/EmptyCatchBlock"
-          message="Avoid empty catch blocks">
+    <rule ref="category/apex/errorprone.xml/EmptyCatchBlock">
         <priority>3</priority>
         <properties>
             <!-- Adds support for expected exceptions named 'ignored' and 'expected' -->
@@ -50,8 +46,7 @@
             <property name="allowExceptionNameRegex" type="Regex" value="^(ignored|expected)$"/>
         </properties>
     </rule>
-    <rule ref="category/apex/errorprone.xml/EmptyStatementBlock"
-          message="Avoid empty block statements.">
+    <rule ref="category/apex/errorprone.xml/EmptyStatementBlock">
         <priority>3</priority>
         <properties>
             <!-- Adds support for expected empty blocks in private no-arg constructors and default base methods -->
@@ -70,8 +65,7 @@
     </rule>
 
     <!-- DOCUMENTATION -->
-    <rule ref="category/apex/documentation.xml/ApexDoc"
-          message="Document classes, methods, and properties that are public or global.">
+    <rule ref="category/apex/documentation.xml/ApexDoc">
         <priority>3</priority>
         <properties>
             <!-- ApexDoc in sirono-common does not use the @description tag -->
