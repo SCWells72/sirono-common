@@ -26,42 +26,13 @@ public with sharing class CollectionUtil {
     }
 
     /**
-     * Determines if the provided list is `null` or empty.
+     * Determines if the provided list or set (as an {@link Iterable}) is `null` or empty.
      *
-     * @param values the list of values
+     * @param values the list or set of values
      *
-     * @return `true` if the provided list is `null` or empty; otherwise `false`
-     *
-     * @see List
-     */
-    public static Boolean isEmpty(List<Object> values) {
-        return (values == null) || values.isEmpty();
-    }
-
-    /**
-     * Determines if the provided list is non-`null` and contains at least a single value.
-     *
-     * @param values the list of values
-     *
-     * @return `true` if the provided list is non-`null` and contains at least one value;
-     * otherwise `false`
+     * @return `true` if the provided list or set is `null` or empty; otherwise `false`
      *
      * @see List
-     */
-    public static Boolean isNotEmpty(List<Object> values) {
-        return !isEmpty(values);
-    }
-
-    // NOTE: As of Summer '23, Set implements Iterable so the following works. Oddly, though, even though List also
-    // implements Iterable, things do NOT work for Lists/arrays if you remove the List-specific signatures above.
-
-    /**
-     * Determines if the provided set (as an {@link Iterable}) is `null` or empty.
-     *
-     * @param values the set of values
-     *
-     * @return `true` if the provided set is `null` or empty; otherwise `false`
-     *
      * @see Set
      * @see Iterable
      */
@@ -70,13 +41,14 @@ public with sharing class CollectionUtil {
     }
 
     /**
-     * Determines if the provided set (as an {@link Iterable}) is non-`null` and contains at least a single value.
+     * Determines if the provided list or set (as an {@link Iterable}) is non-`null` and contains at least a single value.
      *
-     * @param values the set of values
+     * @param values the list or set of values
      *
-     * @return `true` if the provided set is non-`null` and contains at least one value;
+     * @return `true` if the provided list or set is non-`null` and contains at least one value;
      * otherwise `false`
      *
+     * @see List
      * @see Set
      * @see Iterable
      */
@@ -175,14 +147,16 @@ public with sharing class CollectionUtil {
     }
 
     /**
-     * Returns the first item from the provided list of values if the list is non-null and has at least one item.
+     * Returns the first item from the provided list or set (as an {@link Iterable}) of values if the set is non-null
+     * and has at least one item. Note that due to the unordered nature of sets, this method may not yield a consistent
+     * value as the set's contents change over time.
      *
-     * @param values the list of values
+     * @param values the list or set of values
      *
-     * @return the first item in the list or `null` if the list is null or empty
+     * @return the first item in the list or set or `null` if the list or set is null or empty
      */
-    public static Object getFirstItem(List<Object> values) {
-        return isNotEmpty(values) ? values.get(0) : null;
+    public static Object getFirstItem(Iterable<Object> values) {
+        return isNotEmpty(values) ? values.iterator().next() : null;
     }
 
     /**
@@ -194,19 +168,6 @@ public with sharing class CollectionUtil {
      */
     public static Object getLastItem(List<Object> values) {
         return isNotEmpty(values) ? values.get(values.size() - 1) : null;
-    }
-
-    /**
-     * Returns the first item from the provided set (as an {@link Iterable}) of values if the set is non-null and has
-     * at least one item. Note that due to the unordered nature of sets, this method may not yield a consistent value
-     * as the set's contents change over time.
-     *
-     * @param values the set of values
-     *
-     * @return the first item in the set or `null` if the set is null or empty
-     */
-    public static Object getFirstItem(Iterable<Object> values) {
-        return isNotEmpty(values) ? values.iterator().next() : null;
     }
 
     /**
