@@ -26,8 +26,8 @@
  */
 public with sharing class MultiMap {
 
-    // NOTE: These singletons should be declared in the respective classes but Apex doesn't currently allow static inner classes
-    // and therefore doesn't allow static members of inner classes.
+    // NOTE: These singletons should be declared in the respective classes but Apex doesn't currently allow static
+    // members of inner classes
     private static final ListCollectionAdapterFactory LIST_COLLECTION_ADAPTER_FACTORY = new ListCollectionAdapterFactory();
     private static final SetCollectionAdapterFactory SET_COLLECTION_ADAPTER_FACTORY = new SetCollectionAdapterFactory();
 
