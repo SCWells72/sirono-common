@@ -11,6 +11,7 @@
     <inspection_tool class="ApexDocValidation" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ApexDuplicateDeclaration" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="ApexEqualsHashCodeNotPaired" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ApexExpressionCannotBeStatement" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="ApexFieldCanBeStatic" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ApexFileContentsVerification" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="ApexIllegalAssignment" enabled="true" level="ERROR" enabled_by_default="true" />
@@ -20,6 +21,7 @@
     <inspection_tool class="ApexMethodCanBeStatic" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ApexMethodNotVisible" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="ApexModifierAgreement" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="ApexNullCoalescingOperatorUsage" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="ApexReferenceCaseMatchesDeclarationCase" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ApexSafeNavigationOperatorUsage" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="ApexScopeAgreement" enabled="true" level="ERROR" enabled_by_default="true" />
